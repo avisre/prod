@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261008-usage1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261008-sbc1" />
 </head>
 <body>
   <main>
@@ -201,6 +201,19 @@
         <div class="health-list" id="health-list"></div>
       </section>
 
+      <!-- ⑥a Stock-based compensation — filed amount, what it does to free cash
+           flow, buybacks and the share count. Drawn by renderSbc() from
+           assets/sbc-model.js; stays hidden when the company files no SBC line
+           and no year of it. -->
+      <hr class="section-rule" id="sbc-rule" hidden />
+      <section id="sbc-section" hidden>
+        <div class="section-head" style="margin-bottom:12px;">
+          <h2 class="title-2">Stock-based compensation</h2>
+          <span class="small faint" id="sbc-source"></span>
+        </div>
+        <div id="sbc-body"></div>
+      </section>
+
       <hr class="section-rule" />
 
       <!-- ⑥b What's priced in — reverse DCF vs the filed record -->
@@ -293,7 +306,8 @@
     <div id="seg-body"></div>
   </aside>
 
-  <script src="assets/app.js?v=20261008-usage1"></script>
-  <script src="assets/company.js?v=20261008-usage1"></script>
+  <script src="assets/app.js?v=20261008-sbc1"></script>
+  <script src="assets/sbc-model.js?v=20261008-sbc1"></script>
+  <script src="assets/company.js?v=20261008-sbc1"></script>
 </body>
 </html>

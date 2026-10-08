@@ -12,6 +12,21 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Stock-based compensation on the Stocks & funds page — 2026-10-08 (owner approved the design)
+
+Stock view of `/company.html` has a "Stock-based compensation" section under "The checks": filed amount, % of
+revenue, sector rank, ten-year chart, free cash flow before and after SBC, buybacks vs SBC, diluted share change.
+Also: an SBC row in the cash flow statement, two ratio rows, one health check (buybacks vs stock pay, five years).
+- All arithmetic is in `frontend-v2/assets/sbc-model.js` (pure; browser and Node). Missing input → that measure is
+  null with a "Not available/Not shown" reason; share-count jumps over 40% (splits) withhold the dilution figure.
+- Sector rank: `GET /api/sbc/sector-rank` reads committed `backend/sbc-sector.json` (3,643 companies, 11 sectors).
+  **Rebuild it after the fundamentals change:** `node scripts/build-sbc-sector.js`. It is not yet wired into the
+  weekly refresh, so it goes stale until someone runs it.
+- Known data gap it exposes: some companies (NVDA among them) have no capital expenditure in our data, so their
+  free cash flow rows read "Not available".
+- **Not built:** the fund look-through. N-PORT holdings carry issuer and CUSIP, not ticker (8 of VOO's 506 equity
+  rows have a symbol), so it needs a CUSIP-to-company map first. Design mockup: `mockups/sbc-page-voo.html`.
+
 ## Connector usage on the profile page — 2026-10-08 (owner decision)
 
 Profile → Usage has a "Claude and ChatGPT connector" panel (`frontend-v2/assets/connector-usage.js`, data from

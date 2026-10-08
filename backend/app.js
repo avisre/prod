@@ -3040,7 +3040,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261008-usage1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261008-sbc1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3069,7 +3069,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261008-usage1"></script>
+<script src="/assets/app.js?v=20261008-sbc1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3161,7 +3161,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261008-usage1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261008-sbc1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3189,7 +3189,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261008-usage1"></script>
+<script src="/assets/app.js?v=20261008-sbc1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3297,7 +3297,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261008-usage1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261008-sbc1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3330,7 +3330,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261008-usage1"></script>
+<script src="/assets/app.js?v=20261008-sbc1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -12651,6 +12651,23 @@ app.get('/api/demo/alpha/time-series/daily', async (req, res) => {
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Daily series failed') });
     }
+});
+
+// Where a company's stock-based compensation (as % of revenue) sits among its
+// sector. The list is built from the committed filings data by
+// scripts/build-sbc-sector.js and ranked with the same model the page draws
+// from (frontend-v2/assets/sbc-model.js). It answers with a position only —
+// never the list — and with rank: null when the sector is unknown, too small,
+// or the table is missing, so the page simply omits the line.
+const sbcModel = require('../frontend-v2/assets/sbc-model.js');
+const sbcSectorTable = (() => { try { return require('./sbc-sector.json'); } catch (_) { return null; } })();
+app.get('/api/sbc/sector-rank', (req, res) => {
+    const sector = String(req.query.sector || '').slice(0, 80);
+    const pct = Number(req.query.pct);
+    const list = sbcSectorTable && sbcSectorTable.sectors && Object.prototype.hasOwnProperty.call(sbcSectorTable.sectors, sector)
+        ? sbcSectorTable.sectors[sector] : null;
+    const rank = list && req.query.pct !== undefined && req.query.pct !== '' && Number.isFinite(pct) ? sbcModel.rank(list, pct) : null;
+    res.set('Cache-Control', 'public, max-age=3600').json({ sector, asOf: (sbcSectorTable && sbcSectorTable.asOf) || null, rank });
 });
 
 app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {

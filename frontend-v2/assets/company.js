@@ -532,6 +532,7 @@
             { label: 'Cash flow from financing', get: (r) => num(r.cashflowFromFinancing), fmt: money, kind: 'money', rule: true, neutral: true },
             { label: 'Debt issued / repaid, net', get: (r) => { const a = num(r.proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet); const b = num(r.proceedsFromRepaymentsOfShortTermDebt); return a === null && b === null ? null : (a || 0) + (b || 0); }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Stock issued', get: (r) => num(r.proceedsFromIssuanceOfCommonStock), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Stock-based compensation', get: (r) => num(r.shareBasedCompensation), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Share buybacks', get: (r) => num(r.paymentsForRepurchaseOfCommonStock), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Dividends paid', get: (r) => num(r.dividendPayout), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Net change in cash', get: (r) => num(r.changeInCashAndCashEquivalents), fmt: money, kind: 'money', neutral: true, solo: true },
@@ -1052,8 +1053,127 @@
         let streak = 0;
         for (let i = years.length - 1; i >= 0; i--) { const dd = div(years[i]); if (dd !== null && dd !== 0) streak++; else break; }
         add('Pays a dividend', hasDiv ? streak > 0 : null, streak > 0 ? `${streak} consecutive yrs in our data` : '');
+        // Do buybacks return cash to owners, or only replace the stock handed to
+        // staff? Omitted unless both sides were filed (see sbc-model.js).
+        const sbcCheck = (sbcBuilt() || {}).check;
+        if (sbcCheck) add('Buybacks exceed stock paid to staff, five years', sbcCheck.pass, `${currencyAmount(sbcCheck.buybacks, reportingCurrency())} vs ${currencyAmount(sbcCheck.sbc, reportingCurrency())}`);
         return checks;
     }
+    // ---------- ⑥a stock-based compensation ----------
+    // The model (assets/sbc-model.js) is the only place the arithmetic lives;
+    // this block feeds it the filed annual rows and draws what comes back.
+    let sbcCache;
+    function sbcBuilt() {
+        if (sbcCache !== undefined) return sbcCache;
+        if (!window.SBCModel || !payload) return (sbcCache = null);
+        const rows = annualJoined().map((y) => {
+            const c = y.cash || {}; const i = y.income || {};
+            return {
+                end: y.end, sbc: num(c.shareBasedCompensation), rev: derive(i).rev,
+                ocf: num(c.operatingCashflow), capex: num(c.capitalExpenditures),
+                buy: num(c.paymentsForRepurchaseOfCommonStock), dil: num(i.weightedAverageSharesDiluted),
+                sourceId: ((c._sources || {}).shareBasedCompensation || [])[0] || null
+            };
+        });
+        return (sbcCache = window.SBCModel.build(rows));
+    }
+    function sbcChart(trend, cur) {
+        const W = 760, H = 160, padL = 8, padB = 22, padT = 18;
+        const bw = (W - padL * 2) / trend.length;
+        const maxS = Math.max(...trend.map((t) => t.sbc)) || 1;
+        const pcts = trend.map((t) => t.pctRevenue);
+        const maxP = (Math.max(...pcts.filter((v) => v !== null), 0) || 1) * 1.25;
+        const cx = (i) => padL + i * bw + bw / 2;
+        const py = (v) => H - padB - ((H - padB - padT) * v) / maxP;
+        const bars = trend.map((t, i) => {
+            const h = Math.max(0, ((H - padB - padT) * t.sbc) / maxS);
+            const x = padL + i * bw + bw * 0.2; const w = bw * 0.6; const top = H - padB - h;
+            const last = i === trend.length - 1;
+            const tip = `${t.fy}: ${currencyAmount(t.sbc, cur)}${t.pctRevenue === null ? '' : `, ${pct(t.pctRevenue)} of revenue`}`;
+            return `<rect class="${last ? 'sbc-bar sbc-bar-now' : 'sbc-bar'}" x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="3"><title>${esc(tip)}</title></rect>`
+                + `<text class="sbc-axis" x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${esc(t.fy.slice(2))}</text>`
+                + ((last || i === 0) ? `<text class="sbc-val" x="${(x + w / 2).toFixed(1)}" y="${(top - 5).toFixed(1)}" text-anchor="middle">${esc(currencyAmount(t.sbc, cur))}</text>` : '');
+        }).join('');
+        // The line breaks across a year with no filed revenue rather than
+        // bridging it.
+        let line = ''; let run = [];
+        const flush = () => { if (run.length > 1) line += `<polyline class="sbc-line" points="${run.join(' ')}"/>`; run = []; };
+        trend.forEach((t, i) => { if (t.pctRevenue === null) flush(); else run.push(`${cx(i).toFixed(1)},${py(t.pctRevenue).toFixed(1)}`); });
+        flush();
+        const dots = trend.map((t, i) => (t.pctRevenue === null ? '' : `<circle class="sbc-dot" cx="${cx(i).toFixed(1)}" cy="${py(t.pctRevenue).toFixed(1)}" r="2.6"/>`)).join('');
+        return `<svg class="sbc-chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Stock-based compensation by fiscal year">${bars}${line}${dots}</svg>`;
+    }
+    function renderSbc() {
+        const m = sbcBuilt();
+        // No SBC line in any filed year: say so once, plainly, in place of the
+        // figures. No model at all (script missing): leave the section hidden.
+        if (!m) return;
+        const show = () => { $('sbc-rule').hidden = false; $('sbc-section').hidden = false; };
+        if (m.status !== 'ok') {
+            $('sbc-source').textContent = '';
+            $('sbc-body').innerHTML = `<p class="muted" style="margin:0;">${esc(m.why)}</p>`;
+            show();
+            return;
+        }
+        const cur = reportingCurrency();
+        const amt = (v) => currencyAmount(v, cur);
+        const signed = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1) + '%';
+        const name = (payload.overview && payload.overview.Name) || symbol;
+        const src = ((payload.provenance || {}).sources || {})[m.sourceId] || null;
+        $('sbc-source').innerHTML = src && src.filingUrl
+            ? `<a rel="nofollow noopener" target="_blank" href="${esc(src.filingUrl)}">${esc(m.fy)} · from the ${esc(src.form || 'filing')}${src.filingDate ? ` filed ${esc(src.filingDate)}` : ''} ↗</a>`
+            : esc(m.fy);
+
+        const rows = [];
+        const row = (k, v, d, sub) => rows.push(`<tr><td class="k${sub ? ' sub' : ''}">${k}</td><td class="v">${v}</td><td class="d">${d}</td></tr>`);
+        if (m.fcf === null) row('Free cash flow', '—', esc(m.fcfWhy));
+        else {
+            row('Free cash flow', esc(amt(m.fcf)), 'as reported: operating cash flow less capital expenditure');
+            row('after paying staff in stock', esc(amt(m.fcfAfter)),
+                m.pctOfFcf !== null
+                    ? `stock-based compensation is <strong>${esc(pct(m.pctOfFcf, 0))}</strong> of free cash flow`
+                    : 'free cash flow is negative before stock pay is counted', true);
+        }
+        // Buybacks appear only when the company filed some: no row is better than
+        // a dash that reads as "bought back nothing".
+        if (m.buybacks !== null && m.buybacks > 0) {
+            row('Buybacks', esc(amt(m.buybacks)), m.buybackOffsetPct >= 100
+                ? `less than the <strong>${esc(amt(m.sbc))}</strong> of stock issued to staff`
+                : `of which <strong>${esc(amt(m.sbc))}</strong> (${esc(pct(m.buybackOffsetPct, 0))}) offset stock issued to staff`);
+        }
+        if (m.dilutionYoY === null) row('Diluted shares', '—', esc(m.dilutionWhy));
+        else row('Diluted shares', esc(signed(m.dilutionYoY)), 'this year' + (m.dilutionFive === null ? '' : ` · <strong>${esc(signed(m.dilutionFive))}</strong> over five years`));
+
+        const first = m.trend[0]; const firstPct = first ? first.pctRevenue : null;
+        $('sbc-body').innerHTML = `
+          ${m.stale ? `<p class="small muted" style="margin:0 0 10px;">${esc(m.stale)}</p>` : ''}
+          <div class="sbc-top">
+            <div><div class="sbc-big">${esc(amt(m.sbc))}</div><div class="sbc-sub">paid to staff in stock, ${esc(m.fy)}</div></div>
+            <div>${m.pctRevenue === null
+                ? `<div class="sbc-mid">—</div><div class="sbc-sub">${esc(m.pctRevenueWhy || '')}</div>`
+                : `<div class="sbc-mid">${esc(pct(m.pctRevenue))} of revenue</div><div class="sbc-sub">${m.pctRevenueFiveAgo === null ? '&nbsp;' : `${esc(pct(m.pctRevenueFiveAgo))} five years ago`}</div>`}</div>
+            <div class="sbc-rank" id="sbc-rank"></div>
+          </div>
+          ${m.trend.length > 1 ? sbcChart(m.trend, cur) + `<div class="sbc-legend"><span><i></i>Stock-based compensation</span>${firstPct === null || m.pctRevenue === null ? '' : `<span><i class="l"></i>As % of revenue (${esc(pct(firstPct))} → ${esc(pct(m.pctRevenue))})</span>`}</div>` : ''}
+          <table class="sbc-rows">${rows.join('')}</table>
+          <p class="provenance">Every figure is the company's own filed number or arithmetic on filed numbers. Free cash flow after stock-based compensation is our calculation, not a figure ${esc(name)} reports.</p>`;
+        show();
+
+        // Sector position: one small request, and the line is simply absent if
+        // the sector is unknown or too small to rank against.
+        const sector = payload.overview && payload.overview.Sector;
+        if (sector && m.pctRevenue !== null) {
+            fetch(`${API}/sbc/sector-rank?sector=${encodeURIComponent(sector)}&pct=${encodeURIComponent(m.pctRevenue.toFixed(4))}`)
+                .then((r) => (r.ok ? r.json() : null))
+                .then((d) => {
+                    const el = $('sbc-rank');
+                    if (!el || !d || !d.rank) return;
+                    el.innerHTML = `Higher than <strong>${esc(String(d.rank.higherThanPct))}%</strong> of ${esc(sector)} companies<br><span class="sbc-sub">sector median ${esc(pct(d.rank.median))} · ${esc(String(d.rank.n))} companies in our data</span>`;
+                })
+                .catch(() => {});
+        }
+    }
+
     function renderChecks() {
         const checks = buildChecks();
         if (!checks.length) return;
@@ -1769,7 +1889,11 @@
         { label: 'Current ratio', get: (y) => ratio(num((y.balance || {}).totalCurrentAssets), num((y.balance || {}).totalCurrentLiabilities)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
         { label: 'Debt to equity', get: (y) => ratio(debtOf(y.balance || {}), num((y.balance || {}).totalShareholderEquity)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
         { label: 'OCF / net income', get: (y) => ratio(num((y.cash || {}).operatingCashflow), num((y.income || {}).netIncome)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
-        { label: 'Capex % of revenue', get: (y) => { const c = num((y.cash || {}).capitalExpenditures); const r = derive(y.income || {}).rev; return (c !== null && r) ? Math.abs(c) / r : null; }, fmt: pctFmt }
+        { label: 'Capex % of revenue', get: (y) => { const c = num((y.cash || {}).capitalExpenditures); const r = derive(y.income || {}).rev; return (c !== null && r) ? Math.abs(c) / r : null; }, fmt: pctFmt },
+        // Stock pay against revenue, and what free cash flow comes to once it is
+        // counted as the cost it is. Both from filed lines only.
+        { label: 'SBC % of revenue', get: (y) => { const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (s !== null && r) ? s / r : null; }, fmt: pctFmt },
+        { label: 'FCF after SBC, % of revenue', get: (y) => { const f = fcfOf(y.cash || {}); const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (f !== null && s !== null && r) ? (f - s) / r : null; }, fmt: pctFmt }
     ];
     function renderRatios() {
         const years = annualJoined().slice(-19);
@@ -2204,6 +2328,7 @@
             renderDossier();
             renderAbout();
             renderChecks();
+            renderSbc();
             renderStatements();
             renderCagrCards();
             renderRatios();
