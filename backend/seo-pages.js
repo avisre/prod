@@ -193,7 +193,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261008-features1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261008-features2" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -255,7 +255,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261008-features1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261008-features2"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -367,7 +367,7 @@ function maxDate(...dates) { return dates.filter(Boolean).sort().pop() || '2026-
 function staticPageMtime(route) {
     const names = {
         '/filing-watch': 'filing-watch.html', '/filing-watch-sample': 'filing-watch-sample.html',
-        '/': 'index.html', '/register': 'register.html', '/appsumo': 'appsumo.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
+        '/': 'index.html', '/register': 'register.html', '/appsumo': 'appsumo.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
         '/screener': 'screener.html', '/ask': 'ask.html', '/support': 'support.html', '/privacy': 'privacy.html',
         '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html',
         // Public pages that were linked from the site but present in no shard at all
@@ -384,14 +384,14 @@ function staticPageMtime(route) {
     return isoMtime(__filename);
 }
 function videoMarkup(route) {
-    if (route === '/tour') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and filed fundamentals.</video:description>\n      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n      <video:duration>53</video:duration>\n    </video:video>\n    <video:video>\n      <video:thumbnail_loc>https://i.ytimg.com/vi/-3V_IaCOQUo/hqdefault.jpg</video:thumbnail_loc>\n      <video:title>I asked an AI 3 hard finance questions. Every answer came from the SEC filing.</video:title>\n      <video:description>Three hard finance questions answered by stockportfolio.pro's Ask analyst — every answer grounded in the company's actual SEC filing, with the source linked.</video:description>\n      <video:content_loc>https://www.youtube.com/watch?v=-3V_IaCOQUo</video:content_loc>\n      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/-3V_IaCOQUo</video:player_loc>\n    </video:video>`;
+    if (route === '/features') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and filed fundamentals.</video:description>\n      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n      <video:duration>53</video:duration>\n    </video:video>\n    <video:video>\n      <video:thumbnail_loc>https://i.ytimg.com/vi/-3V_IaCOQUo/hqdefault.jpg</video:thumbnail_loc>\n      <video:title>I asked an AI 3 hard finance questions. Every answer came from the SEC filing.</video:title>\n      <video:description>Three hard finance questions answered by stockportfolio.pro's Ask analyst — every answer grounded in the company's actual SEC filing, with the source linked.</video:description>\n      <video:content_loc>https://www.youtube.com/watch?v=-3V_IaCOQUo</video:content_loc>\n      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/-3V_IaCOQUo</video:player_loc>\n    </video:video>`;
     if (route === '/monitor-demo') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/monitor-poster.jpg</video:thumbnail_loc>\n      <video:title>Filing Change Monitor — reading NVIDIA's latest 10-Q</video:title>\n      <video:description>The Filing Change Monitor reads what changed in a company's newest filing and links the evidence.</video:description>\n      <video:content_loc>${SITE}/assets/monitor-1080p.mp4</video:content_loc>\n      <video:duration>18</video:duration>\n    </video:video>`;
     return '';
 }
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && _sitemapInventoryCache.day === new Date().toISOString().slice(0,10) && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/filing-watch', '/filing-watch-sample', '/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/connect', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
+    const coreRoutes = ['/filing-watch', '/filing-watch-sample', '/', '/zh', '/register', '/appsumo', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/connect', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
         // Indexable and internally linked, but in no shard until 2026-09-28 — Bing's
         // Site Scan reports exactly this as "important pages missing from sitemaps".
         // /lifetime left this list on 2026-10-07, when direct lifetime sales were retired.

@@ -2203,7 +2203,7 @@ const HTML_TWIN_REDIRECTS = {
     '/verify.html': '/verify', '/company.html': '/company', '/compare-dossiers.html': '/compare-dossiers',
     '/dossier.html': '/dossier', '/appsumo.html': '/appsumo', '/partners.html': '/partners',
     '/partners-apply.html': '/partners-apply', '/features.html': '/features', '/gurus.html': '/gurus',
-    '/sitemap.html': '/sitemap', '/tour.html': '/tour', '/zh.html': '/zh',
+    '/sitemap.html': '/sitemap', '/zh.html': '/zh',
     // Route-only twins: served by a dual-path route array with no file on disk,
     // so a file-derived list can never see them. Both answered 200 alongside
     // their clean route when measured live 2026-09-28, and /verify-ledger is in
@@ -2219,6 +2219,12 @@ app.use((req, res, next) => {
     const qs = req.originalUrl.slice(req.path.length); // preserve ?plan=, ?symbol=, ?q=
     return res.redirect(301, HTML_TWIN_REDIRECTS[req.path] + qs);
 });
+// /tour was renamed /features on 2026-10-08 (owner decision): the page that
+// shows every product video is the Features page. Old links, the video sitemap
+// row Google already holds and footers in cached pages still arrive here.
+// A pattern, not a route array or a table row: the table above must list only
+// pages that exist on disk, and tour.html no longer does.
+app.get(/^\/tour(?:\.html)?$/, (req, res) => res.redirect(301, '/features' + req.originalUrl.slice(req.path.length)));
 
 // Campaign-marker test for the server-rendered pages that load no /assets/*.js
 // and so have no client-side tracking: capturing the touch there is the only
@@ -2995,7 +3001,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261008-features1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261008-features2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3024,7 +3030,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261008-features1"></script>
+<script src="/assets/app.js?v=20261008-features2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3116,7 +3122,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261008-features1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261008-features2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3144,7 +3150,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261008-features1"></script>
+<script src="/assets/app.js?v=20261008-features2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3252,7 +3258,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261008-features1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261008-features2" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3285,7 +3291,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261008-features1"></script>
+<script src="/assets/app.js?v=20261008-features2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);

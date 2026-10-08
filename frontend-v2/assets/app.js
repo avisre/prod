@@ -1754,7 +1754,7 @@
           <div class="container footer-inner">
             <div>© 2026 stockportfolio.pro — figures from SEC filings (10-K/10-Q), as filed; per-share figures split-adjusted. Not investment advice.</div>
             <div style="display:flex; gap:8px 18px; flex-wrap:wrap;">
-              <a href="/tools">Free tools</a><a href="/company.html?symbol=SPY">ETFs &amp; funds</a><a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/connect">Claude &amp; ChatGPT</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/#pricing">Pricing</a><a href="/tour">Features</a><a href="/docs">Docs</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
+              <a href="/tools">Free tools</a><a href="/company.html?symbol=SPY">ETFs &amp; funds</a><a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/connect">Claude &amp; ChatGPT</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/#pricing">Pricing</a><a href="/features">Features</a><a href="/docs">Docs</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
             </div>
           </div>`;
         document.body.appendChild(el);

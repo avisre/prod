@@ -74,13 +74,13 @@ test('every VideoObject carries the fields Google requires', () => {
     assert.deepEqual(problems, [], `VideoObject problems:\n  ${problems.join('\n  ')}`);
 });
 
-test('the YouTube video on /tour carries the upload date read from YouTube itself', () => {
+test('the YouTube video on /features carries the upload date read from YouTube itself', () => {
     // The date is not a guess: it is the `uploadDate` in YouTube's own page
     // metadata for -3V_IaCOQUo, read 2026-09-24. Pinned so a future edit cannot
     // quietly swap it for a placeholder.
-    const html = fs.readFileSync(path.join(FRONTEND, 'tour.html'), 'utf8');
+    const html = fs.readFileSync(path.join(FRONTEND, 'features.html'), 'utf8');
     const youtube = videoObjects(html).find((o) => String(o.contentUrl || '').includes('-3V_IaCOQUo'));
-    assert.ok(youtube, 'the YouTube VideoObject is still on /tour');
+    assert.ok(youtube, 'the YouTube VideoObject is still on /features (the page was /tour until 2026-10-08)');
     assert.equal(youtube.uploadDate, '2026-06-13T14:31:13-07:00');
 });
 
