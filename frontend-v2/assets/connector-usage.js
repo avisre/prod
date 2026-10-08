@@ -1,0 +1,110 @@
+/* Connector usage on the profile page: this month's Claude / ChatGPT / API
+   calls folded into sessions, the calls that were refused, the balance with a
+   refill button beside it, and a CSV of the month. Data: /api/credits/connector.
+   Standalone on purpose: it reads nothing from profile.js and draws only into
+   #connector-usage, so either file can change without the other. */
+(function () {
+  'use strict';
+  const root = document.getElementById('connector-usage');
+  if (!root || !window.V2 || !window.V2.token || !window.V2.token()) return;
+  if (root.dataset.wired === '1') return;
+  root.dataset.wired = '1';
+
+  const API = window.V2.API;
+  const auth = () => ({ Authorization: `Bearer ${window.V2.token()}` });
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const num = (n) => Number(n || 0).toLocaleString('en-US');
+  const plural = (n, one, many) => `${num(n)} ${Number(n) === 1 ? one : many}`;
+
+  const TOOL_LABELS = {
+    get_company_fundamentals: 'fundamentals',
+    search_companies: 'company search',
+    search_filings: 'filing search',
+    get_filing: 'filing text',
+    ask_filings: 'AI answer'
+  };
+  const toolLabel = (t) => TOOL_LABELS[t] || String(t || '').replace(/[-_]/g, ' ');
+
+  // "8 Oct, 12:56 to 13:24" in the reader's own timezone; the end carries its
+  // date only when the session ran past midnight.
+  function when(startIso, endIso) {
+    const s = new Date(startIso);
+    const e = new Date(endIso);
+    const day = (d) => d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+    const time = (d) => d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+    if (time(s) === time(e) && day(s) === day(e)) return `${day(s)}, ${time(s)}`;
+    return `${day(s)}, ${time(s)} to ${day(s) === day(e) ? '' : `${day(e)}, `}${time(e)}`;
+  }
+
+  function sessionRow(s) {
+    const who = s.client || (s.via === 'api' ? 'API key' : 'AI assistant');
+    const parts = [esc(who), esc(when(s.start, s.end))];
+    if (s.calls) parts.push(plural(s.calls, 'call', 'calls'), plural(s.credits, 'credit', 'credits'));
+    if (s.refused) parts.push(`<span class="cu-refused">${plural(s.refused, 'refused', 'refused')}</span>`);
+    const tools = (s.tools || []).map((t) => `${num(t.count)} ${esc(toolLabel(t.tool))}`).join(', ');
+    const refused = (s.refusedBy || []).map((r) => `${num(r.count)} refused: ${esc(r.label)}`).join('; ');
+    const subjects = (s.subjects || []).map((x) => `<span class="cu-chip">${esc(x)}</span>`).join('');
+    const body = [
+      tools ? `<p class="small muted" style="margin:0 0 8px;">${tools}</p>` : '',
+      refused ? `<p class="small cu-refused" style="margin:0 0 8px;">${refused}</p>` : '',
+      subjects ? `<div class="cu-chips">${subjects}</div>` : '<p class="small muted" style="margin:0;">Calls made before 8 Oct 2026 did not record what was asked for.</p>'
+    ].join('');
+    return `<li><details><summary>${parts.join(' · ')}</summary><div class="cu-body">${body}</div></details></li>`;
+  }
+
+  function paceLine(d) {
+    const p = d.pace;
+    if (Number(d.remaining) <= 0) {
+      return d.refused
+        ? `You are out of credits and ${plural(d.refused, 'call was', 'calls were')} refused this month. A refill works the moment the payment settles.`
+        : 'You are out of credits. A refill works the moment the payment settles.';
+    }
+    if (!p) return '';
+    if (p.minutesLeft < 1) return 'At this pace your credits run out within the next minute.';
+    return `At this pace, your credits last about ${plural(p.minutesLeft, 'more minute', 'more minutes')}.`;
+  }
+
+  function render(d) {
+    if (!d || !(d.hasApiAccess || d.sessionCount > 0)) return;
+    root.hidden = false;
+    $('cu-meta').textContent = d.sessionCount
+      ? `${plural(d.calls, 'call', 'calls')} · ${plural(d.credits, 'credit', 'credits')} this month${d.refused ? ` · ${num(d.refused)} refused` : ''}`
+      : 'No calls this month';
+    $('cu-balance').textContent = `${num(d.remaining)} of ${num(d.allowance)} credits left`;
+    const pace = paceLine(d);
+    $('cu-pace').textContent = pace;
+    $('cu-pace').hidden = !pace;
+    $('cu-pace').classList.toggle('cu-refused', Number(d.remaining) <= 0);
+    $('cu-sessions').innerHTML = (d.sessions || []).map(sessionRow).join('')
+      || '<li class="small muted" style="padding:12px 14px;">Nothing yet. Calls made from Claude or ChatGPT will be listed here by session.</li>';
+    const more = d.sessionCount - (d.sessions || []).length;
+    $('cu-more').textContent = more > 0 ? `${plural(more, 'earlier session is', 'earlier sessions are')} in the CSV.` : '';
+    $('cu-csv').hidden = !d.sessionCount;
+  }
+
+  $('cu-csv').addEventListener('click', async () => {
+    const btn = $('cu-csv');
+    btn.disabled = true;
+    try {
+      const r = await fetch(`${API}/credits/connector.csv`, { headers: auth() });
+      if (!r.ok) throw new Error('export failed');
+      const url = URL.createObjectURL(await r.blob());
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (r.headers.get('Content-Disposition') || '').replace(/^.*filename="?([^";]+)"?.*$/, '$1') || 'connector-calls.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (_) {
+      $('cu-more').textContent = 'The CSV could not be downloaded. Please try again.';
+    }
+    btn.disabled = false;
+  });
+
+  fetch(`${API}/credits/connector`, { headers: auth() })
+    .then((r) => (r.ok ? r.json() : null))
+    .then(render)
+    .catch(() => {});
+})();

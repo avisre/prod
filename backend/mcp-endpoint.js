@@ -45,6 +45,7 @@ const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontext
 const fin = require('./mcp-financials');
 const aiChat = require('./ai-chat');
 const { quotaError } = require('./api-response');
+const connectorUsage = require('./connector-usage');
 const mcpAnon = require('./mcp-anon');
 
 const SERVER_NAME = 'stockportfolio-mcp';
@@ -572,10 +573,12 @@ const MSG_NO_ENTITLEMENT = 'The plan on the connected StockPortfolio.pro account
 // Server
 // ---------------------------------------------------------------------------
 
-function logEvent(deps, event) {
+// `detail` travels beside the event, not inside it: the event is printed to the
+// application log, and what a customer asked about does not belong there.
+function logEvent(deps, event, detail) {
     if (typeof deps.onLog !== 'function') return;
     // Telemetry must never be able to fail a tool call.
-    try { deps.onLog(event); } catch (_) { /* ignore */ }
+    try { deps.onLog(event, detail); } catch (_) { /* ignore */ }
 }
 
 function buildMcpServer(ctx, deps) {
@@ -611,6 +614,9 @@ function buildMcpServer(ctx, deps) {
         const { name, arguments: rawArgs } = (req && req.params) || {};
         const args = rawArgs && typeof rawArgs === 'object' && !Array.isArray(rawArgs) ? rawArgs : {};
         const started = Date.now();
+        // What the call was about, for the account's own usage log. Only for a
+        // signed-in caller: a keyless one has no account to show it to.
+        const subject = ctx.anonymous ? null : connectorUsage.subjectFor(args);
         const finish = (result, code) => {
             logEvent(deps, {
                 event: 'tools/call',
@@ -624,7 +630,7 @@ function buildMcpServer(ctx, deps) {
                 wall: ctx.anonymous ? (deps.wallReason || null) : null,
                 ms: Date.now() - started,
                 caller: ctx.logId || null
-            });
+            }, { subject });
             return result;
         };
 
@@ -697,7 +703,7 @@ function buildMcpServer(ctx, deps) {
             const result = await def.handler(args);
             // Charged after the work succeeded, so a failed lookup never spends
             // the caller's allowance.
-            await deps.limiter.spend(ctx.userId, def.aiCost ? 'mcp_ask' : 'mcp_lookup', `mcp:${def.name}`, null);
+            await deps.limiter.spend(ctx.userId, def.aiCost ? 'mcp_ask' : 'mcp_lookup', `mcp:${def.name}`, subject, ctx.client || null);
 
             if (def.aiCost && ctx.anonymous) {
                 // A free AI answer reports what is left, so the caller learns

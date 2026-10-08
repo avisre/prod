@@ -427,13 +427,16 @@ async function balance(userId, effectiveAskLimit, planId, appsumoTierOrUser) {
 // to the user, and must not crash the request that's about to respond 200.
 // It still logs loudly, because a silently-failing debit is a revenue leak,
 // not a safety concern like a failing read.
-async function spend(userId, cost, reason, refId) {
+// `client` is the assistant a connector call came through ("Claude"), kept so
+// the profile page can say which one spent what. Absent everywhere else.
+async function spend(userId, cost, reason, refId, client) {
     const amount = Number(COST[cost] ?? cost);
     if (!Number.isFinite(amount) || amount <= 0) return;
     try {
         await ledgerCol().insertOne({
             userId: String(userId), month: monthKey(), delta: -amount,
-            reason, refId: refId || null, at: new Date()
+            reason, refId: refId || null, at: new Date(),
+            ...(client ? { client: String(client).slice(0, 60) } : {})
         });
     } catch (error) { console.error('[credits] spend failed:', error && error.message); }
 }

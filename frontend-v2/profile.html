@@ -68,6 +68,18 @@
     .credits-breakdown .unit { text-align: right; color: var(--ink-3); white-space: nowrap; padding-left: 14px; }
     .credits-breakdown tr.total td { border-top: 1px solid var(--line); padding-top: 8px; color: var(--ink); font-weight: 650; }
     .credits-breakdown tr.upsell td { color: var(--ink-3); }
+    /* Connector usage (assets/connector-usage.js): one row per session, which
+       opens to show the tools and the companies asked about. */
+    #connector-usage { margin-top: 22px; }
+    .cu-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 10px; font-size: var(--text-sm); }
+    .cu-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .cu-sessions { list-style: none; margin: 12px 0 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-sm); max-height: 420px; overflow-y: auto; }
+    .cu-sessions li + li { border-top: 1px solid var(--line); }
+    .cu-sessions summary { padding: 11px 14px; cursor: pointer; font-size: var(--text-sm); color: var(--ink); font-variant-numeric: tabular-nums; }
+    .cu-body { padding: 0 14px 13px; }
+    .cu-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .cu-chip { font-size: 12px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); max-width: 100%; overflow-wrap: anywhere; }
+    .cu-refused { color: var(--neg, #b42318); }
     /* Recent activity: a fixed window showing the ~6 newest rows; older rows
        (the server still sends up to 12) are reached by scrolling inside the
        list. Shadow layers only "wake" on the scrolling edge, so the card reads
@@ -308,6 +320,25 @@
                   <ul class="credits-activity-list" id="credits-activity-list"></ul>
                   <button type="button" class="btn btn-ghost btn-sm" id="credits-activity-more" hidden style="margin-top:10px;">Show the whole month</button>
                 </div>
+
+                <!-- CONNECTOR USAGE: Claude / ChatGPT / API calls by session.
+                     Hidden until assets/connector-usage.js has data to show. -->
+                <div id="connector-usage" hidden>
+                  <div class="credits-head credits-activity-head">
+                    <p class="label" style="margin:0;">Claude and ChatGPT connector</p>
+                    <span class="small muted" id="cu-meta"></span>
+                  </div>
+                  <div class="cu-bar">
+                    <strong id="cu-balance"></strong>
+                    <span class="cu-actions">
+                      <a rel="nofollow" class="btn btn-primary btn-sm" href="/recharge.html">Add credits</a>
+                      <button type="button" class="btn btn-ghost btn-sm" id="cu-csv" hidden>Download CSV</button>
+                    </span>
+                  </div>
+                  <p class="small" id="cu-pace" hidden style="margin:10px 0 0;"></p>
+                  <ul class="cu-sessions" id="cu-sessions"></ul>
+                  <p class="small muted" id="cu-more" style="margin:8px 0 0;"></p>
+                </div>
               </div>
              </div>
             </div>
@@ -450,5 +481,6 @@
   <script src="assets/app.js?v=20261008-features2"></script>
   <script src="assets/profile.js?v=20261008-features2"></script>
   <script src="assets/messages.js?v=20261008-features2"></script>
+  <script src="assets/connector-usage.js?v=20261008-features2"></script>
 </body>
 </html>

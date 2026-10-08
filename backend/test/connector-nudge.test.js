@@ -118,7 +118,9 @@ test('a name cannot inject markup into the email', () => {
 
 test('app.js sends it for signed-in callers on both endpoints, through the support mailer, with an off switch', () => {
     const src = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-    assert.equal((src.match(/nudgeOnRefusal\(req, evt\); \}/g) || []).length, 2, 'wired into /mcp and /mcp/apps keyed paths');
+    // /mcp also records the refusal for the account's usage log after the nudge,
+    // so the call is matched on its own rather than as the hook's last statement.
+    assert.equal((src.match(/nudgeOnRefusal\(req, evt\);/g) || []).length, 2, 'wired into /mcp and /mcp/apps keyed paths');
     const fn = src.slice(src.indexOf('function nudgeOnRefusal'), src.indexOf('function logMcp'));
     assert.match(fn, /sendMail: mailer\.sendMail/, 'customer mail goes through the support@ mailer');
     assert.match(fn, /anonymous: false/);

@@ -36,6 +36,7 @@ const mcpAnon = require('./mcp-anon');
 const oauthCsp = require('./oauth-csp');
 const oauthOffer = require('./oauth-signin-offer');
 const connectorNudge = require('./connector-nudge');
+const connectorUsage = require('./connector-usage');
 const oauthOidc = require('./oauth-oidc');
 const oauthMcp = require('./oauth-mcp');
 const aiPaper = require('./ai-paper-portfolio');
@@ -1194,6 +1195,7 @@ async function ensureMeteringIndexes() {
   const col = mongoose.connection.collection.bind(mongoose.connection);
   await Promise.all([
     col('credit_ledger').createIndex({ userId: 1, month: 1, at: -1 }, { name: 'credit_ledger_user_month' }),
+    col('connector_refusals').createIndex({ userId: 1, month: 1, at: 1 }, { name: 'connector_refusals_user_month' }),
     col('ai_chat_usage').createIndex({ userId: 1, month: 1 }, { name: 'ai_chat_usage_user_month' }),
     col('personal_memory').createIndex({ userId: 1 }, { name: 'personal_memory_user' })
   ]).catch((indexError) => console.warn('[metering] index creation unavailable:', indexError && indexError.message));
@@ -6673,6 +6675,32 @@ function logMcp(event) {
     try { console.log('[mcp]', JSON.stringify(event)); } catch (_) { /* logging must never fail a request */ }
 }
 
+// The assistant a signed-in connector call came through, by the name it
+// registered with ("Claude"). Cached: a client's name never changes and this is
+// read on every tool call. An API key has no client and reads as null.
+const connectorClientNames = new Map();
+async function connectorClientName(clientId) {
+    if (!clientId) return null;
+    if (connectorClientNames.has(clientId)) return connectorClientNames.get(clientId);
+    let name = null;
+    try {
+        const doc = await mongoose.connection.collection('oauth_clients').findOne({ _id: clientId }, { projection: { clientName: 1 } });
+        name = doc && doc.clientName ? String(doc.clientName).slice(0, 60) : null;
+    } catch (_) { return null; } // not cached, so the next call asks again
+    if (connectorClientNames.size > 500) connectorClientNames.clear();
+    connectorClientNames.set(clientId, name);
+    return name;
+}
+// A refused connector call is written to the account's usage log. These cost no
+// credits and used to leave no trace, so a customer who ran dry mid-session
+// could not see how much of the run was lost. Fire-and-forget, like the nudge.
+function recordConnectorRefusal(req, evt, detail, client) {
+    if (!evt || evt.event !== 'tools/call' || evt.ok || !connectorUsage.REFUSAL_LABELS[evt.code]) return;
+    connectorUsage.recordRefusal(mongoose.connection.collection('connector_refusals'), {
+        userId: req.userId, tool: evt.tool, subject: detail && detail.subject, code: evt.code, client
+    }).catch(() => {});
+}
+
 app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) => {
     const started = Date.now();
     try {
@@ -6718,15 +6746,16 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
             return;
         }
         const logId = require('crypto').createHash('sha256').update(String(req.userId)).digest('hex').slice(0, 12);
+        const client = await connectorClientName(req.oauthClientId);
         await mcpEndpoint.handleMcpRequest(
             req, res,
-            { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId },
+            { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client },
             {
                 limiter: credits,
                 effectiveAskLimit: () => effectiveAskLimit(req),
                 entitled: () => hasApiAccess(req),
                 wallReason: null,
-                onLog: (evt) => { logMcp(evt); nudgeOnRefusal(req, evt); }
+                onLog: (evt, detail) => { logMcp(evt); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
             }
         );
         if (method === 'initialize') {
@@ -10950,6 +10979,58 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
         res.json({ ...bal, cost: credits.COST, recent, breakdown, activityTotal, hasMonitor: hasMonitor(req), hasApiAccess: hasApiAccess(req) });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Credit balance check failed') });
+    }
+});
+
+// Connector usage for the profile page: this month's connector and API calls
+// folded into sessions, the refusals among them, and how long the balance lasts
+// at the running session's pace. Reads the ledger and the refusal log; writes
+// nothing.
+async function connectorUsageRows(userId) {
+    const month = credits.monthKey();
+    const db = mongoose.connection;
+    const [ledgerRows, refusalRows] = await Promise.all([
+        db.collection('credit_ledger').find({ userId: String(userId), month, reason: /^(mcp|mcp-apps|api):/ })
+            .project({ _id: 0, reason: 1, refId: 1, delta: 1, at: 1, client: 1 }).sort({ at: 1 }).limit(5000).toArray(),
+        db.collection('connector_refusals').find({ userId: String(userId), month })
+            .project({ _id: 0, tool: 1, subject: 1, code: 1, client: 1, at: 1 }).sort({ at: 1 }).limit(5000).toArray()
+    ]);
+    return { month, ledgerRows, refusalRows };
+}
+app.get('/api/credits/connector', authMiddleware, async (req, res) => {
+    try {
+        const planId = req.subscription && req.subscription.planId;
+        const [bal, rows] = await Promise.all([
+            credits.balance(req.userId, effectiveAskLimit(req), planId, req.user),
+            connectorUsageRows(req.userId)
+        ]);
+        const all = connectorUsage.sessions(rows.ledgerRows, rows.refusalRows);
+        res.set('Cache-Control', 'no-store').json({
+            month: rows.month,
+            hasApiAccess: hasApiAccess(req),
+            remaining: bal.remaining,
+            allowance: bal.allowance,
+            resetsAt: bal.resetsAt,
+            calls: all.reduce((n, s) => n + s.calls, 0),
+            credits: all.reduce((n, s) => n + s.credits, 0),
+            refused: all.reduce((n, s) => n + s.refused, 0),
+            pace: connectorUsage.pace(all, bal.remaining),
+            sessions: all.slice(0, 40),
+            sessionCount: all.length
+        });
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Connector usage could not be loaded') });
+    }
+});
+app.get('/api/credits/connector.csv', authMiddleware, async (req, res) => {
+    try {
+        const rows = await connectorUsageRows(req.userId);
+        res.set('Cache-Control', 'no-store');
+        res.set('Content-Type', 'text/csv; charset=utf-8');
+        res.set('Content-Disposition', `attachment; filename="stockportfolio-connector-calls-${rows.month}.csv"`);
+        res.send(connectorUsage.toCsv(rows.ledgerRows, rows.refusalRows));
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Connector usage could not be exported') });
     }
 });
 

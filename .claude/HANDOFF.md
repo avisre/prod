@@ -12,6 +12,20 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Connector usage on the profile page — 2026-10-08 (owner decision)
+
+Profile → Usage has a "Claude and ChatGPT connector" panel (`frontend-v2/assets/connector-usage.js`, data from
+`GET /api/credits/connector`, CSV from `/api/credits/connector.csv`). Logic is in `backend/connector-usage.js`
+(pure; tested in `test/connector-usage.test.js`): calls fold into sessions (15-minute gap), with a pace forecast
+while a session is running and a refill button beside the balance.
+- Each `/mcp` call now stores its subject in the ledger row's `refId` (ticker, or ticker plus the first 8 words of
+  the question) and the assistant's name in `client`. The subject is passed beside the log event, never inside it,
+  so it does not reach the application log. Rows before this deploy have neither.
+- Refused calls (out of credits, no connector on the plan, region, network) go to `connector_refusals`, capped at
+  60 per account per hour. They were recorded nowhere before.
+- **Not done:** `/mcp/apps` calls still store no subject and do not record refusals; the panel has not been
+  checked against a real signed-in account, only in a browser harness with generated data.
+
 ## Credit refill sizes — 2026-10-08 (owner decision)
 
 `/recharge` sells five sizes: the existing $14.99 / 150 (Stripe price id, unchanged) plus $50 / $100 / $250 / $500 at
