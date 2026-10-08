@@ -113,3 +113,107 @@ test('no signup trial exists for walled or unwalled visitors', () => {
     const source = appSource();
     assert.doesNotMatch(source, /signupTrialDaysFor|SIGNUP_TRIAL_DAYS|signupTrialDays/);
 });
+
+// ---- The crawler exemption inside the geo wall (2026-10-08) ----
+// The page wall is run for real here, cut out of app.js and given stubs for the
+// app state it closes over, because the hole these pin was invisible to a
+// source match: every line read correctly and a Singapore client that named
+// itself Googlebot still got the page.
+const dns = require('dns').promises;
+const botBlocker = require('../bot-blocker');
+
+const GOOGLEBOT = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
+const CHROME = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36';
+
+function loadPageWall() {
+    const source = appSource();
+    const body = source.slice(source.indexOf('function geoWallPass'), source.indexOf('app.use(wallAllPagesMiddleware)'));
+    const stubs = {
+        botBlocker,
+        marketingAttribution: { requestCountry: (req) => req.country },
+        geoWalled: (req) => ['SG', 'CN', 'HK'].includes(req.country),
+        freeTierWallReason: (req) => (['SG', 'CN', 'HK'].includes(req.country) ? 'region' : null),
+        visitorIp: (req) => req.ip,
+        wallPathIsExempt: () => false,
+        WALL_ALL_PAGES: false,
+        authTokenFromRequest: () => '',
+        wallRedirect: (res, target) => { res.redirectedTo = target; },
+        console: { log() {}, warn() {} }
+    };
+    const names = Object.keys(stubs);
+    // eslint-disable-next-line no-new-func
+    return new Function(...names, `${body}; return wallAllPagesMiddleware;`)(...names.map((n) => stubs[n]));
+}
+
+async function runPageWall({ country, ip, ua }) {
+    const res = {
+        headers: {},
+        set(k, v) { this.headers[k] = v; return this; },
+        status(code) { this.statusCode = code; return this; },
+        type() { return this; },
+        send() { return this; }
+    };
+    let served = false;
+    await loadPageWall()({ method: 'GET', path: '/screens/quality-compounders', country, ip, headers: { 'user-agent': ua } }, res, () => { served = true; });
+    return { served, redirectedTo: res.redirectedTo || null, status: res.statusCode || null, retryAfter: res.headers['Retry-After'] || null };
+}
+
+test('a Googlebot claim from a walled country is not served until the address verifies', async (t) => {
+    botBlocker._resetForTest();
+    // A PTR that is not Google's: the forged claim, on an address never seen before.
+    t.mock.method(dns, 'reverse', async () => ['host-1.example-isp.sg']);
+    const forged = await runPageWall({ country: 'SG', ip: '101.127.0.9', ua: GOOGLEBOT });
+    assert.equal(forged.served, false, 'the first request from a fresh address is no longer waved through');
+    assert.equal(forged.redirectedTo, '/register');
+});
+
+test('a genuine Googlebot crawling from a walled country still gets the page on its first request', async (t) => {
+    botBlocker._resetForTest();
+    t.mock.method(dns, 'reverse', async () => ['crawl-66-249-66-2.googlebot.com']);
+    t.mock.method(dns, 'resolve4', async () => ['66.249.66.2']);
+    t.mock.method(dns, 'resolve6', async () => { throw new Error('no AAAA'); });
+    const real = await runPageWall({ country: 'SG', ip: '66.249.66.2', ua: GOOGLEBOT });
+    assert.deepEqual(real, { served: true, redirectedTo: null, status: null, retryAfter: null });
+});
+
+test('a lookup that cannot complete answers 503 with Retry-After, never the 302 that deindexes', async (t) => {
+    botBlocker._resetForTest();
+    t.mock.method(dns, 'reverse', async () => { throw new Error('SERVFAIL'); });
+    const outage = await runPageWall({ country: 'HK', ip: '175.45.0.9', ua: GOOGLEBOT });
+    assert.equal(outage.served, false);
+    assert.equal(outage.redirectedTo, null);
+    assert.equal(outage.status, 503);
+    assert.equal(outage.retryAfter, '120');
+});
+
+test('outside the walled countries a crawler claim is served at once, with no lookup in its path', async (t) => {
+    botBlocker._resetForTest();
+    let lookups = 0;
+    t.mock.method(dns, 'reverse', async () => { lookups += 1; return []; });
+    const us = await runPageWall({ country: 'US', ip: '66.249.66.3', ua: GOOGLEBOT });
+    assert.equal(us.served, true);
+    assert.equal(lookups, 0, 'the wall adds no DNS wait to ordinary crawling');
+});
+
+test('the internal marker and a plain browser are both walled in a walled country', async () => {
+    botBlocker._resetForTest();
+    // The marker is a string in a public repository, so it cannot open the wall.
+    const internal = await runPageWall({ country: 'SG', ip: '101.127.0.10', ua: `curl/8 ${botBlocker.INTERNAL_UA_MARKER}` });
+    assert.equal(internal.served, false);
+    assert.equal(internal.redirectedTo, '/register');
+    const browser = await runPageWall({ country: 'SG', ip: '101.127.0.11', ua: CHROME });
+    assert.equal(browser.served, false);
+    assert.equal(browser.redirectedTo, '/register');
+    // ...and the marker still works everywhere else, where our own tooling runs.
+    const tooling = await runPageWall({ country: 'US', ip: '8.8.8.8', ua: `curl/8 ${botBlocker.INTERNAL_UA_MARKER}` });
+    assert.equal(tooling.served, true);
+});
+
+test('verifyCrawlerClaim waits for the verdict and reuses a cached one', async (t) => {
+    botBlocker._resetForTest();
+    let lookups = 0;
+    t.mock.method(dns, 'reverse', async () => { lookups += 1; return ['host.example.net']; });
+    assert.equal(await botBlocker.verifyCrawlerClaim('203.0.113.50', 'Googlebot/2.1'), 'impostor');
+    assert.equal(await botBlocker.verifyCrawlerClaim('203.0.113.50', 'Googlebot/2.1'), 'impostor');
+    assert.equal(lookups, 1);
+});

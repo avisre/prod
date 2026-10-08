@@ -2551,6 +2551,15 @@ function freeTierWallReason(req) {
 function freeTierWalled(req) {
     return freeTierWallReason(req) !== null;
 }
+// Every page served to a walled country is logged with the reason it was
+// allowed. A page that loads leaves no other trace on the server — only the
+// browser beacon afterwards, which cannot say why the wall stood aside — so
+// without this line a leak is visible in analytics and unexplainable here.
+// No address, cookie or account id: the reason and the country are the answer.
+function geoWallPass(req, next, reason) {
+    console.log('[geo-wall]', JSON.stringify({ outcome: 'served', reason, country: marketingAttribution.requestCountry(req), path: req.path || '/' }));
+    return next();
+}
 async function wallAllPagesMiddleware(req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (wallPathIsExempt(req.path || '/')) return next();
@@ -2568,8 +2577,30 @@ async function wallAllPagesMiddleware(req, res, next) {
     // is the trade bot-blocker already documents, and the cheap side of it: a
     // scraper reading a page that is public again in a week costs less than a
     // real Googlebot spending that week collecting 302s.
+    //
+    // Inside the geo wall the claim has to be proven first, not assumed. The
+    // fail-open above is per address, so a client in a walled country that
+    // calls itself Googlebot from a new address each time is always on its
+    // "first request" and was served every page it asked for (2026-10-08: one
+    // Singapore client, 60 pages since the wall went up). A real crawler loses
+    // nothing: it verifies and is served, as before. A lookup that could not
+    // be completed gets a 503 to retry, never the 302 — that is the answer a
+    // crawler waits out instead of dropping the URL. 'internal' is a string in
+    // a public repo, so it earns no exemption from a walled country either.
     const crawlerClaim = botBlocker.classifyUa((req.headers || {})['user-agent']);
-    if (crawlerClaim === 'allowed-claim' || crawlerClaim === 'internal') return next();
+    if (crawlerClaim === 'allowed-claim' || crawlerClaim === 'internal') {
+        if (!geoWalled(req)) return next();
+        const verdict = crawlerClaim === 'allowed-claim'
+            ? await botBlocker.verifyCrawlerClaim(visitorIp(req), (req.headers || {})['user-agent']).catch(() => 'unknown')
+            : 'impostor';
+        if (verdict === 'verified') return geoWallPass(req, next, 'verified-crawler');
+        if (verdict === 'unknown') {
+            res.set('Retry-After', '120');
+            res.set('Cache-Control', 'no-store');
+            return res.status(503).type('text/plain').send('Temporarily unavailable. Retry shortly.');
+        }
+        console.warn('[geo-wall]', JSON.stringify({ outcome: 'refused-crawler-claim', claim: crawlerClaim, country: marketingAttribution.requestCountry(req), path: req.path || '/' }));
+    }
     const walled = freeTierWallReason(req);
     if (!WALL_ALL_PAGES && !walled) return next();
 
@@ -2585,6 +2616,7 @@ async function wallAllPagesMiddleware(req, res, next) {
         if (user.isModified('subscription')) await user.save().catch(() => {});
         if (!subscriptionIsActive(normalized)) return wallRedirect(res, '/upgrade.html');
         if (walled && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
+        if (walled === 'region') return geoWallPass(req, next, 'paid-account');
         next();
     } catch (_) {
         return wallRedirect(res, '/register');

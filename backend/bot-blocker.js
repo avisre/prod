@@ -403,6 +403,29 @@ function checkCrawlerClaim(ip, ua) {
     return 'unseen';
 }
 
+// The same verdict, waited for instead of assumed. checkCrawlerClaim's fail-open
+// is right for the bot block, where the worst case is one served page, and
+// wrong for the geo wall, where that one page is the whole product: a client
+// in a walled country that names itself Googlebot from a fresh address on
+// every request never meets a cached 'impostor' (measured 2026-10-08: one
+// Singapore client read 60 pages that way in two weeks). Never 'unseen' —
+// 'unknown' means the lookup could not be completed, which is not evidence
+// either way and is for the caller to answer without refusing a real crawler.
+async function verifyCrawlerClaim(ip, ua) {
+    const cached = getCachedVerdict(ip);
+    if (cached) return cached;
+
+    const vendor = vendorForUa(ua);
+    if (RANGE_VENDORS[vendor]) {
+        const entry = loadRanges(vendor);
+        if (!entry || !entry.nets) return 'unknown';
+        const verdict = ipInNets(ip, entry.nets) ? 'verified' : 'impostor';
+        cacheVerdict(ip, verdict, vendor);
+        return verdict;
+    }
+    return resolveCrawlerIp(ip, ua);
+}
+
 // --- Layer 4: per-IP page-navigation rate limit ---
 // A scraper running real headless Chrome with real headers and a rotating
 // UA is indistinguishable from a human at the application layer — the only
@@ -509,6 +532,7 @@ module.exports = {
     isStaticAssetPath,
     resolveCrawlerIp,
     checkCrawlerClaim,
+    verifyCrawlerClaim,
     isLimiterExempt,
     vendorForUa,
     parseCidr,

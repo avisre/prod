@@ -158,7 +158,9 @@ test('the page wall serves a crawler the page, not the 302', () => {
     const section = wallSection();
     const wall = section.slice(section.indexOf('async function wallAllPagesMiddleware'));
     assert.match(wall, /const crawlerClaim = botBlocker\.classifyUa\(\(req\.headers \|\| \{\}\)\['user-agent'\]\);/);
-    assert.match(wall, /if \(crawlerClaim === 'allowed-claim' \|\| crawlerClaim === 'internal'\) return next\(\);/);
+    // Served outright everywhere except inside the geo wall, where the claim is
+    // verified first (geo-wall.test.js runs that path) — still ahead of the flag.
+    assert.match(wall, /if \(crawlerClaim === 'allowed-claim' \|\| crawlerClaim === 'internal'\) \{\s*if \(!geoWalled\(req\)\) return next\(\);/);
 
     const claimAt = wall.indexOf('crawlerClaim');
     const flagAt = wall.indexOf('if (!WALL_ALL_PAGES && !walled)');
