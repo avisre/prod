@@ -24,6 +24,13 @@ Also: an SBC row in the cash flow statement, two ratio rows, one health check (b
   weekly refresh, so it goes stale until someone runs it.
 - Known data gap it exposes: some companies (NVDA among them) have no capital expenditure in our data, so their
   free cash flow rows read "Not available".
+- Run over all 5,761 companies (model and the page's own renderer, 2026-10-08): 3,788 draw the full section,
+  1,698 have no SBC line, 275 have none in their newest year (shown as "Not available for FYxxxx", with the last
+  filed figure named). Rules that came out of it, all in the model: comparisons are matched by date not row
+  position; stub periods and refiled/overlapping years are dropped; a year ending in early January takes the year
+  it closed; a negative figure is a reversal and nothing is measured against it; above 100% a share reads "N.N×".
+- The statements and ratios tables still label a year by the calendar year of its end date, so a few 52/53-week
+  companies show two "FY2022" columns there. That predates this work and was left alone.
 - **Not built:** the fund look-through. N-PORT holdings carry issuer and CUSIP, not ticker (8 of VOO's 506 equity
   rows have a symbol), so it needs a CUSIP-to-company map first. Design mockup: `mockups/sbc-page-voo.html`.
 

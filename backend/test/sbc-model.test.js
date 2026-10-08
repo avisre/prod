@@ -31,7 +31,7 @@ test('the five measures are the filed numbers and plain arithmetic on them', () 
     assert.equal(m.status, 'ok');
     assert.equal(m.fy, 'FY2025');
     assert.equal(m.sourceId, 'abc');
-    assert.equal(m.stale, null);
+    assert.equal(m.reversal, false);
     assert.equal(m.sbc, 12863e6);
     assert.equal(round(m.pctRevenue), 3.09);
     assert.equal(round(m.pctRevenueFiveAgo), 2.49);
@@ -46,7 +46,8 @@ test('the five measures are the filed numbers and plain arithmetic on them', () 
     assert.equal(round(m.dilutionFive), -14.4);
     assert.deepEqual(m.check, { pass: true, buybacks: 438583e6, sbc: 52328e6 });
     assert.equal(m.trend.length, 6);
-    assert.deepEqual(m.trend[0], { fy: 'FY2020', sbc: 6829e6, pctRevenue: (100 * 6829e6) / 274515e6 });
+    assert.deepEqual(m.trend[0], { fy: 'FY2020', tick: '2020', sbc: 6829e6, pctRevenue: (100 * 6829e6) / 274515e6 });
+    assert.equal(m.fiveAgoEnd, '2020-09-26');
     // Capex filed as a positive amount gives the same free cash flow.
     const positive = model.build(APPLE.map((y) => ({ ...y, capex: Math.abs(y.capex), buy: Math.abs(y.buy) })));
     assert.equal(positive.fcf, m.fcf);
@@ -112,24 +113,103 @@ test('the buyback check needs five filed years of SBC and at least one filed buy
     assert.equal(model.build(APPLE.slice(2)).check, null, 'four years is not five');
     const gap = APPLE.map((y) => ({ ...y })); gap[3].sbc = null;
     assert.equal(model.build(gap).check, null, 'a year with no SBC line breaks the window');
+    const missing = APPLE.filter((_, i) => i !== 3);
+    assert.equal(model.build(missing).check, null, 'a year absent from the data breaks it too: five rows are not five years');
     const heavy = APPLE.map((y) => ({ ...y, buy: -1e9 }));
     assert.deepEqual(model.build(heavy).check, { pass: false, buybacks: 5e9, sbc: 52328e6 });
 });
 
-test('when the newest year has no SBC line the latest filed one is used and named', () => {
+test('when the newest year has no SBC line, the older figure is named and nothing is drawn from it', () => {
+    // 275 companies were in this state on 2026-10-08, some with a last figure from 2010.
     const rows = APPLE.map((y) => ({ ...y }));
     rows.push({ end: '2026-09-26', sbc: null, rev: 430000e6, ocf: 115000e6, capex: -12000e6, dil: 14700000e3 });
     const m = model.build(rows);
-    assert.equal(m.fy, 'FY2025');
-    assert.equal(m.sbc, 12863e6);
-    assert.equal(m.stale, 'Not reported for FY2026; latest filed figure is FY2025.');
+    assert.equal(m.status, 'stale');
+    assert.equal(m.fy, 'FY2026');
+    assert.equal(m.lastFy, 'FY2025');
+    assert.equal(m.lastSbc, 12863e6);
+    assert.equal(m.why, 'Not available for FY2026: the most recent stock-based compensation line in our filings data is for FY2025.');
+    for (const k of ['sbc', 'pctRevenue', 'fcfAfter', 'trend', 'check']) assert.equal(m[k], undefined, `${k} is not offered for a stale company`);
+});
+
+test('"five years ago" and "this year" are matched by date, never by position in the list', () => {
+    // FY2021 and FY2022 are missing: the row five places back would be far older.
+    const gappy = [
+        { end: '2016-09-24', sbc: 4210e6, rev: 215639e6, dil: 22001124e3 },
+        { end: '2017-09-30', sbc: 4840e6, rev: 229234e6, dil: 21006768e3 },
+        { end: '2018-09-29', sbc: 5340e6, rev: 265595e6, dil: 20000435e3 },
+        { end: '2019-09-28', sbc: 6068e6, rev: 260174e6, dil: 18595651e3 },
+        { end: '2020-09-26', sbc: 6829e6, rev: 274515e6, dil: 17528214e3 },
+        { end: '2023-09-30', sbc: 10833e6, rev: 383285e6, dil: 15812547e3 },
+        { end: '2024-09-28', sbc: 11688e6, rev: 391035e6, dil: 15408095e3 },
+        { end: '2025-09-27', sbc: 12863e6, rev: 416161e6, dil: 15004697e3 }
+    ];
+    const m = model.build(gappy);
+    assert.equal(m.fiveAgoFy, 'FY2020', 'the year that ended five years earlier, not the fifth row back (FY2018)');
+    assert.equal(round(m.pctRevenueFiveAgo), 2.49);
+    assert.equal(round(m.dilutionYoY), -2.62);
+    assert.equal(m.dilutionFive, null, 'two of the years in between are missing');
+    assert.equal(m.check, null);
+    // With no row a year earlier there is no "this year" change at all.
+    const lonely = model.build([gappy[4], gappy[7]]);
+    assert.equal(lonely.dilutionYoY, null);
+    assert.equal(lonely.dilutionWhy, 'Not available: the year before is not in our filings data.');
+});
+
+test('a 52/53-week year ending in early January belongs to the year it closed', () => {
+    assert.equal(model.fyOf('2021-01-02'), 'FY2020');
+    assert.equal(model.fyOf('2021-12-31'), 'FY2021');
+    assert.equal(model.fyOf('2026-01-25'), 'FY2026', 'a late-January retail year keeps its calendar label, as elsewhere on the page');
+    const weeks = model.build([
+        { end: '2019-12-28', sbc: 30, rev: 1000 }, { end: '2021-01-02', sbc: 32, rev: 1000 },
+        { end: '2022-01-01', sbc: 34, rev: 1000 }, { end: '2022-12-31', sbc: 36, rev: 1000 }
+    ]);
+    assert.deepEqual(weeks.trend.map((x) => x.tick), ['2019', '2020', '2021', '2022']);
+});
+
+test('stub periods and refiled or overlapping years are not counted as extra years', () => {
+    const base = [
+        { end: '2023-06-30', start: '2022-07-01', sbc: 100, rev: 1000, dil: 500 },
+        { end: '2024-06-30', start: '2023-07-01', sbc: 110, rev: 1100, dil: 505 }
+    ];
+    // A six-month transition period filed among the annual rows.
+    const stub = model.build([...base, { end: '2024-12-31', start: '2024-07-01', sbc: 55, rev: 560, dil: 506 }]);
+    assert.equal(stub.fy, 'FY2024');
+    assert.equal(stub.sbc, 110, 'the half-year is left out, not shown as stock pay halving');
+    assert.equal(stub.trend.length, 2);
+    // The same year filed twice with end dates two days apart.
+    const twice = model.build([...base, { end: '2024-06-28', start: '2023-07-01', sbc: 111, rev: 1100, dil: 505 }]);
+    assert.deepEqual(twice.trend.map((x) => x.sbc), [100, 110]);
+    // Old and new fiscal years around a change of year-end, nine months apart: both
+    // are full years, both stay, and the chart tells them apart by month.
+    const moved = model.build([
+        { end: '2023-03-31', start: '2022-04-01', sbc: 100, rev: 1000 },
+        { end: '2023-12-31', start: '2023-01-01', sbc: 108, rev: 1050 },
+        { end: '2024-12-31', start: '2024-01-01', sbc: 115, rev: 1100 }
+    ]);
+    assert.deepEqual(moved.trend.map((x) => x.tick), ['Mar 23', 'Dec 23', '2024']);
+    assert.equal(moved.dilutionYoY, null);
+});
+
+test('a filed negative figure is a reversal: shown as filed, measured against nothing', () => {
+    const rows = APPLE.map((y) => ({ ...y }));
+    rows[5].sbc = -849e3;
+    const m = model.build(rows);
+    assert.equal(m.status, 'ok');
+    assert.equal(m.sbc, -849e3);
+    assert.equal(m.reversal, true);
+    for (const k of ['pctRevenue', 'fcfAfter', 'pctOfFcf', 'buybackOffsetPct', 'check']) assert.equal(m[k], null, `${k} is not computed from a reversal`);
+    assert.equal(m.pctRevenueWhy, 'Not shown: the filed figure for FY2025 is a net reversal, not a cost.');
+    assert.equal(m.fcf, 98767e6, 'the company\'s own free cash flow is still its own');
+    assert.equal(m.trend[5].pctRevenue, null);
 });
 
 test('the sector rank is a position among the others, and needs a sector worth ranking in', () => {
     const list = Array.from({ length: 101 }, (_, i) => i / 10); // 0.0 … 10.0
     assert.deepEqual(model.rank(list, 3.05), { n: 101, median: 5, higherThanPct: 31 });
     assert.equal(model.rank(list, 0).higherThanPct, 0);
-    assert.equal(model.rank(list, 99).higherThanPct, 101, 'above every company, itself not in the list');
+    assert.equal(model.rank(list, 99).higherThanPct, 100, 'above every company: capped, never "higher than 101%"');
+    assert.equal(model.rank(list, NaN), null);
     assert.equal(model.rank([1, 2, 3], 2), null, 'three companies are not a sector');
     assert.equal(model.rank(list, null), null);
     assert.equal(model.rank(null, 1), null);
@@ -139,6 +219,7 @@ test('the committed sector table was built by this model from the committed data
     const table = JSON.parse(read('backend', 'sbc-sector.json'));
     assert.equal(table.v, 1);
     assert.ok(table.companies > 3000, `ranked ${table.companies} companies`);
+    // Only companies with a current, positive-revenue, non-reversal figure are ranked.
     const names = Object.keys(table.sectors);
     assert.ok(names.includes('Information Technology') && names.includes('Financials'));
     let total = 0;

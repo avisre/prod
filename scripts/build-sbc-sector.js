@@ -24,7 +24,7 @@ function rowsFor(doc) {
     const cash = (doc.cash && doc.cash.annualReports) || [];
     const income = (doc.income && doc.income.annualReports) || [];
     const revByEnd = new Map(income.map((r) => [r.fiscalDateEnding, r.totalRevenue]));
-    return cash.map((c) => ({ end: c.fiscalDateEnding, sbc: c.shareBasedCompensation, rev: revByEnd.get(c.fiscalDateEnding) }));
+    return cash.map((c) => ({ end: c.fiscalDateEnding, start: c.periodStart || null, sbc: c.shareBasedCompensation, rev: revByEnd.get(c.fiscalDateEnding) }));
 }
 
 function main() {

@@ -1069,7 +1069,7 @@
         const rows = annualJoined().map((y) => {
             const c = y.cash || {}; const i = y.income || {};
             return {
-                end: y.end, sbc: num(c.shareBasedCompensation), rev: derive(i).rev,
+                end: y.end, start: c.periodStart || i.periodStart || null, sbc: num(c.shareBasedCompensation), rev: derive(i).rev,
                 ocf: num(c.operatingCashflow), capex: num(c.capitalExpenditures),
                 buy: num(c.paymentsForRepurchaseOfCommonStock), dil: num(i.weightedAverageSharesDiluted),
                 sourceId: ((c._sources || {}).shareBasedCompensation || [])[0] || null
@@ -1080,7 +1080,7 @@
     function sbcChart(trend, cur) {
         const W = 760, H = 160, padL = 8, padB = 22, padT = 18;
         const bw = (W - padL * 2) / trend.length;
-        const maxS = Math.max(...trend.map((t) => t.sbc)) || 1;
+        const maxS = Math.max(...trend.map((t) => t.sbc), 0) || 1;
         const pcts = trend.map((t) => t.pctRevenue);
         const maxP = (Math.max(...pcts.filter((v) => v !== null), 0) || 1) * 1.25;
         const cx = (i) => padL + i * bw + bw / 2;
@@ -1089,9 +1089,9 @@
             const h = Math.max(0, ((H - padB - padT) * t.sbc) / maxS);
             const x = padL + i * bw + bw * 0.2; const w = bw * 0.6; const top = H - padB - h;
             const last = i === trend.length - 1;
-            const tip = `${t.fy}: ${currencyAmount(t.sbc, cur)}${t.pctRevenue === null ? '' : `, ${pct(t.pctRevenue)} of revenue`}`;
+            const tip = `${t.fy}: ${currencyAmount(t.sbc, cur)}${t.pctRevenue === null ? '' : (t.pctRevenue > 100 ? `, ${(t.pctRevenue / 100).toFixed(1)}× revenue` : `, ${pct(t.pctRevenue)} of revenue`)}`;
             return `<rect class="${last ? 'sbc-bar sbc-bar-now' : 'sbc-bar'}" x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="3"><title>${esc(tip)}</title></rect>`
-                + `<text class="sbc-axis" x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${esc(t.fy.slice(2))}</text>`
+                + `<text class="sbc-axis" x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${esc(t.tick)}</text>`
                 + ((last || i === 0) ? `<text class="sbc-val" x="${(x + w / 2).toFixed(1)}" y="${(top - 5).toFixed(1)}" text-anchor="middle">${esc(currencyAmount(t.sbc, cur))}</text>` : '');
         }).join('');
         // The line breaks across a year with no filed revenue rather than
@@ -1109,14 +1109,20 @@
         // figures. No model at all (script missing): leave the section hidden.
         if (!m) return;
         const show = () => { $('sbc-rule').hidden = false; $('sbc-section').hidden = false; };
+        const cur = reportingCurrency();
+        const amt = (v) => currencyAmount(v, cur);
         if (m.status !== 'ok') {
             $('sbc-source').textContent = '';
-            $('sbc-body').innerHTML = `<p class="muted" style="margin:0;">${esc(m.why)}</p>`;
+            // An older figure is named with its year, never drawn as the current one.
+            const last = m.status === 'stale' && m.lastSbc !== null ? ` It was ${esc(amt(m.lastSbc))} in ${esc(m.lastFy)}.` : '';
+            $('sbc-body').innerHTML = `<p class="muted" style="margin:0;">${esc(m.why)}${last}</p>`;
             show();
             return;
         }
-        const cur = reportingCurrency();
-        const amt = (v) => currencyAmount(v, cur);
+        // Above 100% a percentage stops reading as a share: a pre-revenue company
+        // paying 23 times its revenue in stock is told as a multiple.
+        const share = (v) => (v > 100 ? `${(v / 100).toFixed(1)}×` : pct(v));
+        const ofRevenue = (v) => (v > 100 ? `${share(v)} revenue` : `${share(v)} of revenue`);
         const signed = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1) + '%';
         const name = (payload.overview && payload.overview.Name) || symbol;
         const src = ((payload.provenance || {}).sources || {})[m.sourceId] || null;
@@ -1129,17 +1135,24 @@
         if (m.fcf === null) row('Free cash flow', '—', esc(m.fcfWhy));
         else {
             row('Free cash flow', esc(amt(m.fcf)), 'as reported: operating cash flow less capital expenditure');
-            row('after paying staff in stock', esc(amt(m.fcfAfter)),
-                m.pctOfFcf !== null
-                    ? `stock-based compensation is <strong>${esc(pct(m.pctOfFcf, 0))}</strong> of free cash flow`
-                    : 'free cash flow is negative before stock pay is counted', true);
+            // Not drawn against a net reversal: there is no stock cost to take off.
+            if (m.fcfAfter !== null) {
+                row('after paying staff in stock', esc(amt(m.fcfAfter)),
+                    m.pctOfFcf !== null
+                        ? (m.pctOfFcf > 100
+                            ? `stock-based compensation is <strong>${esc((m.pctOfFcf / 100).toFixed(1))}×</strong> free cash flow`
+                            : `stock-based compensation is <strong>${esc(pct(m.pctOfFcf, 0))}</strong> of free cash flow`)
+                        : 'free cash flow is negative before stock pay is counted', true);
+            }
         }
         // Buybacks appear only when the company filed some: no row is better than
         // a dash that reads as "bought back nothing".
         if (m.buybacks !== null && m.buybacks > 0) {
-            row('Buybacks', esc(amt(m.buybacks)), m.buybackOffsetPct >= 100
-                ? `less than the <strong>${esc(amt(m.sbc))}</strong> of stock issued to staff`
-                : `of which <strong>${esc(amt(m.sbc))}</strong> (${esc(pct(m.buybackOffsetPct, 0))}) offset stock issued to staff`);
+            row('Buybacks', esc(amt(m.buybacks)), m.buybackOffsetPct === null
+                ? 'bought back in the year'
+                : m.buybackOffsetPct >= 100
+                    ? `less than the <strong>${esc(amt(m.sbc))}</strong> of stock issued to staff`
+                    : `of which <strong>${esc(amt(m.sbc))}</strong> (${esc(pct(m.buybackOffsetPct, 0))}) offset stock issued to staff`);
         }
         if (m.dilutionYoY === null) row('Diluted shares', '—', esc(m.dilutionWhy));
         else row('Diluted shares', esc(signed(m.dilutionYoY)), 'this year' + (m.dilutionFive === null ? '' : ` · <strong>${esc(signed(m.dilutionFive))}</strong> over five years`));
@@ -1148,13 +1161,13 @@
         $('sbc-body').innerHTML = `
           ${m.stale ? `<p class="small muted" style="margin:0 0 10px;">${esc(m.stale)}</p>` : ''}
           <div class="sbc-top">
-            <div><div class="sbc-big">${esc(amt(m.sbc))}</div><div class="sbc-sub">paid to staff in stock, ${esc(m.fy)}</div></div>
+            <div><div class="sbc-big">${esc(amt(m.sbc))}</div><div class="sbc-sub">${m.reversal ? `net reversal of stock pay, ${esc(m.fy)}: more was cancelled than expensed` : `paid to staff in stock, ${esc(m.fy)}`}</div></div>
             <div>${m.pctRevenue === null
                 ? `<div class="sbc-mid">—</div><div class="sbc-sub">${esc(m.pctRevenueWhy || '')}</div>`
-                : `<div class="sbc-mid">${esc(pct(m.pctRevenue))} of revenue</div><div class="sbc-sub">${m.pctRevenueFiveAgo === null ? '&nbsp;' : `${esc(pct(m.pctRevenueFiveAgo))} five years ago`}</div>`}</div>
+                : `<div class="sbc-mid">${esc(ofRevenue(m.pctRevenue))}</div><div class="sbc-sub">${m.pctRevenueFiveAgo === null ? '&nbsp;' : `${esc(ofRevenue(m.pctRevenueFiveAgo))} in ${esc(m.fiveAgoFy)}`}</div>`}</div>
             <div class="sbc-rank" id="sbc-rank"></div>
           </div>
-          ${m.trend.length > 1 ? sbcChart(m.trend, cur) + `<div class="sbc-legend"><span><i></i>Stock-based compensation</span>${firstPct === null || m.pctRevenue === null ? '' : `<span><i class="l"></i>As % of revenue (${esc(pct(firstPct))} → ${esc(pct(m.pctRevenue))})</span>`}</div>` : ''}
+          ${m.trend.length > 1 ? sbcChart(m.trend, cur) + `<div class="sbc-legend"><span><i></i>Stock-based compensation</span>${firstPct === null || m.pctRevenue === null ? '' : `<span><i class="l"></i>As a share of revenue (${esc(share(firstPct))} → ${esc(share(m.pctRevenue))})</span>`}</div>` : ''}
           <table class="sbc-rows">${rows.join('')}</table>
           <p class="provenance">Every figure is the company's own filed number or arithmetic on filed numbers. Free cash flow after stock-based compensation is our calculation, not a figure ${esc(name)} reports.</p>`;
         show();
