@@ -15,7 +15,7 @@
 //   1  initialize                      'initialize and tools/list never 402'
 //   2  initialized notification        same test, explicit notification POST
 //   3  tools/list                      'tools/list publishes the documented set'
-//   4  a free read tool                'search_companies answers without a wallet'
+//   4  company search is a lookup      'search_companies is metered as a lookup'
 //   5  protected tool, valid creds     'a protected tool with a funded wallet'
 //   6  protected tool, no credentials  'a protected tool with no credentials'
 //   7  insufficient credits            'a drained wallet is refused'
@@ -254,19 +254,27 @@ test('tools/list publishes the documented set with reviewable metadata', { timeo
 });
 
 // ---------------------------------------------------------------------------
-// 4 — the free read tool, with no wallet and no credential
+// 4 — company search is a metered lookup (owner decision 2026-10-08; it was
+//     free until then, and /mcp/apps already charged for it)
 // ---------------------------------------------------------------------------
 
-test('search_companies answers without a wallet, and reports a bad query honestly', { timeout: 60000 }, async (t) => {
+test('search_companies is metered as a lookup, and reports a bad query honestly', { timeout: 60000 }, async (t) => {
     stubFinancials();
     t.after(restoreFinancials);
+    const checked = [];
+    const spent = [];
     const url = await mount(t, anonShape({
-        limiter: { check: async () => { throw new Error('the free tool must not consult a limiter'); }, spend: async () => {} }
+        limiter: {
+            check: async (id, op) => { checked.push(op); return { ok: true, used: 0, allowance: 25, resetsAt: null }; },
+            spend: async (id, op, reason) => { spent.push(`${op}|${reason}`); }
+        }
     }));
     const client = await connect(t, url);
 
     const found = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple', limit: 5 } });
-    assert.ok(!found.isError, 'the free tool must succeed for an anonymous caller');
+    assert.ok(!found.isError, 'a caller inside the allowance gets an answer');
+    assert.deepEqual(checked, ['mcp_lookup'], 'the allowance is consulted as a lookup');
+    assert.deepEqual(spent, ['mcp_lookup|mcp:search_companies'], 'and one lookup is spent for it');
     const payload = JSON.parse(found.content[0].text);
     assert.ok(Array.isArray(payload.companies) && payload.companies.length > 0, 'the catalog resolves "Apple"');
     const apple = payload.companies.find((c) => c.ticker === 'AAPL');
@@ -278,9 +286,35 @@ test('search_companies answers without a wallet, and reports a bad query honestl
     const none = await client.callTool({ name: 'search_companies', arguments: { query: 'zzzznotacompanyzzzz' } });
     assert.equal(JSON.parse(none.content[0].text).match_count, 0);
 
+    const spentBefore = spent.length;
     const missing = await client.callTool({ name: 'search_companies', arguments: {} });
     assert.equal(missing.isError, true);
     assert.equal(jsonOf(missing).code, 'COMPANY_REQUIRED');
+    assert.equal(spent.length, spentBefore, 'a call that failed spends nothing');
+});
+
+test('search_companies is refused once the allowance is gone, and for an account without API access', { timeout: 60000 }, async (t) => {
+    stubFinancials();
+    t.after(restoreFinancials);
+    const spent = [];
+    const drained = await connect(t, await mount(t, anonShape({
+        limiter: {
+            check: async () => ({ ok: false, used: 25, allowance: 25, resetsAt: null, message: 'That was all 25 free data lookups in this rolling 30-day window.' }),
+            spend: async () => { spent.push(1); }
+        }
+    })));
+    const over = await drained.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(over.isError, true, 'an exhausted free allowance refuses company search too');
+    assert.equal(jsonOf(over).code, 'QUOTA_EXCEEDED');
+    assert.equal(spent.length, 0);
+
+    const shape = keyedShape({ limiter: { check: async () => ({ ok: true }), spend: async () => { spent.push(1); } } });
+    shape.deps.entitled = () => false;
+    const unentitled = await connect(t, await mount(t, shape));
+    const res = await unentitled.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(res.isError, true);
+    assert.equal(jsonOf(res).code, 'ENTITLEMENT_REQUIRED');
+    assert.equal(spent.length, 0);
 });
 
 // ---------------------------------------------------------------------------
@@ -341,7 +375,7 @@ test('an unsupported metric is refused by name rather than silently dropped', { 
 // 6 — a protected tool with no credentials
 // ---------------------------------------------------------------------------
 
-test('a protected tool with no credentials returns an actionable auth error, and search_companies still works', { timeout: 60000 }, async (t) => {
+test('a protected tool with no credentials returns an actionable auth error, and the session survives it', { timeout: 60000 }, async (t) => {
     stubFinancials();
     t.after(restoreFinancials);
     // Keyless access switched off: the only way in is a connected account. Set
@@ -368,10 +402,10 @@ test('a protected tool with no credentials returns an actionable auth error, and
     assert.equal(payload.authenticate, true, 'the client is told that authenticating is the fix');
     assert.match(payload.error, /key|account/i, 'the message names the way in rather than only the refusal');
 
-    // The connection is still alive and the free tool still answers — a refusal
+    // The connection is still alive and the free probe still answers — a refusal
     // must never take the session down with it.
-    const free = await client.callTool({ name: 'search_companies', arguments: { query: 'Microsoft' } });
-    assert.ok(!free.isError, 'the session survives a refusal and the free tool still answers');
+    const free = await client.callTool({ name: 'sp_health', arguments: {} });
+    assert.ok(!free.isError, 'the session survives a refusal and the free probe still answers');
     const tools = await client.listTools();
     assert.equal(tools.tools.length, EXPECTED_TOOLS.length, 'and discovery still works after a refusal');
 });

@@ -24,7 +24,7 @@
 //
 // ---- Tool surface ------------------------------------------------------
 // Six tools, no overlaps, each one answering a question the others cannot:
-//   search_companies          resolve a name/ticker to a company (free, local)
+//   search_companies          resolve a name/ticker to a company (a lookup)
 //   get_company_fundamentals  the financial statements, per filed period
 //   search_filings            locate filings by form and date
 //   get_filing                read one filing's metadata and sections
@@ -73,7 +73,7 @@ const SERVER_INSTRUCTIONS = [
     'get_company_fundamentals returns financial statements by fiscal period, each value carrying the SEC filing that reports it.',
     'A value that was not reported is null and is never estimated; never fill a null with your own number.',
     'Cite the SEC source URL that accompanies a figure when you state it.',
-    'search_companies and sp_health are free. Other tools require a connected account.',
+    'sp_health is free. Every other tool, search_companies included, spends from the caller\u2019s allowance.',
     'Do not treat any output as investment advice.'
 ].join(' ');
 
@@ -160,7 +160,7 @@ const TOOL_DEFS = [
     {
         name: 'search_companies',
         title: 'Search companies',
-        description: 'Resolve a company name or ticker to the US-listed company it refers to, returning ticker, company name and SEC CIK. Use this first when a company is named ambiguously, when only a name is known, or before another tool when the ticker is uncertain. Reads a bundled company catalog and returns no financial data and no filing content. Free: needs no account.',
+        description: 'Resolve a company name or ticker to the US-listed company it refers to, returning ticker, company name and SEC CIK. Use this first when a company is named ambiguously, when only a name is known, or before another tool when the ticker is uncertain. Reads a bundled company catalog and returns no financial data and no filing content. Costs one data lookup.',
         inputSchema: {
             type: 'object',
             properties: {
@@ -196,11 +196,9 @@ const TOOL_DEFS = [
             additionalProperties: true
         },
         annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
-        // Free and unmetered: the catalog is deployed with the build, so this
-        // call costs no upstream request and no inference. It stays available to
-        // every caller, which also makes it the tool a directory probe can use
-        // to prove the server end to end.
-        free: true,
+        // Metered as a lookup since 2026-10-08 (owner decision): the catalog is
+        // part of the product, and /mcp/apps already charged for it. sp_health
+        // is the one tool left for a probe that must not spend anything.
         handler: async (args) => {
             const query = String(args.query || '').trim();
             if (!query) throw fin.mcpError('COMPANY_REQUIRED', 'Provide a company name or ticker to search for.');
@@ -629,10 +627,9 @@ function buildMcpServer(ctx, deps) {
                 }), 'UNKNOWN_TOOL');
             }
 
-            // Free tools (the deployed catalog and the liveness probe) are
-            // reachable by any caller. They touch no upstream service, cost
-            // nothing and hold no filing data, so gating them would break
-            // discovery testing for no benefit.
+            // The liveness probe is reachable by any caller. It touches no
+            // upstream service, costs nothing and holds no data, so gating it
+            // would break discovery testing for no benefit.
             if (def.free) {
                 return finish(textResult(await def.handler(args)));
             }

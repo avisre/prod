@@ -212,9 +212,10 @@ const freeTool = nameOf((t) => /^search_companies$/.test(t.name)) || nameOf((t) 
 const meteredTool = nameOf((t) => /fundamentals|financials/i.test(t.name));
 const askTool = nameOf((t) => /ask/i.test(t.name));
 
-// 4. A free read tool, keyless. Proves the read path returns structured data
+// 4. Company search, keyless. It spends one lookup from the keyless allowance
+// (it was free until 2026-10-08). Proves the read path returns structured data
 // and that the keyless tier reaches real data, not just the tool list.
-await scenario('call a free tool (search_companies)', async () => {
+await scenario('call company search keyless (search_companies)', async () => {
     if (!freeTool) return fail('call a free tool', 'no free read tool is advertised');
     const { status, json } = await rpc({
         body: { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: freeTool, arguments: { query: 'Apple' } } }

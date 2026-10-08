@@ -35,10 +35,10 @@ function config(env = process.env) {
         // The answer payload reports how many remain and tells callers how to
         // subscribe and configure their MCP client before the allowance runs out.
         askLimit: num(env.ANON_MCP_ASK_LIMIT, 3),
-        // Lookups hit cache/SEC/Yahoo with no model in the loop, so they are
-        // deliberately generous — a chatbot burning its whole free allowance on
-        // metadata calls would never see the answer that sells the product.
-        lookupLimit: num(env.ANON_MCP_LOOKUP_LIMIT, 50),
+        // Lookups hit cache/SEC/Yahoo with no model in the loop. 25 (was 50
+        // until 2026-10-08, owner decision) is enough to judge the data; company
+        // search counts against it like any other lookup.
+        lookupLimit: num(env.ANON_MCP_LOOKUP_LIMIT, 25),
         // Hard ceiling across ALL anonymous callers per UTC day. This is the
         // real cost control; per-IP limits alone are worthless against a caller
         // with many egress addresses.

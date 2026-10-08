@@ -104,7 +104,7 @@ test('the /api landing page quotes credits.COST rather than typed-in numbers', (
     )].map((m) => [m[1], m[2]]);
     assert.equal(mcpRows.length, 6, `expected six MCP tool rows, found ${mcpRows.length}`);
     for (const [tool, price] of mcpRows) {
-        if (tool === 'search_companies' || tool === 'sp_health') {
+        if (tool === 'sp_health') {
             assert.equal(price, 'free', `${tool} is documented as costing something`);
             continue;
         }

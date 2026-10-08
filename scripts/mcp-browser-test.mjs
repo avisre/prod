@@ -248,7 +248,7 @@ async function main() {
       check('every tool is annotated read-only', readOnly === tools.length, `${readOnly}/${tools.length}`);
     }
 
-    // 5. a free tool call, keyless — the first thing a new connector does
+    // 5. company search, keyless (one lookup from the allowance) — the first thing a new connector does
     const search = await mcpCall(cdp, sid, RPC(3, 'tools/call', {
       name: 'search_companies', arguments: { query: 'Apple', limit: 3 },
     }));

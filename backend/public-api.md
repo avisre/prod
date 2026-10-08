@@ -107,7 +107,7 @@ used for the REST API. Six tools, each named for what it returns:
 
 | Tool | Returns | Cost |
 |---|---|---|
-| `search_companies` | Company name or ticker → ticker, name, SEC CIK | free |
+| `search_companies` | Company name or ticker → ticker, name, SEC CIK | 2 |
 | `get_company_fundamentals` | Filed statements by fiscal period, each figure carrying its filing | 2 |
 | `search_filings` | Filings by type and date range, with direct EDGAR URLs | 2 |
 | `get_filing` | One filing's metadata and content, by accession number or ticker | 2 |

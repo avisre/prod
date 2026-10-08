@@ -723,7 +723,7 @@ function renderApiLanding() {
   <table class="seo-table">
     <thead><tr><th>MCP tool (${esc('POST /mcp')})</th><th>What it returns</th><th>Credits</th></tr></thead>
     <tbody>
-      <tr><td><code>search_companies</code></td><td>Name or ticker → ticker, company name, SEC CIK</td><td>free</td></tr>
+      <tr><td><code>search_companies</code></td><td>Name or ticker → ticker, company name, SEC CIK</td><td>${COST.mcp_lookup}</td></tr>
       <tr><td><code>get_company_fundamentals</code></td><td>Filed statements by fiscal period — revenue, margins, EPS, cash flow, debt, shares — each figure with its filing</td><td>${COST.mcp_lookup}</td></tr>
       <tr><td><code>search_filings</code></td><td>Filings by type and date range, with direct EDGAR links</td><td>${COST.mcp_lookup}</td></tr>
       <tr><td><code>get_filing</code></td><td>One filing's metadata and content, by accession number or ticker</td><td>${COST.mcp_lookup}</td></tr>
