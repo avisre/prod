@@ -34,6 +34,8 @@ const mcpEndpoint = require('./mcp-endpoint');
 const mcpApps = require('./mcp-apps');
 const mcpAnon = require('./mcp-anon');
 const oauthCsp = require('./oauth-csp');
+const oauthOffer = require('./oauth-signin-offer');
+const connectorNudge = require('./connector-nudge');
 const oauthOidc = require('./oauth-oidc');
 const oauthMcp = require('./oauth-mcp');
 const aiPaper = require('./ai-paper-portfolio');
@@ -6325,13 +6327,25 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#1c1b18;col
 .ghost{background:#fff;color:#45423c;border:1px solid #d8d5cd;margin-top:8px}
 .err{color:#b91c1c;font-size:13px;margin-top:10px;min-height:18px}
 .alt{font-size:13px;color:#726e65;text-align:center;margin-top:14px}
-a{color:#1c1b18}</style>`;
+a{color:#1c1b18}
+${oauthOffer.OFFER_CSS}</style>`;
+    // Plan facts for the two offers below, from the same constants checkout
+    // and the credit ledger use. 100 is the Monthly wallet (credits.js derives
+    // it as twice the plan's Ask limit); mcp-anon.js quotes the same figure.
+    const offerFacts = { price: CORE_PLAN_PRICE, lookupCost: credits.COST.mcp_lookup, askCost: credits.COST.mcp_ask, credits: 100 };
+    const cookieSecure = process.env.NODE_ENV === 'production';
 
     if (!user) {
         // Sign-in is inline so the consent request survives it. The new-tab
         // escape hatch below exists because accounts created with Google have
         // no password to type here, and adding a ?next= to login.html would
         // have meant editing assets/app.js and stamping every page in the app.
+        //
+        // Someone with no account gets the plan and a signup link here; the
+        // cookie is what brings them back to this exact request after
+        // checkout (see oauth-signin-offer.js and /oauth/resume).
+        const resume = oauthOffer.resumeCookie(req.originalUrl.split('?')[1] || '', { secure: cookieSecure });
+        if (resume) res.append('Set-Cookie', resume);
         return res.type('html').send(`${head}
 <div class="card">
   <h1>Sign in to connect</h1>
@@ -6346,7 +6360,9 @@ a{color:#1c1b18}</style>`;
   <p class="alt">Signed up with Google?
     <a href="/login.html" target="_blank" rel="noopener nofollow">Sign in here</a>, then
     <a href="${escapeHtmlOauth(selfUrl)}">continue</a>.</p>
+  ${oauthOffer.signupOfferHtml({ ...offerFacts, canResume: Boolean(resume) })}
 </div>
+${oauthOffer.pollScript('session')}
 <script>
 document.getElementById('f').addEventListener('submit', async function (ev) {
   ev.preventDefault();
@@ -6364,10 +6380,15 @@ document.getElementById('f').addEventListener('submit', async function (ev) {
     }
 
     const email = escapeHtmlOauth(user.email || '');
+    // An account without connector access is told before it clicks Allow, not
+    // by a refusal on its first call. Allow stays available: the connection
+    // picks a new plan up on the next call.
+    const hasAccess = hasApiAccess({ user, subscription: user.subscription });
     return res.type('html').send(`${head}
 <div class="card">
   <h1>Connect ${escapeHtmlOauth(client.clientName)}</h1>
   <p class="sub">Signed in as ${email}</p>
+  ${hasAccess ? '' : oauthOffer.noAccessNoticeHtml(offerFacts)}
   ${destination}
   <ul>
     <li>Read filing-grounded company data through your account</li>
@@ -6378,7 +6399,26 @@ document.getElementById('f').addEventListener('submit', async function (ev) {
     <button type="submit" name="decision" value="allow">Allow access</button>
     <button type="submit" name="decision" value="deny" class="ghost">Cancel</button>
   </form>
-</div>`);
+</div>
+${hasAccess ? '' : oauthOffer.pollScript('access')}`);
+});
+
+// What the two /oauth/authorize screens poll: is anyone signed in, and does
+// their plan include the connector. Nothing else about the account is exposed.
+app.get('/oauth/session', async (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    const user = await oauthCurrentUser(req);
+    res.json({ signedIn: Boolean(user), hasAccess: Boolean(user && hasApiAccess({ user, subscription: user.subscription })) });
+});
+
+// The way back from signup and checkout to the authorization the person
+// started. It only ever redirects to our own /oauth/authorize, which validates
+// the client and redirect_uri again; with no usable cookie it is the dashboard.
+app.get('/oauth/resume', (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    const target = oauthOffer.resumeTarget(parseCookieHeader(req.headers.cookie || '')[oauthOffer.RESUME_COOKIE]);
+    res.append('Set-Cookie', oauthOffer.clearResumeCookie({ secure: process.env.NODE_ENV === 'production' }));
+    return res.redirect(302, target || '/dashboard.html');
 });
 
 // The decision post is the only place a code is minted, and it requires the
@@ -6565,6 +6605,27 @@ function mcpRateLimit(req, res, next) {
 // without a debugger. `caller` is a 12-character sha256 prefix of the user id or
 // visitor IP, never the identifier itself, and no Authorization header, API key,
 // session token or request body is read here at all.
+// A signed-in account refused on a connector call gets one email saying how to
+// fix it (connector-nudge.js). Fire-and-forget: it must never delay or fail the
+// tool result. CONNECTOR_NUDGE_EMAILS=false switches it off.
+const CONNECTOR_NUDGE_EMAILS = String(process.env.CONNECTOR_NUDGE_EMAILS ?? 'true').toLowerCase() !== 'false';
+function nudgeOnRefusal(req, evt) {
+    if (!CONNECTOR_NUDGE_EMAILS || !evt || evt.ok || !connectorNudge.REASON_BY_CODE[evt.code]) return;
+    connectorNudge.maybeSend(
+        { user: req.user, code: evt.code, anonymous: false, resetsAt: typeof credits.resetsAt === 'function' ? credits.resetsAt() : null },
+        {
+            users: User.collection,
+            sendMail: mailer.sendMail,
+            facts: { monthlyPrice: CORE_PLAN_PRICE, lookupCost: credits.COST.mcp_lookup, askCost: credits.COST.mcp_ask, topupCredits: CREDIT_TOPUP_CREDITS, topupPrice: CREDIT_TOPUP_PRICE }
+        }
+    ).then((status) => {
+        // Throttled and not-applicable outcomes are the common case and say
+        // nothing; a send or a failed send is worth a line each.
+        if (String(status).startsWith('sent:')) logMcp({ event: 'nudge_email', sent: true, reason: status.slice(5), caller: evt.caller || null });
+        else if (status === 'send_failed' || status === 'error') logMcp({ event: 'nudge_email', sent: false, status, code: evt.code, caller: evt.caller || null });
+    }).catch(() => {});
+}
+
 function logMcp(event) {
     try { console.log('[mcp]', JSON.stringify(event)); } catch (_) { /* logging must never fail a request */ }
 }
@@ -6622,7 +6683,7 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
                 effectiveAskLimit: () => effectiveAskLimit(req),
                 entitled: () => hasApiAccess(req),
                 wallReason: null,
-                onLog: logMcp
+                onLog: (evt) => { logMcp(evt); nudgeOnRefusal(req, evt); }
             }
         );
         if (method === 'initialize') {
@@ -6677,7 +6738,7 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
                 limiter: credits,
                 effectiveAskLimit: () => effectiveAskLimit(req),
                 entitled: () => hasApiAccess(req),
-                onLog: (evt) => console.log('[mcp-apps]', JSON.stringify(evt))
+                onLog: (evt) => { console.log('[mcp-apps]', JSON.stringify(evt)); nudgeOnRefusal(req, evt); }
             }
         );
     } catch (error) {

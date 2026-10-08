@@ -248,7 +248,12 @@
     plan = RETIRED_PLAN_REMAP[plan] || plan;
     if (!PLANS[plan]) plan = 'monthly';
     const filingWatchInvite = new URLSearchParams(location.search).get('invite') || '';
-    const checkoutNext = plan === 'filing-watch' ? 'filing-watch/start' : 'dashboard.html';
+    // ?next=oauth/resume: the visitor came from the connector's sign-in screen
+    // (/oauth/authorize) and goes back there once the payment is through. It is
+    // the only value accepted, so this page cannot be used to send a new
+    // customer anywhere else.
+    const requestedNext = new URLSearchParams(location.search).get('next') || '';
+    const checkoutNext = plan === 'filing-watch' ? 'filing-watch/start' : (requestedNext === 'oauth/resume' ? 'oauth/resume' : 'dashboard.html');
     const cardPlan = (p) => p; // Pro is sold as pro-annual only (2026-08-31 cut)
     function syncPlan() {
       const direct = DIRECT_PLANS.has(plan);
