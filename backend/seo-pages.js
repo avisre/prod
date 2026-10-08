@@ -791,7 +791,7 @@ function renderConnect() {
         ['Is StockPortfolio available in ChatGPT?', `Yes. StockPortfolio is listed in the ChatGPT app directory. Add it there and ask about a company in any conversation.`],
         ['Is it free?', `You can try it without an account: ${free}. Past that, the Dev plan is $200 a month for 200 credits — a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}.`],
         ['Where do the numbers come from?', 'From the company\'s own SEC filings — 10-K, 10-Q and 8-K. A value the filing does not report comes back empty; it is never estimated. Every figure carries a link to the filing it was read from.'],
-        ['I already have a StockPortfolio plan. Do I pay again?', 'No. Sign in from the connector with your StockPortfolio account and it spends the credits your plan already includes, on the plans that carry API and MCP access.']
+        ['I already have a StockPortfolio plan. Do I pay again?', `No. Sign in from the connector with your StockPortfolio account and it spends the credits your plan already includes, on the plans that carry API and MCP access. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, so the 100 credits on Monthly or Annual cover ${Math.floor(100 / COST.mcp_lookup)} lookups or ${Math.floor(100 / COST.mcp_ask)} AI answers a month, and the 600 on Pro cover ${Math.floor(600 / COST.mcp_lookup)} lookups or ${Math.floor(600 / COST.mcp_ask)} AI answers. If you run out, a top-up adds 150 credits for $14.99.`]
     ];
     const jsonld = JSON.stringify([
         { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'StockPortfolio connector for Claude and ChatGPT', url: canonical,
