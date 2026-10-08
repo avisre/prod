@@ -40,17 +40,23 @@ of the below in one call, which is cheaper than rediscovering it by trial.
 
 ## Do not roll back production (2026-10-08 — this happened, read before any push)
 
-- **Two things deploy every push to `main`, and they race.** Render auto-deploys the
-  pushed commit in about 4 minutes. `deploy-render.yml` validates for 30–40 minutes and
-  then deploys **its own `$GITHUB_SHA`**, not the head of `main`. Runs queue; they do
-  not cancel each other. So a run that started on an OLDER commit finishes later and
-  redeploys that older commit over everything pushed since. On 10/08 this silently
+- **Two things deploy every push to `main`.** Render auto-deploys the pushed commit in
+  about 4 minutes. `deploy-render.yml` validates for ~30 minutes and then makes sure the
+  same commit is live. Until the afternoon of 10/08 that run deployed **its own
+  `$GITHUB_SHA`** even when newer commits were already live, and runs queued instead of
+  cancelling, so a run on an OLDER commit rolled production back. On 10/08 this silently
   removed a live customer fix 35 minutes after it had been verified working.
-- **Before pushing:** `gh run list --workflow deploy-render.yml --limit 5`. If a run is
-  `in_progress` or `pending` on an older commit, production WILL regress to that commit
-  when it finishes, and stays there until the run for the newest commit completes.
-- **After pushing:** a change is not live until the run for the NEWEST commit on `main`
-  has completed. Verify against the live site then, not after the first quick deploy.
+- **Fixed in `deploy-render.yml` (10/08):** a new push cancels the older run
+  (`cancel-in-progress: true`); the deploy job skips when its commit is no longer the head
+  of `main`; and it skips the redundant redeploy when Render is already live on that
+  commit. Do not undo any of the three. A manual `workflow_dispatch` still deploys the
+  commit it is run on.
+- **Before pushing:** `gh run list --workflow deploy-render.yml --limit 5`. A run started
+  BEFORE that fix (older than the commit that changed the workflow) still uses the old
+  rules and can still roll production back when it finishes.
+- **After pushing:** the change is live once Render shows "Deploy live" for your commit
+  (about 4 minutes). Verify against the live site then. The workflow run is validation;
+  it no longer decides what is live unless Auto-Deploy failed.
 - **Never ship whole-file copies from the `~/prod` working tree.** It sits on an old
   branch with uncommitted edits and does NOT contain what is on `main` (its
   `backend/app.js` lacks the 10/08 access fix). Start from `origin/main` and patch in

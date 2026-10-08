@@ -1,10 +1,18 @@
 name: Deploy to Render
 
-# Render's auto-deploy listens for a GitHub webhook, and this repo has none
-# (verified 2026-09-05: `gh api repos/avisre/prod/hooks` returns empty). That is
-# why deploys had to be triggered by hand — autoDeploy was on the whole time,
-# waiting for a notification that never arrived. This calls Render's API
-# directly instead, so a push to main deploys on its own.
+# Two things deploy a push to main. Render's own Auto-Deploy ships the commit in
+# about 4 minutes (verified 2026-10-08 in the Render events page: "New commit via
+# Auto-Deploy"). This workflow validates for ~30 minutes and then makes sure the
+# same commit is live through Render's API, which is what covers the case where
+# Auto-Deploy did not fire (it did not before 2026-09, when the repo had no
+# webhook).
+#
+# Because validation is slow, a run can finish long after newer commits are
+# live. Until 2026-10-08 it then deployed its own, older commit over them and
+# rolled production back. Two rules stop that:
+#   - a new push cancels the older run (concurrency below), and
+#   - the deploy job refuses to deploy a commit that is no longer the head of
+#     main, and skips the redundant redeploy when Render is already live on it.
 #
 # The weekly fundamentals refresh MUST deploy, which is why its commit no longer
 # carries [skip ci] (GitHub skips workflow runs for those). The store under
@@ -22,7 +30,9 @@ on:
 
 concurrency:
   group: render-deploy
-  cancel-in-progress: false
+  # The newest commit contains every older one, so validating and deploying an
+  # older run only costs time and risks redeploying stale code.
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -58,9 +68,12 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: read
     env:
       RENDER_SERVICE: srv-d4kc6schg0os73al6t10
       RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Trigger deploy and wait for it to go live
         run: |
@@ -132,7 +145,42 @@ jobs:
             return 1
           }
 
+          # A push run only deploys the commit that is still the head of main.
+          # If main has moved on, the newer commit's run owns the deploy; this
+          # one deploying would put older code back in production. A manual
+          # dispatch is left alone so an operator can still redeploy on purpose.
+          # An unreadable head is treated as "moved on": skipping is safe because
+          # Auto-Deploy has already shipped the commit, deploying blind is not.
+          still_head() {
+            [ "${GITHUB_EVENT_NAME:-}" = "push" ] || return 0
+            head_sha=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
+            if [ "$head_sha" != "$GITHUB_SHA" ]; then
+              echo "::notice::main is now ${head_sha::8}; not deploying the older ${GITHUB_SHA::8}"
+              return 1
+            fi
+          }
+
+          # Render's Auto-Deploy usually has this commit live long before
+          # validation ends. Redeploying it would only restart the service, so
+          # skip when the newest Render deploy is live on exactly this commit.
+          # Any doubt (unexpected response, another status) falls through to a
+          # normal deploy.
+          already_live() {
+            latest=$(curl -fsS -H "Authorization: Bearer $RENDER_API_KEY" -H "Accept: application/json" \
+              "https://api.render.com/v1/services/$RENDER_SERVICE/deploys?limit=1" \
+              | jq -r '(.[0] // empty) | (.deploy // .) | "\(.status // "") \(.commit.id // "")"' 2>/dev/null || true)
+            echo "newest Render deploy: ${latest:-unknown}"
+            [ "$latest" = "live $GITHUB_SHA" ]
+          }
+
+          still_head || exit 0
+
           preflight
+
+          if already_live; then
+            echo "Render is already live on ${GITHUB_SHA::8}; nothing to deploy"
+            exit 0
+          fi
 
           id="$(trigger)"
           echo "triggered deploy $id for ${GITHUB_SHA::8}"
