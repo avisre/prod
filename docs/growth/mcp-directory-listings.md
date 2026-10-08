@@ -9,7 +9,7 @@ Draft text for four MCP directories. **Nothing here has been submitted yet
   now in `package.json`.
 - The server is also reachable with **no install at all**: a hosted Streamable
   HTTP endpoint at `POST https://www.stockportfolio.pro/mcp` (keyless tier: 3
-  free asks + 50 lookups/IP/30d, or OAuth 2.1 + DCR for a paying account —
+  free asks + 25 lookups/IP/30d, or OAuth 2.1 + DCR for a paying account —
   shipped 9/14). `mcp-server/src/bridge.js` is what the npm package runs
   under the hood; it bridges stdio to that same hosted endpoint.
 - **`avisre/stockportfolio-mcp` now exists** (created 9/14, standalone

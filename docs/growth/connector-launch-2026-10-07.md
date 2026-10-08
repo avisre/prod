@@ -11,7 +11,7 @@ Wording that stays true: "listed in the Claude connector directory", "listed in 
 directory". Not "partner", "official", "certified" or "endorsed" — the Claude entry is a community
 connector.
 
-Free allowance quoted below is the default (3 AI answers, 50 lookups, per 30 days). If
+Free allowance quoted below is the default (3 AI answers, 25 lookups, per 30 days). If
 `ANON_MCP_*` is changed on Render, change the copy.
 
 ---
@@ -57,7 +57,7 @@ Hi {first_name},
 
 StockPortfolio is now listed in the Claude connector directory and the ChatGPT app directory.
 
-You can add it and try it without changing your plan: 3 AI answers and 50 data lookups every 30
+You can add it and try it without changing your plan: 3 AI answers and 25 data lookups every 30
 days, free, each figure cited to its SEC filing.
 
 https://www.stockportfolio.pro/connect?utm_source=email&utm_campaign=connector_launch
@@ -121,7 +121,7 @@ Tracked link pattern: `https://www.stockportfolio.pro/connect?utm_source=<x|link
 > Ask about any US company and get the filed numbers back, each one linked to the SEC filing it
 > came from. Nothing estimated; if the filing is silent, the value is empty.
 >
-> Free to try, no account: 3 answers + 50 lookups.
+> Free to try, no account: 3 answers + 25 lookups.
 > https://www.stockportfolio.pro/connect?utm_source=x&utm_campaign=connector_launch
 
 Reply to own post with a screenshot of one cited answer inside each assistant.
@@ -136,7 +136,7 @@ Reply to own post with a screenshot of one cited answer inside each assistant.
 > 8-K filings, with the filing linked beside every figure. Where a filing does not report a value,
 > you get an empty field, not a guess.
 >
-> It is free to try without an account (3 AI answers and 50 data lookups every 30 days).
+> It is free to try without an account (3 AI answers and 25 data lookups every 30 days).
 >
 > https://www.stockportfolio.pro/connect?utm_source=linkedin&utm_campaign=connector_launch
 
@@ -157,7 +157,7 @@ Reply to own post with a screenshot of one cited answer inside each assistant.
 > and a keyless free tier turned out to be necessary, because a directory user will not create an
 > account before seeing one answer.
 >
-> Free without an account: 3 AI answers and 50 lookups per 30 days. After that it is $200/month.
+> Free without an account: 3 AI answers and 25 lookups per 30 days. After that it is $200/month.
 >
 > https://www.stockportfolio.pro/connect?utm_source=hackernews&utm_campaign=connector_launch
 >
@@ -179,7 +179,7 @@ outright. r/ClaudeAI, r/ChatGPT, r/mcp and r/SideProject allow them with disclos
 > next to each number. If a filing does not report something, it returns empty instead of guessing,
 > which is the part I cared most about.
 >
-> Free to try with no account (3 answers, 50 lookups per 30 days):
+> Free to try with no account (3 answers, 25 lookups per 30 days):
 > https://www.stockportfolio.pro/connect?utm_source=reddit&utm_campaign=connector_launch
 >
 > Happy to answer questions about the review process for either directory, or about the OAuth

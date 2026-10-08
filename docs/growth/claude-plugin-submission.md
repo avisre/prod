@@ -57,7 +57,7 @@ connected server at all, and two were renamed — so the skill was instructing C
 to call tools that were not there, which is exactly the failure mode the skill exists
 to prevent. Rewritten against the live `tools/list`, plus:
 
-- the keyless allowance corrected to **3 research answers** and 50 data lookups per
+- the keyless allowance corrected to **3 research answers** and 25 data lookups per
   rolling 30-day window (it said 2), and stated as applying to an *unconnected*
   caller rather than only after connecting;
 - fund data stated as REST-only (`/api/v1/fund/:symbol` — verified to exist), since
@@ -90,7 +90,7 @@ Reviewers need credentials for a **fully populated account** to exercise the too
   funnel and usage counts; never quote it as a customer).
 - **Tool calls spend credits.** `ask_filings` is the metered AI tool. The honest
   answer is that the **keyless tier is enough to exercise every tool** — 3 questions
-  and 50 lookups per rolling 30 days, no key needed at all — so no credential
+  and 25 lookups per rolling 30 days, no key needed at all — so no credential
   handover is required.
 - Auth is OAuth 2.1 with dynamic client registration, so there is no key to paste:
   connecting opens a sign-in window. Nothing in this plugin asks a user for a key.
@@ -136,7 +136,7 @@ keeping:
   Registration**, which the portal renders as *"No sign-in. Anyone can
   connect."* That is accurate — `/mcp` answers `initialize` and `tools/list`
   anonymously and never 401s for the free tier — but it means a directory user
-  is not forced to sign in, and meets the keyless wall (3 asks + 50 lookups per
+  is not forced to sign in, and meets the keyless wall (3 asks + 25 lookups per
   30 days) rather than an OAuth prompt. `Always required` is one click away on
   the connector's Settings tab if we ever want every directory user signed in;
   it would contradict this README's keyless-start paragraph, which is why it was

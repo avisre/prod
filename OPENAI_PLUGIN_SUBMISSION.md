@@ -135,7 +135,7 @@ read them; the rest of the site is unchanged.
   /api/account/connected-apps/revoke`, or account deletion revokes every
   connected assistant.
 - **Keyless trial**: the endpoint also answers unauthenticated calls under a
-  per-visitor allowance (50 data lookups / 30 days, 20 requests/minute). A
+  per-visitor allowance (25 data lookups / 30 days, 20 requests/minute). A
   reviewer can exercise every tool without credentials; the demo account below
   is still supplied because an authenticated connection is how the plugin is
   used in production.
@@ -368,7 +368,7 @@ Environment variables required for this feature:
 | `OPENAI_APPS_CHALLENGE` | At submission | The domain-verification token from the portal. Unset → endpoint 404. |
 | `MONGODB_URI` | already set | Filing-index, share-history and filing-text caches, accounts, credits. |
 | `JWT_SECRET`, existing billing/email vars | already set | Unchanged; no new secret is introduced. |
-| `ANON_MCP_LOOKUP_LIMIT`, `ANON_MCP_ASK_LIMIT`, `ANON_MCP_WINDOW_DAYS`, `ANON_MCP_RATE_LIMIT` | optional | Keyless trial tuning; defaults are 50 lookups/30d, 3 asks, 20/min. |
+| `ANON_MCP_LOOKUP_LIMIT`, `ANON_MCP_ASK_LIMIT`, `ANON_MCP_WINDOW_DAYS`, `ANON_MCP_RATE_LIMIT` | optional | Keyless trial tuning; defaults are 25 lookups/30d, 3 asks, 20/min. |
 | `PUBLIC_API_RATE_LIMIT`, `OAUTH_REGISTER_RATE_LIMIT` | optional | Per-key rate limit (60/min) and DCR ceiling (30/hour). |
 
 No new credential, key or secret is required by the plugin itself.
