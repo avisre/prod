@@ -39,9 +39,19 @@
                 reason.appendChild(option);
             });
             if (policy.detailsMax) details.maxLength = policy.detailsMax;
+            // A "please choose a reason" prompt is stale the moment the customer
+            // acts on it. Leave the message alone while a refund is in flight or
+            // done (button disabled or hidden) — that text is the outcome.
+            const clearPrompt = () => {
+                if (button.disabled || button.hidden || !status) return;
+                status.textContent = '';
+                status.hidden = true;
+            };
             reason.addEventListener('change', () => {
                 if (detailsLabel) detailsLabel.textContent = reason.value === 'other' ? 'Please tell us more' : 'Anything else we should know? (optional)';
+                clearPrompt();
             });
+            details.addEventListener('input', clearPrompt);
             const until = policy.eligibleUntil ? new Date(policy.eligibleUntil) : null;
             const dateText = until && !Number.isNaN(until.getTime()) ? ` before ${until.toLocaleDateString()}` : '';
             copy.textContent = `Your initial Stripe payment is eligible for a refund${dateText}. Requesting it cancels the subscription and removes paid access.`;

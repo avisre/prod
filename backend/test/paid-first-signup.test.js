@@ -93,6 +93,9 @@ test('a refund request must carry a reason, which is stored and sent to the owne
   assert.match(dashboardHtml, /id="billing-refund-reason"/);
   assert.match(dashboardJs, /JSON\.stringify\(\{ reason: reason\.value, details: details\.value\.trim\(\) \}\)/);
   assert.doesNotMatch(registerSource, /no questions/);
+  // A validation prompt must clear once the customer picks a reason or types.
+  assert.match(dashboardJs, /reason\.addEventListener\('change', \(\) => \{[\s\S]{0,260}clearPrompt\(\);/);
+  assert.match(dashboardJs, /details\.addEventListener\('input', clearPrompt\)/);
 });
 
 test('signup surfaces describe payment and refund terms instead of a no-card trial', () => {
