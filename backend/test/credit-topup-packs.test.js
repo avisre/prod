@@ -14,13 +14,38 @@ const path = require('node:path');
 const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 const rechargeSource = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'recharge.html'), 'utf8');
 
+const packs = require('../credit-topup-packs');
+const { quotaError } = require('../api-response');
+const connectorNudge = require('../connector-nudge');
+
 function loadPacks() {
-    const start = appSource.indexOf('const CREDIT_TOPUP_PACKS = Object.freeze({');
-    const end = appSource.indexOf('// September launch rate');
-    assert.ok(start > -1 && end > start, 'the pack table is where this test expects it');
-    // eslint-disable-next-line no-new-func
-    return new Function(`${appSource.slice(start, end)}; return { CREDIT_TOPUP_PACKS, creditTopupPack, creditTopupPackSettled };`)();
+    return { CREDIT_TOPUP_PACKS: packs.PACKS, creditTopupPack: packs.pack, creditTopupPackSettled: packs.settled };
 }
+
+test('app.js sells from the shared table rather than a copy of it', () => {
+    assert.match(appSource, /const creditTopupPacks = require\('\.\/credit-topup-packs'\);/);
+    assert.match(appSource, /const creditTopupPack = creditTopupPacks\.pack;/);
+    assert.match(appSource, /const creditTopupPackSettled = creditTopupPacks\.settled;/);
+    assert.doesNotMatch(appSource, /credits: 5000/, 'no second pack table in app.js');
+});
+
+test('every out-of-credits message names the larger refills', () => {
+    assert.equal(packs.largestLabel(), '5,000 credits for $500');
+    const quota = quotaError({ used: 104, allowance: 100, cost: 2, remaining: 0, resetsAt: '2026-11-01T00:00:00.000Z' });
+    assert.match(quota.error, /Recharge 150 credits for \$14\.99 \(larger refills up to 5,000 credits for \$500\)/);
+    // The base refill stays where existing readers look for it.
+    assert.equal(quota.recharge.credits, 150);
+    assert.equal(quota.recharge.price, '$14.99');
+    assert.deepEqual(quota.recharge.sizes, [
+        { credits: 150, price: '$14.99' }, { credits: 500, price: '$50' }, { credits: 1000, price: '$100' },
+        { credits: 2500, price: '$250' }, { credits: 5000, price: '$500' }
+    ]);
+    const mail = connectorNudge.nudgeEmail('out_of_credits', { name: 'Todd', monthlyPrice: 79.99, lookupCost: 2, askCost: 42, topupCredits: 150, topupPrice: 14.99 });
+    assert.match(mail.text, /a top-up adds 150 credits for \$14\.99, and larger refills go up to 5,000 credits for \$500; they stay in your wallet/);
+    assert.match(mail.html, /larger refills go up to 5,000 credits for \$500/);
+    const home = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'index.html'), 'utf8');
+    assert.match(home, /a top-up adds 150 credits for \$14\.99, and larger refills go up to 5,000 credits for \$500\./);
+});
 
 test('the packs are $50, $100, $250 and $500, each at 10 credits per dollar', () => {
     const { CREDIT_TOPUP_PACKS } = loadPacks();

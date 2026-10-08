@@ -58,6 +58,7 @@ function envelope(tool, symbol, result) {
 // /recharge checkout actually charges.
 const RECHARGE_CREDITS = parseInt(process.env.CREDIT_TOPUP_CREDITS || '150', 10);
 const RECHARGE_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '14.99');
+const creditTopupPacks = require('./credit-topup-packs');
 
 function quotaError(gate) {
     const used = Number(gate && gate.used) || 0;
@@ -68,7 +69,7 @@ function quotaError(gate) {
     return {
         error: `Out of credits for this month (used ${used}/${allowance}). `
             + `This call costs ${needed}, you have ${remaining} left. `
-            + `Recharge ${RECHARGE_CREDITS} credits for $${RECHARGE_PRICE.toFixed(2)}, `
+            + `Recharge ${RECHARGE_CREDITS} credits for $${RECHARGE_PRICE.toFixed(2)} (larger refills up to ${creditTopupPacks.largestLabel()}), `
             + `keep going free on the website, or wait for the monthly allowance to return.`,
         code: 'QUOTA_EXCEEDED',
         used,
@@ -80,6 +81,10 @@ function quotaError(gate) {
             url: siteLink('/recharge.html'),
             credits: RECHARGE_CREDITS,
             price: `$${RECHARGE_PRICE.toFixed(2)}`,
+            // Every size on the recharge page, smallest first. `credits`/`price`
+            // above stay the base refill so existing readers keep working.
+            sizes: [{ credits: RECHARGE_CREDITS, price: `$${RECHARGE_PRICE.toFixed(2)}` },
+                ...Object.values(creditTopupPacks.PACKS).map((p) => ({ credits: p.credits, price: `$${p.usd}` }))],
         },
         upgradeUrl: siteLink('/upgrade.html'),
         // The deterministic tools behind every lookup are served free and

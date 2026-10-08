@@ -20,6 +20,7 @@
 // refused calls landing together cannot both send. A failed send releases the
 // claim so the next refusal tries again.
 
+const creditTopupPacks = require('./credit-topup-packs');
 const NUDGE_INTERVAL_DAYS = 30;
 const SITE = 'https://www.stockportfolio.pro';
 const UPGRADE_URL = `${SITE}/upgrade.html?utm_source=connector&utm_medium=email&utm_campaign=no_access`;
@@ -69,7 +70,7 @@ function nudgeEmail(reason, { name, monthlyPrice, lookupCost, askCost, monthlyCr
             : 'Your monthly credits come back at the start of next month.';
         const lines = [
             'An AI assistant connected to your StockPortfolio.pro account (Claude or ChatGPT) asked for data, but the request was refused: this month’s credits are used up.',
-            `${back} To keep going now, a top-up adds ${topupCredits} credits for ${money(topupPrice)}; they stay in your wallet until you use them.`,
+            `${back} To keep going now, a top-up adds ${topupCredits} credits for ${money(topupPrice)}, and larger refills go up to ${creditTopupPacks.largestLabel()}; they stay in your wallet until you use them.`,
             `Through the connector a data lookup costs ${lookupCost} credits and an AI answer ${askCost}. You do not need to reconnect anything.`
         ];
         return {

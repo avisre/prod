@@ -15,13 +15,15 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 ## Credit refill sizes — 2026-10-08 (owner decision)
 
 `/recharge` sells five sizes: the existing $14.99 / 150 (Stripe price id, unchanged) plus $50 / $100 / $250 / $500 at
-10 credits per dollar (`CREDIT_TOPUP_PACKS` in `backend/app.js`). The larger packs use inline `price_data`, so there
+10 credits per dollar (table in `backend/credit-topup-packs.js`, dependency-free). The larger packs use inline `price_data`, so there
 is no Stripe price or env var to create. The page sends only a pack id; the webhook grants only when
-`creditTopupPackSettled` sees the paid total match the table. Tests: `test/credit-topup-packs.test.js`.
+`settled()` sees the paid total match the table. The out-of-credits API/MCP body (`api-response.js`, new
+`recharge.sizes`), the nudge email and the homepage quote the largest size. Tests: `test/credit-topup-packs.test.js`.
 **Why:** Todd (todd@insideedgecapital.com, Monthly, connector only) spent his 100-credit month in 28 minutes on
 2026-10-08; he was comped 500 month-scoped credits (ledger reason `comp`, expires 1 Nov) and emailed.
 **Open:** no top-up has ever been bought, so the sizes are untested by demand; serving cost per lookup and per AI
-answer is unmeasured; copy elsewhere (homepage, connector nudge, profile) still mentions only the $14.99 pack.
+answer is unmeasured; no paid pack purchase has been run end to end (the webhook grant is covered by tests only);
+`assets/*.js` cards (profile, dossier, monitor) still name only the $14.99 pack, left to avoid a cache-stamp bump.
 
 ## Geo wall: crawler claims are verified inside walled countries — 2026-10-08 (`fa0c46c98`, live)
 

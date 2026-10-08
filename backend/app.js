@@ -814,37 +814,11 @@ const STRIPE_PRICE_ID_DEV = process.env.STRIPE_PRICE_ID_DEV || '';
 const CREDIT_TOPUP_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '14.99');
 const CREDIT_TOPUP_CREDITS = parseInt(process.env.CREDIT_TOPUP_CREDITS || '150', 10);
 const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP || '';
-// Larger refills (owner decision 2026-10-08). The connector spends in bursts —
-// the first paying connector customer used a 100-credit month in 28 minutes —
-// and one 150-credit pack is seven checkouts for a 500-company pull. Same rate
-// as the base pack, 10 credits per dollar, so no pack undercuts another and the
-// only thing a bigger one buys is fewer trips to checkout.
-//
-// The table is the whole authority: the client sends a pack id, never an
-// amount or a credit count, the session is created at this amount with inline
-// price_data (no Stripe price to create, drift or leave inactive), and the
-// webhook grants only when the paid total matches this table again.
-const CREDIT_TOPUP_PACKS = Object.freeze({
-    50: Object.freeze({ usd: 50, credits: 500 }),
-    100: Object.freeze({ usd: 100, credits: 1000 }),
-    250: Object.freeze({ usd: 250, credits: 2500 }),
-    500: Object.freeze({ usd: 500, credits: 5000 })
-});
-function creditTopupPack(id) {
-    const key = String(id == null ? '' : id);
-    return Object.prototype.hasOwnProperty.call(CREDIT_TOPUP_PACKS, key) ? CREDIT_TOPUP_PACKS[key] : null;
-}
-// True when a completed session that names a pack paid exactly what that pack
-// costs and carries exactly its credits. A session with no pack is the base
-// refill and is not this function's business.
-function creditTopupPackSettled(payload) {
-    const meta = (payload && payload.metadata) || {};
-    const pack = creditTopupPack(meta.pack);
-    return Boolean(pack
-        && Number(payload.amount_total) === pack.usd * 100
-        && String(payload.currency || '').toLowerCase() === 'usd'
-        && Number(meta.credits) === pack.credits);
-}
+// Larger refills ($50 to $500) live in credit-topup-packs.js, which is the
+// authority for what each pack costs and grants.
+const creditTopupPacks = require('./credit-topup-packs');
+const creditTopupPack = creditTopupPacks.pack;
+const creditTopupPackSettled = creditTopupPacks.settled;
 // September launch rate (2026-09): the Monthly rung at $8.99/mo for anyone who
 // starts it this month, and that rate stays theirs for as long as they keep the
 // subscription — October signups return to the $24.99 list price.
