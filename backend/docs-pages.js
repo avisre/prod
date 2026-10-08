@@ -388,7 +388,7 @@ const DOC_PAGES = Object.freeze({
         title: 'API and MCP server — StockPortfolio.pro documentation',
         description: 'Connect Claude, ChatGPT or your own code to the filing data: setup for each MCP client and the REST API, with authentication, costs and rate limits.',
         heading: 'API and MCP server',
-        intro: 'One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT or any other MCP-capable assistant. This page is the setup guide for each of them.',
+        intro: 'Using Claude or ChatGPT rather than writing code? <a class="prose-link" href="/connect">Start here</a>: add StockPortfolio from the directory, try it free without an account, and the Monthly plan ($79.99 a month) covers it after that. The rest of this page is the setup reference. One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT or any other MCP-capable assistant. This page is the setup guide for each of them.',
         tier: 'Dev, Monthly, Annual, Pro, Power, Desk and Investor/Pro lifetime tiers',
         costTable: [
             ['REST data lookup', 'api_lookup'],

@@ -34,8 +34,9 @@ test('keyless MCP allowance: limits, messaging, ceilings and rollover', { timeou
     const exhausted = await wallet.check(IP, 'mcp_ask', 0, null, null);
     assert.equal(exhausted.ok, false, 'the ask allowance is enforced');
     assert.match(exhausted.message, /all 3 free questions/, 'says how many were free');
-    assert.match(exhausted.message, /\$200\/month/, 'quotes the Dev price');
-    assert.match(exhausted.message, /register\?plan=dev/, 'links somewhere a purchase can happen');
+    assert.match(exhausted.message, /\$79\.99\/month/, 'quotes the Monthly price');
+    assert.match(exhausted.message, /100 credits a month/, 'says what the plan buys in the connector');
+    assert.match(exhausted.message, /register\?plan=monthly/, 'links somewhere a purchase can happen');
     assert.doesNotMatch(exhausted.message, /Out of credits for this month/, 'does not reuse the wallet wording');
 
     // Lookups are metered SEPARATELY — burning the asks must not disable the
@@ -124,5 +125,5 @@ test('the cap-hit signal is both emitted and loggable', async (t) => {
     const safe = mcpAnon.creditsFor(IP, env, () => { throw new Error('telemetry down'); });
     const still = await safe.check(IP, 'mcp_ask', 0, null, null);
     assert.equal(still.ok, false, 'a broken telemetry sink does not change the gate');
-    assert.match(still.message, /Dev plan/, 'and the upsell message still reaches the caller');
+    assert.match(still.message, /Monthly plan/, 'and the upsell message still reaches the caller');
 });

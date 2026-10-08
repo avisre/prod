@@ -99,9 +99,9 @@ test('the assistant channel is attributable instead of landing in "unknown"', ()
 
 test('the cap-hit message sends a connector user back to the connector, not to manual setup', () => {
     const notice = anon.askUsageNotice(3, 3);
-    assert.match(notice, /register\?plan=dev/);
+    assert.match(notice, /register\?plan=monthly/);
     assert.match(notice, /reconnect this StockPortfolio connector/);
-    assert.match(notice, /\$200\/month/);
+    assert.match(notice, /\$79\.99\/month/);
 });
 
 test('the setup guide leads with the directory listing for both assistants', () => {

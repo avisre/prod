@@ -107,14 +107,19 @@ async function readGlobalAsks(now = new Date()) {
 
 // utm_source=connector: this link is only ever shown inside an assistant, so a
 // signup carrying it came through a directory listing rather than the website.
-const SIGNUP_URL = 'https://www.stockportfolio.pro/register?plan=dev&utm_source=connector&utm_campaign=cap_hit';
+//
+// plan=monthly, not plan=dev (changed 2026-10-08): Monthly has included the
+// connector since that morning, costs $79.99 against Dev's $200, and is the
+// plan the first directory buyer chose unprompted. Sending a trial user to the
+// dearer, API-only rung was asking for the larger commitment first.
+const SIGNUP_URL = 'https://www.stockportfolio.pro/register?plan=monthly&utm_source=connector&utm_campaign=cap_hit';
 const SETUP_URL = 'https://www.stockportfolio.pro/docs/api-mcp';
 
 // The caller already has the connector installed — that is how they hit the
 // cap. So the step after paying is "sign in on the connector you added", not
 // the manual setup guide; SETUP_URL is kept for clients that take a bearer key.
 function upgradeInstructions() {
-    return `To get more MCP usage now, open ${SIGNUP_URL} and choose the Dev plan ($200/month for 200 credits; each AI question costs 42 credits). After subscribing, reconnect this StockPortfolio connector in ChatGPT or Claude and sign in with the same account — nothing else to set up. Clients that use an API key instead: ${SETUP_URL}.`;
+    return `To keep going now, open ${SIGNUP_URL} and subscribe to the Monthly plan ($79.99/month, cancel anytime). It includes this connector with 100 credits a month (a data lookup costs 2 credits, an AI answer 42) and the full StockPortfolio.pro website; a top-up adds 150 credits for $14.99. After subscribing, reconnect this StockPortfolio connector in ChatGPT or Claude and sign in with the same account — nothing else to set up. Clients that use an API key instead: ${SETUP_URL}.`;
 }
 
 function askUsageNotice(used, allowance, windowDays = 30) {

@@ -789,7 +789,7 @@ function renderConnect() {
     const faq = [
         ['Is StockPortfolio available in Claude?', `Yes. StockPortfolio is listed in the Claude connector directory. Add it from Claude's connector settings and ask about a company; answers come from SEC filings and each figure carries its source.`],
         ['Is StockPortfolio available in ChatGPT?', `Yes. StockPortfolio is listed in the ChatGPT app directory. Add it there and ask about a company in any conversation.`],
-        ['Is it free?', `You can try it without an account: ${free}. Past that, the Dev plan is $200 a month for 200 credits — a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}.`],
+        ['Is it free?', `You can try it without an account: ${free}. Past that, the Monthly plan is $79.99 a month: the connector and the full website, with 100 credits a month. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, and a top-up adds 150 credits for $14.99.`],
         ['Where do the numbers come from?', 'From the company\'s own SEC filings — 10-K, 10-Q and 8-K. A value the filing does not report comes back empty; it is never estimated. Every figure carries a link to the filing it was read from.'],
         ['I already have a StockPortfolio plan. Do I pay again?', `No. Sign in from the connector with your StockPortfolio account and it spends the credits your plan already includes, on the plans that carry API and MCP access. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, so the 100 credits on Monthly or Annual cover ${Math.floor(100 / COST.mcp_lookup)} lookups or ${Math.floor(100 / COST.mcp_ask)} AI answers a month, and the 600 on Pro cover ${Math.floor(600 / COST.mcp_lookup)} lookups or ${Math.floor(600 / COST.mcp_ask)} AI answers. If you run out, a top-up adds 150 credits for $14.99.`]
     ];
@@ -811,7 +811,7 @@ function renderConnect() {
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/">Home</a> / Claude &amp; ChatGPT</div>
   <h1 class="seo-h1">Ask SEC filings from inside Claude or ChatGPT</h1>
-  <p class="seo-sub">StockPortfolio is listed in both directories. Add it once, then ask about any covered US company in the assistant you already use — every figure comes back with the SEC filing it was read from. Free to try: ${free}, no account.</p>
+  <p class="seo-sub">StockPortfolio is listed in both directories. Add it once, then ask about any covered US company in the assistant you already use — every figure comes back with the SEC filing it was read from. Free to try: ${free}, no account. After that it is on the Monthly plan, $79.99 a month.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:28px 0">
     ${listings.map(card).join('\n    ')}
@@ -834,8 +834,17 @@ function renderConnect() {
     </table>
     <p style="margin-top:12px">Each value arrives with a link to the filer&#39;s EDGAR record, so the assistant can point at the document instead of asserting a number. Where a filing is silent the value is empty, never filled in.</p>`)}
 
+  ${S('For advisers, analysts and fund managers', `<p>If a number is going into a client note, a model or a published piece, it has to trace back to the filing. These are the questions the connector is built for:</p>
+    <ul>
+      <li>&ldquo;Pull the last eight quarters of revenue, gross margin and free cash flow for Micron, and cite the filing for each quarter.&rdquo;</li>
+      <li>&ldquo;How have Kroger&#39;s shares outstanding changed over the last five fiscal years? Link the filing for each year.&rdquo;</li>
+      <li>&ldquo;I am about to publish these three figures for Adobe. Check each one against the filing it came from.&rdquo;</li>
+    </ul>
+    <p>The assistant does the reading and the arithmetic; the connector supplies only what the company filed, with the link, so every figure can be checked before it leaves your desk.</p>`)}
+
   ${S('What it costs', `<p><strong>Free:</strong> ${free}, with no account and nothing to install.</p>
-    <p><strong>Dev plan — $200/month:</strong> 200 credits. A data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}. Cancel any time. <a href="/register?plan=dev&amp;utm_source=website&amp;utm_campaign=connect">Get the Dev plan &rarr;</a></p>
+    <p><strong>Monthly plan — $79.99/month:</strong> the connector and the full StockPortfolio.pro website, with 100 credits a month. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, so 100 credits is ${Math.floor(100 / COST.mcp_lookup)} lookups or ${Math.floor(100 / COST.mcp_ask)} AI answers; a top-up adds 150 credits for $14.99. Cancel any time. <a href="/register?plan=monthly&amp;utm_source=website&amp;utm_campaign=connect">Start the Monthly plan &rarr;</a></p>
+    <p><strong>Dev plan — $200/month:</strong> the API and connector without the website. 200 credits. A data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}. Cancel any time. <a href="/register?plan=dev&amp;utm_source=website&amp;utm_campaign=connect">Get the Dev plan &rarr;</a></p>
     <p><strong>Already a customer?</strong> Sign in from the connector and it spends the credits your plan already includes. Which plans carry API and MCP access is on the <a href="/docs/plans">plans page</a>.</p>`)}
 
   ${S('Questions', faq.map(([q, a]) => `<p style="margin-bottom:14px"><strong>${esc(q)}</strong><br>${esc(a)}</p>`).join(''))}

@@ -157,7 +157,7 @@ Reply to own post with a screenshot of one cited answer inside each assistant.
 > and a keyless free tier turned out to be necessary, because a directory user will not create an
 > account before seeing one answer.
 >
-> Free without an account: 3 AI answers and 25 lookups per 30 days. After that it is $200/month.
+> Free without an account: 3 AI answers and 25 lookups per 30 days. After that it is $79.99/month.
 >
 > https://www.stockportfolio.pro/connect?utm_source=hackernews&utm_campaign=connector_launch
 >
@@ -199,7 +199,7 @@ reviewer account):
 | Wanted more than the free tier | `mcp_keyless_cap_hit` |
 | Came to the site from the assistant | attribution source `chatgpt`, `claude` |
 | Clicked the upgrade link inside the assistant | attribution source `connector` |
-| Paid | Dev plan checkouts with one of those sources |
+| Paid | Monthly checkouts with one of those sources (the cap-hit link goes to Monthly since 2026-10-08; Dev before) |
 
 Check distinct user agents before quoting any visitor count from `/connect` — most first-party
 "visitors" on this site are bots.
