@@ -231,7 +231,7 @@ test('admin-messages.js carries a fresh cache stamp (not the pre-fix one)', () =
         'admin-messages.html still points at the pre-fix duplicate-listener bundle');
     // Pinned to the current bundle so the next edit to this asset has to bump
     // it deliberately rather than ship a stale one to browsers for a year.
-    assert.equal(m[1], '20261007-price1',
+    assert.equal(m[1], '20261008-features1',
         'admin-messages.html must point at the receipts bundle');
 });
 

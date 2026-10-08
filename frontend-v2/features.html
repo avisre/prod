@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="/assets/system.css?v=20261007-price1" />
+  <link rel="stylesheet" href="/assets/system.css?v=20261008-features1" />
   <!-- No VideoObject schema here on purpose: /tour is the single dedicated video watch page
        that gets a video indexed. /features embeds the clips for UX only, so it does not
        compete as a second video page in Search. -->
@@ -101,7 +101,7 @@
         <p class="small faint" style="margin:10px 0 0;"><a href="/connect">Add it to Claude or ChatGPT</a> — free to try, no account.</p>
       </section>
 
-      <!-- ③ Dossier — video slot reserved; clip pending render. Live CTA in the meantime. -->
+      <!-- ③ Dossier -->
       <section style="margin-top:48px;">
         <h2 class="title-2" style="margin:0 0 4px;">Dossier — the full initiation report, in minutes</h2>
         <p class="muted" style="max-width:64ch; margin:0 0 16px;">
@@ -109,21 +109,49 @@
           available historical figures, valuation context, bull and bear evidence, and recent filing changes.
           Review the cited evidence, then track your own thesis against later supported filings.
         </p>
-        <div style="border:1px solid var(--line); border-radius:var(--radius); padding:22px 20px; background:var(--surface, #fff);">
-          <p class="muted" style="margin:0 0 14px;">See a full dossier build on a stock you know cold — it&rsquo;s the fastest way to feel what it does.</p>
-          <a class="btn btn-primary" href="/dossier">Build a Dossier</a>
+        <div style="position:relative; width:100%; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
+          <video controls preload="none" playsinline poster="/assets/dossier-nvidia-poster.jpg"
+                 width="1280" height="720" style="width:100%; height:100%; display:block; background:#000;"
+                 aria-label="Research Dossier — a full dossier built for NVIDIA from its SEC filings">
+            <source src="/assets/dossier-nvidia-1080p.mp4" type="video/mp4" />
+            <source src="/assets/dossier-nvidia-720p.mp4" type="video/mp4" />
+            Your browser doesn&rsquo;t support embedded video.
+            <a href="/assets/dossier-nvidia-1080p.mp4">Download the demo (MP4)</a>.
+          </video>
         </div>
+        <p class="small faint" style="margin:10px 0 0;">Here it builds NVIDIA&rsquo;s. <a href="/dossier">Build a Dossier</a> on a stock you know cold.</p>
+      </section>
+
+      <!-- ④ Screener -->
+      <section style="margin-top:48px;">
+        <h2 class="title-2" style="margin:0 0 4px;">Screener — filter by what companies actually filed</h2>
+        <p class="muted" style="max-width:64ch; margin:0 0 16px;">
+          Screen US companies on growth, margins, returns and valuation drawn from their SEC filings, then open any
+          result. Here a screen for technology companies with 30%+ five-year revenue growth and 30%+ net margins
+          returns ten names, with NVIDIA at the top.
+        </p>
+        <div style="position:relative; width:100%; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
+          <video controls preload="none" playsinline poster="/assets/screener-nvidia-poster.jpg"
+                 width="1280" height="720" style="width:100%; height:100%; display:block; background:#000;"
+                 aria-label="Stock screener — technology companies with 30% revenue growth and 30% net margin, led by NVIDIA">
+            <source src="/assets/screener-nvidia-1080p.mp4" type="video/mp4" />
+            <source src="/assets/screener-nvidia-720p.mp4" type="video/mp4" />
+            Your browser doesn&rsquo;t support embedded video.
+            <a href="/assets/screener-nvidia-1080p.mp4">Download the demo (MP4)</a>.
+          </video>
+        </div>
+        <p class="small faint" style="margin:10px 0 0;"><a href="/screener">Open the screener</a> — free for everyone.</p>
       </section>
 
       <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:48px;">
         <a class="btn btn-primary" href="/register?plan=monthly">Start secure checkout</a>
         <a class="btn btn-ghost" href="/screener">Try the free screener</a>
-        <a class="btn btn-ghost" href="/tour">Watch the full tour</a>
+        <a class="btn btn-ghost" href="/tour">See every feature video</a>
       </div>
 
     </div>
   </main>
-  <script src="/assets/app.js?v=20261007-price1"></script>
+  <script src="/assets/app.js?v=20261008-features1"></script>
   <script>V2.nav(''); V2.footer();</script>
 </body>
 </html>
