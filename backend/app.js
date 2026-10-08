@@ -173,14 +173,19 @@ function monitorGate(req, res, next) {
 // key on his profile, asked support, and refunded inside 30 minutes. The floor
 // lives in lib/tier-limits.js so the gate and the marketing copy cannot drift
 // apart again.
+//
+// Monthly was added 2026-10-08. A new $79.99/mo subscriber connected the MCP
+// server to Claude three times in his first 90 minutes and every tool call was
+// refused, while the $19.99 Dev plan was let through. Owner decision: Monthly
+// includes API/MCP access.
 function hasApiAccess(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
-    if (active && ['power', 'power-monthly', 'desk', 'dev'].includes(sub.planId)) return true;
+    if (active && ['monthly', 'power', 'power-monthly', 'desk', 'dev'].includes(sub.planId)) return true;
     const user = req.user;
     // A lifetime AppSumo/DealMirror grant has no billing cycle, so it isn't
     // covered by the `active` check above — its own planId is 'pro', not one
-    // of the four here. That means this fallback is the ONLY gate for it, so
+    // of the five here. That means this fallback is the ONLY gate for it, so
     // it must respect a revocation: revokeAppSumoAccess/revokeDealMirrorAccess
     // both set subscription.status to 'cancelled' on refund. Without this
     // check, a refunded tier-2/3 buyer whose appsumoTier/dealMirrorTier a
@@ -201,7 +206,7 @@ function hasApiAccess(req) {
 }
 function apiAccessGate(req, res, next) {
     if (hasApiAccess(req)) return next();
-    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, the Investor and Pro AppSumo/DealMirror tiers, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
+    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Monthly, Power and Desk plans, the Investor and Pro AppSumo/DealMirror tiers, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 

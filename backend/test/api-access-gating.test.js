@@ -27,6 +27,10 @@
 // isLifetimeBuyer) are unchanged in kind. Dev has its own $19.99 Stripe price; the
 // guards that keep it from ever being confused with Monthly — metadata-first
 // resolution and the shared-price-id refusal — live in test/dev-plan.test.js.
+//
+// Amended 2026-10-08: Monthly ($79.99/mo) joined the gate after a new Monthly
+// subscriber connected the MCP server to Claude and had every tool call
+// refused while the cheaper Dev plan was let through.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -55,11 +59,11 @@ test('credits.COST prices the MCP and REST surfaces identically', () => {
     assert.equal('api_lookup' in credits.COST && 'mcp_lookup' in credits.COST, true);
 });
 
-test('apiAccessGate exists and gates on Dev/Power/Desk or the top two LTD tiers only', () => {
+test('apiAccessGate exists and gates on Dev/Monthly/Power/Desk or the top two LTD tiers only', () => {
     const gi = appSource.indexOf('function hasApiAccess(req)');
     assert.ok(gi >= 0, 'hasApiAccess exists');
     const fn = appSource.slice(gi, appSource.indexOf('\nfunction apiAccessGate'));
-    assert.match(fn, /\['power', 'power-monthly', 'desk', 'dev'\]\.includes\(sub\.planId\)/, 'recurring gate is Dev/Power/Desk only, not every paid plan');
+    assert.match(fn, /\['monthly', 'power', 'power-monthly', 'desk', 'dev'\]\.includes\(sub\.planId\)/, 'recurring gate is Dev/Monthly/Power/Desk only, not every paid plan');
     // Tier 2 (Investor) is in, added 2026-10-05 to match the live AppSumo
     // listing, which sells API+MCP on Investor as well as Pro. The floor is a
     // shared constant so the gate and the marketing copy cannot drift apart.
