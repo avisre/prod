@@ -4591,7 +4591,22 @@ async function expireNoCardTrials() {
     };
 }
 
-async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier, discoverySource } = {}) {
+// Owner-notification amount for a paid activation. Stripe amounts are in the
+// currency's minor unit; every currency we sell in has two decimals.
+function paidAmountLabel({ amountMinor, currency, subscription, type } = {}) {
+    if (type !== 'stripe_paid') return null;
+    const minor = Number(amountMinor);
+    if (amountMinor !== null && amountMinor !== undefined && Number.isFinite(minor) && currency) {
+        return `${(minor / 100).toFixed(2)} ${String(currency).toUpperCase()}`;
+    }
+    const list = Number(subscription && subscription.price);
+    if (Number.isFinite(list) && list > 0) {
+        return `${list.toFixed(2)} ${String(subscription.currency || 'USD').toUpperCase()} (list price — charged amount not known here)`;
+    }
+    return null;
+}
+
+async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier, discoverySource, amountMinor, currency } = {}) {
     if (!user || !user._id || !user.email) return { created: false, reason: 'missing user email' };
     const normalizedType = String(type || '');
     const normalizedSource = source || (normalizedType === 'appsumo_redeemed' ? 'appsumo' : normalizedType === 'stripe_paid' ? 'stripe' : 'direct');
@@ -4622,6 +4637,9 @@ async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier, d
             type: normalizedType,
             plan: user.subscription && user.subscription.planName,
             tier: Number(appsumoTier || user.appsumoTier) || null,
+            // What Stripe actually charged when the caller has the checkout
+            // session; otherwise the plan's list price, labelled as such.
+            amount: paidAmountLabel({ amountMinor, currency, subscription: user.subscription, type: normalizedType }),
             occurredAt: event.createdAt,
             // Selects the Monitor cap cohort for the email copy. A grandfathered
             // buyer must read their original number, not the current ladder.
@@ -11411,7 +11429,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                                 eventName: 'legacy_paid',
                                 dedupeKey: subscription.id ? `stripe:legacy-paid:${subscription.id}` : null
                             });
-                            await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
+                            await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe', amountMinor: payload.amount_total, currency: payload.currency });
                         }
                     } else {
                         await activateSubscription(user, {
@@ -11437,7 +11455,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                                 ? new Date(payload.metadata.acquisitionClickedAt)
                                 : null
                         });
-                        await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
+                        await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe', amountMinor: payload.amount_total, currency: payload.currency });
                     }
                 }
             }

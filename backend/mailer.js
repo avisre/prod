@@ -186,7 +186,7 @@ function customerLifecycleEmail({ name, type, plan, tier, appUrl, redeemedAt }) 
   return { subject, html, text };
 }
 
-function internalCustomerEventEmail({ name, email, type, plan, tier, occurredAt }) {
+function internalCustomerEventEmail({ name, email, type, plan, tier, amount, occurredAt }) {
   const label = type === 'appsumo_redeemed' ? 'New AppSumo buyer activated' : 'New paid subscriber activated';
   const when = occurredAt instanceof Date ? occurredAt.toISOString() : new Date().toISOString();
   const html = `
@@ -197,12 +197,13 @@ function internalCustomerEventEmail({ name, email, type, plan, tier, occurredAt 
       <tr><td style="padding:4px 10px 4px 0;color:#726e65">Email</td><td>${escapeHtml(email)}</td></tr>
       <tr><td style="padding:4px 10px 4px 0;color:#726e65">Channel</td><td>${type === 'appsumo_redeemed' ? 'AppSumo' : 'Stripe'}</td></tr>
       <tr><td style="padding:4px 10px 4px 0;color:#726e65">Plan</td><td>${escapeHtml(plan) || '(unknown)'}</td></tr>
+      ${amount ? `<tr><td style="padding:4px 10px 4px 0;color:#726e65">Amount</td><td>${escapeHtml(amount)}</td></tr>` : ''}
       ${tier ? `<tr><td style="padding:4px 10px 4px 0;color:#726e65">AppSumo tier</td><td>${escapeHtml(tier)}</td></tr>` : ''}
       <tr><td style="padding:4px 10px 4px 0;color:#726e65">When</td><td>${escapeHtml(when)}</td></tr>
     </table>
   </div>`;
-  const text = `${label}\nName: ${name || '(not provided)'}\nEmail: ${email || '(unknown)'}\nChannel: ${type === 'appsumo_redeemed' ? 'AppSumo' : 'Stripe'}\nPlan: ${plan || '(unknown)'}${tier ? `\nAppSumo tier: ${tier}` : ''}\nWhen: ${when}`;
-  return { subject: `${label}: ${email || 'unknown'}`, html, text };
+  const text = `${label}\nName: ${name || '(not provided)'}\nEmail: ${email || '(unknown)'}\nChannel: ${type === 'appsumo_redeemed' ? 'AppSumo' : 'Stripe'}\nPlan: ${plan || '(unknown)'}${amount ? `\nAmount: ${amount}` : ''}${tier ? `\nAppSumo tier: ${tier}` : ''}\nWhen: ${when}`;
+  return { subject: `${label}: ${email || 'unknown'}${amount && !String(amount).includes('(') ? ` — ${amount}` : ''}`, html, text };
 }
 
 // Owner-only: why a customer used the seven-day refund. The customer already
@@ -545,7 +546,7 @@ async function sendNewUserEmails({ name, email, plan } = {}) {
 // Customer + internal notification for a first paid activation. The caller
 // owns idempotency in MongoDB and invokes this only after inserting a unique
 // lifecycle event.
-async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occurredAt, redeemedAt } = {}) {
+async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, amount, occurredAt, redeemedAt } = {}) {
   const transporter = getTransporter();
   const c = config();
   if (!transporter) {
@@ -562,7 +563,7 @@ async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occu
     }).then(() => { result.customerSent = true; }));
   }
   if (c.owner) {
-    const internal = internalCustomerEventEmail({ name, email, type, plan, tier, occurredAt });
+    const internal = internalCustomerEventEmail({ name, email, type, plan, tier, amount, occurredAt });
     jobs.push(transporter.sendMail({
       from: c.from, to: c.owner, replyTo: c.support,
       subject: internal.subject, html: internal.html, text: internal.text,
@@ -840,4 +841,4 @@ async function sendBriefingPaidEmails({ name, email, priceUsd, companiesPerMonth
   return out;
 }
 
-module.exports = { refundRequestedOwnerEmail, sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, sendOwnerMail, isOwnerMailerConfigured, ownerMailConfig, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };
+module.exports = { refundRequestedOwnerEmail, internalCustomerEventEmail, sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, sendOwnerMail, isOwnerMailerConfigured, ownerMailConfig, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };
