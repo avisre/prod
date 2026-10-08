@@ -30,7 +30,8 @@
 //
 // Amended 2026-10-08: Monthly ($79.99/mo) joined the gate after a new Monthly
 // subscriber connected the MCP server to Claude and had every tool call
-// refused while the cheaper Dev plan was let through.
+// refused while the cheaper Dev plan was let through. Annual and Pro
+// ('pro-annual') were added the same day.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -59,11 +60,15 @@ test('credits.COST prices the MCP and REST surfaces identically', () => {
     assert.equal('api_lookup' in credits.COST && 'mcp_lookup' in credits.COST, true);
 });
 
-test('apiAccessGate exists and gates on Dev/Monthly/Power/Desk or the top two LTD tiers only', () => {
+test('apiAccessGate exists and gates on the paid subscription plans or the top two LTD tiers only', () => {
     const gi = appSource.indexOf('function hasApiAccess(req)');
     assert.ok(gi >= 0, 'hasApiAccess exists');
     const fn = appSource.slice(gi, appSource.indexOf('\nfunction apiAccessGate'));
-    assert.match(fn, /\['monthly', 'power', 'power-monthly', 'desk', 'dev'\]\.includes\(sub\.planId\)/, 'recurring gate is Dev/Monthly/Power/Desk only, not every paid plan');
+    assert.match(fn, /\['monthly', 'annual', 'pro-annual', 'power', 'power-monthly', 'desk', 'dev'\]\.includes\(sub\.planId\)/, 'recurring gate lists the subscription plans explicitly');
+    // Lifetime AppSumo/DealMirror grants are stored as an active 'pro' plan, so
+    // bare 'pro' in this list would give every lifetime buyer API/MCP access
+    // and bypass the tier floor asserted below.
+    assert.equal(/\[[^\]]*'pro'[^\]]*\]\.includes\(sub\.planId\)/.test(fn), false, "bare 'pro' must not be in the recurring list");
     // Tier 2 (Investor) is in, added 2026-10-05 to match the live AppSumo
     // listing, which sells API+MCP on Investor as well as Pro. The floor is a
     // shared constant so the gate and the marketing copy cannot drift apart.

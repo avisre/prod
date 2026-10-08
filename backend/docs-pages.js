@@ -75,7 +75,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Everyone',
         errors: [
             { code: 'ASK_AUTH', status: '401', means: 'You are signed out. Ask requires an account — there is no anonymous mode.', fix: '<a class="prose-link" href="/login.html" rel="nofollow">Sign in</a>, then resend the question.' },
-            { code: 'API_ACCESS_REQUIRED', status: '402', means: 'Your plan does not include the REST API or the MCP server.', fix: 'API and MCP access is on the Dev, Monthly, Power and Desk plans, on the Investor and Pro AppSumo or DealMirror tiers, and on any AppSumo or DealMirror tier purchased on or before 22 September 2026. See <a class="prose-link" href="/docs/plans">Plans</a>.' },
+            { code: 'API_ACCESS_REQUIRED', status: '402', means: 'Your plan does not include the REST API or the MCP server.', fix: 'API and MCP access is on the Dev, Monthly, Annual, Pro, Power and Desk plans, on the Investor and Pro AppSumo or DealMirror tiers, and on any AppSumo or DealMirror tier purchased on or before 22 September 2026. See <a class="prose-link" href="/docs/plans">Plans</a>.' },
             { code: 'INSUFFICIENT_CREDITS', status: '402', means: 'This month’s credit allowance is spent.', fix: 'The response carries a <code>resetsAt</code> timestamp — the first moment of next month, UTC, when the allowance refills. Upgrade or top up to continue before then.' },
             { code: 'MONITOR_REQUIRED', status: '402', means: 'The Filing Change Monitor is not on your plan.', fix: 'The Monitor is on Power, Desk, Enterprise and Pro <em>annual</em> — and on lifetime plans. Retired Pro <em>monthly</em> does not include it. See <a class="prose-link" href="/docs/filing-monitor">Filing Monitor</a>.' },
             { code: 'TRIAL_EXHAUSTED', status: '429', means: 'You have used the Monitor trial for today. The trial covers three companies per day.', fix: 'Wait for the daily reset, or move to a plan that includes the Monitor outright.' },
@@ -377,7 +377,7 @@ const DOC_PAGES = Object.freeze({
             { title: 'Ask', body: 'On every paid plan except Dev. Dev is API-only and will refuse the website’s Ask box with <code>API_PLAN_NO_WEB_ASK</code>.' },
             { title: 'Research Dossier', body: 'Pro and above.' },
             { title: 'Filing Monitor', body: 'Power, Power monthly, Desk, Enterprise and Pro <em>annual</em>, plus lifetime plans. Retired Pro <em>monthly</em> is not included — the names are close, the access is not. Everyone else gets a trial of three companies per day.' },
-            { title: 'API and MCP', body: 'The Dev plan, Monthly, Power, Power monthly and Desk, plus the Investor and Pro AppSumo and DealMirror tiers. Lifetime buyers who purchased on or before 22 September 2026 also keep it on whichever tier they bought, permanently. Dev exists as the cheap on-ramp for developers evaluating the data — it is a paid plan, not free access.' },
+            { title: 'API and MCP', body: 'The Dev plan, Monthly, Annual, Pro, Power, Power monthly and Desk, plus the Investor and Pro AppSumo and DealMirror tiers. Lifetime buyers who purchased on or before 22 September 2026 also keep it on whichever tier they bought, permanently. Dev exists as the cheap on-ramp for developers evaluating the data — it is a paid plan, not free access.' },
             { title: 'Access is re-checked on every request', body: 'Nothing is granted at signup and cached. If a subscription lapses or is refunded, the feature closes on the next call rather than at the end of a billing cycle.' }
         ],
         related: ['credits', 'api-mcp', 'account']
@@ -389,7 +389,7 @@ const DOC_PAGES = Object.freeze({
         description: 'Connect Claude, ChatGPT or your own code to the filing data: setup for each MCP client and the REST API, with authentication, costs and rate limits.',
         heading: 'API and MCP server',
         intro: 'One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT or any other MCP-capable assistant. This page is the setup guide for each of them.',
-        tier: 'Dev, Monthly, Power, Desk and Investor/Pro lifetime tiers',
+        tier: 'Dev, Monthly, Annual, Pro, Power, Desk and Investor/Pro lifetime tiers',
         costTable: [
             ['REST data lookup', 'api_lookup'],
             ['REST AI answer', 'api_ask'],
