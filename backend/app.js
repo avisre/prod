@@ -10118,6 +10118,15 @@ function normalizeAskAttachments(raw) {
 }
 
 // ----- 🧪 AI Paper Portfolio (beta) -----
+// A build or a nightly review runs only when the account can pay for it. The
+// module cannot import this file, so the check is handed to it here.
+aiPaper.setCreditGate(async (userId, cost) => {
+    const user = await User.findById(userId);
+    if (!user) return false;
+    const subscription = ensureSubscriptionShape(user);
+    const gate = await credits.check(user._id, cost, effectiveAskLimit({ user, tier: userTier(user, subscription) }), subscription.planId, user);
+    return gate.ok;
+});
 // One account only (aiPaper.EXPERIMENT_ACCOUNT): 403 for everyone else, and
 // the feature is invisible to them. Zero AI on the read paths — detail/status are
 // Mongo reads + cached quotes; the only build path is POST /create, and no
@@ -10206,7 +10215,7 @@ async function runAiPaperChatTool(name, args, userId, ctx) {
         if (name === 'ai_portfolio_steer') {
             // Explicit owner commands only — the model must never invent an
             // allocation or ticker on its own. applySteering guardrails
-            // (10-70% per slot, cash cap, verified symbols, official closes)
+            // (10-70% per slot, cash cap, verified symbols, latest quotes)
             // are enforced in the module.
             const out = await aiPaper.applySteering(userId, args && args.action, args || {});
             if (!out.ok) return { error: out.reason };
@@ -16162,7 +16171,7 @@ if (String(process.env.DISABLE_BACKGROUND_JOBS || '') === '1') {
     startScheduledEmails();
     startAppSumoJobs();
     startTrialLifecycleJobs();
-    // 🧪 AI Paper Portfolio daily sweep (no-ops unless the beta env is armed).
+    // 🧪 AI Paper Portfolio daily sweep (no-ops when the experiment is switched off).
     aiPaper.start();
 }
 // Dossier pre-warming is expensive because each dossier composes several AI

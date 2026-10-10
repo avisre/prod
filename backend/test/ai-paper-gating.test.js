@@ -105,7 +105,7 @@ test('the decision log is append-only: created, never updated or deleted', () =>
     assert.equal(/collection\('ai_paper_decisions'\)/.test(modSource), false);
 });
 
-test('positions are written by exactly two code paths: the commit and owner steering', () => {
+test('positions are written by exactly three code paths: the commit, owner steering and the split adjustment', () => {
     const commit = modSource.match(/Portfolio\.updateOne\(\{ _id: doc\._id \}, \{\s*\$set: \{[\s\S]*?positions: sanitized\.positions/);
     assert.ok(commit, 'the commit writes positions');
     assert.match(modSource.slice(commit.index, commit.index + 600), /status: 'committed'/);
@@ -126,6 +126,12 @@ test('positions are written by exactly two code paths: the commit and owner stee
     const otherPos = other.filter((w) => /\bpositions\b/.test(w));
     assert.equal(otherPos.length, 1, 'outside steering, only the construction commit writes positions');
     assert.match(otherPos[0], /positions: sanitized\.positions/);
+    // The third: a stock split, which rewrites share count and cost per share
+    // together and only when a split was actually found.
+    const splitWrites = modSource.match(/AIPaperPortfolio\(\)\.updateOne\(\{ _id: doc\._id \}, \{ \$set: \{ positions/g) || [];
+    assert.equal(splitWrites.length, 1, 'one split-adjustment write');
+    assert.match(modSource, /if \(applied\.length\) await AIPaperPortfolio\(\)\.updateOne\(\{ _id: doc\._id \}, \{ \$set: \{ positions: adjusted/);
+    assert.equal((modSource.match(/\$set: \{ positions/g) || []).length, 3, 'no fourth writer anywhere in the module');
     const appSets = appSource.match(/\$set[^)]{0,300}\)/g) || [];
     assert.equal(appSets.filter((w) => /positions\s*:/.test(w)).length, 0, 'app.js never $sets positions');
 });
@@ -212,11 +218,16 @@ test('the sweep starts at boot inside the DISABLE_BACKGROUND_JOBS guard', () => 
     assert.match(modSource, /DISABLE_BACKGROUND_JOBS \|\| ''\) === '1'\) return;/);
 });
 
-test('credits meter the feature, never gate it', () => {
+test('credits are charged for work done and checked before it starts', () => {
     assert.match(creditsSource, /ai_paper_build: 10/);
     assert.match(creditsSource, /ai_paper_daily: 4/);
     assert.match(modSource, /credits\.spend\(userId, 'ai_paper_build'/);
-    assert.match(modSource, /credits\.spend\(fresh\.user, 'ai_paper_daily'/);
-    assert.equal(/credits\.check/.test(modSource.slice(modSource.indexOf('async function create'))), false, 'create never blocks on credits');
-    assert.match(modSource, /add that gate before any wider rollout/, 'the missing check gate is documented for rollout');
+    // A review is charged only when one was actually written.
+    assert.match(modSource, /if \(review\) await credits\.spend\(fresh\.user, 'ai_paper_daily'/);
+    // The module cannot import app.js, so the affordability check is injected
+    // there and consulted before a build and before each review.
+    assert.match(modSource, /deps\.canAfford\(userId, 'ai_paper_build'\)/);
+    assert.match(modSource, /deps\.canAfford\(fresh\.user, 'ai_paper_daily'\)/);
+    assert.match(appSource, /aiPaper\.setCreditGate\(async \(userId, cost\) =>/);
+    assert.match(appSource, /credits\.check\(user\._id, cost,/);
 });

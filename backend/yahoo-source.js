@@ -1063,7 +1063,18 @@ async function fetchSupplementalSnapshot(symbol, sections = ['income', 'balance'
         fetchedAt: new Date().toISOString(), errors };
 }
 
+// Stock splits on or after `since` (YYYY-MM-DD) as [{ day, ratio }]; ratio is
+// new shares per old share, so 10 for a 10-for-1 split. The daily series
+// above carries no split information ("8. split coefficient" is always 1.0).
+async function fetchSplits(symbol, since) {
+    const chart = await yf.chart(toYahooSymbol(symbol), { period1: new Date(String(since) + 'T00:00:00Z'), interval: '1d', events: 'split' });
+    return ((chart && chart.events && chart.events.splits) || [])
+        .map((s) => ({ day: isoDay(s.date), ratio: Number(s.numerator) / Number(s.denominator) }))
+        .filter((s) => s.day && Number.isFinite(s.ratio) && s.ratio > 0 && s.ratio !== 1);
+}
+
 module.exports = {
+    fetchSplits,
     fetchSupplementalSnapshot,
     fetchFromYahoo,
     // Exported for tests: pure shapers over a fetched chart blob.

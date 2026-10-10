@@ -52,6 +52,14 @@ Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan
   `AI_PORTFOLIO_BETA_EMAILS` is no longer read and `AI_PAPER_PORTFOLIO=0` only switches it off (it is on by default
   now). `/api/session` returns `aiPortfolio: true` for that account and the nav adds "AI Portfolio · Experimental"
   under Research, below Ask, linking to `/ask.html?aiPaper=1`. `app.js` stamp is `20261010-aiport1` (51 files).
+- **AI Portfolio accounting fixed after an audit (committed locally, NOT pushed):** measured first — swapping a
+  halved stock put a −25% portfolio back to 0%, trimming a winner lost the gain sold, a rebalance after gains was
+  refused. Steering now trades at the latest quote and re-splits current VALUE; sales book `realizedPl`. Splits:
+  `applySplits` (provider split events; the daily series has none) adjusts shares and cost together. Unpriced
+  positions are flagged in the snapshot. A tick with no data hands its claim back. A failed review is retried up to
+  3 times, not charged, not counted. Builds and reviews check credits (`setCreditGate` in `app.js`). Guard:
+  `test/ai-paper-accounting.test.js`. Not done: the dashboard does not yet show `unpriced` or `realizedPl`; no
+  live build was run.
 - **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
 - Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
 

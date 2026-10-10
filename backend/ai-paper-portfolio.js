@@ -12,7 +12,7 @@
 // The OWNER may steer the experiment after construction (applySteering):
 // reallocate dollars between the two slots, swap one slot's stock, and set
 // standing rules the nightly review must reflect — every steering action is
-// an explicit owner command, priced at official closes, guardrail-checked in
+// an explicit owner command, traded at the latest quote, guardrail-checked in
 // code, and logged as a 'steering' decision. The model can still never trade
 // silently: chat reaches steering only through the explicit tool the owner's
 // request triggers.
@@ -23,17 +23,19 @@
 // it again — a fresh run, never a half-built ledger.
 //
 // Hard invariants (structural, tested in test/ai-paper-gating.test.js):
-//   * `positions` are written by exactly TWO code paths: the construction
-//     commit and the owner-steering trade helper — nothing else, ever.
+//   * `positions` are written by exactly THREE code paths: the construction
+//     commit, the owner-steering trade helper, and the stock-split adjustment
+//     (which changes share count and cost per share together, never value).
 //   * Decisions are append-only: the module never updates or deletes one.
 //   * Separate Mongo collections — real Stock/Portfolio docs are never read
 //     or written here.
 //   * Every stored rationale passes aiClient.leaksIdentity (model identity is
 //     a trade secret; prompts and UI never name the model or provider).
 //
-// Credits: meter, don't gate (single-user beta) — spends ai_paper_build (10)
-// on a committed build and ai_paper_daily (4) per review tick. Never calls
-// credits.check(); add that gate before any wider rollout.
+// Credits: ai_paper_build (10) on a committed build and ai_paper_daily (4)
+// per review that was actually written. Both are checked beforehand through
+// deps.canAfford, which app.js supplies (setCreditGate) because this module
+// does not import it.
 //
 // Data layer: this module deliberately does NOT import app.js (app.js imports
 // this) — it talks to yahoo-source directly through a small TTL cache with
@@ -129,6 +131,12 @@ const defaultDeps = {
     quote: (symbol, opts) => yahooCached('GLOBAL_QUOTE', { symbol }, 60 * 1000, opts),
     daily: (symbol) => yahooCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: 'full' }, 15 * 60 * 1000),
     symbolSearch: (symbol) => yahooCached('SYMBOL_SEARCH', { keywords: symbol }, 60 * 60 * 1000),
+    // Stock splits since a day: [{ day, ratio }]. The daily series carries no
+    // split information, so this is its own lookup.
+    splits: (symbol, since) => yahooSource.fetchSplits(symbol, since),
+    // Whether the account can pay for a build or a review. app.js supplies
+    // the real check at boot (setCreditGate); the default allows.
+    canAfford: async () => true,
     searchWeb: (query) => aiChat.runTool('search_web', { query }, {}),
     searchFilings: (args) => aiChat.runTool('search_filings', args, {}),
     llm: (messages, opts) => aiClient.chatRaw(messages, opts)
@@ -208,7 +216,8 @@ const PortfolioSchema = new mongoose.Schema({
         shares: Number,
         avgPrice: Number,
         personaId: String,
-        openedAt: Date
+        openedAt: Date,
+        realizedPl: { type: Number, default: 0 }   // gains/losses booked by steering sales in this slot
     }],
     status: { type: String, enum: ['building', 'paused', 'committed', 'tracking', 'failed'], default: 'building' },
     buildPhase: { type: String, default: '' },   // progress label while building
@@ -220,6 +229,8 @@ const PortfolioSchema = new mongoose.Schema({
     guruId: String,               // retry can prefill the same guru
     dayCount: { type: Number, default: 0 },
     lastTickDay: { type: String, default: '' },   // UTC 'YYYY-MM-DD' idempotency lock
+    splitsThrough: { type: String, default: '' }, // last session checked for stock splits
+    reviewFailures: { type: Number, default: 0 }, // consecutive nightly reviews that could not be written
     spyBaseline: { type: Number, default: null },
     buildError: { type: String, default: '' },
     createdAt: { type: Date, default: Date.now },
@@ -230,7 +241,7 @@ const DecisionSchema = new mongoose.Schema({
     portfolioId: { type: mongoose.Schema.Types.ObjectId, index: true },
     seq: Number,                  // 1-based within a portfolio run
     day: Number,                  // 0 = construction
-    type: { type: String, enum: ['construct', 'review', 'end_reviews', 'build_failed', 'steering'] },
+    type: { type: String, enum: ['construct', 'review', 'end_reviews', 'build_failed', 'steering', 'corporate_action'] },
     persona: String,              // 'guru' | 'ai' | 'allocator' | 'system'
     rationale: String,
     newsFactors: [String],        // headline digests consumed (audit trail)
@@ -257,7 +268,9 @@ const SnapshotSchema = new mongoose.Schema({
     portfolioReturnPct: Number,
     spyClose: Number,
     spyReturnPct: Number,
-    perPersona: [{ id: String, value: Number, plPct: Number }],
+    perPersona: [{ id: String, value: Number, plPct: Number, realizedPl: Number }],
+    marks: mongoose.Schema.Types.Mixed,   // per position: the close used, its date, lagged/unpriced flags
+    unpriced: [String],                    // symbols valued at cost because no close could be read
     at: { type: Date, default: Date.now }
 }, { collection: 'ai_paper_snapshots' });
 SnapshotSchema.index({ portfolioId: 1, date: 1 }, { unique: true });
@@ -444,7 +457,7 @@ async function sanitizeAllocation(alloc, picks, capital = STARTING_CAPITAL) {
     const mkPosition = (val, weight, personaId) => {
         const dollars = weight * capital;
         const shares = Math.max(Math.round((dollars / val.price) * 10000) / 10000, 0.0001);
-        return { symbol: val.symbol, name: val.name, shares, avgPrice: val.price, personaId, openedAt: now };
+        return { symbol: val.symbol, name: val.name, shares, avgPrice: val.price, personaId, openedAt: now, realizedPl: 0 };
     };
     const positions = [
         mkPosition(guruVal, g, 'guru'),
@@ -490,16 +503,19 @@ async function computeSnapshot(portfolio, { session } = {}) {
             markDate = onDate;
             lagged = onDate !== sess;
         } catch (_) { mark = null; }
-        const price = Number.isFinite(mark) && mark > 0 ? mark : p.avgPrice;
+        const unpriced = !(Number.isFinite(mark) && mark > 0);
+        const price = unpriced ? p.avgPrice : mark;
         const value = price * p.shares;
         positionsValue += value;
         const cost = p.shares * p.avgPrice;
         perPersona.push({
             id: p.personaId,
             value: Math.round(value * 100) / 100,
-            plPct: cost > 0 ? Math.round(((value - cost) / cost) * 10000) / 100 : 0
+            plPct: cost > 0 ? Math.round(((value - cost) / cost) * 10000) / 100 : 0,
+            realizedPl: Math.round((Number(p.realizedPl) || 0) * 100) / 100
         });
-        marks.push({ symbol: p.symbol, markDate: markDate || sess, price, lagged });
+        // A position with no readable close is carried at cost and SAID to be.
+        marks.push({ symbol: p.symbol, markDate: markDate || sess, price, lagged, ...(unpriced ? { unpriced: true } : {}) });
     }
     let spyClose = null;
     try {
@@ -521,8 +537,55 @@ async function computeSnapshot(portfolio, { session } = {}) {
             ? Math.round(((spyClose - base) / base) * 10000) / 100
             : null,
         perPersona,
-        marks
+        marks,
+        unpriced: marks.filter((m) => m.unpriced).map((m) => m.symbol)
     };
+}
+
+// ---------------------------------------------------------------------------
+// Stock splits — shares are held in real units and marked at unadjusted
+// closes, so a 10-for-1 split would otherwise read as a 90% loss overnight.
+// The portfolio records the last session it was checked through; a split
+// dated after that (and after the position was opened) multiplies the shares and divides the cost per share by
+// the same ratio, leaving the position's value and cost unchanged.
+// ---------------------------------------------------------------------------
+const round4 = (v) => Math.round(v * 10000) / 10000;
+const plainPosition = (p) => (p && typeof p.toObject === 'function'
+    ? p.toObject()
+    : { symbol: p.symbol, name: p.name, shares: p.shares, avgPrice: p.avgPrice, personaId: p.personaId, openedAt: p.openedAt, realizedPl: p.realizedPl });
+async function applySplits(doc, session) {
+    const adjusted = (doc.positions || []).map(plainPosition);
+    const applied = []; const unchecked = [];
+    if (!session || (doc.splitsThrough || '') >= session) return { applied, unchecked };
+    for (const p of adjusted) {
+        // Never earlier than the day the position was opened: its purchase
+        // price already reflects every split before that.
+        const opened = utcDay(new Date(p.openedAt || doc.createdAt || Date.now()));
+        const since = opened > (doc.splitsThrough || '') ? opened : doc.splitsThrough;
+        if (since >= session) continue;
+        let splits;
+        try { splits = await deps.splits(p.symbol, since); }
+        catch (_) { unchecked.push(p.symbol); continue; }
+        for (const sp of (Array.isArray(splits) ? splits : []).filter((x) => x && x.day > since && x.day <= session && Number.isFinite(x.ratio) && x.ratio > 0 && x.ratio !== 1)
+            .sort((x, y) => x.day.localeCompare(y.day))) {
+            p.shares = round4(p.shares * sp.ratio);
+            p.avgPrice = round4(p.avgPrice / sp.ratio);
+            applied.push({ symbol: p.symbol, day: sp.day, ratio: sp.ratio });
+        }
+    }
+    // Positions are rewritten only when a split actually happened. The
+    // watermark moves only when every position was checked, so a failed
+    // lookup is repeated on the next tick instead of being skipped.
+    if (applied.length) await AIPaperPortfolio().updateOne({ _id: doc._id }, { $set: { positions: adjusted, updatedAt: new Date() } });
+    if (!unchecked.length) await AIPaperPortfolio().updateOne({ _id: doc._id }, { $set: { splitsThrough: session } });
+    if (applied.length) {
+        await appendDecision(doc, {
+            day: doc.dayCount, type: 'corporate_action', persona: 'system',
+            rationale: applied.map((x) => `${x.symbol} split ${x.ratio > 1 ? x.ratio + '-for-1' : '1-for-' + round4(1 / x.ratio)} on ${x.day}: the share count and the cost per share were adjusted by the same ratio. The position's value and cost are unchanged.`).join('\n'),
+            resultingPositions: adjusted, provenance: { session, splits: applied }
+        });
+    }
+    return { applied, unchecked };
 }
 
 // ---------------------------------------------------------------------------
@@ -1030,6 +1093,12 @@ async function create({ user, guruId, constraints, onEvent }) {
         return { ok: false, error: err };
     }
 
+    if (!(await deps.canAfford(userId, 'ai_paper_build').catch(() => true))) {
+        const err = 'Not enough AI credits to build the AI Paper Portfolio (a build costs 10). Add credits on the recharge page and start it again.';
+        emit({ type: 'error', text: err, message: err });
+        return { ok: false, error: err, code: 'INSUFFICIENT_CREDITS' };
+    }
+
     // One portfolio per user. A failed (or paused) run self-clears: the retry
     // IS the recovery path, and it starts a new logged run (the old decisions
     // remain as append-only history under the old portfolio id).
@@ -1431,23 +1500,31 @@ async function tickPortfolioOnce(p, { dryRun = false } = {}) {
     );
     if (!claimed) return { noop: true, reason: 'already ticked' };
     if (dryRun) return { claimed: true };
+    // A claim that found nothing to record is handed back, so the next sweep
+    // tries again: a price feed that posts the session late must not cost the
+    // day its snapshot.
+    const release = () => Portfolio.updateOne({ _id: p._id, lastTickDay: today }, { $set: { lastTickDay: p.lastTickDay || '' } }).catch(() => {});
 
     // Trading-day gate: SPY's daily series is the session calendar. No new
     // closed session since the last snapshot => no-op (no snapshot, no review,
     // no dayCount) — a weekend or market holiday never burns a review slot.
-    const spy = await spySeries();
+    let spy;
+    try { spy = await spySeries(); } catch (_) { spy = null; }
     const spyDates = dailyDates(spy, 1);
     const session = spyDates[0];
-    if (!session) return { noop: true, reason: 'no session data' };
+    if (!session) { await release(); return { noop: true, reason: 'no session data' }; }
     const lastSnap = await AIPaperSnapshot().find({ portfolioId: p._id }).sort({ date: -1 }).limit(1);
     const lastDate = lastSnap[0] && lastSnap[0].date;
     if (lastDate && session <= lastDate) {
+        await release();
         return { noop: true, reason: `no new trading day (last ${lastDate}, session ${session})` };
     }
 
     // 1. RESULTS FIRST: mark to market at official closes, visible immediately.
+    const splitCheck = await applySplits(await Portfolio.findById(p._id), session);
     const fresh = await Portfolio.findById(p._id);
     const snap = await computeSnapshot(fresh, { session });
+    if (splitCheck.unchecked.length) snap.marks = snap.marks.map((m) => splitCheck.unchecked.includes(m.symbol) ? { ...m, splitCheck: 'unavailable' } : m);
     await AIPaperSnapshot().updateOne(
         { portfolioId: fresh._id, date: session },
         { $setOnInsert: { ...snap, portfolioId: fresh._id, at: new Date() } },
@@ -1456,6 +1533,9 @@ async function tickPortfolioOnce(p, { dryRun = false } = {}) {
 
     // 2. Advisory review — days 1..2 only, after results are on the record.
     if (fresh.status === 'committed' && fresh.dayCount < REVIEW_DAYS) {
+        // No credits, no review: the day is still snapshotted and the review
+        // waits for the next trading day with credits.
+        if (!(await deps.canAfford(fresh.user, 'ai_paper_daily').catch(() => true))) return { ticked: true, reviewDeferred: 'credits', session };
         const usage = newUsage();
         const factors = await newsDigest(fresh.positions);
         let review = null;
@@ -1488,6 +1568,15 @@ async function tickPortfolioOnce(p, { dryRun = false } = {}) {
             if (parsed && !aiClient.leaksIdentity(String(parsed.rationale || ''))) review = parsed;
         } catch (_) { review = null; }
 
+        // A review that could not be written is not charged and does not use up
+        // one of the review days: it is tried again on the next trading day, up
+        // to three times, and only then recorded as unavailable.
+        const MAX_REVIEW_RETRIES = 3;
+        const failures = review ? 0 : (Number(fresh.reviewFailures) || 0) + 1;
+        if (!review && failures < MAX_REVIEW_RETRIES) {
+            await Portfolio.updateOne({ _id: fresh._id }, { $set: { reviewFailures: failures, updatedAt: new Date() } });
+            return { ticked: true, reviewDeferred: 'unavailable', attempt: failures, session };
+        }
         const dayCount = fresh.dayCount + 1;
         const now = new Date();
         const reviewDecision = {
@@ -1509,18 +1598,18 @@ async function tickPortfolioOnce(p, { dryRun = false } = {}) {
             usage: usage.calls.length ? usage : undefined
         };
         await appendDecision(fresh, reviewDecision);
-        await credits.spend(fresh.user, 'ai_paper_daily', `ai-paper review day ${dayCount}`, String(fresh._id));
+        if (review) await credits.spend(fresh.user, 'ai_paper_daily', `ai-paper review day ${dayCount}`, String(fresh._id));
 
         // 3. Reviews exhausted -> tracking forever, zero AI from here on.
         if (dayCount >= REVIEW_DAYS) {
-            await Portfolio.updateOne({ _id: fresh._id }, { $set: { dayCount, status: 'tracking', updatedAt: now } });
+            await Portfolio.updateOne({ _id: fresh._id }, { $set: { dayCount, status: 'tracking', reviewFailures: 0, updatedAt: now } });
             await appendDecision(fresh, {
                 day: dayCount, type: 'end_reviews', persona: 'system',
                 rationale: `Advisory review window complete after ${REVIEW_DAYS} trading days. The portfolio is now permanently fixed: daily snapshots and the SPY benchmark continue; the AI never runs on this portfolio again.`,
                 resultingPositions: fresh.positions
             });
         } else {
-            await Portfolio.updateOne({ _id: fresh._id }, { $set: { dayCount, updatedAt: now } });
+            await Portfolio.updateOne({ _id: fresh._id }, { $set: { dayCount, reviewFailures: 0, updatedAt: now } });
         }
         return { ticked: true, day: dayCount, session };
     }
@@ -1585,10 +1674,15 @@ async function resetRun(userId) {
 
 // ---------------------------------------------------------------------------
 // Owner steering — the ONLY code path besides the construction commit that
-// writes positions, and only on an explicit owner command from chat, gated to
+// trades, and only on an explicit owner command from chat, gated to
 // committed/tracking. Guardrails are the same ones construction answers to:
-// ≥10% and ≤70% per slot, ≤20% cash, official closes (never intraday marks),
-// stocks-only verified symbols. Every action is logged as a 'steering'
+// ≥10% and ≤70% per slot, ≤20% cash, stocks-only verified symbols.
+//
+// Every trade happens at the latest quote and re-splits the portfolio's
+// VALUE, never its cost. Until 2026-10-10 both actions worked from cost: a
+// loser swapped out came back at what was paid (a −25% portfolio read 0%
+// again), a trimmed winner lost the gain on the shares sold, and a rebalance
+// after gains was refused. A steering trade must leave the total unchanged. Every action is logged as a 'steering'
 // decision under persona 'owner' — the decision log stays the full story.
 // ---------------------------------------------------------------------------
 
@@ -1619,7 +1713,7 @@ async function applySteering(userId, action, params = {}) {
         return { ok: true, steeringRules: rules };
     }
 
-    // ---- allocate: move dollars between the two slots at official closes ---
+    // ---- allocate: re-split the portfolio's current value between the slots ---
     // The invested total never changes, so cash stays put; each slot is
     // re-sized to its target share of invested dollars. A slot that grows
     // buys the delta at today's official close (weighted-average cost basis);
@@ -1627,10 +1721,12 @@ async function applySteering(userId, action, params = {}) {
     // Positions read back from a mongoose doc are subdocuments — spreading one
     // copies its internal _doc state and the $set then writes stale values.
     // Every steering write starts from a PLAIN object.
-    const plainPos = (p) => (p && typeof p.toObject === 'function'
-        ? p.toObject()
-        : { symbol: p.symbol, name: p.name, shares: p.shares, avgPrice: p.avgPrice, personaId: p.personaId, openedAt: p.openedAt });
-
+    const plainPos = plainPosition;
+    const round2 = (v) => Math.round(v * 100) / 100;
+    const priceOf = async (symbol) => {
+        const row = quoteRow(await deps.quote(symbol, { bypassCache: true }));
+        return row && Number.isFinite(row.price) && row.price > 0 ? row.price : null;
+    };
     if (act === 'allocate') {
         const gPct = Number(params.guruPct);
         const aPct = Number(params.aiPct);
@@ -1646,38 +1742,36 @@ async function applySteering(userId, action, params = {}) {
         if (!guruPos || !aiPos) return { ok: false, reason: 'The portfolio is missing a position — steering cannot proceed.' };
         const prices = {};
         for (const p of [guruPos, aiPos]) {
-            const row = quoteRow(await deps.quote(p.symbol, { bypassCache: true }));
-            if (!row || !Number.isFinite(row.price) || row.price <= 0) {
-                return { ok: false, reason: `No usable price quote for ${p.symbol} right now — try again shortly.` };
-            }
-            prices[p.personaId] = row.price;
+            const price = await priceOf(p.symbol);
+            if (!price) return { ok: false, reason: `No usable price quote for ${p.symbol} right now — try again shortly.` };
+            prices[p.personaId] = price;
         }
+        // What the portfolio is worth now is what gets split.
+        const total = Number(doc.cash || 0) + guruPos.shares * prices.guru + aiPos.shares * prices.ai;
         const mk = (pos, weight, price) => {
             const base = plainPos(pos);
-            const targetDollars = weight * doc.startingCapital;
-            const newShares = Math.max(Math.round((targetDollars / price) * 10000) / 10000, 0.0001);
+            const newShares = Math.max(round4((weight * total) / price), 0.0001);
             const delta = newShares - base.shares;
-            const avgPrice = delta >= 0
-                ? Math.round(((base.shares * base.avgPrice + delta * price) / newShares) * 10000) / 10000
-                : base.avgPrice;
-            return { ...base, shares: newShares, avgPrice };
+            // Buying blends the cost per share. Selling keeps it and books the
+            // gain or loss on the shares sold.
+            const avgPrice = delta > 0 ? round4((base.shares * base.avgPrice + delta * price) / newShares) : base.avgPrice;
+            const realizedPl = round2((Number(base.realizedPl) || 0) + (delta < 0 ? -delta * (price - base.avgPrice) : 0));
+            return { ...base, shares: newShares, avgPrice, realizedPl };
         };
         const positions = [mk(guruPos, g, prices.guru), mk(aiPos, a, prices.ai)];
-        const newInvested = positions.reduce((s, p) => s + p.shares * p.avgPrice, 0);
-        const cash = Math.round((doc.startingCapital - newInvested) * 100) / 100;
-        if (cash < 0 || cash > MAX_CASH_PCT * doc.startingCapital + 1) {
+        const rawCash = total - positions[0].shares * prices.guru - positions[1].shares * prices.ai;
+        if (rawCash < -1 || rawCash > MAX_CASH_PCT * total + 1) {
             return { ok: false, reason: 'The requested allocation failed the cash guardrail in code — nothing changed.' };
         }
+        const cash = Math.max(round2(rawCash), 0);
         await Portfolio.updateOne({ _id: doc._id }, { $set: { positions, cash, updatedAt: new Date() } });
         await appendDecision(doc, {
             day: doc.dayCount, type: 'steering', persona: 'owner',
-            rationale: `Owner reallocated the split to ${Math.round(g * 100)}% ${positions[0].symbol} / ${Math.round(a * 100)}% ${positions[1].symbol}, priced at official closes (guardrails applied in code).`,
-            resultingPositions: positions
+            rationale: `Owner reallocated the split to ${Math.round(g * 100)}% ${positions[0].symbol} / ${Math.round(a * 100)}% ${positions[1].symbol} of the portfolio's current value ($${round2(total)}), traded at the latest quotes (${positions[0].symbol} $${prices.guru}, ${positions[1].symbol} $${prices.ai}). Cash is now $${cash}. The total value is unchanged by the trade.`,
+            resultingPositions: positions, provenance: { prices, totalValue: round2(total) }
         });
-        return { ok: true, positions, cash };
+        return { ok: true, positions, cash, totalValue: round2(total) };
     }
-
-    // ---- override: swap one slot's stock for another, priced at the close --
     if (act === 'override') {
         const slot = String(params.slot || '').trim().toLowerCase();
         if (slot !== 'guru' && slot !== 'ai') {
@@ -1691,20 +1785,24 @@ async function applySteering(userId, action, params = {}) {
         if (check.symbol === other.symbol) {
             return { ok: false, reason: `${check.symbol} is already the other slot's stock — the two slots must stay different.` };
         }
-        const dollars = target.shares * target.avgPrice;
-        const shares = Math.max(Math.round((dollars / check.price) * 10000) / 10000, 0.0001);
+        // Sell the old stock for what it is worth NOW and put exactly that into
+        // the new one. The gain or loss on the old stock stays in the record.
+        const oldPrice = await priceOf(target.symbol);
+        if (!oldPrice) return { ok: false, reason: `No usable price quote for ${target.symbol} right now, so it cannot be sold — nothing changed. Try again shortly.` };
+        const proceeds = target.shares * oldPrice;
+        const shares = Math.max(round4(proceeds / check.price), 0.0001);
+        const realizedPl = round2((Number(target.realizedPl) || 0) + target.shares * (oldPrice - target.avgPrice));
         const positions = doc.positions.map((p) => p.personaId === slot
-            ? { ...plainPos(p), symbol: check.symbol, name: check.name, shares, avgPrice: check.price, openedAt: new Date() }
+            ? { ...plainPos(p), symbol: check.symbol, name: check.name, shares, avgPrice: check.price, realizedPl, openedAt: new Date() }
             : plainPos(p));
         await Portfolio.updateOne({ _id: doc._id }, { $set: { positions, updatedAt: new Date() } });
         await appendDecision(doc, {
             day: doc.dayCount, type: 'steering', persona: 'owner',
-            rationale: `Owner override: the ${slot} slot's pick was replaced ${target.symbol} → ${check.symbol} at $${check.price} (${shares} shares). Reason: ${stripThink(String(params.reason || 'owner request')).slice(0, 400)}`,
-            resultingPositions: positions
+            rationale: `Owner override: the ${slot} slot's pick was replaced ${target.symbol} → ${check.symbol}. ${target.symbol} was sold at $${oldPrice} (bought at $${target.avgPrice}, ${realizedPl - (Number(target.realizedPl) || 0) >= 0 ? 'gain' : 'loss'} of $${Math.abs(round2(target.shares * (oldPrice - target.avgPrice)))}) and the $${round2(proceeds)} proceeds bought ${shares} shares of ${check.symbol} at $${check.price}. The total value is unchanged by the trade. Reason: ${stripThink(String(params.reason || 'none given')).slice(0, 300)}`,
+            resultingPositions: positions, provenance: { sold: { symbol: target.symbol, price: oldPrice }, bought: check.provenance }
         });
         return { ok: true, positions };
     }
-
     return { ok: false, reason: 'Unknown steering action — use allocate (move dollars between slots), override (swap one slot for a different stock) or rules (set standing review rules).' };
 }
 
@@ -1786,7 +1884,8 @@ async function ensureIndexes() {
 module.exports = {
     betaEnabled, betaGate, isBetaUser, EXPERIMENT_ACCOUNT,
     create, detailFor, statusFor, start, sweep, tickPortfolioOnce, resetRun,
-    stopBuild, applySteering,
+    stopBuild, applySteering, applySplits,
+    setCreditGate: (fn) => { defaultDeps.canAfford = fn; deps.canAfford = fn; },
     sanitizeAllocation, parseModelJson, computeSnapshot, nextTickDue,
     ensureIndexes, fixWeights, latestSession, markStaleBuilding, CHAT_TOOLS,
     resolveGuru, LEGACY_GURUS,
