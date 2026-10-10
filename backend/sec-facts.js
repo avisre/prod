@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261006-core4';
+const EXTRACTION_VERSION = '20261010-capex1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -87,7 +87,15 @@ const MAPS = {
   // A filer with a discontinued business tags operating cash flow in two parts
   // and no total (Dollar Tree, DuPont, Dover, Johnson Controls, FIS, Darden);
   // the two filed parts are added below.
-  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment'],['PurchaseOfPropertyPlantAndEquipment']),
+  // Nvidia, among others, files its capital spending under the productive-assets
+  // tag (property, equipment and intangibles in one line), and property companies
+  // under capital improvements. Without these the page had no free cash flow for
+  // any year after the filer changed tag. The plain property tag still wins.
+  // Measured 2026-10-10: 1,968 of 5,138 issuers had no latest-year figure; in a
+  // sample of 70, these tags cover about half and the rest file no such line.
+  // The IFRS element is "...ClassifiedAsInvestingActivities"; the short name
+  // listed first never matched a foreign filer.
+  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets','PaymentsForCapitalImprovements','PaymentsToAcquireOilAndGasPropertyAndEquipment'],['PurchaseOfPropertyPlantAndEquipment','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities','PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets']),
   cashflowFromInvestment:mapping(['NetCashProvidedByUsedInInvestingActivities'],['CashFlowsFromUsedInInvestingActivities']),
   cashflowFromFinancing:mapping(['NetCashProvidedByUsedInFinancingActivities'],['CashFlowsFromUsedInFinancingActivities']),
   dividendPayout:mapping(['PaymentsOfDividends'],['DividendsPaid']),
