@@ -327,7 +327,7 @@
 
     // ---------- chart (the system's only chart: line on hairlines) ----------
     // series: [{values:[...oldest→newest], cls:'ink'|'accent'}], labels: per-point x labels
-    function chart(series, labels, { fmt = (v) => String(v), height = 220, width = 760, axisFmt = null, compactLabels = false } = {}) {
+    function chart(series, labels, { fmt = (v) => String(v), height = 220, width = 760, axisFmt = null, compactLabels = false, area = false, fullWidth = false, strokeWidth = 1.8 } = {}) {
         const all = series.flatMap((s) => s.values).filter((v) => v !== null && Number.isFinite(v));
         if (all.length < 2) return '';
         const W = width, H = height, padL = axisFmt ? 88 : 56, padR = 20, padT = 28, padB = 30;
@@ -420,7 +420,16 @@
                 started = true;
             });
             const col = colors[s.cls || 'ink'] || colors.ink;
-            g += `<path d="${d.trim()}" fill="none" stroke="${col}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>`;
+            // optional soft fill under a single line (the Markets-page look)
+            if (area && series.length === 1) {
+                const pts = vs.map((v, i) => (v === null || !Number.isFinite(v) ? null : [x(i, vs.length), y(v)])).filter(Boolean);
+                if (pts.length > 1) {
+                    const base = (H - padB).toFixed(1);
+                    g += '<defs><linearGradient id="ch-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + col + '" stop-opacity="0.11"/><stop offset="1" stop-color="' + col + '" stop-opacity="0.02"/></linearGradient></defs>'
+                        + '<path d="M' + pts[0][0].toFixed(1) + ' ' + base + ' ' + pts.map((p) => 'L' + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' L' + pts[pts.length - 1][0].toFixed(1) + ' ' + base + ' Z" fill="url(#ch-fill)" stroke="none"/>';
+                }
+            }
+            g += `<path d="${d.trim()}" fill="none" stroke="${col}" stroke-width="${strokeWidth}" stroke-linejoin="round" stroke-linecap="round"/>`;
             // endpoint dot + value — haloed in paper so the line can never
             // swallow it, and flipped below the point when it's near the top
             for (let i = vs.length - 1; i >= 0; i--) {
@@ -434,7 +443,7 @@
                 }
             }
         }
-        return `<svg viewBox="0 0 ${W} ${H}" style="width:100%; max-width:880px; height:auto; display:block;" role="img">${g}</svg>`;
+        return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;${fullWidth ? '' : ' max-width:880px;'} height:auto; display:block;" role="img">${g}</svg>`;
     }
 
     // ---------- Ask viz blocks (```viz {json}```) → the system chart ----------

@@ -167,11 +167,13 @@
             return raw.map((value) => { if (value === seen) return ''; seen = value; return value; });
         };
         const drawChart = (months) => {
+            // a phone gets a squarer drawing; the wide one shrinks to an unreadable strip
+            const phone = !!(window.matchMedia && window.matchMedia('(max-width: 640px)').matches);
             const rows = seriesFor(months);
             if (rows.length < 2) return '<p class="muted">Not enough price history for this range.</p>';
             return chart([{ values: rows.map((r) => r[1]), cls: 'accent' }],
                 axisLabels(rows, months),
-                { fmt: (v) => currencyAmount(v, p.currency, { compact: false, decimals: 0 }), height: 230 });
+                { fmt: (v) => currencyAmount(v, p.currency, { compact: false, decimals: 0 }), height: phone ? 280 : 300, width: phone ? 420 : 1180, area: true, fullWidth: true, strokeWidth: 2.2, axisFmt: (v) => currencyAmount(v, p.currency, { compact: false, decimals: 0 }) });
         };
         const points = seriesFor(999);
         const chartHtml = points.length > 1 ? drawChart(60) : '';
@@ -706,11 +708,16 @@
     }
 
     // ---------- the dual-axis chart (price right, market cap left) ----------
-    const GEOM = { W: 1280, H: 320, padL: 70, padR: 70, padT: 30, padB: 28 };
+    // A 1280-wide drawing shrunk onto a phone was 82px tall with 3px labels. A
+    // phone gets its own, squarer drawing with larger type and no left axis.
+    const NARROW = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+    const GEOM = NARROW
+        ? { W: 420, H: 300, padL: 10, padR: 58, padT: 22, padB: 30, fs: 13, maxLabels: 5 }
+        : { W: 1280, H: 320, padL: 70, padR: 70, padT: 30, padB: 28, fs: 11, maxLabels: 8 };
     // capAxisMult: when no separate cap line is drawn, the left axis still
     // reads in market-cap terms — price tick × current share count.
     function dualChart(price, cap, labels, fmtPrimary, capAxisMult) {
-        const { W, H, padL, padR, padT, padB } = GEOM;
+        const { W, H, padL, padR, padT, padB, fs } = GEOM;
         const fmtP = fmtPrimary || ((v) => currencyAmount(v, quoteCurrency(), {
             compact: false,
             decimals: v >= 100 ? 0 : 1
@@ -725,35 +732,48 @@
             if (floor >= 0 && min < 0) min = 0;
             return { min, max };
         };
-        const sp = scale(price);
+        // Gridlines sit on round numbers ($100, $200 …), as on the Markets page,
+        // not at thirds of whatever the raw range happened to be ("$164.63B", "$11.3").
+        const nice = (s) => {
+            const raw = (s.max - s.min) / 4;
+            const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+            const nrm = raw / mag;
+            s.step = (nrm < 1.5 ? 1 : nrm < 3.5 ? 2 : nrm < 7.5 ? 5 : 10) * mag;
+            s.min = Math.floor(s.min / s.step + 1e-9) * s.step;
+            s.max = Math.ceil(s.max / s.step - 1e-9) * s.step;
+            return s;
+        };
+        const sp = nice(scale(price));
         const sc = cap ? scale(cap) : null;
         const x = (i, n) => padL + (n < 2 ? 0 : (i / (n - 1)) * (W - padL - padR));
         const yP = (v) => padT + (1 - (v - sp.min) / (sp.max - sp.min)) * (H - padT - padB);
         const yC = (v) => padT + (1 - (v - sc.min) / (sc.max - sc.min)) * (H - padT - padB);
-        let g = '';
-        for (let i = 0; i <= 3; i++) {
-            const fr = i / 3;
-            const yy = padT + (1 - fr) * (H - padT - padB);
+        const fmtTick = fmtPrimary || ((v) => currencyAmount(v, quoteCurrency(), { compact: false, decimals: sp.step >= 1 ? 0 : 2 }));
+        const lastIdx = price.length - 1;
+        const lastY = price[lastIdx] !== null && Number.isFinite(price[lastIdx]) ? yP(price[lastIdx]) : null;
+        let g = '<defs><linearGradient id="pc-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--ink)" stop-opacity="0.11"/><stop offset="1" stop-color="var(--ink)" stop-opacity="0.02"/></linearGradient></defs>';
+        for (let t = sp.min; t <= sp.max + sp.step * 1e-6; t += sp.step) {
+            const yy = yP(t);
+            const fr = (t - sp.min) / (sp.max - sp.min);
             g += `<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W - padR}" y2="${yy.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
-            const pv = sp.min + fr * (sp.max - sp.min);
-            g += `<text x="${W - padR + 8}" y="${(yy + 3.5).toFixed(1)}" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(fmtP(pv))}</text>`;
-            if (sc) {
-                const cv = sc.min + fr * (sc.max - sc.min);
-                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(currencyAmount(cv, quoteCurrency()))}</text>`;
-            } else if (capAxisMult) {
-                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(currencyAmount(pv * capAxisMult, quoteCurrency()))}</text>`;
+            // the last-price badge sits on this axis; a tick label under it is unreadable
+            if (lastY === null || Math.abs(yy - lastY) > fs + 7) {
+                g += `<text x="${W - padR + 8}" y="${(yy + 3.5).toFixed(1)}" font-size="${fs}" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(fmtTick(t))}</text>`;
+            }
+            const leftVal = sc ? sc.min + fr * (sc.max - sc.min) : (capAxisMult ? t * capAxisMult : null);
+            if (leftVal !== null && padL >= 40) {
+                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(currencyAmount(leftVal, quoteCurrency()))}</text>`;
             }
         }
-        // solid axis borders: left and bottom only — the right edge stays open
-        g += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}" stroke="var(--line-strong)" stroke-width="1.4"/>`;
-        g += `<line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="var(--line-strong)" stroke-width="1.4"/>`;
+        // one quiet baseline; the heavy left rule made the plot look boxed in
+        g += `<line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="var(--line-strong)" stroke-width="1"/>`;
         const n = price.length;
         // draw at the indices that actually carry a (deduped) label, capped ~8
         const labelIdx = labels.map((l, i) => l ? i : -1).filter((i) => i >= 0);
-        const lstep = Math.max(1, Math.ceil(labelIdx.length / 8));
+        const lstep = Math.max(1, Math.ceil(labelIdx.length / GEOM.maxLabels));
         for (let j = 0; j < labelIdx.length; j += lstep) {
             const i = labelIdx[j];
-            g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">${esc(labels[i])}</text>`;
+            g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="${j === 0 && padL < 40 ? 'start' : 'middle'}" font-size="${fs - 0.5}" fill="var(--ink-3)">${esc(labels[i])}</text>`;
         }
         const path = (vals, y, col, w) => {
             let d = ''; let started = false;
@@ -764,8 +784,17 @@
             });
             return `<path d="${d.trim()}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
         };
-        if (sc) g += path(cap, yC, 'var(--accent)', 1.4);
-        g += path(price, yP, 'var(--ink)', 1.8);
+        if (sc) g += path(cap, yC, 'var(--accent)', 1.6);
+        // soft fill under the price line, the Markets-page look; left out when a
+        // second line shares the plot, where a fill would sit under the wrong one
+        if (!sc) {
+            const pts = price.map((v, i) => (v === null || !Number.isFinite(v) ? null : [x(i, n), yP(v)])).filter(Boolean);
+            if (pts.length > 1) {
+                const base = (H - padB).toFixed(1);
+                g += '<path d="M' + pts[0][0].toFixed(1) + ' ' + base + ' ' + pts.map((p) => 'L' + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' L' + pts[pts.length - 1][0].toFixed(1) + ' ' + base + ' Z" fill="url(#pc-fill)" stroke="none"/>';
+            }
+        }
+        g += path(price, yP, 'var(--ink)', 2.2);
         // last value: dot on the line + a clear badge ON the right axis, where
         // the line can never hide it
         const li = price.length - 1;
@@ -773,7 +802,7 @@
             const ly = yP(price[li]);
             g += `<circle cx="${x(li, n).toFixed(1)}" cy="${ly.toFixed(1)}" r="3.2" fill="var(--ink)"/>`;
             g += `<rect x="${W - padR + 2}" y="${(ly - 11).toFixed(1)}" width="${padR - 4}" height="20" rx="5" fill="var(--ink)"/>`;
-            g += `<text x="${W - padR + (padR - 2) / 2}" y="${(ly + 3.5).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="650" fill="var(--paper, #faf9f6)" style="font-variant-numeric:tabular-nums">${esc(fmtP(price[li]))}</text>`;
+            g += `<text x="${W - padR + (padR - 2) / 2}" y="${(ly + 3.5).toFixed(1)}" text-anchor="middle" font-size="${fs}" font-weight="650" fill="var(--paper, #faf9f6)" style="font-variant-numeric:tabular-nums">${esc(fmtP(price[li]))}</text>`;
         }
         return `<svg viewBox="0 0 ${W} ${H}" style="width:100%; height:auto; display:block;" role="img">${g}</svg>`;
     }
