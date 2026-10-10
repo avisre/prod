@@ -393,7 +393,21 @@ function fixWeights(wGuru, wAi) {
 // code. Pure w.r.t. the model: it only reads its inputs + quotes.
 // ---------------------------------------------------------------------------
 
+// The price source throttles in bursts ("Failed to get crumb, status 429"). A build on
+// the live site failed outright on one such answer while verifying AMZN, although
+// the same lookup worked seconds later. A throttled or dropped lookup is retried
+// twice with a pause; any other refusal (not a stock, stale quote) stands at once.
+const TRANSIENT_VERIFY = /429|Too Many Requests|crumb|ETIMEDOUT|ECONNRESET|fetch failed|socket hang up|timeout/i;
 async function validateSymbol(symbol) {
+    let result;
+    for (let attempt = 0; attempt < 3; attempt++) {
+        result = await validateSymbolOnce(symbol);
+        if (result.ok || !TRANSIENT_VERIFY.test(String(result.reason || ''))) return result;
+        if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, deps.verifyRetryMs ?? 1500 * (attempt + 1)));
+    }
+    return result;
+}
+async function validateSymbolOnce(symbol) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!/^[A-Z][A-Z0-9.\-]{0,9}$/.test(sym)) return { ok: false, reason: `"${sym}" is not a valid ticker symbol.` };
     // Stocks only: SPY is the benchmark, never tradeable; ETFs/mutual funds
