@@ -1,0 +1,12 @@
+{
+  "note": "Tests that were already failing on main when the gate moved here (2026-10-10). They are run and reported but do not stop a push. Fix one, then delete its line. A test not listed here always stops the push.",
+  "tests": [
+    "WAB metric pages have distinct answer-first content and no malformed history title",
+    "all three copies pick the decimal from the scaled value, not the raw amount",
+    "background health surfaces use the synchronous bounded cache",
+    "glm-5.1 keeps exactly the effort production sends today",
+    "links from an indexable page into a noindex page carry rel=\"nofollow\"",
+    "metric navigation uses exact destination labels",
+    "social queue drafts have platform-safe tracked links and current sources"
+  ]
+}

@@ -1,27 +1,34 @@
 name: Deploy to Render
 
-# Two things deploy a push to main. Render's own Auto-Deploy ships the commit in
-# about 4 minutes (verified 2026-10-08 in the Render events page: "New commit via
-# Auto-Deploy"). This workflow validates for ~30 minutes and then makes sure the
-# same commit is live through Render's API, which is what covers the case where
-# Auto-Deploy did not fire (it did not before 2026-09, when the repo had no
-# webhook).
+# This workflow does ONE thing: it makes sure the newest commit on main is live
+# on Render. It runs no tests and validates nothing.
 #
-# Because validation is slow, a run can finish long after newer commits are
-# live. Until 2026-10-08 it then deployed its own, older commit over them and
-# rolled production back. Two rules stop that:
+# The deploy checks moved off GitHub on 2026-10-10 (owner decision). Until then
+# a "validate" job here ran them on every push, about 23 minutes each time
+# whatever had changed, and a push from the data bot during that window left a
+# fully validated commit undeployed. They now run on the developer's machine
+# before the push: scripts/predeploy.js, started automatically by the pre-push
+# hook in .githooks/ (enable once per clone: git config core.hooksPath .githooks).
+# It runs only the tests a change can affect, and each stock-data check only
+# when that check's own inputs changed. The data-refresh workflows validate
+# their own output before they commit, so they do not depend on this either.
+#
+# Two things deploy a push to main. Render's own Auto-Deploy ships the commit in
+# about 4 minutes. This workflow then confirms that commit is live through
+# Render's API, and deploys it itself when Auto-Deploy did not fire.
+#
 #   - a new push cancels the older run (concurrency below), and
 #   - the deploy job refuses to deploy a commit that is no longer the head of
 #     main, and skips the redundant redeploy when Render is already live on it.
 #
+# Render must be able to read the repository. While the repository is private
+# and the Render workspace has no GitHub connection, every deploy fails with
+# "service ... does not have a commit <sha>" (2026-10-06 and 2026-10-10).
+#
 # The weekly fundamentals refresh MUST deploy, which is why its commit no longer
 # carries [skip ci] (GitHub skips workflow runs for those). The store under
 # frontend/data/fundamentals/ is read from the deployed filesystem, so refreshed
-# data reaches production only by shipping a new build — without this the site
-# would serve whatever numbers were current at the last manual deploy.
-#
-# The restart that comes with it clears the in-memory caches, which is a real
-# cost, but it lands ~00:30 UTC Sunday when traffic is lowest.
+# data reaches production only by shipping a new build.
 
 on:
   push:
@@ -35,37 +42,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    # The 2026-10-06 reconciliation raised screenable listings from 4,657 to
-    # 4,985: checkout took 9 minutes and exhaustive rendering was still running
-    # at 16 when the old 30-minute limit cancelled the deploy.
-    timeout-minutes: 60
-    env:
-      SEC_COVERAGE_READ_ONLY: '1'
-      SEC_COVERAGE_DISABLE_ON_DEMAND: '1'
-      DISABLE_BACKGROUND_JOBS: '1'
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-      - run: npm ci && npm ci --prefix backend
-      - name: Targeted regressions
-        run: node scripts/test-stock-coverage.js
-      - name: Committed dataset validation
-        run: node scripts/validate-stock-coverage.js --bootstrap
-      - name: Revenue breakdown contract for every issuer
-        run: node scripts/audit-segment-display.js
-      - name: Offline exhaustive rendering and sitemap validation
-        run: node scripts/verify-public-stock-pages.js
-      - name: Resource acceptance
-        run: node --max-old-space-size=256 scripts/check-stock-coverage-performance.js
   deploy:
-    needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:

@@ -19,7 +19,7 @@ const path = require('node:path');
 // silently again.
 //
 // Deliberately dependency-free -- node builtins only, no mongoose, no network, no
-// database -- so .github/workflows/repo-checks.yml can run it with no install. A
+// database -- so the pre-push gate (scripts/predeploy.js) can run it anywhere. A
 // check that can fail for environmental reasons teaches people to ignore red Xs.
 
 const ROOT = path.join(__dirname, '..', '..');

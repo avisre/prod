@@ -1,0 +1,19 @@
+#!/bin/sh
+# Runs the deploy checks before anything reaches main. GitHub runs none: since
+# 2026-10-10 the deploy workflow only tells Render to deploy, so this hook is
+# the gate. It runs on the PC when that answers, on this machine otherwise
+# (scripts/predeploy-remote.sh), and only the checks the change can affect
+# (scripts/predeploy.js).
+# Enabled once per clone with:  git config core.hooksPath .githooks
+# Pushes to other branches are not checked.
+root="$(git rev-parse --show-toplevel)"
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$remote_ref" = "refs/heads/main" ] || continue
+  [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then range="$local_sha"; else range="$remote_sha..$local_sha"; fi
+  sh "$root/scripts/predeploy-remote.sh" "$range" "$local_sha" </dev/null || {
+    echo "pre-push: not pushed to main. 'node scripts/predeploy.js --list' shows what runs and why." >&2
+    exit 1
+  }
+done
+exit 0

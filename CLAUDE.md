@@ -20,10 +20,19 @@ of the below in one call, which is cheaper than rediscovering it by trial.
 - **`rg` is NOT installed.** Use `grep -rn`. There is also no Grep or Glob tool
   exposed in this harness, so searching via Bash is correct here, not a fallback.
 - Tests: `cd backend && node --test test/<file>.test.js`
-  (122 test files; `npm test` runs all of them). **No CI job runs the suite** —
-  `.github/workflows/repo-checks.yml` runs only `test/handoff-size.test.js`, which is
-  dependency-free on purpose (no install, no network, so it can only go red for a real
-  violation). A green local run is therefore the only thing protecting a push.
+  (197 test files; `npm test` runs all of them).
+- **GitHub runs no checks (owner decision 2026-10-10). The pre-push hook is the only gate.**
+  `node scripts/predeploy.js` works out which test files a change can affect
+  (`scripts/lib/test-map.js`) and runs only those, plus each of the four stock-data checks only
+  when its own inputs changed. `--list` shows the plan and the reason for each item, `--all`
+  forces everything. An unmapped source file runs the whole suite, so targeting can only run too
+  much. `.githooks/pre-push` runs it for every push to `main` through
+  `scripts/predeploy-remote.sh`: on the owner's Windows PC over SSH when
+  `~/.config/stockportfolio/predeploy.env` names it and it answers, otherwise on this Mac
+  (setup: `docs/dev/predeploy-pc.md`). Enabled per clone with
+  `git config core.hooksPath .githooks`. Tests already failing on `main` are listed in
+  `scripts/predeploy-known-failures.json`; fix one, remove its line. `deploy-render.yml` only
+  tells Render to deploy. Never push with `--no-verify`.
 - **There IS a local `.git`** — remote `avisre/prod`, branch `main`, verified
   2026-09-24 (this line used to say there was none, and that stale claim would
   send you down a needless clone-and-copy path). Commit and push from the repo
@@ -50,8 +59,8 @@ of the below in one call, which is cheaper than rediscovering it by trial.
 ## Do not roll back production (2026-10-08 — this happened, read before any push)
 
 - **Two things deploy every push to `main`.** Render auto-deploys the pushed commit in
-  about 4 minutes. `deploy-render.yml` validates for ~30 minutes and then makes sure the
-  same commit is live. Until the afternoon of 10/08 that run deployed **its own
+  about 4 minutes. `deploy-render.yml` then makes sure the same commit is live (it stopped
+  validating on 10/10; the checks run before the push now). Until the afternoon of 10/08 that run deployed **its own
   `$GITHUB_SHA`** even when newer commits were already live, and runs queued instead of
   cancelling, so a run on an OLDER commit rolled production back. On 10/08 this silently
   removed a live customer fix 35 minutes after it had been verified working.
@@ -64,8 +73,8 @@ of the below in one call, which is cheaper than rediscovering it by trial.
   BEFORE that fix (older than the commit that changed the workflow) still uses the old
   rules and can still roll production back when it finishes.
 - **After pushing:** the change is live once Render shows "Deploy live" for your commit
-  (about 4 minutes). Verify against the live site then. The workflow run is validation;
-  it no longer decides what is live unless Auto-Deploy failed.
+  (about 4 minutes). Verify against the live site then. The workflow run only deploys
+  when Auto-Deploy failed.
 - **Never ship whole-file copies from the `~/prod` working tree.** It sits on an old
   branch with uncommitted edits and does NOT contain what is on `main` (its
   `backend/app.js` lacks the 10/08 access fix). Start from `origin/main` and patch in

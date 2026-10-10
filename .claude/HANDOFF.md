@@ -1,8 +1,7 @@
 # Handoff
 
 Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
-`backend/test/handoff-size.test.js` and run on every push by `.github/workflows/repo-checks.yml`, so the
-cap can no longer be crossed silently. Current state and open actions only, never a transcript. At ~400 lines,
+`backend/test/handoff-size.test.js`, which the pre-push gate runs whenever this file changes. Current state and open actions only, never a transcript. At ~400 lines,
 snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite it fresh; **delete superseded items to
 the snapshot rather than compressing them here**.
 Earlier snapshots: `handoff-archive/2026-10-10.md` (verbatim, taken 10/10 at 455 lines — the 10/04 production
@@ -14,6 +13,22 @@ release narrative, the three earlier Ask quality/engineering release write-ups, 
 OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archive/2026-10-03.md`,
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
+
+## Deploy checks moved off GitHub — 2026-10-10 (committed locally, NOT pushed)
+
+Owner: "bring the workflow u do on github to zero", then "i want all of this test to be done on my pc… make a more
+targeted test series". Rules for using it are in CLAUDE.md; this is the state.
+- **Done:** `scripts/predeploy.js` (targeted), `scripts/lib/test-map.js`, `scripts/predeploy-remote.sh`,
+  `.githooks/pre-push`, `docs/dev/predeploy-pc.md`; `deploy-render.yml` has no `validate` job; `repo-checks.yml` removed.
+- **Measured on the Mac:** whole suite 33 s (GitHub 2 min 20 s); dataset validation 101 s; revenue contract 13 s; every
+  stock page + sitemap 670 s; memory 1 s. The connector-notice change needs 9 test files, 7 s, no data check.
+  Docs-only commits run nothing. The ordering bug that failed GitHub twice on 10/10 fails the targeted run.
+- **Not done, needs the owner's PC:** nothing has run on Windows. He follows `docs/dev/predeploy-pc.md`, then: time it
+  there, compare an `--all` run with the Mac test for test, and try a push with the PC off. Until then every push
+  is checked on the Mac. Production is Linux; if Windows results differ, run the PC side in WSL.
+- **7 tests were already failing on `main`** before this work (`scripts/predeploy-known-failures.json`). Unfixed.
+- **Deploys are blocked for a separate reason:** the GitHub repo is private and Render cannot read it. Nothing pushed
+  on 10/10 is live. Owner decides: repo public again, or connect GitHub inside Render.
 
 ## Connector, pricing, saved screens — 2026-10-10 (one commit, pushed on the owner's word)
 
@@ -356,7 +371,7 @@ explicit authorization.**
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
 - **The clean release tree has six pre-existing full-suite failures** (1233 pass, 6 fail), reproduced on the
   pre-release production tree. The feature worktree's dirty, unrelated local fixes made its full suite green
-  (1239 pass). **No CI job runs the full suite** — `repo-checks.yml` runs only `handoff-size`; 23 files need
+  (1239 pass). **No CI job runs the suite** (since 10/10 the pre-push gate does); 23 files need
   mongo, 25 touch the network and 8 need root `node_modules`.
 - **A test can encode a coincidence and still look like an invariant.** `sitemap-index.test.js` asserted
   lastmod must *vary* — true only while two dates happened to differ.
