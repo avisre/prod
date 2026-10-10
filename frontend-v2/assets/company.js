@@ -623,7 +623,23 @@
     // step function: shares as of a given month (latest fiscal period ≤ month)
     let _shareSteps = null;
     function sharesAt(month) {
-        if (!_shareSteps) _shareSteps = [...sharesByPeriod.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+        if (!_shareSteps) {
+            _shareSteps = [...sharesByPeriod.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+            // The price series is split-adjusted; share counts are as filed. Across
+            // Apple's 4-for-1 the count jumps 4× while the adjusted price does not, so
+            // the market-cap line sat at a quarter of its true level before 2020.
+            // Walking back from today, a jump that matches a split ratio is carried
+            // onto every earlier count, putting them all on today's share basis.
+            const RATIOS = [1.5, 2, 3, 4, 5, 6, 7, 8, 10, 15, 20, 25, 50];
+            const splitOf = (r) => RATIOS.concat(RATIOS.map((x) => 1 / x)).find((x) => Math.abs(r / x - 1) < 0.04) || null;
+            let factor = 1;
+            for (let i = _shareSteps.length - 2; i >= 0; i--) {
+                const next = _shareSteps[i + 1][1];
+                const hit = splitOf(next / (_shareSteps[i][1] * factor));
+                if (hit) factor *= hit;
+                _shareSteps[i] = [_shareSteps[i][0], _shareSteps[i][1] * factor];
+            }
+        }
         if (!_shareSteps.length) return null;
         let s = _shareSteps[0][1];
         for (const [k, v] of _shareSteps) {
@@ -762,7 +778,7 @@
             }
             const leftVal = sc ? sc.min + fr * (sc.max - sc.min) : (capAxisMult ? t * capAxisMult : null);
             if (leftVal !== null && padL >= 40) {
-                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(currencyAmount(leftVal, quoteCurrency()))}</text>`;
+                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="11" fill="${sc ? 'var(--chart-2)' : 'var(--ink-3)'}" style="font-variant-numeric:tabular-nums">${esc(currencyAmount(leftVal, quoteCurrency()))}</text>`;
             }
         }
         // one quiet baseline; the heavy left rule made the plot look boxed in
@@ -784,7 +800,9 @@
             });
             return `<path d="${d.trim()}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
         };
-        if (sc) g += path(cap, yC, 'var(--accent)', 1.6);
+        // the second line has its own colour, matching its axis labels and legend —
+        // it was drawn in the same ink as the price and the two could not be told apart
+        if (sc) g += path(cap, yC, 'var(--chart-2)', 2);
         // soft fill under the price line, the Markets-page look; left out when a
         // second line shares the plot, where a fill would sit under the wrong one
         if (!sc) {
@@ -797,6 +815,11 @@
         g += path(price, yP, 'var(--ink)', 2.2);
         // last value: dot on the line + a clear badge ON the right axis, where
         // the line can never hide it
+        if (sc) {
+            const lx = padL + 12; const lyy = padT + 4;
+            g += `<line x1="${lx}" y1="${lyy}" x2="${lx + 20}" y2="${lyy}" stroke="var(--ink)" stroke-width="2.2"/><text x="${lx + 26}" y="${lyy + 4}" font-size="${fs}" fill="var(--ink)">Price</text>`
+                + `<line x1="${lx + 70}" y1="${lyy}" x2="${lx + 90}" y2="${lyy}" stroke="var(--chart-2)" stroke-width="2.2"/><text x="${lx + 96}" y="${lyy + 4}" font-size="${fs}" fill="var(--chart-2)">Market cap</text>`;
+        }
         const li = price.length - 1;
         if (price[li] !== null) {
             const ly = yP(price[li]);
@@ -907,7 +930,7 @@
             $('chart-prov').textContent = mixedCurrencies
                 ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because the source statements are reported in ${sourceReportingCurrency()}; USD presentation conversion does not supply the listing’s depositary-share ratio.`
                 : cap
-                ? 'Price (right axis): split-adjusted — ink. Market cap (left axis): price × that fiscal year’s filed share count — blue. Where the lines drift apart, buybacks or dilution is why.'
+                ? 'Price (right axis): split-adjusted — ink. Market cap (left axis): price × that fiscal year’s filed share count — orange. Where the lines drift apart, buybacks or dilution is why.'
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count.`;
         } else {
             // P/E by fiscal year: avg monthly close within the FY ÷ diluted EPS
