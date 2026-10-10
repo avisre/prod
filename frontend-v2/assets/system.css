@@ -1713,7 +1713,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
     width: 100%;
   }
   #add-form button[type='submit'] { grid-column: 1 / -1; }
-  #charts-grid { grid-template-columns: 1fr !important; }
+  #charts-grid { grid-template-columns: minmax(0, 1fr) !important; }
 }
 
 /* ---------- iOS safe-area padding for the fixed Ask bar ---------- */

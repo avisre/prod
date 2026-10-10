@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261010-audit1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261010-audit2" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -291,7 +291,7 @@
         <section class="section" id="charts-section" hidden>
           <div style="display:grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap:24px; align-items:stretch;" id="charts-grid">
             <div class="card card-pad">
-              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
                 <span class="label">Portfolio value</span>
                 <div class="seg" id="perf-range" role="group" aria-label="Range">
                   <button aria-pressed="false" data-r="1M">1M</button>
@@ -508,7 +508,7 @@
       <div id="portfolio-action-arrival" hidden></div>
     </div>
   </div>
-  <script src="assets/app.js?v=20261010-audit1"></script>
+  <script src="assets/app.js?v=20261010-audit2"></script>
   <script src="assets/dashboard.js?v=20261010-range1"></script>
   <script>
   // Pro Annual weekly-digest opt-in. Hidden by default and never blocks the

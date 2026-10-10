@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261010-audit1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261010-audit2" />
   <style>
     /* ─── Two-panel shell ─── */
     .gurus-shell {
@@ -302,6 +302,10 @@
     .badge-sold   { background: #fef2f2; color: #dc2626; }
     .co-name { font-weight: 600; font-size: 13px; color: var(--ink); }
     .co-cusip { font-size: 11.5px; color: var(--ink-3); margin-top: 1px; font-variant-numeric: tabular-nums; }
+    .co-cusip b { color: var(--ink-2, var(--ink)); font-weight: 650; letter-spacing: 0.02em; }
+    .opt-tag { display: inline-block; margin-left: 6px; padding: 1px 6px; border: 1px solid var(--line-strong, var(--line)); border-radius: 5px; font-size: 10px; font-weight: 650; letter-spacing: 0.05em; color: var(--ink-3); vertical-align: 1px; }
+    .guru-item[hidden], .guru-pill[hidden] { display: none !important; }
+    .guru-find { width: 100%; box-sizing: border-box; margin: 0 0 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font: inherit; font-size: 13px; color: var(--ink); }
     .co-link { color: var(--ink); text-decoration: none; display: inline-block; padding: 6px 0; }
     .co-link:hover { color: var(--accent); }
 
@@ -379,7 +383,8 @@
 
         <!-- Left: Guru list (desktop only) -->
         <aside class="gurus-sidebar">
-          <div class="gurus-sidebar-hd">Investors</div>
+          <div class="gurus-sidebar-hd">Investors <span id="gurus-count" style="font-weight:400;"></span></div>
+          <input type="search" class="guru-find" id="guru-find" placeholder="Find an investor or fund…" aria-label="Find an investor or fund" autocomplete="off" />
           <div id="gurus-sidebar-list"></div>
         </aside>
 
@@ -398,7 +403,7 @@
     </div>
   </main>
 
-  <script src="assets/app.js?v=20261010-audit1"></script>
+  <script src="assets/app.js?v=20261010-audit2"></script>
   <script>
     V2.nav('gurus');
     V2.footer();
@@ -553,6 +558,14 @@
           ${V2.esc(g.name)}`;
         pill.addEventListener('click', () => selectGuru(g.id, guruList));
         mobileEl.appendChild(pill);
+        btn.dataset.find = pill.dataset.find = (g.name + ' ' + g.fund).toLowerCase();
+      });
+      const count = document.getElementById('gurus-count');
+      if (count) count.textContent = '· ' + guruList.length;
+      const find = document.getElementById('guru-find');
+      if (find) find.addEventListener('input', () => {
+        const q = find.value.trim().toLowerCase();
+        document.querySelectorAll('.guru-item, .guru-pill').forEach((el) => { el.hidden = !!q && !(el.dataset.find || '').includes(q); });
       });
     }
 
@@ -944,8 +957,8 @@
       return `<tr data-name="${V2.esc(h.name.toLowerCase())}" data-cusip="${V2.esc(h.cusip || '')}">
         <td data-label="Rank" style="text-align:right; color:var(--ink-3); font-size:12px;">${i + 1}</td>
         <td class="row-head" data-label="Company · #${i + 1}">
-          <div class="co-name"><a class="co-link" href="${searchUrl}" title="Screen for similar companies">${V2.esc(h.name)}</a></div>
-          ${h.cusip ? `<div class="co-cusip">${V2.esc(h.cusip)}</div>` : ''}
+          <div class="co-name"><a class="co-link" href="${h.ticker ? '/company?symbol=' + encodeURIComponent(h.ticker) : searchUrl}" title="${h.ticker ? 'Open the company page' : 'Screen for similar companies'}">${V2.esc(tidyName(h.name))}</a>${h.putCall ? ` <span class="opt-tag" title="An option position, reported at the value of the shares it covers — not shares held">${h.putCall === 'Put' ? 'PUT OPTION' : 'CALL OPTION'}</span>` : ''}</div>
+          <div class="co-cusip">${h.ticker ? `<b>${V2.esc(h.ticker)}</b>` : V2.esc(h.cusip || '')}${shareClass(h) ? ' · ' + V2.esc(shareClass(h)) : ''}</div>
         </td>
         <td class="pct-cell" data-label="% Portfolio">${pctCell}</td>
         ${currentData && currentData.locked ? '' : `<td data-label="Activity">${activityBadge(h)}</td>`}
@@ -953,6 +966,25 @@
         <td data-label="Reported px" style="font-variant-numeric:tabular-nums;">${priceCell}</td>
         <td data-label="Value">${valueCell}</td>
       </tr>`;
+    }
+
+    /* 13F names are filed in capitals with exchange shorthand ('ALPHABET INC',
+       'BANK OF AMER CORP'); show them in ordinary case and keep known acronyms. */
+    const KEEP_UPPER = /^(INC|CORP|CO|LTD|LLC|LP|PLC|NV|SA|AG|SE|ETF|ADR|USA|US|UK|REIT|IBM|AT&T|HP|GE|GM|BP|KKR|TJX|CVS|UPS|AMD|ASML|HDFC|ICICI|NXP|RH|II|III|IV|S&P|SPDR|TR|HLDG|HLDGS|MTN|NEW|DEL)$/;
+    const LOWER_UPPER = { INC: 'Inc', CORP: 'Corp', CO: 'Co', LTD: 'Ltd', PLC: 'plc', HLDG: 'Holding', HLDGS: 'Holdings', TR: 'Trust', NEW: '', DEL: '', MTN: '' };
+    function tidyName(name) {
+      const raw = String(name || '');
+      if (raw !== raw.toUpperCase()) return raw; // already mixed case as filed
+      return raw.split(' ').map((w) => {
+        if (Object.prototype.hasOwnProperty.call(LOWER_UPPER, w)) return LOWER_UPPER[w];
+        if (KEEP_UPPER.test(w) || w.length <= 1) return w;
+        return w.charAt(0) + w.slice(1).toLowerCase();
+      }).filter(Boolean).join(' ');
+    }
+    /* 'CL A', 'CAP STK CL C', 'COM CL B' → 'Class A'; plain common stock says nothing */
+    function shareClass(h) {
+      const m = /\bCL(?:ASS)?\s+([A-Z])\b/i.exec(String(h.cls || ''));
+      return m ? 'Class ' + m[1].toUpperCase() : '';
     }
 
     /* ─── Bootstrap ─── */

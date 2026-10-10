@@ -191,6 +191,10 @@ function parseInfoTable(xml) {
         const value = num(pick(b, 'value'));
         const shares = num(pick(b, 'sshPrnamt'));
         const shareType = pick(b, 'sshPrnamtType');
+        // A 13F lists options beside shares: a 'Put' row is a bet against the
+        // stock, reported at the value of the shares it covers, not a holding.
+        const putCall = (pick(b, 'putCall') || '').trim();
+        const cls = pick(b, 'titleOfClass');
         if (!name || value === null) continue;
         out.push({
             name: name.replace(/\s+/g, ' '),
@@ -198,6 +202,8 @@ function parseInfoTable(xml) {
             value,
             shares,
             shareType: shareType || 'SH',
+            putCall: /^put$/i.test(putCall) ? 'Put' : /^call$/i.test(putCall) ? 'Call' : null,
+            cls: cls || null,
         });
     }
     return out;
@@ -228,16 +234,21 @@ function scaleValues(rows, filingDate) {
 // stock can appear many times (Berkshire's Apple spans several rows). Collapse
 // to one row per issuer (keyed by CUSIP, falling back to name), summing value
 // and shares — this is what guru-tracker sites display as "holdings".
+// One row per security AND kind: shares, puts and calls on the same stock are
+// three different positions and used to be summed into one 'holding'.
+function keyOf(h) {
+    return (h.cusip || h.name).toUpperCase() + (h.putCall ? '|' + h.putCall.toUpperCase() : '');
+}
 function aggregate(rows) {
     const byKey = new Map();
     for (const r of rows) {
-        const key = (r.cusip || r.name).toUpperCase();
+        const key = keyOf(r);
         const cur = byKey.get(key);
         if (cur) {
             cur.value += r.value || 0;
             cur.shares = (cur.shares || 0) + (r.shares || 0);
         } else {
-            byKey.set(key, { name: r.name, cusip: r.cusip, value: r.value || 0, shares: r.shares || 0, shareType: r.shareType });
+            byKey.set(key, { name: r.name, cusip: r.cusip, value: r.value || 0, shares: r.shares || 0, shareType: r.shareType, putCall: r.putCall || null, cls: r.cls || null });
         }
     }
     return [...byKey.values()].sort((a, b) => (b.value || 0) - (a.value || 0));
@@ -252,8 +263,7 @@ async function holdingsForFiling(rawCik, filing) {
 
 // Classify a current holding against the prior quarter's position.
 function classify(cur, prevMap, hasPrev) {
-    const key = (cur.cusip || cur.name).toUpperCase();
-    const p = prevMap.get(key);
+    const p = prevMap.get(keyOf(cur));
     if (!hasPrev) return { activity: null, shareChangePct: null, prevShares: null };
     if (!p) return { activity: 'new', shareChangePct: null, prevShares: 0 };
     const prevShares = p.shares || 0;
@@ -361,7 +371,7 @@ async function computePerformance(holdings) {
     if (!nameMap) return null;
 
     // Match top-30 holdings to tickers (top 30 typically covers 70-90%+ of value)
-    const candidates = holdings.slice(0, 30).filter(h => h.shareType !== 'PRN' && h.weight > 0);
+    const candidates = holdings.slice(0, 30).filter(h => h.shareType !== 'PRN' && !h.putCall && h.weight > 0);
     const matched = [];
     for (const h of candidates) {
         const ticker = matchTicker(h.name, nameMap);
@@ -429,27 +439,40 @@ async function buildGuru(guru) {
         if (filings[1]) {
             await sleep(STEP_MS);
             const prevRows = await holdingsForFiling(rawCik, filings[1]).catch(() => null);
-            if (prevRows) for (const h of prevRows) prevMap.set((h.cusip || h.name).toUpperCase(), h);
+            if (prevRows) for (const h of prevRows) prevMap.set(keyOf(h), h);
         }
         const hasActivity = prevMap.size > 0;
 
         const totalValue = all.reduce((s, h) => s + (h.value || 0), 0);
+        // the ticker lets the page link each holding to its company page
+        const nameMap = await loadNameTickerMap().catch(() => null);
         const top50 = all.slice(0, 50).map((h) => {
             const c = classify(h, prevMap, hasActivity);
             return {
                 ...h,
+                ticker: nameMap && h.shareType !== 'PRN' ? (matchTicker(h.name, nameMap) || null) : null,
                 weight: totalValue > 0 ? (h.value / totalValue) * 100 : 0,
-                reportedPrice: h.shareType !== 'PRN' && h.shares > 0 ? h.value / h.shares : null,
+                reportedPrice: h.shareType !== 'PRN' && !h.putCall && h.shares > 0 ? h.value / h.shares : null,
                 ...c,
             };
         });
 
+        // Two share classes of one company match the same name (Alphabet A and C).
+        // Only the larger keeps the ticker; the other shows its class and CUSIP
+        // rather than a ticker that belongs to a different security.
+        const tickerOwner = new Map();
+        for (const h of top50) {
+            if (!h.ticker) continue;
+            const owner = tickerOwner.get(h.ticker);
+            if (owner && owner !== h.cusip) h.ticker = null; else tickerOwner.set(h.ticker, h.cusip);
+        }
+
         // Sold-out positions: held last quarter, gone this quarter.
         let sells = [];
         if (hasActivity) {
-            const curKeys = new Set(all.map((h) => (h.cusip || h.name).toUpperCase()));
+            const curKeys = new Set(all.map(keyOf));
             for (const [k, p] of prevMap) {
-                if (!curKeys.has(k)) sells.push({ name: p.name, cusip: p.cusip, prevShares: p.shares, prevValue: p.value });
+                if (!curKeys.has(k)) sells.push({ name: p.name, cusip: p.cusip, putCall: p.putCall || null, prevShares: p.shares, prevValue: p.value });
             }
             sells.sort((a, b) => (b.prevValue || 0) - (a.prevValue || 0));
             sells = sells.slice(0, 25);

@@ -1933,6 +1933,10 @@
         table.innerHTML = html + '</tbody>';
         wireExpand(table, render);
         attachHScroll(table.closest('.table-wrap'));
+        // open on the newest year, as the statements table does — nineteen columns
+        // otherwise start at the oldest and hide the one most people came for
+        const ratioWrap = table.closest('.table-wrap');
+        if (ratioWrap) requestAnimationFrame(() => { ratioWrap.scrollLeft = ratioWrap.scrollWidth; });
     }
 
     // ---------- ⑦ ownership / ⑧ documents ----------

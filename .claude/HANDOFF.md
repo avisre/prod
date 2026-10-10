@@ -471,9 +471,12 @@ explicit authorization.**
   company price chart axis no longer goes below $0; Form 4 names/roles decoded (`&amp;`) in `insiders.js`;
   "Filings last checked" shows a plain date; Ask on a phone lost the 44vh resize-grip gap and the cut-off credits line;
   Dossier says "every dollar", whole-number unit counts, no doubled sector label.
-- OPEN, needs an owner decision: `sec-facts.js` reads capex only from `PaymentsToAcquirePropertyPlantAndEquipment`.
-  Nvidia files `PaymentsToAcquireProductiveAssets`, so FCF is blank FY2013+ and "What's priced in" uses 2012 FCF.
-  The fix is one mapping line + an EXTRACTION_VERSION bump + a full data rebuild (deploy gate applies). Not done.
+- Capex mapping widened in `sec-facts.js` and EXTRACTION_VERSION is now `20261010-capex1` (committed, unpushed).
+  Measured: 1,968 of 5,138 issuers had no latest-year capex; a 200-issuer re-read filled 99. Pages do NOT self-heal:
+  after the push, run `gh workflow run refresh-fundamentals.yml` (up to 6 h, no pushes to main meanwhile). Until then
+  admin freshness reads "stale" (version mismatch); that is a warning, not the deploy gate.
+- Stamp `20261010-audit2`. Gurus: options are separate rows tagged PUT/CALL (`keyOf`), tickers attached, names tidied,
+  sidebar search. Ratios table opens on the newest year. Dossier trend charts side by side. Phone Dashboard/Screener fit.
 - Local audit rig: `scratchpad/audit.js` (per-page overflow/console/404 metrics + screenshots over CDP).
 - Gurus: 27 -> 57 (`backend/gurus.js` GURU_LIST + `GURU_META` bios in `gurus.html`). All 30 built locally from live 13Fs.
   Held back: Citadel, Millennium, D. E. Shaw, Point72 (2,400-7,200 rows, +100 MB while parsing), Tudor and Gotham
