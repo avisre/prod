@@ -47,6 +47,11 @@ Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan
   the demo dashboard: all five buttons change the figure.
   Each holdings table also ends with a **Total** row: total paid, value, weight and gain in dollars and percent;
   no gain total when any holding in the group lacks a price paid.
+- **AI Portfolio: one account, in the menu (committed locally, NOT pushed):** owner decision 10/10 — still an
+  experiment, only `rin@gmail.com`. The address is fixed in `ai-paper-portfolio.js` (`EXPERIMENT_ACCOUNT`);
+  `AI_PORTFOLIO_BETA_EMAILS` is no longer read and `AI_PAPER_PORTFOLIO=0` only switches it off (it is on by default
+  now). `/api/session` returns `aiPortfolio: true` for that account and the nav adds "AI Portfolio · Experimental"
+  under Research, below Ask, linking to `/ask.html?aiPaper=1`. `app.js` stamp is `20261010-aiport1` (51 files).
 - **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
 - Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
 

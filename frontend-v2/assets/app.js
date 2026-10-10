@@ -1118,6 +1118,7 @@
         const as = s.appsumo || null;
         return {
             tier: s.tier,
+            aiPortfolio: s.aiPortfolio === true,
             subscription: { planName: sub.planName, planId: sub.planId },
             appsumo: as ? { isAppSumo: as.isAppSumo, tier: as.tier, upgradeUrl: as.upgradeUrl } : null,
             profile: { email: (s.profile || {}).email }
@@ -1193,9 +1194,22 @@
             const unread = badge && !badge.hidden ? badge.textContent : '';
             menu.innerHTML = accountMenuHtml(session, credits || {}, [], unread);
         };
+        // 🧪 AI Portfolio: an experiment one account can use. Its menu entry is
+        // added only when the server says this session is that account, so it
+        // is never in the page for anyone else.
+        const showAiPortfolio = (s) => {
+            if (!s || s.aiPortfolio !== true || document.querySelector('[data-ai-portfolio]')) return;
+            const tag = '<em style="font-style:normal;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 5px;margin-left:6px;border:1px solid currentColor;border-radius:4px;opacity:.7;">Experimental</em>';
+            const item = document.querySelector('.nav-dd-menu a[href="/ask.html"]');
+            if (item) item.insertAdjacentHTML('afterend', `<a href="/ask.html?aiPaper=1" role="menuitem" data-ai-portfolio><strong>AI Portfolio${tag}</strong><span>Two AI minds, one stock each, $100k of paper money</span></a>`);
+            const mobile = [...document.querySelectorAll('a[href="/ask.html"]')].find((a) => !a.closest('.nav-dd-menu') && /Ask\s*AI/.test(a.textContent.replace(/\u00a0/g, ' ')));
+            if (mobile) mobile.insertAdjacentHTML('afterend', '<a href="/ask.html?aiPaper=1" data-ai-portfolio>AI Portfolio</a>');
+        };
+        showAiPortfolio(session);
         sessionPromise.then((fresh) => {
             if (!fresh) return;
             session = fresh;
+            showAiPortfolio(fresh);
             writeTrayCache({ session: traySessionFields(fresh) });
             if (isOpen()) paint();
         }).catch(() => {});

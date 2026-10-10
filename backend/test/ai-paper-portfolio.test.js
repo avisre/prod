@@ -123,18 +123,18 @@ async function withMongo(fn) {
     }
 }
 
-// Fresh env per test block: beta on for rin@example.com, feature on.
+// Fresh env per test block: beta on for rin@gmail.com, feature on.
 function betaEnvOn() {
     process.env.AI_PAPER_PORTFOLIO = '1';
-    process.env.AI_PORTFOLIO_BETA_EMAILS = 'rin@example.com';
+    process.env.AI_PORTFOLIO_BETA_EMAILS = 'rin@gmail.com';
     process.env.AI_PORTFOLIO_TICK_UTC_HOUR = '2';
 }
 function betaEnvOff() {
-    delete process.env.AI_PAPER_PORTFOLIO;
+    process.env.AI_PAPER_PORTFOLIO = '0';
     delete process.env.AI_PORTFOLIO_BETA_EMAILS;
 }
 
-const USER = { id: 'u-123', email: 'rin@example.com' };
+const USER = { id: 'u-123', email: 'rin@gmail.com' };
 
 // ---- Pure helpers ----------------------------------------------------------
 
@@ -169,15 +169,24 @@ test('fixWeights: guardrails enforced in code, whatever the model said', () => {
     assert.deepEqual(paper.fixWeights(0.5, 0.5), { g: 0.5, a: 0.5 });
 });
 
-test('beta gate: env parsing and email matching', () => {
+test('access: one fixed account, a switch that can only turn it off', () => {
     betaEnvOff();
-    assert.equal(paper.betaEnabled(), false, 'unset env = fully off');
-    assert.equal(paper.isBetaUser({ email: 'rin@example.com' }), false);
+    assert.equal(paper.betaEnabled(), false, 'switched off = fully off');
+    assert.equal(paper.isBetaUser({ email: 'rin@gmail.com' }), false);
 
     betaEnvOn();
     assert.equal(paper.betaEnabled(), true);
-    assert.equal(paper.isBetaUser({ email: 'rin@example.com' }), true);
-    assert.equal(paper.isBetaUser({ email: 'RIN@Example.com' }), true, 'case-insensitive');
+    assert.equal(paper.isBetaUser({ email: 'rin@gmail.com' }), true);
+    assert.equal(paper.isBetaUser({ email: 'RIN@Gmail.com' }), true, 'case-insensitive');
+    // The old list setting cannot open the experiment to anyone else.
+    process.env.AI_PORTFOLIO_BETA_EMAILS = 'other@example.com,rin@example.com';
+    assert.equal(paper.isBetaUser({ email: 'other@example.com' }), false);
+    assert.equal(paper.isBetaUser({ email: 'rin@example.com' }), false);
+    assert.equal(paper.EXPERIMENT_ACCOUNT, 'rin@gmail.com');
+    delete process.env.AI_PORTFOLIO_BETA_EMAILS;
+    delete process.env.AI_PAPER_PORTFOLIO;
+    assert.equal(paper.isBetaUser({ email: 'rin@gmail.com' }), true, 'on by default for the one account');
+    process.env.AI_PAPER_PORTFOLIO = '1';
     assert.equal(paper.isBetaUser({ email: 'other@example.com' }), false);
     assert.equal(paper.isBetaUser(null), false);
     betaEnvOff();

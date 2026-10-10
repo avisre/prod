@@ -101,8 +101,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261010-screens1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261010-screens1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261010-aiport1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261010-aiport1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {

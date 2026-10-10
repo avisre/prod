@@ -1,4 +1,4 @@
-// AI Paper Portfolio — beta experiment, gated to AI_PORTFOLIO_BETA_EMAILS.
+// AI Paper Portfolio — experiment, open to one account only (EXPERIMENT_ACCOUNT).
 //
 // Two minds, one stock each, $100k of paper money: a guru persona (researches
 // the famous investor's documented PHILOSOPHY — never their trades; works for
@@ -272,15 +272,18 @@ const AIPaperDecision = () => model('AIPaperDecision', DecisionSchema);
 const AIPaperSnapshot = () => model('AIPaperSnapshot', SnapshotSchema);
 
 // ---------------------------------------------------------------------------
-// Beta gating — AI_PORTFOLIO_BETA_EMAILS is the entire gate; unset = off.
+// Access — owner decision 2026-10-10: still an experiment, and exactly one
+// account may use it. The address is fixed in code, so a server setting can
+// switch the experiment off (AI_PAPER_PORTFOLIO=0) but can never open it to
+// anyone else. AI_PORTFOLIO_BETA_EMAILS is no longer read.
 // ---------------------------------------------------------------------------
 
+const EXPERIMENT_ACCOUNT = 'rin@gmail.com';
 function betaEmails() {
-    return String(process.env.AI_PORTFOLIO_BETA_EMAILS || '')
-        .split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    return [EXPERIMENT_ACCOUNT];
 }
 function betaEnabled() {
-    return String(process.env.AI_PAPER_PORTFOLIO || '') === '1' && betaEmails().length > 0;
+    return String(process.env.AI_PAPER_PORTFOLIO || '') !== '0';
 }
 function isBetaUser(user) {
     if (!betaEnabled()) return false;
@@ -1781,7 +1784,7 @@ async function ensureIndexes() {
 }
 
 module.exports = {
-    betaEnabled, betaGate, isBetaUser,
+    betaEnabled, betaGate, isBetaUser, EXPERIMENT_ACCOUNT,
     create, detailFor, statusFor, start, sweep, tickPortfolioOnce, resetRun,
     stopBuild, applySteering,
     sanitizeAllocation, parseModelJson, computeSnapshot, nextTickDue,

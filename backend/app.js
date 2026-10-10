@@ -3061,7 +3061,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-screens1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261010-aiport1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3090,7 +3090,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-screens1"></script>
+<script src="/assets/app.js?v=20261010-aiport1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3182,7 +3182,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-screens1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261010-aiport1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3210,7 +3210,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-screens1"></script>
+<script src="/assets/app.js?v=20261010-aiport1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3318,7 +3318,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-screens1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261010-aiport1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3351,7 +3351,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-screens1"></script>
+<script src="/assets/app.js?v=20261010-aiport1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -8082,6 +8082,8 @@ app.get('/api/session', authMiddleware, async (req, res) => {
                 detailsMax: INITIAL_REFUND_DETAILS_MAX
             },
             onboarding: onboardingState(user),
+            // The experiment's menu entry is drawn only for the one account that may use it.
+            ...(aiPaper.isBetaUser(user) ? { aiPortfolio: true } : {}),
             tier: req.tier
         });
     } catch (error) {
@@ -10116,8 +10118,8 @@ function normalizeAskAttachments(raw) {
 }
 
 // ----- 🧪 AI Paper Portfolio (beta) -----
-// AI_PORTFOLIO_BETA_EMAILS is the entire gate: unset env = 403 everywhere and
-// the feature is invisible. Zero AI on the read paths — detail/status are
+// One account only (aiPaper.EXPERIMENT_ACCOUNT): 403 for everyone else, and
+// the feature is invisible to them. Zero AI on the read paths — detail/status are
 // Mongo reads + cached quotes; the only build path is POST /create, and no
 // route anywhere trades (positions are immutable after construction).
 

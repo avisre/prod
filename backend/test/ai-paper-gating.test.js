@@ -67,25 +67,25 @@ test('betaGate: 403 unless the env is armed AND the account is on the list', () 
                 out
             };
         };
-        // env unset => fully off, even for the beta email
-        delete process.env.AI_PAPER_PORTFOLIO;
+        // switched off => fully off, even for the one account
+        process.env.AI_PAPER_PORTFOLIO = '0';
         delete process.env.AI_PORTFOLIO_BETA_EMAILS;
         let r = res403(); let nexted = false;
-        paper.betaGate({ user: { email: 'rin@example.com' } }, r, () => { nexted = true; });
+        paper.betaGate({ user: { email: 'rin@gmail.com' } }, r, () => { nexted = true; });
         assert.equal(r.out.status, 403);
         assert.equal(r.out.body.code, 'BETA_NOT_ENABLED');
         assert.equal(nexted, false);
 
         // armed env, wrong account => 403
         process.env.AI_PAPER_PORTFOLIO = '1';
-        process.env.AI_PORTFOLIO_BETA_EMAILS = 'rin@example.com';
+        process.env.AI_PORTFOLIO_BETA_EMAILS = 'rin@gmail.com';
         r = res403();
         paper.betaGate({ user: { email: 'someone-else@example.com' } }, r, () => { nexted = true; });
         assert.equal(r.out.status, 403);
 
         // armed env, beta account => through
         r = res403(); nexted = false;
-        paper.betaGate({ user: { email: 'rin@example.com' } }, r, () => { nexted = true; });
+        paper.betaGate({ user: { email: 'rin@gmail.com' } }, r, () => { nexted = true; });
         assert.equal(nexted, true);
         assert.equal(r.out.status, 0, 'no status written on success');
     } finally {
