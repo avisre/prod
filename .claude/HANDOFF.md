@@ -482,7 +482,7 @@ explicit authorization.**
   Held back: Citadel, Millennium, D. E. Shaw, Point72 (2,400-7,200 rows, +100 MB while parsing), Tudor and Gotham
   (no performance strip), Harris/Oakmark (build returns nothing). 13F put/call rows are still listed as holdings.
 - Comparison pages: negative money is `-$12.71B`; cells wrap under 600px (was 76px sideways scroll on a phone).
-- Stamp `20261010-chart4`. Company answer cached gzipped 10 min (`_fundamentalsResponses`, app.js); page requests it at once. Stock and fund charts restyled after the Markets chart: card, round-number gridlines, soft
+- Stamp `20261010-chart5`. Dossier flow chart: statement currency on labels, non-USD segments drawn, over-total segments drawn in proportion (measured 5,520 issuers: bands 2,974 -> 3,409; 889 have no stored breakdown, 154 single-business). Company answer cached gzipped 10 min (`_fundamentalsResponses`, app.js); page requests it at once. Stock and fund charts restyled after the Markets chart: card, round-number gridlines, soft
   fill, 2.2px line; phones get their own 420-wide drawing (`NARROW` GEOM in company.js; `area`/`fullWidth` in V2 chart).
   Screener phone cards were NOT restored: 031fdd2dc (June) replaced them with frozen-column scroll on purpose.
 - Price history: chart series were unrefreshed since the 10/03 switch to the SEC job (1,250 stocks ended 2026-06-11, 1,572

@@ -138,7 +138,7 @@ function forPage(contract) {
     // For segments shown before eliminations the base is their own total, so the page's shares and chart agree with the contract.
     const pageTotal = contract.basis === 'before eliminations' ? contract.rows.reduce((n, r) => n + r.value, 0) : contract.totalRevenue;
     return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, measure: contract.measure || null, basis: contract.basis || null, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
-        totalRevenue: pageTotal, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
+        totalRevenue: pageTotal, currency: contract.currency || null, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
         items: contract.rows.map(r => ({ name: r.name, revenueUsd: contract.currency === 'USD' ? r.value : null, value: r.value, revenuePct: r.share, description: '' })) };
 }
 

@@ -232,6 +232,12 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     // revenue; the table beneath still shows it, against its own year.
     if (segs && segs.periodEnd && inc.periodEnd && segs.periodEnd !== inc.periodEnd) segs = null;
     const rev = inc.revenue;
+    // Amounts are in the statement's own currency. A foreign filer's figures were
+    // being printed with a dollar sign (TSMC's TWD 3.8tn of revenue as "$3.81T").
+    const fm = (v) => (inc.currency && inc.currency !== 'USD' ? inc.currency + ' ' + bn(v).replace('$', '') : bn(v));
+    // Segments filed in that same currency can be drawn; revenueUsd is only set for USD.
+    const segValue = (s) => (s.revenueUsd != null ? Number(s.revenueUsd) : (segs && segs.currency && segs.currency === inc.currency ? Number(s.value) : NaN));
+    let basisNote = '';
 
     // The chain of retained figures. Each step's cost band is the exact
     // arithmetic difference from the step before, so the diagram can never
@@ -264,8 +270,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     // Segment inflows, largest first. Anything the filing does not allocate is
     // shown as its own band rather than silently rescaling the rest.
     const items = ((segs && segs.items) || [])
-      .filter((s) => Number.isFinite(Number(s.revenueUsd)) && Number(s.revenueUsd) > 0)
-      .map((s) => ({ name: String(s.name || ''), v: Number(s.revenueUsd) }))
+      .filter((s) => Number.isFinite(segValue(s)) && segValue(s) > 0)
+      .map((s) => ({ name: String(s.name || ''), v: segValue(s) }))
       .sort((a, b) => b.v - a.v);
     let inflow = [];
     if (items.length) {
@@ -282,6 +288,15 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
         inflow = top.slice();
         const gap = rev - allocated;
         if (gap > rev * 0.005) inflow.push({ name: 'Unallocated', v: gap, grey: true });
+      } else if (allocated <= rev * 1.6) {
+        // Segments reported on another basis (before eliminations, or a bank's
+        // tax-equivalent revenue) add up to more than filed revenue. They used to be
+        // dropped, leaving the chart with no segments at all. They are drawn in
+        // proportion to each other, each labelled with its filed amount, and the
+        // chart says so.
+        const k = rev / allocated;
+        inflow = top.map((s) => ({ name: s.name, v: s.v * k, filed: s.v }));
+        basisNote = 'Segments are reported on a different basis and total ' + fm(allocated) + '; shown in proportion to each other.';
       }
     }
 
@@ -311,13 +326,13 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
         const bh = Math.max(2, (s.v / totalIn) * usable);
         const fill = s.grey ? C.grey : SEG_RAMP[Math.min(i, SEG_RAMP.length - 1)];
         const pctOfRev = (s.v / rev) * 100;
-        const title = `${s.name}: ${bn(s.v)} (${pctOfRev.toFixed(1)}% of revenue)`;
+        const title = `${s.name}: ${fm(s.filed || s.v)} (${pctOfRev.toFixed(1)}% ${s.filed ? 'of segment total' : 'of revenue'})`;
         svg += `<rect x="${(segCol - NW - 96).toFixed(1)}" y="${sy.toFixed(1)}" width="${NW}" height="${bh.toFixed(1)}" rx="2" fill="${fill}"><title>${esc(title)}</title></rect>`;
         svg += band(segCol - NW - 96 + NW, sy, sy + bh, segCol, ty, ty + bh, fill, 0.42, title);
         const mid = sy + bh / 2;
         if (bh >= 22) {
           svg += `<text x="${(segCol - NW - 104).toFixed(1)}" y="${(mid - 1).toFixed(1)}" font-size="10.5" fill="${C.ink}" text-anchor="end">${esc(s.name.length > 26 ? s.name.slice(0, 25) + 'â€¦' : s.name)}</text>`;
-          svg += `<text x="${(segCol - NW - 104).toFixed(1)}" y="${(mid + 10).toFixed(1)}" font-size="9.5" fill="${C.grey}" text-anchor="end">${esc(bn(s.v))} Â· ${pctOfRev.toFixed(0)}%</text>`;
+          svg += `<text x="${(segCol - NW - 104).toFixed(1)}" y="${(mid + 10).toFixed(1)}" font-size="9.5" fill="${C.grey}" text-anchor="end">${esc(fm(s.filed || s.v))} Â· ${pctOfRev.toFixed(0)}%</text>`;
         } else if (bh >= 9) {
           svg += `<text x="${(segCol - NW - 104).toFixed(1)}" y="${(mid + 3.5).toFixed(1)}" font-size="10" fill="${C.ink}" text-anchor="end">${esc(s.name.length > 20 ? s.name.slice(0, 19) + 'â€¦' : s.name)} <tspan fill="${C.grey}">${pctOfRev.toFixed(0)}%</tspan></text>`;
         }
@@ -330,24 +345,24 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       const node = chain[i];
       const x = colX(i);
       const nh = h(node.value);
-      svg += `<rect x="${x.toFixed(1)}" y="${PAD_T}" width="${NW}" height="${nh.toFixed(1)}" rx="2" fill="${i === 0 ? C.ink : C.pos}"><title>${esc(node.label + ': ' + bn(node.value))}</title></rect>`;
+      svg += `<rect x="${x.toFixed(1)}" y="${PAD_T}" width="${NW}" height="${nh.toFixed(1)}" rx="2" fill="${i === 0 ? C.ink : C.pos}"><title>${esc(node.label + ': ' + fm(node.value))}</title></rect>`;
       // The last column sits flush against the right edge, so its label has to
       // hang back inside the viewBox or it is clipped.
       const last = i === cols - 1;
       const lx = last ? x + NW : x, anchor = last ? 'end' : 'start';
       svg += `<text x="${lx.toFixed(1)}" y="${PAD_T - 16}" font-size="11.5" font-weight="650" fill="${C.ink}" text-anchor="${anchor}">${esc(node.label)}</text>`;
-      svg += `<text x="${lx.toFixed(1)}" y="${PAD_T - 4}" font-size="11" fill="${C.grey}" text-anchor="${anchor}">${esc(bn(node.value))} Â· ${((node.value / rev) * 100).toFixed(0)}%</text>`;
+      svg += `<text x="${lx.toFixed(1)}" y="${PAD_T - 4}" font-size="11" fill="${C.grey}" text-anchor="${anchor}">${esc(fm(node.value))} Â· ${((node.value / rev) * 100).toFixed(0)}%</text>`;
 
       if (i === cols - 1) break;
       const next = chain[i + 1];
       const nx = colX(i + 1), nnh = h(next.value);
-      const keptTitle = `${next.label}: ${bn(next.value)} (${((next.value / rev) * 100).toFixed(1)}% of revenue)`;
+      const keptTitle = `${next.label}: ${fm(next.value)} (${((next.value / rev) * 100).toFixed(1)}% of revenue)`;
       svg += band(x + NW, PAD_T, PAD_T + nnh, nx, PAD_T, PAD_T + nnh, C.pos, 0.34, keptTitle);
 
       if (next.cost) {
         const ch = h(next.cost.value);
         const cTop = PAD_T + nnh + GAP;
-        const cTitle = `${next.cost.label}: ${bn(next.cost.value)} (${((next.cost.value / rev) * 100).toFixed(1)}% of revenue)`;
+        const cTitle = `${next.cost.label}: ${fm(next.cost.value)} (${((next.cost.value / rev) * 100).toFixed(1)}% of revenue)`;
         svg += band(x + NW, PAD_T + nnh, PAD_T + nh, nx, cTop, cTop + ch, C.neg, 0.34, cTitle);
         // Operating expenses are split into the lines the filing reports
         // (research, selling and administration), with whatever is left named
@@ -356,14 +371,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
         if (!parts) {
           svg += `<rect x="${nx.toFixed(1)}" y="${cTop.toFixed(1)}" width="${NW}" height="${ch.toFixed(1)}" rx="2" fill="${C.neg}"><title>${esc(cTitle)}</title></rect>`;
           svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(next.cost.label)}</text>`;
-          svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(bn(next.cost.value))} Â· ${((next.cost.value / rev) * 100).toFixed(0)}%</text>`;
+          svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(fm(next.cost.value))} Â· ${((next.cost.value / rev) * 100).toFixed(0)}%</text>`;
         } else {
           let py = cTop;
           parts.forEach((part, k) => {
             const ph = (part.v / next.cost.value) * ch;
-            const pTitle = `${part.label}: ${bn(part.v)} (${((part.v / rev) * 100).toFixed(1)}% of revenue) â€” part of operating expenses ${bn(next.cost.value)}`;
+            const pTitle = `${part.label}: ${fm(part.v)} (${((part.v / rev) * 100).toFixed(1)}% of revenue) â€” part of operating expenses ${fm(next.cost.value)}`;
             svg += `<rect x="${nx.toFixed(1)}" y="${(py + (k ? 1 : 0)).toFixed(1)}" width="${NW}" height="${Math.max(1, ph - (k ? 1 : 0)).toFixed(1)}" rx="2" fill="${C.neg}" opacity="${(1 - k * 0.22).toFixed(2)}"><title>${esc(pTitle)}</title></rect>`;
-            const figure = `${bn(part.v)} Â· ${((part.v / rev) * 100).toFixed(0)}%`;
+            const figure = `${fm(part.v)} Â· ${((part.v / rev) * 100).toFixed(0)}%`;
             if (ph >= 26) {
               svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(part.label)}</text>`;
               svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(figure)}</text>`;
@@ -378,7 +393,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     }
 
     const per = inc.periodEnd ? ` fiscal year ended ${inc.periodEnd}` : '';
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Revenue flow${per}: revenue ${bn(rev)} through to net income ${bn(inc.netIncome)}" style="width:100%;height:auto;display:block;overflow:visible">${svg}</svg>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Revenue flow${per}: revenue ${fm(rev)} through to net income ${fm(inc.netIncome)}" style="width:100%;height:auto;display:block;overflow:visible">${svg}${basisNote ? `<text x="0" y="${H - 6}" font-size="10" fill="${C.grey}">${esc(basisNote)}</text>` : ''}</svg>`;
   }
 
   function miniBars(rows, key, color, fmt) {
