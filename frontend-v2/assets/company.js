@@ -787,8 +787,19 @@
         // draw at the indices that actually carry a (deduped) label, capped ~8
         const labelIdx = labels.map((l, i) => l ? i : -1).filter((i) => i >= 0);
         const lstep = Math.max(1, Math.ceil(labelIdx.length / GEOM.maxLabels));
+        // A window that opens late in a year puts its first two year labels a point
+        // or two apart ("2021" printed on top of "2022"). Keep the later of the pair.
+        const picked = [];
         for (let j = 0; j < labelIdx.length; j += lstep) {
             const i = labelIdx[j];
+            if (picked.length && x(i, n) - x(picked[picked.length - 1], n) < (padL < 40 ? 46 : 60)) {
+                if (picked.length === 1) picked[0] = i;
+                continue;
+            }
+            picked.push(i);
+        }
+        for (let j = 0; j < picked.length; j++) {
+            const i = picked[j];
             g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="${j === 0 && padL < 40 ? 'start' : 'middle'}" font-size="${fs - 0.5}" fill="var(--ink-3)">${esc(labels[i])}</text>`;
         }
         const path = (vals, y, col, w) => {
