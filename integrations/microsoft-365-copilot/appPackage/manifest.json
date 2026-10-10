@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.22/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.22",
+  "version": "1.0.0",
+  "id": "6f0c2a54-3d0b-4c7e-9a41-2b8f5d1e7c90",
+  "developer": {
+    "name": "StockPortfolio.pro",
+    "websiteUrl": "https://www.stockportfolio.pro",
+    "privacyUrl": "https://www.stockportfolio.pro/privacy.html",
+    "termsOfUseUrl": "https://www.stockportfolio.pro/terms.html"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "StockPortfolio",
+    "full": "StockPortfolio SEC filing data"
+  },
+  "description": {
+    "short": "Company financials and SEC filing evidence, every figure with its source.",
+    "full": "StockPortfolio answers questions about US-listed public companies from what they filed with the SEC. Ask for financial statements, a metric over time, a comparison between companies, or what a filing says on a topic. Every figure comes with its fiscal period and the filing that reports it, and a figure a company did not report is shown as not available. A StockPortfolio.pro account is required. This agent does not give investment advice."
+  },
+  "accentColor": "#1C1B18",
+  "copilotAgents": {
+    "declarativeAgents": [
+      {
+        "id": "stockportfolioAgent",
+        "file": "declarativeAgent.json"
+      }
+    ]
+  },
+  "validDomains": [
+    "www.stockportfolio.pro"
+  ]
+}

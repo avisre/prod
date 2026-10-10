@@ -46,11 +46,12 @@ const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 const endpointSource = fs.readFileSync(path.join(__dirname, '..', 'mcp-endpoint.js'), 'utf8');
 
 test('credits.COST prices the MCP and REST surfaces identically', () => {
-    assert.equal(credits.COST.mcp_lookup, 2);
+    // 1 since 2026-10-10 (owner decision): a lookup makes no model call.
+    assert.equal(credits.COST.mcp_lookup, 1);
     assert.equal(credits.COST.mcp_ask, 42);
     // Surface parity, both halves. The ask was equalised 2026-09-22 (shared
     // 6x-frontier anchor); the lookup 2026-09-23 (no anchor either side, so
-    // the 1-vs-2 split had nothing behind it). A future reprice must move both
+    // the 1-vs-2 split had nothing behind it), and both moved to 1 together. A future reprice must move both
     // surfaces together or this fails — which is the point.
     assert.equal(credits.COST.api_lookup, credits.COST.mcp_lookup, 'api_lookup and mcp_lookup must be equal');
     assert.equal(credits.COST.api_ask, credits.COST.mcp_ask, 'api_ask and mcp_ask share the 6x anchor');

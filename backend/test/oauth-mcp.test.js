@@ -246,3 +246,80 @@ test('a legacy token with no stored scope resolves as the mcp scope, not as full
     assert.deepEqual(resolved.scopes, ['mcp']);
     assert.equal(resolved.resource, null);
 });
+
+// ---------------------------------------------------------------------------
+// Client secrets (2026-10-09): Microsoft 365 Copilot and Perplexity will not
+// connect to a server whose registration issues none. Everyone already
+// connected is a public client and must stay exactly as they were.
+// ---------------------------------------------------------------------------
+
+test('a client that asks for no secret still gets none, as before', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    for (const authMethod of [undefined, 'none', '', 'private_key_jwt']) {
+        const client = await oauth.registerClient({ clientName: 'Claude', redirectUris: ['https://claude.ai/api/mcp/auth_callback'], authMethod });
+        assert.equal(client.clientSecret, undefined, `no secret for method ${JSON.stringify(authMethod)}`);
+        assert.equal(client.secretHash, undefined);
+        assert.equal(await oauth.clientIsConfidential(client._id), false);
+        // Public clients are not authenticated at the token endpoint; PKCE binds the exchange.
+        assert.equal(await oauth.authenticateClient({ clientId: client._id }), true);
+        assert.equal(await oauth.authenticateClient({ clientId: client._id, clientSecret: 'anything' }), true);
+    }
+});
+
+test('a confidential client is issued a secret, stored only as a hash, and must present it', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    for (const authMethod of ['client_secret_post', 'client_secret_basic']) {
+        const client = await oauth.registerClient({ clientName: 'Copilot', redirectUris: ['https://a.example/cb'], authMethod });
+        assert.match(client.clientSecret, /^sp_mcps_[0-9a-f]{64}$/);
+        assert.equal(client.authMethod, authMethod);
+        const stored = await mongoose.connection.collection('oauth_clients').findOne({ _id: client._id });
+        assert.equal(stored.clientSecret, undefined, 'the raw secret is never stored');
+        assert.ok(!JSON.stringify(stored).includes(client.clientSecret));
+        assert.match(stored.secretHash, /^[0-9a-f]{64}$/);
+
+        assert.equal(await oauth.clientIsConfidential(client._id), true);
+        assert.equal(await oauth.authenticateClient({ clientId: client._id, clientSecret: client.clientSecret }), true);
+        assert.equal(await oauth.authenticateClient({ clientId: client._id }), false, 'no secret, no token');
+        assert.equal(await oauth.authenticateClient({ clientId: client._id, clientSecret: `${client.clientSecret}0` }), false);
+        assert.equal(await oauth.authenticateClient({ clientId: client._id, clientSecret: 'sp_mcps_wrong' }), false);
+    }
+});
+
+test('Perplexity and Microsoft registrations get a secret even when they register as public', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    for (const uri of ['https://www.perplexity.ai/rest/connections/oauth_callback', 'https://perplexity.ai/cb', 'https://teams.microsoft.com/api/platform/v1.0/oAuthRedirect']) {
+        const client = await oauth.registerClient({ clientName: 'x', redirectUris: [uri], authMethod: 'none' });
+        assert.match(client.clientSecret, /^sp_mcps_/, uri);
+        assert.equal(client.authMethod, 'none', 'it asked to be public and is recorded as public');
+        assert.equal(await oauth.clientIsConfidential(client._id), false);
+        // The secret is optional for it, but a wrong one is never waved through.
+        assert.equal(await oauth.authenticateClient({ clientId: client._id }), true);
+        assert.equal(await oauth.authenticateClient({ clientId: client._id, clientSecret: client.clientSecret }), true);
+        assert.equal(await oauth.authenticateClient({ clientId: client._id, clientSecret: 'wrong' }), false);
+    }
+    // A lookalike host is not on the list.
+    for (const uri of ['https://perplexity.ai.evil.example/cb', 'https://notperplexity.ai/cb', 'https://evil.example/perplexity.ai']) {
+        const client = await oauth.registerClient({ clientName: 'x', redirectUris: [uri], authMethod: 'none' });
+        assert.equal(client.clientSecret, undefined, uri);
+    }
+    assert.deepEqual(oauth.secretRedirectHosts({ OAUTH_SECRET_REDIRECT_HOSTS: ' Example.com , ' }), ['perplexity.ai', 'teams.microsoft.com', 'example.com']);
+});
+
+test('a confidential client’s refresh token cannot be used by leaving the client out', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    const flow = async (client) => {
+        const { verifier, challenge } = pkcePair();
+        const code = await oauth.issueCode({ clientId: client._id, userId: 'user-1', redirectUri: client.redirectUris[0], codeChallenge: challenge, codeChallengeMethod: 'S256', scope: 'mcp' });
+        return oauth.issueTokens(await oauth.redeemCode({ code, clientId: client._id, redirectUri: client.redirectUris[0], codeVerifier: verifier }));
+    };
+    const confidential = await oauth.registerClient({ clientName: 'c', redirectUris: ['https://a.example/cb'], authMethod: 'client_secret_post' });
+    const first = await flow(confidential);
+    assert.equal(await oauth.refresh({ refreshToken: first.refresh_token, clientId: '' }), null, 'an unnamed, unauthenticated caller is refused');
+    const second = await flow(confidential);
+    assert.ok(await oauth.refresh({ refreshToken: second.refresh_token, clientId: confidential._id }), 'the authenticated client refreshes');
+
+    // A public client keeps the behaviour it had: a refresh that names no client still works.
+    const pub = await oauth.registerClient({ clientName: 'p', redirectUris: ['https://b.example/cb'] });
+    const third = await flow(pub);
+    assert.ok(await oauth.refresh({ refreshToken: third.refresh_token, clientId: '' }));
+});

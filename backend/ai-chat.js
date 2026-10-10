@@ -25,6 +25,7 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const aiClient = require('./ai-client');
+const savedScreens = require('./saved-screens');
 const fundFetch = require('./fundamentals-fetch');
 const stockUniverse = require('./stock-universe');
 const evidence = require('./ask-evidence');
@@ -1311,6 +1312,38 @@ const TOOLS = [
     {
         type: 'function',
         function: {
+            name: 'save_screen',
+            description: 'Save a stock screen to the user\'s account so they can reopen and re-run it on the Screener page. Use ONLY when the user asks to save, keep or create a screen or screener. Pass the same filters you would pass to screen_universe (at least one), and a short name. Run screen_universe first if you have not yet shown them the results. After saving, tell them the name and give the returned link.',
+            parameters: {
+                type: 'object',
+                properties: {
+                    name: { type: 'string', description: 'Short name for the screen, in the user\'s words, e.g. "Cheap profitable growers"' },
+                    similar_to: { type: 'string' },
+                    sector: { type: 'string' },
+                    min_revenue_cagr_5y_pct: { type: 'number' },
+                    max_revenue_cagr_5y_pct: { type: 'number' },
+                    min_net_margin_pct: { type: 'number' },
+                    min_roe_pct: { type: 'number' },
+                    max_roe_pct: { type: 'number' },
+                    min_dividend_yield_pct: { type: 'number' },
+                    max_pe: { type: 'number' },
+                    max_peg: { type: 'number' },
+                    min_price_to_book: { type: 'number' },
+                    max_price_to_book: { type: 'number' },
+                    min_market_cap_billions: { type: 'number' },
+                    max_market_cap_billions: { type: 'number' },
+                    min_profitable_years_of_last_10: { type: 'integer' },
+                    min_latest_qtr_earnings_growth_yoy_pct: { type: 'number' },
+                    require_positive_fcf: { type: 'boolean' },
+                    exclude_secondary_listings: { type: 'boolean' }
+                },
+                required: ['name']
+            }
+        }
+    },
+    {
+        type: 'function',
+        function: {
             name: 'get_portfolio',
             description: "The user's own saved portfolio holdings with weights and values. Use when the question is about 'my portfolio', 'my holdings', 'my stocks'.",
             parameters: { type: 'object', properties: {} }
@@ -1826,6 +1859,21 @@ async function toolReadDocument(args, ctx) {
     return { attachment: doc.name, text: doc.text, note: `Extracted text of "${doc.name}" (${doc.text.length} chars kept).` };
 }
 
+// ---- Tool: save_screen (a screen kept on the account; see saved-screens.js) ----
+// The criteria go through the same whitelist the Screener page's ?criteria=
+// input does, so the model cannot store anything the screen would not run.
+async function toolSaveScreen(args, ctx) {
+    if (!ctx || !ctx.userId) return { error: 'Saving a screen needs an account. Tell the user to sign in, then ask again; the screen itself still works without one.' };
+    const criteria = screenArgsFromClient(args);
+    try {
+        const saved = await savedScreens.save(ctx.userId, { name: args && args.name, criteria, source: 'ask' });
+        return { ok: true, name: saved.name, filters: saved.criteria, link: `/screener?screen=${saved.id}`, note: 'Saved to the user\'s account. It appears under saved screens on the Screener page.' };
+    } catch (err) {
+        if (err && err.code) return { error: err.message };
+        return { error: 'The screen could not be saved right now.' };
+    }
+}
+
 function runTool(name, args, ctx) {
     switch (name) {
         case 'remember': return toolRemember(args || {}, ctx);
@@ -1841,6 +1889,7 @@ function runTool(name, args, ctx) {
         case 'get_segments': return toolGetSegments(args || {});
         case 'get_insider_activity': return toolGetInsiders(args || {});
         case 'screen_universe': return toolScreenUniverse(args || {});
+        case 'save_screen': return toolSaveScreen(args || {}, ctx);
         case 'get_portfolio': return toolGetPortfolio(ctx);
         case 'calculator': return toolCalculator(args || {});
         case 'search_web': return toolSearchWeb(args || {});
@@ -2699,4 +2748,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, screenArgsFromClient, resolveScreenAnchor, similarityDistance, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, frameworkApplies, reportCacheKey, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });
+Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolSaveScreen, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, screenArgsFromClient, resolveScreenAnchor, similarityDistance, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, frameworkApplies, reportCacheKey, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });

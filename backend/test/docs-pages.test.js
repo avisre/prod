@@ -73,7 +73,7 @@ test('titles, descriptions and canonicals are present and unique', () => {
 test('every credit figure rendered is a real credits.COST value', () => {
     // Parsed out of the HTML, not read from the definitions: this is the check
     // that would have caught the public-api.md drift.
-    const real = new Set(Object.values(credits.COST));
+    const real = new Set(Object.values(credits.LISTED_COST));
     const seen = [];
     for (const [slug, html] of [...ALL, ['index', docs.renderDocsIndex()]]) {
         for (const m of html.matchAll(/(\d+)\s+credits?\b/g)) {
@@ -92,9 +92,9 @@ test('the credits page prices every metered action at its real cost', () => {
         'Research Dossier': credits.COST.dossier_standard,
         'Compare two dossiers': credits.COST.dossier_compare,
         'Filing Monitor report': credits.COST.monitor,
-        'API data lookup': credits.COST.api_lookup,
+        'API data lookup': credits.LISTED_COST.api_lookup,
         'API AI answer': credits.COST.api_ask,
-        'MCP data lookup': credits.COST.mcp_lookup,
+        'MCP data lookup': credits.LISTED_COST.mcp_lookup,
         'MCP AI answer': credits.COST.mcp_ask
     };
     for (const [label, cost] of Object.entries(expected)) {

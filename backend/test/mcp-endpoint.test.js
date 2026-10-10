@@ -35,6 +35,7 @@ const credits = require('../credits');
 const fin = require('../mcp-financials');
 const aiChat = require('../ai-chat');
 const mcpEndpoint = require('../mcp-endpoint');
+const connectorNotices = require('../connector-notices');
 
 const ASK_LIMIT = 10;
 const EXPECTED_TOOLS = [
@@ -632,4 +633,72 @@ test('the call log records duration and outcome but never a credential', { timeo
     const serialized = JSON.stringify(events);
     assert.ok(!/Bearer|sp_live_|authorization/i.test(serialized), 'no credential material reaches the log');
     assert.ok(!/203\.0\.113|u1/.test(serialized), 'the caller is a hash, not the raw identity');
+});
+
+// ---------------------------------------------------------------------------
+// Account notices — connector-notices.js, wired the way app.js wires it
+// ---------------------------------------------------------------------------
+
+function noticeShape() {
+    const shape = keyedShape();
+    shape.deps.accountNotice = (gate) => connectorNotices.forCall({
+        ledger: mongoose.connection.collection('credit_ledger'),
+        userId: 'u1',
+        gate,
+        facts: { lookupCost: credits.COST.mcp_lookup, askCost: credits.COST.mcp_ask }
+    });
+    return shape;
+}
+
+test('credits added to an account are announced on its next call, once', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+    stubFinancials();
+    t.after(restoreFinancials);
+    const client = await connect(t, await mount(t, noticeShape()));
+    const lookup = async () => jsonOf(await client.callTool({ name: 'search_filings', arguments: { ticker: 'AAPL' } }));
+
+    assert.equal((await lookup()).account_notice, undefined, 'an ordinary call says nothing about the account');
+
+    assert.equal(await credits.grant('u1', 500, 'comp', 'comp-test'), true);
+    const told = await lookup();
+    assert.match(told.account_notice, /^500 credits were added to this StockPortfolio\.pro account on \d+ \w+ \d{4}\. After this call it has 518 credits available\./);
+    assert.equal(Object.keys(told)[0], 'account_notice', 'the notice is the first thing in the result');
+    assert.deepEqual({ used: told.credits.used, allowance: told.credits.allowance, remaining: told.credits.remaining }, { used: 2, allowance: 520, remaining: 518 });
+    assert.ok(Array.isArray(told.filings) || told.filings === undefined || typeof told === 'object', 'the tool payload is still there');
+
+    assert.equal((await lookup()).account_notice, undefined, 'the call that announced it is now the last call');
+    assert.equal((await credits.balance('u1', ASK_LIMIT)).used, 3 * credits.COST.mcp_lookup, 'a notice never changes what a call costs');
+});
+
+test('a wallet that is nearly spent says so before the refusal, and a broken notice never fails a call', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+    stubFinancials();
+    t.after(restoreFinancials);
+    const client = await connect(t, await mount(t, noticeShape()));
+    const lookup = async () => jsonOf(await client.callTool({ name: 'search_filings', arguments: { ticker: 'AAPL' } }));
+
+    // The test wallet is 20 credits and a lookup costs 1, so the notice starts
+    // on the call that leaves five lookups' worth (call 15).
+    for (let i = 0; i < 14; i++) assert.equal((await lookup()).account_notice, undefined, `call ${i + 1} leaves more than five lookups`);
+    const low = await lookup();
+    assert.match(low.account_notice, /credits are running low: 5 of 20 left this month, enough for about 5 more data lookups \(an AI answer costs 42\)/);
+    assert.ok(low.account_notice.includes(connectorNotices.RECHARGE_URL));
+    assert.equal(low.credits.remaining, 5);
+
+    // A tool error carries no notice: nothing was charged and the model is
+    // already being told something more important.
+    const bad = await client.callTool({ name: 'get_company_fundamentals', arguments: { ticker: 'AAPL', metrics: ['ebitda'] } });
+    assert.equal(bad.isError, true);
+    assert.equal(jsonOf(bad).account_notice, undefined);
+
+    const shape = keyedShape({ limiter: { check: async () => ({ ok: true, used: 90, allowance: 100, cost: 2, remaining: 10 }), spend: async () => {} } });
+    shape.deps.accountNotice = async () => { throw new Error('ledger down'); };
+    const other = await connect(t, await mount(t, shape));
+    const res = await other.callTool({ name: 'search_filings', arguments: { ticker: 'AAPL' } });
+    assert.ok(!res.isError, 'the call still succeeds');
+    assert.equal(jsonOf(res).account_notice, undefined);
 });

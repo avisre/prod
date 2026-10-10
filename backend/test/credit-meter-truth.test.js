@@ -186,8 +186,8 @@ test('the published listing matches credits.js exactly', () => {
         ['AI-backed ask — MCP or REST', 'mcp_ask']
     ]) {
         assert.ok(
-            listing.includes(`| ${label} | ${COST[key]} |`),
-            `cost table must price ${label} at ${COST[key]}`
+            listing.includes(`| ${label} | ${credits.LISTED_COST[key]} |`),
+            `cost table must price ${label} at ${credits.LISTED_COST[key]}`
         );
     }
 

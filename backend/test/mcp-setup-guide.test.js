@@ -24,7 +24,9 @@ const docs = require('../docs-pages');
 const seoPages = require('../seo-pages');
 const credits = require('../credits');
 
-const COST = credits.COST;
+// Published prices are checked against LISTED_COST: since 2026-10-10 a lookup is
+// CHARGED 1 (credits.COST) while the published price stays 2 (owner decision).
+const COST = credits.LISTED_COST;
 const PAGE = docs.renderDocPage('api-mcp');
 const BLOCKS = docs.DOC_PAGES['api-mcp'].setup;
 
@@ -100,7 +102,7 @@ test('the /api landing page quotes credits.COST rather than typed-in numbers', (
     // constant for ITS surface — a row quoting the other surface's figure is
     // exactly the drift this test exists for.
     const mcpRows = [...html.matchAll(
-        /<code>([a-z_]+)<\/code><\/td><td>[^<]*<\/td><td>(free|\d+)<\/td>/g
+        /<code>([a-z_]+)<\/code><\/td><td>[^<]*<\/td><td>(free|\d+(?:\.\d+)?)<\/td>/g
     )].map((m) => [m[1], m[2]]);
     assert.equal(mcpRows.length, 6, `expected six MCP tool rows, found ${mcpRows.length}`);
     for (const [tool, price] of mcpRows) {
@@ -113,7 +115,7 @@ test('the /api landing page quotes credits.COST rather than typed-in numbers', (
     }
 
     const restRows = [...html.matchAll(
-        /<code>(?:GET|POST) (\/api\/v1\/[^<]+)<\/code><\/td><td>[^<]*<\/td><td>(free|\d+)<\/td>/g
+        /<code>(?:GET|POST) (\/api\/v1\/[^<]+)<\/code><\/td><td>[^<]*<\/td><td>(free|\d+(?:\.\d+)?)<\/td>/g
     )].map((m) => [m[1], m[2]]);
     assert.ok(restRows.length >= 7, `the REST table did not render (found ${restRows.length} rows)`);
     for (const [route, price] of restRows) {

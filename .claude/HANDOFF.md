@@ -15,6 +15,39 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Connector, pricing, saved screens — 2026-10-10 (one commit, pushed on the owner's word)
+
+Plan: `~/.claude/plans/fix-the-monthly-allowance-graceful-lightning.md`. Everything below shipped together.
+- **A lookup is CHARGED 1 credit, PUBLISHED at 2** (owner decision; he weighed 0.5 and chose 1, and said to leave the
+  site at 2). `credits.COST` charges; `credits.LISTED_COST` is what pages, docs, emails and messages quote. To bring
+  them into line later, delete the two overrides in `credits.js`. Measured first: three real questions through Claude
+  (Haiku 5.5) cost 1, 7 and 3 lookups and no AI answer; a lookup makes no model call; `ask_filings` is about $0.07.
+- **Account notices in connector results** (`backend/connector-notices.js`, both `/mcp` and `/mcp/apps`): credits
+  added since the account's last connector call are announced once; a low wallet says so at 80% used and for the last
+  five lookups. Derived from the ledger each call, nothing stored. Neutral wording on `/mcp/apps`. Off switch:
+  `CONNECTOR_ACCOUNT_NOTICES=false`. **Why:** Todd ran dry mid-batch on 10/08 and never saw the 500-credit comp.
+- **Sign-in issues a client secret when asked** (`oauth-mcp.js`): for `client_secret_post`/`client_secret_basic`, and
+  for registrations returning to `perplexity.ai` or `teams.microsoft.com` (`OAUTH_SECRET_REDIRECT_HOSTS` adds hosts).
+  A registration naming no method stays public, so Claude and ChatGPT get what they got. Both Microsoft 365 Copilot
+  and Perplexity refuse a server that issues none. **Re-test a fresh Claude and ChatGPT connect after each deploy
+  that touches this.**
+- **Saved screens** (`backend/saved-screens.js`, `/api/screens`, Ask tool `save_screen`, buttons under an Ask answer
+  that ran a screen, `screener.js` reads `?criteria=` / `?screen=`; browser-saved screens move to the account once).
+  One criteria set per screen; still no index-membership, share-price or moving-average filter.
+- **Voice input is PARKED and ships off.** Server route needs `STT_API_KEY`; the in-browser open-source model
+  (`assets/voice-worker.js`) needs `VOICE_LOCAL_MODEL=true`, which also adds its CSP entries. With neither, the button
+  is hidden and the CSP unchanged. The in-browser route has never run in a real browser. Measured: our AI provider's
+  cloud takes no audio (all 18 models refused a real clip); Whisper needs 1.7 GB in our process; audio does work on
+  a self-run Ollama with `gemma4:e2b`/`e4b` (16 kHz mono WAV, base64 in `images`), not on its cloud.
+- **Listings.** Perplexity: submitted 10/09 through its Connector Marketplace form; write-up and the commitments made
+  are in `docs/growth/perplexity-connector-2026-10-09.md`. Microsoft: agent package in
+  `integrations/microsoft-365-copilot/` (README has the steps); Partner Center enrolment done, business verification
+  with Microsoft. The Gmail connector rewrites links in sent mail; use web forms for outside mail.
+- **`backend/node_modules` is no longer tracked.** It was a link to `~/prod/backend/node_modules` since `7df03ce05`,
+  so any worktree `npm ci` emptied `~/prod`'s copy (three times on 10/9 to 10/10).
+- Not checked before push: a real model calling `save_screen`; any real Microsoft or Perplexity client.
+- Stale outside the repo: nothing (the published price was left at 2 everywhere).
+
 ## Stocks & funds page: peers, Pre-tax income, long-term assets — 2026-10-10 (`601587f5b`)
 
 Owner report, reproduced with Fair Isaac (FICO).
@@ -120,82 +153,10 @@ never seen. Every page served to a walled country now logs `[geo-wall] {outcome:
   `npm ci --prefix backend` in any worktree wipes and rewrites the `~/prod` install, and `git stash` in the worktree
   empties it. Never stage the resulting `D backend/node_modules`. Removing the symlink needs a check of the Render build.
 
-## Revenue breakdown on the company page — state on 2026-10-07
+## Revenue breakdown on the company page — moved to the snapshot
 
-**One module decides:** `backend/revenue-breakdown.js` returns a graded contract (`complete`, `partial` with a named
-`remainder`, or `none` with a plain `reason`; rows carry shares of their own fiscal year). The dossier build, every
-cached dossier read (`dossier.refreshValuation`), Ask's `get_segments` and the page's `breakdownTable()` all use it;
-nothing downstream recomputes a share, a remainder or a year. Selection and naming rules live in
-`backend/sec-segment-observations.js` (`extract`, `shown`, `preferred`, `displayName`, `validGroup`).
-
-**What the stored data holds** (`frontend/data/sec-financials/*.json`, industry `VERSION` `20261007-industry6`):
-- `segmentObservations`: one table per axis and year — operating segments, product/service lines, regions. Each entry
-  has the filed value with its receipt and `filedLabel` (the company's printed label, read from `*_lab.xml` or the
-  `.xsd`). A table not stated in revenue carries `measure` (insurer premiums; a bank's
-  `InterestIncomeExpenseNet` + `NoninterestIncome`, stored in `entry.components`; an issuer's own
-  `RevenuesNetOfInterestExpense…` concept, e.g. BAC).
-- `operatingExpenseLines`: the expense lines the filer reports (R&D, sales and marketing, G&A, fulfillment,
-  technology) with printed labels; `opexParts()` in `frontend-v2/assets/dossier.js` draws the set that adds up to
-  the filed total and never counts a combined line twice.
-- Total revenue may be cited to an amendment (10-K/A, 20-F/A) of the same report; any other filing is rejected.
-
-**Display rules:** product/service lines lead when they have ≥3 rows and say more than the segments or the segments
-are geography; regions only when nothing else is usable; operating segments are never pruned to fit and, where they
-sell to each other (110–160% of revenue: CVS, HUM, UNH), are shown with shares of the segment total and a note;
-roll-up members ("Reportable Segment, Aggregation", "Total") are never rows; a table at 60–98% is `partial`.
-**Over-counted tables get a second, stricter reading** (`shown()` → `read(g, true)`, only when the first reading is
-not usable and is over 110%, and kept only if the result is usable — so a table that already works cannot change):
-drops a member equal to the filed total or named Entity-wide / Consolidated entities / Operating segments, a
-`Currency…` memo member, and a second member carrying an exact value already seen (one figure tagged twice); and when
-the leading rows add exactly to the total, takes them as the table (segments then countries on one axis: CETX, BHST).
-**Measured and rejected, do not retry:** withholding any table with a negative entry (kills TSN, MO, TFC, RTX — a
-negative eliminations line is normal) and de-duplicating in every table (reshuffled ~190 good tables).
-
-**Coverage, 4,923 screenable issuers:** complete 3,273 + partial 154 = 3,427; filed revenue is zero 47; single-row
-295; tags no table 609; covers <60% 127; over 110% 10; **no total revenue in our statement data ~416**.
-**Those 422 were checked one by one** (`docs/qa/revenue-missing-check-2026-10-07.csv`, SEC company facts + each
-latest annual filing): 146 have never filed revenue (pre-revenue, R&D only); only 18 file an undimensioned total, and
-most of those are fragments the revenue rule rejects on purpose (`partialRevenueConcept`: a bank's fee line).
-`sec-facts.js` now has a helper field `reportedRevenueTotal` (us-gaap `RegulatedOperatingRevenue`, ifrs-full
-`RevenueAndOperatingIncome`) that fills `totalRevenue` **only when it is null** and the line is ≥ |net income|:
-filled HSBC, UBS, ARGX, BCH, OGS, GGAL; rejected BBVA (a €316M fragment). The rest stay empty and the page says why
-(`REASONS.revenueInParts` for lenders filing interest/fees/premiums separately, else `revenueMissing`) — owner's
-rule 10/7: never show a figure the company did not file; say it is not available and why; fill only genuine cases.
-LHX, MTH tag revenue only by segment/product with no company total; APA, NRP, TG use company-specific concepts.
-**Do not run `refresh-sec-coverage.js --symbols` on a day after `sec-reporting.json` `asOf`:** the new check
-timestamps post-date the snapshot and `sec-runtime.test.js` fails; the six fills above were capped to the asOf day.
-S&P 500: 438 complete / 35 partial / 30 none. Rerun the numbers with
-`node scripts/audit-segment-display.js --sp500` (0 violations required; it runs in the deploy gate).
-
-**Measured, do not redo:** reading untagged tables from annual-report text recovered **0 of 39** sampled issuers
-(48 model calls; nothing passed the literal-quote check), so no text-extraction layer was built.
-
-**The <60% and >110% groups were examined 10/7 and are correctly withheld:** of the 127 under 60%, 100 are banks and
-12 REITs whose only tagged table is fee or ancillary income (net interest income / rent is not broken out). The 10 over
-110%: PBR (four tables on one axis; segments are 171% before eliminations), TYGO (filer tagged thousands as millions —
-not rescaled, by the owner rule), MBI (a segment with negative revenue), TII (a gross-to-net reconciliation), DARE,
-and INBX/ATOM/RLYB/NMTC/UTMD (one line tagged twice, i.e. really a single line).
-
-**Known gaps, with cause:** CVX — Upstream/Downstream are tagged with a second dimension the reader skips;
-PGR — Personal/Commercial Lines premiums are not captured; ELV — segments only by premiums with a "Total" member;
-HD — its filing tags "Primary / Other"; AZO — regions are just US / Non-US; ~790 small issuers tag nothing at all.
-
-**How to change data safely:** edit the extractor, bump `VERSION` in `backend/sec-industry.js`, run
-`SEC_ORIGINAL_MAX_MB=64 node scripts/refresh-sec-industry.js` (≈2.5 h, all issuers; `--symbols` for a subset), then
-`build-public-stock-index.js`, `build-screen-index.js`, `audit-segment-display.js --golden`, full tests and the four
-gate scripts. Golden set: `backend/test/fixtures/revenue-breakdown-golden.json` (63 tickers).
-
-**Checking a deploy without a login:** `GET /api/admin/revenue-breakdown/:symbol` with `x-admin-token`.
-`scripts/render-dossier-gallery.js` renders real sections to look at. **Nobody has viewed a logged-in company page
-for this work** — a script to sign a test-account session was refused by the permission layer; the owner should
-open one.
-
-**Off-balance-sheet section:** `backend/off-balance-sheet.js` reads leases not yet commenced, unrecorded purchase
-obligations, guarantees and unconsolidated-entity exposure from the latest 10-K/10-Q inline XBRL with the filing
-sentence; shown in both views (`offBalanceHtml`). Ask has no tool for it. 20-F filers return nothing.
-
-Asset stamp `20261007-breakdown4`.
-
+The 2026-10-07 state write-up (77 lines) is verbatim in `handoff-archive/2026-10-10.md`. Read it there before
+touching the revenue breakdown.
 
 ## 2026-10-07 — new price ladder, direct lifetime sales retired, /connect (stamp `20261007-price1`)
 - **Ladder: Dev $200 · Monthly $79.99 · Annual $649.99 · Pro $799.99/yr · Desk $1,999.99.** Dev went from

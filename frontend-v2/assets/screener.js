@@ -154,10 +154,72 @@
     function savedScreens() {
         try { return JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'); } catch (_) { return []; }
     }
+    // ---- saved screens on the account (signed in) ----
+    // Signed in, screens are kept on the account (/api/screens) so they follow
+    // the user across browsers and so Ask can save one. A screen there is a set
+    // of screen criteria, the same shape an adopted AI screen has. Signed out,
+    // the localStorage screens above are all there is.
+    const FILTER_TO_CRITERIA = [['f-cagr', 'min_revenue_cagr_5y_pct'], ['f-margin', 'min_net_margin_pct'], ['f-roe', 'min_roe_pct'], ['f-pe', 'max_pe'], ['f-div', 'min_dividend_yield_pct'], ['f-qtr', 'min_latest_qtr_earnings_growth_yoy_pct']];
+    let accountScreens = [];
+    const signedIn = () => !!(window.V2 && V2.token && V2.token());
+    const authHeaders = () => ({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + V2.token() });
+    function criteriaFromFilters(f) {
+        const c = {};
+        FILTER_TO_CRITERIA.forEach(([id, key]) => { if (f[id] !== undefined && f[id] !== '' && !Number.isNaN(Number(f[id]))) c[key] = Number(f[id]); });
+        if (f['f-fcf']) c.require_positive_fcf = true;
+        if (f['f-sector']) c.sector = f['f-sector'];
+        const mv = f['f-mcap'];
+        const band = (mv !== undefined && mv !== '') ? BANDS[Number.isNaN(Number(mv)) ? mv : bandFor(Number(mv))] : null;
+        if (band) {
+            if (band.min !== undefined) c.min_market_cap_billions = band.min;
+            if (band.max !== undefined) c.max_market_cap_billions = band.max;
+        }
+        return c;
+    }
+    async function saveToAccount(name, criteria) {
+        const r = await fetch('/api/screens', { method: 'POST', headers: authHeaders(), credentials: 'same-origin', body: JSON.stringify({ name, criteria }) });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data.message || 'Could not save the screen.');
+        return data.screen;
+    }
+    async function loadAccountScreens() {
+        if (!signedIn()) return;
+        try {
+            // Screens saved in this browser before accounts held them move up once.
+            const local = savedScreens();
+            if (local.length) {
+                let moved = 0;
+                for (const s of local) {
+                    const criteria = criteriaFromFilters(s.filters || {});
+                    if (!Object.keys(criteria).length) { moved += 1; continue; }
+                    try { await saveToAccount(s.name, criteria); moved += 1; } catch (_) { /* keep it local and try again next visit */ }
+                }
+                if (moved === local.length) localStorage.removeItem(SAVED_KEY);
+            }
+            const r = await fetch('/api/screens', { headers: authHeaders(), credentials: 'same-origin' });
+            if (r.ok) accountScreens = (await r.json()).screens || [];
+        } catch (_) { /* the page works without saved screens */ }
+        renderSaved();
+    }
+
     function renderSaved() {
         const wrap = $('saved-screens');
-        wrap.innerHTML = savedScreens().map((s, i) =>
+        const account = accountScreens.map((s) =>
+            `<button class="chip chip-accent" data-acct="${esc(s.id)}" title="Saved to your account">${esc(s.name)}&ensp;<span data-del-acct="${esc(s.id)}" aria-label="Delete ${esc(s.name)}" style="opacity:.6;">×</span></button>`).join('');
+        wrap.innerHTML = account + savedScreens().map((s, i) =>
             `<button class="chip chip-accent" data-saved="${i}" title="Your saved screen">${esc(s.name)}&ensp;<span data-del-saved="${i}" aria-label="Delete ${esc(s.name)}" style="opacity:.6;">×</span></button>`).join('');
+        wrap.querySelectorAll('[data-acct]').forEach((b) =>
+            b.addEventListener('click', async (e) => {
+                if (e.target.dataset.delAcct !== undefined) {
+                    const id = e.target.dataset.delAcct;
+                    try { await fetch('/api/screens/' + encodeURIComponent(id), { method: 'DELETE', headers: authHeaders(), credentials: 'same-origin' }); } catch (_) { /* shown again on reload if it failed */ }
+                    accountScreens = accountScreens.filter((x) => x.id !== id);
+                    renderSaved();
+                    return;
+                }
+                const s = accountScreens.find((x) => x.id === b.dataset.acct);
+                if (s) adoptAiScreen(s.criteria);
+            }));
         wrap.querySelectorAll('[data-saved]').forEach((b) =>
             b.addEventListener('click', (e) => {
                 if (e.target.dataset.delSaved !== undefined) {
@@ -176,8 +238,17 @@
     }
     $('save-btn').addEventListener('click', () => {
         const f = currentFilters();
-        if (!Object.keys(f).length) return;
+        // An adopted screen (from Ask, a link or a saved screen) can carry
+        // criteria the filter boxes cannot show, so it is saved as it is.
+        const criteria = aiCriteria && Object.keys(aiCriteria).length ? aiCriteria : criteriaFromFilters(f);
+        if (!Object.keys(f).length && !Object.keys(criteria).length) return;
         const saveWith = (name) => {
+            if (signedIn() && Object.keys(criteria).length) {
+                saveToAccount(name, criteria)
+                    .then((saved) => { accountScreens = [saved, ...accountScreens.filter((x) => x.id !== saved.id)]; renderSaved(); })
+                    .catch((err) => { if (window.V2 && V2.modal) V2.modal({ label: 'Save screen', title: 'Could not save', bodyHtml: '<p>' + esc(err.message) + '</p>', actions: [{ label: 'OK', primary: true }] }); });
+                return;
+            }
             const list = savedScreens().filter((s) => s.name !== name);
             list.push({ name, filters: f });
             localStorage.setItem(SAVED_KEY, JSON.stringify(list.slice(-8)));
@@ -209,6 +280,7 @@
         field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
     });
     renderSaved();
+    loadAccountScreens();
 
     // ---- export to TradingView (Investor/Pro tiers; the server enforces it) ----
     // The file is the current screen, in the order the table shows it, as a
@@ -479,5 +551,21 @@
         });
     });
 
-    run();
+    // A screen can arrive in the address: ?criteria=<json> (the "Open in
+    // Screener" link under an Ask answer) or ?screen=<id> (a screen saved to the
+    // account). Either way it is adopted like any AI screen, and the server
+    // whitelists every key when the page re-runs it.
+    (async () => {
+        const params = new URLSearchParams(location.search);
+        let linked = null;
+        if (params.get('criteria')) {
+            try { const c = JSON.parse(params.get('criteria')); if (c && typeof c === 'object' && !Array.isArray(c) && Object.keys(c).length) linked = c; } catch (_) { /* not a screen */ }
+        } else if (params.get('screen') && signedIn()) {
+            try {
+                const r = await fetch('/api/screens/' + encodeURIComponent(params.get('screen')), { headers: authHeaders(), credentials: 'same-origin' });
+                if (r.ok) linked = ((await r.json()).screen || {}).criteria || null;
+            } catch (_) { /* fall through to the default screen */ }
+        }
+        if (linked) adoptAiScreen(linked); else run();
+    })();
 })();

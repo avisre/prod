@@ -36,6 +36,9 @@ const mcpAnon = require('./mcp-anon');
 const oauthCsp = require('./oauth-csp');
 const oauthOffer = require('./oauth-signin-offer');
 const connectorNudge = require('./connector-nudge');
+const connectorNotices = require('./connector-notices');
+const savedScreens = require('./saved-screens');
+const speechToText = require('./speech-to-text');
 const connectorUsage = require('./connector-usage');
 const oauthOidc = require('./oauth-oidc');
 const oauthMcp = require('./oauth-mcp');
@@ -448,6 +451,21 @@ app.use(cors({
     return cb(null, false);
   }
 }));
+// Voice input on Ask can run an open-source speech model in the visitor's
+// browser (frontend-v2/assets/voice-worker.js). PARKED 2026-10-10 (owner): built
+// and unit-tested, never run in a real browser, so it is off unless
+// VOICE_LOCAL_MODEL=true. When on it needs WebAssembly to compile
+// ('wasm-unsafe-eval' permits only that, not eval), the library and its runtime
+// from these two pinned paths, and blob: because the runtime starts itself from
+// a blob URL. Off, the policy is exactly what it was before. Bump the versions
+// together with voice-worker.js.
+const VOICE_LOCAL_MODEL = String(process.env.VOICE_LOCAL_MODEL || '').toLowerCase() === 'true';
+const VOICE_LOCAL_SCRIPT_SRC = VOICE_LOCAL_MODEL ? [
+  "'wasm-unsafe-eval'",
+  'blob:',
+  'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1/',
+  'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.31.0-dev.20260914-8d85527a0/'
+] : [];
 app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: true,
@@ -463,8 +481,10 @@ app.use(helmet({
         'https://www.googletagmanager.com',
         'https://www.clarity.ms',
         'https://scripts.clarity.ms',
-        'https://js.stripe.com'
+        'https://js.stripe.com',
+        ...VOICE_LOCAL_SCRIPT_SRC
       ],
+      ...(VOICE_LOCAL_MODEL ? { workerSrc: ["'self'", 'blob:'] } : {}),
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://accounts.google.com'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
       imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
@@ -1196,6 +1216,7 @@ async function ensureMeteringIndexes() {
   await Promise.all([
     col('credit_ledger').createIndex({ userId: 1, month: 1, at: -1 }, { name: 'credit_ledger_user_month' }),
     col('connector_refusals').createIndex({ userId: 1, month: 1, at: 1 }, { name: 'connector_refusals_user_month' }),
+    col('saved_screens').createIndex({ userId: 1, nameKey: 1 }, { name: 'saved_screens_user_name', unique: true }),
     col('ai_chat_usage').createIndex({ userId: 1, month: 1 }, { name: 'ai_chat_usage_user_month' }),
     col('personal_memory').createIndex({ userId: 1 }, { name: 'personal_memory_user' })
   ]).catch((indexError) => console.warn('[metering] index creation unavailable:', indexError && indexError.message));
@@ -3040,7 +3061,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-peers1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261010-screens1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3069,7 +3090,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-peers1"></script>
+<script src="/assets/app.js?v=20261010-screens1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3161,7 +3182,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-peers1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261010-screens1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3189,7 +3210,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-peers1"></script>
+<script src="/assets/app.js?v=20261010-screens1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3297,7 +3318,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-peers1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261010-screens1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3330,7 +3351,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-peers1"></script>
+<script src="/assets/app.js?v=20261010-screens1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -6183,7 +6204,7 @@ app.get('/.well-known/oauth-authorization-server', (req, res) => {
         response_types_supported: ['code'],
         grant_types_supported: ['authorization_code', 'refresh_token'],
         code_challenge_methods_supported: ['S256'],
-        token_endpoint_auth_methods_supported: ['none'],
+        token_endpoint_auth_methods_supported: ['none', 'client_secret_post', 'client_secret_basic'],
         userinfo_endpoint: `${base}/oauth/userinfo`,
         // The identity scopes belong here and not in the RFC 9728 resource
         // document: the resource is the filings API, and it reads nothing that
@@ -6208,7 +6229,7 @@ app.get('/.well-known/openid-configuration', (req, res) => {
         response_types_supported: ['code'],
         grant_types_supported: ['authorization_code', 'refresh_token'],
         code_challenge_methods_supported: ['S256'],
-        token_endpoint_auth_methods_supported: ['none'],
+        token_endpoint_auth_methods_supported: ['none', 'client_secret_post', 'client_secret_basic'],
         scopes_supported: OAUTH_SCOPES_SUPPORTED,
         subject_types_supported: ['public']
     });
@@ -6262,7 +6283,8 @@ app.post('/oauth/register', oauthRegisterLimit, jsonParser, async (req, res) => 
         const client = await oauthMcp.registerClient({
             clientName: body.client_name,
             redirectUris: body.redirect_uris,
-            softwareId: body.software_id
+            softwareId: body.software_id,
+            authMethod: body.token_endpoint_auth_method
         });
         // Dynamic client registration is a back-channel call from the chatbot
         // itself, so there is no user here. It still matters: it says which
@@ -6277,10 +6299,13 @@ app.post('/oauth/register', oauthRegisterLimit, jsonParser, async (req, res) => 
             client_id: client._id,
             client_name: client.clientName,
             redirect_uris: client.redirectUris,
-            token_endpoint_auth_method: 'none',
+            token_endpoint_auth_method: client.authMethod || 'none',
             grant_types: ['authorization_code', 'refresh_token'],
             response_types: ['code'],
-            client_id_issued_at: Math.floor(client.createdAt.getTime() / 1000)
+            client_id_issued_at: Math.floor(client.createdAt.getTime() / 1000),
+            // Only for a client that needs one (oauth-mcp.js). 0 = never expires,
+            // which RFC 7591 requires be stated whenever a secret is issued.
+            ...(client.clientSecret ? { client_secret: client.clientSecret, client_secret_expires_at: 0 } : {})
         });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'temporarily_unavailable' });
@@ -6377,7 +6402,7 @@ ${oauthOffer.OFFER_CSS}</style>`;
     // Plan facts for the two offers below, from the same constants checkout
     // and the credit ledger use. 100 is the Monthly wallet (credits.js derives
     // it as twice the plan's Ask limit); mcp-anon.js quotes the same figure.
-    const offerFacts = { price: CORE_PLAN_PRICE, lookupCost: credits.COST.mcp_lookup, askCost: credits.COST.mcp_ask, credits: 100 };
+    const offerFacts = { price: CORE_PLAN_PRICE, lookupCost: credits.LISTED_COST.mcp_lookup, askCost: credits.COST.mcp_ask, credits: 100 };
     const cookieSecure = process.env.NODE_ENV === 'production';
 
     if (!user) {
@@ -6547,10 +6572,29 @@ app.post('/oauth/token', express.urlencoded({ extended: false }), jsonParser, as
     // No store, and no proxy may hold a token response.
     res.set('Cache-Control', 'no-store');
     try {
+        // Client credentials arrive in the body (client_secret_post) or as HTTP
+        // Basic (client_secret_basic), where both halves are form-urlencoded.
+        let clientId = String(body.client_id || '');
+        let clientSecret = String(body.client_secret || '');
+        const basic = /^Basic\s+(.+)$/i.exec(String(req.get('authorization') || '').trim());
+        if (basic) {
+            const decoded = Buffer.from(basic[1], 'base64').toString('utf8');
+            const sep = decoded.indexOf(':');
+            if (sep > 0) {
+                try {
+                    clientId = decodeURIComponent(decoded.slice(0, sep).replace(/\+/g, ' '));
+                    clientSecret = decodeURIComponent(decoded.slice(sep + 1).replace(/\+/g, ' '));
+                } catch (_) { return res.status(401).set('WWW-Authenticate', 'Basic').json({ error: 'invalid_client' }); }
+            }
+        }
+        if (!(await oauthMcp.authenticateClient({ clientId, clientSecret }))) {
+            if (basic) res.set('WWW-Authenticate', 'Basic');
+            return res.status(401).json({ error: 'invalid_client' });
+        }
         if (grant === 'authorization_code') {
             const redeemed = await oauthMcp.redeemCode({
                 code: String(body.code || ''),
-                clientId: String(body.client_id || ''),
+                clientId,
                 redirectUri: String(body.redirect_uri || ''),
                 codeVerifier: String(body.code_verifier || ''),
                 resource: body.resource ? String(body.resource) : null
@@ -6564,7 +6608,7 @@ app.post('/oauth/token', express.urlencoded({ extended: false }), jsonParser, as
         if (grant === 'refresh_token') {
             const rotated = await oauthMcp.refresh({
                 refreshToken: String(body.refresh_token || ''),
-                clientId: String(body.client_id || '')
+                clientId
             });
             if (!rotated) return res.status(400).json({ error: 'invalid_grant' });
             return res.json(rotated);
@@ -6661,7 +6705,7 @@ function nudgeOnRefusal(req, evt) {
         {
             users: User.collection,
             sendMail: mailer.sendMail,
-            facts: { monthlyPrice: CORE_PLAN_PRICE, lookupCost: credits.COST.mcp_lookup, askCost: credits.COST.mcp_ask, topupCredits: CREDIT_TOPUP_CREDITS, topupPrice: CREDIT_TOPUP_PRICE }
+            facts: { monthlyPrice: CORE_PLAN_PRICE, lookupCost: credits.LISTED_COST.mcp_lookup, askCost: credits.COST.mcp_ask, topupCredits: CREDIT_TOPUP_CREDITS, topupPrice: CREDIT_TOPUP_PRICE }
         }
     ).then((status) => {
         // Throttled and not-applicable outcomes are the common case and say
@@ -6694,6 +6738,21 @@ async function connectorClientName(clientId) {
 // A refused connector call is written to the account's usage log. These cost no
 // credits and used to leave no trace, so a customer who ran dry mid-session
 // could not see how much of the run was lost. Fire-and-forget, like the nudge.
+// What a successful connector result says about the account itself: credits
+// that arrived since the last call, and a wallet that is nearly spent
+// (connector-notices.js). CONNECTOR_ACCOUNT_NOTICES=false switches it off.
+const CONNECTOR_ACCOUNT_NOTICES = String(process.env.CONNECTOR_ACCOUNT_NOTICES ?? 'true').toLowerCase() !== 'false';
+function connectorAccountNotice(req, gate, neutral) {
+    if (!CONNECTOR_ACCOUNT_NOTICES) return null;
+    return connectorNotices.forCall({
+        ledger: mongoose.connection.collection('credit_ledger'),
+        userId: req.userId,
+        gate,
+        neutral,
+        facts: { lookupCost: credits.COST.mcp_lookup, askCost: credits.COST.mcp_ask }
+    });
+}
+
 function recordConnectorRefusal(req, evt, detail, client) {
     if (!evt || evt.event !== 'tools/call' || evt.ok || !connectorUsage.REFUSAL_LABELS[evt.code]) return;
     connectorUsage.recordRefusal(mongoose.connection.collection('connector_refusals'), {
@@ -6755,6 +6814,7 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
                 effectiveAskLimit: () => effectiveAskLimit(req),
                 entitled: () => hasApiAccess(req),
                 wallReason: null,
+                accountNotice: (gate) => connectorAccountNotice(req, gate, false),
                 onLog: (evt, detail) => { logMcp(evt); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
             }
         );
@@ -6811,6 +6871,7 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
                 limiter: credits,
                 effectiveAskLimit: () => effectiveAskLimit(req),
                 entitled: () => hasApiAccess(req),
+                accountNotice: (gate) => connectorAccountNotice(req, gate, true),
                 onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
             }
         );
@@ -10452,6 +10513,69 @@ app.get('/api/company/:symbol/peers', (req, res) => {
     } catch (error) {
         res.status(error.status || 500).json({ code: error.code || 'PEERS_FAILED', message: publicErrorMessage(error, 'Peers failed') });
     }
+});
+
+// Spoken questions for Ask (speech-to-text.js). Signed-in accounts only, the
+// recording is passed through and never stored, and it costs the user nothing:
+// a 15-second question is a fraction of a cent to transcribe. The hourly cap is
+// what stops a script from running up that bill. Off entirely without STT_API_KEY.
+const transcribeRateLimit = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: Number(process.env.STT_RATE_LIMIT_PER_HOUR || 40),
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => String(req.userId || visitorIp(req)),
+    handler: (req, res) => res.status(429).json({ code: 'RATE_LIMITED', message: 'Too many recordings this hour. Type your question instead.' })
+});
+app.get('/api/ai/transcribe/status', (req, res) => {
+    res.json({ enabled: speechToText.enabled(), local: VOICE_LOCAL_MODEL, maxSeconds: speechToText.MAX_SECONDS });
+});
+app.post('/api/ai/transcribe', authMiddleware, transcribeRateLimit,
+    express.raw({ type: ['audio/*', 'application/octet-stream'], limit: speechToText.MAX_BYTES }),
+    async (req, res) => {
+        res.set('Cache-Control', 'no-store');
+        try {
+            const text = await speechToText.transcribe(req.body, req.get('content-type'));
+            res.json({ text });
+        } catch (error) {
+            const status = { DISABLED: 503, BAD_AUDIO: 400, TOO_LARGE: 413, NO_SPEECH: 422, UNAVAILABLE: 502 }[error && error.code] || 500;
+            res.status(status).json({ code: (error && error.code) || 'FAILED', message: (error && error.code) ? error.message : 'Voice input is not working right now. Type your question instead.' });
+        }
+    });
+
+// Saved screens, kept on the account (saved-screens.js). The Screener page and
+// Ask's save_screen tool both write here; criteria pass the same whitelist as
+// ?criteria= above, so a saved screen can only ever replay screen_universe args.
+app.get('/api/screens', authMiddleware, async (req, res) => {
+    try { res.json({ screens: await savedScreens.list(req.userId), max: savedScreens.MAX_PER_ACCOUNT }); }
+    catch (error) { res.status(500).json({ message: publicErrorMessage(error, 'Could not load saved screens') }); }
+});
+app.post('/api/screens', authMiddleware, jsonParser, async (req, res) => {
+    try {
+        const body = req.body || {};
+        const screen = await savedScreens.save(req.userId, {
+            name: body.name,
+            criteria: aiChat.screenArgsFromClient(body.criteria),
+            source: body.source === 'ask' ? 'ask' : 'screener'
+        });
+        res.json({ screen });
+    } catch (error) {
+        if (error && error.code) return res.status(error.code === 'LIMIT_REACHED' ? 409 : 400).json({ code: error.code, message: error.message });
+        res.status(500).json({ message: publicErrorMessage(error, 'Could not save the screen') });
+    }
+});
+app.get('/api/screens/:id', authMiddleware, async (req, res) => {
+    try {
+        const screen = await savedScreens.get(req.userId, req.params.id);
+        if (!screen) return res.status(404).json({ code: 'NOT_FOUND', message: 'Saved screen not found.' });
+        res.json({ screen });
+    } catch (error) { res.status(500).json({ message: publicErrorMessage(error, 'Could not load the screen') }); }
+});
+app.delete('/api/screens/:id', authMiddleware, async (req, res) => {
+    try {
+        if (!(await savedScreens.remove(req.userId, req.params.id))) return res.status(404).json({ code: 'NOT_FOUND', message: 'Saved screen not found.' });
+        res.json({ ok: true });
+    } catch (error) { res.status(500).json({ message: publicErrorMessage(error, 'Could not delete the screen') }); }
 });
 
 // Screener results as a ticker list TradingView imports as a watchlist

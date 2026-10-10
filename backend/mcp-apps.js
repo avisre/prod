@@ -31,6 +31,7 @@
 // tool handler never re-derives identity or entitlement.
 
 const connectorUsage = require('./connector-usage');
+const connectorNotices = require('./connector-notices');
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
 const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/server/streamableHttp.js');
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
@@ -543,10 +544,12 @@ function buildMcpAppsServer(ctx, deps) {
                 log(false, 'QUOTA_EXCEEDED');
                 return errorResult('QUOTA_EXCEEDED', message);
             }
+            // Read before the charge, attached after it (connector-notices.js).
+            const pendingNotice = connectorNotices.begin(deps, gate);
             const result = await def.handler(args);
             await deps.limiter.spend(ctx.userId, 'mcp_lookup', `mcp-apps:${name}`, subject, ctx.client || null);
             log(true, null);
-            return textResult(result);
+            return textResult(connectorNotices.attach(result, await pendingNotice));
         } catch (err) {
             const code = err && KNOWN_CODES.has(err.code) ? err.code : 'UPSTREAM_DATA_ERROR';
             const message = err && KNOWN_CODES.has(err.code)

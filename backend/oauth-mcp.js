@@ -38,6 +38,30 @@ const ACCESS_TTL_MS = 60 * 60 * 1000;
 const REFRESH_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
 const ACCESS_PREFIX = 'sp_mcp_';
+const SECRET_PREFIX = 'sp_mcps_';
+
+// Confidential clients (2026-10-09). The clients this was first written for are
+// public, and they still are. Two assistants cannot register that way:
+// Microsoft 365 Copilot's token store states that "DCR without a client secret
+// isn't supported yet", and Perplexity registers as a public client
+// (`token_endpoint_auth_method: "none"`) and then rejects any registration
+// response that carries no client_secret. So a secret is issued when the
+// client asks for one of these methods, or when it will return the user to one
+// of the hosts below.
+const SECRET_AUTH_METHODS = new Set(['client_secret_post', 'client_secret_basic']);
+const DEFAULT_SECRET_REDIRECT_HOSTS = ['perplexity.ai', 'teams.microsoft.com'];
+function secretRedirectHosts(env = process.env) {
+    const extra = String(env.OAUTH_SECRET_REDIRECT_HOSTS || '').split(',').map((h) => h.trim().toLowerCase()).filter(Boolean);
+    return [...DEFAULT_SECRET_REDIRECT_HOSTS, ...extra];
+}
+function redirectWantsSecret(uris, env = process.env) {
+    const hosts = secretRedirectHosts(env);
+    return uris.some((u) => {
+        let host;
+        try { host = new URL(u).hostname.toLowerCase(); } catch (_) { return false; }
+        return hosts.some((h) => host === h || host.endsWith(`.${h}`));
+    });
+}
 const REFRESH_PREFIX = 'sp_mcr_';
 
 function clients() { return mongoose.connection.collection('oauth_clients'); }
@@ -102,7 +126,7 @@ function redirectDisplayHost(value) {
  * that user must already be signed in and must consent, and the token it
  * receives is scoped to that one user's own wallet.
  */
-async function registerClient({ clientName, redirectUris, softwareId } = {}) {
+async function registerClient({ clientName, redirectUris, softwareId, authMethod } = {}) {
     const uris = Array.isArray(redirectUris) ? redirectUris.filter(Boolean).map(String) : [];
     if (!uris.length) {
         const err = new Error('At least one redirect_uri is required.');
@@ -116,6 +140,11 @@ async function registerClient({ clientName, redirectUris, softwareId } = {}) {
         throw err;
     }
     const clientId = 'mcpc_' + crypto.randomBytes(16).toString('hex');
+    // A missing method stays public, as it always has: RFC 7591's default is
+    // client_secret_basic, but the assistants already connected register
+    // without one and must keep getting what they got before.
+    const requested = String(authMethod || '').trim();
+    const confidential = SECRET_AUTH_METHODS.has(requested);
     const doc = {
         _id: clientId,
         clientName: String(clientName || 'MCP client').slice(0, 200),
@@ -123,8 +152,45 @@ async function registerClient({ clientName, redirectUris, softwareId } = {}) {
         softwareId: softwareId ? String(softwareId).slice(0, 200) : null,
         createdAt: new Date()
     };
+    let clientSecret = null;
+    if (confidential || redirectWantsSecret(uris)) {
+        clientSecret = randomToken(SECRET_PREFIX);
+        // Stored as a hash, like every other credential here. `authMethod`
+        // 'none' marks a secret the client was handed but is not obliged to
+        // present: PKCE still binds its token exchange, exactly as before.
+        doc.secretHash = hash(clientSecret);
+        doc.authMethod = confidential ? requested : 'none';
+    }
     await clients().insertOne(doc);
-    return doc;
+    // The raw secret exists only in this return value; it is shown to the
+    // client once, in the registration response, and cannot be recovered.
+    return clientSecret ? { ...doc, clientSecret } : doc;
+}
+
+/**
+ * Client authentication for the token endpoint. Resolves true when the request
+ * may proceed as `clientId`.
+ *
+ * A client with no secret on file is public: nothing is checked here and PKCE
+ * carries the exchange, as it did before secrets existed. A client that
+ * registered as confidential must present its secret. A presented secret is
+ * always verified, even where it is optional, so a wrong one is never ignored.
+ */
+async function authenticateClient({ clientId, clientSecret } = {}) {
+    if (!clientId) return true;
+    const client = await getClient(clientId);
+    if (!client || !client.secretHash) return true;
+    const presented = String(clientSecret || '');
+    if (!presented) return client.authMethod === 'none';
+    const a = Buffer.from(hash(presented));
+    const b = Buffer.from(String(client.secretHash));
+    return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+/** True when tokens for this client may only be used by a caller holding its secret. */
+async function clientIsConfidential(clientId) {
+    const client = await getClient(clientId);
+    return Boolean(client && client.secretHash && client.authMethod !== 'none');
 }
 
 async function getClient(clientId) {
@@ -266,6 +332,10 @@ async function refresh({ refreshToken, clientId }) {
     if (doc.revokedAt) return null;
     if (doc.expiresAt && doc.expiresAt.getTime() < Date.now()) return null;
     if (clientId && doc.clientId !== String(clientId)) return null;
+    // The token endpoint authenticates the client it is told about. A request
+    // that names no client was never authenticated, so it cannot refresh a
+    // confidential client's token by leaving the client out.
+    if (!clientId && await clientIsConfidential(doc.clientId)) return null;
     return issueTokens({ userId: doc.userId, clientId: doc.clientId, scope: doc.scope, resource: doc.resource });
 }
 
@@ -286,6 +356,11 @@ async function pruneExpired() {
 module.exports = {
     ACCESS_PREFIX,
     REFRESH_PREFIX,
+    SECRET_PREFIX,
+    SECRET_AUTH_METHODS,
+    secretRedirectHosts,
+    authenticateClient,
+    clientIsConfidential,
     CODE_TTL_MS,
     ACCESS_TTL_MS,
     REFRESH_TTL_MS,

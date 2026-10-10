@@ -19,11 +19,12 @@
 //     page. Do not add CSS here that targets .nav/.footer or their children.
 const credits = require('./credits');
 
-const COST = credits.COST;
+// Pages quote the LISTED price; the charge is credits.COST (see credits.js).
+const COST = credits.LISTED_COST;
 // The keyless allowance is env-switchable, so the docs quote the live config
 // instead of a typed number (it said "two" while the default was three).
 const ANON = require('./mcp-anon').config();
-const STAMP = '20261010-peers1';
+const STAMP = '20261010-screens1';
 const UPDATED = '25 September 2026';
 
 function esc(value) {

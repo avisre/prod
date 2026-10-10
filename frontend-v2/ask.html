@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261010-peers1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261010-screens1" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -67,6 +67,12 @@
     .composer .go:disabled { opacity: 0.25; cursor: default; }
     .composer .paperclip { background: none; color: var(--ink-3); }
     .composer .paperclip:hover { color: var(--ink); }
+    /* voice input — same footprint as the paperclip; red while recording */
+    .composer .mic { background: none; color: var(--ink-3); border: 0; width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+    .composer .mic:hover { color: var(--ink); }
+    .composer .mic[hidden] { display: none; }
+    .composer .mic.is-rec { color: #fff; background: #c0392b; }
+    .composer .mic.is-busy { opacity: 0.5; cursor: progress; }
     /* the meta line sits ABOVE the box: the bottom edge stays clean, so the
        composer ends the page instead of trailing two rows of chrome and 22px
        of padding under it. Identical in both states — no reflow on send. */
@@ -149,6 +155,9 @@
     .thread .ask-trace summary { display: flex; width: max-content; max-width: 100%; margin-left: auto; margin-right: auto; }
     .thread .ask-trace details > div { justify-content: center; }
     .thread .ask-foot { justify-content: center; }
+    /* open / save the screen an answer ran — sits under the answer's footer */
+    .screen-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; margin-top: 10px; font-size: var(--text-xs); color: var(--ink-3); }
+    .screen-actions .chip { text-decoration: none; }
     .thread .ask-foot .share-actions { margin: 0; }
     .thread .ask-a table { width: 100%; }
     /* reading states give the data the freed width — tables and charts widen
@@ -343,6 +352,9 @@
               <svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 7.6 8 12.8a3.6 3.6 0 0 1-5-5.1l5.5-5.4a2.4 2.4 0 0 1 3.4 3.4L6.4 11a1.2 1.2 0 0 1-1.7-1.7l4.9-4.8"/></svg>
             </button>
             <textarea id="q" rows="1" maxlength="8000" placeholder="Ask about any stock, ETF, fund, or your portfolio…" aria-label="Ask a question"></textarea>
+            <button class="mic" type="button" id="mic-btn" aria-label="Speak your question" title="Speak your question" aria-pressed="false" hidden>
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.6" y="1.6" width="4.8" height="8" rx="2.4"/><path d="M3.2 7.6a4.8 4.8 0 0 0 9.6 0M8 12.4v2.2"/></svg>
+            </button>
             <button class="go" type="submit" aria-label="Ask" disabled>
               <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3m0 0L3.5 7.5M8 3l4.5 4.5"/></svg>
             </button>
@@ -351,6 +363,7 @@
           <!-- Signed-out only: the account CTA. Empty (and collapsed) for
                signed-in users, so the box sits flush with nothing beneath it.
                The advice disclaimer now rides each answer instead. -->
+          <p class="composer-foot" id="mic-note" aria-live="polite"></p>
           <p class="composer-foot" id="quota-line"></p>
         </div>
 
@@ -369,7 +382,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261010-peers1"></script>
+  <script src="assets/app.js?v=20261010-screens1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -439,13 +452,61 @@
       function makeEngine() {
         return askEngine($('exchange'), {
           onActivity: () => {
+            turnScreen = null;
             document.body.classList.add('in-conversation');
             setFocus(true);
             if (prefersZen()) setZen(true);
             $('thread').hidden = false;
           },
           onComplete: handleComplete,
-          onPaperEvent: handlePaperEvent
+          onPaperEvent: handlePaperEvent,
+          onTool: handleTool
+        });
+      }
+
+      // A screen Ask ran can be opened or saved (owner decision 2026-10-10).
+      // The stream reports each tool call with its arguments; the last screen
+      // of the turn is offered under the finished answer. An answer that merged
+      // several screens opens as that last one only.
+      let turnScreen = null;
+      function handleTool(d) {
+        if (d && d.ok && d.tool === 'screen_universe' && d.args && Object.keys(d.args).length) turnScreen = d.args;
+      }
+      function offerScreen() {
+        const criteria = turnScreen;
+        turnScreen = null;
+        if (!criteria) return;
+        const feet = $('exchange').querySelectorAll('.ask-foot');
+        const foot = feet[feet.length - 1];
+        if (!foot || (foot.nextElementSibling && foot.nextElementSibling.classList.contains('screen-actions'))) return;
+        const row = document.createElement('div');
+        row.className = 'screen-actions';
+        row.innerHTML = `<a class="chip" href="/screener?criteria=${encodeURIComponent(JSON.stringify(criteria))}">Open in Screener</a>`
+          + '<button type="button" class="chip" data-save-screen>Save screen</button><span class="screen-note" aria-live="polite"></span>';
+        foot.insertAdjacentElement('afterend', row);
+        const note = row.querySelector('.screen-note');
+        const btn = row.querySelector('[data-save-screen]');
+        const save = async (name) => {
+          btn.disabled = true;
+          try {
+            const r = await fetch(`${API}/screens`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` }, body: JSON.stringify({ name, criteria, source: 'ask' }) });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(data.message || 'Could not save the screen.');
+            note.innerHTML = `Saved as “${esc(data.screen.name)}”. <a href="/screener?screen=${encodeURIComponent(data.screen.id)}">Open it</a>`;
+            btn.remove();
+          } catch (err) { note.textContent = err.message; btn.disabled = false; }
+        };
+        btn.addEventListener('click', () => {
+          if (!token()) { note.innerHTML = '<a rel="nofollow" href="/login.html?next=/ask">Sign in</a> to save screens to your account.'; return; }
+          if (!(window.V2 && V2.modal)) { const n = (window.prompt('Name this screen:') || '').trim(); if (n) save(n); return; }
+          const m = V2.modal({
+            label: 'Name this screen', title: 'Name this screen',
+            bodyHtml: '<input class="input" id="ask-screen-name" maxlength="60" placeholder="e.g. Cheap profitable growers" style="width:100%;">',
+            actions: [{ label: 'Save screen', primary: true, onClick: (close) => { const n = m.el.querySelector('#ask-screen-name').value.trim(); if (!n) return; close(); save(n); } }, { label: 'Cancel' }]
+          });
+          const field = m.el.querySelector('#ask-screen-name');
+          field.focus();
+          field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
         });
       }
       let engine = makeEngine();
@@ -605,6 +666,7 @@
         try { window.history.replaceState(null, '', `/ask?t=${id}`); } catch (_) {}
       }
       function handleComplete(data) {
+        offerScreen();
         if (hasContext) trackSeoEvent('ask_response_completed', context, location.pathname);
         const tid = data && data.threadId;
         if (typeof tid === 'string' && THREAD_ID_RE.test(tid)) adoptThread(tid);
@@ -883,6 +945,95 @@
         ta.style.height = `${Math.min(TA_MAX, Math.max(TA_MIN, ta.scrollHeight))}px`;
       }
       ta.addEventListener('input', () => { paintGo(); autoGrow(); });
+
+      // ---- voice input: record, turn the speech into text, land it in the box
+      // for the user to check. Never sent automatically — a misheard ticker has
+      // to be fixable first. The speech model is open source and runs in this
+      // browser (assets/voice-worker.js), so the recording stays on the device.
+      // PARKED 2026-10-10: the button stays hidden unless the server switches a
+      // route on — its own transcription (signed-in users) or the local model.
+      (function voiceInput() {
+        const mic = $('mic-btn'); const micNote = $('mic-note');
+        if (!mic || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) return;
+        const browserCan = typeof WebAssembly === 'object' && typeof Worker === 'function' && !!(window.AudioContext || window.webkitAudioContext);
+        let canLocal = false, useServer = false, maxSeconds = 60, recorder = null, chunks = [], stopTimer = null, stream = null, worker = null, jobs = 0;
+        const say = (text) => { micNote.textContent = text || ''; };
+        const reveal = () => { if (useServer || canLocal) mic.hidden = false; };
+        fetch(`${API}/ai/transcribe/status`).then((r) => r.json()).then((d) => {
+          if (d && d.enabled && token()) { useServer = true; maxSeconds = Number(d.maxSeconds) || 60; }
+          canLocal = !!(d && d.local) && browserCan;
+          reveal();
+        }).catch(() => {});
+        const release = () => { if (stream) stream.getTracks().forEach((t) => t.stop()); stream = null; clearTimeout(stopTimer); };
+
+        async function viaServer(blob, type) {
+          const r = await fetch(`${API}/ai/transcribe`, { method: 'POST', headers: { 'Content-Type': type, Authorization: `Bearer ${token()}` }, body: blob });
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok || !data.text) throw new Error(data.message || 'Voice input is not working right now. Type your question instead.');
+          return data.text;
+        }
+        // The model wants one channel of 16 kHz samples; the browser decodes and
+        // resamples whatever container the recorder produced.
+        async function samples(blob) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          const ctx = new Ctx();
+          try {
+            const decoded = await ctx.decodeAudioData(await blob.arrayBuffer());
+            const off = new OfflineAudioContext(1, Math.max(1, Math.ceil(decoded.duration * 16000)), 16000);
+            const src = off.createBufferSource(); src.buffer = decoded; src.connect(off.destination); src.start();
+            return (await off.startRendering()).getChannelData(0);
+          } finally { if (ctx.close) ctx.close(); }
+        }
+        function viaBrowser(audio) {
+          return new Promise((resolve, reject) => {
+            if (!worker) worker = new Worker(document.querySelector('script[src*="assets/app.js"]').src.replace('assets/app.js', 'assets/voice-worker.js'), { type: 'module' });
+            const id = ++jobs;
+            const done = (fn, v) => { worker.removeEventListener('message', onMsg); worker.removeEventListener('error', onErr); fn(v); };
+            const onErr = () => { worker = null; done(reject, new Error('Voice input could not start in this browser. Type your question instead.')); };
+            const onMsg = (e) => {
+              const d = e.data || {};
+              if (d.id !== id) return;
+              if (typeof d.progress === 'number') { say(`Getting the speech model ready: ${d.progress}% (first time only, about 80 MB)…`); return; }
+              if (d.error) return done(reject, new Error('Voice input is not working right now. Type your question instead.'));
+              done(resolve, d.text || '');
+            };
+            worker.addEventListener('message', onMsg); worker.addEventListener('error', onErr);
+            worker.postMessage({ id, audio }, [audio.buffer]);
+          });
+        }
+
+        async function finish(type) {
+          release();
+          mic.classList.remove('is-rec'); mic.setAttribute('aria-pressed', 'false');
+          const blob = new Blob(chunks, { type }); chunks = [];
+          if (blob.size < 200) { say('Nothing was recorded. Try again.'); return; }
+          mic.classList.add('is-busy'); mic.disabled = true; say('Transcribing…');
+          try {
+            const text = useServer ? await viaServer(blob, type) : await viaBrowser(await samples(blob));
+            if (!text) throw new Error('No speech was heard. Try again a little closer to the microphone.');
+            ta.value = (ta.value.trim() ? ta.value.trim() + ' ' : '') + text;
+            ta.dispatchEvent(new Event('input', { bubbles: true }));
+            ta.focus();
+            say('Check the text, then send.');
+          } catch (err) { say(err.message); }
+          mic.classList.remove('is-busy'); mic.disabled = false;
+        }
+        mic.addEventListener('click', async () => {
+          if (recorder && recorder.state === 'recording') { recorder.stop(); return; }
+          try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+          catch (_) { say('The microphone is blocked. Allow it in your browser settings, or type your question.'); return; }
+          const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'].find((t) => MediaRecorder.isTypeSupported(t)) || '';
+          try { recorder = new MediaRecorder(stream, type ? { mimeType: type } : undefined); }
+          catch (_) { release(); say('This browser cannot record audio. Type your question instead.'); return; }
+          chunks = [];
+          recorder.addEventListener('dataavailable', (e) => { if (e.data && e.data.size) chunks.push(e.data); });
+          recorder.addEventListener('stop', () => finish((recorder.mimeType || type || 'audio/webm').split(';')[0]));
+          recorder.start();
+          mic.classList.add('is-rec'); mic.setAttribute('aria-pressed', 'true');
+          say(`Recording… press the microphone again to stop (up to ${maxSeconds} seconds).`);
+          stopTimer = setTimeout(() => { if (recorder && recorder.state === 'recording') recorder.stop(); }, maxSeconds * 1000);
+        });
+      })();
       $('att-chips').addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-ac]');
         if (!btn) return;

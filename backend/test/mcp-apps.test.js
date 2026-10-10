@@ -125,6 +125,7 @@ async function withClient(t, overrides = {}) {
         limiter: overrides.limiter || okLimiter(),
         effectiveAskLimit: () => 200,
         entitled: () => (overrides.entitled === undefined ? true : overrides.entitled),
+        ...(overrides.accountNotice ? { accountNotice: overrides.accountNotice } : {}),
         onLog: (event) => state.logs.push(event)
     };
     const app = express();
@@ -488,4 +489,21 @@ test('wrong-typed arguments are rejected as typed errors, never a crash', async 
     // Still alive and serving after all of the above.
     const ok = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
     assert.equal(ok.isError, undefined);
+});
+
+test('an account notice on the ChatGPT app is commerce-neutral and rides in the result', async (t) => {
+    const connectorNotices = require('../connector-notices');
+    const gate = { ok: true, used: 78, allowance: 100, cost: 2, remaining: 22, resetsAt: '2026-11-01T00:00:00.000Z' };
+    const { client } = await withClient(t, {
+        limiter: { check: async () => gate, spend: async () => {} },
+        accountNotice: (g) => ({ account_notice: connectorNotices.lowBalanceText(g, { neutral: true, lookupCost: 2 }) })
+    });
+    const result = await client.callTool({ name: 'get_company_financials', arguments: { company: 'AAPL' } });
+    assert.ok(!result.isError, result.content[0].text);
+    const payload = parse(result);
+    assert.match(payload.account_notice, /about 10 more lookups remain/);
+    assert.equal(result.structuredContent.account_notice, payload.account_notice, 'clients that read only structured content see it too');
+    // OpenAI plugin guidelines: no plan names, prices, checkout or upgrade links.
+    assert.doesNotMatch(payload.account_notice, /\$|https?:|\/upgrade|\/recharge|plan|subscribe|credit/i);
+    assert.ok(payload.company, 'the financial payload is intact');
 });

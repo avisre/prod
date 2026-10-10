@@ -22,7 +22,7 @@ function pricingRow(label) {
     const line = DOC.split('\n').find((l) => l.includes(label) && l.trim().startsWith('|'));
     assert.ok(line, `public-api.md has no pricing row containing "${label}"`);
     const nums = line.split('|').slice(2).map((cell) => {
-        const m = cell.match(/(\d+)\s*credits?/i);
+        const m = cell.match(/(\d+(?:\.\d+)?)\s*credits?/i);
         return m ? Number(m[1]) : null;
     }).filter((n) => n !== null);
     assert.equal(nums.length, 2, `expected an MCP and a REST figure in: ${line.trim()}`);
@@ -30,9 +30,10 @@ function pricingRow(label) {
 }
 
 test('the published lookup price matches credits.COST', () => {
+    // The LISTED price: a lookup is charged 1 since 2026-10-10 while the published price stays 2.
     const [mcp, rest] = pricingRow('Deterministic lookup');
-    assert.equal(mcp, credits.COST.mcp_lookup, 'public-api.md MCP lookup price is stale');
-    assert.equal(rest, credits.COST.api_lookup, 'public-api.md REST lookup price is stale');
+    assert.equal(mcp, credits.LISTED_COST.mcp_lookup, 'public-api.md MCP lookup price is stale');
+    assert.equal(rest, credits.LISTED_COST.api_lookup, 'public-api.md REST lookup price is stale');
 });
 
 test('the published ask price matches credits.COST', () => {
@@ -69,7 +70,7 @@ test('the REST endpoint table matches credits.COST too', () => {
         return Number(cost);
     };
     for (const ep of ['/api/v1/financials/', '/api/v1/filing/', '/api/v1/compare', '/api/v1/screen', '/api/v1/fund/']) {
-        assert.equal(row(ep), credits.COST.api_lookup, `${ep} cost is stale`);
+        assert.equal(row(ep), credits.LISTED_COST.api_lookup, `${ep} cost is stale`);
     }
     assert.equal(row('/api/v1/ask'), credits.COST.api_ask, '/api/v1/ask cost is stale');
 });

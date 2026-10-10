@@ -46,6 +46,7 @@ const fin = require('./mcp-financials');
 const aiChat = require('./ai-chat');
 const { quotaError } = require('./api-response');
 const connectorUsage = require('./connector-usage');
+const connectorNotices = require('./connector-notices');
 const mcpAnon = require('./mcp-anon');
 
 const SERVER_NAME = 'stockportfolio-mcp';
@@ -700,10 +701,14 @@ function buildMcpServer(ctx, deps) {
                 return finish(errorResult('QUOTA_EXCEEDED', q.error, q), 'QUOTA_EXCEEDED');
             }
 
-            const result = await def.handler(args);
+            // Started before the work so it reads the wallet as it stood before
+            // this call's own charge (see connector-notices.js).
+            const pendingNotice = connectorNotices.begin(deps, gate);
+            let result = await def.handler(args);
             // Charged after the work succeeded, so a failed lookup never spends
             // the caller's allowance.
             await deps.limiter.spend(ctx.userId, def.aiCost ? 'mcp_ask' : 'mcp_lookup', `mcp:${def.name}`, subject, ctx.client || null);
+            result = connectorNotices.attach(result, await pendingNotice);
 
             if (def.aiCost && ctx.anonymous) {
                 // A free AI answer reports what is left, so the caller learns

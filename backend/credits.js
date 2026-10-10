@@ -102,16 +102,30 @@ const mongoose = require('mongoose');
 //
 // dossier_compare is unchanged: no inference happens on it, so there is
 // nothing to anchor to. mcp_lookup and api_lookup are likewise unanchored —
-// no inference either — and stay priced for abuse prevention rather than cost
-// recovery; they were levelled at 2 on 2026-09-23 (see the surface-parity note
-// above) because a split with no cost basis behind it was arbitrary.
+// no inference either. They were levelled at 2 on 2026-09-23 (see the
+// surface-parity note above) and cut to 1 on 2026-10-10 (owner decision),
+// still as a pair. What forced it: the first paying connector customer spent a
+// 100-credit month in 28 minutes on 31 lookups and one answer. Measured the
+// same week: a lookup makes no model call at all (filed SEC data from our own
+// server), and three ordinary questions asked through Claude cost 1, 7 and 3
+// lookups each with no AI answer among them. At 2 a 100-credit month was about
+// 7 multi-company questions; at 1 it is about 14. The owner chose 1 over 0.5
+// as a first step, to be revisited if customers still run short. Rows already
+// in the ledger keep the price they were charged.
 // ai_paper_* are unchanged: no per-action token measurement exists for them yet.
 //
 // For contrast with the anchor, real provider cost per Ask action:
 // glm-5.1 $0.065, glm-5.3 $0.090, glm-5.3-flash $0.010. So mcp_ask: 42 earns
 // ~65x its marginal cost on glm-5.1. The anchor is a PRICING rule benchmarked
 // to frontier labs, NOT a cost-recovery calculation.
-const COST = { ask: 2, monitor: 8, dossier_standard: 21, dossier_deep: 41, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 2, mcp_ask: 42, api_lookup: 2, api_ask: 42 };
+// What the site, the docs and our messages QUOTE for each action. It equals COST
+// except for the two lookups: the owner cut what a lookup is CHARGED to 1 on
+// 2026-10-10 and chose to leave the published price at 2 for now, so a customer
+// is charged less than the listing says, never more. Everything that prints a
+// price reads this; everything that charges reads COST. When the published
+// price is brought into line, delete the two overrides and nothing else.
+const LISTED_LOOKUP_COST = 2;
+const COST = { ask: 2, monitor: 8, dossier_standard: 21, dossier_deep: 41, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 42, api_lookup: 1, api_ask: 42 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 
@@ -487,4 +501,6 @@ async function monthBreakdown(userId) {
     } catch (_) { return {}; }   // same fail-open as used(): a DB blip hides the split, not the page
 }
 
-module.exports = { COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };
+const LISTED_COST = { ...COST, mcp_lookup: LISTED_LOOKUP_COST, api_lookup: LISTED_LOOKUP_COST };
+
+module.exports = { COST, LISTED_COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };
