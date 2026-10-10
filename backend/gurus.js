@@ -23,9 +23,26 @@ const GURU_LIST = [
     { id: 'tweedy',       name: 'Tweedy Browne',          fund: 'Tweedy Browne Company',        cik: '0000732905' },
     { id: 'akre',         name: 'Chuck Akre',             fund: 'Akre Capital Management',      cik: '0001112520' },
     { id: 'davis',        name: 'Christopher Davis',      fund: 'Davis Advisors',               cik: '0001036325' },
+    { id: 'pabrai',       name: 'Mohnish Pabrai',         fund: 'Dalal Street',                 cik: '0001549575' },
+    { id: 'fundsmith',    name: 'Terry Smith',            fund: 'Fundsmith',                    cik: '0001868537' },
+    { id: 'markel',       name: 'Tom Gayner',             fund: 'Markel Group',                 cik: '0001096343' },
+    { id: 'fairfax',      name: 'Prem Watsa',             fund: 'Fairfax Financial',            cik: '0000915191' },
+    { id: 'millervalue',  name: 'Bill Miller',            fund: 'Miller Value Partners',        cik: '0001135778' },
+    { id: 'russo',        name: 'Thomas Russo',           fund: 'Gardner Russo & Quinn',        cik: '0000860643' },
+    { id: 'giverny',      name: 'Francois Rochon',        fund: 'Giverny Capital',              cik: '0001641864' },
+    { id: 'dorsey',       name: 'Pat Dorsey',             fund: 'Dorsey Asset Management',      cik: '0001671657' },
+    { id: 'bravewarrior', name: 'Glenn Greenberg',        fund: 'Brave Warrior Advisors',       cik: '0001553733' },
+    { id: 'valleyforge',  name: 'Dev Kantesaria',         fund: 'Valley Forge Capital',         cik: '0001697868' },
+    { id: 'weitz',        name: 'Wallace Weitz',          fund: 'Weitz Investment Management',  cik: '0000883965' },
+    { id: 'fairholme',    name: 'Bruce Berkowitz',        fund: 'Fairholme Capital',            cik: '0001056831' },
+    { id: 'sequoiafund',  name: 'Ruane Cunniff',          fund: 'Ruane, Cunniff & Goldfarb',    cik: '0001720792' },
+    { id: 'lindselltrain', name: 'Nick Train',             fund: 'Lindsell Train',               cik: '0001484150' },
+    { id: 'rvcapital',    name: 'Robert Vinall',          fund: 'RV Capital',                   cik: '0001766596' },
+    { id: 'gates',        name: 'Bill Gates',             fund: 'Gates Foundation Trust',       cik: '0001166559' },
     // ── Macro & quant ────────────────────────────────────────────────────────
     { id: 'renaissance',  name: 'Jim Simons',             fund: 'Renaissance Technologies',     cik: '0001037389' },
     { id: 'bridgewater',  name: 'Ray Dalio',              fund: 'Bridgewater Associates',       cik: '0001350694' },
+    { id: 'oaktree',      name: 'Howard Marks',           fund: 'Oaktree Capital Management',   cik: '0000949509' },
     // ── Event-driven / activist ───────────────────────────────────────────────
     { id: 'thirdpoint',   name: 'Dan Loeb',               fund: 'Third Point',                  cik: '0001040273' },
     { id: 'appaloosa',    name: 'David Tepper',           fund: 'Appaloosa Management',         cik: '0001656456' },
@@ -33,14 +50,27 @@ const GURU_LIST = [
     { id: 'tci',          name: 'Chris Hohn',             fund: 'TCI Fund Management',          cik: '0001647251' },
     { id: 'valueact',     name: 'Mason Morfit',           fund: 'ValueAct Capital',             cik: '0001418814' },
     { id: 'cooperman',    name: 'Leon Cooperman',         fund: 'Omega Advisors',               cik: '0000898382' },
+    { id: 'icahn',        name: 'Carl Icahn',             fund: 'Icahn Capital',                cik: '0000921669' },
+    { id: 'trian',        name: 'Nelson Peltz',           fund: 'Trian Fund Management',        cik: '0001345471' },
+    { id: 'elliott',      name: 'Paul Singer',            fund: 'Elliott Investment Management', cik: '0001791786' },
+    { id: 'glenview',     name: 'Larry Robbins',          fund: 'Glenview Capital',             cik: '0001138995' },
     // ── Long-biased fundamental hedge funds ──────────────────────────────────
     { id: 'viking',       name: 'Andreas Halvorsen',      fund: 'Viking Global Investors',      cik: '0001103804' },
     { id: 'tigerglob',    name: 'Chase Coleman',          fund: 'Tiger Global Management',      cik: '0001167483' },
     { id: 'lonepine',     name: 'Stephen Mandel',         fund: 'Lone Pine Capital',            cik: '0001061165' },
     { id: 'maverick',     name: 'Lee Ainslie',            fund: 'Maverick Capital',             cik: '0000934639' },
     { id: 'durable',      name: 'Henry Ellenbogen',       fund: 'Durable Capital Partners',     cik: '0001798849' },
+    { id: 'ark',          name: 'Cathie Wood',            fund: 'ARK Investment Management',    cik: '0001697748' },
+    { id: 'baron',        name: 'Ron Baron',              fund: 'Baron Capital (BAMCO)',        cik: '0001017918' },
+    { id: 'd1',           name: 'Daniel Sundheim',        fund: 'D1 Capital Partners',          cik: '0001747057' },
+    { id: 'coatue',       name: 'Philippe Laffont',       fund: 'Coatue Management',            cik: '0001135730' },
+    { id: 'polen',        name: 'Polen Capital',          fund: 'Polen Capital Management',     cik: '0001034524' },
     // ── Diversified / institutional ───────────────────────────────────────────
     { id: 'ariel',        name: 'John Rogers',            fund: 'Ariel Investments',            cik: '0000936753' },
+    { id: 'royce',        name: 'Chuck Royce',            fund: 'Royce Investment Partners',    cik: '0000906304' },
+    { id: 'gamco',        name: 'Mario Gabelli',          fund: 'GAMCO Investors',              cik: '0000807249' },
+    { id: 'dodgecox',     name: 'Dodge & Cox',            fund: 'Dodge & Cox',                  cik: '0000200217' },
+    { id: 'firsteagle',   name: 'First Eagle',            fund: 'First Eagle Investment Management', cik: '0001325447' },
 ];
 
 const CACHE_TTL_MS = 24 * 3600 * 1000;
@@ -150,7 +180,8 @@ function parseInfoTable(xml) {
     const pick = (block, tag) => {
         const re = new RegExp(`<(?:[\\w-]*:)?${tag}[^>]*>(.*?)<\\/(?:[\\w-]*:)?${tag}>`, 'i');
         const m = re.exec(block);
-        return m ? m[1].replace(/<[^>]+>/g, '').trim() : null;
+        // names arrive XML-escaped ("ELI LILLY &amp; CO"); the page escapes again when it draws
+        return m ? m[1].replace(/<[^>]+>/g, '').replace(/&(amp|lt|gt|quot|apos);/g, (_, k) => ({ amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" })[k]).trim() : null;
     };
     const blocks = xml.match(/<(?:[\w-]+:)?infoTable>[\s\S]*?<\/(?:[\w-]+:)?infoTable>/gi) || [];
     const out = [];

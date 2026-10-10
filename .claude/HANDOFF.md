@@ -475,3 +475,7 @@ explicit authorization.**
   Nvidia files `PaymentsToAcquireProductiveAssets`, so FCF is blank FY2013+ and "What's priced in" uses 2012 FCF.
   The fix is one mapping line + an EXTRACTION_VERSION bump + a full data rebuild (deploy gate applies). Not done.
 - Local audit rig: `scratchpad/audit.js` (per-page overflow/console/404 metrics + screenshots over CDP).
+- Gurus: 27 -> 57 (`backend/gurus.js` GURU_LIST + `GURU_META` bios in `gurus.html`). All 30 built locally from live 13Fs.
+  Held back: Citadel, Millennium, D. E. Shaw, Point72 (2,400-7,200 rows, +100 MB while parsing), Tudor and Gotham
+  (no performance strip), Harris/Oakmark (build returns nothing). 13F put/call rows are still listed as holdings.
+- Comparison pages: negative money is `-$12.71B`; cells wrap under 600px (was 76px sideways scroll on a phone).

@@ -231,6 +231,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
   .seo-table tbody tr:last-child td{border-bottom:0}
   .seo-table thead th{color:var(--ink3);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
   .seo-table td a{display:inline-block;padding:6px 0;color:var(--ink)}
+  @media(max-width:600px){.seo-table th,.seo-table td{white-space:normal;padding:8px 9px}.seo-table td small{display:block}}
   .seo-lock{border:1px solid var(--line);border-radius:10px;padding:28px 18px;text-align:center;background:var(--surface);margin:18px 0}
   .seo-lock h3{margin:0 0 6px;font-size:17px;font-weight:600;letter-spacing:-.01em}
   .seo-lock p{margin:0 0 14px;color:var(--ink2);font-size:14px;max-width:560px;margin-left:auto;margin-right:auto}

@@ -7,9 +7,10 @@ const LABELS={revenue:'Revenue','net-income':'Net income','gross-profit':'Gross 
 function amount(value,currency='USD',perShare=false) {
  const n=p.number(value);if(n===null)return '—';
  if(currency==='shares')return n.toLocaleString('en-US',{maximumFractionDigits:0})+' shares';
- const prefix=currency==='USD'?'$':currency+' ';
- if(perShare)return prefix+n.toLocaleString('en-US',{maximumFractionDigits:4});
- const abs=Math.abs(n);return prefix+(abs>=1e12?(n/1e12).toFixed(2)+'T':abs>=1e9?(n/1e9).toFixed(2)+'B':abs>=1e6?(n/1e6).toFixed(2)+'M':n.toLocaleString('en-US',{maximumFractionDigits:0}));
+ // the sign leads the currency: -$12.71B, never $-12.71B
+ const prefix=(n<0?'-':'')+(currency==='USD'?'$':currency+' ');
+ if(perShare)return prefix+Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:4});
+ const abs=Math.abs(n);return prefix+(abs>=1e12?(abs/1e12).toFixed(2)+'T':abs>=1e9?(abs/1e9).toFixed(2)+'B':abs>=1e6?(abs/1e6).toFixed(2)+'M':abs.toLocaleString('en-US',{maximumFractionDigits:0}));
 }
 function sourceLinks(sources,esc,derived=false) {
  const distinct=[...new Map(sources.map(s=>[s.accessionNumber,s])).values()];
