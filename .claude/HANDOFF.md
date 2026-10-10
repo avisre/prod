@@ -5,12 +5,41 @@ Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
 cap can no longer be crossed silently. Current state and open actions only, never a transcript. At ~400 lines,
 snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite it fresh; **delete superseded items to
 the snapshot rather than compressing them here**.
-Earlier snapshots: `handoff-archive/2026-10-07.md` (verbatim, taken 10/07 at 461 lines — the full
+Earlier snapshots: `handoff-archive/2026-10-10.md` (verbatim, taken 10/10 at 455 lines — the 10/04 production
+state, the Day 41 AppLovin card, the breakthrough-product hunt, the 10/07 no-blue / profile side menu notes; the six
+10/06 data-audit write-ups are in the 10/07 snapshot — read them before touching core statement extraction),
+`handoff-archive/2026-10-07.md` (verbatim, taken 10/07 at 461 lines — the full
 revenue-breakdown build narrative and the six dated 10/06 data-audit write-ups), `handoff-archive/2026-10-04.md` (verbatim, taken 10/04 at 395 lines — the SEC coverage
 release narrative, the three earlier Ask quality/engineering release write-ups, the AppSumo v8 detail, the
 OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archive/2026-10-03.md`,
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
+
+## Stocks & funds page: peers, Pre-tax income, long-term assets — 2026-10-10 (`601587f5b`)
+
+Owner report, reproduced with Fair Isaac (FICO).
+- **Peers** are now same industry label, closest in market value: `GET /api/company/:symbol/peers`
+  (`backend/company-peers.js`), falling back to the 4-digit SIC code, then the sector, when fewer than 3 match. The
+  page used to show the first 7 rows of the sector screen, i.e. the sector's largest (NVDA, AAPL for every tech name).
+  **Measured, do not retry SIC as the primary key:** on 20 tickers the industry label gives BA → LMT, GD, RTX; SIC
+  gives BA → JOBY, ACHR and DIS → DKNG. FICO lands in "Software - Application" (TYL, GWRE, DOCU), not with the credit
+  bureaus; no free classification puts it there.
+- Labels come from committed `frontend/data/industry-map.json` (6,254 tickers, 145 labels), built by
+  `node scripts/build-industry-map.js` from each `fundamentals/*.json` overview, then `company-profiles.json`. The
+  weekly job rebuilds and stages it. The sector-based peer analysis in the dossier and Ask
+  (`dossier-analysis.peerAnalysis`) is unchanged and still compares against the whole sector.
+- **Pre-tax income** folds: two bank-only `solo` rows sat between it and its components in `ROWS.income`
+  (`company.js`). A test now fails if any indented row in any statement has no parent.
+- **Long-term assets:** `sec-facts.js` `MAPS.balance` gained `totalNonCurrentAssets`, `propertyPlantEquipment`,
+  `operatingLeaseRightOfUseAsset`, `intangibleAssetsExcludingGoodwill`, `longTermInvestments`, `deferredTaxAssets`,
+  `otherNonCurrentAssets`; each is a filed line, no remainder is computed. `EXTRACTION_VERSION` was deliberately
+  NOT bumped (it is hashed into every source id). Stored data is unchanged until the weekly re-extraction
+  (Saturdays 22:30 UTC) — until then only Goodwill unfolds. Checked on live SEC facts: FICO's six lines add to 1,164
+  against 1,163 filed; existing figures and periods identical for FICO, JPM, SAP.
+- **Open:** after the first weekly run, confirm FICO unfolds to six lines and that the gate passed with the new
+  fields; `FiniteLivedIntangibleAssetsNet` is not read (a fragment for some filers), so Adobe shows no intangibles.
+- Suite: 7 failures pre-exist on `main` (mcp-apps ×2, metric-ownership, money-formatter, reasoning-effort-coupling,
+  reliability-guard, legacy-html-redirects). Asset stamp `20261010-peers1`.
 
 ## Stock-based compensation on the Stocks & funds page — 2026-10-08 (owner approved the design)
 
@@ -231,47 +260,7 @@ Asset stamp `20261007-breakdown4`.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
-## 2026-10-06 data-audit work — moved to the snapshot
-
-Six dated write-ups (revenue figures checked one by one; quarter reconciliation and bank revenue; earlier-year
-revenue check; full data audit and the revenue-line fix; data foundation repair; shipped 10/06) are verbatim in
-`.claude/handoff-archive/2026-10-07.md`. Read them there before touching core statement extraction.
-
-## Production state — 2026-10-04
-- **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render
-  deploy `dep-db181bvavr4c73an2krg` through workflow `37216736433`; the workflow confirmed the deployed
-  commit. `/api/health` returned 200 with `{"ok":true}`. Direct requests to `/ask` and the stamped asset
-  returned 403 from this environment, so authenticated rendered-page verification is still unavailable.
-  Historical Ask asset stamp: `20261004-askfacet1`.
-- The earlier rollback `97c61b35` deployed as `dep-db0uvplg1s2s73fplsq0` through workflow `37182036116`.
-  Its historical evidence remains in `docs/qa/ask-rollback-2026-10-04/release.json`.
-- Earlier the same day, the SEC coverage release `73186a12` deployed and passed independent production
-  checks: 6,099 securities, 4,440 ready issuers, 4,498 screenable listings; live stock sitemap matched the
-  snapshot exactly; 403s blocked automated stock-profile/alias checks, so authenticated Ask stayed unverified
-  there. Evidence: `docs/qa/ask-live-readiness-2026-10-04/`.
-- The release restored the Ask modules onto current `main` while keeping the SEC data and dependency files.
-  The tested source branch remains `ask-production-ready-20261004` at `ed11f4e7`.
-
 ## In flight
-
-**Day 41 AppLovin card — re-rendered in the house theme (10/03, DONE; `marketing/` is gitignored).**
-`marketing/applovin-growth/applovin-axon-q2-2026.{html,png}`: the ChatGPT dark card's content in the
-`applovin-growth-2020-2025.html` skeleton. PNG is 3072×2048, rendered by headless Chrome
-`--force-device-scale-factor=2` — `scripts/screenshot-cdp.js` pins `deviceScaleFactor: 1`.
-- **The published labels do not compound:** 0.98 × 1.58 = 1.5484, so the strict endpoint is 154.8, not 153.
-- **`applovin-axon-q2-2026-artifact.html` is the share page and is NOT PUBLISHED.** This session
-  authenticates with `ANTHROPIC_AUTH_TOKEN`, which takes precedence over a claude.ai login, so **every
-  `Artifact` call is refused** — unset the var, `/login` as a Claude account, then publish.
-- **Trap for scaled poster pages:** without `*{box-sizing:border-box}` the board's 56px padding sits outside
-  its 1536px width and the scaled sheet clips the right 56px. The reset must not zero `:root` padding.
-
-**Breakthrough-product hunt (10/01–10/02) — completed; the result is a negative with a sharp conclusion.**
-75-agent adversarial funnel (26 ideas → 15 after dedup): all 15 passed the live novelty kill-squad, all 15 died
-at the 3-lens adversarial panel, and a manual re-review of all 45 refutes confirms the kills. Repeated
-findings: every high-price version sells to buyers behind enterprise procurement this company cannot reach;
-incumbents hold them; EDGAR/XBRL-derived moats are copyable. Strongest near-miss: "Audited Alpha" (creator
-track-record registry), viable only reframed at $49–149/mo self-serve; never panel-tested in that form.
-`notes/2026-10-02-breakthrough-product-hunt-result.md`.
 
 **OpenAI ChatGPT plugin directory — owner reports APPROVED AND PUBLIC (10/07), not independently verified.**
 Surface is `POST /mcp/apps` (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools.
@@ -446,10 +435,3 @@ explicit authorization.**
 16. **ChatGPT connector polish** (optional): the icon is the default placeholder, and the plugin still reads
     `DEVELOPMENT` review status. Separate from the directory submission in item 2.
 
-## 2026-10-07 — no blue, profile side menu, account tray (stamp `20261007-offbalance1`)
-- **Blue is gone from the main site.** `--accent` is now the ink, `--accent-tint` a warm grey, `--chart-1` the ink; prose links are underlined instead (`system.css` anchor rules). 228 hard-coded blue and slate literals in `backend/` + `lib/` (emails, widgets, server-rendered pages) mapped to the same ink and warm greys. Checked in a headless browser: 0 blue computed colours on 15 pages.
-- **Still blue, not touched:** the four legacy pages served from `frontend/` (`/fundamentals.html`, `/founding.html`, `/demo-dashboard.html`, `/demo-fundamentals.html`) — an old dark theme, unlinked from the site. Owner to decide: retire or redirect.
-- **Profile is a side menu at 861px+** (`profile.html`, `profile.js`): each section is still a `<details>`, the menu picks which is open, `#usage-details`-style hashes still work. New Account section (email, reset password, sign out).
-- **Messages are a reading view, newest first.** A broadcast is a "product update": title = the broadcast title, body reads `# `, `- `, `**bold**`, blank line (`messages.js` and `customerMessageHtml` in `app.js` for the email). `CustomerMessage.title` is new. Body cap is still 4,000 characters.
-- **Account tray** paints before it opens (session + credits cached in `sessionStorage`, credits prefetched at idle); it used to show an empty box until two requests returned.
-- This file is past 400 lines: rotate it at the next edit.

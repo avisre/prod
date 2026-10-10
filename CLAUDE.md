@@ -38,6 +38,15 @@ of the below in one call, which is cheaper than rediscovering it by trial.
   using it: on 9/28 a data commit that argued against the marker in its own body
   was silently skipped and had to be deployed with `gh workflow run`.
 
+## Never push without the owner's say-so (owner rule, 2026-10-10)
+
+- **Do not `git push`, and do not start a deploy (`gh workflow run`), until the owner says to push in that
+  conversation.** This covers every branch and every kind of commit, docs and handoff included. An approved plan
+  is not the go-ahead, even when the plan has a shipping section. On 10/10 a fix was pushed to `main` straight
+  after plan approval and the owner said: "in the future do not push until i say so."
+- Commit locally, run the tests and the deploy-gate checks, then stop and report: what is committed, that it is
+  unpushed, and what pushing would do.
+
 ## Do not roll back production (2026-10-08 — this happened, read before any push)
 
 - **Two things deploy every push to `main`.** Render auto-deploys the pushed commit in
