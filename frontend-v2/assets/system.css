@@ -1475,6 +1475,12 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   font-size: 12px; font-weight: 600; color: var(--ink-2); letter-spacing: 0.04em;
 }
 .drawer-tab:hover { color: var(--ink); border-color: var(--ink-3); }
+/* The tab is pinned to the viewport's right edge. On laptop widths the page
+   content reaches that edge too, so the tab sat on top of the price change and
+   the "Data as of" bar. Keep the content clear of it whenever it is showing. */
+@media (max-width: 1560px) {
+  body:has(.drawer-tab:not([hidden])) main > .container { padding-right: calc(var(--gutter) + 24px); }
+}
 .drawer-dim { position: fixed; inset: 0; background: rgba(28, 27, 24, 0.22); z-index: 64; }
 .drawer {
   position: fixed; top: 0; right: 0; height: 100vh; z-index: 65;
