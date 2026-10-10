@@ -9198,7 +9198,10 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         // (~3MB). Monthly series in same response covers longer ranges.
         // Client can request ?historyDepth=full when user picks 3Y+ ranges.
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
-        const payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
+        let payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
+        // a stored chart series that has fallen behind is brought up to date for the
+        // reader (capped wait; see price-history.js), never for a crawler
+        if (payload && payload.coverage?.securityType === 'stock' && !quoteStore.isLikelyCrawler(req.get('user-agent'))) payload = await require('./price-history').topUp(symbol, payload);
         if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
         if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
@@ -12879,10 +12882,14 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
     try {
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
         const acceptsGzip = /\bgzip\b/.test(String(req.get('accept-encoding') || ''));
-        const responseKey = [symbol, historyDepth, String(req.query.presentationCurrency || '').toUpperCase()].join('|');
+        // a crawler's answer skips the live price top-up, so it is kept apart from a reader's
+        const responseKey = [symbol, historyDepth, String(req.query.presentationCurrency || '').toUpperCase(), quoteStore.isLikelyCrawler(req.get('user-agent')) ? 'crawler' : 'reader'].join('|');
         const kept = _fundamentalsResponses.get(responseKey);
         if (kept && acceptsGzip && Date.now() - kept.at < FUNDAMENTALS_RESPONSE_TTL_MS) return sendFundamentalsGzip(res, kept.gz, 'hit');
-        const payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
+        let payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
+        // a stored chart series that has fallen behind is brought up to date for the
+        // reader (capped wait; see price-history.js), never for a crawler
+        if (payload && payload.coverage?.securityType === 'stock' && !quoteStore.isLikelyCrawler(req.get('user-agent'))) payload = await require('./price-history').topUp(symbol, payload);
         if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
         if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';

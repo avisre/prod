@@ -104,6 +104,10 @@ const filed=e=>{
  const tagName=require('./ask-inline-segments').label(e.member),bare=String(e.member || '').split(':').pop().replace(/(?:Member)+$/,'');
  const v=String(e.filedLabel || '').replace(/\s*\[(?:Member|Domain)\]$/i,'').replace(/,?\s+Member$/i,'').replace(/\s*\(Segment\)$/i,'').replace(/\s+segments?$/i,'').replace(/\s+/g,' ').trim();
  if(v.length<2 || v.length>70 || !/[A-Za-z]/.test(v) || /Member$|:|_/.test(v) || /[a-z]{24,}/.test(v))return null;
+ // A component row whose caption was read as the table's "Totals" line (Fresh Del Monte's
+ // third product line, $210M of $4.3bn) is a part, not the total: roll-ups are removed
+ // before this point. The wrong caption is not shown; the row is named for what it is.
+ if(/^(?:sub)?totals?$/i.test(v))return 'Other';
  // A one-word label that is only the element name again says nothing the tag does not.
  if(!/\s/.test(v) && v.toLowerCase()===bare.toLowerCase())return null;
  // An abbreviation ("CCG", "USCS") where the element name spells it out.

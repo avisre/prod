@@ -1,0 +1,100 @@
+name: Refresh price history
+
+# The chart on every company page draws from the `daily` and `monthly` series
+# stored in frontend/data/fundamentals/<SYMBOL>.json. Those series were only
+# ever refreshed by the old Yahoo fundamentals jobs (S&P 500 weekly, S&P 1500
+# monthly), and both were replaced by the SEC reconciliation on 2026-10-03,
+# which reads no prices. By 2026-10-10 1,250 stocks still ended on 2026-06-11
+# and 1,572 had no series at all.
+#
+# This job rewrites only those two series for every stock, once a week. Between
+# runs a reader's page is topped up from memory (backend/price-history.js), so
+# the weekly cadence bounds what a crawler or a cold render sees, not what a
+# reader sees.
+#
+# Sunday 12:00 UTC: after the weekly reconciliation (Saturday 22:30 UTC, up to
+# six hours). It shares that job's concurrency group so the two never push at
+# once.
+
+on:
+  schedule:
+    - cron: '0 12 * * 0'
+  workflow_dispatch:
+    inputs:
+      max_symbols:
+        description: 'Cap symbols processed (0 = all)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: refresh-fundamentals
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      SEC_COVERAGE_DISABLE_ON_DEMAND: '1'
+      DISABLE_BACKGROUND_JOBS: '1'
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix backend
+
+      - name: Refresh daily and monthly price series
+        env:
+          MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
+        run: node scripts/refresh-price-history.js frontend/data/us-companies.json
+
+      # The public pages and the screener are built from the same files, and the
+      # deploy gate refuses a dataset whose snapshots disagree with them.
+      - name: Build consistent public and screen snapshots
+        run: |
+          node --max-old-space-size=1536 scripts/build-public-stock-index.js
+          node scripts/build-screen-index.js
+          node scripts/validate-stock-coverage.js
+
+      - name: Configure git
+        run: |
+          git config user.name  'stockportfolio-bot'
+          git config user.email 'bot@stockportfolio.pro'
+
+      - name: Stage price history
+        run: |
+          git add frontend/data/fundamentals frontend/data/public-stock-index.json frontend/data/screen-index.json frontend/data/financial-coverage.json frontend/data/financial-coverage-summary.json frontend/data/financial-reporting-index.json
+          if git diff --cached --quiet; then
+            echo "no_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit + push to main
+        if: env.no_changes != 'true'
+        run: |
+          # Served from the deployed filesystem, so this commit must deploy.
+          git commit -m "data: refresh price history ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push origin main
+
+      # A push made with the workflow's own token does not start another
+      # workflow, so the deploy is asked for directly.
+      - name: Deploy the refreshed data
+        if: env.no_changes != 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-render.yml --ref main

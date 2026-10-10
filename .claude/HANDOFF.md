@@ -485,3 +485,8 @@ explicit authorization.**
 - Stamp `20261010-chart4`. Company answer cached gzipped 10 min (`_fundamentalsResponses`, app.js); page requests it at once. Stock and fund charts restyled after the Markets chart: card, round-number gridlines, soft
   fill, 2.2px line; phones get their own 420-wide drawing (`NARROW` GEOM in company.js; `area`/`fullWidth` in V2 chart).
   Screener phone cards were NOT restored: 031fdd2dc (June) replaced them with frozen-column scroll on purpose.
+- Price history: chart series were unrefreshed since the 10/03 switch to the SEC job (1,250 stocks ended 2026-06-11, 1,572
+  empty). New `backend/price-history.js` (reader top-up, 4-day staleness, 6 h memory) + `scripts/refresh-price-history.js`
+  + weekly `refresh-price-history.yml`. All 4,358 files refreshed 10/10 and snapshots rebuilt; six gate checks passed
+  locally. NOTE: the rebuilt coverage summary now says rules `capex1` although statements are still `core4` until the
+  weekly rebuild runs, so admin freshness will NOT warn. 1,246 universe stocks have no fundamentals file at all.
