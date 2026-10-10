@@ -133,7 +133,12 @@ function read(g,strict) {
  // Pruning alone can keep a subtotal beside its own parts and still land on 100%.
  // A member that is itself a roll-up of the others ("Reportable Segment,
  // Aggregation", "Total") is not a row of the table.
- const rollup=e=>/Aggregat|SegmentsTotal|TotalSegments?|TotalReportable|AllReportableSegments|ReportableSegmentsMember$|^[a-z-]+:TotalMember$/i.test(e.member || '') || /^(?:Total|Reportable Segments?)$/i.test(String(e.filedLabel || '').trim());
+ // A company with one reportable segment and an "All Other" line tags that segment with
+ // the standard aggregation element and captions it with the segment's own name (Lamar:
+ // "Billboard", 89% of revenue). That is a row of the table, not a roll-up of others, and
+ // dropping it left the company with no breakdown at all.
+ const namedSegment=e=>/ReportableSegmentAggregationBeforeOtherOperatingSegmentMember$/.test(e.member || '') && /[A-Za-z]{3}/.test(String(e.filedLabel || '')) && !/reportable|aggregat|segment|total|consolidat|subtotal/i.test(String(e.filedLabel || ''));
+ const rollup=e=>!namedSegment(e) && /Aggregat|SegmentsTotal|TotalSegments?|TotalReportable|AllReportableSegments|ReportableSegmentsMember$|^[a-z-]+:TotalMember$/i.test(e.member || '') || /^(?:Total|Reportable Segments?)$/i.test(String(e.filedLabel || '').trim());
  // Strict reading. A member equal to the filed total is the total under
  // another name, as is one called "Entity-wide" or "Consolidated entities"; a revenue figure
  // restated by currency is a memo line; and two members carrying one exact
