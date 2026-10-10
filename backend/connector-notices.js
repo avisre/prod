@@ -108,7 +108,10 @@ async function creditsAddedSinceLastCall(ledger, userId, now = new Date()) {
             .sort({ at: -1 }).limit(1).project({ _id: 0, at: 1 }).toArray();
         const since = last.length && last[0].at instanceof Date ? last[0].at : floor;
         const rows = await ledger
-            .find({ userId: uid, delta: { $gt: 0 }, at: { $gt: since } })
+            // $gte, not $gt: credits stamped in the same millisecond as the last
+            // call arrived after it was answered and have not been announced.
+            // (A strict comparison made this miss on a fast machine, 2026-10-10.)
+            .find({ userId: uid, delta: { $gt: 0 }, at: { $gte: since } })
             .project({ _id: 0, delta: 1, at: 1 }).toArray();
         if (!rows.length) return null;
         let credits = 0;

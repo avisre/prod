@@ -113,6 +113,9 @@ test('credits added are read from the ledger since the last connector call', { t
         row('web', 150, 'topup', '2026-10-08T10:00:00Z'),
         row('web', 100, 'topup', '2026-10-08T12:00:00Z'),
         row('web', -2, 'ask', '2026-10-08T13:00:00Z'),
+        // Credits stamped in the same millisecond as the last call still count as new.
+        row('samems', -1, 'mcp:search_filings', '2026-10-08T09:00:00.123Z'),
+        row('samems', 100, 'comp', '2026-10-08T09:00:00.123Z'),
         // Never used the connector: only the last 30 days count.
         row('new', 150, 'topup', '2026-08-01T10:00:00Z'),
         row('new', 50, 'topup', '2026-10-01T10:00:00Z')
@@ -123,6 +126,7 @@ test('credits added are read from the ledger since the last connector call', { t
     assert.deepEqual(await notices.creditsAddedSinceLastCall(ledger, 'web', now), { credits: 250, at: at('2026-10-08T12:00:00Z') });
     assert.deepEqual(await notices.creditsAddedSinceLastCall(ledger, 'new', now), { credits: 50, at: at('2026-10-01T10:00:00Z') });
     assert.equal(await notices.creditsAddedSinceLastCall(ledger, 'nobody', now), null);
+    assert.deepEqual(await notices.creditsAddedSinceLastCall(ledger, 'samems', now), { credits: 100, at: at('2026-10-08T09:00:00.123Z') });
 
     // Both notices in one result, the arrival first.
     const both = await notices.forCall({ ledger, userId: 'todd', gate: gate(588, 600), facts: { lookupCost: 2, askCost: 42 }, now });
