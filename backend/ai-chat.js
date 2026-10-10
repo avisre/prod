@@ -2226,6 +2226,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
     let hasResearchEvidence = false;
     let groundingRetried = false;
     let reportResearchRetried = false;
+    let accountClaimRetried = false;
     let reportSupplemented = false;
     const preparedReportEvidence = [];
     const grounded = text => hasResearchEvidence || (policy.kind !== 'company_report' &&
@@ -2593,6 +2594,17 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 }
                 const answer = "I'm Ask, the stockportfolio.pro assistant.";
                 return { answer, toolsUsed, source: 'blocked', totalTokens, quality: qualityFor(answer, { terminalReason: 'identity_guard' }) };
+            }
+            // The answer says the account was changed, and no account tool changed it.
+            if (siteActions.unbackedClaim({ question: q, answer: text, toolsUsed, ctx })) {
+                if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                if (!accountClaimRetried && !lastRound) {
+                    accountClaimRetried = true;
+                    messages.push({ role: 'system', content: 'You told the user the change was made, but no account tool ran in this turn, so nothing in their account changed. Call the right manage_* tool now to carry out what they asked, then report only what the tool returns. Describe their holdings only from tool results, never from earlier conversation.' });
+                    continue;
+                }
+                const answer = 'I could not make that change just now, so nothing in your account was changed. Please ask again, or make the change on the page itself.';
+                return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'account_action_unbacked' }) };
             }
             const missingResearch = reportPolicy.missingResearch(policy, toolsUsed);
             if (missingResearch.length) {

@@ -207,8 +207,35 @@ async function manageThesis(args, ctx, request) {
 const HANDLERS = { manage_portfolio: managePortfolio, manage_watchlist: manageWatchlist, manage_saved_screens: manageSavedScreens, manage_alert_rules: manageAlertRules, manage_thesis: manageThesis };
 async function run(name, args, ctx) {
     if (!ctx || typeof ctx.siteRequest !== 'function') return { error: 'Changing an account needs the user to be signed in on stockportfolio.pro. Tell them to sign in and ask again.', code: 'SIGN_IN_REQUIRED' };
-    try { return await HANDLERS[name](args || {}, ctx, ctx.siteRequest); }
-    catch (_) { return { error: 'That could not be completed right now. Nothing further was changed.' }; }
+    try {
+        const result = await HANDLERS[name](args || {}, ctx, ctx.siteRequest);
+        // After a holding changes, the complete list goes back with the result. Without
+        // it the answer described the portfolio from earlier chats ("your holdings are
+        // now 100 NVDA and 1 FRGT" for an account that held eight other positions).
+        if (name === 'manage_portfolio' && result && result.ok && /_holding$/.test(String(args?.action || ''))) {
+            const res = await ctx.siteRequest('GET', '/api/portfolio?prices=stored').catch(() => null);
+            if (ok(res) && Array.isArray(res.body)) {
+                result.holdingsNow = res.body.map(h => ({ symbol: h.symbol, shares: h.shares }));
+                result.holdingsNote = 'holdingsNow is the complete, current list of holdings. If you mention what the user holds, use only this list.';
+            }
+        }
+        return result;
+    } catch (_) { return { error: 'That could not be completed right now. Nothing further was changed.' }; }
+}
+
+// An answer may say an account change was made only when one of these tools
+// made it in the same turn. Measured on the live site 2026-10-10: on the
+// streaming path the model answered "KO has been removed from your portfolio"
+// with no tool call at all, and the holding was still there.
+const ACCOUNT_NOUNS = /\b(?:portfolio|portfolios|holding|holdings|position|positions|shares?|watch ?list|screens?|alerts?|thesis|theses)\b/i;
+const CHANGE_CLAIM = /\b(?:done\b|added|removed|deleted|created|saved|renamed|is now (?:in|on) your|are now (?:in|on) your|has been (?:added|removed|deleted|created|saved|updated|recorded)|have been (?:added|removed|deleted|created|saved|updated|recorded)|no longer (?:in|on) your|now on your watch ?list)/i;
+const CHANGING_ACTION = /^(?:add|remove|create|delete|save|rename|update|set)/;
+function unbackedClaim({ question, answer, toolsUsed, ctx } = {}) {
+    if (!ctx || typeof ctx.siteRequest !== 'function') return false;
+    const q = String(question || '');
+    const asked = (ADD_WORDS.test(q) || REMOVE_WORDS.test(q) || allowed('add', ctx) || allowed('remove', ctx)) && (ACCOUNT_NOUNS.test(q) || CONFIRM_WORDS.test(q));
+    if (!asked || !CHANGE_CLAIM.test(String(answer || ''))) return false;
+    return !(toolsUsed || []).some(t => t && t.ok && Object.hasOwn(HANDLERS, t.tool) && CHANGING_ACTION.test(String(t.args?.action || '')));
 }
 
 const fn = (name, description, properties, required = ['action']) => ({ type: 'function', function: { name, description, parameters: { type: 'object', properties, required } } });
@@ -231,4 +258,4 @@ const TOOLS = [
         action: { type: 'string', enum: ['list', 'save', 'delete'] }, symbol: { type: 'string' }, text: { type: 'string', description: '8 to 2000 characters, in the user\'s own reasoning.' } })
 ];
 
-module.exports = { TOOLS, run, handles: name => Object.hasOwn(HANDLERS, name), allowed, ALERT_METRICS };
+module.exports = { TOOLS, run, handles: name => Object.hasOwn(HANDLERS, name), allowed, unbackedClaim, ALERT_METRICS };

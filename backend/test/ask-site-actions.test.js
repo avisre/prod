@@ -92,3 +92,35 @@ test('the engine passes the user\'s own question to an account action, so a tool
     await aiChat.ask({ question: 'summarise the article at example.com', history: [], ctx: { siteRequest: s.siteRequest }, mode: 'normal' });
     assert.deepEqual(s.writes(), []);
 });
+
+test('an answer cannot say the account changed unless an account tool changed it in that turn', async () => {
+    const call = (name, args) => ({ id: 'a', type: 'function', function: { name, arguments: JSON.stringify(args) } });
+    // The model claims the removal with no tool call, is told so, and then does it.
+    const s = fakeSite();
+    let script = [{ content: 'AMD has been removed from your portfolio.' }, { tool_calls: [call('manage_portfolio', { action: 'remove_holding', symbol: 'AMD' })] }, { content: 'AMD has been removed from your Main portfolio.' }];
+    let i = 0, seen = [];
+    let chatRaw = async (messages) => { seen.push(messages[messages.length - 1]); return { role: 'assistant', content: '', ...script[i++] }; };
+    aiChat.__setDeps({ chatRaw, chatRawStream: (m, o) => chatRaw(m, o) });
+    const done = await aiChat.ask({ question: 'remove AMD from my portfolio', history: [], ctx: { siteRequest: s.siteRequest }, mode: 'normal' });
+    assert.equal(s.writes().length, 1, 'the removal actually ran');
+    assert.match(done.answer, /removed/);
+    assert.match(String(seen[1].content), /no account tool ran/);
+    // The model keeps claiming it without ever calling the tool: the user is told nothing changed.
+    const s2 = fakeSite(); i = 0;
+    script = [{ content: 'Done — AMD has been removed.' }, { content: 'AMD has been removed from your portfolio.' }];
+    const stuck = await aiChat.ask({ question: 'remove AMD from my portfolio', history: [], ctx: { siteRequest: s2.siteRequest }, mode: 'normal' });
+    assert.deepEqual(s2.writes(), []);
+    assert.match(stuck.answer, /nothing in your account was changed/);
+    assert.doesNotMatch(stuck.answer, /has been removed/);
+    // A refusal or a plain question is left alone.
+    assert.equal(site.unbackedClaim({ question: 'add PEP to my watchlist', answer: 'How many shares?', toolsUsed: [], ctx: { siteRequest: s.siteRequest } }), false);
+    assert.equal(site.unbackedClaim({ question: 'when was KO added to the Dow?', answer: 'KO was added in 1987.', toolsUsed: [], ctx: { siteRequest: s.siteRequest } }), false);
+});
+
+test('after a holding changes the tool returns the complete current list, so the answer need not rely on memory', async () => {
+    const s = fakeSite([{ _id: 'h1', symbol: 'AMD', shares: 10, purchasePrice: 500, portfolioId: null }, { _id: 'h2', symbol: 'NVDA', shares: 3, purchasePrice: 200, portfolioId: null }]);
+    const out = await site.run('manage_portfolio', { action: 'add_holding', symbol: 'KO', shares: 1 }, { siteRequest: s.siteRequest, question: 'add 1 share of KO to my portfolio' });
+    assert.equal(out.ok, true);
+    assert.deepEqual(out.holdingsNow.map(h => h.symbol), ['AMD', 'NVDA']);
+    assert.match(out.holdingsNote, /complete, current list/);
+});
