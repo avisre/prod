@@ -464,3 +464,14 @@ explicit authorization.**
 16. **ChatGPT connector polish** (optional): the icon is the default placeholder, and the plugin still reads
     `DEVELOPMENT` review status. Separate from the directory submission in item 2.
 
+
+## 2026-10-10 — site audit fixes (committed locally, NOT pushed)
+- Stamp is now `20261010-audit1` (app.js, system.css, company.js, dossier.js; all pages + pinned tests).
+- Fixed: `/api/portfolio/xray` 500 for a portfolio with nothing priced (`buildReveal` returns null, not a promise);
+  company price chart axis no longer goes below $0; Form 4 names/roles decoded (`&amp;`) in `insiders.js`;
+  "Filings last checked" shows a plain date; Ask on a phone lost the 44vh resize-grip gap and the cut-off credits line;
+  Dossier says "every dollar", whole-number unit counts, no doubled sector label.
+- OPEN, needs an owner decision: `sec-facts.js` reads capex only from `PaymentsToAcquirePropertyPlantAndEquipment`.
+  Nvidia files `PaymentsToAcquireProductiveAssets`, so FCF is blank FY2013+ and "What's priced in" uses 2012 FCF.
+  The fix is one mapping line + an EXTRACTION_VERSION bump + a full data rebuild (deploy gate applies). Not done.
+- Local audit rig: `scratchpad/audit.js` (per-page overflow/console/404 metrics + screenshots over CDP).

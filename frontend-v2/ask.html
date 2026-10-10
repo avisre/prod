@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261010-aiport1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261010-audit1" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -298,6 +298,11 @@
       .side.open { display: block; }
       /* the floating ☰'s left math assumes the desktop sidebar column */
       body.in-conversation .side-tools { left: 12px; }
+      /* the resize grip belongs to the desktop column; stacked on a phone its
+         44vh bar opened a blank half-screen above the heading */
+      .side-grip { display: none !important; }
+      .composer-meta { flex-wrap: wrap; row-gap: 4px; }
+      .composer-meta .quota-mini { margin-left: 0; white-space: normal; }
     }
   </style>
 </head>
@@ -326,7 +331,7 @@
         </div>
         <div class="hello">
           <h1>AI that has read every SEC filing for you.</h1>
-          <p>Ask anything about any US-listed stock, ETF or fund — company figures come from SEC filings, fund figures from fund data, sources under every answer. No card needed; answers aren't saved until you sign up.</p>
+          <p>Ask anything about any US-listed stock, ETF or fund — company figures come from SEC filings, fund figures from fund data, sources under every answer.<span id="hello-anon"> No card needed; answers aren't saved until you sign up.</span></p>
         </div>
 
         <div class="thread" id="thread" hidden><div class="ask-exchange" id="exchange"></div></div>
@@ -383,7 +388,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261010-aiport1"></script>
+  <script src="assets/app.js?v=20261010-audit1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -903,6 +908,7 @@
         $('side').hidden = false;
         $('side-grip').hidden = false;
         $('side-tools').hidden = false;
+        if ($('hello-anon')) $('hello-anon').hidden = true;
         paintSideWidth();
         let collapsed = false;
         try { collapsed = localStorage.getItem(SIDE_COLLAPSE_KEY) === '1'; } catch (_) {}

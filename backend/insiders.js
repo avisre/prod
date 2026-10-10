@@ -64,7 +64,15 @@ async function listForm4(symbol) {
 }
 
 // ---- parse one Form 4 XML (regex over the fixed ownershipDocument schema) ----
-function pick(xml, re) { const m = re.exec(xml); return m ? m[1].trim() : null; }
+// Form 4 text arrives XML-escaped ('EVP &amp; Chief Financial Officer'). The page
+// escapes again when it draws, so an undecoded title showed the entity itself.
+const XML_ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+function unxml(v) {
+    return typeof v === 'string'
+        ? v.replace(/&(amp|lt|gt|quot|apos);/g, (_, k) => XML_ENTITIES[k]).replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+        : v;
+}
+function pick(xml, re) { const m = re.exec(xml); return m ? unxml(m[1].trim()) : null; }
 function parseForm4(xml) {
     const owner = pick(xml, /<rptOwnerName>([^<]+)/);
     let relation = pick(xml, /<officerTitle>([^<]+)/);
@@ -139,7 +147,8 @@ async function history(symbol) {
             const b = buckets.get(q);
             if (t.side === 'buy') { b.buys++; b.buySh += t.shares; b.buyVal += t.value || 0; }
             else { b.sells++; b.sellSh += t.shares; b.sellVal += t.value || 0; }
-            recent.push({ date, owner: d.owner, relation: d.relation, side: t.side, shares: t.shares, value: t.value });
+            // rows stored before the decode above still carry the entity
+            recent.push({ date, owner: unxml(d.owner), relation: unxml(d.relation), side: t.side, shares: t.shares, value: t.value });
         }
     }
     recent.sort((a, b) => b.date.localeCompare(a.date));

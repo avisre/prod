@@ -49,7 +49,7 @@
   // whose industry build succeeded. Read the name off the object instead.
   function metaLine(d) {
     const ind = d.industry && typeof d.industry === 'object' ? d.industry.sector : d.industry;
-    return [d.sector, ind].filter(Boolean).join(' · ') || 'US-listed equity';
+    return [...new Set([d.sector, ind].filter(Boolean))].join(' · ') || 'US-listed equity';
   }
 
   const POLL_MS = 6000;
@@ -998,7 +998,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
         </div>`;
     } else if (ue && Array.isArray(ue.metrics) && ue.metrics.length) {
       const rows = ue.metrics.slice(0, 4).map((m) => {
-        const val = m.value != null ? money(m.value) : '—';
+        // a count of warehouses or stores is a whole number, not '939.00'
+        const val = m.value == null ? '—' : (Number.isInteger(Number(m.value)) ? Number(m.value).toLocaleString('en-US') : money(m.value));
         const unitSuffix = m.unit && !/^(count|units?|#)$/i.test(String(m.unit).trim()) ? ' ' + esc(m.unit) : '';
         return `<li><b>${esc(m.name || 'Metric')}</b>: ${val}${unitSuffix}${m.period ? ` <span class="small faint">(${esc(m.period)})</span>` : ''}</li>`;
       }).join('');
@@ -1035,7 +1036,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
         flowPlain = `
         <div class="pv-card">
           <h2>Follow the money</h2>
-          <p class="small faint" style="margin:0 0 12px;">Every pound of ${esc(iy || 'last year')} sales, from what customers paid to what the company kept</p>
+          <p class="small faint" style="margin:0 0 12px;">Every dollar of ${esc(iy || 'last year')} sales, from what customers paid to what the company kept</p>
           ${svgPlain}
         </div>`;
       }
