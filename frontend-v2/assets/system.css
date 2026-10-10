@@ -393,6 +393,10 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   border-radius: 50%;
   animation: spin 0.9s linear infinite;
   vertical-align: -4px;
+  /* never squeezed: beside a line of text that wraps, a flex row was shrinking
+     the 18px circle into an oblong */
+  flex: none;
+  aspect-ratio: 1;
 }
 .spin-lg { width: 28px; height: 28px; }
 @supports ((-webkit-mask: conic-gradient(#000, #0000)) or (mask: conic-gradient(#000, #0000))) {
