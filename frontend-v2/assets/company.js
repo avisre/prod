@@ -13,6 +13,9 @@
     const symbol = (params.get('symbol') || 'AAPL').toUpperCase().replace(/[^A-Z0-9.\-]/g, '');
     if (document.referrer && /\/screener(?:\.html)?(?:[/?#]|$)/i.test(document.referrer)) trackActivation('screener_company');
     document.title = `${symbol} — financials | stockportfolio.pro`;
+    // Ask for the statements straight away. The page used to wait about a second
+    // for the asset profile before even sending this, the slowest request it makes.
+    const earlyFundamentals = fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`).catch(() => null);
     nav('company');
     footer();
     try { // recently-viewed trail for the Markets sidebar
@@ -767,7 +770,10 @@
         const fmtTick = fmtPrimary || ((v) => currencyAmount(v, quoteCurrency(), { compact: false, decimals: sp.step >= 1 ? 0 : 2 }));
         const lastIdx = price.length - 1;
         const lastY = price[lastIdx] !== null && Number.isFinite(price[lastIdx]) ? yP(price[lastIdx]) : null;
-        let g = '<defs><linearGradient id="pc-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--ink)" stop-opacity="0.11"/><stop offset="1" stop-color="var(--ink)" stop-opacity="0.02"/></linearGradient></defs>';
+        // the share price is always black; the P/E multiple has its own colour so the
+        // two views cannot be mistaken for each other
+        const mainCol = fmtPrimary ? 'var(--chart-2)' : 'var(--ink)';
+        let g = '<defs><linearGradient id="pc-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + mainCol + '" stop-opacity="0.13"/><stop offset="1" stop-color="' + mainCol + '" stop-opacity="0.02"/></linearGradient></defs>';
         for (let t = sp.min; t <= sp.max + sp.step * 1e-6; t += sp.step) {
             const yy = yP(t);
             const fr = (t - sp.min) / (sp.max - sp.min);
@@ -823,7 +829,7 @@
                 g += '<path d="M' + pts[0][0].toFixed(1) + ' ' + base + ' ' + pts.map((p) => 'L' + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' L' + pts[pts.length - 1][0].toFixed(1) + ' ' + base + ' Z" fill="url(#pc-fill)" stroke="none"/>';
             }
         }
-        g += path(price, yP, 'var(--ink)', 2.2);
+        g += path(price, yP, mainCol, 2.2);
         // last value: dot on the line + a clear badge ON the right axis, where
         // the line can never hide it
         if (sc) {
@@ -834,8 +840,8 @@
         const li = price.length - 1;
         if (price[li] !== null) {
             const ly = yP(price[li]);
-            g += `<circle cx="${x(li, n).toFixed(1)}" cy="${ly.toFixed(1)}" r="3.2" fill="var(--ink)"/>`;
-            g += `<rect x="${W - padR + 2}" y="${(ly - 11).toFixed(1)}" width="${padR - 4}" height="20" rx="5" fill="var(--ink)"/>`;
+            g += `<circle cx="${x(li, n).toFixed(1)}" cy="${ly.toFixed(1)}" r="3.2" fill="${mainCol}"/>`;
+            g += `<rect x="${W - padR + 2}" y="${(ly - 11).toFixed(1)}" width="${padR - 4}" height="20" rx="5" fill="${mainCol}"/>`;
             g += `<text x="${W - padR + (padR - 2) / 2}" y="${(ly + 3.5).toFixed(1)}" text-anchor="middle" font-size="${fs}" font-weight="650" fill="var(--paper, #faf9f6)" style="font-variant-numeric:tabular-nums">${esc(fmtP(price[li]))}</text>`;
         }
         return `<svg viewBox="0 0 ${W} ${H}" style="width:100%; height:auto; display:block;" role="img">${g}</svg>`;
@@ -897,9 +903,13 @@
         if (mixedCurrencies) showCap = false;
         if (chartMode === 'price') {
             // 6M uses the daily series; longer ranges use monthly
-            const useDaily = rangeYears < 1;
+            // A company listed within the last year has too few monthly closes for a
+            // line (Cerebras: six), and the page showed no chart at all. Its daily
+            // closes are used for every range instead.
+            const young = series.length < 12;
+            const useDaily = rangeYears < 1 || young;
             const src = useDaily ? dailySeriesPts() : series;
-            if (src.length < (useDaily ? 30 : 12)) return;
+            if (src.length < (young ? 5 : useDaily ? 30 : 12)) return;
             const win = useDaily
                 ? src.slice(-126)
                 : src.slice(rangeYears >= 99 ? 0 : Math.max(0, src.length - rangeYears * 12));
@@ -935,7 +945,11 @@
                 const rangePct = ((last - first) / first) * 100;
                 const rangeBtn = document.querySelector('#seg-range button[aria-pressed="true"]');
                 const rangeLabel = rangeBtn ? rangeBtn.textContent : '';
-                chEl.textContent = (rangePct >= 0 ? '+' : '') + rangePct.toFixed(2) + '% over ' + rangeLabel;
+                // a newly listed company has no ten-year window: name the day the line starts
+                const span = young && win[0]
+                    ? 'since ' + new Date(win[0].month + 'T12:00').toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                    : 'over ' + rangeLabel;
+                chEl.textContent = (rangePct >= 0 ? '+' : '') + rangePct.toFixed(2) + '% ' + span;
                 chEl.className = 'small num ' + (rangePct >= 0 ? 'delta-pos' : 'delta-neg');
             }
             $('chart-prov').textContent = mixedCurrencies
@@ -2401,7 +2415,7 @@
             }
             if (['unit','right','unresolved'].includes(assetData?.profile?.assetType)) { $('co-name').textContent=assetData.profile.name || symbol; $('co-crumb').textContent=assetData.profile.assetTypeLabel+' · Company financial analysis is unavailable for this instrument.'; $('stmt-table').innerHTML='<tbody><tr><td>No company financial analysis is available for this instrument.</td></tr></tbody>'; return; }
             mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
-            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`);
+            const r = (await earlyFundamentals) || await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`);
             if (!r.ok) throw new Error('load failed');
             payload = await r.json();
             buildSharesMap();
