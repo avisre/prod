@@ -672,6 +672,30 @@
             ${gainCellHtml(row)}
             <td>${DEMO ? '' : `<button class="btn btn-quiet btn-sm" data-del="${esc(row.id)}" aria-label="Remove ${esc(row.symbol)}">Remove</button>`}</td>
           </tr>`;
+        // Last row of each table: that group's cost, value, weight and gain, with
+        // the gain in both dollars and percent. A group holding anything without
+        // a price paid gets no gain total — a partial cost basis is not a total.
+        const totalRowHtml = (holdings) => {
+            const value = holdings.reduce((sum, row) => sum + (row.value || 0), 0);
+            const complete = holdings.every((row) => row.value !== null && row.paid !== null && row.paid > 0 && row.shares > 0);
+            const cost = complete ? holdings.reduce((sum, row) => sum + row.paid * row.shares, 0) : null;
+            const gain = cost === null ? null : value - cost;
+            const sign = gain > 0 ? '+' : gain < 0 ? '−' : '';
+            const gainCell = gain === null
+                ? '<td title="Add the price paid for every holding here to see the total gain">—</td>'
+                : `<td class="${gain > 0 ? 'delta-pos' : gain < 0 ? 'delta-neg' : ''}">${sign}$${fixed(Math.abs(gain), 2)}${cost > 0 ? ` (${sign}${Math.abs(gain / cost * 100).toFixed(1)}%)` : ''}</td>`;
+            return `
+          <tr class="holdings-total">
+            <td class="row-head"><strong>Total</strong></td>
+            <td></td>
+            <td title="Total paid">${cost === null ? '—' : '$' + fixed(cost, 2)}</td>
+            <td></td>
+            <td>$${fixed(value, 2)}</td>
+            <td>${total > 0 ? pct(value / total * 100) : '—'}</td>
+            ${gainCell}
+            <td></td>
+          </tr>`;
+        };
         const groups = {
             stock: rows.filter((row) => row.assetType !== 'etf' && row.assetType !== 'mutual_fund'),
             etf: rows.filter((row) => row.assetType === 'etf'),
@@ -681,7 +705,7 @@
             const group = $(`${key}-holdings-group`);
             group.hidden = !holdings.length;
             $(`${key}-holdings-count`).textContent = `${holdings.length} ${holdings.length === 1 ? 'holding' : 'holdings'}`;
-            $(`${key}-holdings-body`).innerHTML = holdings.map(rowHtml).join('');
+            $(`${key}-holdings-body`).innerHTML = holdings.length ? holdings.map(rowHtml).join('') + totalRowHtml(holdings) : '';
         });
         document.querySelectorAll('[data-del]').forEach((button) =>
             button.addEventListener('click', () => removeHolding(button)));

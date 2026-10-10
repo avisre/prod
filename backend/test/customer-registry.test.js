@@ -242,3 +242,13 @@ test('portfolio chart reconciles missing history and discloses excluded symbols'
   assert.match(source, /latest chart point is reconciled to the current portfolio total/);
   assert.match(source, /Historical prices are unavailable for/);
 });
+
+test('each holdings table closes with a total row giving the gain in dollars and percent', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'dashboard.js'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dashboard.html'), 'utf8');
+  assert.match(source, /holdings\.map\(rowHtml\)\.join\(''\) \+ totalRowHtml\(holdings\)/);
+  assert.match(source, /<tr class="holdings-total">/);
+  // A partial cost basis is never summed into a total gain.
+  assert.match(source, /const cost = complete \? holdings\.reduce/);
+  assert.match(html, /\.holdings-total td/);
+});

@@ -45,6 +45,8 @@ Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan
   prices current shares back in time, and a new **Inception** button shows the cost-basis gain. A period is measured
   from the first day every holding has a price. `dashboard.js` stamp is `20261010-range1`. Checked in a browser on
   the demo dashboard: all five buttons change the figure.
+  Each holdings table also ends with a **Total** row: total paid, value, weight and gain in dollars and percent;
+  no gain total when any holding in the group lacks a price paid.
 - **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
 - Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
 
