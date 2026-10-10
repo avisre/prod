@@ -34,6 +34,12 @@ Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan
 - **Audit:** a tool result's `claimable` money and percentages count as supplied figures.
 - **Owner still to do:** add `FRED_API_KEY` and `BLS_API_KEY` to Render (values in `~/.config/stockportfolio/`).
   Until then production uses the keyless download and series search is off.
+- **Account actions (second commit, committed locally, NOT pushed — needs the owner's word):** `ask-site-actions.js`
+  gives the signed-in chat `manage_portfolio`, `manage_watchlist`, `manage_saved_screens`, `manage_alert_rules`,
+  `manage_thesis`. Each calls the site's own endpoint as the user (`askSiteRequest` in `app.js`, loopback), so plan
+  gates and limits are the pages' own. In code: a write runs only if the user's own message asked for it; deleting a
+  portfolio needs a second confirming message. Proven on a local app + scratch Mongo, including one real chat request.
+  Not offered to the trial, the public API or the connector. Guard: `test/ask-site-actions.test.js`.
 - **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
 - Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
 

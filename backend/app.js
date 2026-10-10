@@ -9722,6 +9722,23 @@ function askAuth(req, res, next) {
     req.anon = true;
     return next();
 }
+// Lets Ask do what the signed-in user can do on the pages, by calling this
+// server's own endpoints with the user's own session. Going through the routes
+// (not the models) keeps every plan gate, limit and ownership check in one
+// place. Only relative /api/ paths on the loopback address are reachable.
+function askSiteRequest(req) {
+    const token = authTokenFromRequest(req);
+    if (!token) return undefined;
+    return async (method, pathname, body) => {
+        if (!/^\/api\/[A-Za-z0-9/_.?=&%-]+$/.test(String(pathname)) || String(pathname).includes('..')) return { status: 400, body: { message: 'Invalid action.' } };
+        try {
+            const response = await fetch(`http://127.0.0.1:${PORT}${pathname}`, { method,
+                headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json', 'User-Agent': String(req.headers['user-agent'] || 'ask-site-action'), 'X-Forwarded-For': visitorIp(req) },
+                ...(body === undefined ? {} : { body: JSON.stringify(body) }), signal: AbortSignal.timeout(20000) });
+            return { status: response.status, body: await response.json().catch(() => null) };
+        } catch (_) { return { status: 503, body: { message: 'The site did not respond.' } }; }
+    };
+}
 function askOutcomeLog(result, mode, stream, entrypoint) {
     return require('./ask-diagnostics').outcome(result, { mode, stream, entrypoint });
 }
@@ -10002,7 +10019,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 const result = await aiChat.ask({
                     question, history,
                     ctx: {
-                        holdings, userId, memoryConsent, attachments, askSurface: 'web_chat',
+                        holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req),
                         // ai_paper events stream the background build's
                         // progress lines while this connection lives.
                         ...(aiPaperCtx ? { ...aiPaperCtx, aiPaperProgress: (e) => send('ai_paper', e) } : {})
@@ -10047,7 +10064,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
 
         const result = await aiChat.ask({
             question, history,
-            ctx: { holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', ...(aiPaperCtx || {}) },
+            ctx: { holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req), ...(aiPaperCtx || {}) },
             mode
         });
         console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, false, 'web_chat')));
