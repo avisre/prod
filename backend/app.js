@@ -10217,6 +10217,10 @@ async function runAiPaperChatTool(name, args, userId, ctx) {
             // allocation or ticker on its own. applySteering guardrails
             // (10-70% per slot, cash cap, verified symbols, latest quotes)
             // are enforced in the module.
+            if (args && (args.action === 'pause' || args.action === 'resume')) {
+                const paused = await aiPaper.setTrackingPaused(userId, args.action === 'pause');
+                return paused.ok ? { steered: args.action, trackingPaused: paused.trackingPaused, message: paused.trackingPaused ? 'The experiment is paused: no nightly reviews or daily snapshots until the owner resumes it. Positions are unchanged.' : 'The experiment is running again: reviews and daily snapshots continue from the next trading session.' } : { error: paused.reason };
+            }
             const out = await aiPaper.applySteering(userId, args && args.action, args || {});
             if (!out.ok) return { error: out.reason };
             return {
@@ -10300,6 +10304,26 @@ app.post('/api/ai-paper-portfolio/stop', authMiddleware, aiPaper.betaGate, async
         res.json(out);
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Could not stop the build.') });
+    }
+});
+
+// Owner controls for the experiment: pause or stop a build in progress, pause
+// or resume the nightly reviews and tracking of a built portfolio, or end the
+// experiment. None of them trades, and ending needs an explicit confirm.
+app.post('/api/ai-paper-portfolio/control', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    const action = String((req.body && req.body.action) || '');
+    const ownerId = portfolioOwnerId(req);
+    try {
+        if (action === 'pause_build') return res.json(await aiPaper.stopBuild(ownerId));
+        if (action === 'stop_build') return res.json(await aiPaper.discardBuild(ownerId));
+        if (action === 'pause_tracking' || action === 'resume_tracking') return res.json(await aiPaper.setTrackingPaused(ownerId, action === 'pause_tracking'));
+        if (action === 'end') {
+            if (!(req.body && req.body.confirm === true)) return res.status(400).json({ ok: false, reason: 'Ending the experiment needs an explicit confirmation.' });
+            return res.json(await aiPaper.resetRun(ownerId));
+        }
+        return res.status(400).json({ ok: false, reason: 'Unknown action.' });
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'That could not be done right now.') });
     }
 });
 

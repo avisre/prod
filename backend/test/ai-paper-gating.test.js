@@ -21,19 +21,21 @@ const creditsSource = fs.readFileSync(path.join(root, 'backend', 'credits.js'), 
 
 // ---- Route gating ----
 
-test('exactly four ai-paper routes exist, each behind auth + betaGate', () => {
+test('exactly five ai-paper routes exist, each behind auth + betaGate', () => {
     const routes = appSource.match(/app\.(?:get|post|put|patch|delete)\('\/api\/ai-paper-portfolio[^']*'/g) || [];
     assert.deepEqual(routes.sort(), [
         "app.get('/api/ai-paper-portfolio'",
         "app.get('/api/ai-paper-portfolio/detail'",
+        "app.post('/api/ai-paper-portfolio/control'",
         "app.post('/api/ai-paper-portfolio/create'",
         "app.post('/api/ai-paper-portfolio/stop'"
-    ].sort(), 'probe + create + detail + stop, nothing else');
+    ].sort(), 'probe + create + detail + stop + owner controls, nothing else');
     for (const open of [
         "app.get('/api/ai-paper-portfolio',",
         "app.post('/api/ai-paper-portfolio/create',",
         "app.get('/api/ai-paper-portfolio/detail',",
-        "app.post('/api/ai-paper-portfolio/stop',"
+        "app.post('/api/ai-paper-portfolio/stop',",
+        "app.post('/api/ai-paper-portfolio/control',"
     ]) {
         const i = appSource.indexOf(open);
         assert.ok(i >= 0, `${open} exists`);
@@ -195,7 +197,7 @@ test('aiPaperMode is honored only behind the server-side beta gate', () => {
     assert.match(appSource, /\.\.\.\(aiPaperCtx \|\| \{\}\)/, 'plain branch carries the ctx');
 });
 
-test('the chat tool handler can only read, kick a build, steer, or reset', () => {
+test('the chat tool handler can only read, kick a build, steer, pause or resume, or reset', () => {
     const hi = appSource.indexOf('async function runAiPaperChatTool');
     assert.ok(hi >= 0, 'handler exists');
     // the slice stops at the first route registration after the handler, so
@@ -203,7 +205,7 @@ test('the chat tool handler can only read, kick a build, steer, or reset', () =>
     const handler = appSource.slice(hi, appSource.indexOf('// Probe + state:', hi));
     const refs = [...handler.matchAll(/aiPaper\.(\w+)/g)].map((m) => m[1]);
     assert.ok(refs.length >= 3, 'handler found and calls the module');
-    assert.deepEqual([...new Set(refs)].sort(), ['applySteering', 'create', 'resetRun', 'resolveGuru', 'statusFor'], 'no other module surface is reachable from chat');
+    assert.deepEqual([...new Set(refs)].sort(), ['applySteering', 'create', 'resetRun', 'resolveGuru', 'setTrackingPaused', 'statusFor'], 'no other module surface is reachable from chat');
 });
 
 // ---- Daily loop + credits ----
@@ -230,4 +232,16 @@ test('credits are charged for work done and checked before it starts', () => {
     assert.match(modSource, /deps\.canAfford\(fresh\.user, 'ai_paper_daily'\)/);
     assert.match(appSource, /aiPaper\.setCreditGate\(async \(userId, cost\) =>/);
     assert.match(appSource, /credits\.check\(user\._id, cost,/);
+});
+test('owner controls: one route, five named actions, and ending needs an explicit confirm', () => {
+    const i = appSource.indexOf("app.post('/api/ai-paper-portfolio/control'");
+    const route = appSource.slice(i, appSource.indexOf('\n});', i));
+    for (const action of ['pause_build', 'stop_build', 'pause_tracking', 'resume_tracking', 'end']) assert.match(route, new RegExp("'" + action + "'"));
+    assert.match(route, /req\.body\.confirm === true/);
+    assert.equal(/\$set|positions/.test(route), false, 'the route itself writes nothing');
+    const askHtml = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'ask.html'), 'utf8');
+    for (const control of ['id="paper-pause"', 'id="paper-stop"', 'data-pc="pause_build"', 'data-pc="stop_build"', 'data-pc="end"']) assert.ok(askHtml.includes(control), control);
+    // The feed shows the build's last line from the poll too, and refreshes the credits line.
+    assert.match(askHtml, /function paperFinish\(text\)/);
+    assert.match(askHtml, /window\.__refreshAskQuota = refreshAskQuota/);
 });

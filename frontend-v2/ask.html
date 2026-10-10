@@ -332,6 +332,7 @@
         <div class="thread" id="thread" hidden><div class="ask-exchange" id="exchange"></div></div>
 
         <div class="composer-dock">
+          <div class="paper-controls" id="paper-controls" hidden><button type="button" class="pc-pause" id="paper-pause">⏸ Pause</button> <button type="button" class="pc-pause" id="paper-stop">⏹ Stop and discard</button> <span class="small muted" id="paper-controls-note"></span></div>
           <div class="paper-progress" id="paper-progress" role="status" aria-live="polite" hidden></div>
           <p class="att-error" id="att-error" role="alert"></p>
           <div class="composer-meta">
@@ -1240,6 +1241,45 @@
         const strip = $('paper-progress');
         if (strip) { strip.innerHTML = ''; strip.hidden = true; }
         paperFeedSeen = 0;
+        paperFinalShown = false;
+      }
+
+      // Owner controls. Pause keeps the setup for a re-run; Stop throws the
+      // run away. Both are also on the card at the top of the conversation.
+      let paperFinalShown = false;
+      async function paperControl(action, extra) {
+        try {
+          const r = await fetch(`${API}/ai-paper-portfolio/control`, { method: 'POST', headers: { Authorization: `Bearer ${token()}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ action, ...(extra || {}) }) });
+          return await r.json().catch(() => ({}));
+        } catch (_) { return {}; }
+      }
+      function paperControls(show, note) {
+        const row = $('paper-controls');
+        if (!row) return;
+        row.hidden = !show;
+        row.querySelectorAll('button').forEach((b) => { b.disabled = false; });
+        $('paper-controls-note').textContent = note || '';
+      }
+      (function wirePaperControls() {
+        const pause = $('paper-pause'); const stop = $('paper-stop');
+        if (!pause || !stop) return;
+        const press = (action, note) => async () => {
+          pause.disabled = true; stop.disabled = true;
+          $('paper-controls-note').textContent = note;
+          await paperControl(action);
+        };
+        pause.addEventListener('click', press('pause_build', 'Pausing after the current step…'));
+        stop.addEventListener('click', press('stop_build', 'Stopping after the current step…'));
+      })();
+      // The build's last word. Shown once, from whichever notices first: the
+      // live connection or the poll (the connection is usually gone by then,
+      // which is why the feed used to freeze on its second-to-last line).
+      function paperFinish(text) {
+        paperControls(false);
+        if (paperFinalShown) return;
+        paperFinalShown = true;
+        paperProgress(text);
+        if (window.__refreshAskQuota) window.__refreshAskQuota();
       }
 
       // Live research feed: while a build runs, poll /detail every 2.5s and
@@ -1254,21 +1294,32 @@
 
       function paperFeedStart() {
         if (paperPollTimer || !paperBeta) return;
+        paperControls(true);
         paperPollTimer = setInterval(async () => {
           try {
             const r = await fetch(`${API}/ai-paper-portfolio/detail`, { headers: { Authorization: `Bearer ${token()}` } });
             if (!r.ok) return;
             const detail = await r.json();
             const p = detail && detail.portfolio;
-            if (!detail || !detail.exists || !p) return;
+            if (!detail || !detail.exists || !p) {
+              // The run is gone: it was stopped and discarded.
+              paperFinish('⏹ Stopped — nothing was bought and the run was discarded.');
+              paperFeedStop();
+              hidePaperCard();
+              return;
+            }
+            const log = Array.isArray(p.buildLog) ? p.buildLog : [];
+            if (!paperFinalShown) for (let i = paperFeedSeen; i < log.length - (p.status === 'building' ? 0 : 1); i++) paperProgress(log[i]);
+            paperFeedSeen = log.length;
             if (p.status !== 'building') {
+              const bought = (p.positions || []).map((x) => x.symbol).filter(Boolean).join(' and ');
+              paperFinish(p.status === 'paused' ? '⏸ Paused — nothing was bought. Tell me what to change, then say “run it again”.'
+                : p.status === 'failed' ? `⚠️ ${p.buildError || 'The build failed.'} Nothing was bought.`
+                : `✅ Portfolio built${bought ? ' — ' + bought + ' bought' : ''}. The summary is at the top of this conversation and on your dashboard.`);
               paperFeedStop();
               loadPaperCard();
               return;
             }
-            const log = Array.isArray(p.buildLog) ? p.buildLog : [];
-            for (let i = paperFeedSeen; i < log.length; i++) paperProgress(log[i]);
-            paperFeedSeen = log.length;
           } catch (_) { /* transient poll error — keep going */ }
         }, 2500);
       }
@@ -1285,15 +1336,15 @@
           if (e.phase === 'starting') { paperProgressReset(); paperFeedStart(); }
           paperProgress(e.text || AI_PAPER_PHASES[e.phase] || '');
         } else if (e.type === 'done') {
-          paperProgress('✅ Portfolio built — the full visualization is on your dashboard.');
+          paperFinish('✅ Portfolio built — the full visualization is on your dashboard.');
           paperFeedStop();
           probePaper().then(loadPaperCard);
         } else if (e.type === 'paused') {
-          paperProgress('⏸ Paused — nothing was bought. Edit the setup in the chat, then run it again.');
+          paperFinish('⏸ Paused — nothing was bought. Edit the setup in the chat, then run it again.');
           paperFeedStop();
           probePaper().then(loadPaperCard);
         } else if (e.type === 'error') {
-          paperProgress(`⚠️ ${e.text || e.message || 'The build failed.'}`);
+          paperFinish(`⚠️ ${e.text || e.message || 'The build failed.'}`);
           paperFeedStop();
         }
       }
@@ -1356,16 +1407,22 @@
         const card = document.createElement('details');
         card.className = 'paper-card';
         card.id = 'paper-card';
+        card.addEventListener('click', async (ev) => {
+          const btn = ev.target.closest('button[data-pc]');
+          if (!btn) return;
+          const action = btn.dataset.pc;
+          if (action === 'end' && !window.confirm('End this experiment? The portfolio is removed. Its decision log is kept as history, and you can build a new one afterwards.')) return;
+          card.querySelectorAll('button[data-pc]').forEach((b) => { b.disabled = true; });
+          btn.textContent = action === 'end' ? 'Ending…' : action === 'stop_build' ? 'Stopping…' : action === 'pause_build' ? 'Pausing…' : 'Working…';
+          await paperControl(action, action === 'end' ? { confirm: true } : undefined);
+          if (action === 'end') { paperProgressReset(); paperControls(false); await probePaper(); }
+          if (action !== 'pause_build' && action !== 'stop_build') loadPaperCard();
+        });
         if (p.status === 'building') {
           card.innerHTML = `<summary>🧪 AI Paper Portfolio — building…</summary>
             <p class="small muted" style="margin:8px 0 0;">Two minds are picking their stocks — the live research feed streams below the composer.</p>
-            <button type="button" class="pc-pause">⏸ Pause the research</button>`;
-          card.querySelector('.pc-pause').addEventListener('click', async (ev) => {
-            const btn = ev.currentTarget;
-            btn.disabled = true;
-            btn.textContent = 'Pausing…';
-            try { await fetch(`${API}/ai-paper-portfolio/stop`, { method: 'POST', headers: { Authorization: `Bearer ${token()}` } }); } catch (_) { /* poll picks up the pause */ }
-          });
+            <button type="button" class="pc-pause" data-pc="pause_build">⏸ Pause</button> <button type="button" class="pc-pause" data-pc="stop_build">⏹ Stop and discard</button>`;
+          card.open = true;
           paperFeedStart();
         } else if (p.status === 'paused') {
           const setup = p.setup || {};
@@ -1393,10 +1450,12 @@
               <span>${money(pos.shares * pos.avgPrice)} · <span class="${pl === undefined ? '' : (pl >= 0 ? 'delta-pos' : 'delta-neg')}">${pl === undefined ? '—' : pct(pl)}</span></span>
             </div>`;
           }).join('');
-          card.innerHTML = `<summary>🧪 AI Paper Portfolio · ${money(t.totalValue)} · ${pct(t.portfolioReturnPct)} vs SPY ${pct(t.spyReturnPct)}</summary>
+          card.innerHTML = `<summary>🧪 AI Paper Portfolio · ${money(t.totalValue)} · ${pct(t.portfolioReturnPct)} vs SPY ${pct(t.spyReturnPct)}${p.trackingPaused ? ' · paused' : ''}</summary>
             ${rows}
             <div class="pc-row"><span class="small muted">cash</span><span>${money(p.cash)}</span></div>
-            <p class="small muted" style="margin:10px 0 0;">Full showdown and decision log on your <a rel="nofollow" href="/dashboard.html">dashboard</a>.</p>`;
+            <p class="small muted" style="margin:10px 0 0;">Full showdown and decision log on your <a rel="nofollow" href="/dashboard.html">dashboard</a>.</p>
+            <p class="small muted" style="margin:6px 0 0;">${p.trackingPaused ? 'Paused: no nightly reviews or daily snapshots until you resume.' : 'Running: nightly reviews for the first two trading days, then daily tracking.'}</p>
+            <button type="button" class="pc-pause" data-pc="${p.trackingPaused ? 'resume_tracking' : 'pause_tracking'}">${p.trackingPaused ? '▶ Resume' : '⏸ Pause'}</button> <button type="button" class="pc-pause" data-pc="end">⏹ End this experiment</button>`;
         }
         const exchange = $('exchange');
         exchange.insertBefore(card, exchange.firstChild); // pinned at the top, above every message
@@ -1430,7 +1489,7 @@
           .find((b) => /my portfolio|my holding/i.test(b.textContent));
         if (pf) pf.style.display = 'none';
       }
-      (async () => {
+      const refreshAskQuota = async () => {
         const el = $('quota-line');
         const mini = $('quota-mini');
         // The count lives in the meta row above the box. This line carries only
@@ -1453,7 +1512,10 @@
             }
           }
         } catch (_) { /* best-effort */ }
-      })();
+      };
+      // Also called when a build finishes, so the credits line reflects its cost.
+      window.__refreshAskQuota = refreshAskQuota;
+      refreshAskQuota();
     })();
   </script>
 </body>

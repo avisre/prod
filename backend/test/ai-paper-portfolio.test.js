@@ -716,6 +716,36 @@ function pickJsonFor(symbol, persona) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+test('discardBuild stops a running build and removes the run: nothing bought, nothing left behind', { timeout: 60000 }, async () => {
+    await withMongo(async () => {
+        betaEnvOn();
+        let release;
+        const gate = new Promise((resolve) => { release = resolve; });
+        const gatedLlm = async (messages) => {
+            const system = messages[0] && messages[0].content || '';
+            if (/pure quantitative/i.test(system)) return { content: pickJsonFor('BBBB', 'ai'), _usage: null };
+            await gate;
+            return { content: pickJsonFor('AAAA', 'guru'), _usage: null };
+        };
+        paper.__setDeps({ ...makeDeps(), llm: gatedLlm });
+        try {
+            const build = paper.create({ user: USER, guruId: 'berkshire', constraints: [], onEvent: () => {} });
+            let stopping = false;
+            for (let i = 0; i < 200 && !stopping; i++) {
+                const s = await paper.discardBuild('u-123');
+                if (s.stopping) stopping = true;
+                else await sleep(15);
+            }
+            assert.ok(stopping, 'the running build was told to stop');
+            await release();
+            const res = await build;
+            assert.equal(res.discarded, true);
+            assert.equal(await mongoose.model('AIPaperPortfolio').countDocuments({ user: 'u-123' }), 0, 'the run is gone');
+            assert.equal((await mongoose.model('AIPaperDecision').find({ type: 'construct' })).length, 0, 'nothing was bought');
+        } finally { paper.__resetDeps(); betaEnvOff(); }
+    });
+});
+
 test('stopBuild pauses a running build; the setup is kept, nothing is bought, then it resumes', { timeout: 60000 }, async () => {
     await withMongo(async () => {
         betaEnvOn();

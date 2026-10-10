@@ -229,6 +229,7 @@ const PortfolioSchema = new mongoose.Schema({
     guruId: String,               // retry can prefill the same guru
     dayCount: { type: Number, default: 0 },
     lastTickDay: { type: String, default: '' },   // UTC 'YYYY-MM-DD' idempotency lock
+    trackingPaused: { type: Boolean, default: false }, // owner paused the nightly reviews and daily snapshots
     splitsThrough: { type: String, default: '' }, // last session checked for stock splits
     reviewFailures: { type: Number, default: 0 }, // consecutive nightly reviews that could not be written
     spyBaseline: { type: Number, default: null },
@@ -1002,6 +1003,37 @@ async function stopBuild(userId) {
     return { ok: true, paused: true };
 }
 
+// Owner pressed STOP: end the build and throw the run away. A running build
+// is told to stop and discards itself when it does; a build that is already
+// paused or failed (or orphaned by a restart) is removed directly. A built
+// portfolio is never touched here — ending one is resetRun().
+async function discardBuild(userId) {
+    const key = String(userId);
+    const handle = activeBuilds.get(key);
+    if (handle) { handle.aborted = true; handle.discard = true; return { ok: true, stopping: true }; }
+    const res = await AIPaperPortfolio().deleteMany({ user: key, status: { $in: ['building', 'paused', 'failed'] } });
+    return res.deletedCount ? { ok: true, discarded: true } : { ok: false, reason: 'No build is running or paused right now.' };
+}
+
+// Owner paused or resumed the experiment after it was built. While paused
+// there are no nightly reviews and no daily snapshots, so nothing is charged;
+// the positions are untouched and tracking picks up from the next session.
+async function setTrackingPaused(userId, paused) {
+    const doc = await findFor(userId);
+    if (!doc) return { ok: false, reason: 'No AI Paper Portfolio exists for this account.' };
+    if (doc.status !== 'committed' && doc.status !== 'tracking') return { ok: false, reason: 'Only a built portfolio can be paused or resumed. To stop a build in progress, use Pause or Stop on the build.' };
+    if (!!doc.trackingPaused === !!paused) return { ok: true, trackingPaused: !!paused, unchanged: true };
+    await AIPaperPortfolio().updateOne({ _id: doc._id }, { $set: { trackingPaused: !!paused, updatedAt: new Date() } });
+    await appendDecision(doc, {
+        day: doc.dayCount, type: 'steering', persona: 'owner',
+        rationale: paused
+            ? 'Owner paused the experiment: no nightly reviews and no daily snapshots until it is resumed. The positions are unchanged.'
+            : 'Owner resumed the experiment: nightly reviews and daily snapshots continue from the next trading session.',
+        resultingPositions: doc.positions
+    });
+    return { ok: true, trackingPaused: !!paused };
+}
+
 // Live run registry: userId -> { aborted }. create() registers itself; the
 // persona loops and every stage boundary check the flag, so a pause lands
 // within one LLM round / tool call. A process restart loses the registry —
@@ -1351,6 +1383,12 @@ async function create({ user, guruId, constraints, onEvent }) {
         // swallowed the PauseError type.
         if (handle.aborted || (e && e.paused)) {
             await pauseBuild(doc);
+            // Stop (as opposed to pause) throws the run away: nothing was bought,
+            // and the setup is not kept for a re-run.
+            if (handle.discard) {
+                await AIPaperPortfolio().deleteOne({ _id: doc._id, status: 'paused' });
+                return { ok: false, discarded: true };
+            }
             return { ok: false, paused: true };
         }
         await failBuild(doc, e && e.message, usage);
@@ -1381,7 +1419,8 @@ async function detailFor(userId) {
         createdAt: p.createdAt, personas: p.personas, positions: p.positions,
         buildLog: Array.isArray(p.buildLog) ? p.buildLog : [],
         setup: p.setup && typeof p.setup === 'object' ? p.setup : {},
-        steeringRules: Array.isArray(p.steeringRules) ? p.steeringRules : []
+        steeringRules: Array.isArray(p.steeringRules) ? p.steeringRules : [],
+        trackingPaused: !!p.trackingPaused
     };
     if (p.status === 'committed' || p.status === 'tracking') {
         // Live quotes for the 2 positions + SPY only (60s cache inside deps).
@@ -1638,7 +1677,7 @@ function sweep() {
         await markStaleBuilding().catch(() => {});
         const live = await AIPaperPortfolio().find({ status: { $in: ['committed', 'tracking'] } }).catch(() => []);
         for (const p of live) {
-            if (!nextTickDue(p)) continue;
+            if (p.trackingPaused || !nextTickDue(p)) continue;
             try {
                 const r = await tickPortfolioOnce(p);
                 if (r && r.ticked) console.log(`[ai-paper] tick ${p._id}: ${JSON.stringify(r)}`);
@@ -1849,7 +1888,7 @@ const CHAT_TOOLS = [
             parameters: {
                 type: 'object',
                 properties: {
-                    action: { type: 'string', enum: ['allocate', 'override', 'rules'] },
+                    action: { type: 'string', enum: ['allocate', 'override', 'rules', 'pause', 'resume'], description: "pause / resume: stop or restart the nightly reviews and daily tracking of the built portfolio when the owner asks to pause or resume it. Nothing is traded." },
                     guruPct: { type: 'number', description: "allocate: the guru slot's percentage of the portfolio (0-100)." },
                     aiPct: { type: 'number', description: "allocate: the data-mind slot's percentage of the portfolio (0-100)." },
                     slot: { type: 'string', enum: ['guru', 'ai'], description: 'override: which slot to replace.' },
@@ -1884,7 +1923,7 @@ async function ensureIndexes() {
 module.exports = {
     betaEnabled, betaGate, isBetaUser, EXPERIMENT_ACCOUNT,
     create, detailFor, statusFor, start, sweep, tickPortfolioOnce, resetRun,
-    stopBuild, applySteering, applySplits,
+    stopBuild, discardBuild, setTrackingPaused, applySteering, applySplits,
     setCreditGate: (fn) => { defaultDeps.canAfford = fn; deps.canAfford = fn; },
     sanitizeAllocation, parseModelJson, computeSnapshot, nextTickDue,
     ensureIndexes, fixWeights, latestSession, markStaleBuilding, CHAT_TOOLS,

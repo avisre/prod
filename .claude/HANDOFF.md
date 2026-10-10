@@ -60,6 +60,10 @@ Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan
   3 times, not charged, not counted. Builds and reviews check credits (`setCreditGate` in `app.js`). Guard:
   `test/ai-paper-accounting.test.js`. Not done: the dashboard does not yet show `unpriced` or `realizedPl`; no
   live build was run.
+- **AI Portfolio owner controls (committed locally, NOT pushed):** a local build finished in 24 s but the Ask feed
+  froze on its second-to-last line and the credits line stayed stale, so it looked stopped. The poll now prints the
+  final line and refreshes credits. New `POST /api/ai-paper-portfolio/control`: `pause_build`, `stop_build`
+  (discard), `pause_tracking`, `resume_tracking`, `end` (needs confirm). Buttons sit by the feed and on the card.
 - **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
 - Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
 

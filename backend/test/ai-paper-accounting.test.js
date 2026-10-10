@@ -168,3 +168,33 @@ test('a successful review is charged once; without credits there is no review an
         assert.match(events[0].message, /Not enough AI credits/);
     });
 });
+
+test('Stop throws a build away; Pause and Resume on a built portfolio skip and restore the nightly work', async () => {
+    await withMongo(async (col) => {
+        // A build that is still marked as running (its process is gone) is removed outright.
+        wire(); await col.insertOne({ user: 'u1', status: 'building', positions: [], buildLog: [], createdAt: new Date(), updatedAt: new Date() });
+        assert.deepEqual(await paper.discardBuild('u1'), { ok: true, discarded: true });
+        assert.equal(await col.countDocuments({ user: 'u1' }), 0);
+        assert.equal((await paper.discardBuild('u1')).ok, false, 'nothing left to stop');
+
+        // A built portfolio is never removed by Stop.
+        await seed(col, { status: 'committed', dayCount: 0 });
+        assert.equal((await paper.discardBuild('u1')).ok, false);
+        assert.equal(await col.countDocuments({ user: 'u1' }), 1);
+
+        // Pause: logged, positions untouched, and the sweep leaves it alone.
+        const before = JSON.stringify((await col.findOne({ user: 'u1' })).positions);
+        assert.deepEqual(await paper.setTrackingPaused('u1', true), { ok: true, trackingPaused: true });
+        assert.equal((await paper.detailFor('u1')).portfolio.trackingPaused, true);
+        assert.equal(JSON.stringify((await col.findOne({ user: 'u1' })).positions), before);
+        paper.sweep(); await new Promise((r) => setTimeout(r, 300));
+        assert.equal(await mongoose.connection.collection('ai_paper_snapshots').countDocuments({}), 0, 'no snapshot while paused');
+        assert.deepEqual(spent, [], 'nothing charged while paused');
+        const log = await mongoose.connection.collection('ai_paper_decisions').find({ type: 'steering' }).toArray();
+        assert.match(log[0].rationale, /Owner paused the experiment/);
+        // Resume: the same call the other way; pausing twice changes nothing.
+        assert.equal((await paper.setTrackingPaused('u1', false)).trackingPaused, false);
+        assert.equal((await paper.setTrackingPaused('u1', false)).unchanged, true);
+        assert.equal((await paper.setTrackingPaused('nobody', true)).ok, false);
+    });
+});
