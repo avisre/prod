@@ -14,6 +14,29 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Ask answers the question asked; trades; economic data — 2026-10-10 (pushed on the owner's word)
+
+Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan: `~/.claude/plans/dude-we-have-a-toasty-spindle.md`.
+- **Cause (measured):** after the first tool result named a company, `ai-chat.js` re-selected the policy and
+  `ask-report-policy.select()` made any question with no punctuation and no NARROW keyword a `company_report`
+  (shipped 10/05, `4ab5b41f9`). A trailing "?" avoided it, which is why no test saw it.
+- **Now:** the report is for a bare name or explicit report words only; `SPECIFIC` openers (who/why/should/is…) stay
+  focused. New policy kind `trade`. A typed symbol nobody lists is named with its nearest listing
+  (`unknownTicker`), and the engine prefixes that line itself. Guard: `test/ask-question-answered.test.js`.
+- **`model_trade`** (`ask-trade-model.js`): entry, stop (ATR multiple by horizon), 2R/3R targets, size, protective
+  option from the live chain; stop only when no options are listed. Protection is on unless the user declines. The
+  engine appends the AI-generated / do-your-own-research line. Broker: the prompt has the model web-search what the
+  named broker offers. Measured: 276 daily bars for 10 of 10 tickers, option chains for 9 of 10 (not FRGT).
+- **`get_economic_data`** (`ask-macro-data.js`): 30 US government series via the FRED API, keyless FRED CSV as
+  fallback, BLS API as backup; 3 h cache in memory and Mongo `ask_macro_cache`; stale value served with a warning.
+  Privately owned series are refused in search. The FRED notice is appended to those answers.
+- **Scope:** Ask answers any lawful question; the finance-only refusal and NO ADVICE rule are gone.
+- **Audit:** a tool result's `claimable` money and percentages count as supplied figures.
+- **Owner still to do:** add `FRED_API_KEY` and `BLS_API_KEY` to Render (values in `~/.config/stockportfolio/`).
+  Until then production uses the keyless download and series search is off.
+- **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
+- Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
+
 ## Deploy checks moved off GitHub — 2026-10-10 (committed locally, NOT pushed)
 
 Owner: "bring the workflow u do on github to zero", then "i want all of this test to be done on my pc… make a more

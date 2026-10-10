@@ -544,7 +544,7 @@ function percentageEvidence(results, facts) {
 function numericClaims(text, results, question = '') {
     const data = unwrap(results);
     const hasFinancialObservations = data.some(r => r.observations?.some(o => o.fields || o.metrics) || r.marketObservations?.length || r.peerPositioning);
-    const financialResearchAttempted = (results || []).some(r => ['get_financials','get_ratios_history','get_supplemental_context','get_quote','get_peer_context'].includes(r.tool));
+    const financialResearchAttempted = (results || []).some(r => ['get_financials','get_ratios_history','get_supplemental_context','get_quote','get_peer_context','model_trade'].includes(r.tool));
     const filingFacts = filingNarrativeEvidence(results);
     if (!financialResearchAttempted && !hasFinancialObservations && !filingFacts.length && !data.some(r=>r.supplementalObservations?.length || r.industryObservations?.length)) return [];
     const facts = chartEvidence(results);
@@ -602,6 +602,11 @@ function numericClaims(text, results, question = '') {
                 facts.push({ value: num(e.value), unit: unitName(String(e.currency || 'USD').toUpperCase()), field });
         }
     }
+    // Figures a deterministic tool computed and handed over as its answer:
+    // trade levels from model_trade and official series from get_economic_data.
+    // Both signs are claimable, because prose writes a loss or a fall either way.
+    for (const r of data) for (const m of r.claimable?.money || []) if (num(m.value) !== null)
+        facts.push({ value: num(m.value), unit: m.unit || 'USD' }, { value: -num(m.value), unit: m.unit || 'USD' });
     // Calculator results, once the supplied facts are all in place — a money
     // calculation keeps its currency only when every input shared one.
     for (const c of calculatorClaims(results, facts)) if (c.unit) facts.push({ value: c.value, unit: c.unit, calculated: true });
@@ -672,6 +677,7 @@ function numericClaims(text, results, question = '') {
     }
     const percentages = percentageEvidence(results, facts);
     percentages.push(...dossier.percentages);
+    for (const r of data) for (const p of r.claimable?.percentages || []) if (num(p) !== null) percentages.push(num(p), -num(p));
     // A computed figure is as often a percentage as an amount — a share of
     // revenue, a premium to a peer median — so the same gated results are
     // claimable on this channel too.

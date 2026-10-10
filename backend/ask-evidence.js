@@ -230,8 +230,12 @@ function appendCitations(text, links) {
 // Definitions, hypothetical inputs and user attachments remain supported.
 function requiresEvidence(question, answer) {
     const definition = /^\s*(?:define\b|definition\b|explain (?:the |how )?(?:formula|concept)\b|what does .+ mean\s*\??$|what (?:is|are) (?:an? |the )?(?:net margin|revenue|earnings per share|eps|cash flow|p\/e|price.to.earnings|gross margin|operating margin|capex|market cap)(?: ratio| multiple| formula)?\s*[?.]?\s*$)/i.test(question);
+    // The financial subject has to be in the question, or the answer has to state
+    // a money amount about one. A general-knowledge answer that happens to hold a
+    // digit and the word "quarter" is not an unsourced financial claim.
+    const financial = /\b(revenue|net income|earnings|eps|cash flow|capex|market cap|stock price|quarter|financial results|margin|p\/e|trades)\b/i;
     return /\d/.test(answer) &&
-        /\b(revenue|net income|earnings|eps|cash flow|capex|market cap|stock price|quarter|financial results|margin|p\/e|trades)\b/i.test(question + '\n' + answer) &&
+        (financial.test(question) || (financial.test(answer) && /(?:[$€£¥]|\b(?:USD|EUR|GBP|JPY)\b)\s?\d/.test(answer))) &&
         !definition && !/\b(hypothetical|suppose|assume)\b/i.test(question);
 }
 
