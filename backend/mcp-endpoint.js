@@ -701,14 +701,17 @@ function buildMcpServer(ctx, deps) {
                 return finish(errorResult('QUOTA_EXCEEDED', q.error, q), 'QUOTA_EXCEEDED');
             }
 
-            // Started before the work so it reads the wallet as it stood before
-            // this call's own charge (see connector-notices.js).
+            // The notice reads the ledger while the work runs, and that read is
+            // awaited BEFORE the charge below. Charging first let this call's
+            // own ledger row pass for "the last call" and hide credits that had
+            // just arrived (it failed the deploy workflow twice on 2026-10-10).
             const pendingNotice = connectorNotices.begin(deps, gate);
             let result = await def.handler(args);
+            const notice = await pendingNotice;
             // Charged after the work succeeded, so a failed lookup never spends
             // the caller's allowance.
             await deps.limiter.spend(ctx.userId, def.aiCost ? 'mcp_ask' : 'mcp_lookup', `mcp:${def.name}`, subject, ctx.client || null);
-            result = connectorNotices.attach(result, await pendingNotice);
+            result = connectorNotices.attach(result, notice);
 
             if (def.aiCost && ctx.anonymous) {
                 // A free AI answer reports what is left, so the caller learns

@@ -672,6 +672,29 @@ test('credits added to an account are announced on its next call, once', { timeo
     assert.equal((await credits.balance('u1', ASK_LIMIT)).used, 3 * credits.COST.mcp_lookup, 'a notice never changes what a call costs');
 });
 
+test('the notice reads the ledger before the call is charged, however slow that read is', { timeout: 60000 }, async (t) => {
+    // The deploy workflow failed twice on 2026-10-10 because the charge could
+    // land before the notice had read the ledger; the call's own charge then
+    // looked like "the last call" and hid the credits that had just arrived.
+    // A deliberately slow ledger read makes that ordering certain here.
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+    stubFinancials();
+    t.after(restoreFinancials);
+    const shape = keyedShape();
+    shape.deps.accountNotice = async (gate) => {
+        await new Promise((resolve) => setTimeout(resolve, 150));
+        return connectorNotices.forCall({ ledger: mongoose.connection.collection('credit_ledger'), userId: 'u1', gate, facts: { lookupCost: credits.COST.mcp_lookup, askCost: credits.COST.mcp_ask } });
+    };
+    const client = await connect(t, await mount(t, shape));
+    const lookup = async () => jsonOf(await client.callTool({ name: 'search_filings', arguments: { ticker: 'AAPL' } }));
+    await lookup();
+    await credits.grant('u1', 500, 'comp', 'comp-slow');
+    assert.match((await lookup()).account_notice || '', /^500 credits were added/);
+    assert.equal((await lookup()).account_notice, undefined);
+});
+
 test('a wallet that is nearly spent says so before the refusal, and a broken notice never fails a call', { timeout: 60000 }, async (t) => {
     const mem = await MongoMemoryServer.create();
     await mongoose.connect(mem.getUri());

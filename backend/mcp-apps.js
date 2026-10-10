@@ -544,12 +544,14 @@ function buildMcpAppsServer(ctx, deps) {
                 log(false, 'QUOTA_EXCEEDED');
                 return errorResult('QUOTA_EXCEEDED', message);
             }
-            // Read before the charge, attached after it (connector-notices.js).
+            // The notice's ledger read is awaited BEFORE the charge, or this
+            // call's own row would hide credits that just arrived (see mcp-endpoint.js).
             const pendingNotice = connectorNotices.begin(deps, gate);
             const result = await def.handler(args);
+            const notice = await pendingNotice;
             await deps.limiter.spend(ctx.userId, 'mcp_lookup', `mcp-apps:${name}`, subject, ctx.client || null);
             log(true, null);
-            return textResult(connectorNotices.attach(result, await pendingNotice));
+            return textResult(connectorNotices.attach(result, notice));
         } catch (err) {
             const code = err && KNOWN_CODES.has(err.code) ? err.code : 'UPSTREAM_DATA_ERROR';
             const message = err && KNOWN_CODES.has(err.code)

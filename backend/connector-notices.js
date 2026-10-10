@@ -110,7 +110,6 @@ async function creditsAddedSinceLastCall(ledger, userId, now = new Date()) {
         const rows = await ledger
             // $gte, not $gt: credits stamped in the same millisecond as the last
             // call arrived after it was answered and have not been announced.
-            // (A strict comparison made this miss on a fast machine, 2026-10-10.)
             .find({ userId: uid, delta: { $gt: 0 }, at: { $gte: since } })
             .project({ _id: 0, delta: 1, at: 1 }).toArray();
         if (!rows.length) return null;
@@ -162,8 +161,8 @@ function attach(result, notice) {
 }
 
 // What mcp-endpoint.js and mcp-apps.js call. Started before the tool handler
-// runs and awaited after the charge, so it reads the ledger as it stood before
-// this call. `deps.accountNotice` is absent for keyless callers, who have no
+// runs, and the caller MUST await it before charging the call: the read has to
+// see the ledger as it stood before this call's own row. `deps.accountNotice` is absent for keyless callers, who have no
 // account to say anything about.
 function begin(deps, gate) {
     if (!deps || typeof deps.accountNotice !== 'function') return Promise.resolve(null);
