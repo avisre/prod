@@ -336,6 +336,22 @@
     }
 
     let perfRange = '3M';
+    // The gain beside the total follows the selected range. `inception` is the
+    // gain on what the user paid. `period` is how TODAY'S holdings moved over
+    // the charted window — the same thing the line draws, and labelled as such,
+    // because it is not the account's realised history.
+    const gainState = { inception: null, period: null };
+    const PERIOD_LABEL = { '1M': 'past month', '3M': 'past 3 months', '1Y': 'past year' };
+    function renderGainLine() {
+        const el = $('pf-inception-gain');
+        if (!el) return;
+        const gain = perfRange === 'INC' ? gainState.inception : (gainState.period || gainState.inception);
+        if (!gain) { el.hidden = true; return; }
+        const sign = gain.amount > 0 ? '+' : gain.amount < 0 ? '−' : '';
+        el.textContent = `${sign}$${fixed(Math.abs(gain.amount), 2)}${gain.percent === null ? '' : ` (${sign}${fixed(Math.abs(gain.percent), 1)}%)`} ${gain.label}`;
+        el.className = `small portfolio-inception-gain ${gain.amount > 0 ? 'delta-pos' : gain.amount < 0 ? 'delta-neg' : ''}`;
+        el.hidden = false;
+    }
     let perfWired = false;
     const perfSeries = { compact: null, full: null }; // outputsize -> {symbol: [{day, close}]}
     async function fetchDaily(symbols, outputsize) {
@@ -372,7 +388,7 @@
             .map((row) => row.symbol);
     }
     function drawPerf(rows) {
-        const data = (perfRange === '1Y' || perfRange === 'MAX') ? perfSeries.full : perfSeries.compact;
+        const data = (perfRange === '1Y' || perfRange === 'MAX' || perfRange === 'INC') ? perfSeries.full : perfSeries.compact;
         if (!data) return;
         let series = aggregate(rows, data);
         const missingSymbols = historyGaps(rows, data);
@@ -393,6 +409,28 @@
         }
         const days = { '1M': 23, '3M': 64, '1Y': 253 }[perfRange];
         if (days && series.length > days) series = series.slice(-days);
+        if (perfRange === 'INC') {
+            // From the earliest purchase date the user gave us. Without one, the
+            // full history is all there is to draw.
+            const first = rows.map((r) => (r.purchaseDate ? String(r.purchaseDate).slice(0, 10) : '')).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort()[0];
+            const since = first ? series.filter((p) => p.day >= first) : [];
+            if (since.length >= 2) series = since;
+        }
+        if (perfRange === 'INC' || series.length < 2) gainState.period = null;
+        else {
+            // Measure from the first day every charted holding has a price. Before
+            // that the line is missing whole positions, and a change measured from
+            // it reads as a gain that is really a holding appearing.
+            const starts = rows.map((r) => (data[r.symbol] || []).find((p) => Number.isFinite(p.close))).filter(Boolean).map((p) => p.day).sort();
+            const complete = series.filter((p) => p.day >= (starts[starts.length - 1] || ''));
+            const span = complete.length >= 2 ? complete : series;
+            const clipped = span[0].day !== series[0].day;
+            const start = span[0].value; const end = span[span.length - 1].value;
+            const from = new Date(span[0].day + 'T12:00').toLocaleString('en-US', { month: 'short', year: 'numeric' });
+            gainState.period = { amount: end - start, percent: start > 0 ? (end / start - 1) * 100 : null,
+                label: `${(!clipped && PERIOD_LABEL[perfRange]) || 'since ' + from} · today’s holdings` };
+        }
+        renderGainLine();
         const hostEl = $('perf-chart');
         if (series.length < 2) { hostEl.innerHTML = '<p class="small faint" style="padding:40px 0; text-align:center;">Add a position to see performance.</p>'; return; }
         const up = series[series.length - 1].value >= series[0].value;
@@ -426,7 +464,7 @@
             b.addEventListener('click', async () => {
                 document.querySelectorAll('#perf-range button').forEach((x) => x.setAttribute('aria-pressed', x === b));
                 perfRange = b.dataset.r;
-                if ((perfRange === '1Y' || perfRange === 'MAX') && !perfSeries.full) {
+                if ((perfRange === '1Y' || perfRange === 'MAX' || perfRange === 'INC') && !perfSeries.full) {
                     $('perf-chart').innerHTML = '<p style="padding:40px 0; text-align:center;"><span class="loading-line"><span class="spin"></span>Loading full history…</span></p>';
                     perfSeries.full = {};
                     Object.assign(perfSeries.full, await fetchDaily(lastRows.map((r) => r.symbol), 'full'));
@@ -594,16 +632,14 @@
         if (hasCompleteCostBasis) {
             const costBasis = rows.reduce((sum, row) => sum + row.paid * row.shares, 0);
             const gainAmount = total - costBasis;
-            const gainPercent = costBasis > 0 ? (gainAmount / costBasis) * 100 : null;
-            const sign = gainAmount > 0 ? '+' : gainAmount < 0 ? '−' : '';
-            inceptionGain.textContent = `${sign}$${fixed(Math.abs(gainAmount), 2)}${gainPercent === null ? '' : ` (${sign}${fixed(Math.abs(gainPercent), 1)}%)`} since inception`;
-            inceptionGain.className = `small portfolio-inception-gain ${gainAmount > 0 ? 'delta-pos' : gainAmount < 0 ? 'delta-neg' : ''}`;
-            inceptionGain.hidden = false;
+            gainState.inception = { amount: gainAmount, percent: costBasis > 0 ? (gainAmount / costBasis) * 100 : null, label: 'since inception' };
         } else {
             // A partial cost basis should never be presented as the portfolio's
             // lifetime return. Users can add the missing price paid to enable it.
+            gainState.inception = null;
             inceptionGain.hidden = true;
         }
+        renderGainLine();
         $('pf-sub').textContent = DEMO
             ? `${rows.length} holdings · demo data, read-only`
             : pfAdopted()

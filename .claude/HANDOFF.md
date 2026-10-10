@@ -40,6 +40,11 @@ Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan
   gates and limits are the pages' own. In code: a write runs only if the user's own message asked for it; deleting a
   portfolio needs a second confirming message. Proven on a local app + scratch Mongo, including one real chat request.
   Not offered to the trial, the public API or the connector. Guard: `test/ask-site-actions.test.js`.
+- **Dashboard gain follows the chart range (third commit, local, NOT pushed):** the line beside the total was always
+  "since inception". It now shows the move over 1M / 3M / 1Y / Max, labelled "today's holdings" because the chart
+  prices current shares back in time, and a new **Inception** button shows the cost-basis gain. A period is measured
+  from the first day every holding has a price. `dashboard.js` stamp is `20261010-range1`. Checked in a browser on
+  the demo dashboard: all five buttons change the figure.
 - **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
 - Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
 

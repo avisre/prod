@@ -207,7 +207,7 @@ test('populated portfolios use the grouped holdings renderer', () => {
   const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dashboard.html'), 'utf8');
   assert.match(source, /const rows = \(Array\.isArray\(list\) \? list : \[\]\)\.map\(holdingToRow\);\s*renderHoldings\(rows\);/);
   assert.doesNotMatch(source, /\$\('holdings-body'\)/);
-  assert.match(html, /assets\/dashboard\.js\?v=20261008-refund3/);
+  assert.match(html, /assets\/dashboard\.js\?v=20261010-range1/);
 });
 
 test('portfolio value shows a complete-basis inception gain without overstating partial data', () => {
@@ -218,6 +218,19 @@ test('portfolio value shows a complete-basis inception gain without overstating 
   assert.match(source, /const costBasis = rows\.reduce/);
   assert.match(source, /since inception/);
   assert.match(source, /inceptionGain\.hidden = true/);
+});
+
+test('the gain beside the portfolio total follows the chart range, with Inception as its own range', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'dashboard.js'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dashboard.html'), 'utf8');
+  for (const range of ['1M', '3M', '1Y', 'MAX', 'INC']) assert.match(html, new RegExp('data-r="' + range + '"'));
+  // One writer for the line, called after every chart draw and every holdings render.
+  assert.equal(source.split('.textContent = `${sign}$').length, 2);
+  assert.match(source, /gainState\.period = \{ amount: end - start/);
+  assert.match(source, /renderGainLine\(\);\s*const hostEl = \$\('perf-chart'\)/);
+  assert.match(source, /perfRange === 'INC' \? gainState\.inception : \(gainState\.period \|\| gainState\.inception\)/);
+  // A period move is the move of today's holdings, and says so.
+  assert.match(source, /today’s holdings/);
 });
 
 test('portfolio chart reconciles missing history and discloses excluded symbols', () => {
