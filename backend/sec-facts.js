@@ -69,7 +69,18 @@ const MAPS = {
   currentLongTermDebt:mapping(['LongTermDebtCurrent'],['CurrentPortionOfLongtermBorrowings','CurrentPortionOfNoncurrentBorrowings']),
   shortLongTermDebtTotal:mapping(['DebtLongtermAndShorttermCombinedAmount','LongTermDebtAndShortTermBorrowings'],['Borrowings']),
   commonStockSharesOutstanding:mapping(['CommonStockSharesOutstanding'],[]),
-  retainedEarnings:mapping(['RetainedEarningsAccumulatedDeficit'],['RetainedEarnings'])
+  retainedEarnings:mapping(['RetainedEarningsAccumulatedDeficit'],['RetainedEarnings']),
+  // Long-term asset lines, each as its own filed line: until 2026-10-10 only
+  // goodwill was read, so "Total long-term assets" had nothing to unfold into
+  // (Fair Isaac files six of these). Balance facts are instants and cannot add
+  // a reporting period. No remainder is computed for a line that is not filed.
+  totalNonCurrentAssets:mapping(['AssetsNoncurrent','NoncurrentAssets'],['NoncurrentAssets']),
+  propertyPlantEquipment:mapping(['PropertyPlantAndEquipmentNet','PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization'],['PropertyPlantAndEquipment']),
+  operatingLeaseRightOfUseAsset:mapping(['OperatingLeaseRightOfUseAsset'],['RightofuseAssets']),
+  intangibleAssetsExcludingGoodwill:mapping(['IntangibleAssetsNetExcludingGoodwill'],['IntangibleAssetsOtherThanGoodwill']),
+  longTermInvestments:mapping(['LongTermInvestments','MarketableSecuritiesNoncurrent'],[]),
+  deferredTaxAssets:mapping(['DeferredIncomeTaxAssetsNet','DeferredTaxAssetsNetNoncurrent'],['DeferredTaxAssets']),
+  otherNonCurrentAssets:mapping(['OtherAssetsNoncurrent'],['OtherNoncurrentAssets'])
  },
  cash: {
   operatingCashflow:mapping(['NetCashProvidedByUsedInOperatingActivities','NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivities','CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),

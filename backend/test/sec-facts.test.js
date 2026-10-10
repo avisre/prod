@@ -102,3 +102,18 @@ test('a bank that files net interest and noninterest income is measured on their
  Object.assign(doc.facts['us-gaap'],{Revenues:f(68),InterestIncomeExpenseNet:f(300),NoninterestIncome:f(90)});
  const d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.income.annualReports[0].totalRevenue,390);assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
 });
+
+// 2026-10-10: only goodwill was read out of the long-term assets, so the
+// Stocks & funds page had nothing to unfold "Total long-term assets" into.
+test('long-term asset lines are read as filed and never add a reporting period',()=>{
+ const {doc,evidence}=fixture();const before=extract(doc,evidence,{asOf:'2026-10-03'});
+ const instant=(val,end='2025-12-31')=>({units:{USD:[{val,end,accn:ACC,form:'10-K',filed:'2026-02-01'}]}});
+ Object.assign(doc.facts['us-gaap'],{PropertyPlantAndEquipmentNet:instant(68),OperatingLeaseRightOfUseAsset:instant(26),MarketableSecuritiesNoncurrent:instant(55),DeferredIncomeTaxAssetsNet:instant(119),OtherAssetsNoncurrent:instant(113),IntangibleAssetsNetExcludingGoodwill:instant(7,'2023-12-31')});
+ const d=extract(doc,evidence,{asOf:'2026-10-03'}),row=d.balance.annualReports[0];
+ assert.deepEqual([row.propertyPlantEquipment,row.operatingLeaseRightOfUseAsset,row.longTermInvestments,row.deferredTaxAssets,row.otherNonCurrentAssets],[68,26,55,119,113]);
+ assert.equal(d.sources[row._sources.propertyPlantEquipment[0]].concept,'PropertyPlantAndEquipmentNet');
+ // not filed for this year: missing, not a remainder
+ assert.equal(row.intangibleAssetsExcludingGoodwill,null);assert.equal(row.totalNonCurrentAssets,null);
+ assert.deepEqual(d.balance.annualReports.map(r=>r.fiscalDateEnding),before.balance.annualReports.map(r=>r.fiscalDateEnding));
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+});

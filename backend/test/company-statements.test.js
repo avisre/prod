@@ -101,8 +101,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261008-sbc2/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261008-sbc2/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261010-peers1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261010-peers1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -200,4 +200,53 @@ test('cross-currency listings do not run mixed-currency valuation visuals', () =
   assert.match(companySource, /if \(mixedCurrencies\) showCap = false/);
   assert.match(companySource, /Historical P\/E and price × filed-share-count overlays are disabled/);
   assert.match(companySource, /USD presentation conversion does not supply the listing’s depositary-share ratio/);
+});
+
+// 2026-10-10: two bank-only solo rows sat between Pre-tax income and its three
+// components, so they rendered as orphans — always open, with no caret — and
+// "Total long-term assets" had no component the SEC extraction could fill.
+function statementDefinitions(name) {
+  const start = companySource.indexOf(`        ${name}: [`);
+  assert.ok(start > 0, `${name} statement definitions should be present`);
+  const block = companySource.slice(start, companySource.indexOf('\n        ]', start));
+  return [...block.matchAll(/\{\s*label:\s*'([^']+)'([^\n]*)/g)].map((match) => ({
+    label: match[1],
+    sub: /\bsub:\s*true\b/.test(match[2]),
+    solo: /\bsolo:\s*true\b/.test(match[2]),
+    source: match[2]
+  }));
+}
+
+test('every indented statement row folds under a total, in all three statements', () => {
+  for (const name of ['income', 'balance', 'cash']) {
+    const grouped = groupDefinitions(statementDefinitions(name));
+    assert.ok(grouped.length > 5, name);
+    const orphans = grouped.filter((definition) => definition.sub && definition.gid === undefined);
+    assert.deepEqual(orphans.map((definition) => definition.label), [], `${name} has rows that can never be collapsed`);
+  }
+});
+
+test('pre-tax income unfolds into its interest and non-operating lines', () => {
+  const grouped = groupDefinitions(statementDefinitions('income'));
+  const pretax = grouped.find((definition) => definition.label === 'Pre-tax income');
+  assert.deepEqual(
+    grouped.filter((definition) => definition.gid === pretax.parentOf).map((definition) => definition.label),
+    ['Interest income', 'Interest expense', 'Other non-operating income']
+  );
+});
+
+test('total long-term assets unfolds into lines the SEC extraction supplies', () => {
+  const { MAPS } = require('../sec-facts');
+  const grouped = groupDefinitions(statementDefinitions('balance'));
+  const total = grouped.find((definition) => definition.label === 'Total long-term assets');
+  const children = grouped.filter((definition) => definition.gid === total.parentOf);
+  assert.deepEqual(children.map((definition) => definition.label), [
+    'Property, plant & equipment', 'Operating lease assets', 'Long-term investments', 'Goodwill',
+    'Intangible assets', 'Deferred tax assets', 'Other long-term assets'
+  ]);
+  for (const field of ['propertyPlantEquipment', 'operatingLeaseRightOfUseAsset', 'longTermInvestments', 'goodwill',
+    'intangibleAssetsExcludingGoodwill', 'deferredTaxAssets', 'otherNonCurrentAssets']) {
+    assert.ok(MAPS.balance[field], `${field} is extracted`);
+    assert.ok(children.some((definition) => definition.source.includes(`r.${field})`)), `${field} is shown`);
+  }
 });

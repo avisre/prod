@@ -470,9 +470,9 @@
             { label: 'Other operating expenses', get: (r) => { const t = num(r.operatingExpenses); const rd = num(r.researchAndDevelopment); const sg = num(r.sellingGeneralAndAdministrative); if (t === null || rd === null || sg === null) return null; const rest = t - (rd || 0) - (sg || 0); return Math.abs(rest) < 1 ? null : rest; }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Operating income', get: (r) => num(r.operatingIncome), fmt: money, kind: 'money', rule: true },
             { label: 'Operating margin', get: (r) => ratio(num(r.operatingIncome), derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
-            { label: 'Pre-tax income', get: (r) => num(r.incomeBeforeTax), fmt: money, kind: 'money' },
             { label: 'Net interest income', get: (r) => num(r.netInterestIncome), fmt: money, kind: 'money', solo: true },
             { label: 'Noninterest income', get: (r) => num(r.nonInterestIncome), fmt: money, kind: 'money', solo: true },
+            { label: 'Pre-tax income', get: (r) => num(r.incomeBeforeTax), fmt: money, kind: 'money' },
             { label: 'Interest income', get: (r) => num(r.interestIncome), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Interest expense', get: (r) => num(r.interestExpense), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other non-operating income', get: (r) => num(r.otherNonOperatingIncome), fmt: money, kind: 'money', sub: true, neutral: true },
@@ -498,8 +498,11 @@
             { label: 'Other current assets', get: (r) => num(r.otherCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total long-term assets', get: (r) => { const t = num(r.totalNonCurrentAssets); if (t !== null) return t; const a = num(r.totalAssets); const c = num(r.totalCurrentAssets); return (a !== null && c !== null) ? a - c : null; }, fmt: money, kind: 'money' },
             { label: 'Property, plant & equipment', get: (r) => num(r.propertyPlantEquipment), fmt: money, kind: 'money', sub: true },
+            { label: 'Operating lease assets', get: (r) => num(r.operatingLeaseRightOfUseAsset), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Long-term investments', get: (r) => num(r.longTermInvestments), fmt: money, kind: 'money', sub: true },
-            { label: 'Goodwill & intangibles', get: (r) => { const g2 = num(r.goodwill); const ix = num(r.intangibleAssetsExcludingGoodwill); if (g2 !== null && ix !== null) return g2 + ix; return num(r.intangibleAssets); }, fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Goodwill', get: (r) => num(r.goodwill), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Intangible assets', get: (r) => { const ix = num(r.intangibleAssetsExcludingGoodwill); return ix !== null ? ix : num(r.intangibleAssets); }, fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Deferred tax assets', get: (r) => num(r.deferredTaxAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other long-term assets', get: (r) => num(r.otherNonCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total assets', get: (r) => num(r.totalAssets), fmt: money, kind: 'money', rule: true, solo: true },
             { label: 'Loans, as defined by the filing', get: (r) => num(r.loans), fmt: money, kind: 'money', solo: true },
@@ -1278,24 +1281,21 @@
 
     // ---------- ④ peers + compare ----------
     async function renderPeers() {
-        const sector = ((payload.overview || {}).Sector || '').trim();
-        if (!sector) return;
         try {
-            const r = await fetch(`/api/screener?sector=${encodeURIComponent(sector)}&limit=100`);
+            // Same industry, closest in market value — not the sector's largest
+            // companies, which put Nvidia and Apple beside every software firm.
+            const r = await fetch(`/api/company/${encodeURIComponent(symbol)}/peers`);
+            if (!r.ok) return;
             const data = await r.json();
-            const all = (data.rows || []).filter((x) => x.marketCapB !== null);
-            if (all.length < 3) return;
-            const med = (key) => {
-                const vs = all.map((x) => x[key]).filter((v) => v !== null).sort((a, b) => a - b);
-                return vs.length ? vs[Math.floor(vs.length / 2)] : null;
-            };
-            const self = all.find((x) => x.symbol === symbol);
-            const rows = [self].concat(all.filter((x) => x.symbol !== symbol).slice(0, 7)).filter(Boolean);
+            if (!data.self || !(data.peers || []).length) return;
+            const med = (key) => (data.median || {})[key] ?? null;
+            const group = data.group || {};
+            const rows = [data.self].concat(data.peers);
             const cell = (v, f, colored) => v === null || v === undefined ? '—'
                 : `<span class="${colored && v !== 0 ? (v > 0 ? 'delta-pos' : 'delta-neg') : ''}">${f(v)}</span>`;
             let html = `<thead><tr><th class="row-head" style="text-align:left;">Company</th><th>Mkt cap</th><th>P/E</th><th>Rev CAGR 5y</th><th>Profit growth YoY</th><th>Net margin</th><th>ROE</th><th>Div yield</th><th>Profit yrs/10</th></tr></thead><tbody>`;
             for (const x of rows) {
-                const hl = x.symbol === symbol;
+                const hl = x === data.self;
                 html += `<tr data-sym="${esc(x.symbol)}" style="${hl ? 'font-weight:650;' : ''}">
                   <td class="row-head">${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></td>
                   <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
@@ -1308,7 +1308,7 @@
                   <td data-label="Profit yrs">${x.profitableYears10 ?? '—'}/10</td>
                 </tr>`;
             }
-            html += `<tr class="row-rule"><td class="row-head muted">Median · ${all.length} companies</td>
+            html += `<tr class="row-rule"><td class="row-head muted">Median · ${group.count} companies</td>
               <td class="muted" data-label="Mkt cap">${med('marketCapB') === null ? '—' : '$' + money(med('marketCapB') * 1e9)}</td>
               <td class="muted" data-label="P/E">${fixed(med('pe'), 1)}</td>
               <td class="muted" data-label="Rev CAGR 5y">${pct(med('revCagr5Pct'))}</td>
@@ -1319,7 +1319,7 @@
               <td class="muted" data-label="Profit yrs">${med('profitableYears10') ?? '—'}/10</td></tr></tbody>`;
             const table = $('peers-table');
             table.innerHTML = html;
-            $('peers-sub').textContent = sector.toLowerCase() + ' · median of ' + all.length;
+            $('peers-sub').textContent = String(group.label || '').toLowerCase() + ' · closest in market value · median of ' + group.count;
             // Navigate on a genuine TAP only. A horizontal swipe to scroll the
             // table used to register as a click and yank you to another company,
             // which made the table feel like it couldn't be scrolled on a phone.
