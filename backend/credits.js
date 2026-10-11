@@ -127,6 +127,26 @@ const mongoose = require('mongoose');
 const LISTED_LOOKUP_COST = 2;
 const COST = { ask: 2, monitor: 8, dossier_standard: 21, dossier_deep: 41, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 42, api_lookup: 1, api_ask: 42 };
 
+// A signed-in reader's Ask has no fixed length: it runs until the question is
+// answered or the wallet is empty (owner decision 2026-10-11). The flat 2 can
+// no longer be the whole price, so work beyond an ordinary question is charged
+// by size.
+//
+// Measured, not estimated — tokens per Ask action, ollama_usage_events rolled
+// up by requestId, 30 days to 2026-10-11, n=241:
+//   median 31,370   mean 63,428   p75 77,030   p90 136,684   p95 197,311
+//   p99 479,038     max 583,987
+// ASK_BASE_TOKENS is set just above p90, so nine questions in ten cost exactly
+// what they did (2). Each further ASK_TOKENS_PER_CREDIT is one credit, which is
+// the price per token the flat 2 already implied at the mean (63,428 / 2).
+// Under these the p95 question is 4 credits and the p99 question 13.
+const ASK_BASE_TOKENS = Number(process.env.ASK_BASE_TOKENS) > 0 ? Number(process.env.ASK_BASE_TOKENS) : 150000;
+const ASK_TOKENS_PER_CREDIT = Number(process.env.ASK_TOKENS_PER_CREDIT) > 0 ? Number(process.env.ASK_TOKENS_PER_CREDIT) : 30000;
+function askCredits(tokens) {
+    const t = Number(tokens);
+    return COST.ask + (Number.isFinite(t) && t > ASK_BASE_TOKENS ? Math.ceil((t - ASK_BASE_TOKENS) / ASK_TOKENS_PER_CREDIT) : 0);
+}
+
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 
 // First instant of next month, UTC — the moment monthKey() rolls over and this
@@ -455,6 +475,24 @@ async function spend(userId, cost, reason, refId, client) {
     } catch (error) { console.error('[credits] spend failed:', error && error.message); }
 }
 
+// One step of a long Ask, charged while it runs. It is the same question as
+// the row that carries its flat price, so it adds to what Ask spent and not to
+// how many questions were asked (`step` keeps it out of monthBreakdown's count).
+async function spendAskStep(userId, amount, refId) {
+    const n = Math.floor(Number(amount));
+    if (!Number.isFinite(n) || n <= 0) return;
+    try { await ledgerCol().insertOne({ userId: String(userId), month: monthKey(), delta: -n, reason: 'ask', refId: String(refId), step: true, at: new Date() }); }
+    catch (error) { console.error('[credits] spend failed:', error && error.message); }
+}
+
+// The steps charged while one long Ask ran, taken back when that run produced
+// no answer (a failed Ask has always been free). Never throws.
+async function refundRun(userId, refId) {
+    if (!refId) return 0;
+    try { return (await ledgerCol().deleteMany({ userId: String(userId), refId: String(refId), step: true })).deletedCount || 0; }
+    catch (error) { console.error('[credits] refund failed:', error && error.message); return 0; }
+}
+
 // Read-only check a route can act on BEFORE doing expensive work — does not
 // itself spend anything.
 async function check(userId, cost, effectiveAskLimit, planId, appsumoTierOrUser) {
@@ -493,7 +531,7 @@ async function monthBreakdown(userId) {
     try {
         const rows = await ledgerCol().aggregate([
             { $match: { userId: String(userId), month: monthKey() } },
-            { $group: { _id: '$reason', delta: { $sum: '$delta' }, count: { $sum: 1 } } }
+            { $group: { _id: '$reason', delta: { $sum: '$delta' }, count: { $sum: { $cond: [{ $eq: ['$step', true] }, 0, 1] } } } }
         ]).toArray();
         const out = {};
         for (const r of rows) out[String(r._id || 'other')] = { delta: r.delta, count: r.count };
@@ -503,4 +541,4 @@ async function monthBreakdown(userId) {
 
 const LISTED_COST = { ...COST, mcp_lookup: LISTED_LOOKUP_COST, api_lookup: LISTED_LOOKUP_COST };
 
-module.exports = { COST, LISTED_COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };
+module.exports = { askCredits, spendAskStep, refundRun, ASK_BASE_TOKENS, ASK_TOKENS_PER_CREDIT, COST, LISTED_COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };

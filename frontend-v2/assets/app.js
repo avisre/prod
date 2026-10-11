@@ -1910,6 +1910,7 @@
         get_price_history: (a) => `${(a.symbol || '').toUpperCase()} 20-yr returns`,
         get_segments: (a) => `${(a.symbol || '').toUpperCase()} segments (10-K)`,
         get_insider_activity: (a) => `${(a.symbol || '').toUpperCase()} insider trades`,
+        query_universe: (a) => (a && Array.isArray(a.symbols) && a.symbols.length ? `Computed figures for ${a.symbols.slice(0, 4).map((x) => String(x).toUpperCase()).join(', ')}` : 'Computed across every company\'s filings'),
         screen_universe: (a) => (a && a.similar_to ? `Screened ${String(a.similar_to).toUpperCase()}'s doppelgangers` : 'Screened the fundamentals universe'),
         get_portfolio: () => 'Your portfolio',
         calculator: () => 'Calculator',
@@ -2107,6 +2108,7 @@
                   <span class="ask-ring" aria-hidden="true"></span>
                   <span class="ask-working" role="status" aria-live="polite">Reading the filings…</span>
                   <span class="ask-elapsed" aria-hidden="true">0:00</span>
+                  <span class="ask-credits" role="status" hidden></span>
                   <button type="button" class="ask-stop" aria-label="Stop">Stop</button>
                 </div>
                 <p class="ask-note" hidden></p>
@@ -2153,6 +2155,7 @@
             let stepStartedAt = startedAt;
             const secs = (ms) => `${Math.floor(ms / 60000)}:${String(Math.floor(ms / 1000) % 60).padStart(2, '0')}`;
             const elapsedEl = block.querySelector('.ask-elapsed');
+            const creditsEl = block.querySelector('.ask-credits');
             const ticker = setInterval(() => {
                 if (!elapsedEl.isConnected) return clearInterval(ticker);
                 elapsedEl.textContent = secs(Date.now() - startedAt);
@@ -2304,6 +2307,12 @@
                         // and the answer fills downward from there, so the reader reads
                         // from the first word and scrolls at their own pace. Following
                         // the bottom pinned them to the last rendered line instead.
+                    } else if (ev === 'meter') {
+                        // A long question is charged as it works. An ordinary one
+                        // costs the usual 2 and shows nothing; past that the reader
+                        // sees the running total beside Stop.
+                        const n = Number(d.credits);
+                        if (creditsEl && n > 2) { creditsEl.textContent = n + ' credits used'; creditsEl.hidden = false; }
                     } else if (ev === 'ai_paper') {
                         // 🧪 build progress from the background AI Paper
                         // Portfolio construction (status/persona/done frames);

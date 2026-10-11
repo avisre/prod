@@ -337,3 +337,33 @@ test('monthBreakdown() never throws, even with a broken connection', { timeout: 
     assert.notEqual(result, 'THREW');
     assert.deepEqual(result, {});
 });
+
+test('a long Ask is charged by size beyond an ordinary question, in steps that can be taken back', { timeout: 60000 }, async (t) => {
+    // The rate is measured (see credits.js): nine questions in ten stay at 2.
+    assert.equal(credits.askCredits(0), 2);
+    assert.equal(credits.askCredits(31370), 2);
+    assert.equal(credits.askCredits(credits.ASK_BASE_TOKENS), 2);
+    assert.equal(credits.askCredits(credits.ASK_BASE_TOKENS + 1), 3);
+    assert.equal(credits.askCredits(197311), 4);
+    assert.equal(credits.askCredits(479038), 13);
+    assert.equal(credits.askCredits(NaN), 2);
+
+    const mongod = await MongoMemoryServer.create();
+    await mongoose.connect(mongod.getUri());
+    t.after(async () => { await mongoose.disconnect(); await mongod.stop(); });
+    const user = 'long-ask-user';
+    await credits.spendAskStep(user, 3, 'askrun:a');
+    await credits.spendAskStep(user, 2, 'askrun:a');
+    await credits.spendAskStep(user, 4, 'askrun:b');
+    await credits.spendAskStep(user, 0, 'askrun:a');
+    await credits.spend(user, 'ask', 'ask');
+    // A second question running at the same time sees these straight away.
+    assert.equal((await credits.balance(user, 50)).used, 11);
+    // Steps add to what Ask spent, not to how many questions were asked.
+    assert.deepEqual((await credits.monthBreakdown(user)).ask, { delta: -11, count: 1 });
+    // A run that produced no answer gives its steps back; nothing else moves.
+    assert.equal(await credits.refundRun(user, 'askrun:a'), 2);
+    assert.equal((await credits.balance(user, 50)).used, 6);
+    assert.equal(await credits.refundRun(user, 'ask'), 0, 'the flat price of an answered question is not a step');
+    assert.equal(await credits.refundRun(user, null), 0);
+});

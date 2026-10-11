@@ -30,6 +30,7 @@ const fundFetch = require('./fundamentals-fetch');
 const stockUniverse = require('./stock-universe');
 const evidence = require('./ask-evidence');
 const sectorVocab = require('./sector');
+const requirements = require('./ask-requirements');
 const askIndustry = require('./ask-industry-profile');
 const answerQuality = require('./ask-answer-quality');
 const reportPolicy = require('./ask-report-policy');
@@ -82,6 +83,11 @@ function __resetDeps() { deps = { ...defaultDeps }; reportCache.clear(); }
 
 const MAX_ITERS = 10;          // LLM calls per question (1 final + up to 9 tool rounds) — headroom for multi-company / causal questions
 const MAX_TOOLCALLS_PER_ROUND = 16;
+// A signed-in reader's question has no fixed number of rounds: it runs until it
+// is answered or their credits are spent (ctx.budget). This is only the bound
+// that stops a run nobody is paying attention to from going on for ever.
+const BUDGET_MAX_ROUNDS = 400;
+const STALLED_ROUNDS = 3;      // rounds in a row that only repeated earlier lookups
 const ASK_TOOL_CONCURRENCY = 6; // tools per round run in parallel, 6 at a time — most are cache reads; web tools share this pool too
 const QUESTION_MAX_CHARS = 8000;
 
@@ -2098,6 +2104,10 @@ const PLAIN_ASK_ADDENDUM = [
 // Injected on the final (tool-free) round and at the safety-net synthesis: the
 // research budget is gone, so the model must commit to a complete answer from
 // what it has gathered — and must never bounce the question back to the user.
+const CREDITS_DIRECTIVE =
+    'THE CREDITS FOR THIS QUESTION ARE SPENT — do not call any more tools. Write your COMPLETE final answer NOW from the tool results already gathered. Answer every part you can, and say in one plain line which part is not finished. Do NOT ask the user to simplify, narrow or rephrase.';
+const STALLED_DIRECTIVE =
+    'THE LAST ROUNDS ONLY REPEATED LOOKUPS YOU ALREADY HAVE — do not call any more tools. Write your COMPLETE final answer NOW from the tool results already gathered. Answer every part you can, and say in one plain line which part is not finished. Do NOT ask the user to simplify, narrow or rephrase.';
 const SYNTHESIS_DIRECTIVE =
     'TOOL BUDGET SPENT — do not call any more tools. Write your COMPLETE final answer NOW from the tool results already gathered, reasoning the question through (the mechanism, then the quantified effect where the data allows). Do NOT ask the user to simplify, narrow or rephrase, and do NOT say the question is too complex — answer every angle you can and note in one line anything you could not source.';
 
@@ -2319,6 +2329,9 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
     let reportResearchRetried = false;
     let accountClaimRetried = false;
     let reportSupplemented = false;
+    // What the reader asked for, and the last reading of a draft against it.
+    let asks = null, openVerdict = null, stopReason = null;
+    const budget = ctx && ctx.budget && Number.isFinite(Number(ctx.budget.credits)) && typeof ctx.budget.creditsFor === 'function' ? ctx.budget : null;
     const preparedReportEvidence = [];
     const grounded = text => hasResearchEvidence || (policy.kind !== 'company_report' &&
         (!!ctx?.attachments?.some(a => a.text) || !evidence.requiresEvidence(q, text)));
@@ -2401,7 +2414,11 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
         // model cannot drop or reword them.
         const used = name => toolsUsed.some(t => t.tool === name && t.ok);
         const closing = (!issues.length && (policy.kind === 'trade' || used('model_trade')) ? '\n\n*' + require('./ask-trade-model').DISCLAIMER + '*' : '')
-            + (!issues.length && used('get_economic_data') ? '\n\n*' + require('./ask-macro-data').NOTICE + '*' : '');
+            + (!issues.length && used('get_economic_data') ? '\n\n*' + require('./ask-macro-data').NOTICE + '*' : '')
+            // The run had to stop before every part was done: the reader is told
+            // which, in the app's words, so a draft cannot pass itself off as complete.
+            + (!issues.length && openVerdict && !openVerdict.ok ? requirements.unfinished(openVerdict.issues, stopReason === 'credits'
+                ? 'The credits for this question ran out before every part was done:' : 'These parts of your question are still open:') : '');
         // The reader typed a symbol nobody lists and the answer is about its one
         // near match: say so first, whether or not the model did.
         const near = typedUnknown && typedUnknown.nearest.length === 1 ? typedUnknown.nearest[0] : null;
@@ -2416,10 +2433,50 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
         return { answer, toolsUsed, source, totalTokens,
             quality: qualityFor(answer, { rewritten, correctionAttempted, correctionSucceeded,
                 fallback: issues.length > 0, terminalReason: issues.length ? 'validation_after_correction' : 'answered',
+                ...(asks ? { asks: asks.length, sendBacks, unfinished: openVerdict && !openVerdict.ok ? openVerdict.issues.map(i => i.key) : [] } : {}),
                 auditFindings: issues.length ? issues : structuralFindings,
                 ...(salvaged ? { salvaged: true, removedClaims: salvaged.removedClaims, chartsRemoved: salvaged.chartsRemoved } : {}) }) };
     };
     let totalTokens = 0;
+    let sendBacks = 0, sameIssue = 0, lastSignature = null, roundTokens = 20000, stalledRounds = 0, stalled = false, creditsOut = false;
+    // The two short reads around the research (what was asked; does the draft
+    // do it) go to the provider directly. A test that scripts chatRaw is
+    // scripting the research loop, so it gets them only by asking (chatAux).
+    const auxBase = deps.chatAux || (deps.chatRaw === defaultDeps.chatRaw ? deps.chatRaw : null);
+    const auxChat = auxBase ? async (m, o) => {
+        const r = await auxBase(m, o);
+        if (r && r._usage && num(r._usage.total_tokens) !== null) totalTokens += r._usage.total_tokens;
+        return r;
+    } : null;
+    const universe = () => { try { return deps.universe ? deps.universe() : { screenRows: buildScreenIndex(), facts: require('./screen-facts').load() }; } catch (_) { return null; } };
+    // Credits used so far by this question; the route charges them in steps and
+    // reports back what the reader still has, so two questions running at once
+    // cannot both spend the same credits.
+    const meter = async () => {
+        if (!budget) return;
+        const used = budget.creditsFor(totalTokens);
+        emit({ type: 'meter', credits: used });
+        try {
+            if (budget.charge) await budget.charge(used);
+            if (budget.refresh) { const left = Number(await budget.refresh()); if (Number.isFinite(left)) budget.credits = left; }
+        } catch (_) { /* a metering blip never stops an answer */ }
+    };
+    const affordable = () => budget.creditsFor(totalTokens + 2 * roundTokens + 6000) <= Number(budget.credits);
+    // A long run outgrows the evidence the model can be sent. Older lookups are
+    // shortened to their opening rows (the harness keeps the full results for
+    // the numerical review) and may then be run again.
+    const seenCalls = new Map();
+    const compact = () => {
+        if (contextBytes < evidence.MAX_CONTEXT_BYTES * 0.6) return;
+        for (let i = 0; i < messages.length - 14; i++) {
+            const m = messages[i];
+            if (m.role !== 'tool' || typeof m.content !== 'string' || m.content.length <= 1800) continue;
+            const cut = m.content.slice(0, 1500) + '\n…[shortened to make room; run the lookup again if the rest is needed]';
+            contextBytes -= Buffer.byteLength(m.content) - Buffer.byteLength(cut);
+            m.content = cut;
+            for (const [key, id] of seenCalls) if (id === m.tool_call_id) seenCalls.delete(key);
+        }
+    };
     // 🧪 AI Portfolio mode: beta-only extra tools, injected per request by
     // app.js after a server-side gate — they are absent for everyone else,
     // so the model never even sees them.
@@ -2538,12 +2595,22 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
         emit({ type: 'status', text: policy.story ? `Writing the ${policy.company.symbol} story` : `Writing the ${policy.company.symbol} report` });
     };
     try {
-        for (let iter = 0; iter < MAX_ITERS; iter++) {
+        if (auxChat && requirements.applies(q, policy) && !(ctx && ctx.aiPaperContext)) {
+            emit({ type: 'status', text: 'Reading what you asked for' });
+            try { asks = await requirements.extract(q, auxChat); } catch (_) { asks = null; }
+            if (asks) messages.push({ role: 'system', content: requirements.brief(asks) });
+        }
+        for (let iter = 0; iter < (budget ? BUDGET_MAX_ROUNDS : MAX_ITERS); iter++) {
+            if (budget && budget.stopped && budget.stopped()) {
+                return { answer: '', toolsUsed, source: 'stopped', totalTokens, quality: qualityFor('', { terminalReason: 'stopped_by_reader' }) };
+            }
             await prepareCompanyReportEvidence();
-            const lastRound = iter === MAX_ITERS - 1;
+            if (budget) { await meter(); compact(); }
+            creditsOut = !!budget && !affordable();
+            const lastRound = budget ? creditsOut || stalled || iter === BUDGET_MAX_ROUNDS - 1 : iter === MAX_ITERS - 1;
             // On the final round there are no tools — tell the model to commit to
             // a full answer instead of stalling or asking the user to narrow it.
-            if (lastRound) messages.push({ role: 'system', content: SYNTHESIS_DIRECTIVE });
+            if (lastRound) messages.push({ role: 'system', content: creditsOut ? CREDITS_DIRECTIVE : stalled ? STALLED_DIRECTIVE : SYNTHESIS_DIRECTIVE });
             const reportTools = policy.kind === 'company_report' && !policy.explicitWordLimit
                 ? activeTools.filter(tool => !preparedReportEvidence.some(item => item.tool === tool.function?.name))
                 : activeTools;
@@ -2554,7 +2621,8 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
             let msg;
             let streamer = null;
             const attempt = () => {
-                streamer = onEvent ? makeRoundStreamer(emit, hasResearchEvidence) : null;
+                // A draft that will be read against the reader's list is held back until it has been.
+                streamer = onEvent ? makeRoundStreamer(emit, hasResearchEvidence || !!asks) : null;
                 return streamer
                     ? deps.chatRawStream(messages, opts, streamer.onDelta)
                     : deps.chatRaw(messages, opts);
@@ -2570,7 +2638,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                     msg = await attempt();
                 } else { throw e1; }
             }
-            if (msg._usage && num(msg._usage.total_tokens) !== null) totalTokens += msg._usage.total_tokens;
+            if (msg._usage && num(msg._usage.total_tokens) !== null) { totalTokens += msg._usage.total_tokens; roundTokens = msg._usage.total_tokens; }
 
             if (Array.isArray(msg.tool_calls) && msg.tool_calls.length) {
                 // Commentary streamed ahead of the tool calls isn't the
@@ -2599,6 +2667,12 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                     let result;
                     const t0 = Date.now();
                     const reused = report ? preparedEvidenceFor(tc.function.name, args) : null;
+                    // An unbounded run must not pay for the same lookup twice.
+                    const spinKey = budget && !/^(?:calculator|remember|manage_|save_|model_trade)/.test(tc.function.name) ? tc.function.name + ':' + JSON.stringify(args) : null;
+                    if (spinKey && seenCalls.has(spinKey)) {
+                        return { tc, args, result: { alreadyRun: true, note: 'You already ran this exact lookup for this question and its result is above. It was not run again. Change the formula or the arguments, use a different tool, or write the answer.' }, ms: 0, reused: false, repeat: true };
+                    }
+                    if (spinKey) seenCalls.set(spinKey, tc.id);
                     if (reused) {
                         result = reused.result.error
                             ? { error: `This source was already checked and unavailable: ${String(reused.result.error).slice(0, 180)}` }
@@ -2621,6 +2695,8 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                     }
                 });
                 await Promise.all(workers);
+                stalledRounds = roundResults.length && roundResults.every(r => r.repeat) ? stalledRounds + 1 : 0;
+                if (stalledRounds >= STALLED_ROUNDS) stalled = true;
                 for (const { tc, args, result, ms, reused } of roundResults) {
                     // Reserve space for all remaining small error replies;
                     // every tool_call_id still needs a response when full.
@@ -2653,6 +2729,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 for (const tc of msg.tool_calls.slice(MAX_TOOLCALLS_PER_ROUND)) {
                     messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify({ error: `Not run: a round takes at most ${MAX_TOOLCALLS_PER_ROUND} lookups. Request it again in the next round if the answer still needs it.` }) });
                 }
+                if (lastRound) break; // tools were withheld and still asked for: go to the forced write-up
                 continue;
             }
 
@@ -2740,14 +2817,38 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 }
                 return ungroundedAnswer();
             }
+            // Does it do what was asked? If not it is not released: the model
+            // is told which part and keeps working, for as long as the reader's
+            // credits last (twice at most where there is no credit budget).
+            if (asks) {
+                emit({ type: 'status', text: 'Checking the answer against what you asked' });
+                let verdict = null;
+                try { verdict = await requirements.judge({ question: q, asks, answer: text, chat: auxChat, universe: universe() }); } catch (_) { verdict = null; }
+                openVerdict = null;
+                if (verdict && !verdict.ok) {
+                    sameIssue = verdict.signature === lastSignature ? sameIssue + 1 : 0;
+                    lastSignature = verdict.signature;
+                    if (!lastRound && (budget ? sameIssue < 2 : sendBacks < 2)) {
+                        sendBacks++;
+                        if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                        emit({ type: 'note', text: 'Not there yet — ' + verdict.issues[0].text.split('\n')[0].slice(0, 200) });
+                        messages.push({ role: 'assistant', content: text }, { role: 'system', content: requirements.directive(verdict.issues) });
+                        continue;
+                    }
+                    openVerdict = verdict;
+                    stopReason = creditsOut ? 'credits' : 'stalled';
+                }
+            }
+            if (budget) await meter();
             return finish(text, streamer && streamer.emittedAny);
         }
         // Reached only if the model kept emitting tool calls even on the
         // tool-free final round. Force one last tool-free synthesis so the user
         // always gets a real answer — never a "narrow it down".
         try {
-            if (messages[messages.length - 1].content !== SYNTHESIS_DIRECTIVE) {
-                messages.push({ role: 'system', content: SYNTHESIS_DIRECTIVE });
+            const closingDirective = creditsOut ? CREDITS_DIRECTIVE : stalled ? STALLED_DIRECTIVE : SYNTHESIS_DIRECTIVE;
+            if (messages[messages.length - 1].content !== closingDirective) {
+                messages.push({ role: 'system', content: closingDirective });
             }
             const finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: 8000 });
             if (finalMsg._usage && num(finalMsg._usage.total_tokens) !== null) totalTokens += finalMsg._usage.total_tokens;

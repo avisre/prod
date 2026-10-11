@@ -1051,6 +1051,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
   animation: spin 0.75s linear infinite;
 }
 .ask-elapsed { flex: none; font-size: var(--text-xs); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.ask-credits { flex: none; font-size: var(--text-xs); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 /* the model's stated plan, in its own words */
 .ask-note { margin: 11px 0 0; font-size: 13px; line-height: 1.6; color: var(--ink-2); }
 .ask-steps { margin: 11px 0 0; display: flex; flex-direction: column; gap: 5px; max-height: 84px; overflow-y: auto; }

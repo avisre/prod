@@ -3092,7 +3092,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-chart5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261011-ask1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3121,7 +3121,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-chart5"></script>
+<script src="/assets/app.js?v=20261011-ask1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3213,7 +3213,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-chart5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261011-ask1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3241,7 +3241,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-chart5"></script>
+<script src="/assets/app.js?v=20261011-ask1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3349,7 +3349,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261010-chart5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261011-ask1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3382,7 +3382,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261010-chart5"></script>
+<script src="/assets/app.js?v=20261011-ask1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -10056,17 +10056,37 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             });
             let closed = false;
             req.on('close', () => { closed = true; });
+            res.on('close', () => { if (!res.writableEnded) closed = true; });
             const send = (event, data) => {
                 if (closed || res.writableEnded) return;
                 res.write(`event: ${event}\ndata: ${JSON.stringify(data || {})}\n\n`);
             };
             // Keep proxies from timing out the connection between LLM rounds.
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
+            // No fixed length: the question runs until it is answered or the
+            // wallet is empty. Work beyond an ordinary question (credits.askCredits)
+            // is charged in steps as it is done, each step a ledger row under this
+            // run's id, so a second question running at the same time sees what
+            // this one has already spent. A reader let in on the Ask counter alone,
+            // with no credits to spend, keeps the fixed-length run.
+            const askRunId = 'askrun:' + require('crypto').randomUUID();
+            let askStepsCharged = 0;
+            const askBudget = !aiPaperCtx && gate.remaining >= credits.COST.ask ? {
+                credits: gate.remaining,
+                creditsFor: credits.askCredits,
+                stopped: () => closed,
+                charge: async (total) => {
+                    const step = Math.max(0, Number(total) - credits.COST.ask) - askStepsCharged;
+                    if (step > 0) { askStepsCharged += step; await credits.spendAskStep(userId, step, askRunId); }
+                },
+                refresh: async () => (await credits.check(userId, 'ask', limit, planId, req.user)).remaining + askStepsCharged
+            } : null;
             try {
                 const result = await aiChat.ask({
                     question, history,
                     ctx: {
                         holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req),
+                        ...(askBudget ? { budget: askBudget } : {}),
                         // ai_paper events stream the background build's
                         // progress lines while this connection lives.
                         ...(aiPaperCtx ? { ...aiPaperCtx, aiPaperProgress: (e) => send('ai_paper', e) } : {})
@@ -10086,6 +10106,11 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 // gate, response shape, or upgrade-prompt logic that the
                 // frontend already depends on.
                 if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
+                // The steps: topped up to the run's final size when it answered;
+                // kept as they stand when the reader stopped it (work done is
+                // work charged); taken back when it failed.
+                if (askBudget && result.source === 'ai') await askBudget.charge(credits.askCredits(result.totalTokens));
+                else if (askStepsCharged && result.source !== 'stopped') { await credits.refundRun(userId, askRunId); askStepsCharged = 0; }
                 if (result.source === 'ai' && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
                 if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
                 if (result.source === 'ai') threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface);
@@ -10097,10 +10122,12 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 send('done', {
                     answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
+                    creditsUsed: (result.source === 'ai' ? credits.COST.ask : 0) + askStepsCharged,
                     threadId: threadIdSaved,
                     ...(reviewPrompt ? { reviewPrompt } : {})
                 });
             } catch (error) {
+                if (askStepsCharged) await credits.refundRun(userId, askRunId);
                 send('error', { message: publicErrorMessage(error, 'Ask failed') });
             } finally {
                 clearInterval(ping);

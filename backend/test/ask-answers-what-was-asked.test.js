@@ -1,0 +1,194 @@
+'use strict';
+
+// Ask answers what was asked, and keeps working until it has.
+//
+// 2026-10-11: asked for one stock with more than 35% growth in the last four
+// quarters, low SBC and buybacks, Ask named a company growing 8%, wrote that it
+// "cleared every bar", and that was released: every figure in it had a source,
+// and nothing compared the answer with the question. A hard question was also
+// cut off after ten rounds whatever it needed.
+//
+// These tests pin the harness from the reader's side: what was asked is written
+// down first; a draft that misses a part is not released and the model is sent
+// back; a signed-in reader's run has no fixed length and ends when the question
+// is answered or their credits are spent.
+
+const { test, afterEach } = require('node:test');
+const assert = require('node:assert');
+
+process.env.OLLAMA_API_KEY = 'test-only-key';
+const aiChat = require('../ai-chat');
+const requirements = require('../ask-requirements');
+
+afterEach(() => aiChat.__resetDeps());
+
+const QUESTION = 'pick one stock tha is growing very fast and has low sbc stock buybacks and greater thatn 35 % growth in the last 4 quarters';
+const ASKS = { asks: [
+    { text: 'greater than 35% growth in the last 4 quarters', kind: 'number', formula: 'growth_pct(ttm(revenue), ttm(revenue, 4))', op: '>', value: 35 },
+    { text: 'low sbc', kind: 'number', formula: 'pct(ttm(sbc), ttm(revenue))' },
+    { text: 'a moat that is defensible', kind: 'judgement' },
+    { text: 'pick one stock', kind: 'deliverable' }
+] };
+const ends = ['2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30', '2025-06-30', '2025-03-31', '2024-12-31', '2024-09-30'];
+const fact = (s, revenue) => ({ s, c: 'USD', q: { ends, f: { revenue, sbc: revenue.map(() => 1) } } });
+const facts = (() => { const rows = [fact('FAST', [150, 140, 130, 120, 100, 100, 100, 100]), fact('SLOW', [108, 108, 108, 108, 100, 100, 100, 100])];
+    return { v: 1, asOf: '2026-07-15', rows, bySymbol: new Map(rows.map(r => [r.s, r])) }; })();
+const screenRows = [{ symbol: 'FAST', name: 'Fast Co', sector: 'Information Technology', marketCapB: 9 }, { symbol: 'SLOW', name: 'Slow Co', sector: 'Consumer Discretionary', marketCapB: 120 }];
+
+const toolCall = (id, name, args = {}) => ({ id, type: 'function', function: { name, arguments: JSON.stringify(args) } });
+// main: the research loop's replies, in order. aux: the two short reads.
+function scripted({ main, aux = [], overrides = {} }) {
+    const calls = { main: [], aux: [], tools: [] };
+    const chatRaw = async (messages, opts) => {
+        calls.main.push({ messages: JSON.parse(JSON.stringify(messages)), opts });
+        const r = main[calls.main.length - 1];
+        return { role: 'assistant', content: '', ...(r || { content: 'Fallback answer so the loop terminates.' }) };
+    };
+    const chatAux = async (messages) => {
+        calls.aux.push(JSON.parse(JSON.stringify(messages)));
+        const r = aux[calls.aux.length - 1];
+        return { role: 'assistant', content: typeof r === 'string' ? r : JSON.stringify(r === undefined ? {} : r) };
+    };
+    const runTool = async (name, args) => { calls.tools.push({ name, args }); return { table: 'symbol|g\nFAST|35.0\nSLOW|8.0', matched: 2 }; };
+    aiChat.__setDeps({ chatRaw, chatRawStream: (m, o) => chatRaw(m, o), chatAux, runTool, universe: () => ({ screenRows, facts }), ...overrides });
+    return calls;
+}
+const ask = (opts = {}) => aiChat.ask({ question: QUESTION, history: [], ctx: {}, ...opts });
+const passAll = picks => ({ picks, admitsNoFullMatch: false, results: [1, 2, 3, 4].map(id => ({ id, ok: true })) });
+
+test('the 2026-10-11 answer is not released: the pick fails the reader\'s growth condition and the model is sent back', async () => {
+    const calls = scripted({
+        main: [
+            { tool_calls: [toolCall('c1', 'query_universe', { where: 'pe < 40' })] },
+            { content: 'The pick: Slow Co (SLOW). It cleared every bar at once.' },
+            { tool_calls: [toolCall('c2', 'query_universe', { where: 'growth_pct(ttm(revenue), ttm(revenue, 4)) > 35' })] },
+            { content: 'The pick: Fast Co (FAST). Its revenue over the last four quarters is well above the four before, and it has a network moat.' }
+        ],
+        aux: [ASKS, passAll(['SLOW']), passAll(['FAST'])]
+    });
+    const out = await ask();
+
+    assert.equal(out.source, 'ai');
+    assert.match(out.answer, /Fast Co \(FAST\)/);
+    assert.doesNotMatch(out.answer, /SLOW|cleared every bar/);
+    assert.equal(out.quality.sendBacks, 1);
+    assert.deepEqual(out.quality.unfinished, []);
+    // What was asked reached the model before any research…
+    const first = calls.main[0].messages.map(m => m.content).join('\n');
+    assert.match(first, /WHAT THE USER ASKED FOR/);
+    assert.match(first, /greater than 35% growth in the last 4 quarters.*growth_pct\(ttm\(revenue\), ttm\(revenue, 4\)\) > 35/);
+    // …and the rejected draft came back with the failing figure and the companies that do pass.
+    const sentBack = calls.main[2].messages.filter(m => m.role === 'system').map(m => m.content).join('\n');
+    assert.match(sentBack, /ANSWER NOT RELEASED/);
+    assert.match(sentBack, /SLOW does not meet "greater than 35% growth in the last 4 quarters": .* is 8, and the user asked for > 35/);
+    assert.match(sentBack, /1 company passes every measured condition/);
+    assert.match(sentBack, /^FAST\|/m);
+});
+
+test('a part that is not a number is read too: an ignored part sends the answer back', async () => {
+    const calls = scripted({
+        main: [
+            { tool_calls: [toolCall('c1', 'query_universe', {})] },
+            { content: 'Fast Co (FAST) is the pick on growth.' },
+            { content: 'Fast Co (FAST) is the pick: fast growth, and switching costs give it a moat.' }
+        ],
+        aux: [ASKS, { picks: ['FAST'], results: [{ id: 3, ok: false, why: 'no moat assessment given' }, { id: 4, ok: true }] }, passAll(['FAST'])]
+    });
+    const out = await ask();
+    assert.match(out.answer, /switching costs/);
+    assert.match(calls.main[2].messages.at(-1).content, /Not done: "a moat that is defensible" — no moat assessment given/);
+});
+
+test('when no company passes and the answer says so, that is the answer', async () => {
+    const none = { asks: [{ text: 'more than 500% growth in the last 4 quarters', kind: 'number', formula: 'growth_pct(ttm(revenue), ttm(revenue, 4))', op: '>', value: 500 }] };
+    scripted({
+        main: [{ tool_calls: [toolCall('c1', 'query_universe', {})] }, { content: 'No company meets that bar. The closest is Fast Co (FAST).' }],
+        aux: [none, { picks: ['FAST'], admitsNoFullMatch: true, results: [{ id: 1, ok: true }] }]
+    });
+    const out = await ask({ question: 'which stock has more than 500% growth in the last 4 quarters' });
+    assert.equal(out.quality.sendBacks, 0);
+    assert.match(out.answer, /No company meets that bar/);
+});
+
+test('a short plain question is not listed or re-read, and a failed listing never blocks an answer', async () => {
+    let calls = scripted({ main: [{ content: 'Paris.' }], aux: [] });
+    assert.equal((await ask({ question: 'capital of France?' })).answer, 'Paris.');
+    assert.equal(calls.aux.length, 0);
+    calls = scripted({ main: [{ tool_calls: [toolCall('c1', 'query_universe', {})] }, { content: 'Fast Co (FAST) is the pick.' }], aux: ['not json at all'] });
+    const out = await ask();
+    assert.equal(out.source, 'ai');
+    assert.equal(calls.aux.length, 1, 'no list, so no second read');
+});
+
+const budgetOf = (credits, extra = {}) => ({ credits, creditsFor: tokens => 2 + Math.max(0, Math.ceil((tokens - 100) / 100)), ...extra });
+const usage = n => ({ _usage: { total_tokens: n } });
+
+test('a signed-in reader\'s question is not cut off after ten rounds', async () => {
+    const rounds = Array.from({ length: 14 }, (_, i) => ({ tool_calls: [toolCall('c' + i, 'query_universe', { limit: i + 1 })], ...usage(1) }));
+    const calls = scripted({ main: [...rounds, { content: 'Fast Co (FAST) is the pick.' }], aux: [ASKS, passAll(['FAST'])] });
+    const out = await ask({ ctx: { budget: budgetOf(1e6) } });
+    assert.equal(out.source, 'ai');
+    assert.equal(out.toolsUsed.length, 14);
+    assert.ok(calls.main.every(c => !c.messages.some(m => /TOOL BUDGET SPENT/.test(m.content || ''))));
+});
+
+test('the run ends when the credits are spent: tools are withheld, the best answer is given and the open part is named', async () => {
+    const charged = [];
+    const calls = scripted({
+        main: [
+            { tool_calls: [toolCall('c1', 'query_universe', { limit: 1 })], ...usage(40000) },
+            { tool_calls: [toolCall('c2', 'query_universe', { limit: 2 })], ...usage(40000) },
+            { content: 'Slow Co (SLOW) is the closest found so far.', ...usage(50) }
+        ],
+        aux: [ASKS, passAll(['SLOW'])]
+    });
+    // 2 credits cover the first 50,000 tokens; each further 30,000 is one more.
+    const creditsFor = tokens => 2 + Math.max(0, Math.ceil((tokens - 50000) / 30000));
+    const out = await ask({ ctx: { budget: { credits: 5, creditsFor, charge: async n => { charged.push(n); } } } });
+    const last = calls.main.at(-1);
+    assert.equal(last.opts.tools, null);
+    assert.match(last.messages.at(-1).content, /THE CREDITS FOR THIS QUESTION ARE SPENT/);
+    assert.equal(calls.main.length, 3, 'no further rounds once the credits cannot cover one');
+    assert.match(out.answer, /\*\*Not finished\.\*\* The credits for this question ran out before every part was done:/);
+    assert.match(out.answer, /SLOW does not meet "greater than 35% growth in the last 4 quarters"/);
+    assert.deepEqual(charged, [...charged].sort((a, b) => a - b), 'charged in rising steps as the work is done');
+    assert.equal(charged.at(-1), 4, '80,050 tokens: 2 for the first 50,000 and one for each started 30,000 after');
+});
+
+test('the same lookup is never run or paid for twice, and a run that only repeats itself is ended', async () => {
+    const same = () => ({ tool_calls: [toolCall('c' + Math.random(), 'query_universe', { where: 'pe < 10' })], ...usage(1) });
+    const calls = scripted({ main: [same(), same(), same(), same(), { content: 'Fast Co (FAST) is the pick.' }], aux: [ASKS, passAll(['FAST'])] });
+    const out = await ask({ ctx: { budget: budgetOf(1e6) } });
+    assert.equal(calls.tools.length, 1);
+    const replies = calls.main.at(-1).messages.filter(m => m.role === 'tool');
+    assert.equal(replies.filter(m => /You already ran this exact lookup/.test(m.content)).length, 3);
+    assert.match(calls.main.at(-1).messages.at(-1).content, /ONLY REPEATED LOOKUPS/);
+    assert.equal(out.source, 'ai');
+});
+
+test('another question spending the same credits is seen between rounds; pressing stop ends the run', async () => {
+    let left = 1000;
+    const round = i => ({ tool_calls: [toolCall('c' + i, 'query_universe', { limit: i + 1 })], ...usage(100) });
+    let calls = scripted({ main: [round(0), round(1), round(2), { content: 'Fast Co (FAST) is the pick.' }], aux: [ASKS, passAll(['FAST'])] });
+    await ask({ ctx: { budget: budgetOf(1000, { refresh: async () => { left = calls.main.length >= 1 ? 3 : left; return left; } }) } });
+    assert.match(calls.main.at(-1).messages.map(m => m.content).join('\n'), /THE CREDITS FOR THIS QUESTION ARE SPENT/);
+    assert.ok(calls.main.length < 4);
+
+    calls = scripted({ main: [round(0), round(1), { content: 'never reached' }], aux: [ASKS] });
+    const out = await ask({ ctx: { budget: budgetOf(1e6, { stopped: () => calls.main.length >= 1 }) } });
+    assert.equal(out.source, 'stopped');
+    assert.equal(calls.main.length, 1);
+});
+
+test('the list keeps only what can be used: a formula that does not parse leaves the part to the reading pass', () => {
+    const asks = requirements.clean({ asks: [
+        { text: 'x', kind: 'number', formula: 'process.exit()', op: '>', value: 1 },
+        { text: 'y', kind: 'number', formula: 'pct(ttm(sbc), ttm(revenue))', op: 'approximately', value: 5 },
+        { text: '', kind: 'number' }, { text: 'z', kind: 'nonsense' }
+    ] });
+    assert.deepEqual(asks.map(a => [a.id, a.kind, a.formula || null, a.op || null]), [[1, 'number', null, null], [2, 'number', 'pct(ttm(sbc), ttm(revenue))', null], [3, 'deliverable', null, null]]);
+    assert.equal(requirements.clean({ asks: [] }), null);
+    assert.equal(requirements.applies('nvda revenue?', { kind: 'focused' }), false);
+    assert.equal(requirements.applies(QUESTION, { kind: 'company_report' }), false);
+    assert.equal(requirements.applies(QUESTION, { kind: 'focused' }), true);
+});
