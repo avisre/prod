@@ -163,6 +163,25 @@ async function judge({ question, asks, answer, chat, universe }) {
     return { ok: issues.length === 0, issues, picks, signature: issues.map(i => i.key).sort().join('|') };
 }
 
+// The reader's measured conditions as one query over every company, so the
+// list of companies that pass is in front of the model before it writes a
+// word, whatever query it would have written itself.
+function screenArgs(asks) {
+    const measured = asks.filter(a => a.kind === 'number' && a.formula);
+    if (!measured.some(testable)) return null;
+    return {
+        columns: measured.map(a => ({ name: 'cond' + a.id, formula: a.formula })),
+        where: measured.filter(testable).map(a => `cond${a.id} ${a.op} ${a.value}`).join(' and '),
+        limit: 30
+    };
+}
+function screenNote(asks) {
+    const measured = asks.filter(a => a.kind === 'number' && a.formula);
+    return 'The user\'s measured conditions have ALREADY been run over every company; the result is the query_universe table above. '
+        + measured.map(a => `cond${a.id} = "${a.text}"`).join('; ')
+        + '. Every company in that table passes all the stated bars; a company that is not in it does not. Put forward only a company from that table (or say first that none passes, if it is empty), then research the remaining parts of the question for the strongest candidates before choosing. Run query_universe yourself only to add figures the table lacks.';
+}
+
 function directive(issues) {
     return 'ANSWER NOT RELEASED: it does not yet do what the user asked. Keep working. Use the tools to put right each point below, then write the complete answer again from the start (the user has not seen the draft).\n'
         + issues.map(i => '- ' + i.text).join('\n');
@@ -175,4 +194,4 @@ function unfinished(issues, reason) {
     return `\n\n**Not finished.** ${reason}\n${points.join('\n')}`;
 }
 
-module.exports = { MIN_QUESTION_CHARS, applies, extract, clean, brief, judge, directive, unfinished, testable };
+module.exports = { screenArgs, screenNote, MIN_QUESTION_CHARS, applies, extract, clean, brief, judge, directive, unfinished, testable };

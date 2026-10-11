@@ -87,6 +87,19 @@ test('the 2026-10-11 answer is not released: the pick fails the reader\'s growth
     assert.match(sentBack, /^FAST\|/m);
 });
 
+test('the companies that pass are found by the harness before the model writes anything', async () => {
+    const calls = scripted({ main: [{ content: GOOD }], aux: [ASKS, passAll(['FAST'])] });
+    const out = await ask();
+    assert.equal(out.source, 'ai');
+    assert.deepEqual(calls.tools[0], { name: 'query_universe', args: {
+        columns: [{ name: 'cond1', formula: 'growth_pct(ttm(revenue), ttm(revenue, 4))' }, { name: 'cond2', formula: 'pct(ttm(sbc), ttm(revenue))' }],
+        where: 'cond1 > 35', limit: 30 } });
+    const first = calls.main[0].messages;
+    assert.ok(first.some(m => m.role === 'tool' && m.tool_call_id === 'asked-screen'));
+    assert.match(first.at(-1).content, /ALREADY been run over every company.*cond1 = "greater than 35% growth in the last 4 quarters".*Put forward only a company from that table/s);
+    assert.equal(out.toolsUsed[0].tool, 'query_universe');
+});
+
 test('a figure quoted for the pick must be the pick\'s own, not a neighbouring row\'s', async () => {
     const calls = scripted({
         main: [
@@ -145,7 +158,7 @@ test('a signed-in reader\'s question is not cut off after ten rounds', async () 
     const calls = scripted({ main: [...rounds, { content: GOOD }], aux: [ASKS, passAll(['FAST'])] });
     const out = await ask({ ctx: { budget: budgetOf(1e6) } });
     assert.equal(out.source, 'ai');
-    assert.equal(out.toolsUsed.length, 14);
+    assert.equal(out.toolsUsed.length, 15, 'the harness\'s screen and fourteen rounds of the model\'s own');
     assert.ok(calls.main.every(c => !c.messages.some(m => /TOOL BUDGET SPENT/.test(m.content || ''))));
 });
 
@@ -176,7 +189,7 @@ test('the same lookup is never run or paid for twice, and a run that only repeat
     const same = () => ({ tool_calls: [toolCall('c' + Math.random(), 'query_universe', { where: 'pe < 10' })], ...usage(1) });
     const calls = scripted({ main: [same(), same(), same(), same(), { content: GOOD }], aux: [ASKS, passAll(['FAST'])] });
     const out = await ask({ ctx: { budget: budgetOf(1e6) } });
-    assert.equal(calls.tools.length, 1);
+    assert.equal(calls.tools.length, 2, 'the harness\'s own screen, then the lookup once');
     const replies = calls.main.at(-1).messages.filter(m => m.role === 'tool');
     assert.equal(replies.filter(m => /You already ran this exact lookup/.test(m.content)).length, 3);
     assert.match(calls.main.at(-1).messages.at(-1).content, /ONLY REPEATED LOOKUPS/);
