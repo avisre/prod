@@ -2799,7 +2799,38 @@ app.get(['/company.html', '/company'], (req, res) => {
 // ranking. Must be registered ahead of express.static below, which serves the
 // unparameterised /ask. See backend/ask-page.js.
 const askPage = require('./ask-page');
+// The AI Paper Portfolio experiment has its own page and its own chats (owner,
+// 2026-10-11): it used to be a mode toggle inside Ask, sharing Ask's chat list
+// and context. The page is the Ask template marked data-surface="paper"; the
+// script in ask.html reads that marker and the chat routes keep the two
+// surfaces' threads apart (AskThread.surface). Old entry links still work.
+let _aiPortfolioTpl = null;
+function aiPortfolioPage() {
+    if (_aiPortfolioTpl === null) {
+        try {
+            _aiPortfolioTpl = fs.readFileSync(path.join(__dirname, '../frontend-v2/ask.html'), 'utf8')
+                // the tag on its own line: a CSS comment above it also says "<body>"
+                .replace(/^<body>$/m, '<body data-surface="paper">')
+                .replace(/<title>[^<]*<\/title>/, '<title>AI Paper Portfolio | stockportfolio.pro</title>\n  <meta name="robots" content="noindex, nofollow" />')
+                .replace(/<link rel="canonical"[^>]*>\s*/, '');
+            if (!/^<body data-surface="paper">$/m.test(_aiPortfolioTpl)) _aiPortfolioTpl = '';
+        } catch (_) { _aiPortfolioTpl = ''; }
+    }
+    return _aiPortfolioTpl;
+}
+app.get('/ai-portfolio', (req, res, next) => {
+    const html = aiPortfolioPage();
+    if (!html) return next();
+    res.set('Content-Type', 'text/html; charset=utf-8');
+    res.set('Cache-Control', 'no-store');
+    res.set('X-Robots-Tag', 'noindex, nofollow');
+    res.send(html);
+});
 app.get(['/ask', '/ask.html'], (req, res, next) => {
+    if (req.query.aiPaper === '1') {
+        const q = typeof req.query.q === 'string' && req.query.q ? `?q=${encodeURIComponent(req.query.q.slice(0, 2000))}` : '';
+        return res.redirect(302, `/ai-portfolio${q}`);
+    }
     if (!askPage.hasUserState(req.query)) return next();
     const html = askPage.renderAskPage(req.query);
     if (!html) return next();
@@ -3786,6 +3817,9 @@ const AskThreadSchema = new mongoose.Schema({
     title: { type: String, default: '', maxlength: 160 },
     pinned: { type: Boolean, default: false },
     mode: { type: String, enum: ['normal', 'analyst'], default: 'normal' },
+    // Which page owns the chat. Threads saved before 2026-10-11 have no value
+    // and belong to Ask; 'paper' is the AI Paper Portfolio page.
+    surface: { type: String, enum: ['ask', 'paper'], default: 'ask' },
     messages: [new mongoose.Schema({
         role: { type: String, enum: ['user', 'assistant'], required: true },
         content: { type: String, default: '' },
@@ -3799,8 +3833,11 @@ AskThreadSchema.index({ userId: 1, updatedAt: -1 });
 // sidebar 🔍 searches titles AND chat text (pinned still sort ahead in memory)
 AskThreadSchema.index({ title: 'text', 'messages.content': 'text' }, { default_language: 'none', name: 'ask_thread_text' });
 const AskThread = mongoose.model('AskThread', AskThreadSchema);
+// A page lists, opens, continues and prunes only its own chats.
+const askSurface = (value) => (value === 'paper' ? 'paper' : 'ask');
+const surfaceMatch = (surface) => (askSurface(surface) === 'paper' ? { surface: 'paper' } : { surface: { $ne: 'paper' } });
 
-async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed) {
+async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed, surface) {
     try {
         if (!userId || !question || !answer) return null;
         const tools = Array.isArray(toolsUsed)
@@ -3816,7 +3853,7 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
             // Append to an existing thread — owner-checked, so a foreign or
             // deleted id simply starts a fresh one rather than erroring.
             doc = await AskThread.findOneAndUpdate(
-                { _id: threadId, userId },
+                { _id: threadId, userId, ...surfaceMatch(surface) },
                 {
                     $push: { messages: { $each: turn(), $slice: -ASK_THREAD_MSG_KEEP } },
                     $set: { updatedAt: new Date(), mode: mode === 'analyst' ? 'analyst' : 'normal' }
@@ -3829,12 +3866,13 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
                 userId,
                 title: String(question).slice(0, 80),
                 mode: mode === 'analyst' ? 'analyst' : 'normal',
+                surface: askSurface(surface),
                 messages: turn(),
                 updatedAt: new Date()
             });
         }
         // keep only the most recent ASK_THREAD_KEEP threads per user
-        const stale = await AskThread.find({ userId: doc.userId }, { _id: 1 }).sort({ updatedAt: -1 }).skip(ASK_THREAD_KEEP).lean();
+        const stale = await AskThread.find({ userId: doc.userId, ...surfaceMatch(surface) }, { _id: 1 }).sort({ updatedAt: -1 }).skip(ASK_THREAD_KEEP).lean();
         if (stale.length) await AskThread.deleteMany({ _id: { $in: stale.map((d) => d._id) } });
         return String(doc._id);
     } catch (error) {
@@ -9989,13 +10027,17 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         // conversation and other topics never bleed in. Without one (⌘K floor,
         // dashboard widget, anon) the old fallbacks apply unchanged.
         const threadIdRaw = typeof (req.body && req.body.threadId) === 'string' ? req.body.threadId.trim() : '';
-        const hasThread = typeof threadIdRaw === 'string' && THREAD_ID_RE.test(threadIdRaw);
+        // The experiment page and Ask never continue each other's chats: a
+        // thread id from the other page is ignored and a new chat starts.
+        const chatSurface = aiPaperCtx ? 'paper' : 'ask';
+        const hasThread = typeof threadIdRaw === 'string' && THREAD_ID_RE.test(threadIdRaw)
+            && Boolean(await AskThread.exists({ _id: threadIdRaw, userId, ...surfaceMatch(chatSurface) }).catch(() => null));
         const memoryConsent = !!(req.user && req.user.askMemoryEnabled);
         // a fresh page sends no history — pick the thread back up from the
         // user's last few stored exchanges (cross-session memory)
         const history = hasThread
             ? await aiChat.threadHistory(userId, threadIdRaw)
-            : (clientHistory.length ? clientHistory : await aiChat.recentHistory(userId));
+            : (clientHistory.length ? clientHistory : (chatSurface === 'paper' ? [] : await aiChat.recentHistory(userId)));
         // Set on whichever success branch runs; returned to the client so the
         // frontend can adopt the (possibly newly created) thread id.
         let threadIdSaved = null;
@@ -10044,9 +10086,9 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 // gate, response shape, or upgrade-prompt logic that the
                 // frontend already depends on.
                 if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
-                if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+                if (result.source === 'ai' && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
                 if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
-                if (result.source === 'ai') threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed);
+                if (result.source === 'ai') threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface);
                 trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
@@ -10076,10 +10118,10 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
-        if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+        if (result.source === 'ai' && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
         if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
         threadIdSaved = result.source === 'ai'
-            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed)
+            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface)
             : null;
         trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);
@@ -14130,11 +14172,13 @@ app.get('/api/ask/threads', authMiddleware, async (req, res) => {
         const q = String((req.query && req.query.q) || '').trim().slice(0, 120);
         // 🔍 searches titles AND chat text. $text over the compound index, with
         // a case-insensitive regex fallback while the index builds on a fresh deploy.
-        const matchStage = { userId: uid };
+        // ?surface=paper is the AI Paper Portfolio page; anything else is Ask.
+        const own = surfaceMatch(req.query && req.query.surface);
+        const matchStage = { userId: uid, ...own };
         if (q) {
             try {
                 const textHit = await AskThread.findOne(
-                    { $text: { $search: q }, userId: uid },
+                    { $text: { $search: q }, userId: uid, ...own },
                     { projection: { _id: 1 } }
                 ).lean();
                 if (textHit) matchStage.$text = { $search: q };
@@ -14169,7 +14213,7 @@ app.get('/api/ask/threads', authMiddleware, async (req, res) => {
 app.get('/api/ask/threads/:id', authMiddleware, async (req, res) => {
     try {
         if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Thread not found.' });
-        const thread = await AskThread.findOne({ _id: req.params.id, userId: req.userId }).lean();
+        const thread = await AskThread.findOne({ _id: req.params.id, userId: req.userId, ...surfaceMatch(req.query && req.query.surface) }).lean();
         if (!thread) return res.status(404).json({ message: 'Thread not found.' });
         res.json({
             thread: {

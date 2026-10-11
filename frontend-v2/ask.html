@@ -452,6 +452,17 @@
       // ---- Threads: ChatGPT-style saved chats (logged-in only) ----
       const THREAD_ID_RE = /^[0-9a-fA-F]{24}$/;
       const params0 = new URLSearchParams(location.search);
+      // Two pages share this template: Ask, and the AI Paper Portfolio
+      // experiment at /ai-portfolio (the server marks its <body>). Each has its
+      // own chats; neither lists, opens or continues the other's.
+      const SURFACE = document.body.dataset.surface === 'paper' ? 'paper' : 'ask';
+      const PAGE_PATH = SURFACE === 'paper' ? '/ai-portfolio' : '/ask';
+      const SURFACE_QS = SURFACE === 'paper' ? 'surface=paper' : '';
+      if (SURFACE === 'ask' && params0.get('aiPaper') === '1') {
+        // old entry links (?aiPaper=1&q=…) — the server redirects these too
+        const q0 = params0.get('q');
+        window.location.replace('/ai-portfolio' + (q0 ? `?q=${encodeURIComponent(q0)}` : ''));
+      }
       let currentThreadId = (params0.get('t') || '').trim();
       if (!THREAD_ID_RE.test(currentThreadId)) currentThreadId = '';
       let threadList = [];
@@ -658,7 +669,8 @@
       });
       async function loadThreads() {
         try {
-          const qs = searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : '';
+          const parts = [searchQuery ? `q=${encodeURIComponent(searchQuery)}` : '', SURFACE_QS].filter(Boolean);
+          const qs = parts.length ? `?${parts.join('&')}` : '';
           const r = await fetch(`${API}/ask/threads${qs}`, { headers: { Authorization: `Bearer ${token()}` } });
           if (r.status === 401) return hideSide();
           if (!r.ok) return;
@@ -670,7 +682,7 @@
       function adoptThread(id) {
         if (!id || id === currentThreadId) return;
         currentThreadId = id;
-        try { window.history.replaceState(null, '', `/ask?t=${id}`); } catch (_) {}
+        try { window.history.replaceState(null, '', `${PAGE_PATH}?t=${id}`); } catch (_) {}
       }
       function handleComplete(data) {
         offerScreen();
@@ -689,7 +701,7 @@
       async function openThread(id) {
         if (!token()) return;
         try {
-          const r = await fetch(`${API}/ask/threads/${id}`, { headers: { Authorization: `Bearer ${token()}` } });
+          const r = await fetch(`${API}/ask/threads/${id}${SURFACE_QS ? `?${SURFACE_QS}` : ''}`, { headers: { Authorization: `Bearer ${token()}` } });
           if (r.status === 401) return hideSide();
           if (!r.ok) {
             threadList = threadList.filter((t) => t.id !== id);
@@ -701,7 +713,7 @@
           const t = data && data.thread;
           if (!t) return;
           currentThreadId = String(t.id || id);
-          try { window.history.replaceState(null, '', `/ask?t=${currentThreadId}`); } catch (_) {}
+          try { window.history.replaceState(null, '', `${PAGE_PATH}?t=${currentThreadId}`); } catch (_) {}
           $('exchange').innerHTML = '';
           (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
           document.body.classList.add('in-conversation');
@@ -752,7 +764,7 @@
       $('new-chat').addEventListener('click', () => { newChat(); closeSidePanel(); });
       function newChat() {
         currentThreadId = '';
-        try { window.history.replaceState(null, '', '/ask'); } catch (_) {}
+        try { window.history.replaceState(null, '', PAGE_PATH); } catch (_) {}
         $('exchange').innerHTML = '';
         document.body.classList.remove('in-conversation');
         setFocus(false);
@@ -1148,6 +1160,9 @@
         const q = ta.value.trim();
         if (!q && !attachments.length) return;
         if (!q) return; // the question drives the answer — attachments alone are not a prompt
+        // the experiment page sends nothing until its account check has passed,
+        // so a question typed early can never land in Ask instead
+        if (SURFACE === 'paper' && !paperMode) return;
         recordFirstQuery();
         const opts = {};
         if (token() && currentThreadId) opts.threadId = currentThreadId;
@@ -1358,7 +1373,8 @@
 
       function setPaperMode(on) {
         if (on && !paperBeta) return; // can't arm before the probe passes
-        paperMode = !!on;
+        if (SURFACE !== 'paper') return; // Ask never runs the experiment: it has its own page
+        paperMode = true;
         $('ask-mode-paper').setAttribute('aria-pressed', String(paperMode));
         $('prompts').hidden = paperMode;
         $('paper-prompts').hidden = !paperMode;
@@ -1468,22 +1484,30 @@
         exchange.insertBefore(card, exchange.firstChild); // pinned at the top, above every message
       }
 
+      // The experiment page only: Ask shows no toggle and never probes. An
+      // account outside the beta (or signed out) is sent to Ask.
       async function probePaper() {
         try {
           const r = await fetch(`${API}/ai-paper-portfolio`, { headers: { Authorization: `Bearer ${token()}` } });
-          if (!r.ok) return; // 403/401 = not this account's beta: render nothing at all
+          if (r.status === 401 || r.status === 403) { window.location.replace('/ask'); return; } // not this account's beta
+          if (!r.ok) return; // a passing failure: stay put, submit() sends nothing until the check passes
           const data = await r.json();
-          if (!data || data.enabled !== true) return;
+          if (!data || data.enabled !== true) { window.location.replace('/ask'); return; }
           paperBeta = { state: data.state || { exists: false }, gurus: Array.isArray(data.gurus) ? data.gurus : [] };
-          $('ask-mode-paper').hidden = false;
-          $('paper-sep').hidden = false;
-          if (params.get('aiPaper') === '1') {
-            setPaperMode(true);
-            if (prefill && ta.value.trim() === prefill) submit(); // entry/retry links: ?aiPaper=1&q=…
-          }
-        } catch (_) { /* any error leaves the feature invisible */ }
+          setPaperMode(true);
+          if (prefill && ta.value.trim() === prefill) submit(); // entry/retry links: /ai-portfolio?q=…
+        } catch (_) { /* a failed check leaves the page inert: submit() sends nothing without paperMode */ }
       }
-      if (token()) probePaper();
+      if (SURFACE === 'paper') {
+        // its own page: no Ask writing-style toggle, no Ask starters, its own heading
+        const toggle = document.querySelector('.ask-mode-toggle');
+        if (toggle) toggle.style.display = 'none';
+        $('prompts').hidden = true;
+        const hello = document.querySelector('.hello');
+        if (hello) hello.innerHTML = '<h1>🧪 AI Paper Portfolio</h1><p>An experiment: two AI minds each pick one stock, and the portfolio is tracked on paper. This page has its own chats, separate from Ask.</p>';
+        document.title = 'AI Paper Portfolio | stockportfolio.pro';
+        if (token()) probePaper(); else window.location.replace('/ask');
+      }
 
       autoGrow();
       ta.focus();

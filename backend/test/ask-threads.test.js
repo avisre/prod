@@ -39,7 +39,7 @@ test('the chat route uses server-side thread history when a threadId is present'
 });
 
 test('both /api/ai/chat success branches save the thread and return its id', () => {
-    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed\)/g) || [];
+    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface\)/g) || [];
     assert.equal(hooks.length, 2, 'streaming and non-streaming branches both save');
     assert.match(appSource, /threadId: threadIdSaved/);
     assert.equal((appSource.match(/threadId: threadIdSaved/g) || []).length, 2);
@@ -51,7 +51,7 @@ test('thread routes are owner-scoped and never touch credits', () => {
     assert.match(appSource, /app\.get\('\/api\/ask\/threads\/:id', authMiddleware/);
     assert.match(appSource, /app\.patch\('\/api\/ask\/threads\/:id', authMiddleware/);
     assert.match(appSource, /app\.delete\('\/api\/ask\/threads\/:id', authMiddleware/);
-    assert.match(appSource, /AskThread\.findOne\(\{ _id: req\.params\.id, userId: req\.userId \}\)/);
+    assert.match(appSource, /AskThread\.findOne\(\{ _id: req\.params\.id, userId: req\.userId, \.\.\.surfaceMatch\(req\.query && req\.query\.surface\) \}\)/);
     assert.match(appSource, /AskThread\.deleteOne\(\{ _id: req\.params\.id, userId: req\.userId \}\)/);
     assert.match(appSource, /Thread not found\./);
     const threadBlock = appSource.slice(

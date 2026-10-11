@@ -16,6 +16,24 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Ask and the AI Paper Portfolio are separate pages — 2026-10-11 (committed locally, NOT pushed)
+
+Owner: "make sure ask and ask ai exp feature have different pages and dont share the same workspace." I read "ask ai
+exp" as the 🧪 AI Paper Portfolio experiment, the only experimental mode inside Ask (my reading, not confirmed).
+- **`/ai-portfolio` is the experiment's page.** It is the Ask template served with `<body data-surface="paper">`
+  (`aiPortfolioPage()` in `app.js`); the script in `ask.html` branches on that marker. No second HTML file, so the
+  cache-stamp and page-list tests have nothing new to track. Noindex, no-store.
+- **Ask no longer shows the 🧪 toggle and never sends `aiPaperMode`.** Old links (`/ask?aiPaper=1&q=…`, still emitted
+  by the nav menu in `assets/app.js`) are redirected by the server and by the page, so `app.js` was left untouched.
+- **Chats are kept apart by `AskThread.surface`** (`ask` | `paper`; chats saved before the split have no value and
+  stay with Ask). Listing, search, opening, continuing and the 50-chat cap are all per page. A chat id from the
+  other page starts a new chat. The experiment neither reads nor writes Ask's rolling history (`ai_chat_log`).
+- **An account outside the experiment, or a signed-out visitor, is sent from `/ai-portfolio` to `/ask`.**
+- Checked in a real browser against a throwaway database (16 checks; script in the session scratchpad,
+  `e2e-surface.js`). Guard: `test/ask-surface-split.test.js`.
+- **Trap:** `ask.html` says `<body>` inside a CSS comment above the real tag, so a first-match replace marks the
+  comment. The marker is applied with `/^<body>$/m`.
+
 ## Ask: fixes from real customer questions — 2026-10-11 (committed locally, NOT pushed; owner said stop before deploy)
 
 Reviewed all 24 questions 7 customers have asked Ask since 30 Aug (10 were screens). Read-only scripts for the review
