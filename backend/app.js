@@ -10076,7 +10076,13 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 creditsFor: credits.askCredits,
                 stopped: () => closed,
                 charge: async (total) => {
-                    const step = Math.max(0, Number(total) - credits.COST.ask) - askStepsCharged;
+                    let step = Math.max(0, Number(total) - credits.COST.ask) - askStepsCharged;
+                    if (step <= 0) return;
+                    // Never more than the wallet holds once the question's flat
+                    // price is set aside: the write-up that follows the last
+                    // affordable round can run a little past it.
+                    const left = (await credits.check(userId, 'ask', limit, planId, req.user)).remaining;
+                    step = Math.min(step, Math.max(0, left - credits.COST.ask));
                     if (step > 0) { askStepsCharged += step; await credits.spendAskStep(userId, step, askRunId); }
                 },
                 refresh: async () => (await credits.check(userId, 'ask', limit, planId, req.user)).remaining + askStepsCharged

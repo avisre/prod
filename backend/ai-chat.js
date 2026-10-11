@@ -2509,6 +2509,23 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
         search_web: 0, fetch_page: 0, search_filings: 0, get_supplemental_context: 0,
         get_unit_economics: 0, get_key_points: 0, get_governance: 0, get_esg: 0, get_filing_diff: 0
     };
+    // A credit-metered run is not held to the fixed allowances: ten companies'
+    // 10-Qs could not be read on three filing searches (2026-10-11, the answer
+    // covered four of ten and said so). Document reads get room in proportion,
+    // and the filing-extraction tools are allowed once per company, not once
+    // per question, so a three-company answer can research all three.
+    const BUDGET_WEB = { search_web: 12, fetch_page: 40, search_filings: 40 };
+    const PER_COMPANY = ['get_supplemental_context', 'get_unit_economics', 'get_key_points', 'get_governance', 'get_esg', 'get_filing_diff'];
+    const overAllowance = (tool, args) => {
+        if (WEB_BUDGET[tool] === undefined) return false;
+        if (!budget) return ++webUsed[tool] > WEB_BUDGET[tool];
+        if (PER_COMPANY.includes(tool)) {
+            const key = tool + ':' + String((args && args.symbol) || '').toUpperCase();
+            webUsed[key] = (webUsed[key] || 0) + 1;
+            return webUsed[key] > 1 || ++webUsed[tool] > 12;
+        }
+        return ++webUsed[tool] > BUDGET_WEB[tool];
+    };
     const preparedEvidenceFor = (tool, args) => {
         const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
         const symbol = String(args.symbol || '').toUpperCase();
@@ -2539,7 +2556,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
             // idle status line for the ten-odd seconds the filing reads take.
             emit({ type: 'tool', tool, args, ok: true });
             let result;
-            if (WEB_BUDGET[tool] !== undefined && ++webUsed[tool] > WEB_BUDGET[tool]) result = { error: `Web budget exhausted for ${tool} — use the existing evidence.` };
+            if (overAllowance(tool, args)) result = { error: `Web budget exhausted for ${tool} — use the existing evidence.` };
             else {
                 try { result = await deps.runTool(tool, args, { ...ctx, companyReportEvidence: true }); }
                 catch (error) { result = evidence.toolError(error); }
@@ -2710,7 +2727,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                         result = reused.result.error
                             ? { error: `This source was already checked and unavailable: ${String(reused.result.error).slice(0, 180)}` }
                             : { symbol: args.symbol, evidenceAlreadySupplied: true, note: 'The matching report evidence is already present earlier in this conversation. Reuse it.' };
-                    } else if (WEB_BUDGET[tc.function.name] !== undefined && ++webUsed[tc.function.name] > WEB_BUDGET[tc.function.name]) {
+                    } else if (overAllowance(tc.function.name, args)) {
                         result = { error: `The per-question allowance for ${tc.function.name} is used up. Do not call ${tc.function.name} again; carry on with the other tools and say plainly what this leaves uncovered.` };
                     } else {
                         try { result = await deps.runTool(tc.function.name, args, {...ctx,companyReportEvidence:report,question:q,history}); }

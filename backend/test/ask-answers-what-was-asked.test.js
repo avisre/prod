@@ -224,6 +224,18 @@ test('the same lookup is never run or paid for twice, and a run that only repeat
     assert.equal(out.source, 'ai');
 });
 
+test('a credit-metered run is not held to three filing searches, and each company gets its own filing read', async () => {
+    const many = [...Array.from({ length: 6 }, (_, i) => toolCall('s' + i, 'search_filings', { query: 'export controls', ticker: 'T' + i })),
+        toolCall('k1', 'get_key_points', { symbol: 'AAA' }), toolCall('k2', 'get_key_points', { symbol: 'BBB' }), toolCall('k3', 'get_key_points', { symbol: 'AAA', again: true })];
+    const refused = calls => calls.main.at(-1).messages.filter(m => m.role === 'tool' && /allowance for \w+ is used up/.test(m.content)).length;
+    let calls = scripted({ main: [{ tool_calls: many, ...usage(1) }, { content: GOOD }], aux: [ASKS, passAll(['FAST'])] });
+    await ask({ ctx: { budget: budgetOf(1e6) } });
+    assert.equal(refused(calls), 1, 'only the second read of the same company');
+    calls = scripted({ main: [{ tool_calls: many }, { content: GOOD }], aux: [ASKS, passAll(['FAST'])] });
+    await ask();
+    assert.equal(refused(calls), 5, 'without a credit budget: three searches, one filing read');
+});
+
 test('another question spending the same credits is seen between rounds; pressing stop ends the run', async () => {
     let left = 1000;
     const round = i => ({ tool_calls: [toolCall('c' + i, 'query_universe', { limit: i + 1 })], ...usage(100) });
