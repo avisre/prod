@@ -12,7 +12,7 @@ test('saved reports and reopened thread follow-ups retain long assistant answers
  let report,thread;
  const saveReport=actualFunction('saveAskReport',{ASK_REPORT_KEEP:30,AskReport:{create:async doc=>{report=doc;return doc;},find}});
  saveReport(userId,'AMD',answer,'analyst',[]);await new Promise(resolve=>setImmediate(resolve));assert.equal(report.answer,answer);
- const saveThread=actualFunction('saveThreadExchange',{THREAD_ID_RE:/^[0-9a-f]{24}$/,ASK_THREAD_KEEP:50,ASK_THREAD_MSG_KEEP:80,AskThread:{create:async doc=>{thread={...doc,_id:threadId};return thread;},find}});
+ const saveThread=actualFunction('saveThreadExchange',{THREAD_ID_RE:/^[0-9a-f]{24}$/,ASK_THREAD_KEEP:50,ASK_THREAD_MSG_KEEP:80,askSurface:v=>v==='paper'?'paper':'ask',surfaceMatch:v=>v==='paper'?{surface:'paper'}:{surface:{$ne:'paper'}},AskThread:{create:async doc=>{thread={...doc,_id:threadId};return thread;},find}});
  assert.equal(await saveThread(userId,null,'q'.repeat(9000),answer,'analyst',[]),threadId);assert.equal(thread.messages[0].content.length,8000);assert.equal(thread.messages[1].content,answer);
  mongoose.connection.collection=()=>({findOne:async query=>{assert.equal(String(query.userId),userId);return thread;}});
  const reopened=await engine.threadHistory(userId,threadId);assert.equal(reopened[1].content,answer);
