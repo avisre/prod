@@ -72,7 +72,7 @@ jobs:
       - name: Stage quote file
         run: |
           if [ -f frontend/data/company-profiles.json ]; then git add frontend/data/company-profiles.json; fi
-          git add frontend/data/quotes.json frontend/data/us-companies.json frontend/data/public-stock-index.json frontend/data/screen-index.json frontend/data/financial-coverage.json frontend/data/financial-coverage-summary.json frontend/data/financial-reporting-index.json
+          git add frontend/data/quotes.json frontend/data/us-companies.json frontend/data/public-stock-index.json frontend/data/screen-index.json frontend/data/screen-facts.json frontend/data/financial-coverage.json frontend/data/financial-coverage-summary.json frontend/data/financial-reporting-index.json
           if git diff --cached --quiet; then
             echo "no_changes=true" >> $GITHUB_ENV
           fi

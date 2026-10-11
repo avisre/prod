@@ -4,6 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const p=require('../backend/sec-coverage');
 const {content}=require('../backend/public-stock-content');
+const screenFacts=require('../backend/screen-facts');
 const adapter=require('../backend/verified-fundamentals');
 const {loadRawFundamentals}=require('../backend/fundamentals-cache');
 function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
@@ -17,7 +18,7 @@ function build({asOf,write=true}={}) {
  asOf=asOf || p.day(report.asOf) || p.day(new Date().toISOString());
  const rates=read(path.join(p.DATA_DIR,'sec-fx.json'),{rates:{}}).rates;
  const previous=read(path.join(p.DATA_DIR,'public-stock-index.json'),null);
- const issuers={},securities=[],rows=[],marketDigests=[],priceDigests=[];const oldSecurities=new Map((previous?.securities || []).map(s=>[s.symbol,s]));
+ const issuers={},securities=[],rows=[],facts=[],marketDigests=[],priceDigests=[];const oldSecurities=new Map((previous?.securities || []).map(s=>[s.symbol,s]));
  const grouped=new Map();for(const c of directory.companies){const id=p.cik(c.cik);if(!id)continue;const group=grouped.get(id)||[];group.push(c);grouped.set(id,group);}
  for(const [id,companies] of grouped) {
   const evidence=report.issuers[id] || {cik:id,symbols:companies.map(c=>c.symbol),lastAttemptResult:'unverified'};
@@ -36,6 +37,8 @@ function build({asOf,write=true}={}) {
    securities.push({...company,cik:id,aliases:[company.symbol.replace(/\./g,'-'),company.symbol.replace(/-/g,'.')].filter(s=>s!==company.symbol),...classification,indexable:eligible,screenable:eligible,...state.entry,financialDigest:evidence.financialDigest || null});
    marketDigests.push([company.symbol,state.marketDigest]);priceDigests.push([company.symbol,state.priceDigest]);
    if(state.screenRow)rows.push(state.screenRow);
+   // The statement lines behind the row, for questions no precomputed column answers.
+   if(state.screenRow){const fact=screenFacts.row(company,view);if(fact)facts.push(fact);}
   }
  }
  for(const c of directory.companies.filter(c=>!p.cik(c.cik))){const contentDigest=p.digest(c),old=oldSecurities.get(c.symbol);securities.push({...c,cik:null,aliases:[],annualReportingStatus:'unverified',financialCoverage:'unavailable',indexable:false,screenable:false,metricSlugs:[],priceHistory:false,financialDigest:null,contentDigest,lastmod:old?.contentDigest===contentDigest?old.lastmod:asOf});}
@@ -47,16 +50,18 @@ function build({asOf,write=true}={}) {
  const seen=new Set();for(const list of bySector.values())for(let i=0;i<list.length;i++)for(let offset=1;offset<=2;offset++){const peer=list[i+offset];if(peer && peer.cik!==list[i].cik){const pair=[list[i].symbol,peer.symbol].sort().join('-vs-');if(!seen.has(pair) && comparisonPairs.length<5000){seen.add(pair);comparisonPairs.push(pair);}}}
  const publicSnapshot={schemaVersion:1,policyVersion:1,generatedAt:new Date().toISOString(),asOf,sourceFingerprints,datasetId,counts:p.count(securities,issuers),issuers,securities,comparisonPairs};
  const screenSnapshot={v:4,policyVersion:1,generatedAt:publicSnapshot.generatedAt,asOf,datasetId,rowsDigest:sourceFingerprints.screenRowsDigest,count:rows.length,rows};
+ const factsSnapshot=screenFacts.snapshot(facts,asOf);
  for(const doc of [publicSnapshot,screenSnapshot])if(Buffer.byteLength(JSON.stringify(doc))>8*1024*1024)throw new Error('Snapshot exceeds 8 MiB');
  if(write){
   p.atomicWrite(path.join(p.DATA_DIR,'financial-reporting-index.json'),{schemaVersion:1,datasetId,reportingDigest:sourceFingerprints.reportingDigest,issuers:reportingMetadata});
   require('./lib/publish-stock-snapshots').publish(p.DATA_DIR,publicSnapshot,screenSnapshot);
+  p.atomicWrite(path.join(p.DATA_DIR,screenFacts.FILE),factsSnapshot);screenFacts.invalidate();
   require('../backend/company-reporting').invalidate();
   require('../backend/public-stock-index').invalidate();
   require('./build-financial-coverage').build();
   require('../backend/financial-coverage').invalidate();
  }
- return {publicSnapshot,screenSnapshot};
+ return {publicSnapshot,screenSnapshot,factsSnapshot};
 }
 if(require.main===module){try{const result=build();console.log(JSON.stringify(result.publicSnapshot.counts,null,2));}catch(e){console.error(e.message);process.exitCode=1;}}
 module.exports={build};
