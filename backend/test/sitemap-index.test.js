@@ -36,7 +36,8 @@ test('sitemap root is a small index with valid, bounded child shards', () => {
     for (const d of shardDates) dates.add(d);
   }
   assert.ok(total > 18_000, 'crawl-prioritized public inventory remains discoverable');
-  assert.match(seo.buildSitemapShard('core'), /<loc>https:\/\/www\.stockportfolio\.pro\/appsumo<\/loc>/);
+  // AppSumo sales were retired 2026-10-11; the landing page is noindex and unlisted.
+  assert.doesNotMatch(seo.buildSitemapShard('core'), /<loc>https:\/\/www\.stockportfolio\.pro\/appsumo<\/loc>/);
   assert.equal((seo.buildSitemapShard('core').match(/<loc>https:\/\/www\.stockportfolio\.pro\/tools\//g) || []).length, 30);
   assert.equal((seo.buildSitemapShard('core').match(/<loc>https:\/\/www\.stockportfolio\.pro\/research\//g) || []).length, 7);
   // The inventory must be dated from the committed data manifest — not from a

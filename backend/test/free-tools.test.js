@@ -81,10 +81,10 @@ test('tool pages expose canonical metadata, source CTA and no authentication req
         assert.match(html, /rel="icon" type="image\/png" sizes="48x48" href="\/Media\/icon\.png\?v=20260729-favicon1"/);
         assert.match(html, /rel="apple-touch-icon" href="\/Media\/icon\.png\?v=20260729-favicon1"/);
         // Every CTA carries the tool identifier for analytics — normally in
-        // the AppSumo href's content_id query param, but the Insider Filing
+        // the plans href's content_id query param, but the Insider Filing
         // Explorer's CTA points to /register.html?plan=monthly instead (its
-        // full data is Core, not an AppSumo upsell) and carries the id only
-        // via data-content-id/data-tool-id.
+        // full data is Core) and carries the id only via
+        // data-content-id/data-tool-id.
         assert.match(html, /content_id=tool-|data-content-id="tool-/);
         assert.match(html, /api\/free-tools/);
     }

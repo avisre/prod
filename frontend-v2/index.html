@@ -231,7 +231,6 @@
     .as-tile-row { flex: 1 0 100%; display: flex; justify-content: center; margin-top: 6px; }
     .as-tile { display: inline-flex; align-items: center; gap: 10px; padding: 11px 22px;
       border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); }
-    .as-tile:hover { border-color: var(--accent); }
     .as-tile .stars { color: var(--stars); font-size: 14px; letter-spacing: 2px; }
     .as-tile b { font-size: 13px; font-weight: 700; color: var(--ink); }
     .as-tile span { font-size: 12.5px; color: var(--ink-3); }
@@ -247,14 +246,15 @@
           <p class="label" style="margin-bottom:14px; color:var(--accent-ink);">Stocks · ETFs · mutual funds</p>
           <h1 class="display">Detailed research reports on stocks, built from real SEC data.</h1>
           <p class="hero-sub">Research dossiers on any covered US company — every figure cited to its SEC filing — and a <strong>Filing Change Monitor</strong> that reads each new filing on your watchlist and tells you what changed, in plain English.</p>
-          <!-- the one third-party rating a visitor can go and check for
-               themselves — AppSumo shows the review count next to the score -->
+          <!-- the one third-party rating on the page. It is no longer a link:
+               AppSumo sales were retired 2026-10-11 and the reviews sit on the
+               deal page, so a link there would send a new buyer to AppSumo -->
           <div class="trust-row">
             <div class="trust-badge">
               <span class="stars" aria-hidden="true">★★★★★</span>
               <span>5.0 on AppSumo</span>
               <span class="faint" aria-hidden="true">·</span>
-              <a href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener" aria-label="Read all 3 AppSumo reviews">3 reviews →</a>
+              <span>3 reviews</span>
             </div>
             <!-- the second checkable claim: both directory listings are public,
                  and /connect links straight to them -->
@@ -607,7 +607,6 @@
             <a class="btn btn-ghost" style="margin-top:auto;" href="mailto:support@stockportfolio.pro?subject=StockPortfolio.pro%20Enterprise%20enquiry">Contact sales →</a>
           </div>
         </div>
-        <p class="small faint" style="margin:10px 0 0;">Prefer to pay once? See the <a href="/appsumo">lifetime option →</a></p>
         <p class="provenance" id="pricing-subscription-note">New accounts complete paid Stripe checkout before access. The initial payment can be refunded within 7 days if the service is not right for you; subscriptions can be cancelled anytime. No first-year discount games — the price you see is the price it stays. The free screener covers companies with verified core SEC financial data, and the public stock directory lists US-listed securities. Available financial statements depend on each company’s filings and data availability. Not investment advice.</p>
 
       </section>
@@ -666,7 +665,8 @@
            listing (scraped 2026-09-23), including the one titled "Very
            Efficient", which asks us to cross-verify accuracy — an all-glowing
            block would read as marketing, this one reads as customers. AppSumo
-           is the source of record, so every link goes straight to it. The
+           is the source of record, but nothing here links to it any more —
+           the reviews sit on the deal page and sales there are retired. The
            reviewer meta (verified purchaser, member since) is what AppSumo
            prints on each review; no plan tier is claimed because the API does
            not expose one. -->
@@ -676,7 +676,6 @@
             <span class="label" style="color:var(--accent-ink);">What early users say</span>
             <h2 class="title-1" style="margin-top:7px;">AppSumo buyers reviewed us 5.0 out of 5.</h2>
           </div>
-          <span class="small faint"><a href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener">Read them on AppSumo →</a></span>
         </div>
         <div class="reviews-grid">
           <div class="review-card">
@@ -713,7 +712,7 @@
             </div>
           </div>
         </div>
-        <p class="reviews-foot"><span class="stars" aria-hidden="true">★★★★★</span> 5.0 average · 3 reviews on AppSumo — <a href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener">see them all →</a></p>
+        <p class="reviews-foot"><span class="stars" aria-hidden="true">★★★★★</span> 5.0 average · 3 reviews on AppSumo</p>
         <p class="reviews-foot" style="margin-top:8px;">Also listed in the Claude connector directory and the ChatGPT app directory — <a href="/connect">check the listings →</a></p>
       </section>
 
@@ -744,14 +743,14 @@
             <img src="https://launchstag.com/badge-light.svg" alt="Featured on Launchstag" width="198" height="62" loading="lazy" decoding="async" style="display:block; max-width:100%; height:auto;" />
           </a>
           <!-- the only item in this row carrying a public rating, not just a
-               listing — it links to the reviews, not to a deal page -->
+               listing. Not a link: the reviews sit on the deal page -->
           <div class="as-tile-row">
-            <a class="as-tile" href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener" aria-label="stockportfolio.pro on AppSumo — 5.0 from 3 reviews">
+            <div class="as-tile" aria-label="stockportfolio.pro on AppSumo — 5.0 from 3 reviews">
               <span class="stars" aria-hidden="true">★★★★★</span>
               <b>5.0 on AppSumo</b>
               <span class="faint" aria-hidden="true">·</span>
-              <span>3 reviews · lifetime deal</span>
-            </a>
+              <span>3 reviews</span>
+            </div>
           </div>
         </div>
       </section>

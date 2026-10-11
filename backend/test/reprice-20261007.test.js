@@ -120,10 +120,12 @@ test('direct lifetime sales are closed without touching what existing buyers rel
     assert.doesNotMatch(APP, /'\/lifetime\.html': '\/lifetime'/, 'a noindex page must not sit in the redirect table');
 });
 
-test('the site no longer points anyone at the lifetime deal, and AppSumo is left alone', () => {
+test('the site no longer points anyone at the lifetime deal', () => {
     assert.doesNotMatch(HOME, /pricing-experiment|lifetime-checkout|\/api\/lifetime/);
     const seo = read('backend/seo-pages.js');
     assert.doesNotMatch(seo, /'\/lifetime'/, '/lifetime is still in the sitemap');
-    assert.match(HOME, /href="\/appsumo">lifetime option/, 'the AppSumo link was meant to stay');
+    // The AppSumo link that was left in place here was removed on 2026-10-11
+    // (appsumo-sales-retired.test.js); the page file itself stays in the repo.
+    assert.doesNotMatch(HOME, /href="\/appsumo"/);
     assert.ok(fs.existsSync(path.join(__dirname, '../../frontend-v2/appsumo.html')));
 });

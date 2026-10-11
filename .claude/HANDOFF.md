@@ -16,6 +16,17 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+
+## AppSumo sales retired — 2026-10-11 (owner: "remove appsumo from being able to access new cx")
+- **The site sends no new buyer to AppSumo.** Switch: `august-campaign.js` `SALES_RETIRED` / `salesOpen()` (same
+  shape as `direct-ltd.js`). `/appsumo`, `/appsumo.html` and every `/go/appsumo/:source` link already out in the
+  world answer 302 to `/#pricing`; the `/go` link still sets the channel cookie but records no AppSumo click.
+  Free-tool, research-page and shared-report buttons, the affiliate `appsumo` destination, the homepage "pay
+  once" line and the four review links are gone or point at our plans; the 5.0 rating text stays, unlinked.
+- **Untouched on purpose:** webhook, redeem, activate, review emails, the upgrade link for existing licences.
+- **Not done, portal-only:** the AppSumo listing itself is still live and still sells. Ending it is the owner's
+  step with AppSumo (and it supersedes the unfinished v8 repricing below). Guard: `appsumo-sales-retired.test.js`.
+
 ## Ask answers what was asked, and runs until the credits are spent — 2026-10-11 (committed locally, NOT pushed)
 
 Owner, on a "pick one stock … greater than 35% growth in the last 4 quarters, low SBC, buybacks, moat" answer that

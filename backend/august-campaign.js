@@ -59,6 +59,18 @@ function config(now = new Date()) {
   };
 }
 
+// AppSumo SALES were retired on 2026-10-11: the site no longer sends a new
+// buyer to the AppSumo deal — every route that did now lands on our own plans.
+// A code constant, like direct-ltd.js SALES_RETIRED, because the AppSumo env
+// vars also drive the webhook, redeem and licence paths that people who
+// ALREADY bought still depend on. salesOpen() is read only by the surfaces
+// that sell, so turning sales off takes nothing away from an existing buyer.
+const SALES_RETIRED = true;
+const NEW_BUYER_PATH = '/#pricing';
+function salesOpen() {
+  return !SALES_RETIRED;
+}
+
 function appsumoPath({ source = 'website', contentId, clickId } = {}) {
   const query = new URLSearchParams();
   if (contentId) query.set('content_id', String(contentId));
@@ -67,4 +79,4 @@ function appsumoPath({ source = 'website', contentId, clickId } = {}) {
   return `/go/appsumo/${encodeURIComponent(String(source || 'website'))}${suffix}`;
 }
 
-module.exports = { config, appsumoPath, DEFAULT_ID };
+module.exports = { config, appsumoPath, DEFAULT_ID, SALES_RETIRED, NEW_BUYER_PATH, salesOpen };

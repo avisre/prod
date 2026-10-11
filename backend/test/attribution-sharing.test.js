@@ -195,7 +195,8 @@ test('public report renderer escapes research, emits social metadata, and links 
     assert.match(html, /company\.html\?symbol=MSFT/);
     assert.doesNotMatch(html, /token=secret|onerror|alert\(/i);
     assert.doesNotMatch(html, /<script\b/i);
-    assert.match(html, new RegExp(`/go/appsumo/report\\?rid=${id}`));
+    assert.match(html, new RegExp(`href="/\\?source=report&amp;rid=${id}#pricing"`));
+    assert.doesNotMatch(html, /appsumo/i);
     assert.match(html, /Unlisted public research/);
     assert.match(html, /Anyone with this unlisted URL can view this report/);
     assert.match(html, /noindex,nofollow,noarchive/);

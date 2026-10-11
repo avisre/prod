@@ -659,7 +659,7 @@ function researchScaffold({ slug, title, description, h1, intro, body, jsonld })
   <h1 class="seo-h1">${esc(h1)}</h1>
   <p class="seo-sub" style="max-width:76ch">${esc(intro)}</p>
   ${body}
-  <div class="seo-lock"><h3>Turn the source trail into a repeatable workflow</h3><p>Research filings, compare companies and track a real portfolio in one workspace.</p><a class="seo-cta-btn" href="/appsumo?source=website&amp;content_id=${esc(contentId)}">See the StockPortfolio.pro AppSumo offer</a></div>
+  <div class="seo-lock"><h3>Turn the source trail into a repeatable workflow</h3><p>Research filings, compare companies and track a real portfolio in one workspace.</p><a class="seo-cta-btn" href="/?source=website&amp;content_id=${esc(contentId)}#pricing">See StockPortfolio.pro plans</a></div>
 </main>` + footer();
 }
 

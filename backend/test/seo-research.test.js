@@ -216,7 +216,7 @@ test('research hubs are canonical, source-backed and internally connected', () =
         assert.match(html, /Methodology|methodology/);
         assert.match(html, /support@stockportfolio\.pro|Not investment advice/);
         assert.match(html, /href="\/research\//);
-        assert.match(html, /\/appsumo\?source=website&amp;content_id=research-/);
+        assert.match(html, /href="\/\?source=website&amp;content_id=research-[a-z0-9-]+#pricing"/);
     }
 });
 

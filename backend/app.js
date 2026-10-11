@@ -2229,7 +2229,7 @@ const HTML_TWIN_REDIRECTS = {
     '/privacy.html': '/privacy', '/terms.html': '/terms', '/screener.html': '/screener',
     '/support.html': '/support', '/monitor.html': '/monitor', '/monitor-demo.html': '/monitor-demo',
     '/verify.html': '/verify', '/company.html': '/company', '/compare-dossiers.html': '/compare-dossiers',
-    '/dossier.html': '/dossier', '/appsumo.html': '/appsumo', '/partners.html': '/partners',
+    '/dossier.html': '/dossier', '/partners.html': '/partners',
     '/partners-apply.html': '/partners-apply', '/features.html': '/features', '/gurus.html': '/gurus',
     '/sitemap.html': '/sitemap', '/zh.html': '/zh',
     // Route-only twins: served by a dual-path route array with no file on disk,
@@ -2916,7 +2916,15 @@ app.get(/^\/lifetime(?:-checkout)?(?:\.html)?$/, (req, res, next) => {
 });
 
 // /appsumo is stable even if the static middleware's resolution rules change.
-app.get('/appsumo', async (req, res, next) => {
+app.get(/^\/appsumo(?:\.html)?$/, async (req, res, next) => {
+    // Sales retired 2026-10-11 (august-campaign.js SALES_RETIRED): the landing
+    // page sold the AppSumo deal, so both spellings now send the visitor to the
+    // plans we sell. One regex route rather than a HTML_TWIN_REDIRECTS row,
+    // because the page is noindex and out of the sitemap, as /lifetime is.
+    // /appsumo/redeem and /appsumo/webhook are separate routes and stay. The
+    // html file stays in the repo so flipping the constant restores the page.
+    if (!augustCampaign.salesOpen()) return res.redirect(302, augustCampaign.NEW_BUYER_PATH);
+    if (req.path !== '/appsumo') return res.redirect(301, '/appsumo');
     const acquisition = req.campaignAcquisition || campaignAcquisitionForRequest(req);
     const landingPath = path.join(__dirname, '../frontend-v2/appsumo.html');
     res.setHeader('Cache-Control', 'no-cache');
@@ -4888,6 +4896,10 @@ app.get('/go/appsumo/:source', (req, res) => {
     const acquisition = value
         ? shareCopy.parseAcquisitionCookieHeader(`${shareCopy.ACQUISITION_COOKIE_NAME}=${encodeURIComponent(value)}`, { secret: JWT_SECRET })
         : null;
+    // Sales retired: links already out in emails, videos and partner posts keep
+    // their channel cookie but land on our own plans, and nothing is recorded
+    // as an AppSumo click because none happened.
+    if (!augustCampaign.salesOpen()) return res.redirect(302, augustCampaign.NEW_BUYER_PATH);
     const reportId = shareCopy.isPublicShareId(req.query.rid) ? String(req.query.rid) : null;
     const utm = sanitizeUtm(req.query);
     trackFunnel('appsumo_outbound', null, null, {

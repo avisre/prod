@@ -339,7 +339,7 @@ ${indexable ? '<meta name="robots" content="index, follow, max-image-preview:lar
 <div class="eyebrow">${indexable ? 'Public research' : 'Unlisted public research'}</div><h1>${escapeHtml(title)}</h1>
 <article class="card"><div class="research">${renderPlainResearch(content)}</div>
 <div class="meta"><span>Shared ${escapeHtml(created.slice(0, 10))}</span>${sourceLink}</div></article>
-<aside class="cta"><strong>Research the numbers behind your portfolio.</strong><p>Explore source-backed stock and fund research with the StockPortfolio.pro lifetime deal.</p><a class="btn" href="/go/appsumo/report?rid=${encodeURIComponent(id)}" rel="nofollow">View the AppSumo lifetime deal</a></aside>
+<aside class="cta"><strong>Research the numbers behind your portfolio.</strong><p>Explore source-backed stock and fund research on StockPortfolio.pro.</p><a class="btn" href="/?source=report&amp;rid=${encodeURIComponent(id)}#pricing" rel="nofollow">See StockPortfolio.pro plans</a></aside>
 <p class="fine">${indexable ? 'This report is public and may appear in search engines; anyone with the URL can view it. Figures and sources reflect the research when it was shared. Verify material facts against the cited filing or source. Research only — not investment advice.' : 'Anyone with this unlisted URL can view this report. Figures and sources reflect the research when it was shared. Verify material facts against the cited filing or source. Research only — not investment advice.'}</p>
 </main></body></html>`;
 }

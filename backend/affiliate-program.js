@@ -8,6 +8,7 @@
 
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+const augustCampaign = require('./august-campaign');
 
 const COOKIE_NAME = 'sp_aff_ref';
 const DEFAULT_ATTRIBUTION_DAYS = 60;
@@ -55,6 +56,9 @@ function cookieSecret(env = process.env) {
 }
 
 function appSumoUrl(env = process.env) {
+    // AppSumo sales are retired (august-campaign.js): an affiliate link whose
+    // destination is still 'appsumo' lands on our own plans instead.
+    if (!augustCampaign.salesOpen()) return augustCampaign.NEW_BUYER_PATH;
     const configured = String(env.APPSUMO_NEW_BUYER_URL || '').trim();
     try {
         const url = new URL(configured);
