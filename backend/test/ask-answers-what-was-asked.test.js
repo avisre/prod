@@ -100,6 +100,30 @@ test('the companies that pass are found by the harness before the model writes a
     assert.equal(out.toolsUsed[0].tool, 'query_universe');
 });
 
+test('"pick from large cap, mid cap and small cap" is one pick from each, and an answer that skips a group is sent back', async () => {
+    const grouped = { asks: [ASKS.asks[0], { text: 'one pick from each of large cap and small cap', kind: 'deliverable',
+        groups: [{ name: 'large cap', where: 'market_cap_b >= 10' }, { name: 'small cap', where: 'market_cap_b < 10' }, { name: 'broken', where: 'process.exit()' }] }] };
+    const big = fact('BIGG', [150, 140, 130, 120, 100, 100, 100, 100]);
+    const rows = [...screenRows, { symbol: 'BIGG', name: 'Big Co', sector: 'Information Technology', marketCapB: 900 }];
+    const all = { ...facts, rows: [...facts.rows, big], bySymbol: new Map([...facts.bySymbol, ['BIGG', big]]) };
+    const both = 'Large cap: Big Co (BIGG), growth 35.0. Small cap: Fast Co (FAST), growth 35.0.';
+    const calls = scripted({
+        main: [{ content: 'Fast Co (FAST) is the pick, growth 35.0.' }, { content: both }],
+        aux: [grouped, { picks: ['FAST'], results: [] }, { picks: ['BIGG', 'FAST'], results: [] }],
+        overrides: { universe: () => ({ screenRows: rows, facts: all }) }
+    });
+    const out = await ask();
+    assert.equal(out.answer, both);
+    assert.equal(out.quality.sendBacks, 1);
+    // One screen per group, each with the group's own bound added to the reader's condition.
+    assert.deepEqual(calls.tools.map(t => t.args.where), ['cond1 > 35 and (market_cap_b >= 10)', 'cond1 > 35 and (market_cap_b < 10)']);
+    assert.match(calls.main[0].messages.map(m => m.content).join('\n'), /ONE PICK FROM EACH GROUP.*puts forward 2 companies, one from each group's table/s);
+    const sentBack = calls.main[1].messages.at(-1).content;
+    assert.match(sentBack, /No pick from large cap \(market_cap_b >= 10\)\. The user asked for one pick from each of large cap, small cap\./);
+    assert.match(sentBack, /^BIGG\|/m);
+    assert.doesNotMatch(sentBack, /No pick from small cap/);
+});
+
 test('a figure quoted for the pick must be the pick\'s own, not a neighbouring row\'s', async () => {
     const calls = scripted({
         main: [
@@ -113,6 +137,10 @@ test('a figure quoted for the pick must be the pick\'s own, not a neighbouring r
     assert.equal(out.quality.sendBacks, 1);
     assert.match(calls.main[2].messages.at(-1).content, /Give FAST's own figure for "greater than 35% growth in the last 4 quarters": .* is 35\.0 for FAST/);
     assert.match(out.answer, /grew 35\.0/);
+    // A money amount is written scaled ("$55.3bn"), so it is not matched digit for digit.
+    const money = { asks: [{ text: 'stock buybacks', kind: 'number', formula: 'ttm(revenue) * 1000000000', op: '>', value: 0 }] };
+    scripted({ main: [{ content: 'Fast Co (FAST) is the pick: it bought back $540bn of stock.' }], aux: [money, { picks: ['FAST'], results: [] }] });
+    assert.equal((await ask()).quality.sendBacks, 0);
 });
 
 test('a part that is not a number is read too: an ignored part sends the answer back', async () => {

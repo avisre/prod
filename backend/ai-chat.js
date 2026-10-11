@@ -2603,25 +2603,26 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
             // The companies that pass the measured conditions are found by the
             // harness, not left to the query the model happens to write: two of
             // three live runs of one question started from different lists.
-            const screen = asks ? requirements.screenArgs(asks) : null;
-            if (screen) {
+            const asked = asks ? requirements.screens(asks) : [];
+            let supplied = 0;
+            for (const [n, { args: screen }] of asked.entries()) {
                 const t0 = Date.now();
                 let result;
                 try { result = await deps.runTool('query_universe', screen, { ...ctx, question: q, history }); }
                 catch (error) { result = evidence.toolError(error); }
-                if (result && typeof result === 'object' && !result.error) {
-                    const content = JSON.stringify(result), id = 'asked-screen';
-                    suppliedResults.push({ tool: 'query_universe', result });
-                    contextBytes += Buffer.byteLength(content);
-                    hasResearchEvidence = true;
-                    const trace = { tool: 'query_universe', args: screen, ok: true, ms: Date.now() - t0 };
-                    toolsUsed.push(trace); emit({ type: 'tool', ...trace });
-                    seenCalls.set('query_universe:' + JSON.stringify(screen), id);
-                    messages.push({ role: 'assistant', content: '', tool_calls: [{ id, type: 'function', function: { name: 'query_universe', arguments: JSON.stringify(screen) } }] },
-                        { role: 'tool', tool_call_id: id, content },
-                        { role: 'system', content: requirements.screenNote(asks) });
-                }
+                if (!result || typeof result !== 'object' || result.error) continue;
+                const content = JSON.stringify(result), id = 'asked-screen' + (asked.length > 1 ? '-' + (n + 1) : '');
+                suppliedResults.push({ tool: 'query_universe', result });
+                contextBytes += Buffer.byteLength(content);
+                hasResearchEvidence = true;
+                const trace = { tool: 'query_universe', args: screen, ok: true, ms: Date.now() - t0 };
+                toolsUsed.push(trace); emit({ type: 'tool', ...trace });
+                seenCalls.set('query_universe:' + JSON.stringify(screen), id);
+                messages.push({ role: 'assistant', content: '', tool_calls: [{ id, type: 'function', function: { name: 'query_universe', arguments: JSON.stringify(screen) } }] },
+                    { role: 'tool', tool_call_id: id, content });
+                supplied++;
             }
+            if (supplied && supplied === asked.length) messages.push({ role: 'system', content: requirements.screenNote(asks) });
         }
         for (let iter = 0; iter < (budget ? BUDGET_MAX_ROUNDS : MAX_ITERS); iter++) {
             if (budget && budget.stopped && budget.stopped()) {
