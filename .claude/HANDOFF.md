@@ -16,6 +16,30 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Ask answers what was asked, and runs until the credits are spent — 2026-10-11 (committed locally, NOT pushed)
+
+Owner, on a "pick one stock … greater than 35% growth in the last 4 quarters, low SBC, buybacks, moat" answer that
+named Booking (8% growth) and said it "cleared every bar": Ask must answer whatever is asked and keep working until
+the user's credits are exhausted. Branch `ask-conditions-20261011`, three commits on top of `29a2df0ff`.
+- **`query_universe`** (`ask-universe-query.js`): any formula over every company's statement lines; parsed, never
+  executed. Data: `frontend/data/screen-facts.json` (22 MB, 12 quarters + 10 fiscal years, 32 lines), written by
+  `build-public-stock-index.js` beside the screen index and added to the three refresh workflows' `git add`. It is
+  not part of the dataset digest, so the deploy gate does not see it; the tool says so when the file is missing.
+- **The question is written down, the draft is read against it** (`ask-requirements.js`): measured conditions are
+  tested in code on the pick's own filed figures; the rest by a short second read. A miss is sent back with the
+  companies that do pass. Runs for `focused`/`fund` questions of 40+ characters.
+- **No fixed length for a signed-in reader with credits** (`ctx.budget`, streaming route only): ends when the answer
+  passes, the credits cannot cover another round, the reader stops, or three rounds only repeat lookups. Bound of
+  400 rounds. Anonymous trial, non-streaming, connector and API keep the 10-round run.
+- **Charging** (`credits.askCredits`): 2 covers 150,000 tokens (measured p90 is 136,684, n=241), then 1 credit per
+  30,000. Steps are ledger rows with `step: true` under an `askrun:` id; a failed run gets them back.
+- Measured on the real model, the owner's question word for word, three runs: AppLovin twice (75–100 s, 2 credits,
+  131k and ~90k tokens), once Nvidia withheld by the identity guard — now one rewrite before a receipt.
+- **Open:** the ~20-question before/after set was not run (three live runs of one question only). The identity guard
+  pattern that fired was not captured. A "pick" question still flips to the company-report policy once a tool names
+  the company (`REPORT_WORDS` matches "business"). The same 8 tests fail as on untouched main.
+- **This file is at ~465 lines: rotate it before the next entry.**
+
 ## Ask: a multi-company comparison came back empty — 2026-10-11 (committed locally, NOT pushed)
 
 Live check of the customer-question fixes (signed-out trial path, own wording): screen filters, dossier link and the
