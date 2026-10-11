@@ -1069,7 +1069,21 @@ function toolScreenUniverse(args) {
         cells.push(r.name, r.sector, fm(r.marketCapB), fm(r.price ?? null, 2), fm(r.pe), fm(r.revCagr5Pct), fm(r.netIncomeCagr5Pct ?? null), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), fm(r.priceVsAvg10mPct ?? null), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd);
         lines.push(cells.map(cell).join('|'));
     }
+    // The numerical review runs as soon as any other research tool is used in
+    // the same answer, and it knew nothing of these rows: a seven-company
+    // comparison that started here and then read each company's margins had
+    // every screen figure rejected, and the answer was replaced by a receipt.
+    // Both the stored value and the rounded one the table shows are claimable.
+    const money = [], percentages = [];
+    const both = (list, v, dp) => { if (num(v) !== null) list.push(num(v), Number(Number(v).toFixed(dp))); };
+    for (const r of top) {
+        if (num(r.marketCapB) !== null) both(money, r.marketCapB * 1e9, 0), money.push(Number(fm(r.marketCapB)) * 1e9);
+        both(money, r.price ?? null, 2);
+        for (const key of ['revCagr5Pct', 'netIncomeCagr5Pct', 'netMarginPct', 'roePct', 'qtrNetIncomeYoYPct', 'priceVsAvg10mPct']) both(percentages, r[key] ?? null, 1);
+        both(percentages, r.divYieldPct ?? null, 2);
+    }
     return {
+        claimable: { money: [...new Set(money)].map(value => ({ value, unit: 'USD' })), percentages: [...new Set(percentages)] },
         universe: `${universe} US-listed stocks with available fundamentals in the stockportfolio.pro cache`,
         matched,
         returned: top.length,

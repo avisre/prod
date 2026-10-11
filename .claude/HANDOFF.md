@@ -16,6 +16,22 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Ask: a multi-company comparison came back empty — 2026-10-11 (committed locally, NOT pushed)
+
+Live check of the customer-question fixes (signed-out trial path, own wording): screen filters, dossier link and the
+unknown-ticker trade all pass. The seven-company comparison ran every lookup, then returned the receipt with sources
+only, 1 run in 2 live and 2 in 4 locally. Three causes, fixed on branch `ask-comparison-fallback-20261011`:
+- **Screen figures were not claimable.** The numerical review is skipped when only `screen_universe` ran, and switches
+  on with any other research tool; it then rejected every screen figure. The tool now returns `claimable`.
+- **Category rows under a `viz` fence** draw nothing on the page and fail the audit; `normalizeFacetedViz` relabels
+  them `bars`.
+- **`salvage` could not drop two charts with the same fault** (one shared finding, so removing either changed
+  nothing) and the whole answer was replaced. Each standing chart is now judged alone.
+- After: 6 of 6 local real-model runs answer with all seven companies. **Still open:** every cross-company chart is
+  removed, because the chart audit wants exact filed values and period-end labels. Guard: `ask-customer-screen-fixes`.
+- The stored reviewer account is on the Dev plan, which web Ask refuses; account-action and AI Portfolio page checks
+  need a sign-in with web Ask. Full suite needs `frontend/data` (5.8 GB); a slim checkout fails 35 tests without it.
+
 ## Ask and the AI Paper Portfolio are separate pages — 2026-10-11 (committed locally, NOT pushed)
 
 Owner: "make sure ask and ask ai exp feature have different pages and dont share the same workspace." I read "ask ai

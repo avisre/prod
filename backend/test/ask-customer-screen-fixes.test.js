@@ -128,3 +128,43 @@ test('the Ask page offers a one-click full check on a stock', () => {
     const page = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'ask.html'), 'utf8');
     assert.match(page, /<button>Give me a full check on MSFT:/);
 });
+
+// Measured on the live site 2026-10-11: "compare AAPL, MSFT, GOOGL, AMZN, META,
+// NVDA and TSLA" ran every lookup and then returned a receipt with no comparison
+// in it. Three faults, in the order they were found.
+const quality = require('../ask-answer-quality');
+const policy = require('../ask-report-policy');
+const SEVEN = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'NVDA', 'TSLA'];
+const quote = { tool: 'get_quote', result: { symbol: 'AAPL', price: 1, currency: 'USD', asOf: '2026-10-09' } };
+
+test('figures from a screen are claimable when another research tool ran in the same answer', () => {
+    const result = chat.runTool('screen_universe', { symbols: SEVEN, limit: 10 });
+    const row = chat.screenRows({ symbols: ['NVDA'], limit: 10 }).rows[0];
+    const text = `Nvidia grew revenue ${row.revCagr5Pct.toFixed(1)}% a year over five years, keeps a ${row.netMarginPct.toFixed(1)}% net margin, `
+        + `trades at $${row.price.toFixed(2)} and is worth $${Math.round(row.marketCapB).toLocaleString('en-US')}bn.`;
+    assert.deepEqual(quality.numericClaims(text, [{ tool: 'screen_universe', result }, quote]), []);
+    // Only the figures the screen supplied: an invented one is still refused.
+    assert.equal(quality.numericClaims('Nvidia grew revenue 91.7% a year.', [{ tool: 'screen_universe', result }, quote]).length, 1);
+    const { claimable, ...withoutFigures } = result;
+    assert.ok(quality.numericClaims(text, [{ tool: 'screen_universe', result: withoutFigures }, quote]).length >= 3, 'the check is live in this setup');
+});
+
+test('category rows written under a viz fence are corrected to a bars fence', () => {
+    const rows = '{"title":"P/E","unit":"x","orientation":"horizontal","rows":[["TSLA",354.4],["AAPL",38.6]]}';
+    assert.match(quality.normalizeDraft('Text.\n\n```viz\n' + rows + '\n```\n'), /```bars\n\{"title":"P\/E"/);
+    const line = '```viz\n{"title":"Revenue","unit":"USD","series":[{"name":"AAPL","points":[["FY24",1],["FY25",2]]}]}\n```';
+    assert.equal(quality.normalizeDraft(line), line, 'a real series chart keeps its fence');
+});
+
+test('two charts with the same fault are both removed and the answer is kept', () => {
+    const options = { question: 'Compare AAPL and MSFT on margins.', policy: policy.select('Compare AAPL and MSFT on margins.') };
+    const bad = name => '```viz\n' + JSON.stringify({ title: name, unit: '%', series: [] }) + '\n```\n';
+    const body = Array.from({ length: 14 }, (_, i) => `Sentence ${i + 1} describes how the two companies earn their money and where each one spends it.`).join(' ');
+    const text = `## Comparison\n\n${body}\n\n${bad('Operating margin')}\n${body}\n\n${bad('Valuation')}\n`;
+    assert.deepEqual(quality.audit(text, [quote], options).filter(i => /chart/i.test(i)), ['Chart series structure is invalid.']);
+    const out = quality.salvage(text, [quote], options);
+    assert.equal(out.ok, true);
+    assert.equal(out.chartsRemoved, 2);
+    assert.doesNotMatch(out.text, /```/);
+    assert.match(out.text, /Sentence 14 describes/);
+});

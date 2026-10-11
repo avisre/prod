@@ -273,6 +273,11 @@ function normalizeFacetedViz(text) {
         if (!spec.series && !spec.rows && Array.isArray(spec.segments) && spec.segments.length &&
             spec.total !== undefined && spec.unallocated !== undefined && spec.periodEnd && spec.filingDate && spec.accessionNumber && spec.sourceUrl)
             return `\`\`\`sankey\n${JSON.stringify(spec)}\n\`\`\``;
+        // Category rows are the bars format. Under a viz fence the page draws
+        // nothing and the audit rejects the block, so correct the fence here
+        // too; every bars rule still applies to it.
+        if (!spec.series && Array.isArray(spec.rows) && spec.rows.length)
+            return `\`\`\`bars\n${JSON.stringify(spec)}\n\`\`\``;
         if (!Array.isArray(spec.series) || !spec.series.length || spec.series.length > 3 ||
             spec.series.some(series => !Array.isArray(series?.points) || series.points.length < 2 || series.points.length > 8))
             return fence;
@@ -1025,6 +1030,21 @@ function salvage(text, results, options = {}) {
                 const without = next.replace(fence, '');
                 if (audit(without, results, options).filter(chartIssue).length < audit(next, results, options).filter(chartIssue).length) {
                     next = without; chartsRemoved++;
+                }
+            }
+            // Two charts with the same fault share one finding, so removing
+            // either leaves the count unchanged and neither was dropped: a full
+            // seven-company comparison was replaced by a receipt over two
+            // charts. Judge each chart still standing on its own, against the
+            // text with no charts at all.
+            if (audit(next, results, options).filter(issue => !structuralIssue(issue, options.policy)).some(chartIssue)) {
+                const standing = next.match(/```(?:viz|bars|sankey)\s*\n[\s\S]*?```\n?/g) || [];
+                const bare = standing.reduce((body, fence) => body.replace(fence, ''), next);
+                const baseline = new Set(audit(bare, results, options).filter(chartIssue));
+                for (const fence of standing) {
+                    if (audit(bare + '\n\n' + fence, results, options).filter(chartIssue).some(issue => !baseline.has(issue))) {
+                        next = next.replace(fence, ''); chartsRemoved++;
+                    }
                 }
             }
         }
