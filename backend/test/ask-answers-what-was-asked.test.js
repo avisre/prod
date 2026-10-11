@@ -78,11 +78,11 @@ test('the 2026-10-11 answer is not released: the pick fails the reader\'s growth
     // What was asked reached the model before any research…
     const first = calls.main[0].messages.map(m => m.content).join('\n');
     assert.match(first, /WHAT THE USER ASKED FOR/);
-    assert.match(first, /greater than 35% growth in the last 4 quarters.*growth_pct\(ttm\(revenue\), ttm\(revenue, 4\)\) > 35/);
+    assert.match(first, /greater than 35% growth in the last 4 quarters.*\(growth_pct\(ttm\(revenue\), ttm\(revenue, 4\)\)\) > 35/);
     // …and the rejected draft came back with the failing figure and the companies that do pass.
     const sentBack = calls.main[2].messages.filter(m => m.role === 'system').map(m => m.content).join('\n');
     assert.match(sentBack, /ANSWER NOT RELEASED/);
-    assert.match(sentBack, /SLOW does not meet "greater than 35% growth in the last 4 quarters": .* is 8, and the user asked for > 35/);
+    assert.match(sentBack, /SLOW does not meet "greater than 35% growth in the last 4 quarters": .* is 8, and the test is .* > 35/);
     assert.match(sentBack, /1 company passes every measured condition/);
     assert.match(sentBack, /^FAST\|/m);
 });
@@ -93,10 +93,10 @@ test('the companies that pass are found by the harness before the model writes a
     assert.equal(out.source, 'ai');
     assert.deepEqual(calls.tools[0], { name: 'query_universe', args: {
         columns: [{ name: 'cond1', formula: 'growth_pct(ttm(revenue), ttm(revenue, 4))' }, { name: 'cond2', formula: 'pct(ttm(sbc), ttm(revenue))' }],
-        where: 'cond1 > 35', limit: 30 } });
+        where: '((growth_pct(ttm(revenue), ttm(revenue, 4))) > 35)', limit: 30 } });
     const first = calls.main[0].messages;
     assert.ok(first.some(m => m.role === 'tool' && m.tool_call_id === 'asked-screen'));
-    assert.match(first.at(-1).content, /ALREADY been run over every company.*cond1 = "greater than 35% growth in the last 4 quarters".*Put forward only a company from that table/s);
+    assert.match(first.at(-1).content, /ALREADY been run over every company.*cond1 = "greater than 35% growth in the last 4 quarters".*put forward only companies from it/s);
     assert.equal(out.toolsUsed[0].tool, 'query_universe');
 });
 
@@ -116,7 +116,7 @@ test('"pick from large cap, mid cap and small cap" is one pick from each, and an
     assert.equal(out.answer, both);
     assert.equal(out.quality.sendBacks, 1);
     // One screen per group, each with the group's own bound added to the reader's condition.
-    assert.deepEqual(calls.tools.map(t => t.args.where), ['cond1 > 35 and (market_cap_b >= 10)', 'cond1 > 35 and (market_cap_b < 10)']);
+    assert.deepEqual(calls.tools.map(t => t.args.where), ['((growth_pct(ttm(revenue), ttm(revenue, 4))) > 35) and (market_cap_b >= 10)', '((growth_pct(ttm(revenue), ttm(revenue, 4))) > 35) and (market_cap_b < 10)']);
     assert.match(calls.main[0].messages.map(m => m.content).join('\n'), /ONE PICK FROM EACH GROUP.*puts forward 2 companies, one from each group's table/s);
     const sentBack = calls.main[1].messages.at(-1).content;
     assert.match(sentBack, /No pick from large cap \(market_cap_b >= 10\)\. The user asked for one pick from each of large cap, small cap\./);
@@ -256,13 +256,42 @@ test('a researched answer the wording guard withholds is written again, not repl
     assert.equal((await ask({ question: 'what are you?' })).source, 'blocked');
 });
 
+test('a bar written into the formula is the condition itself, and a test that is blank for every company is dropped', async () => {
+    // 2026-10-11, live: "revenue above 1 billion" came back as the formula
+    // "ttm(revenue) > 1000000000" with the bar repeated beside it. Nothing could
+    // pass, and a correct top-five was replaced by "no company passes".
+    const asks = requirements.clean({ asks: [
+        { text: 'revenue above 100', kind: 'number', formula: 'ttm(revenue) > 100', op: '>', value: 100 },
+        { text: 'gross margin above 40%', kind: 'number', formula: 'pct(ttm(gross_profit), ttm(revenue))', op: '>', value: 40 }
+    ] });
+    assert.equal(asks[0].cond, 'ttm(revenue) > 100');
+    assert.equal(asks[0].formula, undefined);
+    assert.equal(asks[1].cond, '(pct(ttm(gross_profit), ttm(revenue))) > 40');
+    requirements.prune(asks, { screenRows, facts });
+    assert.equal(asks[0].cond, 'ttm(revenue) > 100', 'a condition companies can be tested on is kept');
+    assert.equal(asks[1].cond, undefined, 'no company here files gross profit: the test is dropped, not failed');
+    assert.equal(asks[1].formula, undefined);
+    const calls = scripted({ main: [{ content: 'Fast Co (FAST) and Slow Co (SLOW) both have revenue above 100.' }], aux: [{ asks: [{ text: 'revenue above 100', kind: 'number', formula: 'ttm(revenue) > 100', op: '>', value: 100 }] }, { picks: ['FAST', 'SLOW'], results: [] }] });
+    const out = await ask({ question: 'which companies have revenue above 100 over the last four quarters' });
+    assert.equal(out.quality.sendBacks, 0);
+    assert.equal(calls.tools[0].args.where, '(ttm(revenue) > 100)');
+});
+
+test('a table cut off at its limit is called a sample, so a narrower question is not answered from it', () => {
+    const asks = requirements.clean(ASKS);
+    assert.match(requirements.screenNote(asks, [{ matched: 12, returned: 12 }]), /put forward only companies from it/);
+    const cut = requirements.screenNote(asks, [{ matched: 400, returned: 30 }]);
+    assert.match(cut, /show only the largest by market value.*others pass too.*run query_universe yourself with the same conditions plus that filter/s);
+    assert.doesNotMatch(cut, /put forward only companies from it/);
+});
+
 test('the list keeps only what can be used: a formula that does not parse leaves the part to the reading pass', () => {
     const asks = requirements.clean({ asks: [
         { text: 'x', kind: 'number', formula: 'process.exit()', op: '>', value: 1 },
         { text: 'y', kind: 'number', formula: 'pct(ttm(sbc), ttm(revenue))', op: 'approximately', value: 5 },
         { text: '', kind: 'number' }, { text: 'z', kind: 'nonsense' }
     ] });
-    assert.deepEqual(asks.map(a => [a.id, a.kind, a.formula || null, a.op || null]), [[1, 'number', null, null], [2, 'number', 'pct(ttm(sbc), ttm(revenue))', null], [3, 'deliverable', null, null]]);
+    assert.deepEqual(asks.map(a => [a.id, a.kind, a.formula || null, a.cond || null]), [[1, 'number', null, null], [2, 'number', 'pct(ttm(sbc), ttm(revenue))', null], [3, 'deliverable', null, null]]);
     assert.equal(requirements.clean({ asks: [] }), null);
     assert.equal(requirements.applies('nvda revenue?', { kind: 'focused' }), false);
     assert.equal(requirements.applies(QUESTION, { kind: 'company_report' }), false);

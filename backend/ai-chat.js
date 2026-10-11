@@ -2008,7 +2008,14 @@ function runTool(name, args, ctx) {
         case 'get_segments': return toolGetSegments(args || {});
         case 'get_insider_activity': return toolGetInsiders(args || {});
         case 'screen_universe': return toolScreenUniverse(args || {});
-        case 'query_universe': return require('./ask-universe-query').query(args || {}, { screenRows: buildScreenIndex(), sectorMatches: sectorVocab.matches });
+        case 'query_universe': {
+            // Index membership comes from the stored member lists, as in screen_universe.
+            const indexes = indexFilter((args || {}).index);
+            if (indexes.unknown) return { error: `Unknown index "${indexes.unknown}". Supported: ${Object.keys(INDEX_NAMES).join(', ')}.` };
+            const rows = indexes.sets ? buildScreenIndex().filter((r) => indexes.sets.some((set) => set.has(r.symbol))) : buildScreenIndex();
+            const out = require('./ask-universe-query').query(args || {}, { screenRows: rows, sectorMatches: sectorVocab.matches });
+            return indexes.sets && !out.error ? { ...out, indexMembership: `Limited to stored index members${indexMembers().asOf ? ` (Nasdaq 100 and S&P 100 as of ${indexMembers().asOf})` : ''}; state that date.` } : out;
+        }
         case 'save_screen': return toolSaveScreen(args || {}, ctx);
         case 'get_portfolio': return toolGetPortfolio(ctx);
         case 'calculator': return toolCalculator(args || {});
@@ -2603,7 +2610,9 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
             // The companies that pass the measured conditions are found by the
             // harness, not left to the query the model happens to write: two of
             // three live runs of one question started from different lists.
+            if (asks) requirements.prune(asks, universe());
             const asked = asks ? requirements.screens(asks) : [];
+            const screened = [];
             let supplied = 0;
             for (const [n, { args: screen }] of asked.entries()) {
                 const t0 = Date.now();
@@ -2620,9 +2629,9 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 seenCalls.set('query_universe:' + JSON.stringify(screen), id);
                 messages.push({ role: 'assistant', content: '', tool_calls: [{ id, type: 'function', function: { name: 'query_universe', arguments: JSON.stringify(screen) } }] },
                     { role: 'tool', tool_call_id: id, content });
-                supplied++;
+                supplied++; screened.push(result);
             }
-            if (supplied && supplied === asked.length) messages.push({ role: 'system', content: requirements.screenNote(asks) });
+            if (supplied && supplied === asked.length) messages.push({ role: 'system', content: requirements.screenNote(asks, screened) });
         }
         for (let iter = 0; iter < (budget ? BUDGET_MAX_ROUNDS : MAX_ITERS); iter++) {
             if (budget && budget.stopped && budget.stopped()) {

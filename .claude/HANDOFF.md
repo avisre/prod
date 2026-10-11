@@ -35,7 +35,12 @@ the user's credits are exhausted. Branch `ask-conditions-20261011`, three commit
   30,000. Steps are ledger rows with `step: true` under an `askrun:` id; a failed run gets them back.
 - Measured on the real model, the owner's question word for word, three runs: AppLovin twice (75–100 s, 2 credits,
   131k and ~90k tokens), once Nvidia withheld by the identity guard — now one rewrite before a receipt.
-- **Open:** the ~20-question before/after set was not run (three live runs of one question only). The identity guard
+- Later the same day: a pick "from large, mid and small cap" is one pick per group; the harness screens the
+  measured conditions itself before the model writes; a condition blank for 90%+ of companies is dropped; a missing
+  quarter is a blank in place (it used to cut the series: 288 companies had under 4 quarters, now 15).
+- Fifteen varied questions on the real model (no before run): all answered, 6–56 s, 2 credits each. One ranking left
+  Citigroup's ROE blank (its 2026-03-31 quarter is not in the data).
+- **Open:** no live question has gone past 10 rounds or run out of credits; the meter is unseen in a browser. The identity guard
   pattern that fired was not captured. A "pick" question still flips to the company-report policy once a tool names
   the company (`REPORT_WORDS` matches "business"). The same 8 tests fail as on untouched main.
 - **This file is at ~465 lines: rotate it before the next entry.**

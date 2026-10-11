@@ -44,6 +44,8 @@ const EXTRACT_PROMPT = 'List what the user\'s message asks for, so the answer ca
     + 'Use the user\'s meaning exactly: growth of a business is revenue growth unless they said earnings or profit; "the last four quarters" is the four most recent quarters together against the four before. Do not add anything the user did not ask for, and do not drop anything they did. A message on any subject is listed the same way; one with no company conditions has only deliverables.\n'
     + 'Formula language. ' + uq.HELP;
 
+const isCondition = node => node.t === 'not' || (node.t === 'bin' && ['>', '>=', '<', '<=', '==', '!=', 'and', 'or'].includes(node.op));
+
 function clean(raw) {
     const out = [];
     for (const item of Array.isArray(raw?.asks) ? raw.asks : []) {
@@ -53,9 +55,15 @@ function clean(raw) {
         const ask = { id: out.length + 1, text, kind };
         if (kind === 'number' && typeof item.formula === 'string') {
             try {
-                uq.parse(item.formula);
-                ask.formula = item.formula.trim();
-                if (OPS[item.op] && Number.isFinite(Number(item.value)) && item.value !== null && item.value !== '') { ask.op = item.op; ask.value = Number(item.value); }
+                // The bar is sometimes written into the formula itself
+                // ("ttm(revenue) > 1000000000"). That is the whole condition:
+                // comparing it with the bar a second time tested nothing, and
+                // every company then "could not be shown" to pass.
+                if (isCondition(uq.parse(item.formula))) ask.cond = item.formula.trim();
+                else {
+                    ask.formula = item.formula.trim();
+                    if (OPS[item.op] && Number.isFinite(Number(item.value)) && item.value !== null && item.value !== '') ask.cond = `(${ask.formula}) ${item.op} ${Number(item.value)}`;
+                }
             } catch (_) { /* an unusable formula leaves the part to the reading pass */ }
         }
         // "One from each of large, mid and small cap": each group keeps the
@@ -81,10 +89,25 @@ async function extract(question, chat) {
     return clean(readJson(reply?.content));
 }
 
-const testable = ask => ask.kind === 'number' && ask.formula && ask.op;
+const testable = ask => ask.kind === 'number' && !!ask.cond;
+
+// A condition that is blank for nearly every company is a formula that does
+// not measure what was meant. It is dropped (the reading pass still covers the
+// part) so the harness never rejects a right answer on a broken test.
+function prune(asks, universe) {
+    if (!universe?.facts) { for (const a of asks) { delete a.cond; delete a.formula; } return asks; }
+    for (const a of asks) {
+        for (const key of ['cond', 'formula']) {
+            if (!a[key]) continue;
+            const r = uq.query({ columns: [{ name: 't', formula: a[key] }], limit: 1 }, universe);
+            if (r.error || !r.evaluated || r.columns[0].blankFor > r.evaluated * 0.9) { delete a[key]; if (key === 'formula') delete a.cond; }
+        }
+    }
+    return asks;
+}
 
 function brief(asks) {
-    const lines = asks.map(a => `${a.id}. [${a.kind}] "${a.text}"` + (a.formula ? ` — measured as ${a.formula}${a.op ? ` ${a.op} ${a.value}` : ''}` : '')
+    const lines = asks.map(a => `${a.id}. [${a.kind}] "${a.text}"` + (a.cond || a.formula ? ` — measured as ${a.cond || a.formula}` : '')
         + (a.groups ? ` — ONE PICK FROM EACH GROUP: ${a.groups.map(g => `${g.name} (${g.where})`).join('; ')}` : ''));
     const numeric = asks.filter(testable);
     return 'WHAT THE USER ASKED FOR. The answer is read against this list before it is released, and it is sent back to you if any part is missing or wrong:\n'
@@ -144,21 +167,22 @@ async function judge({ question, asks, answer, chat, universe }) {
     if (numeric.length && picks.length && universe?.facts) {
         const failing = [];
         for (const sym of picks) {
-            const values = uq.valuesFor(sym, numeric.map(a => a.formula), universe) || numeric.map(() => null);
+            const passes = uq.valuesFor(sym, numeric.map(a => a.cond), universe) || numeric.map(() => null);
+            const figures = uq.valuesFor(sym, numeric.map(a => a.formula || '0'), universe) || [];
             numeric.forEach((a, i) => {
-                const v = values[i];
-                if (typeof v !== 'number') failing.push({ key: `n${a.id}:${sym}:blank`, text: `${sym} cannot be shown to meet "${a.text}": it has not filed a figure this needs (${a.formula}).` });
-                else if (!OPS[a.op](v, a.value)) failing.push({ key: `n${a.id}:${sym}:fail`, text: `${sym} does not meet "${a.text}": ${a.formula} is ${fmt(v)}, and the user asked for ${a.op} ${a.value}.` });
+                if (passes[i] === true) return;
+                if (passes[i] === null || passes[i] === undefined) failing.push({ key: `n${a.id}:${sym}:blank`, text: `${sym} cannot be shown to meet "${a.text}": it has not filed a figure this needs (${a.cond}).` });
+                else failing.push({ key: `n${a.id}:${sym}:fail`, text: `${sym} does not meet "${a.text}"${a.formula && typeof figures[i] === 'number' ? `: ${a.formula} is ${fmt(figures[i])}, and the test is ${a.cond}` : `: it fails ${a.cond}`}.` });
             });
         }
         if (failing.length) {
             // What does pass? Run the user's own conditions over every company.
             const all = uq.query({
-                columns: numeric.map(a => ({ name: 'c' + a.id, formula: a.formula })),
-                where: numeric.map(a => `c${a.id} ${a.op} ${a.value}`).join(' and '),
+                ...(measured.length ? { columns: measured.map(a => ({ name: 'cond' + a.id, formula: a.formula })) } : {}),
+                where: numeric.map(a => `(${a.cond})`).join(' and '),
                 limit: 12
             }, universe);
-            const legend = numeric.map(a => `c${a.id} = ${a.text}`).join('; ');
+            const legend = numeric.map(a => `"${a.text}"`).join('; ');
             if (!all.error && all.matched > 0) {
                 issues.push(...failing, { key: 'passers', text: `${all.matched} compan${all.matched === 1 ? 'y passes' : 'ies pass'} every measured condition (${legend}). Choose from these, researching the remaining parts for the strongest candidates:\n${all.table}` });
             } else if (!all.error && !verdict?.admitsNoFullMatch) {
@@ -170,10 +194,10 @@ async function judge({ question, asks, answer, chat, universe }) {
     // One pick from each group: each group needs a pick that is really in it.
     const groups = groupsOf(asks);
     if (groups && universe?.facts) {
-        const bars = numeric.map((a, i) => `(${a.formula}) ${a.op} ${a.value}`);
+        const bars = numeric.map(a => `(${a.cond})`);
         for (const g of groups) {
             if (picks.some(sym => (uq.valuesFor(sym, [g.where], universe) || [])[0] === true)) continue;
-            const inGroup = uq.query({ columns: measured.map(a => ({ name: 'cond' + a.id, formula: a.formula })), where: [...bars, `(${g.where})`].join(' and '), limit: 12 }, universe);
+            const inGroup = uq.query({ ...(measured.length ? { columns: measured.map(a => ({ name: 'cond' + a.id, formula: a.formula })) } : {}), where: [...bars, `(${g.where})`].join(' and '), limit: 12 }, universe);
             if (inGroup.error || !inGroup.matched) continue; // nothing in this group passes; the answer says so
             issues.push({ key: `g:${g.name}`, text: `No pick from ${g.name} (${g.where}). The user asked for one pick from each of ${groups.map(x => x.name).join(', ')}. ${inGroup.matched} compan${inGroup.matched === 1 ? 'y' : 'ies'} in ${g.name} pass${inGroup.matched === 1 ? 'es' : ''} the measured conditions; choose one:\n${inGroup.table}` });
         }
@@ -194,21 +218,26 @@ const groupsOf = asks => (asks.find(a => a.groups) || {}).groups || null;
 // One query per group when the reader asked for a pick from each.
 function screens(asks) {
     const measured = asks.filter(a => a.kind === 'number' && a.formula), groups = groupsOf(asks);
-    const bars = measured.filter(testable).map(a => `cond${a.id} ${a.op} ${a.value}`);
+    const bars = asks.filter(testable).map(a => `(${a.cond})`);
     if (!bars.length && !groups) return [];
     const columns = measured.map(a => ({ name: 'cond' + a.id, formula: a.formula }));
     const one = (extra, limit) => ({ ...(columns.length ? { columns } : {}), where: [...bars, ...(extra ? [`(${extra})`] : [])].join(' and '), limit });
     return groups ? groups.map(g => ({ group: g.name, args: one(g.where, 15) })) : [{ group: null, args: one(null, 30) }];
 }
 function screenArgs(asks) { const all = screens(asks); return all.length === 1 && !all[0].group ? all[0].args : null; }
-function screenNote(asks) {
+// results: what each of those queries returned. A table cut off at its limit
+// is a sample of the companies that pass, never the whole list.
+function screenNote(asks, results = []) {
     const measured = asks.filter(a => a.kind === 'number' && a.formula), groups = groupsOf(asks);
+    const cut = results.some(r => r && r.matched > r.returned);
     return 'The user\'s measured conditions have ALREADY been run over every company; the result is in the query_universe table' + (groups ? 's' : '') + ' above. '
         + (measured.length ? measured.map(a => `cond${a.id} = "${a.text}"`).join('; ') + '. ' : '')
         + (groups
             ? `There is one table per group, in this order: ${groups.map(g => g.name).join(', ')}. The user wants ONE PICK FROM EACH GROUP, so the answer puts forward ${groups.length} companies, one from each group's table, each under a heading naming its group. A group whose table is empty has no company that passes: say so for that group and give its closest. `
-            : 'Every company in that table passes all the stated bars; a company that is not in it does not. Put forward only a company from that table (or say first that none passes, if it is empty). ')
-        + 'Research the remaining parts of the question for the strongest candidates before choosing. Run query_universe yourself only to add figures the tables lack.';
+            : 'Every company in that table passes all the stated bars. ')
+        + (cut ? 'The tables show only the largest by market value of the companies that pass (see matched against returned): others pass too. When the question also narrows by sector, industry, index or a ranking, run query_universe yourself with the same conditions plus that filter and sort, and answer from that. '
+            : 'A company that is not in the table does not pass; put forward only companies from it, or say first that none passes if it is empty. ')
+        + 'Research the remaining parts of the question for the strongest candidates before choosing.';
 }
 
 function directive(issues) {
@@ -223,4 +252,4 @@ function unfinished(issues, reason) {
     return `\n\n**Not finished.** ${reason}\n${points.join('\n')}`;
 }
 
-module.exports = { screens, screenArgs, screenNote, MIN_QUESTION_CHARS, applies, extract, clean, brief, judge, directive, unfinished, testable };
+module.exports = { prune, screens, screenArgs, screenNote, MIN_QUESTION_CHARS, applies, extract, clean, brief, judge, directive, unfinished, testable };

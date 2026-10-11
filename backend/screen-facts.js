@@ -6,9 +6,8 @@
 // company: a question about any other figure ("revenue of the last four
 // quarters against the four before") had nothing to be answered from.
 //
-// One row per company: its newest run of consecutive quarters and of
-// consecutive fiscal years, newest first, for the lines in FIELDS. A value the
-// company did not file is null, never estimated.
+// One row per company: its last quarters and fiscal years, newest first, for
+// the lines in FIELDS. A value the company did not file is null, never estimated.
 
 const fs = require('node:fs');
 const path = require('node:path');
@@ -56,41 +55,49 @@ const FIELDS = {
     depreciation: ['cash', 'depreciationDepletionAndAmortization']
 };
 
-// Newest first, cut at the first gap: a formula that reads "four quarters back"
-// must land on the quarter a year earlier, not on whatever row is fourth.
-function consecutive(reports, minDays, maxDays, limit) {
+// Newest first, on the company's own calendar: each step back lands on the
+// period one quarter (or one year) earlier. A period the company did not file
+// keeps its place as a blank, so "four quarters back" is always the quarter a
+// year earlier and never whatever row happens to be fourth. (Cutting the
+// series at the first gap left Citigroup, one unfiled quarter in twelve, with
+// a single quarter of history.)
+function aligned(reports, stepDays, tolerance, limit) {
     const rows = (reports || []).filter(r => p.day(r.fiscalDateEnding))
         .sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding));
-    const out = [];
-    for (const r of rows) {
-        if (out.length) {
-            const prev = out[out.length - 1];
-            const days = (Date.parse(prev.fiscalDateEnding) - Date.parse(r.fiscalDateEnding)) / 86400000;
-            if (days < minDays || days > maxDays || r.reportedCurrency !== prev.reportedCurrency) break;
+    if (!rows.length) return [];
+    const out = [rows[0]], currency = rows[0].reportedCurrency;
+    let anchor = Date.parse(rows[0].fiscalDateEnding), misses = 0;
+    while (out.length < limit && misses < 4) {
+        const want = anchor - stepDays * 86400000;
+        let best = null;
+        for (const r of rows) {
+            const gap = Math.abs(Date.parse(r.fiscalDateEnding) - want) / 86400000;
+            if (gap <= tolerance && r.reportedCurrency === currency && (!best || gap < best.gap)) best = { r, gap };
         }
-        out.push(r);
-        if (out.length === limit) break;
+        if (best) { out.push(best.r); anchor = Date.parse(best.r.fiscalDateEnding); misses = 0; }
+        else { out.push(null); anchor = want; misses++; }
     }
+    while (out.length && out[out.length - 1] === null) out.pop();
     return out;
 }
 
-function series(view, basis, minDays, maxDays, limit) {
+function series(view, basis, stepDays, tolerance, limit) {
     const key = basis === 'q' ? 'quarterlyReports' : 'annualReports';
-    const axis = consecutive(view.income?.[key], minDays, maxDays, limit);
+    const axis = aligned(view.income?.[key], stepDays, tolerance, limit);
     if (!axis.length) return null;
-    const ends = axis.map(r => r.fiscalDateEnding), currency = axis[0].reportedCurrency || null;
+    const ends = axis.map(r => (r ? r.fiscalDateEnding : null)), currency = axis[0].reportedCurrency || null;
     const byEnd = st => new Map((view[st]?.[key] || []).filter(r => r.reportedCurrency === currency).map(r => [r.fiscalDateEnding, r]));
     const maps = { income: byEnd('income'), balance: byEnd('balance'), cash: byEnd('cash') };
     const f = {};
     for (const [name, [statement, field]] of Object.entries(FIELDS)) {
-        const values = ends.map(end => p.number(maps[statement].get(end)?.[field]));
+        const values = ends.map(end => (end ? p.number(maps[statement].get(end)?.[field]) : null));
         if (values.some(v => v !== null)) f[name] = values;
     }
     return { ends, f };
 }
 
 function row(company, view) {
-    const q = series(view, 'q', 75, 110, QUARTERS), a = series(view, 'a', 340, 390, YEARS);
+    const q = series(view, 'q', 91.31, 20, QUARTERS), a = series(view, 'a', 365.25, 25, YEARS);
     if (!q && !a) return null;
     const currency = (view.income?.annualReports?.[0] || view.income?.quarterlyReports?.[0] || {}).reportedCurrency || null;
     return { s: company.symbol, c: currency, ...(q ? { q } : {}), ...(a ? { a } : {}) };

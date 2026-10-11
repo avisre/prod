@@ -216,7 +216,7 @@ function show(node) {
 
 const HELP = 'Statement lines: ' + Object.keys(screenFacts.FIELDS).join(', ') + '. '
     + 'Periods: q(line, k) = the quarter k quarters back (k=0 latest); fy(line, k) = the fiscal year k years back; ttm(line, k) = the four quarters starting k back, summed (ttm(revenue) against ttm(revenue, 4) is the last four quarters against the four before). '
-    + `Stored: the newest ${screenFacts.QUARTERS} consecutive quarters and ${screenFacts.YEARS} consecutive fiscal years. `
+    + `Stored: the last ${screenFacts.QUARTERS} quarters and ${screenFacts.YEARS} fiscal years. `
     + 'Several periods: sum_q, avg_q, min_q, max_q (formula, n, k) and the same with _fy; lag(line, k) inside them is the value k periods earlier, so min_q(growth_pct(revenue, lag(revenue, 4)), 4) is the weakest year-on-year growth of the last four quarters. '
     + 'Maths: + - * / ^, growth_pct(new, old), pct(part, whole), cagr_pct(new, old, years), abs, min, max, coalesce. Conditions: > >= < <= == !=, and, or, not. '
     + 'Per company (price cache, USD): ' + Object.keys(SCALARS).join(', ') + '. Outflows (capex, buybacks, dividends_paid) may be filed with either sign: wrap them in abs().';
@@ -366,6 +366,7 @@ const TOOL = {
                 limit: { type: 'integer', description: `Max ${MAX_LIMIT}, default ${DEFAULT_LIMIT}` },
                 symbols: { type: 'array', items: { type: 'string' }, description: 'Restrict to these tickers — use it to compute the same figures for named companies, or to check a company against the user\'s conditions.' },
                 sector: { type: 'string', description: 'Sector filter, e.g. Technology' },
+                index: { type: 'string', description: 'Index membership from stored, dated member lists: "sp500", "sp100", "nasdaq100", or several joined with "or". ALWAYS use this for an index condition ("which S&P 500 companies…"); never judge membership from memory or check a hand-picked sample.' },
                 include_stale: { type: 'boolean', description: 'Include companies that have not filed a recent quarter.' }
             }
         }

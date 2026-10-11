@@ -119,20 +119,25 @@ test('the numerical review can accept every figure the table shows', () => {
     assert.ok(out.claimable.money.some(m => m.value === 40 && m.unit === 'USD'));
 });
 
-test('the table is built from filed rows: consecutive periods only, newest first, blanks kept as blanks', () => {
+test('the table is built from filed rows on the company\'s own calendar: a period it did not file keeps its place as a blank', () => {
     const rows = (ends, extra = {}) => ends.map((end, i) => ({ fiscalDateEnding: end, reportedCurrency: 'USD', totalRevenue: String(100 - i), ...extra }));
     const view = {
-        income: { quarterlyReports: rows(['2026-06-30', '2026-03-31', '2025-12-31', '2025-06-30', '2025-03-31']), annualReports: rows(['2025-12-31', '2024-12-31', '2022-12-31']) },
+        // 2025-09-30 was never filed; 2024-12-31 is a different currency.
+        income: { quarterlyReports: [...rows(['2026-06-30', '2026-03-31', '2025-12-31', '2025-06-30', '2025-03-31']), { fiscalDateEnding: '2024-12-31', reportedCurrency: 'EUR', totalRevenue: '1' }], annualReports: rows(['2025-12-31', '2024-12-31', '2022-12-31']) },
         balance: { quarterlyReports: [{ fiscalDateEnding: '2026-03-31', reportedCurrency: 'USD', totalAssets: 9 }], annualReports: [] },
         cash: { quarterlyReports: [{ fiscalDateEnding: '2026-06-30', reportedCurrency: 'EUR', shareBasedCompensation: 5 }], annualReports: [] }
     };
     const fact = screenFacts.row({ symbol: 'GAP' }, view);
-    assert.deepEqual(fact.q.ends, ['2026-06-30', '2026-03-31', '2025-12-31'], 'a missing quarter ends the run: "four quarters back" must be a year earlier');
-    assert.deepEqual(fact.a.ends, ['2025-12-31', '2024-12-31']);
-    assert.deepEqual(fact.q.f.revenue, [100, 99, 98]);
-    assert.deepEqual(fact.q.f.total_assets, [null, 9, null]);
+    assert.deepEqual(fact.q.ends, ['2026-06-30', '2026-03-31', '2025-12-31', null, '2025-06-30', '2025-03-31']);
+    assert.deepEqual(fact.q.f.revenue, [100, 99, 98, null, 97, 96], 'four quarters back is still the quarter a year earlier');
+    assert.deepEqual(fact.a.ends, ['2025-12-31', '2024-12-31', null, '2022-12-31']);
+    assert.deepEqual(fact.q.f.total_assets, [null, 9, null, null, null, null]);
     assert.equal(fact.q.f.sbc, undefined, 'a row in another currency is not mixed in');
     assert.equal(screenFacts.row({ symbol: 'NONE' }, { income: {}, balance: {}, cash: {} }), null);
+    // The gap blanks the sums that need it and nothing else.
+    const out = uq.query({ columns: [{ name: 'yoy', formula: 'growth_pct(q(revenue), q(revenue, 4))' }, { name: 'four', formula: 'ttm(revenue)' }], symbols: ['GAP'] },
+        { screenRows: [{ symbol: 'GAP', name: 'Gap Co', sector: 'Industrials', marketCapB: 1 }], facts: { v: 1, asOf: '2026-07-15', rows: [fact], bySymbol: new Map([['GAP', fact]]) } });
+    assert.deepEqual(cellsOf(out.table, 'GAP').slice(6), [((100 / 97 - 1) * 100).toFixed(1), '']);
 });
 
 test('Ask is offered the tool and told never to swap the reader\'s condition for another metric', () => {
