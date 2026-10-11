@@ -81,7 +81,7 @@ function __setDeps(overrides) { deps = { ...defaultDeps, ...overrides }; reportC
 function __resetDeps() { deps = { ...defaultDeps }; reportCache.clear(); }
 
 const MAX_ITERS = 10;          // LLM calls per question (1 final + up to 9 tool rounds) — headroom for multi-company / causal questions
-const MAX_TOOLCALLS_PER_ROUND = 12;
+const MAX_TOOLCALLS_PER_ROUND = 16;
 const ASK_TOOL_CONCURRENCY = 6; // tools per round run in parallel, 6 at a time — most are cache reads; web tools share this pool too
 const QUESTION_MAX_CHARS = 8000;
 
@@ -783,11 +783,56 @@ function resolveScreenAnchor(rows, query) {
 
 // Shared filter/sort core — used by the chatbot tool AND the /api/screener
 // route that powers the Screener page.
+// ---- Index membership for the screen ---------------------------------------
+// S&P 500 comes from the list the data jobs already maintain; the Nasdaq 100
+// and S&P 100 are dated copies in index-members.json. Membership is read from
+// these files, never from the model's memory.
+const SCREEN_SORT_KEYS = ['revCagr5Pct', 'netIncomeCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook', 'priceVsAvg10mPct'];
+const SCREEN_GROWTH_SORTS = ['revCagr5Pct', 'netIncomeCagr5Pct', 'netMarginPct', 'roePct', 'qtrNetIncomeYoYPct'];
+const INDEX_NAMES = { sp500: 'S&P 500', sp100: 'S&P 100', nasdaq100: 'Nasdaq 100' };
+let _indexMembers = null;
+function indexMembers() {
+    if (_indexMembers) return _indexMembers;
+    const dir = path.join(__dirname, '..', 'frontend', 'data');
+    const read = (file) => { try { return JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')); } catch (_) { return null; } };
+    const members = read('index-members.json') || {};
+    const sp500 = read('sp500-companies.json') || [];
+    const set = (list) => new Set((list || []).flatMap((x) => { const sym = String(x.symbol || x).toUpperCase(); return [sym, sym.replace(/\./g, '-'), sym.replace(/-/g, '.')]; }));
+    _indexMembers = { asOf: members.asOf || null, sets: { sp500: set(sp500), sp100: set(members.sp100), nasdaq100: set(members.nasdaq100) } };
+    return _indexMembers;
+}
+// "nasdaq100", "S&P 100 or Nasdaq 100", ["sp100","nasdaq100"] → the member sets (a company in ANY named index passes).
+function indexFilter(value) {
+    if (value === null || value === undefined || value === '') return {};
+    const parts = (Array.isArray(value) ? value : String(value).split(/,|\bor\b|\band\b|\//i)).map((x) => String(x).toLowerCase().replace(/[^a-z0-9]/g, '')).filter(Boolean);
+    const alias = { sp500: 'sp500', sandp500: 'sp500', spx: 'sp500', sp100: 'sp100', sandp100: 'sp100', oex: 'sp100', nasdaq100: 'nasdaq100', ndx: 'nasdaq100', qqq: 'nasdaq100', nasdaq: 'nasdaq100' };
+    const sets = [];
+    for (const part of parts) {
+        const key = alias[part];
+        if (!key) return { unknown: part };
+        const set = indexMembers().sets[key];
+        if (!set || !set.size) return { unknown: part };
+        sets.push(set);
+    }
+    return sets.length ? { sets } : {};
+}
+
 function screenRows(args) {
     const a = args || {};
     let rows = buildScreenIndex().slice();
     if (a.exclude_secondary_listings) rows = primaryListings(rows);
     const universe = rows.length;
+    // A named list ("compare MSFT, ORCL, CRM…") in ONE call: the same columns
+    // for every ticker, instead of several lookups per company.
+    let notInUniverse = null;
+    const wanted = [...new Set((Array.isArray(a.symbols) ? a.symbols : String(a.symbols || '').split(/[\s,;/]+/)).map((x) => String(x).trim().toUpperCase()).filter(Boolean))].slice(0, 25);
+    if (wanted.length) {
+        const forms = (sym) => [sym, sym.replace(/\./g, '-'), sym.replace(/-/g, '.')];
+        const want = new Set(wanted.flatMap(forms));
+        rows = rows.filter((r) => want.has(r.symbol));
+        const got = new Set(rows.flatMap((r) => forms(r.symbol)));
+        notInUniverse = wanted.filter((sym) => !got.has(sym));
+    }
     if (a.sector) {
         // Normalised on both sides. The index is keyed on GICS names, but callers
         // (including the model) name sectors the Yahoo way — "Technology",
@@ -811,7 +856,14 @@ function screenRows(args) {
     ge('priceToBook', a.min_price_to_book);
     le('priceToBook', a.max_price_to_book);
     if (a.require_positive_fcf) rows = rows.filter((r) => r.fcfPositive === true);
-    const limit = Math.min(Math.max(num(a.limit) || 10, 1), a.maxLimit || 25);
+    ge('price', a.min_price);
+    le('price', a.max_price);
+    ge('netIncomeCagr5Pct', a.min_net_income_cagr_5y_pct);
+    ge('priceVsAvg10mPct', a.min_price_vs_10_month_avg_pct);
+    const indexes = indexFilter(a.index);
+    if (indexes.unknown) return { universe, matched: 0, rows: [], error: `Unknown index "${indexes.unknown}". Supported: ${Object.keys(INDEX_NAMES).join(', ')}.` };
+    if (indexes.sets) rows = rows.filter((r) => indexes.sets.some((set) => set.has(r.symbol)));
+    const limit = Math.min(Math.max(num(a.limit) || (wanted.length || 10), 1), a.maxLimit || 25);
     const listedUniverse = buildScreenIndex().length;
     const issuerUniverse = new Set(buildScreenIndex().map((r) => r.cik)).size;
     const datasetId = require('./public-stock-index').view().datasetId;
@@ -857,11 +909,16 @@ function screenRows(args) {
         };
     }
 
-    const sortKey = ['revCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook'].includes(a.sort_by) ? a.sort_by : 'marketCapB';
+    const sortKey = SCREEN_SORT_KEYS.includes(a.sort_by) ? a.sort_by : 'marketCapB';
     // ascending for "cheapness" metrics (lower is better); descending for everything else
     const asc = sortKey === 'pe' || sortKey === 'pegRatio' || sortKey === 'priceToBook';
-    rows.sort((x, y) => ((x[sortKey] === null) - (y[sortKey] === null)) || (asc ? x[sortKey] - y[sortKey] : y[sortKey] - x[sortKey]));
-    return { universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit) };
+    // Ask only (established_first): a list ranked by a growth or return figure
+    // otherwise opens with companies that made a profit in one or two of the
+    // last ten years (a 427% "growth" row with 3 profitable years led a
+    // customer's screen). Those rows stay in the result, after the others.
+    const unproven = (r) => (a.established_first && SCREEN_GROWTH_SORTS.includes(sortKey) && !(num(r.profitableYears10) >= 5) ? 1 : 0);
+    rows.sort((x, y) => (unproven(x) - unproven(y)) || ((x[sortKey] === null) - (y[sortKey] === null)) || (asc ? x[sortKey] - y[sortKey] : y[sortKey] - x[sortKey]) || String(x.symbol).localeCompare(String(y.symbol)));
+    return { universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit), ...(notInUniverse && notInUniverse.length ? { notInUniverse } : {}), unprovenMatched: a.established_first && SCREEN_GROWTH_SORTS.includes(sortKey) ? rows.filter(unproven).length : 0 };
 }
 
 // ---- Screen args from the browser ("Use this screen on the page") --------
@@ -881,7 +938,11 @@ const SCREEN_ARG_KEYS = {
     min_market_cap_billions: 'number', max_market_cap_billions: 'number',
     min_profitable_years_of_last_10: 'number',
     min_latest_qtr_earnings_growth_yoy_pct: 'number',
-    require_positive_fcf: 'boolean', exclude_secondary_listings: 'boolean'
+    require_positive_fcf: 'boolean', exclude_secondary_listings: 'boolean',
+    index: 'string',
+    min_price: 'number', max_price: 'number',
+    min_net_income_cagr_5y_pct: 'number',
+    min_price_vs_10_month_avg_pct: 'number'
 };
 
 function screenArgsFromClient(raw) {
@@ -996,16 +1057,16 @@ function redFlagsFor(symbol) {
 }
 
 function toolScreenUniverse(args) {
-    const res = screenRows(args);
+    const res = screenRows({ ...(args || {}), established_first: true });
     if (res.error) return { error: res.error, ...(res.candidates ? { candidates: res.candidates } : {}) };
     const { universe, matched, rows: top, similarTo } = res;
     const fm = (v, dp = 1) => v === null ? '' : Number(v).toFixed(dp);
-    const header = 'symbol|name|sector|mktCap$B|P/E|revCAGR5y%|netMargin%|ROE%|divYield%|qtrEarnGrowthYoY%|latestQtr|profitableYrs/10|latestFY';
+    const header = 'symbol|name|sector|mktCap$B|price$|P/E|revCAGR5y%|profitCAGR5y%|netMargin%|ROE%|divYield%|qtrEarnGrowthYoY%|priceVs10mAvg%|latestQtr|profitableYrs/10|latestFY';
     const lines = [similarTo ? header.replace('symbol|', 'symbol|similarity|') : header];
     for (const r of top) {
         const cells = [r.symbol];
         if (similarTo) cells.push(r.similarity);
-        cells.push(r.name, r.sector, fm(r.marketCapB), fm(r.pe), fm(r.revCagr5Pct), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd);
+        cells.push(r.name, r.sector, fm(r.marketCapB), fm(r.price ?? null, 2), fm(r.pe), fm(r.revCagr5Pct), fm(r.netIncomeCagr5Pct ?? null), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), fm(r.priceVsAvg10mPct ?? null), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd);
         lines.push(cells.map(cell).join('|'));
     }
     return {
@@ -1013,6 +1074,9 @@ function toolScreenUniverse(args) {
         matched,
         returned: top.length,
         ...(similarTo ? { similarTo } : {}),
+        ...(res.unprovenMatched ? { ordering: `Established companies first: ${res.unprovenMatched} of the ${matched} matches made a profit in fewer than 5 of the last 10 years (or have a shorter record) and are listed after the others. Say this in one sentence when you present the list.` } : {}),
+        ...(res.notInUniverse ? { notInUniverse: res.notInUniverse, notInUniverseNote: 'These tickers have no screenable filed fundamentals here (a fund, a foreign filer without usable statements, or an unknown symbol). Say so by name; use get_quote / get_financials for them individually.' } : {}),
+        ...(args && args.index ? { indexMembership: `Read from the stored member lists${indexMembers().asOf ? ` (Nasdaq 100 and S&P 100 as of ${indexMembers().asOf})` : ''}; state that date.` } : {}),
         note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.'
             + (similarTo ? ' Similarity is factor resemblance, not an industry-peer classification: the anchor company is excluded and factors it does not report are ignored rather than estimated. Disclose the ranked-by sentence and any skipped counts when you present the list.' : ''),
         table: lines.join('\n')
@@ -1282,7 +1346,7 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'screen_universe',
-            description: 'Screen US-listed stocks with available filed fundamentals. The result reports the actual screenable universe; stocks without usable statements are not included. All thresholds optional; combine freely. Use for "which companies…", "find stocks that…" questions, and for "companies like X" / "peers of X" / "similar to X" — set similar_to=X (its own filed factors derive the ranking, X is excluded; do NOT also set sector unless the user explicitly asks for same-sector peers).',
+            description: 'Screen US-listed stocks with available filed fundamentals. The result reports the actual screenable universe; stocks without usable statements are not included. All thresholds optional; combine freely. Lists ranked by growth, margin or return put established companies first (profitable in at least 5 of the last 10 years). Use for "which companies…", "find stocks that…" questions, and for "companies like X" / "peers of X" / "similar to X" — set similar_to=X (its own filed factors derive the ranking, X is excluded; do NOT also set sector unless the user explicitly asks for same-sector peers).',
             parameters: {
                 type: 'object',
                 properties: {
@@ -1302,9 +1366,15 @@ const TOOLS = [
                     max_market_cap_billions: { type: 'number' },
                     min_profitable_years_of_last_10: { type: 'integer' },
                     min_latest_qtr_earnings_growth_yoy_pct: { type: 'number', description: 'Latest quarter net income growth vs same quarter a year ago, in %' },
+                    symbols: { type: 'array', items: { type: 'string' }, description: 'Restrict to these tickers (up to 25). USE THIS FIRST when the user names a list of companies to compare or rank: one call returns the same valuation, growth, margin, return, profit-record and price-trend columns for every ticker.' },
+                    index: { type: 'string', description: 'Index membership from stored, dated member lists: "sp500", "sp100", "nasdaq100", or several joined with "or" (a member of ANY passes), e.g. "sp100 or nasdaq100". ALWAYS use this for an index condition; never judge membership from memory.' },
+                    min_price: { type: 'number', description: 'Minimum share price in USD (daily price cache)' },
+                    max_price: { type: 'number', description: 'Maximum share price in USD (daily price cache)' },
+                    min_net_income_cagr_5y_pct: { type: 'number', description: '5-year compound growth in net income, in %. USE THIS when the user asks for EPS growth over several years: filed EPS is not comparable across stock splits, so multi-year EPS growth is not screenable; say in one sentence that profit growth stands in for it.' },
+                    min_price_vs_10_month_avg_pct: { type: 'number', description: 'Price relative to the average of its last ten month-end closes, in %. 0 means "trading above its 10-month average". USE THIS for a 200-day moving average / uptrend condition: the 10-month average is the monthly counterpart of the 200-day average; say in one sentence that it is the 10-month version.' },
                     require_positive_fcf: { type: 'boolean', description: 'WARNING: a company that does not report free cash flow is excluded (missing is not "negative") — say so when it materially narrows the list.' },
                     exclude_secondary_listings: { type: 'boolean', description: 'Keep one listing per issuer (drops foreign secondary listings) — use for peer lists.' },
-                    sort_by: { type: 'string', enum: ['revCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook'] },
+                    sort_by: { type: 'string', enum: SCREEN_SORT_KEYS },
                     limit: { type: 'integer', description: 'Max 25, default 10' }
                 }
             }
@@ -1970,6 +2040,10 @@ const ASK_SYSTEM = [
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
     'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios, per-segment margins) — but only ever combine figures from the SAME tool result or the SAME reporting scope (e.g. a segment\'s revenue from get_segments divided by that same segment\'s volume). Never build a "per X" figure by dividing company-wide revenue by a count that is not literally the thing sold (shares outstanding, employees/headcount, assets under management, or any count narrower in scope than the revenue figure) — that produces a fabricated number.',
     'SCOPE MATCHING: before dividing any revenue or cost figure by a volume or count, check the count\'s scope. If it is segment/division/region-limited (e.g. wireless-only subscribers, upstream-only barrels, US-only units) while the revenue figure is company-wide, do NOT divide them together — pull that same segment\'s revenue via get_segments first and divide within the segment. If no matching segment breakout exists, say the per-unit figure cannot be computed at that scope rather than dividing mismatched numbers.',
+    'SCREENS: screen_universe filters on index membership (index: sp500 / sp100 / nasdaq100, from stored dated lists — never judge membership from memory), share price (min_price / max_price), 5-year profit growth (min_net_income_cagr_5y_pct — use it for a multi-year EPS-growth condition and say once that profit growth stands in, because filed EPS is not comparable across stock splits) and trend (min_price_vs_10_month_avg_pct: 0 = above its 10-month average — use it for a 200-day-average or uptrend condition and say once that it is the 10-month version). Apply every condition the user gave as a real filter in ONE call; never approximate a supported condition by hand or tell the user to check it on another platform. State the matched count and the universe size exactly as returned, and repeat the ordering note when the result carries one. After presenting a screen to a signed-in user, the follow-up line may offer to save it.',
+    'SEVERAL NAMED COMPANIES: when the user lists four or more companies to compare or rank, FIRST call screen_universe with symbols=[all of them] — one call gives the same columns for every company — then pull deeper evidence in the same or next round (annual income history per company; qualitative tools for at most the two or three that matter). Cover EVERY company named in ONE answer; never answer for a subset and ask the user to type "continue".',
+    'WHAT YOU CANNOT COVER, SAID FIRST: you have no analyst estimates, price targets or consensus ratings, and no assessment of management quality beyond what filings and governance data show. When a question asks for one of these among other things, say so in one sentence near the top, naming exactly what is left out, then answer everything else in full. Never drop a requested item silently.',
+    'OUR REPORTS: the Company Dossier (/dossier.html?symbol=TICKER) and the Filing Monitor (/monitor.html?symbol=TICKER) are separate products on this site. When the user asks for "the dossier", "the full research report", "the analyst report" or "the filing monitor report" for a company, give a focused answer to what they want to know and link the real page in markdown, e.g. [Open the NVDA dossier](/dossier.html?symbol=NVDA). Never write an imitation of those reports, and never describe or compare what each report "contains" — you do not know their contents.',
     'EFFICIENCY — THIS IS ABOUT SHAPE, NOT ABOUT DOING LESS: batch aggressively — request EVERY company\'s data in the same round (parallel tool calls), and put ALL your arithmetic into ONE calculator call with ";"-separated expressions. Batching is what BUYS you more research within the budget; it is never a reason to pull fewer tools or drop an angle.',
     'DROP DEAD THREADS (this is about FAILING calls, not about stopping early): if a filing search or page fetch fails or comes back with nothing useful, do NOT keep retrying it with reworded queries or alternate URLs — drop that thread and spend the round on a different angle instead. This is the ONLY reason to abandon a line of research. It is not a licence to answer from fewer tools: a question with three angles needs all three pulled, not one pulled and two asserted.',
     'TRADES AND VIEWS: answer the question that was asked. When the user asks for a trade, a plan or your view on a stock, give it: model the trade with model_trade, and weigh the case for and against from the evidence. Present it as a scenario with its risks, never as a promise or a guarantee of any outcome. Every trade level, size and option figure comes from model_trade — do not work out your own. Trade answers get a closing disclaimer from the app; do not write one yourself.',
@@ -2513,7 +2587,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                             ? { error: `This source was already checked and unavailable: ${String(reused.result.error).slice(0, 180)}` }
                             : { symbol: args.symbol, evidenceAlreadySupplied: true, note: 'The matching report evidence is already present earlier in this conversation. Reuse it.' };
                     } else if (WEB_BUDGET[tc.function.name] !== undefined && ++webUsed[tc.function.name] > WEB_BUDGET[tc.function.name]) {
-                        result = { error: `Web budget exhausted for ${tc.function.name} — answer now with what you already have.` };
+                        result = { error: `The per-question allowance for ${tc.function.name} is used up. Do not call ${tc.function.name} again; carry on with the other tools and say plainly what this leaves uncovered.` };
                     } else {
                         try { result = await deps.runTool(tc.function.name, args, {...ctx,companyReportEvidence:report,question:q,history}); }
                         catch (error) { result = evidence.toolError(error); }
@@ -2560,7 +2634,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 // unmatched one comes back as a 400 that kills the whole
                 // question. Answer the dropped calls honestly instead.
                 for (const tc of msg.tool_calls.slice(MAX_TOOLCALLS_PER_ROUND)) {
-                    messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify({ error: 'Round tool budget exhausted — answer with what you already have.' }) });
+                    messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify({ error: `Not run: a round takes at most ${MAX_TOOLCALLS_PER_ROUND} lookups. Request it again in the next round if the answer still needs it.` }) });
                 }
                 continue;
             }

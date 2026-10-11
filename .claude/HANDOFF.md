@@ -4,7 +4,9 @@ Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
 `backend/test/handoff-size.test.js`, which the pre-push gate runs whenever this file changes. Current state and open actions only, never a transcript. At ~400 lines,
 snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite it fresh; **delete superseded items to
 the snapshot rather than compressing them here**.
-Earlier snapshots: `handoff-archive/2026-10-10.md` (verbatim, taken 10/10 at 455 lines — the 10/04 production
+Earlier snapshots: `handoff-archive/2026-10-11.md` (verbatim, taken 10/11 at 492 lines — the 10/08 owner decisions that
+are live and settled: stock-based compensation on the company page, connector usage on the profile page, credit refill
+sizes, the geo-wall crawler check, and the 10/07 price ladder), `handoff-archive/2026-10-10.md` (verbatim, taken 10/10 at 455 lines — the 10/04 production
 state, the Day 41 AppLovin card, the breakthrough-product hunt, the 10/07 no-blue / profile side menu notes; the six
 10/06 data-audit write-ups are in the 10/07 snapshot — read them before touching core statement extraction),
 `handoff-archive/2026-10-07.md` (verbatim, taken 10/07 at 461 lines — the full
@@ -13,6 +15,30 @@ release narrative, the three earlier Ask quality/engineering release write-ups, 
 OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archive/2026-10-03.md`,
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
+
+## Ask: fixes from real customer questions — 2026-10-11 (committed locally, NOT pushed; owner said stop before deploy)
+
+Reviewed all 24 questions 7 customers have asked Ask since 30 Aug (10 were screens). Read-only scripts for the review
+are in the session scratchpad; the test set is 11 questions written for it (customer wording must not be replayed to
+the model: the permission system blocks it as customer data).
+- **Screen rows carry three new figures** (`financial-metrics.screenRow`, so every data job produces them): `price`,
+  `netIncomeCagr5Pct`, `priceVsAvg10mPct`. `screen-index.json` and `public-stock-index.json` were rebuilt with them
+  (7.06 MB of the 8 MiB cap). **No EPS growth figure on purpose:** filed EPS is not restated across stock splits
+  (Nvidia reads 3.85 then 0.17), so profit growth stands in and Ask says so. **No 200-day average:** the stored daily
+  series is 145 days, so the trend filter is price against the last ten month-end closes, and Ask says that too.
+- **New screen filters** (`ai-chat.js` `screenRows`, also accepted from the Screener page and saved screens): `index`
+  (sp500 / sp100 / nasdaq100), `min_price`, `max_price`, `min_net_income_cagr_5y_pct`,
+  `min_price_vs_10_month_avg_pct`, and `symbols` (a named list compared in one call).
+- **`frontend/data/index-members.json`** holds the Nasdaq 100 and S&P 100, copied 2026-10-11 from the pages named in
+  the file. **No job refreshes it**; redo it when an index is reconstituted (Nasdaq: every December).
+- **Ask's growth-ranked lists put established companies first** (profitable in 5+ of the last 10 years); the Screener
+  page ordering is unchanged (`established_first` is set only by the Ask tool).
+- **Budgets no longer tell Ask to stop:** the over-limit and allowance-used messages said "answer now with what you
+  already have", which ended a seven-company comparison after one round. Round cap 12 → 16.
+- **Standing rules added:** every named company in one answer; gaps (analyst estimates, management quality) said
+  first; requests for "the dossier / analyst report / filing monitor report" get a focused answer plus a link to the
+  real page, never an imitation. One-click "full check" starter on the Ask page.
+- **Left out on the owner's word:** thin coverage of foreign filers. Guard: `test/ask-customer-screen-fixes.test.js`.
 
 ## Ask answers the question asked; trades; economic data — 2026-10-10 (pushed on the owner's word)
 
@@ -67,7 +93,7 @@ Owner: "make a swing trade for frgth" came back as a company report on AMD. Plan
 - **Not done:** live broker connection; rotating this file (over 400 lines, today's snapshot name is taken).
 - Live check, real model, 5 questions: all answered as asked, no fallback. The full report path was not re-run live.
 
-## Deploy checks moved off GitHub — 2026-10-10 (committed locally, NOT pushed)
+## Deploy checks moved off GitHub — 2026-10-10 (pushed `06cec9aa4` on the owner's word; live)
 
 Owner: "bring the workflow u do on github to zero", then "i want all of this test to be done on my pc… make a more
 targeted test series". Rules for using it are in CLAUDE.md; this is the state.
@@ -76,9 +102,10 @@ targeted test series". Rules for using it are in CLAUDE.md; this is the state.
 - **Measured on the Mac:** whole suite 33 s (GitHub 2 min 20 s); dataset validation 101 s; revenue contract 13 s; every
   stock page + sitemap 670 s; memory 1 s. The connector-notice change needs 9 test files, 7 s, no data check.
   Docs-only commits run nothing. The ordering bug that failed GitHub twice on 10/10 fails the targeted run.
-- **Not done, needs the owner's PC:** nothing has run on Windows. He follows `docs/dev/predeploy-pc.md`, then: time it
-  there, compare an `--all` run with the Mac test for test, and try a push with the PC off. Until then every push
-  is checked on the Mac. Production is Linux; if Windows results differ, run the PC side in WSL.
+- **The "PC" is the owner's Windows laptop** (HARDROKER-7, i5-12500H; SSH alias `sp-pc`, key-only, home network
+  only). Set up and working 10/10: whole suite 83–88 s there against 33 s on the Mac, same failures. Long SSH sessions
+  to it drop after about 3 minutes on Wi-Fi, so runs start detached (`scripts/predeploy-win.cmd`) and are polled; code
+  travels as snapshot bundles. Not yet tried: a push with the laptop switched off, and the data checks' timings there.
 - **7 tests were already failing on `main`** before this work (`scripts/predeploy-known-failures.json`). Unfixed.
 - **Deploys are blocked for a separate reason:** the GitHub repo is private and Render cannot read it. Nothing pushed
   on 10/10 is live. Owner decides: repo public again, or connect GitHub inside Render.
@@ -141,117 +168,6 @@ Owner report, reproduced with Fair Isaac (FICO).
   fields; `FiniteLivedIntangibleAssetsNet` is not read (a fragment for some filers), so Adobe shows no intangibles.
 - Suite: 7 failures pre-exist on `main` (mcp-apps ×2, metric-ownership, money-formatter, reasoning-effort-coupling,
   reliability-guard, legacy-html-redirects). Asset stamp `20261010-peers1`.
-
-## Stock-based compensation on the Stocks & funds page — 2026-10-08 (owner approved the design)
-
-Stock view of `/company.html` has a "Stock-based compensation" section under "The checks": filed amount, % of
-revenue, sector rank, ten-year chart, free cash flow before and after SBC, buybacks vs SBC, diluted share change.
-Also: an SBC row in the cash flow statement, two ratio rows, one health check (buybacks vs stock pay, five years).
-- All arithmetic is in `frontend-v2/assets/sbc-model.js` (pure; browser and Node). Missing input → that measure is
-  null with a "Not available/Not shown" reason; share-count jumps over 40% (splits) withhold the dilution figure.
-- Sector rank: `GET /api/sbc/sector-rank` reads committed `backend/sbc-sector.json` (3,643 companies, 11 sectors).
-  **Rebuild it after the fundamentals change:** `node scripts/build-sbc-sector.js`. It is not yet wired into the
-  weekly refresh, so it goes stale until someone runs it.
-- Known data gap it exposes: some companies (NVDA among them) have no capital expenditure in our data, so their
-  free cash flow rows read "Not available".
-- Run over all 5,761 companies (model and the page's own renderer, 2026-10-08): 3,788 draw the full section,
-  1,698 have no SBC line, 275 have none in their newest year (shown as "Not available for FYxxxx", with the last
-  filed figure named). Rules that came out of it, all in the model: comparisons are matched by date not row
-  position; stub periods and refiled/overlapping years are dropped; a year ending in early January takes the year
-  it closed; a negative figure is a reversal and nothing is measured against it; above 100% a share reads "N.N×".
-- The statements and ratios tables still label a year by the calendar year of its end date, so a few 52/53-week
-  companies show two "FY2022" columns there. That predates this work and was left alone.
-- **Not built:** the fund look-through. N-PORT holdings carry issuer and CUSIP, not ticker (8 of VOO's 506 equity
-  rows have a symbol), so it needs a CUSIP-to-company map first. Design mockup: `mockups/sbc-page-voo.html`.
-
-## Connector usage on the profile page — 2026-10-08 (owner decision)
-
-Profile → Usage has a "Claude and ChatGPT connector" panel (`frontend-v2/assets/connector-usage.js`, data from
-`GET /api/credits/connector`, CSV from `/api/credits/connector.csv`). Logic is in `backend/connector-usage.js`
-(pure; tested in `test/connector-usage.test.js`): calls fold into sessions (15-minute gap), with a pace forecast
-while a session is running and a refill button beside the balance.
-- Each `/mcp` call now stores its subject in the ledger row's `refId` (ticker, or ticker plus the first 8 words of
-  the question) and the assistant's name in `client`. The subject is passed beside the log event, never inside it,
-  so it does not reach the application log. Rows before this deploy have neither.
-- Refused calls (out of credits, no connector on the plan, region, network) go to `connector_refusals`, capped at
-  60 per account per hour. They were recorded nowhere before.
-- `/mcp/apps` (the ChatGPT app endpoint) records subject, client and refusals the same way. Each session also
-  carries `items` (every call: time, tool, subject, credits; capped at 200, the rest in the CSV).
-- Calls made before the 2026-10-08 deploys have no subject and no client, and nothing else stored what they asked
-  for, so they cannot be backfilled. They show as "AI assistant" with "not recorded".
-- Checked: the live endpoint returns the test account's real sessions. **Not checked:** the panel drawn in a real
-  signed-in browser (harness only), and a real call through `/mcp/apps` landing with its subject.
-
-## Credit refill sizes — 2026-10-08 (owner decision)
-
-`/recharge` sells five sizes: the existing $14.99 / 150 (Stripe price id, unchanged) plus $50 / $100 / $250 / $500 at
-10 credits per dollar (table in `backend/credit-topup-packs.js`, dependency-free). The larger packs use inline `price_data`, so there
-is no Stripe price or env var to create. The page sends only a pack id; the webhook grants only when
-`settled()` sees the paid total match the table. The out-of-credits API/MCP body (`api-response.js`, new
-`recharge.sizes`), the nudge email and the homepage quote the largest size. Tests: `test/credit-topup-packs.test.js`.
-**Why:** Todd (todd@insideedgecapital.com, Monthly, connector only) spent his 100-credit month in 28 minutes on
-2026-10-08; he was comped 500 month-scoped credits (ledger reason `comp`, expires 1 Nov) and emailed.
-**Open:** no top-up has ever been bought, so the sizes are untested by demand; serving cost per lookup and per AI
-answer is unmeasured; no paid pack purchase has been run end to end (the webhook grant is covered by tests only);
-`assets/*.js` cards (profile, dossier, monitor) still name only the $14.99 pack, left to avoid a cache-stamp bump.
-
-## Geo wall: crawler claims are verified inside walled countries — 2026-10-08 (`fa0c46c98`, live)
-
-**What was seen:** GA realtime showed a Singapore user on `/screens/quality-compounders`. `funnel_events` had the same
-hit (country `SG`, anonymous). Since 09-23 one user agent (`Macintosh; Intel Mac OS X 10_15_7 … Chrome/145.0.0.0`) made
-60 SG content page views on 59 distinct deep pages, one view per fresh session, spread over all 24 hours. Every other
-SG browser appears only on `/register`.
-
-**Hole closed:** `wallAllPagesMiddleware` returned `next()` for any `allowed-claim`/`internal` UA before checking the
-country, and `botBlocker.checkCrawlerClaim` serves the first request from an unseen address. Inside
-`GEO_WALL_COUNTRIES` the wall now awaits `botBlocker.verifyCrawlerClaim`: `verified` is served, `impostor` is walled
-like a visitor, `unknown` (lookup failed) gets 503 + `Retry-After`, never the 302. `internal` earns no exemption from a
-walled country (the marker is in a public repo). Crawling from other countries is unchanged. Tests:
-`test/geo-wall.test.js` runs the middleware cut out of `app.js`.
-
-**Not proven:** that the SG client used this route. Successful page loads were not logged, so its document request was
-never seen. Every page served to a walled country now logs `[geo-wall] {outcome:'served', reason}` (reasons
-`verified-crawler`, `paid-account`); refused claims log `refused-crawler-claim`.
-
-**Open:**
-- Check `funnel_events` for SG content views by that UA after 2026-10-08 14:14 UTC. If they continue, read the
-  `[geo-wall]` lines in the Render logs for the reason.
-- `hostingWalled` still exempts an unverified crawler claim (first request from a hosting address is served).
-- `backend/node_modules` is tracked on `main` as a symlink to `/Users/drasharaghavan/prod/backend/node_modules`, so
-  `npm ci --prefix backend` in any worktree wipes and rewrites the `~/prod` install, and `git stash` in the worktree
-  empties it. Never stage the resulting `D backend/node_modules`. Removing the symlink needs a check of the Render build.
-
-## Revenue breakdown on the company page — moved to the snapshot
-
-The 2026-10-07 state write-up (77 lines) is verbatim in `handoff-archive/2026-10-10.md`. Read it there before
-touching the revenue breakdown.
-
-## 2026-10-07 — new price ladder, direct lifetime sales retired, /connect (stamp `20261007-price1`)
-- **Ladder: Dev $200 · Monthly $79.99 · Annual $649.99 · Pro $799.99/yr · Desk $1,999.99.** Dev went from
-  $19.99 to $200/mo (still 200 credits) on 2026-10-08, and sells nothing until the $200 Stripe price exists
-  (`scripts/create-dev-stripe-price.sh`); Desk did not move. Annual is $54.17/mo effective, saves $309.89, "32% off". Owner decision; nothing was measured —
-  Monthly had been $49.99 for one day and no subscription existed on any replaced price.
-- **Stripe (live, done):** created `price_1UNszxAUeKapY1OPEr0yxh1S` (79.99/mo) and
-  `price_1UNszxAUeKapY1OP1glIJtcG` (649.99/yr); Pro reuses the 8/31 `price_1UAUOfAUeKapY1OP0cr1G3pD`
-  (799.99/yr). **Archived** `price_1UAUOoAUeKapY1OPKtXHogz4` (the retired Pro-monthly 79.99, zero subs) so each
-  amount has exactly one active match. The 49.99 / 419.99 / 499.99 prices stay ACTIVE and are grandfathered
-  by id in `LEGACY_REPRICED_20261007` (code defaults — no Render change needed).
-- **`resolveStripeCheckoutPlan` does NOT fail closed on a mismatch.** With zero or two active matches it
-  returns the config unchanged, i.e. the stale `STRIPE_PRICE_ID_*` from Render at the OLD amount. Exactly one
-  active Stripe price per amount is what keeps checkout honest; re-run the matcher replay before any reprice.
-- **Top-up now undercuts Pro per credit** ($0.100 vs $0.111). Copy on /recharge was made true; the top-up
-  price itself is an open owner decision.
-- **Direct lifetime sales are OFF in code:** `direct-ltd.js` `SALES_RETIRED` → config disabled, both
-  checkout routes 410, `/lifetime*` 301 → `/#pricing`, out of the sitemap, page noindex. `enabled()` and
-  `DIRECT_LTD_ENABLED` are untouched because webhooks/refunds for existing buyers read them. /appsumo untouched.
-- **`/connect`** is the landing page for the Claude and ChatGPT directory listings (hero badge + `#connect`
-  section on the homepage, footer link). Listing URLs live ONLY in `lib/connector-listings.js`: Claude's is
-  the known slug, never seen loading from outside; **ChatGPT's is not recorded** (set `CHATGPT_LISTING_URL`).
-  Outreach drafts, nothing sent: `docs/growth/connector-launch-2026-10-07.md`.
-- Suite: **6 failures pre-exist on `main`** with a proper `npm ci` (mcp-apps, metric-ownership, money-formatter,
-  reasoning-effort-coupling, reliability-guard), untriaged. Borrowing `node_modules` from the stale `~/prod`
-  tree adds ten fake ones (no `htmlparser2`). A stray `*.html` in `frontend-v2/` fails
-  `legacy-html-redirects` — never write temp files there.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use
