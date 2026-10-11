@@ -2438,6 +2438,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 ...(salvaged ? { salvaged: true, removedClaims: salvaged.removedClaims, chartsRemoved: salvaged.chartsRemoved } : {}) }) };
     };
     let totalTokens = 0;
+    let identityRetried = false;
     let sendBacks = 0, sameIssue = 0, lastSignature = null, roundTokens = 20000, stalledRounds = 0, stalled = false, creditsOut = false;
     // The two short reads around the research (what was asked; does the draft
     // do it) go to the provider directly. A test that scripts chatRaw is
@@ -2756,6 +2757,15 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
             }
             if ((streamer && streamer.blocked) || aiClient.leaksIdentity(text)) {
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                // The guard also matches ordinary company prose ("an ad engine
+                // powered by the Axon model"): on 2026-10-11 a correct pick was
+                // replaced by a receipt this way. The guard stays as it is; a
+                // draft about a company gets one rewrite before it is given up.
+                if (!identityRetried && !lastRound && hasResearchEvidence) {
+                    identityRetried = true;
+                    messages.push({ role: 'system', content: 'Your draft was withheld because of its wording, not its content. Write the complete answer again. Do not describe any product or system as "powered by" a model, do not use the phrases "underlying model" or "system prompt", and do not refer to yourself or to how you work. Describe the company\'s technology in other words.' });
+                    continue;
+                }
                 if (policy.kind === 'company_report') {
                     const answer = receipt(suppliedResults, q, 'identity_guard');
                     return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'identity_guard', auditFindings: ['The generated narrative was withheld by the identity guard.'] }) };

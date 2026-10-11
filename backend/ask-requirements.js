@@ -79,7 +79,8 @@ function brief(asks) {
     return 'WHAT THE USER ASKED FOR. The answer is read against this list before it is released, and it is sent back to you if any part is missing or wrong:\n'
         + lines.join('\n')
         + (numeric.length ? '\nThe measured parts are tested in code against the filed figures of whichever company you put forward. Find companies that pass ALL of them together with ONE query_universe call (each formula as a column, every bar in the where condition), then research the judgement parts for the strongest candidates before choosing.' : '')
-        + '\nAnswer every part. A part that truly cannot be answered from any tool is named in one line near the top with the reason, and every other part is still answered in full.';
+        + (asks.some(a => a.formula) ? '\nFor the company you put forward, state its OWN figure for each measured part, read from its own row. A table of many companies makes it easy to quote the neighbouring row: check the ticker on the line before you copy a number.' : '')
+    + '\nAnswer every part. A part that truly cannot be answered from any tool is named in one line near the top with the reason, and every other part is still answered in full.';
 }
 
 const CHECK_PROMPT = 'You check whether an answer does what the user asked. You are given the user\'s message, a numbered list of what it asked for, and the proposed answer. Return ONLY JSON, no prose:\n'
@@ -111,6 +112,22 @@ async function judge({ question, asks, answer, chat, universe }) {
 
     const issues = [];
     const numeric = asks.filter(testable);
+    // A figure quoted for the company put forward must be that company's own.
+    // The first live run named the right company and then gave it another
+    // row's growth and share-based pay from the same table.
+    const measured = asks.filter(a => a.kind === 'number' && a.formula);
+    if (measured.length && picks.length && universe?.facts) {
+        for (const sym of picks.slice(0, 3)) {
+            const values = uq.valuesFor(sym, measured.map(a => a.formula), universe) || [];
+            measured.forEach((a, i) => {
+                const v = values[i];
+                if (typeof v !== 'number') return;
+                const forms = [v.toFixed(1), v.toFixed(2), String(Math.round(v)), Math.round(v).toLocaleString('en-US')];
+                if (!forms.some(n => new RegExp('(?<![\\d.,])' + n.replace(/[.]/g, '\\.') + '(?![\\d])').test(text)))
+                    issues.push({ key: `v${a.id}:${sym}`, soft: true, text: `Give ${sym}'s own figure for "${a.text}": ${a.formula} is ${v.toFixed(1)} for ${sym}. Quote that figure, and never another company's row.` });
+            });
+        }
+    }
     if (numeric.length && picks.length && universe?.facts) {
         const failing = [];
         for (const sym of picks) {
@@ -153,7 +170,7 @@ function directive(issues) {
 
 // What the reader is told when the run had to stop before the list was met.
 function unfinished(issues, reason) {
-    const points = issues.filter(i => !['passers', 'none-pass'].includes(i.key)).map(i => '- ' + i.text);
+    const points = issues.filter(i => !i.soft && !['passers', 'none-pass'].includes(i.key)).map(i => '- ' + i.text);
     if (!points.length) return '';
     return `\n\n**Not finished.** ${reason}\n${points.join('\n')}`;
 }
