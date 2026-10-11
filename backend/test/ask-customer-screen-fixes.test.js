@@ -119,7 +119,7 @@ test('standing rules: all named companies in one answer, gaps said first, real r
     assert.match(prompt, /SEVERAL NAMED COMPANIES:[^\n]*symbols=/);
     assert.match(prompt, /never answer for a subset and ask the user to type "continue"/);
     assert.match(prompt, /WHAT YOU CANNOT COVER, SAID FIRST:/);
-    assert.match(prompt, /OUR REPORTS:[^\n]*\/dossier\.html\?symbol=TICKER[^\n]*\/monitor\.html\?symbol=TICKER/);
+    assert.match(prompt, /OUR REPORTS:[^\n]*\/dossier\?symbol=TICKER[^\n]*\/monitor\?symbol=TICKER/);
     assert.match(prompt, /Never write an imitation of those reports/);
     assert.match(prompt, /never judge membership from memory/);
 });

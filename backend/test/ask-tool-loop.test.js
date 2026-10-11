@@ -36,10 +36,10 @@ const toolCall = (id, name, args = {}) => ({ id, type: 'function', function: { n
 const ask = (opts = {}) => aiChat.ask({ question: 'Compare these companies.', history: [], ctx: {}, ...opts });
 
 test('every tool_call gets a reply, including ones past the round budget', async () => {
-    // The loop runs at most 12 tools per round. The rest used to be sliced off
+    // The loop runs at most 16 tools per round. The rest used to be sliced off
     // with no role:'tool' reply, leaving unmatched tool_call_ids — which a
     // provider rejects with a 400, losing the whole question.
-    const many = Array.from({ length: 14 }, (_, i) => toolCall(`c${i}`, 'not_a_real_tool', { n: i }));
+    const many = Array.from({ length: 18 }, (_, i) => toolCall(`c${i}`, 'not_a_real_tool', { n: i }));
     const calls = scripted([
         { tool_calls: many },
         { content: 'Here is the comparison.' }
@@ -49,11 +49,13 @@ test('every tool_call gets a reply, including ones past the round budget', async
     assert.equal(out.source, 'ai');
     const second = calls[1].messages;
     const replies = second.filter((m) => m.role === 'tool');
-    assert.equal(replies.length, 14, 'one reply per tool_call, not per executed tool');
+    assert.equal(replies.length, 18, 'one reply per tool_call, not per executed tool');
     const ids = new Set(replies.map((m) => m.tool_call_id));
     for (const tc of many) assert.ok(ids.has(tc.id), `missing reply for ${tc.id}`);
-    // the dropped ones are answered honestly rather than silently
-    const dropped = replies.filter((m) => /budget exhausted/i.test(m.content));
+    // the dropped ones are answered honestly rather than silently, and are told
+    // to ask again next round: "answer with what you already have" ended a
+    // seven-company comparison after a single round.
+    const dropped = replies.filter((m) => /Not run: a round takes at most 16 lookups\. Request it again in the next round/.test(m.content));
     assert.equal(dropped.length, 2);
 });
 
