@@ -306,10 +306,6 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 /* Statements badge (nav search only): how complete the stock's filed statements are.
    The nav box is narrow, so it widens leftwards to keep names readable beside the pill. */
 #v2-search-results { left: auto; min-width: min(340px, calc(100vw - 24px)); }
-.nav-search-results .stmt-flag { margin-left: auto; flex: none; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); white-space: nowrap; }
-.nav-search-results .stmt-flag-full { color: var(--pos); background: var(--pos-tint); }
-.nav-search-results .stmt-flag-none { color: var(--neg); border-color: #e3b8a8; background: var(--neg-tint); }
-.nav-search-results .stmt-flag-partial { color: #7a5a12; border-color: #e6d49b; background: #fbf5e1; }
 /* No-match row. Every box that reuses this dropdown must say why it found
    nothing instead of collapsing — a fund the box cannot carry looked exactly
    like a broken search (measured 2026-09-28, "SCHG"). */
@@ -739,9 +735,9 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   vertical-align: middle;
 }
 #stmt-table .row-head {
-  width: 228px;
-  min-width: 228px;
-  max-width: 228px;
+  width: 248px;
+  min-width: 248px;
+  max-width: 248px;
   /* Long filed line names wrap rather than ending in an ellipsis. */
   white-space: normal;
   text-overflow: clip;
@@ -766,7 +762,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   padding-right: 10px;
   border-right: 2px solid #c9c5bb;
   position: sticky;
-  left: 228px;
+  left: 248px;
   z-index: 2;
 }
 #stmt-table:not(.trend-hidden) thead th:nth-child(2) { z-index: 4; }

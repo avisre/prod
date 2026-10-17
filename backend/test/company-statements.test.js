@@ -89,7 +89,7 @@ test('financial statement columns have year lanes and whole-column sizing', () =
   assert.doesNotMatch(systemCss, /#stmt-table \.col-now\s*\{[\s\S]*background:/);
   assert.doesNotMatch(systemCss, /#stmt-table thead \.col-now::after/);
   assert.doesNotMatch(systemCss, /#stmt-table tbody tr:hover \.col-now/);
-  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\)[\s\S]*left: 228px/);
+  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\)[\s\S]*left: 248px/);
   assert.match(systemCss, /font-variant-numeric:\s*tabular-nums lining-nums/);
 });
 
@@ -100,8 +100,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261018-ui21/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261018-ui21/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261018-ui22/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261018-ui22/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -113,7 +113,7 @@ test('financial statements use five-period mini bars instead of sparklines', () 
   assert.match(systemCss, /\.stmt-mini-bars/);
   assert.match(systemCss, /\.stmt-mini-bar\.is-latest:not\(\.is-negative\) \{ background: var\(--accent\); \}/);
   assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*border-right: 2px solid/);
-  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*position: sticky;[\s\S]*left: 228px/);
+  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*position: sticky;[\s\S]*left: 248px/);
 });
 
 test('latest statement period keeps its neutral label without special color styling', () => {

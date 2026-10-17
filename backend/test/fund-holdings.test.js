@@ -148,7 +148,7 @@ test('a local fund directory backs short queries Yahoo answers with no funds', (
     // live quotes, never hand-written.
     assert.equal(directory.funds.filter((row) => !row.netAssets).length, 0);
     assert.ok(appSource.includes('const directoryRows = directory.filter(take);'));
-    assert.ok(appSource.includes('rank(localRows.concat(directoryRows, remoteRows))'));
+    assert.ok(appSource.includes('focusOnNamedCompany(query, localRows.concat(directoryRows, remoteRows))'));
 });
 
 test('London one-letter suffixes are filtered, not offered as US tickers', () => {
@@ -309,4 +309,20 @@ test('a bond fund renders credit quality where an equity fund renders sectors', 
     assert.ok(source.includes('cuts across the ratings above rather than adding to them'));
     const profile = fs.readFileSync(path.join(__dirname, '..', 'asset-profile.js'), 'utf8');
     assert.ok(profile.includes('bondRatings: normalizeWeights(th.bondRatings)'));
+});
+
+test('a complete company name narrows the search to that company; partial words stay broad', () => {
+    // Measured 2026-10-18: "intel" listed Intellia, CCC Intelligent Solutions, two AI
+    // ETFs and two single-stock futures under Intel; "amd" listed six FX pairs.
+    const src = ['namesWholeWord', 'focusOnNamedCompany'].map((n) => appSource.match(new RegExp(`function ${n}\\([\\s\\S]*?\\n}`))[0]).join('\n');
+    const focus = new Function(`${src}; return focusOnNamedCompany;`)();
+    const rows = [
+        { symbol: 'INTC', name: 'Intel Corporation' }, { symbol: 'NTLA', name: 'Intellia Therapeutics, Inc.' },
+        { symbol: 'CCC', name: 'CCC Intelligent Solutions Holdings' }, { symbol: 'INT', name: 'Corgi Intc 2x Daily ETF' }
+    ];
+    assert.deepEqual(focus('intel', rows).map((r) => r.symbol), ['INTC']);
+    assert.deepEqual(focus('int', rows).map((r) => r.symbol), ['INTC', 'NTLA', 'CCC', 'INT']);
+    assert.deepEqual(focus('in', rows).length, 4);
+    assert.deepEqual(focus('texas instruments', [{ symbol: 'TXN', name: 'Texas Instruments Incorporated' }, { symbol: 'TXRH', name: 'Texas Roadhouse' }]).map((r) => r.symbol), ['TXN']);
+    assert.ok(appSource.includes('if (/[=^]/.test(sym)) return false;'));
 });

@@ -20,7 +20,6 @@ const yahooSource = require('./yahoo-source');
 const { buildMarketStripQuote } = require('./market-strip');
 const fxConversion = require('./fx-conversion');
 const assetProfile = require('./asset-profile');
-const statementCompleteness = require('./statement-completeness');
 const fundHoldings = require('./fund-holdings');
 const fundFees = require('./fund-fees');
 const storedFundamentals = require('./stored-fundamentals');
@@ -1876,6 +1875,22 @@ function assetMatchScore(query, symbol, name) {
     return -1;
 }
 
+// Once a query is a whole word of some company's name ("intel", "texas
+// instruments"), the list keeps only those companies and tickers that start with
+// the query. Partial words stay broad while the name is still being typed ("int"
+// still offers INTC); before this, "intel" listed Intellia, CCC Intelligent
+// Solutions and two AI ETFs under Intel. Under 3 characters nothing is narrowed.
+function namesWholeWord(query, name) {
+    const q = String(query || '').trim().toLowerCase();
+    const word = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`(^|[^a-z0-9])${word}($|[^a-z0-9])`).test(String(name || '').toLowerCase());
+}
+function focusOnNamedCompany(query, rows) {
+    const q = String(query || '').trim().toLowerCase();
+    if (q.length < 3 || !rows.some((row) => namesWholeWord(q, row.name))) return rows;
+    return rows.filter((row) => namesWholeWord(q, row.name) || String(row.symbol || '').toLowerCase().startsWith(q));
+}
+
 function searchFundDirectory(query, limit = 10) {
     const scored = [];
     for (const fund of topFunds) {
@@ -3103,7 +3118,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui21" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui22" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3132,7 +3147,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui21"></script>
+<script src="/assets/app.js?v=20261018-ui22"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3224,7 +3239,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui21" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui22" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3252,7 +3267,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui21"></script>
+<script src="/assets/app.js?v=20261018-ui22"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3360,7 +3375,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui21" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui22" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3393,7 +3408,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui21"></script>
+<script src="/assets/app.js?v=20261018-ui22"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -9042,9 +9057,6 @@ app.get('/api/search/:query', authMiddleware, async (req, res) => {
 // Public asset directory for the navigation and add-holding autocomplete.
 // Results are additive: the established stock directory stays first, while
 // Yahoo supplies ETFs and mutual funds that are not SEC operating companies.
-// Nav-search rows carry how complete the stock's statements are, from the
-// precomputed audit index (scripts/audit-statement-rows.js).
-const withStatementsFlag = (row) => { const f = statementCompleteness.flagFor(row.symbol, row.assetType); return f ? { ...row, statements: f } : row; };
 app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
     const query = String(req.query.q || req.query.query || '').trim();
     const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 20);
@@ -9070,6 +9082,10 @@ app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
                 if (sym.length >= 8 && /^[0-9]/.test(sym)) return false;
                 // Filter out very long symbols with digits (likely ISINs or foreign codes)
                 if (sym.length > 7 && /[0-9]/.test(sym)) return false;
+                // Futures (SINTC=F), currency pairs (AMD=X) and indices (^VIX) have
+                // no page here: "amd" listed six FX pairs under AMD, "intel" two
+                // single-stock futures.
+                if (/[=^]/.test(sym)) return false;
                 return true;
             });
         const seen = new Set();
@@ -9093,28 +9109,29 @@ app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
             .sort((a, b) => b.score - a.score || a.i - b.i)
             .map((entry) => entry.row);
 
-        let out = rank(localRows.concat(directoryRows, remoteRows)).slice(0, limit);
+        const pool = focusOnNamedCompany(query, localRows.concat(directoryRows, remoteRows));
+        let out = rank(pool).slice(0, limit);
         // ...and a floor for funds, so a directory full of near-ties can never
         // shut them out again. Reserving rather than sorting alone keeps an
         // exact ticker match first: the quota is zero when nothing matches.
         // Funds only. Anything-but-stock would also reserve slots for futures
         // (SI=F), indices (^VIX) and coins (SHIB-USD), which is how the quota
         // first behaved — it promoted those over real matches.
-        const funds = directoryRows.concat(remoteRows).filter((row) => row.assetType === 'etf' || row.assetType === 'mutual_fund');
+        const funds = pool.filter((row) => row.assetType === 'etf' || row.assetType === 'mutual_fund');
         const quota = Math.min(funds.length, Math.floor(limit / 2));
         const shown = out.filter((row) => row.assetType === 'etf' || row.assetType === 'mutual_fund').length;
         if (shown < quota) {
             const missing = funds.filter((row) => !out.includes(row)).slice(0, quota - shown);
             out = rank(out.slice(0, Math.max(0, limit - missing.length)).concat(missing));
         }
-        return res.json(out.slice(0, limit).map(withStatementsFlag));
+        return res.json(out.slice(0, limit));
     } catch (_) {
         // Yahoo unreachable: the two local directories are still a useful answer.
         const seen = new Set();
-        return res.json(local.concat(directory)
-            .filter((row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol))
+        return res.json(focusOnNamedCompany(query, local.concat(directory)
+            .filter((row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol)))
             .sort((a, b) => assetMatchScore(query, b.symbol, b.name) - assetMatchScore(query, a.symbol, a.name))
-            .slice(0, limit).map(withStatementsFlag));
+            .slice(0, limit));
     }
 });
 
