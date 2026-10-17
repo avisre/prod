@@ -2469,7 +2469,7 @@
     function mountAsk(el, { placeholder, suggestions = [], onPaperEvent } = {}) {
         el.innerHTML = `
           <form class="ask-bar">
-            <input class="input" type="text" maxlength="8000" placeholder="${esc(placeholder || 'Ask about any company, ETF or mutual fund…')}" aria-label="Ask a question" />
+            <input class="input" type="text" maxlength="14400" placeholder="${esc(placeholder || 'Ask about any company, ETF or mutual fund…')}" aria-label="Ask a question" />
             <button class="btn btn-primary" type="submit">Ask</button>
           </form>
           <div class="ask-panel" hidden><div class="ask-exchange"></div></div>
@@ -2504,7 +2504,7 @@
         bar.innerHTML = `
           <form class="ask-floor-inner">
             <span class="ask-kbd">⌘K</span>
-            <input class="input" type="text" maxlength="8000" placeholder="${esc(placeholder || 'Ask about a company, ETF or mutual fund…')}" aria-label="Ask a question" />
+            <input class="input" type="text" maxlength="14400" placeholder="${esc(placeholder || 'Ask about a company, ETF or mutual fund…')}" aria-label="Ask a question" />
             <button class="btn btn-primary" type="submit">Ask</button>
           </form>`;
         document.body.appendChild(sheet);

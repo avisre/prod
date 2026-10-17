@@ -89,7 +89,7 @@ const MAX_TOOLCALLS_PER_ROUND = 16;
 const BUDGET_MAX_ROUNDS = 400;
 const STALLED_ROUNDS = 3;      // rounds in a row that only repeated earlier lookups
 const ASK_TOOL_CONCURRENCY = 6; // tools per round run in parallel, 6 at a time — most are cache reads; web tools share this pool too
-const QUESTION_MAX_CHARS = 8000;
+const QUESTION_MAX_CHARS = 14400;
 
 // '' / null / undefined mean "not disclosed" in the cache — never coerce them
 // to 0 (Number('') === 0 would silently turn missing data into real zeros).

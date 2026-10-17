@@ -13,7 +13,7 @@ test('saved reports and reopened thread follow-ups retain long assistant answers
  const saveReport=actualFunction('saveAskReport',{ASK_REPORT_KEEP:30,AskReport:{create:async doc=>{report=doc;return doc;},find}});
  saveReport(userId,'AMD',answer,'analyst',[]);await new Promise(resolve=>setImmediate(resolve));assert.equal(report.answer,answer);
  const saveThread=actualFunction('saveThreadExchange',{THREAD_ID_RE:/^[0-9a-f]{24}$/,ASK_THREAD_KEEP:50,ASK_THREAD_MSG_KEEP:80,askSurface:v=>v==='paper'?'paper':'ask',surfaceMatch:v=>v==='paper'?{surface:'paper'}:{surface:{$ne:'paper'}},AskThread:{create:async doc=>{thread={...doc,_id:threadId};return thread;},find}});
- assert.equal(await saveThread(userId,null,'q'.repeat(9000),answer,'analyst',[]),threadId);assert.equal(thread.messages[0].content.length,8000);assert.equal(thread.messages[1].content,answer);
+ assert.equal(await saveThread(userId,null,'q'.repeat(20000),answer,'analyst',[]),threadId);assert.equal(thread.messages[0].content.length,14400);assert.equal(thread.messages[1].content,answer);
  mongoose.connection.collection=()=>({findOne:async query=>{assert.equal(String(query.userId),userId);return thread;}});
  const reopened=await engine.threadHistory(userId,threadId);assert.equal(reopened[1].content,answer);
  let sent;engine.__setDeps({chatRaw:async messages=>{sent=messages;return {content:'The prior report remains in this conversation.'};}});
@@ -22,5 +22,5 @@ test('saved reports and reopened thread follow-ups retain long assistant answers
 test('exchange fallback history uses the same 32000-character answer ceiling',async()=>{
  let document;
  mongoose.connection.collection=()=>({updateOne:async(query,update)=>{document={turns:update.$push.turns.$each};},findOne:async()=>document});
- await engine.saveExchange(userId,'q'.repeat(9000),'a'.repeat(33000));const reopened=await engine.recentHistory(userId);assert.equal(reopened[0].content.length,8000);assert.equal(reopened[1].content.length,32000);
+ await engine.saveExchange(userId,'q'.repeat(20000),'a'.repeat(33000));const reopened=await engine.recentHistory(userId);assert.equal(reopened[0].content.length,14400);assert.equal(reopened[1].content.length,32000);
 });

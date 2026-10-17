@@ -405,7 +405,7 @@ const CSV_IMPORT_PATHS = new Set(['/api/portfolio/import/preview', '/api/portfol
 const csvImportParser = express.json({ limit: '5mb' });
 const ASK_ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024; // per attachment
 const ASK_ATTACHMENT_MAX_COUNT = 3;
-const ASK_ATTACHMENT_TEXT_CAP = 8000; // extracted chars kept per document
+const ASK_ATTACHMENT_TEXT_CAP = 14400; // extracted chars kept per document
 function isRawBodyWebhookPath(requestPath) {
   // Express routes accept a trailing slash by default. Keep the body-parser
   // bypass in sync with that behaviour or `/appsumo/webhook/` gets parsed as
@@ -3101,7 +3101,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261017-ui17" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui18" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3130,7 +3130,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261017-ui17"></script>
+<script src="/assets/app.js?v=20261018-ui18"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3222,7 +3222,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261017-ui17" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui18" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3250,7 +3250,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261017-ui17"></script>
+<script src="/assets/app.js?v=20261018-ui18"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3358,7 +3358,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261017-ui17" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui18" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3391,7 +3391,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261017-ui17"></script>
+<script src="/assets/app.js?v=20261018-ui18"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3802,7 +3802,7 @@ function saveAskReport(userId, question, answer, mode, toolsUsed) {
     const tools = Array.isArray(toolsUsed)
         ? toolsUsed.map((t) => (typeof t === 'string' ? t : t && t.tool)).filter(Boolean).slice(0, 20)
         : [];
-    AskReport.create({ userId, question: question.slice(0, 8000), answer: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), mode: mode === 'analyst' ? 'analyst' : 'normal', toolsUsed: tools })
+    AskReport.create({ userId, question: question.slice(0, require('./ask-report-policy').QUESTION_MAX_CHARS), answer: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), mode: mode === 'analyst' ? 'analyst' : 'normal', toolsUsed: tools })
         // keep only the most recent ASK_REPORT_KEEP per user
         .then((doc) => AskReport.find({ userId: doc.userId }, { _id: 1 }).sort({ createdAt: -1 }).skip(ASK_REPORT_KEEP).lean())
         .then((stale) => {
@@ -3852,7 +3852,7 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
         const tools = Array.isArray(toolsUsed)
             ? toolsUsed.map((t) => t && t.tool).filter(Boolean).slice(0, 20)
             : [];
-        const cap = (s) => String(s).slice(0, 8000);
+        const cap = (s) => String(s).slice(0, require('./ask-report-policy').QUESTION_MAX_CHARS);
         const turn = () => [
             { role: 'user', content: cap(question) },
             { role: 'assistant', content: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), toolsUsed: tools }
@@ -11189,7 +11189,7 @@ app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
         await mongoose.connection.collection('ai_chat_feedback').insertOne({
             userId: String(portfolioOwnerId(req)),
             verdict: (req.body && req.body.verdict) === 'up' ? 'up' : 'down',
-            question: String((req.body && req.body.question) || '').slice(0, 8000),
+            question: String((req.body && req.body.question) || '').slice(0, require('./ask-report-policy').QUESTION_MAX_CHARS),
             answer: String((req.body && req.body.answer) || '').slice(0, 4000),
             at: new Date()
         });

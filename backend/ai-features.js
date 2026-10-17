@@ -17,7 +17,7 @@ const { loadFundamentals } = require('./fundamentals-cache');
 const HOLDINGS_TIMEOUT_MS = 4000;
 const fundRanking = require('./fund-ranking');
 
-const QUESTION_MAX_CHARS = 8000;
+const QUESTION_MAX_CHARS = 14400;
 
 function num(v) {
     if (v === null || v === undefined || v === '') return null;
