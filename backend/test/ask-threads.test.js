@@ -81,7 +81,7 @@ test('attachments ride the chat body only — validated, capped, never stored', 
     assert.ok(fn.startsWith('function normalizeAskAttachments'), 'normalizer located');
     assert.match(appSource, /ASK_ATTACHMENT_MAX_COUNT = 3/);
     assert.match(appSource, /ASK_ATTACHMENT_MAX_BYTES = 10 \* 1024 \* 1024/);
-    assert.match(appSource, /ASK_ATTACHMENT_TEXT_CAP = 14400/);
+    assert.match(appSource, /ASK_ATTACHMENT_TEXT_CAP = 60000/);
     // the route only — the global parser stays small
     assert.match(appSource, /const askChatParser = express\.json\(\{ limit: '16mb' \}\)/);
     assert.match(appSource, /req\.path === ASK_CHAT_PATH/);
@@ -309,8 +309,8 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20261018-ui19/);
-    assert.match(askHtml, /assets\/system\.css\?v=20261018-ui19/);
+    assert.match(askHtml, /assets\/app\.js\?v=20261018-ui20/);
+    assert.match(askHtml, /assets\/system\.css\?v=20261018-ui20/);
     assert.match(profileHtml, /assets\/profile\.js\?v=20261011-ask1/);   // the AI Paper credit row
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });
@@ -352,16 +352,16 @@ test('chat CRUD is an anchored icon popover, not a stack of dialogs', () => {
 // Owner ask 2026-10-18: a pasted document may run 80% longer than the old 8,000 characters. Every box, the
 // attachment reader and every stored copy share the one cap; a stored copy left at 8,000 cut the paste out of
 // the follow-up history after the first answer.
-test('a pasted question or document may run to 14,400 characters everywhere it is read or kept', () => {
+test('a pasted question or document may run to 60,000 characters everywhere it is read or kept', () => {
     const policy = require('../ask-report-policy');
-    assert.equal(policy.QUESTION_MAX_CHARS, 14400);
-    assert.match(chatSource, /const QUESTION_MAX_CHARS = 14400;/);
-    assert.match(fs.readFileSync(path.join(root, 'backend', 'ai-features.js'), 'utf8'), /const QUESTION_MAX_CHARS = 14400;/);
-    assert.match(appSource, /ASK_ATTACHMENT_TEXT_CAP = 14400/);
-    assert.match(askHtml, /<textarea id="q" rows="1" maxlength="14400"/);
-    assert.match(askHtml, /const TEXT_CAP = 14400;/);
-    assert.equal((bundleSource.match(/maxlength="14400"/g) || []).length, 2);
-    assert.match(fs.readFileSync(path.join(root, 'frontend-v2', 'index.html'), 'utf8'), /id="try-input" class="input" type="text" maxlength="14400"/);
+    assert.equal(policy.QUESTION_MAX_CHARS, 60000);
+    assert.match(chatSource, /const QUESTION_MAX_CHARS = 60000;/);
+    assert.match(fs.readFileSync(path.join(root, 'backend', 'ai-features.js'), 'utf8'), /const QUESTION_MAX_CHARS = 60000;/);
+    assert.match(appSource, /ASK_ATTACHMENT_TEXT_CAP = 60000/);
+    assert.match(askHtml, /<textarea id="q" rows="1" maxlength="60000"/);
+    assert.match(askHtml, /const TEXT_CAP = 60000;/);
+    assert.equal((bundleSource.match(/maxlength="60000"/g) || []).length, 2);
+    assert.match(fs.readFileSync(path.join(root, 'frontend-v2', 'index.html'), 'utf8'), /id="try-input" class="input" type="text" maxlength="60000"/);
     assert.doesNotMatch(appSource, /slice\(0, 8000\)/);
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /maxlength="8000"/));
 });

@@ -33,10 +33,10 @@ test('full-table allowance excludes rows from prose but remains bounded',()=>{
 });
 test('history keeps long answers, question caps and a strict aggregate byte budget',()=>{
  const long='a'.repeat(25000)+'END_OF_REPORT';
- const retained=p.historyMessages([{role:'user',content:'q'.repeat(20000)},{role:'assistant',content:long}]);
- assert.equal(retained[0].content.length,14400);assert.equal(retained[1].content,long);
+ const retained=p.historyMessages([{role:'user',content:'q'.repeat(70000)},{role:'assistant',content:long}]);
+ assert.equal(retained[0].content.length,60000);assert.equal(retained[1].content,long);
  const many=p.historyMessages(Array.from({length:8},(_,i)=>({role:'assistant',content:'₹'.repeat(32000)+i})));
- assert.ok(many.reduce((n,m)=>n+Buffer.byteLength(m.content),0)<=64000);assert.ok(many.every(m=>!m.content.includes('\uFFFD')));
+ assert.ok(many.reduce((n,m)=>n+Buffer.byteLength(m.content),0)<=96000);assert.ok(many.every(m=>!m.content.includes('\uFFFD')));
 });
 test('required evidence recognises honest retrieval failures but not wrong periods or insufficient history',()=>{
  const policy=p.select('AMD'), missing=p.missingResearch(policy,[]);assert.equal(missing.length,11);

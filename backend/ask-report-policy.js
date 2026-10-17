@@ -3,8 +3,8 @@
 // Shared by generation, numerical review, saved conversations and local QA.
 const VERSION = 4;
 const ANSWER_MAX_CHARS = 32000;
-const QUESTION_MAX_CHARS = 14400;
-const HISTORY_MAX_BYTES = 64000;
+const QUESTION_MAX_CHARS = 60000;
+const HISTORY_MAX_BYTES = 96000; // a 60,000-character question and a full answer both reach the follow-up
 const EXPLICIT = /(?:under|at most|maximum(?: of)?|no more than|within|keep (?:it|the answer) (?:to|below))\s+(\d+)\s+words\b/i;
 const NARROW = /\b(?:compar(?:e|es|ed|ing|ison)|similar|peers?|competitors?|(?:companies|stocks) like|lookalikes?|versus|vs\.?|portfolio|screen(?:er|ing)?|rank|best|top\s+\d|revenue|sales|margin|earnings|eps|income|profit|p\/e|price|market cap|valuation|multiple|dividend|buyback|debt|cash flow|fcf|ratio|yield|volume|beta|volatility|quarter|q[1-4]|fy\s?\d|annual|results|10-k|10-q|8-k|prospectus|insider|governance|esg|risk factor|segments?|guidance|outlook|brief|concise|employees?|headcount|workforce|capex|tax|ffo|affo|arr|roe|roa|backlog)\b/i;
 // A request to model a trade is its own kind of answer: levels, size and

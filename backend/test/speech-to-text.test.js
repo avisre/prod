@@ -80,17 +80,17 @@ test('the route is signed-in only, rate-limited, size-capped, and the page never
     assert.match(page, /id="mic-btn"[^>]*hidden/, 'the microphone starts hidden until the server says voice is on');
 });
 
-test('voice is parked: with nothing switched on, the button stays hidden and the security policy is untouched', () => {
+test('the in-browser voice model is on unless VOICE_LOCAL_MODEL=false, and the privacy page says how it works', () => {
     const app = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-    assert.match(app, /const VOICE_LOCAL_MODEL = String\(process\.env\.VOICE_LOCAL_MODEL \|\| ''\)\.toLowerCase\(\) === 'true';/);
+    assert.match(app, /const VOICE_LOCAL_MODEL = String\(process\.env\.VOICE_LOCAL_MODEL \|\| 'true'\)\.toLowerCase\(\) !== 'false';/);
     assert.match(app, /const VOICE_LOCAL_SCRIPT_SRC = VOICE_LOCAL_MODEL \? \[[\s\S]{0,400}\] : \[\];/, 'the extra script sources exist only when the local model is on');
     assert.match(app, /\.\.\.\(VOICE_LOCAL_MODEL \? \{ workerSrc: /);
     const page = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'ask.html'), 'utf8');
     assert.match(page, /canLocal = !!\(d && d\.local\) && browserCan;/);
     assert.match(page, /const reveal = \(\) => \{ if \(useServer \|\| canLocal\) mic\.hidden = false; \};/);
-    // A feature that is off is not described to customers as if it were on.
+    // Customers are told the recording stays in the browser.
     const privacy = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'privacy.html'), 'utf8');
-    assert.doesNotMatch(privacy, /voice input/i);
+    assert.match(privacy, /Voice input on Ask is turned into text by a speech model that runs in your own browser/);
 });
 
 test('the in-browser speech model loads only from the versions the security policy allows', () => {

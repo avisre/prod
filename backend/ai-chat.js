@@ -89,7 +89,7 @@ const MAX_TOOLCALLS_PER_ROUND = 16;
 const BUDGET_MAX_ROUNDS = 400;
 const STALLED_ROUNDS = 3;      // rounds in a row that only repeated earlier lookups
 const ASK_TOOL_CONCURRENCY = 6; // tools per round run in parallel, 6 at a time — most are cache reads; web tools share this pool too
-const QUESTION_MAX_CHARS = 14400;
+const QUESTION_MAX_CHARS = 60000;
 
 // '' / null / undefined mean "not disclosed" in the cache — never coerce them
 // to 0 (Number('') === 0 would silently turn missing data into real zeros).
@@ -2314,7 +2314,7 @@ async function ask(input) {
 
 async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     // null leaves the model default (ai-client reasoningFor); deep thinking asks for high.
-    const reasoningEffort = thinking ? 'high' : null;
+    const reasoningEffort = thinking === 'max' ? 'max' : thinking ? 'high' : null;
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty', quality: { terminalReason: 'empty_question' } };
     let policy = reportPolicy.select(q, mode);
@@ -2376,7 +2376,10 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     const toolsUsed = [];
     const sourceLinks = [];
     const suppliedResults = [];
-    let contextBytes = Buffer.byteLength(messages.map(m => m.content || '').join('\n'));
+    // The asker's own text (question and attached documents) is not evidence: counted
+    // here, a few long documents would leave no room for the filings the answer needs.
+    const userTextBytes = Buffer.byteLength(q) + docTexts.reduce((n, d) => n + Buffer.byteLength(d.text || ''), 0);
+    let contextBytes = Math.max(0, Buffer.byteLength(messages.map(m => m.content || '').join('\n')) - userTextBytes);
     let hasResearchEvidence = false;
     let groundingRetried = false;
     let reportResearchRetried = false;

@@ -2227,7 +2227,7 @@
                             headers: _askHeaders,
                             // the server owns per-thread context when a threadId
                             // is present; callers without one behave exactly as before
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(localStorage.getItem('sp_ask_think_v1') === '1' ? { thinking: true } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(['high', 'max'].includes(localStorage.getItem('sp_ask_think_v1')) ? { thinking: localStorage.getItem('sp_ask_think_v1') } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -2469,7 +2469,7 @@
     function mountAsk(el, { placeholder, suggestions = [], onPaperEvent } = {}) {
         el.innerHTML = `
           <form class="ask-bar">
-            <input class="input" type="text" maxlength="14400" placeholder="${esc(placeholder || 'Ask about any company, ETF or mutual fund…')}" aria-label="Ask a question" />
+            <input class="input" type="text" maxlength="60000" placeholder="${esc(placeholder || 'Ask about any company, ETF or mutual fund…')}" aria-label="Ask a question" />
             <button class="btn btn-primary" type="submit">Ask</button>
           </form>
           <div class="ask-panel" hidden><div class="ask-exchange"></div></div>
@@ -2504,7 +2504,7 @@
         bar.innerHTML = `
           <form class="ask-floor-inner">
             <span class="ask-kbd">⌘K</span>
-            <input class="input" type="text" maxlength="14400" placeholder="${esc(placeholder || 'Ask about a company, ETF or mutual fund…')}" aria-label="Ask a question" />
+            <input class="input" type="text" maxlength="60000" placeholder="${esc(placeholder || 'Ask about a company, ETF or mutual fund…')}" aria-label="Ask a question" />
             <button class="btn btn-primary" type="submit">Ask</button>
           </form>`;
         document.body.appendChild(sheet);

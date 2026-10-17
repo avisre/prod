@@ -405,7 +405,9 @@ const CSV_IMPORT_PATHS = new Set(['/api/portfolio/import/preview', '/api/portfol
 const csvImportParser = express.json({ limit: '5mb' });
 const ASK_ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024; // per attachment
 const ASK_ATTACHMENT_MAX_COUNT = 3;
-const ASK_ATTACHMENT_TEXT_CAP = 14400; // extracted chars kept per document
+const ASK_ATTACHMENT_TEXT_CAP = 60000; // extracted chars kept per document
+// Deep thinking (high reasoning effort) costs this many times a normal question.
+const DEEP_THINKING_CREDIT_FACTOR = 3;
 function isRawBodyWebhookPath(requestPath) {
   // Express routes accept a trailing slash by default. Keep the body-parser
   // bypass in sync with that behaviour or `/appsumo/webhook/` gets parsed as
@@ -453,14 +455,13 @@ app.use(cors({
   }
 }));
 // Voice input on Ask can run an open-source speech model in the visitor's
-// browser (frontend-v2/assets/voice-worker.js). PARKED 2026-10-10 (owner): built
-// and unit-tested, never run in a real browser, so it is off unless
-// VOICE_LOCAL_MODEL=true. When on it needs WebAssembly to compile
+// browser (frontend-v2/assets/voice-worker.js). On by default since 2026-10-18
+// (owner); VOICE_LOCAL_MODEL=false turns it off. When on it needs WebAssembly to compile
 // ('wasm-unsafe-eval' permits only that, not eval), the library and its runtime
 // from these two pinned paths, and blob: because the runtime starts itself from
 // a blob URL. Off, the policy is exactly what it was before. Bump the versions
 // together with voice-worker.js.
-const VOICE_LOCAL_MODEL = String(process.env.VOICE_LOCAL_MODEL || '').toLowerCase() === 'true';
+const VOICE_LOCAL_MODEL = String(process.env.VOICE_LOCAL_MODEL || 'true').toLowerCase() !== 'false';
 const VOICE_LOCAL_SCRIPT_SRC = VOICE_LOCAL_MODEL ? [
   "'wasm-unsafe-eval'",
   'blob:',
@@ -3101,7 +3102,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui19" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui20" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3130,7 +3131,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui19"></script>
+<script src="/assets/app.js?v=20261018-ui20"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3222,7 +3223,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui19" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui20" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3250,7 +3251,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui19"></script>
+<script src="/assets/app.js?v=20261018-ui20"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3358,7 +3359,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui19" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui20" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3391,7 +3392,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui19"></script>
+<script src="/assets/app.js?v=20261018-ui20"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -9804,8 +9805,6 @@ function askOutcomeLog(result, mode, stream, entrypoint) {
 async function anonAskHandler(req, res) {
     const question = String((req.body && req.body.question) || '').trim();
     const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
-    // Deep thinking: the chat model reasons at high effort for this question.
-    const thinking = !!(req.body && req.body.thinking === true);
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     const askWall = freeTierWallReason(req);
     if (askWall) return freeTierWallResponse(res, askWall);
@@ -9857,7 +9856,7 @@ async function anonAskHandler(req, res) {
             };
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
-                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode, thinking, onEvent: (e) => send(e.type, e) });
+                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode, onEvent: (e) => send(e.type, e) });
                 console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, true, 'web_trial')));
                 send('done', { answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     trial: true, quota: { used: newVisitor, limit, remaining } });
@@ -9871,7 +9870,7 @@ async function anonAskHandler(req, res) {
             }
             return;
         }
-        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode, thinking });
+        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode });
         console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, false, 'web_trial')));
         res.setHeader('Set-Cookie', _anonAskCookie(newVisitor));
         res.json({ answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
@@ -9963,8 +9962,13 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
     if (req.anon) return anonAskHandler(req, res);
     const question = String((req.body && req.body.question) || '').trim();
     const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
-    // Deep thinking: the chat model reasons at high effort for this question.
-    const thinking = !!(req.body && req.body.thinking === true);
+    // Deep thinking: the chat model reasons at high effort and the question costs
+    // DEEP_THINKING_CREDIT_FACTOR times its normal credits. Max effort is for the
+    // admin account only; anyone else asking for it gets high.
+    const thinkingAsked = req.body && req.body.thinking;
+    const thinking = thinkingAsked === 'max' && String(req.user && req.user.email || '').trim().toLowerCase() === CUSTOMER_MESSAGES_ADMIN_EMAIL ? 'max'
+        : (thinkingAsked === 'high' || thinkingAsked === 'max' || thinkingAsked === true) ? 'high' : null;
+    const creditFactor = thinking ? DEEP_THINKING_CREDIT_FACTOR : 1;
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     // 📎 attachments survive the request only — images for the vision relay,
     // documents as client-extracted text. Never written to disk or the DB.
@@ -10037,6 +10041,13 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             }
             return res.status(429).json(resp);
         }
+        if (thinking && !(Number(gate.remaining) >= creditFactor * credits.COST.ask)) {
+            return res.status(402).json({
+                code: 'DEEP_THINKING_CREDITS',
+                message: `Deep thinking uses ${creditFactor}x the credits of a normal question (${creditFactor * credits.COST.ask} or more), and you have ${Math.max(0, Number(gate.remaining) || 0)} left. Turn Deep thinking off to ask normally.`,
+                credits: { remaining: gate.remaining, needed: creditFactor * credits.COST.ask }
+            });
+        }
         // Holdings context for the get_portfolio tool (stored prices — no live
         // price fan-out per chat message).
         let holdings = [];
@@ -10091,18 +10102,18 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             // with no credits to spend, keeps the fixed-length run.
             const askRunId = 'askrun:' + require('crypto').randomUUID();
             let askStepsCharged = 0;
-            const askBudget = !aiPaperCtx && gate.remaining >= credits.COST.ask ? {
+            const askBudget = !aiPaperCtx && gate.remaining >= creditFactor * credits.COST.ask ? {
                 credits: gate.remaining,
-                creditsFor: credits.askCredits,
+                creditsFor: (tokens) => creditFactor * credits.askCredits(tokens),
                 stopped: () => closed,
                 charge: async (total) => {
-                    let step = Math.max(0, Number(total) - credits.COST.ask) - askStepsCharged;
+                    let step = Math.max(0, Number(total) - creditFactor * credits.COST.ask) - askStepsCharged;
                     if (step <= 0) return;
                     // Never more than the wallet holds once the question's flat
                     // price is set aside: the write-up that follows the last
                     // affordable round can run a little past it.
                     const left = (await credits.check(userId, 'ask', limit, planId, req.user)).remaining;
-                    step = Math.min(step, Math.max(0, left - credits.COST.ask));
+                    step = Math.min(step, Math.max(0, left - creditFactor * credits.COST.ask));
                     if (step > 0) { askStepsCharged += step; await credits.spendAskStep(userId, step, askRunId); }
                 },
                 refresh: async () => (await credits.check(userId, 'ask', limit, planId, req.user)).remaining + askStepsCharged
@@ -10132,11 +10143,11 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 // (which draws from it for real) without touching Ask's own
                 // gate, response shape, or upgrade-prompt logic that the
                 // frontend already depends on.
-                if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
+                if (result.source === 'ai') await credits.spend(userId, thinking ? creditFactor * credits.COST.ask : 'ask', 'ask');
                 // The steps: topped up to the run's final size when it answered;
                 // kept as they stand when the reader stopped it (work done is
                 // work charged); taken back when it failed.
-                if (askBudget && result.source === 'ai') await askBudget.charge(credits.askCredits(result.totalTokens));
+                if (askBudget && result.source === 'ai') await askBudget.charge(creditFactor * credits.askCredits(result.totalTokens));
                 else if (askStepsCharged && result.source !== 'stopped') { await credits.refundRun(userId, askRunId); askStepsCharged = 0; }
                 if (result.source === 'ai' && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
                 if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
@@ -10149,7 +10160,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 send('done', {
                     answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
-                    creditsUsed: (result.source === 'ai' ? credits.COST.ask : 0) + askStepsCharged,
+                    creditsUsed: (result.source === 'ai' ? creditFactor * credits.COST.ask : 0) + askStepsCharged,
                     threadId: threadIdSaved,
                     ...(reviewPrompt ? { reviewPrompt } : {})
                 });
@@ -10172,7 +10183,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, false, 'web_chat')));
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
-        if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
+        if (result.source === 'ai') await credits.spend(userId, thinking ? creditFactor * credits.COST.ask : 'ask', 'ask');
         if (result.source === 'ai' && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
         if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
         threadIdSaved = result.source === 'ai'
