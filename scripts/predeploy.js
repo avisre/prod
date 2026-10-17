@@ -20,7 +20,7 @@
 // changed files; an unmapped source change runs them all. Each of the four
 // stock-data checks has its own trigger below. When in doubt, a check runs.
 
-const { spawnSync, execFileSync } = require('node:child_process');
+const { spawn, spawnSync, execFileSync } = require('node:child_process');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -39,7 +39,7 @@ const CHECKS = [
         when: [/^frontend\/data\/fundamentals\//, /^backend\/(revenue-breakdown|[a-z-]*segment[a-z-]*|sec-revenue[^/]*)\.js$/, /^scripts\/audit-segment-display\.js$/] },
     { name: 'Every stock page and the sitemap', cmd: ['scripts/verify-public-stock-pages.js'],
         when: [DATA, /^backend\/(seo-[^/]+|comparison-pages|public-stock-index|verified-seo|sec-coverage|company-[^/]+|revenue-breakdown)\.js$/, /^scripts\/verify-public-stock-pages\.js$/] },
-    { name: 'Server memory limit', node: ['--max-old-space-size=256'], cmd: ['scripts/check-stock-coverage-performance.js'],
+    { name: 'Server memory limit', alone: true, node: ['--max-old-space-size=256'], cmd: ['scripts/check-stock-coverage-performance.js'],
         when: [DATA, /^backend\/(public-stock-index|screen-stock-index|sec-coverage|financial-coverage)\.js$/, /^scripts\/check-stock-coverage-performance\.js$/] }
 ];
 // A cache-stamp bump rewrites one string in every page and in the
@@ -98,7 +98,7 @@ function runTests(files) {
     return { ok: !broken && fresh.length === 0, ran, passed: count('pass'), fresh, known: failed.filter((n) => known.has(n)), broken, tail: out.trim().split('\n').slice(-12).join('\n') };
 }
 
-function main() {
+async function main() {
     const p = plan();
     const nTests = p.tests.all ? 'all test files' : `${p.tests.files.length} test file${p.tests.files.length === 1 ? '' : 's'}`;
     console.log(`predeploy on ${os.hostname()}: ${nTests}, ${p.checks.length} of ${CHECKS.length} data checks${p.changed ? ` (${p.changed.length} changed file${p.changed.length === 1 ? '' : 's'})` : ''}`);
@@ -123,20 +123,31 @@ function main() {
         }
         console.log(`passed in ${secs}s (${r.passed} of ${r.ran} cases${r.known.length ? `; ${r.known.length} already failing on main, listed in scripts/predeploy-known-failures.json` : ''})`);
     } else console.log('  Tests: none needed for this change');
-    for (const c of p.checks) {
-        const t = Date.now();
-        process.stdout.write(`  ${c.name} … `);
-        const r = spawnSync(process.execPath, [...(c.node || []), ...c.cmd], { cwd: ROOT, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024 });
-        const secs = Math.round((Date.now() - t) / 1000);
-        if (r.status !== 0) {
-            console.log(`FAILED after ${secs}s`);
-            console.log(`${r.stdout || ''}\n${r.stderr || ''}`.trim().split('\n').slice(-15).map((l) => `      ${l.slice(0, 200)}`).join('\n'));
-            console.log(`predeploy: STOPPED — not pushed. Re-run this one check with: node ${[...(c.node || []), ...c.cmd].join(' ')}`);
-            process.exit(1);
+    // The checks are independent, so they run at once; the memory and timing check runs alone after
+    // them, since other work on the machine would distort what it measures.
+    const run = (c) => new Promise((resolve) => {
+        const t = Date.now(), child = spawn(process.execPath, [...(c.node || []), ...c.cmd], { cwd: ROOT });
+        let out = '';
+        child.stdout.on('data', (d) => { out = (out + d).slice(-64 * 1024); });
+        child.stderr.on('data', (d) => { out = (out + d).slice(-64 * 1024); });
+        child.on('close', (status) => resolve({ c, status, out, secs: Math.round((Date.now() - t) / 1000) }));
+    });
+    const report = (results) => {
+        for (const r of results) {
+            if (r.status !== 0) {
+                console.log(`  ${r.c.name} … FAILED after ${r.secs}s`);
+                console.log(r.out.trim().split('\n').slice(-15).map((l) => `      ${l.slice(0, 200)}`).join('\n'));
+                console.log(`predeploy: STOPPED — not pushed. Re-run this one check with: node ${[...(r.c.node || []), ...r.c.cmd].join(' ')}`);
+                process.exit(1);
+            }
+            console.log(`  ${r.c.name} … passed in ${r.secs}s`);
         }
-        console.log(`passed in ${secs}s`);
-    }
+    };
+    const alone = p.checks.filter((c) => c.alone), together = p.checks.filter((c) => !c.alone);
+    if (together.length) console.log(`  running ${together.map((c) => c.name).join(', ')} at once …`);
+    report(await Promise.all(together.map(run)));
+    for (const c of alone) report([await run(c)]);
     console.log(`predeploy: passed in ${Math.round((Date.now() - started) / 1000)}s`);
 }
 
-main();
+main().catch((e) => { console.error(e.stack); process.exit(1); });
