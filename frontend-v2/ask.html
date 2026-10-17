@@ -73,6 +73,39 @@
     .composer .mic[hidden] { display: none; }
     .composer .mic.is-rec { color: #fff; background: #c0392b; }
     .composer .mic.is-busy { opacity: 0.5; cursor: progress; }
+    /* thinking effort: a pill inside the box (as in ChatGPT's composer), menu opens upward */
+    .think-wrap { position: relative; flex: none; align-self: flex-end; }
+    .think-wrap[hidden] { display: none; }
+    .think-pill {
+      display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 10px 0 9px;
+      border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--ink-3);
+      font: inherit; font-size: 12.5px; font-weight: 550; cursor: pointer; white-space: nowrap;
+      transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .think-pill:hover, .think-pill[aria-expanded="true"] { color: var(--ink); border-color: var(--ink-3); }
+    .think-pill[aria-pressed="true"] { color: var(--ink); border-color: var(--ink-3); background: color-mix(in srgb, var(--ink) 8%, transparent); }
+    .think-pill .think-caret { opacity: 0.6; }
+    /* phones: just the bulb while off, so the box keeps its width for typing */
+    @media (max-width: 520px) {
+      .think-pill[aria-pressed="false"] { width: 30px; padding: 0; justify-content: center; }
+      .think-pill[aria-pressed="false"] .think-label, .think-pill[aria-pressed="false"] .think-caret { display: none; }
+    }
+    .think-menu {
+      position: absolute; right: 0; bottom: calc(100% + 8px); z-index: 30; width: 250px; padding: 6px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: 0 8px 28px rgba(28, 27, 24, 0.14);
+    }
+    .think-menu[hidden] { display: none; }
+    .think-menu-h { padding: 6px 10px 4px; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); }
+    .think-menu button {
+      display: grid; grid-template-columns: 1fr auto; column-gap: 8px; width: 100%; text-align: left;
+      padding: 8px 10px; border: 0; border-radius: 8px; background: none; color: var(--ink); font: inherit; cursor: pointer;
+    }
+    .think-menu button[hidden] { display: none; }
+    .think-menu button:hover, .think-menu button:focus-visible { background: color-mix(in srgb, var(--ink) 6%, transparent); outline: none; }
+    .think-menu button b { font-size: 13.5px; font-weight: 600; }
+    .think-menu button small { grid-column: 1; font-size: 11.5px; color: var(--ink-3); }
+    .think-menu button[aria-checked="true"]::after { content: '✓'; grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 13px; }
     /* the meta line sits ABOVE the box: the bottom edge stays clean, so the
        composer ends the page instead of trailing two rows of chrome and 22px
        of padding under it. Identical in both states — no reflow on send. */
@@ -360,10 +393,6 @@
               <button type="button" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
               <span class="sep" aria-hidden="true">·</span>
               <button type="button" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
-              <span class="sep" id="ask-think-sep" aria-hidden="true">·</span>
-              <button type="button" id="ask-think" aria-pressed="false" title="Reasons longer before answering: slower, more careful, 3x the credits">Deep thinking</button>
-              <span class="sep" id="ask-think-max-sep" aria-hidden="true" hidden>·</span>
-              <button type="button" id="ask-think-max" aria-pressed="false" title="Maximum reasoning (admin only)" hidden>Max</button>
               <span class="sep" id="ask-temp-sep" aria-hidden="true" hidden>·</span>
               <button type="button" id="ask-temp" aria-pressed="false" title="A chat that is not saved and not used for memory" hidden>Temporary chat</button>
               <span class="sep" id="paper-sep" aria-hidden="true" hidden>·</span>
@@ -379,6 +408,19 @@
               <svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 7.6 8 12.8a3.6 3.6 0 0 1-5-5.1l5.5-5.4a2.4 2.4 0 0 1 3.4 3.4L6.4 11a1.2 1.2 0 0 1-1.7-1.7l4.9-4.8"/></svg>
             </button>
             <textarea id="q" rows="1" maxlength="60000" placeholder="Ask about any stock, ETF, fund, or your portfolio…" aria-label="Ask a question"></textarea>
+            <div class="think-wrap" id="think-wrap" hidden>
+              <button type="button" class="think-pill" id="ask-think" aria-haspopup="menu" aria-expanded="false" aria-pressed="false" aria-label="Thinking effort" title="Think longer before answering (3x the credits)">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.2h4M6.6 14.4h2.8M8 1.6a4.4 4.4 0 0 0-2.6 8c.4.3.6.8.6 1.3v.3h4v-.3c0-.5.2-1 .6-1.3A4.4 4.4 0 0 0 8 1.6z"/></svg>
+                <span class="think-label">Think</span>
+                <svg class="think-caret" viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+              </button>
+              <div class="think-menu" id="think-menu" role="menu" aria-label="Thinking effort" hidden>
+                <div class="think-menu-h">Thinking effort</div>
+                <button type="button" role="menuitemradio" aria-checked="false" data-think=""><b>Standard</b><small>Answers at the normal cost</small></button>
+                <button type="button" role="menuitemradio" aria-checked="false" data-think="high"><b>High</b><small>Thinks longer, more careful · 3x the credits</small></button>
+                <button type="button" role="menuitemradio" aria-checked="false" data-think="max" id="ask-think-max" hidden><b>Max</b><small>Deepest reasoning · admin only · 3x the credits</small></button>
+              </div>
+            </div>
             <button class="mic" type="button" id="mic-btn" aria-label="Speak your question" title="Speak your question" aria-pressed="false" hidden>
               <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.6" y="1.6" width="4.8" height="8" rx="2.4"/><path d="M3.2 7.6a4.8 4.8 0 0 0 9.6 0M8 12.4v2.2"/></svg>
             </button>
@@ -438,16 +480,24 @@
         btnNormal.addEventListener('click', () => { localStorage.setItem(KEY, 'normal'); paint(); });
         btnAnalyst.addEventListener('click', () => { localStorage.setItem(KEY, 'analyst'); paint(); });
         paint();
-        // Deep thinking is independent of the writing style: the model reasons at high
-        // effort and the question costs 3x its credits, so turning it on asks first.
-        // Max is shown to the admin account only; the server enforces that too.
-        const THINK = 'sp_ask_think_v1', btnThink = $('ask-think'), btnMax = $('ask-think-max');
+        // Thinking effort is independent of the writing style and lives inside the box,
+        // as a pill like ChatGPT's composer: Standard, High (3x the credits) and, for the
+        // admin account only, Max. The server enforces the Max rule too. The level sticks
+        // until it is changed; turning it on from Standard asks first.
+        const THINK = 'sp_ask_think_v1', thinkWrap = $('think-wrap'), btnThink = $('ask-think'), thinkMenu = $('think-menu'), btnMax = $('ask-think-max');
         const thinkLevel = () => { try { const v = localStorage.getItem(THINK); return v === 'high' || v === 'max' ? v : ''; } catch (_) { return ''; } };
-        const paintThink = () => { btnThink.setAttribute('aria-pressed', String(thinkLevel() === 'high')); btnMax.setAttribute('aria-pressed', String(thinkLevel() === 'max')); };
+        const paintThink = () => {
+          const v = thinkLevel();
+          btnThink.setAttribute('aria-pressed', String(!!v));
+          btnThink.querySelector('.think-label').textContent = v === 'max' ? 'Max' : v === 'high' ? 'High' : 'Think';
+          btnThink.title = v ? `Thinking effort: ${v === 'max' ? 'Max' : 'High'} (3x the credits). Click to change.` : 'Think longer before answering (3x the credits)';
+          thinkMenu.querySelectorAll('[data-think]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.think === v)));
+        };
         const setThink = (v) => { try { localStorage.setItem(THINK, v); } catch (_) { /* private window */ } paintThink(); };
+        const closeThinkMenu = () => { thinkMenu.hidden = true; btnThink.setAttribute('aria-expanded', 'false'); };
         const chooseThink = (level) => {
-          if (thinkLevel() === level) return setThink('');
-          if (thinkLevel()) return setThink(level);
+          closeThinkMenu();
+          if (!level || thinkLevel()) return setThink(level);
           modal({
             label: 'Deep thinking',
             title: 'Deep thinking uses 3x the credits',
@@ -455,13 +505,27 @@
             actions: [{ label: 'Turn on', primary: true, onClick: (close) => { setThink(level); close(); } }, { label: 'Cancel', onClick: (close) => close() }]
           });
         };
-        btnThink.addEventListener('click', () => chooseThink('high'));
-        btnMax.addEventListener('click', () => chooseThink('max'));
+        const thinkItems = () => [...thinkMenu.querySelectorAll('[data-think]')].filter((b) => !b.hidden);
+        btnThink.addEventListener('click', () => {
+          const open = thinkMenu.hidden;
+          thinkMenu.hidden = !open;
+          btnThink.setAttribute('aria-expanded', String(open));
+          if (open) (thinkItems().find((b) => b.getAttribute('aria-checked') === 'true') || thinkItems()[0]).focus();
+        });
+        thinkMenu.addEventListener('click', (e) => { const b = e.target.closest('[data-think]'); if (b) chooseThink(b.dataset.think); });
+        thinkMenu.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeThinkMenu(); btnThink.focus(); return; }
+          if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+          e.preventDefault();
+          const items = thinkItems(), i = items.indexOf(document.activeElement);
+          items[(i + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length].focus();
+        });
+        document.addEventListener('click', (e) => { if (!thinkMenu.hidden && !thinkWrap.contains(e.target)) closeThinkMenu(); });
         paintThink();
-        if (!token()) { btnThink.hidden = true; $('ask-think-sep').hidden = true; }
-        else fetch(`${API}/session`, { headers: { Authorization: `Bearer ${token()}` } }).then((r) => r.ok ? r.json() : null).then((s) => {
+        if (token()) thinkWrap.hidden = false;
+        if (token()) fetch(`${API}/session`, { headers: { Authorization: `Bearer ${token()}` } }).then((r) => r.ok ? r.json() : null).then((s) => {
           const admin = String((s && s.profile && s.profile.email) || '').trim().toLowerCase() === 'rin@gmail.com';
-          btnMax.hidden = !admin; $('ask-think-max-sep').hidden = !admin;
+          btnMax.hidden = !admin;
           if (!admin && thinkLevel() === 'max') setThink('high');
         }).catch(() => {});
       })();
@@ -1730,6 +1794,7 @@
         // its own page: no Ask writing-style toggle, no Ask starters, its own heading
         const toggle = document.querySelector('.ask-mode-toggle');
         if (toggle) toggle.style.display = 'none';
+        $('think-wrap').hidden = true;
         $('prompts').hidden = true;
         const hello = document.querySelector('.hello');
         if (hello) hello.innerHTML = '<h1>🧪 AI Paper Portfolio</h1><p>An experiment: two AI minds each pick one stock, and the portfolio is tracked on paper. This page has its own chats, separate from Ask.</p>';

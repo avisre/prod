@@ -221,7 +221,7 @@ test('the Ask page documents what the Ask box actually does, with the limits the
         assert.ok(ask.includes(phrase), `the Ask doc does not mention ${phrase}`);
     }
     assert.match(page, /id="ask-temp"[^>]*>Temporary chat</);
-    assert.match(page, /id="ask-think"[^>]*>Deep thinking</);
+    assert.match(page, /id="ask-think"[^>]*>[\s\S]*?class="think-label">Think</);
     assert.match(page, /data-do="export" title="Download chat as Markdown"/);
     assert.match(page, /\['Copy the last answer', `\$\{MOD\} Shift C`\]/);
     // the credits and troubleshooting pages carry it too

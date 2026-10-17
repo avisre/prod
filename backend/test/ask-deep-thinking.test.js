@@ -69,6 +69,8 @@ test('the Ask page warns before turning it on and shows Max to the admin only', 
     assert.match(bundle, /\['high', 'max'\]\.includes\(localStorage\.getItem\('sp_ask_think_v1'\)\) \? \{ thinking: localStorage\.getItem\('sp_ask_think_v1'\) \}/);
     const page = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'ask.html'), 'utf8');
     assert.match(page, /id="ask-think"/);
+    assert.match(page, /class="composer-row"[\s\S]*id="think-wrap"[\s\S]*id="mic-btn"/);
+    assert.match(page, /data-think="high"/);
     assert.match(page, /id="ask-think-max"[^>]*hidden/);
     assert.match(page, /Deep thinking uses 3x the credits/);
     assert.match(page, /=== 'rin@gmail\.com'/);
