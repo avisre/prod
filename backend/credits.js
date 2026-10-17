@@ -540,5 +540,8 @@ async function monthBreakdown(userId) {
 }
 
 const LISTED_COST = { ...COST, mcp_lookup: LISTED_LOOKUP_COST, api_lookup: LISTED_LOOKUP_COST };
+// Deep thinking (high reasoning effort) on Ask costs this many times a normal question.
+// app.js charges it and the /docs pages quote it, so the number lives in one place.
+const DEEP_THINKING_FACTOR = 3;
 
-module.exports = { askCredits, spendAskStep, refundRun, ASK_BASE_TOKENS, ASK_TOKENS_PER_CREDIT, COST, LISTED_COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };
+module.exports = { askCredits, spendAskStep, refundRun, ASK_BASE_TOKENS, ASK_TOKENS_PER_CREDIT, COST, LISTED_COST, DEEP_THINKING_FACTOR, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };

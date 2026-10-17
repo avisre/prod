@@ -73,7 +73,8 @@ test('titles, descriptions and canonicals are present and unique', () => {
 test('every credit figure rendered is a real credits.COST value', () => {
     // Parsed out of the HTML, not read from the definitions: this is the check
     // that would have caught the public-api.md drift.
-    const real = new Set(Object.values(credits.LISTED_COST));
+    // plus the one derived price the docs quote: a Deep thinking question on Ask
+    const real = new Set([...Object.values(credits.LISTED_COST), credits.DEEP_THINKING_FACTOR * credits.LISTED_COST.ask]);
     const seen = [];
     for (const [slug, html] of [...ALL, ['index', docs.renderDocsIndex()]]) {
         for (const m of html.matchAll(/(\d+)\s+credits?\b/g)) {
@@ -196,4 +197,34 @@ test('related links resolve, so no article is a dead end', () => {
             assert.notEqual(slug, page.slug, `${page.slug} links to itself`);
         }
     }
+});
+
+test('the Ask page documents what the Ask box actually does, with the limits the code enforces', () => {
+    const ask = article(docs.renderDocPage('ask'));
+    const appSrc = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');
+    const chatSrc = fs.readFileSync(path.join(__dirname, '../ai-chat.js'), 'utf8');
+    const page = fs.readFileSync(path.join(__dirname, '../../frontend-v2/ask.html'), 'utf8');
+    // limits quoted in prose, so each is read back from the code that enforces it
+    assert.match(chatSrc, /const QUESTION_MAX_CHARS = 60000;/);
+    assert.match(ask, /up to 60,000 characters/);
+    assert.match(appSrc, /const ASK_ATTACHMENT_MAX_COUNT = 3;/);
+    assert.match(appSrc, /const ASK_ATTACHMENT_MAX_BYTES = 10 \* 1024 \* 1024;/);
+    assert.match(ask, /up to 3 files of up to 10 MB each/);
+    assert.match(page, /const ATT_MAX = 3;/);
+    assert.match(fs.readFileSync(path.join(__dirname, '../speech-to-text.js'), 'utf8'), /const MAX_SECONDS = 60;/);
+    assert.match(ask, /up to a minute/);
+    // Deep thinking quotes the real multiple and the real price
+    const deep = credits.DEEP_THINKING_FACTOR;
+    assert.ok(ask.includes(`costs ${deep}x a normal question: ${deep * credits.LISTED_COST.ask} credits instead of ${credits.LISTED_COST.ask}`));
+    // every feature the page has is named, and each control named exists on the page
+    for (const phrase of ['Deep thinking', 'Temporary chat', 'microphone', 'Markdown file', 'Keyboard shortcuts', 'pencil', 'read aloud']) {
+        assert.ok(ask.includes(phrase), `the Ask doc does not mention ${phrase}`);
+    }
+    assert.match(page, /id="ask-temp"[^>]*>Temporary chat</);
+    assert.match(page, /id="ask-think"[^>]*>Deep thinking</);
+    assert.match(page, /data-do="export" title="Download chat as Markdown"/);
+    assert.match(page, /\['Copy the last answer', `\$\{MOD\} Shift C`\]/);
+    // the credits and troubleshooting pages carry it too
+    assert.match(docs.renderDocPage('credits'), /Deep thinking costs more/);
+    assert.ok(docs.DOC_PAGES.troubleshooting.errors.some((e) => e.code === 'DEEP_THINKING_CREDITS'));
 });

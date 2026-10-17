@@ -48,7 +48,8 @@ test('without deep thinking the model default is left alone', async () => {
 
 test('the signed-in route gives max to the admin only, charges 3x and refuses when credits fall short', () => {
     const app = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-    assert.match(app, /const DEEP_THINKING_CREDIT_FACTOR = 3;/);
+    assert.match(app, /const DEEP_THINKING_CREDIT_FACTOR = credits\.DEEP_THINKING_FACTOR;/);
+    assert.equal(require('../credits').DEEP_THINKING_FACTOR, 3);
     // Max only when the signed-in email is the admin account; anyone else asking for max gets high.
     assert.match(app, /thinkingAsked === 'max' && String\(req\.user && req\.user\.email \|\| ''\)\.trim\(\)\.toLowerCase\(\) === CUSTOMER_MESSAGES_ADMIN_EMAIL \? 'max'/);
     assert.match(app, /\(thinkingAsked === 'high' \|\| thinkingAsked === 'max' \|\| thinkingAsked === true\) \? 'high' : null;/);

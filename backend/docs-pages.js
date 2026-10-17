@@ -21,11 +21,13 @@ const credits = require('./credits');
 
 // Pages quote the LISTED price; the charge is credits.COST (see credits.js).
 const COST = credits.LISTED_COST;
+// Deep thinking on Ask is charged at this multiple of COST.ask (credits.js).
+const DEEP = credits.DEEP_THINKING_FACTOR;
 // The keyless allowance is env-switchable, so the docs quote the live config
 // instead of a typed number (it said "two" while the default was three).
 const ANON = require('./mcp-anon').config();
 const STAMP = '20261018-ui21';
-const UPDATED = '25 September 2026';
+const UPDATED = '18 October 2026';
 
 function esc(value) {
     return String(value == null ? '' : value)
@@ -80,6 +82,7 @@ const DOC_PAGES = Object.freeze({
             { code: 'INSUFFICIENT_CREDITS', status: '402', means: 'This month’s credit allowance is spent.', fix: 'The response carries a <code>resetsAt</code> timestamp — the first moment of next month, UTC, when the allowance refills. Upgrade or top up to continue before then.' },
             { code: 'MONITOR_REQUIRED', status: '402', means: 'The Filing Change Monitor is not on your plan.', fix: 'The Monitor is on Power, Desk, Enterprise and Pro <em>annual</em> — and on lifetime plans. Retired Pro <em>monthly</em> does not include it. See <a class="prose-link" href="/docs/filing-monitor">Filing Monitor</a>.' },
             { code: 'TRIAL_EXHAUSTED', status: '429', means: 'You have used the Monitor trial for today. The trial covers three companies per day.', fix: 'Wait for the daily reset, or move to a plan that includes the Monitor outright.' },
+            { code: 'DEEP_THINKING_CREDITS', status: '402', means: 'Deep thinking is on and you have fewer credits left than a Deep thinking question costs (' + (DEEP * COST.ask) + ', ' + DEEP + 'x a normal question).', fix: 'Turn Deep thinking off above the box to ask at the normal cost, or top up.' },
             { code: 'API_PLAN_NO_WEB_ASK', status: '402', means: 'You are on the Dev plan and tried to use the website’s Ask box. Dev covers the API and MCP server only.', fix: 'Use your API key against <code>/api/v1</code>, or switch to Monthly for Ask inside the app.' },
             { code: 'COMPANY_LIMIT', status: '429', means: 'This account has looked up 50 different companies in the last 24 hours, or 250 in the last 30 days, through the API or a connected assistant. The limit counts different companies, not calls.', fix: 'Companies you already looked up in that time keep working. The response carries <code>resets_at</code>, the moment a new company can be added. If your work genuinely needs more companies, email support.pro.' },
             { code: 'Rate limited', status: '429', means: 'You sent more than 60 API requests in a minute on one key.', fix: 'Back off and retry. The limit is per key, per minute — spread bulk work out rather than running it in parallel.' }
@@ -95,7 +98,7 @@ const DOC_PAGES = Object.freeze({
     ask: {
         slug: 'ask', topic: 'Research features',
         title: 'Ask — StockPortfolio.pro documentation',
-        description: 'Ask questions about any public company in plain English and get answers drawn from its SEC filings, with sources.',
+        description: 'Ask about any public company and get answers from its SEC filings, with sources. Deep thinking, voice, files, editing, temporary chats and shortcuts.',
         heading: 'Ask',
         intro: 'Ask is the assistant that answers questions about a public company from its own filings. It quotes what it used, and it declines rather than inventing an answer the filings do not support.',
         tier: 'Any paid plan except Dev',
@@ -104,11 +107,18 @@ const DOC_PAGES = Object.freeze({
             'Open <a class="prose-link" href="/ask">Ask</a>, or use the ask box that sits at the bottom of most pages.',
             'Name the company and be specific about the period. "What did Apple say about services margin in the latest 10-K?" works far better than "is Apple a good buy?".',
             'Read the sources. The answer lists the filings and periods behind it; each one links to the primary document.',
-            'Follow up in the same thread. Context carries, so you can drill in without restating the company each time.'
+            'Follow up in the same thread. Context carries, so you can drill in without restating the company each time.',
+            'Change a question you already sent with the pencil under it (or press <kbd>↑</kbd> in an empty box). Sending the edit replaces that question and every answer after it, so the chat continues from the new wording.'
         ],
         notes: [
+            { title: 'Long questions and files', body: 'A question can be up to 60,000 characters, so you can paste a whole section of a filing. You can also attach up to 3 files of up to 10 MB each — images (PNG, JPEG, WebP), PDF, CSV, plain text, Markdown or JSON — with the paperclip, by pasting them into the box, or by dragging them onto it.' },
+            { title: 'Deep thinking', body: 'Turn on Deep thinking above the box and the assistant works through the question more carefully before it answers. It is slower and costs ' + DEEP + 'x a normal question: ' + (DEEP * COST.ask) + ' credits instead of ' + COST.ask + ', and more for a very long answer. It stays on until you turn it off. If you have fewer credits left than a Deep thinking question needs, you get <code>DEEP_THINKING_CREDITS</code>; turn it off to ask normally. Analyst and Normal change how the answer is written, not how hard it thinks, and cost the same.' },
+            { title: 'Speak your question', body: 'Press the microphone in the box, speak, and press it again to stop (up to a minute). The words land in the box for you to check before you send. Where your browser transcribes the speech itself, the first use downloads a speech model of about 80 MB.' },
+            { title: 'Temporary chats', body: 'Signed in, press Temporary chat above the box to start a chat that is not kept: it is not added to your chat list, it is not used for memory, and it does not use your other chats as context. Questions cost the same credits as usual. Opening another chat or pressing the button again ends it.' },
+            { title: 'Working with answers', body: 'Under each answer: copy it, ask it again, have it read aloud, rate it, or share it. Code and formulas come in their own block with a Copy button. Each question has its own copy button too, which helps when you reuse a well-worded prompt.' },
             { title: 'Ask what a filing says, not what to buy', body: 'The assistant is built to be accurate about filed facts and to refuse speculation. Questions about price targets or whether to buy something will get a hedge, because the filings do not answer them. Questions about segment performance, accounting changes, risk-factor wording or year-over-year movement are what it is for.' },
-            { title: 'Your history is saved', body: 'Past threads are on your profile, so a question you asked last month is still there with its sources attached.' },
+            { title: 'Your chats are saved', body: 'Every chat is kept in the list beside the box, so a question you asked last month is still there with its sources attached. Each chat\'s menu lets you rename it, pin it, download it as a Markdown file or delete it.' },
+            { title: 'Keyboard shortcuts', body: 'Press <kbd>Ctrl</kbd> <kbd>/</kbd> (<kbd>⌘</kbd> <kbd>/</kbd> on a Mac) on the Ask page to see them all. <kbd>Enter</kbd> sends and <kbd>Shift</kbd> <kbd>Enter</kbd> starts a new line. With <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>Shift</kbd>: <kbd>O</kbd> new chat, <kbd>C</kbd> copy the last answer, <kbd>S</kbd> show or hide the chat list, <kbd>Backspace</kbd> delete this chat. <kbd>Shift</kbd> <kbd>Esc</kbd> puts the cursor in the box, <kbd>↑</kbd> in an empty box edits your last question, and <kbd>Esc</kbd> cancels an edit.' },
             { title: 'The Dev plan cannot use Ask on the web', body: 'Dev is an API and MCP plan. Its credits are spendable through <code>/api/v1</code> and the MCP server, not through the website’s Ask box — the web box will return <code>API_PLAN_NO_WEB_ASK</code>. Monthly is the cheapest plan with Ask in the app.' }
         ],
         related: ['research-dossier', 'credits', 'troubleshooting']
@@ -357,6 +367,7 @@ const DOC_PAGES = Object.freeze({
         ],
         notes: [
             { title: 'Why the API and MCP prices are higher', body: 'The web app is a person asking a question at human pace. A key is a program, and one that can run continuously. The API and MCP prices reflect what sustained programmatic use actually costs to serve, and they are what makes offering a key on a self-serve plan viable at all.' },
+            { title: 'Deep thinking costs more', body: 'An Ask question with Deep thinking on costs ' + DEEP + 'x a normal one: ' + (DEEP * COST.ask) + ' credits instead of ' + COST.ask + '. Temporary chats cost the same as any other chat. See <a class="prose-link" href="/docs/ask">Ask</a>.' },
             { title: 'A failed action is not charged twice', body: 'If an answer fails and you retry, you are not billed for the failure. Charging happens on a delivered result.' },
             { title: 'Plan credits reset; recharge credits carry over', body: 'Your plan allowance is monthly: it resets to the full amount on the 1st rather than accumulating. Recharge credits are different. They are used only after the month\'s plan allowance runs out, and whatever is left carries into the next month until it is spent.' }
         ],
@@ -584,6 +595,7 @@ table.errs td{font-size:var(--text-sm);line-height:1.6;color:var(--ink-2)}
 table.errs td:first-child{white-space:nowrap;color:var(--ink);font-weight:600}
 @media(max-width:700px){table.errs,table.errs tbody,table.errs tr,table.errs td{display:block;width:100%}table.errs thead{display:none}table.errs tr{border-bottom:1px solid var(--line);padding:12px 0}table.errs td{border:0;padding:2px 0}}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:#f0eee8;border-radius:4px;padding:1px 5px}
+kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82em;background:var(--surface,#fff);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;white-space:nowrap}
 .setup{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
 .setup:first-of-type{margin-top:20px;padding-top:0;border-top:0}
 .setup h3{font-size:var(--text-base);font-weight:600;color:var(--ink);margin:0 0 7px}

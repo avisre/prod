@@ -407,8 +407,8 @@ const csvImportParser = express.json({ limit: '5mb' });
 const ASK_ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024; // per attachment
 const ASK_ATTACHMENT_MAX_COUNT = 3;
 const ASK_ATTACHMENT_TEXT_CAP = 60000; // extracted chars kept per document
-// Deep thinking (high reasoning effort) costs this many times a normal question.
-const DEEP_THINKING_CREDIT_FACTOR = 3;
+// Deep thinking (high reasoning effort) costs this many times a normal question (credits.js).
+const DEEP_THINKING_CREDIT_FACTOR = credits.DEEP_THINKING_FACTOR;
 function isRawBodyWebhookPath(requestPath) {
   // Express routes accept a trailing slash by default. Keep the body-parser
   // bypass in sync with that behaviour or `/appsumo/webhook/` gets parsed as
