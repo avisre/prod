@@ -32,14 +32,14 @@ test('threads get their own collection with caps and a pinned field', () => {
 });
 
 test('the chat route uses server-side thread history when a threadId is present', () => {
-    assert.match(appSource, /const hasThread = typeof threadIdRaw === 'string' && THREAD_ID_RE\.test\(threadIdRaw\)/);
-    assert.match(appSource, /const history = hasThread\s*\? await aiChat\.threadHistory\(userId, threadIdRaw\)/);
+    assert.match(appSource, /const hasThread = !temporary && typeof threadIdRaw === 'string' && THREAD_ID_RE\.test\(threadIdRaw\)/);
+    assert.match(appSource, /const history = edit \? edit\.history : hasThread\s*\? await aiChat\.threadHistory\(userId, threadIdRaw\)/);
     assert.match(chatSource, /async function threadHistory\(userId, threadId, n = 16\)/);
     assert.match(chatSource, /findOne\(\{ _id: tid, userId: uid \}, \{ projection: \{ messages: \{ \$slice: -n \} \} \}\)/);
 });
 
 test('both /api/ai/chat success branches save the thread and return its id', () => {
-    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface\)/g) || [];
+    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface, edit \? edit\.index : null\)/g) || [];
     assert.equal(hooks.length, 2, 'streaming and non-streaming branches both save');
     assert.match(appSource, /threadId: threadIdSaved/);
     assert.equal((appSource.match(/threadId: threadIdSaved/g) || []).length, 2);
@@ -309,8 +309,8 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20261018-ui20/);
-    assert.match(askHtml, /assets\/system\.css\?v=20261018-ui20/);
+    assert.match(askHtml, /assets\/app\.js\?v=20261018-ui21/);
+    assert.match(askHtml, /assets\/system\.css\?v=20261018-ui21/);
     assert.match(profileHtml, /assets\/profile\.js\?v=20261011-ask1/);   // the AI Paper credit row
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

@@ -3103,7 +3103,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui20" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui21" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3132,7 +3132,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui20"></script>
+<script src="/assets/app.js?v=20261018-ui21"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3224,7 +3224,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui20" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui21" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3252,7 +3252,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui20"></script>
+<script src="/assets/app.js?v=20261018-ui21"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3360,7 +3360,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui20" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui21" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3393,7 +3393,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui20"></script>
+<script src="/assets/app.js?v=20261018-ui21"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3848,7 +3848,29 @@ const AskThread = mongoose.model('AskThread', AskThreadSchema);
 const askSurface = (value) => (value === 'paper' ? 'paper' : 'ask');
 const surfaceMatch = (surface) => (askSurface(surface) === 'paper' ? { surface: 'paper' } : { surface: { $ne: 'paper' } });
 
-async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed, surface) {
+// Editing a question in a saved chat. The page sends where it counts the
+// question (index into the transcript) and its text; the stored question must
+// match, at that index or the nearest one holding the same words, since the
+// transcript keeps only its newest ASK_THREAD_MSG_KEEP messages. Not found:
+// null, and the question is added as a follow-up instead.
+async function threadEdit(userId, threadId, editFrom) {
+    if (!editFrom || typeof editFrom !== 'object') return null;
+    const content = String(editFrom.content || '').trim();
+    const index = Number(editFrom.index);
+    if (!content || !Number.isInteger(index) || index < 0) return null;
+    try {
+        const doc = await AskThread.findOne({ _id: threadId, userId }, { messages: 1 }).lean();
+        const msgs = (doc && doc.messages) || [];
+        let at = -1;
+        msgs.forEach((m, i) => {
+            if (m && m.role === 'user' && String(m.content || '').trim() === content && (at < 0 || Math.abs(i - index) < Math.abs(at - index))) at = i;
+        });
+        if (at < 0) return null;
+        return { index: at, history: msgs.slice(Math.max(0, at - 16), at).map((m) => ({ role: m.role, content: m.content })) };
+    } catch (_) { return null; }
+}
+
+async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed, surface, editAt) {
     try {
         if (!userId || !question || !answer) return null;
         const tools = Array.isArray(toolsUsed)
@@ -3860,7 +3882,18 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
             { role: 'assistant', content: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), toolsUsed: tools }
         ];
         let doc;
-        if (typeof threadId === 'string' && THREAD_ID_RE.test(threadId)) {
+        // An edited question replaces itself and every later message.
+        if (typeof threadId === 'string' && THREAD_ID_RE.test(threadId) && Number.isInteger(editAt) && editAt >= 0) {
+            const prev = await AskThread.findOne({ _id: threadId, userId, ...surfaceMatch(surface) }, { messages: 1 }).lean();
+            if (prev) {
+                doc = await AskThread.findOneAndUpdate(
+                    { _id: threadId, userId },
+                    { $set: { messages: [...(prev.messages || []).slice(0, editAt), ...turn()].slice(-ASK_THREAD_MSG_KEEP), updatedAt: new Date(), mode: mode === 'analyst' ? 'analyst' : 'normal' } },
+                    { new: true, projection: { _id: 1 } }
+                );
+            }
+        }
+        if (!doc && typeof threadId === 'string' && THREAD_ID_RE.test(threadId)) {
             // Append to an existing thread — owner-checked, so a foreign or
             // deleted id simply starts a fresh one rather than erroring.
             doc = await AskThread.findOneAndUpdate(
@@ -10072,14 +10105,20 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         // The experiment page and Ask never continue each other's chats: a
         // thread id from the other page is ignored and a new chat starts.
         const chatSurface = aiPaperCtx ? 'paper' : 'ask';
-        const hasThread = typeof threadIdRaw === 'string' && THREAD_ID_RE.test(threadIdRaw)
+        // Temporary chat: answered and charged as usual, but nothing is kept: no
+        // saved chat, no Ask report, no memory read or written, and no context
+        // pulled in from the account's other chats.
+        const temporary = (req.body && req.body.temporary) === true && !aiPaperCtx;
+        const hasThread = !temporary && typeof threadIdRaw === 'string' && THREAD_ID_RE.test(threadIdRaw)
             && Boolean(await AskThread.exists({ _id: threadIdRaw, userId, ...surfaceMatch(chatSurface) }).catch(() => null));
-        const memoryConsent = !!(req.user && req.user.askMemoryEnabled);
+        const memoryConsent = !temporary && !!(req.user && req.user.askMemoryEnabled);
+        // An edited question: the model sees the chat only up to it.
+        const edit = hasThread ? await threadEdit(userId, threadIdRaw, req.body && req.body.editFrom) : null;
         // a fresh page sends no history — pick the thread back up from the
         // user's last few stored exchanges (cross-session memory)
-        const history = hasThread
+        const history = edit ? edit.history : hasThread
             ? await aiChat.threadHistory(userId, threadIdRaw)
-            : (clientHistory.length ? clientHistory : (chatSurface === 'paper' ? [] : await aiChat.recentHistory(userId)));
+            : (clientHistory.length ? clientHistory : (temporary || chatSurface === 'paper' ? [] : await aiChat.recentHistory(userId)));
         // Set on whichever success branch runs; returned to the client so the
         // frontend can adopt the (possibly newly created) thread id.
         let threadIdSaved = null;
@@ -10160,9 +10199,9 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 // work charged); taken back when it failed.
                 if (askBudget && result.source === 'ai') await askBudget.charge(creditFactor * credits.askCredits(result.totalTokens));
                 else if (askStepsCharged && result.source !== 'stopped') { await credits.refundRun(userId, askRunId); askStepsCharged = 0; }
-                if (result.source === 'ai' && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
-                if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
-                if (result.source === 'ai') threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface);
+                if (result.source === 'ai' && !temporary && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
+                if (result.source === 'ai' && !temporary) saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
+                if (result.source === 'ai' && !temporary) threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null);
                 trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
@@ -10195,10 +10234,10 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, thinking ? creditFactor * credits.COST.ask : 'ask', 'ask');
-        if (result.source === 'ai' && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
-        if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
-        threadIdSaved = result.source === 'ai'
-            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface)
+        if (result.source === 'ai' && !temporary && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
+        if (result.source === 'ai' && !temporary) saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
+        threadIdSaved = result.source === 'ai' && !temporary
+            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null)
             : null;
         trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);

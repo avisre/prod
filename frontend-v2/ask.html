@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261018-ui20" />
+  <link rel="stylesheet" href="assets/system.css?v=20261018-ui21" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -291,6 +291,18 @@
     /* saved-message blocks match the live engine's markup so a restored
        transcript is visually identical to a live one */
     .side-empty { margin: 8px 2px 0; font-size: 12px; color: var(--ink-3); }
+    /* editing a sent question, and the temporary-chat notice */
+    .edit-note { margin-top: 0; margin-bottom: 8px; padding: 7px 12px; font-size: 12px; color: var(--ink-2); background: var(--surface); border: 1px dashed var(--line-strong, var(--line)); border-radius: 10px; }
+    .edit-note button { border: 0; background: none; padding: 0 0 0 6px; color: var(--accent-ink, var(--ink)); cursor: pointer; font: inherit; text-decoration: underline; }
+    .ask-q.is-editing { outline: 2px solid var(--accent-ink, var(--ink)); outline-offset: 2px; }
+    body.temp-chat .composer { border-style: dashed; }
+    #ask-temp[aria-pressed="true"] { font-weight: 600; }
+    /* files dragged over the box */
+    .composer.is-drop { outline: 2px dashed var(--accent-ink, var(--ink)); outline-offset: 3px; }
+    .jump-latest { position: fixed; z-index: 40; right: 22px; bottom: 150px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--ink-2); font-size: 16px; line-height: 1; cursor: pointer; box-shadow: 0 4px 16px rgba(28, 27, 24, 0.12); }
+    .jump-latest:hover { color: var(--ink); }
+    .kbd-list { display: grid; grid-template-columns: 1fr auto; gap: 8px 18px; margin: 4px 0 0; font-size: 13px; }
+    .kbd-list kbd { font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: 2px 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); white-space: nowrap; }
 
     @media (max-width: 900px) {
       .ask-shell { display: block; }
@@ -335,11 +347,14 @@
         </div>
 
         <div class="thread" id="thread" hidden><div class="ask-exchange" id="exchange"></div></div>
+        <button type="button" class="jump-latest" id="jump-latest" aria-label="Jump to the latest message" title="Jump to the latest message" hidden>↓</button>
 
         <div class="composer-dock">
           <div class="paper-controls" id="paper-controls" hidden><button type="button" class="pc-pause" id="paper-pause">⏸ Pause</button> <button type="button" class="pc-pause" id="paper-stop">⏹ Stop and discard</button> <span class="small muted" id="paper-controls-note"></span></div>
           <div class="paper-progress" id="paper-progress" role="status" aria-live="polite" hidden></div>
           <p class="att-error" id="att-error" role="alert"></p>
+          <p class="edit-note" id="edit-note" role="status" hidden>Editing your question. Sending it replaces that question and every answer after it. <button type="button" id="edit-cancel">Cancel</button></p>
+          <p class="edit-note" id="temp-note" role="status" hidden>Temporary chat: not saved to your chats and not used for memory. Questions use credits as usual.</p>
           <div class="composer-meta">
             <span class="ask-mode-toggle">
               <button type="button" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
@@ -349,6 +364,8 @@
               <button type="button" id="ask-think" aria-pressed="false" title="Reasons longer before answering: slower, more careful, 3x the credits">Deep thinking</button>
               <span class="sep" id="ask-think-max-sep" aria-hidden="true" hidden>·</span>
               <button type="button" id="ask-think-max" aria-pressed="false" title="Maximum reasoning (admin only)" hidden>Max</button>
+              <span class="sep" id="ask-temp-sep" aria-hidden="true" hidden>·</span>
+              <button type="button" id="ask-temp" aria-pressed="false" title="A chat that is not saved and not used for memory" hidden>Temporary chat</button>
               <span class="sep" id="paper-sep" aria-hidden="true" hidden>·</span>
               <button type="button" id="ask-mode-paper" aria-pressed="false" title="AI Paper Portfolio mode — drive the experiment conversationally" hidden>🧪 AI Portfolio</button>
             </span>
@@ -393,10 +410,10 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261018-ui20"></script>
+  <script src="assets/app.js?v=20261018-ui21"></script>
   <script>
     (function () {
-      const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
+      const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc, savedAnswerTools, questionActs, stopSpeaking } = window.V2;
       nav('ask');
       footer();
       const $ = (id) => document.getElementById(id);
@@ -496,6 +513,7 @@
       let currentThreadId = (params0.get('t') || '').trim();
       if (!THREAD_ID_RE.test(currentThreadId)) currentThreadId = '';
       let threadList = [];
+      let tempChat = false; // a temporary chat is never saved; not remembered across visits
 
       function makeEngine() {
         return askEngine($('exchange'), {
@@ -508,8 +526,58 @@
           },
           onComplete: handleComplete,
           onPaperEvent: handlePaperEvent,
-          onTool: handleTool
+          onTool: handleTool,
+          onEdit: startEdit
         });
+      }
+
+      // ---- Edit a sent question (ChatGPT / Claude parity) ----
+      // ✎ under a question puts its text back in the box. Sending replaces that
+      // question and every turn after it, on screen and in the saved chat.
+      let editing = null; // { qEl, index }
+      function startEdit(qEl) {
+        if (!qEl || (engine.busy && engine.busy())) return;
+        cancelEdit();
+        const saved = Array.from($('exchange').querySelectorAll('.ask-q[data-saved]'));
+        const k = saved.indexOf(qEl);
+        editing = { qEl, index: k >= 0 ? 2 * k : null };
+        qEl.classList.add('is-editing');
+        ta.value = qEl.textContent;
+        autoGrow();
+        paintGo();
+        $('edit-note').hidden = false;
+        ta.focus();
+        ta.setSelectionRange(ta.value.length, ta.value.length);
+      }
+      function cancelEdit() {
+        if (!editing) return;
+        editing.qEl.classList.remove('is-editing');
+        editing = null;
+        $('edit-note').hidden = true;
+        ta.value = '';
+        autoGrow();
+        paintGo();
+      }
+      $('edit-cancel').addEventListener('click', () => { cancelEdit(); ta.focus(); });
+      // Take the edited turn and everything after it off the screen and out of
+      // the engine's own history; returns what the server needs to do the same.
+      function applyEdit() {
+        const { qEl, index } = editing;
+        const content = qEl.textContent;
+        editing = null;
+        $('edit-note').hidden = true;
+        let node = qEl;
+        while (node.parentElement && node.parentElement !== $('exchange')) node = node.parentElement;
+        while (node && node.nextSibling) node.nextSibling.remove();
+        if (node) node.remove();
+        if (index != null) engine.truncate(index);
+        return index != null ? { index, content } : null;
+      }
+      // Every send says which chat it belongs to: the saved one, or none at all
+      // in a temporary chat.
+      function turnOpts() {
+        if (tempChat) return { temporary: true };
+        return token() && currentThreadId ? { threadId: currentThreadId } : {};
       }
 
       // A screen Ask ran can be opened or saved (owner decision 2026-10-10).
@@ -631,6 +699,7 @@
         el.innerHTML = `
           <button type="button" role="menuitem" data-do="rename" title="Rename chat" aria-label="Rename chat">✏️</button>
           <button type="button" role="menuitem" data-do="pin" title="${t.pinned ? 'Unpin chat' : 'Pin chat'}" aria-label="${t.pinned ? 'Unpin chat' : 'Pin chat'}">📌</button>
+          <button type="button" role="menuitem" data-do="export" title="Download chat as Markdown" aria-label="Download chat as Markdown">⬇️</button>
           <button type="button" role="menuitem" data-do="delete" title="Delete chat" aria-label="Delete chat">🗑️</button>`;
         document.body.appendChild(el);
         const r = anchor.getBoundingClientRect();
@@ -646,8 +715,30 @@
           closeMenu();
           if (act === 'rename') startRename(id);
           else if (act === 'pin') pinThread(id);
+          else if (act === 'export') exportThread(id);
           else deleteThread(id);
         });
+      }
+      // ⬇️ the whole chat as a Markdown file: every question and answer, as saved.
+      async function exportThread(id) {
+        try {
+          const r = await fetch(`${API}/ask/threads/${id}${SURFACE_QS ? `?${SURFACE_QS}` : ''}`, { headers: { Authorization: `Bearer ${token()}` } });
+          if (!r.ok) throw new Error('export failed');
+          const t = (await r.json()).thread || {};
+          const title = String(t.title || 'Chat');
+          const when = (ts) => { const d = new Date(ts); return isNaN(d) ? '' : ` (${d.toLocaleString()})`; };
+          const body = (Array.isArray(t.messages) ? t.messages : []).map((m) =>
+            `## ${m.role === 'user' ? 'You' : 'StockPortfolio.pro'}${when(m.at)}\n\n${String(m.content || '').trim()}\n`).join('\n');
+          const md = `# ${title}\n\nExported from StockPortfolio.pro Ask on ${new Date().toLocaleString()}. Figures come from SEC filings and fund data; not investment advice.\n\n${body}`;
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown;charset=utf-8' }));
+          a.download = `${title.replace(/[^\w\- ]+/g, '').trim().slice(0, 60) || 'chat'}.md`;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+        } catch (_) {
+          modal({ label: 'Download chat', title: 'Could not download this chat', body: 'Try again in a moment.', actions: [{ label: 'Close', primary: true }] });
+        }
       }
       document.addEventListener('click', (e) => {
         if (openMenu && !openMenu.contains(e.target) && !e.target.closest('button[data-act="menu"]')) closeMenu();
@@ -724,8 +815,9 @@
       function renderSavedMessage(role, content) {
         const block = document.createElement('div');
         block.innerHTML = role === 'user'
-          ? `<div class="ask-q">${esc(String(content || ''))}</div>`
+          ? `<div class="ask-q" data-saved="1">${esc(String(content || ''))}</div>${questionActs(true)}`
           : `<div class="ask-a${(localStorage.getItem('sp_ask_mode_v1') === 'analyst' ? '' : ' is-normal')}">${markdown(String(content || ''))}</div>`;
+        if (role !== 'user') savedAnswerTools(block.firstChild, content);
         while (block.firstChild) $('exchange').appendChild(block.firstChild);
       }
       async function openThread(id) {
@@ -744,6 +836,9 @@
           if (!t) return;
           currentThreadId = String(t.id || id);
           try { window.history.replaceState(null, '', `${PAGE_PATH}?t=${currentThreadId}`); } catch (_) {}
+          stopSpeaking();
+          cancelEdit();
+          setTempChat(false);
           $('exchange').innerHTML = '';
           (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
           document.body.classList.add('in-conversation');
@@ -795,6 +890,8 @@
       function newChat() {
         currentThreadId = '';
         try { window.history.replaceState(null, '', PAGE_PATH); } catch (_) {}
+        stopSpeaking();
+        cancelEdit();
         $('exchange').innerHTML = '';
         document.body.classList.remove('in-conversation');
         setFocus(false);
@@ -1094,9 +1191,34 @@
         setErr('');
         renderChips();
       });
-      $('att-input').addEventListener('change', async () => {
+      $('att-input').addEventListener('change', () => {
         const files = Array.from($('att-input').files || []);
         $('att-input').value = '';
+        addFiles(files);
+      });
+      // Pasting a screenshot or dropping files on the box attaches them, the
+      // same as the 📎 button.
+      ta.addEventListener('paste', (e) => {
+        const files = Array.from((e.clipboardData && e.clipboardData.files) || []);
+        if (!files.length) return;
+        e.preventDefault();
+        addFiles(files);
+      });
+      const composerEl = $('composer');
+      composerEl.addEventListener('dragover', (e) => {
+        if (!e.dataTransfer || !Array.from(e.dataTransfer.types || []).includes('Files')) return;
+        e.preventDefault();
+        composerEl.classList.add('is-drop');
+      });
+      composerEl.addEventListener('dragleave', (e) => { if (!composerEl.contains(e.relatedTarget)) composerEl.classList.remove('is-drop'); });
+      composerEl.addEventListener('drop', (e) => {
+        composerEl.classList.remove('is-drop');
+        const files = Array.from((e.dataTransfer && e.dataTransfer.files) || []);
+        if (!files.length) return;
+        e.preventDefault();
+        addFiles(files);
+      });
+      async function addFiles(files) {
         const errs = []; // every rejected file gets its line, not last-wins
         for (const f of files) {
           if (attachments.length >= ATT_MAX) { errs.push(`Up to ${ATT_MAX} attachments per question.`); break; }
@@ -1117,8 +1239,8 @@
         }
         setErr(errs.join(' '));
         renderChips();
-      });
-      const aid = () => 'a' + Math.random().toString(36).slice(2, 10);
+      }
+      const aid =() => 'a' + Math.random().toString(36).slice(2, 10);
       // downscale to ≤1600px wide/tall and re-encode as jpeg — keeps the POST
       // body and the vision relay's token cost sane
       function imageToDataUri(file) {
@@ -1194,8 +1316,11 @@
         // so a question typed early can never land in Ask instead
         if (SURFACE === 'paper' && !paperMode) return;
         recordFirstQuery();
-        const opts = {};
-        if (token() && currentThreadId) opts.threadId = currentThreadId;
+        const opts = turnOpts();
+        if (editing) {
+          const editFrom = applyEdit();
+          if (editFrom && opts.threadId) opts.editFrom = editFrom;
+        }
         if (paperMode) opts.aiPaperMode = true; // server re-checks the beta gate per request
         if (attachments.length) {
           // 🧠 on a chip = the assistant should also take durable notes from it
@@ -1235,10 +1360,83 @@
         next.disabled = true;
         document.body.classList.add('in-conversation');
         $('thread').hidden = false;
-        engine.send(next.dataset.q, token() && currentThreadId ? { threadId: currentThreadId } : {});
+        engine.send(next.dataset.q, turnOpts());
       });
       ta.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); }
+        if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); submit(); return; }
+        // Esc leaves an edit before it changes the reading state
+        if (e.key === 'Escape' && editing) { e.preventDefault(); e.stopPropagation(); cancelEdit(); return; }
+        // ↑ in an empty box edits the last question, as in ChatGPT
+        if (e.key === 'ArrowUp' && !ta.value && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
+          const qs = $('exchange').querySelectorAll('.ask-q');
+          if (qs.length) { e.preventDefault(); startEdit(qs[qs.length - 1]); }
+        }
+      });
+
+      // ---- Temporary chat: not saved, no memory (signed-in only; signed-out
+      // questions are never saved anyway) ----
+      function setTempChat(on) {
+        if (tempChat === !!on) return;
+        tempChat = !!on;
+        document.body.classList.toggle('temp-chat', tempChat);
+        $('ask-temp').setAttribute('aria-pressed', String(tempChat));
+        $('temp-note').hidden = !tempChat;
+      }
+      $('ask-temp').addEventListener('click', () => {
+        const on = !tempChat;
+        newChat();          // a temporary chat starts empty, and so does leaving one
+        setTempChat(on);
+      });
+      if (token() && SURFACE === 'ask') { $('ask-temp').hidden = false; $('ask-temp-sep').hidden = false; }
+
+      // ---- Jump to the latest message ----
+      const jump = $('jump-latest');
+      const paintJump = () => {
+        const far = document.documentElement.scrollHeight - window.scrollY - window.innerHeight > 600;
+        jump.hidden = !(document.body.classList.contains('in-conversation') && far);
+      };
+      window.addEventListener('scroll', paintJump, { passive: true });
+      window.addEventListener('resize', paintJump);
+      new MutationObserver(paintJump).observe($('exchange'), { childList: true });
+      jump.addEventListener('click', () => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }));
+
+      // ---- Keyboard shortcuts (the ChatGPT set where it applies) ----
+      const MOD = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent) ? '⌘' : 'Ctrl';
+      function showShortcuts() {
+        const rows = [
+          ['New chat', `${MOD} Shift O`],
+          ['Focus the question box', 'Shift Esc'],
+          ['Copy the last answer', `${MOD} Shift C`],
+          ['Edit the last question', '↑ in an empty box'],
+          ['Show or hide the chat list', `${MOD} Shift S`],
+          ['Delete this chat', `${MOD} Shift ⌫`],
+          ['Send · new line', 'Enter · Shift Enter'],
+          ['Reading mode', 'F11 · Esc'],
+          ['These shortcuts', `${MOD} /`]
+        ];
+        modal({
+          label: 'Keyboard shortcuts',
+          title: 'Keyboard shortcuts',
+          bodyHtml: `<div class="kbd-list">${rows.map(([a, k]) => `<span>${esc(a)}</span><kbd>${esc(k)}</kbd>`).join('')}</div>`,
+          actions: [{ label: 'Close', primary: true }]
+        });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (document.querySelector('.v2-modal') && e.key !== 'Escape') return;
+        const mod = e.metaKey || e.ctrlKey;
+        const key = String(e.key || '').toLowerCase();
+        if (mod && !e.shiftKey && (key === '/' || e.code === 'Slash')) { e.preventDefault(); showShortcuts(); return; }
+        if (e.shiftKey && e.key === 'Escape' && !mod) { e.preventDefault(); ta.focus(); return; }
+        if (!mod || !e.shiftKey) return;
+        if (key === 'o') { e.preventDefault(); newChat(); closeSidePanel(); }
+        else if (key === 'c') {
+          const answers = $('exchange').querySelectorAll('.ask-a');
+          const last = answers[answers.length - 1];
+          const btn = last && last.querySelector('.ask-foot [data-act="copy"], .ask-foot [data-aact="copy"]');
+          if (btn) { e.preventDefault(); btn.click(); }
+        }
+        else if (key === 's' && !$('side').hidden) { e.preventDefault(); railOpen() ? hideRail() : showRail(); }
+        else if ((key === 'backspace' || key === 'delete') && currentThreadId && token()) { e.preventDefault(); deleteThread(currentThreadId); }
       });
       document.querySelectorAll('.prompts button').forEach((b) =>
         b.addEventListener('click', () => {
@@ -1247,7 +1445,7 @@
           setFocus(true);
           if (prefersZen()) setZen(true);
           $('thread').hidden = false;
-          engine.send(b.textContent, token() && currentThreadId ? { threadId: currentThreadId } : {});
+          engine.send(b.textContent, turnOpts());
         }));
       const firstQuestion = $('appsumo-first-question');
       if (firstQuestion) firstQuestion.addEventListener('click', () => {

@@ -788,7 +788,14 @@
         src = src.replace(/```viz[\s\S]*$/, '');
         src = src.replace(/```bars[\s\S]*$/, '');
         src = src.replace(/```sankey[\s\S]*$/, '');
-        src = src.replace(/```[a-z]*\n?([\s\S]*?)```/g, '$1');
+        // Code, formulas and data the model fences off keep their layout and get a
+        // Copy button. A fenced table or markdown is unwrapped as before, so it
+        // still renders as a table rather than as code.
+        src = src.replace(/```([a-z0-9+#.-]*)[^\S\n]*\n?([\s\S]*?)```/gi, (m, lang, body) => {
+            if (/^(md|markdown|table)$/i.test(lang) || (!lang && /^\s*\|?[\s:|-]+\|[\s:|-]*$/m.test(body))) return body;
+            vizzes.push(`<div class="ask-code">${lang ? `<span class="ask-code-lang">${esc(lang)}</span>` : ''}<button type="button" class="ask-code-copy" data-aact="copy-code">Copy</button><pre><code>${esc(body.replace(/\n$/, ''))}</code></pre></div>`);
+            return `\nVIZBLOCK${vizzes.length - 1}END\n`;
+        });
         const lines = esc(src).split('\n');
         const out = [];
         let list = null;
@@ -2020,10 +2027,132 @@
         mark('shown');
     }
 
-    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool } = {}) {
+    // ---------- question and answer tools (copy, edit, read aloud) ----------
+    // The raw text of every answer on screen, for Copy and Read aloud; the
+    // rendered element holds charts and links that are not the answer's words.
+    const answerText = new WeakMap();
+    const ICON_EDIT = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.8 2.7l2.5 2.5-7.6 7.6-3.1.6.6-3.1 7.6-7.6z"/></svg>';
+    const ICON_SPEAK = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2h2.2L8 3.5v9L4.7 9.8H2.5z"/><path d="M10.6 5.6a3.4 3.4 0 0 1 0 4.8M12.4 3.9a5.8 5.8 0 0 1 0 8.2"/></svg>';
+    function questionActs(editable) {
+        return `<div class="ask-q-acts" role="group" aria-label="Question actions">`
+            + `<button type="button" data-qact="copy" title="Copy question" aria-label="Copy question">${ICON_COPY}</button>`
+            + (editable ? `<button type="button" data-qact="edit" title="Edit question" aria-label="Edit question">${ICON_EDIT}</button>` : '')
+            + '</div>';
+    }
+    // What a listener hears: the words, without table pipes, link targets,
+    // chart blocks or markdown marks.
+    function speakable(md) {
+        return String(md || '')
+            .replace(/```[\s\S]*?```/g, ' ')
+            .replace(/^SEC sources:.*$/gim, ' ')
+            .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+            .replace(/^\s*\|?[\s:|-]+\|[\s:|-]*$/gm, ' ')
+            .replace(/\|/g, ', ')
+            .replace(/[*_`#>]+/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+    let speaking = null;
+    function stopSpeaking() {
+        if (!speaking) return;
+        try { window.speechSynthesis.cancel(); } catch (_) { /* ignore */ }
+        speaking.classList.remove('is-picked');
+        speaking.title = 'Read aloud';
+        speaking = null;
+    }
+    // Chrome stops a single long utterance after about fifteen seconds, so the
+    // answer is queued sentence by sentence.
+    function speak(btn, md) {
+        if (!('speechSynthesis' in window)) return;
+        const was = speaking;
+        stopSpeaking();
+        if (was === btn) return;
+        const parts = speakable(md).match(/[^.!?]+[.!?]*\s*/g) || [];
+        const chunks = [];
+        for (const p of parts) {
+            if (chunks.length && (chunks[chunks.length - 1] + p).length < 220) chunks[chunks.length - 1] += p;
+            else chunks.push(p);
+        }
+        if (!chunks.length) return;
+        speaking = btn;
+        btn.classList.add('is-picked');
+        btn.title = 'Stop reading';
+        chunks.forEach((c, i) => {
+            const u = new SpeechSynthesisUtterance(c);
+            u.lang = document.documentElement.lang || 'en-US';
+            if (i === chunks.length - 1) u.onend = () => { if (speaking === btn) stopSpeaking(); };
+            window.speechSynthesis.speak(u);
+        });
+    }
+    async function copyToClipboard(btn, value, label) {
+        try {
+            await navigator.clipboard.writeText(String(value));
+            btn.classList.add('is-picked');
+            const was = btn.title;
+            btn.title = 'Copied';
+            if (btn.classList.contains('ask-code-copy')) btn.textContent = 'Copied';
+            setTimeout(() => {
+                btn.classList.remove('is-picked');
+                btn.title = was;
+                if (btn.classList.contains('ask-code-copy')) btn.textContent = 'Copy';
+            }, 1600);
+        } catch (_) {
+            modal({
+                label,
+                title: label,
+                body: 'Your browser blocked automatic copying — select the text below and copy it manually.',
+                bodyHtml: `<textarea class="input" rows="10" aria-label="Text to copy" style="width:100%">${esc(String(value))}</textarea>`,
+                actions: [{ label: 'Close', primary: true }]
+            });
+        }
+    }
+    // An answer re-rendered from a saved chat gets the same Copy and Read aloud
+    // as one that just streamed in.
+    function savedAnswerTools(answerEl, md) {
+        answerText.set(answerEl, String(md || ''));
+        const foot = document.createElement('div');
+        foot.className = 'ask-foot';
+        foot.innerHTML = `<span class="ask-fb" role="group" aria-label="Answer actions">`
+            + `<button type="button" data-aact="copy" title="Copy answer" aria-label="Copy answer">${ICON_COPY}</button>`
+            + ('speechSynthesis' in window ? `<button type="button" data-aact="speak" title="Read aloud" aria-label="Read aloud">${ICON_SPEAK}</button>` : '')
+            + '</span>';
+        answerEl.appendChild(foot);
+    }
+    // One listener per exchange serves every turn, streamed or saved.
+    function wireExchangeTools(exchange) {
+        if (exchange.__askTools) return;
+        exchange.__askTools = true;
+        exchange.addEventListener('click', (e) => {
+            const q = e.target.closest && e.target.closest('[data-qact]');
+            if (q) {
+                const acts = q.closest('.ask-q-acts');
+                const qEl = acts && acts.previousElementSibling;
+                if (!qEl || !qEl.classList.contains('ask-q')) return;
+                if (q.dataset.qact === 'copy') copyToClipboard(q, qEl.textContent, 'Copy question');
+                else if (exchange.__onEdit) exchange.__onEdit(qEl);
+                return;
+            }
+            const a = e.target.closest && e.target.closest('[data-aact]');
+            if (!a) return;
+            if (a.dataset.aact === 'copy-code') {
+                const code = a.parentElement.querySelector('code');
+                if (code) copyToClipboard(a, code.textContent, 'Copy code');
+                return;
+            }
+            const ansEl = a.closest('.ask-a');
+            if (!ansEl) return;
+            const md = answerText.has(ansEl) ? answerText.get(ansEl) : ansEl.innerText;
+            if (a.dataset.aact === 'copy') copyToClipboard(a, md, 'Copy answer');
+            else if (a.dataset.aact === 'speak') speak(a, md);
+        });
+    }
+
+    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool, onEdit } = {}) {
         const history = [];
         let busy = false;
         let aborter = null;
+        wireExchangeTools(exchange);
+        if (onEdit) exchange.__onEdit = onEdit;
 
         const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
         const atBottom = () => (document.documentElement.scrollHeight - window.scrollY - window.innerHeight) < 160;
@@ -2101,7 +2230,7 @@
             // user watched one grey italic line for the whole tool phase.
             const blockAskMode = localStorage.getItem('sp_ask_mode_v1') === 'analyst' ? 'analyst' : 'normal';
             block.innerHTML = `
-              <div class="ask-q">${esc(question)}</div>
+              <div class="ask-q">${esc(question)}</div>${questionActs(!!exchange.__onEdit)}
               <div class="ask-trace"></div>
               <div class="ask-progress">
                 <div class="ask-progress-head">
@@ -2227,7 +2356,7 @@
                             headers: _askHeaders,
                             // the server owns per-thread context when a threadId
                             // is present; callers without one behave exactly as before
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(['high', 'max'].includes(localStorage.getItem('sp_ask_think_v1')) ? { thinking: localStorage.getItem('sp_ask_think_v1') } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(['high', 'max'].includes(localStorage.getItem('sp_ask_think_v1')) ? { thinking: localStorage.getItem('sp_ask_think_v1') } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.threadId && opts.editFrom ? { editFrom: opts.editFrom } : {}), ...(opts && opts.temporary ? { temporary: true } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -2358,6 +2487,11 @@
                         closeProgress();
                     renderTrace();
                     answerEl.innerHTML = markdown(data.answer);
+                    answerText.set(answerEl, String(data.answer));
+                    // A question that reached the saved chat can be edited in place:
+                    // the page counts these to find its position in the transcript.
+                    const qEl = block.querySelector('.ask-q');
+                    if (qEl) qEl.dataset.saved = '1';
                     // .ask-next clicks are handled by the delegated listener on
                     // `block` (bound once, above) so they work during streaming too.
                     // The advice disclaimer rides the ANSWER, not the composer: the
@@ -2404,6 +2538,7 @@
                       <span class="ask-fb" role="group" aria-label="Answer actions">
                         <button type="button" data-act="copy" title="Copy answer" aria-label="Copy answer">${ICON_COPY}</button>
                         <button type="button" data-act="rerun" title="Ask this again" aria-label="Ask this again">${ICON_RERUN}</button>
+                        ${'speechSynthesis' in window ? `<button type="button" data-aact="speak" title="Read aloud" aria-label="Read aloud">${ICON_SPEAK}</button>` : ''}
                       </span>
                       <span class="ask-fb" role="group" aria-label="Was this helpful?">
                         <button type="button" data-v="up" title="Helpful" aria-label="Helpful">${THUMB}</button>
@@ -2462,7 +2597,9 @@
             }
         }
 
-        return { send, stop: () => { if (aborter) aborter.abort(); } };
+        // Editing a question drops it and every later turn, here as on the server.
+        const truncate = (n) => { history.length = Math.max(0, Math.min(history.length, n)); };
+        return { send, stop: () => { if (aborter) aborter.abort(); }, truncate, busy: () => busy };
     }
 
     // In-flow shell: bar + panel inside a page section.
@@ -2669,7 +2806,7 @@
             });
         }, 100);
     });
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, askToolEvent: 'v2:ask-tool', askDoneEvent: 'v2:ask-done', companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, askToolEvent: 'v2:ask-tool', askDoneEvent: 'v2:ask-done', companies, searchAssets, mountTickerAutocomplete, mountShare, savedAnswerTools, questionActs, stopSpeaking, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
 
     // Server-rendered SEO surfaces opt into the ask floor with a body
     // attribute (see /stocks/:ticker and the free-tool pages): every page

@@ -1032,7 +1032,22 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
   font-weight: 500;
   margin-bottom: 18px;
   overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
+/* Copy and Edit under the question, quiet until the turn is hovered or
+   focused (always shown on touch screens, which have no hover). */
+.ask-q-acts { display: flex; justify-content: flex-end; gap: 2px; margin: -14px 0 14px; opacity: 0; transition: opacity .15s; }
+.ask-q-acts button { border: 0; background: none; padding: 4px; color: var(--ink-3); cursor: pointer; border-radius: 6px; line-height: 0; }
+.ask-q-acts button:hover { color: var(--ink); background: var(--surface); }
+.ask-q-acts button.is-picked { color: var(--accent-ink); }
+.ask-q:hover + .ask-q-acts, .ask-q-acts:hover, .ask-q-acts:focus-within { opacity: 1; }
+@media (hover: none) { .ask-q-acts { opacity: 1; } }
+/* fenced code, formulas and raw data in an answer */
+.ask-code { position: relative; margin: 12px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.ask-code pre { margin: 0; padding: 30px 14px 12px; overflow-x: auto; font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; }
+.ask-code-lang { position: absolute; top: 7px; left: 14px; font-size: 11px; color: var(--ink-3); }
+.ask-code-copy { position: absolute; top: 5px; right: 6px; border: 0; background: none; padding: 2px 8px; font-size: 11.5px; color: var(--ink-3); cursor: pointer; border-radius: 6px; }
+.ask-code-copy:hover, .ask-code-copy.is-picked { color: var(--ink); background: var(--paper, transparent); }
 /* the progress card: while working, EVERYTHING the stream has told us stays
    on screen — the model's own plan (the `note` event), every finished step
    with how long it took, the step running now, and a live timer. It used to
