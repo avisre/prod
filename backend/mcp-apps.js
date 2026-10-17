@@ -32,6 +32,7 @@
 
 const connectorUsage = require('./connector-usage');
 const connectorNotices = require('./connector-notices');
+const companyBreadth = require('./company-breadth');
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
 const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/server/streamableHttp.js');
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
@@ -544,12 +545,22 @@ function buildMcpAppsServer(ctx, deps) {
                 log(false, 'QUOTA_EXCEEDED');
                 return errorResult('QUOTA_EXCEEDED', message);
             }
+            // Anti-scraping cap on different companies per account (company-breadth.js).
+            const companies = deps.breadth && !ctx.anonymous ? companyBreadth.companiesIn(args) : [];
+            if (companies.length) {
+                const breadth = await deps.breadth.check(companies);
+                if (!breadth.ok) {
+                    log(false, 'COMPANY_LIMIT');
+                    return errorResult('COMPANY_LIMIT', breadth.message, { window: breadth.window, limit: breadth.limit, resets_at: breadth.resetsAt });
+                }
+            }
             // The notice's ledger read is awaited BEFORE the charge, or this
             // call's own row would hide credits that just arrived (see mcp-endpoint.js).
             const pendingNotice = connectorNotices.begin(deps, gate);
             const result = await def.handler(args);
             const notice = await pendingNotice;
             await deps.limiter.spend(ctx.userId, 'mcp_lookup', `mcp-apps:${name}`, subject, ctx.client || null);
+            if (companies.length) await deps.breadth.record(companies);
             log(true, null);
             return textResult(connectorNotices.attach(result, notice));
         } catch (err) {

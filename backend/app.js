@@ -41,6 +41,7 @@ const connectorNotices = require('./connector-notices');
 const savedScreens = require('./saved-screens');
 const speechToText = require('./speech-to-text');
 const connectorUsage = require('./connector-usage');
+const companyBreadth = require('./company-breadth');
 const oauthOidc = require('./oauth-oidc');
 const oauthMcp = require('./oauth-mcp');
 const aiPaper = require('./ai-paper-portfolio');
@@ -6133,7 +6134,15 @@ app.post('/api/account/connected-apps/revoke', authMiddleware, jsonParser, async
 // free-tools.js/asset-profile.js exactly as the web app does; sp_ask/ /ask
 // route to ai-chat.js. Every call spends from the caller's own credit
 // ledger wallet via apiKeyAuth's identity bridge.
-app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser }));
+// Anti-scraping: a cap on how many different companies one account pulls through
+// the REST API and both connector endpoints (company-breadth.js). The admin
+// account is exempt so the owner's own checks never hit it.
+function companyBreadthFor(req) {
+    if (!req || !req.userId) return null;
+    if (String(req.user && req.user.email || '').trim().toLowerCase() === CUSTOMER_MESSAGES_ADMIN_EMAIL) return null;
+    return companyBreadth.forAccount(mongoose.connection.collection('company_breadth'), req.userId);
+}
+app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser, breadthFor: companyBreadthFor }));
 
 // Hosted MCP endpoint — see backend/mcp-endpoint.js. Stateless Streamable
 // HTTP: no session id, no server-initiated SSE, since every tool call is a
@@ -6863,6 +6872,7 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
             { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client },
             {
                 limiter: credits,
+                breadth: companyBreadthFor(req),
                 effectiveAskLimit: () => effectiveAskLimit(req),
                 entitled: () => hasApiAccess(req),
                 wallReason: null,
@@ -6921,6 +6931,7 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
             { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client },
             {
                 limiter: credits,
+                breadth: companyBreadthFor(req),
                 effectiveAskLimit: () => effectiveAskLimit(req),
                 entitled: () => hasApiAccess(req),
                 accountNotice: (gate) => connectorAccountNotice(req, gate, true),

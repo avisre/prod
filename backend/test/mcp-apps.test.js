@@ -126,6 +126,7 @@ async function withClient(t, overrides = {}) {
         effectiveAskLimit: () => 200,
         entitled: () => (overrides.entitled === undefined ? true : overrides.entitled),
         ...(overrides.accountNotice ? { accountNotice: overrides.accountNotice } : {}),
+        ...(overrides.breadth ? { breadth: overrides.breadth } : {}),
         onLog: (event) => state.logs.push(event)
     };
     const app = express();
@@ -435,7 +436,7 @@ test('responses carry no timestamps, identifiers, tokens or debug fields', async
     const raw = result.content[0].text;
     assert.doesNotMatch(raw, /generatedAt|timestamp|traceId|requestId|sessionId|stack|apiKey|token/i);
     const payload = JSON.parse(raw);
-    assert.deepEqual(Object.keys(payload).sort(), ['company','coverage','metrics','order','period_type','supplementalObservations']);
+    assert.deepEqual(Object.keys(payload).sort(), ['company','coverage','freshness','metrics','order','period_type','supplementalObservations']);
     const keys = Object.keys(payload.metrics[0].observations[0]).sort();
     for (const key of keys) {
         assert.ok(['currency', 'derived_from', 'label', 'metric', 'note', 'period_end', 'period_type', 'source', 'units', 'value'].includes(key), `unexpected observation field ${key}`);
@@ -506,4 +507,17 @@ test('an account notice on the ChatGPT app is commerce-neutral and rides in the 
     // OpenAI plugin guidelines: no plan names, prices, checkout or upgrade links.
     assert.doesNotMatch(payload.account_notice, /\$|https?:|\/upgrade|\/recharge|plan|subscribe|credit/i);
     assert.ok(payload.company, 'the financial payload is intact');
+});
+
+test('the company cap refuses an over-broad account without charging it', async (t) => {
+    let spent = 0;
+    const { client, state } = await withClient(t, {
+        limiter: { check: async () => ({ ok: true }), spend: async () => { spent += 1; } },
+        breadth: { check: async () => ({ ok: false, window: 'month', limit: 250, resetsAt: null, message: 'This account has looked up 250 different companies in the last 30 days, the most allowed.' }), record: async () => {} }
+    });
+    const result = await client.callTool({ name: 'get_company_financials', arguments: { company: 'AAPL' } });
+    assert.equal(result.isError, true);
+    assert.equal(parse(result).code, 'COMPANY_LIMIT');
+    assert.equal(spent, 0);
+    assert.ok(state.logs.some((e) => e.code === 'COMPANY_LIMIT'), 'the refusal is logged for the usage page');
 });

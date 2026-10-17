@@ -32,7 +32,8 @@ const REFUSAL_LABELS = Object.freeze({
     QUOTA_EXCEEDED: 'Out of credits',
     ENTITLEMENT_REQUIRED: 'Plan does not include the connector',
     REGION_PAID_ONLY: 'Region requires a paid plan',
-    NETWORK_PAID_ONLY: 'VPN or data-centre connection requires a paid plan'
+    NETWORK_PAID_ONLY: 'VPN or data-centre connection requires a paid plan',
+    COMPANY_LIMIT: 'Too many different companies'
 });
 
 function clean(value, max) {

@@ -725,3 +725,38 @@ test('a wallet that is nearly spent says so before the refusal, and a broken not
     assert.ok(!res.isError, 'the call still succeeds');
     assert.equal(jsonOf(res).account_notice, undefined);
 });
+
+// ---------------------------------------------------------------------------
+// Anti-scraping: the cap on different companies (company-breadth.js)
+// ---------------------------------------------------------------------------
+
+test('an account over its company cap is refused before the work and never charged; one under it is recorded', { timeout: 60000 }, async (t) => {
+    stubFinancials();
+    t.after(restoreFinancials);
+    const spent = [];
+    const recorded = [];
+    const limiter = { check: async () => ({ ok: true }), spend: async () => { spent.push(1); } };
+    const refusing = keyedShape({ limiter });
+    refusing.deps.breadth = {
+        check: async () => ({ ok: false, window: 'day', limit: 50, resetsAt: '2026-10-19T09:00:00.000Z', message: 'This account has looked up 50 different companies in the last 24 hours, the most allowed.' }),
+        record: async (c) => { recorded.push(c); }
+    };
+    const over = await connect(t, await mount(t, refusing));
+    const res = await over.callTool({ name: 'get_company_fundamentals', arguments: { ticker: 'AAPL', periods: 1 } });
+    assert.equal(res.isError, true);
+    assert.equal(jsonOf(res).code, 'COMPANY_LIMIT');
+    assert.equal(jsonOf(res).resets_at, '2026-10-19T09:00:00.000Z');
+    assert.equal(spent.length, 0, 'a refused call costs nothing');
+
+    const checked = [];
+    const allowing = keyedShape({ limiter });
+    allowing.deps.breadth = { check: async (c) => { checked.push(c); return { ok: true }; }, record: async (c) => { recorded.push(c); } };
+    const under = await connect(t, await mount(t, allowing));
+    const ok = await under.callTool({ name: 'get_company_fundamentals', arguments: { ticker: 'aapl', periods: 1 } });
+    assert.ok(!ok.isError, ok.content[0].text);
+    assert.deepEqual(checked, [['AAPL']]);
+    assert.deepEqual(recorded, [['AAPL']], 'recorded once, after the work succeeded');
+    // A call about no company (a name search) never consults the cap.
+    await under.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(checked.length, 1);
+});

@@ -16,8 +16,9 @@ const express = require('express');
 const freeTools = require('./free-tools');
 const assetProfile = require('./asset-profile');
 const { envelope, quotaError } = require('./api-response');
+const companyBreadth = require('./company-breadth');
 
-function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser }) {
+function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser, breadthFor }) {
     const router = express.Router();
 
     router.get('/health', (req, res) => {
@@ -46,40 +47,67 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         return check;
     }
 
+    // Anti-scraping cap on different companies per account, shared with the
+    // connectors (company-breadth.js). Returns the guard to record against after
+    // the lookup succeeds, or null once it has answered 429.
+    async function breadthGate(req, res, args) {
+        const breadth = typeof breadthFor === 'function' ? breadthFor(req) : null;
+        const companies = breadth ? companyBreadth.companiesIn(args) : [];
+        if (!companies.length) return { record: async () => {} };
+        const verdict = await breadth.check(companies);
+        if (!verdict.ok) {
+            res.status(429).json({ code: 'COMPANY_LIMIT', error: verdict.message, window: verdict.window, limit: verdict.limit, resets_at: verdict.resetsAt });
+            return null;
+        }
+        return { record: () => breadth.record(companies) };
+    }
+
     router.get('/financials/:ticker', async (req, res) => {
         const slugs = new Set(Object.keys(freeTools.TOOL_DEFINITIONS));
         const requested = String(req.query.tool || 'earnings-quality').trim().toLowerCase();
         const slug = slugs.has(requested) ? requested : 'earnings-quality';
         if (!(await gate(req, res, 'api_lookup'))) return;
+        const breadth = await breadthGate(req, res, { ticker: req.params.ticker });
+        if (!breadth) return;
         const { status, body } = await freeTools.getToolResult(slug, req.params.ticker);
         if (status !== 200) return res.status(status).json(body);
         await credits.spend(req.userId, 'api_lookup', `api:${slug}`, req.params.ticker);
+        await breadth.record();
         res.json(envelope(slug, freeTools.normalizeSymbol(req.params.ticker), body));
     });
 
     router.get('/filing/:ticker', async (req, res) => {
         if (!(await gate(req, res, 'api_lookup'))) return;
+        const breadth = await breadthGate(req, res, { ticker: req.params.ticker });
+        if (!breadth) return;
         const { status, body } = await freeTools.getToolResult('filing-timeline', req.params.ticker);
         if (status !== 200) return res.status(status).json({ error: body.error });
         await credits.spend(req.userId, 'api_lookup', 'api:filing-timeline', req.params.ticker);
+        await breadth.record();
         res.json(envelope('filing-timeline', freeTools.normalizeSymbol(req.params.ticker), body));
     });
 
     router.get('/compare', async (req, res) => {
         const raw = String(req.query.tickers || '');
         if (!(await gate(req, res, 'api_lookup'))) return;
+        const breadth = await breadthGate(req, res, { tickers: raw });
+        if (!breadth) return;
         const { status, body } = await freeTools.getToolResult('company-comparison', raw);
         if (status !== 200) return res.status(status).json({ error: body.error });
         await credits.spend(req.userId, 'api_lookup', 'api:company-comparison', raw);
+        await breadth.record();
         res.json(envelope('company-comparison', raw.toUpperCase(), body));
     });
 
     router.get('/screen', async (req, res) => {
         const raw = String(req.query.tickers || '');
         if (!(await gate(req, res, 'api_lookup'))) return;
+        const breadth = await breadthGate(req, res, { tickers: raw });
+        if (!breadth) return;
         const { status, body } = await freeTools.getToolResult('portfolio-revenue', raw);
         if (status !== 200) return res.status(status).json({ error: body.error });
         await credits.spend(req.userId, 'api_lookup', 'api:portfolio-revenue', raw);
+        await breadth.record();
         res.json(envelope('portfolio-revenue', raw.toUpperCase(), body));
     });
 
@@ -90,6 +118,8 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         const symbol = freeTools.normalizeSymbol(req.params.symbol);
         if (!symbol) return res.status(400).json({ error: 'Invalid fund symbol.' });
         if (!(await gate(req, res, 'api_lookup'))) return;
+        const breadth = await breadthGate(req, res, { symbol });
+        if (!breadth) return;
         let profile;
         try { profile = await assetProfile.fetchAssetProfile(symbol); }
         catch (_) { return res.status(502).json({ error: 'Fund profile is temporarily unavailable.' }); }
@@ -97,6 +127,7 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
             return res.status(404).json({ error: `${symbol} is not an ETF or mutual fund.` });
         }
         await credits.spend(req.userId, 'api_lookup', 'api:fund', symbol);
+        await breadth.record();
         res.json({
             tool: 'fund',
             symbol,

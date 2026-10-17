@@ -47,6 +47,7 @@ const aiChat = require('./ai-chat');
 const { quotaError } = require('./api-response');
 const connectorUsage = require('./connector-usage');
 const connectorNotices = require('./connector-notices');
+const companyBreadth = require('./company-breadth');
 const mcpAnon = require('./mcp-anon');
 
 const SERVER_NAME = 'stockportfolio-mcp';
@@ -701,6 +702,17 @@ function buildMcpServer(ctx, deps) {
                 return finish(errorResult('QUOTA_EXCEEDED', q.error, q), 'QUOTA_EXCEEDED');
             }
 
+            // Anti-scraping: a cap on how many different companies one account
+            // pulls (company-breadth.js). Keyless callers are already held to a
+            // small allowance, so only an account carries this dependency.
+            const companies = deps.breadth && !ctx.anonymous ? companyBreadth.companiesIn(args) : [];
+            if (companies.length) {
+                const breadth = await deps.breadth.check(companies);
+                if (!breadth.ok) {
+                    return finish(errorResult('COMPANY_LIMIT', breadth.message, { window: breadth.window, limit: breadth.limit, resets_at: breadth.resetsAt, tool: def.name }), 'COMPANY_LIMIT');
+                }
+            }
+
             // The notice reads the ledger while the work runs, and that read is
             // awaited BEFORE the charge below. Charging first let this call's
             // own ledger row pass for "the last call" and hide credits that had
@@ -711,6 +723,7 @@ function buildMcpServer(ctx, deps) {
             // Charged after the work succeeded, so a failed lookup never spends
             // the caller's allowance.
             await deps.limiter.spend(ctx.userId, def.aiCost ? 'mcp_ask' : 'mcp_lookup', `mcp:${def.name}`, subject, ctx.client || null);
+            if (companies.length) await deps.breadth.record(companies);
             result = connectorNotices.attach(result, notice);
 
             if (def.aiCost && ctx.anonymous) {
