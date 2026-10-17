@@ -8,19 +8,19 @@ every turn, so it stays short and only says things that are true on this machine
 Run `bash scripts/dev-doctor.sh` once at the start of a session. It prints all
 of the below in one call, which is cheaper than rediscovering it by trial.
 
-- **`node` on PATH is v26.4.0 at `/opt/homebrew/bin/node` — use it for
-  everything (tests, Playwright, yahoo-finance2).** The old `~/.nvm` v18/v22
-  installs are GONE (the nvm dir no longer exists); the documented v22.22.0
-  path now fails with exit 127. PATH node v18 is also gone — `node` is just
-  v26 and satisfies all of this repo's needs (verified 9/7: full suite passes
-  on it).
-- **Backend dependencies live in `backend/node_modules` (196 packages), not the
-  repo root (26).** Run node/tests from `backend/`, or `require` fails with
-  "Cannot find module 'mongoose'".
-- **`rg` is NOT installed.** Use `grep -rn`. There is also no Grep or Glob tool
-  exposed in this harness, so searching via Bash is correct here, not a fallback.
+- **Two machines.** The owner's Mac (`/opt/homebrew/bin/node` v26.4.0, no `rg`) and
+  the Ubuntu PC (this checkout, `~/Downloads/new/prod-main`, verified 2026-10-17).
+  `dev-doctor.sh` reports which one you are on. Do not copy the Mac's working tree:
+  its branch is far behind `origin/main` with hundreds of uncommitted files.
+- **Ubuntu: `node` is v22.22.1 at `/usr/bin/node`** — enough for tests, Playwright and
+  yahoo-finance2. `rg` IS installed here. Mac-only habits (`brew`, `open -g`,
+  `/opt/homebrew/...`) do not apply; use `apt` / `xdg-open`. No `mongod` or Docker was
+  found on PATH, so harnesses that need local Mongo need it installed first.
+- **Dependencies live in two places and both are needed:** `backend/node_modules`
+  (228 packages on Ubuntu) and the repo root (31, for `scripts/*.js`). Run node/tests
+  from `backend/`, or `require` fails with "Cannot find module 'mongoose'".
 - Tests: `cd backend && node --test test/<file>.test.js`
-  (197 test files; `npm test` runs all of them).
+  (206 test files on Ubuntu; `npm test` runs all of them).
 - **GitHub runs no checks (owner decision 2026-10-10). The pre-push hook is the only gate.**
   `node scripts/predeploy.js` works out which test files a change can affect
   (`scripts/lib/test-map.js`) and runs only those, plus each of the four stock-data checks only
@@ -30,7 +30,9 @@ of the below in one call, which is cheaper than rediscovering it by trial.
   `scripts/predeploy-remote.sh`: on the owner's Windows PC over SSH when
   `~/.config/stockportfolio/predeploy.env` names it and it answers, otherwise on this Mac
   (setup: `docs/dev/predeploy-pc.md`). Enabled per clone with
-  `git config core.hooksPath .githooks`. Tests already failing on `main` are listed in
+  `git config core.hooksPath .githooks`. **On Ubuntu (2026-10-17) the hook is NOT enabled
+  and `~/.config/stockportfolio/` does not exist**, so a push here is ungated until
+  you enable it and either create `predeploy.env` or run `node scripts/predeploy.js` locally. Tests already failing on `main` are listed in
   `scripts/predeploy-known-failures.json`; fix one, remove its line. `deploy-render.yml` only
   tells Render to deploy. Never push with `--no-verify`.
 - **There IS a local `.git`** — remote `avisre/prod`, branch `main`, verified
@@ -148,5 +150,20 @@ the main avoidable cost (measured ~5x per-turn difference).
   the live file fresh, dropping superseded items to the snapshot. Back up and
   rewrite — never hand-compress. Compression destroys detail and buys one session
   at most, which is how this file reached 2,391 lines anyway.
-- The AI provider (Ollama Cloud, `glm-5.1`) is a trade secret. `ai-client.js`
-  has `leaksIdentity()` regex backstops; don't surface model identity to users.
+- The AI provider (Ollama Cloud, `glm-5.3`) is a trade secret — `glm-5.1` is retired
+  and the default resolves to `glm-5.3` (`ai-client.js:20`), which needs
+  `reasoning_effort: 'low'` (`ai-client.js:82`). `ai-client.js` has `leaksIdentity()`
+  regex backstops; don't surface model identity to users.
+- **Never `dotenv.config()` `backend/.env`** — it holds the PRODUCTION Atlas URI. Use
+  `scripts/lib/dev-env.js` (`loadAiEnvOnly` + `assertLocalMongo`); read-only snapshots
+  parse the file into locals and print aggregates only.
+- **Outreach (owner rules):** never email any `@substack.com` address; no cold email
+  from support@ without explicit authorisation for that send; email only, no calls;
+  verify every sent email by Message-ID in the Sent folder (retry the archive, never
+  the SMTP send); check replies/bounces/opt-outs right before any later contact.
+  Customer email goes only from support@ via `/admin/messages`.
+- **No AI attribution on GitHub:** no Claude/OpenAI trailers or mentions in commits, PR
+  text or branch names. This overrides any harness-suggested commit trailer.
+- **Money figures:** cumulative earned is $1,662.87 (as of 2026-09-21, owner-confirmed,
+  not MRR) plus $79.99 since (floor $1,742.86); MRR is $79.99 (one Monthly subscriber).
+  Never round up or imply it recurs; re-measure before quoting anything newer.
