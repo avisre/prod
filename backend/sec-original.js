@@ -13,7 +13,7 @@ const MAX_BYTES = (Number(process.env.SEC_ORIGINAL_MAX_MB) || 18) * 1024 * 1024;
 // in whichever document carries the header, and referenced from the others.
 function parseOriginal(text, filing, cik, shared) {
  if(Buffer.byteLength(text)>MAX_BYTES)throw new Error('ORIGINAL_DOCUMENT_TOO_LARGE');
- const contexts=shared?.contexts || new Map(),units=shared?.units || new Map(),facts=[],stack=[],coverCiks=[];let context=null,unit=null,fact=null,coverCik=null,narrative='';
+ const contexts=shared?.contexts || new Map(),units=shared?.units || new Map(),facts=[],stack=[],coverCiks=[],open=[];let context=null,unit=null,coverCik=null,narrative='';
  const local=name=>name.split(':').pop().toLowerCase();
  const parser=new Parser({
   onopentag(name,attrs) {
@@ -22,7 +22,9 @@ function parseOriginal(text, filing, cik, shared) {
    if(context && ['explicitmember','typedmember'].includes(tag))context.dimensions.push({axis:attrs.dimension,member:''});
    if(tag==='unit')unit={id:attrs.id,measures:[],divide:false};
    if(unit && tag==='divide')unit.divide=true;
-   if(tag==='nonfraction')fact={...attrs,text:''};
+   // A nonFraction can wrap another (Alto Ingredients' exact share count holds a nested copy);
+   // each open fact keeps reading the text inside it, so the outer one is not lost.
+   if(tag==='nonfraction')open.push({...attrs,text:''});
    if(tag==='nonnumeric' && attrs.name==='dei:EntityCentralIndexKey')coverCik={contextref:attrs.contextref,text:''};
   },
   ontext(value) {
@@ -34,7 +36,7 @@ function parseOriginal(text, filing, cik, shared) {
     if(tag==='explicitmember')context.dimensions[context.dimensions.length-1].member+=value;
    }
    if(unit && tag==='measure')unit.measures.push(value.trim().split(':').pop());
-   if(fact)fact.text+=value;
+   for(const f of open)f.text+=value;
    if(coverCik)coverCik.text+=value;
    if(narrative.length<1024*1024 && !['script','style'].includes(tag))narrative+=' '+value;
   },
@@ -42,7 +44,7 @@ function parseOriginal(text, filing, cik, shared) {
    const tag=local(name);
    if(tag==='context' && context){contexts.set(context.id,context);context=null;}
    if(tag==='unit' && unit){units.set(unit.id,unit);unit=null;}
-   if(tag==='nonfraction' && fact){facts.push(fact);fact=null;}
+   if(tag==='nonfraction' && open.length)facts.push(open.pop());
    if(tag==='nonnumeric' && coverCik){coverCiks.push(coverCik);coverCik=null;}
    stack.pop();
   }
@@ -82,7 +84,7 @@ function parseOriginal(text, filing, cik, shared) {
   if(/:fixed-zero$/.test(raw.format || ''))raw.text='0';
   if(raw['xsi:nil']==='true' || !/^[+-]?(?:\d[\d, .]*|\.\d+)$/.test(raw.text.trim()))continue;
   // Unknown transformation formats cannot establish a numerical value.
-  if(raw.format && !/:(?:num(?:dotdecimal|-dot-decimal)|fixed-zero)$/i.test(raw.format))continue;
+  if(raw.format && !/:(?:num(?:dotdecimal|-dot-decimal|-comma-decimal)|fixed-zero)$/i.test(raw.format))continue;
   const receipt={rawText:raw.text,format:raw.format,scale:raw.scale || 0,sign:raw.sign};
   const val=require('./sec-inline-number').number(receipt);if(val===null)continue;
   const [taxonomy,concept]=name.split(':'),measure=u.divide?u.measures.join('/'):u.measures[0];
@@ -154,16 +156,23 @@ async function attachLabels(doc,base,listing) {
   const labels=parseLabels(String((await axios.get(base+file.name,{headers:HEADERS,timeout:20000,maxContentLength:12*1024*1024,responseType:'text',transformResponse:x=>x})).data));
   for(const f of doc.segments){const value=labels.get(f._original.dimensions[0].member);if(value)f._original.memberLabel=value.slice(0,120);}
   for(const f of doc.operatingExpenseLines || []){const value=labels.get(f.taxonomy+':'+f.concept);if(value)f._original.conceptLabel=value.slice(0,120);}
- } catch(_) { /* labels are an improvement, never a requirement */ }
+ } catch(error) { if(transient(error))throw error; /* labels are an improvement, never a requirement */ }
  return doc;
 }
+// A network failure is not an absent document: swallowed, it read the primary alone and the run recorded the filing
+// as done, so its exhibit's expense lines and its labelled segments never came back (J.W. Mays and Hawthorn
+// Bancshares on 2026-10-18, during a DNS outage). It is thrown, and the caller records a retrieval failure to retry.
+const transient=error=>['ECONNRESET','ECONNABORTED','ECONNREFUSED','ETIMEDOUT','EAI_AGAIN','ENOTFOUND','ENETUNREACH','EPIPE'].includes(error?.code) || error?.response?.status===429 || error?.response?.status>=500;
 async function fetchOriginal(cik,filing) {
  if(!filing?.primaryDocument || !/^[a-zA-Z0-9_.-]+$/.test(filing.primaryDocument))throw new Error('ORIGINAL_DOCUMENT_PATH_UNAVAILABLE');
  const documentUrl=`https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${filing.accessionNumber.replace(/-/g,'')}/${filing.primaryDocument}`;
  const response=await axios.get(documentUrl,{headers:HEADERS,timeout:20000,maxContentLength:MAX_BYTES,responseType:'text'});
  const shared={contexts:new Map(),units:new Map()};
  const primary=parseOriginal(String(response.data),{...filing,documentUrl},cik,shared);
- if(Object.keys(primary.facts).length)return attachLabels(primary,documentUrl.replace(/[^/]*$/,''));
+ // A cover page can still tag its share count (Gildan's 40-F), so the primary
+ // counts as the statements only when it holds an amount in a currency.
+ const money=Object.values(primary.facts).some(defs=>Object.values(defs).some(def=>Object.keys(def.units).some(u=>/^[A-Z]{3}$/.test(u))));
+ if(money)return attachLabels(primary,documentUrl.replace(/[^/]*$/,''));
  // Some filers put only a cover page in the primary document and the financial
  // statements in a second tagged document of the same filing (Clorox's annual
  // report exhibit, Canadian National's 40-F exhibits). SEC's company-facts feed
@@ -171,7 +180,7 @@ async function fetchOriginal(cik,filing) {
  // all on 2026-10-06. Read the filing's other documents and keep the one that
  // holds the statements; every figure still cites the document it came from.
  const base=documentUrl.replace(/[^/]*$/,'');
- let listing;try{listing=(await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;}catch(_){return primary;}
+ let listing;try{listing=(await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;}catch(error){if(transient(error))throw error;return primary;}
  const items=(listing?.directory?.item || []).filter(i=>/^[a-zA-Z0-9_.-]+\.html?$/.test(i.name || '') && i.name!==filing.primaryDocument && Number(i.size)>50000 && Number(i.size)<=MAX_BYTES)
   .sort((a,b)=>Number(b.size)-Number(a.size)).slice(0,4);
  let best=primary,count=0;
@@ -181,7 +190,7 @@ async function fetchOriginal(cik,filing) {
    if(!/<ix:nonfraction/i.test(text))continue;
    const doc=parseOriginal(text,{...filing,documentUrl:url},cik,shared),n=Object.values(doc.facts).reduce((sum,defs)=>sum+Object.keys(defs).length,0);
    if(n>count){best=doc;count=n;}
-  } catch(_) { /* an unreadable exhibit leaves the others to be tried */ }
+  } catch(error) { if(transient(error))throw error; /* an unreadable exhibit leaves the others to be tried */ }
  }
  return attachLabels(best,base,listing);
 }

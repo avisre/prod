@@ -61,7 +61,9 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
     for(const st of ['income','balance','cash'])for(const row of d[st]?.annualReports || [])if(row.fiscalDateEnding===annual.reportDate)for(const field of Object.keys(row._sources || {}))if(p.verifiedField(d,row,field,accessions))found.add(st+'.'+field);
     return found;
    };
-   const before=fields(old,{...previous,reportingSic:merged.sic}),after=fields(merged,data),lost=[...before].filter(field=>!after.has(field));
+   // A figure the extractor turned down (a part of the line, sec-facts.js REJECTED_PART) was wrong before; it is not lost.
+   const rejected=new Set(data.issues.filter(i=>i.code==='REJECTED_PART' && i.basis==='annual' && i.periodEnd===merged.latestAnnual.reportDate).map(i=>i.statement+'.'+i.field));
+   const before=fields(old,{...previous,reportingSic:merged.sic}),after=fields(merged,data),lost=[...before].filter(field=>!after.has(field) && !rejected.has(field));
    if(lost.length)throw new Error('EXTRACTION_DISCARDED_VALID_PERIOD: '+lost.join(','));
    if(p.classify(old,previous,asOf).financialCoverage==='ready' && validation.financialCoverage!=='ready')throw new Error('EXTRACTION_DISCARDED_READY_COVERAGE');
   }

@@ -201,3 +201,15 @@ test('the industry stage reads an annual report once per filing and VERSION',()=
  write(null,{industryExtraction:{version:industry.VERSION,sourceVersion:ACC,status:'retrieval_failed'}});
  assert.equal(await count(),1,'a failed fetch is retried');
  `));
+test('a latest-year figure the extractor turned down as a part of the line does not block the update',()=>isolated(`
+ const fact=(val)=>({units:{USD:[{val,end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}});
+ const withCash=structuredClone(doc);withCash.facts['us-gaap'].Cash=fact(40);
+ const first=require(root+'/backend/sec-facts').extract(withCash,evidence,{asOf:'2026-10-03'});
+ assert.equal(first.balance.annualReports[0].cashAndCashEquivalentsAtCarryingValue,40);
+ p.atomicWrite(file,first);evidence.financialDigest=p.digest(fs.readFileSync(file,'utf8'));
+ const both=structuredClone(withCash);both.facts['us-gaap'].CashEquivalentsAtCarryingValue=fact(13);
+ const updated=await require(root+'/scripts/refresh-sec-coverage').refreshIssuer({cik:CIK,symbols:['AAPL']},evidence,{asOf:'2026-10-03',force:true,clientImpl:{fetchReporting:async()=>evidence,fetchFacts:async()=>both}});
+ const d=JSON.parse(fs.readFileSync(file));assert.equal(updated.lastFinancialResult,'success',updated.lastErrorCode);
+ assert.equal(d.balance.annualReports[0].cashAndCashEquivalentsAtCarryingValue,null);
+ assert.ok(d.issues.some(i=>i.code==='REJECTED_PART' && i.field==='cashAndCashEquivalentsAtCarryingValue'));
+ `));

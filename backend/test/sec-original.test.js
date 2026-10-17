@@ -82,3 +82,72 @@ test('a rounded duplicate of a filed figure is the same fact, and a figure that 
  assert.deepEqual(vals(ni('13,237,362',0)+ni('13.2',-5,6)+ni('13,237,362',0)),[-13237362,-13237362]);
  assert.deepEqual(vals(ni('13,237,362',0)+ni('13.3',-5,6)),[-13237362,-13300000]);
 });
+
+// Alto Ingredients' FY2025 10-K wraps the exact share count in two facts, "issued and outstanding":
+// CommonStockSharesOutstanding holds a nested CommonStockSharesIssued (26,986,560). The outer fact
+// was dropped, so the balance sheet's rounded 26,987 thousand stood in for the filed figure.
+test('a fact that wraps another is kept, with the text inside it',()=>{
+ const filing={accessionNumber:ACC,form:'10-K',filingDate:'2026-02-01',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/a.htm'};
+ const head='<xbrli:context id="c5"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:instant>2024-12-31</xbrli:instant></xbrli:period></xbrli:context><xbrli:unit id="shares"><xbrli:measure>xbrli:shares</xbrli:measure></xbrli:unit>';
+ const nf=(name,d,scale,inner)=>`<ix:nonFraction unitRef="shares" contextRef="c5" decimals="${d}" name="us-gaap:${name}" format="ixt:num-dot-decimal" scale="${scale}">${inner}</ix:nonFraction>`;
+ const body=nf('CommonStockSharesOutstanding','-3','3','26,987')+'<span>'+nf('CommonStockSharesOutstanding','INF','0',nf('CommonStockSharesIssued','INF','0','26,986,560'))+'</span>';
+ const vals=parseOriginal('<html>'+head+body+'</html>',filing,CIK).facts['us-gaap'].CommonStockSharesOutstanding.units.shares.map(f=>f.val);
+ assert.deepEqual(vals,[26986560]);
+});
+
+// Gildan's FY2025 40-F: the primary document is a cover page that still tags its share count,
+// and the statements sit in gil-20251228_d2.htm. Reading only the cover lost every segment.
+test('a cover page with only a share count does not stop the search for the statements',async()=>{
+ const axios=require('axios'),{fetchOriginal}=require('../sec-original'),get=axios.get;
+ const ctx='<xbrli:context id="c1"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context><xbrli:context id="c2"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:instant>2025-12-31</xbrli:instant></xbrli:period></xbrli:context><xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit><xbrli:unit id="shares"><xbrli:measure>xbrli:shares</xbrli:measure></xbrli:unit>';
+ const pages={'a.htm':'<html><ix:header><ix:resources>'+ctx+'</ix:resources></ix:header><ix:nonFraction name="ifrs-full:NumberOfSharesOutstanding" contextRef="c2" unitRef="shares" decimals="0">150</ix:nonFraction></html>',
+  'a_d2.htm':'<html><ix:nonFraction name="ifrs-full:Revenue" contextRef="c1" unitRef="usd" decimals="0">700</ix:nonFraction>'+' '.repeat(60000)+'</html>',
+  'index.json':{directory:{item:[{name:'a.htm',size:'1000'},{name:'a_d2.htm',size:'60100'}]}}};
+ axios.get=async url=>{const page=pages[url.split('/').pop()];if(page===undefined)throw new Error('404');return {data:page};};
+ try {
+  const doc=await fetchOriginal('0000000123',{accessionNumber:'0000000123-26-000001',form:'40-F',filingDate:'2026-02-20',primaryDocument:'a.htm'});
+  assert.equal(doc.facts['ifrs-full'].Revenue.units.USD[0].val,700);
+  assert.match(doc.facts['ifrs-full'].Revenue.units.USD[0]._original.documentUrl,/a_d2\.htm$/);
+ } finally { axios.get=get; }
+});
+
+// Anheuser-Busch InBev's FY2025 20-F tags 2,708 figures as ixt:num-comma-decimal (59.320 for
+// $59,320 million); rejecting the format left its segments and expense lines unread.
+test('a decimal-comma figure reads as the filed number and nothing looser does',()=>{
+ const n=require('../sec-inline-number').number,f='ixt:num-comma-decimal';
+ assert.deepEqual(['59.320','1 234,5','12,5','1234'].map(rawText=>n({rawText,format:f,scale:6})),[59320000000,1234500000,12500000,1234000000]);
+ assert.deepEqual(['1,234.5','1.23','1.2345','1.234.56,'].map(rawText=>n({rawText,format:f})),[null,null,null,null]);
+});
+
+// J.W. Mays, 2026-10-18: a DNS failure on the exhibit was swallowed, the primary alone was read, and the filing was
+// recorded as done, so its expense lines never came back. A network failure is thrown; an absent document is not.
+test('a network failure reading a filing\'s other documents is thrown, not read as an absent document',async()=>{
+ const axios=require('axios'),{fetchOriginal}=require('../sec-original'),get=axios.get;
+ const filing={accessionNumber:'0000000123-26-000001',form:'10-K',filingDate:'2026-02-20',primaryDocument:'a.htm'};
+ const net=code=>Object.assign(new Error(code),{code}),cover='<html>cover</html>',exhibit={directory:{item:[{name:'a.htm',size:'1000'},{name:'a_ex13.htm',size:'60100'}]}};
+ try {
+  for(const [fail,ok] of [['index.json',false],['a_ex13.htm',false]]){
+   axios.get=async url=>{const name=url.split('/').pop();if(name===fail)throw net('EAI_AGAIN');if(name==='a.htm')return {data:cover};if(name==='index.json')return {data:exhibit};throw new Error('404');};
+   await assert.rejects(fetchOriginal('0000000123',filing),/EAI_AGAIN/,fail);
+  }
+  axios.get=async url=>{const name=url.split('/').pop();if(name==='a.htm')return {data:cover};if(name==='index.json')return {data:exhibit};throw Object.assign(new Error('404'),{response:{status:404}});};
+  const doc=await fetchOriginal('0000000123',filing);assert.equal(doc.originalDocument.documentUrl.split('/').pop(),'a.htm');
+ } finally { axios.get=get; }
+});
+// Bristol-Myers Squibb and Badger Meter on 2026-10-17: the label file failed in a DNS outage and was read as absent,
+// so their breakdowns showed "US", "CA" and "MX" instead of the filed "United States", "Canada" and "Mexico".
+test('a network failure reading the label file is thrown, not read as a filing without labels',async()=>{
+ const axios=require('axios'),{fetchOriginal}=require('../sec-original'),get=axios.get;
+ const filing={accessionNumber:'0000000123-26-000001',form:'10-K',filingDate:'2026-02-20',primaryDocument:'a.htm'};
+ const ctx=(id,member)=>`<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier>${member?`<xbrli:segment><xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">${member}</xbrldi:explicitMember></xbrli:segment>`:''}</xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>`;
+ const fact=c=>`<ix:nonFraction name="us-gaap:Revenues" contextRef="${c}" unitRef="usd" decimals="0">100</ix:nonFraction>`;
+ const html='<html><ix:header><ix:resources>'+ctx('c0')+ctx('us','country:US')+'<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit></ix:resources></ix:header>'+fact('c0')+fact('us')+'</html>';
+ const listing={directory:{item:[{name:'a.htm',size:'1000'},{name:'a_lab.xml',size:'5000'}]}},net=Object.assign(new Error('EAI_AGAIN'),{code:'EAI_AGAIN'});
+ try {
+  axios.get=async url=>{const name=url.split('/').pop();if(name==='a.htm')return {data:html};if(name==='index.json')return {data:listing};if(name==='a_lab.xml')throw net;throw new Error('unexpected '+url);};
+  await assert.rejects(fetchOriginal('0000000123',filing),/EAI_AGAIN/);
+  axios.get=async url=>{const name=url.split('/').pop();if(name==='a.htm')return {data:html};if(name==='index.json')return {data:listing};throw Object.assign(new Error('404'),{response:{status:404}});};
+  const doc=await fetchOriginal('0000000123',filing);
+  assert.equal(doc.segments.length,1);assert.equal(doc.segments[0]._original.memberLabel,undefined);
+ } finally { axios.get=get; }
+});

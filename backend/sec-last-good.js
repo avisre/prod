@@ -13,6 +13,8 @@ function preserveSameFiling(incoming,previous,reporting) {
   if(!old)continue;
   for(const field of Object.keys(old._sources || {})){
    if(p.number(row[field])!==null || old._derivations?.[field] || row._states?.[field]==='conflicting_evidence' || !p.verifiedField(prior,old,field,accessions))continue;
+   // The extractor turned this figure down (a part of the line, sec-facts.js REJECTED_PART); it is not an omission.
+   if((incoming.issues || []).some(i=>i.code==='REJECTED_PART' && i.statement===st && i.basis==='annual' && i.field===field && i.periodEnd===row.fiscalDateEnding))continue;
    const refs=old._sources[field];if(!refs.every(id=>Object.values(incoming.sources).some(s=>s.accessionNumber===prior.sources[id].accessionNumber)))continue;
    for(const id of refs)incoming.sources[id]=prior.sources[id];row[field]=old[field];
    for(const map of ['_sources','_scopes','_signs'])if(old[map]?.[field]!==undefined)(row[map] ||= {})[field]=structuredClone(old[map][field]);

@@ -21,8 +21,11 @@ function enrichWith(financial,document,reporting,{asOf=p.day(new Date().toISOStr
   const old=out[st][basis].find(r=>r.fiscalDateEnding===row.fiscalDateEnding);
   if(!old || old.reportedCurrency!==row.reportedCurrency || old.periodStart!==row.periodStart)continue;
   const oldVersions=new Set(Object.values(old._sources).flat().map(id=>out.sources[id]?.accessionNumber));
+  // A figure the full extraction turned down (sec-facts.js REJECTED_PART) is not put back from the filing alone, which
+  // often lacks the line that showed it a part: 70 issuers' continuing-only investing flows and cash on 2026-10-18.
+  const rejected=new Set((financial.issues || []).filter(i=>i.code==='REJECTED_PART' && i.statement===st && i.basis+'Reports'===basis && i.periodEnd===row.fiscalDateEnding).map(i=>i.field));
   for(const field of Object.keys(row._sources)) {
-   if(p.verifiedField(out,old,field) || !row._sources[field].every(id=>oldVersions.has(incoming.sources[id].accessionNumber)))continue;
+   if(rejected.has(field) || p.verifiedField(out,old,field) || !row._sources[field].every(id=>oldVersions.has(incoming.sources[id].accessionNumber)))continue;
    old[field]=row[field];for(const map of ['_sources','_derivations','_scopes','_signs'])if(row[map]?.[field]!==undefined)old[map][field]=row[map][field];
   }
  }

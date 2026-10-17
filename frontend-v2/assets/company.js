@@ -530,7 +530,9 @@
             { label: 'Common stock', get: (r) => num(r.commonStock), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Retained earnings', get: (r) => num(r.retainedEarnings), fmt: money, kind: 'money', sub: true },
             { label: 'Treasury stock', get: (r) => num(r.treasuryStock), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Total liabilities & equity', get: (r) => { const a = num(r.totalLiabilities); const e = num(r.totalShareholderEquity); return (a !== null && e !== null) ? a + e : null; }, fmt: money, kind: 'money', rule: true, solo: true },
+            // The filed total. Liabilities plus parent equity left out noncontrolling interests and temporary equity in
+            // 18,044 of 46,116 annual cells (2026-10-17); the total always equals total assets, so that is the fallback.
+            { label: 'Total liabilities & equity', get: (r) => num(r.totalLiabilitiesAndEquity) ?? num(r.totalAssets), fmt: money, kind: 'money', rule: true, solo: true },
             { label: 'Shares outstanding', get: (r) => num(r.commonStockSharesOutstanding), fmt: money, kind: 'shares', neutral: true, solo: true }
         ],
         cash: [

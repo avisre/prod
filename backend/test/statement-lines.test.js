@@ -20,7 +20,9 @@ test('a line is read by its statement and its whole label, never by a part of on
 });
 
 test('an allowance or accumulated depreciation clause reads as ", net", and nothing else after it does',()=>{
- const bs=(l,tag='ReceivablesNetCurrent')=>lines.fieldsFor('BS',l,tag,{crdr:'D',mapped});
+ // ReceivablesNetCurrent has been read from the facts since 2026-10-17, so it no longer comes from the face.
+ const bs=(l,tag='AccountsNotesAndLoansReceivableNetCurrent')=>lines.fieldsFor('BS',l,tag,{crdr:'D',mapped});
+ assert.deepEqual(bs('Receivables, net','ReceivablesNetCurrent'),[]);
  assert.deepEqual(bs('Receivables, net of allowance for doubtful accounts of $1 at December 31, 2025 and 2024'),['currentNetReceivables']);
  assert.deepEqual(bs('Accounts receivable, net of allowance for credit losses of $2.1 million and $1.8 million as of December 31, 2025 and December 31, 2024, respectively'),['currentNetReceivables']);
  assert.deepEqual(bs('Accounts and notes receivable (less allowances of $4 in 2025 and $5 in 2024)','AccountsNotesAndLoansReceivableNetCurrent'),['currentNetReceivables']);
@@ -81,6 +83,23 @@ test('a line never replaces a figure, adds a period, or comes from a filing the 
  // A quarter line is not a year, and two figures in one filing are not one.
  assert.equal(extract(blank.doc,blank.evidence,{asOf:'2026-10-03',statementLines:[line({q:1})]}).income.annualReports[0].totalRevenue,null);
  assert.equal(extract(blank.doc,blank.evidence,{asOf:'2026-10-03',statementLines:[line(),line({v:901})]}).income.annualReports[0].totalRevenue,null);
+});
+
+test('a data-set line on a standard tag takes the filed figure of the same filing and period',()=>{
+ // Smucker FY2026: the data set listed cash 0 where the 10-K tags $58.6M.
+ const {doc,evidence}=blankRevenue();
+ const start=extract(doc,evidence,{asOf:'2026-10-03'}).income.annualReports[0].periodStart;
+ const std=line({t:'us-gaap',c:'RevenueFromServicesStd',v:0});
+ const filed=v=>({start,end:'2025-12-31',val:v,accn:ACC,form:'10-K',filed:'2026-02-01'});
+ doc.facts['us-gaap'].RevenueFromServicesStd={units:{USD:[filed(900)]}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[std]}),row=d.income.annualReports[0];
+ assert.equal(row.totalRevenue,900);
+ assert.equal(d.sources[row._sources.totalRevenue[0]].dataSetValue,0);
+ // Agreement changes nothing; two filed figures leave the line out; a dimension's line is not checked.
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-03',statementLines:[{...std,v:900}]}).sources[row._sources.totalRevenue[0]]?.dataSetValue,undefined);
+ doc.facts['us-gaap'].RevenueFromServicesStd.units.USD.push(filed(901));
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-03',statementLines:[std]}).income.annualReports[0].totalRevenue,null);
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-03',statementLines:[{...std,f:'eps',u:'USD/shares',l:'Net loss per share, basic',g:'ClassOfStock=CommonStock',v:-1}]}).income.annualReports[0].eps,-1);
 });
 
 test('an outflow line is stored negative and per-class EPS takes the common stock only when the rest are preferred',()=>{
@@ -155,6 +174,12 @@ test('a debt figure another filing gives for the date keeps the total unread',()
  delete row._sources.shortTermDebt;row.shortTermDebt=null;
  presentedDebt(d,row,new Map([[ACC,['LongTermDebtCurrent','LongTermDebtNoncurrent']]]));
  assert.equal(row.shortLongTermDebtTotal,320);
+ // The same current figure from the other filing (DoubleDown 2023: 6-K face, 20-F current borrowings) is that line, not another.
+ const same=debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[]);
+ same.d.sources.other={...same.d.sources[same.row._sources.currentLongTermDebt[0]],concept:'DebtCurrent',rawValue:20,accessionNumber:'0000000123-25-000004'};
+ same.row.shortTermDebt=20;same.row._sources.shortTermDebt=['other'];same.row._scopes.shortTermDebt=same.row._scopes.currentLongTermDebt;
+ presentedDebt(same.d,same.row,new Map([[ACC,['LongTermDebtCurrent','LongTermDebtNoncurrent']]]));
+ assert.equal(same.row.shortLongTermDebtTotal,320);assert.equal(p.verifiedField(same.d,same.row,'shortLongTermDebtTotal'),true);
 });
 
 test('a presented debt line the row holds no figure for is read as that filing\'s own fact (Agilent 2025: LongTermDebt on the face)',()=>{
@@ -186,4 +211,19 @@ test('the validator re-checks a presented-facts total against the filed facts',(
   (r,c)=>{c.sources[first(r)].unit='EUR';},(r)=>{r._sources.shortLongTermDebtTotal=r._sources.shortLongTermDebtTotal.slice(0,1);}]){
   const copy=structuredClone(d),r=copy.balance.annualReports[0];tamper(r,copy);assert.equal(p.verifiedField(copy,r,'shortLongTermDebtTotal'),false);
  }
+});
+
+// Measured on the 2026-10-17 re-extraction: 217 presented lines were displaced by a newly read note tag
+// (CIK 24090, 2023: the cash-flow add-back is $588k, AllocatedShareBasedCompensationExpense $900k).
+test('a presented line wins over a figure from a fill-only tag, and the fill stays where there is no line',()=>{
+ const {doc,evidence}=fixture(),period={start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'};
+ doc.facts['us-gaap'].AllocatedShareBasedCompensationExpense={units:{USD:[{...period,val:900}]}};
+ const sbc=line({s:'cash',f:'shareBasedCompensation',c:'RestrictedStockExpense',l:'Stock-based compensation',v:588});
+ let d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[sbc]}),row=d.cash.annualReports[0];
+ assert.equal(row.shareBasedCompensation,588);
+ assert.equal(d.sources[row._sources.shareBasedCompensation[0]].verificationMethod,'statement_line');
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-03'}).cash.annualReports[0].shareBasedCompensation,900);
+ // An original tag is never displaced.
+ doc.facts['us-gaap'].ShareBasedCompensation={units:{USD:[{...period,val:600}]}};
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-03',statementLines:[sbc]}).cash.annualReports[0].shareBasedCompensation,600);
 });
