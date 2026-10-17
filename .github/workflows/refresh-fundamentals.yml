@@ -1,8 +1,9 @@
 name: Weekly complete-universe financial reconciliation
 on:
   schedule:
-    # Sunday 04:00 Asia/Kolkata = Saturday 22:30 UTC.
-    - cron: '30 22 * * 6'
+    # Saturday 07:30 Asia/Kolkata = Saturday 02:00 UTC, after Friday's close and the
+    # Saturday 01:30 UTC quotes run. Nothing is scheduled on Sunday (owner, 2026-10-18).
+    - cron: '0 2 * * 6'
   workflow_dispatch:
     inputs:
       resume_run_id:

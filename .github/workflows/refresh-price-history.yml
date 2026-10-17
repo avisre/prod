@@ -12,13 +12,13 @@ name: Refresh price history
 # the weekly cadence bounds what a crawler or a cold render sees, not what a
 # reader sees.
 #
-# Sunday 12:00 UTC: after the weekly reconciliation (Saturday 22:30 UTC, up to
-# six hours). It shares that job's concurrency group so the two never push at
-# once.
+# Saturday 09:00 UTC (14:30 Asia/Kolkata): after the weekly reconciliation
+# (Saturday 02:00 UTC, up to six hours). It shares that job's concurrency group
+# so the two never push at once. Nothing is scheduled on Sunday (owner, 2026-10-18).
 
 on:
   schedule:
-    - cron: '0 12 * * 0'
+    - cron: '0 9 * * 6'
   workflow_dispatch:
     inputs:
       max_symbols:

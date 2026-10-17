@@ -74,8 +74,8 @@ valuation separately from the saved narrative and disclose its date.
 
 ## Weekly operation
 
-`.github/workflows/refresh-fundamentals.yml` runs Saturday 22:30 UTC, which is
-Sunday 04:00 Asia/Kolkata. It reconciles the complete issuer universe with two
+`.github/workflows/refresh-fundamentals.yml` runs Saturday 02:00 UTC, which is
+Saturday 07:30 Asia/Kolkata. It reconciles the complete issuer universe with two
 workers and checkpoints every 20 issuers. It retries incomplete core requests
 and transient original-document failures within the same cycle. A failed issuer
 retains its prior validated record and an explicit failure state.
