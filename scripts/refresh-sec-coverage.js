@@ -26,13 +26,20 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
  merged.lastFinancialAttemptAt=attempted;
  const file=path.join(DATA,'sec-financials',issuer.cik+'.json');
  const changed=old.latestAnnual?.accessionNumber!==evidence.latestAnnual?.accessionNumber || old.latestPeriodic?.accessionNumber!==evidence.latestPeriodic?.accessionNumber || p.digest(old.latestAnnual?.amendments || [])!==p.digest(evidence.latestAnnual?.amendments || []);
- if(!force && old.extractionVersion===EXTRACTION_VERSION && !changed && old.financialDigest && old.lastFinancialResult==='success' && fs.existsSync(file))return merged;
+ // Re-read an issuer only when something its file depends on has moved: a new or amended
+ // filing, an extractor or validator change, a file that no longer matches its digest, or a
+ // last attempt that did not finish (a failed run, or an original document SEC did not return).
+ const unfinished=['retrieval_failed','no_quarter_found'].includes(old.periodicExtraction?.status) || old.originalExtraction?.status==='retrieval_failed';
+ if(!force && old.extractionVersion===EXTRACTION_VERSION && old.validationVersion===VALIDATION_VERSION && !changed && !unfinished && old.lastFinancialResult==='success' && matchingFinancialFile(old,file))return merged;
  try {
+  // Both describe this attempt; a status left from an earlier one would retry forever.
+  delete merged.originalExtraction;delete merged.periodicExtraction;
   let raw;try{raw=await clientImpl.fetchFacts(issuer.cik);}catch(e){if(e.response?.status!==404 || !merged.latestAnnual)throw e;raw={cik:Number(issuer.cik),entityName:merged.issuerName,facts:{}};}
-  let data=extract(raw,merged,{asOf});
+  const statementLines=(clientImpl.statementLines || require('../backend/statement-lines').forCik)(issuer.cik);
+  let data=extract(raw,merged,{asOf,statementLines});
   const core=st=>data[st].annualReports.find(r=>r.fiscalDateEnding===merged.latestAnnual?.reportDate);
   if(merged.latestAnnual && (core('income')?.totalRevenue==null || core('balance')?.totalAssets==null || core('cash')?.operatingCashflow==null || data.issues.some(i=>i.code==='AMBIGUOUS_CURRENCY') || require('../backend/sec-industry-tables').REGISTRY[issuer.cik])) {
-   try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,merged.latestAnnual);raw=require('../backend/sec-original').mergeFacts(raw,original);if(original.reportingCurrency)merged.reportingCurrency=original.reportingCurrency;data=extract(raw,merged,{asOf});merged.originalExtraction={status:'success',source:original.originalDocument,segmentCount:original.segments.length};}
+   try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,merged.latestAnnual);raw=require('../backend/sec-original').mergeFacts(raw,original);if(original.reportingCurrency)merged.reportingCurrency=original.reportingCurrency;data=extract(raw,merged,{asOf,statementLines});merged.originalExtraction={status:'success',source:original.originalDocument,segmentCount:original.segments.length};}
    catch(error){merged.originalExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
   }
   // SEC's facts feed sometimes carries nothing for a filing that is on EDGAR:
@@ -41,7 +48,7 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
   // report itself whenever the feed has not produced its period.
   const periodic=merged.latestPeriodic;
   if(periodic && periodic.form==='10-Q' && periodic.primaryDocument && !data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate)) {
-   try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,periodic);raw=require('../backend/sec-original').mergeFacts(raw,original);data=extract(raw,merged,{asOf});merged.periodicExtraction={status:data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate)?'success':'no_quarter_found',source:original.originalDocument};}
+   try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,periodic);raw=require('../backend/sec-original').mergeFacts(raw,original);data=extract(raw,merged,{asOf,statementLines});merged.periodicExtraction={status:data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate)?'success':'no_quarter_found',source:original.originalDocument};}
    catch(error){merged.periodicExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
   }
   const previous=read(file,null);
@@ -100,7 +107,7 @@ async function main(argv=process.argv.slice(2)) {
  await Promise.all(Array.from({length:concurrency},async()=>{
   while(todo.length){const issuer=todo.shift(),old=report.issuers[issuer.cik];
    const completed=(!/^63/.test(String(old?.sic || '')) || old?.validationVersion===VALIDATION_VERSION) && old?.extractionVersion===EXTRACTION_VERSION && old?.lastAttemptResult==='success' && (old?.lastReconciledCycle || old?.lastSuccessfulCheckAt?.slice(0,10))===asOf && ['success','no_facts'].includes(old.lastFinancialResult) && (old.lastFinancialResult==='no_facts' || matchingFinancialFile(old,path.join(DATA,'sec-financials',issuer.cik+'.json')));
-   if(!((o['--bootstrap'] || o['--weekly']) && completed)){report.issuers[issuer.cik]=await refreshIssuer(issuer,old,{asOf,force:!!o['--symbols'] || !!o['--weekly']});report.issuers[issuer.cik].lastReconciledCycle=asOf;}
+   if(!((o['--bootstrap'] || o['--weekly']) && completed)){report.issuers[issuer.cik]=await refreshIssuer(issuer,old,{asOf,force:!!o['--symbols']});report.issuers[issuer.cik].lastReconciledCycle=asOf;}
    done++;if(done%20===0){save();console.log(JSON.stringify({done,total:done+todo.length,last:issuer.symbols[0],result:report.issuers[issuer.cik]?.lastFinancialResult,error:report.issuers[issuer.cik]?.lastErrorCode}));}
   }
  }));save();process.removeListener('SIGINT',shutdown);process.removeListener('SIGTERM',shutdown);

@@ -20,6 +20,7 @@ const yahooSource = require('./yahoo-source');
 const { buildMarketStripQuote } = require('./market-strip');
 const fxConversion = require('./fx-conversion');
 const assetProfile = require('./asset-profile');
+const statementCompleteness = require('./statement-completeness');
 const fundHoldings = require('./fund-holdings');
 const fundFees = require('./fund-fees');
 const storedFundamentals = require('./stored-fundamentals');
@@ -223,7 +224,7 @@ require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 async function presentFundamentalsCurrency(payload, requestedCurrency) {
     if (String(requestedCurrency || '').trim().toUpperCase() !== 'USD') return payload;
     try {
-        if(payload.provenance){const source=fxConversion.reportingCurrency(payload);if(source==='USD')return payload;const rates=await fxConversion.rateSeries(source);return {...require('./sec-presentation').usd(payload,{[source]:rates}),currencyConversion:{from:source,to:'USD',source:'Yahoo Finance historical FX',approximate:true}};}
+        if(payload.provenance){const pres=require('./sec-presentation'),source=fxConversion.reportingCurrency(payload) || pres.observedCurrency(payload);if(!source || source==='USD')return payload;const rates=await fxConversion.rateSeries(source);return {...pres.usd(payload,{[source]:rates}),...pres.usdObservations(payload,source,rates),currencyConversion:{from:source,to:'USD',source:'Yahoo Finance historical FX',approximate:true,...(pres.HYPERINFLATION[source]?{restatedFrom:pres.HYPERINFLATION[source]}:{})}};}
         return await fxConversion.convertPayloadToUsd(payload);
     } catch (error) {
         // A missing FX series must never make the underlying filing data
@@ -3100,7 +3101,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261011-ask1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261017-ui14" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3129,7 +3130,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261011-ask1"></script>
+<script src="/assets/app.js?v=20261017-ui14"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3221,7 +3222,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261011-ask1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261017-ui14" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3249,7 +3250,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261011-ask1"></script>
+<script src="/assets/app.js?v=20261017-ui14"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3357,7 +3358,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261011-ask1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261017-ui14" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3390,7 +3391,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261011-ask1"></script>
+<script src="/assets/app.js?v=20261017-ui14"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -8996,6 +8997,9 @@ app.get('/api/search/:query', authMiddleware, async (req, res) => {
 // Public asset directory for the navigation and add-holding autocomplete.
 // Results are additive: the established stock directory stays first, while
 // Yahoo supplies ETFs and mutual funds that are not SEC operating companies.
+// Nav-search rows carry how complete the stock's statements are, from the
+// precomputed audit index (scripts/audit-statement-rows.js).
+const withStatementsFlag = (row) => { const f = statementCompleteness.flagFor(row.symbol, row.assetType); return f ? { ...row, statements: f } : row; };
 app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
     const query = String(req.query.q || req.query.query || '').trim();
     const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 20);
@@ -9058,14 +9062,14 @@ app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
             const missing = funds.filter((row) => !out.includes(row)).slice(0, quota - shown);
             out = rank(out.slice(0, Math.max(0, limit - missing.length)).concat(missing));
         }
-        return res.json(out.slice(0, limit));
+        return res.json(out.slice(0, limit).map(withStatementsFlag));
     } catch (_) {
         // Yahoo unreachable: the two local directories are still a useful answer.
         const seen = new Set();
         return res.json(local.concat(directory)
             .filter((row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol))
             .sort((a, b) => assetMatchScore(query, b.symbol, b.name) - assetMatchScore(query, a.symbol, a.name))
-            .slice(0, limit));
+            .slice(0, limit).map(withStatementsFlag));
     }
 });
 

@@ -75,3 +75,25 @@ test('the tape walks past holes itself, so a stale nightly-store blob cannot bla
     const strip = source.slice(source.indexOf("app.get('/api/market/strip'"));
     assert.match(strip, /buildMarketStripQuote\(series\)/);
 });
+
+// KRWUSD=X as Yahoo returned it on 2026-10-17: the pair trades on London time, so the April and
+// October bars are stamped 23:00 UTC on the last day of the month before.
+test('a monthly bar is dated by its exchange day, so London summer months keep their own month', () => {
+    const bar = (iso, close) => ({ date: new Date(iso), open: close, high: close, low: close, close, volume: 0 });
+    const quotes = [bar('2025-03-01T00:00:00Z', 1), bar('2025-03-31T23:00:00Z', 2), bar('2025-09-30T23:00:00Z', 3), bar('2025-11-01T00:00:00Z', 4)];
+    const london = buildMonthlySeries('KRWUSD=X', { meta: { exchangeTimezoneName: 'Europe/London' }, quotes })['Monthly Adjusted Time Series'];
+    assert.deepEqual(Object.keys(london), ['2025-03-01', '2025-04-01', '2025-10-01', '2025-11-01']);
+    assert.equal(Number(london['2025-04-01']['4. close']), 2);
+    // a US listing's bar at 00:00 New York time is the same day in UTC and is unchanged
+    const ny = buildMonthlySeries('AAPL', { meta: { exchangeTimezoneName: 'America/New_York' }, quotes: [bar('2025-04-01T04:00:00Z', 5)] })['Monthly Adjusted Time Series'];
+    assert.deepEqual(Object.keys(ny), ['2025-04-01']);
+    // no zone, or one Intl does not know, keeps the UTC day
+    assert.deepEqual(Object.keys(buildMonthlySeries('X', { meta: { exchangeTimezoneName: 'Not/AZone' }, quotes: [bar('2025-03-31T23:00:00Z', 2)] })['Monthly Adjusted Time Series']), ['2025-03-31']);
+});
+
+test('a daily FX bar is dated by its London session, so 1 April is not read as 31 March', () => {
+    const quotes = [{ date: new Date('2025-03-31T00:00:00Z'), open: 1, high: 1, low: 1, close: 1, volume: 0 }, { date: new Date('2025-03-31T23:00:00Z'), open: 2, high: 2, low: 2, close: 2, volume: 0 }];
+    const series = buildDailySeries('KRWUSD=X', { meta: { exchangeTimezoneName: 'Europe/London' }, quotes }, 'full')['Time Series (Daily)'];
+    assert.deepEqual(Object.keys(series).sort(), ['2025-03-31', '2025-04-01']);
+    assert.equal(Number(series['2025-04-01']['4. close']), 2);
+});

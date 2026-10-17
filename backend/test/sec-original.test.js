@@ -34,3 +34,51 @@ test('a second document reads its figures against the periods declared in the fi
  assert.equal(second.facts['us-gaap'].Revenues.units.USD[0].val,6720000000);
  assert.match(second.facts['us-gaap'].Revenues.units.USD[0]._original.documentUrl,/a_d2\.htm$/);
 });
+
+// Tanger's FY2025 10-K covers Tanger Inc. and its operating partnership and tags both sets of
+// statements with a legal-entity member; SEC's facts feed drops them all, so the page was blank.
+test('a combined filing reads the registrant\'s own legal-entity member and never the co-registrant\'s',()=>{
+ const filing={accessionNumber:ACC,form:'10-K',filingDate:'2026-02-01',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/a.htm'};
+ const ctx=(id,member)=>`<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier>${member?`<xbrli:segment><xbrldi:explicitMember dimension="dei:LegalEntityAxis">${member}</xbrldi:explicitMember></xbrli:segment>`:''}</xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>`;
+ const head=ctx('c0')+ctx('own','x:ParentMember')+ctx('op','x:PartnershipMember')+'<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>';
+ const cover=b=>`<ix:nonNumeric name="dei:EntityCentralIndexKey" contextRef="c0">0000000123</ix:nonNumeric>`+(b?`<ix:nonNumeric name="dei:EntityCentralIndexKey" contextRef="op">0000000456</ix:nonNumeric>`:'');
+ const rev=(c,v)=>`<ix:nonFraction name="us-gaap:Revenues" contextRef="${c}" unitRef="usd" decimals="0">${v}</ix:nonFraction>`;
+ const vals=t=>(parseOriginal('<html>'+t+'</html>',filing,CIK).facts['us-gaap']?.Revenues?.units.USD || []).map(f=>f.val);
+ assert.deepEqual(vals(head+cover(true)+rev('own',10)+rev('op',11)),[10]);
+ // the plain context carries statements of its own: the members stay segment detail
+ assert.deepEqual(vals(head+cover(true)+rev('c0',9)+rev('own',10)+rev('op',11)),[9]);
+ // with no co-registrant bound to another CIK, nothing says which member is the registrant
+ assert.deepEqual(vals(head+cover(false)+rev('own',10)+rev('op',11)),[]);
+});
+
+// Proficient Auto Logistics' FY2025 10-K shows predecessor and successor columns and tags the whole
+// income and cash-flow statements with a SuccessorMember; its plain context holds only note figures
+// (depreciation of $88K beside $39.3M on the statement), which the page showed as the statements.
+test('a successor column is the registrant\'s statements for a year the plain context has no revenue or cash flow for',()=>{
+ const filing={accessionNumber:ACC,form:'10-K',filingDate:'2026-02-01',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/a.htm'};
+ const ctx=(id,member,start='2025-01-01')=>`<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier>${member?`<xbrli:segment><xbrldi:explicitMember dimension="us-gaap:FreshStartAdjustmentsTypeOfFreshStartAdjustmentAxis">${member}</xbrldi:explicitMember></xbrli:segment>`:''}</xbrli:entity><xbrli:period><xbrli:startDate>${start}</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>`;
+ const head=ctx('c0')+ctx('s','x:SuccessorMember')+ctx('p','x:PredecessorMember','2025-06-01')+'<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>';
+ const fact=(name,c,v)=>`<ix:nonFraction name="us-gaap:${name}" contextRef="${c}" unitRef="usd" decimals="0">${v}</ix:nonFraction>`;
+ const vals=(t,name)=>(parseOriginal('<html>'+t+'</html>',filing,CIK).facts['us-gaap']?.[name]?.units.USD || []).map(f=>f.val);
+ const body=fact('Revenues','s',430)+fact('DepreciationAndAmortization','s',39)+fact('DepreciationAndAmortization','c0',1)+fact('IncomeTaxExpenseBenefit','c0',7)+fact('Revenues','p',41);
+ assert.deepEqual(vals(head+body,'Revenues'),[430]);
+ // the statement's figure replaces the note's, and a figure only the notes carry stays
+ assert.deepEqual(vals(head+body,'DepreciationAndAmortization'),[39]);
+ assert.deepEqual(vals(head+body,'IncomeTaxExpenseBenefit'),[7]);
+ // with revenue on the plain context, the successor column stays detail
+ assert.deepEqual(vals(head+body+fact('Revenues','c0',400),'Revenues'),[400]);
+ // without a predecessor column, a member named Successor is not a predecessor/successor presentation
+ assert.deepEqual(vals(head.replace(ctx('p','x:PredecessorMember','2025-06-01'),'')+body.replace(fact('Revenues','p',41),''),'Revenues'),[]);
+});
+
+// Cadrenal's FY2025 10-K tags its net loss twice on the year's context: -13,237,362 on the
+// statement and -13,200,000 ("$13.2 million", decimals -5) in the discussion. A rounded copy of
+// the same figure is the same fact, as in SEC's facts feed; a copy that does not round to it stays.
+test('a rounded duplicate of a filed figure is the same fact, and a figure that does not round to it still conflicts',()=>{
+ const filing={accessionNumber:ACC,form:'10-K',filingDate:'2026-02-01',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/a.htm'};
+ const head='<xbrli:context id="c0"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context><xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>';
+ const ni=(v,d,scale='')=>`<ix:nonFraction name="us-gaap:NetIncomeLoss" contextRef="c0" unitRef="usd" decimals="${d}"${scale?` scale="${scale}"`:''} sign="-">${v}</ix:nonFraction>`;
+ const vals=t=>parseOriginal('<html>'+head+t+'</html>',filing,CIK).facts['us-gaap'].NetIncomeLoss.units.USD.map(f=>f.val);
+ assert.deepEqual(vals(ni('13,237,362',0)+ni('13.2',-5,6)+ni('13,237,362',0)),[-13237362,-13237362]);
+ assert.deepEqual(vals(ni('13,237,362',0)+ni('13.3',-5,6)),[-13237362,-13300000]);
+});

@@ -13,7 +13,7 @@ const MAX_BYTES = (Number(process.env.SEC_ORIGINAL_MAX_MB) || 18) * 1024 * 1024;
 // in whichever document carries the header, and referenced from the others.
 function parseOriginal(text, filing, cik, shared) {
  if(Buffer.byteLength(text)>MAX_BYTES)throw new Error('ORIGINAL_DOCUMENT_TOO_LARGE');
- const contexts=shared?.contexts || new Map(),units=shared?.units || new Map(),facts=[],stack=[];let context=null,unit=null,fact=null,narrative='';
+ const contexts=shared?.contexts || new Map(),units=shared?.units || new Map(),facts=[],stack=[],coverCiks=[];let context=null,unit=null,fact=null,coverCik=null,narrative='';
  const local=name=>name.split(':').pop().toLowerCase();
  const parser=new Parser({
   onopentag(name,attrs) {
@@ -23,6 +23,7 @@ function parseOriginal(text, filing, cik, shared) {
    if(tag==='unit')unit={id:attrs.id,measures:[],divide:false};
    if(unit && tag==='divide')unit.divide=true;
    if(tag==='nonfraction')fact={...attrs,text:''};
+   if(tag==='nonnumeric' && attrs.name==='dei:EntityCentralIndexKey')coverCik={contextref:attrs.contextref,text:''};
   },
   ontext(value) {
    const tag=stack[stack.length-1];
@@ -34,6 +35,7 @@ function parseOriginal(text, filing, cik, shared) {
    }
    if(unit && tag==='measure')unit.measures.push(value.trim().split(':').pop());
    if(fact)fact.text+=value;
+   if(coverCik)coverCik.text+=value;
    if(narrative.length<1024*1024 && !['script','style'].includes(tag))narrative+=' '+value;
   },
   onclosetag(name) {
@@ -41,11 +43,38 @@ function parseOriginal(text, filing, cik, shared) {
    if(tag==='context' && context){contexts.set(context.id,context);context=null;}
    if(tag==='unit' && unit){units.set(unit.id,unit);unit=null;}
    if(tag==='nonfraction' && fact){facts.push(fact);fact=null;}
+   if(tag==='nonnumeric' && coverCik){coverCiks.push(coverCik);coverCik=null;}
    stack.pop();
   }
  },{decodeEntities:true,lowerCaseTags:true,lowerCaseAttributeNames:true,recognizeSelfClosing:true});
  parser.end(text);
  const wanted=new Set();for(const fields of Object.values(MAPS))for(const def of Object.values(fields))for(const tax of ['us-gaap','ifrs-full'])for(const tag of def[tax])wanted.add(tax+':'+tag);
+ // Tanger files one 10-K for itself and its operating partnership and tags both sets of
+ // statements with a legal-entity member, leaving none on the plain context (FY2025). Its cover
+ // page binds the plain context to Tanger's CIK and the partnership's member to the partnership's,
+ // so the one member bound to no other CIK carries the registrant's own statements.
+ const legal=c=>c?.dimensions.length===1 && c.dimensions[0].axis==='dei:LegalEntityAxis'?c.dimensions[0].member.trim():null;
+ let ownMember=null;
+ const core=new Set();for(const [st,field] of [['income','netIncome'],['income','totalRevenue'],['balance','totalAssets'],['balance','totalShareholderEquity'],['cash','operatingCashflow']])for(const tax of ['us-gaap','ifrs-full'])for(const tag of MAPS[st][field][tax])core.add(tax+':'+tag);
+ if(!facts.some(f=>core.has(f.name) && contexts.get(f.contextref)?.dimensions.length===0)) {
+  const bound=new Map();for(const k of coverCiks){const c=contexts.get(k.contextref);if(c)bound.set(c.dimensions.length?legal(c):'',p.cik(k.text.trim()));}
+  const used=new Set(facts.filter(f=>core.has(f.name)).map(f=>legal(contexts.get(f.contextref))).filter(Boolean)),free=[...used].filter(m=>!bound.has(m));
+  if(bound.get('')===p.cik(cik) && free.length===1 && [...used].every(m=>m===free[0] || bound.get(m)!==p.cik(cik)))ownMember=free[0];
+ }
+ // Proficient Auto Logistics shows predecessor and successor columns (FY2025) and tags its whole
+ // income and cash-flow statements with a SuccessorMember, leaving the plain context to note figures
+ // (depreciation of $88K beside $39.3M on the statement). For a year whose revenue or operating cash
+ // flow sits only in the successor column, that column is the registrant's statements; it replaces a
+ // note's figure for the same line, and a line only the notes carry stays.
+ const period=c=>c.start.trim()+'/'+c.end.trim();
+ const successor=c=>c?.dimensions.length===1 && c.start && /(?:^|:)SuccessorMember$/.test(c.dimensions[0].member.trim());
+ const successorYears=new Set(),successorLines=new Set();
+ if([...contexts.values()].some(c=>c.dimensions.some(d=>/(?:^|:)PredecessorMember$/.test(d.member.trim())))) {
+  const lead=new Set();for(const [st,field] of [['income','totalRevenue'],['cash','operatingCashflow']])for(const tax of ['us-gaap','ifrs-full'])for(const tag of MAPS[st][field][tax])lead.add(tax+':'+tag);
+  const plainLead=new Set(facts.filter(f=>lead.has(f.name) && contexts.get(f.contextref)?.dimensions.length===0 && contexts.get(f.contextref).start).map(f=>period(contexts.get(f.contextref))));
+  for(const f of facts){const c=contexts.get(f.contextref);if(lead.has(f.name) && successor(c) && !plainLead.has(period(c)))successorYears.add(period(c));}
+  for(const f of facts){const c=contexts.get(f.contextref);if(successor(c) && successorYears.has(period(c)))successorLines.add(f.name+'|'+period(c));}
+ }
  const doc={cik:Number(cik),facts:{},originalDocument:{url:filing.documentUrl,documentUrl:filing.documentUrl,accession:filing.accessionNumber,accessionNumber:filing.accessionNumber,form:filing.form,filingDate:filing.filingDate},segments:[]};
  for(const raw of facts) {
   const c=contexts.get(raw.contextref),u=units.get(raw.unitref),name=raw.name;
@@ -59,7 +88,8 @@ function parseOriginal(text, filing, cik, shared) {
   const [taxonomy,concept]=name.split(':'),measure=u.divide?u.measures.join('/'):u.measures[0];
   const f={val,start:c.start?.trim() || undefined,end:c.end.trim(),accn:filing.accessionNumber,form:filing.form,filed:filing.filingDate,
    _original:{documentUrl:filing.documentUrl,contextRef:raw.contextref,decimals:raw.decimals || null,dimensions:c.dimensions,numericReceipt:receipt}};
-  if(c.dimensions.length) {
+  if(!c.dimensions.length && c.start && successorLines.has(name+'|'+period(c)))continue;
+  if(c.dimensions.length && !(ownMember && legal(c)===ownMember) && !(successor(c) && successorYears.has(period(c)))) {
    // A single disclosed segment axis is retained separately, never entity revenue.
    const segmentDims=c.dimensions.filter(d=>!(d.axis==='srt:ConsolidationItemsAxis' && d.member==='us-gaap:OperatingSegmentsMember'));
    // Operating segments, product and service lines, and regions; revenue, or the
@@ -74,6 +104,16 @@ function parseOriginal(text, filing, cik, shared) {
   if(!wanted.has(name))continue;
   ((doc.facts[taxonomy] ||= {})[concept] ||= {units:{}}).units[measure] ||= [];
   doc.facts[taxonomy][concept].units[measure].push(f);
+ }
+ // Cadrenal tags its FY2025 net loss on the statement (-13,237,362) and again as "$13.2 million"
+ // (decimals -5) in the discussion. A copy that rounds the precise figure to its own decimals is the
+ // same fact, as SEC's facts feed treats it; left in, the year's figure read as two conflicting ones.
+ const precision=f=>f._original.decimals===null || /^inf$/i.test(f._original.decimals)?Infinity:Number(f._original.decimals);
+ for(const defs of Object.values(doc.facts))for(const def of Object.values(defs))for(const [measure,rows] of Object.entries(def.units)) {
+  const exact=new Map();for(const f of rows){const k=f.start+'|'+f.end,best=exact.get(k);if(!best || precision(f)>precision(best))exact.set(k,f);}
+  def.units[measure]=rows.filter(f=>{const best=exact.get(f.start+'|'+f.end),d=precision(f);
+   if(f===best || !Number.isFinite(d) || !(precision(best)>d) || f.val===best.val)return true;
+   const step=10**-d;return Math.abs(Math.round(best.val/step)*step-f.val)>step*1e-6;});
  }
  const plain=narrative.replace(/\s+/g,' ');
  const currencies=[['New Taiwan dollars','TWD'],['Renminbi','CNY'],['Japanese yen','JPY'],['Canadian dollars','CAD'],['euros','EUR'],['U.S. dollars','USD']];

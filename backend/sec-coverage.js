@@ -51,6 +51,10 @@ function validSource(source, issuerCik) {
     if(source?.verificationMethod==='original_inline_xbrl' && require('./sec-inline-number').number(source.originalDocument?.numericReceipt)!==source.rawValue)return false;
     return !!(source && source.type === 'sec_xbrl_fact' && source.linkage === 'xbrl_fact' && cik(source.cik) === cik(issuerCik) && source.taxonomy && source.concept && source.unit && number(source.rawValue) !== null && day(source.periodEnd) && (source.periodStart===null || day(source.periodStart)) && day(source.filingDate) && source.filingDate>=source.periodEnd && /^\d{10}-\d{2}-\d{6}$/.test(source.accessionNumber || '') && source.filingUrl === `https://www.sec.gov/Archives/edgar/data/${Number(issuerCik)}/${source.accessionNumber.replace(/-/g, '')}/${source.accessionNumber}-index.htm`);
 }
+// The balance-sheet debt lines a presented total may add up (sec-facts presentedDebt).
+const DEBT_PARTS=['longTermDebt','currentLongTermDebt','shortTermBorrowings','shortTermDebt'];
+// These narrower/broader concepts are not equivalent to the displayed field.
+const INCOMPATIBLE={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
 function verifiedField(data, row, field, accessions) {
     if (number(row?.[field]) === null) return false;
     const ids = row._sources?.[field];
@@ -58,10 +62,19 @@ function verifiedField(data, row, field, accessions) {
     const sources = ids.map(id => data.sources?.[id]);
     const derived = row._derivations?.[field];
     if(field==='totalRevenue' && sources.some(s=>require('./sec-facts').partialRevenueConcept(data.reportingSic,s?.concept)))return false;
-    // These narrower/broader concepts are not equivalent to the displayed field.
-    const incompatible={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
-    if(!derived && sources.some(s=>incompatible[field]?.includes(s?.concept)))return false;
+    if(!derived && sources.some(s=>INCOMPATIBLE[field]?.includes(s?.concept)))return false;
     if(field==='grossProfit' && derived && /^(602|603|609|63)/.test(String(data.reportingSic || '')))return false;
+    // Total debt as the sum of the debt lines the balance sheet presents, each a filed figure
+    // of this row from one filing (sec-facts presentedDebt). The parts are read as filed, never derived.
+    if(derived?.formula==='sum_presented_lines') {
+        const inputs=derived.inputs;
+        if(field!=='shortLongTermDebtTotal' || !Array.isArray(inputs) || !inputs.length || new Set(inputs).size!==inputs.length || !inputs.every(f=>DEBT_PARTS.includes(f)))return false;
+        if(inputs.includes('shortTermDebt') && inputs.some(f=>f==='currentLongTermDebt' || f==='shortTermBorrowings'))return false;
+        if(!inputs.every(f=>!row._derivations?.[f] && verifiedField(data,row,f,accessions) && row._sources[f].length===1 && row._scopes?.[f]===row._scopes?.[inputs[0]]))return false;
+        const parts=inputs.map(f=>data.sources[row._sources[f][0]]);
+        if(new Set(parts.map(s=>s.accessionNumber)).size!==1 || JSON.stringify(parts.map(s=>s.concept))!==JSON.stringify(derived.presentedConcepts))return false;
+        return number(row[field])===inputs.reduce((sum,f)=>sum+row[f],0) && JSON.stringify(ids)===JSON.stringify(inputs.map(f=>row._sources[f][0]));
+    }
     if(['sum_fields','difference_fields'].includes(derived?.formula)) {
         const permitted={totalRevenue:['netInterestIncome','nonInterestIncome'],grossProfit:['totalRevenue','costOfRevenue'],shortTermDebt:['shortTermBorrowings','currentLongTermDebt'],shortLongTermDebtTotal:['shortTermDebt','longTermDebt']};
         // Net sales plus other revenues, for IFRS filers that report no total line.
@@ -79,7 +92,9 @@ function verifiedField(data, row, field, accessions) {
     if (!sources.every(s => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && (s.periodEnd === row.fiscalDateEnding || derived?.formula === 'ytd_difference') && s.unit === (/(?:EPS|^eps$)/.test(field) ? row.reportedCurrency + '/shares' : /Shares/.test(field) ? 'shares' : row.reportedCurrency))) return false;
     if (row.periodType==='instant' && sources.some(s=>s.periodStart!==null)) return false;
     if (row.periodType!=='instant' && !derived && sources.some(s=>s.periodStart!==row.periodStart)) return false;
-    if (row.periodType==='annual' && sources.some(s=>! /^(10-K|20-F|40-F)(\/A)?$/.test(s.form) || (Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1<340 || (Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1>380)) return false;
+    // A 6-K counts only as the annual statements of the 20-F or 40-F filed that same day.
+    const annualSource=s=>/^(10-K|20-F|40-F)(\/A)?$/.test(s.form) || (s.form==='6-K' && /^(20-F|40-F)$/.test(s.annualFiling?.form || '') && /^\d{10}-\d{2}-\d{6}$/.test(s.annualFiling.accessionNumber || '') && s.annualFiling.filingDate===s.filingDate);
+    if (row.periodType==='annual' && sources.some(s=>!annualSource(s) ||(Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1<340 || (Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1>380)) return false;
     if (!row._derivations?.[field] && sources.length !== 1) return false;
     if (!row._derivations?.[field] && number(row[field]) !== (row._signs?.[field] === -1 ? -Math.abs(number(sources[0].rawValue)) : number(sources[0].rawValue))) return false;
     if (derived) {
@@ -144,4 +159,4 @@ function validateFinancial(data, expectedCik, asOf=day(new Date().toISOString())
     for(const g of data.segmentObservations || [])if(!require('./sec-segment-observations').validGroup(g,data))errors.push('Invalid segment disclosure provenance '+g.periodEnd);
     return errors;
 }
-module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial };
+module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS };

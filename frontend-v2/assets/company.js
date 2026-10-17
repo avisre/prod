@@ -15,7 +15,7 @@
     document.title = `${symbol} — financials | stockportfolio.pro`;
     // Ask for the statements straight away. The page used to wait about a second
     // for the asset profile before even sending this, the slowest request it makes.
-    const earlyFundamentals = fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`).catch(() => null);
+    const earlyFundamentals = fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`).catch(() => null);
     nav('company');
     footer();
     try { // recently-viewed trail for the Markets sidebar
@@ -435,9 +435,11 @@
     // ---------- shared math ----------
     const ratio = (a, b) => (a !== null && b !== null && b !== 0) ? a / b : null;
     const derive = (r) => {
-        const rev = num(r.totalRevenue);
+        let rev = num(r.totalRevenue);
         let gp = num(r.grossProfit); if (gp === 0 && !r._sources?.grossProfit?.length) gp = null;
         let cor = num(r.costOfRevenue); if (cor === 0 && !r._sources?.costOfRevenue?.length) cor = null;
+        // a filer that tags revenue under a line we do not read still files both halves of it
+        if (rev === null && cor !== null && gp !== null) rev = cor + gp;
         if (rev !== null) {
             if (gp === null && cor !== null) gp = rev - cor;
             if (cor === null && gp !== null) cor = rev - gp;
@@ -461,14 +463,15 @@
     const pctFmt = (v) => v === null ? '—' : pct(v * 100);
     const signedPct = (v) => v === null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
 
+    const cashEffect = (v) => { const n = num(v); return n === null || n === 0 ? n : -n; };
     const ROWS = {
         // Income-statement accordion order: the primary line appears first and
         // its supporting lines unfold DIRECTLY BELOW it.
         income: [
-            { label: 'Revenue', get: (r) => derive(r).rev, fmt: money, kind: 'money' },
-            { label: 'Cost of revenue', get: (r) => derive(r).cor, fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Revenue', get: (r) => derive(r).rev, fmt: money, kind: 'money', solo: true },
+            { label: 'Cost of revenue', get: (r) => derive(r).cor, fmt: money, kind: 'money', solo: true, neutral: true },
+            { label: 'Gross profit', get: (r) => derive(r).gp, fmt: money, kind: 'money', rule: true },
             { label: 'Gross margin', get: (r) => ratio(derive(r).gp, derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
-            { label: 'Gross profit', get: (r) => derive(r).gp, fmt: money, kind: 'money', solo: true },
             { label: 'Operating expenses', get: (r) => num(r.operatingExpenses), fmt: money, kind: 'money', neutral: true },
             { label: 'R&D', get: (r) => num(r.researchAndDevelopment), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'SG&A', get: (r) => num(r.sellingGeneralAndAdministrative), fmt: money, kind: 'money', sub: true, neutral: true },
@@ -485,12 +488,13 @@
             { label: 'Effective tax rate', get: (r) => { const t = num(r.incomeTaxExpense); const p = num(r.incomeBeforeTax); return (t !== null && p !== null && p > 0) ? t / p : null; }, fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
             { label: 'Net income', get: (r) => num(r.netIncome), fmt: money, kind: 'money', rule: true },
             { label: 'Net margin', get: (r) => ratio(num(r.netIncome), derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
-            { label: 'EBITDA', get: (r) => num(r.ebitda), fmt: money, kind: 'money' },
-            { label: 'EBIT', get: (r) => num(r.ebit), fmt: money, kind: 'money', sub: true, neutral: true },
+            // EBIT is operating income; EBITDA adds the filed depreciation and
+            // amortization. Neither is shown without both filed figures.
+            { label: 'EBITDA', get: (r) => { const o = num(r.operatingIncome); const d = num(r.depreciationAndAmortization); return o === null || d === null ? null : o + d; }, fmt: money, kind: 'money' },
+            { label: 'EBIT', get: (r) => num(r.operatingIncome), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Depreciation & amortization', get: (r) => num(r.depreciationAndAmortization), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'EPS, basic', get: (r) => num(r.eps), fmt: (v) => fixed(v, 2), kind: 'ps', solo: true },
-            { label: 'EPS, diluted', get: (r) => num(r.dilutedEPS), fmt: (v) => fixed(v, 2), kind: 'ps', solo: true },
-            { label: 'Shares outstanding', get: (r) => num(r.commonStockSharesOutstanding), fmt: money, kind: 'shares', neutral: true, solo: true }
+            { label: 'EPS, diluted', get: (r) => num(r.dilutedEPS), fmt: (v) => fixed(v, 2), kind: 'ps', solo: true }
         ],
         // Macrotrends content, accordion order: each subtotal is the parent
         // row and its components unfold DIRECTLY BELOW it when expanded.
@@ -501,7 +505,9 @@
             { label: 'Receivables', get: (r) => num(r.currentNetReceivables), fmt: money, kind: 'money', sub: true },
             { label: 'Inventory', get: (r) => num(r.inventory), fmt: money, kind: 'money', sub: true },
             { label: 'Other current assets', get: (r) => num(r.otherCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Total long-term assets', get: (r) => { const t = num(r.totalNonCurrentAssets); if (t !== null) return t; const a = num(r.totalAssets); const c = num(r.totalCurrentAssets); return (a !== null && c !== null) ? a - c : null; }, fmt: money, kind: 'money' },
+            // Total assets less current assets first: some filers tag only their long-lived
+            // (PP&E-like) assets as NoncurrentAssets, which is far below the true total.
+            { label: 'Total long-term assets', get: (r) => { const a = num(r.totalAssets); const c = num(r.totalCurrentAssets); return (a !== null && c !== null) ? a - c : num(r.totalNonCurrentAssets); }, fmt: money, kind: 'money' },
             { label: 'Property, plant & equipment', get: (r) => num(r.propertyPlantEquipment), fmt: money, kind: 'money', sub: true },
             { label: 'Operating lease assets', get: (r) => num(r.operatingLeaseRightOfUseAsset), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Long-term investments', get: (r) => num(r.longTermInvestments), fmt: money, kind: 'money', sub: true },
@@ -510,12 +516,12 @@
             { label: 'Deferred tax assets', get: (r) => num(r.deferredTaxAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other long-term assets', get: (r) => num(r.otherNonCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total assets', get: (r) => num(r.totalAssets), fmt: money, kind: 'money', rule: true, solo: true },
-            { label: 'Loans, as defined by the filing', get: (r) => num(r.loans), fmt: money, kind: 'money', solo: true },
+            { label: 'Loans', get: (r) => num(r.loans), fmt: money, kind: 'money', solo: true },
             { label: 'Deposits', get: (r) => num(r.deposits), fmt: money, kind: 'money', solo: true },
             { label: 'Total current liabilities', get: (r) => num(r.totalCurrentLiabilities), fmt: money, kind: 'money' },
             { label: 'Accounts payable', get: (r) => num(r.currentAccountsPayable), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Short-term debt, including current maturities', get: (r) => num(r.shortTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Of which: current maturities of long-term debt', get: (r) => num(r.currentLongTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Short-term debt', get: (r) => num(r.shortTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Current maturities of long-term debt', get: (r) => num(r.currentLongTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total long-term liabilities', get: (r) => { const t = num(r.totalNonCurrentLiabilities); if (t !== null) return t; const a = num(r.totalLiabilities); const c = num(r.totalCurrentLiabilities); return (a !== null && c !== null) ? a - c : null; }, fmt: money, kind: 'money' },
             { label: 'Long-term debt', get: (r) => num(r.longTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other non-current liabilities', get: (r) => num(r.otherNonCurrentLiabilities), fmt: money, kind: 'money', sub: true, neutral: true },
@@ -529,20 +535,25 @@
         ],
         cash: [
             { label: 'Cash flow from operations', get: (r) => num(r.operatingCashflow), fmt: money, kind: 'money', rule: true },
-            { label: 'Net income', get: (r) => num(r.netIncome), fmt: money, kind: 'money', sub: true },
+            { label: 'Net income', get: (r) => num(r.cashFlowNetIncome), fmt: money, kind: 'money', sub: true },
             { label: 'Depreciation & amortization', get: (r) => num(r.depreciationDepletionAndAmortization), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Change in receivables', get: (r) => num(r.changeInReceivables), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Change in inventory', get: (r) => num(r.changeInInventory), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Change in operating assets', get: (r) => num(r.changeInOperatingAssets), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Change in operating liabilities', get: (r) => num(r.changeInOperatingLiabilities), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Stock-based compensation', get: (r) => num(r.shareBasedCompensation), fmt: money, kind: 'money', sub: true, neutral: true },
+            // Filed as the change in the balance (an increase in receivables is
+            // positive); an asset that grows uses cash, so its sign is reversed.
+            { label: 'Change in receivables', get: (r) => cashEffect(r.changeInReceivables), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Change in inventory', get: (r) => cashEffect(r.changeInInventory), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Change in other operating assets', get: (r) => cashEffect(r.changeInOperatingAssets), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Change in accounts payable', get: (r) => num(r.changeInAccountsPayable), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Change in other operating liabilities', get: (r) => num(r.changeInOperatingLiabilities), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Cash flow from investing', get: (r) => num(r.cashflowFromInvestment), fmt: money, kind: 'money', rule: true, neutral: true },
             { label: 'Capital expenditure', get: (r) => num(r.capitalExpenditures), fmt: money, kind: 'money', sub: true, invert: true },
             { label: 'Cash flow from financing', get: (r) => num(r.cashflowFromFinancing), fmt: money, kind: 'money', rule: true, neutral: true },
-            { label: 'Debt issued / repaid, net', get: (r) => { const a = num(r.proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet); const b = num(r.proceedsFromRepaymentsOfShortTermDebt); return a === null && b === null ? null : (a || 0) + (b || 0); }, fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Debt issued', get: (r) => num(r.proceedsFromIssuanceOfLongTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Debt repaid', get: (r) => num(r.repaymentsOfLongTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Short-term borrowing, net', get: (r) => num(r.proceedsFromRepaymentsOfShortTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Stock issued', get: (r) => num(r.proceedsFromIssuanceOfCommonStock), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Stock-based compensation', get: (r) => num(r.shareBasedCompensation), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Share buybacks', get: (r) => num(r.paymentsForRepurchaseOfCommonStock), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Dividends paid', get: (r) => num(r.dividendPayout), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Dividends paid', get: (r) => { const d = num(r.dividendPayout); return d !== null ? d : num(r.dividendPayoutCommonStock); }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Net change in cash', get: (r) => num(r.changeInCashAndCashEquivalents), fmt: money, kind: 'money', neutral: true, solo: true },
             { label: 'Free cash flow', get: (r) => fcfOf(r), fmt: money, kind: 'money', rule: true, solo: true }
         ]
@@ -556,7 +567,7 @@
     let rangeYears = 10;
     // The 5Y-trend column is a control, and controls start off: the table
     // opens with no trend column; "Show 5Y trend" is what turns it on.
-    let showStatementTrend = false;
+    let showStatementTrend = true;
     let sharesByPeriod = new Map();
     let lastRender = { rows: [], periods: [] };
 
@@ -604,7 +615,7 @@
         return [...by.values()].sort((a, b) => String(a.end).localeCompare(String(b.end)));
     }
     function monthlySeries(p) {
-        const ts = (p.monthly || {})['Monthly Adjusted Time Series'] || (p.monthly || {})['Monthly Time Series'] || {};
+        const ts =(p.monthly || {})['Monthly Adjusted Time Series'] || (p.monthly || {})['Monthly Time Series'] || {};
         const out = [];
         for (const k of Object.keys(ts).sort()) {
             const row = ts[k];
@@ -735,7 +746,8 @@
         : { W: 1280, H: 320, padL: 70, padR: 70, padT: 30, padB: 28, fs: 11, maxLabels: 8 };
     // capAxisMult: when no separate cap line is drawn, the left axis still
     // reads in market-cap terms — price tick × current share count.
-    function dualChart(price, cap, labels, fmtPrimary, capAxisMult) {
+    // capMultiple: text for the badge under the market-cap value, e.g. "33× P/E".
+    function dualChart(price, cap, labels, fmtPrimary, capAxisMult, capMultiple) {
         const { W, H, padL, padR, padT, padB, fs } = GEOM;
         const fmtP = fmtPrimary || ((v) => currencyAmount(v, quoteCurrency(), {
             compact: false,
@@ -823,11 +835,30 @@
         // soft fill under the price line, the Markets-page look; left out when a
         // second line shares the plot, where a fill would sit under the wrong one
         if (!sc) {
-            const pts = price.map((v, i) => (v === null || !Number.isFinite(v) ? null : [x(i, n), yP(v)])).filter(Boolean);
-            if (pts.length > 1) {
-                const base = (H - padB).toFixed(1);
+            // one fill per unbroken run, so a gap (a not-meaningful P/E year) stays empty
+            const runs = [[]];
+            price.forEach((v, i) => {
+                if (v === null || !Number.isFinite(v)) { if (runs[runs.length - 1].length) runs.push([]); return; }
+                runs[runs.length - 1].push([x(i, n), yP(v)]);
+            });
+            const base = (H - padB).toFixed(1);
+            for (const pts of runs) {
+                // a lone year between gaps draws no line segment; a dot keeps it visible
+                if (pts.length === 1) { g += `<circle cx="${pts[0][0].toFixed(1)}" cy="${pts[0][1].toFixed(1)}" r="3" fill="${mainCol}"/>`; continue; }
+                if (!pts.length) continue;
                 g += '<path d="M' + pts[0][0].toFixed(1) + ' ' + base + ' ' + pts.map((p) => 'L' + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' L' + pts[pts.length - 1][0].toFixed(1) + ' ' + base + ' Z" fill="url(#pc-fill)" stroke="none"/>';
             }
+        }
+        // a not-meaningful P/E year is marked where it falls, so the gap reads as NM
+        // rather than missing data; the last year already gets its NM badge below
+        if (fmtPrimary) {
+            price.forEach((v, i) => {
+                if ((v !== null && Number.isFinite(v)) || i === n - 1) return;
+                const xx = x(i, n).toFixed(1);
+                g += `<line x1="${xx}" y1="${padT}" x2="${xx}" y2="${H - padB}" stroke="var(--chart-2)" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="3 4"/>`;
+                g += `<rect x="${(x(i, n) - 17).toFixed(1)}" y="${(H - padB - 26).toFixed(1)}" width="34" height="18" rx="5" fill="var(--surface, #fff)" stroke="var(--chart-2)"/>`;
+                g += `<text x="${xx}" y="${(H - padB - 13).toFixed(1)}" text-anchor="middle" font-size="${fs - 1}" font-weight="650" fill="var(--chart-2)">NM</text>`;
+            });
         }
         g += path(price, yP, mainCol, 2.2);
         // last value: dot on the line + a clear badge ON the right axis, where
@@ -843,6 +874,31 @@
             g += `<circle cx="${x(li, n).toFixed(1)}" cy="${ly.toFixed(1)}" r="3.2" fill="${mainCol}"/>`;
             g += `<rect x="${W - padR + 2}" y="${(ly - 11).toFixed(1)}" width="${padR - 4}" height="20" rx="5" fill="${mainCol}"/>`;
             g += `<text x="${W - padR + (padR - 2) / 2}" y="${(ly + 3.5).toFixed(1)}" text-anchor="middle" font-size="${fs}" font-weight="650" fill="var(--paper, #faf9f6)" style="font-variant-numeric:tabular-nums">${esc(fmtP(price[li]))}</text>`;
+        } else if (fmtPrimary) {
+            // a latest multiple that is not meaningful still gets its badge, never a blank end
+            g += `<rect x="${W - padR + 2}" y="${padT - 11}" width="${padR - 4}" height="20" rx="5" fill="${mainCol}"/>`;
+            g += `<text x="${W - padR + (padR - 2) / 2}" y="${padT + 3.5}" text-anchor="middle" font-size="${fs}" font-weight="650" fill="var(--paper, #faf9f6)">NM</text>`;
+        }
+        // the market-cap line ends in its own badge with the earnings multiple under it,
+        // so both are read at the end of the line like the price; the pair moves clear
+        // of the price badge when they would overlap
+        const ci = sc ? cap.length - 1 : -1;
+        if (ci >= 0 && cap[ci] !== null && Number.isFinite(cap[ci])) {
+            const texts = [currencyAmount(cap[ci], quoteCurrency())].concat(capMultiple ? [capMultiple] : []);
+            const span = 22 * (texts.length - 1);
+            let cy = yC(cap[ci]);
+            if (lastY !== null && lastY > cy - 22 && lastY < cy + span + 22) {
+                const above = lastY - 22 - span;
+                cy = cy <= lastY && above >= padT ? above : lastY + 22;
+            }
+            g += `<circle cx="${x(ci, cap.length).toFixed(1)}" cy="${yC(cap[ci]).toFixed(1)}" r="3.2" fill="var(--chart-2)"/>`;
+            texts.forEach((txt, k) => {
+                const by = cy + 22 * k;
+                const bw = Math.max(padR - 4, Math.ceil(txt.length * fs * 0.62) + 10);
+                // the value is a filled badge, the multiple an outlined one beneath it
+                g += `<rect x="${W - padR + 2 + (padR - 4) - bw}" y="${(by - 10.5).toFixed(1)}" width="${bw}" height="20" rx="5" fill="${k ? 'var(--surface, #fff)' : 'var(--chart-2)'}" stroke="var(--chart-2)" stroke-width="1"/>`;
+                g += `<text x="${W - padR + 2 + (padR - 4) - bw / 2}" y="${(by + 3.5).toFixed(1)}" text-anchor="middle" font-size="${fs}" font-weight="650" fill="${k ? 'var(--chart-2)' : 'var(--paper, #faf9f6)'}" style="font-variant-numeric:tabular-nums">${esc(txt)}</text>`;
+            });
         }
         return `<svg viewBox="0 0 ${W} ${H}" style="width:100%; height:auto; display:block;" role="img">${g}</svg>`;
     }
@@ -891,6 +947,7 @@
         return out;
     }
     function renderMainChart() {
+        if (!payload) return; // a fund page never loads company fundamentals
         const series = monthlySeries(payload);
         const mixedCurrencies = hasCurrencyMismatch();
         const peButton = document.querySelector('#seg-chart button[data-cm="pe"]');
@@ -925,7 +982,10 @@
             // left axis ALWAYS reads in market cap — via the live cap line
             // when shown, otherwise price × the current share count
             const sharesNow = !mixedCurrencies && sharesByPeriod.size ? sharesAt('9999-12') : null;
-            $('main-chart').innerHTML = dualChart(price, cap, yl, null, cap ? null : sharesNow);
+            // the multiple beside the market cap is the page's headline P/E, so the two agree
+            const peNow = num((payload.overview || {}).PERatio);
+            const capMultiple = cap ? (peNow !== null && peNow > 0 ? Math.round(peNow) + '× P/E' : 'P/E NM') : null;
+            $('main-chart').innerHTML = dualChart(price, cap, yl, null, cap ? null : sharesNow, capMultiple);
             const fmtPoint = useDaily
                 ? (m) => new Date(m + 'T12:00').toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
                 : (m) => new Date(m + '-15').toLocaleString('en-US', { month: 'short', year: 'numeric' });
@@ -958,26 +1018,36 @@
                 ? 'Price (right axis): split-adjusted — ink. Market cap (left axis): price × that fiscal year’s filed share count — orange. Where the lines drift apart, buybacks or dilution is why.'
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count.`;
         } else {
-            // P/E by fiscal year: avg monthly close within the FY ÷ diluted EPS
+            // P/E by fiscal year: avg monthly close within the FY ÷ diluted EPS.
+            // A loss year, or a multiple above NM_PE (Cisco FY2018: a one-off tax charge
+            // left $0.02 of EPS and a 1,600× P/E that flattened every other year), is
+            // "not meaningful": it stays on the axis as a gap, off the scale.
+            const NM_PE = 100;
             const inc = ((payload.income || {}).annualReports || []).slice().reverse();
-            const vals = []; const labels = [];
+            const vals = []; const labels = []; const notes = [];
             for (const r of inc) {
                 const eps = num(r.dilutedEPS);
                 const end = String(r.fiscalDateEnding || '');
-                if (eps === null || eps <= 0 || !end) continue;
+                if (eps === null || !end) continue;
                 const endIdx = series.findIndex((p) => p.month >= end);
                 const idx = endIdx === -1 ? series.length - 1 : endIdx;
                 const windowMonths = series.slice(Math.max(0, idx - 11), idx + 1);
                 if (!windowMonths.length) continue;
                 const avg = windowMonths.reduce((a, p) => a + p.close, 0) / windowMonths.length;
-                vals.push(avg / eps);
+                const pe = eps > 0 ? avg / eps : null;
+                vals.push(pe !== null && pe <= NM_PE ? pe : null);
+                notes.push(pe === null ? 'NM: loss year' : pe > NM_PE ? `NM: ${Math.round(pe).toLocaleString('en-US')}× on $${eps} diluted EPS` : Math.round(pe * 10) / 10 + '× earnings');
                 labels.push('FY' + new Date(r.fiscalDateEnding).getFullYear());
             }
             const keep = rangeYears >= 99 ? vals.length : Math.min(vals.length, Math.max(3, rangeYears));
-            const v = vals.slice(-keep); const l = labels.slice(-keep);
-            $('main-chart').innerHTML = dualChart(v, null, l, (x2) => Math.round(x2) + '×');
-            wireChartHover(v.map((pe, i) => ({ label: l[i], lines: [Math.round(pe * 10) / 10 + '× earnings'] })));
-            $('chart-prov').textContent = 'P/E by fiscal year: average monthly close across the year ÷ that year’s diluted EPS, both split-adjusted.';
+            const v = vals.slice(-keep); const l = labels.slice(-keep); const nt = notes.slice(-keep);
+            if (!v.some((pe) => pe !== null)) {
+                $('main-chart').innerHTML = `<p class="small muted" style="padding:40px 0; text-align:center;">P/E is not meaningful for ${v.length ? 'these years' : 'this company'}: ${v.length ? 'every year shown is a loss or above ' + NM_PE + '×' : 'no fiscal year has diluted EPS and prices to divide'}.</p>`;
+            } else {
+                $('main-chart').innerHTML = dualChart(v, null, l, (x2) => Math.round(x2) + '×');
+                wireChartHover(v.map((pe, i) => ({ label: l[i], lines: [nt[i]] })));
+            }
+            $('chart-prov').textContent = `P/E by fiscal year: average monthly close across the year ÷ that year’s diluted EPS, both split-adjusted. Loss years and multiples above ${NM_PE}× are not meaningful (NM) and left off the scale.`;
         }
         $('cap-toggle').hidden = chartMode !== 'price' || mixedCurrencies;
         $('chart-block').hidden = false;
@@ -1432,7 +1502,7 @@
         $('cmp-body').hidden = false;
         $('cmp-table').innerHTML = '<tbody><tr><td style="text-align:left" class="faint"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></td></tr></tbody>';
         try {
-            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(sym2)}`);
+            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(sym2)}?presentationCurrency=USD`);
             if (!r.ok) throw new Error('nope');
             const p2 = await r.json();
             let html = `<thead><tr><th class="row-head" style="text-align:left;">Metric</th><th>${esc(symbol)}</th><th>${esc(sym2)}</th></tr></thead><tbody>`;
@@ -1668,13 +1738,19 @@
         const facts=[...(payload?.supplementalObservations || []),...(payload?.industryObservations || [])].filter(f=>(!f.statement || f.statement===stState) && (f.historyBasis || f.basis)===basis).slice(0,40);
         const fresh=payload?.freshness || {};const gaps=payload?.coverage?.remainingGaps || [];
         const notes=[fresh.lastSuccessfulCheckAt?'Filings last checked '+(Number.isNaN(Date.parse(fresh.lastSuccessfulCheckAt))?fresh.lastSuccessfulCheckAt:new Date(fresh.lastSuccessfulCheckAt).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})):null,fresh.backgroundStatus==='running'?'Additional source retrieval is in progress.':null,fresh.backgroundStatus==='capacity_limited'?'Source retrieval is temporarily busy; stored observations and their dates are shown.':null,fresh.lastAttemptResult==='retrieval_failed'?'The freshness check failed; previous dated observations are retained.':fresh.lastAttemptResult==='partial_failure'?'Some source checks failed; last-good observations and remaining gaps are shown.':null].filter(Boolean);
-        panel.innerHTML=notes.map(n=>'<p class="small faint">'+esc(n)+'</p>').join('')+(facts.length?'<details><summary>Additional attributed financial observations ('+facts.length+')</summary><p class="small faint">Provider observations and issuer-defined measures are separate from the verified GAAP/IFRS statements.</p><div class="table-wrap"><table class="table-data"><thead><tr><th>Field</th><th>Period end</th><th>Value and unit</th><th>Source and date</th></tr></thead><tbody>'+facts.map(f=>'<tr><td>'+esc(f.definition)+'</td><td>'+esc(f.periodEnd)+'</td><td>'+esc(f.value.toLocaleString('en-US'))+' '+esc(f.unit)+'</td><td><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">'+esc(f.sourceName)+'</a> '+esc(f.publicationDate || f.sourceDataDate)+' '+esc(f.sourceDateKind==='retrieval'?'retrieved':'published')+' · '+esc(f.accountingBasis)+'</td></tr>').join('')+'</tbody></table></div></details>':'')+(gaps.length?'<details><summary>Remaining data gaps ('+gaps.length+')</summary><ul>'+gaps.slice(0,20).map(g=>'<li>'+esc([g.field,g.basis,g.reason].filter(Boolean).join(' · '))+'</li>').join('')+'</ul></details>':'');
+        panel.innerHTML=notes.map(n=>'<p class="small faint">'+esc(n)+'</p>').join('')+(facts.length?'<details><summary>Additional attributed financial observations ('+facts.length+')</summary><p class="small faint">Provider observations and issuer-defined measures are separate from the verified GAAP/IFRS statements.</p><div class="table-wrap"><table class="table-data"><thead><tr><th>Field</th><th>Period end</th><th>Value and unit</th><th>Source and date</th></tr></thead><tbody>'+facts.map(f=>'<tr><td>'+esc(f.definition)+'</td><td>'+esc(f.periodEnd)+'</td><td>'+esc(f.value.toLocaleString('en-US'))+' '+esc(f.unit)+(f.presentation?'<br><span class="small faint">converted from '+esc(f.presentation.originalValue.toLocaleString('en-US'))+' '+esc(f.presentation.originalCurrency)+'</span>':'')+'</td><td><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">'+esc(f.sourceName)+'</a> '+esc(f.publicationDate || f.sourceDataDate)+' '+esc(f.sourceDateKind==='retrieval'?'retrieved':'published')+' · '+esc(f.accountingBasis)+'</td></tr>').join('')+'</tbody></table></div></details>':'')+(gaps.length?'<details><summary>Remaining data gaps ('+gaps.length+')</summary><ul>'+gaps.slice(0,20).map(g=>'<li>'+esc([g.field,g.basis,g.reason].filter(Boolean).join(' · '))+'</li>').join('')+'</ul></details>':'');
     }
     function renderStatements() {
+        if (!payload) return; // a unit, right or fund page has no statements to switch between
         renderFinancialSources();
         const rows = reports(stState, basisState);
         const table = $('stmt-table');
-        if (!rows.length) { table.innerHTML = '<tbody><tr><td style="text-align:left">No data filed for this view.</td></tr></tbody>'; return; }
+        if (!rows.length) {
+            table.innerHTML = '<tbody><tr><td style="text-align:left">No data filed for this view.</td></tr></tbody>';
+            // the currency note is written with the table, so with no table it stayed at "loading…"
+            if ($('stmt-prov')) $('stmt-prov').textContent = 'No financial statements filed with the SEC are available for this view.';
+            return;
+        }
         lastRender = { rows: [], periods: rows.map((r) => periodLabel(r, basisState)) };
         table.classList.toggle('trend-hidden', !showStatementTrend);
         const expanded = expandedGroups[stState] || new Set();
@@ -1740,7 +1816,7 @@
         if (provenance) {
             const mismatch = hasCurrencyMismatch();
             const conversionText = converted
-                ? `Financial statements are shown in USD, converted from ${sourceReportingCurrency()}. Balance-sheet figures use the fiscal-period closing monthly FX rate; income and cash-flow figures use average month-end FX rates over each reporting period. This is an approximate convenience conversion. `
+                ? `Financial statements are shown in USD, converted from ${sourceReportingCurrency()}. ${payload.currencyConversion.restatedFrom ? `Under hyperinflation accounting (IAS 29) each filing restates its figures, earlier years included, into the currency of its own balance-sheet date, so figures from those filings use that date’s closing FX rate; earlier filings use the period basis below. ` : ''}Balance-sheet figures use the fiscal-period closing monthly FX rate; income and cash-flow figures use average month-end FX rates over each reporting period. This is an approximate convenience conversion. `
                 : `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. `;
             provenance.textContent = conversionText +
                 (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}; ADR-dependent valuation overlays remain disabled. ` : '') +
@@ -2413,9 +2489,9 @@
                 mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
                 return;
             }
-            if (['unit','right','unresolved'].includes(assetData?.profile?.assetType)) { $('co-name').textContent=assetData.profile.name || symbol; $('co-crumb').textContent=assetData.profile.assetTypeLabel+' · Company financial analysis is unavailable for this instrument.'; $('stmt-table').innerHTML='<tbody><tr><td>No company financial analysis is available for this instrument.</td></tr></tbody>'; return; }
+            if (['unit','right','unresolved'].includes(assetData?.profile?.assetType)) { $('co-name').textContent=assetData.profile.name || symbol; $('co-crumb').textContent=assetData.profile.assetTypeLabel+' · Company financial analysis is unavailable for this instrument.'; $('stmt-table').innerHTML='<tbody><tr><td>No company financial analysis is available for this instrument.</td></tr></tbody>'; $('seg-statement').parentElement.style.display='none'; for (const id of ['kp-section','duo-section','stmt-prov']) $(id).hidden = true; return; }
             mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
-            const r = (await earlyFundamentals) || await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`);
+            const r = (await earlyFundamentals) || await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`);
             if (!r.ok) throw new Error('load failed');
             payload = await r.json();
             buildSharesMap();
@@ -2426,6 +2502,13 @@
             renderAbout();
             renderChecks();
             renderSbc();
+            // A company that has not filed a full-year report yet (a new listing, or a shell
+            // whose first 10-K covers only the months since it was formed) still has quarters.
+            if (!reports('income', 'annual').length && reports('income', 'quarterly').length) {
+                basisState = 'quarterly';
+                document.querySelectorAll('#seg-basis button').forEach((x) => x.setAttribute('aria-pressed', x.dataset.basis === 'quarterly'));
+                syncStatementTrendControls();
+            }
             renderStatements();
             renderCagrCards();
             renderRatios();

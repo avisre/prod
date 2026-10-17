@@ -354,9 +354,26 @@ function buildCashReports(history) {
     }));
 }
 
+// A bar is stamped at the start of its session in the exchange's own time. Currency pairs trade on
+// London time, so from April to October a session that opens at midnight is 23:00 UTC the day
+// before: read in UTC, the 1 April bar was dated 31 March, a monthly series had March twice and
+// October not at all, and a September year-end was converted at October's rate. A US listing's
+// bar (09:30 or 00:00 New York) is the same day either way.
+function exchangeDay(chart) {
+    try {
+        const zone = chart?.meta?.exchangeTimezoneName;
+        if (zone) {
+            const format = new Intl.DateTimeFormat('en-CA', { timeZone: zone, year: 'numeric', month: '2-digit', day: '2-digit' });
+            return (d) => { const date = d instanceof Date ? d : new Date(d); return Number.isNaN(date.getTime()) ? '' : format.format(date); };
+        }
+    } catch (_) { /* an unknown zone keeps the UTC day */ }
+    return isoDay;
+}
+
 function buildDailySeries(symbol, chart, outputSize) {
     const quotes = chart?.quotes || [];
     const series = {};
+    const local = exchangeDay(chart);
     for (const q of quotes) {
         if (!q || !q.date) continue;
         // And a row whose close is null is a placeholder, not a session: Yahoo
@@ -368,7 +385,7 @@ function buildDailySeries(symbol, chart, outputSize) {
         // blanked the tape for every visitor. A row with no close carries
         // nothing any consumer can use.
         if (q.close === null || q.close === undefined) continue;
-        const day = isoDay(q.date);
+        const day = local(q.date);
         if (!day) continue;
         series[day] = {
             '1. open': n(q.open),
@@ -395,11 +412,12 @@ function buildDailySeries(symbol, chart, outputSize) {
 function buildMonthlySeries(symbol, chart) {
     const quotes = chart?.quotes || [];
     const series = {};
+    const local = exchangeDay(chart);
     for (const q of quotes) {
         if (!q || !q.date) continue;
         // Same placeholder drop as the daily series — see buildDailySeries.
         if (q.close === null || q.close === undefined) continue;
-        const day = isoDay(q.date);
+        const day = local(q.date);
         if (!day) continue;
         series[day] = {
             '1. open': n(q.open),

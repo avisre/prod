@@ -24,7 +24,7 @@ const COST = credits.LISTED_COST;
 // The keyless allowance is env-switchable, so the docs quote the live config
 // instead of a typed number (it said "two" while the default was three).
 const ANON = require('./mcp-anon').config();
-const STAMP = '20261011-ask1';
+const STAMP = '20261017-ui14';
 const UPDATED = '25 September 2026';
 
 function esc(value) {

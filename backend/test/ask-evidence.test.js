@@ -92,7 +92,9 @@ test('Apple fixture through the real tool supplies correct growth even with limi
 test('two-year Apple income is compact and every populated field has its exact sources', async () => {
     useAppleFixture();
     const r = await ask.runTool('get_financials', { symbol: 'AAPL', statement: 'income', limit: 2 });
-    assert.ok(Buffer.byteLength(JSON.stringify(r)) < 20 * 1024);
+    // 24KB since 10-17: the weighted basic and diluted share counts were added, each with its filing.
+    // The model reads the lean view from ask-report-evidence, not this payload.
+    assert.ok(Buffer.byteLength(JSON.stringify(r)) < 24 * 1024);
     const referenced = new Set();
     for (const observation of r.observations) for (const field of Object.values(observation.fields)) {
         if (field.value === null) continue;
@@ -156,6 +158,13 @@ test('partial, historical and unavailable stocks preserve coverage and missing f
         const d = ask.loadFund(symbol);
         if (r.error) { assert.ok(r.code || r.coverage); continue; }
         assert.equal(r.coverage.financialCoverage, d.coverage.financialCoverage);
+        if (r.verifiedObservations) {
+            // No SEC rows (e.g. a bank holding company): only attributed supplemental figures, within the period limit.
+            assert.equal(r.verifiedObservations.length, 0);
+            assert.ok(new Set(r.supplementalObservations.map(f => f.periodEnd)).size <= 1);
+            for (const f of r.supplementalObservations) assert.ok(f.sourceName && f.sourceUrl);
+            continue;
+        }
         for (const field of Object.values(r.observations[0].fields)) if (!field.sourceIds.length) assert.equal(field.value, null);
     }
 });
@@ -271,4 +280,52 @@ test('Ask charts keep missing observations as gaps and retain reported zero', ()
     const bars = box.bars(JSON.stringify({ unit: 'JPY', rows: [['Missing', null], ['Placeholder', 'None'], ['Zero', 0], ['Negative', -1]] }));
     assert.doesNotMatch(bars, /Missing|Placeholder/);
     assert.match(bars, /Zero/); assert.match(bars, /Negative/);
+});
+
+function appleYears(n) {
+    // n copies of the audited year, each moved back a year with its own sources, so history is long enough to hit the budget.
+    const f = structuredClone(appleFixture), base = f.income.annualReports[0];
+    const shift = (d, i) => d && (Number(d.slice(0, 4)) - i) + d.slice(4);
+    f.income.annualReports = Array.from({ length: n }, (_, i) => {
+        const r = structuredClone(base);
+        r.fiscalDateEnding = shift(r.fiscalDateEnding, i); r.periodStart = shift(r.periodStart, i);
+        for (const [k, ids] of Object.entries(r._sources)) r._sources[k] = ids.map(id => {
+            const s = { ...f.provenance.sources[id] }, nid = id + 'y' + i;
+            s.periodStart = shift(s.periodStart, i); s.periodEnd = shift(s.periodEnd, i); s.filingDate = shift(s.filingDate, i);
+            f.provenance.sources[nid] = s; return nid;
+        });
+        return r;
+    });
+    return f;
+}
+
+test('an added column no Apple year fills is listed once as unavailable, not as blank cells', async () => {
+    useAppleFixture();
+    const r = await ask.runTool('get_financials', { symbol: 'AAPL', statement: 'income', limit: 2 });
+    assert.ok(r.unavailableFields.includes('depreciationAndAmortization'));
+    assert.ok(!r.table.split('\n')[0].includes('depreciationAndAmortization'));
+    for (const o of r.observations) {
+        assert.ok(!('depreciationAndAmortization' in o.fields));
+        assert.equal(typeof o.fields.weightedAverageSharesDiluted.value, 'number');
+    }
+    // Asked for by name, a blank column is shown as blank rather than dropped.
+    const asked = await ask.runTool('get_financials', { symbol: 'AAPL', statement: 'income', limit: 2, fields: ['totalRevenue', 'depreciationAndAmortization'] });
+    assert.equal(asked.unavailableFields, undefined);
+    assert.equal(asked.observations[0].fields.depreciationAndAmortization.value, null);
+});
+
+test('a full report keeps to the core columns, and long history keeps its periods by dropping the added ones', async () => {
+    useAppleFixture();
+    const report = await ask.runTool('get_financials', { symbol: 'AAPL', statement: 'income', limit: 2 }, { companyReportEvidence: true });
+    assert.ok(!('weightedAverageSharesDiluted' in report.observations[0].fields));
+    assert.ok('totalRevenue' in report.observations[0].fields);
+    cache.loadFundamentals = symbol => symbol === 'AAPL' ? appleYears(12) : originalLoad(symbol);
+    const five = await ask.runTool('get_financials', { symbol: 'AAPL', statement: 'income', limit: 5 });
+    assert.equal(five.history.returnedPeriods, 5);
+    assert.ok('weightedAverageSharesDiluted' in five.observations[0].fields);
+    assert.equal(five.moreFields, undefined);
+    const eight = await ask.runTool('get_financials', { symbol: 'AAPL', statement: 'income', limit: 8 });
+    assert.equal(eight.history.returnedPeriods, 8);
+    assert.ok(eight.moreFields.includes('weightedAverageSharesDiluted'));
+    assert.ok(!('weightedAverageSharesDiluted' in eight.observations[0].fields));
 });

@@ -51,16 +51,22 @@ function readJson(zf, entry) {
     });
 }
 
-// facts['us-gaap'] for a 10-digit padded CIK, or null when bulk is unavailable.
-async function factsForCik(cik) {
+// The whole company-facts document (every taxonomy, as the per-company API
+// returns it) for a 10-digit padded CIK, or null when bulk is unavailable.
+async function documentForCik(cik) {
     if (!isFresh() || !cik) return null;
     try {
         const { zf, entries } = await index();
         const entry = entries.get(`CIK${cik}.json`) || entries.get(`CIK${String(cik).replace(/^0+/, '')}.json`);
         if (!entry) return null;
-        const json = await readJson(zf, entry);
-        return (json && json.facts && json.facts['us-gaap']) || null;
+        return await readJson(zf, entry);
     } catch (_) { return null; }
+}
+
+// facts['us-gaap'] for a 10-digit padded CIK, or null when bulk is unavailable.
+async function factsForCik(cik) {
+    const json = await documentForCik(cik);
+    return (json && json.facts && json.facts['us-gaap']) || null;
 }
 
 // Download the nightly bulk zip to disk (streamed, atomic rename). One request —
@@ -86,4 +92,4 @@ function start({ intervalMs = 24 * 60 * 60 * 1000, initialDelayMs = 90 * 1000 } 
     console.log('[companyfacts-bulk] enabled at', ZIP_PATH);
 }
 
-module.exports = { factsForCik, refresh, start, enabled, isFresh };
+module.exports = { factsForCik, documentForCik, refresh, start, enabled, isFresh };

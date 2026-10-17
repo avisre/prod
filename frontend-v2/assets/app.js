@@ -1705,7 +1705,7 @@
             if (!items.length) { results.hidden = true; return; }
             results.innerHTML = items.map((c, i) =>
                 `<a href="/company.html?symbol=${encodeURIComponent(c.symbol)}" class="${i === active ? 'is-active' : ''}">
-                   <span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name)}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span></a>`).join('');
+                   <span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name)}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span>${c.statements ? `<span class="stmt-flag stmt-flag-${esc(c.statements.status)}" title="${esc(c.statements.status === 'full' ? 'Every line this company reports to SEC is shown' : c.statements.status === 'none' ? 'No financial statements on file' : c.statements.missing + ' of ' + c.statements.rows + ' statement lines are not shown yet')}">${c.statements.status === 'full' ? 'Full statements' : c.statements.status === 'none' ? 'No statements' : 'Partial statements'}</span>` : ''}</a>`).join('');
             results.hidden = false;
         };
         input.addEventListener('input', async () => {

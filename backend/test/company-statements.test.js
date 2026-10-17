@@ -53,28 +53,27 @@ function groupDefinitions(definitions) {
   return grouped;
 }
 
-test('revenue expands cost of revenue and gross margin, not gross profit', () => {
+test('revenue, cost of revenue and gross profit are always-visible rows in statement order', () => {
   const grouped = groupDefinitions(incomeDefinitions());
   const byLabel = Object.fromEntries(grouped.map((definition) => [definition.label, definition]));
 
   assert.deepEqual(
     grouped.slice(0, 4).map((definition) => definition.label),
-    ['Revenue', 'Cost of revenue', 'Gross margin', 'Gross profit']
+    ['Revenue', 'Cost of revenue', 'Gross profit', 'Gross margin']
   );
-  assert.equal(byLabel.Revenue.parentOf, byLabel['Cost of revenue'].gid);
-  assert.equal(byLabel.Revenue.parentOf, byLabel['Gross margin'].gid);
-  assert.equal(byLabel['Gross profit'].gid, undefined);
-  assert.equal(byLabel['Gross profit'].parentOf, undefined);
+  for (const label of ['Revenue', 'Cost of revenue', 'Gross profit']) {
+    assert.equal(byLabel[label].gid, undefined, `${label} is never hidden`);
+  }
+  assert.equal(byLabel.Revenue.parentOf, undefined);
+  assert.equal(byLabel['Cost of revenue'].parentOf, undefined);
 });
 
-test('revenue components are hidden when collapsed and visible when expanded', () => {
+test('gross margin unfolds under gross profit', () => {
   const grouped = groupDefinitions(incomeDefinitions());
-  const revenue = grouped.find((definition) => definition.label === 'Revenue');
-  const children = grouped.filter((definition) => definition.gid === revenue.parentOf);
+  const grossProfit = grouped.find((definition) => definition.label === 'Gross profit');
+  const children = grouped.filter((definition) => definition.gid === grossProfit.parentOf);
 
-  assert.deepEqual(children.map((definition) => definition.label), ['Cost of revenue', 'Gross margin']);
-  assert.ok(children.every((definition) => !new Set().has(definition.gid)));
-  assert.ok(children.every((definition) => new Set([revenue.parentOf]).has(definition.gid)));
+  assert.deepEqual(children.map((definition) => definition.label), ['Gross margin']);
 });
 
 test('financial statement columns have year lanes and whole-column sizing', () => {
@@ -101,8 +100,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261011-ask1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261011-ask1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261017-ui14/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261017-ui14/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -132,12 +131,11 @@ test('statement striping alternates complete visible rows rather than individual
 });
 
 test('statement units remain single-line and compact screens can hide and restore trends', () => {
-  // Owner rule (10/05): the table opens with no control activated — the
-  // 5Y-trend column stays off until the reader asks for it.
-  assert.match(companySource, /let showStatementTrend = false;/);
+  // Owner rule (10/17, replacing the 10/05 off-by-default rule): the table opens
+  // with the 5Y-trend column shown; × hides it and "Show 5Y trend" brings it back.
+  assert.match(companySource, /let showStatementTrend = true;/);
   assert.match(companyHtml, /id="stmt-trend-toggle"/);
-  assert.match(companyHtml, /id="stmt-trend-toggle"[^>]*aria-expanded="false"[^>]*aria-controls="stmt-table"[^>]*>Show 5Y trend</);
-  assert.doesNotMatch(companyHtml, /id="stmt-trend-toggle"[^>]*\shidden/);
+  assert.match(companyHtml, /id="stmt-trend-toggle"[^>]*aria-expanded="true"[^>]*aria-controls="stmt-table"[^>]*\shidden>Show 5Y trend</);
   assert.match(companySource, /function setStatementTrendVisible\(visible\)/);
   assert.match(companySource, /class="stmt-trend-close"[^>]*aria-expanded="true"[^>]*aria-controls="stmt-table"/);
   assert.match(companySource, /table\.classList\.toggle\('trend-hidden'/);

@@ -145,14 +145,34 @@ function convertPayloadWithSeries(payload, series, sourceCurrency = reportingCur
     return out;
 }
 
+// Yahoo's monthly bars carry stray ticks into their close: KRWUSD=X read 9.07 for February 2015
+// against about 0.00091 on every day of that month, and TWD, VND, IDR and PHP had months like it,
+// which put SK Telecom's 2015 revenue at $25 trillion. The month's rate is its last daily close.
+// The daily closes have strays too (TWDUSD=X 0.272 on 31 Dec 2014 between 0.0323 and 0.0316, three
+// IDR days in a row at 0.000104 against 0.000085), so a close more than 15% from the median of the
+// eleven around it is passed over. A real devaluation is a step that the following days keep, so
+// from its first day on the median sits at the new level and the move stays.
+function monthEndSeries(raw) {
+    const rows = Object.entries((raw || {})['Time Series (Daily)'] || {})
+        .map(([date, row]) => ({ date, rate: Number((row || {})['4. close']) }))
+        .filter((row) => /^\d{4}-\d{2}-\d{2}$/.test(row.date) && Number.isFinite(row.rate) && row.rate > 0)
+        .sort((a, b) => a.date.localeCompare(b.date));
+    const last = new Map();
+    rows.forEach((row, i) => {
+        const near = rows.slice(Math.max(0, i - 5), i + 6).map((r) => r.rate).sort((a, b) => a - b);
+        if (Math.abs(Math.log(row.rate / near[near.length >> 1])) <= Math.log(1.15)) last.set(row.date.slice(0, 7), row.rate);
+    });
+    return [...last].map(([month, rate]) => ({ month, rate }));
+}
+
 async function rateSeries(sourceCurrency) {
     const source = currency(sourceCurrency);
     if (!source || source === 'USD') return [];
     const hit = rateCache.get(source);
     if (hit && Date.now() - hit.at < CACHE_TTL_MS) return hit.value;
     const pair = `${source}USD=X`;
-    const raw = await yahooSource.fetchFromYahoo('TIME_SERIES_MONTHLY_ADJUSTED', { symbol: pair });
-    const value = normalizeSeries(raw);
+    const raw = await yahooSource.fetchFromYahoo('TIME_SERIES_DAILY_ADJUSTED', { symbol: pair, outputsize: 'full' });
+    const value = monthEndSeries(raw);
     if (!value.length) throw new Error(`No ${source}/USD exchange-rate history is available.`);
     rateCache.set(source, { at: Date.now(), value });
     if (rateCache.size > 50) rateCache.delete(rateCache.keys().next().value);
@@ -169,6 +189,7 @@ module.exports = {
     rateSeries,
     reportingCurrency,
     normalizeSeries,
+    monthEndSeries,
     closingRate,
     averageRate,
     convertPayloadWithSeries,

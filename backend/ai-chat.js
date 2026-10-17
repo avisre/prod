@@ -140,21 +140,46 @@ const NO_DATA = (symbol, data) => ({ code: 'VERIFIED_FINANCIALS_UNAVAILABLE', er
 // and cash.netIncome is absent from MAPS.cash (the value lives on the income
 // statement), so all nine were dropped. Nothing else was removed: the remaining
 // fields all resolve for some issuer.
+// Re-measured 2026-10-17 on the 5,764 latest annual rows after MAPS gained these
+// lines: each one below the original twelve is filled for 270 to 4,609 issuers
+// (PP&E 4,439, diluted shares 4,609, change in cash 4,541, payables 3,405), so
+// they are columns again. A new column no returned period fills is listed once in
+// unavailableFields instead of repeating a blank cell per row.
 const FIELDS = {
     income: ['totalRevenue', 'costOfRevenue', 'grossProfit', 'researchAndDevelopment',
-        'sellingGeneralAndAdministrative', 'operatingIncome', 'interestExpense',
-        'incomeBeforeTax', 'incomeTaxExpense', 'netIncome', 'dilutedEPS', 'eps'],
+        'sellingGeneralAndAdministrative', 'operatingExpenses', 'operatingIncome', 'depreciationAndAmortization',
+        'interestIncome', 'interestExpense', 'otherNonOperatingIncome',
+        'incomeBeforeTax', 'incomeTaxExpense', 'netIncome', 'dilutedEPS', 'eps',
+        'weightedAverageSharesOutstanding', 'weightedAverageSharesDiluted'],
     balance: ['totalAssets', 'totalCurrentAssets', 'cashAndCashEquivalentsAtCarryingValue',
-        'inventory', 'goodwill',
-        'totalLiabilities', 'totalCurrentLiabilities', 'shortTermDebt',
-        'longTermDebt', 'totalShareholderEquity', 'retainedEarnings', 'commonStockSharesOutstanding'],
-    cash: ['operatingCashflow', 'capitalExpenditures', 'depreciationDepletionAndAmortization',
-        'cashflowFromInvestment', 'cashflowFromFinancing', 'dividendPayout',
+        'shortTermInvestments', 'cashAndShortTermInvestments', 'currentNetReceivables',
+        'inventory', 'otherCurrentAssets', 'propertyPlantEquipment', 'operatingLeaseRightOfUseAsset', 'goodwill',
+        'intangibleAssetsExcludingGoodwill', 'otherNonCurrentAssets', 'totalNonCurrentAssets',
+        'totalLiabilities', 'totalCurrentLiabilities', 'currentAccountsPayable', 'shortTermDebt',
+        'currentLongTermDebt', 'shortTermBorrowings', 'longTermDebt', 'shortLongTermDebtTotal',
+        'otherNonCurrentLiabilities', 'totalNonCurrentLiabilities',
+        'totalShareholderEquity', 'commonStock', 'treasuryStock', 'retainedEarnings', 'commonStockSharesOutstanding'],
+    cash: ['cashFlowNetIncome', 'operatingCashflow', 'depreciationDepletionAndAmortization', 'shareBasedCompensation',
+        'changeInReceivables', 'changeInInventory', 'changeInOperatingAssets', 'changeInAccountsPayable',
+        'changeInOperatingLiabilities', 'capitalExpenditures',
+        'cashflowFromInvestment', 'proceedsFromIssuanceOfLongTermDebt', 'repaymentsOfLongTermDebt',
+        'proceedsFromRepaymentsOfShortTermDebt', 'proceedsFromIssuanceOfCommonStock', 'dividendPayout',
         'paymentsForRepurchaseOfCommonStock',
-        'dividendPayoutCommonStock', 'shareBasedCompensation']
+        'dividendPayoutCommonStock', 'cashflowFromFinancing', 'changeInCashAndCashEquivalents']
 };
+// The columns before 10-17. A full report (compact mode) keeps to these so its
+// six statement payloads stay inside the report's context budget.
+const ADDED_FIELDS = new Set(['operatingExpenses', 'depreciationAndAmortization', 'interestIncome', 'otherNonOperatingIncome',
+    'weightedAverageSharesOutstanding', 'weightedAverageSharesDiluted', 'shortTermInvestments', 'cashAndShortTermInvestments',
+    'currentNetReceivables', 'otherCurrentAssets', 'propertyPlantEquipment', 'operatingLeaseRightOfUseAsset',
+    'intangibleAssetsExcludingGoodwill', 'otherNonCurrentAssets', 'totalNonCurrentAssets', 'currentAccountsPayable',
+    'currentLongTermDebt', 'shortTermBorrowings', 'shortLongTermDebtTotal', 'otherNonCurrentLiabilities',
+    'totalNonCurrentLiabilities', 'commonStock', 'treasuryStock', 'cashFlowNetIncome', 'changeInReceivables',
+    'changeInInventory', 'changeInOperatingAssets', 'changeInAccountsPayable', 'changeInOperatingLiabilities',
+    'proceedsFromIssuanceOfLongTermDebt', 'repaymentsOfLongTermDebt', 'proceedsFromRepaymentsOfShortTermDebt',
+    'proceedsFromIssuanceOfCommonStock', 'changeInCashAndCashEquivalents']);
 const PER_SHARE = new Set(['dilutedEPS', 'eps']);
-const SHARE_COUNT = new Set(['commonStockSharesOutstanding']);
+const SHARE_COUNT = new Set(['commonStockSharesOutstanding', 'weightedAverageSharesOutstanding', 'weightedAverageSharesDiluted']);
 
 // How old the newest period must be before a NEWER one could plausibly be
 // filed and missing. This is not the filing deadline — that was the first
@@ -193,7 +218,7 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
     const st = ['income', 'balance', 'cash'].includes(statement) ? statement : 'income';
     let industryFields=[];
     try{const company=stockUniverse.lookup(symbol),issuer=require('./public-stock-index').view().issuers[company?.cik],overview=require('./fundamentals-cache').loadRawFundamentals(symbol)?.overview || {Sector:company?.sector};industryFields=require('./financial-requirements').requirements(overview,issuer?.evidence?.sic).industry.filter(field=>require('./sec-facts').MAPS[st][field]);}catch(_){}
-    const supported=[...new Set([...FIELDS[st],...industryFields])];
+    const supported=[...new Set([...FIELDS[st].filter(f=>!compact || !ADDED_FIELDS.has(f)),...industryFields])];
     const fields=Array.isArray(requestedFields) && requestedFields.length?supported.filter(f=>requestedFields.includes(f)):supported;
     if(!fields.length)return {error:'No supported financial fields were requested.'};
     const data = await loadFundAny(symbol,fields);
@@ -201,13 +226,21 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
     const annual = basis !== 'quarterly';
     if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
     const reports = (((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || []).filter(r => !before || r.fiscalDateEnding < before);
-    if (!reports.length) return { symbol,statement:st,basis:annual?'annual':'quarterly',verifiedObservations:[],supplementalObservations:(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly')),sourceAttempts:data.sourceAttempts,coverage:data.coverage,note:'No compatible SEC statement rows. Supplemental observations are separately attributed provider figures, not SEC-verified.' };
     const cap = Math.min(Math.max(num(limit) || (annual ? 3 : 4), 1), annual ? 20 : 48);
+    if (!reports.length) {
+        // Same period window as SEC rows: FDIC call reports carry every year, which ran a 3-year ask to 44KB.
+        const supplemental=(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly') && (!before || f.periodEnd < before));
+        const ends=new Set([...new Set(supplemental.map(f=>f.periodEnd))].sort().reverse().slice(0, cap));
+        return { symbol,statement:st,basis:annual?'annual':'quarterly',verifiedObservations:[],supplementalObservations:supplemental.filter(f=>ends.has(f.periodEnd)),sourceAttempts:data.sourceAttempts,coverage:data.coverage,note:'No compatible SEC statement rows. Supplemental observations are separately attributed provider figures, not SEC-verified.' };
+    }
     const rows = reports.slice().sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)).slice(0, cap);
-    const lines = ['period_end|' + fields.join('|')];
+    const requested = Array.isArray(requestedFields) && requestedFields.length;
+    const unavailableFields = requested ? [] : fields.filter(f => ADDED_FIELDS.has(f) && rows.every(r => num(r[f]) === null));
+    const shown = fields.filter(f => !unavailableFields.includes(f));
+    const lines = ['period_end|' + shown.join('|')];
     for (const r of rows) {
         const gp = num(r.grossProfit), cor = num(r.costOfRevenue), tax = num(r.incomeTaxExpense);
-        lines.push([r.fiscalDateEnding].concat(fields.map((f) => {
+        lines.push([r.fiscalDateEnding].concat(shown.map((f) => {
             if (f === 'grossProfit') return gp === null ? '' : mm(gp);
             if (f === 'costOfRevenue') return cor === null ? '' : mm(cor);
             if (f === 'incomeTaxExpense') return tax === null ? '' : mm(tax);
@@ -219,7 +252,7 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
     const currency = String((rows[0] || {}).reportedCurrency || 'USD').toUpperCase();
     const fresh = freshness((rows[0] || {}).fiscalDateEnding, annual ? 'annual' : 'quarterly');
     const observations = rows.map(row => {
-        const observation = evidence.rowEvidence(row, fields);
+        const observation = evidence.rowEvidence(row, shown);
         for (const [field, fact] of Object.entries(observation.fields)) {
             if (fact.value === null) fact.missingReason =
                 (PER_SHARE.has(field) || SHARE_COUNT.has(field)) && data.coverage?.perShareAllowed === false
@@ -257,15 +290,16 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
         return !redundant;
     });
     const suppliedCalculations = [...calculations, ...compatibleCalculations];
-    return evidence.fitHistory({
+    const result = evidence.fitHistory({
         symbol: String(symbol).toUpperCase(),
         statement: st,
         basis: annual ? 'annual (fiscal years)' : 'quarterly',
         currency,
         ...(fresh || {}),
         ...(currency !== 'USD' ? { currencyWarning: `FIGURES ARE IN ${currency}, NOT USD — this company reports in its home currency. State the currency in your answer and never present these values as dollars.` } : {}),
-        units: `${currency} millions in table only, except dilutedEPS and eps (${currency}/share) and commonStockSharesOutstanding (millions of shares). Observations and calculations use raw unscaled values.`,
-        note: 'Use exact periodEnd dates from observations; do not substitute calendar month-ends. Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Use the supplied dated comparisons for YoY/QoQ; never choose a comparator by array position. Missing growth is unavailable. Share counts and per-share figures are AS FILED, not split-adjusted.',
+        units: `${currency} millions in table only, except dilutedEPS and eps (${currency}/share) and commonStockSharesOutstanding and the weightedAverageShares fields (millions of shares). Observations and calculations use raw unscaled values.`,
+        note: 'Use exact periodEnd dates from observations; do not substitute calendar month-ends. Negative capitalExpenditures/dividendPayout/buybacks = cash outflow.' + (st === 'cash' ? ' So is a negative repaymentsOfLongTermDebt. changeInReceivables, changeInInventory and changeInOperatingAssets are as filed: positive is an increase in the asset, which reduces operating cash flow; for changeInAccountsPayable and changeInOperatingLiabilities positive is an increase in the liability, which adds to it. cashFlowNetIncome is this statement\'s consolidated starting line, which can include noncontrolling interests.' : st === 'balance' ? ' treasuryStock is negative, a deduction from equity.' : '') + ' Rows newest first. Use the supplied dated comparisons for YoY/QoQ; never choose a comparator by array position. Missing growth is unavailable. Share counts and per-share figures are AS FILED, not split-adjusted.',
+        ...(unavailableFields.length ? { unavailableFields, unavailableReason: 'No compatible verified SEC fact fills these fields in any returned period; they are omitted from the table and observations, not zero.' } : {}),
         coverage: data.coverage,freshness:data.freshness,industryObservations:(data.industryObservations || []).map(f=>{const {reconciliation,...receipt}=f;return {...receipt,reconciliationStatus:reconciliation?.status,reconciliationDigest:reconciliation?.tableDigest};}),supplementalObservations:(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly')),
         observations, comparisons, calculations: suppliedCalculations, capitalReturns,
         // Metrics the issuer's XBRL facts cannot carry — EBITDA and EBIT have no
@@ -277,6 +311,16 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
         source: 'Verified SEC XBRL facts; sources and calculations supplied in provenance',
         table: lines.join('\n')
     }, data, reports.length, {compact});
+    // The full result is capped at 64 KB and loses its oldest periods past that.
+    // The added columns never cost history: the original ones come back with
+    // every period asked for, and the rest are named for a focused request.
+    const extra = shown.filter(f => ADDED_FIELDS.has(f));
+    if (!requested && extra.length && result.history.returnedPeriods < result.history.requestedPeriods) {
+        const core = await toolGetFinancials({ symbol, statement: st, basis, limit, before, fields: fields.filter(f => !ADDED_FIELDS.has(f)) }, { compact });
+        if (core.history?.returnedPeriods > result.history.returnedPeriods) return { ...core, moreFields: extra,
+            moreFieldsNote: 'These fields are also filed for this company. Request them with fields and a shorter limit or a before window.' };
+    }
+    return result;
 }
 
 // ---- Tool: get_ratios_history ----

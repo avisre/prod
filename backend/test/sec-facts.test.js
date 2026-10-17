@@ -117,3 +117,42 @@ test('long-term asset lines are read as filed and never add a reporting period',
  assert.deepEqual(d.balance.annualReports.map(r=>r.fiscalDateEnding),before.balance.annualReports.map(r=>r.fiscalDateEnding));
  assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
 });
+test('one EPS figure tagged basic-and-diluted fills both EPS rows but never adds a period',()=>{
+ const {doc,evidence}=fixture();doc.facts['us-gaap'].EarningsPerShareBasicAndDiluted={units:{'USD/shares':[{val:1.23,start:'2025-01-01',end:'2025-12-31',filed:'2026-02-01',form:'10-K',accn:ACC},{val:0.9,start:'2024-01-01',end:'2024-12-31',filed:'2026-02-01',form:'10-K',accn:ACC}]}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});
+ assert.deepEqual(d.income.annualReports.map(r=>r.fiscalDateEnding),['2025-12-31']);
+ assert.equal(d.income.annualReports[0].dilutedEPS,1.23);assert.equal(d.income.annualReports[0].eps,1.23);
+});
+test('a quarter keeps its filed diluted EPS when its year was filled from the basic-and-diluted tag',()=>{
+ const {doc,evidence}=fixture();const g=doc.facts['us-gaap'];
+ g.Revenues.units.USD.push({val:10,start:'2025-04-01',end:'2025-06-30',filed:'2025-08-01',form:'10-Q',accn:'0000000123-25-000009'});
+ g.EarningsPerShareDiluted={units:{'USD/shares':[{val:-11.81,start:'2025-04-01',end:'2025-06-30',filed:'2025-08-01',form:'10-Q',accn:'0000000123-25-000009'}]}};
+ g.EarningsPerShareBasicAndDiluted={units:{'USD/shares':[{val:1.5,start:'2025-01-01',end:'2025-12-31',filed:'2026-02-01',form:'10-K',accn:ACC},{val:-59.05,start:'2025-04-01',end:'2025-06-30',filed:'2026-02-01',form:'10-K',accn:ACC}]}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});
+ assert.equal(d.income.annualReports[0].dilutedEPS,1.5);
+ assert.equal(d.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2025-06-30').dilutedEPS,-11.81);
+});
+test('an IFRS filer keeps its own diluted EPS over a US GAAP basic-and-diluted figure',()=>{
+ const {doc,evidence}=fixture('ifrs-full','EUR');
+ doc.facts['ifrs-full'].DilutedEarningsLossPerShare={units:{'EUR/shares':[{val:0.55,start:'2025-01-01',end:'2025-12-31',filed:'2026-02-01',form:'20-F',accn:ACC}]}};
+ doc.facts['us-gaap']={EarningsPerShareBasicAndDiluted:{units:{'EUR/shares':[{val:0.67,start:'2025-01-01',end:'2025-12-31',filed:'2026-02-01',form:'20-F',accn:ACC}]}}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});
+ assert.equal(d.income.annualReports[0].dilutedEPS,0.55);
+});
+test('a partnership that files one per-unit figure as basic and diluted gets both EPS rows',()=>{
+ const {doc,evidence}=fixture();doc.facts['us-gaap'].NetIncomeLossPerOutstandingLimitedPartnershipAndGeneralPartnershipUnitBasicAndDiluted={units:{'USD/shares':[{val:5.17,start:'2025-01-01',end:'2025-12-31',filed:'2026-02-01',form:'10-K',accn:ACC}]}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});
+ assert.equal(d.income.annualReports[0].dilutedEPS,5.17);assert.equal(d.income.annualReports[0].eps,5.17);
+});
+// Canadian National files its audited annual statements in a 6-K on the day of its 40-F, whose
+// own XBRL is one cover-page share count; the page had no fiscal year at all.
+test('a 6-K filed the same day as a 40-F that tags no statements is that year\'s annual report',()=>{
+ const K6='0000000123-26-000002';
+ const build=filed=>{const {doc,evidence}=fixture();evidence.latestAnnual={...evidence.latestAnnual,form:'40-F'};for(const f of Object.values(doc.facts['us-gaap']))for(const r of f.units.USD)Object.assign(r,{form:'6-K',accn:K6,filed});doc.facts.dei={EntityCommonStockSharesOutstanding:{units:{shares:[{val:5,end:'2025-12-31',filed:'2026-02-01',form:'40-F',accn:ACC}]}}};return {doc,evidence};};
+ const same=build('2026-02-01'),d=extract(same.doc,same.evidence,{asOf:'2026-10-03'});
+ assert.deepEqual(d.income.annualReports.map(r=>r.fiscalDateEnding),['2025-12-31']);assert.equal(d.income.annualReports[0].netIncome,100);
+ const s=d.sources[d.income.annualReports[0]._sources.netIncome[0]];assert.equal(s.form,'6-K');assert.equal(s.accessionNumber,K6);assert.deepEqual(s.annualFiling,{form:'40-F',accessionNumber:ACC,filingDate:'2026-02-01'});
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+ const other=build('2026-01-15'),e=extract(other.doc,other.evidence,{asOf:'2026-10-03'});
+ assert.equal(e.income.annualReports.length,0);
+});

@@ -17,7 +17,10 @@ async function main(argv=process.argv.slice(2)) {
  await Promise.all(Array.from({length:2},async()=>{while(todo.length){const issuer=todo.shift(),e=report.issuers[issuer.cik];
   if(!e?.financialDigest || !e.latestAnnual)continue;
   const file=path.join(p.DATA_DIR,'sec-financials',issuer.cik+'.json'),raw=fs.readFileSync(file,'utf8');if(p.digest(raw)!==e.financialDigest)throw new Error('FINANCIAL_DIGEST_MISMATCH');
-  const data=JSON.parse(raw);if(data.industryExtraction?.version===industry.VERSION && data.industryExtraction.sourceVersion===e.latestAnnual.accessionNumber && (data.industryExtraction.checkedAt || '').slice(0,10)===report.asOf)continue;
+  // A re-extracted file carries no industryExtraction, so a matching one means this annual
+  // report was already read into this exact file; only a new 10-K or VERSION reads it again.
+  const data=JSON.parse(raw);if(data.industryExtraction?.version===industry.VERSION && data.industryExtraction.sourceVersion===e.latestAnnual.accessionNumber)continue;
+  if(e.industryExtraction?.status==='unsupported_extraction' && e.industryExtraction.version===industry.VERSION && e.industryExtraction.sourceVersion===e.latestAnnual.accessionNumber)continue;
   try{const document=await original.fetchOriginal(issuer.cik,e.latestAnnual),next=industry.enrich(data,document,e,{asOf:report.asOf});p.atomicWrite(file,next);e.financialDigest=p.digest(fs.readFileSync(file,'utf8'));e.industryExtraction=next.industryExtraction;success++;}
   catch(err){e.industryExtraction={version:industry.VERSION,status:/INVALID_INDUSTRY|ORIGINAL_DOCUMENT_(?:TOO_LARGE|PATH_UNAVAILABLE)/.test(err.message || '')?'unsupported_extraction':'retrieval_failed',sourceVersion:e.latestAnnual.accessionNumber,checkedAt:new Date().toISOString(),reason:String(err.code || err.message).slice(0,120)};failed++;}
   done++;if(done%20===0){save();console.log(JSON.stringify({originalIssuers:done,success,failed,remaining:todo.length}));}

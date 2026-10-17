@@ -41,3 +41,26 @@ test('missing capex cannot create FCF and parent/consolidated scopes are distinc
  const data=normalize(doc,evidence);assert.equal(data.income.annualReports[0]._scopes.netIncome,'parent');assert.equal(data.balance.annualReports[0]._scopes.totalShareholderEquity,'consolidated');
  const view={...data,coverage:{latestAnnual:evidence.latestAnnual,perShareAllowed:true}};const row=require('../financial-metrics').screenRow({symbol:'EX'},view);assert.equal(row.roePct,null);assert.equal(row.fcfPositive,null);
 });
+test('statement lines read since 2026-10-17 fill existing periods as filed and never add one',()=>{
+ const {doc,evidence}=fixture(),gaap=doc.facts['us-gaap'],base=gaap.NetCashProvidedByUsedInOperatingActivities.units.USD[0];
+ const flow=(val,extra={})=>({units:{USD:[{...base,val,...extra}]}}),instant=val=>({units:{USD:[{...gaap.Assets.units.USD[0],val}]}});
+ gaap.IncreaseDecreaseInAccountsReceivable=flow(12);gaap.IncreaseDecreaseInAccountsPayable=flow(-4);gaap.RepaymentsOfLongTermDebt=flow(30);gaap.ProceedsFromIssuanceOfLongTermDebt=flow(50);
+ gaap.CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect=flow(-7);gaap.DepreciationDepletionAndAmortization=flow(9);
+ gaap.AccountsPayableCurrent=instant(40);gaap.TreasuryStockValue=instant(15);gaap.CommonStocksIncludingAdditionalPaidInCapital=instant(60);
+ // A filed fact for a year that no original line reports must not create that year.
+ gaap.IncreaseDecreaseInInventories=flow(5,{start:'2023-01-01',end:'2023-12-31'});
+ const data=normalize(doc,evidence),cash=data.cash.annualReports[0],bal=data.balance.annualReports[0],inc=data.income.annualReports[0];
+ assert.equal(cash.changeInReceivables,12,'an increase in receivables stays positive, as filed');
+ assert.equal(cash.changeInAccountsPayable,-4);
+ assert.equal(cash.repaymentsOfLongTermDebt,-30);assert.equal(cash.proceedsFromIssuanceOfLongTermDebt,50);
+ assert.equal(cash.changeInCashAndCashEquivalents,-7);assert.equal(cash.cashFlowNetIncome,100);
+ assert.equal(inc.depreciationAndAmortization,9);assert.equal(cash.depreciationDepletionAndAmortization,9);
+ assert.equal(bal.currentAccountsPayable,40);assert.equal(bal.treasuryStock,-15);assert.equal(bal.commonStock,60);
+ for(const [row,fields] of [[cash,['changeInReceivables','changeInAccountsPayable','repaymentsOfLongTermDebt','changeInCashAndCashEquivalents','cashFlowNetIncome']],[bal,['currentAccountsPayable','treasuryStock','commonStock']],[inc,['depreciationAndAmortization']]])
+  for(const f of fields)assert.ok(p.verifiedField(data,row,f),f+' verifies');
+ for(const st of ['income','balance','cash'])assert.ok(!data[st].annualReports.some(r=>r.fiscalDateEnding==='2023-12-31'),st+' gained no 2023 row');
+});
+test('a cash-flow statement is not made of net income alone',()=>{
+ const {doc,evidence}=fixture();delete doc.facts['us-gaap'].NetCashProvidedByUsedInOperatingActivities;doc.facts['us-gaap'].ProfitLoss={units:{USD:[{...doc.facts['us-gaap'].NetIncomeLoss.units.USD[0]}]}};
+ assert.equal(normalize(doc,evidence).cash.annualReports.length,0);
+});
