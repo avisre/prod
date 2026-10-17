@@ -2299,7 +2299,7 @@ async function ask(input) {
     try {
         const q = String(input.question || '').trim().slice(0, QUESTION_MAX_CHARS);
         const policy = q ? reportPolicy.select(q, input.mode) : null;
-        if (policy && aiClient.isConfigured()) key = reportCacheKey({ ...input, question: q }, policy);
+        if (policy && aiClient.isConfigured() && !input.thinking) key = reportCacheKey({ ...input, question: q }, policy);
         if (key && input.ctx?.userId && input.ctx.memoryConsent !== false && (await loadMemories(input.ctx.userId)).length) key = null;
         const cached = key ? await readReportCache(key) : null;
         if (cached) {
@@ -2312,7 +2312,9 @@ async function ask(input) {
     return out;
 }
 
-async function askFresh({ question, history, ctx, mode, onEvent }) {
+async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
+    // null leaves the model default (ai-client reasoningFor); deep thinking asks for high.
+    const reasoningEffort = thinking ? 'high' : null;
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty', quality: { terminalReason: 'empty_question' } };
     let policy = reportPolicy.select(q, mode);
@@ -2434,7 +2436,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 const corrected = await (reviser ? (m, o) => deps.chatRawStream(m, o, reviser.onDelta) : deps.chatRaw)(messages.concat(
                     { role: 'assistant', content: text },
                     { role: 'system', content: 'Revise the answer once using ONLY the existing tool evidence. No further research. Fix every issue below, keep the requested scope and omit unsupported explanations. Use observations/calculations in raw units for charts. Delete unsupported figures and their dependent claims; preserve supported detail. Structural issues may be fixed by reorganising the existing evidence. For unsupported precision: a figure the tool results do not carry is deleted together with the sentence that needs it — never restated at another precision, never replaced with one from memory, never rounded to look like a different figure. Do not add any figure that is not already in the tool results. When the issue says the answer is over the word limit, remove repetition first and keep the useful supported business explanation, requested tables, visuals and gap reasons within the selected policy limit.\n' + issues.join('\n') }
-                ), { purpose: 'chat', temperature: 0.1, maxTokens: 8000, toolChoice: 'none' });
+                ), { purpose: 'chat', temperature: 0.1, maxTokens: 8000, toolChoice: 'none', reasoningEffort });
                 if (corrected._usage && num(corrected._usage.total_tokens) !== null) totalTokens += corrected._usage.total_tokens;
                 const correctedText = String(corrected.content || '').replace(THINK_RE, '').trim();
                 text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeDraft(correctedText), suppliedResults, { ...policy, question: q }), sourceLinks);
@@ -2710,6 +2712,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
                 : activeTools;
             const opts = {
                 purpose: 'chat', temperature: 0.3, maxTokens: 8000,
+                reasoningEffort,
                 tools: lastRound ? null : reportTools
             };
             let msg;
@@ -2953,7 +2956,7 @@ async function askFresh({ question, history, ctx, mode, onEvent }) {
             if (messages[messages.length - 1].content !== closingDirective) {
                 messages.push({ role: 'system', content: closingDirective });
             }
-            const finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: 8000 });
+            const finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: 8000, reasoningEffort });
             if (finalMsg._usage && num(finalMsg._usage.total_tokens) !== null) totalTokens += finalMsg._usage.total_tokens;
             const finalText = String(finalMsg.content || '').replace(THINK_RE, '').trim();
             if (finalText && !aiClient.leaksIdentity(finalText)) {

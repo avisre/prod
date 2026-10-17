@@ -2227,7 +2227,7 @@
                             headers: _askHeaders,
                             // the server owns per-thread context when a threadId
                             // is present; callers without one behave exactly as before
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(localStorage.getItem('sp_ask_think_v1') === '1' ? { thinking: true } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;

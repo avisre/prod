@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261018-ui18" />
+  <link rel="stylesheet" href="assets/system.css?v=20261018-ui19" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -345,6 +345,8 @@
               <button type="button" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
               <span class="sep" aria-hidden="true">·</span>
               <button type="button" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
+              <span class="sep" aria-hidden="true">·</span>
+              <button type="button" id="ask-think" aria-pressed="false" title="Reasons longer before answering: slower, more careful">Deep thinking</button>
               <span class="sep" id="paper-sep" aria-hidden="true" hidden>·</span>
               <button type="button" id="ask-mode-paper" aria-pressed="false" title="AI Paper Portfolio mode — drive the experiment conversationally" hidden>🧪 AI Portfolio</button>
             </span>
@@ -389,7 +391,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261018-ui18"></script>
+  <script src="assets/app.js?v=20261018-ui19"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -417,6 +419,11 @@
         btnNormal.addEventListener('click', () => { localStorage.setItem(KEY, 'normal'); paint(); });
         btnAnalyst.addEventListener('click', () => { localStorage.setItem(KEY, 'analyst'); paint(); });
         paint();
+        // Deep thinking is independent of the writing style: the model reasons at high effort.
+        const THINK = 'sp_ask_think_v1', btnThink = $('ask-think');
+        const paintThink = () => btnThink.setAttribute('aria-pressed', String(localStorage.getItem(THINK) === '1'));
+        btnThink.addEventListener('click', () => { localStorage.setItem(THINK, localStorage.getItem(THINK) === '1' ? '0' : '1'); paintThink(); });
+        paintThink();
       })();
       const safeMetric = (value) => ['eps', 'net-income', 'revenue'].includes(String(value || '').trim().toLowerCase()) ? String(value).trim().toLowerCase() : '';
       const safeContent = (value) => ['seo-eps-next-action', 'seo-revenue-next-action'].includes(String(value || '').trim().toLowerCase()) ? String(value).trim().toLowerCase() : '';
