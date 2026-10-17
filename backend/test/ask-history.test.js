@@ -26,7 +26,7 @@ test('successful Ask exchanges are saved as full-text reports in their own colle
 });
 
 test('both /api/ai/chat success branches persist the report', () => {
-    const hooks = appSource.match(/if \(result\.source === 'ai'\) saveAskReport\(userId, question, result\.answer, mode, result\.toolsUsed\);/g) || [];
+    const hooks = appSource.match(/if \(result\.source === 'ai' && !temporary\) saveAskReport\(userId, question, result\.answer, mode, result\.toolsUsed\);/g) || [];
     assert.equal(hooks.length, 2, 'streaming and non-streaming branches both save');
 });
 

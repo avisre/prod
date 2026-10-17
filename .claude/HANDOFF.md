@@ -14,6 +14,18 @@ peers by industry label, long-term asset lines, the 10/10 site-audit fixes, cape
 core statement extraction), `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Ask chat parity + search cleanup — 2026-10-18 (committed locally, NOT pushed)
+- `97f55bfe0`: search dropdown has no statement badges, drops futures/FX (`=`/`^` symbols); a whole-word company
+  name narrows results to that company (`focusOnNamedCompany`); statements label column 248px so "Cash flow from
+  operations" sits on one line at desktop (phone 180px column still wraps — left alone).
+- Next commit: **Regenerate in place with versions** (‹ n / m ›; earlier answers kept on the message as `versions`,
+  capped `ASK_ANSWER_VERSIONS_KEEP = 4` for Atlas), **Branch in new chat** (`POST /api/ask/threads/:id/branch
+  {through}`), **Custom instructions** (`User.askInstructions` ≤1500, `GET/PUT /api/ask/instructions`, a system
+  message after the rules in `askFresh`, report cache skipped when set). Stamp `20261018-ui23`. Verified end to end on
+  localhost with real model calls. Tests: `test/ask-chat-parity.test.js`.
+- Not built (bigger): Projects (chat folders with shared files/instructions), Canvas/Artifacts side editor.
+- Known, pre-existing: new accounts' "Getting started" card covers the composer/answer foot on phones.
+
 ## Statements filled from SEC for every US stock — 2026-10-17 (local, NOT committed, NOT pushed)
 
 Owner: every US stock's income, balance and cash-flow statement filled, dropdown rows included, and the search

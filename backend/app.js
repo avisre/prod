@@ -3118,7 +3118,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui22" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui23" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3147,7 +3147,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui22"></script>
+<script src="/assets/app.js?v=20261018-ui23"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3239,7 +3239,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui22" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui23" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3267,7 +3267,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui22"></script>
+<script src="/assets/app.js?v=20261018-ui23"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3375,7 +3375,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui22" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui23" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3408,7 +3408,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261018-ui22"></script>
+<script src="/assets/app.js?v=20261018-ui23"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3640,6 +3640,8 @@ const UserSchema = new mongoose.Schema({
     // ON by default, like ChatGPT; the Profile → Settings toggle stops both
     // writes and reads without deleting anything (the user can Clear all there).
     askMemoryEnabled: { type: Boolean, default: true },
+    // Ask custom instructions: how this user wants answers written (≤1500 chars).
+    askInstructions: { type: String, default: '', maxlength: 1500 },
     // Marks an account we created ourselves for an outside reviewer to sign in
     // with — currently only the OpenAI plugin review account
     // (scripts/create-openai-reviewer.js). It has to be declared here because
@@ -3838,6 +3840,7 @@ function saveAskReport(userId, question, answer, mode, toolsUsed) {
 const THREAD_ID_RE = /^[0-9a-fA-F]{24}$/;
 const ASK_THREAD_KEEP = 50; // threads per user (ChatGPT-parity cap; oldest pruned)
 const ASK_THREAD_MSG_KEEP = 80; // messages per thread
+const ASK_ANSWER_VERSIONS_KEEP = 4; // earlier answers kept per regenerated answer
 const AskThreadSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, default: '', maxlength: 160 },
@@ -3850,7 +3853,10 @@ const AskThreadSchema = new mongoose.Schema({
         role: { type: String, enum: ['user', 'assistant'], required: true },
         content: { type: String, default: '' },
         toolsUsed: { type: [String], default: [] },
-        at: { type: Date, default: () => new Date() }
+        at: { type: Date, default: () => new Date() },
+        // Regenerate keeps the answers it replaced, oldest first, so the page
+        // can page through them (‹ 1 / 2 ›). Capped: the database is small.
+        versions: { type: [new mongoose.Schema({ content: String, at: Date }, { _id: false })], default: undefined }
     }, { _id: false })],
     createdAt: { type: Date, default: () => new Date() },
     updatedAt: { type: Date, default: () => new Date() }
@@ -3885,7 +3891,7 @@ async function threadEdit(userId, threadId, editFrom) {
     } catch (_) { return null; }
 }
 
-async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed, surface, editAt) {
+async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed, surface, editAt, regenerate) {
     try {
         if (!userId || !question || !answer) return null;
         const tools = Array.isArray(toolsUsed)
@@ -3901,9 +3907,16 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
         if (typeof threadId === 'string' && THREAD_ID_RE.test(threadId) && Number.isInteger(editAt) && editAt >= 0) {
             const prev = await AskThread.findOne({ _id: threadId, userId, ...surfaceMatch(surface) }, { messages: 1 }).lean();
             if (prev) {
+                const next = turn();
+                // Regenerate: the same question asked again keeps the answer it
+                // replaces (and that answer's own earlier versions).
+                const old = (prev.messages || [])[editAt + 1];
+                if (regenerate && old && old.role === 'assistant' && String((prev.messages[editAt] || {}).content || '').trim() === String(question).trim()) {
+                    next[1].versions = [...(old.versions || []), { content: old.content, at: old.at }].slice(-ASK_ANSWER_VERSIONS_KEEP);
+                }
                 doc = await AskThread.findOneAndUpdate(
                     { _id: threadId, userId },
-                    { $set: { messages: [...(prev.messages || []).slice(0, editAt), ...turn()].slice(-ASK_THREAD_MSG_KEEP), updatedAt: new Date(), mode: mode === 'analyst' ? 'analyst' : 'normal' } },
+                    { $set: { messages: [...(prev.messages || []).slice(0, editAt), ...next].slice(-ASK_THREAD_MSG_KEEP), updatedAt: new Date(), mode: mode === 'analyst' ? 'analyst' : 'normal' } },
                     { new: true, projection: { _id: 1 } }
                 );
             }
@@ -10131,6 +10144,9 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const memoryConsent = !temporary && !!(req.user && req.user.askMemoryEnabled);
         // An edited question: the model sees the chat only up to it.
         const edit = hasThread ? await threadEdit(userId, threadIdRaw, req.body && req.body.editFrom) : null;
+        const regenerate = Boolean(edit) && (req.body && req.body.regenerate) === true;
+        // Custom instructions apply everywhere, temporary chats included (as in ChatGPT).
+        const customInstructions = String((req.user && req.user.askInstructions) || '').trim();
         // a fresh page sends no history — pick the thread back up from the
         // user's last few stored exchanges (cross-session memory)
         const history = edit ? edit.history : hasThread
@@ -10190,6 +10206,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                     question, history,
                     ctx: {
                         holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req),
+                        ...(customInstructions ? { customInstructions } : {}),
                         ...(askBudget ? { budget: askBudget } : {}),
                         // ai_paper events stream the background build's
                         // progress lines while this connection lives.
@@ -10218,7 +10235,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 else if (askStepsCharged && result.source !== 'stopped') { await credits.refundRun(userId, askRunId); askStepsCharged = 0; }
                 if (result.source === 'ai' && !temporary && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
                 if (result.source === 'ai' && !temporary) saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
-                if (result.source === 'ai' && !temporary) threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null);
+                if (result.source === 'ai' && !temporary) threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null, regenerate);
                 trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
@@ -10243,7 +10260,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
 
         const result = await aiChat.ask({
             question, history,
-            ctx: { holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req), ...(aiPaperCtx || {}) },
+            ctx: { holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req), ...(customInstructions ? { customInstructions } : {}), ...(aiPaperCtx || {}) },
             mode,
             thinking
         });
@@ -10254,7 +10271,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         if (result.source === 'ai' && !temporary && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
         if (result.source === 'ai' && !temporary) saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
         threadIdSaved = result.source === 'ai' && !temporary
-            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null)
+            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null, regenerate)
             : null;
         trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);
@@ -14351,7 +14368,7 @@ app.get('/api/ask/threads/:id', authMiddleware, async (req, res) => {
         res.json({
             thread: {
                 id: thread._id, title: thread.title || 'New chat', pinned: !!thread.pinned, mode: thread.mode,
-                messages: (thread.messages || []).map((m) => ({ role: m.role, content: m.content, toolsUsed: m.toolsUsed || [], at: m.at })),
+                messages: (thread.messages || []).map((m) => ({ role: m.role, content: m.content, toolsUsed: m.toolsUsed || [], at: m.at, ...(Array.isArray(m.versions) && m.versions.length ? { versions: m.versions.map((v) => ({ content: v.content, at: v.at })) } : {}) })),
                 createdAt: thread.createdAt, updatedAt: thread.updatedAt
             }
         });
@@ -14382,6 +14399,51 @@ app.patch('/api/ask/threads/:id', authMiddleware, async (req, res) => {
         res.json({ thread: { id: thread._id, title: thread.title, pinned: !!thread.pinned } });
     } catch (error) {
         res.status(500).json({ message: 'Unable to update that chat.' });
+    }
+});
+
+// Branch in new chat (ChatGPT parity): a copy of the chat up to and including
+// one answer, as a new chat of its own; the original is left as it was.
+// `through` counts messages from the start and must end on an answer.
+app.post('/api/ask/threads/:id/branch', authMiddleware, async (req, res) => {
+    try {
+        if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Thread not found.' });
+        const src = await AskThread.findOne({ _id: req.params.id, userId: req.userId }).lean();
+        if (!src) return res.status(404).json({ message: 'Thread not found.' });
+        const msgs = src.messages || [];
+        const through = Number(req.body && req.body.through);
+        if (!Number.isInteger(through) || through < 2 || through > msgs.length || (msgs[through - 1] || {}).role !== 'assistant') {
+            return res.status(400).json({ message: 'Pick an answer in this chat to branch from.' });
+        }
+        const doc = await AskThread.create({
+            userId: req.userId,
+            title: `Branch · ${src.title || 'New chat'}`.slice(0, 160),
+            mode: src.mode, surface: src.surface || 'ask',
+            messages: msgs.slice(0, through),
+            updatedAt: new Date()
+        });
+        const stale = await AskThread.find({ userId: req.userId, ...surfaceMatch(src.surface) }, { _id: 1 }).sort({ updatedAt: -1 }).skip(ASK_THREAD_KEEP).lean();
+        if (stale.length) await AskThread.deleteMany({ _id: { $in: stale.map((d) => d._id) } });
+        res.json({ thread: { id: doc._id, title: doc.title } });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to branch that chat.' });
+    }
+});
+
+// Custom instructions (ChatGPT / Claude parity): the user's own words on how
+// Ask should answer them, added to every question's prompt.
+const ASK_INSTRUCTIONS_MAX = 1500;
+app.get('/api/ask/instructions', authMiddleware, (req, res) => {
+    res.json({ instructions: String((req.user && req.user.askInstructions) || ''), max: ASK_INSTRUCTIONS_MAX });
+});
+app.put('/api/ask/instructions', authMiddleware, async (req, res) => {
+    try {
+        const instructions = String((req.body && req.body.instructions) || '').trim();
+        if (instructions.length > ASK_INSTRUCTIONS_MAX) return res.status(400).json({ message: `Keep it under ${ASK_INSTRUCTIONS_MAX} characters.` });
+        await User.updateOne({ _id: req.userId }, { $set: { askInstructions: instructions } });
+        res.json({ instructions });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to save your instructions.' });
     }
 });
 

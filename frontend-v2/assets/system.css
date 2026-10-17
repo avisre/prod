@@ -1147,6 +1147,10 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-fb button:hover { color: var(--ink); background: var(--surface); }
 .ask-fb button.is-picked { color: var(--accent-ink); }
 .ask-fb button:disabled:not(.is-picked) { opacity: 0.35; cursor: default; }
+.ask-ver { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ask-ver button { border: 0; background: none; padding: 2px 6px; color: var(--ink-2); cursor: pointer; border-radius: 6px; font: inherit; font-size: 15px; line-height: 1; }
+.ask-ver button:hover:not(:disabled) { color: var(--ink); background: var(--surface); }
+.ask-ver button:disabled { opacity: 0.35; cursor: default; }
 .ask-sources { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
 .chip.ask-suggest { white-space: normal; text-align: left; max-width: 100%; }
 /* the live status line — plain ink, not grey italic: it is the headline of

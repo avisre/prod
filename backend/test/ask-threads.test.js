@@ -39,7 +39,7 @@ test('the chat route uses server-side thread history when a threadId is present'
 });
 
 test('both /api/ai/chat success branches save the thread and return its id', () => {
-    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface, edit \? edit\.index : null\)/g) || [];
+    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface, edit \? edit\.index : null, regenerate\)/g) || [];
     assert.equal(hooks.length, 2, 'streaming and non-streaming branches both save');
     assert.match(appSource, /threadId: threadIdSaved/);
     assert.equal((appSource.match(/threadId: threadIdSaved/g) || []).length, 2);
@@ -309,8 +309,8 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20261018-ui22/);
-    assert.match(askHtml, /assets\/system\.css\?v=20261018-ui22/);
+    assert.match(askHtml, /assets\/app\.js\?v=20261018-ui23/);
+    assert.match(askHtml, /assets\/system\.css\?v=20261018-ui23/);
     assert.match(profileHtml, /assets\/profile\.js\?v=20261011-ask1/);   // the AI Paper credit row
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

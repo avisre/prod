@@ -1943,6 +1943,7 @@
     // outline thumb (drawn for this design — no icon font)
     const THUMB = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M5.5 7.5v6h-3v-6h3zm0 0 2.2-4.6a1.3 1.3 0 0 1 2.47.7L9.7 6h2.9a1.4 1.4 0 0 1 1.36 1.73l-1.1 4.7a1.4 1.4 0 0 1-1.36 1.07H5.5"/></svg>';
     const ICON_COPY = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5H4a1.5 1.5 0 0 0-1.5 1.5v6.5"/></svg>';
+    const ICON_BRANCH = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="4.5" cy="3.5" r="1.6"/><circle cx="4.5" cy="12.5" r="1.6"/><circle cx="11.5" cy="5.5" r="1.6"/><path d="M4.5 5.1v5.8M11.5 7.1c0 2.4-2.6 2.6-5.6 4.2"/></svg>';
     const ICON_RERUN = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 8A5.2 5.2 0 1 1 10.9 3.7"/><path d="M11 1.2v2.8h2.8L11 1.2z"/></svg>';
 
     // ---------- shared dialog ----------
@@ -2108,15 +2109,58 @@
     }
     // An answer re-rendered from a saved chat gets the same Copy and Read aloud
     // as one that just streamed in.
-    function savedAnswerTools(answerEl, md) {
+    // `turn: true` adds Regenerate and Branch (the Ask page's saved chats);
+    // `versions` are the earlier answers a regenerate kept, oldest first.
+    function savedAnswerTools(answerEl, md, { turn = false, versions } = {}) {
         answerText.set(answerEl, String(md || ''));
         const foot = document.createElement('div');
         foot.className = 'ask-foot';
         foot.innerHTML = `<span class="ask-fb" role="group" aria-label="Answer actions">`
             + `<button type="button" data-aact="copy" title="Copy answer" aria-label="Copy answer">${ICON_COPY}</button>`
+            + (turn ? turnButtons() : '')
             + ('speechSynthesis' in window ? `<button type="button" data-aact="speak" title="Read aloud" aria-label="Read aloud">${ICON_SPEAK}</button>` : '')
             + '</span>';
         answerEl.appendChild(foot);
+        if (Array.isArray(versions) && versions.length) mountVersions(answerEl, versions, md);
+    }
+    const turnButtons = () => `<button type="button" data-aact="regen" title="Regenerate" aria-label="Regenerate">${ICON_RERUN}</button>`
+        + `<button type="button" data-aact="branch" title="Branch in new chat" aria-label="Branch in new chat">${ICON_BRANCH}</button>`;
+    // ---- Answer versions (ChatGPT / Claude parity) ----
+    // A regenerated answer keeps the ones it replaced; ‹ 1 / 2 › pages through
+    // them in place, and Copy / Read aloud follow the version on screen.
+    const answerVersions = new WeakMap();
+    function mountVersions(answerEl, earlier, current) {
+        const list = [...earlier.map((v) => String((v && v.content != null) ? v.content : v || '')).filter(Boolean), String(current || '')];
+        const foot = answerEl.querySelector(':scope > .ask-foot');
+        if (list.length < 2 || !foot) return;
+        answerVersions.set(answerEl, { list, at: list.length - 1 });
+        const pager = document.createElement('span');
+        pager.className = 'ask-ver';
+        pager.innerHTML = '<button type="button" data-aact="ver-prev" title="Previous answer" aria-label="Previous answer">‹</button><span class="ask-ver-n" aria-live="polite"></span><button type="button" data-aact="ver-next" title="Next answer" aria-label="Next answer">›</button>';
+        foot.prepend(pager);
+        paintVersion(answerEl);
+    }
+    function paintVersion(answerEl) {
+        const v = answerVersions.get(answerEl);
+        const pager = v && answerEl.querySelector(':scope > .ask-foot .ask-ver');
+        if (!pager) return;
+        pager.querySelector('.ask-ver-n').textContent = `${v.at + 1} / ${v.list.length}`;
+        pager.querySelector('[data-aact="ver-prev"]').disabled = v.at === 0;
+        pager.querySelector('[data-aact="ver-next"]').disabled = v.at === v.list.length - 1;
+    }
+    function showVersion(answerEl, step) {
+        const v = answerVersions.get(answerEl);
+        if (!v) return;
+        const at = Math.max(0, Math.min(v.list.length - 1, v.at + step));
+        if (at === v.at) return;
+        v.at = at;
+        const foot = answerEl.querySelector(':scope > .ask-foot');
+        while (answerEl.firstChild && answerEl.firstChild !== foot) answerEl.firstChild.remove();
+        foot.insertAdjacentHTML('beforebegin', markdown(v.list[at]));
+        mountReceipt(answerEl);
+        answerText.set(answerEl, v.list[at]);
+        stopSpeaking();
+        paintVersion(answerEl);
     }
     // One listener per exchange serves every turn, streamed or saved.
     function wireExchangeTools(exchange) {
@@ -2142,17 +2186,26 @@
             const ansEl = a.closest('.ask-a');
             if (!ansEl) return;
             const md = answerText.has(ansEl) ? answerText.get(ansEl) : ansEl.innerText;
-            if (a.dataset.aact === 'copy') copyToClipboard(a, md, 'Copy answer');
-            else if (a.dataset.aact === 'speak') speak(a, md);
+            const act = a.dataset.aact;
+            if (act === 'copy') copyToClipboard(a, md, 'Copy answer');
+            else if (act === 'speak') speak(a, md);
+            else if (act === 'ver-prev' || act === 'ver-next') showVersion(ansEl, act === 'ver-prev' ? -1 : 1);
+            else if (act === 'regen' && exchange.__onRegenerate) {
+                // every version so far, the one on screen included, survives the regenerate
+                const v = answerVersions.get(ansEl);
+                exchange.__onRegenerate(ansEl, (v ? v.list : [md]).slice(-4));
+            } else if (act === 'branch' && exchange.__onBranch) exchange.__onBranch(ansEl);
         });
     }
 
-    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool, onEdit } = {}) {
+    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool, onEdit, onRegenerate, onBranch } = {}) {
         const history = [];
         let busy = false;
         let aborter = null;
         wireExchangeTools(exchange);
         if (onEdit) exchange.__onEdit = onEdit;
+        if (onRegenerate) exchange.__onRegenerate = onRegenerate;
+        if (onBranch) exchange.__onBranch = onBranch;
 
         const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
         const atBottom = () => (document.documentElement.scrollHeight - window.scrollY - window.innerHeight) < 160;
@@ -2356,7 +2409,7 @@
                             headers: _askHeaders,
                             // the server owns per-thread context when a threadId
                             // is present; callers without one behave exactly as before
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(['high', 'max'].includes(localStorage.getItem('sp_ask_think_v1')) ? { thinking: localStorage.getItem('sp_ask_think_v1') } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.threadId && opts.editFrom ? { editFrom: opts.editFrom } : {}), ...(opts && opts.temporary ? { temporary: true } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(['high', 'max'].includes(localStorage.getItem('sp_ask_think_v1')) ? { thinking: localStorage.getItem('sp_ask_think_v1') } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.threadId && opts.editFrom ? { editFrom: opts.editFrom, ...(opts.regenerate ? { regenerate: true } : {}) } : {}), ...(opts && opts.temporary ? { temporary: true } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -2536,8 +2589,8 @@
                         : '';
                     foot.innerHTML = `
                       <span class="ask-fb" role="group" aria-label="Answer actions">
-                        <button type="button" data-act="copy" title="Copy answer" aria-label="Copy answer">${ICON_COPY}</button>
-                        <button type="button" data-act="rerun" title="Ask this again" aria-label="Ask this again">${ICON_RERUN}</button>
+                        <button type="button" data-aact="copy" title="Copy answer" aria-label="Copy answer">${ICON_COPY}</button>
+                        ${exchange.__onRegenerate ? turnButtons() : `<button type="button" data-act="rerun" title="Ask this again" aria-label="Ask this again">${ICON_RERUN}</button>`}
                         ${'speechSynthesis' in window ? `<button type="button" data-aact="speak" title="Read aloud" aria-label="Read aloud">${ICON_SPEAK}</button>` : ''}
                       </span>
                       <span class="ask-fb" role="group" aria-label="Was this helpful?">
@@ -2546,23 +2599,8 @@
                       </span>
                       ${quotaTxt ? `<span>${quotaTxt}</span>` : ''}
                       <span class="scope">Never buy/sell advice — figures from SEC filings and fund data.</span>`;
-                    foot.querySelector('[data-act="rerun"]').addEventListener('click', () => send(question, opts));
-                    foot.querySelector('[data-act="copy"]').addEventListener('click', async (e) => {
-                        const btn = e.currentTarget;
-                        try {
-                            await navigator.clipboard.writeText(String(data.answer));
-                            btn.classList.add('is-picked');
-                            btn.title = 'Copied';
-                            setTimeout(() => { btn.classList.remove('is-picked'); btn.title = 'Copy answer'; }, 1600);
-                        } catch (_) {
-                            modal({
-                                label: 'Copy answer',
-                                title: 'Copy this answer',
-                                body: 'Your browser blocked automatic copying — select the text below and copy it manually.',
-                                bodyHtml: `<textarea class="input" rows="10" aria-label="Answer text" style="width:100%">${esc(String(data.answer))}</textarea>`
-                            });
-                        }
-                    });
+                    const rerun = foot.querySelector('[data-act="rerun"]');
+                    if (rerun) rerun.addEventListener('click', () => send(question, opts));
                     foot.querySelectorAll('button[data-v]').forEach((b) =>
                         b.addEventListener('click', () => {
                             foot.querySelectorAll('button[data-v]').forEach((x) => { x.disabled = true; x.classList.toggle('is-picked', x === b); });
@@ -2576,6 +2614,7 @@
                     mountShare(share, { title: `Ask: ${question}`, text: data.answer });
                     foot.appendChild(share);
                         answerEl.appendChild(foot);
+                        if (opts && Array.isArray(opts.versions) && opts.versions.length) mountVersions(answerEl, opts.versions, data.answer);
                         // Fires at most once per account: the server only sends
                         // reviewPrompt after a second distinct day of successful
                         // Asks and never again once 'shown' is recorded.

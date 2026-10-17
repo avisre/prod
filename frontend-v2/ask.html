@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261018-ui22" />
+  <link rel="stylesheet" href="assets/system.css?v=20261018-ui23" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -261,6 +261,8 @@
     body.side-collapsed .side, body.side-collapsed .side-grip { display: none; }
     .side .new-chat { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line-strong); background: none; border-radius: 12px; padding: 9px 12px; font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer; }
     .side .new-chat:hover { border-color: var(--ink-3); }
+    .side .side-link { margin-top: 6px; width: 100%; border: 0; background: none; border-radius: 10px; padding: 7px 10px; font: inherit; font-size: 12.5px; color: var(--ink-2); text-align: left; cursor: pointer; }
+    .side .side-link:hover { background: var(--surface); color: var(--ink); }
     .chat-search { margin-top: 10px; width: 100%; box-sizing: border-box; font: inherit; font-size: 12.5px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); outline: none; }
     .chat-search:focus { border-color: var(--ink-3); }
     .chat-list { margin-top: 8px; display: flex; flex-direction: column; gap: 2px; }
@@ -365,6 +367,7 @@
       <div class="ask-shell">
       <aside class="side" id="side" hidden aria-label="Your chats">
         <button type="button" class="new-chat" id="new-chat">➕ New chat</button>
+        <button type="button" class="side-link" id="ask-instr" title="How Ask should answer you, in every chat">Custom instructions</button>
         <input type="search" class="chat-search" id="chat-search" placeholder="🔍 Search chats…" aria-label="Search your chats" />
         <nav class="chat-list" id="chat-list" aria-label="Previous chats"></nav>
       </aside>
@@ -452,7 +455,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261018-ui22"></script>
+  <script src="assets/app.js?v=20261018-ui23"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc, savedAnswerTools, questionActs, stopSpeaking } = window.V2;
@@ -591,7 +594,9 @@
           onComplete: handleComplete,
           onPaperEvent: handlePaperEvent,
           onTool: handleTool,
-          onEdit: startEdit
+          onEdit: startEdit,
+          onRegenerate: regenerate,
+          onBranch: branchFrom
         });
       }
 
@@ -636,6 +641,55 @@
         if (node) node.remove();
         if (index != null) engine.truncate(index);
         return index != null ? { index, content } : null;
+      }
+      // ---- Regenerate (ChatGPT / Claude parity) ----
+      // ↻ asks the same question again in place. The answer it replaces is kept,
+      // and ‹ 1 / 2 › under the new one pages back to it, here and in the saved chat.
+      const asked = () => Array.from($('exchange').querySelectorAll('.ask-q'));
+      const questionBefore = (ansEl) => asked().filter((q) => q.compareDocumentPosition(ansEl) & Node.DOCUMENT_POSITION_FOLLOWING).pop() || null;
+      function regenerate(ansEl, earlier) {
+        if (engine.busy && engine.busy()) return;
+        const qEl = questionBefore(ansEl);
+        if (!qEl) return;
+        const go = () => {
+          cancelEdit();
+          const k = Array.from($('exchange').querySelectorAll('.ask-q[data-saved]')).indexOf(qEl);
+          editing = { qEl, index: k >= 0 ? 2 * k : null };
+          const question = qEl.textContent;
+          const opts = turnOpts();
+          const editFrom = applyEdit();
+          if (editFrom && opts.threadId) { opts.editFrom = editFrom; opts.regenerate = true; }
+          opts.versions = earlier;
+          engine.send(question, opts);
+        };
+        // Like editing, a regenerate drops every later turn, so say so first.
+        if (!asked().some((q) => ansEl.compareDocumentPosition(q) & Node.DOCUMENT_POSITION_FOLLOWING)) return go();
+        modal({
+          label: 'Regenerate',
+          title: 'Regenerate this answer?',
+          body: 'The messages after it are removed from this chat, the same as editing a question. To keep them, branch into a new chat first.',
+          actions: [{ label: 'Regenerate', primary: true, onClick: go }, { label: 'Cancel' }]
+        });
+      }
+      // ---- Branch in new chat (ChatGPT parity) ----
+      // Copies the saved chat up to this answer into a new chat and opens it;
+      // the original stays as it was.
+      async function branchFrom(ansEl) {
+        const fail = (body) => modal({ label: 'Branch in new chat', title: 'Branch in new chat', body, actions: [{ label: 'OK', primary: true }] });
+        if (tempChat || !token() || !currentThreadId) return fail('Branching copies a saved chat. Temporary chats are not saved, so there is nothing to branch from.');
+        const k = Array.from($('exchange').querySelectorAll('.ask-q[data-saved]')).indexOf(questionBefore(ansEl));
+        if (k < 0) return;
+        try {
+          const r = await fetch(`${API}/ask/threads/${currentThreadId}/branch`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+            body: JSON.stringify({ through: 2 * k + 2 })
+          });
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok || !data.thread) return fail(data.message || 'Unable to branch that chat.');
+          await openThread(String(data.thread.id));
+          loadThreads();
+        } catch (_) { fail('Unable to branch that chat.'); }
       }
       // Every send says which chat it belongs to: the saved one, or none at all
       // in a temporary chat.
@@ -876,12 +930,12 @@
         if (typeof tid === 'string' && THREAD_ID_RE.test(tid)) adoptThread(tid);
         if (token()) loadThreads();
       }
-      function renderSavedMessage(role, content) {
+      function renderSavedMessage(role, content, versions) {
         const block = document.createElement('div');
         block.innerHTML = role === 'user'
           ? `<div class="ask-q" data-saved="1">${esc(String(content || ''))}</div>${questionActs(true)}`
           : `<div class="ask-a${(localStorage.getItem('sp_ask_mode_v1') === 'analyst' ? '' : ' is-normal')}">${markdown(String(content || ''))}</div>`;
-        if (role !== 'user') savedAnswerTools(block.firstChild, content);
+        if (role !== 'user') savedAnswerTools(block.firstChild, content, { turn: true, versions });
         while (block.firstChild) $('exchange').appendChild(block.firstChild);
       }
       async function openThread(id) {
@@ -904,7 +958,7 @@
           cancelEdit();
           setTempChat(false);
           $('exchange').innerHTML = '';
-          (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
+          (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content, m.versions));
           document.body.classList.add('in-conversation');
           setFocus(true);
           if (prefersZen()) setZen(true);
@@ -951,6 +1005,42 @@
         openThread(item.dataset.id);
       });
       $('new-chat').addEventListener('click', () => { newChat(); closeSidePanel(); });
+      // ---- Custom instructions (ChatGPT / Claude parity) ----
+      // The user's own words on how Ask should answer, applied to every chat.
+      $('ask-instr').addEventListener('click', async () => {
+        let current = '';
+        let max = 1500;
+        try {
+          const r = await fetch(`${API}/ask/instructions`, { headers: { Authorization: `Bearer ${token()}` } });
+          if (r.ok) { const d = await r.json(); current = String(d.instructions || ''); max = Number(d.max) || max; }
+        } catch (_) { /* opens empty */ }
+        modal({
+          label: 'Custom instructions',
+          title: 'Custom instructions',
+          body: 'Tell Ask how to answer you: tone, length, format, what to focus on. They apply to every chat, temporary ones included. Figures still come only from filings, and Ask still never gives buy/sell advice.',
+          bodyHtml: `<textarea class="input" id="instr-ta" rows="7" maxlength="${max}" aria-label="Custom instructions" style="width:100%;box-sizing:border-box;margin-top:10px;min-height:150px;resize:vertical" placeholder="e.g. Keep answers short and lead with the numbers. I invest for dividend income over 10+ years.">${esc(current)}</textarea><p class="small faint" id="instr-msg" style="margin:6px 0 0">${current.length} / ${max}</p>`,
+          actions: [
+            { label: 'Save', primary: true, close: false, onClick: async (close) => {
+                const msg = document.getElementById('instr-msg');
+                try {
+                  const r = await fetch(`${API}/ask/instructions`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+                    body: JSON.stringify({ instructions: document.getElementById('instr-ta').value })
+                  });
+                  const d = await r.json().catch(() => ({}));
+                  if (r.ok) close(); else msg.textContent = d.message || 'Unable to save.';
+                } catch (_) { msg.textContent = 'Unable to save. Check your connection.'; }
+              } },
+            { label: 'Cancel' }
+          ]
+        });
+        const box = document.getElementById('instr-ta');
+        if (box) {
+          box.addEventListener('input', () => { document.getElementById('instr-msg').textContent = `${box.value.length} / ${max}`; });
+          box.focus();
+        }
+      });
       function newChat() {
         currentThreadId = '';
         try { window.history.replaceState(null, '', PAGE_PATH); } catch (_) {}

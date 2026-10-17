@@ -26,7 +26,7 @@ const DEEP = credits.DEEP_THINKING_FACTOR;
 // The keyless allowance is env-switchable, so the docs quote the live config
 // instead of a typed number (it said "two" while the default was three).
 const ANON = require('./mcp-anon').config();
-const STAMP = '20261018-ui22';
+const STAMP = '20261018-ui23';
 const UPDATED = '18 October 2026';
 
 function esc(value) {
@@ -98,7 +98,7 @@ const DOC_PAGES = Object.freeze({
     ask: {
         slug: 'ask', topic: 'Research features',
         title: 'Ask — StockPortfolio.pro documentation',
-        description: 'Ask about any public company and get answers from its SEC filings, with sources. Deep thinking, voice, files, editing, temporary chats and shortcuts.',
+        description: 'Ask about any public company and get answers from its SEC filings, with sources. Regenerate, branch, custom instructions, deep thinking, voice and files.',
         heading: 'Ask',
         intro: 'Ask is the assistant that answers questions about a public company from its own filings. It quotes what it used, and it declines rather than inventing an answer the filings do not support.',
         tier: 'Any paid plan except Dev',
@@ -115,7 +115,10 @@ const DOC_PAGES = Object.freeze({
             { title: 'Deep thinking', body: 'Press Think in the box, next to the send button, and choose High: the assistant works through the question more carefully before it answers. It is slower and costs ' + DEEP + 'x a normal question: ' + (DEEP * COST.ask) + ' credits instead of ' + COST.ask + ', and more for a very long answer. The pill then reads High and it stays on until you choose Standard. If you have fewer credits left than a Deep thinking question needs, you get <code>DEEP_THINKING_CREDITS</code>; choose Standard to ask normally. Analyst and Normal change how the answer is written, not how hard it thinks, and cost the same.' },
             { title: 'Speak your question', body: 'Press the microphone in the box, speak, and press it again to stop (up to a minute). The words land in the box for you to check before you send. Where your browser transcribes the speech itself, the first use downloads a speech model of about 80 MB.' },
             { title: 'Temporary chats', body: 'Signed in, press Temporary chat above the box to start a chat that is not kept: it is not added to your chat list, it is not used for memory, and it does not use your other chats as context. Questions cost the same credits as usual. Opening another chat or pressing the button again ends it.' },
-            { title: 'Working with answers', body: 'Under each answer: copy it, ask it again, have it read aloud, rate it, or share it. Code and formulas come in their own block with a Copy button. Each question has its own copy button too, which helps when you reuse a well-worded prompt.' },
+            { title: 'Working with answers', body: 'Under each answer: copy it, regenerate it, branch from it, have it read aloud, rate it, or share it. Code and formulas come in their own block with a Copy button. Each question has its own copy button too, which helps when you reuse a well-worded prompt.' },
+            { title: 'Regenerate and answer versions', body: 'Regenerate asks the same question again and puts the new answer in place of the old one. The old answer is kept: the arrows under the answer (‹ 1 / 2 ›) page between versions, and Copy and Read aloud use the version on screen. A saved chat keeps the last 5 versions of each answer. Regenerating an earlier answer removes the messages after it, the same as editing a question, and you are asked first. A regenerate costs the same credits as a new question.' },
+            { title: 'Branch in a new chat', body: 'Branch, under any answer in a saved chat, copies the chat up to and including that answer into a new chat named <em>Branch · …</em> and opens it. Use it to try a different follow-up without losing the original, which stays exactly as it was. Branching itself costs no credits.' },
+            { title: 'Custom instructions', body: 'Press Custom instructions in the chat list to tell Ask how to answer you: tone, length, format, or what you care about (for example, \u201ckeep it short and lead with the numbers\u201d). Up to 1,500 characters. They apply to every chat, temporary chats included, until you change or clear them. They shape how answers are written, not what is true: figures still come only from filings, and Ask still never gives buy/sell advice.' },
             { title: 'Ask what a filing says, not what to buy', body: 'The assistant is built to be accurate about filed facts and to refuse speculation. Questions about price targets or whether to buy something will get a hedge, because the filings do not answer them. Questions about segment performance, accounting changes, risk-factor wording or year-over-year movement are what it is for.' },
             { title: 'Your chats are saved', body: 'Every chat is kept in the list beside the box, so a question you asked last month is still there with its sources attached. Each chat\'s menu lets you rename it, pin it, download it as a Markdown file or delete it.' },
             { title: 'Keyboard shortcuts', body: 'Press <kbd>Ctrl</kbd> <kbd>/</kbd> (<kbd>⌘</kbd> <kbd>/</kbd> on a Mac) on the Ask page to see them all. <kbd>Enter</kbd> sends and <kbd>Shift</kbd> <kbd>Enter</kbd> starts a new line. With <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>Shift</kbd>: <kbd>O</kbd> new chat, <kbd>C</kbd> copy the last answer, <kbd>S</kbd> show or hide the chat list, <kbd>Backspace</kbd> delete this chat. <kbd>Shift</kbd> <kbd>Esc</kbd> puts the cursor in the box, <kbd>↑</kbd> in an empty box edits your last question, and <kbd>Esc</kbd> cancels an edit.' },

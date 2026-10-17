@@ -109,10 +109,10 @@ test('read aloud speaks the words, not the markup, links or source list', () => 
 test('every question carries Copy, and Edit where the page can edit; saved chats get the same tools', () => {
     assert.match(bundle, /<div class="ask-q">\$\{esc\(question\)\}<\/div>\$\{questionActs\(!!exchange\.__onEdit\)\}/);
     assert.match(bundle, /if \(qEl\) qEl\.dataset\.saved = '1';/);
-    assert.match(bundle, /opts\.threadId && opts\.editFrom \? \{ editFrom: opts\.editFrom \} : \{\}/);
+    assert.match(bundle, /opts\.threadId && opts\.editFrom \? \{ editFrom: opts\.editFrom, \.\.\.\(opts\.regenerate \? \{ regenerate: true \} : \{\}\) \} : \{\}/);
     assert.match(bundle, /opts && opts\.temporary \? \{ temporary: true \} : \{\}/);
     assert.match(page, /<div class="ask-q" data-saved="1">\$\{esc\(String\(content \|\| ''\)\)\}<\/div>\$\{questionActs\(true\)\}/);
-    assert.match(page, /if \(role !== 'user'\) savedAnswerTools\(block\.firstChild, content\);/);
+    assert.match(page, /if \(role !== 'user'\) savedAnswerTools\(block\.firstChild, content, \{ turn: true, versions \}\);/);
     assert.match(page, /onEdit: startEdit/);
     assert.match(css, /\.ask-q-acts \{/);
     assert.match(css, /\.ask-code pre \{/);
@@ -134,4 +134,108 @@ test('the Ask page: edit, temporary chat, paste and drop, export, shortcuts, jum
     // every send path names its chat the same way
     assert.equal((page.match(/engine\.send\([^;]*turnOpts\(\)\)/g) || []).length, 2);
     assert.doesNotMatch(page, /engine\.send\([^;]*currentThreadId \? \{ threadId: currentThreadId \} : \{\}\)/);
+});
+
+// Regenerate with answer versions, branch in new chat, custom instructions (2026-10-18).
+const aiChat = fs.readFileSync(path.join(root, 'backend', 'ai-chat.js'), 'utf8');
+const saver = (messages, sink) => serverFn('saveThreadExchange', {
+    THREAD_ID_RE: /^[0-9a-f]{24}$/, ASK_THREAD_KEEP: 50, ASK_THREAD_MSG_KEEP: 80, ASK_ANSWER_VERSIONS_KEEP: 4,
+    askSurface: (v) => (v === 'paper' ? 'paper' : 'ask'),
+    surfaceMatch: (v) => (v === 'paper' ? { surface: 'paper' } : { surface: { $ne: 'paper' } }),
+    AskThread: {
+        findOne: () => lean({ messages }),
+        findOneAndUpdate: async (q, update) => { sink.set = update.$set; return { _id: THREAD, userId: USER }; },
+        find: () => ({ sort() { return this; }, skip() { return this; }, lean: async () => [] })
+    }
+});
+
+test('a regenerate keeps the answer it replaced, and that answer\'s own versions, capped at four', async () => {
+    const sink = {};
+    const at = new Date('2026-10-18T10:00:00Z');
+    const msgs = [...transcript.slice(0, 2), { role: 'user', content: 'And MSFT?' }, { role: 'assistant', content: 'A2', at, versions: [{ content: 'A2-old', at }] }, ...transcript.slice(4)];
+    await saver(msgs, sink)(USER, THREAD, 'And MSFT?', 'A2-new', 'normal', [], 'ask', 2, true);
+    const out = JSON.parse(JSON.stringify(sink.set.messages));
+    assert.deepEqual(out.map((m) => m.content), ['What does AAPL earn?', 'A1', 'And MSFT?', 'A2-new']);
+    assert.deepEqual(out[3].versions.map((v) => v.content), ['A2-old', 'A2']);
+    // capped
+    const many = { role: 'assistant', content: 'A2', at, versions: ['v1', 'v2', 'v3', 'v4'].map((content) => ({ content, at })) };
+    await saver([...transcript.slice(0, 3), many], sink)(USER, THREAD, 'And MSFT?', 'A2-new', 'normal', [], 'ask', 2, true);
+    assert.deepEqual(JSON.parse(JSON.stringify(sink.set.messages[3].versions.map((v) => v.content))), ['v2', 'v3', 'v4', 'A2']);
+    // an edit (different words, or no regenerate flag) keeps no versions
+    await saver(msgs, sink)(USER, THREAD, 'And NVDA?', 'N', 'normal', [], 'ask', 2, true);
+    assert.equal(sink.set.messages[3].versions, undefined);
+    await saver(msgs, sink)(USER, THREAD, 'And MSFT?', 'N', 'normal', [], 'ask', 2);
+    assert.equal(sink.set.messages[3].versions, undefined);
+});
+
+test('the chat route regenerates only inside a saved chat and returns versions with the thread', () => {
+    assert.match(app, /const regenerate = Boolean\(edit\) && \(req\.body && req\.body\.regenerate\) === true;/);
+    assert.equal((app.match(/edit \? edit\.index : null, regenerate\)/g) || []).length, 2);
+    assert.match(app, /versions: \{ type: \[new mongoose\.Schema\(\{ content: String, at: Date \}, \{ _id: false \}\)\], default: undefined \}/);
+    assert.match(app, /Array\.isArray\(m\.versions\) && m\.versions\.length \? \{ versions:/);
+});
+
+function branchRoute(src, created) {
+    let handler = null;
+    const body = app.slice(app.indexOf("app.post('/api/ask/threads/:id/branch'"), app.indexOf('// Custom instructions (ChatGPT / Claude parity)'));
+    vm.runInNewContext(body, {
+        app: { post: (p, mw, h) => { handler = h; } }, authMiddleware: null,
+        THREAD_ID_RE: /^[0-9a-f]{24}$/, ASK_THREAD_KEEP: 50, Number, Math, String, Array,
+        surfaceMatch: () => ({}),
+        AskThread: {
+            findOne: (q) => lean(q.userId === USER ? src : null),
+            create: async (doc) => { created.push(doc); return { _id: 'NEW', title: doc.title }; },
+            find: () => ({ sort() { return this; }, skip() { return this; }, lean: async () => [] }),
+            deleteMany: async () => {}
+        }
+    });
+    return async (userId, through) => {
+        const res = { code: 200, status(c) { this.code = c; return this; }, json(b) { this.body = b; return this; } };
+        await handler({ params: { id: THREAD }, userId, body: { through } }, res);
+        return res;
+    };
+}
+
+test('branch copies the chat up to an answer into a new chat of the same owner; the original is untouched', async () => {
+    const created = [];
+    const branch = branchRoute({ title: 'AAPL vs MSFT', mode: 'normal', surface: 'ask', messages: transcript }, created);
+    const ok = await branch(USER, 4);
+    assert.equal(ok.code, 200);
+    assert.equal(ok.body.thread.id, 'NEW');
+    assert.equal(created[0].title, 'Branch · AAPL vs MSFT');
+    assert.equal(created[0].userId, USER);
+    assert.deepEqual(created[0].messages.map((m) => m.content), ['What does AAPL earn?', 'A1', 'And MSFT?', 'A2']);
+    assert.equal(transcript.length, 6);
+    // must end on an answer and stay inside the chat
+    for (const bad of [3, 0, 7, 'x']) assert.equal((await branch(USER, bad)).code, 400);
+    // someone else's chat
+    assert.equal((await branch('000000000000000000000009', 4)).code, 404);
+});
+
+test('custom instructions: saved per user, capped, sent with every question, and never override the rules', () => {
+    assert.match(app, /askInstructions: \{ type: String, default: '', maxlength: 1500 \}/);
+    assert.match(app, /app\.get\('\/api\/ask\/instructions', authMiddleware,/);
+    assert.match(app, /app\.put\('\/api\/ask\/instructions', authMiddleware,/);
+    assert.match(app, /if \(instructions\.length > ASK_INSTRUCTIONS_MAX\) return res\.status\(400\)/);
+    assert.equal((app.match(/\.\.\.\(customInstructions \? \{ customInstructions \} : \{\}\)/g) || []).length, 2);
+    assert.match(aiChat, /if \(key && input\.ctx\?\.customInstructions\) key = null;/);
+    assert.match(aiChat, /CUSTOM INSTRUCTIONS — how this user wants you to answer/);
+    assert.match(aiChat, /They never override the rules above/);
+});
+
+test('the page: Regenerate and Branch on every answer, ‹ n / m › versions, a custom instructions box', () => {
+    assert.match(bundle, /data-aact="regen" title="Regenerate"/);
+    assert.match(bundle, /data-aact="branch" title="Branch in new chat"/);
+    assert.match(bundle, /\$\{exchange\.__onRegenerate \? turnButtons\(\) : `<button type="button" data-act="rerun"/);
+    assert.match(bundle, /exchange\.__onRegenerate\(ansEl, \(v \? v\.list : \[md\]\)\.slice\(-4\)\)/);
+    assert.match(bundle, /if \(opts && Array\.isArray\(opts\.versions\) && opts\.versions\.length\) mountVersions\(answerEl, opts\.versions, data\.answer\);/);
+    assert.match(bundle, /answerText\.set\(answerEl, v\.list\[at\]\);/);
+    assert.match(css, /\.ask-ver \{/);
+    assert.match(page, /onRegenerate: regenerate,\s+onBranch: branchFrom/);
+    assert.match(page, /if \(editFrom && opts\.threadId\) \{ opts\.editFrom = editFrom; opts\.regenerate = true; \}/);
+    assert.match(page, /title: 'Regenerate this answer\?'/);
+    assert.match(page, /\/ask\/threads\/\$\{currentThreadId\}\/branch/);
+    assert.match(page, /body: JSON\.stringify\(\{ through: 2 \* k \+ 2 \}\)/);
+    assert.match(page, /id="ask-instr"/);
+    assert.match(page, /method: 'PUT'[\s\S]{0,300}instructions: document\.getElementById\('instr-ta'\)\.value/);
 });
