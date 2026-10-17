@@ -146,6 +146,6 @@ test('the arrival card and its motion carry the fresh cache stamp', () => {
     // Same immutable-cache trap as every other asset edit: the fix is worthless
     // while browsers run the old bundle for up to a year.
     assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20261010-range1/);
-    assert.match(dashboardHtml, /assets\/app\.js\?v=20261017-ui14/);
-    assert.match(dashboardHtml, /assets\/system\.css\?v=20261017-ui14/);
+    assert.match(dashboardHtml, /assets\/app\.js\?v=20261017-ui16/);
+    assert.match(dashboardHtml, /assets\/system\.css\?v=20261017-ui16/);
 });

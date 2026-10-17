@@ -43,6 +43,8 @@
     return sign + (a >= 1e12 ? '$' + (a / 1e12).toFixed(2) + 'T' : a >= 1e9 ? '$' + (a / 1e9).toFixed(1) + 'B' : '$' + (a / 1e6).toFixed(0) + 'M');
   };
   const numv = (x) => { const n = num(x); return n == null || n === 'None' ? null : Number(n); };
+  // Snapshot ratios are decimals (0.19 = 19%).
+  const pctv = (x) => { const n = numv(x); return n == null ? null : n * 100; };
 
   function chartBars(rows, key, fmt, color) {
     const pts = (rows || []).map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
@@ -232,9 +234,9 @@
     { label: 'Market cap', v: (d) => numv(d.snapshot && d.snapshot.marketCap), show: (n) => '$' + money(n), dir: 0 },
     { label: 'P/E', v: (d) => numv(d.snapshot && d.snapshot.pe), show: (n) => Number(n).toFixed(1) + '×', dir: -1 },
     { label: 'EPS', v: (d) => numv(d.snapshot && d.snapshot.eps), show: (n) => Number(n).toFixed(2), dir: 1 },
-    { label: 'Profit margin', v: (d) => numv(d.snapshot && d.snapshot.profitMargin), show: (n) => n.toFixed(1) + '%', dir: 1 },
-    { label: 'Return on equity', v: (d) => numv(d.snapshot && d.snapshot.roe), show: (n) => n.toFixed(1) + '%', dir: 1 },
-    { label: 'Dividend yield', v: (d) => numv(d.snapshot && d.snapshot.dividendYield), show: (n) => n.toFixed(1) + '%', dir: 1 },
+    { label: 'Profit margin', v: (d) => pctv(d.snapshot && d.snapshot.profitMargin), show: (n) => n.toFixed(1) + '%', dir: 1 },
+    { label: 'Return on equity', v: (d) => pctv(d.snapshot && d.snapshot.roe), show: (n) => n.toFixed(1) + '%', dir: 1 },
+    { label: 'Dividend yield', v: (d) => pctv(d.snapshot && d.snapshot.dividendYield), show: (n) => n.toFixed(1) + '%', dir: 1 },
     { label: 'Latest filed revenue', v: (d) => numv((d.financials || []).length && d.financials[d.financials.length - 1].revenue), show: (n) => bn(n), dir: 1 },
     { label: 'Operating margin (same year)', v: (d) => numv((d.financials || []).length && d.financials[d.financials.length - 1].opMarginPct), show: (n) => n.toFixed(1) + '%', dir: 1 },
     { label: 'Free cash flow (same year)', v: (d) => numv((d.financials || []).length && d.financials[d.financials.length - 1].fcf), show: (n) => bn(n), dir: 1 },

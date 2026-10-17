@@ -651,12 +651,16 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     })();
     const offBalanceSection = offBalanceHtml(d, false);
     const mc = num(s.marketCap);
-    const pct = (x) => { const n = num(x); return n == null ? null : (Math.abs(n) <= 1 ? (n * 100).toFixed(1) : Number(n).toFixed(1)) + '%'; };
+    // Snapshot ratios are decimals (0.19 = 19%), including margins above 100%.
+    const pct = (x) => { const n = num(x); return n == null ? null : (n * 100).toFixed(1) + '%'; };
     const keyStrip = [
       ['Market cap', mc ? '$' + money(mc) : '—'],
       ['P/E', s.pe && s.pe !== 'None' ? Number(s.pe).toFixed(1) + '×' : '—'],
-      ['TTM margin', pct(s.profitMargin) || '—']
+      [/^Yahoo/.test((s.ratioBasis || {}).profitMargin || '') ? 'TTM margin · ' + s.ratioBasis.profitMargin.replace(/, trailing twelve months, as of /, ' ').replace(/;.*/, '') : 'Net margin · last ' + (((s.ratioBasis || {}).profitMargin || '').match(/^latest (.+?) \(/) || [, 'annual report'])[1], pct(s.profitMargin) || '—']
     ].map(([k, v]) => `<div><small>${esc(k)}</small><strong>${esc(v)}</strong></div>`).join('');
+    // A foreign filer's statements are shown in USD beside its USD quote; say so, and from what.
+    const cc = d.currencyConversion;
+    const fxNote = cc && cc.from ? `<p class="small faint" style="margin-top:8px;">Financial figures are filed in ${esc(cc.from)} and shown here in USD at Yahoo Finance historical monthly rates: a balance at its period-end month's close, a flow at the average of the months it covers${cc.restatedFrom ? ' (inflation-restated figures at the closing rate of the month they are measured in)' : ''}. Converted figures are approximate.</p>` : '';
 
     const v = d.valuation;
     const rec = v && v.record ? v.record : {};
@@ -926,7 +930,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       ${offBalanceSection}
       <section class="dos-decision-grid" id="dos-brief">
         <section><span class="dos-kicker">Visual evidence</span><h2>The business trajectory</h2>${decisionTrends(history)}</section>
-        <section><span class="dos-kicker">Decision brief</span><h2>The case in two minutes</h2><div class="dos-decision-copy">${briefParagraphs(briefText)}</div><div class="dos-key-strip">${keyStrip}</div></section>
+        <section><span class="dos-kicker">Decision brief</span><h2>The case in two minutes</h2><div class="dos-decision-copy">${briefParagraphs(briefText)}</div><div class="dos-key-strip">${keyStrip}</div>${fxNote}</section>
       </section>
       ${financialHtml}
       ${recent}

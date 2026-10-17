@@ -69,9 +69,13 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
     // ---- WACC buildup ----
     const rf = (num(opts.riskFreePct) ?? DEFAULTS.riskFreePct) / 100;
     const erp = (num(opts.erpPct) ?? DEFAULTS.erpPct) / 100;
-    const beta = num(ov.Beta);
+    // The verified overview drops Beta, so this read the 1.0 default for every company while the stored provider
+    // snapshot carried a beta for about half of them. That snapshot is the fallback, named with its date.
+    const ovBeta = num(ov.Beta);
+    const pv = ovBeta === null ? require('./provider-fundamentals').valuation(sym) : null;
+    const beta = ovBeta ?? (pv ? num(pv.fields.beta) : null);
     const betaUsed = beta !== null ? beta : 1.0;
-    const betaNote = beta !== null ? 'Published beta (Yahoo/market data).' : 'No published beta available — defaulted to 1.0 (market beta); cost of equity is approximate.';
+    const betaNote = ovBeta !== null ? 'Published beta (Yahoo/market data).' : beta !== null ? `${pv.source} beta as of ${String(pv.asOf || '').slice(0, 10)}, provider-reported.` : 'No published beta available — defaulted to 1.0 (market beta); cost of equity is approximate.';
     const re = rf + betaUsed * erp; // cost of equity (CAPM)
 
     const totalDebt = latestDebt(bal0);

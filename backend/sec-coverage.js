@@ -53,6 +53,30 @@ function validSource(source, issuerCik) {
 }
 // The balance-sheet debt lines a presented total may add up (sec-facts presentedDebt).
 const DEBT_PARTS=['longTermDebt','currentLongTermDebt','shortTermBorrowings','shortTermDebt'];
+// Presented debt lines the row does not hold as figures (sec-facts presentedDebt): which tags are debt, which
+// are presented beside debt but are not (dropped), and which are a whole of other debt tags. A whole beside one
+// of its own pieces would count the piece twice, so that face is left unread.
+const NOT_DEBT_LINE=/^(PreferredStock|ConvertiblePreferredStock|CommonStockValue|CommitmentsAndContingencies|Allowance)/;
+const DEBT_LINE=/Debt|Borrowing|NotesPayable|NotePayable|LoansPayable|LoanPayable|LoansReceived|LoansFrom|LoanFrom|BankLoans|ConstructionLoan|BridgeLoan|LineOfCredit|LinesOfCredit|CommercialPaper|Bonds|Debentures|Mortgage|FederalHomeLoanBank|SubordinatedLiabilities|SecuredFinancings/;
+const NOT_DEBT_PART=/Deferred|Derivative|Interest|Receivable|Warrant|Lease(?!Obligation)|Investment|Securities|Asset|Issuance|Fees/;
+const DEBT_WHOLE={LongTermDebt:['LongTermDebtCurrent','LongTermDebtNoncurrent'],LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities:['LongTermDebtAndCapitalLeaseObligationsCurrent','LongTermDebtAndCapitalLeaseObligations','LongTermDebtCurrent','LongTermDebtNoncurrent'],
+ LongTermDebtAndCapitalLeaseObligations:['LongTermDebtNoncurrent'],LongTermDebtAndCapitalLeaseObligationsCurrent:['LongTermDebtCurrent'],NotesPayable:['NotesPayableCurrent','LongTermNotesPayable'],LoansPayable:['LoansPayableCurrent','LongTermLoansPayable'],
+ ConvertibleDebt:['ConvertibleDebtCurrent','ConvertibleDebtNoncurrent'],ConvertibleNotesPayable:['ConvertibleNotesPayableCurrent','ConvertibleLongTermNotesPayable'],LineOfCredit:['LinesOfCreditCurrent','LongTermLineOfCredit'],
+ SecuredDebt:['SecuredDebtCurrent','SecuredLongTermDebt'],UnsecuredDebt:['UnsecuredDebtCurrent','UnsecuredLongTermDebt'],SeniorNotes:['SeniorNotesCurrent','SeniorLongTermNotes'],SubordinatedDebt:['SubordinatedDebtCurrent','SubordinatedLongTermDebt'],
+ OtherLongTermDebt:['OtherLongTermDebtCurrent','OtherLongTermDebtNoncurrent'],ConstructionLoan:['ConstructionLoanNoncurrent','LongTermConstructionLoanCurrent'],
+ DebtCurrent:['LongTermDebtCurrent','ShortTermBorrowings','CommercialPaper','NotesPayableCurrent','LinesOfCreditCurrent','LoansPayableCurrent','ConvertibleNotesPayableCurrent','ConvertibleDebtCurrent','LongTermDebtAndCapitalLeaseObligationsCurrent','OtherShortTermBorrowings','BankOverdrafts','SecuredDebtCurrent','UnsecuredDebtCurrent','ShortTermBankLoansAndNotesPayable'],
+ ShortTermBorrowings:['CommercialPaper','ShortTermBankLoansAndNotesPayable','OtherShortTermBorrowings','BankOverdrafts','ShortTermNonBankLoansAndNotesPayable']};
+const DEBT_TOTALS=['DebtAndCapitalLeaseObligations','DebtInstrumentCarryingAmount','DebtLongtermAndShorttermCombinedAmount','LongTermDebtAndShortTermBorrowings','Borrowings','DebtInstrumentFaceAmount'];
+function presentedDebtFacts(concepts, values, row) {
+    if(!concepts.length || concepts.length!==values.length || new Set(concepts).size!==concepts.length)return false;
+    if(concepts.some(c=>!DEBT_LINE.test(c) || NOT_DEBT_PART.test(c) || NOT_DEBT_LINE.test(c)) || values.some(v=>number(v)===null || v<0))return false;
+    if(concepts.length>1 && concepts.some(c=>DEBT_TOTALS.includes(c)))return false;
+    if(concepts.some(c=>(DEBT_WHOLE[c] || []).some(x=>concepts.includes(x))))return false;
+    // A line equal to a sum of other lines is their subtotal, or one figure presented twice.
+    for(let j=0;j<values.length;j++){const others=values.filter((_,k)=>k!==j);if(values[j]!==0 && others.length<=12)for(let m=1;m<(1<<others.length);m++){let s=0;for(let b=0;b<others.length;b++)if(m>>b&1)s+=others[b];if(s===values[j])return false;}}
+    const cap=number(row.totalLiabilities) ?? number(row.totalAssets);
+    return cap!==null && values.reduce((a,b)=>a+b,0)<=cap;
+}
 // These narrower/broader concepts are not equivalent to the displayed field.
 const INCOMPATIBLE={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
 function verifiedField(data, row, field, accessions) {
@@ -74,6 +98,15 @@ function verifiedField(data, row, field, accessions) {
         const parts=inputs.map(f=>data.sources[row._sources[f][0]]);
         if(new Set(parts.map(s=>s.accessionNumber)).size!==1 || JSON.stringify(parts.map(s=>s.concept))!==JSON.stringify(derived.presentedConcepts))return false;
         return number(row[field])===inputs.reduce((sum,f)=>sum+row[f],0) && JSON.stringify(ids)===JSON.stringify(inputs.map(f=>row._sources[f][0]));
+    }
+    // The same total when the row holds none of the presented lines as figures: each line is a filed instant
+    // fact of the filing the row's total assets cite, in the row's currency.
+    if(derived?.formula==='sum_presented_facts') {
+        const anchor=data.sources?.[(row._sources.totalAssets || [])[0]]?.accessionNumber;
+        if(field!=='shortLongTermDebtTotal' || row.periodType!=='instant' || !anchor || !Array.isArray(derived.presentedConcepts) || sources.length!==derived.presentedConcepts.length)return false;
+        if(!sources.every((s,i)=>validSource(s,data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && s.accessionNumber===anchor && s.periodEnd===row.fiscalDateEnding && s.periodStart===null && s.unit===row.reportedCurrency && s.concept===derived.presentedConcepts[i]))return false;
+        const values=sources.map(s=>number(s.rawValue));
+        return presentedDebtFacts(derived.presentedConcepts,values,row) && number(row[field])===values.reduce((a,b)=>a+b,0) && !row._signs?.[field];
     }
     if(['sum_fields','difference_fields'].includes(derived?.formula)) {
         const permitted={totalRevenue:['netInterestIncome','nonInterestIncome'],grossProfit:['totalRevenue','costOfRevenue'],shortTermDebt:['shortTermBorrowings','currentLongTermDebt'],shortLongTermDebtTotal:['shortTermDebt','longTermDebt']};
@@ -159,4 +192,4 @@ function validateFinancial(data, expectedCik, asOf=day(new Date().toISOString())
     for(const g of data.segmentObservations || [])if(!require('./sec-segment-observations').validGroup(g,data))errors.push('Invalid segment disclosure provenance '+g.periodEnd);
     return errors;
 }
-module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS };
+module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS, presentedDebtFacts };

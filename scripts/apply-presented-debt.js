@@ -7,20 +7,21 @@
 //
 //   node scripts/apply-presented-debt.js [--dry-run]
 //
-// Needs frontend/data/sec-statement-lines built by scripts/build-statement-lines.js. Each changed
+// Needs frontend/data/sec-statement-lines built by scripts/build-statement-lines.js, and the SEC
+// companyfacts bulk file (companyfacts-bulk.js) for presented lines the rows do not hold. Each changed
 // file must pass validateFinancial, or it is left as it was.
 const fs=require('node:fs'),path=require('node:path');
-const p=require('../backend/sec-coverage'),{presentedDebt}=require('../backend/sec-facts'),lines=require('../backend/statement-lines');
+const p=require('../backend/sec-coverage'),{presentedDebt}=require('../backend/sec-facts'),lines=require('../backend/statement-lines'),bulk=require('../backend/companyfacts-bulk');
 
-function apply(data,records) {
+function apply(data,records,document=null) {
  const presented=new Map(records.filter(l=>l.k==='debt').map(l=>[l.a,l.c]));
  if(!presented.size)return null;
  const out=structuredClone(data);
- for(const basis of ['annualReports','quarterlyReports'])for(const row of out.balance?.[basis] || [])presentedDebt(out,row,presented);
+ for(const basis of ['annualReports','quarterlyReports'])for(const row of out.balance?.[basis] || [])presentedDebt(out,row,presented,document);
  return out;
 }
 
-function main(argv=process.argv.slice(2)) {
+async function main(argv=process.argv.slice(2)) {
  const dry=argv.includes('--dry-run');
  const reportFile=path.join(p.DATA_DIR,'sec-reporting.json'),report=JSON.parse(fs.readFileSync(reportFile,'utf8'));
  const lock=path.join(p.DATA_DIR,'.sec-refresh.lock');const fd=dry?null:fs.openSync(lock,'wx');if(fd!==null)fs.writeSync(fd,String(process.pid));
@@ -32,7 +33,8 @@ function main(argv=process.argv.slice(2)) {
    const file=path.join(p.DATA_DIR,'sec-financials',cik+'.json');if(!fs.existsSync(file))continue;
    const raw=fs.readFileSync(file,'utf8');if(p.digest(raw)!==e.financialDigest){tally.digestMismatch++;continue;}
    tally.issuers++;
-   const data=JSON.parse(raw),next=apply(data,lines.forCik(cik));
+   const records=lines.forCik(cik),data=JSON.parse(raw);
+   const next=apply(data,records,records.some(l=>l.k==='debt')?await bulk.documentForCik(cik):null);
    if(!next || JSON.stringify(next)===JSON.stringify(data))continue;
    if(p.validateFinancial(next,next.cik,report.asOf).length>p.validateFinancial(data,data.cik,report.asOf).length){tally.invalid++;continue;}
    for(const basis of ['annualReports','quarterlyReports'])data.balance[basis].forEach((row,i)=>{if(JSON.stringify(row)!==JSON.stringify(next.balance[basis][i]))tally.rowsChanged++;});
@@ -43,5 +45,5 @@ function main(argv=process.argv.slice(2)) {
  } finally {unlock();}
  console.log(JSON.stringify(tally));
 }
-if(require.main===module)main();
+if(require.main===module)main().catch(e=>{console.error(e);process.exit(1);});
 module.exports={apply};

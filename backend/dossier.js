@@ -51,6 +51,30 @@ const DOSSIER_PARTIAL_STALE_MS = 10 * 60 * 1000;
 
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 
+// A foreign filer's statements are presented in USD, beside its USD quote, at the stored monthly rates
+// (a balance at its month's close, a flow at the average of the months it spans, IAS 29 filers at the
+// closing rate of the month they measure in). The filed values stay in each row's _presentations. A
+// figure with no rate for its period becomes blank, never a native amount labelled USD. Without a
+// stored rate series the data is returned as filed, and every section keeps its own currency label.
+let fxRates = null;
+function storedRates() {
+    if (!fxRates) {
+        const fs = require('fs'), path = require('path');
+        try { fxRates = JSON.parse(fs.readFileSync(path.join(require('./sec-coverage').DATA_DIR, 'sec-fx.json'), 'utf8')).rates || {}; } catch (_) { fxRates = {}; }
+    }
+    return fxRates;
+}
+function presentUsd(data, rates = storedRates()) {
+    const pres = require('./sec-presentation');
+    const source = data && (require('./fx-conversion').reportingCurrency(data) || pres.observedCurrency(data));
+    if (!source || source === 'USD' || !rates[source]?.length) return data;
+    return { ...pres.usd(data, rates), ...pres.usdObservations(data, source, rates[source]), overview: { ...data.overview, Currency: 'USD' },
+        currencyConversion: { from: source, to: 'USD', source: 'Yahoo Finance historical FX', approximate: true, ...(pres.HYPERINFLATION[source] ? { restatedFrom: pres.HYPERINFLATION[source] } : {}) } };
+}
+// A dossier cached from the filed currency is a miss once its data is presented in USD.
+const fingerprintOf = (data) => { const f = data.provenance?.evidenceFingerprint || data.provenance?.financialDigest; return f && data.currencyConversion ? `${f}:USD` : f; };
+const loadDossierData = async (sym) => presentUsd(await aiChat.loadFundAny(sym).catch(() => null));
+
 // Upsert the dossier doc. Used twice per build: once for the published partial
 // and once for the finished payload that overwrites it.
 async function writeDossierDoc(col, sym, fyEnd, depth, payload) {
@@ -122,22 +146,30 @@ async function currentSegments(seg, sym) {
 }
 // The operating-expense lines the filer reports for the statement year, as
 // label and value. Attached on build and on every cached read, like segments.
-async function withExpenseLines(income, sym) {
+async function withExpenseLines(income, sym, data) {
     if (!income || !income.periodEnd || process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return income;
     const evidence = await require('./verified-fundamentals').getCompanyEvidence(sym).catch(() => null);
     const stored = evidence?.statements?.operatingExpenseLines;
-    if (!stored || stored.periodEnd !== income.periodEnd || stored.currency !== income.currency) return { ...income, opexLines: null };
+    const rate = !stored ? null : stored.currency === income.currency ? 1 : expenseRate(data, income, stored.currency);
+    if (!stored || stored.periodEnd !== income.periodEnd || !rate) return { ...income, opexLines: null };
     const { label } = require('./ask-inline-segments');
-    return { ...income, opexLines: stored.lines.map(l => ({ label: l.filedLabel || label(l.concept.replace(/Expense$/, '')), value: l.value })) };
+    return { ...income, opexLines: stored.lines.map(l => ({ label: l.filedLabel || label(l.concept.replace(/Expense$/, '')), value: rate === 1 ? l.value : l.value * rate })) };
+}
+// The expense lines are figures of the same filed year as a USD-presented income row, so they convert
+// at the one rate that row's figures were converted at, or are not shown.
+function expenseRate(data, income, currency) {
+    const row = (data?.income?.annualReports || []).find(r => r.fiscalDateEnding === income.periodEnd && r.originalReportedCurrency === currency);
+    const rates = [...new Set(Object.values(row?._presentations || {}).map(x => x.rate))];
+    return rates.length === 1 && rates[0] > 0 ? rates[0] : null;
 }
 async function refreshValuation(payload, sym, data) {
-    payload = { ...payload, incomeStatement: await withExpenseLines(payload.incomeStatement, sym), segments: await currentSegments(payload.segments, sym),
+    payload = { ...payload, incomeStatement: await withExpenseLines(payload.incomeStatement, sym, data), segments: await currentSegments(payload.segments, sym), currencyConversion: data.currencyConversion || null,
         offBalanceSheet: payload.offBalanceSheet || await offBalanceFor(sym) };
     if(!data.marketData?.asOf)return payload;
     const rdcf=reverseDcf.computeFromData(sym,data);
     const forward=await valuationDcf.buildValuation(sym,{data,rdcf:rdcf.error?null:rdcf});
     return {...payload,marketData:data.marketData,valuationAsOf:data.marketData.asOf,
-        snapshot:{...payload.snapshot,marketCap:data.overview.MarketCapitalization,pe:data.overview.PERatio,price:data.marketData.price},
+        snapshot:{...payload.snapshot,marketCap:data.overview.MarketCapitalization,pe:data.overview.PERatio,price:data.marketData.price,...(({basis,...r})=>({...r,ratioBasis:basis}))(snapshotRatios(sym,data))},
         valuation:rdcf.error?{error:rdcf.error}: {impliedGrowthPct:rdcf.impliedGrowthPct,assumptions:rdcf.assumptions,record:rdcf.record,marketCap:rdcf.marketCap,scenarios:rdcf.scenarios || null,note:rdcf.notes?.[0] || null},
         forwardDcf:forward, narrativeAsOf:payload.generatedAt || payload.at || null};
 }
@@ -161,14 +193,42 @@ async function acquireDossierLease(col, sym, fyEnd, depth, onStage, evidenceFing
     }
 }
 
+// Margin, return on equity and dividend yield for the snapshot strip and the digest. The verified overview never
+// carries them (its whitelist drops every provider ratio), so they were blank on every dossier. Filed figures come
+// first: the latest fiscal year's net income over its revenue and over its year-end equity, and the dividends paid
+// that year over today's market value, in the quote's own currency only. The provider's trailing figure is used only
+// where the filings cannot give one, and its basis names Yahoo Finance and the date.
+function snapshotRatios(sym, data) {
+    const row = (st) => (((data[st] || {}).annualReports) || [])[0] || {};
+    const i0 = row('income'), b0 = row('balance'), c0 = row('cash');
+    const fy = String(i0.fiscalDateEnding || '').slice(0, 10);
+    const annual = data.coverage?.latestAnnual;
+    const filed = `latest ${String(annual?.reportDate || '').slice(0, 10) === fy && annual.form || 'annual report'} (fiscal year ended ${fy})`;
+    const ni = num(i0.netIncome), rev = num(i0.totalRevenue), eq = String(b0.fiscalDateEnding || '').slice(0, 10) === fy ? num(b0.totalShareholderEquity) : null;
+    const paid = String(c0.fiscalDateEnding || '').slice(0, 10) === fy ? num(c0.dividendPayout) ?? num(c0.dividendPayoutCommonStock) : null;
+    const mc = num((data.overview || {}).MarketCapitalization);
+    const sameCurrency = data.marketData?.currency && data.marketData.currency === c0.reportedCurrency;
+    const out = { profitMargin: null, roe: null, dividendYield: null, basis: {} };
+    const set = (k, v, basis) => { if (v !== null && Number.isFinite(v)) { out[k] = Number(v.toFixed(6)); out.basis[k] = basis; } };
+    if (fy && ni !== null && rev !== null && rev > 0) set('profitMargin', ni / rev, filed);
+    if (fy && ni !== null && eq !== null && eq > 0) set('roe', ni / eq, filed);
+    if (fy && paid !== null && mc && mc > 0 && sameCurrency) set('dividendYield', Math.abs(paid) / mc, `dividends paid in the ${filed} over the market value on ${String(data.marketData.asOf || '').slice(0, 10)}`);
+    const pv = require('./provider-fundamentals').valuation(sym);
+    const yahoo = pv && `${pv.source}, trailing twelve months, as of ${String(pv.asOf || '').slice(0, 10)}; provider-reported, not filed`;
+    if (pv) for (const [k, f] of [['profitMargin', 'profitMarginTtm'], ['roe', 'returnOnEquityTtm'], ['dividendYield', 'dividendYield']]) if (out[k] === null) set(k, num(pv.fields[f]), yahoo);
+    return out;
+}
+const ratioText = (v, basis) => v === null ? 'n/a' : `${(v * 100).toFixed(1)}% (${basis})`;
+
 // Compact, grounded fact digest the synthesis models write over. ONLY finished
 // numbers go in — the models never compute, only narrate.
-function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue }) {
+function buildDigest({ overview, ratios, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue }) {
     const lines = [];
     if (overview) {
         lines.push(`Company: ${overview.Name || ''} (${overview.Symbol || ''}), ${overview.Sector || 'n/a'} / ${overview.Industry || 'n/a'}.`);
         const mc = num(overview.MarketCapitalization);
-        if (mc) lines.push(`Market cap ${(mc / 1e9).toFixed(1)}B, P/E ${overview.PERatio || 'n/a'}, profit margin ${overview.ProfitMargin || 'n/a'}, ROE ${overview.ReturnOnEquityTTM || 'n/a'}, dividend yield ${overview.DividendYield || 'n/a'}.`);
+        const r = ratios || { basis: {} };
+        if (mc) lines.push(`Market cap ${(mc / 1e9).toFixed(1)}B, P/E ${overview.PERatio || 'n/a'}, net margin ${ratioText(r.profitMargin ?? null, r.basis.profitMargin)}, ROE ${ratioText(r.roe ?? null, r.basis.roe)}, dividend yield ${ratioText(r.dividendYield ?? null, r.basis.dividendYield)}.`);
     }
     if (rdcf && !rdcf.error && rdcf.impliedGrowthPct !== null) {
         const r = rdcf.record || {};
@@ -352,9 +412,9 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return { error: 'Invalid ticker.' };
     depth = depth === 'deep' ? 'deep' : 'standard';
 
-    const data = await aiChat.loadFundAny(sym).catch(() => null);
+    const data = await loadDossierData(sym);
     if (!data) return { error: `No data for ${sym}. We cover US exchange-listed SEC filers. Check the ticker symbol.` };
-    const evidenceFingerprint=data.provenance?.evidenceFingerprint || data.provenance?.financialDigest;
+    const evidenceFingerprint=fingerprintOf(data);
     const overview = data.overview || {};
     const pack = insights.buildFactPack(sym,data); // gives the fiscal-year cache key
     const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
@@ -396,7 +456,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         // the year-over-year keypoints comparison: newly disclosed risks,
         // dropped risks, strategy drift — reused here rather than rebuilt.
         const [rdcfR, checksR, insightsR, segsR, monitorR, ueR, trendR, obsR] = await Promise.allSettled([
-            reverseDcf.computeReverseDcf(sym),
+            Promise.resolve().then(() => reverseDcf.computeFromData(sym, data)),
             Promise.resolve().then(() => aiChat.runTool('get_health_checks', { symbol: sym }, {})),
             insights.generateInsights(sym),
             revenueBreakdown.forSymbol(sym),
@@ -434,7 +494,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     let incomeStatement = null;
     try {
         incomeStatement = incomeStmt.repairIncome((((data.income || {}).annualReports) || [])[0]);
-        incomeStatement = await withExpenseLines(incomeStatement, sym);
+        incomeStatement = await withExpenseLines(incomeStatement, sym, data);
     } catch (_) { incomeStatement = null; }
 
     // Initiation-grade grounded sections — industry, governance and the forward
@@ -452,7 +512,8 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     try { esg = await esgMod.buildESG(sym, { governance: gov }); } catch (_) { esg = null; }
     if (esg && esg.error && !esg.governance && !esg.environmental && !esg.humanCapital) esg = null;
 
-    let digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue });
+    const ratios = snapshotRatios(sym, data);
+    let digest = buildDigest({ overview, ratios, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue });
     if (yearOverYear.length) {
         // Appended, not threaded through buildDigest's signature: this keeps
         // the single-year digest shape unchanged for every other caller and
@@ -468,7 +529,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     // The writing round then merges the narrative in over these draft values
     // and the same doc is overwritten with the finished payload.
     const payload = {
-        schemaVersion: DOSSIER_SCHEMA_VERSION,evidenceFingerprint,financialSources:data.provenance,supplementalObservations:data.supplementalObservations || [],financialCoverage:data.coverage,
+        schemaVersion: DOSSIER_SCHEMA_VERSION,evidenceFingerprint,currencyConversion:data.currencyConversion || null,financialSources:data.provenance,supplementalObservations:data.supplementalObservations || [],financialCoverage:data.coverage,
         symbol: sym,
         name: overview.Name || sym,
         sector: overview.Sector || '',
@@ -481,9 +542,10 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
             marketCap: mc,
             pe: overview.PERatio || null,
             eps: overview.EPS || null,
-            profitMargin: overview.ProfitMargin || null,
-            roe: overview.ReturnOnEquityTTM || null,
-            dividendYield: overview.DividendYield || null,
+            profitMargin: ratios.profitMargin,
+            roe: ratios.roe,
+            dividendYield: ratios.dividendYield,
+            ratioBasis: ratios.basis,
             description: String(overview.Description || '').slice(0, 600)
         },
         executiveSummary: null,
@@ -598,7 +660,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
 async function peekDossier(symbol, depth = 'standard') {
     const sym = String(symbol || '').toUpperCase().trim();
     try {
-        const data = await aiChat.loadFundAny(sym).catch(() => null);
+        const data = await loadDossierData(sym);
         if (!data) return null;
         const pack = insights.buildFactPack(sym,data);
         const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
@@ -607,7 +669,7 @@ async function peekDossier(symbol, depth = 'standard') {
             ? { symbol: sym, fyEnd, depth: 'deep' }
             : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
         const hit = await dossierCol().findOne(query, { projection: { _id: 0 } });
-        if (!hit || !hit.payload || hit.payload.schemaVersion !== DOSSIER_SCHEMA_VERSION || (data.provenance?.evidenceFingerprint && hit.payload.evidenceFingerprint!==data.provenance.evidenceFingerprint)) return null;
+        if (!hit || !hit.payload || hit.payload.schemaVersion !== DOSSIER_SCHEMA_VERSION || (data.provenance?.evidenceFingerprint && hit.payload.evidenceFingerprint!==fingerprintOf(data))) return null;
         if (hit.payload.partial) {
             const age = hit.at ? Date.now() - new Date(hit.at).getTime() : Infinity;
             return age <= DOSSIER_PARTIAL_STALE_MS ? { ...hit.payload, partial: true } : null;
@@ -616,4 +678,4 @@ async function peekDossier(symbol, depth = 'standard') {
     } catch (_) { return null; }
 }
 
-module.exports = { buildDossier, peekDossier, buildDigest, cachedDossier, refreshValuation, DOSSIER_SCHEMA_VERSION };
+module.exports = { buildDossier, peekDossier, buildDigest, snapshotRatios, presentUsd, fingerprintOf, cachedDossier, refreshValuation, DOSSIER_SCHEMA_VERSION };

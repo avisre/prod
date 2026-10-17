@@ -156,3 +156,34 @@ test('a debt figure another filing gives for the date keeps the total unread',()
  presentedDebt(d,row,new Map([[ACC,['LongTermDebtCurrent','LongTermDebtNoncurrent']]]));
  assert.equal(row.shortLongTermDebtTotal,320);
 });
+
+test('a presented debt line the row holds no figure for is read as that filing\'s own fact (Agilent 2025: LongTermDebt on the face)',()=>{
+ const {d,row}=debtRow({LongTermDebt:60,ShortTermBorrowings:4},[face('LongTermDebt','ShortTermBorrowings')]);
+ assert.equal(row.longTermDebt,null);assert.equal(row.shortLongTermDebtTotal,64);
+ assert.equal(row._derivations.shortLongTermDebtTotal.formula,'sum_presented_facts');
+ assert.deepEqual(row._derivations.shortLongTermDebtTotal.presentedConcepts,['LongTermDebt','ShortTermBorrowings']);
+ assert.equal(p.verifiedField(d,row,'shortLongTermDebtTotal'),true);
+ assert.deepEqual(p.validateFinancial(d,d.cik,'2026-10-03'),[]);
+ // Preferred stock or a commitments caption beside the debt is not debt, and is left out of the total.
+ assert.equal(debtRow({LongTermDebt:60,PreferredStockValue:9},[face('LongTermDebt','PreferredStockValue')]).row.shortLongTermDebtTotal,60);
+ // Each of these leaves the total unread: a gross line beside its own current portion, a line equal to the sum of
+ // others, a line that is not debt, a line the filing does not carry, a total above the balance sheet.
+ for(const [tags,faced] of [[{LongTermDebt:60,LongTermDebtCurrent:5},['LongTermDebt','LongTermDebtCurrent']],
+  [{LoansPayableCurrent:5,LongTermLoansPayable:50,OtherBorrowings:55},['LoansPayableCurrent','LongTermLoansPayable','OtherBorrowings']],
+  [{LongTermDebt:60,OtherLiabilitiesCurrent:3},['LongTermDebt','OtherLiabilitiesCurrent']],
+  [{LongTermDebt:60},['LongTermDebt','ConvertibleNotesPayableCurrent']],
+  [{LongTermDebt:90,NotesPayableCurrent:20},['LongTermDebt','NotesPayableCurrent']]])
+  assert.equal(debtRow(tags,[face(...faced)]).row.shortLongTermDebtTotal,null,faced.join('+'));
+ // A filed total is never replaced.
+ assert.equal(debtRow({LongTermDebt:60,ShortTermBorrowings:4,DebtLongtermAndShorttermCombinedAmount:66},[face('LongTermDebt','ShortTermBorrowings')]).row.shortLongTermDebtTotal,66);
+});
+
+test('the validator re-checks a presented-facts total against the filed facts',()=>{
+ const {d,row}=debtRow({LongTermDebt:60,ShortTermBorrowings:4},[face('LongTermDebt','ShortTermBorrowings')]);
+ const first=r=>r._sources.shortLongTermDebtTotal[0];
+ for(const tamper of [(r)=>{r.shortLongTermDebtTotal=65;},(r)=>{r._derivations.shortLongTermDebtTotal.presentedConcepts=['ShortTermBorrowings','LongTermDebt'];},
+  (r,c)=>{c.sources[first(r)].accessionNumber='0000000123-26-000009';},(r,c)=>{c.sources[first(r)].periodStart='2025-01-01';},
+  (r,c)=>{c.sources[first(r)].unit='EUR';},(r)=>{r._sources.shortLongTermDebtTotal=r._sources.shortLongTermDebtTotal.slice(0,1);}]){
+  const copy=structuredClone(d),r=copy.balance.annualReports[0];tamper(r,copy);assert.equal(p.verifiedField(copy,r,'shortLongTermDebtTotal'),false);
+ }
+});

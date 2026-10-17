@@ -184,7 +184,7 @@ function scope(concept, fallback) {
 // the face). It fills only when the face and the row agree both ways: every presented debt
 // line is a figure the row holds, and every debt figure the row holds is presented. Amazon
 // files its current debt in a note, inside "accrued expenses" on the face, so its total stays.
-function presentedDebt(out,row,presented) {
+function presentedDebt(out,row,presented,document) {
  const T='shortLongTermDebtTotal',source=f=>out.sources[row._sources[f][0]];
  const anchor=out.sources[(row._sources.totalAssets || [])[0]]?.accessionNumber,tags=anchor && presented.get(anchor);
  if(!tags?.length)return;
@@ -192,7 +192,8 @@ function presentedDebt(out,row,presented) {
  const parts=[];
  for(const tag of tags) {
   const f=[...p.DEBT_PARTS,T].find(f=>direct(f) && source(f).concept===tag);
-  if(!f || f===T || parts.includes(f))return;
+  if(!f)return presentedFacts(out,row,anchor,tags,document);
+  if(f===T || parts.includes(f))return;
   parts.push(f);
  }
  if(parts.includes('shortTermDebt') && parts.some(f=>f==='currentLongTermDebt' || f==='shortTermBorrowings'))return;
@@ -217,6 +218,30 @@ function presentedDebt(out,row,presented) {
  if(row[T]!==null && !row._derivations?.[T] && row[T]>=Math.max(...parts.map(f=>row[f])))return;
  row[T]=value;row._sources[T]=parts.map(f=>row._sources[f][0]);row._scopes[T]=row._scopes[parts[0]];delete row._signs[T];
  row._derivations[T]={formula:'sum_presented_lines',inputs:parts,inputValues:parts.map(f=>row[f]),presentedConcepts:parts.map(f=>source(f).concept)};
+}
+
+// A presented debt line the row holds no figure for (Agilent 2025 presents "LongTermDebt", which cannot be the
+// long-term debt field because that tag includes the current portion) is read as the filing's own fact for the
+// line: the anchor filing, the row's date, an instant, the row's currency, one value. Total debt is filled only
+// when every line on the face reads that way and passes the line rules (sec-coverage presentedDebtFacts); it
+// never replaces a total the row already has.
+function presentedFacts(out,row,anchor,tags,document) {
+ const T='shortLongTermDebtTotal';
+ if(row[T]!==null || !document?.facts)return;
+ const concepts=tags.filter(t=>!/^(PreferredStock|ConvertiblePreferredStock|CommonStockValue|CommitmentsAndContingencies|Allowance)/.test(t)),facts=[];
+ for(const concept of concepts) {
+  const found=[];
+  for(const taxonomy of ['us-gaap','ifrs-full'])for(const x of document.facts[taxonomy]?.[concept]?.units?.[row.reportedCurrency] || [])if(x.accn===anchor && x.end===row.fiscalDateEnding && !x.start && FORM.test(x.form || '') && Number.isFinite(x.val))found.push({...x,start:null,taxonomy,concept,unit:row.reportedCurrency});
+  if(!found.length || new Set(found.map(x=>x.val)).size!==1)return;
+  facts.push(found[0]);
+ }
+ if(!p.presentedDebtFacts(concepts,facts.map(f=>f.val),row))return;
+ row[T]=facts.reduce((sum,f)=>sum+f.val,0);row._sources[T]=facts.map(f=>factSource(out,f));row._scopes[T]=scope(concepts[0],'entity');delete row._signs[T];
+ row._derivations[T]={formula:'sum_presented_facts',inputValues:facts.map(f=>f.val),presentedConcepts:concepts};
+}
+function factSource(out,f) {
+ const s={type:'sec_xbrl_fact',cik:out.cik,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(out.cik)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.annualFiling?{annualFiling:f.annualFiling}:{}),...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
+ const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;return id;
 }
 
 function extract(document, evidence, {asOf = p.day(new Date().toISOString()), statementLines = []} = {}) {
@@ -304,8 +329,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  }
  function source(f) {
   if(sourceCache.has(f))return sourceCache.get(f);
-  const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.annualFiling?{annualFiling:f.annualFiling}:{}),...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
-  const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;sourceCache.set(f,id);return id;
+  const id=factSource(out,f);sourceCache.set(f,id);return id;
  }
  const yearRevenueLine=new Map(),yearLines=new Map();let quartersAsFiled=true;
  // Statement lines from SEC's Financial Statement Data Sets (statement-lines.js): a
@@ -525,7 +549,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     combine('shortLongTermDebtTotal','shortTermDebt','longTermDebt','sum_fields');
    }
    if(lineIndex.size)fillFromLines(st,basis,row,end,cur);
-   if(st==='balance' && presented.size)presentedDebt(out,row,presented);
+   if(st==='balance' && presented.size)presentedDebt(out,row,presented,document);
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}
    // Net income on the cash-flow statement and D&A on the income statement are
    // the other statement's lines; on their own they are not a statement.
