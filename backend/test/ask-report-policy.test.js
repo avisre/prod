@@ -17,7 +17,7 @@ test('identity precedes keyword exclusions; ambiguous listings and funds keep th
  assert.equal(p.select('SPY').kind,'fund');assert.equal(p.select('NEA').kind,'fund');
  const mutual={symbol:'VTSAX',name:'Vanguard Total Stock Market',securityType:'mutual_fund'};assert.equal(p.select('VTSAX','normal',{companies:[mutual]}).kind,'fund');
  for(const question of ['AMD revenue last quarter','Compare AMD and NVDA','How is my portfolio doing?','Summarise AMD latest results'])assert.equal(p.select(question).kind,'focused',question);
- for(const question of ['companies like AMD','Tell me about peers of AMD','similar to AMD'])assert.equal(p.select(question,'analyst',{company:{symbol:'AMD',securityType:'stock'}}).kind,'focused');
+ for(const question of ['companies like AMD','Tell me about peers of AMD','similar to AMD','find me a company like AMD within the same business model in large small and mid cap','a stock like AMD with the same business','mid cap businesses like AMD'])assert.equal(p.select(question,'analyst',{company:{symbol:'AMD',securityType:'stock'}}).kind,'focused');
 });
 test('explicit limits are strict and explicit requests can omit visuals',()=>{
  assert.equal(p.select('AMD under 100 words').ceiling,100);
