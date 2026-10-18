@@ -193,15 +193,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     // A figure on a near-zero base (FRGT's 2020 operating margin was -668,808%)
     // flattens every other bar to a line. When the top one or two magnitudes are
     // over 4x the rest, the scale stops just past the rest and those bars are
-    // drawn broken; the readout beside the chart still gives the filed figure.
+    // drawn broken; the readout above the chart still gives the filed figure.
     const mags = values.map(Math.abs).sort((a, b) => b - a);
     let cap = Infinity;
     for (let k = 1; k <= 2 && k < mags.length - 1; k++) if (mags[k] > 0 && mags[k - 1] > 4 * mags[k]) { cap = mags[k] * 1.25; break; }
     const clampV = (v) => Math.max(-cap, Math.min(cap, v));
     const min = Math.min(0, ...values.map(clampV)), max = Math.max(0, ...values.map(clampV)), span = max - min || 1;
     // No figures on the bars: two stacked over each year could not be told apart.
-    // They read out beside the chart instead, one line per series, as the
-    // trajectory rows do.
+    // They read out in the line above the chart instead, as Revenue's do.
     const W = 420, H = 170, top = 12, bottom = 30, plotH = H - top - bottom;
     const tone = (v, s) => (v < 0 ? C.neg : s.color);
     const y = (v) => top + ((max - v) / span) * plotH;
@@ -209,7 +208,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     const slot = W / usable.length;
     const groupW = Math.min(slot * .72, 38);
     const bw = Math.max(3, groupW / series.length - 2);
-    const read = (r) => fyOf(r) + ' Â· ' + series.map((s) => { const v = val(r[s.key]); return `${s.label} ${Number.isFinite(v) ? (s.fmt || String)(v) : 'not filed'}`; }).join(' Â· ');
+    const read = (r) => fyOf(r) + ': ' + series.map((s) => { const v = val(r[s.key]); return `${s.label} ${Number.isFinite(v) ? (s.fmt || String)(v) : 'not filed'}`; }).join(' Â· ');
     const bars = usable.map((r, ri) => series.map((s, si) => {
       const value = val(r[s.key]);
       if (!Number.isFinite(value)) return '';
@@ -222,15 +221,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     }).join('')).join('');
     const labels = usable.map((r, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 7}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(r.fy).slice(-2))}</text>`).join('');
     const hits = usable.map((r, i) => hitCol(i, i * slot, slot, H, read(r))).join('');
-    const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:auto;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}${hits}</svg>`;
-    // One block per year; the readout wiring marks the hovered or tapped year's
-    // block .on, and CSS shows it in place of the latest year's.
-    const last = usable.length - 1;
-    const side = usable.map((r, ri) => `<div class="dos-side-year${ri === last ? ' is-default' : ''}" data-i="${ri}"><div class="dos-side-fy">${esc(fyOf(r))}</div>${series.map((s) => {
-      const v = val(r[s.key]);
-      return `<div class="dos-side-row"><span><i style="background:${s.color}"></i>${esc(s.label)}</span><b${Number.isFinite(v) && v < 0 ? ` style="color:${C.neg}"` : ''}>${Number.isFinite(v) ? esc((s.fmt || String)(v)) : '<em>not filed</em>'}</b></div>`;
-    }).join('')}</div>`).join('');
-    return `<div class="dos-chart dos-chart--side" data-chart>${svg}<div class="dos-side-read" aria-live="polite">${side}</div></div>`;
+    return chartFrame(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:auto;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}${hits}</svg>`, read(usable[usable.length - 1]));
   }
   (function wireChartReadouts() {
     const show = (box, i) => {

@@ -51,22 +51,19 @@ test('every year chart reads out its numbers, latest year by default, any year o
     assert.match(bars, /data-read="FY2024: \$100"/, 'each year is a hit column carrying its own figure');
     assert.equal((bars.match(/class="dos-bar-val"/g) || []).length, 2, 'the value is printed over every bar');
     const grouped = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', label: 'Operating margin', fmt: (v) => v + '%', color: 'grey' }, { key: 'roicPct', label: 'ROIC', fmt: (v) => v + '%', color: 'green' }]);
-    assert.match(grouped, /data-read="FY2022 · Operating margin 8% · ROIC 24\.3%"/);
+    assert.match(grouped, /data-read="FY2022: Operating margin 8% · ROIC 24\.3%"/);
     assert.match(miniBars(HISTORY, 'roicPct', 'ink', (v) => v + '%'), /data-read="FY2022: 24\.3%"/);
 });
 
-test('a two-series chart reads its figures out beside the bars, one line per series, never on them', () => {
+test('a two-series chart reads its figures out in the line above, as Revenue does, never on the bars', () => {
     const rows = [{ fy: '2022', ni: -140, fcf: -154 }, { fy: '2023', ni: 11, fcf: -101 }, { fy: '2025', ni: 205, fcf: null }];
     const svg = chartGroupedBars(rows, [{ key: 'ni', label: 'Net income', fmt: (v) => '$' + v, color: 'grey' }, { key: 'fcf', label: 'Free cash flow', fmt: (v) => '$' + v, color: 'green' }]);
     assert.doesNotMatch(svg, /dos-bar-val/, 'no figures on the bars');
     assert.match(svg, /<rect[^>]*fill="#b4422f"/, 'a loss bar is red');
-    const years = svg.match(/<div class="dos-side-year[^"]*" data-i="\d"/g) || [];
-    assert.equal(years.length, 3, 'one readout block per year, tied to its hit column by data-i');
-    assert.match(svg, /dos-side-year is-default" data-i="2"><div class="dos-side-fy">FY2025</, 'the latest year shows by default');
-    assert.match(svg, /data-i="0">.*Net income<\/span><b style="color:#b4422f">\$-140<\/b>.*Free cash flow<\/span><b style="color:#b4422f">\$-154</, 'each series on its own line, a loss in red');
-    assert.match(svg, /data-i="2">.*Free cash flow<\/span><b><em>not filed<\/em>/, 'a missing figure says so');
-    const css = fs.readFileSync(path.join(ROOT, 'frontend-v2', 'dossier.html'), 'utf8');
-    assert.match(css, /\.dos-chart--side:not\(\.has-sel\) \.dos-side-year\.is-default, \.dos-chart--side \.dos-side-year\.on \{ display:block; \}/);
+    assert.match(svg, /data-readout data-default="FY2025: Net income \$205 · Free cash flow not filed"/, 'the latest year shows by default');
+    assert.match(svg, /data-read="FY2022: Net income \$-140 · Free cash flow \$-154"/, 'hovering a year shows its figures');
+    assert.doesNotMatch(svg, /dos-side/, 'no readout column beside the bars squeezing them');
+    assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'frontend-v2', 'dossier.html'), 'utf8'), /dos-side/);
 });
 
 test('one figure on a near-zero base is drawn broken instead of flattening every other year', () => {
@@ -76,7 +73,7 @@ test('one figure on a near-zero base is drawn broken instead of flattening every
     const h = [...svg.matchAll(/<rect class="dos-bar"[^>]* height="([\d.]+)"/g)].map((m) => Number(m[1]));
     assert.ok(Math.min(...h) > 20, `the ordinary years keep a readable height (${h})`);
     assert.equal((svg.match(/dos-bar-break/g) || []).length, 1, 'only the outlier is broken');
-    assert.match(svg, />-668808\.7%</, 'the readout still gives the filed figure');
+    assert.match(svg, /data-read="FY2020: Operating margin -668808\.7%"/, 'the readout still gives the filed figure');
     const plain = chartGroupedBars(rows.filter((r) => r.fy !== '2020'), [{ key: 'm', label: 'Operating margin', color: 'grey' }]);
     assert.doesNotMatch(plain, /dos-bar-break/, 'an ordinary spread is never broken');
 });
