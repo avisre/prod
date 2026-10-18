@@ -336,6 +336,8 @@
     .composer.is-drop { outline: 2px dashed var(--accent-ink, var(--ink)); outline-offset: 3px; }
     .jump-latest { position: fixed; z-index: 40; right: 22px; bottom: 150px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--ink-2); font-size: 16px; line-height: 1; cursor: pointer; box-shadow: 0 4px 16px rgba(28, 27, 24, 0.12); }
     .jump-latest:hover { color: var(--ink); }
+    /* The open "Getting started" card sits in the same corner and swallowed the click. */
+    body:has(> .onboard-card:not(.is-collapsed)) .jump-latest { bottom: 264px; }
     .kbd-list { display: grid; grid-template-columns: 1fr auto; gap: 8px 18px; margin: 4px 0 0; font-size: 13px; }
     .kbd-list kbd { font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: 2px 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); white-space: nowrap; }
 
