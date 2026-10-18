@@ -62,7 +62,34 @@ test('the grouped charts print every filed figure above its bars, as the revenue
     assert.equal(vals.length, 8, 'six margins and two ROICs; a year without a ROIC prints none');
     assert.ok(vals.some((t) => /data-i="4"[^>]*fill="green"[^>]*>24\.3%</.test(t)), 'each figure is in its own series colour');
     const neg = chartGroupedBars([{ fy: '2024', ni: 5 }, { fy: '2025', ni: -2 }], [{ key: 'ni', label: 'Net income', fmt: (v) => '$' + v, color: 'grey' }]);
-    assert.match(neg, /fill="#b4422f"[^>]*>\$-2</, 'a loss is printed in red');
+    assert.match(neg, /fill="#b4422f"[^>]*>\$-2</, 'a one-series chart prints a loss in red');
+});
+
+test('with two series a loss keeps its series colour and its figure sits below the bar', () => {
+    // FRGT-like: both lines negative for years, then one turns positive.
+    const rows = [{ fy: '2022', ni: -140, fcf: -154 }, { fy: '2023', ni: 11, fcf: -101 }, { fy: '2025', ni: 205, fcf: 189 }];
+    const svg = chartGroupedBars(rows, [{ key: 'ni', label: 'Net income', fmt: (v) => '$' + v, color: 'grey' }, { key: 'fcf', label: 'Free cash flow', fmt: (v) => '$' + v, color: 'green' }]);
+    assert.doesNotMatch(svg, /#b4422f/, 'no red: red would make net income and free cash flow look the same');
+    const zero = Number(svg.match(/<line x1="0" y1="([\d.]+)"/)[1]);
+    const at = (label) => Number(svg.match(new RegExp('y="([\\d.]+)"[^>]*>\\' + label + '<'))[1]);
+    assert.ok(at('$-154') > zero && at('$-140') > zero, 'loss figures sit below the zero line, by their bars');
+    assert.ok(at('$11') < zero && at('$-101') > zero, 'a mixed year splits: the gain above, the loss below');
+    assert.ok(at('$205') < zero);
+    const bottomBar = Math.max(...[...svg.matchAll(/<rect class="dos-bar"[^>]* y="([\d.]+)"[^>]* height="([\d.]+)"/g)].map((m) => Number(m[1]) + Number(m[2])));
+    const yearY = Number(svg.match(/y="([\d.]+)" font-size="10"/)[1]);
+    assert.ok(at('$-154') > bottomBar && at('$-154') < yearY - 8, 'the lowest figure fits between its bar and the year labels');
+});
+
+test('one figure on a near-zero base is drawn broken instead of flattening every other year', () => {
+    // FRGT's operating margin: -668,808.7% in 2020 on almost no revenue.
+    const rows = [{ fy: '2019', m: -45.9 }, { fy: '2020', m: -668808.7 }, { fy: '2021', m: -22.4 }, { fy: '2024', m: -47.3 }, { fy: '2025', m: -45.1 }];
+    const svg = chartGroupedBars(rows, [{ key: 'm', label: 'Operating margin', fmt: (v) => v + '%', color: 'grey' }]);
+    const h = [...svg.matchAll(/<rect class="dos-bar"[^>]* height="([\d.]+)"/g)].map((m) => Number(m[1]));
+    assert.ok(Math.min(...h) > 20, `the ordinary years keep a readable height (${h})`);
+    assert.equal((svg.match(/dos-bar-break/g) || []).length, 1, 'only the outlier is broken');
+    assert.match(svg, />-668808\.7%</, 'its label still prints the filed figure');
+    const plain = chartGroupedBars(rows.filter((r) => r.fy !== '2020'), [{ key: 'm', label: 'Operating margin', color: 'grey' }]);
+    assert.doesNotMatch(plain, /dos-bar-break/, 'an ordinary spread is never broken');
 });
 
 test('the charts scale with their width instead of a fixed height that letterboxes them', () => {

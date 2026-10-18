@@ -190,10 +190,24 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     const usable = (rows || []).filter((r) => series.some((s) => Number.isFinite(val(r[s.key]))));
     if (usable.length < 2) return '';
     const values = series.flatMap((s) => usable.map((r) => val(r[s.key])).filter(Number.isFinite));
-    const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1;
-    // Each year's figures are printed above its bars, one line per series, so the
-    // top margin grows with the number of series.
-    const lh = 11, W = 420, H = 174, top = 10 + lh * series.length, bottom = 30, plotH = H - top - bottom;
+    // A figure on a near-zero base (FRGT's 2020 operating margin was -668,808%)
+    // flattens every other bar to a line. When the top one or two magnitudes are
+    // over 4x the rest, the scale stops just past the rest and those bars are
+    // drawn broken; their labels still print the filed figure.
+    const mags = values.map(Math.abs).sort((a, b) => b - a);
+    let cap = Infinity;
+    for (let k = 1; k <= 2 && k < mags.length - 1; k++) if (mags[k] > 0 && mags[k - 1] > 4 * mags[k]) { cap = mags[k] * 1.25; break; }
+    const clampV = (v) => Math.max(-cap, Math.min(cap, v));
+    const min = Math.min(0, ...values.map(clampV)), max = Math.max(0, ...values.map(clampV)), span = max - min || 1;
+    // Each year's figures are printed at the end of their bars: a gain above the
+    // group, a loss below it, one line per series. Room is reserved on whichever
+    // side has values so the plot keeps the same height either way.
+    const lh = 11, W = 420, lines = lh * series.length;
+    const posPad = values.some((v) => v >= 0) ? lines : 0, negPad = values.some((v) => v < 0) ? lines + 6 : 0;
+    const top = 10 + posPad, bottom = 30 + negPad, plotH = 124, H = top + plotH + bottom;
+    // A loss bar keeps its series colour when there are several series, or every
+    // loss year turns into two identical red bars and the legend means nothing.
+    const tone = (v, s) => (v < 0 && series.length === 1 ? C.neg : s.color);
     const y = (v) => top + ((max - v) / span) * plotH;
     const zeroY = y(0);
     const slot = W / usable.length;
@@ -204,14 +218,21 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       const value = val(r[s.key]);
       if (!Number.isFinite(value)) return '';
       const x = ri * slot + (slot - groupW) / 2 + si * (bw + 2);
-      const vy = y(value), height = Math.max(2, Math.abs(zeroY - vy));
-      return `<rect class="dos-bar" data-i="${ri}" x="${x.toFixed(1)}" y="${Math.min(vy, zeroY).toFixed(1)}" width="${bw.toFixed(1)}" height="${height.toFixed(1)}" fill="${value < 0 ? C.neg : s.color}" rx="2"/>`;
+      const vy = y(clampV(value)), height = Math.max(2, Math.abs(zeroY - vy));
+      const bar = `<rect class="dos-bar" data-i="${ri}" x="${x.toFixed(1)}" y="${Math.min(vy, zeroY).toFixed(1)}" width="${bw.toFixed(1)}" height="${height.toFixed(1)}" fill="${tone(value, s)}" rx="2"/>`;
+      if (Math.abs(value) <= cap) return bar;
+      const gy = zeroY + (vy - zeroY) * .7, x0 = (x - 1).toFixed(1), x1 = (x + bw + 1).toFixed(1);
+      return bar + `<path class="dos-bar-break" d="M${x0} ${(gy + 2).toFixed(1)}L${x1} ${(gy - 2).toFixed(1)}L${x1} ${(gy + 2).toFixed(1)}L${x0} ${(gy + 6).toFixed(1)}Z" fill="#fff"/>`;
     }).join('')).join('');
     const vals = usable.map((r, ri) => {
       const shown = series.map((s) => ({ s, v: val(r[s.key]) })).filter((x) => Number.isFinite(x.v));
-      const peak = Math.min(zeroY, ...shown.map((x) => y(x.v)));
+      const above = shown.filter((x) => x.v >= 0), below = shown.filter((x) => x.v < 0);
+      const peak = Math.min(zeroY, ...above.map((x) => y(clampV(x.v))));
+      const trough = Math.max(zeroY, ...below.map((x) => y(clampV(x.v))));
       const cx = (ri * slot + slot / 2).toFixed(1);
-      return shown.map((x, li) => `<text class="dos-bar-val" data-i="${ri}" x="${cx}" y="${(peak - 4 - (shown.length - 1 - li) * lh).toFixed(1)}" font-size="${usable.length > 8 ? 8 : 9}" font-weight="600" fill="${x.v < 0 ? C.neg : x.s.color}" text-anchor="middle">${esc((x.s.fmt || String)(x.v))}</text>`).join('');
+      const text = (x, ty) => `<text class="dos-bar-val" data-i="${ri}" x="${cx}" y="${ty.toFixed(1)}" font-size="${usable.length > 8 ? 8 : 9}" font-weight="600" fill="${tone(x.v, x.s)}" text-anchor="middle">${esc((x.s.fmt || String)(x.v))}</text>`;
+      return above.map((x, li) => text(x, peak - 4 - (above.length - 1 - li) * lh)).join('') +
+        below.map((x, li) => text(x, trough + 11 + li * lh)).join('');
     }).join('');
     const labels = usable.map((r, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 7}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(r.fy).slice(-2))}</text>`).join('');
     const hits = usable.map((r, i) => hitCol(i, i * slot, slot, H, read(r))).join('');
