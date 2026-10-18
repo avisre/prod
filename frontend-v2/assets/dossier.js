@@ -504,20 +504,45 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     return (pct > 0 ? '+' : '−') + Math.abs(pct) + '% total';
   }
 
+  // IBM files no operating income line, so it has no operating margin and no ROIC. The
+  // margin and return charts then use the ratio built from lines the company does file
+  // (net income over revenue, net income over equity), labelled as such, never an estimate.
+  const MARGIN = [['opMarginPct', 'Operating margin'], ['netMarginPct', 'Net margin']];
+  const RETURN = [['roicPct', 'ROIC'], ['roePct', 'ROE']];
+  const filedPick = (fin, options) => options.find(([k]) => (fin || []).filter((r) => r[k] != null && r[k] !== '' && Number.isFinite(Number(r[k]))).length >= 2) || null;
+  const pctFmt = (v) => (v < 0 ? '−' + Math.abs(v) : v) + '%';
+  function fallbackNote(m, ret) {
+    const swapped = [m && m[0] !== MARGIN[0][0] && [MARGIN[0][1].toLowerCase(), m[1].toLowerCase()], ret && ret[0] !== RETURN[0][0] && [RETURN[0][1], ret[1]]].filter(Boolean);
+    const lost = [!m && MARGIN[0][1].toLowerCase(), !ret && RETURN[0][1]].filter(Boolean);
+    if (!swapped.length && !lost.length) return '';
+    const why = m && m[0] !== MARGIN[0][0] || !m ? 'The filings report no operating income line' : 'The filings report no total debt figure';
+    const instead = swapped.length ? `, so ${swapped.map((x) => x[1]).join(' and ')} ${swapped.length > 1 ? 'are' : 'is'} shown in place of ${swapped.map((x) => x[0]).join(' and ')}` : '';
+    const none = lost.length ? `${instead ? '; ' : ', so '}${lost.join(' and ')} cannot be shown` : '';
+    return `<p class="dos-trend-note">${esc(why + instead + none)}.</p>`;
+  }
+  function marginsPanel(fin) {
+    const m = filedPick(fin, MARGIN), ret = filedPick(fin, RETURN);
+    const series = [m, ret].filter(Boolean).map(([key, label], i) => ({ key, label, color: i ? C.pos : C.grey, fmt: pctFmt }));
+    const sub = series.length ? `Annual ${series.map((x) => x.label === 'ROIC' ? 'return on invested capital' : x.label === 'ROE' ? 'return on equity' : x.label.toLowerCase()).join(' versus ')}` : '';
+    return `<div class="dos-visual-panel" style="margin-top:24px;"><h3>Margins and returns</h3>${sub ? `<p>${sub}</p>` : ''}${series.length ? chartGroupedBars(fin, series) : ''}${fallbackNote(m, ret)}</div>`;
+  }
+
   function decisionTrends(fin) {
     if (!fin || fin.length < 2) return '<p class="small faint">No multi-year filed history is available.</p>';
     const latest = fin[fin.length - 1] || {};
     const span = `${esc(fin[0].fy)}→${esc(latest.fy)}`;
+    const pctOf = (k) => latest[k] == null ? '—' : latest[k] + '%';
+    const m = filedPick(fin, MARGIN), ret = filedPick(fin, RETURN);
     const rows = [
       ['Revenue', 'revenue', bn(latest.revenue), C.ink, bn, false],
-      ['Operating margin', 'opMarginPct', latest.opMarginPct == null ? '—' : latest.opMarginPct + '%', C.grey, (v) => v + '%', true],
+      m && [m[1], m[0], pctOf(m[0]), C.grey, (v) => v + '%', true],
       ['Free cash flow', 'fcf', bn(latest.fcf), C.pos, bn, false],
-      ['ROIC', 'roicPct', latest.roicPct == null ? '—' : latest.roicPct + '%', C.ink, (v) => v + '%', true]
-    ];
+      ret && [ret[1], ret[0], pctOf(ret[0]), C.ink, (v) => v + '%', true]
+    ].filter(Boolean);
     return `<div class="dos-trends">${rows.map(([label, key, value, color, fmt, pctMetric]) => {
       const change = trendChangeLine(fin, key, pctMetric);
       return `<div class="dos-trend-row" data-chart><span>${label}<small class="dos-trend-change">${span}${change ? ' · ' + esc(change) : ''}</small></span>${miniBars(fin, key, color, fmt)}<b data-readout data-default="${esc(value)}">${esc(value)}</b></div>`;
-    }).join('')}</div>`;
+    }).join('')}</div>${fallbackNote(m, ret)}`;
   }
 
   function displayNumber(value) {
@@ -546,10 +571,13 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     const years = Math.max(1, Number(latest.fy) - Number(first.fy));
     const cagr = (a, b) => a > 0 && b > 0 ? (Math.pow(b / a, 1 / years) - 1) * 100 : null;
     const revCagr = cagr(Number(first.revenue), Number(latest.revenue));
-    const opMove = Number.isFinite(Number(first.opMarginPct)) && Number.isFinite(Number(latest.opMarginPct)) ? Number(latest.opMarginPct) - Number(first.opMarginPct) : null;
+    // Number(null) is 0, so a margin that was never filed read "moved from null% to null%".
+    const filed = (v) => v != null && v !== '' && Number.isFinite(Number(v));
+    const marginKey = ['opMarginPct', 'netMarginPct'].find((k) => filed(first[k]) && filed(latest[k]));
+    const opMove = marginKey ? Number(latest[marginKey]) - Number(first[marginKey]) : null;
     const lines = [];
     if (revCagr != null) lines.push(`Revenue compounded at approximately <strong>${revCagr.toFixed(1)}% a year</strong> from ${first.fy} to ${latest.fy}.`);
-    if (opMove != null) lines.push(`Operating margin moved from <strong>${first.opMarginPct}%</strong> to <strong>${latest.opMarginPct}%</strong>, a ${opMove >= 0 ? '+' : ''}${opMove.toFixed(1)}-point change.`);
+    if (opMove != null) lines.push(`${marginKey === 'opMarginPct' ? 'Operating' : 'Net'} margin moved from <strong>${first[marginKey]}%</strong> to <strong>${latest[marginKey]}%</strong>, a ${opMove >= 0 ? '+' : ''}${opMove.toFixed(1)}-point change.`);
     const fcfVals = fin.map((r) => Number(r.fcf)).filter(Number.isFinite);
     if (fcfVals.length > 1) {
       const peak = Math.max(...fcfVals), trough = Math.min(...fcfVals);
@@ -587,9 +615,12 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     return lines.join(' ') || `This brief is built from ${d.name || d.symbol}'s filed financial record. Open the evidence modules below to test the business, valuation and risks.`;
   }
 
-  function briefParagraphs(text) {
+  function briefParagraphs(text, perParagraph = 1) {
     const sentences = String(text || '').trim().split(/(?<=[.!?])\s+(?=[A-Z])/).filter(Boolean);
-    return (sentences.length ? sentences : [String(text || '')]).map((sentence) => `<p>${esc(sentence)}</p>`).join('');
+    const list = sentences.length ? sentences : [String(text || '')];
+    const groups = [];
+    for (let i = 0; i < list.length; i += perParagraph) groups.push(list.slice(i, i + perParagraph).join(' '));
+    return groups.map((p) => `<p>${esc(p)}</p>`).join('');
   }
 
   // The revenue breakdown table. The server sends one contract (rows with
@@ -868,7 +899,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
         <div class="dos-section-head"><div><span class="dos-kicker">Latest filing change</span><h2>What moved—and what management rewrote</h2></div><span class="small faint">${esc(periodText)}${rc.currency ? ` · ${esc(rc.currency)}` : ''}</span></div>
         <div class="dos-filing-grid">
           <section><span class="dos-kicker">Filed numbers · comparable periods</span>${materiality}<div class="dos-delta-list">${deltaRows || '<p class="small faint">No comparable filed-period figures are available.</p>'}</div></section>
-          <section class="dos-change-copy"><span class="dos-kicker">Research read</span><h3>${esc(rc.headline || 'Latest filing comparison')}</h3>${rc.summary ? `<p>${esc(rc.summary)}</p>` : ''}${changeRows ? `<ul class="dos-change-list">${changeRows}</ul>` : '<p class="small faint">No verified management-language comparison is available for this filing pair.</p>'}
+          <section class="dos-change-copy"><span class="dos-kicker">Research read</span><h3>${esc(rc.headline || 'Latest filing comparison')}</h3>${rc.summary ? `<div class="dos-change-summary">${briefParagraphs(rc.summary)}</div>` : ''}${changeRows ? `<ul class="dos-change-list">${changeRows}</ul>` : '<p class="small faint">No verified management-language comparison is available for this filing pair.</p>'}
             ${cmp && cmp.latest && cmp.prev ? `<p class="dos-source-row">Compared <a href="${esc(cmp.latest.url)}" target="_blank" rel="noopener">${esc(cmp.latest.form)} ${esc(cmp.latest.date)}</a> with <a href="${esc(cmp.prev.url)}" target="_blank" rel="noopener">${esc(cmp.prev.form)} ${esc(cmp.prev.date)}</a>. Quotation pairs are displayed only when verified against both SEC documents.</p>` : ''}
             ${eventNote}<div class="dos-followups">${followups}<a href="/monitor.html?symbol=${encodeURIComponent(sym)}">Open full Filing Monitor →</a></div>
           </section>
@@ -911,7 +942,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
               <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus cash on hand at year end</p>${chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'cashOnHand', label: 'Cash on hand', color: C.pos, fmt: bn }])}</div>
             </div></section>
             <section><span class="dos-kicker">What the record says</span><ol class="dos-financial-read">${financialReadings(fin)}</ol>
-              <div class="dos-visual-panel" style="margin-top:24px;"><h3>Margins and returns</h3><p>Annual operating margin versus return on invested capital</p>${chartGroupedBars(fin, [{ key: 'opMarginPct', label: 'Operating margin', color: C.grey, fmt: (v) => (v < 0 ? '−' + Math.abs(v) : v) + '%' }, { key: 'roicPct', label: 'ROIC', color: C.pos, fmt: (v) => (v < 0 ? '−' + Math.abs(v) : v) + '%' }])}</div>
+              ${marginsPanel(fin)}
             </section>
           </div>
           <details class="dos-ratio-details"><summary>Open the full ratio history</summary><div class="table-wrap"><table class="table-data"><thead><tr><th>DuPont &amp; ratios</th>${head}</tr></thead><tbody>${body}</tbody></table></div><p class="small faint">Computed from filed annual statements. ROIC uses NOPAT ≈ operating income × (1 − 21%).</p></details>

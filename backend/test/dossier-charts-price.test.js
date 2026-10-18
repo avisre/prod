@@ -23,11 +23,12 @@ function load() {
         esc: (v) => String(v == null ? '' : v)
     };
     vm.createContext(ctx);
-    vm.runInContext(slice('  const fyOf = ', '  (function wireChartReadouts(') + slice('  function miniBars(', '  function decisionTrends(') +
-        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine };', ctx);
+    vm.runInContext(slice('  const fyOf = ', '  (function wireChartReadouts(') + slice('  const bn = ', '  // ---- Revenue flow') + slice('  function miniBars(', '  function displayNumber(') +
+        slice('  function financialReadings(', '  function deterministicBrief(') +
+        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings };', ctx);
     return ctx.__f;
 }
-const { chartBars, chartGroupedBars, miniBars, trendChangeLine } = load();
+const { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings } = load();
 
 // TXRH's shape: operating margin every year, ROIC only where total debt was filed.
 const HISTORY = [
@@ -80,7 +81,11 @@ test('one figure on a near-zero base is drawn broken instead of flattening every
 
 test('Earnings and cash and Margins and returns are combined charts again', () => {
     assert.match(SRC, /<h3>Earnings and cash<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'netIncome'.*\{ key: 'cashOnHand', label: 'Cash on hand'/);
-    assert.match(SRC, /<h3>Margins and returns<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'opMarginPct'.*\{ key: 'roicPct'/);
+    assert.match(SRC, /\$\{marginsPanel\(fin\)\}/);
+    const panel = marginsPanel(HISTORY);
+    assert.match(panel, /<h3>Margins and returns<\/h3><p>Annual operating margin versus return on invested capital<\/p>/);
+    assert.match(panel, /data-read="FY2022: Operating margin 8% · ROIC 24\.3%"/);
+    assert.doesNotMatch(panel, /dos-trend-note/, 'a company that files both needs no note');
     assert.doesNotMatch(SRC, /fmt: \(v\) => v \+ '%'/, 'a negative margin reads "-45.1%" beside "−$8M"; use the same minus sign');
 });
 
@@ -117,4 +122,45 @@ test('past dossiers are listed on the dossier page, not the portfolio page', () 
     assert.doesNotMatch(dashJs, /dossier-history\/recent/);
     assert.match(dosHtml, /id="dos-recent"/);
     assert.match(SRC, /dossier-history\/recent/);
+});
+
+// IBM files no operating income line (its statement runs from expenses straight to
+// pre-tax income), so operating margin and ROIC are null every year. On 10/19 that
+// showed an empty chart, two rows of dashes and "moved from null% to null%".
+const IBM = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'].map((fy, i) => ({
+    fy, revenue: 60e9 + i * 1e9, fcf: 11e9 + i * 1e8, netIncome: 8e9 + i * 1e8, opMarginPct: null, roicPct: null, netMarginPct: 13 + i / 10, roePct: 30 + i
+}));
+
+test('without a filed operating income the margin charts use net margin and ROE, and say so', () => {
+    const panel = marginsPanel(IBM);
+    assert.match(panel, /<p>Annual net margin versus return on equity<\/p>/);
+    assert.match(panel, /data-read="FY2025: Net margin 13\.7% · ROE 37%"/);
+    assert.match(panel, /class="dos-trend-note">The filings report no operating income line, so net margin and ROE are shown in place of operating margin and ROIC\./);
+    const trends = decisionTrends(IBM);
+    assert.doesNotMatch(trends, />—</, 'no row of dashes');
+    assert.equal((trends.match(/class="dos-trend-row"/g) || []).length, 4);
+    assert.match(trends, /<span>Net margin</);
+    assert.match(trends, /<span>ROE</);
+    assert.match(trends, /dos-trend-note/);
+});
+
+test('a margin that was never filed is not read out as null%', () => {
+    const read = financialReadings(IBM);
+    assert.doesNotMatch(read, /null/);
+    assert.match(read, /Net margin moved from <strong>13%<\/strong> to <strong>13\.7%<\/strong>/);
+    const none = financialReadings(IBM.map((r) => ({ ...r, netMarginPct: null })));
+    assert.doesNotMatch(none, /null|margin moved/);
+    assert.match(financialReadings(HISTORY.map((r) => ({ ...r, revenue: 1 }))), /Operating margin moved from <strong>7\.6%<\/strong> to <strong>8\.1%<\/strong>/);
+});
+
+test('with neither margin filed the panel says so instead of drawing an empty chart', () => {
+    const panel = marginsPanel(IBM.map((r) => ({ ...r, netMarginPct: null, roePct: null })));
+    assert.doesNotMatch(panel, /<svg/);
+    assert.match(panel, /operating margin and ROIC cannot be shown/);
+});
+
+test('the research read is set in short paragraphs, not one block', () => {
+    assert.match(SRC, /<div class="dos-change-summary">\$\{briefParagraphs\(rc\.summary\)\}<\/div>/);
+    const html = fs.readFileSync(path.join(ROOT, 'frontend-v2', 'dossier.html'), 'utf8');
+    assert.match(html, /\.dos-change-summary p \+ p \{ margin-top:12px; \}/);
 });
