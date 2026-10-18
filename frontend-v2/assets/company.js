@@ -464,6 +464,9 @@
         if (!num(inc.discontinuedOperations)) return fcfOf(c);
         return fcfOf({ operatingCashflow: c.operatingCashflowContinuing, capitalExpenditures: c.capitalExpenditures });
     };
+    // Capital expenditure set against revenue follows the same rule: a year with a
+    // discontinued business and no continuing-operations cash flow has no ratio.
+    const cashMatchesRevenue = (inc, c) => !num(inc.discontinuedOperations) || num(c.operatingCashflowContinuing) !== null;
     function cagr(first, last, years) {
         if (first === null || last === null || first <= 0 || last <= 0 || years < 1.5) return null;
         return (Math.pow(last / first, 1 / years) - 1) * 100;
@@ -2068,7 +2071,7 @@
         { label: 'Current ratio', get: (y) => ratio(num((y.balance || {}).totalCurrentAssets), num((y.balance || {}).totalCurrentLiabilities)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
         { label: 'Debt to equity', get: (y) => ratio(debtOf(y.balance || {}), num((y.balance || {}).totalShareholderEquity)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
         { label: 'OCF / net income', get: (y) => ratio(num((y.cash || {}).operatingCashflow), num((y.income || {}).netIncome)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
-        { label: 'Capex % of revenue', get: (y) => { const c = num((y.cash || {}).capitalExpenditures); const r = derive(y.income || {}).rev; return (c !== null && r) ? Math.abs(c) / r : null; }, fmt: pctFmt },
+        { label: 'Capex % of revenue', get: (y) => { if (!cashMatchesRevenue(y.income || {}, y.cash || {})) return null; const c = num((y.cash || {}).capitalExpenditures); const r = derive(y.income || {}).rev; return (c !== null && r) ? Math.abs(c) / r : null; }, fmt: pctFmt },
         // Stock pay against revenue, and what free cash flow comes to once it is
         // counted as the cost it is. Both from filed lines only.
         { label: 'SBC % of revenue', get: (y) => { const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (s !== null && r) ? s / r : null; }, fmt: pctFmt },
