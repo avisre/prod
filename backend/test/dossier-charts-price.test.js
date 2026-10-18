@@ -24,10 +24,10 @@ function load() {
     };
     vm.createContext(ctx);
     vm.runInContext(slice('  const fyOf = ', '  (function wireChartReadouts(') + slice('  function miniBars(', '  function decisionTrends(') +
-        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine };', ctx);
+        '\n;globalThis.__f = { chartBars, chartGroupedBars, seriesPanel, miniBars, trendChangeLine };', ctx);
     return ctx.__f;
 }
-const { chartBars, chartGroupedBars, miniBars, trendChangeLine } = load();
+const { chartBars, chartGroupedBars, seriesPanel, miniBars, trendChangeLine } = load();
 
 // TXRH's shape: operating margin every year, ROIC only where total debt was filed.
 const HISTORY = [
@@ -65,11 +65,11 @@ test('the grouped charts print every filed figure above its bars, as the revenue
     assert.match(neg, /fill="#b4422f"[^>]*>\$-2</, 'a one-series chart prints a loss in red');
 });
 
-test('with two series a loss keeps its series colour and its figure sits below the bar', () => {
+test('a loss is drawn in red and its figure sits below the bar', () => {
     // FRGT-like: both lines negative for years, then one turns positive.
     const rows = [{ fy: '2022', ni: -140, fcf: -154 }, { fy: '2023', ni: 11, fcf: -101 }, { fy: '2025', ni: 205, fcf: 189 }];
     const svg = chartGroupedBars(rows, [{ key: 'ni', label: 'Net income', fmt: (v) => '$' + v, color: 'grey' }, { key: 'fcf', label: 'Free cash flow', fmt: (v) => '$' + v, color: 'green' }]);
-    assert.doesNotMatch(svg, /#b4422f/, 'no red: red would make net income and free cash flow look the same');
+    assert.match(svg, /<rect[^>]*fill="#b4422f"/, 'a loss bar is red');
     const zero = Number(svg.match(/<line x1="0" y1="([\d.]+)"/)[1]);
     const at = (label) => Number(svg.match(new RegExp('y="([\\d.]+)"[^>]*>\\' + label + '<'))[1]);
     assert.ok(at('$-154') > zero && at('$-140') > zero, 'loss figures sit below the zero line, by their bars');
@@ -90,6 +90,18 @@ test('one figure on a near-zero base is drawn broken instead of flattening every
     assert.match(svg, />-668808\.7%</, 'its label still prints the filed figure');
     const plain = chartGroupedBars(rows.filter((r) => r.fy !== '2020'), [{ key: 'm', label: 'Operating margin', color: 'grey' }]);
     assert.doesNotMatch(plain, /dos-bar-break/, 'an ordinary spread is never broken');
+});
+
+test('net income, free cash flow, margin and ROIC each get their own chart, one figure per bar', () => {
+    // Two figures stacked over each year were too close to tell apart.
+    for (const t of ['Net income', 'Free cash flow', 'Operating margin', 'Return on invested capital']) assert.match(SRC, new RegExp("seriesPanel\\('" + t + "'"));
+    assert.doesNotMatch(SRC, /<h3>Earnings and cash<\/h3>|<h3>Margins and returns<\/h3>/);
+    const calls = SRC.match(/chartGroupedBars\((fin|history), \[[^\]]*\]\)/g) || [];
+    assert.ok(calls.length >= 5);
+    for (const c of calls) assert.equal((c.match(/key:/g) || []).length, 1, c);
+    // A metric with under two filed years gets no panel, not a bare heading.
+    assert.equal(seriesPanel('ROIC', 'x', chartGroupedBars([{ fy: '2025', r: 4 }], [{ key: 'r', color: 'green' }])), '');
+    assert.match(seriesPanel('ROIC', 'x', '<svg></svg>'), /<h3>ROIC<\/h3>/);
 });
 
 test('the charts scale with their width instead of a fixed height that letterboxes them', () => {

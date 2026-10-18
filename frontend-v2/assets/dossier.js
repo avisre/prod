@@ -183,6 +183,9 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     const latest = pts[pts.length - 1];
     return chartFrame(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(pts[0].fy)} to ${esc(latest.fy)} trend" style="width:100%;height:auto;display:block">${grid}${bars}${labs}${hits}</svg>`, read(latest, pts.length - 1));
   }
+  // A chart with fewer than two filed years renders nothing; so does its panel,
+  // rather than a heading over an empty space (KRYS files no ROIC inputs).
+  const seriesPanel = (title, sub, chart) => (chart ? `<div class="dos-visual-panel"><h3>${title}</h3><p>${sub}</p>${chart}</div>` : '');
   function chartGroupedBars(rows, series) {
     // A missing figure is no bar. Number(null) is 0, which drew every year without
     // a filed ROIC as a zero stub beside the one year that had one.
@@ -202,12 +205,12 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     // Each year's figures are printed at the end of their bars: a gain above the
     // group, a loss below it, one line per series. Room is reserved on whichever
     // side has values so the plot keeps the same height either way.
-    const lh = 11, W = 420, lines = lh * series.length;
+    const lh = series.length === 1 ? 14 : 11, W = 420, lines = lh * series.length;
     const posPad = values.some((v) => v >= 0) ? lines : 0, negPad = values.some((v) => v < 0) ? lines + 6 : 0;
     const top = 10 + posPad, bottom = 30 + negPad, plotH = 124, H = top + plotH + bottom;
-    // A loss bar keeps its series colour when there are several series, or every
-    // loss year turns into two identical red bars and the legend means nothing.
-    const tone = (v, s) => (v < 0 && series.length === 1 ? C.neg : s.color);
+    const tone = (v, s) => (v < 0 ? C.neg : s.color);
+    // One series has room for the revenue chart's label size; two share a slot.
+    const fs = series.length === 1 ? (usable.length > 8 ? 9 : 11) : (usable.length > 8 ? 8 : 9);
     const y = (v) => top + ((max - v) / span) * plotH;
     const zeroY = y(0);
     const slot = W / usable.length;
@@ -230,9 +233,9 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       const peak = Math.min(zeroY, ...above.map((x) => y(clampV(x.v))));
       const trough = Math.max(zeroY, ...below.map((x) => y(clampV(x.v))));
       const cx = (ri * slot + slot / 2).toFixed(1);
-      const text = (x, ty) => `<text class="dos-bar-val" data-i="${ri}" x="${cx}" y="${ty.toFixed(1)}" font-size="${usable.length > 8 ? 8 : 9}" font-weight="600" fill="${tone(x.v, x.s)}" text-anchor="middle">${esc((x.s.fmt || String)(x.v))}</text>`;
+      const text = (x, ty) => `<text class="dos-bar-val" data-i="${ri}" x="${cx}" y="${ty.toFixed(1)}" font-size="${fs}" font-weight="600" fill="${tone(x.v, x.s)}" text-anchor="middle">${esc((x.s.fmt || String)(x.v))}</text>`;
       return above.map((x, li) => text(x, peak - 4 - (above.length - 1 - li) * lh)).join('') +
-        below.map((x, li) => text(x, trough + 11 + li * lh)).join('');
+        below.map((x, li) => text(x, trough + fs + 3 + li * lh)).join('');
     }).join('');
     const labels = usable.map((r, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 7}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(r.fy).slice(-2))}</text>`).join('');
     const hits = usable.map((r, i) => hitCol(i, i * slot, slot, H, read(r))).join('');
@@ -266,7 +269,6 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     document.addEventListener('click', (e) => { const t = at(e); if (t) pin(t); });
     document.addEventListener('keydown', (e) => { if (e.key !== 'Enter' && e.key !== ' ') return; const t = at(e); if (t) { e.preventDefault(); pin(t); } });
   })();
-  function legend(items) { return `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">${items.map((i) => `<span class="small" style="color:var(--ink-3)"><span style="display:inline-block;width:9px;height:9px;background:${i.color};border-radius:2px;margin-right:4px;vertical-align:middle"></span>${esc(i.label)}</span>`).join('')}</div>`; }
   const bn = (v) => {
     if (v == null) return 'â€”';
     const sign = v < 0 ? 'âˆ’' : '';
@@ -924,10 +926,11 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
           <div class="dos-financial-evidence">
             <section><span class="dos-kicker">Visual evidence</span><div class="dos-visual-stack">
               <div class="dos-visual-panel"><h3>Revenue</h3><p>Scale and compounding</p>${chartBars(fin, 'revenue', bn, C.ink)}</div>
-              <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus free cash flow</p>${chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'fcf', label: 'Free cash flow', color: C.pos, fmt: bn }])}${legend([{ label: 'Net income', color: C.grey }, { label: 'Free cash flow', color: C.pos }])}</div>
+              ${seriesPanel('Net income', 'Annual profit after every cost and tax', chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }]))}
+              ${seriesPanel('Free cash flow', 'Cash from operations left after capital spending', chartGroupedBars(fin, [{ key: 'fcf', label: 'Free cash flow', color: C.pos, fmt: bn }]))}
             </div></section>
             <section><span class="dos-kicker">What the record says</span><ol class="dos-financial-read">${financialReadings(fin)}</ol>
-              <div class="dos-visual-panel" style="margin-top:24px;"><h3>Margins and returns</h3><p>Annual operating margin versus return on invested capital</p>${chartGroupedBars(fin, [{ key: 'opMarginPct', label: 'Operating margin', color: C.grey, fmt: (v) => v + '%' }, { key: 'roicPct', label: 'ROIC', color: C.pos, fmt: (v) => v + '%' }])}${legend([{ label: 'Operating margin', color: C.grey }, { label: 'ROIC', color: C.pos }])}</div>
+              <div style="margin-top:24px;">${seriesPanel('Operating margin', 'Operating income as a share of revenue', chartGroupedBars(fin, [{ key: 'opMarginPct', label: 'Operating margin', color: C.grey, fmt: (v) => v + '%' }]))}${seriesPanel('Return on invested capital', 'ROIC: after-tax operating income on the capital in the business', chartGroupedBars(fin, [{ key: 'roicPct', label: 'ROIC', color: C.pos, fmt: (v) => v + '%' }]))}</div>
             </section>
           </div>
           <details class="dos-ratio-details"><summary>Open the full ratio history</summary><div class="table-wrap"><table class="table-data"><thead><tr><th>DuPont &amp; ratios</th>${head}</tr></thead><tbody>${body}</tbody></table></div><p class="small faint">Computed from filed annual statements. ROIC uses NOPAT â‰ˆ operating income Ã— (1 âˆ’ 21%).</p></details>
