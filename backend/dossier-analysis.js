@@ -194,7 +194,7 @@ function financialHistory(data, maxYears = 8) {
     const byFy = new Map();
     const put = (fy, k, v) => { if (!byFy.has(fy)) byFy.set(fy, { fy }); byFy.get(fy)[k] = v; };
     for (const r of inc) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'rev', num(r.totalRevenue)); put(fy, 'gp', r._sources?.grossProfit?.length ? num(r.grossProfit) : num(r.grossProfit)===0?null:num(r.grossProfit)); put(fy, 'cor', num(r.costOfRevenue)); put(fy, 'op', num(r.operatingIncome)); put(fy, 'ni', num(r.netIncome)); put(fy, 'int', num(r.interestExpense)); } }
-    for (const r of bal) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'assets', num(r.totalAssets)); put(fy, 'eq', num(r.totalShareholderEquity)); put(fy, 'curAssets', num(r.totalCurrentAssets)); put(fy, 'curLiab', num(r.totalCurrentLiabilities)); put(fy, 'std', num(r.shortTermDebt)); put(fy, 'ltd', num(r.longTermDebt)); put(fy, 'cltd', num(r.currentLongTermDebt)); put(fy, 'debt', require('./financial-row').totalDebt(r)); } }
+    for (const r of bal) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'assets', num(r.totalAssets)); put(fy, 'eq', num(r.totalShareholderEquity)); put(fy, 'curAssets', num(r.totalCurrentAssets)); put(fy, 'curLiab', num(r.totalCurrentLiabilities)); put(fy, 'std', num(r.shortTermDebt)); put(fy, 'ltd', num(r.longTermDebt)); put(fy, 'cltd', num(r.currentLongTermDebt)); put(fy, 'debt', require('./financial-row').totalDebt(r)); put(fy, 'cashBal', num(r.cashAndCashEquivalentsAtCarryingValue)); } }
     for (const r of cash) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'ocf', num(r.operatingCashflow)); put(fy, 'capex', num(r.capitalExpenditures)); } }
 
     const pct = (a, b) => (a !== null && a !== undefined && b && b !== 0 ? r1((a / b) * 100) : null);
@@ -205,7 +205,7 @@ function financialHistory(data, maxYears = 8) {
         const fcf = (num(y.ocf) !== null && num(y.capex) !== null) ? y.ocf + y.capex : null;
         return {
             fy: y.fy.slice(0,4), periodEnd:y.fy.split('|')[0], currency:y.fy.split('|')[1] || null,
-            revenue: num(y.rev), netIncome: num(y.ni), fcf,
+            revenue: num(y.rev), netIncome: num(y.ni), fcf, cashOnHand: num(y.cashBal),
             grossMarginPct: pct(gp, y.rev),
             opMarginPct: pct(y.op, y.rev),
             netMarginPct: pct(y.ni, y.rev),

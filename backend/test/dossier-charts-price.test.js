@@ -79,7 +79,7 @@ test('one figure on a near-zero base is drawn broken instead of flattening every
 });
 
 test('Earnings and cash and Margins and returns are combined charts again', () => {
-    assert.match(SRC, /<h3>Earnings and cash<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'netIncome'.*\{ key: 'fcf'/);
+    assert.match(SRC, /<h3>Earnings and cash<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'netIncome'.*\{ key: 'cashOnHand', label: 'Cash on hand'/);
     assert.match(SRC, /<h3>Margins and returns<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'opMarginPct'.*\{ key: 'roicPct'/);
     assert.doesNotMatch(SRC, /fmt: \(v\) => v \+ '%'/, 'a negative margin reads "-45.1%" beside "−$8M"; use the same minus sign');
 });

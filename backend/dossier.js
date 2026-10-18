@@ -162,8 +162,20 @@ function expenseRate(data, income, currency) {
     const rates = [...new Set(Object.values(row?._presentations || {}).map(x => x.rate))];
     return rates.length === 1 && rates[0] > 0 ? rates[0] : null;
 }
+// "Earnings and cash" plots cash on hand (2026-10-19; it was free cash flow). A
+// dossier cached before then has no such figure, so it is filled in on read from
+// the filed balance sheet, matched by period, leaving every other cached figure
+// as the narrative was written against.
+function withCashOnHand(rows, data) {
+    if (!Array.isArray(rows) || !rows.length || rows.every((r) => r && 'cashOnHand' in r)) return rows;
+    let fresh = [];
+    try { fresh = analysis.financialHistory(data) || []; } catch (_) { fresh = []; }
+    const find = (r) => fresh.find((f) => (r.periodEnd && f.periodEnd ? f.periodEnd === r.periodEnd : String(f.fy) === String(r.fy)));
+    return rows.map((r) => (r && !('cashOnHand' in r) ? { ...r, cashOnHand: (find(r) || {}).cashOnHand ?? null } : r));
+}
+
 async function refreshValuation(payload, sym, data) {
-    payload = { ...payload, incomeStatement: await withExpenseLines(payload.incomeStatement, sym, data), segments: await currentSegments(payload.segments, sym), currencyConversion: data.currencyConversion || null,
+    payload = { ...payload, financials: withCashOnHand(payload.financials, data), incomeStatement: await withExpenseLines(payload.incomeStatement, sym, data), segments: await currentSegments(payload.segments, sym), currencyConversion: data.currencyConversion || null,
         offBalanceSheet: payload.offBalanceSheet || await offBalanceFor(sym) };
     if(!data.marketData?.asOf)return payload;
     const rdcf=reverseDcf.computeFromData(sym,data);
@@ -679,4 +691,4 @@ async function peekDossier(symbol, depth = 'standard') {
     } catch (_) { return null; }
 }
 
-module.exports = { buildDossier, peekDossier, buildDigest, snapshotRatios, presentUsd, fingerprintOf, cachedDossier, refreshValuation, DOSSIER_SCHEMA_VERSION };
+module.exports = { buildDossier, peekDossier, buildDigest, snapshotRatios, presentUsd, fingerprintOf, cachedDossier, refreshValuation, withCashOnHand, DOSSIER_SCHEMA_VERSION };

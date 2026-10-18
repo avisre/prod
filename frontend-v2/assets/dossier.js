@@ -908,7 +908,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
           <div class="dos-financial-evidence">
             <section><span class="dos-kicker">Visual evidence</span><div class="dos-visual-stack">
               <div class="dos-visual-panel"><h3>Revenue</h3><p>Scale and compounding</p>${chartBars(fin, 'revenue', bn, C.ink)}</div>
-              <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus free cash flow</p>${chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'fcf', label: 'Free cash flow', color: C.pos, fmt: bn }])}</div>
+              <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus cash on hand at year end</p>${chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'cashOnHand', label: 'Cash on hand', color: C.pos, fmt: bn }])}</div>
             </div></section>
             <section><span class="dos-kicker">What the record says</span><ol class="dos-financial-read">${financialReadings(fin)}</ol>
               <div class="dos-visual-panel" style="margin-top:24px;"><h3>Margins and returns</h3><p>Annual operating margin versus return on invested capital</p>${chartGroupedBars(fin, [{ key: 'opMarginPct', label: 'Operating margin', color: C.grey, fmt: (v) => (v < 0 ? '−' + Math.abs(v) : v) + '%' }, { key: 'roicPct', label: 'ROIC', color: C.pos, fmt: (v) => (v < 0 ? '−' + Math.abs(v) : v) + '%' }])}</div>
