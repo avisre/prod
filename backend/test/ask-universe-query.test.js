@@ -106,6 +106,7 @@ test('a formula is parsed, never executed: anything that is not arithmetic over 
         assert.ok(run({ where: bad }).error, bad + ' should be refused');
     assert.match(run({ where: 'revenue > 5' }).error, /say which period/);
     assert.match(run({ columns: [{ name: 'revenue', formula: 'q(revenue)' }] }).error, /already a statement line/);
+    assert.match(run({ columns: [{ name: 'pe', formula: 'pe * 2' }] }).error, /already a per-company figure/);
     assert.ok(run({}).error);
     // Division by zero and a non-positive base are blanks, not Infinity or NaN.
     const z = company('ZERO', { revenue: [0, 0, 0, 0, 0, 0, 0, 0] });
@@ -170,4 +171,15 @@ test('a cash-flow share of revenue is blank for a period with discontinued opera
     assert.deepEqual(screened.table.split('\n').slice(1).map(l => l.split('|')[0]), ['PLAIN'], 'a mixed figure never passes a condition');
     const rows = items.map(c => c.row), facts = { v: 1, asOf: '2026-07-15', rows: items.map(c => c.fact), bySymbol: new Map(items.map(c => [c.fact.s, c.fact])) };
     assert.deepEqual(uq.valuesFor('DISC', [columns[0].formula, columns[2].formula], { screenRows: rows, facts }), [null, 52]);
+});
+
+// 2026-10-18: Max follow-ups ("find me 3 more in micro cap") asked for
+// {name: 'pe', formula: 'pe'} beside their growth columns and were refused as
+// "already a statement line"; each refusal cost a whole extra reasoning round.
+test('a column that only shows a per-company figure under its own name is accepted', () => {
+    const out = run({ columns: [{ name: 'g', formula: 'growth_pct(ttm(revenue), ttm(revenue, 4))', unit: 'percent' }, { name: 'pe', formula: 'pe', unit: 'number' }, { name: 'market_cap_b', formula: 'MARKET_CAP_B' }],
+        where: 'g >= 30 and pe < 25', sort_by: 'pe' });
+    assert.equal(out.error, undefined);
+    assert.equal(out.matched, 2);
+    assert.deepEqual(cellsOf(out.table, 'FAST').slice(6), ['35.0', '20', '10']);
 });

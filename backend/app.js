@@ -14417,7 +14417,8 @@ app.post('/api/ask/threads/:id/branch', authMiddleware, async (req, res) => {
         }
         const doc = await AskThread.create({
             userId: req.userId,
-            title: `Branch · ${src.title || 'New chat'}`.slice(0, 160),
+            // A branch of a branch is still "Branch · <chat>", not "Branch · Branch · …".
+            title: `Branch · ${String(src.title || '').replace(/^(?:Branch · )+/, '') || 'New chat'}`.slice(0, 160),
             mode: src.mode, surface: src.surface || 'ask',
             messages: msgs.slice(0, through),
             updatedAt: new Date()

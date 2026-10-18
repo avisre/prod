@@ -212,6 +212,14 @@ test('branch copies the chat up to an answer into a new chat of the same owner; 
     assert.equal((await branch('000000000000000000000009', 4)).code, 404);
 });
 
+// 2026-10-18: branching a branch five times titled the chat "Branch · Branch · Branch · Branch · Branch · …".
+test('a branch of a branch keeps a single "Branch ·" prefix', async () => {
+    const created = [];
+    const branch = branchRoute({ title: 'Branch · Branch · AAPL vs MSFT', mode: 'normal', surface: 'ask', messages: transcript }, created);
+    assert.equal((await branch(USER, 2)).code, 200);
+    assert.equal(created[0].title, 'Branch · AAPL vs MSFT');
+});
+
 test('custom instructions: saved per user, capped, sent with every question, and never override the rules', () => {
     assert.match(app, /askInstructions: \{ type: String, default: '', maxlength: 1500 \}/);
     assert.match(app, /app\.get\('\/api\/ask\/instructions', authMiddleware,/);

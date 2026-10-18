@@ -255,7 +255,11 @@ function query(args, { screenRows, facts = screenFacts.load(), sectorMatches = n
         for (const spec of specs) {
             const name = String(spec?.name || '').trim(), formula = String(spec?.formula || spec?.expr || spec?.expression || '').trim();
             if (!/^[A-Za-z_][A-Za-z0-9_]{0,39}$/.test(name)) throw new Error(`Column name "${name}" must be letters, digits and underscores`);
-            if (screenFacts.FIELDS[name.toLowerCase()] || SCALARS[name.toLowerCase()]) throw new Error(`Column name "${name}" is already a statement line; choose another name`);
+            // {name: 'pe', formula: 'pe'} only shows the figure; any other formula
+            // under a built-in name would shadow it in later formulas.
+            const key = name.toLowerCase();
+            if (screenFacts.FIELDS[key]) throw new Error(`Column name "${name}" is already a statement line; choose another name`);
+            if (SCALARS[key] && formula.toLowerCase() !== key) throw new Error(`Column name "${name}" is already a per-company figure; choose another name`);
             if (columns.some(c => c.name === name)) throw new Error(`Column "${name}" is defined twice`);
             const unit = ['percent', 'usd', 'number'].includes(spec.unit) ? spec.unit
                 : /pct\(|growth_pct|cagr_pct/.test(formula) || /pct|percent|growth|margin|yield/i.test(name) ? 'percent' : 'number';
