@@ -57,6 +57,18 @@ test('standalone leases and guarantees use filing research without requiring an 
     assert.deepEqual(q.filingNarrativeEvidence(ambiguous), [], 'bare dollar and yen symbols need a verified currency basis');
 });
 
+// 2026-10-18: a Polish screen answer said each company "spełnia" (meets) the
+// criteria. JS \b is ASCII-only, so "spe" before "ł" read as the acronym SPE and
+// the whole answer was replaced by the receipt, twice, for the same customer.
+test('a word that merely starts with SPE or VIE in another language is not an entity claim', () => {
+    const issue = /Claims about SPVs/;
+    for (const text of ['Z 15 spółek kryteria spełnia 12.', 'Każda spółka spełniająca kryteria jest na liście.', 'Spełnione warunki: zysk netto dodatni.'])
+        assert.ok(!q.audit(text, [], { question: 'Zawęź wyniki i porównaj zadłużenie.', mode: 'normal' }).some(i => issue.test(i)), text);
+    // The real acronyms still need filing text, in any language around them.
+    for (const text of ['Spółka korzysta z SPV.', 'The company consolidates two VIEs.', 'Ryzyko pozabilansowe: off-balance-sheet leasing.'])
+        assert.ok(q.audit(text, [], { question: 'Porównaj zadłużenie.', mode: 'normal' }).some(i => issue.test(i)), text);
+});
+
 test('dated obligation charts reject mixed dates and ambiguous same-category scopes', () => {
     const url = 'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/annual.htm';
     const wrap = text => [

@@ -8,7 +8,9 @@ const segmentProof = require('./ask-segment-evidence');
 const filingCurrency = require('./ask-filing-currency');
 const unitName = unit => unit === '$' ? 'USD' : unit === '$ps' ? 'USD/share' : unit;
 const unwrap = results => results.map(r => r.result || r).filter(r => !r.error);
-const ENTITY_DISCLOSURE_TERMS = /\b(?:SPVs?|SPEs?|special purpose (?:vehicles?|entity|entities)|unconsolidated|variable interest (?:entity|entities)|VIEs?|off[- ]balance[- ]sheet|off[- ]book|securitiz\w*)\b/i;
+// Letter-aware edges, not \b: \b treats "ł" as a boundary, so Polish "spełnia"
+// (meets) matched SPE and every such answer was withheld as an entity claim.
+const ENTITY_DISCLOSURE_TERMS = /(?<![\p{L}\p{N}_])(?:SPVs?|SPEs?|special purpose (?:vehicles?|entity|entities)|unconsolidated|variable interest (?:entity|entities)|VIEs?|off[- ]balance[- ]sheet|off[- ]book|securitiz\p{L}*)(?![\p{L}\p{N}_])/iu;
 const DISCLOSURE_TERMS = /\b(?:SPVs?|SPEs?|special purpose (?:vehicles?|entity|entities)|unconsolidated|variable interest (?:entity|entities)|VIEs?|off[- ]balance[- ]sheet|off[- ]book|guarantees?|leases?|commitments?|purchase obligations?|debt disclosures?|debt maturit\w*)\b/i;
 
 function disclosureCategory(text, amountStart = null, amountEnd = amountStart) {
