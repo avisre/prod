@@ -25,10 +25,10 @@ function load() {
     vm.createContext(ctx);
     vm.runInContext(slice('  const fyOf = ', '  (function wireChartReadouts(') + slice('  const bn = ', '  // ---- Revenue flow') + slice('  function miniBars(', '  function displayNumber(') +
         slice('  function financialReadings(', '  function deterministicBrief(') +
-        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings };', ctx);
+        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings, chartOr };', ctx);
     return ctx.__f;
 }
-const { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings } = load();
+const { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings, chartOr } = load();
 
 // TXRH's shape: operating margin every year, ROIC only where total debt was filed.
 const HISTORY = [
@@ -163,4 +163,31 @@ test('the research read is set in short paragraphs, not one block', () => {
     assert.match(SRC, /<div class="dos-change-summary">\$\{briefParagraphs\(rc\.summary\)\}<\/div>/);
     const html = fs.readFileSync(path.join(ROOT, 'frontend-v2', 'dossier.html'), 'utf8');
     assert.match(html, /\.dos-change-summary p \+ p \{ margin-top:12px; \}/);
+});
+
+// The 10/19 sweep of all 4,195 stocks with two or more years: 694 free cash flow rows,
+// 366 ROIC rows and 363 revenue rows read "—", and 271 Revenue panels (banks, REITs)
+// were a heading over nothing.
+test('a figure filed for fewer than two years is named in a note, not drawn as a row of dashes', () => {
+    const bank = IBM.map((r) => ({ ...r, revenue: null, fcf: null, netMarginPct: null }));
+    const trends = decisionTrends(bank);
+    assert.doesNotMatch(trends, />—</);
+    assert.doesNotMatch(trends, /<span>Revenue|<span>Free cash flow/);
+    assert.match(trends, /Not reported in these filings for two or more years: revenue and free cash flow\./);
+    assert.match(trends, /<span>ROE</);
+});
+
+test('a row whose latest year was not filed shows the latest filed figure with its year', () => {
+    const rows = IBM.map((r) => (r.fy === '2025' ? { ...r, fcf: null } : r));
+    assert.match(decisionTrends(rows), /data-default="\$11\.6B · FY24"/);
+    assert.match(decisionTrends(IBM), /data-default="\$11\.7B"/, 'the latest year carries no date');
+});
+
+test('a chart with nothing to draw says what is missing instead of leaving an empty panel', () => {
+    assert.equal(chartOr('', 'revenue'), '<p class="dos-trend-note">Not reported in these filings for two or more years: revenue.</p>');
+    assert.equal(chartOr('<svg/>', 'revenue'), '<svg/>');
+    assert.match(SRC, /chartOr\(chartBars\(fin, 'revenue', bn, C\.ink\), 'revenue'\)/);
+    assert.match(SRC, /chartOr\(chartBars\(history, 'revenue', bn, C\.ink\), 'revenue'\)/);
+    assert.match(SRC, /'net income and cash on hand'\)/);
+    assert.doesNotMatch(SRC, /\$\{last\.revenue > prev\.revenue \? 'Growing' : 'Shrinking'\}/, 'a missing revenue is not "Shrinking"');
 });

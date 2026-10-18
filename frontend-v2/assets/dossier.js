@@ -509,7 +509,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
   // (net income over revenue, net income over equity), labelled as such, never an estimate.
   const MARGIN = [['opMarginPct', 'Operating margin'], ['netMarginPct', 'Net margin']];
   const RETURN = [['roicPct', 'ROIC'], ['roePct', 'ROE']];
-  const filedPick = (fin, options) => options.find(([k]) => (fin || []).filter((r) => r[k] != null && r[k] !== '' && Number.isFinite(Number(r[k]))).length >= 2) || null;
+  const isFiled = (v) => v != null && v !== '' && Number.isFinite(Number(v));
+  const filedCount = (fin, k) => (fin || []).filter((r) => isFiled(r[k])).length;
+  const filedPick = (fin, options) => options.find(([k]) => filedCount(fin, k) >= 2) || null;
+  // A trend needs two filed years. A figure with fewer is named in a note, never
+  // drawn as an empty panel or a row of dashes.
+  const joinAnd = (xs) => xs.length > 1 ? xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1] : xs[0];
+  const absentNote = (names) => names.length ? `<p class="dos-trend-note">${esc('Not reported in these filings for two or more years: ' + joinAnd(names) + '.')}</p>` : '';
+  const chartOr = (html, what) => html || absentNote([what]);
   const pctFmt = (v) => (v < 0 ? 'âˆ’' + Math.abs(v) : v) + '%';
   function fallbackNote(m, ret) {
     const swapped = [m && m[0] !== MARGIN[0][0] && [MARGIN[0][1].toLowerCase(), m[1].toLowerCase()], ret && ret[0] !== RETURN[0][0] && [RETURN[0][1], ret[1]]].filter(Boolean);
@@ -531,18 +538,22 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     if (!fin || fin.length < 2) return '<p class="small faint">No multi-year filed history is available.</p>';
     const latest = fin[fin.length - 1] || {};
     const span = `${esc(fin[0].fy)}â†’${esc(latest.fy)}`;
-    const pctOf = (k) => latest[k] == null ? 'â€”' : latest[k] + '%';
+    // The latest year a figure was filed; dated when it is not the latest year shown.
+    const latestOf = (k, fmt) => { const r = [...fin].reverse().find((x) => isFiled(x[k])); return r === latest ? fmt(Number(r[k])) : fmt(Number(r[k])) + ' Â· FY' + String(r.fy).slice(-2); };
+    const pctV = (v) => v + '%';
     const m = filedPick(fin, MARGIN), ret = filedPick(fin, RETURN);
-    const rows = [
-      ['Revenue', 'revenue', bn(latest.revenue), C.ink, bn, false],
-      m && [m[1], m[0], pctOf(m[0]), C.grey, (v) => v + '%', true],
-      ['Free cash flow', 'fcf', bn(latest.fcf), C.pos, bn, false],
-      ret && [ret[1], ret[0], pctOf(ret[0]), C.ink, (v) => v + '%', true]
+    const all = [
+      ['Revenue', 'revenue', C.ink, bn, false],
+      m && [m[1], m[0], C.grey, pctV, true],
+      ['Free cash flow', 'fcf', C.pos, bn, false],
+      ret && [ret[1], ret[0], C.ink, pctV, true]
     ].filter(Boolean);
+    const rows = all.filter(([, key]) => filedCount(fin, key) >= 2).map(([label, key, color, fmt, pctMetric]) => [label, key, latestOf(key, fmt), color, fmt, pctMetric]);
+    const absent = all.filter(([, key]) => filedCount(fin, key) < 2).map(([label]) => label.toLowerCase());
     return `<div class="dos-trends">${rows.map(([label, key, value, color, fmt, pctMetric]) => {
       const change = trendChangeLine(fin, key, pctMetric);
       return `<div class="dos-trend-row" data-chart><span>${label}<small class="dos-trend-change">${span}${change ? ' Â· ' + esc(change) : ''}</small></span>${miniBars(fin, key, color, fmt)}<b data-readout data-default="${esc(value)}">${esc(value)}</b></div>`;
-    }).join('')}</div>${fallbackNote(m, ret)}`;
+    }).join('')}</div>${fallbackNote(m, ret)}${absentNote(absent)}`;
   }
 
   function displayNumber(value) {
@@ -938,8 +949,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
           <div class="dos-section-head"><div><span class="dos-kicker">Financial trajectory</span><h2>The filed record, with the read beside it</h2></div><span class="small faint">Annual statements Â· hover or tap a year for its figures</span></div>
           <div class="dos-financial-evidence">
             <section><span class="dos-kicker">Visual evidence</span><div class="dos-visual-stack">
-              <div class="dos-visual-panel"><h3>Revenue</h3><p>Scale and compounding</p>${chartBars(fin, 'revenue', bn, C.ink)}</div>
-              <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus cash on hand at year end</p>${chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'cashOnHand', label: 'Cash on hand', color: C.pos, fmt: bn }])}</div>
+              <div class="dos-visual-panel"><h3>Revenue</h3><p>Scale and compounding</p>${chartOr(chartBars(fin, 'revenue', bn, C.ink), 'revenue')}</div>
+              <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus cash on hand at year end</p>${chartOr(chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'cashOnHand', label: 'Cash on hand', color: C.pos, fmt: bn }]), 'net income and cash on hand')}</div>
             </div></section>
             <section><span class="dos-kicker">What the record says</span><ol class="dos-financial-read">${financialReadings(fin)}</ol>
               ${marginsPanel(fin)}
@@ -1207,8 +1218,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       <div class="pv-card">
         <h2>The trend</h2>
         <div class="dos-visual-stack">
-          <div class="dos-visual-panel"><h3>Revenue</h3><p>${last.revenue > prev.revenue ? 'Growing' : 'Shrinking'} year over year</p>${chartBars(history, 'revenue', bn, C.ink)}</div>
-          <div class="dos-visual-panel"><h3>Profit</h3><p>Net income, ${last.netIncome > prev.netIncome ? 'improving' : 'declining'}</p>${chartGroupedBars(history, [{ key: 'netIncome', label: 'Net income', color: C.pos, fmt: bn }])}</div>
+          <div class="dos-visual-panel"><h3>Revenue</h3><p>${!isFiled(last.revenue) || !isFiled(prev.revenue) ? 'Annual revenue' : last.revenue > prev.revenue ? 'Growing year over year' : 'Shrinking year over year'}</p>${chartOr(chartBars(history, 'revenue', bn, C.ink), 'revenue')}</div>
+          <div class="dos-visual-panel"><h3>Profit</h3><p>${!isFiled(last.netIncome) || !isFiled(prev.netIncome) ? 'Annual net income' : 'Net income, ' + (last.netIncome > prev.netIncome ? 'improving' : 'declining')}</p>${chartOr(chartGroupedBars(history, [{ key: 'netIncome', label: 'Net income', color: C.pos, fmt: bn }]), 'net income')}</div>
         </div>
       </div>` : '';
 
