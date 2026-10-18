@@ -38,7 +38,7 @@ async function parent(argv,jobs) {
  const report=JSON.parse(fs.readFileSync(REPORT,'utf8')),asOf=p.day(new Date().toISOString()),live=!argv.includes('--offline-reporting');let merged=0;
  // A shard's day is the day it started; the cycle is the report's day, so a run past midnight stamps the later one.
  for(let i=0;i<jobs;i++){let part;try{part=JSON.parse(fs.readFileSync(path.join(tmp,i+'.json'),'utf8'));}catch(e){if(e.code==='ENOENT')continue;throw e;}for(const [cik,entry] of Object.entries(part)){report.issuers[cik]=live?{...entry,lastReconciledCycle:asOf}:entry;merged++;}}
- report.generatedAt=new Date().toISOString();report.asOf=asOf;p.atomicWrite(REPORT,report);
+ report.generatedAt=new Date().toISOString();if(live)report.asOf=asOf;p.atomicWrite(REPORT,report);
  fs.rmSync(tmp,{recursive:true,force:true});
  console.log(JSON.stringify({merged,shardExitCodes:codes}));
  if(codes.some(c=>c!==0))throw new Error('a shard failed; rerun to resume');
@@ -60,7 +60,7 @@ async function main(argv=process.argv.slice(2)) {
  const tally={};let done=0;const total=todo.length;
  // as the weekly job does: the checks are dated today, so the report's day is today, or the
  // index built from it reads checks from after its own day and never expires them
- const save=shard?()=>p.atomicWrite(opt('--shard-out'),touched):()=>{report.generatedAt=new Date().toISOString();report.asOf=asOf;p.atomicWrite(REPORT,report);};
+ const save=shard?()=>p.atomicWrite(opt('--shard-out'),touched):()=>{report.generatedAt=new Date().toISOString();if(!offline)report.asOf=asOf;p.atomicWrite(REPORT,report);};
  process.once('SIGINT',()=>{save();process.exit(130);});
  await Promise.all(Array.from({length:concurrency},async()=>{
   for(let issuer=todo.shift();issuer;issuer=todo.shift()) {

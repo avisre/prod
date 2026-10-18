@@ -130,6 +130,7 @@ function evaluate(node, env) {
             if (screenFacts.FIELDS[key]) {
                 if (!env.period) throw new Error(`"${name}" is a statement line: say which period, e.g. q(${name}) for the latest quarter, fy(${name}) for the latest fiscal year or ttm(${name}) for the last four quarters`);
                 const s = env.fact[env.period.basis];
+                if (env.reads) env.reads.push({ key, basis: env.period.basis, i: env.period.i });
                 const v = s && s.f[key] ? s.f[key][env.period.i] : null;
                 return v === undefined ? null : v;
             }
@@ -164,6 +165,20 @@ function evaluate(node, env) {
     }
 }
 function truthy(v) { return typeof v === 'boolean' ? v : v !== 0; }
+
+// Revenue leaves out a discontinued business; the filed cash-flow lines usually
+// include it. A formula that reads both, with the cash line from a period that
+// has discontinued operations, mixes the two (AppLovin FY2024: a 65% "FCF
+// margin"), so it is blank, as get_ratios leaves it.
+const CASH_WITH_DISCONTINUED = new Set(['operating_cash_flow', 'capex']);
+function checked(node, env) {
+    env.reads = [];
+    const v = evaluate(node, env), reads = env.reads;
+    env.reads = null;
+    const mixed = v !== null && reads.some(r => r.key === 'revenue')
+        && reads.some(r => CASH_WITH_DISCONTINUED.has(r.key) && env.fact[r.basis]?.f.discontinued_operations?.[r.i]);
+    return { v: mixed ? null : v, mixed };
+}
 
 function call(node, env) {
     const { name, args } = node;
@@ -219,7 +234,7 @@ const HELP = 'Statement lines: ' + Object.keys(screenFacts.FIELDS).join(', ') + 
     + `Stored: the last ${screenFacts.QUARTERS} quarters and ${screenFacts.YEARS} fiscal years. `
     + 'Several periods: sum_q, avg_q, min_q, max_q (formula, n, k) and the same with _fy; lag(line, k) inside them is the value k periods earlier, so min_q(growth_pct(revenue, lag(revenue, 4)), 4) is the weakest year-on-year growth of the last four quarters. '
     + 'Maths: + - * / ^, growth_pct(new, old), pct(part, whole), cagr_pct(new, old, years), abs, min, max, coalesce. Conditions: > >= < <= == !=, and, or, not. '
-    + 'Per company (price cache, USD): ' + Object.keys(SCALARS).join(', ') + '. Outflows (capex, buybacks, dividends_paid) may be filed with either sign: wrap them in abs().';
+    + 'Per company (price cache, USD): ' + Object.keys(SCALARS).join(', ') + '. Outflows (capex, buybacks, dividends_paid) may be filed with either sign: wrap them in abs(). Revenue leaves out a discontinued business but operating_cash_flow usually includes it: where discontinued_operations is not 0, a cash-flow share of revenue mixes the two.';
 
 function fmt(v, unit) {
     if (v === null || v === undefined) return '';
@@ -256,7 +271,7 @@ function query(args, { screenRows, facts = screenFacts.load(), sectorMatches = n
         .map(s => String(s).trim().toUpperCase()).filter(Boolean).flatMap(s => [s, s.replace(/\./g, '-'), s.replace(/-/g, '.')]));
     const asOf = Date.parse(facts.asOf) || Date.now();
     let universe = 0, stale = 0, evaluated = 0;
-    const matched = [], near = [], blanks = new Map(columns.map(c => [c.name, 0]));
+    const matched = [], near = [], blanks = new Map(columns.map(c => [c.name, 0])), mixedFor = [];
     for (const row of screenRows || []) {
         const fact = facts.bySymbol.get(row.symbol);
         if (!fact) continue;
@@ -272,11 +287,12 @@ function query(args, { screenRows, facts = screenFacts.load(), sectorMatches = n
         const values = {};
         try {
             for (const c of columns) {
-                const v = evaluate(c.ast, env);
+                const { v, mixed } = checked(c.ast, env);
                 env.columns.set(c.name, v); values[c.name] = v;
                 if (v === null) blanks.set(c.name, blanks.get(c.name) + 1);
+                if (mixed) mixedFor.push(`${row.symbol} ${c.name}`);
             }
-            const results = parts.map(part => evaluate(part, env));
+            const results = parts.map(part => checked(part, env).v);
             const failed = parts.filter((_, i) => results[i] !== true);
             const item = { row, fact, values, failed, untested: parts.filter((_, i) => results[i] === null) };
             if (!failed.length) matched.push(item);
@@ -319,6 +335,10 @@ function query(args, { screenRows, facts = screenFacts.load(), sectorMatches = n
         table: [header.join('|'), ...top.map(line)].join('\n'),
         note: 'Every figure is computed from filed statements in each company\'s reporting currency for the periods named by latestQtr / latestFY; a blank means the company did not file a line the formula needs, and a blank never passes a condition. Market cap is from the daily price cache. Name the period whenever you cite a figure.'
     };
+    if (mixedFor.length) out.mixedCashBasis = {
+        note: 'Left blank: the period has discontinued operations, so revenue leaves the discontinued business out while the filed operating cash flow and capex include it, and a ratio of the two is not meaningful. Say so; do not compute it another way.',
+        blanked: mixedFor.slice(0, 20)
+    };
     // Nothing passed every part: show who came closest and what each missed,
     // so the condition is never quietly loosened to produce a list.
     if (!matched.length && near.length) {
@@ -341,7 +361,7 @@ function valuesFor(symbol, formulas, { screenRows, facts = screenFacts.load() } 
     const row = (screenRows || []).find(r => r.symbol === symbol), fact = facts.bySymbol.get(symbol);
     if (!row || !fact) return null;
     const env = { fact, row, columns: new Map(), period: null };
-    return formulas.map(formula => { try { return evaluate(parse(formula), env); } catch (_) { return null; } });
+    return formulas.map(formula => { try { return checked(parse(formula), env).v; } catch (_) { return null; } });
 }
 
 const TOOL = {

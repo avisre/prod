@@ -668,7 +668,7 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
     if (!rows.length) {
         const supplemental=data.supplementalObservations || [],observations=[];
         for(const id of metricIds){const def=metricDef(id);if(!def?.field)continue;for(const f of supplemental.filter(f=>f.field===def.field && (f.historyBasis || f.basis)===periodType && f.state==='available' && (!start || f.periodEnd>=start) && (!end || f.periodEnd<=end)).sort((a,b)=>b.periodEnd.localeCompare(a.periodEnd)).slice(0,count))observations.push({metric:id,label:def.label,period_type:periodType,period_end:f.periodEnd,value:f.value,units:f.unit,currency:f.currency,derived_from:null,source:{type:'supplemental',linkage:'attributed_provider_observation',source_name:f.sourceName,source_type:f.sourceType,url:f.sourceUrl,source_date:f.publicationDate || f.sourceDataDate,retrieved_at:f.retrievedAt,accounting_basis:f.accountingBasis},verification:'attributed_supplemental'});}
-        if(observations.length)return {overview,observations,currency:new Set(observations.map(f=>f.currency)).size===1?observations[0].currency:null,periodType,totalPeriods:new Set(observations.map(f=>f.period_end)).size,coverage:data.coverage,freshness:data.freshness,supplementalObservations:supplemental};
+        if(observations.length)return {overview,observations,currency:new Set(observations.map(f=>f.currency)).size===1?observations[0].currency:null,periodType,totalPeriods:new Set(observations.map(f=>f.period_end)).size,coverage:data.coverage,freshness:data.freshness || null,supplementalObservations:supplemental};
         throw mcpError('VERIFIED_FINANCIALS_UNAVAILABLE', `No compatible ${periodType} financial observations are available for ${symbol}.`,{coverage:data.coverage,freshness:data.freshness});
     }
 
@@ -738,7 +738,7 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
             observations.push(observation);
         }
     }
-    return { overview, observations, currency: rows[0].currency, periodType,totalPeriods:rows.length,coverage:data.coverage,freshness:data.freshness,supplementalObservations:data.supplementalObservations || [] };
+    return { overview, observations, currency: rows[0].currency, periodType,totalPeriods:rows.length,coverage:data.coverage,freshness:data.freshness || null,supplementalObservations:data.supplementalObservations || [] };
 }
 
 function groupObservations(observations, order) {

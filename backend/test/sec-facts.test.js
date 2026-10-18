@@ -346,3 +346,14 @@ test('the industry stage does not put back a figure the full extraction turned d
  const plain=extract(doc,evidence,{asOf:'2026-10-03'});
  assert.equal(industry.enrich(plain,document,evidence,{asOf:'2026-10-03'}).balance.annualReports[0].cashAndCashEquivalentsAtCarryingValue,40);
 });
+test('discontinued operations are read as filed and never add a reporting period',()=>{
+ const {doc,evidence}=fixture();const before=extract(doc,evidence,{asOf:'2026-10-03'});
+ const flow=(val,start,end)=>({val,start,end,accn:ACC,form:'10-K',filed:'2026-02-01'});
+ // AppLovin's FY2025 10-K: -$99.4m for 2025 and -$9.7m for a 2024 with no other line here.
+ doc.facts['us-gaap'].IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity={units:{USD:[flow(-99444000,'2025-01-01','2025-12-31'),flow(-9748000,'2024-01-01','2024-12-31')]}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03'}),row=d.income.annualReports[0];
+ assert.equal(row.discontinuedOperations,-99444000);
+ assert.equal(d.sources[row._sources.discontinuedOperations[0]].concept,'IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity');
+ assert.deepEqual(d.income.annualReports.map(r=>r.fiscalDateEnding),before.income.annualReports.map(r=>r.fiscalDateEnding));
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+});

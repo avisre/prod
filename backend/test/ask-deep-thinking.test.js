@@ -40,6 +40,21 @@ test('max thinking reaches the model as max effort', async () => {
     assert.deepEqual([...new Set(seen)], ['max']);
 });
 
+// Every failed Max answer on 2026-10-18 stopped at exactly 8,000 completion
+// tokens with no text: the reasoning used the whole budget, twice.
+test('max thinking gets a 32k answer budget, other levels keep 8k', async () => {
+    for (const [input, want] of [[{ thinking: 'max' }, 32000], [{ thinking: 'high' }, 8000], [{}, 8000]]) {
+        const caps = [];
+        aiChat.__setDeps({
+            chatRaw: async (m, opts) => { if (opts.purpose === 'chat') caps.push(opts.maxTokens); return { content: 'A 10-K is the annual report a US company files with the SEC.' }; },
+            chatRawStream: async (m, opts) => { if (opts.purpose === 'chat') caps.push(opts.maxTokens); return { content: 'A 10-K is the annual report a US company files with the SEC.' }; }
+        });
+        await aiChat.ask({ question: 'What is a 10-K?', history: [], ctx: {}, mode: 'normal', ...input });
+        assert.ok(caps.length >= 1);
+        assert.deepEqual([...new Set(caps)], [want]);
+    }
+});
+
 test('without deep thinking the model default is left alone', async () => {
     const seen = await effortsFor({});
     assert.ok(seen.length >= 1);

@@ -114,18 +114,31 @@ function annualComparisons(reports, fields) {
     } };
 }
 
-function freeCashFlow(row) {
-    const ocf = observation(row, 'operatingCashflow'), capex = observation(row, 'capitalExpenditures');
+function freeCashFlow(row, { operatingCashflow: field = 'operatingCashflow' } = {}) {
+    const ocf = observation(row, field), capex = observation(row, 'capitalExpenditures');
     const valid = compatible(ocf, capex);
     return {
         value: valid ? ocf.value - Math.abs(capex.value) : null,
         periodEnd: row.fiscalDateEnding, periodStart: row.periodStart || null,
         currency: row.reportedCurrency,
-        formula: 'operatingCashflow - abs(capitalExpenditures)',
-        inputs: { operatingCashflow: ocf, capitalExpenditures: capex },
+        formula: `${field} - abs(capitalExpenditures)`,
+        inputs: { [field]: ocf, capitalExpenditures: capex },
         sourceIds: valid ? [...new Set([...ocf.sourceIds, ...capex.sourceIds])] : [],
         missingReason: valid ? null : 'Both verified cash-flow inputs for the same period and currency are required.'
     };
+}
+
+// Revenue never includes a business reported as discontinued, but operating cash
+// flow usually does, unless the filing also gives the continuing-operations
+// figure (AppLovin FY2024: $3.22bn of continuing revenue against $2.10bn of
+// operating cash flow that still held the apps business it sold in 2025, read
+// as a 65% free-cash-flow margin). Which operating cash flow a share of revenue
+// may use, or why none can be used.
+const MIXED_CASH_BASIS = 'This period has discontinued operations: revenue leaves the discontinued business out, but the filed operating cash flow includes it and no continuing-operations cash flow is filed, so a cash-flow share of revenue would mix the two.';
+function revenueCashBasis(income, cash) {
+    if (!observation(income, 'discontinuedOperations').value) return { operatingCashflow: 'operatingCashflow' };
+    if (observation(cash, 'operatingCashflowContinuing').value !== null) return { operatingCashflow: 'operatingCashflowContinuing' };
+    return { operatingCashflow: null, missingReason: MIXED_CASH_BASIS };
 }
 
 function capitalReturns(row) {
@@ -239,5 +252,5 @@ function requiresEvidence(question, answer) {
         !definition && !/\b(hypothetical|suppose|assume)\b/i.test(question);
 }
 
-module.exports = { observation, rowEvidence, provenance, compatible, quarterlyComparisons, annualComparisons, freeCashFlow, capitalReturns, calculate,
-    toolError, serializeResult, fitHistory, filingLinks, appendCitations, requiresEvidence, MAX_RESULT_BYTES, MAX_CONTEXT_BYTES };
+module.exports = { observation, rowEvidence, provenance, compatible, quarterlyComparisons, annualComparisons, freeCashFlow, revenueCashBasis, capitalReturns, calculate,
+    toolError, serializeResult, fitHistory, filingLinks, appendCitations, requiresEvidence, MAX_RESULT_BYTES, MAX_CONTEXT_BYTES, MIXED_CASH_BASIS };

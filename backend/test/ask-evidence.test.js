@@ -69,6 +69,34 @@ test('FCF uses capex magnitude, zero remains valid, missing inputs stay null', (
     r.capitalExpenditures = null; assert.equal(e.freeCashFlow(r).value, null);
 });
 
+// AppLovin FY2024 read a 65% FCF margin: revenue restated to continuing
+// operations against operating cash flow that still held the sold apps business.
+test('a year with discontinued operations sets only continuing cash flow against revenue', async () => {
+    const withDiscontinued = (continuing) => {
+        const d = structuredClone(appleFixture), inc = d.income.annualReports[0];
+        const cash = d.cash.annualReports.find(r => r.fiscalDateEnding === inc.fiscalDateEnding);
+        Object.assign(inc, { discontinuedOperations: -9748000 }); inc._sources = { ...inc._sources, discontinuedOperations: ['disc'] };
+        if (continuing !== undefined) { cash.operatingCashflowContinuing = continuing; cash._sources = { ...cash._sources, operatingCashflowContinuing: ['cont'] }; cash._scopes = { ...cash._scopes, operatingCashflowContinuing: cash._scopes?.capitalExpenditures }; }
+        cache.loadFundamentals = symbol => symbol === 'AAPL' ? structuredClone(d) : originalLoad(symbol);
+        return { inc, cash };
+    };
+    const { inc } = withDiscontinued();
+    let r = await ask.runTool('get_ratios_history', { symbol: 'AAPL', limit: 2, metrics: ['fcfMarginPct', 'capexPctRevenue', 'ocfToNetIncome'] });
+    let latest = r.observations.find(o => o.periodEnd === inc.fiscalDateEnding).metrics;
+    assert.equal(latest.fcfMarginPct.value, null);
+    assert.equal(latest.capexPctRevenue.value, null);
+    assert.match(latest.fcfMarginPct.missingReason, /discontinued operations/);
+    assert.notEqual(latest.ocfToNetIncome.value, null);
+    assert.notEqual(r.observations.find(o => o.periodEnd !== inc.fiscalDateEnding).metrics.fcfMarginPct.value, null);
+    const { cash } = withDiscontinued(100000000000);
+    r = await ask.runTool('get_ratios_history', { symbol: 'AAPL', limit: 1, metrics: ['fcfMarginPct'] });
+    latest = r.observations[0].metrics.fcfMarginPct;
+    assert.equal(latest.inputs.numerator.formula, 'operatingCashflowContinuing - abs(capitalExpenditures)');
+    assert.equal(latest.value, (1e11 - Math.abs(cash.capitalExpenditures)) / inc.totalRevenue * 100);
+    // A reported zero is no discontinued business.
+    assert.deepEqual(e.revenueCashBasis({ discontinuedOperations: 0, _sources: { discontinuedOperations: ['d'] } }, {}), { operatingCashflow: 'operatingCashflow' });
+});
+
 test('calculated ratios require period, unit and optional scope compatibility', () => {
     const a = e.observation(row('2025-06-28', '2025-03-30', 5), 'totalRevenue');
     const calculate = b => e.calculate({ a, b }, 'a / b', (x, y) => x / y, { sameScope: true }).value;

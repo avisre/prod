@@ -58,6 +58,15 @@ test('complete old history still reports a missing latest filing period',()=>{
  assert.equal(missing.length,1);assert.equal(missing[0].requiredPeriodEnd,'2025-12-31');
  facts.push({...base,periodEnd:'2025-12-31'});assert.deepEqual(obs.gaps(facts,['totalRevenue'],{annual:5,quarterly:0},'quarterly',reporting),[]);
 });
+// AppLovin files no capital-expenditure line from FY2025 while its other lines for that year were read.
+test('a latest period read for other lines reports no value for the missing one, not that it was never extracted',()=>{
+ const base={issuer:company.cik,field:'capitalExpenditures',basis:'annual',state:'available',scope:'entity',unit:'USD',accountingBasis:'US GAAP'};
+ const facts=Array.from({length:5},(_,i)=>({...base,periodEnd:(2024-i)+'-12-31'}));
+ const reporting={latestAnnual:{reportDate:'2025-12-31',filingUrl:'https://www.sec.gov/filing.htm'}};
+ assert.equal(obs.gaps(facts,['capitalExpenditures'],{annual:5,quarterly:0},'quarterly',reporting)[0].reason,'The latest filed reporting period has not been extracted');
+ facts.push({...base,field:'operatingCashflow',periodEnd:'2025-12-31'});
+ assert.equal(obs.gaps(facts,['capitalExpenditures'],{annual:5,quarterly:0},'quarterly',reporting)[0].reason,'The latest filed reporting period reports no value for this line');
+});
 test('a missing interim period attempts its original SEC filing before Yahoo',async()=>{
  const {doc,evidence}=fixture(),accession='0000000123-26-000002',attempts=[];
  const reporting={...evidence,latestPeriodic:{form:'10-Q',accessionNumber:accession,reportDate:'2026-03-31',filingDate:'2026-05-01',primaryDocument:'quarter.htm'},lastSuccessfulCheckAt:new Date().toISOString()};

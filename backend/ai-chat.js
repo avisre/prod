@@ -290,6 +290,10 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
         return !redundant;
     });
     const suppliedCalculations = [...calculations, ...compatibleCalculations];
+    // get_ratios leaves these ratios blank; without this the cash rows and the
+    // income rows are divided by hand instead (AppLovin FY2024 came out at 65%).
+    const incomeRows = (data.income || {})[annual ? 'annualReports' : 'quarterlyReports'] || [];
+    const mixedPeriods = st === 'cash' ? rows.filter(r => !evidence.revenueCashBasis(incomeRows.find(i => i.fiscalDateEnding === r.fiscalDateEnding), r).operatingCashflow).map(r => r.fiscalDateEnding) : [];
     const result = evidence.fitHistory({
         symbol: String(symbol).toUpperCase(),
         statement: st,
@@ -300,6 +304,7 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
         units: `${currency} millions in table only, except dilutedEPS and eps (${currency}/share) and commonStockSharesOutstanding and the weightedAverageShares fields (millions of shares). Observations and calculations use raw unscaled values.`,
         note: 'Use exact periodEnd dates from observations; do not substitute calendar month-ends. Negative capitalExpenditures/dividendPayout/buybacks = cash outflow.' + (st === 'cash' ? ' So is a negative repaymentsOfLongTermDebt. changeInReceivables, changeInInventory and changeInOperatingAssets are as filed: positive is an increase in the asset, which reduces operating cash flow; for changeInAccountsPayable and changeInOperatingLiabilities positive is an increase in the liability, which adds to it. cashFlowNetIncome is this statement\'s consolidated starting line, which can include noncontrolling interests.' : st === 'balance' ? ' treasuryStock is negative, a deduction from equity.' : '') + ' Rows newest first. Use the supplied dated comparisons for YoY/QoQ; never choose a comparator by array position. Missing growth is unavailable. Share counts and per-share figures are AS FILED, not split-adjusted.',
         ...(unavailableFields.length ? { unavailableFields, unavailableReason: 'No compatible verified SEC fact fills these fields in any returned period; they are omitted from the table and observations, not zero.' } : {}),
+        ...(mixedPeriods.length ? { cashBasisWarning: { periods: mixedPeriods, note: evidence.MIXED_CASH_BASIS + ' For these periods never divide operatingCashflow, capitalExpenditures or free cash flow by revenue (no FCF margin, cash conversion or capex share of revenue): say the ratio is not meaningful on the filed figures. The cash amounts themselves can be quoted.' } } : {}),
         coverage: data.coverage,freshness:data.freshness,industryObservations:(data.industryObservations || []).map(f=>{const {reconciliation,...receipt}=f;return {...receipt,reconciliationStatus:reconciliation?.status,reconciliationDigest:reconciliation?.tableDigest};}),supplementalObservations:(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly')),
         observations, comparisons, calculations: suppliedCalculations, capitalReturns,
         // Metrics the issuer's XBRL facts cannot carry — EBITDA and EBIT have no
@@ -357,7 +362,9 @@ async function toolGetRatios({ symbol, limit, before, basis = 'annual', metrics:
             percent ? '(numerator / denominator) * 100' : 'numerator / denominator',
             (x, z) => z > 0 ? x / z * (percent ? 100 : 1) : null, { sameScope });
         const i = field => o('income', field), bal = field => o('balance', field), cash = field => o('cash', field);
-        const fcf = evidence.freeCashFlow(y.cash || {});
+        const cashBasis = evidence.revenueCashBasis(y.income, y.cash);
+        const fcf = evidence.freeCashFlow(y.cash || {}, cashBasis);
+        const mixed = metric => cashBasis.operatingCashflow ? metric : { ...metric, value: null, sourceIds: [], missingReason: cashBasis.missingReason };
         const debt = num(y.balance?.shortLongTermDebtTotal) !== null ? bal('shortLongTermDebtTotal') : {
             ...evidence.calculate({ noncurrent: bal('longTermDebt'), current: bal('shortTermDebt') }, 'noncurrent + current', (x, z) => x + z),
             periodEnd: y.end, currency: y.balance?.reportedCurrency, periodStart: null
@@ -367,14 +374,14 @@ async function toolGetRatios({ symbol, limit, before, basis = 'annual', metrics:
             opMarginPct: divide(i('operatingIncome'), i('totalRevenue'), true),
             netMarginPct: divide(i('netIncome'), i('totalRevenue'), true),
             rdIntensityPct: divide(i('researchAndDevelopment'), i('totalRevenue'), true),
-            fcfMarginPct: divide(fcf, i('totalRevenue'), true),
+            fcfMarginPct: mixed(divide(fcf, i('totalRevenue'), true)),
             roePct: divide(i('netIncome'), bal('totalShareholderEquity'), true, true),
             roaPct: divide(i('netIncome'), bal('totalAssets'), true),
             currentRatio: divide(bal('totalCurrentAssets'), bal('totalCurrentLiabilities')),
             debtToEquity: divide(debt, bal('totalShareholderEquity')),
             ocfToNetIncome: divide(cash('operatingCashflow'), i('netIncome')),
-            capexPctRevenue: evidence.calculate({ capex: cash('capitalExpenditures'), revenue: i('totalRevenue') },
-                'abs(capex) / revenue * 100', (x, z) => z > 0 ? Math.abs(x) / z * 100 : null),
+            capexPctRevenue: mixed(evidence.calculate({ capex: cash('capitalExpenditures'), revenue: i('totalRevenue') },
+                'abs(capex) / revenue * 100', (x, z) => z > 0 ? Math.abs(x) / z * 100 : null)),
             sharesOutM: evidence.calculate({ shares: bal('commonStockSharesOutstanding') }, 'shares / 1000000', x => x / 1e6)
         };
         observations.push({ periodEnd: y.end, currency: y.income?.reportedCurrency || y.balance?.reportedCurrency || y.cash?.reportedCurrency, metrics: Object.fromEntries(names.map(name => [name, metrics[name]])) });
@@ -2317,6 +2324,10 @@ async function ask(input) {
 async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     // null leaves the model default (ai-client reasoningFor); deep thinking asks for high.
     const reasoningEffort = thinking === 'max' ? 'max' : thinking ? 'high' : null;
+    // Max effort can spend 8,000 tokens reasoning and return no text (measured
+    // 2026-10-18: every failed Max answer stopped at exactly 8,000), and the
+    // empty-answer retry then hits the same wall. Max gets room to write.
+    const answerTokens = reasoningEffort === 'max' ? 32000 : 8000;
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty', quality: { terminalReason: 'empty_question' } };
     let policy = reportPolicy.select(q, mode);
@@ -2449,7 +2460,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 const corrected = await (reviser ? (m, o) => deps.chatRawStream(m, o, reviser.onDelta) : deps.chatRaw)(messages.concat(
                     { role: 'assistant', content: text },
                     { role: 'system', content: 'Revise the answer once using ONLY the existing tool evidence. No further research. Fix every issue below, keep the requested scope and omit unsupported explanations. Use observations/calculations in raw units for charts. Delete unsupported figures and their dependent claims; preserve supported detail. Structural issues may be fixed by reorganising the existing evidence. For unsupported precision: a figure the tool results do not carry is deleted together with the sentence that needs it — never restated at another precision, never replaced with one from memory, never rounded to look like a different figure. Do not add any figure that is not already in the tool results. When the issue says the answer is over the word limit, remove repetition first and keep the useful supported business explanation, requested tables, visuals and gap reasons within the selected policy limit.\n' + issues.join('\n') }
-                ), { purpose: 'chat', temperature: 0.1, maxTokens: 8000, toolChoice: 'none', reasoningEffort });
+                ), { purpose: 'chat', temperature: 0.1, maxTokens: answerTokens, toolChoice: 'none', reasoningEffort });
                 if (corrected._usage && num(corrected._usage.total_tokens) !== null) totalTokens += corrected._usage.total_tokens;
                 const correctedText = String(corrected.content || '').replace(THINK_RE, '').trim();
                 text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeDraft(correctedText), suppliedResults, { ...policy, question: q }), sourceLinks);
@@ -2724,7 +2735,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 ? activeTools.filter(tool => !preparedReportEvidence.some(item => item.tool === tool.function?.name))
                 : activeTools;
             const opts = {
-                purpose: 'chat', temperature: 0.3, maxTokens: 8000,
+                purpose: 'chat', temperature: 0.3, maxTokens: answerTokens,
                 reasoningEffort,
                 tools: lastRound ? null : reportTools
             };
@@ -2969,7 +2980,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             if (messages[messages.length - 1].content !== closingDirective) {
                 messages.push({ role: 'system', content: closingDirective });
             }
-            const finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: 8000, reasoningEffort });
+            const finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: answerTokens, reasoningEffort });
             if (finalMsg._usage && num(finalMsg._usage.total_tokens) !== null) totalTokens += finalMsg._usage.total_tokens;
             const finalText = String(finalMsg.content || '').replace(THINK_RE, '').trim();
             if (finalText && !aiClient.leaksIdentity(finalText)) {

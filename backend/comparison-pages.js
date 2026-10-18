@@ -267,7 +267,7 @@ function head(title, description, canonical, jsonld) {
 <meta name="twitter:image" content="${OG_IMAGE}" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="stylesheet" href="/styles.css?v=20260610-1" />
-<link rel="stylesheet" href="/assets/system.css?v=20261018-ui23" />
+<link rel="stylesheet" href="/assets/system.css?v=20261018-ui24" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -282,7 +282,9 @@ function head(title, description, canonical, jsonld) {
   .seo-h1{font-size:clamp(24px,3vw,32px);font-weight:800;margin:10px 0 8px;letter-spacing:-.02em}
   .seo-sub{color:var(--muted);font-size:15px;line-height:1.7;margin:0 0 18px}
   .cmp-table{width:100%;border-collapse:collapse;font-size:14px;margin:18px 0}
-  .cmp-table th,.cmp-table td{padding:11px 14px;border-bottom:1px solid var(--border-soft);text-align:left;vertical-align:top}
+  .cmp-table th,.cmp-table td{padding:11px 14px;border-bottom:1px solid var(--border-soft);text-align:left;vertical-align:top;overflow-wrap:anywhere}
+  .cmp-scroll{overflow-x:auto}
+  @media (max-width:520px){.cmp-table th,.cmp-table td{padding:9px 8px}}
   .cmp-table thead th{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
   .cmp-table td:first-child{font-weight:600;color:var(--muted);width:26%}
   .cmp-table .us{color:var(--text);font-weight:600}
@@ -294,7 +296,7 @@ function head(title, description, canonical, jsonld) {
 }
 
 function nav() {
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261018-ui23"></script><script>V2.nav('compare');</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261018-ui24"></script><script>V2.nav('compare');</script>`;
 }
 function footer() {
     return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo" rel="nofollow">Live demo</a> &middot; <a href="/register?plan=monthly">Plans</a></p>
@@ -339,10 +341,10 @@ function renderComparison(slug) {
 <main class="seo-wrap">
   <h1 class="seo-h1">stockportfolio.pro vs ${esc(c.name)}</h1>
   <p class="seo-sub">${esc(c.blurb)} If you&rsquo;re weighing ${esc(c.name)}, here&rsquo;s an honest side-by-side. stockportfolio.pro is a calm, single-screen workflow for long-term investors — holdings, allocation, fundamentals and news in one place for <strong>$79.99/month or $649.99/year</strong>.</p>
-  <table class="cmp-table">
+  <div class="cmp-scroll"><table class="cmp-table">
     <thead><tr><th>&nbsp;</th><th>stockportfolio.pro</th><th>${esc(c.name)}</th></tr></thead>
     <tbody>${rows}</tbody>
-  </table>
+  </table></div>
   <p class="seo-sub"><strong>${esc(c.name)} pricing:</strong> ${esc(c.theirPrice)} Prices change, so confirm on their site.</p>
   <div class="seo-cta">
     <h3 style="margin:0 0 8px">Try stockportfolio.pro free for 7 days</h3>

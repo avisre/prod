@@ -146,3 +146,28 @@ test('Ask is offered the tool and told never to swap the reader\'s condition for
     assert.match(uq.TOOL.function.description, /never replace the user's condition with a different metric/);
     for (const line of ['revenue', 'sbc', 'buybacks', 'shares_outstanding', 'operating_cash_flow']) assert.ok(uq.HELP.includes(line));
 });
+
+// 2026-10-18: Ask answered "AppLovin's FY2024 free cash flow margin was 65.0%"
+// from this tool. FY2024 revenue was restated to leave out the Apps business
+// sold to Tripledot, while the filed operating cash flow still included it.
+test('a cash-flow share of revenue is blank for a period with discontinued operations, and says why', () => {
+    const fact = (s, disc) => ({ s, c: 'USD', a: { ends: ['2025-12-31', '2024-12-31'], f: { revenue: [100, 80], operating_cash_flow: [70, 52], capex: [-2, -1], ...(disc ? { discontinued_operations: disc } : {}) } } });
+    const items = [
+        { row: { symbol: 'DISC', name: 'DISC Inc.', sector: 'Information Technology', marketCapB: 20 }, fact: fact('DISC', [null, -9]) },
+        { row: { symbol: 'PLAIN', name: 'PLAIN Inc.', sector: 'Information Technology', marketCapB: 10 }, fact: fact('PLAIN', null) }
+    ];
+    const columns = [
+        { name: 'fcf_margin_prior', formula: 'pct(fy(operating_cash_flow, 1) - abs(fy(capex, 1)), fy(revenue, 1))', unit: 'percent' },
+        { name: 'fcf_margin_latest', formula: 'pct(fy(operating_cash_flow) - abs(fy(capex)), fy(revenue))', unit: 'percent' },
+        { name: 'ocf_prior', formula: 'fy(operating_cash_flow, 1)', unit: 'usd' }
+    ];
+    const out = run({ columns, include_stale: true }, items);
+    assert.deepEqual(cellsOf(out.table, 'DISC').slice(6), ['', '68.0', '52'], 'the mixed year is blank; a clean year and the filed cash flow itself still show');
+    assert.deepEqual(cellsOf(out.table, 'PLAIN').slice(6), ['63.7', '68.0', '52']);
+    assert.deepEqual(out.mixedCashBasis.blanked, ['DISC fcf_margin_prior']);
+    assert.match(out.mixedCashBasis.note, /discontinued operations/);
+    const screened = run({ where: 'pct(fy(operating_cash_flow, 1), fy(revenue, 1)) > 10', include_stale: true }, items);
+    assert.deepEqual(screened.table.split('\n').slice(1).map(l => l.split('|')[0]), ['PLAIN'], 'a mixed figure never passes a condition');
+    const rows = items.map(c => c.row), facts = { v: 1, asOf: '2026-07-15', rows: items.map(c => c.fact), bySymbol: new Map(items.map(c => [c.fact.s, c.fact])) };
+    assert.deepEqual(uq.valuesFor('DISC', [columns[0].formula, columns[2].formula], { screenRows: rows, facts }), [null, 52]);
+});

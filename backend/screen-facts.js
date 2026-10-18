@@ -32,6 +32,7 @@ const FIELDS = {
     pretax_income: ['income', 'incomeBeforeTax'],
     income_tax: ['income', 'incomeTaxExpense'],
     net_income: ['income', 'netIncome'],
+    discontinued_operations: ['income', 'discontinuedOperations'],
     eps_diluted: ['income', 'dilutedEPS'],
     diluted_shares: ['income', 'weightedAverageSharesDiluted'],
     total_assets: ['balance', 'totalAssets'],

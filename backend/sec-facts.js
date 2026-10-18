@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261017-fills10';
+const EXTRACTION_VERSION = '20261018-discontinued1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -52,7 +52,13 @@ const MAPS = {
   // blank for every stock although SEC has them). Last, so they never set a
   // row's period. Plain "Depreciation" is not D&A and is not read.
   depreciationAndAmortization:mapping(['DepreciationDepletionAndAmortization','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet'],['DepreciationAndAmortisationExpense','AdjustmentsForDepreciationAndAmortisationExpense']),
-  otherNonOperatingIncome:mapping(['OtherNonoperatingIncomeExpense','NonoperatingIncomeExpense'],[])
+  otherNonOperatingIncome:mapping(['OtherNonoperatingIncomeExpense','NonoperatingIncomeExpense'],[]),
+  // Profit or loss of a business being sold, after tax. Read so that a year whose revenue is
+  // restated to continuing operations is not divided into cash flows that still include the
+  // sold business (AppLovin FY2024: $3.22bn continuing revenue against $2.10bn of total
+  // operating cash flow read as a 65% free-cash-flow margin; the apps business it sold in
+  // 2025 was in the cash but not the revenue). Last and fill-only, so it never sets a period.
+  discontinuedOperations:mapping(['IncomeLossFromDiscontinuedOperationsNetOfTax','IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity','IncomeLossFromDiscontinuedOperationsNetOfTaxIncludingPortionAttributableToNoncontrollingInterest'],['ProfitLossFromDiscontinuedOperations'])
  },
  balance: {
   // Total liabilities and equity equals total assets on every balance sheet; a
@@ -168,6 +174,7 @@ const LAST_RESORT = new Set(['us-gaap:EarningsPerShareBasicAndDiluted','us-gaap:
  'us-gaap:PartnersCapitalIncludingPortionAttributableToNoncontrollingInterest','us-gaap:LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest',
  'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations','us-gaap:RegulatedAndUnregulatedOperatingRevenue','us-gaap:GrossInvestmentIncomeOperating','us-gaap:NetIncomeLossPerOutstandingLimitedPartnershipUnitBasicNetOfTax','us-gaap:NetIncomeLossNetOfTaxPerOutstandingLimitedPartnershipUnitDiluted',
  'us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted','ifrs-full:BasicAndDilutedEarningsLossPerShare']);
+const DISCONTINUED_ADDED = [...MAPS.income.discontinuedOperations['us-gaap'].map(t=>'us-gaap:'+t),...MAPS.income.discontinuedOperations['ifrs-full'].map(t=>'ifrs-full:'+t)];
 const OUTFLOWS = new Set(['capitalExpenditures','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock','repaymentsOfLongTermDebt','treasuryStock']);
 // Tags first read on 2026-10-17. Like the 2026-10-06 additions they fill a
 // figure but never add a year or quarter of their own. Tags that were already
@@ -328,7 +335,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  // A figure a guard turned down is recorded, so neither a presented line under the same tag nor the same-filing
  // last-good rule (sec-last-good.js) puts it back: FBS Global 2025 cash of S$4.0m beside S$5.3m of equivalents was.
  const rejected=new Map(),reject=(st,basis,end,field,tag)=>{const k=st+'|'+basis+'|'+end+'|'+field;if(!rejected.has(k))rejected.set(k,new Set());rejected.get(k).add(tag);};
- const added=new Set([...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations',...ROWS_ADDED,...FILLS_ADDED,...fillGuards]);
+ const added=new Set([...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...FILLS_ADDED,...fillGuards]);
  for(const [taxonomy, concepts] of Object.entries(document.facts)) for(const [concept, def] of Object.entries(concepts)) {
   if(!wanted.has(taxonomy + ':' + concept)) continue;
   for(const [unit, facts] of Object.entries(def.units || {})) for(const f of facts) {

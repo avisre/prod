@@ -456,6 +456,14 @@
         const ocf = num(r.operatingCashflow); const capex = num(r.capitalExpenditures);
         return (ocf !== null && capex !== null) ? ocf + capex : null;
     };
+    // Free cash flow to set against the same year's revenue. Revenue leaves out a
+    // business reported as discontinued; operating cash flow usually keeps it in
+    // (AppLovin FY2024 read 65%), so such a year uses the continuing-operations
+    // cash flow where filed and otherwise has no FCF margin.
+    const fcfForRevenue = (inc, c) => {
+        if (!num(inc.discontinuedOperations)) return fcfOf(c);
+        return fcfOf({ operatingCashflow: c.operatingCashflowContinuing, capitalExpenditures: c.capitalExpenditures });
+    };
     function cagr(first, last, years) {
         if (first === null || last === null || first <= 0 || last <= 0 || years < 1.5) return null;
         return (Math.pow(last / first, 1 / years) - 1) * 100;
@@ -1494,7 +1502,7 @@
         { label: 'Revenue CAGR (5y)', get: (p) => { const a = ((p.income || {}).annualReports || []); const b = Math.min(5, a.length - 1); const c = cagr(derive(a[b] || {}).rev, derive(a[0] || {}).rev, b); return c === null ? '—' : signedPct(c); } },
         { label: 'Gross margin', get: (p) => { const r = ((p.income || {}).annualReports || [])[0] || {}; const d = derive(r); return pctFmt(ratio(d.gp, d.rev)); } },
         { label: 'Net margin', get: (p) => { const r = ((p.income || {}).annualReports || [])[0] || {}; return pctFmt(ratio(num(r.netIncome), derive(r).rev)); } },
-        { label: 'FCF margin', get: (p) => { const c = ((p.cash || {}).annualReports || [])[0] || {}; const r = ((p.income || {}).annualReports || [])[0] || {}; return pctFmt(ratio(fcfOf(c), derive(r).rev)); } },
+        { label: 'FCF margin', get: (p) => { const c = ((p.cash || {}).annualReports || [])[0] || {}; const r = ((p.income || {}).annualReports || [])[0] || {}; return pctFmt(ratio(fcfForRevenue(r, c), derive(r).rev)); } },
         { label: 'Return on equity', get: (p) => { const i = ((p.income || {}).annualReports || [])[0] || {}; const b = ((p.balance || {}).annualReports || [])[0] || {}; return pctFmt(ratio(num(i.netIncome), num(b.totalShareholderEquity))); } },
         { label: 'Dividend yield', get: (p) => { const d = num((p.overview || {}).DividendYield); return d === null ? '—' : pct(d * 100, 2); } }
     ];
@@ -2054,7 +2062,7 @@
         { label: 'Gross margin', get: (y) => { const d = derive(y.income || {}); return ratio(d.gp, d.rev); }, fmt: pctFmt },
         { label: 'Operating margin', get: (y) => ratio(num((y.income || {}).operatingIncome), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'Net margin', get: (y) => ratio(num((y.income || {}).netIncome), derive(y.income || {}).rev), fmt: pctFmt },
-        { label: 'FCF margin', get: (y) => ratio(fcfOf(y.cash || {}), derive(y.income || {}).rev), fmt: pctFmt },
+        { label: 'FCF margin', get: (y) => ratio(fcfForRevenue(y.income || {}, y.cash || {}), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'Return on equity', get: (y) => (y.income?._scopes?.netIncome===y.balance?._scopes?.totalShareholderEquity ? ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalShareholderEquity)) : null), fmt: pctFmt },
         { label: 'Return on assets', get: (y) => ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalAssets)), fmt: pctFmt },
         { label: 'Current ratio', get: (y) => ratio(num((y.balance || {}).totalCurrentAssets), num((y.balance || {}).totalCurrentLiabilities)), fmt: (v) => v === null ? '—' : fixed(v, 2) },

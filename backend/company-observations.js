@@ -54,7 +54,10 @@ function gaps(facts,fields,periods,cadence='quarterly',reporting={}) {
    if(basis==='quarterly' && cadence==='quarterly')for(let i=1;i<Math.min(count,dates.length);i++){const delta=(Date.parse(dates[i-1])-Date.parse(dates[i]))/86400000;if(delta<75 || delta>105){out.push({field,basis,state:'missing',reason:'Nonconsecutive quarterly history',after:dates[i],before:dates[i-1]});break;}}
    const latest=basis==='annual'?reporting.latestAnnual:cadence==='quarterly' && /^(10-Q|10-K)(\/A)?$/.test(reporting.latestPeriodic?.form || '')?reporting.latestPeriodic:null;
    const requiredEnd=p.day(latest?.reportDate);
-   if(requiredEnd && !selected.some(f=>Date.parse(f.periodEnd)>=Date.parse(requiredEnd)-14*86400000))out.push({field,basis,state:'missing',reason:'The latest filed reporting period has not been extracted',requiredPeriodEnd:requiredEnd,filingUrl:latest.filingUrl || null});
+   // When other lines of that period were extracted, the filing was read and reports no value for this one
+   // (AppLovin files no capital-expenditure line from FY2025): saying it "has not been extracted" read as our failure.
+   const reaches=f=>Date.parse(f.periodEnd)>=Date.parse(requiredEnd)-14*86400000;
+   if(requiredEnd && !selected.some(reaches))out.push({field,basis,state:'missing',reason:facts.some(f=>(f.historyBasis || f.basis)===basis && f.state==='available' && reaches(f))?'The latest filed reporting period reports no value for this line':'The latest filed reporting period has not been extracted',requiredPeriodEnd:requiredEnd,filingUrl:latest.filingUrl || null});
   }
  }
  return out;
