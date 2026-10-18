@@ -24,10 +24,10 @@ function load() {
     };
     vm.createContext(ctx);
     vm.runInContext(slice('  const fyOf = ', '  (function wireChartReadouts(') + slice('  function miniBars(', '  function decisionTrends(') +
-        '\n;globalThis.__f = { chartBars, chartGroupedBars, seriesPanel, miniBars, trendChangeLine };', ctx);
+        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine };', ctx);
     return ctx.__f;
 }
-const { chartBars, chartGroupedBars, seriesPanel, miniBars, trendChangeLine } = load();
+const { chartBars, chartGroupedBars, miniBars, trendChangeLine } = load();
 
 // TXRH's shape: operating margin every year, ROIC only where total debt was filed.
 const HISTORY = [
@@ -51,33 +51,22 @@ test('every year chart reads out its numbers, latest year by default, any year o
     assert.match(bars, /data-read="FY2024: \$100"/, 'each year is a hit column carrying its own figure');
     assert.equal((bars.match(/class="dos-bar-val"/g) || []).length, 2, 'the value is printed over every bar');
     const grouped = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', label: 'Operating margin', fmt: (v) => v + '%', color: 'grey' }, { key: 'roicPct', label: 'ROIC', fmt: (v) => v + '%', color: 'green' }]);
-    assert.match(grouped, /data-default="FY2025 · Operating margin 8\.1% · ROIC not filed"/);
     assert.match(grouped, /data-read="FY2022 · Operating margin 8% · ROIC 24\.3%"/);
     assert.match(miniBars(HISTORY, 'roicPct', 'ink', (v) => v + '%'), /data-read="FY2022: 24\.3%"/);
 });
 
-test('the grouped charts print every filed figure above its bars, as the revenue chart does', () => {
-    const svg = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', label: 'Operating margin', fmt: (v) => v + '%', color: 'grey' }, { key: 'roicPct', label: 'ROIC', fmt: (v) => v + '%', color: 'green' }]);
-    const vals = svg.match(/<text class="dos-bar-val"[^>]*>[^<]*<\/text>/g) || [];
-    assert.equal(vals.length, 8, 'six margins and two ROICs; a year without a ROIC prints none');
-    assert.ok(vals.some((t) => /data-i="4"[^>]*fill="green"[^>]*>24\.3%</.test(t)), 'each figure is in its own series colour');
-    const neg = chartGroupedBars([{ fy: '2024', ni: 5 }, { fy: '2025', ni: -2 }], [{ key: 'ni', label: 'Net income', fmt: (v) => '$' + v, color: 'grey' }]);
-    assert.match(neg, /fill="#b4422f"[^>]*>\$-2</, 'a one-series chart prints a loss in red');
-});
-
-test('a loss is drawn in red and its figure sits below the bar', () => {
-    // FRGT-like: both lines negative for years, then one turns positive.
-    const rows = [{ fy: '2022', ni: -140, fcf: -154 }, { fy: '2023', ni: 11, fcf: -101 }, { fy: '2025', ni: 205, fcf: 189 }];
+test('a two-series chart reads its figures out beside the bars, one line per series, never on them', () => {
+    const rows = [{ fy: '2022', ni: -140, fcf: -154 }, { fy: '2023', ni: 11, fcf: -101 }, { fy: '2025', ni: 205, fcf: null }];
     const svg = chartGroupedBars(rows, [{ key: 'ni', label: 'Net income', fmt: (v) => '$' + v, color: 'grey' }, { key: 'fcf', label: 'Free cash flow', fmt: (v) => '$' + v, color: 'green' }]);
+    assert.doesNotMatch(svg, /dos-bar-val/, 'no figures on the bars');
     assert.match(svg, /<rect[^>]*fill="#b4422f"/, 'a loss bar is red');
-    const zero = Number(svg.match(/<line x1="0" y1="([\d.]+)"/)[1]);
-    const at = (label) => Number(svg.match(new RegExp('y="([\\d.]+)"[^>]*>\\' + label + '<'))[1]);
-    assert.ok(at('$-154') > zero && at('$-140') > zero, 'loss figures sit below the zero line, by their bars');
-    assert.ok(at('$11') < zero && at('$-101') > zero, 'a mixed year splits: the gain above, the loss below');
-    assert.ok(at('$205') < zero);
-    const bottomBar = Math.max(...[...svg.matchAll(/<rect class="dos-bar"[^>]* y="([\d.]+)"[^>]* height="([\d.]+)"/g)].map((m) => Number(m[1]) + Number(m[2])));
-    const yearY = Number(svg.match(/y="([\d.]+)" font-size="10"/)[1]);
-    assert.ok(at('$-154') > bottomBar && at('$-154') < yearY - 8, 'the lowest figure fits between its bar and the year labels');
+    const years = svg.match(/<div class="dos-side-year[^"]*" data-i="\d"/g) || [];
+    assert.equal(years.length, 3, 'one readout block per year, tied to its hit column by data-i');
+    assert.match(svg, /dos-side-year is-default" data-i="2"><div class="dos-side-fy">FY2025</, 'the latest year shows by default');
+    assert.match(svg, /data-i="0">.*Net income<\/span><b style="color:#b4422f">\$-140<\/b>.*Free cash flow<\/span><b style="color:#b4422f">\$-154</, 'each series on its own line, a loss in red');
+    assert.match(svg, /data-i="2">.*Free cash flow<\/span><b><em>not filed<\/em>/, 'a missing figure says so');
+    const css = fs.readFileSync(path.join(ROOT, 'frontend-v2', 'dossier.html'), 'utf8');
+    assert.match(css, /\.dos-chart--side:not\(\.has-sel\) \.dos-side-year\.is-default, \.dos-chart--side \.dos-side-year\.on \{ display:block; \}/);
 });
 
 test('one figure on a near-zero base is drawn broken instead of flattening every other year', () => {
@@ -87,21 +76,15 @@ test('one figure on a near-zero base is drawn broken instead of flattening every
     const h = [...svg.matchAll(/<rect class="dos-bar"[^>]* height="([\d.]+)"/g)].map((m) => Number(m[1]));
     assert.ok(Math.min(...h) > 20, `the ordinary years keep a readable height (${h})`);
     assert.equal((svg.match(/dos-bar-break/g) || []).length, 1, 'only the outlier is broken');
-    assert.match(svg, />-668808\.7%</, 'its label still prints the filed figure');
+    assert.match(svg, />-668808\.7%</, 'the readout still gives the filed figure');
     const plain = chartGroupedBars(rows.filter((r) => r.fy !== '2020'), [{ key: 'm', label: 'Operating margin', color: 'grey' }]);
     assert.doesNotMatch(plain, /dos-bar-break/, 'an ordinary spread is never broken');
 });
 
-test('net income, free cash flow, margin and ROIC each get their own chart, one figure per bar', () => {
-    // Two figures stacked over each year were too close to tell apart.
-    for (const t of ['Net income', 'Free cash flow', 'Operating margin', 'Return on invested capital']) assert.match(SRC, new RegExp("seriesPanel\\('" + t + "'"));
-    assert.doesNotMatch(SRC, /<h3>Earnings and cash<\/h3>|<h3>Margins and returns<\/h3>/);
-    const calls = SRC.match(/chartGroupedBars\((fin|history), \[[^\]]*\]\)/g) || [];
-    assert.ok(calls.length >= 5);
-    for (const c of calls) assert.equal((c.match(/key:/g) || []).length, 1, c);
-    // A metric with under two filed years gets no panel, not a bare heading.
-    assert.equal(seriesPanel('ROIC', 'x', chartGroupedBars([{ fy: '2025', r: 4 }], [{ key: 'r', color: 'green' }])), '');
-    assert.match(seriesPanel('ROIC', 'x', '<svg></svg>'), /<h3>ROIC<\/h3>/);
+test('Earnings and cash and Margins and returns are combined charts again', () => {
+    assert.match(SRC, /<h3>Earnings and cash<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'netIncome'.*\{ key: 'fcf'/);
+    assert.match(SRC, /<h3>Margins and returns<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'opMarginPct'.*\{ key: 'roicPct'/);
+    assert.doesNotMatch(SRC, /fmt: \(v\) => v \+ '%'/, 'a negative margin reads "-45.1%" beside "−$8M"; use the same minus sign');
 });
 
 test('the charts scale with their width instead of a fixed height that letterboxes them', () => {
