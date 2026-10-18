@@ -41,8 +41,8 @@ const HISTORY = [
 
 test('a year without a filed ROIC draws no bar, not a zero stub', () => {
     const svg = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', color: 'grey' }, { key: 'roicPct', color: 'green' }]);
-    assert.equal((svg.match(/fill="grey"/g) || []).length, 6);
-    assert.equal((svg.match(/fill="green"/g) || []).length, 2, 'only 2020 and 2022 filed a ROIC');
+    assert.equal((svg.match(/<rect[^>]*fill="grey"/g) || []).length, 6);
+    assert.equal((svg.match(/<rect[^>]*fill="green"/g) || []).length, 2, 'only 2020 and 2022 filed a ROIC');
 });
 
 test('every year chart reads out its numbers, latest year by default, any year on hover or tap', () => {
@@ -54,6 +54,15 @@ test('every year chart reads out its numbers, latest year by default, any year o
     assert.match(grouped, /data-default="FY2025 · Operating margin 8\.1% · ROIC not filed"/);
     assert.match(grouped, /data-read="FY2022 · Operating margin 8% · ROIC 24\.3%"/);
     assert.match(miniBars(HISTORY, 'roicPct', 'ink', (v) => v + '%'), /data-read="FY2022: 24\.3%"/);
+});
+
+test('the grouped charts print every filed figure above its bars, as the revenue chart does', () => {
+    const svg = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', label: 'Operating margin', fmt: (v) => v + '%', color: 'grey' }, { key: 'roicPct', label: 'ROIC', fmt: (v) => v + '%', color: 'green' }]);
+    const vals = svg.match(/<text class="dos-bar-val"[^>]*>[^<]*<\/text>/g) || [];
+    assert.equal(vals.length, 8, 'six margins and two ROICs; a year without a ROIC prints none');
+    assert.ok(vals.some((t) => /data-i="4"[^>]*fill="green"[^>]*>24\.3%</.test(t)), 'each figure is in its own series colour');
+    const neg = chartGroupedBars([{ fy: '2024', ni: 5 }, { fy: '2025', ni: -2 }], [{ key: 'ni', label: 'Net income', fmt: (v) => '$' + v, color: 'grey' }]);
+    assert.match(neg, /fill="#b4422f"[^>]*>\$-2</, 'a loss is printed in red');
 });
 
 test('the charts scale with their width instead of a fixed height that letterboxes them', () => {

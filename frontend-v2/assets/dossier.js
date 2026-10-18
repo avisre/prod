@@ -191,7 +191,9 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     if (usable.length < 2) return '';
     const values = series.flatMap((s) => usable.map((r) => val(r[s.key])).filter(Number.isFinite));
     const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1;
-    const W = 420, H = 170, top = 18, bottom = 30, plotH = H - top - bottom;
+    // Each year's figures are printed above its bars, one line per series, so the
+    // top margin grows with the number of series.
+    const lh = 11, W = 420, H = 174, top = 10 + lh * series.length, bottom = 30, plotH = H - top - bottom;
     const y = (v) => top + ((max - v) / span) * plotH;
     const zeroY = y(0);
     const slot = W / usable.length;
@@ -205,9 +207,15 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       const vy = y(value), height = Math.max(2, Math.abs(zeroY - vy));
       return `<rect class="dos-bar" data-i="${ri}" x="${x.toFixed(1)}" y="${Math.min(vy, zeroY).toFixed(1)}" width="${bw.toFixed(1)}" height="${height.toFixed(1)}" fill="${value < 0 ? C.neg : s.color}" rx="2"/>`;
     }).join('')).join('');
+    const vals = usable.map((r, ri) => {
+      const shown = series.map((s) => ({ s, v: val(r[s.key]) })).filter((x) => Number.isFinite(x.v));
+      const peak = Math.min(zeroY, ...shown.map((x) => y(x.v)));
+      const cx = (ri * slot + slot / 2).toFixed(1);
+      return shown.map((x, li) => `<text class="dos-bar-val" data-i="${ri}" x="${cx}" y="${(peak - 4 - (shown.length - 1 - li) * lh).toFixed(1)}" font-size="${usable.length > 8 ? 8 : 9}" font-weight="600" fill="${x.v < 0 ? C.neg : x.s.color}" text-anchor="middle">${esc((x.s.fmt || String)(x.v))}</text>`).join('');
+    }).join('');
     const labels = usable.map((r, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 7}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(r.fy).slice(-2))}</text>`).join('');
     const hits = usable.map((r, i) => hitCol(i, i * slot, slot, H, read(r))).join('');
-    return chartFrame(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:auto;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}${hits}</svg>`, read(usable[usable.length - 1]));
+    return chartFrame(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:auto;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${vals}${labels}${hits}</svg>`, read(usable[usable.length - 1]));
   }
   (function wireChartReadouts() {
     const show = (box, i) => {
