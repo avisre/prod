@@ -2728,8 +2728,8 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             if (budget) { await meter(); compact(); }
             creditsOut = !!budget && !affordable();
             const lastRound = budget ? creditsOut || stalled || iter === BUDGET_MAX_ROUNDS - 1 : iter === MAX_ITERS - 1;
-            // On the final round there are no tools — tell the model to commit to
-            // a full answer instead of stalling or asking the user to narrow it.
+            // The final round tells the model to commit to a full answer instead
+            // of stalling or asking the user to narrow it.
             if (lastRound) messages.push({ role: 'system', content: creditsOut ? CREDITS_DIRECTIVE : stalled ? STALLED_DIRECTIVE : SYNTHESIS_DIRECTIVE });
             const reportTools = policy.kind === 'company_report' && !policy.explicitWordLimit
                 ? activeTools.filter(tool => !preparedReportEvidence.some(item => item.tool === tool.function?.name))
@@ -2737,7 +2737,11 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             const opts = {
                 purpose: 'chat', temperature: 0.3, maxTokens: answerTokens,
                 reasoningEffort,
-                tools: lastRound ? null : reportTools
+                // The final round keeps the tool list too. The provider renders it
+                // ahead of everything else, so dropping it would leave nothing of
+                // the conversation in the prefix cache on the longest prompt of the
+                // question. A call it still makes goes to the forced write-up below.
+                tools: reportTools
             };
             let msg;
             let streamer = null;
@@ -2769,6 +2773,13 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 const note = String(msg.content || '').replace(THINK_RE, '').trim();
                 if (note && !aiClient.leaksIdentity(note)) emit({ type: 'note', text: note.slice(0, 280) });
                 messages.push({ role: 'assistant', content: msg.content || '', tool_calls: msg.tool_calls });
+                if (lastRound) {
+                    // Told to write the answer and still asked for lookups. Running
+                    // them would spend lookups (and web budget) the run has closed;
+                    // the provider still needs a reply per call before the write-up.
+                    for (const tc of msg.tool_calls) messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify({ error: 'Not run: the research is closed. Write the answer from the evidence above.' }) });
+                    break;
+                }
                 const roundCalls = msg.tool_calls.slice(0, MAX_TOOLCALLS_PER_ROUND);
                 // Run the round's tools concurrently — round 1 of a compare
                 // question fires 9–12 independent calls that were costing ~7s
@@ -2850,7 +2861,6 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 for (const tc of msg.tool_calls.slice(MAX_TOOLCALLS_PER_ROUND)) {
                     messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify({ error: `Not run: a round takes at most ${MAX_TOOLCALLS_PER_ROUND} lookups. Request it again in the next round if the answer still needs it.` }) });
                 }
-                if (lastRound) break; // tools were withheld and still asked for: go to the forced write-up
                 continue;
             }
 
@@ -2973,7 +2983,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             return finish(text, streamer && streamer.emittedAny);
         }
         // Reached only if the model kept emitting tool calls even on the
-        // tool-free final round. Force one last tool-free synthesis so the user
+        // final round. Force one last tool-free synthesis so the user
         // always gets a real answer — never a "narrow it down".
         try {
             const closingDirective = creditsOut ? CREDITS_DIRECTIVE : stalled ? STALLED_DIRECTIVE : SYNTHESIS_DIRECTIVE;

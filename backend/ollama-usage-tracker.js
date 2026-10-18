@@ -86,6 +86,9 @@ function publicEvent(event) {
         // only, never prompt or completion text.
         promptTokens: event.promptTokens == null ? null : event.promptTokens,
         completionTokens: event.completionTokens == null ? null : event.completionTokens,
+        // The part of promptTokens the provider served from its prefix cache,
+        // which Ollama bills at a fraction of the input price.
+        cachedTokens: event.cachedTokens == null ? null : event.cachedTokens,
         errorCode: event.errorCode || null
     };
 }
@@ -163,6 +166,8 @@ function finish(event, { status = 'completed', usage = null, error = null } = {}
     // after a few weeks the assumption can be replaced by a measurement.
     current.promptTokens = Number.isFinite(prompt) ? prompt : null;
     current.completionTokens = Number.isFinite(completion) ? completion : null;
+    const cached = usage && usage.prompt_tokens_details && Number(usage.prompt_tokens_details.cached_tokens);
+    current.cachedTokens = Number.isFinite(cached) ? cached : null;
     current.errorCode = error ? classifyError(error) : null;
     active.delete(current.callId);
     addRecent(current);

@@ -28,6 +28,16 @@ test('authenticated request context is attached without recording prompt content
   assert.ok(data.recent.some((event) => event.callId === call.callId && event.email === 'customer@example.com'));
 });
 
+test('the prompt tokens served from the provider\'s cache are kept with the split', () => {
+  const call = tracker.start({ baseUrl: 'https://ollama.com/v1', model: 'glm-5.3', purpose: 'chat' });
+  tracker.finish(call, { usage: { total_tokens: 13600, prompt_tokens: 13550, completion_tokens: 50, prompt_tokens_details: { cached_tokens: 13504 } } });
+  assert.equal(call.promptTokens, 13550);
+  assert.equal(call.cachedTokens, 13504);
+  const bare = tracker.start({ baseUrl: 'https://ollama.com/v1', model: 'glm-5.3', purpose: 'chat' });
+  tracker.finish(bare, { usage: { total_tokens: 42 } });
+  assert.equal(bare.cachedTokens, null, 'not reported is unknown, not zero');
+});
+
 test('calls outside a request are labelled background instead of a customer', () => {
   const call = tracker.start({ baseUrl: 'https://ollama.com/v1', model: 'glm-5.1', purpose: 'dossier' });
   assert.equal(call.actorType, 'background');

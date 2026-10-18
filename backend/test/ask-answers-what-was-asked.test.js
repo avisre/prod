@@ -190,7 +190,7 @@ test('a signed-in reader\'s question is not cut off after ten rounds', async () 
     assert.ok(calls.main.every(c => !c.messages.some(m => /TOOL BUDGET SPENT/.test(m.content || ''))));
 });
 
-test('the run ends when the credits are spent: tools are withheld, the best answer is given and the open part is named', async () => {
+test('the run ends when the credits are spent: the best answer is given and the open part is named', async () => {
     const charged = [];
     const calls = scripted({
         main: [
@@ -204,13 +204,35 @@ test('the run ends when the credits are spent: tools are withheld, the best answ
     const creditsFor = tokens => 2 + Math.max(0, Math.ceil((tokens - 50000) / 30000));
     const out = await ask({ ctx: { budget: { credits: 5, creditsFor, charge: async n => { charged.push(n); } } } });
     const last = calls.main.at(-1);
-    assert.equal(last.opts.tools, null);
+    // The same tool list as every other round, so the provider's prefix cache
+    // still covers the conversation on this, the longest prompt of the run.
+    assert.deepEqual(last.opts.tools.map(t => t.function.name), calls.main[0].opts.tools.map(t => t.function.name));
     assert.match(last.messages.at(-1).content, /THE CREDITS FOR THIS QUESTION ARE SPENT/);
     assert.equal(calls.main.length, 3, 'no further rounds once the credits cannot cover one');
     assert.match(out.answer, /\*\*Not finished\.\*\* The credits for this question ran out before every part was done:/);
     assert.match(out.answer, /SLOW does not meet "greater than 35% growth in the last 4 quarters"/);
     assert.deepEqual(charged, [...charged].sort((a, b) => a - b), 'charged in rising steps as the work is done');
     assert.equal(charged.at(-1), 4, '80,050 tokens: 2 for the first 50,000 and one for each started 30,000 after');
+});
+
+test('a lookup asked for once the credits are spent is not run, and the answer is still written', async () => {
+    const calls = scripted({
+        main: [
+            { tool_calls: [toolCall('c1', 'query_universe', { limit: 1 })], ...usage(40000) },
+            { tool_calls: [toolCall('c2', 'query_universe', { limit: 2 })], ...usage(40000) },
+            { tool_calls: [toolCall('c3', 'query_universe', { limit: 3 })], ...usage(50) },
+            { content: 'Slow Co (SLOW) is the closest found so far.', ...usage(50) }
+        ],
+        aux: [ASKS, passAll(['SLOW'])]
+    });
+    const creditsFor = tokens => 2 + Math.max(0, Math.ceil((tokens - 50000) / 30000));
+    const out = await ask({ ctx: { budget: { credits: 5, creditsFor, charge: async () => {} } } });
+    assert.ok(!calls.tools.some(t => t.args.limit === 3), 'the closed round\'s lookup never ran');
+    const writeUp = calls.main.at(-1).messages;
+    const reply = writeUp.find(m => m.role === 'tool' && m.tool_call_id === 'c3');
+    assert.match(reply.content, /Not run: the research is closed/, 'every call still gets a reply, or the provider rejects the request');
+    assert.equal(calls.main.length, 4, 'one forced write-up, no further research round');
+    assert.match(out.answer, /Slow Co \(SLOW\) is the closest found so far/);
 });
 
 test('the same lookup is never run or paid for twice, and a run that only repeats itself is ended', async () => {
