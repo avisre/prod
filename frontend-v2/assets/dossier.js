@@ -153,8 +153,6 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
   // latest year, and hovering, tapping or tabbing to any year shows that year's
   // figures instead (a click keeps it there). The listener is wired once below.
   const fyOf = (r) => 'FY' + String(r.fy);
-  // Every chart covers the last five fiscal years; the brief and the ratio table keep the full filed history.
-  const lastYears = (rows) => (rows || []).slice(-5);
   function yoy(cur, prev) {
     if (!prev || !(prev.v > 0) || !(cur.v > 0)) return '';
     const pct = (cur.v / prev.v - 1) * 100;
@@ -166,7 +164,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
   // A transparent column over a whole year, so the hit area is never a 2px bar.
   const hitCol = (i, x, w, H, text) => `<rect class="dos-hit" data-i="${i}" data-read="${esc(text)}" x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="${H}" fill="transparent" tabindex="0" role="button" aria-label="${esc(text)}"/>`;
   function chartBars(rows, key, fmt, color) {
-    const pts = lastYears(rows).map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
+    const pts = rows.map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
     if (pts.length < 2) return '';
     const max = Math.max(...pts.map((p) => Math.abs(p.v))) || 1;
     const W = 420, H = 170, top = 30, bottom = 28, n = pts.length, plotH = H - top - bottom;
@@ -189,7 +187,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     // A missing figure is no bar. Number(null) is 0, which drew every year without
     // a filed ROIC as a zero stub beside the one year that had one.
     const val = (v) => (v === null || v === undefined || v === '' ? NaN : Number(v));
-    const usable = lastYears(rows).filter((r) => series.some((s) => Number.isFinite(val(r[s.key]))));
+    const usable = (rows || []).filter((r) => series.some((s) => Number.isFinite(val(r[s.key]))));
     if (usable.length < 2) return '';
     const values = series.flatMap((s) => usable.map((r) => val(r[s.key])).filter(Number.isFinite));
     // A figure on a near-zero base (FRGT's 2020 operating margin was -668,808%)
@@ -507,7 +505,6 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
   }
 
   function decisionTrends(fin) {
-    fin = lastYears(fin);
     if (!fin || fin.length < 2) return '<p class="small faint">No multi-year filed history is available.</p>';
     const latest = fin[fin.length - 1] || {};
     const span = `${esc(fin[0].fy)}â†’${esc(latest.fy)}`;
