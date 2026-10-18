@@ -138,21 +138,39 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
 
   // ---- compact inline SVG charts (print-friendly, dependency-free) ----
   const C = { ink: '#1c1b18', accent: '#8a5f00', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
+  // Every year chart reads out its numbers: a readout line above the bars shows the
+  // latest year, and hovering, tapping or tabbing to any year shows that year's
+  // figures instead (a click keeps it there). The listener is wired once below.
+  const fyOf = (r) => 'FY' + String(r.fy);
+  function yoy(cur, prev) {
+    if (!prev || !(prev.v > 0) || !(cur.v > 0)) return '';
+    const pct = (cur.v / prev.v - 1) * 100;
+    return ` · ${pct >= 0 ? '+' : '−'}${Math.abs(pct).toFixed(1)}% vs ${fyOf(prev)}`;
+  }
+  function chartFrame(svg, defaultText) {
+    return `<div class="dos-chart" data-chart><div class="dos-chart-readout" data-readout data-default="${esc(defaultText)}" aria-live="polite">${esc(defaultText)}</div>${svg}</div>`;
+  }
+  // A transparent column over a whole year, so the hit area is never a 2px bar.
+  const hitCol = (i, x, w, H, text) => `<rect class="dos-hit" data-i="${i}" data-read="${esc(text)}" x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="${H}" fill="transparent" tabindex="0" role="button" aria-label="${esc(text)}"/>`;
   function chartBars(rows, key, fmt, color) {
     const pts = rows.map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
     if (pts.length < 2) return '';
     const max = Math.max(...pts.map((p) => Math.abs(p.v))) || 1;
-    const W = 420, H = 160, top = 24, bottom = 28, n = pts.length, plotH = H - top - bottom;
+    const W = 420, H = 170, top = 30, bottom = 28, n = pts.length, plotH = H - top - bottom;
     const slot = W / n, bw = Math.min(32, slot * .58);
     const grid = [0, .5, 1].map((t) => `<line x1="0" y1="${top + plotH * t}" x2="${W}" y2="${top + plotH * t}" stroke="${C.faint}" stroke-width="1"/>`).join('');
+    const read = (p, i) => `${fyOf(p)}: ${fmt(p.v)}${yoy(p, pts[i - 1])}`;
     const bars = pts.map((p, i) => {
       const h = Math.max(2, (Math.abs(p.v) / max) * plotH);
       const x = i * slot + (slot - bw) / 2;
-      return `<rect x="${x.toFixed(1)}" y="${(top + plotH - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${color}" rx="2"><title>${esc(p.fy)}: ${esc(fmt(p.v))}</title></rect>`;
+      const cx = (i * slot + slot / 2).toFixed(1);
+      return `<rect class="dos-bar" data-i="${i}" x="${x.toFixed(1)}" y="${(top + plotH - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${color}" rx="2"/>` +
+        `<text class="dos-bar-val" data-i="${i}" x="${cx}" y="${(top + plotH - h - 5).toFixed(1)}" font-size="${n > 8 ? 9 : 11}" font-weight="600" fill="${C.ink}" text-anchor="middle">${esc(fmt(p.v))}</text>`;
     }).join('');
-    const labs = pts.map((p, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 6}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(p.fy.slice(-2))}</text>`).join('');
+    const labs = pts.map((p, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 6}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(p.fy).slice(-2))}</text>`).join('');
+    const hits = pts.map((p, i) => hitCol(i, i * slot, slot, H, read(p, i))).join('');
     const latest = pts[pts.length - 1];
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(pts[0].fy)} to ${esc(latest.fy)} trend" style="width:100%;height:auto;display:block">${grid}${bars}${labs}<text x="${W - 4}" y="14" font-size="11" font-weight="650" fill="${C.ink}" text-anchor="end">${esc(fmt(latest.v))}</text></svg>`;
+    return chartFrame(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(pts[0].fy)} to ${esc(latest.fy)} trend" style="width:100%;height:auto;display:block">${grid}${bars}${labs}${hits}</svg>`, read(latest, pts.length - 1));
   }
   function chartGroupedBars(rows, series) {
     // A missing figure is no bar. Number(null) is 0, which drew every year without
@@ -168,16 +186,46 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     const slot = W / usable.length;
     const groupW = Math.min(slot * .72, 38);
     const bw = Math.max(3, groupW / series.length - 2);
+    const read = (r) => fyOf(r) + ' · ' + series.map((s) => { const v = val(r[s.key]); return `${s.label} ${Number.isFinite(v) ? (s.fmt || String)(v) : 'not filed'}`; }).join(' · ');
     const bars = usable.map((r, ri) => series.map((s, si) => {
       const value = val(r[s.key]);
       if (!Number.isFinite(value)) return '';
       const x = ri * slot + (slot - groupW) / 2 + si * (bw + 2);
       const vy = y(value), height = Math.max(2, Math.abs(zeroY - vy));
-      return `<rect x="${x.toFixed(1)}" y="${Math.min(vy, zeroY).toFixed(1)}" width="${bw.toFixed(1)}" height="${height.toFixed(1)}" fill="${value < 0 ? C.neg : s.color}" rx="2"><title>${esc(r.fy)} ${esc(s.label)}: ${esc((s.fmt || String)(value))}</title></rect>`;
+      return `<rect class="dos-bar" data-i="${ri}" x="${x.toFixed(1)}" y="${Math.min(vy, zeroY).toFixed(1)}" width="${bw.toFixed(1)}" height="${height.toFixed(1)}" fill="${value < 0 ? C.neg : s.color}" rx="2"/>`;
     }).join('')).join('');
     const labels = usable.map((r, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 7}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(r.fy).slice(-2))}</text>`).join('');
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:auto;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}</svg>`;
+    const hits = usable.map((r, i) => hitCol(i, i * slot, slot, H, read(r))).join('');
+    return chartFrame(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:auto;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}${hits}</svg>`, read(usable[usable.length - 1]));
   }
+  (function wireChartReadouts() {
+    const show = (box, i) => {
+      const out = box.querySelector('[data-readout]');
+      const hit = i == null ? null : box.querySelector(`[data-read][data-i="${i}"]`);
+      if (out) out.textContent = hit ? hit.getAttribute('data-read') : out.getAttribute('data-default');
+      box.classList.toggle('has-sel', !!hit);
+      box.querySelectorAll('[data-i]').forEach((el) => el.classList.toggle('on', !!hit && el.getAttribute('data-i') === String(i)));
+    };
+    const at = (e) => {
+      const hit = e.target && e.target.closest ? e.target.closest('[data-read]') : null;
+      const box = hit && hit.closest('[data-chart]');
+      return box ? { box, i: hit.getAttribute('data-i') } : null;
+    };
+    const restore = (e) => {
+      const box = e.target && e.target.closest ? e.target.closest('[data-chart]') : null;
+      if (box && !box.contains(e.relatedTarget)) show(box, box.dataset.pinned ?? null);
+    };
+    document.addEventListener('mouseover', (e) => { const t = at(e); if (t) show(t.box, t.i); });
+    document.addEventListener('focusin', (e) => { const t = at(e); if (t) show(t.box, t.i); });
+    document.addEventListener('mouseout', restore);
+    document.addEventListener('focusout', restore);
+    const pin = (t) => {
+      if (t.box.dataset.pinned === t.i) delete t.box.dataset.pinned; else t.box.dataset.pinned = t.i;
+      show(t.box, t.box.dataset.pinned ?? null);
+    };
+    document.addEventListener('click', (e) => { const t = at(e); if (t) pin(t); });
+    document.addEventListener('keydown', (e) => { if (e.key !== 'Enter' && e.key !== ' ') return; const t = at(e); if (t) { e.preventDefault(); pin(t); } });
+  })();
   function legend(items) { return `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">${items.map((i) => `<span class="small" style="color:var(--ink-3)"><span style="display:inline-block;width:9px;height:9px;background:${i.color};border-radius:2px;margin-right:4px;vertical-align:middle"></span>${esc(i.label)}</span>`).join('')}</div>`; }
   const bn = (v) => {
     if (v == null) return '—';
@@ -401,11 +449,12 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
 
   function miniBars(rows, key, color, fmt) {
     // A year without the figure is skipped, not drawn as zero (Number(null) is 0).
-    const pts = (rows || []).filter((r) => r[key] != null && r[key] !== '').map((r) => Number(r[key])).filter(Number.isFinite);
+    const pts = (rows || []).filter((r) => r[key] != null && r[key] !== '').map((r) => ({ fy: r.fy, v: Number(r[key]) })).filter((p) => Number.isFinite(p.v));
     if (pts.length < 2) return '';
-    const max = Math.max(...pts.map((v) => Math.abs(v)), 1);
+    const max = Math.max(...pts.map((p) => Math.abs(p.v)), 1);
     const show = fmt || ((v) => String(v));
-    return `<span class="dos-mini-bars" aria-hidden="true">${pts.map((v, i) => `<i style="height:${Math.max(3, Math.abs(v) / max * 100).toFixed(1)}%;background:${v < 0 ? C.neg : i === pts.length - 1 ? C.ink : color}" title="${esc(show(v))}"></i>`).join('')}</span>`;
+    // Each bar names its year and figure in the row's value cell (data-read).
+    return `<span class="dos-mini-bars" aria-hidden="true">${pts.map((p, i) => `<i data-i="${i}" data-read="${esc(fyOf(p) + ': ' + show(p.v))}" style="height:${Math.max(3, Math.abs(p.v) / max * 100).toFixed(1)}%;background:${p.v < 0 ? C.neg : i === pts.length - 1 ? C.ink : color}"></i>`).join('')}</span>`;
   }
 
   // First→latest change per trend row, purely from the filed history. Dollar
@@ -443,7 +492,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     ];
     return `<div class="dos-trends">${rows.map(([label, key, value, color, fmt, pctMetric]) => {
       const change = trendChangeLine(fin, key, pctMetric);
-      return `<div class="dos-trend-row"><span>${label}<small class="dos-trend-change">${span}${change ? ' · ' + esc(change) : ''}</small></span>${miniBars(fin, key, color, fmt)}<b>${esc(value)}</b></div>`;
+      return `<div class="dos-trend-row" data-chart><span>${label}<small class="dos-trend-change">${span}${change ? ' · ' + esc(change) : ''}</small></span>${miniBars(fin, key, color, fmt)}<b data-readout data-default="${esc(value)}">${esc(value)}</b></div>`;
     }).join('')}</div>`;
   }
 
@@ -831,7 +880,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       const body = dupont.map(([label, key, suf]) => `<tr><td>${label}</td>${fin.map((r) => `<td>${r[key] == null ? '—' : r[key] + (suf === '%' ? '%' : '×')}</td>`).join('')}</tr>`).join('');
       financialHtml = `
         <section class="dos-sec dos-financials" id="dos-financials">
-          <div class="dos-section-head"><div><span class="dos-kicker">Financial trajectory</span><h2>The filed record, with the read beside it</h2></div><span class="small faint">Annual statements · exact values on hover</span></div>
+          <div class="dos-section-head"><div><span class="dos-kicker">Financial trajectory</span><h2>The filed record, with the read beside it</h2></div><span class="small faint">Annual statements · hover or tap a year for its figures</span></div>
           <div class="dos-financial-evidence">
             <section><span class="dos-kicker">Visual evidence</span><div class="dos-visual-stack">
               <div class="dos-visual-panel"><h3>Revenue</h3><p>Scale and compounding</p>${chartBars(fin, 'revenue', bn, C.ink)}</div>

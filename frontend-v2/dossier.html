@@ -219,6 +219,13 @@
     .dos-mini-bars { height:56px; display:flex; align-items:flex-end; gap:3px; padding:2px 0; }
     .dos-mini-bars i { flex:1; min-width:3px; border-radius:3px 3px 1px 1px; background:var(--ink-3); }
     .dos-mini-bars i:last-child { background:var(--ink); }
+    .dos-mini-bars i { cursor:pointer; transition:opacity .12s; }
+    .dos-chart-readout { min-height:1.5em; margin:8px 0 2px; font-size:12px; font-weight:600; color:var(--ink-2); font-variant-numeric:tabular-nums; }
+    .dos-chart .dos-hit { cursor:pointer; outline:none; }
+    .dos-chart .dos-hit:focus-visible { stroke:var(--ink-3); stroke-width:1; stroke-dasharray:3 3; }
+    .dos-chart .dos-bar, .dos-chart .dos-bar-val { transition:opacity .12s; }
+    .dos-chart.has-sel .dos-bar:not(.on), .dos-chart.has-sel .dos-bar-val:not(.on), .dos-trend-row.has-sel .dos-mini-bars i:not(.on) { opacity:.3; }
+    .dos-trend-row b { font-variant-numeric:tabular-nums; }
     .dos-decision-copy { flex:1; display:flex; flex-direction:column; justify-content:space-evenly; }
     .dos-key-strip { gap:var(--s3); margin-top:auto; }
     .dos-key-strip div { padding:10px 12px; border:0; border-radius:var(--radius-sm); background:var(--paper); }
@@ -301,7 +308,7 @@
   </main>
   <script src="assets/app.js?v=20261018-ui25"></script>
   <script src="assets/plainviz.js?v=20260824-plainmode1"></script>
-  <script src="assets/dossier.js?v=20261018-dos1"></script>
+  <script src="assets/dossier.js?v=20261018-dos2"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>
 </html>

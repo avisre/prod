@@ -23,11 +23,11 @@ function load() {
         esc: (v) => String(v == null ? '' : v)
     };
     vm.createContext(ctx);
-    vm.runInContext(slice('  function chartGroupedBars(', '  function legend(') + slice('  function miniBars(', '  function decisionTrends(') +
-        '\n;globalThis.__f = { chartGroupedBars, miniBars, trendChangeLine };', ctx);
+    vm.runInContext(slice('  const fyOf = ', '  (function wireChartReadouts(') + slice('  function miniBars(', '  function decisionTrends(') +
+        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine };', ctx);
     return ctx.__f;
 }
-const { chartGroupedBars, miniBars, trendChangeLine } = load();
+const { chartBars, chartGroupedBars, miniBars, trendChangeLine } = load();
 
 // TXRH's shape: operating margin every year, ROIC only where total debt was filed.
 const HISTORY = [
@@ -43,6 +43,17 @@ test('a year without a filed ROIC draws no bar, not a zero stub', () => {
     const svg = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', color: 'grey' }, { key: 'roicPct', color: 'green' }]);
     assert.equal((svg.match(/fill="grey"/g) || []).length, 6);
     assert.equal((svg.match(/fill="green"/g) || []).length, 2, 'only 2020 and 2022 filed a ROIC');
+});
+
+test('every year chart reads out its numbers, latest year by default, any year on hover or tap', () => {
+    const bars = chartBars([{ fy: '2024', revenue: 100 }, { fy: '2025', revenue: 111 }], 'revenue', (v) => '$' + v);
+    assert.match(bars, /data-readout data-default="FY2025: \$111 · \+11\.0% vs FY2024"/);
+    assert.match(bars, /data-read="FY2024: \$100"/, 'each year is a hit column carrying its own figure');
+    assert.equal((bars.match(/class="dos-bar-val"/g) || []).length, 2, 'the value is printed over every bar');
+    const grouped = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', label: 'Operating margin', fmt: (v) => v + '%', color: 'grey' }, { key: 'roicPct', label: 'ROIC', fmt: (v) => v + '%', color: 'green' }]);
+    assert.match(grouped, /data-default="FY2025 · Operating margin 8\.1% · ROIC not filed"/);
+    assert.match(grouped, /data-read="FY2022 · Operating margin 8% · ROIC 24\.3%"/);
+    assert.match(miniBars(HISTORY, 'roicPct', 'ink', (v) => v + '%'), /data-read="FY2022: 24\.3%"/);
 });
 
 test('the charts scale with their width instead of a fixed height that letterboxes them', () => {
