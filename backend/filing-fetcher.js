@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const secSource = require('./sec-source');
 const watchdog = require('./watchdog');
 const aiClient = require('./ai-client');
+const { decodeEntities } = require('./html-text');
 
 const MAX_FETCH_BYTES = 40e6;
 
@@ -16,13 +17,19 @@ function htmlToText(html) {
     return String(html)
         .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
         .replace(/<[^>]+>/g, ' ')
-        .replace(/&nbsp;|&#160;/g, ' ')
-        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;|&rsquo;|&#8217;/g, "'").replace(/&quot;/g, '"')
+        .replace(/&rsquo;|&#8217;/g, "'")
+        .replace(/&[#a-z0-9]+;/gi, (m) => decodeEntities(m))
         .replace(/\s+/g, ' ')
         .trim();
 }
 
 function col() { return mongoose.connection.collection('filing_text'); }
+
+// filing_text rows written before html-text.js existed kept most entities
+// literal. Rows age out in 30 days; until then they are decoded as they are read.
+function decodeCachedText(text) {
+    return /&[#a-z0-9]+;|[\u200b-\u200d\u2060\ufeff]/i.test(text) ? decodeEntities(text).replace(/\s+/g, ' ') : text;
+}
 
 // The filings-metadata lookup hits EDGAR on every getFilingText call even when
 // the filing text is already Mongo-cached — that round-trip sat in the Ask hot
@@ -86,7 +93,8 @@ async function getFilingTextForForm(symbol, form, { maxChars = 220000 } = {}) {
 
     try {
         const hit = await col().findOne({ symbol: sym, accession: f.accession, form });
-        if (hit && hit.text) return { symbol: sym, form, date: f.date, url: f.url, accession: f.accession, text: hit.text, cached: true };
+        // Text cached before every entity was decoded still carries "&#8203;" and the like.
+        if (hit && hit.text) return { symbol: sym, form, date: f.date, url: f.url, accession: f.accession, text: decodeCachedText(hit.text), cached: true };
     } catch (_) { /* cache best-effort */ }
 
     let text;
@@ -159,4 +167,4 @@ function isGrounded(quote, text) {
     return head.length >= 12 && t.includes(head);
 }
 
-module.exports = { getFilingText, windows, htmlToText, extractJson, isGrounded };
+module.exports = { getFilingText, windows, htmlToText, decodeCachedText, extractJson, isGrounded };

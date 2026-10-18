@@ -12,6 +12,7 @@ const path = require('path');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const secSource = require('./sec-source');
+const { decodeEntities } = require('./html-text');
 const watchdog = require('./watchdog');
 const aiClient = require('./ai-client');
 
@@ -82,8 +83,7 @@ function htmlToText(html) {
     return String(html)
         .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
         .replace(/<[^>]+>/g, ' ')
-        .replace(/&nbsp;|&#160;/g, ' ')
-        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+        .replace(/&[#a-z0-9]+;/gi, (m) => decodeEntities(m))
         .replace(/\s+/g, ' ');
 }
 

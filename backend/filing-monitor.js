@@ -24,6 +24,7 @@ const aiChat = require('./ai-chat');
 const aiClient = require('./ai-client');
 const unitEconomics = require('./unit-economics');
 const { plainSummary } = require('./plain-language');
+const { tidyQuote } = require('./html-text');
 
 // A foreign private issuer files no 10-K/10-Q/8-K at all — its annual report is
 // the 20-F (40-F under the Canadian MJDS) and its interim disclosures are
@@ -202,8 +203,8 @@ function cleanChanges(changes) {
         out.push({
             area: String((c && c.area) || '').slice(0, 60),
             what: what.slice(0, 600),
-            priorQuote: c && c.priorQuote ? String(c.priorQuote).slice(0, 420) : null,
-            newQuote: c && (c.newQuote || c.quote) ? String(c.newQuote || c.quote).slice(0, 420) : null,
+            priorQuote: c && c.priorQuote ? tidyQuote(String(c.priorQuote).slice(0, 420)) : null,
+            newQuote: c && (c.newQuote || c.quote) ? tidyQuote(String(c.newQuote || c.quote).slice(0, 420)) : null,
             evidenceVerified: !!(c && c.evidenceVerified)
         });
     }

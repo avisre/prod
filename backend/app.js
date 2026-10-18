@@ -18,6 +18,7 @@ const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 const yahooSource = require('./yahoo-source');
 const { buildMarketStripQuote } = require('./market-strip');
+const { tidyQuote } = require('./html-text');
 const fxConversion = require('./fx-conversion');
 const assetProfile = require('./asset-profile');
 const fundHoldings = require('./fund-holdings');
@@ -3341,8 +3342,8 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 
     const blocks = quoted.map((c) => {
         const verified = c.evidenceVerified ? '<span class="fd-ok" title="Quote matched character-for-character against the filing">verified</span>' : '';
-        const pq = c.priorQuote ? `<div class="fd-side"><span class="fd-lab">Prior filing</span><blockquote class="fd-q fd-prev">${esc(c.priorQuote)}</blockquote></div>` : '';
-        const nq = (c.newQuote || c.quote) ? `<div class="fd-side"><span class="fd-lab">This filing</span><blockquote class="fd-q">${esc(c.newQuote || c.quote)}</blockquote></div>` : '';
+        const pq = c.priorQuote ? `<div class="fd-side"><span class="fd-lab">Prior filing</span><blockquote class="fd-q fd-prev">${esc(tidyQuote(c.priorQuote))}</blockquote></div>` : '';
+        const nq = (c.newQuote || c.quote) ? `<div class="fd-side"><span class="fd-lab">This filing</span><blockquote class="fd-q">${esc(tidyQuote(c.newQuote || c.quote))}</blockquote></div>` : '';
         return `<section class="fd-change"><h2 class="fd-area">${esc(c.area || 'Change')} ${verified}</h2><div class="fd-pair">${pq}${nq}</div></section>`;
     }).join('');
 

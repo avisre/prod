@@ -19,6 +19,7 @@ const MAX_DOC_CHARS = 20000; // per document, keeps both inside the context
 // which fuses words split across inline/styling tags ("risk factors" arriving
 // as "ris k factors") and silently defeated the anchors below.
 const { htmlToText } = require('./filing-sections');
+const { tidyQuote } = require('./html-text');
 
 // Windows around the sections where quarter-over-quarter narrative changes
 // actually live: outlook/guidance, risk factors, MD&A trend language.
@@ -188,6 +189,11 @@ function stripUnsupportedFigures(what, sourceMantissas) {
     return { what: kept.join(' ').trim(), removed };
 }
 
+function tidyDiffQuotes(payload) {
+    if (!payload || !Array.isArray(payload.changes)) return payload;
+    return { ...payload, changes: payload.changes.map((c) => (c && typeof c === 'object' ? { ...c, priorQuote: tidyQuote(c.priorQuote), newQuote: tidyQuote(c.newQuote), quote: tidyQuote(c.quote) } : c)) };
+}
+
 async function computeFilingDiff(symbol) {
     const sym = String(symbol || '').toUpperCase().trim();
     const pair = await latestPair(sym);
@@ -203,7 +209,8 @@ async function computeFilingDiff(symbol) {
         // Rows cached before paired quotes existed have no verified evidence and
         // never will — they must re-extract, or the panel stays blank until the
         // company's next filing. Treat a pre-v2 payload as a miss.
-        if (hit && hit.payload && hit.payload.v === DIFF_SCHEMA_V) return { ...hit.payload, cached: true };
+        // Quotes cached before entities were decoded are tidied on the way out.
+        if (hit && hit.payload && hit.payload.v === DIFF_SCHEMA_V) return { ...tidyDiffQuotes(hit.payload), cached: true };
     } catch (_) { /* cache is best-effort */ }
 
     const get = (url) => axios.get(url, { headers: secSource.SEC_HEADERS, timeout: 30000, maxContentLength: 40e6 });
@@ -238,8 +245,8 @@ async function computeFilingDiff(symbol) {
         tone: ['improving', 'stable', 'deteriorating'].includes(parsed.tone) ? parsed.tone : null,
         changes: parsed.changes.slice(0, 8).map((c) => {
             // a quote survives only if it is really in the document it cites
-            const priorQuote = quoteIsInSource(c.priorQuote, oldDoc) ? String(c.priorQuote).trim().slice(0, 420) : null;
-            const newQuote = quoteIsInSource(c.newQuote || c.quote, newDoc) ? String(c.newQuote || c.quote).trim().slice(0, 420) : null;
+            const priorQuote = quoteIsInSource(c.priorQuote, oldDoc) ? tidyQuote(String(c.priorQuote).slice(0, 420)) : null;
+            const newQuote = quoteIsInSource(c.newQuote || c.quote, newDoc) ? tidyQuote(String(c.newQuote || c.quote).slice(0, 420)) : null;
             // …and a figure in the prose survives only if it is in one of the
             // filings. Both excerpts count as the source: a change legitimately
             // cites the prior period, which lives in the older document.
@@ -271,7 +278,7 @@ async function computeFilingDiff(symbol) {
 }
 
 module.exports = {
-    computeFilingDiff, normalizeQuote, quoteIsInSource, DIFF_SCHEMA_V,
+    computeFilingDiff, normalizeQuote, quoteIsInSource, tidyDiffQuotes, DIFF_SCHEMA_V,
     extractFigures, figureMantissa, sourceMantissaSet, stripUnsupportedFigures,
     // for scripts/ab-summary-quality.js — the scorer must run the production
     // prompt and the production filters, never a copy that can drift

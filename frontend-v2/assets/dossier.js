@@ -5,6 +5,17 @@
 (function () {
   'use strict';
   const { API, token, esc, money, num, spinner, nav, searchAssets, mountShare, markdown, mountAskFloor } = window.V2;
+  // Filing quotes cached before the server decoded HTML entities still carry
+  // "&#8203;" and "$ 92,142". Same tidy as backend/html-text.js tidyQuote.
+  const tidyQuote = (s) => String(s == null ? '' : s)
+    .replace(/&#(\d{1,7});/g, (m, d) => String.fromCodePoint(Math.min(Number(d), 0x10ffff) || 32))
+    .replace(/&#x([0-9a-f]{1,6});/gi, (m, h) => String.fromCodePoint(Math.min(parseInt(h, 16), 0x10ffff) || 32))
+    .replace(/&(nbsp|amp|lt|gt|quot|apos|rsquo|lsquo|rdquo|ldquo|mdash|ndash);/gi, (m, n) => ({ nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', mdash: '—', ndash: '–' })[n.toLowerCase()])
+    .replace(/[​-‍⁠﻿ ]/g, ' ')
+    .replace(/&#?[a-z0-9]{0,8}$/i, '')
+    .replace(/\s+/g, ' ')
+    .replace(/([$€£¥])\s+(?=[\d(])/g, '$1').replace(/\(\s+/g, '(').replace(/\s+\)/g, ')').replace(/(\d)\s+%/g, '$1%')
+    .trim();
   const $ = (id) => document.getElementById(id);
   const auth = () => (token() ? { Authorization: `Bearer ${token()}` } : {});
   const MODE_KEY = 'sp_dossier_mode_v1';
@@ -832,7 +843,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       const changes = rc.changes || [];
       const changeRows = changes.map((c) => {
         const pair = c.evidenceVerified && c.priorQuote && c.newQuote;
-        return `<li><strong>${esc(c.area)}</strong><span>${esc(c.what)}</span>${pair ? `<div class="dos-quote-pair"><div class="dos-quote-side"><b>Prior filing</b><q>${esc(c.priorQuote)}</q></div><i>→</i><div class="dos-quote-side"><b>New filing</b><q>${esc(c.newQuote)}</q></div></div>` : ''}</li>`;
+        return `<li><strong>${esc(c.area)}</strong><span>${esc(c.what)}</span>${pair ? `<div class="dos-quote-pair"><div class="dos-quote-side"><b>Prior filing</b><q>${esc(tidyQuote(c.priorQuote))}</q></div><i>→</i><div class="dos-quote-side"><b>New filing</b><q>${esc(tidyQuote(c.newQuote))}</q></div></div>` : ''}</li>`;
       }).join('');
       const cmp = rc.comparison;
       const mb = rc.materialityBreakdown || {};

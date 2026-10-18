@@ -24,6 +24,8 @@
 // Inline tags carry styling/kerning and often split a single word across
 // several elements — they must vanish WITHOUT leaving a space. SEC inline-XBRL
 // (<ix:nonNumeric>, <ix:nonFraction>) is the worst offender.
+const { decodeEntities } = require('./html-text');
+
 const INLINE_TAGS = /<\/?(?:span|b|i|u|em|strong|font|a|sup|sub|small|nobr|ix:[a-z:-]+)\b[^>]*>/gi;
 
 function htmlToText(html) {
@@ -31,11 +33,8 @@ function htmlToText(html) {
         .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
         .replace(INLINE_TAGS, '')      // keeps words intact
         .replace(/<[^>]+>/g, ' ')      // block-level tags are real separators
-        .replace(/&nbsp;|&#160;/g, ' ')
-        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-        .replace(/&#8217;|&rsquo;|&#146;/g, '’')
-        .replace(/&#8212;|&mdash;/g, '—')
-        .replace(/&#39;|&apos;/g, "'")
+        .replace(/&#146;/g, '’')       // Windows-1252 apostrophe some filers still emit
+        .replace(/&[#a-z0-9]+;/gi, (m) => decodeEntities(m))
         .replace(/\s+/g, ' ')
         .trim();
 }

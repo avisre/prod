@@ -908,7 +908,7 @@ async function fetchFilingText(symbol, filing) {
         try {
             const hit = await col.findOne({ symbol, accession });
             if (hit && hit.text) {
-                return { symbol, form: hit.form || filing.form, date: hit.date || filing.filing_date || null, url: hit.url || filing.url, accession, text: hit.text };
+                return { symbol, form: hit.form || filing.form, date: hit.date || filing.filing_date || null, url: hit.url || filing.url, accession, text: require('./filing-fetcher').decodeCachedText(hit.text) };
             }
         } catch (_) { /* best-effort */ }
     }
