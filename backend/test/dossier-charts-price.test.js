@@ -41,8 +41,20 @@ const HISTORY = [
 
 test('a year without a filed ROIC draws no bar, not a zero stub', () => {
     const svg = chartGroupedBars(HISTORY, [{ key: 'opMarginPct', color: 'grey' }, { key: 'roicPct', color: 'green' }]);
-    assert.equal((svg.match(/<rect[^>]*fill="grey"/g) || []).length, 6);
+    assert.equal((svg.match(/<rect[^>]*fill="grey"/g) || []).length, 5, 'the last five years, 2018 drops off');
     assert.equal((svg.match(/<rect[^>]*fill="green"/g) || []).length, 2, 'only 2020 and 2022 filed a ROIC');
+});
+
+test('every chart shows the last five fiscal years only', () => {
+    const rows = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'].map((fy, i) => ({ fy, revenue: 100 + i, ni: 10 + i, cash: 5 + i }));
+    const bars = chartBars(rows, 'revenue', (v) => '$' + v);
+    assert.equal((bars.match(/data-read="FY/g) || []).length, 5);
+    assert.doesNotMatch(bars, /FY2020|FY201/, 'nothing before FY2021');
+    const grouped = chartGroupedBars(rows, [{ key: 'ni', label: 'Net income', color: 'grey' }, { key: 'cash', label: 'Cash on hand', color: 'green' }]);
+    assert.equal((grouped.match(/data-read="FY/g) || []).length, 5);
+    assert.match(grouped, /data-read="FY2021:/);
+    assert.doesNotMatch(grouped, /data-read="FY2020:/);
+    assert.match(slice('  function decisionTrends(', '  function deterministicBrief('), /fin = lastYears\(fin\);/, 'the trajectory strip and its span cover the same five years');
 });
 
 test('every year chart reads out its numbers, latest year by default, any year on hover or tap', () => {
