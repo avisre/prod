@@ -152,12 +152,15 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     }).join('');
     const labs = pts.map((p, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 6}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(p.fy.slice(-2))}</text>`).join('');
     const latest = pts[pts.length - 1];
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(pts[0].fy)} to ${esc(latest.fy)} trend" style="width:100%;height:160px;display:block">${grid}${bars}${labs}<text x="${W - 4}" y="14" font-size="11" font-weight="650" fill="${C.ink}" text-anchor="end">${esc(fmt(latest.v))}</text></svg>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(pts[0].fy)} to ${esc(latest.fy)} trend" style="width:100%;height:auto;display:block">${grid}${bars}${labs}<text x="${W - 4}" y="14" font-size="11" font-weight="650" fill="${C.ink}" text-anchor="end">${esc(fmt(latest.v))}</text></svg>`;
   }
   function chartGroupedBars(rows, series) {
-    const usable = (rows || []).filter((r) => series.some((s) => Number.isFinite(Number(r[s.key]))));
+    // A missing figure is no bar. Number(null) is 0, which drew every year without
+    // a filed ROIC as a zero stub beside the one year that had one.
+    const val = (v) => (v === null || v === undefined || v === '' ? NaN : Number(v));
+    const usable = (rows || []).filter((r) => series.some((s) => Number.isFinite(val(r[s.key]))));
     if (usable.length < 2) return '';
-    const values = series.flatMap((s) => usable.map((r) => Number(r[s.key])).filter(Number.isFinite));
+    const values = series.flatMap((s) => usable.map((r) => val(r[s.key])).filter(Number.isFinite));
     const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1;
     const W = 420, H = 170, top = 18, bottom = 30, plotH = H - top - bottom;
     const y = (v) => top + ((max - v) / span) * plotH;
@@ -166,14 +169,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     const groupW = Math.min(slot * .72, 38);
     const bw = Math.max(3, groupW / series.length - 2);
     const bars = usable.map((r, ri) => series.map((s, si) => {
-      const value = Number(r[s.key]);
+      const value = val(r[s.key]);
       if (!Number.isFinite(value)) return '';
       const x = ri * slot + (slot - groupW) / 2 + si * (bw + 2);
       const vy = y(value), height = Math.max(2, Math.abs(zeroY - vy));
       return `<rect x="${x.toFixed(1)}" y="${Math.min(vy, zeroY).toFixed(1)}" width="${bw.toFixed(1)}" height="${height.toFixed(1)}" fill="${value < 0 ? C.neg : s.color}" rx="2"><title>${esc(r.fy)} ${esc(s.label)}: ${esc((s.fmt || String)(value))}</title></rect>`;
     }).join('')).join('');
     const labels = usable.map((r, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 7}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(r.fy).slice(-2))}</text>`).join('');
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:170px;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}</svg>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:auto;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}</svg>`;
   }
   function legend(items) { return `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">${items.map((i) => `<span class="small" style="color:var(--ink-3)"><span style="display:inline-block;width:9px;height:9px;background:${i.color};border-radius:2px;margin-right:4px;vertical-align:middle"></span>${esc(i.label)}</span>`).join('')}</div>`; }
   const bn = (v) => {
@@ -397,7 +400,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
   }
 
   function miniBars(rows, key, color, fmt) {
-    const pts = (rows || []).map((r) => Number(r[key])).filter(Number.isFinite);
+    // A year without the figure is skipped, not drawn as zero (Number(null) is 0).
+    const pts = (rows || []).filter((r) => r[key] != null && r[key] !== '').map((r) => Number(r[key])).filter(Number.isFinite);
     if (pts.length < 2) return '';
     const max = Math.max(...pts.map((v) => Math.abs(v)), 1);
     const show = fmt || ((v) => String(v));
@@ -408,9 +412,12 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
   // metrics read as a total change, percentage metrics as points. Null when
   // either endpoint is missing so nothing is implied.
   function trendChangeLine(fin, key, pctMetric) {
-    const vals = (fin || []).map((r) => Number(r[key])).filter(Number.isFinite);
-    if (vals.length < 2) return '';
-    const first = vals[0], last = vals[vals.length - 1];
+    // The row is labelled first year → latest year, so both of those years must carry
+    // the figure; Number(null) is 0, which read a missing ROIC as a 0% endpoint.
+    const at = (r) => (r && r[key] != null && r[key] !== '' ? Number(r[key]) : NaN);
+    if (!fin || fin.length < 2) return '';
+    const first = at(fin[0]), last = at(fin[fin.length - 1]);
+    if (!Number.isFinite(first) || !Number.isFinite(last)) return '';
     if (pctMetric) {
       const pts = last - first;
       if (!Number.isFinite(pts) || Math.abs(pts) < 0.05) return '';
@@ -651,9 +658,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     })();
     const offBalanceSection = offBalanceHtml(d, false);
     const mc = num(s.marketCap);
+    // The share price is what a buyer pays; market cap alone left them to divide it out.
+    // A dossier cached before the snapshot carried a price falls back to the DCF quote.
+    const price = num(s.price) ?? num(d.forwardDcf && d.forwardDcf.fairValue && d.forwardDcf.fairValue.currentPrice);
+    const px = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     // Snapshot ratios are decimals (0.19 = 19%), including margins above 100%.
     const pct = (x) => { const n = num(x); return n == null ? null : (n * 100).toFixed(1) + '%'; };
     const keyStrip = [
+      ['Share price', price ? px(price) : '—'],
       ['Market cap', mc ? '$' + money(mc) : '—'],
       ['P/E', s.pe && s.pe !== 'None' ? Number(s.pe).toFixed(1) + '×' : '—'],
       [/^Yahoo/.test((s.ratioBasis || {}).profitMargin || '') ? 'TTM margin · ' + s.ratioBasis.profitMargin.replace(/, trailing twelve months, as of /, ' ').replace(/;.*/, '') : 'Net margin · last ' + (((s.ratioBasis || {}).profitMargin || '').match(/^latest (.+?) \(/) || [, 'annual report'])[1], pct(s.profitMargin) || '—']
@@ -667,7 +679,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     const valuationHtml = v && v.impliedGrowthPct != null ? `
       <div class="dos-sec">
         <h2>What’s priced in</h2>
-        <p style="max-width:74ch;">At today’s market cap, the price implies free-cash-flow growth of about <strong>${v.impliedGrowthPct}%/yr</strong> for ${v.assumptions ? v.assumptions.horizonYears : 10} years (${v.assumptions ? v.assumptions.discountRatePct : '—'}% discount rate, ${v.assumptions ? v.assumptions.terminalGrowthPct : '—'}% terminal growth). For comparison, FCF actually grew ${rec.fcfCagr5Pct ?? '—'}%/yr and revenue ${rec.revCagr5Pct ?? '—'}%/yr over the last five years. <a href="/company.html?symbol=${esc(sym)}">Change the assumptions →</a></p>
+        <p style="max-width:74ch;">At today’s share price${price ? ` of <strong>${px(price)}</strong>` : ''}${mc ? ` (a market cap of $${money(mc)})` : ''}, the market implies free-cash-flow growth of about <strong>${v.impliedGrowthPct}%/yr</strong> for ${v.assumptions ? v.assumptions.horizonYears : 10} years (${v.assumptions ? v.assumptions.discountRatePct : '—'}% discount rate, ${v.assumptions ? v.assumptions.terminalGrowthPct : '—'}% terminal growth). For comparison, FCF actually grew ${rec.fcfCagr5Pct ?? '—'}%/yr and revenue ${rec.revCagr5Pct ?? '—'}%/yr over the last five years. <a href="/company.html?symbol=${esc(sym)}">Change the assumptions →</a></p>
       </div>` : '';
 
     const segs = d.segments && d.segments.items && d.segments.items.length ? `
@@ -797,7 +809,11 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       <div class="dos-sec">
         <h2>Scenario value range <span class="small faint">bear / base / bull — a value band, not a price target</span></h2>
         <div class="dos-bullbear" style="grid-template-columns:repeat(3,1fr);">
-          ${['bear', 'base', 'bull'].map((k) => { const x = sc[k]; const up = x.upsidePct; return `<div class="dos-case dos-case--${k === 'bull' ? 'green' : k === 'bear' ? 'red' : 'blue'}"><h3 style="text-transform:capitalize;">${k}</h3><div style="font-size:20px;font-weight:650;">${bn(x.value)}</div><div class="small ${up >= 0 ? 'delta-pos' : 'delta-neg'}">${up >= 0 ? '+' : ''}${up}% vs market cap</div><div class="basis">at ${x.growthPct}%/yr FCF growth</div></div>`; }).join('')}
+          ${['bear', 'base', 'bull'].map((k) => { const x = sc[k]; const up = x.upsidePct;
+            // Each case is an equity value set against market cap, so the same ratio
+            // applied to the share price gives the value a share.
+            const perShare = price && num(sc.currentMarketCap) > 0 && num(x.value) != null ? price * num(x.value) / num(sc.currentMarketCap) : null;
+            return `<div class="dos-case dos-case--${k === 'bull' ? 'green' : k === 'bear' ? 'red' : 'blue'}"><h3 style="text-transform:capitalize;">${k}</h3><div style="font-size:20px;font-weight:650;">${perShare != null ? px(perShare) + '<span class="small faint" style="font-weight:400;"> a share</span>' : bn(x.value)}</div><div class="small ${up >= 0 ? 'delta-pos' : 'delta-neg'}">${up >= 0 ? '+' : ''}${up}% vs ${perShare != null ? px(price) + ' now' : 'market cap'}</div>${perShare != null ? `<div class="small faint">${bn(x.value)} in all</div>` : ''}<div class="basis">at ${x.growthPct}%/yr FCF growth</div></div>`; }).join('')}
         </div>
         <p class="provenance" style="margin-top:8px;">${esc(sc.basis)}</p>
       </div>` : '';
@@ -1130,10 +1146,11 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     // What the price assumes vs what actually happened.
     const v = d.valuation;
     const rec = v && v.record ? v.record : {};
+    const plainPrice = num((d.snapshot || {}).price) ?? num(d.forwardDcf && d.forwardDcf.fairValue && d.forwardDcf.fairValue.currentPrice);
     const priceHtml = v && v.impliedGrowthPct != null ? `
       <div class="pv-card">
         <h2>What the price assumes</h2>
-        <p class="small faint" style="margin:0 0 10px;">Growth priced in vs. actual 5-year growth</p>
+        <p class="small faint" style="margin:0 0 10px;">${plainPrice ? `At today’s share price of $${plainPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}: growth` : 'Growth'} priced in vs. actual 5-year growth</p>
         ${PV.pairBars('Priced in', v.impliedGrowthPct, 'Actually delivered', rec.fcfCagr5Pct || 0, (x) => x + '%/yr')}
       </div>` : '';
 
@@ -1268,6 +1285,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     running = true;
     const out = $('dos-report');
     $('dos-hero').hidden = true;
+    $('dos-recent').hidden = true;
     const preview = $('dos-preview');
     if (preview) preview.hidden = true;
     if (history.replaceState) history.replaceState(null, '', `/dossier.html?symbol=${encodeURIComponent(sym)}`);
@@ -1387,6 +1405,24 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       if (!Number.isFinite(c.remaining)) return;
       el.textContent = `You have ${c.remaining} left. `;
     } catch (_) { /* the static costs above are still true */ }
+  })();
+
+  // The dossiers this user has already built, so they can reopen one without
+  // remembering its ticker. Lived on the portfolio page, away from where research happens.
+  (async () => {
+    if (!token() || new URLSearchParams(location.search).get('symbol')) return;
+    try {
+      const r = await fetch(`${API}/dossier-history/recent`, { headers: auth() });
+      if (!r.ok) return;
+      const data = await r.json().catch(() => ({}));
+      const recent = Array.isArray(data.recent) ? data.recent : [];
+      if (!recent.length || !$('dos-report').hidden) return;
+      $('dos-recent-list').innerHTML = recent.map((item) => `
+        <a class="chip" href="/dossier.html?symbol=${encodeURIComponent(item.symbol)}">
+          ${esc(item.symbol)}${item.name ? ` — ${esc(item.name)}` : ''}
+        </a>`).join('');
+      $('dos-recent').hidden = false;
+    } catch (_) { /* the list is a convenience; the search above still works */ }
   })();
 
   const initial = new URLSearchParams(location.search).get('symbol');

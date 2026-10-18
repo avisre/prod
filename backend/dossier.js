@@ -540,6 +540,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         filingHistory: (trendResult && trendResult.history) || null,
         snapshot: {
             marketCap: mc,
+            price: num(data.marketData?.price),
             pe: overview.PERatio || null,
             eps: overview.EPS || null,
             profitMargin: ratios.profitMargin,

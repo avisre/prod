@@ -133,7 +133,7 @@
     .dos-trend-row span { font-size:12px; color:var(--ink-2); }
     .dos-trend-row b { text-align:right; font-size:12px; font-variant-numeric:tabular-nums; }
     .dos-trend-row svg { width:100%; height:28px; display:block; }
-    .dos-key-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:20px; }
+    .dos-key-strip { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:20px; }
     .dos-key-strip div { border-top:1px solid var(--line); padding-top:10px; }
     .dos-key-strip small { display:block; color:var(--ink-3); font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
     .dos-key-strip strong { display:block; margin-top:4px; font-size:17px; font-variant-numeric:tabular-nums; }
@@ -144,11 +144,17 @@
     .dos-visual-panel h3 { margin:0; font-size:13px; }
     .dos-visual-panel p { margin:3px 0 0; color:var(--ink-3); font-size:11px; }
     /* Revenue and profit sit side by side on a wide screen. Stacked, each 420-unit
-       chart was drawn 160px tall in a 1,100px card: a small picture in a lot of white. */
+       chart was drawn 160px tall in a 1,100px card: a small picture in a lot of white.
+       The charts take their height from their width, so a panel never letterboxes them. */
     @media (min-width: 760px) {
       .dos-visual-stack { grid-template-columns: 1fr 1fr; gap: 28px; }
       .dos-visual-stack > .dos-visual-panel + .dos-visual-panel { padding-top: 0; border-top: 0; border-left: 1px solid var(--line); padding-left: 28px; }
-      .dos-visual-panel svg { height: 210px !important; }
+    }
+    /* The financial evidence card is half the page beside the written read, so its two
+       charts stack there: side by side, each was about 230px wide and drawn squashed. */
+    @media (min-width: 821px) {
+      .dos-financial-evidence .dos-visual-stack { grid-template-columns: 1fr; }
+      .dos-financial-evidence .dos-visual-stack > .dos-visual-panel + .dos-visual-panel { padding-top: 20px; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
     }
     .dos-financial-read { margin:0; padding:0; list-style:none; border-top:1px solid var(--line); }
     .dos-financial-read li { position:relative; padding:15px 0 15px 29px; border-bottom:1px solid var(--line); font-size:13.5px; line-height:1.55; }
@@ -286,12 +292,16 @@
         </form>
         <p class="small faint" style="text-align:center; margin:12px auto 0;">A dossier costs 10 credits · a comparison 5 · a follow-up question 2. <span id="dos-credit-line"></span><span id="dos-planline"><a href="/#pricing">see plans</a></span></p>
       </div>
+      <section id="dos-recent" hidden style="max-width:760px; margin:32px auto 0;">
+        <div class="section-head"><h2 class="title-2">Your dossiers</h2><span class="small faint">Reopening one costs no credits while no newer filing has landed.</span></div>
+        <div id="dos-recent-list" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+      </section>
       <div id="dos-report" class="dos-doc" hidden></div>
     </div>
   </main>
   <script src="assets/app.js?v=20261018-ui25"></script>
   <script src="assets/plainviz.js?v=20260824-plainmode1"></script>
-  <script src="assets/dossier.js?v=20261011-ask1"></script>
+  <script src="assets/dossier.js?v=20261018-dos1"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>
 </html>

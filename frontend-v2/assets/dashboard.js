@@ -116,28 +116,6 @@
     }
     mountInitialRefund();
 
-    // Recent research — Dossier is cached per company and never re-billed, but
-    // that cache is invisible unless we surface it: list what this user has
-    // already generated so they don't need to remember tickers to reopen for free.
-    async function mountRecentResearch() {
-        if (DEMO) return;
-        try {
-            const r = await fetch(`${API}/dossier-history/recent`, { headers: auth });
-            if (!r.ok) return;
-            const data = await r.json().catch(() => ({}));
-            const recent = Array.isArray(data.recent) ? data.recent : [];
-            if (!recent.length) return;
-            const section = $('recent-research-section');
-            const list = $('recent-research-list');
-            list.innerHTML = recent.map((item) => `
-              <a class="chip" href="/dossier.html?symbol=${encodeURIComponent(item.symbol)}">
-                ${esc(item.symbol)}${item.name ? ` — ${esc(item.name)}` : ''}
-              </a>`).join('');
-            section.hidden = false;
-        } catch (_) { /* recent research is non-blocking */ }
-    }
-    mountRecentResearch();
-
     let lastRows = []; // for CSV export
     let portfolioActionBusy = false;
     let portfolioRefreshVersion = 0;
