@@ -65,4 +65,20 @@ function convertObservation(f,series){
 }
 function observedCurrency(data){return [...(data?.supplementalObservations || []),...(data?.industryObservations || [])].find(money)?.currency || '';}
 function usdObservations(data,source,series){const out={};for(const k of ['supplementalObservations','industryObservations'])if(Array.isArray(data?.[k]))out[k]=data[k].map(f=>f?.currency===source?convertObservation(f,series):f);return out;}
-module.exports={HYPERINFLATION,convertRow,usd,convertObservation,observedCurrency,usdObservations};
+// A foreign filer's statements are presented in USD, beside its USD quote, at the stored monthly rates
+// (a balance at its month's close, a flow at the average of the months it spans, IAS 29 filers at the
+// closing rate of the month they measure in). The filed values stay in each row's _presentations. A
+// figure with no rate for its period becomes blank, never a native amount labelled USD. Without a
+// stored rate series the data is returned as filed, and every section keeps its own currency label.
+let fxRates=null;
+function storedRates(){
+ if(!fxRates){try{fxRates=JSON.parse(require('fs').readFileSync(require('path').join(p.DATA_DIR,'sec-fx.json'),'utf8')).rates || {};}catch(_){fxRates={};}}
+ return fxRates;
+}
+function presentUsd(data,rates=storedRates()){
+ const source=data && (fx.reportingCurrency(data) || observedCurrency(data));
+ if(!source || source==='USD' || !rates[source]?.length)return data;
+ return {...usd(data,rates),...usdObservations(data,source,rates[source]),overview:{...data.overview,Currency:'USD'},
+  currencyConversion:{from:source,to:'USD',source:'Yahoo Finance historical FX',approximate:true,...(HYPERINFLATION[source]?{restatedFrom:HYPERINFLATION[source]}:{})}};
+}
+module.exports={HYPERINFLATION,convertRow,usd,convertObservation,observedCurrency,usdObservations,presentUsd};

@@ -15,10 +15,10 @@ const STATUS_FILE = path.join(os.tmpdir(), `fundamentals-status-test-${process.p
 fs.writeFileSync(STATUS_FILE, JSON.stringify({
     generatedAt: '2026-10-01T00:00:00.000Z',
     symbols: {
-        NSA: {
+        'CWEN-A': {
             firstFailedDay: '2026-09-01', lastFailedDay: '2026-10-01',
             consecutive: 2, kind: 'not-found',
-            lastError: 'Quote not found for symbol: NSA', unlistedSince: '2026-10-01'
+            lastError: 'Quote not found for symbol: CWEN-A', unlistedSince: '2026-10-01'
         }
     }
 }));
@@ -30,9 +30,9 @@ const seo = require('../seo-pages');
 after(() => { try { fs.rmSync(STATUS_FILE, { force: true }); } catch (_) { /* best effort */ } });
 
 test('the status file is read from the override', () => {
-    assert.equal(status.isUnlisted('NSA'), true);
+    assert.equal(status.isUnlisted('CWEN-A'), true);
     assert.equal(status.isUnlisted('AMD'), false);
-    assert.equal(status.info('NSA').since, '2026-10-01');
+    assert.equal(status.info('CWEN-A').since, '2026-10-01');
 });
 
 test('an unlisted ticker is excluded from the sitemap', () => {
@@ -44,12 +44,12 @@ test('an unlisted ticker is excluded from the sitemap', () => {
         combined += shard;
     }
     assert.ok(combined.length > 1000, 'stocks shards render');
-    assert.doesNotMatch(combined, /\/stocks\/NSA</, 'dead ticker must not be advertised to crawlers');
+    assert.doesNotMatch(combined, /\/stocks\/CWEN-A</, 'dead ticker must not be advertised to crawlers');
     assert.match(combined, /\/stocks\/AMD</, 'a live ticker is still there');
 });
 
 test('an unlisted ticker keeps a reachable, honestly labelled page', () => {
-    const html = seo.renderStockPage('NSA');
+    const html = seo.renderStockPage('CWEN-A');
     assert.ok(html, 'the page still renders rather than 404ing');
     assert.match(html, /No longer listed under this ticker/);
     assert.doesNotMatch(html, /Not the latest data — a newer SEC filing may exist/);

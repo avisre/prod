@@ -60,4 +60,7 @@ function loadRawFundamentals(symbol) {
 function invalidate(symbol) { remove(keyFor(symbol)); }
 
 function loadFundamentals(symbol) { return require('./verified-fundamentals').load(symbol, loadRawFundamentals(symbol)); }
-module.exports = { loadFundamentals, loadRawFundamentals, invalidate };
+// The SEC statements in USD, as the dossier shows them. The stored files hold
+// only the overview and price history; their statements are the SEC data.
+function loadPresentedFundamentals(symbol) { return require('./sec-presentation').presentUsd(loadFundamentals(symbol)); }
+module.exports = { loadFundamentals, loadPresentedFundamentals, loadRawFundamentals, invalidate };

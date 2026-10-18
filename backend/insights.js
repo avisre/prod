@@ -7,14 +7,11 @@
 // exactly one thing: connect facts into decision-relevant observations.
 // No fact outside the pack may appear. Cached in Mongo per fiscal year.
 
-const fs = require('fs');
-const path = require('path');
 const mongoose = require('mongoose');
 const { KEYPOINTS_VERSION } = require('./keypoints');
 const aiClient = require('./ai-client');
 const aiChat = require('./ai-chat');
 
-const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 const num = require('./sec-coverage').number;
@@ -25,10 +22,7 @@ function cagr(first, last, years) {
 }
 
 function loadFund(symbol) {
-    try {
-        const f = path.join(FUND_DIR, `${String(symbol).toUpperCase().replace(/[^A-Z0-9]/g, '_')}.json`);
-        return JSON.parse(fs.readFileSync(f, 'utf8'));
-    } catch (_) { return null; }
+    try { return require('./fundamentals-cache').loadPresentedFundamentals(symbol); } catch (_) { return null; }
 }
 
 function joined(d) {

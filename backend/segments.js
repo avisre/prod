@@ -7,8 +7,6 @@
 // for once, ever. Grounding rule: the model may only use numbers present in
 // the supplied text; anything else must be omitted.
 
-const fs = require('fs');
-const path = require('path');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const secSource = require('./sec-source');
@@ -16,16 +14,15 @@ const { decodeEntities } = require('./html-text');
 const watchdog = require('./watchdog');
 const aiClient = require('./ai-client');
 
-const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
+// The latest annual income row of the filed SEC statements, in USD.
+function latestIncome(symbol) {
+    try { return ((require('./fundamentals-cache').loadPresentedFundamentals(symbol)?.income || {}).annualReports || [])[0] || {}; } catch (_) { return {}; }
+}
 
 // Filed total revenue from our own cache — the anchor for unit repair.
 function filedRevenue(symbol) {
-    try {
-        const f = path.join(FUND_DIR, `${String(symbol).toUpperCase().replace(/[^A-Z0-9]/g, '_')}.json`);
-        const d = JSON.parse(fs.readFileSync(f, 'utf8'));
-        const v = Number((((d.income || {}).annualReports || [])[0] || {}).totalRevenue);
-        return Number.isFinite(v) && v > 0 ? v : null;
-    } catch (_) { return null; }
+    const v = Number(latestIncome(symbol).totalRevenue ?? NaN);
+    return Number.isFinite(v) && v > 0 ? v : null;
 }
 
 // Models sometimes return millions/thousands despite instructions. Compare
@@ -38,13 +35,8 @@ function filedRevenue(symbol) {
 // currency slip, using a rate this pipeline already recorded rather than a
 // fresh FX lookup or a judgement call by the model.
 function usdRate(symbol) {
-    try {
-        const f = path.join(FUND_DIR, `${String(symbol).toUpperCase().replace(/[^A-Z0-9]/g, '_')}.json`);
-        const d = JSON.parse(fs.readFileSync(f, 'utf8'));
-        const row = (((d.income || {}).annualReports || [])[0] || {});
-        const rate = Number(row.fxRateToUSD);
-        return Number.isFinite(rate) && rate > 0 && rate !== 1 ? rate : null;
-    } catch (_) { return null; }
+    const rate = Number(latestIncome(symbol)._presentations?.totalRevenue?.rate);
+    return Number.isFinite(rate) && rate > 0 && rate !== 1 ? rate : null;
 }
 
 function repairUnits(segments, symbol) {

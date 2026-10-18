@@ -136,11 +136,13 @@ function exportFundamentals(outDir, { symbols, limit }) {
         company.CIK = cik;
         companies.push(company);
 
-        // One row per (symbol, fiscal period), income+balance+cash joined.
+        // One row per (symbol, fiscal period), income+balance+cash joined, from
+        // the SEC statements as filed (the stored file holds only the overview and prices).
+        const filed = require(path.join(BACKEND, 'fundamentals-cache')).loadFundamentals(symbol) || {};
         const byPeriod = new Map();
         for (const st of ['income', 'balance', 'cash']) {
             for (const basis of ['annualReports', 'quarterlyReports']) {
-                for (const r of ((d[st] || {})[basis]) || []) {
+                for (const r of ((filed[st] || {})[basis]) || []) {
                     const end = String(r.fiscalDateEnding || '');
                     if (!end) continue;
                     const key = `${basis}|${end}`;

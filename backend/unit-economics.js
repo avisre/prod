@@ -11,15 +11,12 @@
 // (a bank, a holding company) must come back with an empty metrics list, not
 // an invented one.
 
-const fs = require('fs');
-const path = require('path');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const secSource = require('./sec-source');
 const aiClient = require('./ai-client');
 const segments = require('./segments');
 
-const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 const MAX_EXTRACT_CHARS = 28000;
 
 // Broad, industry-agnostic — covers autos, retail, travel/hospitality,
@@ -116,8 +113,7 @@ async function extractRaw(symbol) {
 // pattern as segments.js's filedRevenue().
 function annualIncome(symbol) {
     try {
-        const f = path.join(FUND_DIR, `${String(symbol).toUpperCase().replace(/[^A-Z0-9]/g, '_')}.json`);
-        const d = JSON.parse(fs.readFileSync(f, 'utf8'));
+        const d = require('./fundamentals-cache').loadPresentedFundamentals(symbol) || {};
         const rows = ((d.income || {}).annualReports || []).slice(0, 2); // newest-first
         return rows.map((r) => ({
             fiscalDateEnding: r.fiscalDateEnding,

@@ -51,26 +51,8 @@ const DOSSIER_PARTIAL_STALE_MS = 10 * 60 * 1000;
 
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 
-// A foreign filer's statements are presented in USD, beside its USD quote, at the stored monthly rates
-// (a balance at its month's close, a flow at the average of the months it spans, IAS 29 filers at the
-// closing rate of the month they measure in). The filed values stay in each row's _presentations. A
-// figure with no rate for its period becomes blank, never a native amount labelled USD. Without a
-// stored rate series the data is returned as filed, and every section keeps its own currency label.
-let fxRates = null;
-function storedRates() {
-    if (!fxRates) {
-        const fs = require('fs'), path = require('path');
-        try { fxRates = JSON.parse(fs.readFileSync(path.join(require('./sec-coverage').DATA_DIR, 'sec-fx.json'), 'utf8')).rates || {}; } catch (_) { fxRates = {}; }
-    }
-    return fxRates;
-}
-function presentUsd(data, rates = storedRates()) {
-    const pres = require('./sec-presentation');
-    const source = data && (require('./fx-conversion').reportingCurrency(data) || pres.observedCurrency(data));
-    if (!source || source === 'USD' || !rates[source]?.length) return data;
-    return { ...pres.usd(data, rates), ...pres.usdObservations(data, source, rates[source]), overview: { ...data.overview, Currency: 'USD' },
-        currencyConversion: { from: source, to: 'USD', source: 'Yahoo Finance historical FX', approximate: true, ...(pres.HYPERINFLATION[source] ? { restatedFrom: pres.HYPERINFLATION[source] } : {}) } };
-}
+// A foreign filer's statements are presented in USD beside its USD quote (sec-presentation.js presentUsd).
+const { presentUsd } = require('./sec-presentation');
 // A dossier cached from the filed currency is a miss once its data is presented in USD.
 const fingerprintOf = (data) => { const f = data.provenance?.evidenceFingerprint || data.provenance?.financialDigest; return f && data.currencyConversion ? `${f}:USD` : f; };
 const loadDossierData = async (sym) => presentUsd(await aiChat.loadFundAny(sym).catch(() => null));
