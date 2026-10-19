@@ -294,7 +294,7 @@ test('the page draws from the model, and the server ranks with it and never retu
     assert.match(page, /<script src="assets\/sbc-model\.js\?v=[\w-]+"><\/script>\s*<script src="assets\/industry-metrics\.js\?v=[\w-]+"><\/script>\s*<script src="assets\/company\.js\?v=[\w-]+"><\/script>/, 'the models load before the page script');
 
     const js = read('frontend-v2', 'assets', 'company.js');
-    assert.match(js, /window\.SBCModel\.build\(rows\)/);
+    assert.match(js, /window\.SBCModel\.build\(rows, \{ fcf: !noFcf\(\) \}\)/, 'banks and life insurers are built without free cash flow');
     assert.match(js, /renderChecks\(\);\s*renderSbc\(\);/);
     assert.match(js, /\{ label: 'Stock-based compensation', get: \(r\) => num\(r\.shareBasedCompensation\)/);
     assert.match(js, /\{ label: 'SBC % of revenue',/);
@@ -310,4 +310,33 @@ test('the page draws from the model, and the server ranks with it and never retu
     assert.match(fn, /sbcModel\.rank\(list, pct\)/);
     assert.match(fn, /Object\.prototype\.hasOwnProperty\.call\(sbcSectorTable\.sectors, sector\)/, 'an inherited property is not a sector');
     assert.match(fn, /\.json\(\{ sector, asOf: [^}]*, rank \}\)/, 'a position, never the sector list');
+});
+
+// A bank or life insurer: no free cash flow row, column or verdict; each year is
+// read on what stock pay did to the share count (owner, 2026-10-19).
+test('with { fcf: false } no free cash flow figure or FCF verdict appears', () => {
+    const m = model.build(APPLE, { fcf: false });
+    assert.equal(m.noFcf, true);
+    assert.equal(m.fcf, null);
+    assert.equal(m.fcfWhy, null);
+    assert.equal(m.pctOfFcf, null);
+    assert.ok(m.years.length);
+    for (const y of m.years) {
+        assert.equal(y.fcf, null);
+        assert.equal(y.fcfAfter, null);
+        assert.equal(y.pctOfFcf, null);
+        assert.doesNotMatch(y.verdict, /FCF|free cash flow/i);
+    }
+    // Apple bought back stock every year and its share count fell.
+    assert.match(m.years[m.years.length - 1].verdict, /^Buybacks reduced the share count \d+\.\d%$/);
+    assert.equal(model.build(APPLE).noFcf, undefined, 'the default keeps free cash flow');
+});
+
+test('a share count move that rounds to 0.0% reads "less than 0.1%"', () => {
+    const flat = APPLE.map((r, i) => ({ ...r, buy: null, dil: 15000000e3 + i * 1e6 }));
+    for (const opts of [{}, { fcf: false }]) {
+        const last = model.build(flat, opts).years.slice(-1)[0];
+        assert.doesNotMatch(last.verdict, /0\.0%/);
+        assert.match(last.verdict, /rose less than 0\.1%/);
+    }
 });

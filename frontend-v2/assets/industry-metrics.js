@@ -249,6 +249,20 @@
     return { kind, sic: sic || null, insurerType: insurerType(sic), showCombinedRatio: hasCombinedRatio(sic) };
   }
 
+  // Banks and life insurers have no free cash flow: loans, deposits and
+  // policyholder balances run through operating cash flow, and they file no
+  // capital spending line. Every FCF measure (the SBC table, FCF margin, the
+  // reverse and forward DCF) is left out for them rather than shown as missing
+  // (owner, 2026-10-19). Checked 2026-10-19 against S&P Global's statements on
+  // stockanalysis.com: JPM, WFC and MET carry no FCF row, while P&C (PGR) and
+  // health (UNH) insurers file capex and carry one, so those keep FCF. Yahoo's
+  // JPM "free cash flow" is operating cash flow relabelled (-$147.8B for 2025).
+  const NO_FCF = 'Banks and life insurers have no free cash flow: loans, deposits and policyholder balances run through operating cash flow and no capital spending is filed, so measures built on free cash flow are not shown.';
+  function hasNoFcf(data) {
+    const c = classify(data);
+    return c.kind === 'bank' || (c.kind === 'insurer' && c.insurerType === 'life');
+  }
+
   function build(data) {
     const c = classify(data);
     if (!c.kind) return null;
@@ -258,5 +272,5 @@
     return built;
   }
 
-  return { build, classify, collect, buildBank, buildInsurance, kindFromSic, insurerType, hasCombinedRatio, fyOf, BANK_SIC, INSURER_SIC, YEARS };
+  return { build, classify, hasNoFcf, NO_FCF, collect, buildBank, buildInsurance, kindFromSic, insurerType, hasCombinedRatio, fyOf, BANK_SIC, INSURER_SIC, YEARS };
 });

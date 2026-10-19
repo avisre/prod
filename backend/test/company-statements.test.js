@@ -270,7 +270,8 @@ test('the per-share view divides by the share count filed for that same period e
 });
 
 test('a company that files no cost of revenue shows its filed cost lines under its own headings, annual only', () => {
-  const make = pageFunction('    const FILED_GROUP = 900;', '    function groupDefs(', ['payload', 'stState', 'basisState', 'reportingCurrency', 'money', 'ROWS'], '\nreturn { filedCostDefs, statementDefs, FILED_GROUP };');
+  const build = pageFunction('    const FILED_GROUP = 900;', '    function groupDefs(', ['payload', 'stState', 'basisState', 'reportingCurrency', 'money', 'ROWS', 'noFcf'], '\nreturn { filedCostDefs, statementDefs, FILED_GROUP };');
+  const make = (p, st, basis, cur, money, rows, noFcf = () => false) => build(p, st, basis, cur, money, rows, noFcf);
   const ROWS = { income: [{ label: 'Revenue', solo: true }, { label: 'Cost of revenue', solo: true }, { label: 'Gross profit' }] };
   const payload = { filedCosts: { currency: 'USD', heading: 'Costs and expenses', filing: { form: '10-K', accession: '0001104659-26-021292' }, lines: [
     { heading: true, label: 'Restaurant operating costs', depth: 0 },
@@ -296,4 +297,8 @@ test('a company that files no cost of revenue shows its filed cost lines under i
   assert.equal(page.statementDefs(true), ROWS.income);
   assert.equal(make(payload, 'income', 'annual', () => 'EUR', String, ROWS).statementDefs(false), ROWS.income);
   assert.equal(make({}, 'income', 'annual', () => 'USD', String, ROWS).statementDefs(false), ROWS.income);
+  // a bank or life insurer has no free cash flow row (owner, 2026-10-19)
+  const CASH = { cash: [{ label: 'Operating cash flow' }, { label: 'Free cash flow', fcf: true }] };
+  assert.deepEqual(make({}, 'cash', 'annual', () => 'USD', String, CASH, () => true).statementDefs(false).map((d) => d.label), ['Operating cash flow']);
+  assert.equal(make({}, 'cash', 'annual', () => 'USD', String, CASH).statementDefs(false), CASH.cash);
 });

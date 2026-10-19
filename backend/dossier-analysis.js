@@ -6,6 +6,7 @@
 // the model only narrates the standouts.
 
 const aiChat = require('./ai-chat');
+const industryMetrics = require('../frontend-v2/assets/industry-metrics');
 
 const num = require('./sec-coverage').number;
 const median = (arr) => {
@@ -99,7 +100,8 @@ function forensicSignals(data, rdcf, overview) {
     const ni = num(i0.netIncome);
     const ocf = num(c0.operatingCashflow);
     const capex = num(c0.capitalExpenditures);
-    const fcf = (ocf !== null && capex !== null) ? ocf + capex : null;
+    // A bank or life insurer has no free cash flow: no FCF conversion or dividend-of-FCF signal.
+    const fcf = (ocf !== null && capex !== null && !industryMetrics.hasNoFcf(data)) ? ocf + capex : null;
 
     // 1) FCF conversion — how much reported profit becomes cash
     if (fcf !== null && ni && ni > 0) {
@@ -191,6 +193,7 @@ function forensicSignals(data, rdcf, overview) {
 function financialHistory(data, maxYears = 8) {
     const inc = annual(data, 'income'), bal = annual(data, 'balance'), cash = annual(data, 'cash');
     if (!inc.length) return null;
+    const noFcf = industryMetrics.hasNoFcf(data);
     const byFy = new Map();
     const put = (fy, k, v) => { if (!byFy.has(fy)) byFy.set(fy, { fy }); byFy.get(fy)[k] = v; };
     for (const r of inc) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'rev', num(r.totalRevenue)); put(fy, 'gp', r._sources?.grossProfit?.length ? num(r.grossProfit) : num(r.grossProfit)===0?null:num(r.grossProfit)); put(fy, 'cor', num(r.costOfRevenue)); put(fy, 'op', num(r.operatingIncome)); put(fy, 'ni', num(r.netIncome)); put(fy, 'int', num(r.interestExpense)); } }
@@ -202,7 +205,7 @@ function financialHistory(data, maxYears = 8) {
         let gp = y.gp;
         if (gp === null && y.rev !== null && y.cor) gp = y.rev - y.cor;
         const debt = num(y.debt);
-        const fcf = (num(y.ocf) !== null && num(y.capex) !== null) ? y.ocf + y.capex : null;
+        const fcf = (num(y.ocf) !== null && num(y.capex) !== null && !noFcf) ? y.ocf + y.capex : null;
         return {
             fy: y.fy.slice(0,4), periodEnd:y.fy.split('|')[0], currency:y.fy.split('|')[1] || null,
             revenue: num(y.rev), netIncome: num(y.ni), fcf, cashOnHand: num(y.cashBal),

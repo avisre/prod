@@ -118,7 +118,7 @@
   // One year's answer to the owner's question: can free cash flow pay for the
   // stock handed to staff and still leave the share count lower? Every phrase
   // is chosen from filed figures; a missing input names itself.
-  function flowYear(years, y) {
+  function flowYear(years, y, fcf = true) {
     const prev = yearsBack(years, y, 1);
     const raw = shareChange(prev, y);
     const change = raw !== null && Math.abs(raw) <= SHARE_JUMP ? raw : null;
@@ -126,6 +126,14 @@
     if (!prev) dilutionWhy = 'Not available: the year before is not in our filings data.';
     else if (raw === null) dilutionWhy = 'Not available: the diluted share count is not in our filings data for both years.';
     else if (Math.abs(raw) > SHARE_JUMP) dilutionWhy = 'Not shown: the diluted share count changed by more than 40% in a year, which usually means a split or a merger rather than dilution.';
+    if (!fcf) {
+      return {
+        fy: y.fy, end: y.end, fcf: null, sbc: y.sbc, fcfAfter: null,
+        buybacks: y.buy, pctOfFcf: null, pctOfFcfWhy: null,
+        dilutionPct: change === null ? null : 100 * change, dilutionWhy,
+        verdict: shareVerdict(y, change, dilutionWhy)
+      };
+    }
     const fcfAfter = y.fcf !== null && y.sbc !== null ? y.fcf - y.sbc : null;
     let pctOfFcf = null, pctOfFcfWhy = null;
     if (y.fcf === null) pctOfFcfWhy = `Not available: operating cash flow or capital expenditure for ${y.fy} is not in our filings data.`;
@@ -141,6 +149,9 @@
     };
   }
 
+  // A move that rounds to 0.0% is "less than 0.1%", never "rose 0.0%".
+  const movePct = (change) => (Math.abs(change) < 0.0005 ? 'less than 0.1%' : `${Math.abs(100 * change).toFixed(1)}%`);
+
   function flowVerdict(y, change, dilutionWhy) {
     const fy = y.fy;
     if (y.fcf === null) return `Not available: operating cash flow or capital expenditure for ${fy} is not in our filings data.`;
@@ -151,13 +162,27 @@
     if (y.fcf < y.sbc) return 'SBC exceeded FCF: dilution was not funded by cash generation';
     const times = (y.fcf / y.sbc).toFixed(1);
     if (change === null) return `FCF covered SBC ${times} times. ${dilutionWhy}`;
-    if (change > 0) return `FCF covered SBC but the share count still rose ${(100 * change).toFixed(1)}%`;
+    if (change > 0) return `FCF covered SBC but the share count still rose ${movePct(change)}`;
     if (change < 0 && y.buy !== null && y.buy > 0) return `FCF covered SBC ${times} times and buybacks reduced the share count`;
-    if (change < 0) return `FCF covered SBC ${times} times and the share count fell ${Math.abs(100 * change).toFixed(1)}%, but share buybacks for ${fy} were not filed`;
+    if (change < 0) return `FCF covered SBC ${times} times and the share count fell ${movePct(change)}, but share buybacks for ${fy} were not filed`;
     return `FCF covered SBC ${times} times and the share count was unchanged`;
   }
 
-  function build(rows) {
+  // A bank or life insurer has no free cash flow, so its year is read on what stock
+  // pay did to the share count, and whether buybacks absorbed it.
+  function shareVerdict(y, change, dilutionWhy) {
+    if (y.sbc === null) return `Not available: stock-based compensation for ${y.fy} is not in our filings data.`;
+    if (y.sbc < 0) return 'Not shown: stock-based compensation was a net reversal, so there was no stock cost to absorb.';
+    if (change === null) return dilutionWhy;
+    const move = movePct(change);
+    if (change > 0) return `The share count rose ${move}`;
+    if (change < 0 && y.buy !== null && y.buy > 0) return `Buybacks reduced the share count ${move}`;
+    if (change < 0) return `The share count fell ${move}, but share buybacks for ${y.fy} were not filed`;
+    return 'The share count was unchanged';
+  }
+
+  // { fcf: false } for a bank or life insurer: no free cash flow row, column or verdict.
+  function build(rows, { fcf = true } = {}) {
     const years = normalise(rows);
     const reported = years.filter((y) => y.sbc !== null);
     if (!reported.length) {
@@ -201,7 +226,8 @@
     if (reversal) out.pctRevenueWhy = `Not shown: the filed figure for ${latest.fy} is a net reversal, not a cost.`;
     else if (out.pctRevenue === null) out.pctRevenueWhy = latest.rev === null ? `Not available: revenue for ${latest.fy} is not in our filings data.` : `Not shown: revenue for ${latest.fy} was not positive.`;
 
-    if (latest.fcf === null) out.fcfWhy = `Not available: operating cash flow or capital expenditure for ${latest.fy} is not in our filings data.`;
+    if (!fcf) { out.fcf = null; out.noFcf = true; }
+    else if (latest.fcf === null) out.fcfWhy = `Not available: operating cash flow or capital expenditure for ${latest.fy} is not in our filings data.`;
     else if (!reversal) {
       out.fcfAfter = latest.fcf - latest.sbc;
       // "SBC is 180% of free cash flow" is meaningful; a share of a negative
@@ -242,7 +268,7 @@
     // The five-year table beside the panel's current-year rows. It runs over
     // every annual row, not only the years that filed stock pay: a year with a
     // missing SBC line names that input instead of disappearing from the table.
-    out.years = years.slice(-CHECK_YEARS).map((y) => flowYear(years, y));
+    out.years = years.slice(-CHECK_YEARS).map((y) => flowYear(years, y, fcf));
     out.verdict = out.years[out.years.length - 1].verdict;
     out.verdictFy = out.years[out.years.length - 1].fy;
     return out;

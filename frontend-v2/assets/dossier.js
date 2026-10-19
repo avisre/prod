@@ -572,7 +572,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     return `<div class="dos-visual-panel" style="margin-top:24px;"><h3>Margins and returns</h3>${sub ? `<p>${sub}</p>` : ''}${series.length ? chartGroupedBars(fin, series) : ''}${fallbackNote(m, ret)}</div>`;
   }
 
-  function decisionTrends(fin) {
+  // Banks and life insurers carry no free cash flow (IndustryMetrics.hasNoFcf);
+  // P&C and health insurers file capex and keep it.
+  function noFcfOf(d) {
+    const m = d && d.industryMetrics;
+    return !!m && (m.kind === 'bank' || (m.kind === 'insurer' && m.insurerType === 'life'));
+  }
+
+  function decisionTrends(fin, noFcf) {
     if (!fin || fin.length < 2) return '<p class="small faint">No multi-year filed history is available.</p>';
     const latest = fin[fin.length - 1] || {};
     const span = `${esc(fin[0].fy)}â†’${esc(latest.fy)}`;
@@ -583,7 +590,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     const all = [
       ['Revenue', 'revenue', C.ink, bn, false],
       m && [m[1], m[0], C.grey, pctV, true],
-      ['Free cash flow', 'fcf', C.pos, bn, false],
+      // A bank or life insurer has no free cash flow: no FCF line, and none listed as missing.
+      !noFcf && ['Free cash flow', 'fcf', C.pos, bn, false],
       ret && [ret[1], ret[0], C.ink, pctV, true]
     ].filter(Boolean);
     const rows = all.filter(([, key]) => filedCount(fin, key) >= 2).map(([label, key, color, fmt, pctMetric]) => [label, key, latestOf(key, fmt), color, fmt, pctMetric]);
@@ -627,7 +635,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     const lines = [];
     if (revCagr != null) lines.push(`Revenue compounded at approximately <strong>${revCagr.toFixed(1)}% a year</strong> from ${first.fy} to ${latest.fy}.`);
     if (opMove != null) lines.push(`${marginKey === 'opMarginPct' ? 'Operating' : 'Net'} margin moved from <strong>${first[marginKey]}%</strong> to <strong>${latest[marginKey]}%</strong>, a ${opMove >= 0 ? '+' : ''}${opMove.toFixed(1)}-point change.`);
-    const fcfVals = fin.map((r) => Number(r.fcf)).filter(Number.isFinite);
+    const fcfVals = fin.filter((r) => r.fcf != null).map((r) => Number(r.fcf)).filter(Number.isFinite);
     if (fcfVals.length > 1) {
       const peak = Math.max(...fcfVals), trough = Math.min(...fcfVals);
       lines.push(`Free cash flow finished at <strong>${bn(latest.fcf)}</strong> versus <strong>${bn(first.fcf)}</strong> at the start, but ranged from ${bn(trough)} to ${bn(peak)}; the bar pattern matters more than a single end-point growth rate.`);
@@ -1098,7 +1106,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       ${flowSection}
       ${offBalanceSection}
       <section class="dos-decision-grid" id="dos-brief">
-        <section><span class="dos-kicker">Visual evidence</span><h2>The business trajectory</h2>${decisionTrends(history)}</section>
+        <section><span class="dos-kicker">Visual evidence</span><h2>The business trajectory</h2>${decisionTrends(history, noFcfOf(d))}</section>
         <section><span class="dos-kicker">Decision brief</span><h2>The case in two minutes</h2><div class="dos-decision-copy">${briefParagraphs(briefText)}</div><div class="dos-key-strip">${keyStrip}</div>${fxNote}</section>
       </section>
       ${financialHtml}
@@ -1154,7 +1162,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       if ((last.opMarginPct || 0) > (prev.opMarginPct || 0)) score += 0.5; else if (last.opMarginPct != null) score -= 0.5;
     }
     const fcfPosYears = history.filter((r) => (r.fcf || 0) > 0).length;
-    if (history.length) score += (fcfPosYears / history.length - 0.5);
+    if (history.length && !noFcfOf(d)) score += (fcfPosYears / history.length - 0.5);
     const risks = d.risksPlain && d.risksPlain.length ? d.risksPlain : (d.risks || []);
     const highRisks = risks.filter((r) => r.severity === 'high').length;
     score -= Math.min(1.5, highRisks * 0.5);

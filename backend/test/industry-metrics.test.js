@@ -149,3 +149,18 @@ test('a regulator-only bank is classified from FDIC net interest income', () => 
     assert.equal(model.classify(data).kind, 'bank');
     assert.equal(model.classify({ coverage: { sic: '6411' } }).kind, null);
 });
+
+// Owner, 2026-10-19: banks and life insurers carry no free cash flow (no capex is
+// filed; loans, deposits and policyholder balances run through operating cash
+// flow). P&C and health insurers file capex and keep it, as S&P Global's
+// statements do (PGR and UNH carry an FCF row, JPM, WFC and MET do not).
+test('free cash flow is left out for banks and life insurers only', () => {
+    assert.equal(model.hasNoFcf({ coverage: { sic: '6021' } }), true, 'national bank (JPM)');
+    assert.equal(model.hasNoFcf({ coverage: { sic: '6311' } }), true, 'life insurer (MET)');
+    assert.equal(model.hasNoFcf({ coverage: { sic: '6321' } }), true, 'accident and health (AFL)');
+    assert.equal(model.hasNoFcf({ coverage: { sic: '6331' } }), false, 'P&C insurer (PGR) keeps FCF');
+    assert.equal(model.hasNoFcf({ coverage: { sic: '6324' } }), false, 'health insurer (UNH) keeps FCF');
+    assert.equal(model.hasNoFcf({ coverage: { sic: '3571' } }), false, 'non-financial (AAPL)');
+    assert.equal(model.hasNoFcf({ coverage: { industry: { archetype: 'insurer' } } }), false, 'an insurer of unknown type keeps FCF');
+    assert.match(model.NO_FCF, /^Banks and life insurers have no free cash flow/);
+});

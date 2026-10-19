@@ -456,6 +456,9 @@
         const ocf = num(r.operatingCashflow); const capex = num(r.capitalExpenditures);
         return (ocf !== null && capex !== null) ? ocf + capex : null;
     };
+    // Banks and life insurers have no free cash flow (assets/industry-metrics.js):
+    // every FCF row, tile, check and valuation is left out for them.
+    const noFcf = (p = payload) => !!(window.IndustryMetrics && p && window.IndustryMetrics.hasNoFcf(p));
     // Free cash flow to set against the same year's revenue. Revenue leaves out a
     // business reported as discontinued; operating cash flow usually keeps it in
     // (AppLovin FY2024 read 65%), so such a year uses the continuing-operations
@@ -568,7 +571,7 @@
             { label: 'Share buybacks', get: (r) => num(r.paymentsForRepurchaseOfCommonStock), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Dividends paid', get: (r) => { const d = num(r.dividendPayout); return d !== null ? d : num(r.dividendPayoutCommonStock); }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Net change in cash', get: (r) => num(r.changeInCashAndCashEquivalents), fmt: money, kind: 'money', neutral: true, solo: true },
-            { label: 'Free cash flow', get: (r) => fcfOf(r), fmt: money, kind: 'money', rule: true, solo: true }
+            { label: 'Free cash flow', get: (r) => fcfOf(r), fmt: money, kind: 'money', rule: true, solo: true, fcf: true }
         ]
     };
 
@@ -1146,7 +1149,7 @@
             ['52-week range', currencyRange(ov['52WeekLow'], ov['52WeekHigh'], quoteCur)],
             ['Book value / filed share', currencyAmount(bps, reportCur, { compact: false })],
             ['Fiscal year end', ov.FiscalYearEnd || (last.end ? new Date(last.end).toLocaleString('en-US', { month: 'short' }) : '—')]
-        ];
+        ].filter(([l]) => !(l === 'Free cash flow' && noFcf()));
         $('kv-grid').innerHTML = items.map(([l, v]) =>
             `<div class="kv-row"><span>${l}</span><b>${v}</b></div>`).join('');
     }
@@ -1240,7 +1243,7 @@
         add('Cash and cash equivalents exceed borrowing debt', cashRaw === null || debt === null ? null : cash > debt, `${currencyAmount(cash, reportingCurrency())} vs ${currencyAmount(debt, reportingCurrency())}; short-term investments excluded`);
         add('Operating cash flow positive, five years', span(5).length >= 5 && span(5).every(y=>get(y,'cash','operatingCashflow')!==null) ? span(5).every(y=>get(y,'cash','operatingCashflow')>0) : null, '');
         const fcfN = fcfOf(last.cash || {});
-        add('Free cash flow positive, latest year', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : currencyAmount(fcfN, reportingCurrency()));
+        if (!noFcf()) add('Free cash flow positive, latest year', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : currencyAmount(fcfN, reportingCurrency()));
         const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');
         const shWin = span(Math.min(6, years.length)).filter((y) => sh(y) !== null);
         if (shWin.length >= 3) {
@@ -1274,7 +1277,7 @@
                 sourceId: ((c._sources || {}).shareBasedCompensation || [])[0] || null
             };
         });
-        return (sbcCache = window.SBCModel.build(rows));
+        return (sbcCache = window.SBCModel.build(rows, { fcf: !noFcf() }));
     }
     function sbcChart(trend, cur) {
         const W = 760, H = 160, padL = 8, padB = 22, padT = 18;
@@ -1331,7 +1334,8 @@
 
         const rows = [];
         const row = (k, v, d, sub) => rows.push(`<tr><td class="k${sub ? ' sub' : ''}">${k}</td><td class="v">${v}</td><td class="d">${d}</td></tr>`);
-        if (m.fcf === null) row('Free cash flow', '—', esc(m.fcfWhy));
+        if (m.noFcf) { /* a bank or life insurer: no free cash flow row */ }
+        else if (m.fcf === null) row('Free cash flow', '—', esc(m.fcfWhy));
         else {
             row('Free cash flow', esc(amt(m.fcf)), 'as reported: operating cash flow less capital expenditure');
             // Not drawn against a net reversal: there is no stock cost to take off.
@@ -1361,15 +1365,17 @@
         // leave the share count lower? The verdict strings come from the model.
         const flowRows = (m.years || []).slice().reverse();
         const flowDash = (why) => `<span class="ind-dash" title="${esc(why || '')}">—</span>`;
+        const withFcf = !m.noFcf;
         const flow = flowRows.length ? `<div class="sbc-flow">
           <p class="sbc-flow-summary">${esc(m.verdict)}</p>
+          ${withFcf ? '' : `<p class="small muted" style="margin:0 0 8px;">${esc(window.IndustryMetrics.NO_FCF)}</p>`}
           <table class="sbc-years">
-            <thead><tr><th>Fiscal year</th><th>FCF</th><th>SBC</th><th>FCF after SBC</th><th>Buybacks</th><th>Diluted shares</th><th>Verdict</th></tr></thead>
+            <thead><tr><th>Fiscal year</th>${withFcf ? '<th>FCF</th>' : ''}<th>SBC</th>${withFcf ? '<th>FCF after SBC</th>' : ''}<th>Buybacks</th><th>Diluted shares</th><th>Verdict</th></tr></thead>
             <tbody>${flowRows.map((y) => `<tr>
               <td data-label="Fiscal year"><strong>${esc(y.fy)}</strong></td>
-              <td data-label="FCF">${y.fcf === null ? flowDash(y.verdict) : esc(amt(y.fcf))}</td>
+              ${withFcf ? `<td data-label="FCF">${y.fcf === null ? flowDash(y.verdict) : esc(amt(y.fcf))}</td>` : ''}
               <td data-label="SBC">${y.sbc === null ? flowDash(y.verdict) : esc(amt(y.sbc))}</td>
-              <td data-label="FCF after SBC">${y.fcfAfter === null ? '—' : esc(amt(y.fcfAfter))}</td>
+              ${withFcf ? `<td data-label="FCF after SBC">${y.fcfAfter === null ? '—' : esc(amt(y.fcfAfter))}</td>` : ''}
               <td data-label="Buybacks">${y.buybacks === null ? flowDash(`Not available: share buybacks for ${y.fy} are not in our filings data.`) : esc(amt(y.buybacks))}</td>
               <td data-label="Diluted shares">${y.dilutionPct === null ? flowDash(y.dilutionWhy) : esc(signed(y.dilutionPct))}</td>
               <td data-label="Verdict" class="sbc-verdict">${esc(y.verdict)}</td>
@@ -1388,7 +1394,7 @@
           ${m.trend.length > 1 ? sbcChart(m.trend, cur) + `<div class="sbc-legend"><span><i></i>Stock-based compensation</span>${firstPct === null || m.pctRevenue === null ? '' : `<span><i class="l"></i>As a share of revenue (${esc(share(firstPct))} → ${esc(share(m.pctRevenue))})</span>`}</div>` : ''}
           <table class="sbc-rows">${rows.join('')}</table>
           ${flow}
-          <p class="provenance">Every figure is the company's own filed number or arithmetic on filed numbers. Free cash flow after stock-based compensation is our calculation, not a figure ${esc(name)} reports.</p>`;
+          <p class="provenance">Every figure is the company's own filed number or arithmetic on filed numbers.${withFcf ? ` Free cash flow after stock-based compensation is our calculation, not a figure ${esc(name)} reports.` : ''}</p>`;
         show();
 
         // Sector position: one small request, and the line is simply absent if
@@ -1502,6 +1508,8 @@
     const gp = (v) => v === null || v === undefined ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%/yr';
     async function loadReverseDcf(opts = {}) {
         const sec = $('rdcf-section'); const body = $('rdcf-body'); const rule = $('rdcf-rule');
+        // The reverse DCF solves for free cash flow growth, which a bank or life insurer does not have.
+        if (noFcf()) { sec.hidden = true; rule.hidden = true; return; }
         if (hasCurrencyMismatch()) {
             body.innerHTML = `<p class="small muted" style="max-width:72ch;">Unavailable for this listing: its market quote is in <strong>${esc(quoteCurrency())}</strong>, while its source financial statements are reported in <strong>${esc(sourceReportingCurrency())}</strong>. The USD presentation conversion does not supply the listing’s depositary-share ratio, which is required for a defensible per-listed-share valuation.</p>`;
             sec.hidden = false; rule.hidden = false;
@@ -1640,7 +1648,7 @@
         { label: 'Revenue CAGR (5y)', get: (p) => { const a = ((p.income || {}).annualReports || []); const b = Math.min(5, a.length - 1); const c = cagr(derive(a[b] || {}).rev, derive(a[0] || {}).rev, b); return c === null ? '—' : signedPct(c); } },
         { label: 'Gross margin', get: (p) => { const r = ((p.income || {}).annualReports || [])[0] || {}; const d = derive(r); return pctFmt(ratio(d.gp, d.rev)); } },
         { label: 'Net margin', get: (p) => { const r = ((p.income || {}).annualReports || [])[0] || {}; return pctFmt(ratio(num(r.netIncome), derive(r).rev)); } },
-        { label: 'FCF margin', get: (p) => { const c = ((p.cash || {}).annualReports || [])[0] || {}; const r = ((p.income || {}).annualReports || [])[0] || {}; return pctFmt(ratio(fcfForRevenue(r, c), derive(r).rev)); } },
+        { label: 'FCF margin', get: (p) => { if (noFcf(p)) return '—'; const c = ((p.cash || {}).annualReports || [])[0] || {}; const r = ((p.income || {}).annualReports || [])[0] || {}; return pctFmt(ratio(fcfForRevenue(r, c), derive(r).rev)); } },
         { label: 'Return on equity', get: (p) => { const i = ((p.income || {}).annualReports || [])[0] || {}; const b = ((p.balance || {}).annualReports || [])[0] || {}; return pctFmt(ratio(num(i.netIncome), num(b.totalShareholderEquity))); } },
         { label: 'Dividend yield', get: (p) => { const d = num((p.overview || {}).DividendYield); return d === null ? '—' : pct(d * 100, 2); } }
     ];
@@ -1784,7 +1792,7 @@
     }
     function statementDefs(converted) {
         const filed = filedCostDefs(converted);
-        if (!filed.length) return ROWS[stState];
+        if (!filed.length) return noFcf() ? ROWS[stState].filter((d) => !d.fcf) : ROWS[stState];
         const at = ROWS.income.findIndex((d) => d.label === 'Cost of revenue') + 1;
         return ROWS.income.slice(0, at).concat(filed, ROWS.income.slice(at));
     }
@@ -2238,7 +2246,7 @@
         { label: 'Gross margin', get: (y) => { const d = derive(y.income || {}); return ratio(d.gp, d.rev); }, fmt: pctFmt },
         { label: 'Operating margin', get: (y) => ratio(num((y.income || {}).operatingIncome), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'Net margin', get: (y) => ratio(num((y.income || {}).netIncome), derive(y.income || {}).rev), fmt: pctFmt },
-        { label: 'FCF margin', get: (y) => ratio(fcfForRevenue(y.income || {}, y.cash || {}), derive(y.income || {}).rev), fmt: pctFmt },
+        { label: 'FCF margin', fcf: true, get: (y) => ratio(fcfForRevenue(y.income || {}, y.cash || {}), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'Return on equity', ttm: true, get: (y) => (y.income?._scopes?.netIncome===y.balance?._scopes?.totalShareholderEquity ? ratio(yearProfit(y), num((y.balance || {}).totalShareholderEquity)) : null), fmt: pctFmt },
         { label: 'Return on assets', ttm: true, get: (y) => ratio(yearProfit(y), num((y.balance || {}).totalAssets)), fmt: pctFmt },
         { label: 'Current ratio', get: (y) => ratio(num((y.balance || {}).totalCurrentAssets), num((y.balance || {}).totalCurrentLiabilities)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
@@ -2248,7 +2256,7 @@
         // Stock pay against revenue, and what free cash flow comes to once it is
         // counted as the cost it is. Both from filed lines only.
         { label: 'SBC % of revenue', get: (y) => { const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (s !== null && r) ? s / r : null; }, fmt: pctFmt },
-        { label: 'FCF after SBC, % of revenue', get: (y) => { const f = fcfOf(y.cash || {}); const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (f !== null && s !== null && r) ? (f - s) / r : null; }, fmt: pctFmt }
+        { label: 'FCF after SBC, % of revenue', fcf: true, get: (y) => { const f = fcfOf(y.cash || {}); const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (f !== null && s !== null && r) ? (f - s) / r : null; }, fmt: pctFmt }
     ];
     // Follows the statements' Annual | Quarterly option (owner, 2026-10-19).
     function renderRatios() {
@@ -2267,6 +2275,7 @@
         html += '</tr></thead><tbody>';
         let ri = 0;
         for (const def of RATIOS) {
+            if (def.fcf && noFcf()) continue;
             const vals = years.map((y) => def.get(y));
             if (vals.every((v) => v === null)) continue;
             const label = quarterly && def.ttm ? def.label + ' (TTM)' : def.label;

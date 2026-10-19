@@ -11,6 +11,7 @@
 // (capex stored negative), matching the rest of the codebase.
 
 const aiChat = require('./ai-chat');
+const industryMetrics = require('../frontend-v2/assets/industry-metrics');
 
 function num(v) {
     if (v === null || v === undefined || v === '') return null;
@@ -57,6 +58,7 @@ async function computeReverseDcf(symbol, opts = {}) {
 // can compute without the async loader.
 function computeFromData(symbol, data, opts = {}) {
     const ov = data.overview || {};
+    if (industryMetrics.hasNoFcf(data)) return { error: `Not run: ${industryMetrics.NO_FCF}` };
     if(data.marketData?.currency && data.cash?.annualReports?.[0]?.reportedCurrency && data.marketData.currency!==data.cash.annualReports[0].reportedCurrency)return {error:'Valuation requires compatible financial and quote currencies; no verified conversion is supplied.'};
     const marketCap = num(ov.MarketCapitalization);
     const reports = ((data.cash || {}).annualReports || []).slice(0, 20); // newest first

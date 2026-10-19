@@ -25,10 +25,10 @@ function load() {
     vm.createContext(ctx);
     vm.runInContext(slice('  const fyOf = ', '  (function wireChartReadouts(') + slice('  const bn = ', '  // ---- Revenue flow') + slice('  function miniBars(', '  function displayNumber(') +
         slice('  function financialReadings(', '  function deterministicBrief(') +
-        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings, chartOr };', ctx);
+        '\n;globalThis.__f = { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings, chartOr, noFcfOf };', ctx);
     return ctx.__f;
 }
-const { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings, chartOr } = load();
+const { chartBars, chartGroupedBars, miniBars, trendChangeLine, marginsPanel, decisionTrends, financialReadings, chartOr, noFcfOf } = load();
 
 // TXRH's shape: operating margin every year, ROIC only where total debt was filed.
 const HISTORY = [
@@ -175,6 +175,20 @@ test('a figure filed for fewer than two years is named in a note, not drawn as a
     assert.doesNotMatch(trends, /<span>Revenue|<span>Free cash flow/);
     assert.match(trends, /Not reported in these filings for two or more years: revenue and free cash flow\./);
     assert.match(trends, /<span>ROE</);
+});
+
+// Banks and life insurers have no free cash flow (owner, 2026-10-19): it is
+// left out, not listed as missing. P&C and health insurers keep it.
+test('a bank or life insurer has no free cash flow line and none listed as missing', () => {
+    const bank = IBM.map((r) => ({ ...r, revenue: null, fcf: null, netMarginPct: null }));
+    const trends = decisionTrends(bank, true);
+    assert.doesNotMatch(trends, /free cash flow/i);
+    assert.match(trends, /Not reported in these filings for two or more years: revenue\./);
+    assert.equal(noFcfOf({ industryMetrics: { kind: 'bank' } }), true);
+    assert.equal(noFcfOf({ industryMetrics: { kind: 'insurer', insurerType: 'life' } }), true);
+    assert.equal(noFcfOf({ industryMetrics: { kind: 'insurer', insurerType: 'pc' } }), false);
+    assert.equal(noFcfOf({ industryMetrics: { kind: 'insurer', insurerType: 'health' } }), false);
+    assert.equal(noFcfOf({ industryMetrics: null }), false);
 });
 
 test('a row whose latest year was not filed shows the latest filed figure with its year', () => {
