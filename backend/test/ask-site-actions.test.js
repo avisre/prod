@@ -115,6 +115,11 @@ test('an answer cannot say the account changed unless an account tool changed it
     // A refusal or a plain question is left alone.
     assert.equal(site.unbackedClaim({ question: 'add PEP to my watchlist', answer: 'How many shares?', toolsUsed: [], ctx: { siteRequest: s.siteRequest } }), false);
     assert.equal(site.unbackedClaim({ question: 'when was KO added to the Dow?', answer: 'KO was added in 1987.', toolsUsed: [], ctx: { siteRequest: s.siteRequest } }), false);
+    // A screen is saved by save_screen, which is not a manage_* tool and has no action.
+    const saved = 'Saved as **"Companies like KLAC"**. [Open the screen](/screener?screen=6ace)';
+    assert.equal(site.unbackedClaim({ question: 'add it as a custom screen', answer: saved, toolsUsed: [{ tool: 'save_screen', args: { name: 'Companies like KLAC' }, ok: true }], ctx: { siteRequest: s.siteRequest } }), false);
+    assert.equal(site.unbackedClaim({ question: 'add it as a custom screen', answer: saved, toolsUsed: [{ tool: 'save_screen', args: { name: 'Companies like KLAC' }, ok: false }], ctx: { siteRequest: s.siteRequest } }), true);
+    assert.equal(site.unbackedClaim({ question: 'add it as a custom screen', answer: saved, toolsUsed: [{ tool: 'screen_universe', args: {}, ok: true }], ctx: { siteRequest: s.siteRequest } }), true);
 });
 
 test('after a holding changes the tool returns the complete current list, so the answer need not rely on memory', async () => {

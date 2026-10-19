@@ -235,7 +235,10 @@ function unbackedClaim({ question, answer, toolsUsed, ctx } = {}) {
     const q = String(question || '');
     const asked = (ADD_WORDS.test(q) || REMOVE_WORDS.test(q) || allowed('add', ctx) || allowed('remove', ctx)) && (ACCOUNT_NOUNS.test(q) || CONFIRM_WORDS.test(q));
     if (!asked || !CHANGE_CLAIM.test(String(answer || ''))) return false;
-    return !(toolsUsed || []).some(t => t && t.ok && Object.hasOwn(HANDLERS, t.tool) && CHANGING_ACTION.test(String(t.args?.action || '')));
+    // save_screen lives in ai-chat.js, not HANDLERS, and takes no action argument. Left
+    // out, every "save it as a screen" that DID save was replaced by "nothing in your
+    // account was changed" (2026-10-13; the retry only passed because "screem" was misspelt).
+    return !(toolsUsed || []).some(t => t && t.ok && (t.tool === 'save_screen' || (Object.hasOwn(HANDLERS, t.tool) && CHANGING_ACTION.test(String(t.args?.action || '')))));
 }
 
 const fn = (name, description, properties, required = ['action']) => ({ type: 'function', function: { name, description, parameters: { type: 'object', properties, required } } });
