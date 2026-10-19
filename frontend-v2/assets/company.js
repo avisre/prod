@@ -582,6 +582,7 @@
     // opens with no trend column; "Show 5Y trend" is what turns it on.
     let showStatementTrend = true;
     let sharesByPeriod = new Map();
+    let sharesBasis = 'period-end'; // which filed count sharesByPeriod holds (buildSharesMap)
     let lastRender = { rows: [], periods: [] };
 
     function quoteCurrency(data = payload) {
@@ -615,10 +616,10 @@
     }
 
     // ---------- data joins ----------
-    function annualJoined() {
+    function annualJoined(kind = 'annualReports') {
         const by = new Map();
         for (const st of ['income', 'balance', 'cash']) {
-            for (const r of ((payload[st] || {}).annualReports) || []) {
+            for (const r of ((payload[st] || {})[kind]) || []) {
                 const k = String(r.fiscalDateEnding || '');
                 if (!k) continue;
                 if (!by.has(k)) by.set(k, { end: r.fiscalDateEnding });
@@ -626,6 +627,18 @@
             }
         }
         return [...by.values()].sort((a, b) => String(a.end).localeCompare(String(b.end)));
+    }
+    // Quarters, each carrying the net income of the four quarters ending with it
+    // (ttmNetIncome), or null when those four are not a continuous filed year.
+    function quarterlyJoined() {
+        const qs = annualJoined('quarterlyReports');
+        qs.forEach((q, i) => {
+            const four = qs.slice(Math.max(0, i - 3), i + 1).map((x) => x.income || {});
+            const vals = four.map((r) => num(r.netIncome));
+            const days = four.length === 4 && four[0].periodStart ? (new Date(q.end) - new Date(four[0].periodStart)) / 864e5 + 1 : 0;
+            q.ttmNetIncome = days >= 350 && days <= 380 && vals.every((v) => v !== null) ? vals.reduce((a, v) => a + v, 0) : null;
+        });
+        return qs;
     }
     function monthlySeries(p) {
         const ts =(p.monthly || {})['Monthly Adjusted Time Series'] || (p.monthly || {})['Monthly Time Series'] || {};
@@ -646,6 +659,25 @@
                 if (k && v) sharesByPeriod.set(k, v);
             }
         }
+        // 1,440 of 5,090 companies (AbbVie, Chevron, Chipotle) tag no period-end count
+        // on the balance sheet, and the chart's left axis came out blank for them
+        // (2026-10-19). Their income statement still files the weighted-average count;
+        // failing that, the cover page's current count. Never mixed with period-end
+        // counts, whose difference would read as a buyback.
+        sharesBasis = 'period-end';
+        if (sharesByPeriod.size) return;
+        for (const kind of ['annualReports', 'quarterlyReports']) {
+            for (const r of ((payload.income || {})[kind]) || []) {
+                const k = String(r.fiscalDateEnding || '');
+                const v = num(r.weightedAverageSharesOutstanding);
+                if (k && v) sharesByPeriod.set(k, v);
+            }
+        }
+        sharesBasis = 'weighted';
+        if (sharesByPeriod.size) return;
+        const now = num((payload.overview || {}).SharesOutstanding);
+        if (now) sharesByPeriod.set('9999-12-31', now);
+        sharesBasis = 'current';
     }
     // step function: shares as of a given month (latest fiscal period ≤ month)
     let _shareSteps = null;
@@ -989,7 +1021,8 @@
                 : win.map((p) => p.month.slice(0, 4));
             let seen = '';
             const yl = rawLabels.map((y) => { if (y === seen) return ''; seen = y; return y; });
-            const cap = (!mixedCurrencies && showCap && sharesByPeriod.size)
+            // a line needs a count per period; with only today's count it would just retrace the price
+            const cap = (!mixedCurrencies && showCap && sharesByPeriod.size && sharesBasis !== 'current')
                 ? win.map((p) => { const s = sharesAt(p.month.slice(0, 7)); return s ? p.close * s : null; })
                 : null;
             // left axis ALWAYS reads in market cap — via the live cap line
@@ -1028,8 +1061,8 @@
             $('chart-prov').textContent = mixedCurrencies
                 ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because the source statements are reported in ${sourceReportingCurrency()}; USD presentation conversion does not supply the listing’s depositary-share ratio.`
                 : cap
-                ? 'Price (right axis): split-adjusted — ink. Market cap (left axis): price × that fiscal year’s filed share count — orange. Where the lines drift apart, buybacks or dilution is why.'
-                : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count.`;
+                ? `Price (right axis): split-adjusted — ink. Market cap (left axis): price × that ${sharesBasis === 'weighted' ? 'period’s filed weighted-average share count (the balance sheet files no period-end count)' : 'fiscal year’s filed share count'} — orange. Where the lines drift apart, buybacks or dilution is why.`
+                : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count${sharesBasis === 'weighted' ? ' (the latest filed weighted-average count)' : sharesBasis === 'current' ? ' (the count on the latest filing’s cover)' : ''}.`;
         } else {
             // P/E by fiscal year: avg monthly close within the FY ÷ diluted EPS.
             // A loss year, or a multiple above NM_PE (Cisco FY2018: a one-off tax charge
@@ -1062,7 +1095,7 @@
             }
             $('chart-prov').textContent = `P/E by fiscal year: average monthly close across the year ÷ that year’s diluted EPS, both split-adjusted. Loss years and multiples above ${NM_PE}× are not meaningful (NM) and left off the scale.`;
         }
-        $('cap-toggle').hidden = chartMode !== 'price' || mixedCurrencies;
+        $('cap-toggle').hidden = chartMode !== 'price' || mixedCurrencies || !sharesByPeriod.size || sharesBasis === 'current';
         $('chart-block').hidden = false;
     }
     $('cap-toggle').addEventListener('click', () => {
@@ -1460,7 +1493,7 @@
             for (const x of rows) {
                 const hl = x === data.self;
                 html += `<tr data-sym="${esc(x.symbol)}" style="${hl ? 'font-weight:650;' : ''}">
-                  <td class="row-head">${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></td>
+                  <td class="row-head">${hl ? esc(x.symbol) : `<a href="/company.html?symbol=${encodeURIComponent(x.symbol)}" target="_blank" rel="noopener">${esc(x.symbol)}</a>`}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></td>
                   <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
                   <td data-label="P/E">${fixed(x.pe, 1)}</td>
                   <td data-label="Rev CAGR 5y">${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
@@ -1482,7 +1515,10 @@
               <td class="muted" data-label="Profit yrs">${med('profitableYears10') ?? '—'}/10</td></tr></tbody>`;
             const table = $('peers-table');
             table.innerHTML = html;
-            $('peers-sub').textContent = String(group.label || '').toLowerCase() + ' · closest in market value · median of ' + group.count;
+            // Grouped by the largest filed business line where the annual report breaks
+            // revenue down (company-peers.js); the sub-line names that line.
+            const by = group.line ? `by largest line, ${group.line.name} (${fixed(group.line.sharePct, 0)}% of revenue) · ` : '';
+            $('peers-sub').textContent = by + String(group.label || '').toLowerCase() + ' · closest in market value · median of ' + group.count;
             // Navigate on a genuine TAP only. A horizontal swipe to scroll the
             // table used to register as a click and yank you to another company,
             // which made the table feel like it couldn't be scrolled on a phone.
@@ -1491,7 +1527,10 @@
             table.querySelectorAll('tr[data-sym]').forEach((tr) =>
                 tr.addEventListener('click', (e) => {
                     if (pStart && (Math.abs(e.clientX - pStart.x) > 8 || Math.abs(e.clientY - pStart.y) > 8)) return;
-                    if (tr.dataset.sym !== symbol) location.href = `/company.html?symbol=${tr.dataset.sym}`;
+                    // A peer always opens in a new tab (owner, 2026-10-19), so the
+                    // company being read stays where it was. The ticker link does it itself.
+                    if (e.target.closest('a')) return;
+                    if (tr.dataset.sym !== symbol) window.open(`/company.html?symbol=${encodeURIComponent(tr.dataset.sym)}`, '_blank', 'noopener');
                 }));
             $('peers-section').hidden = false;
             attachHScroll(table.closest('.table-wrap'));
@@ -2061,13 +2100,19 @@
     }
 
     // ---------- ⑥ ratios ----------
+    // Return on equity and on assets divide a year's profit by a balance. In the
+    // quarterly view that year is the four quarters ending at the column: one
+    // quarter's profit against the whole balance reads as a quarter of the return,
+    // and ×4 turns one seasonal quarter into a year. Margins and the balance-sheet
+    // ratios use the quarter's own figures.
+    const yearProfit = (y) => ('ttmNetIncome' in y ? y.ttmNetIncome : num((y.income || {}).netIncome));
     const RATIOS = [
         { label: 'Gross margin', get: (y) => { const d = derive(y.income || {}); return ratio(d.gp, d.rev); }, fmt: pctFmt },
         { label: 'Operating margin', get: (y) => ratio(num((y.income || {}).operatingIncome), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'Net margin', get: (y) => ratio(num((y.income || {}).netIncome), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'FCF margin', get: (y) => ratio(fcfForRevenue(y.income || {}, y.cash || {}), derive(y.income || {}).rev), fmt: pctFmt },
-        { label: 'Return on equity', get: (y) => (y.income?._scopes?.netIncome===y.balance?._scopes?.totalShareholderEquity ? ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalShareholderEquity)) : null), fmt: pctFmt },
-        { label: 'Return on assets', get: (y) => ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalAssets)), fmt: pctFmt },
+        { label: 'Return on equity', ttm: true, get: (y) => (y.income?._scopes?.netIncome===y.balance?._scopes?.totalShareholderEquity ? ratio(yearProfit(y), num((y.balance || {}).totalShareholderEquity)) : null), fmt: pctFmt },
+        { label: 'Return on assets', ttm: true, get: (y) => ratio(yearProfit(y), num((y.balance || {}).totalAssets)), fmt: pctFmt },
         { label: 'Current ratio', get: (y) => ratio(num((y.balance || {}).totalCurrentAssets), num((y.balance || {}).totalCurrentLiabilities)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
         { label: 'Debt to equity', get: (y) => ratio(debtOf(y.balance || {}), num((y.balance || {}).totalShareholderEquity)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
         { label: 'OCF / net income', get: (y) => ratio(num((y.cash || {}).operatingCashflow), num((y.income || {}).netIncome)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
@@ -2077,11 +2122,17 @@
         { label: 'SBC % of revenue', get: (y) => { const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (s !== null && r) ? s / r : null; }, fmt: pctFmt },
         { label: 'FCF after SBC, % of revenue', get: (y) => { const f = fcfOf(y.cash || {}); const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (f !== null && s !== null && r) ? (f - s) / r : null; }, fmt: pctFmt }
     ];
+    // Follows the statements' Annual | Quarterly option (owner, 2026-10-19).
     function renderRatios() {
-        const years = annualJoined().slice(-19);
+        const quarterly = basisState === 'quarterly';
+        const years = quarterly ? quarterlyJoined().slice(-20) : annualJoined().slice(-19);
         const table = $('ratio-table');
+        $('ratio-title').textContent = quarterly ? `Ratios, ${years.length} quarters` : 'Ratios, 19 years';
+        $('ratio-prov').textContent = quarterly
+            ? 'Computed deterministically from filed quarterly statements — no estimates, no AI. Margins use each quarter’s own figures; return on equity and on assets use the trailing four quarters’ net income against the quarter-end balance. Click any row for its chart.'
+            : 'Computed deterministically from filed annual statements — no estimates, no AI. Click any row for its chart.';
         if (years.length < 2) { table.innerHTML = ''; return; }
-        const periods = years.map((y) => 'FY' + new Date(y.end).getFullYear());
+        const periods = years.map((y) => quarterly ? periodLabel({ fiscalDateEnding: y.end }, 'quarterly') : 'FY' + new Date(y.end).getFullYear());
         const render = { rows: [], periods };
         let html = '<thead><tr><th class="row-head" style="text-align:left">Ratio</th><th style="width:96px">Trend</th>';
         periods.forEach((p, i) => { html += `<th${i === periods.length - 1 ? " class='col-now'" : ''}>${p}</th>`; });
@@ -2090,8 +2141,9 @@
         for (const def of RATIOS) {
             const vals = years.map((y) => def.get(y));
             if (vals.every((v) => v === null)) continue;
-            render.rows.push({ label: def.label, vals, fmt: def.fmt, neutral: false });
-            html += `<tr class="row-data" data-i="${ri}" title="Click for chart"><td class="row-head">${def.label}</td><td>${sparkline(vals)}</td>`;
+            const label = quarterly && def.ttm ? def.label + ' (TTM)' : def.label;
+            render.rows.push({ label, vals, fmt: def.fmt, neutral: false });
+            html += `<tr class="row-data" data-i="${ri}" title="Click for chart"><td class="row-head">${label}</td><td>${sparkline(vals)}</td>`;
             vals.forEach((v, i) => { html += `<td class="${i === vals.length - 1 ? 'col-now' : ''}">${def.fmt(v)}</td>`; });
             html += '</tr>';
             ri++;
@@ -2477,6 +2529,7 @@
             basisState = b.dataset.basis;
             syncStatementTrendControls();
             renderStatements();
+            renderRatios();
         }));
     document.querySelectorAll('#seg-view button').forEach((b) =>
         b.addEventListener('click', () => {
@@ -2492,12 +2545,17 @@
     // ---------- load ----------
     (async () => {
         try {
-            const assetRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile?history=1`);
-            const assetData = assetRes.ok ? await assetRes.json() : null;
+            // Only a fund page draws from the profile's price history; a company's
+            // comes with its fundamentals. Asking for it on every page held the
+            // statements back until it arrived (AAPL 2026-10-19: 3.3s, fundamentals 1.4s).
+            const assetRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile`);
+            let assetData = assetRes.ok ? await assetRes.json() : null;
             if (assetData && assetData.profile && assetData.profile.stale) {
                 staleAsOf = assetData.profile.staleAsOf || assetData.profile.asOf || null;
             }
             if (assetData && ['etf','mutual_fund','closed_end_fund'].includes(assetData.profile && assetData.profile.assetType)) {
+                const histRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile?history=1`).catch(() => null);
+                if (histRes && histRes.ok) assetData = await histRes.json();
                 renderFundProfile(assetData);
                 mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
                 return;

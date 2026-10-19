@@ -14,10 +14,18 @@
 // the SIC code does not (Boeing with Joby and Archer). So: same industry label,
 // closest in market value. A group too thin to compare falls back to the same
 // four-digit SIC code, then to the sector.
+//
+// 2026-10-19 (owner): a company is grouped by its LARGEST business line, where
+// its annual report breaks revenue into lines (primary-business.json, built by
+// scripts/build-primary-business.js). Honeywell's label is "Conglomerates"; its
+// largest line, Aerospace Technologies, is aerospace & defense. A company with
+// no such table reports one business, which its label already names.
 const fs = require('fs');
 const path = require('path');
 
-const FILE = path.join(process.env.SEC_COVERAGE_DATA_DIR || path.join(__dirname, '../frontend/data'), 'industry-map.json');
+const DATA = process.env.SEC_COVERAGE_DATA_DIR || path.join(__dirname, '../frontend/data');
+const FILE = path.join(DATA, 'industry-map.json');
+const BUSINESS_FILE = path.join(DATA, 'primary-business.json');
 const MIN_PEERS = 3;
 const MEDIAN_KEYS = ['marketCapB', 'pe', 'revCagr5Pct', 'qtrNetIncomeYoYPct', 'netMarginPct', 'roePct', 'divYieldPct', 'profitableYears10'];
 const ROW_KEYS = ['symbol', 'name', 'sector', ...MEDIAN_KEYS];
@@ -32,6 +40,15 @@ function industryOf(symbol) {
         catch (e) { if (e.code !== 'ENOENT') throw e; industries = {}; }
     }
     return industries[key(symbol)] || '';
+}
+
+let businesses;
+function businessOf(symbol) {
+    if (businesses === undefined) {
+        try { businesses = JSON.parse(fs.readFileSync(BUSINESS_FILE, 'utf8')).businesses || {}; }
+        catch (e) { if (e.code !== 'ENOENT') throw e; businesses = {}; }
+    }
+    return businesses[key(symbol)] || null;
 }
 
 // Dual-class pairs share a cik; the shortest symbol is the primary listing.
@@ -53,14 +70,19 @@ function median(rows, k) {
 const slim = (r) => Object.fromEntries(ROW_KEYS.map((k) => [k, r[k] === undefined ? null : r[k]]));
 
 // `rows` is the screen index; `deps` lets a test supply its own lookups.
-function peersFor(symbol, rows, { limit = 7, industry = industryOf, sicFor = () => null } = {}) {
+function peersFor(symbol, rows, { limit = 7, industry = industryOf, business = businessOf, sicFor = () => null } = {}) {
     const self = rows.find((r) => key(r.symbol) === key(symbol));
     if (!self) return null;
     const others = oneListingPerIssuer(rows.filter((r) => finite(r.marketCapB) && r.symbol !== self.symbol && !(self.cik && r.cik === self.cik)));
-    const label = industry(self.symbol);
+    // Every company, peers included, is placed by its largest line where it files one.
+    const placed = (s) => (business(s) || {}).industry || industry(s);
+    // Named as the basis only when the largest line moved the company: Apple's
+    // iPhone line is consumer electronics, which its label already said.
+    const own = business(self.symbol) && business(self.symbol).industry !== industry(self.symbol) ? business(self.symbol) : null;
+    const label = placed(self.symbol);
     const sic = String(sicFor(self.symbol) || '');
     const tiers = [
-        label && { basis: 'industry', label, rows: () => others.filter((r) => industry(r.symbol) === label) },
+        label && { basis: own ? 'business' : 'industry', label, rows: () => others.filter((r) => placed(r.symbol) === label) },
         /^\d{3,4}$/.test(sic) && { basis: 'sic', label: self.sector || '', rows: () => others.filter((r) => String(sicFor(r.symbol) || '') === sic) },
         self.sector && { basis: 'sector', label: self.sector, rows: () => others.filter((r) => r.sector === self.sector) }
     ].filter(Boolean);
@@ -74,7 +96,8 @@ function peersFor(symbol, rows, { limit = 7, industry = industryOf, sicFor = () 
         const all = [self, ...group];
         return {
             symbol: self.symbol,
-            group: { basis: tier.basis, label: tier.label, count: all.length },
+            group: { basis: tier.basis, label: tier.label, count: all.length,
+                ...(tier.basis === 'business' ? { line: { name: own.line, sharePct: own.sharePct, periodEnd: own.periodEnd, sourceUrl: own.sourceUrl } } : {}) },
             self: slim(self),
             peers: nearest.sort((a, b) => b.marketCapB - a.marketCapB).map(slim),
             median: Object.fromEntries(MEDIAN_KEYS.map((k) => [k, median(all, k)]))
@@ -83,4 +106,4 @@ function peersFor(symbol, rows, { limit = 7, industry = industryOf, sicFor = () 
     return null;
 }
 
-module.exports = { peersFor, industryOf, MIN_PEERS };
+module.exports = { peersFor, industryOf, businessOf, MIN_PEERS };
