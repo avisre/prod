@@ -25,12 +25,13 @@ const filingMonitor = require('./filing-monitor');
 // bumped: statements are now stored USD-converted, and per-share figures are on
 // the ADS basis. Cached dossiers built before this assumed USD-native filers, and
 // the compare route reads them build-free — so they must not survive the change.
-const DOSSIER_SCHEMA_VERSION = 7;
+const DOSSIER_SCHEMA_VERSION = 8;
 const analysis = require('./dossier-analysis');
 const incomeStmt = require('./income-statement');
 const governance = require('./governance');
 const esgMod = require('./esg');
 const industry = require('./industry');
+const industryMetrics = require('../frontend-v2/assets/industry-metrics');
 const valuationDcf = require('./valuation-dcf');
 const dossierBuildLock = require('./dossier-build-lock');
 const keypoints = require('./keypoints');
@@ -507,6 +508,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     if (esg && esg.error && !esg.governance && !esg.environmental && !esg.humanCapital) esg = null;
 
     const ratios = snapshotRatios(sym, data);
+    const sectorMetrics = industryMetrics.build(data);
     let digest = buildDigest({ overview, ratios, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue });
     if (yearOverYear.length) {
         // Appended, not threaded through buildDigest's signature: this keeps
@@ -548,6 +550,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         partial: true,
         keyFigures: pack ? pack.lines : null,
         industry: industryData || null,
+        industryMetrics: sectorMetrics && sectorMetrics.kind ? sectorMetrics : null,
         // One contract for every surface: rows, shares, remainder, year and grade.
         segments: revenueBreakdown.forPage(breakdown),
         offBalanceSheet: offBalance,

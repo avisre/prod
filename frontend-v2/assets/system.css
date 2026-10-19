@@ -1958,3 +1958,38 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   .sbc-rows .k, .sbc-rows .v { width: auto; }
   .sbc-rows .d { grid-column: 1 / -1; font-size: 13px; padding-top: 3px; }
 }
+
+/* ---- free cash flow vs stock pay / dilution (company.html, sbc-model.js) ---- */
+.sbc-flow { margin-top: 18px; }
+.sbc-flow-summary { font-size: 13.5px; color: var(--ink-2); margin: 0 0 8px; font-weight: 600; }
+.sbc-years { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.sbc-years th { text-align: right; font-weight: 600; color: var(--ink-3); padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.sbc-years td { text-align: right; padding: 7px 8px; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sbc-years th:first-child, .sbc-years td:first-child { text-align: left; }
+.sbc-years .sbc-verdict { text-align: left; white-space: normal; min-width: 220px; color: var(--ink-2); }
+@media (max-width: 680px) {
+  .sbc-years thead { display: none; }
+  .sbc-years, .sbc-years tbody { display: block; }
+  .sbc-years tr { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin-top: 10px; }
+  .sbc-years td { display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding: 6px 0; text-align: right; }
+  .sbc-years td::before { content: attr(data-label); color: var(--ink-3); font-weight: 400; text-align: left; }
+  .sbc-years td:first-child { grid-column: 1 / -1; border-top: 0; padding-top: 0; }
+  .sbc-years td:first-child::before { content: none; }
+  .sbc-years .sbc-verdict { grid-column: 1 / -1; display: block; text-align: left; padding-top: 6px; }
+  .sbc-years .sbc-verdict::before { display: block; margin-bottom: 2px; }
+}
+
+/* ---- bank and insurer metrics (company.html, industry-metrics.js) ---- */
+.ind-summary { margin: 0 0 12px; font-size: 14px; color: var(--ink-2); font-weight: 600; }
+.ind-note { margin: 0 0 12px; font-size: 13px; color: var(--ink-2); }
+.ind-years { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 14px; }
+.ind-year { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.ind-year-head { font-weight: 650; margin-bottom: 4px; }
+.ind-cell { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+.ind-cell span { color: var(--ink-3); }
+.ind-cell b { font-variant-numeric: tabular-nums; text-align: right; font-weight: 600; }
+.ind-cell b.ind-null { color: var(--ink-3); font-weight: 400; }
+.ind-missing { margin-top: 12px; font-size: 13px; color: var(--ink-2); }
+.ind-missing summary { cursor: pointer; }
+.ind-missing ul { margin: 6px 0 0; padding-left: 18px; }
+.ind-dash { cursor: help; color: var(--ink-3); }

@@ -81,7 +81,7 @@ test('one figure on a near-zero base is drawn broken instead of flattening every
 
 test('Earnings and cash and Margins and returns are combined charts again', () => {
     assert.match(SRC, /<h3>Earnings and cash<\/h3>.*chartGroupedBars\(fin, \[\{ key: 'netIncome'.*\{ key: 'cashOnHand', label: 'Cash on hand'/);
-    assert.match(SRC, /\$\{marginsPanel\(fin\)\}/);
+    assert.match(SRC, /\$\{marginsPanel\(fin, d\.industryMetrics\)\}/);
     const panel = marginsPanel(HISTORY);
     assert.match(panel, /<h3>Margins and returns<\/h3><p>Annual operating margin versus return on invested capital<\/p>/);
     assert.match(panel, /data-read="FY2022: Operating margin 8% · ROIC 24\.3%"/);

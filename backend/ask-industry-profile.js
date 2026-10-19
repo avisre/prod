@@ -1,5 +1,6 @@
 'use strict';
 const sectorVocab = require('./sector');
+const industryMetrics = require('../frontend-v2/assets/industry-metrics');
 
 // Personalises the answer's metric rows to the company's industry. This module
 // decides WHICH metrics to lead with, never what they are worth — the values come
@@ -108,6 +109,7 @@ const PROFILES = {
 const RULES = [
     [/^shell companies$/i, 'shell'],
     [/\bbanks?\b|savings|thrift|mortgage finance/i, 'bank'],
+    [/insurance (?:agents|brokers)|insurance broker/i, 'capital-markets'],
     [/\binsurance\b|reinsurance/i, 'insurer'],
     [/\breit\b|real estate (?:services|development|diversified)/i, 'reit'],
     [/asset management|capital markets|credit services|financial (?:data|exchanges|conglomerates)/i, 'capital-markets'],
@@ -142,8 +144,7 @@ const SECTOR_TO_ARCHETYPE = {
 // so the code decides whenever the labels cannot. Ordered: first match wins.
 const SIC_RULES = [
     [/^6770$/, 'shell'],
-    [/^60|^6035$|^6036$/, 'bank'],
-    [/^63|^64/, 'insurer'],
+    [/^6411$/, 'capital-markets'],
     [/^6798$|^65/, 'reit'],
     [/^6795$/, 'mining'],
     [/^6794$/, 'services'],
@@ -162,6 +163,8 @@ const SIC_RULES = [
 function sicArchetype(sic) {
     const code = String(sic || '').trim();
     if (!/^\d{3,4}$/.test(code)) return null;
+    const financial = industryMetrics.kindFromSic(code);
+    if (financial) return financial;
     const padded = code.padStart(4, '0');
     for (const [re, key] of SIC_RULES) if (re.test(padded)) return key;
     return null;

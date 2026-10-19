@@ -1357,6 +1357,25 @@
         else row('Diluted shares', esc(signed(m.dilutionYoY)), 'this year' + (m.dilutionFive === null ? '' : ` · <strong>${esc(signed(m.dilutionFive))}</strong> over five years`));
 
         const first = m.trend[0]; const firstPct = first ? first.pctRevenue : null;
+        // One row per filed year: can free cash flow pay for stock pay and still
+        // leave the share count lower? The verdict strings come from the model.
+        const flowRows = (m.years || []).slice().reverse();
+        const flowDash = (why) => `<span class="ind-dash" title="${esc(why || '')}">—</span>`;
+        const flow = flowRows.length ? `<div class="sbc-flow">
+          <p class="sbc-flow-summary">${esc(m.verdict)}</p>
+          <table class="sbc-years">
+            <thead><tr><th>Fiscal year</th><th>FCF</th><th>SBC</th><th>FCF after SBC</th><th>Buybacks</th><th>Diluted shares</th><th>Verdict</th></tr></thead>
+            <tbody>${flowRows.map((y) => `<tr>
+              <td data-label="Fiscal year"><strong>${esc(y.fy)}</strong></td>
+              <td data-label="FCF">${y.fcf === null ? flowDash(y.verdict) : esc(amt(y.fcf))}</td>
+              <td data-label="SBC">${y.sbc === null ? flowDash(y.verdict) : esc(amt(y.sbc))}</td>
+              <td data-label="FCF after SBC">${y.fcfAfter === null ? '—' : esc(amt(y.fcfAfter))}</td>
+              <td data-label="Buybacks">${y.buybacks === null ? flowDash(`Not available: share buybacks for ${y.fy} are not in our filings data.`) : esc(amt(y.buybacks))}</td>
+              <td data-label="Diluted shares">${y.dilutionPct === null ? flowDash(y.dilutionWhy) : esc(signed(y.dilutionPct))}</td>
+              <td data-label="Verdict" class="sbc-verdict">${esc(y.verdict)}</td>
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>` : '';
         $('sbc-body').innerHTML = `
           ${m.stale ? `<p class="small muted" style="margin:0 0 10px;">${esc(m.stale)}</p>` : ''}
           <div class="sbc-top">
@@ -1368,6 +1387,7 @@
           </div>
           ${m.trend.length > 1 ? sbcChart(m.trend, cur) + `<div class="sbc-legend"><span><i></i>Stock-based compensation</span>${firstPct === null || m.pctRevenue === null ? '' : `<span><i class="l"></i>As a share of revenue (${esc(share(firstPct))} → ${esc(share(m.pctRevenue))})</span>`}</div>` : ''}
           <table class="sbc-rows">${rows.join('')}</table>
+          ${flow}
           <p class="provenance">Every figure is the company's own filed number or arithmetic on filed numbers. Free cash flow after stock-based compensation is our calculation, not a figure ${esc(name)} reports.</p>`;
         show();
 
@@ -1384,6 +1404,82 @@
                 })
                 .catch(() => {});
         }
+    }
+
+    // ---------- ⑥a2 bank and insurer metrics ----------
+    // Gross margin and operating margin are not reported by banks and insurers.
+    // The arithmetic lives in assets/industry-metrics.js; this block only draws
+    // what that model returns, with each missing input's reason attached.
+    function renderIndustryMetrics() {
+        if (!window.IndustryMetrics || !payload) return;
+        const m = window.IndustryMetrics.build(payload);
+        if (!m || !m.rows.length) return;
+        const cur = reportingCurrency();
+        const amt = (v) => currencyAmount(v, cur);
+        const perShare = (v) => currencyAmount(v, cur, { compact: false });
+        const dash = (row, key) => `<span class="ind-dash" title="${esc((row.why || {})[key] || '')}">—</span>`;
+        const pctCell = (row, key) => row.values[key] === null ? dash(row, key) : esc(pct(row.values[key]));
+        const moneyCell = (row, key) => row.values[key] === null ? dash(row, key) : esc(amt(row.values[key]));
+        const signedCell = (row, key) => row.values[key] === null ? dash(row, key) : esc((row.values[key] >= 0 ? '+' : '') + row.values[key].toFixed(1) + '%');
+        const cells = (row) => {
+            if (m.kind === 'bank') return [
+                ['Net interest income', moneyCell(row, 'netInterestIncome'), 'netInterestIncome'],
+                ['Net interest income growth', signedCell(row, 'netInterestIncomeGrowthPct'), 'netInterestIncomeGrowthPct'],
+                [row.values.nimBasis === 'interest-earning assets' ? 'Net interest margin' : 'NII / average total assets', pctCell(row, 'netInterestMarginPct'), 'netInterestMarginPct'],
+                ['Efficiency ratio', pctCell(row, 'efficiencyPct'), 'efficiencyPct'],
+                ['Loans / deposits (year-end)', pctCell(row, 'loansToDepositsPct'), 'loansToDepositsPct'],
+                ['Provision / average loans', pctCell(row, 'provisionToLoansPct'), 'provisionToLoansPct'],
+                ['ROA (average assets)', pctCell(row, 'roaPct'), 'roaPct'],
+                ['ROE (average equity)', pctCell(row, 'roePct'), 'roePct'],
+                ['Equity / assets (year-end)', pctCell(row, 'equityToAssetsPct'), 'equityToAssetsPct']
+            ];
+            const list = [
+                ['Premiums earned', moneyCell(row, 'premiumsEarned'), 'premiumsEarned'],
+                ['Premium growth', signedCell(row, 'premiumsGrowthPct'), 'premiumsGrowthPct']
+            ];
+            if (m.showCombinedRatio) list.push(
+                ['Loss ratio', pctCell(row, 'lossRatioPct'), 'lossRatioPct'],
+                ['Expense ratio', pctCell(row, 'expenseRatioPct'), 'expenseRatioPct'],
+                ['Combined ratio', pctCell(row, 'combinedRatioPct'), 'combinedRatioPct']);
+            list.push(
+                ['Net investment income', moneyCell(row, 'netInvestmentIncome'), 'netInvestmentIncome'],
+                ['ROE (average equity)', pctCell(row, 'roePct'), 'roePct'],
+                [row.values.bookValueBasis === 'diluted weighted-average shares' ? 'Book value / diluted share' : 'Book value / year-end share',
+                    row.values.bookValuePerShare === null ? dash(row, 'bookValuePerShare') : esc(perShare(row.values.bookValuePerShare)), 'bookValuePerShare']);
+            return list;
+        };
+        const latest = m.latest;
+        const parts = [];
+        if (m.kind === 'bank') {
+            if (latest.values.netInterestIncome !== null) parts.push(`net interest income ${amt(latest.values.netInterestIncome)}`);
+            if (latest.values.efficiencyPct !== null) parts.push(`efficiency ratio ${pct(latest.values.efficiencyPct)}`);
+            if (latest.values.roePct !== null) parts.push(`ROE ${pct(latest.values.roePct)}`);
+        } else {
+            if (latest.values.premiumsEarned !== null) parts.push(`premiums earned ${amt(latest.values.premiumsEarned)}`);
+            if (latest.values.combinedRatioPct !== null) parts.push(`combined ratio ${pct(latest.values.combinedRatioPct)}`);
+            if (latest.values.netInvestmentIncome !== null) parts.push(`net investment income ${amt(latest.values.netInvestmentIncome)}`);
+            if (latest.values.roePct !== null) parts.push(`ROE ${pct(latest.values.roePct)}`);
+        }
+        const missing = [...new Set(m.rows.flatMap((row) => Object.values(row.why || {})).filter(Boolean))];
+        const note = m.kind === 'insurer' && !m.showCombinedRatio
+            ? `<p class="ind-note">${esc(m.insurerType === 'health' ? 'Health insurers' : 'Life insurers')} do not report a combined ratio; premiums, investment income, ROE and book value are shown instead.</p>` : '';
+        $('industry-title').textContent = m.label;
+        const annual = payload.coverage && payload.coverage.latestAnnual;
+        const fdic = (payload.supplementalObservations || [])
+            .filter((f) => /^FDIC/.test(f.sourceName || '') && (f.historyBasis || f.basis) === 'annual')
+            .sort((a, b) => String(b.periodEnd).localeCompare(String(a.periodEnd)))[0];
+        const link = (url, text) => url ? `<a rel="nofollow noopener" target="_blank" href="${esc(url)}">${esc(text)} ↗</a>` : esc(text);
+        $('industry-source').innerHTML = /SEC/.test(m.basis || '') && annual && annual.filingUrl
+            ? link(annual.filingUrl, `${latest.fy} · ${annual.form || 'filing'}${annual.filingDate ? ` filed ${annual.filingDate}` : ''}`)
+            : fdic ? link(fdic.sourceUrl, `${fdic.sourceName} · ${fdic.periodEnd}`) : esc(latest.fy);
+        $('industry-body').innerHTML = `
+          <p class="ind-summary">${esc(`${latest.fy}: ${parts.join(' · ')}`)}</p>
+          ${note}
+          <div class="ind-years">${m.rows.map((row) => `<div class="ind-year"><div class="ind-year-head">${esc(row.fy)}</div>${cells(row).map(([label, value, key]) => `<div class="ind-cell"><span>${esc(label)}</span><b class="${row.values[key] === null ? 'ind-null' : ''}">${value}</b></div>`).join('')}</div>`).join('')}</div>
+          ${missing.length ? `<details class="ind-missing"><summary>Why a figure is missing</summary><ul>${missing.slice(0, 10).map((why) => `<li>${esc(why)}</li>`).join('')}</ul></details>` : ''}
+          <p class="provenance">Computed from filed annual statements. Ratios that divide a flow by a balance use the average of the opening and closing balances; the panel labels that basis. No estimates.</p>`;
+        $('industry-rule').hidden = false;
+        $('industry-section').hidden = false;
     }
 
     function renderChecks() {
@@ -2605,6 +2701,7 @@
             renderAbout();
             renderChecks();
             renderSbc();
+            renderIndustryMetrics();
             // A company that has not filed a full-year report yet (a new listing, or a shell
             // whose first 10-K covers only the months since it was formed) still has quarters.
             if (!reports('income', 'annual').length && reports('income', 'quarterly').length) {

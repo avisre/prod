@@ -527,7 +527,45 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     const none = lost.length ? `${instead ? '; ' : ', so '}${lost.join(' and ')} cannot be shown` : '';
     return `<p class="dos-trend-note">${esc(why + instead + none)}.</p>`;
   }
-  function marginsPanel(fin) {
+  // A bank or insurer is not read on gross or operating margin. The dossier's
+  // own filed rows feed the same pure model the company page uses, so the two
+  // surfaces cannot disagree about a combined ratio or an efficiency ratio.
+  function industryPanel(m) {
+    const rows = (m && m.rows) || [];
+    if (!rows.length) return '';
+    const pct = (v) => v == null ? '—' : (v < 0 ? '−' : '') + Math.abs(v).toFixed(1) + '%';
+    const perShare = (v) => v == null ? '—' : '$' + Number(v).toFixed(2);
+    const cells = (row) => {
+      const v = row.values || {};
+      const list = m.kind === 'bank' ? [
+        ['Net interest income', bn(v.netInterestIncome)],
+        ['Net interest income growth', pct(v.netInterestIncomeGrowthPct)],
+        [v.nimBasis === 'interest-earning assets' ? 'Net interest margin' : 'NII / average total assets', pct(v.netInterestMarginPct)],
+        ['Efficiency ratio', pct(v.efficiencyPct)],
+        ['Loans / deposits (year-end)', pct(v.loansToDepositsPct)],
+        ['Provision / average loans', pct(v.provisionToLoansPct)],
+        ['ROA (average assets)', pct(v.roaPct)],
+        ['ROE (average equity)', pct(v.roePct)],
+        ['Equity / assets (year-end)', pct(v.equityToAssetsPct)]
+      ] : [
+        ['Premiums earned', bn(v.premiumsEarned)],
+        ['Premium growth', pct(v.premiumsGrowthPct)],
+        ...(m.showCombinedRatio ? [
+          ['Loss ratio', pct(v.lossRatioPct)],
+          ['Expense ratio', pct(v.expenseRatioPct)],
+          ['Combined ratio', pct(v.combinedRatioPct)]
+        ] : []),
+        ['Net investment income', bn(v.netInvestmentIncome)],
+        ['ROE (average equity)', pct(v.roePct)],
+        [v.bookValueBasis === 'diluted weighted-average shares' ? 'Book value / diluted share' : 'Book value / year-end share', perShare(v.bookValuePerShare)]
+      ];
+      return list.map(([label, value]) => `<div class="ind-cell"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('');
+    };
+    const missing = [...new Set(rows.flatMap((r) => Object.values(r.why || {})).filter(Boolean))];
+    return `<div class="dos-visual-panel" style="margin-top:24px;"><h3>${esc(m.label)}</h3><p>${esc(m.kind === 'bank' ? 'Filed bank lines: net interest income, noninterest expense, loans and deposits.' : 'Filed insurance lines: premiums, underwriting costs and investment income.')}</p><div class="ind-years">${rows.map((row) => `<div class="ind-year"><div class="ind-year-head">${esc(row.fy)}</div>${cells(row)}</div>`).join('')}</div>${missing.length ? `<details class="ind-missing"><summary>Why a figure is missing</summary><ul>${missing.slice(0, 10).map((why) => `<li>${esc(why)}</li>`).join('')}</ul></details>` : ''}<p class="dos-trend-note">Computed from filed annual statements. Ratios that divide a flow by a balance use the average of the opening and closing balances; the panel labels that basis.</p></div>`;
+  }
+  function marginsPanel(fin, sectorMetrics) {
+    if (sectorMetrics && sectorMetrics.rows && sectorMetrics.rows.length) return industryPanel(sectorMetrics);
     const m = filedPick(fin, MARGIN), ret = filedPick(fin, RETURN);
     const series = [m, ret].filter(Boolean).map(([key, label], i) => ({ key, label, color: i ? C.pos : C.grey, fmt: pctFmt }));
     const sub = series.length ? `Annual ${series.map((x) => x.label === 'ROIC' ? 'return on invested capital' : x.label === 'ROE' ? 'return on equity' : x.label.toLowerCase()).join(' versus ')}` : '';
@@ -953,7 +991,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
               <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus cash on hand at year end</p>${chartOr(chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'cashOnHand', label: 'Cash on hand', color: C.pos, fmt: bn }]), 'net income and cash on hand')}</div>
             </div></section>
             <section><span class="dos-kicker">What the record says</span><ol class="dos-financial-read">${financialReadings(fin)}</ol>
-              ${marginsPanel(fin)}
+              ${marginsPanel(fin, d.industryMetrics)}
             </section>
           </div>
           <details class="dos-ratio-details"><summary>Open the full ratio history</summary><div class="table-wrap"><table class="table-data"><thead><tr><th>DuPont &amp; ratios</th>${head}</tr></thead><tbody>${body}</tbody></table></div><p class="small faint">Computed from filed annual statements. ROIC uses NOPAT ≈ operating income × (1 − 21%).</p></details>

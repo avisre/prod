@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261018-discontinued1';
+const EXTRACTION_VERSION = '20261019-bank1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -32,6 +32,20 @@ const MAPS = {
   interestIncome:mapping(['InvestmentIncomeInterest','InterestIncomeOperating','InterestAndDividendIncomeOperating'],['InterestIncome','RevenueFromInterest','InterestRevenueCalculatedUsingEffectiveInterestMethod']),
   netInterestIncome:mapping(['InterestIncomeExpenseNet'],[]),
   nonInterestIncome:mapping(['NoninterestIncome'],[]),
+  // Bank and insurer lines read for the industry panels. Each is a filed face
+  // line, not a ratio: noninterest expense, the credit-loss provision, and the
+  // insurance underwriting lines. The provision tags are the CECL-era names;
+  // ProvisionForLoanLossesExpensed is the loan component some banks file beside
+  // ProvisionForOtherLosses, so it is a fallback only when the combined line is
+  // absent. A bank that files none of them gets no provision ratio.
+  nonInterestExpense:mapping(['NoninterestExpense'],[]),
+  provisionForCreditLosses:mapping(['ProvisionForLoanLeaseAndOtherLosses','ProvisionForLoanLossesExpensed','ProvisionForCreditLosses','ProvisionForLoanAndLeaseLosses'],[]),
+  netInvestmentIncome:mapping(['NetInvestmentIncome'],[]),
+  lossesAndLossAdjustmentExpense:mapping(['PolicyholderBenefitsAndClaimsIncurredNet'],[]),
+  // Amortisation of deferred policy acquisition costs plus other underwriting
+  // expense is the underwriting expense total where a P&C filer tags both.
+  policyAcquisitionExpense:mapping(['DeferredPolicyAcquisitionCostAmortizationExpense'],[]),
+  otherUnderwritingExpense:mapping(['OtherUnderwritingExpense'],[]),
   incomeTaxExpense:mapping(['IncomeTaxExpenseBenefit'],['IncomeTaxExpenseContinuingOperations']),
   incomeBeforeTax:mapping(['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'],['ProfitLossBeforeTax']),
   // A partnership reports earnings per unit, not per share (AllianceBernstein Holding, Natural Resource Partners).
@@ -76,7 +90,7 @@ const MAPS = {
   cashAndCashEquivalentsAtCarryingValue:mapping(['CashAndCashEquivalentsAtCarryingValue','Cash'],['CashAndCashEquivalents']),
   // The first tag is filed by no current filer (0 of 4,120 on 2026-10-17); banks use the second.
   loans:mapping(['FinancingReceivableRecordedInvestmentExcludingAccruedInterestAfterAllowanceForCreditLoss','FinancingReceivableExcludingAccruedInterestAfterAllowanceForCreditLoss','LoansAndLeasesReceivableNetReportedAmount'],['LoansAndAdvancesToCustomers']),
-  deposits:mapping(['Deposits'],['DepositsFromCustomers']),
+  deposits:mapping(['Deposits','DepositsDomestic'],['DepositsFromCustomers']),
   inventory:mapping(['InventoryNet'],['Inventories']),
   currentNetReceivables:mapping(['AccountsReceivableNetCurrent','ReceivablesNetCurrent','AccountsReceivableNet'],['TradeAndOtherCurrentReceivables','CurrentTradeReceivables']),
   goodwill:mapping(['Goodwill'],['Goodwill']),
@@ -181,6 +195,7 @@ const OUTFLOWS = new Set(['capitalExpenditures','dividendPayout','dividendPayout
 // read for another field (NetIncomeLoss, ProfitLoss, DepreciationDepletionAndAmortization)
 // are not listed: they set periods before and still do.
 const ROWS_ADDED = ['InterestExpenseNonoperating','InterestAndDebtExpense','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet','OtherNonoperatingIncomeExpense','NonoperatingIncomeExpense',
+ 'NoninterestExpense','ProvisionForLoanLeaseAndOtherLosses','ProvisionForLoanLossesExpensed','ProvisionForCreditLosses','ProvisionForLoanAndLeaseLosses','NetInvestmentIncome','PolicyholderBenefitsAndClaimsIncurredNet','DeferredPolicyAcquisitionCostAmortizationExpense','OtherUnderwritingExpense','DepositsDomestic',
  'FinancingReceivableExcludingAccruedInterestAfterAllowanceForCreditLoss','LoansAndLeasesReceivableNetReportedAmount','AccountsPayableCurrent','AccountsPayableTradeCurrent','OtherAssetsCurrent','PrepaidExpenseAndOtherAssetsCurrent','CashCashEquivalentsAndShortTermInvestments','ShortTermInvestments','MarketableSecuritiesCurrent','AvailableForSaleSecuritiesDebtSecuritiesCurrent','LiabilitiesNoncurrent','OtherLiabilitiesNoncurrent','CommonStockValue','CommonStocksIncludingAdditionalPaidInCapital','TreasuryStockValue','TreasuryStockCommonValue',
  'PaymentsOfOrdinaryDividends','IncreaseDecreaseInAccountsReceivable','IncreaseDecreaseInReceivables','IncreaseDecreaseInAccountsAndNotesReceivable','IncreaseDecreaseInInventories','IncreaseDecreaseInOtherOperatingAssets','IncreaseDecreaseInPrepaidDeferredExpenseAndOtherAssets','IncreaseDecreaseInAccountsPayable','IncreaseDecreaseInAccountsPayableTrade','IncreaseDecreaseInAccountsPayableAndAccruedLiabilities','IncreaseDecreaseInOtherOperatingLiabilities',
  'ProceedsFromIssuanceOfLongTermDebt','RepaymentsOfLongTermDebt','ProceedsFromRepaymentsOfShortTermDebt','ProceedsFromRepaymentsOfCommercialPaper','ProceedsFromIssuanceOfCommonStock','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect','CashAndCashEquivalentsPeriodIncreaseDecrease'].map(t=>'us-gaap:'+t);

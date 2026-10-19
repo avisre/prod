@@ -215,6 +215,62 @@ test('the sector rank is a position among the others, and needs a sector worth r
     assert.equal(model.rank(null, 1), null);
 });
 
+test('the five-year flow table carries one verdict per filed year', () => {
+    const m = model.build(APPLE);
+    assert.equal(m.years.length, 5, 'the last five fiscal years');
+    assert.equal(m.verdictFy, 'FY2025');
+    const y = m.years[m.years.length - 1];
+    assert.equal(y.fy, 'FY2025');
+    assert.equal(y.fcf, 98767e6);
+    assert.equal(y.sbc, 12863e6);
+    assert.equal(y.fcfAfter, 85904e6);
+    assert.equal(round(y.pctOfFcf, 1), 13);
+    assert.equal(y.buybacks, 90711e6);
+    assert.equal(round(y.dilutionPct), -2.62);
+    assert.equal(y.verdict, 'FCF covered SBC 7.7 times and buybacks reduced the share count');
+    assert.equal(m.verdict, y.verdict);
+});
+
+test('a positive FCF that still leaves more shares gets the rising-share verdict', () => {
+    const rows = APPLE.map((y) => ({ ...y }));
+    rows[5].dil = rows[4].dil * 1.05; // 5% more diluted shares than the year before
+    const y = model.build(rows).years.at(-1);
+    assert.equal(round(y.dilutionPct), 5);
+    assert.equal(y.verdict, 'FCF covered SBC but the share count still rose 5.0%');
+});
+
+test('stock pay above free cash flow is named as unfunded dilution', () => {
+    const rows = APPLE.map((y) => ({ ...y }));
+    rows[5].sbc = 100e9; // stock pay above the $98.8bn free cash flow
+    const m = model.build(rows);
+    assert.equal(m.years.at(-1).verdict, 'SBC exceeded FCF: dilution was not funded by cash generation');
+});
+
+test('negative FCF and a missing capex line each name the missing input per year', () => {
+    const negative = model.build([
+        { end: '2024-12-31', sbc: 600e6, rev: 4000e6, ocf: -1700e6, capex: -1100e6, dil: 1000e6 },
+        { end: '2025-12-31', sbc: 741e6, rev: 5387e6, ocf: -780e6, capex: -1710e6, dil: 1171e6 }
+    ]);
+    assert.equal(negative.years.at(-1).verdict, 'FCF was negative');
+    assert.equal(negative.years.at(-1).pctOfFcf, null);
+    assert.equal(negative.years.at(-1).pctOfFcfWhy, 'Not shown: FCF was negative.');
+    const rows = APPLE.map((y) => ({ ...y }));
+    rows[5].capex = null;
+    const missing = model.build(rows);
+    assert.equal(missing.years.at(-1).fcf, null);
+    assert.equal(missing.years.at(-1).fcfAfter, null);
+    assert.match(missing.years.at(-1).verdict, /^Not available: operating cash flow or capital expenditure for FY2025/);
+});
+
+test('the flow table withholds a year that crosses a split instead of reading it as dilution', () => {
+    const rows = APPLE.map((y) => ({ ...y }));
+    rows[4].dil = rows[4].dil / 4; // FY2024 un-restated for a 4-for-1 split
+    const m = model.build(rows);
+    const y = m.years.at(-1);
+    assert.equal(y.dilutionPct, null);
+    assert.match(y.verdict, /^FCF covered SBC .* times\. Not shown: the diluted share count changed by more than 40%/);
+});
+
 test('the committed sector table was built by this model from the committed data', () => {
     const table = JSON.parse(read('backend', 'sbc-sector.json'));
     assert.equal(table.v, 1);
@@ -235,7 +291,7 @@ test('the committed sector table was built by this model from the committed data
 test('the page draws from the model, and the server ranks with it and never returns the list', () => {
     const page = read('frontend-v2', 'company.html');
     assert.match(page, /<section id="sbc-section" hidden>/);
-    assert.match(page, /<script src="assets\/sbc-model\.js\?v=[\w-]+"><\/script>\s*<script src="assets\/company\.js\?v=[\w-]+"><\/script>/, 'the model loads before the page script');
+    assert.match(page, /<script src="assets\/sbc-model\.js\?v=[\w-]+"><\/script>\s*<script src="assets\/industry-metrics\.js\?v=[\w-]+"><\/script>\s*<script src="assets\/company\.js\?v=[\w-]+"><\/script>/, 'the models load before the page script');
 
     const js = read('frontend-v2', 'assets', 'company.js');
     assert.match(js, /window\.SBCModel\.build\(rows\)/);
