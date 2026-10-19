@@ -283,7 +283,8 @@ function decodeAttribution(value, { secret, now = Date.now() } = {}) {
 // campaign clicks would be served from cache and silently lost.
 const CAMPAIGN_MARKER_PARAMS = Object.freeze([
     'utm_source', 'source', 'utm_campaign', 'utm_medium',
-    'utm_content', 'content_id', 'click_id', 'cta_id'
+    'utm_content', 'content_id', 'click_id', 'cta_id',
+    'gclid', 'dclid', 'gbraid', 'wbraid'
 ]);
 function hasCampaignMarker(query) {
     if (!query || typeof query !== 'object') return false;
@@ -317,12 +318,14 @@ function attributionTouch(req, { now = Date.now() } = {}) {
     const refSource = referrerSource(referrer);
     const isApiRequest = String(req && req.path || '').startsWith('/api/');
     const allowQueryAttribution = Boolean(req && req.method === 'GET' && !isApiRequest);
-    const querySource = allowQueryAttribution ? normalizeSource(query.utm_source || query.source) : null;
+    const googleClick = ['gclid', 'dclid', 'gbraid', 'wbraid'].some((key) =>
+        typeof query[key] === 'string' && /^[A-Za-z0-9._:-]{1,80}$/.test(query[key]));
+    const querySource = allowQueryAttribution ? normalizeSource(query.utm_source || query.source || (googleClick ? 'google' : null)) : null;
     let source = querySource || refSource || 'direct';
     if (source === 'internal' || (refHost && (refHost === 'stockportfolio.pro' || refHost.endsWith('.stockportfolio.pro')))) source = 'internal';
     const touch = {
         source,
-        medium: shortValue(query.utm_medium, 60),
+        medium: shortValue(query.utm_medium || (allowQueryAttribution && googleClick ? 'cpc' : null), 60),
         campaign: shortValue(query.utm_campaign, 120),
         term: shortValue(query.utm_term, 120),
         contentId: shortValue(query.content_id || query.utm_content, 120),

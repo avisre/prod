@@ -126,12 +126,23 @@ function opaqueUserId(userId, secret) {
 
 function randomEventId() { return crypto.randomUUID(); }
 
+// Webhooks have no browser cookie. Use only attribution already saved on the
+// account; absent historical attribution stays unknown.
+function attributionForUser(user) {
+    if (!user) return {};
+    return {
+        anonymousId: safeId(user.analyticsAnonymousId, 80),
+        firstTouch: sanitizeAttribution(user.analyticsFirstTouch),
+        lastNonDirectTouch: sanitizeAttribution(user.analyticsLastNonDirectTouch)
+    };
+}
+
 function canonicalEvent({ eventName, userId, plan, data = {}, attribution = {}, now = new Date(), secret = process.env.JWT_SECRET } = {}) {
     const normalized = normalizeEventName(eventName, data);
     if (!normalized) return null;
-    const current = sanitizeAttribution(attribution.currentSession || data.currentSession);
+    const current = sanitizeAttribution(attribution.currentSessionTouch || attribution.currentSession || data.currentSessionTouch || data.currentSession);
     const first = sanitizeAttribution(attribution.firstTouch || data.firstTouch);
-    const last = sanitizeAttribution(attribution.lastNonDirect || data.lastNonDirect);
+    const last = sanitizeAttribution(attribution.lastNonDirectTouch || attribution.lastNonDirect || data.lastNonDirectTouch || data.lastNonDirect);
     const pagePath = sanitizePath(data.pagePath || data.path || '/');
     const pageType = PAGE_TYPES.has(String(data.pageType || '').toLowerCase()) ? String(data.pageType).toLowerCase() : 'other';
     const featureType = FEATURE_TYPES.has(String(data.featureType || '').toLowerCase()) ? String(data.featureType).toLowerCase() : null;
@@ -140,7 +151,7 @@ function canonicalEvent({ eventName, userId, plan, data = {}, attribution = {}, 
     const internalFlag = data.internalFlag === true || data.isQa === true || trafficCategory === 'internal';
     const botFlag = data.botFlag === true || data.isBot === true || ['bot', 'crawler', 'automation'].includes(trafficCategory);
     const eventId = safeId(data.eventId, 80) || randomEventId();
-    const anonymousId = safeId(data.anonymousId || data.anonymousSessionId, 80);
+    const anonymousId = safeId(data.anonymousId || data.anonymousSessionId || attribution.anonymousId, 80);
     const sessionId = safeId(data.sessionId || data.anonymousSessionId, 80);
     const user = userId ? String(userId) : null;
     const dedupeKey = safeId(data.dedupeKey, 220) || null;
@@ -208,5 +219,5 @@ function validateBrowserEvent(name) { return BROWSER_EVENTS.has(normalizeEventNa
 module.exports = {
     SCHEMA_VERSION, EVENT_NAMES, BROWSER_EVENTS, EVENT_TO_GA4, SOURCES,
     normalizeSource, normalizeEventName, sanitizePath, sanitizeAttribution,
-    opaqueUserId, canonicalEvent, validateBrowserEvent, randomEventId
+    opaqueUserId, attributionForUser, canonicalEvent, validateBrowserEvent, randomEventId
 };

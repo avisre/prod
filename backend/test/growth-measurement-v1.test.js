@@ -8,6 +8,46 @@ const ga4 = require('../ga4-server');
 
 const SECRET = 'growth-test-secret';
 
+test('Google campaign survives a direct return, signup and a cookie-free payment', () => {
+    const landing = { method: 'GET', path: '/connect', hostname: 'stockportfolio.pro',
+        query: { utm_source: 'google', utm_medium: 'cpc', utm_campaign: 'us_search_10', gclid: 'google-click-123' },
+        headers: { 'user-agent': 'Mozilla/5.0 Chrome/150.0.0.0' } };
+    const response = responseMock();
+    const first = tracking.captureAttribution(landing, response, { secret: SECRET, secure: false });
+    const cookie = response.getHeader('Set-Cookie')[0].split(';')[0];
+    const returning = tracking.captureAttribution({ ...landing, query: {}, headers: { ...landing.headers, cookie } }, responseMock(), { secret: SECRET, secure: false });
+    const signup = growth.canonicalEvent({ eventName: 'signup_completed', userId: 'test-user', attribution: returning, secret: SECRET });
+    assert.equal(signup.firstTouch.campaign, 'us_search_10');
+    assert.equal(signup.lastNonDirectTouch.medium, 'cpc');
+    assert.equal(signup.currentSessionTouch.source, 'direct');
+
+    const persistedUser = { analyticsAnonymousId: first.anonymousId, analyticsFirstTouch: returning.firstTouch, analyticsLastNonDirectTouch: returning.lastNonDirectTouch };
+    const paid = growth.canonicalEvent({ eventName: 'invoice_paid', userId: 'test-user',
+        attribution: growth.attributionForUser(persistedUser), data: { amountMinor: 7999, currency: 'usd' }, secret: SECRET });
+    assert.equal(paid.anonymousId, first.anonymousId);
+    assert.equal(paid.firstTouch.source, 'google');
+    assert.equal(paid.lastNonDirectTouch.clickId, 'google-click-123');
+    assert.equal(paid.lastNonDirectTouch.campaign, 'us_search_10');
+    assert.equal(paid.currentSessionTouch, null, 'a webhook must not invent a browser session');
+
+    const unknown = growth.canonicalEvent({ eventName: 'invoice_paid', userId: 'legacy-user', attribution: growth.attributionForUser({}), secret: SECRET });
+    assert.equal(unknown.firstTouch, null);
+    assert.equal(unknown.lastNonDirectTouch, null);
+});
+
+test('Google auto-tagged landings work without a referrer or manual UTM tags', () => {
+    for (const key of ['gclid', 'dclid', 'gbraid', 'wbraid']) {
+        const req = { method: 'GET', path: '/connect', query: { [key]: 'google-click-123' }, headers: {} };
+        assert.equal(tracking.hasCampaignMarker(req.query), true);
+        const touch = tracking.attributionTouch(req);
+        assert.equal(touch.source, 'google');
+        assert.equal(touch.medium, 'cpc');
+        assert.equal(touch.clickId, 'google-click-123');
+        assert.equal(tracking.attributionTouch({ ...req, query: { ...req.query, utm_source: 'newsletter', utm_medium: 'email' } }).source, 'newsletter');
+        assert.equal(tracking.attributionTouch({ ...req, method: 'POST', path: '/api/track/page_view' }).source, 'direct');
+    }
+});
+
 function responseMock() {
     const headers = new Map();
     return {

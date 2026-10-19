@@ -2383,6 +2383,8 @@ app.use((req, res, next) => {
     const acquisition = campaignAcquisitionForRequest(req);
     if (acquisition) {
         setCampaignAcquisition(req, res, acquisition);
+    }
+    if (acquisition || hasCampaignMarker(req)) {
         marketingRequestFields(req, res);
     }
     return next();
@@ -11906,6 +11908,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 if (user) {
                     trackFunnel('stripe_checkout_completed', user._id, user.subscription && user.subscription.planName, {
                         eventName: 'stripe_checkout_completed',
+                        attribution: growthMeasurement.attributionForUser(user),
                         dedupeKey: event.id ? `stripe_checkout_completed:${event.id}` : null,
                         entitlementSource: 'stripe',
                         testFlag: payload.livemode === false,
@@ -12138,6 +12141,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             }
             if (invoiceUser) trackFunnel('invoice_paid', invoiceUser._id, invoiceUser.subscription && invoiceUser.subscription.planName, {
                 eventName: 'invoice_paid', dedupeKey: event.id ? `stripe:invoice:${event.id}` : null,
+                attribution: growthMeasurement.attributionForUser(invoiceUser),
                 entitlementSource: 'stripe', testFlag: payload.livemode === false,
                 billingPeriod: invoiceUser.subscription && invoiceUser.subscription.billingInterval,
                 amountMinor: Number.isFinite(Number(payload.amount_paid)) ? Number(payload.amount_paid) : null,
