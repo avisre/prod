@@ -100,8 +100,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261019-ui26/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261019-ui26/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261019-ui27/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261019-ui27/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -247,4 +247,53 @@ test('total long-term assets unfolds into lines the SEC extraction supplies', ()
     assert.ok(MAPS.balance[field], `${field} is extracted`);
     assert.ok(children.some((definition) => definition.source.includes(`r.${field})`)), `${field} is shown`);
   }
+});
+
+// The page's own functions, cut from company.js and run against stub state.
+function pageFunction(from, to, names, body) {
+  const start = companySource.indexOf(from);
+  const end = companySource.indexOf(to, start);
+  assert.ok(start > 0 && end > start, `${from} is in company.js`);
+  return new Function(...names, companySource.slice(start, end) + body);
+}
+
+test('the per-share view divides by the share count filed for that same period end', () => {
+  const make = pageFunction('    function viewVals(', '    // statement-convention grouping', ['viewState', 'sharesByPeriod', 'sharesBasis', 'fixed', 'signedPct'], '\nreturn viewVals;');
+  const shares = new Map([['2025-09-27', 15e9], ['2024-09-28', 15.5e9]]);
+  const rows = [{ fiscalDateEnding: '2024-09-28' }, { fiscalDateEnding: '2025-09-27' }];
+  const fixed = (v, d) => v.toFixed(d);
+  const ps = make('ps', shares, 'period-end', fixed, null)({ kind: 'money', fmt: String }, [31e9, 30e9], rows);
+  assert.deepEqual(ps.vals, [2, 2]);
+  assert.equal(ps.fmt(2), '$2.00');
+  // the cover page's count is today's, not any past year's
+  assert.deepEqual(make('ps', new Map([['9999-12-31', 15e9]]), 'current', fixed, null)({ kind: 'money', fmt: String }, [31e9, 30e9], rows).vals, [null, null]);
+});
+
+test('a company that files no cost of revenue shows its filed cost lines under its own headings, annual only', () => {
+  const make = pageFunction('    const FILED_GROUP = 900;', '    function groupDefs(', ['payload', 'stState', 'basisState', 'reportingCurrency', 'money', 'ROWS'], '\nreturn { filedCostDefs, statementDefs, FILED_GROUP };');
+  const ROWS = { income: [{ label: 'Revenue', solo: true }, { label: 'Cost of revenue', solo: true }, { label: 'Gross profit' }] };
+  const payload = { filedCosts: { currency: 'USD', heading: 'Costs and expenses', filing: { form: '10-K', accession: '0001104659-26-021292' }, lines: [
+    { heading: true, label: 'Restaurant operating costs', depth: 0 },
+    { label: 'Labor', depth: 1, values: { '2025-12-30': 1944416000 } },
+    { label: 'Rent', depth: 1, values: { '2025-12-30': 92321000 } },
+    { label: 'Total costs and expenses', total: true, depth: 0, values: { '2025-12-30': 5403335000 } }
+  ] } };
+  const page = make(payload, 'income', 'annual', () => 'USD', String, ROWS);
+  const defs = page.statementDefs(false);
+  assert.deepEqual(defs.map((d) => d.label), ['Revenue', 'Cost of revenue', 'Costs and expenses', 'Restaurant operating costs', 'Labor', 'Rent', 'Gross profit']);
+  const parent = defs[2];
+  assert.equal(parent.filed, true);
+  assert.equal(parent.get({ fiscalDateEnding: '2025-12-30' }), 5403335000);
+  assert.equal(defs[3].heading, true);
+  assert.equal(defs[4].get({ fiscalDateEnding: '2025-12-30' }), 1944416000);
+  assert.equal(defs[4].get({ fiscalDateEnding: '2019-12-31' }), null);
+  assert.equal(defs[4].depth, 1);
+  // filed cost lines fold under their heading row like every other group
+  const grouped = groupDefinitions(defs);
+  assert.deepEqual(grouped.filter((d) => d.gid === grouped[2].parentOf).map((d) => d.label), ['Restaurant operating costs', 'Labor', 'Rent']);
+  // not in the quarterly view, not converted to another currency, not in a different currency
+  assert.equal(make(payload, 'income', 'quarterly', () => 'USD', String, ROWS).statementDefs(false), ROWS.income);
+  assert.equal(page.statementDefs(true), ROWS.income);
+  assert.equal(make(payload, 'income', 'annual', () => 'EUR', String, ROWS).statementDefs(false), ROWS.income);
+  assert.equal(make({}, 'income', 'annual', () => 'USD', String, ROWS).statementDefs(false), ROWS.income);
 });

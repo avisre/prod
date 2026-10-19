@@ -1655,7 +1655,9 @@
         if (viewState === 'ps' && def.kind === 'money') {
             return {
                 vals: raw.map((v, i) => {
-                    const sh = sharesByPeriod.get(String(rows[i].fiscalDateEnding || '').slice(0, 7));
+                    // Keyed by the full period-end date (buildSharesMap); a month
+                    // key matched nothing, so every cell read "—" (2026-10-19).
+                    const sh = sharesBasis === 'current' ? null : sharesByPeriod.get(String(rows[i].fiscalDateEnding || ''));
                     return (v !== null && sh) ? v / sh : null;
                 }),
                 fmt: (v) => v === null ? '—' : '$' + fixed(v, 2), colored: false
@@ -1666,6 +1668,30 @@
     // statement-convention grouping: indented component rows fold under the
     // subtotal that PRECEDES them
     const expandedGroups = { income: new Set(), balance: new Set(), cash: new Set() }; // default: collapsed
+    // A company that files no cost of revenue (Texas Roadhouse: food and beverage,
+    // labor, rent and other operating, with no subtotal) shows the cost lines it
+    // files between revenue and operating income, under its own labels and
+    // headings (backend/filed-costs.js). Annual only: they come from 10-Ks.
+    const FILED_GROUP = 900;
+    let filedCostsOpened = false;
+    function filedCostDefs(converted) {
+        const fc = payload && payload.filedCosts;
+        if (!fc || stState !== 'income' || basisState !== 'annual' || converted || fc.currency !== reportingCurrency()) return [];
+        const at = (l) => (r) => { const v = l.values[r.fiscalDateEnding]; return typeof v === 'number' ? v : null; };
+        const lines = fc.lines.filter((l) => !l.total);
+        const total = fc.lines.find((l) => l.total);
+        const blank = () => '';
+        return [{ label: fc.heading || 'Costs and expenses', filed: true, get: total ? at(total) : () => null, fmt: total ? money : blank, kind: total ? 'money' : 'heading', heading: !total, neutral: true, title: `As filed in the ${fc.filing.form} (${fc.filing.accession}); the company files no cost of revenue` }]
+            .concat(lines.map((l) => l.heading
+                ? { label: l.label, get: () => null, fmt: blank, kind: 'heading', heading: true, sub: true, depth: l.depth }
+                : { label: l.label, get: at(l), fmt: money, kind: 'money', sub: true, neutral: true, depth: l.depth }));
+    }
+    function statementDefs(converted) {
+        const filed = filedCostDefs(converted);
+        if (!filed.length) return ROWS[stState];
+        const at = ROWS.income.findIndex((d) => d.label === 'Cost of revenue') + 1;
+        return ROWS.income.slice(0, at).concat(filed, ROWS.income.slice(at));
+    }
     function groupDefs(defs, st) {
         const out = defs.map((d) => ({ ...d }));
         // a parent is a non-sub row immediately FOLLOWED by sub rows — its
@@ -1675,7 +1701,9 @@
         for (const d of out) {
             if (d.sub) {
                 if (parent) {
-                    if (parent.parentOf === undefined) { gid++; parent.parentOf = gid; }
+                    // The filed cost lines exist only in the annual view; a fixed id
+                    // keeps the other groups' ids, and their open state, the same in both.
+                    if (parent.parentOf === undefined) { if (parent.filed) parent.parentOf = FILED_GROUP; else { gid++; parent.parentOf = gid; } }
                     d.gid = parent.parentOf;
                 }
             } else {
@@ -1822,7 +1850,10 @@
         });
         html += '</tr></thead><tbody>';
         let ri = 0;
-        const defs = groupDefs(ROWS[stState], stState);
+        const defs = groupDefs(statementDefs(converted), stState);
+        // Shown open the first time: with no cost of revenue they are the only
+        // costs on the statement.
+        if (!filedCostsOpened && defs.some((d) => d.parentOf === FILED_GROUP)) { expanded.add(FILED_GROUP); filedCostsOpened = true; }
         // a group only exists if at least one of its components has data
         const liveGroups = new Set();
         for (const def of defs) {
@@ -1833,9 +1864,9 @@
         for (const def of defs) {
             if (viewState === 'ps' && def.kind === 'shares') continue;
             const raw = rows.map((r) => def.get(r));
-            if (raw.every((v) => v === null)) continue;
+            if (raw.every((v) => v === null) && !def.heading) continue;
             const { vals, fmt, colored } = viewVals(def, raw, rows);
-            if (vals.every((v) => v === null)) continue;
+            if (vals.every((v) => v === null) && !def.heading) continue;
             lastRender.rows.push({ label: def.label, vals, fmt, neutral: !!def.neutral });
             const isParent = def.parentOf !== undefined && liveGroups.has(def.parentOf);
             const inGroup = def.gid !== undefined;
@@ -1844,8 +1875,8 @@
                 ? `<button class="grp-caret" data-g="${def.parentOf}" aria-label="Expand components" title="Show the components">${expanded.has(def.parentOf) ? '▾' : '▸'}</button>`
                 : '';
             html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${inGroup ? ' grp-' + def.gid : ''}${isParent ? ' grp-parent' : ''}"${isParent ? ` data-g="${def.parentOf}"` : ''} data-i="${ri}"${hide ? ' hidden' : ''}>
-              <td class="row-head">${caret}${def.label}</td>`;
-            if (showStatementTrend) html += `<td>${statementMiniBars(vals, lastRender.periods, fmt)}</td>`;
+              <td class="row-head"${def.depth ? ` style="padding-left:${36 + def.depth * 16}px"` : ''}${def.title ? ` title="${esc(def.title)}"` : ''}>${caret}${esc(def.label)}</td>`;
+            if (showStatementTrend) html += `<td>${def.heading && vals.every((v) => v === null) ? '' : statementMiniBars(vals, lastRender.periods, fmt)}</td>`;
             vals.forEach((v, i) => {
                 const colCls = [
                     i === vals.length - 1 ? 'col-now' : '',
@@ -1872,6 +1903,7 @@
                 : `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. `;
             provenance.textContent = conversionText +
                 (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}; ADR-dependent valuation overlays remain disabled. ` : '') +
+                (defs.some((d) => d.filed) ? `The company files no cost of revenue; its cost lines are shown as filed in its ${payload.filedCosts.filing.form}s, with the filing’s own labels and headings. ` : '') +
                 'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Reported per-share values retain their filed basis. Calculated figures require available verified inputs; missing inputs stay missing. ▸ unfolds a total into its components.';
         }
         // Tapping anywhere on a parent row toggles its component group. The ▸

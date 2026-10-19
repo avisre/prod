@@ -47,6 +47,9 @@ function adapt(company,raw,data,entry,issuer) {
  overview.EPS=inc?.dilutedEPS ?? inc?.eps ?? null;
  if(!perShareAllowed)overview.PERatio=null;
  if(type==='stock')out.supplementalObservations=require('./company-observations').reconcile(require('./company-observations').observations(data),require('./committed-supplements').forIssuer(company.cik || 'listing:'+company.symbol.replace(/\./g,'-'))).filter(f=>f.state==='available');
+ // The cost lines a company files in place of a cost of revenue (filed-costs.js).
+ const latest=out.income.annualReports[0];
+ if(type==='stock' && latest && latest.costOfRevenue==null && latest.grossProfit==null){const filed=require('./filed-costs').forIssuer(company.cik,out.income.annualReports);if(filed)out.filedCosts=filed;}
  out.provenance.supplementalDigest=p.digest(out.supplementalObservations || []);
  return out;
 }
