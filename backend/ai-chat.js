@@ -2439,12 +2439,14 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             : policy.explicitWordLimit && answerQuality.wordCount(full) > policy.maxWords ? policy.maxWords >= 5 ? 'A verified answer is unavailable.' : 'Unavailable.' : full;
         return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'no_research_evidence', auditFindings: ['No research evidence supports the proposed answer.'] }) };
     };
+    // Figures earlier answers in this thread passed the check with (none in history a browser sent).
+    const earlierFigures = answerQuality.priorFigures(history);
     const finish = async (text, streamed) => {
         const modelText = String(text || '');
         text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeDraft(modelText), suppliedResults, { ...policy, question: q }), sourceLinks);
         const normalizedChart = text !== modelText;
         emit({ type: 'status', text: 'Checking every figure against the filings' });
-        let issues = answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
+        let issues = answerQuality.audit(text, suppliedResults, { question: q, mode, policy, priorFigures: earlierFigures });
         const correctionAttempted = issues.length > 0;
         const rewritten = normalizedChart || correctionAttempted;
         let correctionSucceeded = false;
@@ -2466,7 +2468,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeDraft(correctedText), suppliedResults, { ...policy, question: q }), sourceLinks);
                 issues = !text || TEXT_TOOLCALL_RE.test(text) || aiClient.leaksIdentity(text)
                     ? ['The corrected analysis could not be validated.']
-                    : answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
+                    : answerQuality.audit(text, suppliedResults, { question: q, mode, policy, priorFigures: earlierFigures });
                 correctionSucceeded = issues.length === 0;
             } catch (_) { issues = ['The corrected analysis could not be validated.']; }
         }
@@ -2477,7 +2479,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             for (const candidate of [text, firstDraft]) {
                 if (!candidate || TEXT_TOOLCALL_RE.test(candidate) || aiClient.leaksIdentity(candidate)) continue;
                 let attempt;
-                try { attempt = answerQuality.salvage(candidate, suppliedResults, { question: q, mode, policy }); }
+                try { attempt = answerQuality.salvage(candidate, suppliedResults, { question: q, mode, policy, priorFigures: earlierFigures }); }
                 catch (e) { console.error('[ai-chat] salvage failed', { errorType: e.name || 'Error' }); continue; }
                 if (attempt.ok) { salvaged = attempt; break; }
             }
@@ -2507,7 +2509,8 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             if (streamed) emit({ type: 'rollback' });
             emit({ type: 'delta', text: answer });
         }
-        return { answer, toolsUsed, source, totalTokens,
+        // Stored with the answer in its thread, so a follow-up may restate them.
+        return { answer, toolsUsed, source, totalTokens, checkedFigures: source === 'ai' ? answerQuality.checkedFigures(text, suppliedResults, q, earlierFigures) : [],
             quality: qualityFor(answer, { rewritten, correctionAttempted, correctionSucceeded,
                 fallback: issues.length > 0, terminalReason: issues.length ? 'validation_after_correction' : 'answered',
                 ...(asks ? { asks: asks.length, sendBacks, unfinished: openVerdict && !openVerdict.ok ? openVerdict.issues.map(i => i.key) : [] } : {}),
@@ -3100,7 +3103,7 @@ async function threadHistory(userId, threadId, n = 16) {
         const doc = await col.findOne({ _id: tid, userId: uid }, { projection: { messages: { $slice: -n } } });
         return ((doc && doc.messages) || [])
             .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
-            .map((m) => ({ role: m.role, content: m.content }));
+            .map((m) => ({ role: m.role, content: m.content, ...(m.role === 'assistant' && Array.isArray(m.figures) ? { figures: m.figures } : {}) }));
     } catch (_) { return []; }
 }
 

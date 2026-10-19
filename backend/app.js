@@ -3857,7 +3857,10 @@ const AskThreadSchema = new mongoose.Schema({
         at: { type: Date, default: () => new Date() },
         // Regenerate keeps the answers it replaced, oldest first, so the page
         // can page through them (‹ 1 / 2 ›). Capped: the database is small.
-        versions: { type: [new mongoose.Schema({ content: String, at: Date }, { _id: false })], default: undefined }
+        versions: { type: [new mongoose.Schema({ content: String, at: Date }, { _id: false })], default: undefined },
+        // The figures this answer carried after passing the figure check ({v, u}),
+        // which a follow-up in the same thread may restate.
+        figures: { type: [new mongoose.Schema({ v: Number, u: String }, { _id: false })], default: undefined }
     }, { _id: false })],
     createdAt: { type: Date, default: () => new Date() },
     updatedAt: { type: Date, default: () => new Date() }
@@ -3888,11 +3891,11 @@ async function threadEdit(userId, threadId, editFrom) {
             if (m && m.role === 'user' && String(m.content || '').trim() === content && (at < 0 || Math.abs(i - index) < Math.abs(at - index))) at = i;
         });
         if (at < 0) return null;
-        return { index: at, history: msgs.slice(Math.max(0, at - 16), at).map((m) => ({ role: m.role, content: m.content })) };
+        return { index: at, history: msgs.slice(Math.max(0, at - 16), at).map((m) => ({ role: m.role, content: m.content, ...(m.role === 'assistant' && Array.isArray(m.figures) ? { figures: m.figures } : {}) })) };
     } catch (_) { return null; }
 }
 
-async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed, surface, editAt, regenerate) {
+async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed, surface, editAt, regenerate, figures) {
     try {
         if (!userId || !question || !answer) return null;
         const tools = Array.isArray(toolsUsed)
@@ -3901,7 +3904,8 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
         const cap = (s) => String(s).slice(0, require('./ask-report-policy').QUESTION_MAX_CHARS);
         const turn = () => [
             { role: 'user', content: cap(question) },
-            { role: 'assistant', content: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), toolsUsed: tools }
+            { role: 'assistant', content: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), toolsUsed: tools,
+                ...(Array.isArray(figures) && figures.length ? { figures: figures.slice(0, 200) } : {}) }
         ];
         let doc;
         // An edited question replaces itself and every later message.
@@ -10127,7 +10131,9 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         // price fan-out per chat message).
         let holdings = [];
         try { holdings = (await Stock.find({ user: userId })).map((s) => s.toObject()); } catch (_) { holdings = []; }
-        const clientHistory = Array.isArray(req.body && req.body.history) ? req.body.history : [];
+        // Role and text only: checked figures are carried by the server's own thread
+        // history, never by what a browser sends.
+        const clientHistory = Array.isArray(req.body && req.body.history) ? req.body.history.map((h) => ({ role: h && h.role, content: h && h.content })) : [];
         // A threadId makes the SERVER the context authority: history is rebuilt
         // from that thread's own stored messages, so follow-ups carry the
         // conversation and other topics never bleed in. Without one (⌘K floor,
@@ -10236,7 +10242,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 else if (askStepsCharged && result.source !== 'stopped') { await credits.refundRun(userId, askRunId); askStepsCharged = 0; }
                 if (result.source === 'ai' && !temporary && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
                 if (result.source === 'ai' && !temporary) saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
-                if (result.source === 'ai' && !temporary) threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null, regenerate);
+                if (result.source === 'ai' && !temporary) threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null, regenerate, result.checkedFigures);
                 trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
@@ -10272,7 +10278,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         if (result.source === 'ai' && !temporary && chatSurface !== 'paper') aiChat.saveExchange(userId, question, result.answer);
         if (result.source === 'ai' && !temporary) saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
         threadIdSaved = result.source === 'ai' && !temporary
-            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null, regenerate)
+            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed, chatSurface, edit ? edit.index : null, regenerate, result.checkedFigures)
             : null;
         trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);

@@ -62,7 +62,8 @@ function sentenceAround(text, index) {
 
 function clauseAround(sentence, amountStart) {
     const s = String(sentence || '');
-    const delimiters = /[;,]/g;
+    // A thousands separator ("$5,400m") does not end a clause.
+    const delimiters = /;|,(?!(?<=\d,)\d)/g;
     let start = 0, end = s.length, m;
     while ((m = delimiters.exec(s)) !== null) {
         if (m.index < amountStart) start = m.index + 1;
@@ -137,6 +138,80 @@ function filingNarrativeEvidence(results) {
         amount.lastIndex = 0;
     }
     return out;
+}
+
+const STATED_AMOUNT = /(?<![A-Za-z])((?:U\.S\.|US|HK|NZ|C|A|S)\$|USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|HKD|SGD|NZD|INR|KRW|RMB|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g;
+const amountScale = suffix => /^(?:trillion|tn|t)$/.test(suffix) ? 1e12 : /^(?:billion|bn|b)$/.test(suffix) ? 1e9
+    : /^(?:million|m)$/.test(suffix) ? 1e6 : suffix === 'k' ? 1e3 : 1;
+const statedPercentages = text => [...String(text).matchAll(/(\d+(?:\.\d+)?)\s*\)?\s*%/g)].map(m => Number(m[1])).filter(Number.isFinite).flatMap(p => [p, -p]);
+
+// The currency of an issuer's own filed XBRL facts among the results, when they
+// carry one: an earnings release on a 6-K declares none, and "$" alone does not
+// identify a foreign filer's currency (AerCap reports in USD).
+function issuerCurrency(results, url) {
+    const cik = /\/Archives\/edgar\/data\/(\d+)\//i.exec(String(url || ''))?.[1];
+    const units = new Set();
+    if (cik) for (const row of results) for (const source of Object.values((row.result || row).provenance?.sources || {}))
+        if (source.type === 'sec_xbrl_fact' && Number(source.cik) === Number(cik) && /^[A-Z]{3}$/.test(source.unit || '')) units.add(source.unit);
+    return units.size === 1 ? [...units][0] : null;
+}
+
+// A fetched SEC filing page is the filing's own text, and a figure an answer
+// copies from it unchanged is supported whatever it measures. The narrative
+// collector above admits only amounts with a stated scale and a debt-type label
+// on a page search_filings returned, which rejected the figures answers quote
+// (measured 2026-10-19: ARM's royalty revenue "$2,613m" from the "(in millions)"
+// table in its 10-K; AerCap's "gains on sale of $819 million" from an earnings
+// release fetched with a keyword the page did not contain). An amount stated
+// with its scale matches like any supplied figure. A table cell or an unscaled
+// amount is read at each scale the page declares and must be restated exactly:
+// a page holds hundreds of them, and a rounded claim would match one by chance.
+// Both signs are claimable, because tables print a cost or a fall in
+// parentheses. A figure derived from these ($3.8bn less $2.7bn written as
+// $1.1bn) is still unsupported, and none of them supports a claim that names an
+// obligation or answers a disclosure question; those keep their own labelled
+// evidence.
+function filingVerbatimEvidence(results) {
+    const money = [], percentages = [];
+    const both = (value, unit, exact) => money.push({ value, unit, exact, sourceType: 'sec_filing_verbatim' }, { value: -value, unit, exact, sourceType: 'sec_filing_verbatim' });
+    for (const row of results || []) {
+        const page = row.result || row, text = String(page.text || '');
+        if (row.tool !== 'fetch_page' || page.error || !text || !/^https:\/\/www\.sec\.gov\/Archives\//i.test(String(page.url || ''))) continue;
+        const basis = filingCurrency.filingBasis(results, page) || issuerCurrency(results, page.url);
+        const scales = [...new Set([...text.matchAll(/\bin (thousands|millions|billions)\b/gi)].map(m => ({ thousands: 1e3, millions: 1e6, billions: 1e9 })[m[1].toLowerCase()]))];
+        for (const m of text.matchAll(STATED_AMOUNT)) {
+            const unit = filingCurrency.code(m[1], basis), value = Number(m[2].replace(/,/g, '').replace(/[−–]/g, '-'));
+            if (!unit || !Number.isFinite(value)) continue;
+            if (m[3]) both(Math.abs(value) * amountScale(m[3].toLowerCase()), unit, false);
+            else for (const scale of [1, ...scales]) both(Math.abs(value) * scale, unit, true);
+        }
+        // Bare table cells, at the page's declared scales only; four-digit years are not amounts.
+        if (basis && scales.length) for (const m of text.matchAll(/(?<![\w.,])\d{1,3}(?:,\d{3})+(?:\.\d+)?(?![\d,%])|(?<![\w.,])\d{3,}(?:\.\d+)?(?![\d,%])/g)) {
+            if (/^(?:19|20)\d{2}$/.test(m[0]) || /^\s*\)?\s*%/.test(text.slice(m.index + m[0].length, m.index + m[0].length + 4))) continue;
+            for (const scale of scales) both(Number(m[0].replace(/,/g, '')) * scale, basis, true);
+        }
+        percentages.push(...statedPercentages(text));
+    }
+    return { money, percentages };
+}
+
+// get_red_flags states its findings as sentences ("Shares outstanding grew 8.1%
+// over 4 years"), computed from SEC-filed statements, so its figures exist only
+// in that text; an answer restating one was rejected as unsupplied.
+function redFlagEvidence(results) {
+    const money = [], percentages = [];
+    for (const row of results || []) {
+        if (row.tool !== 'get_red_flags' || (row.result || row).error) continue;
+        for (const flag of (row.result || row).flags || []) {
+            const detail = String(flag?.detail || '');
+            for (const m of detail.matchAll(STATED_AMOUNT)) {
+                const unit = filingCurrency.code(m[1]), value = Math.abs(Number(m[2].replace(/,/g, '').replace(/[−–]/g, '-'))) * amountScale(String(m[3] || '').toLowerCase());
+                if (unit && Number.isFinite(value)) money.push({ value, unit }, { value: -value, unit });
+            }
+            percentages.push(...statedPercentages(detail));
+        }
+    }
+    return { money, percentages };
 }
 
 function businessAmountCategory(text, index, length) {
@@ -548,12 +623,33 @@ function percentageEvidence(results, facts) {
     return percentages;
 }
 
-function numericClaims(text, results, question = '') {
+// Whether an answer's money and percentage figures are checked at all: only
+// once it has financial evidence to be checked against.
+function figureCheckApplies(results) {
     const data = unwrap(results);
     const hasFinancialObservations = data.some(r => r.observations?.some(o => o.fields || o.metrics) || r.marketObservations?.length || r.peerPositioning);
     const financialResearchAttempted = (results || []).some(r => ['get_financials','get_ratios_history','get_supplemental_context','get_quote','get_peer_context','model_trade'].includes(r.tool));
-    const filingFacts = filingNarrativeEvidence(results);
-    if (!financialResearchAttempted && !hasFinancialObservations && !filingFacts.length && !data.some(r=>r.supplementalObservations?.length || r.industryObservations?.length)) return [];
+    return financialResearchAttempted || hasFinancialObservations || filingNarrativeEvidence(results).length > 0 || data.some(r=>r.supplementalObservations?.length || r.industryObservations?.length);
+}
+
+// The figures an earlier answer in the same conversation carried after passing
+// this check, as the server stored them with that answer ({v, u}; u is a
+// currency, a per-share currency or '%'). A follow-up restating one ("the +287%
+// I mentioned") was rejected, because its tool results came from the earlier
+// turn. Only history the server rebuilt from the thread carries these; history
+// a browser sends is stripped of them by the route.
+function priorFigures(history) {
+    const out = [];
+    for (const h of Array.isArray(history) ? history : []) {
+        if (!h || h.role !== 'assistant' || !Array.isArray(h.figures)) continue;
+        for (const f of h.figures) if (f && Number.isFinite(f.v) && /^(?:[A-Z]{3}(?:\/share)?|%)$/.test(String(f.u || ''))) out.push({ v: f.v, u: f.u });
+    }
+    return out.slice(-400);
+}
+
+function numericClaims(text, results, question = '', prior = []) {
+    const data = unwrap(results);
+    if (!figureCheckApplies(results)) return [];
     const facts = chartEvidence(results);
     // Changes are explicit calculations from comparable verified annual inputs,
     // rather than invented facts. Retain signs except when prose names a drop.
@@ -617,6 +713,10 @@ function numericClaims(text, results, question = '') {
     // Calculator results, once the supplied facts are all in place — a money
     // calculation keeps its currency only when every input shared one.
     for (const c of calculatorClaims(results, facts)) if (c.unit) facts.push({ value: c.value, unit: c.unit, calculated: true });
+    // Added after the calculator so a filing page's table cells do not become calculator inputs.
+    const verbatim = filingVerbatimEvidence(results), flagged = redFlagEvidence(results);
+    facts.push(...verbatim.money, ...flagged.money);
+    for (const f of prior) if (f.u !== '%') facts.push({ value: Math.abs(f.v), unit: f.u }, { value: -Math.abs(f.v), unit: f.u });
     facts.push(...originalBusinessAmounts(results));
     const dossier = dossierFigures(results);
     facts.push(...dossier.money);
@@ -653,6 +753,10 @@ function numericClaims(text, results, question = '') {
         const tolerance = scale * 0.5 * Math.pow(10, -precision) + 1e-6;
         if (value === 1 && scale === 1 && /(?:every|each|per)\s*$/.test(prose.slice(Math.max(0, m.index - 20), m.index))) continue;
         const claimCategory = disclosureCategory(context);
+        // The label in the claim's own clause, as the filing side reads it: a lessor's
+        // "operating cash flow was $5.4bn, and the lease book ..." names no lease.
+        const claimSentence = sentenceAround(prose, m.index), claimClause = clauseAround(claimSentence.text, m.index - claimSentence.start);
+        const claimLabel = disclosureCategory(claimClause.text, m.index - claimSentence.start - claimClause.start, m.index - claimSentence.start - claimClause.start + m[0].length);
         const lineStart=prose.lastIndexOf('\n',m.index)+1, nextLine=prose.indexOf('\n',m.index);
         const businessLine=prose.slice(lineStart,nextLine<0?prose.length:nextLine);
         const businessCategory = businessAmountCategory(businessLine, m.index-lineStart, m[0].length);
@@ -660,7 +764,7 @@ function numericClaims(text, results, question = '') {
         const sensitiveDisclosure = DISCLOSURE_TERMS.test(question) && !!disclosureCategory(context) &&
             (DISCLOSURE_TERMS.test(context) || /\b(?:lease|guarantee|commitment|purchase obligation)/i.test(context));
         if (!facts.some(f => (f.unit === unit || f.unit === unit + '/share') &&
-            (Math.abs(f.value - value) <= tolerance ||
+            (f.exact ? Math.abs(f.value - value) <= Math.abs(value) * 1e-9 + 1e-6 : Math.abs(f.value - value) <= tolerance ||
             // A scaled figure cut short rather than rounded — "$630bn" for
             // 630.79bn — is the supplied figure, not an invented one. Rejecting
             // it made the rewrite delete Intel's market cap from its valuation.
@@ -670,6 +774,10 @@ function numericClaims(text, results, question = '') {
                 (f.difference && /fell|fall|drop|declin|decreas|lower/i.test(context)) ||
                 (f.field === 'surplusAfterDistributions' && /short|deficit|more than|exceed|gap/i.test(context))) && Math.abs(Math.abs(f.value) - Math.abs(value)) <= tolerance)) &&
             (f.sourceType !== 'sec_filing_narrative' || !claimCategory || claimCategory === f.category) &&
+            // A copied filing figure carries no label of its own, so a claim naming
+            // debt, a lease or a guarantee keeps needing the labelled evidence: a
+            // lease obligation restated as "off-balance debt" is still rejected.
+            (f.sourceType !== 'sec_filing_verbatim' || !claimLabel) &&
             (f.sourceType !== 'sec_business_narrative' || (!!businessCategory && businessCategory === f.category) ||
                 (f.subject && new RegExp('\\b'+f.subject.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i').test(businessLine))) &&
             (f.sourceType !== 'sec_business_narrative' || !f.periodYear || !businessYear || f.periodYear===businessYear) &&
@@ -685,6 +793,8 @@ function numericClaims(text, results, question = '') {
     const percentages = percentageEvidence(results, facts);
     percentages.push(...dossier.percentages);
     for (const r of data) for (const p of r.claimable?.percentages || []) if (num(p) !== null) percentages.push(num(p), -num(p));
+    percentages.push(...verbatim.percentages, ...flagged.percentages);
+    for (const f of prior) if (f.u === '%') percentages.push(Math.abs(f.v), -Math.abs(f.v));
     // A computed figure is as often a percentage as an amount — a share of
     // revenue, a premium to a peer median — so the same gated results are
     // claimable on this channel too.
@@ -702,11 +812,28 @@ function numericClaims(text, results, question = '') {
     return [...new Set(issues)];
 }
 
-function audit(text, results, { question = '', mode = 'analyst', policy } = {}) {
+// The money and percentage figures in a finished answer that passed the check,
+// for the server to store with the answer (see priorFigures). Nothing when the
+// check did not run, so an unchecked figure is never carried forward.
+function checkedFigures(text, results, question = '', prior = []) {
+    if (/\b(hypothetical|suppose|assume)\b/i.test(question) || !figureCheckApplies(results)) return [];
+    const issues = numericClaims(text, results, question, prior);
+    const prose = String(text || '').replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
+    const currencies = { '$': 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' }, seen = new Set(), out = [];
+    const add = (v, u) => { const key = u + ':' + v; if (Number.isFinite(v) && !seen.has(key)) { seen.add(key); out.push({ v, u }); } };
+    for (const m of prose.matchAll(/(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|TWD|HKD|SGD|NZD|INR|KRW|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g))
+        if (!issues.some(s => s.startsWith(`Monetary claim ${m[0]} is not`)))
+            add(Math.abs(Number(m[2].replace(/,/g, '').replace(/[−–]/g, '-'))) * amountScale(String(m[3] || '').toLowerCase()), currencies[m[1]] || m[1]);
+    for (const m of prose.matchAll(/([+−–-]?\d+(?:\.\d+)?)\s*%/g))
+        if (!issues.some(s => s.startsWith(`Percentage claim ${m[0]} is not`))) add(Math.abs(Number(m[1].replace(/[−–]/g, '-'))), '%');
+    return out.slice(0, 200);
+}
+
+function audit(text, results, { question = '', mode = 'analyst', policy, priorFigures: prior = [] } = {}) {
     policy = policy || require('./ask-report-policy').select(question, mode);
     const issues = [], facts = chartEvidence(results), data = unwrap(results);
     issues.push(...require('./ask-report-policy').reportIssues(text, policy, results));
-    if (!/\b(hypothetical|suppose|assume)\b/i.test(question)) issues.push(...numericClaims(text, results, question));
+    if (!/\b(hypothetical|suppose|assume)\b/i.test(question)) issues.push(...numericClaims(text, results, question, prior));
     for(const r of data)for(const f of r.supplementalObservations || []) {
         if(!require('./company-observations').validSupplement(f,f.issuer))continue;
         const lines=String(text).replace(/```[\s\S]*?```/g,'').split(/\n/);
@@ -1654,4 +1781,4 @@ function appendSegmentSankey(lines, results, question) {
     }
 }
 
-module.exports = { audit, salvage, normalizeDraft, stripProcessTalk, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, companyReportFallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };
+module.exports = { audit, salvage, normalizeDraft, stripProcessTalk, chartEvidence, normalizeFacetedViz, numericClaims, checkedFigures, priorFigures, filingVerbatimEvidence, redFlagEvidence, wordCount, wordLimit, fallback, companyReportFallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };

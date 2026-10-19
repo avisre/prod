@@ -39,7 +39,7 @@ test('the chat route uses server-side thread history when a threadId is present'
 });
 
 test('both /api/ai/chat success branches save the thread and return its id', () => {
-    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface, edit \? edit\.index : null, regenerate\)/g) || [];
+    const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface, edit \? edit\.index : null, regenerate, result\.checkedFigures\)/g) || [];
     assert.equal(hooks.length, 2, 'streaming and non-streaming branches both save');
     assert.match(appSource, /threadId: threadIdSaved/);
     assert.equal((appSource.match(/threadId: threadIdSaved/g) || []).length, 2);

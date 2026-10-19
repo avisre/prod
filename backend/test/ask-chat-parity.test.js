@@ -170,7 +170,7 @@ test('a regenerate keeps the answer it replaced, and that answer\'s own versions
 
 test('the chat route regenerates only inside a saved chat and returns versions with the thread', () => {
     assert.match(app, /const regenerate = Boolean\(edit\) && \(req\.body && req\.body\.regenerate\) === true;/);
-    assert.equal((app.match(/edit \? edit\.index : null, regenerate\)/g) || []).length, 2);
+    assert.equal((app.match(/edit \? edit\.index : null, regenerate, result\.checkedFigures\)/g) || []).length, 2);
     assert.match(app, /versions: \{ type: \[new mongoose\.Schema\(\{ content: String, at: Date \}, \{ _id: false \}\)\], default: undefined \}/);
     assert.match(app, /Array\.isArray\(m\.versions\) && m\.versions\.length \? \{ versions:/);
 });
