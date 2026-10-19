@@ -177,7 +177,7 @@ test('a figure filed for fewer than two years is named in a note, not drawn as a
     assert.match(trends, /<span>ROE</);
 });
 
-// Banks and life insurers have no free cash flow (owner, 2026-10-19): it is
+// Banks, life insurers and insurers that file no capex have no free cash flow (owner, 2026-10-19): it is
 // left out, not listed as missing. P&C and health insurers keep it.
 test('a bank or life insurer has no free cash flow line and none listed as missing', () => {
     const bank = IBM.map((r) => ({ ...r, revenue: null, fcf: null, netMarginPct: null }));
@@ -189,6 +189,9 @@ test('a bank or life insurer has no free cash flow line and none listed as missi
     assert.equal(noFcfOf({ industryMetrics: { kind: 'insurer', insurerType: 'pc' } }), false);
     assert.equal(noFcfOf({ industryMetrics: { kind: 'insurer', insurerType: 'health' } }), false);
     assert.equal(noFcfOf({ industryMetrics: null }), false);
+    // the server's flag wins: it also covers an insurer that files no capex
+    assert.equal(noFcfOf({ noFcf: true, industryMetrics: { kind: 'insurer', insurerType: 'pc' } }), true);
+    assert.equal(noFcfOf({ noFcf: false, industryMetrics: { kind: 'insurer', insurerType: 'pc' } }), false);
 });
 
 test('a row whose latest year was not filed shows the latest filed figure with its year', () => {

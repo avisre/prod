@@ -1,8 +1,9 @@
 'use strict';
 
-// Banks and life insurers have no free cash flow (owner, 2026-10-19): the
+// Banks, life insurers and insurers that file no capex have no free cash flow
+// (owner, 2026-10-19): the
 // reverse and forward DCF are not run for them, the dossier carries no FCF
-// line, and P&C and health insurers keep FCF because they file capex.
+// line. P&C and health insurers that file capex keep FCF.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -22,13 +23,20 @@ const payload = (sic) => ({
 test('the reverse and forward DCF are not run for a bank or a life insurer', async () => {
     for (const sic of ['6021', '6311']) {
         const r = reverseDcf.computeFromData('ZZZQ', payload(sic));
-        assert.match(r.error, /^Not run: Banks and life insurers have no free cash flow/, sic);
+        assert.match(r.error, /^Not run: Free cash flow is not shown for this company/, sic);
         const v = await valuationDcf.buildValuation('ZZZQ', { data: payload(sic) });
-        assert.match(v.error, /^Not run: Banks and life insurers have no free cash flow/, sic);
+        assert.match(v.error, /^Not run: Free cash flow is not shown for this company/, sic);
     }
 });
 
-test('a P&C or health insurer still gets the reverse DCF on its filed free cash flow', () => {
+test('a P&C insurer that files no capex (TRV, CB) is not run either', () => {
+    const noCapex = payload('6331');
+    for (const r of noCapex.cash.annualReports) delete r.capitalExpenditures;
+    assert.match(reverseDcf.computeFromData('ZZZQ', noCapex).error, /^Not run: Free cash flow is not shown/);
+    assert.ok(dossierAnalysis.financialHistory(noCapex).every((r) => r.fcf == null));
+});
+
+test('a P&C or health insurer that files capex still gets the reverse DCF on its filed free cash flow', () => {
     for (const sic of ['6331', '6324']) {
         const r = reverseDcf.computeFromData('ZZZQ', payload(sic));
         assert.equal(r.error, undefined, sic);

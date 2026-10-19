@@ -551,6 +551,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         keyFigures: pack ? pack.lines : null,
         industry: industryData || null,
         industryMetrics: sectorMetrics && sectorMetrics.kind ? sectorMetrics : null,
+        noFcf: industryMetrics.hasNoFcf(data),
         // One contract for every surface: rows, shares, remainder, year and grade.
         segments: revenueBreakdown.forPage(breakdown),
         offBalanceSheet: offBalance,

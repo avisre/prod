@@ -535,34 +535,38 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     if (!rows.length) return '';
     const pct = (v) => v == null ? 'â€”' : (v < 0 ? 'âˆ’' : '') + Math.abs(v).toFixed(1) + '%';
     const perShare = (v) => v == null ? 'â€”' : '$' + Number(v).toFixed(2);
-    const cells = (row) => {
+    const listFor = (row) => {
       const v = row.values || {};
-      const list = m.kind === 'bank' ? [
-        ['Net interest income', bn(v.netInterestIncome)],
-        ['Net interest income growth', pct(v.netInterestIncomeGrowthPct)],
-        [v.nimBasis === 'interest-earning assets' ? 'Net interest margin' : 'NII / average total assets', pct(v.netInterestMarginPct)],
-        ['Efficiency ratio', pct(v.efficiencyPct)],
-        ['Loans / deposits (year-end)', pct(v.loansToDepositsPct)],
-        ['Provision / average loans', pct(v.provisionToLoansPct)],
-        ['ROA (average assets)', pct(v.roaPct)],
-        ['ROE (average equity)', pct(v.roePct)],
-        ['Equity / assets (year-end)', pct(v.equityToAssetsPct)]
+      return m.kind === 'bank' ? [
+        ['Net interest income', bn(v.netInterestIncome), 'netInterestIncome'],
+        ['Net interest income growth', pct(v.netInterestIncomeGrowthPct), 'netInterestIncomeGrowthPct'],
+        [v.nimBasis === 'interest-earning assets' ? 'Net interest margin' : 'NII / average total assets', pct(v.netInterestMarginPct), 'netInterestMarginPct'],
+        ['Efficiency ratio', pct(v.efficiencyPct), 'efficiencyPct'],
+        ['Loans / deposits (year-end)', pct(v.loansToDepositsPct), 'loansToDepositsPct'],
+        ['Provision / average loans', pct(v.provisionToLoansPct), 'provisionToLoansPct'],
+        ['ROA (average assets)', pct(v.roaPct), 'roaPct'],
+        ['ROE (average equity)', pct(v.roePct), 'roePct'],
+        ['Equity / assets (year-end)', pct(v.equityToAssetsPct), 'equityToAssetsPct']
       ] : [
-        ['Premiums earned', bn(v.premiumsEarned)],
-        ['Premium growth', pct(v.premiumsGrowthPct)],
+        ['Premiums earned', bn(v.premiumsEarned), 'premiumsEarned'],
+        ['Premium growth', pct(v.premiumsGrowthPct), 'premiumsGrowthPct'],
         ...(m.showCombinedRatio ? [
-          ['Loss ratio', pct(v.lossRatioPct)],
-          ['Expense ratio', pct(v.expenseRatioPct)],
-          ['Combined ratio', pct(v.combinedRatioPct)]
+          ['Loss ratio', pct(v.lossRatioPct), 'lossRatioPct'],
+          ['Expense ratio', pct(v.expenseRatioPct), 'expenseRatioPct'],
+          ['Combined ratio', pct(v.combinedRatioPct), 'combinedRatioPct']
         ] : []),
-        ['Net investment income', bn(v.netInvestmentIncome)],
-        ['ROE (average equity)', pct(v.roePct)],
-        [v.bookValueBasis === 'diluted weighted-average shares' ? 'Book value / diluted share' : 'Book value / year-end share', perShare(v.bookValuePerShare)]
+        ['Net investment income', bn(v.netInvestmentIncome), 'netInvestmentIncome'],
+        ['ROE (average equity)', pct(v.roePct), 'roePct'],
+        [v.bookValueBasis === 'diluted weighted-average shares' ? 'Book value / diluted share' : 'Book value / year-end share', perShare(v.bookValuePerShare), 'bookValuePerShare']
       ];
-      return list.map(([label, value]) => `<div class="ind-cell"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('');
     };
-    const missing = [...new Set(rows.flatMap((r) => Object.values(r.why || {})).filter(Boolean))];
-    return `<div class="dos-visual-panel" style="margin-top:24px;"><h3>${esc(m.label)}</h3><p>${esc(m.kind === 'bank' ? 'Filed bank lines: net interest income, noninterest expense, loans and deposits.' : 'Filed insurance lines: premiums, underwriting costs and investment income.')}</p><div class="ind-years">${rows.map((row) => `<div class="ind-year"><div class="ind-year-head">${esc(row.fy)}</div>${cells(row)}</div>`).join('')}</div>${missing.length ? `<details class="ind-missing"><summary>Why a figure is missing</summary><ul>${missing.slice(0, 10).map((why) => `<li>${esc(why)}</li>`).join('')}</ul></details>` : ''}<p class="dos-trend-note">Computed from filed annual statements. Ratios that divide a flow by a balance use the average of the opening and closing balances; the panel labels that basis.</p></div>`;
+    // A metric with no value in any year is named once, not drawn as a row of dashes.
+    const empty = new Set(Object.keys(rows[0].values || {}).filter((k) => rows.every((r) => (r.values || {})[k] == null)));
+    const cells = (row) => listFor(row).filter(([, , key]) => !empty.has(key));
+    const emptyLabels = listFor(rows[0]).filter(([, , key]) => empty.has(key)).map(([label]) => label.toLowerCase());
+    const notFiled = emptyLabels.length ? `<p class="dos-trend-note">${esc(`Not shown: ${emptyLabels.join(', ').replace(/, ([^,]*)$/, ' and $1')}. The filings for these years do not carry the lines ${emptyLabels.length > 1 ? 'they need' : 'it needs'}.`)}</p>` : '';
+    const missing = [...new Set(rows.flatMap((r) => Object.entries(r.why || {}).filter(([key]) => !empty.has(key)).map(([, why]) => why)).filter(Boolean))];
+    return `<div class="dos-visual-panel" style="margin-top:24px;"><h3>${esc(m.label)}</h3><p>${esc(m.kind === 'bank' ? 'Filed bank lines: net interest income, noninterest expense, loans and deposits.' : 'Filed insurance lines: premiums, underwriting costs and investment income.')}</p>${notFiled}<div class="ind-years">${rows.map((row) => `<div class="ind-year"><div class="ind-year-head">${esc(row.fy)}</div>${cells(row).map(([label, value]) => `<div class="ind-cell"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>`).join('')}</div>${missing.length ? `<details class="ind-missing"><summary>Why a figure is missing</summary><ul>${missing.slice(0, 10).map((why) => `<li>${esc(why)}</li>`).join('')}</ul></details>` : ''}<p class="dos-trend-note">Computed from filed annual statements. Ratios that divide a flow by a balance use the average of the opening and closing balances; the panel labels that basis.</p></div>`;
   }
   function marginsPanel(fin, sectorMetrics) {
     if (sectorMetrics && sectorMetrics.rows && sectorMetrics.rows.length) return industryPanel(sectorMetrics);
@@ -572,9 +576,11 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     return `<div class="dos-visual-panel" style="margin-top:24px;"><h3>Margins and returns</h3>${sub ? `<p>${sub}</p>` : ''}${series.length ? chartGroupedBars(fin, series) : ''}${fallbackNote(m, ret)}</div>`;
   }
 
-  // Banks and life insurers carry no free cash flow (IndustryMetrics.hasNoFcf);
-  // P&C and health insurers file capex and keep it.
+  // Banks, life insurers and insurers that file no capex carry no free cash
+  // flow (IndustryMetrics.hasNoFcf, sent as d.noFcf). A dossier saved before
+  // d.noFcf existed falls back to the bank and life-insurer part of the rule.
   function noFcfOf(d) {
+    if (d && typeof d.noFcf === 'boolean') return d.noFcf;
     const m = d && d.industryMetrics;
     return !!m && (m.kind === 'bank' || (m.kind === 'insurer' && m.insurerType === 'life'));
   }

@@ -150,17 +150,32 @@ test('a regulator-only bank is classified from FDIC net interest income', () => 
     assert.equal(model.classify({ coverage: { sic: '6411' } }).kind, null);
 });
 
-// Owner, 2026-10-19: banks and life insurers carry no free cash flow (no capex is
-// filed; loans, deposits and policyholder balances run through operating cash
-// flow). P&C and health insurers file capex and keep it, as S&P Global's
-// statements do (PGR and UNH carry an FCF row, JPM, WFC and MET do not).
-test('free cash flow is left out for banks and life insurers only', () => {
-    assert.equal(model.hasNoFcf({ coverage: { sic: '6021' } }), true, 'national bank (JPM)');
-    assert.equal(model.hasNoFcf({ coverage: { sic: '6311' } }), true, 'life insurer (MET)');
-    assert.equal(model.hasNoFcf({ coverage: { sic: '6321' } }), true, 'accident and health (AFL)');
-    assert.equal(model.hasNoFcf({ coverage: { sic: '6331' } }), false, 'P&C insurer (PGR) keeps FCF');
-    assert.equal(model.hasNoFcf({ coverage: { sic: '6324' } }), false, 'health insurer (UNH) keeps FCF');
-    assert.equal(model.hasNoFcf({ coverage: { sic: '3571' } }), false, 'non-financial (AAPL)');
-    assert.equal(model.hasNoFcf({ coverage: { industry: { archetype: 'insurer' } } }), false, 'an insurer of unknown type keeps FCF');
-    assert.match(model.NO_FCF, /^Banks and life insurers have no free cash flow/);
+// Owner, 2026-10-19: banks, life insurers and insurers that file no capex carry
+// no free cash flow (loans, deposits and policyholder balances run through
+// operating cash flow). Insurers that file capex keep it, as S&P Global's
+// statements do: PGR and UNH carry an FCF row; JPM, WFC, MET, TRV and CB do not.
+test('free cash flow is left out for banks, life insurers and insurers that file no capex', () => {
+    const capex = (sic, v) => ({ coverage: { sic }, cash: { annualReports: [{ capitalExpenditures: v }] } });
+    assert.equal(model.hasNoFcf(capex('6021', -2e9)), true, 'a bank, even one that files capex (JPM)');
+    assert.equal(model.hasNoFcf(capex('6311', -1e8)), true, 'life insurer (MET)');
+    assert.equal(model.hasNoFcf(capex('6321', null)), true, 'accident and health (AFL)');
+    assert.equal(model.hasNoFcf(capex('6331', '-348000000')), false, 'P&C insurer that files capex, as a numeric string (PGR)');
+    assert.equal(model.hasNoFcf(capex('6331', null)), true, 'P&C insurer that files no capex (TRV, CB)');
+    assert.equal(model.hasNoFcf(capex('6331', 'None')), true, 'a placeholder is not a filed figure');
+    assert.equal(model.hasNoFcf(capex('6324', -3.6e9)), false, 'health insurer that files capex (UNH)');
+    assert.equal(model.hasNoFcf(capex('3571', null)), false, 'non-financial (AAPL) is never hidden');
+    assert.equal(model.hasNoFcf({ coverage: { industry: { archetype: 'insurer' } }, cash: { annualReports: [{ capitalExpenditures: -5 }] } }), false);
+    assert.match(model.NO_FCF, /^Free cash flow is not shown for this company/);
+});
+
+test('a metric with no value in any year shown is named once, not drawn as a row of dashes', () => {
+    // Travelers files no other underwriting expense, so no expense or combined ratio.
+    const TRV = PGR.map((r) => ({ ...r, otherUnderwritingExpense: undefined }));
+    const m = model.buildInsurance(TRV, { sic: '6331' });
+    const empty = model.emptyKeys(m);
+    assert.ok(empty.includes('expenseRatioPct'));
+    assert.ok(empty.includes('combinedRatioPct'));
+    assert.ok(!empty.includes('lossRatioPct'));
+    assert.deepEqual(model.emptyKeys(model.buildInsurance(PGR, { sic: '6331' })).filter((k) => /Ratio/.test(k)), []);
+    assert.deepEqual(model.emptyKeys(null), []);
 });

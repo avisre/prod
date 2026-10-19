@@ -1466,7 +1466,13 @@
             if (latest.values.netInvestmentIncome !== null) parts.push(`net investment income ${amt(latest.values.netInvestmentIncome)}`);
             if (latest.values.roePct !== null) parts.push(`ROE ${pct(latest.values.roePct)}`);
         }
-        const missing = [...new Set(m.rows.flatMap((row) => Object.values(row.why || {})).filter(Boolean))];
+        // A metric with no value in any year is named once, not drawn as a row of dashes.
+        const empty = new Set(window.IndustryMetrics.emptyKeys(m));
+        const shown = (row) => cells(row).filter(([, , key]) => !empty.has(key));
+        const emptyLabels = cells(m.rows[0]).filter(([, , key]) => empty.has(key)).map(([label]) => label.toLowerCase());
+        const missing = [...new Set(m.rows.flatMap((row) => Object.entries(row.why || {}).filter(([key]) => !empty.has(key)).map(([, why]) => why)).filter(Boolean))];
+        const notFiled = emptyLabels.length
+            ? `<p class="ind-note">${esc(`Not shown: ${emptyLabels.join(', ').replace(/, ([^,]*)$/, ' and $1')}. The filings for these years do not carry the lines ${emptyLabels.length > 1 ? 'they need' : 'it needs'}.`)}</p>` : '';
         const note = m.kind === 'insurer' && !m.showCombinedRatio
             ? `<p class="ind-note">${esc(m.insurerType === 'health' ? 'Health insurers' : 'Life insurers')} do not report a combined ratio; premiums, investment income, ROE and book value are shown instead.</p>` : '';
         $('industry-title').textContent = m.label;
@@ -1480,8 +1486,8 @@
             : fdic ? link(fdic.sourceUrl, `${fdic.sourceName} · ${fdic.periodEnd}`) : esc(latest.fy);
         $('industry-body').innerHTML = `
           <p class="ind-summary">${esc(`${latest.fy}: ${parts.join(' · ')}`)}</p>
-          ${note}
-          <div class="ind-years">${m.rows.map((row) => `<div class="ind-year"><div class="ind-year-head">${esc(row.fy)}</div>${cells(row).map(([label, value, key]) => `<div class="ind-cell"><span>${esc(label)}</span><b class="${row.values[key] === null ? 'ind-null' : ''}">${value}</b></div>`).join('')}</div>`).join('')}</div>
+          ${note}${notFiled}
+          <div class="ind-years">${m.rows.map((row) => `<div class="ind-year"><div class="ind-year-head">${esc(row.fy)}</div>${shown(row).map(([label, value, key]) => `<div class="ind-cell"><span>${esc(label)}</span><b class="${row.values[key] === null ? 'ind-null' : ''}">${value}</b></div>`).join('')}</div>`).join('')}</div>
           ${missing.length ? `<details class="ind-missing"><summary>Why a figure is missing</summary><ul>${missing.slice(0, 10).map((why) => `<li>${esc(why)}</li>`).join('')}</ul></details>` : ''}
           <p class="provenance">Computed from filed annual statements. Ratios that divide a flow by a balance use the average of the opening and closing balances; the panel labels that basis. No estimates.</p>`;
         $('industry-rule').hidden = false;

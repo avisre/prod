@@ -249,18 +249,36 @@
     return { kind, sic: sic || null, insurerType: insurerType(sic), showCombinedRatio: hasCombinedRatio(sic) };
   }
 
-  // Banks and life insurers have no free cash flow: loans, deposits and
-  // policyholder balances run through operating cash flow, and they file no
-  // capital spending line. Every FCF measure (the SBC table, FCF margin, the
-  // reverse and forward DCF) is left out for them rather than shown as missing
-  // (owner, 2026-10-19). Checked 2026-10-19 against S&P Global's statements on
-  // stockanalysis.com: JPM, WFC and MET carry no FCF row, while P&C (PGR) and
-  // health (UNH) insurers file capex and carry one, so those keep FCF. Yahoo's
-  // JPM "free cash flow" is operating cash flow relabelled (-$147.8B for 2025).
-  const NO_FCF = 'Banks and life insurers have no free cash flow: loans, deposits and policyholder balances run through operating cash flow and no capital spending is filed, so measures built on free cash flow are not shown.';
+  // Free cash flow means nothing for a bank or a life insurer: loans, deposits
+  // and policyholder balances run through operating cash flow. An insurer whose
+  // filings carry no capital spending line has none either. Every FCF measure
+  // (the SBC table, FCF margin, the reverse and forward DCF) is left out for
+  // these rather than shown as missing (owner, 2026-10-19). Checked 2026-10-19
+  // against S&P Global's statements on stockanalysis.com: JPM, WFC, MET, TRV
+  // and CB carry no FCF row; PGR and UNH file capex and carry one, so they keep
+  // FCF. Yahoo's JPM "free cash flow" is operating cash flow relabelled
+  // (-$147.8B for 2025).
+  const NO_FCF = 'Free cash flow is not shown for this company: for a bank or insurer, loans, deposits, premiums and claims run through operating cash flow, so free cash flow would not measure the cash the business generates.';
+  function filesCapex(data) {
+    // Filed values can arrive as numbers or numeric strings.
+    return ((data?.cash?.annualReports) || []).some((r) => {
+      const v = r.capitalExpenditures;
+      return v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));
+    });
+  }
   function hasNoFcf(data) {
     const c = classify(data);
-    return c.kind === 'bank' || (c.kind === 'insurer' && c.insurerType === 'life');
+    if (c.kind === 'bank') return true;
+    return c.kind === 'insurer' && (c.insurerType === 'life' || !filesCapex(data));
+  }
+
+  // A metric with no value in any year shown is left out and named once,
+  // never drawn as a row of dashes (TRV and CB file no other underwriting
+  // expense, so they have no expense or combined ratio).
+  function emptyKeys(m) {
+    const rows = (m && m.rows) || [];
+    if (!rows.length) return [];
+    return Object.keys(rows[0].values || {}).filter((k) => rows.every((r) => r.values[k] === null || r.values[k] === undefined));
   }
 
   function build(data) {
@@ -272,5 +290,5 @@
     return built;
   }
 
-  return { build, classify, hasNoFcf, NO_FCF, collect, buildBank, buildInsurance, kindFromSic, insurerType, hasCombinedRatio, fyOf, BANK_SIC, INSURER_SIC, YEARS };
+  return { build, classify, hasNoFcf, emptyKeys, NO_FCF, collect, buildBank, buildInsurance, kindFromSic, insurerType, hasCombinedRatio, fyOf, BANK_SIC, INSURER_SIC, YEARS };
 });
