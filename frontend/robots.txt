@@ -67,6 +67,15 @@ User-agent: Storebot-Google
 Allow: /
 Disallow: /api/
 
+# Paid-ad destination checks; identity is verified by the server bot blocker.
+User-agent: AdsBot-Google
+Allow: /
+Disallow: /api/
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+Disallow: /api/
+
 # Google-Extended is NOT a crawler and NOT a separate agent — per Google,
 # "Google-Extended doesn't have a separate HTTP request user agent string";
 # the token is "used in a control capacity". It governs whether content
