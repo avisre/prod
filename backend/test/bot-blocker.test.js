@@ -205,6 +205,43 @@ test('legitimate crawler: PTR matches vendor domain and forward-confirm returns 
     assert.equal(verdict, 'verified');
 });
 
+test('verified desktop and Android AdsBot can check ad destinations without browser headers', async (t) => {
+    const ip = '66.249.90.1';
+    t.mock.method(dns, 'reverse', async () => ['rate-limited-proxy-66-249-90-1.google.com']);
+    t.mock.method(dns, 'resolve4', async () => [ip]);
+    t.mock.method(dns, 'resolve6', async () => []);
+    const uas = [
+        'AdsBot-Google (+http://www.google.com/adsbot.html)',
+        'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36 (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)'
+    ];
+    for (const ua of uas) {
+        assert.equal(botBlocker.classifyUa(ua), 'allowed-claim');
+        assert.equal(await botBlocker.verifyCrawlerClaim(ip, ua), 'verified');
+        for (const path of ['/stocks', '/screener', '/tools', '/methodology']) {
+            const req = fakeReq({ ip, path, headers: { 'user-agent': ua } });
+            assert.equal(botBlocker.hasBrowserHeaders(req.headers), false);
+            const res = fakeRes();
+            let allowed = false;
+            await botBlocker.middleware()(req, res, () => { allowed = true; });
+            assert.equal(allowed, true, `${ua} must reach ${path}`);
+            assert.equal(res.statusCode, null);
+        }
+    }
+});
+
+test('AdsBot still rejects a failed Google identity check', async (t) => {
+    const ip = '203.0.113.10';
+    const ua = 'AdsBot-Google-Mobile';
+    t.mock.method(dns, 'reverse', async () => ['rate-limited-proxy.google.com.attacker.example']);
+    assert.equal(await botBlocker.verifyCrawlerClaim(ip, ua), 'impostor');
+    const res = fakeRes();
+    let allowed = false;
+    botBlocker.middleware()(fakeReq({ ip, path: '/stocks', headers: { 'user-agent': ua } }), res,
+        () => { allowed = true; });
+    assert.equal(allowed, false);
+    assert.equal(res.statusCode, 403);
+});
+
 test('DNS failure resolves to unknown, never impostor', async (t) => {
     t.mock.method(dns, 'reverse', async () => { throw new Error('NXDOMAIN'); });
     const verdict = await botBlocker.resolveCrawlerIp('9.9.9.9', 'Googlebot/2.1');

@@ -52,7 +52,11 @@ const FORBIDDEN_BODY = 'Automated access is not permitted for this user agent. '
 // from the nav limiter: that limit is the "bounded rate" they are admitted
 // under. The training-only crawlers (GPTBot, CCBot, Bytespider, ClaudeBot)
 // stay denied, which is a separate and still-sound bandwidth call.
-const ALLOWED_UAS = ['googlebot', 'googlebot-image', 'google-inspectiontool', 'storebot-google', 'oai-searchbot', 'bingbot', 'bingpreview', 'perplexitybot'];
+// AdsBot checks paid-ad destinations without browser headers. It uses Google's
+// special-case crawler addresses (rate-limited-proxy-*.google.com), which the
+// same reverse/forward DNS verification below already supports. Without this
+// claim, the forged-browser check returns 403 and Google disapproves sitelinks.
+const ALLOWED_UAS = ['googlebot', 'googlebot-image', 'google-inspectiontool', 'storebot-google', 'adsbot-google', 'adsbot-google-mobile', 'oai-searchbot', 'bingbot', 'bingpreview', 'perplexitybot'];
 const ALLOWED_UA_RE = new RegExp(ALLOWED_UAS.join('|'), 'i');
 
 // Everything else that self-identifies as automated: named AI crawlers,
