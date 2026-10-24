@@ -629,6 +629,15 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .table-data .row-sub .row-head { font-weight: 400; color: var(--ink-2); padding-left: 26px; }
 .table-data .row-rule td { border-bottom: 1px solid var(--line-strong); }
 .table-clickable tbody tr { cursor: pointer; }
+/* Screener company cell: a real link plus a ↗ that opens a new tab, shown on
+   row hover and always on touch screens. */
+.sym-cell { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.sym-link { color: inherit; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.sym-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sym-newtab { flex: none; color: var(--ink-3); text-decoration: none; font-size: 13px; line-height: 1; padding: 3px 5px; border-radius: 6px; opacity: 0; transition: opacity 0.12s ease; }
+.table-data tbody tr:hover .sym-newtab, .sym-newtab:focus-visible { opacity: 1; }
+.sym-newtab:hover { color: var(--ink); background: var(--line); }
+@media (hover: none) { .sym-newtab { opacity: 1; } }
 
 /* ---------- Fund holdings pane ----------
    A complete portfolio runs to hundreds of rows (520 for VOO, 17,409 for BND),

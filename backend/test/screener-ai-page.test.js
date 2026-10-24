@@ -99,3 +99,17 @@ test('ai-paper-portfolio: the persona prompts teach the new screen and the real 
     assert.match(src, /similar_to/);
     assert.ok(!/~1,500 US companies/.test(src), 'the stale universe count is gone');
 });
+
+test('screener results: each company is a real link and has a ↗ that opens it in a new tab', () => {
+    const js = read('frontend-v2', 'assets', 'screener.js');
+    const css = read('frontend-v2', 'assets', 'system.css');
+    assert.match(js, /<a class="sym-link" href="\$\{esc\(companyUrl\(r\.symbol\)\)\}">/);
+    assert.match(js, /<a class="sym-newtab" href="\$\{esc\(companyUrl\(r\.symbol\)\)\}" target="_blank" rel="noopener" title="Open \$\{esc\(r\.symbol\)\} in a new tab"/);
+    // the row's own click leaves the links alone, and Ctrl/⌘-click or a middle-click opens a tab
+    assert.match(js, /if \(e\.target\.closest\('a'\)\) return;/);
+    assert.match(js, /if \(e\.metaKey \|\| e\.ctrlKey\) window\.open\(url, '_blank', 'noopener'\);/);
+    assert.match(js, /addEventListener\('auxclick'/);
+    // shown on hover, and always where there is no hover
+    assert.match(css, /\.table-data tbody tr:hover \.sym-newtab, \.sym-newtab:focus-visible \{ opacity: 1; \}/);
+    assert.match(css, /@media \(hover: none\) \{ \.sym-newtab \{ opacity: 1; \} \}/);
+});

@@ -118,9 +118,12 @@
             $('results-body').innerHTML = `<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">${error ? esc(error.replace(/ For a 200-day.*$/, '')) : 'No companies match these filters — loosen one and run again.'}</td></tr>`;
             return;
         }
+        const companyUrl = (sym) => `/company?symbol=${encodeURIComponent(sym)}`;
+        // The company is a real link, so a right-click, middle-click or Ctrl/⌘-click
+        // opens it in a new tab; the ↗ beside it does the same in one tap.
         $('results-body').innerHTML = sorted.map((r) => `
           <tr data-sym="${esc(r.symbol)}">
-            <td class="row-head"><strong>${esc(r.symbol)}</strong>&ensp;<span class="muted">${esc(r.name)}</span></td>
+            <td class="row-head"><span class="sym-cell"><a class="sym-link" href="${esc(companyUrl(r.symbol))}"><strong>${esc(r.symbol)}</strong>&ensp;<span class="muted">${esc(r.name)}</span></a><a class="sym-newtab" href="${esc(companyUrl(r.symbol))}" target="_blank" rel="noopener" title="Open ${esc(r.symbol)} in a new tab" aria-label="Open ${esc(r.symbol)} in a new tab">↗</a></span></td>
             <td class="small muted" style="text-transform:capitalize;" data-label="Sector">${esc((r.sector || '').toLowerCase())}</td>
             <td data-label="Mkt cap">${r.marketCapB === null ? '—' : '$' + money(r.marketCapB * 1e9)}</td>
             <td data-label="P/E">${fixed(r.pe, 1)}</td>
@@ -132,8 +135,18 @@
             <td data-label="Profit yrs">${r.profitableYears10 ?? '—'}/10</td>${trendAsOf ? `
             <td data-label="RSI 14">${fixed(r.rsi14, 0)}</td>` : ''}
           </tr>`).join('');
-        document.querySelectorAll('#results-body tr').forEach((tr) =>
-            tr.addEventListener('click', () => { location.href = `/company.html?symbol=${tr.dataset.sym}`; }));
+        document.querySelectorAll('#results-body tr[data-sym]').forEach((tr) => {
+            const url = companyUrl(tr.dataset.sym);
+            tr.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return; // the links open themselves
+                if (e.metaKey || e.ctrlKey) window.open(url, '_blank', 'noopener');
+                else location.href = url;
+            });
+            // a middle-click anywhere on the row opens a new tab, as on the name
+            tr.addEventListener('auxclick', (e) => {
+                if (e.button === 1 && !e.target.closest('a')) window.open(url, '_blank', 'noopener');
+            });
+        });
     }
 
     document.querySelectorAll('th.sortable').forEach((th) =>
