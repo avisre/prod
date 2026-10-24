@@ -142,6 +142,9 @@
     /* .prompts is display:grid, which overrides the hidden attribute — same for
        the progress strip — so both need the explicit rule. */
     .prompts[hidden], .paper-progress[hidden] { display: none; }
+    /* signed-in readers get starters picked from their own questions (/api/ask/suggestions) */
+    .prompts-why { max-width: var(--ask-col, 800px); margin: 28px auto 0; font-size: 12.5px; color: var(--ink-3); }
+    .prompts-why:not([hidden]) + .prompts { margin-top: 10px; }
     .paper-progress { display: grid; gap: 3px; font-size: 12.5px; color: var(--ink-2); max-height: 78px; overflow-y: auto; }
     .paper-card { border: 1px solid var(--line-strong); border-radius: 12px; padding: 11px 14px; margin: 0 auto 16px; max-width: var(--ask-col, 800px); background: var(--paper); }
     .paper-card summary { cursor: pointer; font-weight: 600; font-size: 14px; list-style: none; }
@@ -167,7 +170,7 @@
     .appsumo-activation a { color: #9a3412; font-weight: 650; }
 
     /* conversation state */
-    body.in-conversation .hello, body.in-conversation .prompts { display: none; }
+    body.in-conversation .hello, body.in-conversation .prompts, body.in-conversation .prompts-why { display: none; }
     .thread { flex: 1; padding: 40px 0 40px; }
     /* one measure for the whole answer: prose, charts (```viz```/```bars```/
        ```flow```) and everything else share the same centred column, so the
@@ -441,6 +444,7 @@
           <p class="composer-foot" id="quota-line"></p>
         </div>
 
+        <p class="prompts-why" id="prompts-why" hidden></p>
         <div class="prompts" id="prompts">
           <button>Why did NVDA's gross margin compress last quarter? Walk me through the drivers from the filings.</button>
           <button>What does TSLA's latest 10-K flag as risk factors, and what changed from last year's?</button>
@@ -1594,15 +1598,17 @@
         else if (key === 's' && !$('side').hidden) { e.preventDefault(); railOpen() ? hideRail() : showRail(); }
         else if ((key === 'backspace' || key === 'delete') && currentThreadId && token()) { e.preventDefault(); deleteThread(currentThreadId); }
       });
-      document.querySelectorAll('.prompts button').forEach((b) =>
-        b.addEventListener('click', () => {
-          recordFirstQuery();
-          document.body.classList.add('in-conversation');
-          setFocus(true);
-          if (prefersZen()) setZen(true);
-          $('thread').hidden = false;
-          engine.send(b.textContent, turnOpts());
-        }));
+      // delegated: the starters can be replaced by ones picked for this reader
+      $('prompts').addEventListener('click', (e) => {
+        const b = e.target && e.target.closest && e.target.closest('button');
+        if (!b) return;
+        recordFirstQuery();
+        document.body.classList.add('in-conversation');
+        setFocus(true);
+        if (prefersZen()) setZen(true);
+        $('thread').hidden = false;
+        engine.send(b.dataset.q || b.textContent, turnOpts());
+      });
       const firstQuestion = $('appsumo-first-question');
       if (firstQuestion) firstQuestion.addEventListener('click', () => {
         recordFirstQuery();
@@ -1761,6 +1767,7 @@
         paperMode = true;
         $('ask-mode-paper').setAttribute('aria-pressed', String(paperMode));
         $('prompts').hidden = paperMode;
+        $('prompts-why').hidden = paperMode || !$('prompts-why').textContent;
         $('paper-prompts').hidden = !paperMode;
         if (paperMode) { renderPaperChips(); loadPaperCard(); }
         else { hidePaperCard(); paperFeedStop(); }
@@ -1897,6 +1904,23 @@
       autoGrow();
       ta.focus();
       initSidebar();
+      // Starters picked from this reader's own questions, holdings and watchlist.
+      // Anything short of three keeps the general ones.
+      if (token() && SURFACE !== 'paper') {
+        fetch(`${API}/ask/suggestions`, { headers: { Authorization: `Bearer ${token()}` } })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((s) => {
+            if (!s || !s.personalized || !Array.isArray(s.questions) || s.questions.length < 3) return;
+            $('prompts').innerHTML = s.questions.map((x) => `<button type="button" data-q="${esc(x.q)}">${esc(x.q)}</button>`).join('');
+            const names = (s.tickers || []).join(', ');
+            const why = $('prompts-why');
+            why.textContent = s.language === 'pl'
+              ? 'Wybrane dla Ciebie na podstawie Twoich ostatnich pytań' + (names ? ` o ${names}` : '')
+              : 'Picked for you from your recent questions' + (names ? ` about ${names}` : '');
+            why.hidden = $('prompts').hidden;
+          })
+          .catch(() => { /* the general starters stay */ });
+      }
       // quota line — replaces the static note once known
       // logged-out visitors get a couple of free preview questions (no signup);
       // hide the portfolio-only prompt since there are no holdings yet

@@ -364,3 +364,9 @@ test('the trace shows the plan line, never a draft of the answer written ahead o
     await ask({ onEvent: e => { if (e.type === 'note') notes.push(e.text); } });
     assert.deepEqual(notes, ['Pulling the screen for FAST.']);
 });
+
+test('the reader\'s follow-up hint reaches the model', async () => {
+    const calls = scripted({ main: [{ content: GOOD }], aux: [ASKS, passAll(['FAST'])] });
+    await ask({ ctx: { nextHint: 'FOLLOW-UP FOR THIS USER: they mostly research free cash flow.' } });
+    assert.ok(calls.main[0].messages.some((m) => m.role === 'system' && m.content === 'FOLLOW-UP FOR THIS USER: they mostly research free cash flow.'));
+});

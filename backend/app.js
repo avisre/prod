@@ -3881,6 +3881,28 @@ const AskThread = mongoose.model('AskThread', AskThreadSchema);
 // A page lists, opens, continues and prunes only its own chats.
 const askSurface = (value) => (value === 'paper' ? 'paper' : 'ask');
 const surfaceMatch = (surface) => (askSurface(surface) === 'paper' ? { surface: 'paper' } : { surface: { $ne: 'paper' } });
+// The user's own recent Ask questions, newest first ({ q, at }), from their chats
+// and saved answers: the starters and the follow-up hint are picked from them.
+async function recentAskQuestions(userId, limit = 40) {
+    try {
+        const uid = new mongoose.Types.ObjectId(String(userId));
+        const [threads, reports] = await Promise.all([
+            AskThread.aggregate([
+                { $match: { userId: uid, surface: { $ne: 'paper' } } },
+                { $sort: { updatedAt: -1 } },
+                { $limit: 20 },
+                { $project: { messages: { $filter: { input: '$messages', cond: { $eq: ['$$this.role', 'user'] } } } } },
+                { $project: { 'messages.content': 1, 'messages.at': 1 } }
+            ]),
+            AskReport.find({ userId: uid }, { question: 1, createdAt: 1 }).sort({ createdAt: -1 }).limit(limit).lean()
+        ]);
+        const rows = [...threads.flatMap((t) => (t.messages || []).map((m) => ({ q: m.content, at: m.at }))),
+            ...reports.map((r) => ({ q: r.question, at: r.createdAt }))];
+        const seen = new Set();
+        return rows.filter((r) => r.q && !seen.has(r.q) && seen.add(r.q))
+            .sort((a, b) => new Date(b.at || 0) - new Date(a.at || 0)).slice(0, limit);
+    } catch (_) { return []; }
+}
 
 // Editing a question in a saved chat. The page sends where it counts the
 // question (index into the transcript) and its text; the stored question must
@@ -10163,6 +10185,8 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const regenerate = Boolean(edit) && (req.body && req.body.regenerate) === true;
         // Custom instructions apply everywhere, temporary chats included (as in ChatGPT).
         const customInstructions = String((req.user && req.user.askInstructions) || '').trim();
+        // The answer's "> Next:" question leans toward what this reader researches.
+        const nextHint = temporary || chatSurface === 'paper' ? '' : require('./ask-suggestions').nextHint(await recentAskQuestions(userId));
         // a fresh page sends no history — pick the thread back up from the
         // user's last few stored exchanges (cross-session memory)
         const history = edit ? edit.history : hasThread
@@ -10223,6 +10247,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                     ctx: {
                         holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req),
                         ...(customInstructions ? { customInstructions } : {}),
+                        ...(nextHint ? { nextHint } : {}),
                         ...(askBudget ? { budget: askBudget } : {}),
                         // ai_paper events stream the background build's
                         // progress lines while this connection lives.
@@ -10276,7 +10301,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
 
         const result = await aiChat.ask({
             question, history,
-            ctx: { holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req), ...(customInstructions ? { customInstructions } : {}), ...(aiPaperCtx || {}) },
+            ctx: { holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req), ...(customInstructions ? { customInstructions } : {}), ...(nextHint ? { nextHint } : {}), ...(aiPaperCtx || {}) },
             mode,
             thinking
         });
@@ -14369,6 +14394,37 @@ app.get('/api/ask-history/:id', authMiddleware, async (req, res) => {
 // Ask conversation threads — list (optionally full-text ?q= search) / read /
 // rename / pin / delete. Reading never touches credits (the same promise as
 // saved answers); a follow-up question inside a thread charges like any new Ask.
+// Starter questions picked from this user's own questions, holdings and
+// watchlist (ask-suggestions.js). Built in code: free, no credits.
+app.get('/api/ask/suggestions', authMiddleware, async (req, res) => {
+    try {
+        const owner = portfolioOwnerId(req);
+        const [questions, holdings, watch] = await Promise.all([
+            recentAskQuestions(req.userId),
+            Stock.find({ user: owner }, { symbol: 1, assetType: 1 }).lean(),
+            Watchlist.findOne({ user: owner }).lean()
+        ]);
+        // the peer closest in size to the company this user researches most
+        const peerOf = (symbol) => {
+            try {
+                const r = require('./company-peers').peersFor(symbol, aiChat.buildScreenIndex(), { sicFor: require('./ask-industry-profile').sicFor });
+                if (!r || !r.peers.length) return null;
+                const cap = Number(r.self.marketCapB);
+                const gap = (p) => (cap > 0 && p.marketCapB > 0 ? Math.abs(Math.log(p.marketCapB / cap)) : Infinity);
+                return r.peers.slice().sort((a, b) => gap(a) - gap(b))[0].symbol;
+            } catch (_) { return null; }
+        };
+        res.json(require('./ask-suggestions').suggest({
+            questions,
+            holdings: holdings.filter((h) => !h.assetType || h.assetType === 'stock').map((h) => h.symbol),
+            watchlist: (watch && watch.symbols) || [],
+            peerOf
+        }));
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to load suggestions.' });
+    }
+});
+
 app.get('/api/ask/threads', authMiddleware, async (req, res) => {
     try {
         const uid = new mongoose.Types.ObjectId(req.userId);
