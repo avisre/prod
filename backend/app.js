@@ -2396,6 +2396,7 @@ app.use((req, res, next) => {
 const seoPages = require('./seo-pages');
 const comparisonPages = require('./comparison-pages');
 const { pixelConfig } = require('./pixels');
+const { paidSignupConversion } = require('./checkout-conversions');
 const quoteStore = require('./quote-store');
 const fundamentalsFetch = require('./fundamentals-fetch');
 
@@ -3121,7 +3122,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261019-ui29" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3150,7 +3151,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261019-ui29"></script>
+<script src="/assets/app.js?v=20261024-ui30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3242,7 +3243,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261019-ui29" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3270,7 +3271,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261019-ui29"></script>
+<script src="/assets/app.js?v=20261024-ui30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3378,7 +3379,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261019-ui29" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3411,7 +3412,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261019-ui29"></script>
+<script src="/assets/app.js?v=20261024-ui30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3692,6 +3693,9 @@ const PendingSignupSchema = new mongoose.Schema({
     // of creating a second one.
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     consumedAt: { type: Date, default: null },
+    // Persist whether this payment created an account, including when the
+    // webhook completes before the buyer returns to claim the checkout.
+    createdAccount: { type: Boolean, default: false },
     // Single-use guard for /api/checkout/claim, so a leaked checkout URL
     // cannot be replayed into a session after the buyer has used it.
     claimedAt: { type: Date, default: null },
@@ -5502,6 +5506,7 @@ async function materializePendingSignup(pendingSignupId, session = {}) {
 
     if (pending.planId === FILING_WATCH_PLAN_ID) await filingWatch.linkUser(pending._id, user._id, session.subscription);
     pending.userId = user._id;
+    if (created) pending.createdAccount = true;
     pending.consumedAt = pending.consumedAt || new Date();
     if (session.id) pending.stripeSessionId = session.id;
     await pending.save().catch((error) => console.error('[signup] pending signup close-out failed:', error && error.message));
@@ -7375,9 +7380,15 @@ app.post('/api/checkout/claim', checkoutClaimLimiter, async (req, res) => {
                 console.error('[stripe] claim-time activation failed:', error && error.message);
             }
         }
+        const completedSignup = await PendingSignup.findById(pendingSignupId).select('createdAccount').lean().catch(() => null);
         return res.status(200).json({
             token: createUserToken(user),
-            subscription: normalizeSubscription(user.subscription)
+            subscription: normalizeSubscription(user.subscription),
+            conversion: paidSignupConversion(session, {
+                accountCreated: completedSignup?.createdAccount === true,
+                userId: user._id,
+                internal: user.reviewAccount === true
+            })
         });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {

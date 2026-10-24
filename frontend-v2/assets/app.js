@@ -190,7 +190,6 @@
     // backend/pixels.js so an event fires identically on SSR and app pages.
     if (!window.spTrack) window.spTrack = function (name, params) {
         params = params || {};
-        const k = window.__spPixelCfg || {};
         try {
             if (window.fbq) {
                 if (name === 'signup') window.fbq('track', 'CompleteRegistration');
@@ -199,12 +198,96 @@
                 else if (name === 'subscribe') window.fbq('track', 'Purchase', { value: params.value, currency: params.currency || 'USD' });
             }
         } catch (_) { /* pixels are best-effort, never block */ }
+        // Google Ads conversions require a verified checkout receipt below.
+    };
+
+    // ---------- verified checkout conversions ----------
+    // Retain the server receipt through redirects until consent/tag readiness.
+    // transaction_id also lets Google deduplicate retries from blocked tags.
+    const PAID_CONVERSION_KEY = 'sp_paid_conversions_v1';
+    let paidConversionMemory = null;
+    let paidConversionFlush = null;
+    function readPaidConversions() {
+        if (paidConversionMemory) return paidConversionMemory;
         try {
-            if (window.gtag && k.googleAdsId) {
-                if (name === 'signup' && k.signupLabel) window.gtag('event', 'conversion', { send_to: k.googleAdsId + '/' + k.signupLabel });
-                else if (name === 'subscribe' && k.subscribeLabel) window.gtag('event', 'conversion', { send_to: k.googleAdsId + '/' + k.subscribeLabel, value: params.value, currency: params.currency || 'USD' });
-            }
-        } catch (_) { /* pixels are best-effort, never block */ }
+            const saved = JSON.parse(sessionStorage.getItem(PAID_CONVERSION_KEY));
+            if (saved && Array.isArray(saved.pending) && Array.isArray(saved.sent)) paidConversionMemory = saved;
+        } catch (_) { /* private mode: retain an in-memory receipt */ }
+        return (paidConversionMemory = paidConversionMemory || { pending: [], sent: [] });
+    }
+    function savePaidConversions(state) {
+        paidConversionMemory = state;
+        try { sessionStorage.setItem(PAID_CONVERSION_KEY, JSON.stringify(state)); } catch (_) { /* best effort */ }
+    }
+    function validPaidConversion(r) {
+        return r && /^checkout_[a-f0-9]{32}$/.test(r.transactionId || '') &&
+            Number.isFinite(r.value) && r.value > 0 && /^[A-Z]{3}$/.test(r.currency || '') &&
+            (r.signupId == null || /^signup_[a-f0-9]{32}$/.test(r.signupId));
+    }
+    function paidConversionAllowed() {
+        try {
+            return (location.hostname === 'stockportfolio.pro' || location.hostname === 'www.stockportfolio.pro') &&
+                localStorage.getItem('sp_analytics_consent_v1') === 'granted';
+        } catch (_) { return false; }
+    }
+    async function flushPaidSignupConversions() {
+        if (paidConversionFlush) return paidConversionFlush;
+        if (!paidConversionAllowed()) return false;
+        const state = readPaidConversions();
+        state.pending = state.pending.filter(r => validPaidConversion(r) && r.expiresAt > Date.now());
+        savePaidConversions(state);
+        if (!state.pending.length) return false;
+        paidConversionFlush = (async () => {
+            const cfg = await Promise.race([loadPixels(), new Promise(resolve => setTimeout(() => resolve(null), 1000))]);
+            if (!cfg || !cfg.googleAdsId || !window.gtag || !paidConversionAllowed()) return false;
+            await Promise.all(state.pending.map(async receipt => {
+                const actions = [
+                    { label: cfg.subscribeLabel, id: receipt.transactionId, value: receipt.value },
+                    ...(receipt.signupId ? [{ label: cfg.signupLabel, id: receipt.signupId, value: 0 }] : [])
+                ];
+                await Promise.all(actions.map(action => new Promise(resolve => {
+                    const key = cfg.googleAdsId + '/' + action.label + ':' + action.id;
+                    if (!action.label || state.sent.includes(key) || !paidConversionAllowed()) { resolve(); return; }
+                    const timeout = setTimeout(resolve, 1500);
+                    try {
+                        window.gtag('event', 'conversion', {
+                            send_to: cfg.googleAdsId + '/' + action.label,
+                            value: action.value, currency: receipt.currency,
+                            transaction_id: action.id, event_timeout: 1200,
+                            event_callback: () => {
+                                clearTimeout(timeout);
+                                if (!state.sent.includes(key)) state.sent.push(key);
+                                state.sent = state.sent.slice(-100);
+                                savePaidConversions(state);
+                                resolve();
+                            }
+                        });
+                    } catch (_) { clearTimeout(timeout); resolve(); }
+                })));
+            }));
+            state.pending = state.pending.filter(receipt => {
+                const paid = cfg.subscribeLabel && state.sent.includes(cfg.googleAdsId + '/' + cfg.subscribeLabel + ':' + receipt.transactionId);
+                const signup = !receipt.signupId || (cfg.signupLabel && state.sent.includes(cfg.googleAdsId + '/' + cfg.signupLabel + ':' + receipt.signupId));
+                return !paid || !signup;
+            });
+            savePaidConversions(state);
+            return true;
+        })().catch(() => false).finally(() => { paidConversionFlush = null; });
+        return paidConversionFlush;
+    }
+    window.spTrackPaidSignup = async function (receipt) {
+        if (!validPaidConversion(receipt)) return false;
+        try {
+            if (localStorage.getItem('sp_analytics_consent_v1') === 'denied') return false;
+        } catch (_) { return false; }
+        const state = readPaidConversions();
+        if (!state.pending.some(r => r.transactionId === receipt.transactionId)) {
+            state.pending.push({ transactionId: receipt.transactionId, value: receipt.value, currency: receipt.currency,
+                signupId: receipt.signupId || null, expiresAt: Date.now() + 24 * 60 * 60 * 1000 });
+            state.pending = state.pending.slice(-5);
+            savePaidConversions(state);
+        }
+        return flushPaidSignupConversions();
     };
 
     // ---------- first-party page-view ping (anonymous, signed session) ----------
@@ -994,17 +1077,20 @@
             const y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
         })(window, document, 'clarity', 'script', 'x0dsu053xa');
         loadPixels();
+        flushPaidSignupConversions();
         if (/^\/pricing(?:\/|$)/.test(location.pathname)) trackGrowthEvent('pricing_viewed', { pageType: 'pricing' });
     }
 
     // ---------- retargeting pixels, consent-gated (env-driven, no-op-safe) ----------
     // Only ever runs after loadAnalytics() (i.e. after the user grants consent).
-    // IDs come from the server (/api/analytics/config), which reads them from the
-    // environment — unset → empty strings → nothing loads, no console errors.
+    // Public identifiers come from /api/analytics/config, with environment overrides.
+    // An explicitly empty Ads ID disables Ads measurement.
     function loadPixels() {
-        if (window.__spPixels) return;
-        window.__spPixels = true;
-        fetch(`${API}/analytics/config`).then((r) => r.json()).then((C) => {
+        if (window.__spPixelsReady) return window.__spPixelsReady;
+        window.__spPixelsReady = fetch(`${API}/analytics/config`).then((r) => {
+            if (!r.ok) throw new Error("Analytics config unavailable");
+            return r.json();
+        }).then((C) => {
             if (!C || (!C.metaPixelId && !C.googleAdsId)) return; // nothing configured
             window.__spPixelCfg = C;
             if (C.metaPixelId && !window.fbq) {
@@ -1024,7 +1110,9 @@
                 }
                 window.gtag('config', C.googleAdsId);
             }
-        }).catch(() => { /* pixels are non-essential — ignore */ });
+            return C;
+        }).catch(() => { window.__spPixelsReady = null; return null; });
+        return window.__spPixelsReady;
     }
     function mountConsent() {
         let choice = '';
