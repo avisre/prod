@@ -11,6 +11,11 @@ const identity=company=>p.cik(company.cik) || 'listing:'+company.symbol.replace(
 function createResolver(deps={}) {
  const cache=deps.cache || requestCache,network=deps.client || client,lookup=deps.lookup || stocks.lookup;
  const pending=new Map();let calls=[];
+ // issuer -> the last background check that succeeded and found the stored
+ // filings still current. The state cache holds only a few ~3 MB issuers, so
+ // without this every reader re-ran the whole SEC check for gaps that no
+ // filing will ever fill (KO, PEP, MSFT each carry 4).
+ const checked=new Map();
  function baseline(company) {
   if(deps.baseline)return deps.baseline(company);
   const index=require('./public-stock-index').view();const entry=index.issuers[p.cik(company.cik)];
@@ -99,7 +104,11 @@ function createResolver(deps={}) {
   if(!issuer.cik && profile?.retrievedAt)next.providerLastSuccessfulCheckAt=profile.retrievedAt;
   next.persistence=await cache.set(identity(company),next);return next;
  }
- async function getCompanyEvidence(symbol,requiredFields=null,requestedPeriods={annual:5,quarterly:4},checkFreshness=true) {
+ // opts.waitMs: how long a caller holding stored financials waits for the
+ // background check. Pages pass 0 and show what is stored (the check still runs
+ // and the next request gets its result); a listing with nothing stored always
+ // waits, so its first view is not empty.
+ async function getCompanyEvidence(symbol,requiredFields=null,requestedPeriods={annual:5,quarterly:4},checkFreshness=true,opts={}) {
   const company=lookup(symbol) || (checkFreshness && !deps.lookup?await stocks.resolveListing(symbol):null);if(!company)throw Object.assign(new Error('Listing identity is unresolved'),{code:'UNKNOWN_LISTING',status:404});
   if(company.securityType!=='stock')throw Object.assign(new Error('Use the separate fund or instrument data pathway'),{code:'UNSUPPORTED_SECURITY_TYPE',status:422});
   const quoteTask=checkFreshness && (deps.quote || !deps.client)?Promise.resolve().then(()=> (deps.quote || require('./quote-store').getQuote)(company.symbol,{allowLive:true,useLegacySecShares:false})).catch(()=>null):Promise.resolve(null);
@@ -109,11 +118,14 @@ function createResolver(deps={}) {
   if(saved && Date.parse(saved.reporting?.lastSuccessfulCheckAt || saved.providerLastSuccessfulCheckAt || 0)>=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || 0) && (!saved.financial || !p.validateFinancial(saved.financial,company.cik).length))state={...state,...saved};
   let result=projection(company,state,requiredFields,requestedPeriods);
   const now=Date.now(),last=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || ''),failed=now-Date.parse(state.lastAttemptAt || '')<FAILURE_COOLDOWN && requiredFields.every(f=>(state.attemptedFields || []).includes(f));
-  if(checkFreshness && !failed && (!Number.isFinite(last) || now-last>SIX_HOURS || result.remainingGaps.length || (requestedPeriods.businessProfile && !result.data.businessProfile))) {
+  const seen=checked.get(identity(company)),current=seen && now-seen.at<SIX_HOURS && requiredFields.every(f=>seen.fields.includes(f)) && ['annual','quarterly'].every(b=>(seen.periods[b] || 0)>=(requestedPeriods[b] || 0));
+  if(checkFreshness && !failed && ((!current && (!Number.isFinite(last) || now-last>SIX_HOURS || result.remainingGaps.length)) || (requestedPeriods.businessProfile && !result.data.businessProfile))) {
    let task=pending.get(identity(company));
    if(task){for(const field of requiredFields)if(!task.requestedFields.includes(field))task.requestedFields.push(field);for(const basis of ['annual','quarterly'])task.requestedPeriods[basis]=Math.max(task.requestedPeriods[basis] || 0,requestedPeriods[basis] || 0);if(requestedPeriods.businessProfile)task.requestedPeriods.businessProfile=true;}
-   if(!task){calls=calls.filter(t=>now-t<600000);if(pending.size>=2 || calls.length>=60){result.freshness.backgroundStatus='capacity_limited';return applyQuote(result,await quoteTask);}calls.push(now);const fields=[...requiredFields],periods={...requestedPeriods};task=supplement(company,state,fields,periods).finally(()=>pending.delete(identity(company)));task.requestedFields=fields;task.requestedPeriods=periods;pending.set(identity(company),task);}
-   let timer;const completed=await Promise.race([task,new Promise(resolve=>{timer=setTimeout(()=>resolve(null),deps.timeoutMs ?? 15000);})]);clearTimeout(timer);
+   if(!task){calls=calls.filter(t=>now-t<600000);if(pending.size>=2 || calls.length>=60){result.freshness.backgroundStatus='capacity_limited';return applyQuote(result,await quoteTask);}calls.push(now);const fields=[...requiredFields],periods={...requestedPeriods};task=supplement(company,state,fields,periods).finally(()=>pending.delete(identity(company)));task.requestedFields=fields;task.requestedPeriods=periods;pending.set(identity(company),task);
+    const before=state.reporting,covered={fields:[...fields],periods:{...periods}};task.then(next=>{const same=k=>next.reporting?.[k]?.accessionNumber===before?.[k]?.accessionNumber;if(next.lastAttemptResult==='retrieval_failed' || !same('latestPeriodic') || !same('latestAnnual'))return checked.delete(identity(company));if(checked.size>=5000)checked.delete(checked.keys().next().value);checked.set(identity(company),{at:Date.now(),...covered});},()=>{});}
+   const waitMs=state.financial?(opts.waitMs ?? deps.timeoutMs ?? 15000):(deps.timeoutMs ?? 15000);
+   let timer;const completed=waitMs>0?await Promise.race([task,new Promise(resolve=>{timer=setTimeout(()=>resolve(null),waitMs);})]):null;clearTimeout(timer);
    if(completed)result=projection(company,completed,requiredFields,requestedPeriods);
    else {result.freshness.backgroundStatus='running';result.data.freshness=result.freshness;}
   }

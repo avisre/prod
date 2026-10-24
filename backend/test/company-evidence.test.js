@@ -98,3 +98,18 @@ test('a successful filing-index check does not label a failed financial refresh 
  const x=setup({client:{fetchReporting:async()=>reporting,fetchFacts:async()=>{throw new Error('FACTS_OUTAGE');}}});
  const result=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:1});assert.equal(result.freshness.lastAttemptResult,'partial_failure');assert.equal(result.freshness.financialAttemptResult,'retrieval_failed');assert.equal(result.observations.find(f=>f.field==='totalRevenue').value,0);assert.ok(result.coverage.sourceAttempts.some(a=>a.reason==='FACTS_OUTAGE'));assert.ok(result.remainingGaps.some(g=>g.basis==='quarterly'));
 });
+test('waitMs:0 serves stored financials at once while the refresh keeps running',async()=>{
+ let finish;const x=setup({client:{fetchReporting:()=>new Promise(resolve=>{finish=resolve;}),fetchFacts:async()=>fixture().doc}});
+ const a=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:0},true,{waitMs:0});assert.equal(a.freshness.backgroundStatus,'running');assert.equal(a.observations.find(f=>f.field==='totalRevenue').value,0);
+ finish({...fixture().evidence,lastSuccessfulCheckAt:new Date().toISOString()});await Promise.all(x.resolver.pending.values());
+});
+test('remaining gaps do not refetch within six hours of a successful check that found nothing new',async()=>{
+ const x=setup();await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:4});assert.equal(x.calls(),1);
+ x.value().lastAttemptAt=new Date(Date.now()-2*60*1000).toISOString();
+ const a=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:4});assert.ok(a.remainingGaps.length);assert.equal(x.calls(),1);
+ await x.resolver.getCompanyEvidence('EX',['totalRevenue','netIncome'],{annual:1,quarterly:4});assert.equal(x.calls(),2,'a wider field set is not covered by the earlier check');
+});
+test('a listing with nothing stored still waits for retrieval when waitMs is 0',async()=>{
+ const x=setup({timeoutMs:2000,baseline:()=>({financial:null,reporting:fixture().evidence}),client:{fetchReporting:()=>new Promise(resolve=>setTimeout(()=>resolve({...fixture().evidence,lastSuccessfulCheckAt:new Date().toISOString()}),20)),fetchFacts:async()=>fixture().doc}});
+ const a=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:0},true,{waitMs:0});assert.notEqual(a.freshness.backgroundStatus,'running');assert.equal(a.observations.find(f=>f.field==='totalRevenue').value,0);
+});

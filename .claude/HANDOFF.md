@@ -14,6 +14,32 @@ peers by industry label, long-term asset lines, the 10/10 site-audit fixes, cape
 core statement extraction), `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Stocks & funds page latency + customer-delight features — 2026-10-24 (plan: `~/.claude/plans/the-stocks-and-funds-fuzzy-scone.md`)
+- **Phase 1 (latency) committed locally, NOT pushed.** Prod cold `/api/demo/alpha/fundamentals/KO` was 8–12s.
+  Causes and fixes:
+  - `company-evidence.js` waited up to 15s on a live SEC/Yahoo refresh on every miss with a gap. Now
+    `getCompanyEvidence(..., opts={waitMs})` serves stored financials and refreshes in the background, and a
+    resolver `checked` map stops refetching remaining gaps for 6h after a successful no-change check. Only the
+    page routes pass `{waitMs:0}` (`app.js` `/stocks/:t`, `/api/alpha/fundamentals`, demo fundamentals). Ask, MCP,
+    the dossier and free tools still wait.
+  - `company-calculations.calculate()` was O(n²) and is now bucketed. Output is byte-identical on 286 tickers;
+    MSFT went from 435ms to 14ms.
+  - `/company` injects `<meta name="sp-asset-type">`. Stocks skip the profile call; funds make one
+    `profile?history=1` call and no fundamentals request.
+  - Stamp is now `20261024-ui30`.
+  - The demo fundamentals route sends `Server-Timing` (evidence, topup, fx, gzip). Read it on prod after the deploy.
+  - Local cold misses are now 0.4–0.5s (topup 100–360ms is the remainder). Predeploy passed.
+- **Uncommitted, in progress:**
+  - Phase 2: onboarding follow-up chips and Follow button (`onboarding.html`), and `ask-coverage.js`, which
+    appends `> Next: Continue with …` when a 3+ ticker question was cut off.
+  - Phase 3: `technicals.js` (Wilder RSI14, SMA50/200, crosses, volume ratio, distance from the 52-week high) and
+    the `get_technicals` Ask tool.
+  - The `ai-chat.js` hunks are mine. The **staged** `ai-chat.js` / `filing-monitor.js` / `insights.js` /
+    `no-fcf-financials.test.js` changes belong to another session (10/19): commit around them with a temp
+    `GIT_INDEX_FILE`.
+  - Still to do: Phase 3 screener snapshot and company-page band, Phase 4 auto-follow (`company_views` recorded in
+    `/api/company/:symbol/filings`), Phase 5 checklist grid.
+
 ## Ask chat parity + search cleanup — 2026-10-18 (committed locally, NOT pushed)
 - `97f55bfe0`: search dropdown has no statement badges, drops futures/FX (`=`/`^` symbols); a whole-word company
   name narrows results to that company (`focusOnNamedCompany`); statements label column 248px so "Cash flow from

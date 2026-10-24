@@ -13,9 +13,14 @@
     const symbol = (params.get('symbol') || 'AAPL').toUpperCase().replace(/[^A-Z0-9.\-]/g, '');
     if (document.referrer && /\/screener(?:\.html)?(?:[/?#]|$)/i.test(document.referrer)) trackActivation('screener_company');
     document.title = `${symbol} — financials | stockportfolio.pro`;
+    // The server names the asset type when it knows it (app.js, /company route):
+    // a company needs only its fundamentals and a fund only its profile, so neither
+    // waits on the other. Without the tag the page asks for the profile first.
+    const assetTypeHint = document.querySelector('meta[name="sp-asset-type"]')?.content || '';
+    const FUND_TYPES = ['etf', 'mutual_fund', 'closed_end_fund'];
     // Ask for the statements straight away. The page used to wait about a second
     // for the asset profile before even sending this, the slowest request it makes.
-    const earlyFundamentals = fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`).catch(() => null);
+    const earlyFundamentals = FUND_TYPES.includes(assetTypeHint) ? null : fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`).catch(() => null);
     nav('company');
     footer();
     try { // recently-viewed trail for the Markets sidebar
@@ -2691,14 +2696,17 @@
             // Only a fund page draws from the profile's price history; a company's
             // comes with its fundamentals. Asking for it on every page held the
             // statements back until it arrived (AAPL 2026-10-19: 3.3s, fundamentals 1.4s).
-            const assetRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile`);
-            let assetData = assetRes.ok ? await assetRes.json() : null;
+            const knownFund = FUND_TYPES.includes(assetTypeHint);
+            const assetRes = assetTypeHint === 'stock' ? null : await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile${knownFund ? '?history=1' : ''}`);
+            let assetData = assetRes && assetRes.ok ? await assetRes.json() : null;
             if (assetData && assetData.profile && assetData.profile.stale) {
                 staleAsOf = assetData.profile.staleAsOf || assetData.profile.asOf || null;
             }
-            if (assetData && ['etf','mutual_fund','closed_end_fund'].includes(assetData.profile && assetData.profile.assetType)) {
-                const histRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile?history=1`).catch(() => null);
-                if (histRes && histRes.ok) assetData = await histRes.json();
+            if (assetData && FUND_TYPES.includes(assetData.profile && assetData.profile.assetType)) {
+                if (!knownFund) {
+                    const histRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile?history=1`).catch(() => null);
+                    if (histRes && histRes.ok) assetData = await histRes.json();
+                }
                 renderFundProfile(assetData);
                 mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
                 return;

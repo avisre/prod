@@ -2748,7 +2748,7 @@ app.get('/stocks/:ticker', async (req, res) => {
         allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
     });
     let evidenceData=null;
-    if(!quoteStore.isLikelyCrawler(req.get('user-agent')) && require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType==='stock')try{evidenceData=(await require('./verified-fundamentals').getCompanyEvidence(canonicalSymbol || req.params.ticker)).data;}catch(_){}
+    if(!quoteStore.isLikelyCrawler(req.get('user-agent')) && require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType==='stock')try{evidenceData=(await require('./verified-fundamentals').getCompanyEvidence(canonicalSymbol || req.params.ticker,undefined,undefined,true,{waitMs:0})).data;}catch(_){}
     const html = seoPages.renderStockPage(req.params.ticker, { quote,evidenceData });
     if(!html && !quoteStore.isLikelyCrawler(req.get('user-agent')) && ['stock','closed_end_fund'].includes(require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType))return res.redirect(302,'/company?symbol='+encodeURIComponent(canonicalSymbol || req.params.ticker));
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
@@ -2784,8 +2784,15 @@ app.get(['/company.html', '/company'], (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8');
     if (!_companyTpl) return res.sendFile(COMPANY_TPL_PATH);
     const sym = String(req.query.symbol || '').toUpperCase().replace(/[^A-Z0-9.\-]/g, '').slice(0, 10);
+    // Tells the page which requests it needs before it sends any: a company only
+    // its fundamentals, a fund only its profile. Without it the page waited on the
+    // profile (a live quote) just to learn the type. Unknown symbols get no tag.
+    const assetType = sym && (require('./stock-universe').lookup(sym)?.securityType || topFunds.find((f) => f.symbol === sym)?.assetType);
+    const tpl = ['stock', 'etf', 'mutual_fund', 'closed_end_fund'].includes(assetType)
+        ? _companyTpl.replace('</head>', () => `  <meta name="sp-asset-type" content="${assetType}" />\n</head>`)
+        : _companyTpl;
     const name = sym && seoPages.companyName(sym);
-    if (!sym || !name) return res.send(_companyTpl);
+    if (!sym || !name) return res.send(tpl);
     const escAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     // Same SERP budgets as the stock pages (seo-pages.js clipName): an unstripped
     // legal name pushed both tags over Bing's limits on its own — worst case ~190
@@ -2799,7 +2806,7 @@ app.get(['/company.html', '/company'], (req, res) => {
     const canonical = seoPages.hasStockPage(sym)
         ? `https://www.stockportfolio.pro/stocks/${sym}`
         : `https://www.stockportfolio.pro/company?symbol=${sym}`;
-    const html = _companyTpl
+    const html = tpl
         .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${escAttr(title)}</title>`)
         .replace(/(<meta name="description" content=")[^"]*/, (_, p1) => p1 + escAttr(desc))
         .replace(/(<link rel="canonical" href=")[^"]*/, (_, p1) => p1 + canonical)
@@ -3121,7 +3128,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261019-ui29" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3150,7 +3157,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261019-ui29"></script>
+<script src="/assets/app.js?v=20261024-ui30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3242,7 +3249,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261019-ui29" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3270,7 +3277,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261019-ui29"></script>
+<script src="/assets/app.js?v=20261024-ui30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3378,7 +3385,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261019-ui29" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3411,7 +3418,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261019-ui29"></script>
+<script src="/assets/app.js?v=20261024-ui30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -9334,7 +9341,7 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         // (~3MB). Monthly series in same response covers longer ranges.
         // Client can request ?historyDepth=full when user picks 3Y+ ranges.
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
-        let payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
+        let payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')),{waitMs:0})).data;
         // a stored chart series that has fallen behind is brought up to date for the
         // reader (capped wait; see price-history.js), never for a crawler
         if (payload && payload.coverage?.securityType === 'stock' && !quoteStore.isLikelyCrawler(req.get('user-agent'))) payload = await require('./price-history').topUp(symbol, payload);
@@ -13089,17 +13096,25 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         const responseKey = [symbol, historyDepth, String(req.query.presentationCurrency || '').toUpperCase(), quoteStore.isLikelyCrawler(req.get('user-agent')) ? 'crawler' : 'reader'].join('|');
         const kept = _fundamentalsResponses.get(responseKey);
         if (kept && acceptsGzip && Date.now() - kept.at < FUNDAMENTALS_RESPONSE_TTL_MS) return sendFundamentalsGzip(res, kept.gz, 'hit');
-        let payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
+        // Server-Timing names where a slow miss spent its time (evidence, price top-up, FX, gzip)
+        const timing = [];let mark = Date.now();
+        const lap = (name) => { const now = Date.now(); timing.push(`${name};dur=${now - mark}`); mark = now; };
+        let payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')),{waitMs:0})).data;
+        lap('evidence');
         // a stored chart series that has fallen behind is brought up to date for the
         // reader (capped wait; see price-history.js), never for a crawler
         if (payload && payload.coverage?.securityType === 'stock' && !quoteStore.isLikelyCrawler(req.get('user-agent'))) payload = await require('./price-history').topUp(symbol, payload);
+        lap('topup');
         if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
         if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
         const body = await presentFundamentalsCurrency(payload, req.query.presentationCurrency);
-        if (!acceptsGzip) return res.json(body);
+        lap('fx');
+        if (!acceptsGzip) return res.set('Server-Timing', timing.join(', ')).json(body);
         const gz = await new Promise((resolve, reject) => require('zlib').gzip(Buffer.from(JSON.stringify(body)), (err, out) => (err ? reject(err) : resolve(out))));
+        lap('gzip');
+        res.set('Server-Timing', timing.join(', '));
         if (_fundamentalsResponses.size >= FUNDAMENTALS_RESPONSE_MAX) _fundamentalsResponses.delete(_fundamentalsResponses.keys().next().value);
         _fundamentalsResponses.delete(responseKey);
         // an answer given while a fresh read of the filings is under way is about to
