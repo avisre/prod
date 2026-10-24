@@ -5,6 +5,20 @@ const THINK_RE = new RegExp('</?\\s*' + 'th' + 'ink\\s*>[\\s\\S]*?</\\s*think\\s
 // tools from unstructured text is a new trust surface — but they must never
 // be rendered at a user as an answer either. No /g: this is used with .test().
 const TEXT_TOOLCALL_RE = /<tool_call>|<\|tool_call\|>|^\s*```json\s*\{\s*"(?:name|tool|function)"\s*:/i;
+// The plan line out of the text the model wrote before its tool calls. That text
+// can open with a draft of the answer ("**In one line** — Microsoft is…", seen
+// in the trace on 2026-10-25), which is not a plan. Markup lines and long prose
+// are skipped; a plan sentence appended to a markup line is kept on its own.
+const NOTE_MARKUP_RE = /^(?:#|>|\||[-*+]\s|\d+[.)]\s|in one line\b|w jednej linii\b)|\*\*|__/i;
+function planNote(content) {
+    const lines = String(content || '').replace(THINK_RE, '').replace(/```[\s\S]*?(?:```|$)/g, '')
+        .split('\n').map(l => l.trim()).filter(Boolean);
+    for (let i = lines.length - 1; i >= 0; i--) {
+        const line = NOTE_MARKUP_RE.test(lines[i]) ? lines[i].split(/(?<=[.!?…])\s+/).pop() : lines[i];
+        if (!NOTE_MARKUP_RE.test(line) && line.length <= 300) return line;
+    }
+    return '';
+}
 // "Ask" — the tool-grounded financial chatbot (the GR-1 competitor).
 //
 // Design rules (agreed):
@@ -2882,7 +2896,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 // answer — clear it, but surface it as the status line the
                 // model was asked to write (the "plan line").
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
-                const note = String(msg.content || '').replace(THINK_RE, '').trim();
+                const note = planNote(msg.content);
                 if (note && !aiClient.leaksIdentity(note)) emit({ type: 'note', text: note.slice(0, 280) });
                 messages.push({ role: 'assistant', content: msg.content || '', tool_calls: msg.tool_calls });
                 if (lastRound) {
@@ -3283,4 +3297,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolSaveScreen, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, screenArgsFromClient, resolveScreenAnchor, similarityDistance, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, frameworkApplies, reportCacheKey, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });
+Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolSaveScreen, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, screenArgsFromClient, resolveScreenAnchor, similarityDistance, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, planNote, ASK_SYSTEM, frameworkApplies, reportCacheKey, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });

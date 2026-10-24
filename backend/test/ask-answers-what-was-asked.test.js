@@ -343,3 +343,24 @@ test('a credit-metered draft with a figure no tool supplied is sent back once to
     assert.match(sentBack, /ANSWER NOT RELEASED: these figures in your draft are in no tool result.*\$65\.2bn/);
     assert.equal(calls.main.length, 3, 'sent once: the second draft is not sent back again');
 });
+
+test('the trace shows the plan line, never a draft of the answer written ahead of the tool calls', async () => {
+    // 2026-10-25: "**In one line** — Microsoft is a highly profitable… Pulling MSFT's business profi" sat in the trace.
+    assert.equal(aiChat.planNote('**In one line** — Microsoft is a highly profitable software giant. It trades at a premium. Pulling MSFT\'s business profile and statements.'), 'Pulling MSFT\'s business profile and statements.');
+    assert.equal(aiChat.planNote('> **In one line** — Microsoft is profitable.\n\n| Metric | Value |\n|---|---|\n\nPulling 5 years of statements for MSFT.'), 'Pulling 5 years of statements for MSFT.');
+    assert.equal(aiChat.planNote('**W jednej linii** — Microsoft jest bardzo rentowny.\n\nPobieram dane finansowe MSFT.'), 'Pobieram dane finansowe MSFT.');
+    assert.equal(aiChat.planNote('Pulling 5 years of statements for AAPL and MSFT to compare growth and margins.'), 'Pulling 5 years of statements for AAPL and MSFT to compare growth and margins.');
+    assert.equal(aiChat.planNote('## Microsoft\n\n**In one line** — Microsoft is a highly profitable giant.'), '');
+    assert.equal(aiChat.planNote(''), '');
+
+    const notes = [];
+    scripted({
+        main: [
+            { content: '**In one line** — Fast Co is the pick, a fast grower. Pulling the screen for FAST.', tool_calls: [toolCall('c1', 'query_universe', {})] },
+            { content: GOOD }
+        ],
+        aux: [ASKS, passAll(['FAST'])]
+    });
+    await ask({ onEvent: e => { if (e.type === 'note') notes.push(e.text); } });
+    assert.deepEqual(notes, ['Pulling the screen for FAST.']);
+});
