@@ -45,6 +45,23 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   - Company page: "Price trend" band under the chart from `GET /api/company/:symbol/technicals` (snapshot row, else
     `forSymbol` for non-crawlers — HeadlessChrome counts as a crawler, so Playwright needs a desktop UA).
   - **After a push:** check the Render log for `[technicals] snapshot {... saved:true}` ~25 min after boot.
+- **Ask quality pass committed locally, NOT pushed.** Graded against the 10 real customer questions of
+  9/24–10/24 (text in the session scratchpad only, never the repo), re-run through dev-local streaming.
+  - Figure check: insider trade values, Polish scales (`mln`, `mld`, `tys`), falls named after the figure
+    ("a 2.9% decline", "(2.9%)") and Polish fall verbs are now claimable or signed correctly.
+  - A metered draft with a figure no tool supplied is sent back once to research it, instead of having it deleted
+    (`figureResearchSent` in the tool loop).
+  - `get_price_history` tops up a missing or stale series (SPOT had none). The checklist coverage rule now
+    requires `get_price_history` for a share-price part.
+  - The auto-chart never pools several companies' facts. On a focused answer it charts only a field the answer
+    mentions.
+  - `insiders.aggregate`: a Form 4 price with a dropped decimal (Lilly Endowment 2025-11-17, `1031414`) made LLY's
+    2025 Q4 sales $78.8bn. A price >50× the quarter's median is now read ÷1000 when that lands near the median,
+    and is otherwise left out of the values.
+  - `get_governance` now returns `claimable` (board independence %, CEO and median pay, net and quarterly insider
+    values). Before this they were nested and got deleted as unsourced.
+  - Known remaining: a 7-company, 10-question checklist takes ~5 min (77 tool calls). The model can still
+    misorder or mislabel screen rows; the screen note now tells it not to.
 - The **staged** `ai-chat.js` / `filing-monitor.js` / `insights.js` / `no-fcf-financials.test.js` changes belong to
   another session (10/19): commit around them with a temp `GIT_INDEX_FILE`.
 - Still to do: Phase 4 auto-follow (`company_views` recorded in `/api/company/:symbol/filings`), Phase 5 checklist

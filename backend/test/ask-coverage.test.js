@@ -27,3 +27,22 @@ test('no Next line for short lists, full coverage, or a run that looked nothing 
     assert.deepEqual(c.uncovered(q, ['SPOT', 'LLY', 'VRTX'].map((symbol) => ({ args: { symbol }, ok: true })), lookup), []);
     assert.deepEqual(c.uncovered(q, [], lookup), []);
 });
+
+test('a checklist part one tool answers must be tried for every named company before the answer is released', () => {
+    const q = 'SPOT LLY VRTX: 5 who is their management team? 10 if they pay a dividend, is it sustainable?';
+    const tools = [
+        { tool: 'get_governance', args: { symbol: 'SPOT' }, ok: true },
+        { tool: 'get_governance', args: { symbol: 'lly' }, ok: false },
+        { tool: 'get_health_checks', args: { symbol: 'VRTX' }, ok: true }
+    ];
+    assert.deepEqual(c.missingResearch(q, tools, lookup), [
+        { tool: 'get_governance', part: 'management', symbols: ['VRTX'] },
+        { tool: 'get_health_checks', part: 'dividend', symbols: ['SPOT', 'LLY'] }
+    ], 'a failed call was tried; question order is kept');
+    assert.match(c.researchDirective(c.missingResearch(q, tools, lookup)), /- management: get_governance for VRTX\n- dividend: get_health_checks for SPOT, LLY$/);
+    assert.deepEqual(c.missingResearch('Czy SPOT, LLY i VRTX wypłacają dywidendę? Kto jest w zarządzie?', [], lookup).map((m) => m.part), ['management', 'dividend']);
+    assert.deepEqual(c.missingResearch('How is the stock price doing for SPOT, LLY and VRTX?', [{ tool: 'get_price_history', args: { symbol: 'LLY' } }], lookup),
+        [{ tool: 'get_price_history', part: 'share price performance', symbols: ['SPOT', 'VRTX'] }]);
+    assert.deepEqual(c.missingResearch('Is the SPOT and LLY dividend safe?', [], lookup), [], 'fewer than three companies');
+    assert.deepEqual(c.missingResearch('Compare revenue growth for SPOT, LLY and VRTX', [], lookup), [], 'no part a single tool answers');
+});

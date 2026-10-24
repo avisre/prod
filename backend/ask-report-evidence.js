@@ -174,6 +174,16 @@ function modelView(tool,full){
   const {coverage,provenance,epsObservation,marketObservations,reportEvidence,...rest}=full;
   return {...rest,coverage:coverageView(coverage)};
  }
+ // A source record for every input of every check: 33–36 KB per company, so
+ // four of a seven-ticker checklist filled the context and the other three,
+ // with every quote and filing after them, came back over budget (2026-10-24).
+ // A long series (19 years of dividends) keeps its latest six periods.
+ if(tool==='get_health_checks' && Array.isArray(full.checks)){
+  const {provenance,coverage,...rest}=full;
+  return {...rest,coverage:coverageView(coverage),
+   checks:full.checks.map(({inputs,sourceIds,...c})=>({...c,
+    inputs:(Array.isArray(inputs)?inputs:[]).slice(-6).map(i=>({periodEnd:i.periodEnd,value:i.value}))}))};
+ }
  if(tool==='get_segments'){
   const {storedSegmentsReceipt,financialWitness,observations,provenance,reportEvidence,...rest}=full;
   return rest;

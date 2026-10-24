@@ -331,3 +331,15 @@ test('the list keeps only what can be used: a formula that does not parse leaves
     assert.equal(requirements.applies(QUESTION, { kind: 'company_report' }), false);
     assert.equal(requirements.applies(QUESTION, { kind: 'focused' }), true);
 });
+
+test('a credit-metered draft with a figure no tool supplied is sent back once to research it', async () => {
+    const calls = scripted({ main: [
+        { content: '', tool_calls: [toolCall('q1', 'get_quote', { symbol: 'LLY' })] },
+        { content: 'LLY trades at 17x sales on revenue of $65.2bn.' },
+        { content: 'LLY revenue is in the filing.' }
+    ] });
+    await aiChat.ask({ question: 'What is the P/S ratio of LLY?', history: [], ctx: { budget: budgetOf(1e6) } });
+    const sentBack = calls.main[2].messages.map(m => m.content).join('\n');
+    assert.match(sentBack, /ANSWER NOT RELEASED: these figures in your draft are in no tool result.*\$65\.2bn/);
+    assert.equal(calls.main.length, 3, 'sent once: the second draft is not sent back again');
+});

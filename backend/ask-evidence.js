@@ -6,6 +6,14 @@ const { number: num, day } = require('./sec-coverage');
 const DAY = 86400000;
 const MAX_RESULT_BYTES = 64 * 1024;
 const MAX_CONTEXT_BYTES = 192 * 1024;
+// A credit-metered run is charged by the tokens it uses, so its evidence can
+// fill more of the model's window. A seven-company checklist (2026-10-24) needs
+// about 7 x 20 KB, and at 192 KB, a third of it system prompt, it was refused
+// governance, quotes and news for every company after the fourth. Measured the
+// same day on the chat model: 448 KB of tool JSON is 171k prompt tokens (2.69
+// bytes a token) and 640 KB (257k) was still read correctly, so 448 KB leaves
+// room for the tool schemas and the answer.
+const METERED_CONTEXT_BYTES = 448 * 1024;
 
 function observation(row, field) {
     const value = num(row?.[field]);
@@ -253,4 +261,4 @@ function requiresEvidence(question, answer) {
 }
 
 module.exports = { observation, rowEvidence, provenance, compatible, quarterlyComparisons, annualComparisons, freeCashFlow, revenueCashBasis, capitalReturns, calculate,
-    toolError, serializeResult, fitHistory, filingLinks, appendCitations, requiresEvidence, MAX_RESULT_BYTES, MAX_CONTEXT_BYTES, MIXED_CASH_BASIS };
+    toolError, serializeResult, fitHistory, filingLinks, appendCitations, requiresEvidence, MAX_RESULT_BYTES, MAX_CONTEXT_BYTES, METERED_CONTEXT_BYTES, MIXED_CASH_BASIS };

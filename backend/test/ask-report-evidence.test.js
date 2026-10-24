@@ -165,3 +165,13 @@ test('original segment XBRL context identifiers survive full-report compaction a
  const original=await ai.runTool('get_segments',{symbol:'AVGO'});assert.equal(require('../ask-answer-quality').verifiedSegmentEvidence([{tool:'get_segments',result:original}]).status,'eligible');
  const expanded=evidence.expand(JSON.parse(JSON.stringify(evidence.compact(original))));assert.deepEqual(expanded,original);assert.equal(require('../ask-answer-quality').verifiedSegmentEvidence([{tool:'get_segments',result:expanded}]).status,'eligible');
 });
+
+test('health checks reach the model without per-input source records, and the audit keeps the full result',()=>{
+ const inputs=Array.from({length:19},(_,i)=>({periodEnd:`${2007+i}-12-31`,value:i+1,sourceIds:['s'+i],filingUrl:'https://www.sec.gov/x'+i}));
+ const full={symbol:'ABBV',checks:[{id:'dividend_growth',label:'Dividend raised',pass:true,inputs,sourceIds:['s18']}],provenance:{sources:Object.fromEntries(inputs.map((_,i)=>['s'+i,{filingUrl:'https://www.sec.gov/x'+i}]))}};
+ const {content,supplied}=evidence.forModel('get_health_checks',full,64*1024),sent=JSON.parse(content);
+ assert.equal(sent.provenance,undefined);assert.equal(sent.checks[0].sourceIds,undefined);
+ assert.deepEqual(sent.checks[0].inputs,inputs.slice(-6).map(i=>({periodEnd:i.periodEnd,value:i.value})));
+ assert.equal(sent.checks[0].pass,true);assert.equal(supplied,full);
+ assert.ok(tool.METERED_CONTEXT_BYTES>tool.MAX_CONTEXT_BYTES);
+});

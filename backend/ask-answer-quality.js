@@ -141,8 +141,18 @@ function filingNarrativeEvidence(results) {
 }
 
 const STATED_AMOUNT = /(?<![A-Za-z])((?:U\.S\.|US|HK|NZ|C|A|S)\$|USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|HKD|SGD|NZD|INR|KRW|RMB|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g;
-const amountScale = suffix => /^(?:trillion|tn|t)$/.test(suffix) ? 1e12 : /^(?:billion|bn|b)$/.test(suffix) ? 1e9
-    : /^(?:million|m)$/.test(suffix) ? 1e6 : suffix === 'k' ? 1e3 : 1;
+const amountScale = suffix => /^(?:trillion|tn|t|bln)$/.test(suffix) ? 1e12 : /^(?:billion|bn|b|mld|mrd)$/.test(suffix) ? 1e9
+    : /^(?:million|m|mln|mio)$/.test(suffix) ? 1e6 : /^(?:k|tys)$/.test(suffix) ? 1e3 : 1;
+// An answer written in Polish or German puts a decimal comma in its figures:
+// "$22,97 mld" is $22.97bn. A comma followed by one or two digits is never a
+// thousands separator, so read it as the decimal point. Every figure of a
+// seven-company Polish answer was rejected as unsupported before this
+// (2026-10-24), and the answer fell back to a receipt.
+const decimalComma = raw => { const s = String(raw).replace(/[ \u00a0\u202f]/g, '').replace(/,+$/, ''); return /^[+−–-]?\d+,\d{1,2}$/.test(s) ? s.replace(',', '.') : s; };
+// The scale words of a prose amount, English first, then Polish (mln, mld, bln) and German (Mio, Mrd).
+// Polish groups thousands with a space: "$13 349 mln" was read as $13 and deleted.
+const PROSE_AMOUNT = /(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|TWD|HKD|SGD|NZD|INR|KRW|\$|¥|€|£)\s*([−–-]?(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?:,\d+)?(?!\d)|\d[\d,]*(?:\.\d+)?))\s*(trillion|billion|million|tn|bn|(?:[Mm]ln|[Mm]ld|[Bb]ln|[Mm]rd|[Mm]io|tys)\b|[TtBbMmKk]\b)?/g;
+const PROSE_PERCENT = /([+−–-]?\d+(?:\.\d+|,\d{1,2}(?=\s*%))?)\s*%/g;
 const statedPercentages = text => [...String(text).matchAll(/(\d+(?:\.\d+)?)\s*\)?\s*%/g)].map(m => Number(m[1])).filter(Number.isFinite).flatMap(p => [p, -p]);
 
 // The currency of an issuer's own filed XBRL facts among the results, when they
@@ -647,8 +657,55 @@ function priorFigures(history) {
     return out.slice(-400);
 }
 
+// A turn that called no tool has no evidence, so a figure it gives for a named
+// company came from model memory. On 2026-10-24 a Polish "what is a good P/S
+// ratio?" answer added "SPOT ... ~4,5 mld EUR przychodu" (one quarter's revenue
+// as the year's), and nothing checked it. Figures in a sentence that names no
+// ticker are worked examples and stay; so do figures an earlier checked answer
+// in the thread gave. The currency may follow the number, as Polish writes it.
+const UNRESEARCHED_FIGURE = /(?:(?:USD|EUR|GBP|JPY|\$|€|£|¥)\s*)?~?\d(?:[\d,.]|\s(?=\d{3}\b))*\s*(?:%|(?:trillion|billion|million|tn|bn|mld|mln|bln|mrd|mio)\b\.?(?:\s*(?:USD|EUR|GBP|JPY)\b)?|(?:USD|EUR|GBP|JPY)\b)|(?:USD|EUR|GBP|JPY|\$|€|£|¥)\s*\d[\d,.]*/g;
+function unresearchedCompanyFigures(text, prior = []) {
+    const { namedTickers } = require('./ask-coverage');
+    const prose = String(text || '').replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
+    const issues = [];
+    for (const m of prose.matchAll(UNRESEARCHED_FIGURE)) {
+        if (!namedTickers(sentenceAround(prose, m.index).text).length) continue;
+        const claim = m[0].replace(/[.,\s]+$/, ''), percent = claim.endsWith('%');
+        const digits = decimalComma(/\d(?:[\d,.]|\s(?=\d{3}\b))*/.exec(claim)[0].replace(/[.,]$/, '')).replace(/\s/g, '').replace(/,/g, '');
+        const scale = percent ? 1 : amountScale((/(trillion|billion|million|tn|bn|mld|mln|bln|mrd|mio)\b/i.exec(claim) || [])[1]?.toLowerCase() || '');
+        const value = Number(digits) * scale, step = scale * 0.5 * Math.pow(10, -(digits.split('.')[1]?.length || 0));
+        if (prior.some(f => (f.u === '%') === percent && Math.abs(Math.abs(f.v) - value) <= Math.max(step, percent ? 0 : value * 0.01))) continue;
+        issues.push(`${percent ? 'Percentage' : 'Monetary'} claim ${claim} is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.`);
+    }
+    return [...new Set(issues)];
+}
+
+// get_health_checks hands the model each check's filed inputs (annual revenue,
+// net income, cash flow, capex, dividends) and a computed detail ("7264M" free
+// cash flow, "19.0%" net margin). A seven-company checklist (2026-10-24) took
+// its dividend-coverage figures from here, and all of them were deleted as
+// unsourced. Outflows are filed negative and written as magnitudes.
+function healthCheckFigures(results) {
+    const money = [], percentages = [];
+    for (const r of results || []) {
+        if (r.tool !== 'get_health_checks' || !Array.isArray(r.result?.checks)) continue;
+        const currency = String(r.result.currency || 'USD').toUpperCase();
+        for (const c of r.result.checks) {
+            for (const i of Array.isArray(c.inputs) ? c.inputs : []) {
+                const v = num(i?.value);
+                if (v !== null && i.unit && i.unit === i.currency) money.push({ value: v, unit: i.unit }, { value: Math.abs(v), unit: i.unit });
+            }
+            const d = String(c.detail || '');
+            for (const m of d.matchAll(/(-?\d+(?:\.\d+)?)M\b/g)) money.push({ value: Number(m[1]) * 1e6, unit: currency });
+            for (const m of d.matchAll(/(-?\d+(?:\.\d+)?)%/g)) percentages.push(Number(m[1]));
+        }
+    }
+    return { money, percentages };
+}
+
 function numericClaims(text, results, question = '', prior = []) {
     const data = unwrap(results);
+    if (!(results || []).length) return unresearchedCompanyFigures(text, prior);
     if (!figureCheckApplies(results)) return [];
     const facts = chartEvidence(results);
     // Changes are explicit calculations from comparable verified annual inputs,
@@ -720,13 +777,15 @@ function numericClaims(text, results, question = '', prior = []) {
     facts.push(...originalBusinessAmounts(results));
     const dossier = dossierFigures(results);
     facts.push(...dossier.money);
+    const health = healthCheckFigures(results);
+    facts.push(...health.money);
     const prose = text.replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
     const issues = [];
     const currencies = { '$': 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' };
-    for (const m of prose.matchAll(/(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|TWD|HKD|SGD|NZD|INR|KRW|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g)) {
+    for (const m of prose.matchAll(PROSE_AMOUNT)) {
         const unit = currencies[m[1]] || m[1], suffix = (m[3] || '').toLowerCase();
-        const scale = /^(trillion|tn|t)$/.test(suffix) ? 1e12 : /^(billion|bn|b)$/.test(suffix) ? 1e9 : /^(million|m)$/.test(suffix) ? 1e6 : suffix === 'k' ? 1e3 : 1;
-        const raw = m[2].replace(/,/g, '').replace(/[−–]/g, '-');
+        const scale = amountScale(suffix);
+        const raw = decimalComma(m[2]).replace(/,/g, '').replace(/[−–]/g, '-');
         const before = prose.slice(Math.max(0, m.index - 45), m.index);
         const context = before + prose.slice(m.index, m.index + m[0].length + 45);
         const after = prose.slice(m.index + m[0].length, m.index + m[0].length + 20);
@@ -771,7 +830,7 @@ function numericClaims(text, results, question = '', prior = []) {
             (scale >= 1e6 && Math.sign(f.value) === Math.sign(value) && Math.abs(f.value) >= Math.abs(value) &&
                 Math.abs(f.value) - Math.abs(value) < scale * Math.pow(10, -precision)) ||
             ((/capitalExpenditures|dividend|Repurchase/.test(f.field || '') ||
-                (f.difference && /fell|fall|drop|declin|decreas|lower/i.test(context)) ||
+                (f.difference && /fell|fall|drop|declin|decreas|lower|spad|zmniejsz|obniż|niższ/i.test(context)) ||
                 (f.field === 'surplusAfterDistributions' && /short|deficit|more than|exceed|gap/i.test(context))) && Math.abs(Math.abs(f.value) - Math.abs(value)) <= tolerance)) &&
             (f.sourceType !== 'sec_filing_narrative' || !claimCategory || claimCategory === f.category) &&
             // A copied filing figure carries no label of its own, so a claim naming
@@ -791,7 +850,7 @@ function numericClaims(text, results, question = '', prior = []) {
             issues.push(`Monetary claim ${m[0]} is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.`);
     }
     const percentages = percentageEvidence(results, facts);
-    percentages.push(...dossier.percentages);
+    percentages.push(...dossier.percentages, ...health.percentages);
     for (const r of data) for (const p of r.claimable?.percentages || []) if (num(p) !== null) percentages.push(num(p), -num(p));
     percentages.push(...verbatim.percentages, ...flagged.percentages);
     for (const f of prior) if (f.u === '%') percentages.push(Math.abs(f.v), -Math.abs(f.v));
@@ -799,14 +858,22 @@ function numericClaims(text, results, question = '', prior = []) {
     // revenue, a premium to a peer median — so the same gated results are
     // claimable on this channel too.
     for (const c of calculatorClaims(results, facts)) percentages.push(c.value);
-    for (const m of prose.matchAll(/([+−–-]?\d+(?:\.\d+)?)\s*%/g)) {
+    for (const m of prose.matchAll(PROSE_PERCENT)) {
         // "70–75%" is a range: a dash that follows a digit is not a minus sign.
         const ranged = /^[−–-]/.test(m[1]) && /\d$/.test(prose.slice(Math.max(0, m.index - 1), m.index));
-        const raw = (ranged ? m[1].slice(1) : m[1]).replace(/[−–]/g, '-');
+        const raw = decimalComma(ranged ? m[1].slice(1) : m[1]).replace(/[−–]/g, '-');
         const before = prose.slice(Math.max(0, m.index - 40), m.index);
-        const value = Number(raw) * (!/^[+-]/.test(raw) && /(?:down|fell|declined|decreased|drop(?:ped)?|decline|decrease|fall|slipped|shrank|lower|contracted|reduced)\s+(?:(?:by|about|around|roughly|approximately|nearly)\s+)?[~≈]?\s*$/i.test(before) ? -1 : 1);
+        const after = prose.slice(m.index + m[0].length, m.index + m[0].length + 30), signed = /^[+-]/.test(raw);
+        // A fall is as often named after the figure, "a 2.9% decline" or "2.9%
+        // lower", and those read as a rise: a TSLA answer (2026-10-24) lost its
+        // correct revenue change. A bracketed figure is a table's negative or a
+        // prose aside, so it may carry either sign.
+        const falls = /\b(?:down|fell|declined|decreased|drop(?:ped)?|decline|decrease|fall|slipped|slid|dipped|eased|sank|shrank|lower|contracted|reduced|spad\S*|zmniejszy\S*|obniży\S*)\s+(?:(?:by|about|around|roughly|approximately|nearly|o|około)\s+)?[~≈]?\s*$/i.test(before)
+            || /^\s*(?:(?:year[- ]on[- ]year|YoY|y\/y)\s+)?(?:(?:declines?|drops?|falls?|decreases?|lower|less|contraction|reduction)\b|spad|niż|mniej)/i.test(after);
+        const value = Number(raw) * (!signed && falls ? -1 : 1);
+        const bracketed = !signed && /\(\s*$/.test(before) && /^\s*\)/.test(after);
         const tolerance = 0.5 * Math.pow(10, -(raw.split('.')[1]?.length || 0)) + 1e-8;
-        if (!percentages.some(p => Math.abs(p - value) <= tolerance))
+        if (!percentages.some(p => Math.abs(p - value) <= tolerance || (bracketed && Math.abs(p + value) <= tolerance)))
             issues.push(`Percentage claim ${m[0]} is not a supplied dated comparison or a compatible calculation. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.`);
     }
     return [...new Set(issues)];
@@ -821,11 +888,11 @@ function checkedFigures(text, results, question = '', prior = []) {
     const prose = String(text || '').replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
     const currencies = { '$': 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' }, seen = new Set(), out = [];
     const add = (v, u) => { const key = u + ':' + v; if (Number.isFinite(v) && !seen.has(key)) { seen.add(key); out.push({ v, u }); } };
-    for (const m of prose.matchAll(/(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|TWD|HKD|SGD|NZD|INR|KRW|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g))
+    for (const m of prose.matchAll(PROSE_AMOUNT))
         if (!issues.some(s => s.startsWith(`Monetary claim ${m[0]} is not`)))
-            add(Math.abs(Number(m[2].replace(/,/g, '').replace(/[−–]/g, '-'))) * amountScale(String(m[3] || '').toLowerCase()), currencies[m[1]] || m[1]);
-    for (const m of prose.matchAll(/([+−–-]?\d+(?:\.\d+)?)\s*%/g))
-        if (!issues.some(s => s.startsWith(`Percentage claim ${m[0]} is not`))) add(Math.abs(Number(m[1].replace(/[−–]/g, '-'))), '%');
+            add(Math.abs(Number(decimalComma(m[2]).replace(/,/g, '').replace(/[−–]/g, '-'))) * amountScale(String(m[3] || '').toLowerCase()), currencies[m[1]] || m[1]);
+    for (const m of prose.matchAll(PROSE_PERCENT))
+        if (!issues.some(s => s.startsWith(`Percentage claim ${m[0]} is not`))) add(Math.abs(Number(decimalComma(m[1]).replace(/[−–]/g, '-'))), '%');
     return out.slice(0, 200);
 }
 

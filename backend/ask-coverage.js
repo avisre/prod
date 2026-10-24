@@ -48,4 +48,35 @@ function uncovered(question, toolsUsed, lookup) {
 
 const nextLine = (symbols) => `> Next: Continue with ${symbols.join(', ')}: the same questions, answered in the language I asked in.`;
 
-module.exports = { namedTickers, lookedUp, uncovered, nextLine, NOT_TICKERS };
+// Checklist parts that one tool answers for each company. The same seven-company
+// checklist (2026-10-24) answered "who is their management team" from Form 4
+// trades and said proxy data was "not available" for all seven without once
+// calling get_governance, and its dividend part skipped three of them.
+const PART_TOOLS = [
+    { re: /\bmanagement\b|\bboard of directors\b|\bexecutives?\b|\bleadership\b|zarząd|kierownictw/i, tool: 'get_governance', part: 'management' },
+    { re: /dividend|dywidend/i, tool: 'get_health_checks', part: 'dividend' },
+    // Its "how is the stock price doing" part said three companies had no price
+    // history in the cache, without calling get_price_history for them.
+    { re: /(?:stock|share) price|price (?:is )?doing|cen[aęy] akcji|kurs akcji|notowani/i, tool: 'get_price_history', part: 'share price performance' },
+    { re: /what does (?:the|this|each) company do|business model|czym (?:się )?zajmuj/i, tool: 'get_key_points', part: 'what the company does' }
+];
+
+// The parts of a question naming 3 or more companies whose tool has not been
+// tried for every one of them. A call that failed was tried.
+function missingResearch(question, toolsUsed, lookup) {
+    const named = namedTickers(question, lookup);
+    if (named.length < MIN_NAMED) return [];
+    const out = [];
+    for (const p of PART_TOOLS) {
+        if (!p.re.test(question)) continue;
+        const tried = new Set((toolsUsed || []).filter((t) => t && t.tool === p.tool).map((t) => String((t.args && t.args.symbol) || '').toUpperCase()));
+        const left = named.filter((s) => !tried.has(s));
+        if (left.length) out.push({ tool: p.tool, part: p.part, symbols: left });
+    }
+    return out;
+}
+
+const researchDirective = (missing) => 'ANSWER NOT RELEASED: parts of the question have not been researched for every company it names. Call each tool below for each company listed, in one batch, then write the complete answer again from the start (the user has not seen the draft). A company the tool has no data for is named as a gap in that part; never say data is unavailable for a company you have not called the tool for.\n'
+    + missing.map((m) => `- ${m.part}: ${m.tool} for ${m.symbols.join(', ')}`).join('\n');
+
+module.exports = { namedTickers, lookedUp, uncovered, nextLine, missingResearch, researchDirective, NOT_TICKERS };

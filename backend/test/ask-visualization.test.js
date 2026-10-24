@@ -49,3 +49,13 @@ test('a segment-flow payload mislabeled viz becomes a Sankey without changing ev
  const normalized=q.normalizeFacetedViz('```viz\n'+JSON.stringify(spec)+'\n```');assert.match(normalized,/```sankey/);assert.deepEqual(v.specs(normalized)[0],{type:'sankey',...spec});assert.ok(q.audit(normalized,[]).some(issue=>/Sankey chart is unsupported/.test(issue)));
  const mixed={...spec,series:[{name:'Revenue',points:[['2024-12-31',90],['2025-12-31',100]]}]};const line='```viz\n'+JSON.stringify(mixed)+'\n```';assert.equal(q.normalizeFacetedViz(line),line);
 });
+test('no chart is supplied from several companies, whose facts would pool into one series',()=>{
+ const other=result();other.result.symbol='AMZN';
+ assert.equal(v.ensure('Seven companies compared.',[result(),other],p.select('AMD')),'Seven companies compared.');
+});
+test('a focused answer is charted only on a field it discusses',()=>{
+ const policy=p.select('What are the biggest risks in the latest 10-K? Use AMD','analyst',{company:{symbol:'AMD',securityType:'stock'}});
+ assert.equal(policy.kind,'focused');assert.equal(policy.visualRequired,true);
+ assert.equal(v.ensure('Competition is the main risk.',[result()],policy),'Competition is the main risk.');
+ assert.match(v.ensure('Przychody rosną, ale konkurencja to główne ryzyko.',[result()],policy),/```viz/);
+});

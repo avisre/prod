@@ -1,6 +1,13 @@
 'use strict';
 
 const LABELS = { totalRevenue: 'Revenue', netIncome: 'Net income', grossProfit: 'Gross profit', operatingIncome: 'Operating income', researchAndDevelopment: 'Research and development', operatingCashflow: 'Operating cash flow', freeCashflow: 'Free cash flow', totalAssets: 'Total assets', price: 'Stock price', marketCap: 'Market capitalisation' };
+// A focused answer is charted only on a field it discusses: an NFLX risk-factor
+// answer (2026-10-24) was given an "Annual total assets" chart it never mentioned.
+const MENTIONS = { totalRevenue: /revenue|sales|przych|sprzeda/i, netIncome: /net income|net profit|earnings|zysk\S* netto/i,
+    grossProfit: /gross (?:profit|margin)|zysk\S* brutto|marż\S* brutto/i, operatingIncome: /operating (?:income|profit|margin)|zysk\S* operacyjn|marż\S* operacyjn/i,
+    researchAndDevelopment: /research|R&D|badani/i, operatingCashflow: /operating cash|przepływ\S* operacyjn|przepływ\S* z działalności operacyjnej/i,
+    freeCashflow: /free cash|\bFCF\b|woln\S* przepływ/i, totalAssets: /total assets|aktyw\S* ogółem|sum\S* aktywów/i,
+    price: /price|cena|ceny|kurs/i, marketCap: /market cap|kapitalizac/i };
 function specs(text) {
     return [...String(text).matchAll(/```(viz|bars|sankey)\s*\n([\s\S]*?)```/g)].flatMap(m => {
         try { return [{ type: m[1], ...JSON.parse(m[2]) }]; } catch (_) { return []; }
@@ -11,6 +18,11 @@ function specs(text) {
 function ensure(text, results, policy) {
     if (!policy.visualRequired) return text;
     const quality = require('./ask-answer-quality');
+    // The facts carry no company, so a chart drawn from several companies pooled
+    // them: a seven-company answer (2026-10-24) got one "net income" line mixing
+    // three companies' quarters. Only a single company's facts are charted here.
+    const symbolOf = r => String(r.result?.symbol || r.args?.symbol || '').toUpperCase();
+    if (new Set(results.filter(r => symbolOf(r) && quality.chartEvidence([r]).length).map(symbolOf)).size > 1) return text;
     const annualResults = results.filter(r => r.tool === 'get_financials' && /^annual/.test(r.result?.basis));
     const all = quality.chartEvidence(results);
     const annual = [...quality.chartEvidence(annualResults), ...all.filter(f => f.basis === 'annual')], existing = specs(text);
@@ -22,6 +34,7 @@ function ensure(text, results, policy) {
     const groups = new Map();
     for (const f of facts) {
         if (!LABELS[f.field] || !f.periodEnd || !Number.isFinite(f.value) || !f.unit) continue;
+        if (policy.kind !== 'company_report' && !MENTIONS[f.field].test(text)) continue;
         const key = [f.field, f.unit, f.sourceType || 'sec_filing', f.sourceName || 'SEC', f.accountingBasis || '', f.basis || '', f.sourceType === 'provider' ? f.publicationDate : ''].join('|');
         if (!groups.has(key)) groups.set(key, []);
         groups.get(key).push(f);

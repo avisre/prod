@@ -129,6 +129,50 @@ async function buildHistory(symbol) {
 }
 
 // ---- aggregate for the page ----
+const quarterOf = (date) => date.slice(0, 4) + ' Q' + (Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1);
+
+// A filer can drop the decimal point: Lilly Endowment's Form 4 of 2025-11-17
+// gave 1031414 for $1,031.414 a share, and its two rows made one quarter's
+// sales $78.8bn instead of about $3.4bn. A price over 50 times the median of
+// the company's trades that quarter is read as a dropped decimal when a
+// thousandth of it is near that median, and is otherwise left out of the values.
+function plausibleValue(t, median) {
+    if (t.price === null || t.price === undefined || !(median > 0) || t.price <= median * 50) return t.value;
+    const fixed = t.price / 1000;
+    return fixed >= median / 2 && fixed <= median * 2 ? t.shares * fixed : null;
+}
+
+function aggregate(docs) {
+    const prices = new Map();
+    for (const d of docs) {
+        for (const t of d.txns || []) {
+            const date = t.date || d.date;
+            if (!date || t.side === 'other' || !(t.price > 0)) continue;
+            const q = quarterOf(date);
+            if (!prices.has(q)) prices.set(q, []);
+            prices.get(q).push(t.price);
+        }
+    }
+    const medians = new Map([...prices].map(([q, p]) => [q, p.sort((a, b) => a - b)[Math.floor((p.length - 1) / 2)]]));
+    const buckets = new Map();
+    const recent = [];
+    for (const d of docs) {
+        for (const t of d.txns || []) {
+            const date = t.date || d.date;
+            if (!date || t.side === 'other') continue;
+            const q = quarterOf(date);
+            const value = plausibleValue(t, medians.get(q));
+            if (!buckets.has(q)) buckets.set(q, { buys: 0, sells: 0, buySh: 0, sellSh: 0, buyVal: 0, sellVal: 0 });
+            const b = buckets.get(q);
+            if (t.side === 'buy') { b.buys++; b.buySh += t.shares; b.buyVal += value || 0; }
+            else { b.sells++; b.sellSh += t.shares; b.sellVal += value || 0; }
+            // rows stored before the decode above still carry the entity
+            recent.push({ date, owner: unxml(d.owner), relation: unxml(d.relation), side: t.side, shares: t.shares, value });
+        }
+    }
+    return { buckets, recent };
+}
+
 async function history(symbol) {
     const col = mongoose.connection.collection('insider_form4');
     const meta = mongoose.connection.collection('insider_form4_meta');
@@ -136,21 +180,7 @@ async function history(symbol) {
     const stale = !m || Date.now() - new Date(m.builtAt).getTime() > 24 * 3600 * 1000;
     if (stale) buildHistory(symbol).catch(() => {}); // fire-and-forget
     const docs = await col.find({ symbol }).toArray();
-    const buckets = new Map();
-    const recent = [];
-    for (const d of docs) {
-        for (const t of d.txns || []) {
-            const date = t.date || d.date;
-            if (!date || t.side === 'other') continue;
-            const q = date.slice(0, 4) + ' Q' + (Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1);
-            if (!buckets.has(q)) buckets.set(q, { buys: 0, sells: 0, buySh: 0, sellSh: 0, buyVal: 0, sellVal: 0 });
-            const b = buckets.get(q);
-            if (t.side === 'buy') { b.buys++; b.buySh += t.shares; b.buyVal += t.value || 0; }
-            else { b.sells++; b.sellSh += t.shares; b.sellVal += t.value || 0; }
-            // rows stored before the decode above still carry the entity
-            recent.push({ date, owner: unxml(d.owner), relation: unxml(d.relation), side: t.side, shares: t.shares, value: t.value });
-        }
-    }
+    const { buckets, recent } = aggregate(docs);
     recent.sort((a, b) => b.date.localeCompare(a.date));
     const quarters = [...buckets.entries()].sort((a, b) => a[0].localeCompare(b[0]))
         .map(([key, v]) => ({ key, ...v }));
@@ -165,4 +195,4 @@ async function history(symbol) {
     };
 }
 
-module.exports = { history, buildHistory };
+module.exports = { history, buildHistory, aggregate };

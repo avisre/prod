@@ -268,8 +268,11 @@ function sectionsAsText(sections, keys = CORE_KEYS) {
 // description is still there under a plain heading; take the first heading
 // that is followed directly by a sentence, which a contents entry never is.
 const NARRATIVE_HEADINGS = {
-    '1': /\b(?:Our Business|Business Overview|Overview of (?:Our|the) Business|Company Overview|Our Company|About (?:Us|the Company))\s+(?=(?:We|Our|The Company|[A-Z][\w&.,'’-]*(?: [\w&.,'’-]+){0,5} (?:is|are|was))\s)/,
-    '1A': /\bRisk Factors\s+(?=(?:The following|Our|We|You should|In addition|Investing|An investment|Described below)\b)/
+    // GE's 10-K heads its sections in capitals with a full stop — "ABOUT GE
+    // AEROSPACE. General Electric Company operates as …", "RISK FACTORS. The
+    // following …" — so no section was found and Ask could not read it (2026-10-24).
+    '1': /\b(?:Our Business|Business Overview|Overview of (?:Our|the) Business|Company Overview|Our Company|About (?:Us|the Company)|ABOUT [A-Z][A-Z0-9&'’ -]{1,40}?)\.?\s+(?=(?:We|Our|The Company|[A-Z][\w&.,'’-]*(?: [\w&.,'’-]+){0,5} (?:is|are|was|operates))\s)/,
+    '1A': /\b(?:Risk Factors|RISK FACTORS)\.?\s+(?=(?:The following|Our|We|You should|In addition|Investing|An investment|Described below)\b)/
 };
 function narrativeFallback(text, key, budget) {
     const pattern = NARRATIVE_HEADINGS[key];

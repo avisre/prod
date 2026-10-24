@@ -606,8 +606,12 @@ async function toolGetTechnicals({ symbol }) {
 // from it are TOTAL returns (dividends reinvested). All maths is done here,
 // deterministically — the model never derives returns itself.
 async function toolGetPriceHistory({ symbol, years }) {
-    const data = await loadFundAny(symbol);
-    if (!data) return NO_DATA(symbol);
+    const stored = await loadFundAny(symbol);
+    if (!stored) return NO_DATA(symbol);
+    // A company with no stored series (SPOT, 2026-10-24) answered "no price
+    // history", and a stale one gave a YTD row months old. The page's top-up
+    // fills both; Ask can wait longer for it than a page render.
+    const data = await require('./price-history').topUp(String(symbol).toUpperCase(), stored, { waitMs: 8000 });
     const series = (data.monthly || {})['Monthly Adjusted Time Series'] || {};
     const dates = Object.keys(series).sort(); // oldest first
     if (dates.length < 2) return { error: `No price history for ${symbol}.` };
@@ -671,7 +675,13 @@ async function toolGetPriceHistory({ symbol, years }) {
         maxDrawdown: mdd < 0 ? { pct: Number(mdd.toFixed(1)), fromMonth: String(mddPeakD).slice(0, 7), toMonth: String(mddTroughD).slice(0, 7) } : null,
         note: 'Returns are TOTAL returns (split- and dividend-adjusted, monthly closes). Rows newest first; a "YTD" row is the partial current year. For dividend history use the cash flow statement (dividendPayout) and get_quote (current yield).',
         source: 'stockportfolio.pro price cache (refreshed each trading day; see the asOf date)',
-        table: lines.join('\n')
+        table: lines.join('\n'),
+        // The table is text, so the figure check could not see it: every yearly
+        // return in a four-company comparison (2026-10-24) was deleted as unsourced.
+        claimable: {
+            money: rows.filter((r) => r[1] !== '').map((r) => ({ value: Number(r[1]), unit: 'USD' })),
+            percentages: [...rows.filter((r) => r[2] !== '').map((r) => Number(r[2])), ...Object.values(cagrs), ...(mdd < 0 ? [Number(mdd.toFixed(1))] : [])]
+        }
     };
 }
 
@@ -738,10 +748,19 @@ async function toolGetInsiders({ symbol }) {
         return {
             symbol: key,
             stillBuilding: !!h.building,
+            // The bare flag read as "not ready", and a seven-company answer told
+            // the reader to ask again for insider trades it already held (2026-10-24).
+            ...(h.building ? { buildingNote: h.builtAt
+                ? `These trades are complete through ${new Date(h.builtAt).toISOString().slice(0, 10)}; a check for newer filings is running. Present them as they are.`
+                : `The first read of this company's Form 4 filings is still running: ${h.filingsParsed} filings read so far. Present these trades as the filings read so far, without asking the reader to come back.` } : {}),
             note: 'Open-market purchases (code P) and sales (code S) only — awards, option exercises, gifts and tax withholding are excluded. Quarters newest first.',
             source: h.source,
             quartersTable: qLines.join('\n'),
-            recentTradesTable: tLines.join('\n')
+            recentTradesTable: tLines.join('\n'),
+            // The tables are text, so a seven-company answer (2026-10-24) had six
+            // of its seven largest-trade cells deleted as unsourced.
+            claimable: { money: [...h.quarters.slice(-12).flatMap((q) => [q.buyVal, q.sellVal]), ...(h.recent || []).slice(0, 15).map((t) => t.value)]
+                .filter((v) => v > 0).map((v) => ({ value: Math.round(v), unit: 'USD' })) }
         };
     } catch (e) {
         return { error: 'Insider history unavailable: ' + (e.message || 'unknown') };
@@ -950,7 +969,10 @@ function screenRows(args) {
         technicalsAsOf = snap.asOf;
         rows = rows.map((r) => {
             const t = snap.bySymbol.get(r.symbol) || {};
-            return { ...r, rsi14: t.rsi14 ?? null, pctVsSma200: t.pctVsSma200 ?? null, goldenCrossDaysAgo: t.goldenCrossDaysAgo ?? null, volumeRatio20: t.volumeRatio20 ?? null, pctFrom52wHigh: t.pctFrom52wHigh ?? null, trend: t.trend ?? null };
+            // The indicators are computed on the snapshot's close. The index's
+            // own price can be weeks older, and one table printed both: Gartner
+            // at $205.35 beside a trade plan from its $230.28 close (2026-10-24).
+            return { ...r, ...(t.close != null ? { price: t.close } : {}), rsi14: t.rsi14 ?? null, pctVsSma200: t.pctVsSma200 ?? null, goldenCrossDaysAgo: t.goldenCrossDaysAgo ?? null, volumeRatio20: t.volumeRatio20 ?? null, pctFrom52wHigh: t.pctFrom52wHigh ?? null, trend: t.trend ?? null };
         });
         ge('rsi14', a.min_rsi14);
         le('rsi14', a.max_rsi14);
@@ -1195,7 +1217,10 @@ function toolScreenUniverse(args) {
         ...(res.unprovenMatched ? { ordering: `Established companies first: ${res.unprovenMatched} of the ${matched} matches made a profit in fewer than 5 of the last 10 years (or have a shorter record) and are listed after the others. Say this in one sentence when you present the list.` } : {}),
         ...(res.notInUniverse ? { notInUniverse: res.notInUniverse, notInUniverseNote: 'These tickers have no screenable filed fundamentals here (a fund, a foreign filer without usable statements, or an unknown symbol). Say so by name; use get_quote / get_financials for them individually.' } : {}),
         ...(args && args.index ? { indexMembership: `Read from the stored member lists${indexMembers().asOf ? ` (Nasdaq 100 and S&P 100 as of ${indexMembers().asOf})` : ''}; state that date.` } : {}),
+        // A trend screen (2026-10-24) said its table was sorted, then moved one
+        // row out of order, and called a company with a -5.9% margin profitable.
         note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.'
+            + ' The rows are already in the requested order: keep that order in any list or table you show. Call a company profitable only when its netMargin% is above 0.'
             + (similarTo ? ' Similarity is factor resemblance, not an industry-peer classification: the anchor company is excluded and factors it does not report are ignored rather than estimated. Disclose the ranked-by sentence and any skipped counts when you present the list.' : ''),
         ...(trend ? { priceTrend: `RSI14, vs200dAvg%, goldenCrossDaysAgo, volumeVs20d and from52wHigh% are from daily adjusted closes as of ${res.technicalsAsOf}; state that date. They describe past prices only: never present them as a buy, sell or timing signal.` } : {}),
         table: lines.join('\n')
@@ -1342,7 +1367,17 @@ async function toolGetGovernance({ symbol }) {
     try {
         const data = await loadFundAny(key);
         const name = (data && data.overview && data.overview.Name) || null;
-        return await governance.buildGovernance(key, { name });
+        const g = await governance.buildGovernance(key, { name });
+        // Nested in board and insider, so a seven-company answer (2026-10-24) had
+        // its board independence, CEO pay and net insider selling deleted as unsourced.
+        const b = g.board || {}, ins = g.insider || {};
+        g.claimable = {
+            money: [b.ceoTotalCompUsd, b.medianEmployeePayUsd, ins.netValue, ...(ins.quarters || []).flatMap((q) => [q.buyValue, q.sellValue]),
+                ...(ins.recent || []).map((t) => t.value), g.ownership && g.ownership.totalValue]
+                .filter((v) => Number.isFinite(v) && v !== 0).map((v) => ({ value: Math.round(Math.abs(v)), unit: 'USD' })),
+            percentages: [b.independencePct, b.womenPct, b.sayOnPayApprovalPct].filter(Number.isFinite)
+        };
+        return g;
     } catch (e) {
         return { error: 'Governance extraction failed: ' + (e.message || 'unknown') };
     }
@@ -2478,9 +2513,11 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     let reportResearchRetried = false;
     let accountClaimRetried = false;
     let reportSupplemented = false;
+    let checklistResearchSent = 0, figureResearchSent = false;
     // What the reader asked for, and the last reading of a draft against it.
     let asks = null, openVerdict = null, stopReason = null;
     const budget = ctx && ctx.budget && Number.isFinite(Number(ctx.budget.credits)) && typeof ctx.budget.creditsFor === 'function' ? ctx.budget : null;
+    const contextLimit = budget ? evidence.METERED_CONTEXT_BYTES : evidence.MAX_CONTEXT_BYTES;
     const preparedReportEvidence = [];
     const grounded = text => hasResearchEvidence || (policy.kind !== 'company_report' &&
         (!!ctx?.attachments?.some(a => a.text) || !evidence.requiresEvidence(q, text)));
@@ -2620,7 +2657,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     // the numerical review) and may then be run again.
     const seenCalls = new Map();
     const compact = () => {
-        if (contextBytes < evidence.MAX_CONTEXT_BYTES * 0.6) return;
+        if (contextBytes < contextLimit * 0.6) return;
         for (let i = 0; i < messages.length - 14; i++) {
             const m = messages[i];
             if (m.role !== 'tool' || typeof m.content !== 'string' || m.content.length <= 1800) continue;
@@ -2714,7 +2751,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
         };
         const supply = ({ tool, args, result, ms }) => {
             const reportEvidence = require('./ask-report-evidence');
-            const { content, supplied } = reportEvidence.forModel(tool, result, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
+            const { content, supplied } = reportEvidence.forModel(tool, result, contextLimit - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
             suppliedResults.push({ tool, result: supplied });
             preparedReportEvidence.push({ tool, args, result: supplied });
             contextBytes += Buffer.byteLength(content);
@@ -2907,7 +2944,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 for (const { tc, args, result, ms, reused } of roundResults) {
                     // Reserve space for all remaining small error replies;
                     // every tool_call_id still needs a response when full.
-                    const remaining = evidence.MAX_CONTEXT_BYTES - (policy.kind==='company_report' && !policy.explicitWordLimit
+                    const remaining = contextLimit - (policy.kind==='company_report' && !policy.explicitWordLimit
                         ? require('./ask-report-evidence').CONTEXT_RESERVE_BYTES : 32*1024) - contextBytes;
                     // Every question gets the lean view: a focused follow-up pulls
                     // the same statements a report does.
@@ -3010,7 +3047,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                 try { result = await deps.runTool('get_supplemental_context', supplemental, ctx); }
                 catch (error) { result = evidence.toolError(error); }
                 const reportEvidence = require('./ask-report-evidence');
-                const { content, supplied } = reportEvidence.forModel('get_supplemental_context', result || { error: 'Supplemental retrieval returned no evidence.' }, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
+                const { content, supplied } = reportEvidence.forModel('get_supplemental_context', result || { error: 'Supplemental retrieval returned no evidence.' }, contextLimit - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
                 const id = 'report-supplement';
                 suppliedResults.push({ tool: 'get_supplemental_context', result: supplied });
                 contextBytes += Buffer.byteLength(content);
@@ -3031,6 +3068,37 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                     continue;
                 }
                 return ungroundedAnswer();
+            }
+            // A checklist over several companies: each part one tool answers
+            // per company is tried for every company before the draft goes out.
+            // Credit-metered runs only; a fixed run allows these tools once.
+            if (budget && !lastRound && checklistResearchSent < 2) {
+                const askCoverage = require('./ask-coverage');
+                const missing = askCoverage.missingResearch(q, toolsUsed);
+                if (missing.length) {
+                    checklistResearchSent++;
+                    if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                    emit({ type: 'status', text: 'Researching ' + missing.map(m => m.part).join(', ') + ' for every company' });
+                    messages.push({ role: 'assistant', content: text }, { role: 'system', content: askCoverage.researchDirective(missing) });
+                    continue;
+                }
+            }
+            // The figure check after this loop can only delete. A P/S answer
+            // (2026-10-24) priced four companies without fetching their revenue,
+            // lost every figure, and ended by offering to fetch it. A figure no
+            // tool supplied is sent back once to be researched instead.
+            if (budget && !lastRound && !figureResearchSent && !/\b(hypothetical|suppose|assume)\b/i.test(q)) {
+                let unsupported = [];
+                try { unsupported = [...new Set(answerQuality.numericClaims(text, suppliedResults, q, earlierFigures)
+                    .map(i => /^(?:Monetary|Percentage) claim (.+?) is not/.exec(i)?.[1]).filter(Boolean))]; } catch (_) {}
+                if (unsupported.length) {
+                    figureResearchSent = true;
+                    if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                    emit({ type: 'status', text: 'Fetching the filed figures behind ' + unsupported.length + ' number' + (unsupported.length === 1 ? '' : 's') });
+                    messages.push({ role: 'assistant', content: text }, { role: 'system', content: 'ANSWER NOT RELEASED: these figures in your draft are in no tool result, so the check would delete them: ' + unsupported.slice(0, 15).join('; ')
+                        + '. Call the tools that supply them for the companies involved, in one batch (get_financials for revenue, profit, cash flow, cash and debt; get_ratios_history for margins and ratios; get_quote for prices and market value), then write the complete answer again from the start (the user has not seen the draft). Use the figures exactly as the tools give them, and leave out any figure no tool supplies.' });
+                    continue;
+                }
             }
             // Does it do what was asked? If not it is not released: the model
             // is told which part and keeps working, for as long as the reader's

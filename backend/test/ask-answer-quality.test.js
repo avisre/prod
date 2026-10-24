@@ -140,6 +140,20 @@ test('incorrect reported money and growth cannot pass because a tool was called'
     assert.match(q.audit('Operating cash flow was $111.482bn.', bad).join(' '), /Monetary claim/);
 });
 
+test('a Polish answer writes decimal commas and mld/mln, and its supplied figures still pass', async () => {
+    const cash = await get('cash');
+    assert.deepEqual(q.audit('Capex wzrósł o 34,6%, czyli $3,3 mld. Przepływy operacyjne spadły o $6,8 mld.', cash), []);
+    // Polish names a fall with its own verb, as English does with "fell".
+    assert.deepEqual(q.audit('Przepływy operacyjne zmniejszyły się o $6,8 mld.', cash), []);
+    const wrong = q.audit('Capex wzrósł o 31,6%, czyli $9,9 mld.', cash).join(' ');
+    assert.match(wrong, /Monetary claim \$9,9 mld/);
+    assert.match(wrong, /Percentage claim 31,6%/);
+    // The rejected figure is found in the answer as written, so salvage can remove it.
+    const s = q.salvage('Capex wzrósł o 34,6%, czyli $3,3 mld.\n\nCapex wynosił $9,9 mld.', cash);
+    assert.doesNotMatch(s.text, /9,9/);
+    assert.match(s.text, /\$3,3 mld/);
+});
+
 test('R&D intensity is a claimable compatible calculation from filed lines', async () => {
     // Apple FY2025: 34.55bn R&D over 416.161bn revenue = 8.3%. The framework's
     // Context column expresses R&D as a share of revenue, but the pair was
@@ -962,4 +976,71 @@ test('non-directory funds cannot receive company segment analysis', async () => 
         assert.equal(result.coverage,'unavailable');
         assert.equal(result.segments,undefined);
     }
+});
+
+test('an answer that called no tool keeps worked examples but not company figures from memory', () => {
+    const text = 'P/S to kapitalizacja ÷ przychód: firma z $10 mld przychodu i 20 mld kapitalizacji ma P/S 2, a marża 10% to niewiele.\n\n'
+        + 'LLY i VRTX mają marże netto 31–35%. SPOT ma P/S w okolicach 4–5 (120 mld kapitalizacji przy ~4,5 mld EUR przychodu z 20-F). Porównuj w obrębie branży.';
+    const issues = q.audit(text, [], { question: 'jak jest dobre P/S ratio ?', priorFigures: [{ v: 120.1e9, u: 'USD' }] }).filter((i) => / claim /.test(i));
+    assert.deepEqual(issues.map((i) => /claim (.+?) is not/.exec(i)[1]), ['35%', '~4,5 mld EUR'], 'the 120 mld an earlier answer gave stays');
+    const s = q.salvage(text, [], { question: 'jak jest dobre P/S ratio ?', priorFigures: [{ v: 120.1e9, u: 'USD' }] });
+    assert.match(s.text, /firma z \$10 mld przychodu/);
+    assert.match(s.text, /Porównuj w obrębie branży/);
+    assert.doesNotMatch(s.text, /4,5 mld|31–35%/);
+    assert.deepEqual(q.audit('Apple has a P/S near 8, and a 5% margin firm rarely earns that.', []).filter((i) => / claim /.test(i)), []);
+});
+
+test('a signed Polish percentage is read, and price-history returns are claimable', () => {
+    const results = [{ tool: 'get_quote', result: { symbol: 'LLY', asOf: '2026-10-23', price: 1273.46, currency: 'USD' } },
+        { tool: 'get_price_history', result: { symbol: 'LLY', asOf: '2026-10-01', claimable: { money: [{ value: 1069.51, unit: 'USD' }], percentages: [60.9, -23.1] } } }];
+    const claims = (t) => q.audit(t, results, { question: 'LLY' }).filter((i) => / claim /.test(i)).map((i) => /claim (.+?) is not/.exec(i)[1]);
+    assert.deepEqual(claims('LLY: 2023 +60,9%, 2022 −23,1%, koniec 2025 $1069,51.'), []);
+    assert.deepEqual(claims('LLY: 2023 +61,9%.'), ['+61,9%']);
+});
+
+test('health-check inputs and computed details are claimable, in either sign for an outflow', () => {
+    const input = (value, field) => ({ value, periodEnd: '2025-12-31', currency: 'USD', unit: 'USD', scope: 'entity', field });
+    const results = [{ tool: 'get_financials', result: { symbol: 'GE', observations: [] } }, { tool: 'get_health_checks', result: { symbol: 'GE', currency: 'USD', checks: [
+        { label: 'Net margin above 10%', detail: '19.0%', inputs: [input(8704000000), input(45855000000)] },
+        { label: 'Free cash flow positive (latest yr)', detail: '7264M', inputs: [input(8537000000), input(-1273000000)] },
+        { label: 'Pays a dividend', detail: '19 consecutive reported annual periods in our data', inputs: [input(-1452000000)] }] } }];
+    const claims = (t) => q.audit(t, results, { question: 'GE' }).filter((i) => / claim /.test(i)).map((i) => /claim (.+?) is not/.exec(i)[1]);
+    assert.deepEqual(claims('GE: przychód $45,86 mld, marża netto 19,0%, FCF $7,26 mld, dywidenda $1,45 mld.'), []);
+    assert.deepEqual(claims('GE: FCF $7.264bn and dividends of $1.45bn.'), []);
+    assert.deepEqual(claims('GE: FCF $9,26 mld.'), ['$9,26 mld']);
+});
+
+test('a Polish amount grouped with spaces is read whole', () => {
+    const results = [{ tool: 'get_financials', result: { symbol: 'LLY', observations: [] } }, { tool: 'get_price_history', result: { symbol: 'LLY', asOf: '2026-10-01', claimable: { money: [{ value: 22974e6, unit: 'USD' }, { value: 1135.6e9, unit: 'USD' }], percentages: [] } } }];
+    const claims = (t) => q.audit(t, results, { question: 'LLY' }).filter((i) => / claim /.test(i)).map((i) => /claim (.+?) is not/.exec(i)[1]);
+    assert.deepEqual(claims('LLY: przychód $22 974 mln, kapitalizacja $1 135,6 mld.'), []);
+    assert.deepEqual(claims('LLY: przychód $23 974 mln.'), ['$23 974 mln']);
+});
+
+test('insider trade values are claimable, including a Polish thousands scale', () => {
+    const results = [{ tool: 'get_financials', result: { symbol: 'ABBV', observations: [] } }, { tool: 'get_insider_activity', result: { symbol: 'ABBV', claimable: { money: [{ value: 8177500, unit: 'USD' }, { value: 210400, unit: 'USD' }] } } }];
+    const claims = (t) => q.audit(t, results, { question: 'ABBV' }).filter((i) => / claim /.test(i)).map((i) => /claim (.+?) is not/.exec(i)[1]);
+    assert.deepEqual(claims('ABBV: EVP sprzedał $8 177 500, dyrektor $210 tys.'), []);
+    assert.deepEqual(claims('ABBV: dyrektor sprzedał $910 tys.'), ['$910 tys']);
+});
+
+test('governance board, pay and net insider figures are claimable', async () => {
+    const governance = require('../governance'), real = governance.buildGovernance;
+    governance.buildGovernance = async () => ({ board: { boardSize: 9, independentDirectors: 8, independencePct: 88.9, ceoTotalCompUsd: 27612345, medianEmployeePayUsd: 169019 },
+        insider: { netValue: -32530984, quarters: [{ key: '2026 Q3', buyValue: 0, sellValue: 7200000 }], recent: [] }, ownership: null });
+    try {
+        const out = await ask.runTool('get_governance', { symbol: 'GE' }, {});
+        const results = [{ tool: 'get_financials', result: { symbol: 'GE', observations: [] } }, { tool: 'get_governance', args: { symbol: 'GE' }, result: out }];
+        const claims = (t) => q.audit(t, results, { question: 'GE' }).filter((i) => / claim /.test(i)).map((i) => /claim (.+?) is not/.exec(i)[1]);
+        assert.deepEqual(claims('GE: 88,9% rady niezależnej, CEO $27,6 mln, mediana $169 019, insiderzy sprzedali netto $32 530 984.'), []);
+        assert.deepEqual(claims('GE: 75% rady niezależnej.'), ['75%']);
+    } finally { governance.buildGovernance = real; }
+});
+
+test('a fall named after its percentage keeps its sign, and a bracketed figure may be either', () => {
+    const results = [{ tool: 'get_financials', result: { symbol: 'TSLA', comparisons: [{ field: 'totalRevenue', changePct: -2.93, sourceIds: ['rev'], current: { periodEnd: '2025-12-31' } }] } }];
+    const claims = (t) => q.audit(t, results, { question: 'TSLA' }).filter((i) => / claim /.test(i)).map((i) => /claim (.+?) is not/.exec(i)[1]);
+    for (const t of ['Revenue saw a 2.9% decline.', 'Revenue was 2.9% lower.', 'Revenue dipped 2.9%.', '| Revenue | (2.9%) |', 'a 2.9% drop in revenue'])
+        assert.deepEqual(claims(t), [], t);
+    for (const t of ['Revenue rose 2.9%.', 'Revenue increased 2.9%.', 'Revenue 2.9% higher.']) assert.deepEqual(claims(t), ['2.9%'], t);
 });

@@ -117,6 +117,11 @@ test('a magazine-layout annual report still yields its business and risk text', 
     assert.match(sections.narrativeFallback(text, '1', 9000), /^Our Business We are a global leader/);
     assert.match(sections.narrativeFallback(text, '1A', 6000), /^Risk Factors The following summarizes/);
     assert.equal(sections.narrativeFallback('Our Business 6 Risk Factors 37', '1', 9000), null);
+    // GE's capitals-and-full-stop headings.
+    const ge = 'Cybersecurity 23 Risk Factors 24 Legal Proceedings 31 ... 2025 FORM 10-K 3 ABOUT GE AEROSPACE. General Electric Company operates as GE Aerospace. ' +
+        'Our engines power commercial and military aircraft. '.repeat(40) + ' RISK FACTORS. The following discussion of the material factors. ' + 'Supply may tighten. '.repeat(120);
+    assert.match(sections.narrativeFallback(ge, '1', 9000), /^ABOUT GE AEROSPACE\. General Electric Company operates/);
+    assert.match(sections.narrativeFallback(ge, '1A', 6000), /^RISK FACTORS\. The following discussion/);
 });
 
 test('every company report is told to use the eight-part format, in order', () => {

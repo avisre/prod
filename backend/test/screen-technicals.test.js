@@ -43,6 +43,8 @@ test('each filter applies on its own and together, and the result carries the sn
     assert.deepEqual(set(both), ['AAPL']);
     assert.equal(both.technicalsAsOf, '2026-10-23');
     assert.equal(screen({ min_rsi14: 50, sort_by: 'rsi14' }).rows[0].symbol, 'AAPL');
+    // The price shown beside the indicators is the close they were computed on.
+    assert.equal(screen({ min_rsi14: 50 }).rows.find((x) => x.symbol === 'AAPL').price, 110);
     tu.__set(null);
 });
 
