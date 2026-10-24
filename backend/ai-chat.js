@@ -2318,6 +2318,12 @@ async function ask(input) {
     } catch (_) { key = null; }
     const out = await askFresh(input);
     if (key && out && out.source === 'ai' && !out.quality?.fallback) await writeReportCache(key, { answer: out.answer, toolsUsed: out.toolsUsed, source: out.source, quality: out.quality });
+    // A run that closed before reaching every ticker the question named ends
+    // with a one-tap "Next:" for the rest (rendered as the .ask-next button).
+    if (out && out.answer && ['ai', 'partial'].includes(out.source)) {
+        const coverage = require('./ask-coverage'), left = coverage.uncovered(String(input.question || '').slice(0, QUESTION_MAX_CHARS), out.toolsUsed);
+        if (left.length) { out.uncoveredSymbols = left; out.answer += '\n\n' + coverage.nextLine(left); }
+    }
     return out;
 }
 

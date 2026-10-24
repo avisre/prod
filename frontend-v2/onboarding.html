@@ -29,6 +29,7 @@
       </div>
       <div id="answer" class="answer"></div>
       <div id="feedback" class="success hidden"><strong>Did StockPortfolio.pro help you answer a real investment research question?</strong><div><button class="chip" data-success="yes">Yes, clearly</button><button class="chip" data-success="somewhat">Somewhat</button><button class="chip" data-success="not_yet">Not yet</button></div></div>
+      <div id="follow-ups" class="hidden" style="margin-top:14px"><strong>Keep going with <span id="fu-symbol"></span></strong><div class="chips" id="fu-chips"></div><div class="row" style="margin-top:8px"><button class="primary" id="fu-follow">Follow</button><span class="muted" id="fu-follow-note"></span></div></div>
       <div id="next-step" class="success hidden"><strong>Next: <a rel="nofollow" id="next-link" href="/dashboard.html#add-form">add a holding you own</a></strong><p class="muted" style="margin:6px 0 0">Then the same filing evidence applies to the companies you actually hold.</p></div>
     </div>
     <p class="muted" style="margin-top:18px">Every result is informational research, not investment advice. Check the source before making a decision.</p>
@@ -45,8 +46,30 @@
     function pick(v){ symbol=String(v||'').trim().toUpperCase().replace(/[^A-Z0-9.\-]/g,'').slice(0,10); ticker.value=symbol; questions.classList.remove('hidden'); }
     ticker.addEventListener('input',function(){ var v=ticker.value.trim(); if(v.length<1)return; V2.searchAssets(v).then(function(xs){ document.getElementById('suggestions').innerHTML=(xs||[]).slice(0,5).map(function(x){return '<button class="chip" data-symbol="'+V2.esc(x.symbol)+'">'+V2.esc(x.symbol)+' · '+V2.esc(x.name||'')+'</button>';}).join(''); document.querySelectorAll('[data-symbol]').forEach(function(b){b.onclick=function(){pick(b.dataset.symbol);};}); }).catch(function(){}); });
     run.onclick=function(){pick(ticker.value);};
+    // A third of Ask users (2026-09-24..10-24) asked this one starter question and
+    // never came back; the answer now ends with a next question about the same
+    // company and a way to keep it on the dashboard.
+    function showFollowUps(asked){
+      var t=symbol, next=[
+        ['What changed in '+t+'\u2019s latest 10-Q?','What changed in '+t+'\u2019s latest 10-Q compared with the same quarter a year earlier? Cite the filing.'],
+        ['Compare with its closest peer','Compare '+t+' with its closest peer on revenue growth, margins and valuation, with sources.'],
+        ['Does cash flow cover stock pay?','Does '+t+'\u2019s free cash flow cover its stock-based compensation and dividends over the last five years?']
+      ].filter(function(x){return x[1].toLowerCase()!==String(asked||'').toLowerCase();});
+      document.getElementById('fu-symbol').textContent=t;
+      document.getElementById('fu-chips').innerHTML=next.map(function(x){return '<a class="chip" rel="nofollow" href="/ask?q='+encodeURIComponent(x[1])+'">'+V2.esc(x[0])+'</a>';}).join('');
+      var follow=document.getElementById('fu-follow'), note=document.getElementById('fu-follow-note');
+      follow.textContent='Follow '+t; follow.disabled=false; note.textContent='';
+      follow.onclick=async function(){
+        if(!V2.token()){ location.href='/login.html?next='+encodeURIComponent('/company?symbol='+t); return; }
+        follow.disabled=true;
+        try { var r=await fetch('/api/watchlist/'+encodeURIComponent(t),{method:'POST',headers:{Authorization:'Bearer '+V2.token()}}); var d=await r.json().catch(function(){return {};});
+          if(r.ok){ follow.textContent='\u2605 Following '+t; note.textContent='It is on your dashboard watchlist.'; } else { follow.disabled=false; note.textContent=d.message||'Could not follow right now.'; }
+        } catch(e){ follow.disabled=false; note.textContent='Could not follow right now.'; }
+      };
+      document.getElementById('follow-ups').classList.remove('hidden');
+    }
     document.querySelectorAll('[data-q]').forEach(function(b){b.onclick=function(){q.value=b.dataset.q;};});
-    document.getElementById('ask').onclick=async function(){ if(!symbol||!q.value.trim())return; var btn=this; btn.disabled=true; answer.textContent='Reading the filing…'; try { var r=await fetch('/api/ai/chat',{method:'POST',headers:{'Content-Type':'application/json',...(V2.token()?{Authorization:'Bearer '+V2.token()}:{})},body:JSON.stringify({question:q.value.trim()+' Use '+symbol+' and include the source URL.',stream:false})}); var d=await r.json(); if(!r.ok||!d.answer) throw 0; var safe=String(d.answer).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); var src=(d.sourceUrl&&/^https:\/\/www\.sec\.gov\//.test(d.sourceUrl))?'<p><a id="source" href="'+d.sourceUrl+'" target="_blank" rel="noopener nofollow">Open the cited SEC source</a></p>':'<p class="muted">Open the cited source in the answer above before continuing.</p>'; answer.innerHTML='<div>'+safe+'</div>'+src; feedback.classList.remove('hidden'); document.getElementById('next-step').classList.remove('hidden'); var source=document.getElementById('source'); if(source) source.onclick=function(){V2.trackMeaningfulActivation({workflow:'ask',ticker:symbol,resultValid:true,sourceOpened:true,contentId:'campaign-onboarding'});}; } catch(e){answer.textContent='Ask is temporarily unavailable. Please try again shortly.';} finally{btn.disabled=false;} };
+    document.getElementById('ask').onclick=async function(){ if(!symbol||!q.value.trim())return; var btn=this; btn.disabled=true; answer.textContent='Reading the filing…'; try { var r=await fetch('/api/ai/chat',{method:'POST',headers:{'Content-Type':'application/json',...(V2.token()?{Authorization:'Bearer '+V2.token()}:{})},body:JSON.stringify({question:q.value.trim()+' Use '+symbol+' and include the source URL.',stream:false})}); var d=await r.json(); if(!r.ok||!d.answer) throw 0; var safe=String(d.answer).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); var src=(d.sourceUrl&&/^https:\/\/www\.sec\.gov\//.test(d.sourceUrl))?'<p><a id="source" href="'+d.sourceUrl+'" target="_blank" rel="noopener nofollow">Open the cited SEC source</a></p>':'<p class="muted">Open the cited source in the answer above before continuing.</p>'; answer.innerHTML='<div>'+safe+'</div>'+src; feedback.classList.remove('hidden'); showFollowUps(q.value.trim()); document.getElementById('next-step').classList.remove('hidden'); var source=document.getElementById('source'); if(source) source.onclick=function(){V2.trackMeaningfulActivation({workflow:'ask',ticker:symbol,resultValid:true,sourceOpened:true,contentId:'campaign-onboarding'});}; } catch(e){answer.textContent='Ask is temporarily unavailable. Please try again shortly.';} finally{btn.disabled=false;} };
     document.querySelectorAll('[data-success]').forEach(function(b){b.onclick=function(){V2.trackCustomerSuccess(b.dataset.success); feedback.innerHTML='<strong>Thanks — your answer is recorded.</strong>';};});
   })();
   </script>
