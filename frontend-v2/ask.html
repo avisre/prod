@@ -1293,19 +1293,40 @@
         }
         function viaBrowser(audio) {
           return new Promise((resolve, reject) => {
-            if (!worker) worker = new Worker(document.querySelector('script[src*="assets/app.js"]').src.replace('assets/app.js', 'assets/voice-worker.js'), { type: 'module' });
+            if (!worker) {
+              const url = new URL(document.querySelector('script[src*="assets/app.js"]').src.replace('assets/app.js', 'assets/voice-worker.js'));
+              // The worker response carries its own CSP. Refresh that response
+              // after the policy fix, even when an older worker is cached.
+              url.searchParams.set('v', '20261025-voice2');
+              worker = new Worker(url, { type: 'module' });
+            }
+            const activeWorker = worker;
             const id = ++jobs;
-            const done = (fn, v) => { worker.removeEventListener('message', onMsg); worker.removeEventListener('error', onErr); fn(v); };
-            const onErr = () => { worker = null; done(reject, new Error('Voice input could not start in this browser. Type your question instead.')); };
+            let settled = false, timeout;
+            const done = (fn, v) => {
+              if (settled) return;
+              settled = true; clearTimeout(timeout);
+              activeWorker.removeEventListener('message', onMsg); activeWorker.removeEventListener('error', onErr);
+              fn(v);
+            };
+            const fail = (message) => {
+              if (worker === activeWorker) worker = null;
+              activeWorker.terminate();
+              done(reject, new Error(message));
+            };
+            const onErr = () => fail('Voice input could not start in this browser. Please try recording again.');
             const onMsg = (e) => {
               const d = e.data || {};
               if (d.id !== id) return;
               if (typeof d.progress === 'number') { say(`Getting the speech model ready: ${d.progress}% (first time only, about 80 MB)…`); return; }
-              if (d.error) return done(reject, new Error('Voice input is not working right now. Type your question instead.'));
+              if (d.error) return fail('Voice input is not working right now. Please try recording again.');
               done(resolve, d.text || '');
             };
-            worker.addEventListener('message', onMsg); worker.addEventListener('error', onErr);
-            worker.postMessage({ id, audio }, [audio.buffer]);
+            activeWorker.addEventListener('message', onMsg); activeWorker.addEventListener('error', onErr);
+            timeout = setTimeout(() => fail('Voice input took too long. Check your connection and try recording again.'), 180000);
+            // the speech model cannot tell the language itself; the browser's is the best guess
+            const language = String(navigator.language || '').split('-')[0].toLowerCase();
+            activeWorker.postMessage({ id, audio, language }, [audio.buffer]);
           });
         }
 

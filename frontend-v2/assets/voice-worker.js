@@ -17,7 +17,7 @@ const MODEL = 'Xenova/whisper-base';
 let recognizer = null;
 
 self.onmessage = async (event) => {
-    const { id, audio } = event.data || {};
+    const { id, audio, language } = event.data || {};
     try {
         if (!recognizer) {
             const seen = new Map();
@@ -33,9 +33,19 @@ self.onmessage = async (event) => {
                 }
             });
         }
-        // No language is forced: the model detects it, so a question asked in
-        // Polish comes back in Polish.
-        const out = await recognizer(audio, { task: 'transcribe', chunk_length_s: 30 });
+        // The library does not detect the spoken language: given none, it
+        // decodes as English, which garbles other languages (a Polish clip:
+        // "z późnego paleolitu" came back "zpuśnego paleolitu", "BP" as "B4").
+        // The page sends the browser's language instead; one the
+        // model does not know is rejected before any decoding, so retry with
+        // the library default.
+        const options = { task: 'transcribe', chunk_length_s: 30 };
+        let out;
+        try { out = await recognizer(audio, language ? { ...options, language } : options); }
+        catch (err) {
+            if (!language || !/Language ".*" is not supported/.test(String(err && err.message))) throw err;
+            out = await recognizer(audio, options);
+        }
         self.postMessage({ id, text: String((out && out.text) || '').replace(/\s+/g, ' ').trim() });
     } catch (err) {
         recognizer = null;

@@ -101,10 +101,15 @@ test('the in-browser speech model loads only from the versions the security poli
     assert.ok(app.includes(`'${lib[1]}'`), 'script-src allows exactly the library version the worker imports');
     assert.match(app, /'https:\/\/cdn\.jsdelivr\.net\/npm\/onnxruntime-web@[^/']+\/'/, 'and one pinned runtime version');
     assert.ok(app.includes(`"'wasm-unsafe-eval'"`) && !/'unsafe-eval'/.test(app.replace(/wasm-unsafe-eval/g, '')), 'WebAssembly is allowed; eval is not');
-    assert.match(app, /workerSrc: \["'self'", 'blob:'\]/);
+    const workerSources = app.match(/workerSrc: \[([\s\S]*?)\]/);
+    assert.ok(workerSources && workerSources[1].includes(`'${lib[1]}'`), 'module-worker imports allow the pinned speech library');
+    assert.ok(workerSources[1].includes(`"'self'"`) && workerSources[1].includes("'blob:'"));
     assert.match(app, /res\.json\(\{ enabled: speechToText\.enabled\(\), local: VOICE_LOCAL_MODEL, maxSeconds/);
     // The recording stays on the device: the worker posts text back and calls nothing of ours.
     assert.doesNotMatch(worker, /fetch\(|XMLHttpRequest|\/api\//);
     const page = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'ask.html'), 'utf8');
     assert.match(page, /useServer \? await viaServer\(blob, type\) : await viaBrowser\(await samples\(blob\)\)/);
+    // Without a language the library decodes as English, which garbled a Polish clip's words.
+    assert.match(page, /postMessage\(\{ id, audio, language \}/);
+    assert.match(worker, /language \? \{ \.\.\.options, language \} : options/);
 });

@@ -487,7 +487,12 @@ app.use(helmet({
         'https://js.stripe.com',
         ...VOICE_LOCAL_SCRIPT_SRC
       ],
-      ...(VOICE_LOCAL_MODEL ? { workerSrc: ["'self'", 'blob:'] } : {}),
+      // Module-worker imports are checked against worker-src as well. Without
+      // this pinned library path, voice-worker.js starts but its import fails.
+      ...(VOICE_LOCAL_MODEL ? { workerSrc: [
+        "'self'", 'blob:',
+        'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1/'
+      ] } : {}),
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://accounts.google.com'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
       imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
