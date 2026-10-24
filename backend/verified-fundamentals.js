@@ -23,10 +23,34 @@ function safeRows(data,st,basis,perShareAllowed) {
   return row;
  }).filter(r=>Object.keys(r._sources).length);
 }
+// Tracking stocks: each series follows a group inside the issuer, so the filed EPS is not
+// theirs (audit 2026-10-25).
+const TRACKING=new Set(['FWONA','FWONK','LLYVA','LLYVK','GLIBA','GLIBK','METC','METCB']);
+// Why the listing's share is not the share the filing's per-share amounts are for, or null
+// when it is. A sibling that is a note, unit, ETN or preferred is not a second class of
+// common stock (Duke's DUKU units blocked Duke's EPS until 2026-10-25). With several classes,
+// the one EPS a company files fits this class when price ÷ that EPS agrees with the quote's
+// own trailing P/E: Alphabet's two classes share one EPS; Berkshire files per Class A share.
+function perShareBasis(company,data,quote,quoteCurrency) {
+ if(TRACKING.has(String(company.symbol).toUpperCase().replace(/[.-]/g,'')))return 'tracking';
+ if(/American Deposit(?:ary|ory)|\b(?:ADR|ADS)\b/i.test(company.securityName || company.name || ''))return 'adr';
+ const latest=data?.income?.annualReports?.[0];
+ if(latest?.reportedCurrency && latest.reportedCurrency!==quoteCurrency)return 'currency';
+ const {securityType}=require('../scripts/lib/us-listings');
+ const classes=stocks.companies().filter(s=>s.securityType==='stock' && p.cik(s.cik)===p.cik(company.cik) && securityType({symbol:s.symbol,name:s.securityName || ''})==='stock' && !/\bwhen issued$/i.test(s.securityName || ''));
+ if(classes.length===1)return null;
+ if(!classes.length)return 'share_class';
+ const price=p.number(quote?.price),pe=p.number(quote?.trailingPE);
+ if(!(price>0 && pe>0))return 'share_class';
+ // The quote's P/E is trailing twelve months, so compare with the fiscal year moved on by the
+ // quarters filed since it, less the same quarters a year earlier (Q4 is never filed alone).
+ const perShare=r=>p.number(r?.dilutedEPS) ?? p.number(r?.eps),quarters=data?.income?.quarterlyReports || [];
+ const since=quarters.filter(r=>r.fiscalDateEnding>latest?.fiscalDateEnding),before=since.map(r=>quarters.find(x=>Math.abs((Date.parse(r.fiscalDateEnding)-Date.parse(x.fiscalDateEnding))/864e5-365)<=10));
+ const ttm=perShare(latest)!==null && [...since,...before].every(r=>perShare(r)!==null)?since.reduce((t,r,i)=>t+perShare(r)-perShare(before[i]),perShare(latest)):null;
+ return [perShare(latest),ttm].some(eps=>eps>0 && Math.abs(Math.log(price/pe/eps))<=Math.log(1/0.6))?null:'share_class';
+}
 function adapt(company,raw,data,entry,issuer) {
  const type=company.securityType || 'stock';
- const siblings=stocks.companies().filter(s=>s.securityType==='stock' && p.cik(s.cik)===p.cik(company.cik));
- let perShareAllowed=siblings.length===1 && !/American Deposit(?:ary|ory)|\b(?:ADR|ADS)\b/i.test(company.securityName || company.name || '');
  // Sector is rebuilt rather than copied: us-companies carries GICS names and the
  // fundamentals file carries Yahoo ones, and every peer/median consumer groups on
  // the GICS key. Falling back to the file's own label is what keeps ~1,968
@@ -37,14 +61,16 @@ function adapt(company,raw,data,entry,issuer) {
  // Verified company market values retain the dated provider quote instead.
  const quote=require('./quote-store').getDailyQuote(company.symbol,{useLegacySecShares:false});
  const marketData=quote?.asOf?{...quote,source:'Yahoo Finance daily snapshot',financialSource:false}:null;
- const financialCurrency=data?.income?.annualReports?.[0]?.reportedCurrency;
- if(financialCurrency && financialCurrency!==(marketData?.currency || raw?.overview?.Currency || 'USD'))perShareAllowed=false;
- if(marketData && !perShareAllowed){marketData.trailingPE=null;marketData.sharesOutstanding=null;}
- if(marketData){overview.MarketCapitalization=p.number(marketData.marketCap);overview.PERatio=p.number(marketData.trailingPE);overview['52WeekHigh']=p.number(marketData.fiftyTwoWeekHigh);overview['52WeekLow']=p.number(marketData.fiftyTwoWeekLow);if(perShareAllowed)overview.SharesOutstanding=p.number(marketData.sharesOutstanding);}
- const out={overview,daily:raw?.daily || {},monthly:raw?.monthly || {},marketData,coverage:{annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:data?(entry?.financialCoverage || 'unavailable'):'unavailable',securityType:type,latestAnnual:issuer?.evidence?.latestAnnual || null,lastSuccessfulCheckAt:issuer?.evidence?.lastSuccessfulCheckAt || null,sic:issuer?.evidence?.sic || null,perShareAllowed,missingReason:!data?'No verified SEC financial observations are available.':null},provenance:{sources:data?.sources || {},financialDigest:issuer?.financialDigest || issuer?.evidence?.financialDigest || null},fetchedAt:data?.fetchedAt || null};
+ const perShareReason=perShareBasis(company,data,marketData,marketData?.currency || raw?.overview?.Currency || 'USD'),perShareAllowed=!perShareReason;
+ if(marketData && !perShareAllowed){marketData.trailingPE=null;marketData.forwardPE=null;marketData.sharesOutstanding=null;}
+ if(marketData){overview.MarketCapitalization=p.number(marketData.marketCap);overview.PERatio=p.number(marketData.trailingPE);overview.ForwardPE=p.number(marketData.forwardPE);overview.DividendYield=p.number(marketData.dividendYield);overview['52WeekHigh']=p.number(marketData.fiftyTwoWeekHigh);overview['52WeekLow']=p.number(marketData.fiftyTwoWeekLow);if(perShareAllowed)overview.SharesOutstanding=p.number(marketData.sharesOutstanding);}
+ const out={overview,daily:raw?.daily || {},monthly:raw?.monthly || {},marketData,coverage:{annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:data?(entry?.financialCoverage || 'unavailable'):'unavailable',securityType:type,latestAnnual:issuer?.evidence?.latestAnnual || null,lastSuccessfulCheckAt:issuer?.evidence?.lastSuccessfulCheckAt || null,sic:issuer?.evidence?.sic || null,perShareAllowed,perShareReason,missingReason:!data?'No verified SEC financial observations are available.':null},provenance:{sources:data?.sources || {},financialDigest:issuer?.financialDigest || issuer?.evidence?.financialDigest || null},fetchedAt:data?.fetchedAt || null};
  for(const st of ['income','balance','cash'])out[st]={annualReports:type==='stock'?safeRows(data,st,'annualReports',perShareAllowed):[],quarterlyReports:type==='stock'?safeRows(data,st,'quarterlyReports',perShareAllowed):[]};
  const inc=out.income.annualReports[0];overview.Currency=inc?.reportedCurrency || out.balance.annualReports[0]?.reportedCurrency || 'USD';
  overview.EPS=inc?.dilutedEPS ?? inc?.eps ?? null;
+ // An ADR's or foreign filer's EPS stays out of the statement rows, where readers pair it
+ // with the listing's price; the page shows it alone, in the filing currency, per ordinary share.
+ if(type==='stock' && ['adr','currency'].includes(perShareReason)){const row=safeRows(data,'income','annualReports',true)[0];if(row && (p.number(row.dilutedEPS)!==null || p.number(row.eps)!==null))out.filedPerShare={fiscalDateEnding:row.fiscalDateEnding,reportedCurrency:row.reportedCurrency,dilutedEPS:p.number(row.dilutedEPS),eps:p.number(row.eps),basis:'per ordinary share'};}
  if(!perShareAllowed)overview.PERatio=null;
  if(type==='stock')out.supplementalObservations=require('./company-observations').reconcile(require('./company-observations').observations(data),require('./committed-supplements').forIssuer(company.cik || 'listing:'+company.symbol.replace(/\./g,'-'))).filter(f=>f.state==='available');
  // The cost lines a company files in place of a cost of revenue (filed-costs.js).

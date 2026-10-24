@@ -559,6 +559,8 @@ async function fetchQuoteExtras(symbol) {
         marketCap: num(q && q.marketCap),
         trailingPE: num(q && q.trailingPE),
         forwardPE: num(q && q.forwardPE),
+        // percent from Yahoo; a fraction here, like refresh-quotes.js writes it
+        dividendYield: q?.dividendYield == null || num(q.dividendYield) === null ? null : Math.round(num(q.dividendYield) * 1e4) / 1e6,
         fiftyTwoWeekHigh: num(q && q.fiftyTwoWeekHigh),
         fiftyTwoWeekLow: num(q && q.fiftyTwoWeekLow),
         sharesOutstanding: num(q && q.sharesOutstanding),

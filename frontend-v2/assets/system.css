@@ -1436,6 +1436,7 @@ main { min-height: 60vh; padding-bottom: var(--s7); }
 .kv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
 .kv-row span { color: var(--ink-2); }
 .kv-row b { font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; white-space: nowrap; }
+.kv-row small { display: block; margin-top: 1px; color: var(--ink-3); font-size: 11.5px; }
 
 /* clamped prose with read-more */
 .clamp { display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; overflow: hidden; }

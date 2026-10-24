@@ -622,6 +622,14 @@
     function hasCurrencyMismatch(data = payload) {
         return data?.coverage?.perShareAllowed===false || quoteCurrency(data) !== sourceReportingCurrency(data);
     }
+    // Why the listing's price cannot be set against the filed per-share amounts.
+    function perShareWhy(data = payload) {
+        const reason = data?.coverage?.perShareReason;
+        if (reason === 'adr') return 'the filings report per-share amounts per ordinary share, and one American depositary share can stand for several ordinary shares';
+        if (reason === 'share_class') return 'the company files one set of per-share amounts for more than one share class, and they do not fit this class’s price';
+        if (reason === 'tracking') return 'this is a tracking stock, and the filed per-share amounts are not this series’ own';
+        return `the statements are reported in ${sourceReportingCurrency(data)} while the price is in ${quoteCurrency(data)}`;
+    }
 
     // ---------- data joins ----------
     function annualJoined(kind = 'annualReports') {
@@ -1067,7 +1075,7 @@
                 chEl.className = 'small num ' + (rangePct >= 0 ? 'delta-pos' : 'delta-neg');
             }
             $('chart-prov').textContent = mixedCurrencies
-                ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because the source statements are reported in ${sourceReportingCurrency()}; USD presentation conversion does not supply the listing’s depositary-share ratio.`
+                ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because ${perShareWhy()}.`
                 : cap
                 ? `Price (right axis): split-adjusted — ink. Market cap (left axis): price × that ${sharesBasis === 'weighted' ? 'period’s filed weighted-average share count (the balance sheet files no period-end count)' : 'fiscal year’s filed share count'} — orange. Where the lines drift apart, buybacks or dilution is why.`
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count${sharesBasis === 'weighted' ? ' (the latest filed weighted-average count)' : sharesBasis === 'current' ? ' (the count on the latest filing’s cover)' : ''}.`;
@@ -1163,25 +1171,51 @@
         const nm = ratio(num(inc.netIncome), d.rev);
         const fcf = fcfOf(cf);
         const sh = num(bal.commonStockSharesOutstanding);
-        const bps = (num(bal.totalShareholderEquity) !== null && sh) ? num(bal.totalShareholderEquity) / sh : null;
+        const equity = num(bal.totalShareholderEquity);
+        const bps = (equity !== null && sh) ? equity / sh : null;
         const quoteCur = quoteCurrency();
         const reportCur = reportingCurrency();
+        // Market cap against filed totals needs both in one currency (a converted
+        // foreign filer is in USD by now); the rest of each multiple is labelled with its basis.
+        const cap = quoteCur === reportCur ? num(ov.MarketCapitalization) : null;
+        const ni = num(inc.netIncome);
+        const price = num((payload.marketData || {}).price);
+        const eps = num(inc.dilutedEPS);
+        const filed = payload.filedPerShare;
+        const pe = num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
+            : (ni !== null && ni <= 0) || (eps !== null && eps <= 0) ? ['n/m (loss)', `${fy} net loss`]
+            : eps > 0 && price > 0 && quoteCur === reportCur && !hasCurrencyMismatch() ? [fixed(price / eps, 1), `price ÷ ${fy} diluted EPS`]
+            : cap > 0 && ni > 0 ? [fixed(cap / ni, 1), `market cap ÷ ${fy} net income`]
+            : ['—'];
+        const fwd = num(ov.ForwardPE);
+        const paid = Math.abs(num(cf.dividendPayout) ?? num(cf.dividendPayoutCommonStock) ?? 0);
+        const yieldNow = num(ov.DividendYield);
+        const dividend = yieldNow > 0 ? [pct(yieldNow * 100, 2), 'indicated annual rate']
+            : yieldNow === 0 ? ['None']
+            : paid > 0 && cap > 0 ? [pct(paid / cap * 100, 2), `${fy} dividends paid ÷ market cap`]
+            : ['—'];
+        const pb = cap > 0 && equity > 0 ? [fixed(cap / equity, 1) + '×', bps !== null ? `book ${currencyAmount(bps, reportCur, { compact: false })} / share` : `market cap ÷ ${fy} equity`]
+            : equity !== null && equity <= 0 ? ['n/m (negative equity)'] : ['—'];
+        const epsRow = eps !== null ? ['EPS, diluted', currencyAmount(eps, reportCur, { compact: false })]
+            : num(inc.eps) !== null ? ['EPS, basic', currencyAmount(inc.eps, reportCur, { compact: false }), 'no diluted EPS filed']
+            : filed ? [filed.dilutedEPS !== null ? 'EPS, diluted' : 'EPS, basic', currencyAmount(filed.dilutedEPS ?? filed.eps, filed.reportedCurrency, { compact: false }), 'per ordinary share, as filed']
+            : ['EPS, diluted', '—'];
         const items = [
             ['Market cap', currencyAmount(ov.MarketCapitalization, quoteCur)],
-            ['P/E', fixed(ov.PERatio, 1)],
+            ['P/E', ...pe],
             [`Revenue ${fy}`, currencyAmount(d.rev, reportCur)],
-            ['Forward P/E', fixed(ov.ForwardPE, 1)],
+            ['Forward P/E', fwd !== null && fwd < 0 ? 'n/m (loss)' : fixed(fwd, 1)],
             ['Net margin', pctFmt(nm)],
-            ['Dividend yield', ov.DividendYield ? pct(num(ov.DividendYield) * 100, 2) : '—'],
+            ['Dividend yield', ...dividend],
             ['Return on equity', pctFmt(roe)],
-            ['EPS, diluted', currencyAmount(inc.dilutedEPS, reportCur, { compact: false })],
+            epsRow,
             ['Free cash flow', currencyAmount(fcf, reportCur)],
             ['52-week range', currencyRange(ov['52WeekLow'], ov['52WeekHigh'], quoteCur)],
-            ['Book value / filed share', currencyAmount(bps, reportCur, { compact: false })],
+            ['Price / book', ...pb],
             ['Fiscal year end', ov.FiscalYearEnd || (last.end ? new Date(last.end).toLocaleString('en-US', { month: 'short' }) : '—')]
         ].filter(([l]) => !(l === 'Free cash flow' && noFcf()));
-        $('kv-grid').innerHTML = items.map(([l, v]) =>
-            `<div class="kv-row"><span>${l}</span><b>${v}</b></div>`).join('');
+        $('kv-grid').innerHTML = items.map(([l, v, basis]) =>
+            `<div class="kv-row"><span>${l}${basis ? `<small>${esc(basis)}</small>` : ''}</span><b>${v}</b></div>`).join('');
     }
 
     // ---------- ③ key points: the dossier from the 10-K ----------
@@ -1547,7 +1581,7 @@
         // The reverse DCF solves for free cash flow growth, which a bank or life insurer does not have.
         if (noFcf()) { sec.hidden = true; rule.hidden = true; return; }
         if (hasCurrencyMismatch()) {
-            body.innerHTML = `<p class="small muted" style="max-width:72ch;">Unavailable for this listing: its market quote is in <strong>${esc(quoteCurrency())}</strong>, while its source financial statements are reported in <strong>${esc(sourceReportingCurrency())}</strong>. The USD presentation conversion does not supply the listing’s depositary-share ratio, which is required for a defensible per-listed-share valuation.</p>`;
+            body.innerHTML = `<p class="small muted" style="max-width:72ch;">Unavailable for this listing: a valuation per listed share needs the listing’s share to match the filed per-share amounts, and ${esc(perShareWhy())}.</p>`;
             sec.hidden = false; rule.hidden = false;
             return;
         }
@@ -2042,7 +2076,7 @@
                 ? `Financial statements are shown in USD, converted from ${sourceReportingCurrency()}. ${payload.currencyConversion.restatedFrom ? `Under hyperinflation accounting (IAS 29) each filing restates its figures, earlier years included, into the currency of its own balance-sheet date, so figures from those filings use that date’s closing FX rate; earlier filings use the period basis below. ` : ''}Balance-sheet figures use the fiscal-period closing monthly FX rate; income and cash-flow figures use average month-end FX rates over each reporting period. This is an approximate convenience conversion. `
                 : `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. `;
             provenance.textContent = conversionText +
-                (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}; ADR-dependent valuation overlays remain disabled. ` : '') +
+                (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}; valuation overlays per listed share stay off because ${perShareWhy()}. ` : '') +
                 (defs.some((d) => d.filed) ? `The company files no cost of revenue; its cost lines are shown as filed in its ${payload.filedCosts.filing.form}s, with the filing’s own labels and headings. ` : '') +
                 'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Reported per-share values retain their filed basis. Calculated figures require available verified inputs; missing inputs stay missing. ▸ unfolds a total into its components.';
         }

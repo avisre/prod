@@ -71,6 +71,11 @@ function toRow(quote) {
         // P/Es 25-44% off until 2026-09-28.
         marketCap: Number.isFinite(Number(quote.marketCap)) ? Number(quote.marketCap) : null,
         trailingPE: Number.isFinite(Number(quote.trailingPE)) ? Number(quote.trailingPE) : null,
+        forwardPE: Number.isFinite(Number(quote.forwardPE)) ? Number(quote.forwardPE) : null,
+        // Yahoo's forward (indicated) yield, in percent; stored as a fraction. Its
+        // trailingAnnualDividendYield divides by the wrong currency for cross-listings
+        // (TD: a CAD dividend over a USD price read 3.46% against 2.57%).
+        dividendYield: quote.dividendYield != null && Number.isFinite(Number(quote.dividendYield)) ? Math.round(Number(quote.dividendYield) * 1e4) / 1e6 : null,
         fiftyTwoWeekHigh: Number.isFinite(Number(quote.fiftyTwoWeekHigh)) ? Number(quote.fiftyTwoWeekHigh) : null,
         fiftyTwoWeekLow: Number.isFinite(Number(quote.fiftyTwoWeekLow)) ? Number(quote.fiftyTwoWeekLow) : null,
         sharesOutstanding: Number.isFinite(Number(quote.sharesOutstanding)) ? Number(quote.sharesOutstanding) : null,

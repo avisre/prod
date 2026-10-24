@@ -40,6 +40,14 @@ function securityType(row) {
     if (/\b(?:preferred|preference)\b/i.test(n)) return 'preferred';
     if (/\b(?:notes|bonds|debentures)\b.*\b(?:due|20\d\d)|\bexchange.traded notes\b/i.test(n)) return 'debt';
     if (/\bunits?\b.*\b(?:consist|comprised|each|one|warrant)| - Units?\.?$/i.test(n)) return 'unit';
+    // Listed as stock until 2026-10-25, each showing its issuer's financials as its own:
+    // ETNs (VXX), ZONES/CorTS/STRATS certificates, perpetual and junior subordinated notes
+    // without a "due" date, Tennessee Valley Authority's power bonds (TVA has no stock; the
+    // directory calls TVC "Common Stock"), preferred depositary shares (WAFDP), trust
+    // preferreds (DDT), corporate units (DUKU) and operating partnership units (ESBA).
+    if (/\bETNs?\b|\bZONES\b|\bCorTS\b|\bSTRATS\b|corp(?:orate)? backed|asset-backed trust|subordinated (?:notes|debentures)|^Tennessee Valley Authority\b/i.test(n)) return 'debt';
+    if (/(?<!American )Depositary Shares?$|\bCapital Trust [IVX]+$/i.test(n)) return 'preferred';
+    if (/\b(?:corporate|tangible equity) units$|operating partnership units/i.test(n)) return 'unit';
     if (row.confirmedFund || /closed[ -]end fund/i.test(row.name)) return 'closed_end_fund';
     return 'stock';
 }

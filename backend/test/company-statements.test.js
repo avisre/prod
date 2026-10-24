@@ -100,8 +100,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261025-ui32/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261025-ui32/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261025-ui33/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261025-ui33/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -197,7 +197,8 @@ test('cross-currency listings do not run mixed-currency valuation visuals', () =
   assert.match(companySource, /peButton\.hidden = mixedCurrencies/);
   assert.match(companySource, /if \(mixedCurrencies\) showCap = false/);
   assert.match(companySource, /Historical P\/E and price × filed-share-count overlays are disabled/);
-  assert.match(companySource, /USD presentation conversion does not supply the listing’s depositary-share ratio/);
+  assert.match(companySource, /one American depositary share can stand for several ordinary shares/);
+  assert.doesNotMatch(companySource, /depositary-share ratio/);
 });
 
 // 2026-10-10: two bank-only solo rows sat between Pre-tax income and its three

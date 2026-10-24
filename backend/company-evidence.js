@@ -132,7 +132,7 @@ function createResolver(deps={}) {
   return applyQuote(result,await quoteTask);
  }
  function applyQuote(result,quote) {
-  if(quote?.asOf){const q={...quote,source:quote.source==='live'?'Yahoo Finance':quote.source,financialSource:false};if(!result.data.coverage.perShareAllowed){q.trailingPE=null;q.sharesOutstanding=null;}result.marketData=q;result.data.marketData=q;Object.assign(result.data.overview,{MarketCapitalization:p.number(q.marketCap),PERatio:p.number(q.trailingPE),SharesOutstanding:p.number(q.sharesOutstanding),'52WeekHigh':p.number(q.fiftyTwoWeekHigh),'52WeekLow':p.number(q.fiftyTwoWeekLow)});}
+  if(quote?.asOf){const q={...quote,source:quote.source==='live'?'Yahoo Finance':quote.source,financialSource:false};if(!result.data.coverage.perShareAllowed){q.trailingPE=null;q.forwardPE=null;q.sharesOutstanding=null;}result.marketData=q;result.data.marketData=q;Object.assign(result.data.overview,{MarketCapitalization:p.number(q.marketCap),PERatio:p.number(q.trailingPE),ForwardPE:p.number(q.forwardPE),DividendYield:p.number(q.dividendYield),SharesOutstanding:p.number(q.sharesOutstanding),'52WeekHigh':p.number(q.fiftyTwoWeekHigh),'52WeekLow':p.number(q.fiftyTwoWeekLow)});}
   return result;
  }
  return {getCompanyEvidence,pending,baseline};
