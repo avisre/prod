@@ -579,6 +579,28 @@ async function toolRankFunds(args) {
     }
 }
 
+// ---- Tool: get_technicals (RSI, moving averages, crosses, volume) ----
+// Computed in technicals.js from ~14 months of daily bars; the model reports
+// the numbers, it never works them out.
+async function toolGetTechnicals({ symbol }) {
+    const sym = String(symbol || '').trim().toUpperCase();
+    if (!/^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(sym)) return { error: 'A ticker symbol is required.' };
+    try {
+        const out = await require('./technicals').forSymbol(sym);
+        if (!out) return { error: `No daily price history for ${sym}.` };
+        // close and the averages are dollar figures the answer quotes; the
+        // percentages are the ones prose writes ("28% above its 200-day")
+        const money = [out.close, out.sma50, out.sma200].filter(Number.isFinite);
+        const percentages = [out.pctVsSma50, out.pctVsSma200, out.pctFrom52wHigh].filter(Number.isFinite);
+        return {
+            symbol: sym, source: 'Daily prices from Yahoo Finance; indicators computed by stockportfolio.pro', ...out,
+            claimable: { money: money.map((value) => ({ value, unit: 'USD' })), percentages }
+        };
+    } catch (_) {
+        return { symbol: sym, error: `Daily prices for ${sym} are unavailable right now.` };
+    }
+}
+
 // ---- Tool: get_price_history (20 years of monthly adjusted closes) ----
 // Adjusted close is split- AND dividend-adjusted, so return figures computed
 // from it are TOTAL returns (dividends reinvested). All maths is done here,
@@ -844,7 +866,9 @@ function resolveScreenAnchor(rows, query) {
 // S&P 500 comes from the list the data jobs already maintain; the Nasdaq 100
 // and S&P 100 are dated copies in index-members.json. Membership is read from
 // these files, never from the model's memory.
-const SCREEN_SORT_KEYS = ['revCagr5Pct', 'netIncomeCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook', 'priceVsAvg10mPct'];
+const SCREEN_SORT_KEYS = ['revCagr5Pct', 'netIncomeCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook', 'priceVsAvg10mPct', 'rsi14', 'volumeRatio20', 'pctVsSma200'];
+const TECHNICAL_ARGS = ['min_rsi14', 'max_rsi14', 'sma200_position', 'golden_cross_within_days', 'min_volume_ratio_20'];
+const TECHNICAL_SORTS = ['rsi14', 'volumeRatio20', 'pctVsSma200'];
 const SCREEN_GROWTH_SORTS = ['revCagr5Pct', 'netIncomeCagr5Pct', 'netMarginPct', 'roePct', 'qtrNetIncomeYoYPct'];
 const INDEX_NAMES = { sp500: 'S&P 500', sp100: 'S&P 100', nasdaq100: 'Nasdaq 100' };
 let _indexMembers = null;
@@ -917,6 +941,25 @@ function screenRows(args) {
     le('price', a.max_price);
     ge('netIncomeCagr5Pct', a.min_net_income_cagr_5y_pct);
     ge('priceVsAvg10mPct', a.min_price_vs_10_month_avg_pct);
+    // Price-trend filters read the snapshot technicals-universe.js rebuilds after
+    // each US close; rows it has no figures for fail every such filter.
+    let technicalsAsOf = null;
+    if (TECHNICAL_ARGS.some((k) => a[k] !== undefined && a[k] !== null && a[k] !== '') || TECHNICAL_SORTS.includes(a.sort_by)) {
+        const snap = require('./technicals-universe').view();
+        if (!snap) return { universe, matched: 0, rows: [], error: 'Price-trend screening is not available yet: the daily indicator snapshot has not been built. For a 200-day-average condition use min_price_vs_10_month_avg_pct and say it is the 10-month version; for named companies use get_technicals.' };
+        technicalsAsOf = snap.asOf;
+        rows = rows.map((r) => {
+            const t = snap.bySymbol.get(r.symbol) || {};
+            return { ...r, rsi14: t.rsi14 ?? null, pctVsSma200: t.pctVsSma200 ?? null, goldenCrossDaysAgo: t.goldenCrossDaysAgo ?? null, volumeRatio20: t.volumeRatio20 ?? null, pctFrom52wHigh: t.pctFrom52wHigh ?? null, trend: t.trend ?? null };
+        });
+        ge('rsi14', a.min_rsi14);
+        le('rsi14', a.max_rsi14);
+        const side = String(a.sma200_position || '').toLowerCase();
+        if (side === 'above') rows = rows.filter((r) => r.pctVsSma200 !== null && r.pctVsSma200 > 0);
+        if (side === 'below') rows = rows.filter((r) => r.pctVsSma200 !== null && r.pctVsSma200 < 0);
+        le('goldenCrossDaysAgo', a.golden_cross_within_days);
+        ge('volumeRatio20', a.min_volume_ratio_20);
+    }
     const indexes = indexFilter(a.index);
     if (indexes.unknown) return { universe, matched: 0, rows: [], error: `Unknown index "${indexes.unknown}". Supported: ${Object.keys(INDEX_NAMES).join(', ')}.` };
     if (indexes.sets) rows = rows.filter((r) => indexes.sets.some((set) => set.has(r.symbol)));
@@ -948,7 +991,7 @@ function screenRows(args) {
         // Never mutate the cached index rows (_screenIndex is module-level).
         rows = scored.map((s) => ({ ...s.row, similarity: Math.round(100 / (1 + s.distance)) }));
         return {
-            universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit),
+            universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit), ...(technicalsAsOf ? { technicalsAsOf } : {}),
             similarTo: {
                 symbol: me.symbol,
                 name: me.name,
@@ -975,7 +1018,7 @@ function screenRows(args) {
     // customer's screen). Those rows stay in the result, after the others.
     const unproven = (r) => (a.established_first && SCREEN_GROWTH_SORTS.includes(sortKey) && !(num(r.profitableYears10) >= 5) ? 1 : 0);
     rows.sort((x, y) => (unproven(x) - unproven(y)) || ((x[sortKey] === null) - (y[sortKey] === null)) || (asc ? x[sortKey] - y[sortKey] : y[sortKey] - x[sortKey]) || String(x.symbol).localeCompare(String(y.symbol)));
-    return { universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit), ...(notInUniverse && notInUniverse.length ? { notInUniverse } : {}), unprovenMatched: a.established_first && SCREEN_GROWTH_SORTS.includes(sortKey) ? rows.filter(unproven).length : 0 };
+    return { universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit), ...(technicalsAsOf ? { technicalsAsOf } : {}), ...(notInUniverse && notInUniverse.length ? { notInUniverse } : {}), unprovenMatched: a.established_first && SCREEN_GROWTH_SORTS.includes(sortKey) ? rows.filter(unproven).length : 0 };
 }
 
 // ---- Screen args from the browser ("Use this screen on the page") --------
@@ -999,7 +1042,8 @@ const SCREEN_ARG_KEYS = {
     index: 'string',
     min_price: 'number', max_price: 'number',
     min_net_income_cagr_5y_pct: 'number',
-    min_price_vs_10_month_avg_pct: 'number'
+    min_price_vs_10_month_avg_pct: 'number',
+    min_rsi14: 'number', max_rsi14: 'number', sma200_position: 'string', golden_cross_within_days: 'number', min_volume_ratio_20: 'number'
 };
 
 function screenArgsFromClient(raw) {
@@ -1119,11 +1163,13 @@ function toolScreenUniverse(args) {
     const { universe, matched, rows: top, similarTo } = res;
     const fm = (v, dp = 1) => v === null ? '' : Number(v).toFixed(dp);
     const header = 'symbol|name|sector|mktCap$B|price$|P/E|revCAGR5y%|profitCAGR5y%|netMargin%|ROE%|divYield%|qtrEarnGrowthYoY%|priceVs10mAvg%|latestQtr|profitableYrs/10|latestFY';
-    const lines = [similarTo ? header.replace('symbol|', 'symbol|similarity|') : header];
+    const trend = !!res.technicalsAsOf;
+    const lines = [(similarTo ? header.replace('symbol|', 'symbol|similarity|') : header) + (trend ? '|RSI14|vs200dAvg%|goldenCrossDaysAgo|volumeVs20d|from52wHigh%|trend' : '')];
     for (const r of top) {
         const cells = [r.symbol];
         if (similarTo) cells.push(r.similarity);
         cells.push(r.name, r.sector, fm(r.marketCapB), fm(r.price ?? null, 2), fm(r.pe), fm(r.revCagr5Pct), fm(r.netIncomeCagr5Pct ?? null), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), fm(r.priceVsAvg10mPct ?? null), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd);
+        if (trend) cells.push(fm(r.rsi14), fm(r.pctVsSma200), r.goldenCrossDaysAgo ?? '', fm(r.volumeRatio20, 2), fm(r.pctFrom52wHigh), r.trend || '');
         lines.push(cells.map(cell).join('|'));
     }
     // The numerical review runs as soon as any other research tool is used in
@@ -1138,6 +1184,7 @@ function toolScreenUniverse(args) {
         both(money, r.price ?? null, 2);
         for (const key of ['revCagr5Pct', 'netIncomeCagr5Pct', 'netMarginPct', 'roePct', 'qtrNetIncomeYoYPct', 'priceVsAvg10mPct']) both(percentages, r[key] ?? null, 1);
         both(percentages, r.divYieldPct ?? null, 2);
+        if (trend) for (const key of ['pctVsSma200', 'pctFrom52wHigh']) both(percentages, r[key] ?? null, 1);
     }
     return {
         claimable: { money: [...new Set(money)].map(value => ({ value, unit: 'USD' })), percentages: [...new Set(percentages)] },
@@ -1150,6 +1197,7 @@ function toolScreenUniverse(args) {
         ...(args && args.index ? { indexMembership: `Read from the stored member lists${indexMembers().asOf ? ` (Nasdaq 100 and S&P 100 as of ${indexMembers().asOf})` : ''}; state that date.` } : {}),
         note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.'
             + (similarTo ? ' Similarity is factor resemblance, not an industry-peer classification: the anchor company is excluded and factors it does not report are ignored rather than estimated. Disclose the ranked-by sentence and any skipped counts when you present the list.' : ''),
+        ...(trend ? { priceTrend: `RSI14, vs200dAvg%, goldenCrossDaysAgo, volumeVs20d and from52wHigh% are from daily adjusted closes as of ${res.technicalsAsOf}; state that date. They describe past prices only: never present them as a buy, sell or timing signal.` } : {}),
         table: lines.join('\n')
     };
 }
@@ -1442,7 +1490,12 @@ const TOOLS = [
                     min_price: { type: 'number', description: 'Minimum share price in USD (daily price cache)' },
                     max_price: { type: 'number', description: 'Maximum share price in USD (daily price cache)' },
                     min_net_income_cagr_5y_pct: { type: 'number', description: '5-year compound growth in net income, in %. USE THIS when the user asks for EPS growth over several years: filed EPS is not comparable across stock splits, so multi-year EPS growth is not screenable; say in one sentence that profit growth stands in for it.' },
-                    min_price_vs_10_month_avg_pct: { type: 'number', description: 'Price relative to the average of its last ten month-end closes, in %. 0 means "trading above its 10-month average". USE THIS for a 200-day moving average / uptrend condition: the 10-month average is the monthly counterpart of the 200-day average; say in one sentence that it is the 10-month version.' },
+                    min_price_vs_10_month_avg_pct: { type: 'number', description: 'Price relative to the average of its last ten month-end closes, in %. 0 means "trading above its 10-month average". Use it for a 10-month trend, or for a 200-day condition only when sma200_position returns that the daily snapshot is unavailable (then say in one sentence that it is the 10-month version).' },
+                    min_rsi14: { type: 'number', description: "Minimum Wilder 14-session RSI (0-100) from the daily price-trend snapshot, e.g. 50 for 'RSI above 50'." },
+                    max_rsi14: { type: 'number', description: 'Maximum 14-session RSI, e.g. 30 for oversold.' },
+                    sma200_position: { type: 'string', enum: ['above', 'below'], description: 'Latest close above or below its 200-day simple moving average (daily snapshot). USE THIS for a 200-day moving average condition.' },
+                    golden_cross_within_days: { type: 'number', description: 'The most recent 50/200-day cross was a golden cross (50-day crossed above the 200-day) within this many calendar days of the snapshot date.' },
+                    min_volume_ratio_20: { type: 'number', description: "Latest session's volume divided by its 20-session average, e.g. 2 for a volume breakout." },
                     require_positive_fcf: { type: 'boolean', description: 'WARNING: a company that does not report free cash flow is excluded (missing is not "negative") — say so when it materially narrows the list.' },
                     exclude_secondary_listings: { type: 'boolean', description: 'Keep one listing per issuer (drops foreign secondary listings) — use for peer lists.' },
                     sort_by: { type: 'string', enum: SCREEN_SORT_KEYS },
@@ -1539,6 +1592,18 @@ const TOOLS = [
                     symbol: { type: 'string' },
                     years: { type: 'integer', description: 'Window in years (2-20, default 20).' }
                 },
+                required: ['symbol']
+            }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_technicals',
+            description: "Price-trend indicators for one US-listed stock from daily adjusted closes, computed in code: Wilder RSI(14), 50- and 200-day simple moving averages, the most recent golden/death cross (date and sessions ago, or none within crossSearchedSessions), latest volume vs its 20-session average, % from the 52-week closing high, and a trend label. Every figure carries its as-of date and definition. Use for RSI, moving-average, golden-cross, volume-breakout and uptrend questions.",
+            parameters: {
+                type: 'object',
+                properties: { symbol: { type: 'string' } },
                 required: ['symbol']
             }
         }
@@ -2056,6 +2121,7 @@ function runTool(name, args, ctx) {
         case 'get_health_checks': return toolGetHealthChecks(args || {});
         case 'get_quote': return toolGetQuote(args || {});
         case 'get_price_history': return toolGetPriceHistory(args || {});
+        case 'get_technicals': return toolGetTechnicals(args || {});
         case 'get_segments': return toolGetSegments(args || {});
         case 'get_insider_activity': return toolGetInsiders(args || {});
         case 'screen_universe': return toolScreenUniverse(args || {});
@@ -2113,14 +2179,14 @@ const ASK_SYSTEM = [
     'DATA LOOKUPS: a request for specific figures/periods is a lookup, not a business-results summary. Fetch those figures only. Do not add filings-diff, segments, quarterly or historical research to an annual revenue lookup, even when asked to continue research for the supported ticker. The specific requested period overrides the general recency and research-tool rules.',
     'CASH DISTRIBUTIONS: use capitalReturns for dividend-plus-buyback coverage. Compare FCF with the SUM of the magnitudes of both cash outflows for the same period. coveredByFreeCashflow=false means distributions exceeded FCF; name the shortfall if relevant. Null means coverage cannot be established. A company may use other financing or existing cash, but do not infer that from this calculation alone.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
-    'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
+    'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_technicals gives RSI(14), the 50/200-day averages, the last golden or death cross, volume against its 20-day average and the distance from the 52-week high for one stock; use it for any RSI, moving-average, cross, volume or trend question and state the as-of date. These describe past prices; never present them as a buy, sell or timing signal. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
     'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "what are the margins, returns, leverage and reinvestment over time" → get_ratios_history (11 ratios, each carrying its own formula and inputs — prefer it over computing them yourself). "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context, whose industryProfile names the metric set and the omissions that matter for this company\'s industry — lead the table with those rows. "companies like X" / "peers of X" / "similar to X" → screen_universe with similar_to=X: it ranks the universe by each company\'s own filed factors resembling X\'s and excludes X itself; add sector only if the user explicitly asks for same-sector companies. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
     'COVERAGE: US exchange-listed companies, including ADRs and foreign reporters, plus US-listed ETFs and ticker-addressable US mutual funds. Honor the returned reporting currency and conversion provenance; missing filings or unsupported metrics must be disclosed. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens currently listed stocks with available fundamentals and returns the actual coverage count. With similar_to it ranks the surviving rows by resemblance to that company\'s own filed factors and excludes the company itself — resemblance, not an industry-peer classification. Do not reject a US-listed ADR solely because its issuer is foreign.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
     'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios, per-segment margins) — but only ever combine figures from the SAME tool result or the SAME reporting scope (e.g. a segment\'s revenue from get_segments divided by that same segment\'s volume). Never build a "per X" figure by dividing company-wide revenue by a count that is not literally the thing sold (shares outstanding, employees/headcount, assets under management, or any count narrower in scope than the revenue figure) — that produces a fabricated number.',
     'SCOPE MATCHING: before dividing any revenue or cost figure by a volume or count, check the count\'s scope. If it is segment/division/region-limited (e.g. wireless-only subscribers, upstream-only barrels, US-only units) while the revenue figure is company-wide, do NOT divide them together — pull that same segment\'s revenue via get_segments first and divide within the segment. If no matching segment breakout exists, say the per-unit figure cannot be computed at that scope rather than dividing mismatched numbers.',
-    'SCREENS: screen_universe filters on index membership (index: sp500 / sp100 / nasdaq100, from stored dated lists — never judge membership from memory), share price (min_price / max_price), 5-year profit growth (min_net_income_cagr_5y_pct — use it for a multi-year EPS-growth condition and say once that profit growth stands in, because filed EPS is not comparable across stock splits) and trend (min_price_vs_10_month_avg_pct: 0 = above its 10-month average — use it for a 200-day-average or uptrend condition and say once that it is the 10-month version). Apply every condition the user gave as a real filter in ONE call; never approximate a supported condition by hand or tell the user to check it on another platform. State the matched count and the universe size exactly as returned, and repeat the ordering note when the result carries one. After presenting a screen to a signed-in user, the follow-up line may offer to save it.',
+    'SCREENS: screen_universe filters on index membership (index: sp500 / sp100 / nasdaq100, from stored dated lists — never judge membership from memory), share price (min_price / max_price), 5-year profit growth (min_net_income_cagr_5y_pct — use it for a multi-year EPS-growth condition and say once that profit growth stands in, because filed EPS is not comparable across stock splits) trend (min_price_vs_10_month_avg_pct: 0 = above its 10-month average) and daily price trend from a snapshot taken after each US close (min_rsi14 / max_rsi14, sma200_position above|below for a 200-day-average condition, golden_cross_within_days, min_volume_ratio_20 for a volume breakout; state the snapshot date the result gives, and if it says the snapshot is unavailable fall back to the 10-month filter and say so once). Apply every condition the user gave as a real filter in ONE call; never approximate a supported condition by hand or tell the user to check it on another platform. State the matched count and the universe size exactly as returned, and repeat the ordering note when the result carries one. After presenting a screen to a signed-in user, the follow-up line may offer to save it.',
     'ANY CONDITION, ANY FIGURE: when the user sets a condition or wants a ranking on something screen_universe has no ready filter for — growth over the last four quarters, share-based pay against revenue, buybacks, share count, cash conversion, any ratio over any period — call query_universe and write the formula yourself. It computes the figure for every company from filed statements and filters on it. Put ALL the user\'s numeric conditions into ONE query_universe call so the result is the list of companies that pass every one. Never swap the user\'s condition for a different metric because a column is missing: revenue growth is not profit growth, and "the last four quarters" is not a five-year rate. Before you name a company as the answer, its own row must show it passes each numeric condition the user set; if none passes every condition, say that first and give the closest with what each misses.',
     'SEVERAL NAMED COMPANIES: when the user lists four or more companies to compare or rank, FIRST call screen_universe with symbols=[all of them] — one call gives the same columns for every company — then pull deeper evidence in the same or next round (annual income history per company; qualitative tools for at most the two or three that matter). Cover EVERY company named in ONE answer; never answer for a subset and ask the user to type "continue".',
     'WHAT YOU CANNOT COVER, SAID FIRST: you have no analyst estimates, price targets or consensus ratings, and no assessment of management quality beyond what filings and governance data show. When a question asks for one of these among other things, say so in one sentence near the top, naming exactly what is left out, then answer everything else in full. Never drop a requested item silently.',

@@ -9,6 +9,7 @@
     let rows = [];
     let sortKey = 'marketCapB';
     let sortDir = 'desc';
+    let trendAsOf = null; // the snapshot date when the screen used a price-trend filter
 
     const PRESETS = {
         compounders: { 'f-cagr': 8, 'f-margin': 12, 'f-roe': 15, 'f-fcf': true },
@@ -17,6 +18,7 @@
         dividends: { 'f-div': 2.5, 'f-fcf': true },
         value: { 'f-pe': 16, 'f-fcf': true, 'f-margin': 8 },
         earnings: { 'f-qtr': 25 },
+        uptrend: { 'f-sma200': 'above', 'f-rsi': 50 },
         clear: {}
     };
 
@@ -41,7 +43,7 @@
     }
 
     function setFilters(p) {
-        ['f-cagr', 'f-margin', 'f-roe', 'f-pe', 'f-div', 'f-qtr'].forEach((id) => { $(id).value = p[id] ?? ''; });
+        ['f-cagr', 'f-margin', 'f-roe', 'f-pe', 'f-div', 'f-qtr', 'f-rsi', 'f-sma200', 'f-cross', 'f-vol'].forEach((id) => { $(id).value = p[id] ?? ''; });
         const mv = p['f-mcap'];
         $('f-mcap').value = (mv !== undefined && mv !== '' && !Number.isNaN(Number(mv))) ? bandFor(Number(mv)) : (mv || '');
         $('f-fcf').checked = !!p['f-fcf'];
@@ -64,6 +66,10 @@
         }
         set('minQtrEarningsGrowth', $('f-qtr').value);
         if ($('f-fcf').checked) set('fcfPositive', '1');
+        set('minRsi14', $('f-rsi').value);
+        set('sma200', $('f-sma200').value);
+        set('goldenCrossWithinDays', $('f-cross').value);
+        set('minVolumeRatio20', $('f-vol').value);
         set('sortBy', sortKey === 'symbol' || sortKey === 'sector' ? 'marketCapB' : sortKey);
         set('limit', 100);
         // An adopted AI screen travels back as its own tool args — the server
@@ -80,12 +86,13 @@
             const data = await r.json();
             rows = data.rows || [];
             aiSimilar = data.similarTo || null;
-            $('result-count').textContent = `${data.matched} of ${data.universe} companies match`;
+            trendAsOf = data.technicalsAsOf || null;
+            $('result-count').textContent = `${data.matched} of ${data.universe} companies match` + (trendAsOf ? ` · price trend as of ${trendAsOf}` : '');
             const sel = $('f-sector');
             if (sel.options.length <= 1 && Array.isArray(data.sectors)) {
                 data.sectors.forEach((s) => sel.insertAdjacentHTML('beforeend', `<option>${esc(s)}</option>`));
             }
-            render();
+            render(data.error);
             renderAiNote();
         } catch (_) {
             // A dead-looking error row is a dead end (D7) — make it the retry
@@ -96,7 +103,8 @@
         }
     }
 
-    function render() {
+    function render(error) {
+        $('th-rsi').hidden = !trendAsOf;
         // A similarity screen arrives ranked by the server — re-sorting it
         // client-side by a column would silently destroy that ranking.
         const sorted = aiSimilar ? rows.slice() : rows.slice().sort((a, b) => {
@@ -107,7 +115,7 @@
             return ((x === null) - (y === null)) || (sortDir === 'asc' ? x - y : y - x);
         });
         if (!sorted.length) {
-            $('results-body').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">No companies match these filters — loosen one and run again.</td></tr>';
+            $('results-body').innerHTML = `<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">${error ? esc(error.replace(/ For a 200-day.*$/, '')) : 'No companies match these filters — loosen one and run again.'}</td></tr>`;
             return;
         }
         $('results-body').innerHTML = sorted.map((r) => `
@@ -121,7 +129,8 @@
             <td data-label="ROE">${pct(r.roePct)}</td>
             <td data-label="Div yield">${r.divYieldPct === null ? '—' : pct(r.divYieldPct, 2)}</td>
             <td data-label="Qtr earn YoY" class="${r.qtrNetIncomeYoYPct > 0 ? 'delta-pos' : r.qtrNetIncomeYoYPct < 0 ? 'delta-neg' : ''}">${pct(r.qtrNetIncomeYoYPct, 0)}</td>
-            <td data-label="Profit yrs">${r.profitableYears10 ?? '—'}/10</td>
+            <td data-label="Profit yrs">${r.profitableYears10 ?? '—'}/10</td>${trendAsOf ? `
+            <td data-label="RSI 14">${fixed(r.rsi14, 0)}</td>` : ''}
           </tr>`).join('');
         document.querySelectorAll('#results-body tr').forEach((tr) =>
             tr.addEventListener('click', () => { location.href = `/company.html?symbol=${tr.dataset.sym}`; }));
@@ -143,7 +152,7 @@
 
     // ---- saved screens (localStorage) ----
     const SAVED_KEY = 'v2_saved_screens';
-    const FILTER_IDS = ['f-cagr', 'f-margin', 'f-roe', 'f-pe', 'f-div', 'f-mcap', 'f-qtr'];
+    const FILTER_IDS = ['f-cagr', 'f-margin', 'f-roe', 'f-pe', 'f-div', 'f-mcap', 'f-qtr', 'f-rsi', 'f-sma200', 'f-cross', 'f-vol'];
     function currentFilters() {
         const f = {};
         FILTER_IDS.forEach((id) => { if ($(id).value !== '') f[id] = $(id).value; });
@@ -159,7 +168,7 @@
     // the user across browsers and so Ask can save one. A screen there is a set
     // of screen criteria, the same shape an adopted AI screen has. Signed out,
     // the localStorage screens above are all there is.
-    const FILTER_TO_CRITERIA = [['f-cagr', 'min_revenue_cagr_5y_pct'], ['f-margin', 'min_net_margin_pct'], ['f-roe', 'min_roe_pct'], ['f-pe', 'max_pe'], ['f-div', 'min_dividend_yield_pct'], ['f-qtr', 'min_latest_qtr_earnings_growth_yoy_pct']];
+    const FILTER_TO_CRITERIA = [['f-cagr', 'min_revenue_cagr_5y_pct'], ['f-margin', 'min_net_margin_pct'], ['f-roe', 'min_roe_pct'], ['f-pe', 'max_pe'], ['f-div', 'min_dividend_yield_pct'], ['f-qtr', 'min_latest_qtr_earnings_growth_yoy_pct'], ['f-rsi', 'min_rsi14'], ['f-cross', 'golden_cross_within_days'], ['f-vol', 'min_volume_ratio_20']];
     let accountScreens = [];
     const signedIn = () => !!(window.V2 && V2.token && V2.token());
     const authHeaders = () => ({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + V2.token() });
@@ -167,6 +176,7 @@
         const c = {};
         FILTER_TO_CRITERIA.forEach(([id, key]) => { if (f[id] !== undefined && f[id] !== '' && !Number.isNaN(Number(f[id]))) c[key] = Number(f[id]); });
         if (f['f-fcf']) c.require_positive_fcf = true;
+        if (f['f-sma200']) c.sma200_position = f['f-sma200'];
         if (f['f-sector']) c.sector = f['f-sector'];
         const mv = f['f-mcap'];
         const band = (mv !== undefined && mv !== '') ? BANDS[Number.isNaN(Number(mv)) ? mv : bandFor(Number(mv))] : null;
@@ -395,9 +405,10 @@
     }
 
     function syncFiltersTo(a) {
-        [['f-cagr', 'min_revenue_cagr_5y_pct'], ['f-margin', 'min_net_margin_pct'], ['f-roe', 'min_roe_pct'], ['f-pe', 'max_pe'], ['f-div', 'min_dividend_yield_pct'], ['f-qtr', 'min_latest_qtr_earnings_growth_yoy_pct']]
+        [['f-cagr', 'min_revenue_cagr_5y_pct'], ['f-margin', 'min_net_margin_pct'], ['f-roe', 'min_roe_pct'], ['f-pe', 'max_pe'], ['f-div', 'min_dividend_yield_pct'], ['f-qtr', 'min_latest_qtr_earnings_growth_yoy_pct'], ['f-rsi', 'min_rsi14'], ['f-cross', 'golden_cross_within_days'], ['f-vol', 'min_volume_ratio_20']]
             .forEach(([id, key]) => { $(id).value = (a[key] === undefined || a[key] === null) ? '' : a[key]; });
         $('f-fcf').checked = a.require_positive_fcf === true;
+        $('f-sma200').value = a.sma200_position === 'above' || a.sma200_position === 'below' ? a.sma200_position : '';
         // The cap select expresses a band, not a bound — only set it when the
         // screen's own bounds are exactly a band's, else leave it "Any size"
         // (the criteria still carries the bounds to the server).
@@ -536,7 +547,7 @@
             run();
         }));
     $('run-btn').addEventListener('click', run);
-    ['f-sector', 'f-mcap'].forEach((id) => $(id).addEventListener('change', () => { clearAiScreen(); run(); }));
+    ['f-sector', 'f-mcap', 'f-sma200', 'f-cross'].forEach((id) => $(id).addEventListener('change', () => { clearAiScreen(); run(); }));
     // typing applies live — no hunting for the Run button; a manual edit also
     // releases the active preset highlight (you're off-script now) and leaves
     // any adopted AI screen behind

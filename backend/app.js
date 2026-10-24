@@ -3128,7 +3128,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui31" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3157,7 +3157,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261024-ui30"></script>
+<script src="/assets/app.js?v=20261024-ui31"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3249,7 +3249,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui31" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3277,7 +3277,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261024-ui30"></script>
+<script src="/assets/app.js?v=20261024-ui31"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3385,7 +3385,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261024-ui30" />
+<link rel="stylesheet" href="/assets/system.css?v=20261024-ui31" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3418,7 +3418,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261024-ui30"></script>
+<script src="/assets/app.js?v=20261024-ui31"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -10739,6 +10739,10 @@ function screenerCriteria(q) {
         min_profitable_years_of_last_10: q.minProfitableYears,
         min_latest_qtr_earnings_growth_yoy_pct: q.minQtrEarningsGrowth,
         max_pe: q.maxPe,
+        min_rsi14: q.minRsi14,
+        sma200_position: q.sma200 === 'above' || q.sma200 === 'below' ? q.sma200 : undefined,
+        golden_cross_within_days: q.goldenCrossWithinDays,
+        min_volume_ratio_20: q.minVolumeRatio20,
         sort_by: q.sortBy,
         limit: q.limit,
         maxLimit: 100
@@ -10778,6 +10782,29 @@ app.get('/api/company/:symbol/peers', (req, res) => {
     } catch (error) {
         res.status(error.status || 500).json({ code: error.code || 'PEERS_FAILED', message: publicErrorMessage(error, 'Peers failed') });
     }
+});
+
+// Price-trend band under the company chart. The daily universe snapshot
+// answers without an outside call; a symbol it lacks is fetched once and kept
+// six hours, for people only, so a crawl of every page fetches nothing.
+app.get('/api/company/:symbol/technicals', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!/^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(symbol)) return res.status(400).json({ code: 'BAD_SYMBOL', message: 'A ticker symbol is required.' });
+    const universe = require('./technicals-universe'), row = universe.get(symbol);
+    let t = row && {
+        asOf: universe.view().asOf, close: row.close, rsi14: row.rsi14, sma50: row.sma50, sma200: row.sma200, pctVsSma200: row.pctVsSma200,
+        pctVsSma50: row.close !== null && row.sma50 ? Math.round((row.close / row.sma50 - 1) * 10000) / 100 : null,
+        lastCross: row.crossType ? { type: row.crossType, date: row.crossDate } : null, volumeRatio20: row.volumeRatio20, pctFrom52wHigh: row.pctFrom52wHigh, trend: row.trend
+    };
+    if (!t && !quoteStore.isLikelyCrawler(req.get('user-agent'))) {
+        try { t = await require('./technicals').forSymbol(symbol); } catch (_) { t = null; }
+    }
+    if (!t || t.rsi14 === null) return res.status(404).json({ code: 'TECHNICALS_UNAVAILABLE', message: 'No daily price trend is available for this symbol.' });
+    const { asOf, close, rsi14, sma50, sma200, pctVsSma50, pctVsSma200, lastCross, volumeRatio20, pctFrom52wHigh, trend } = t;
+    res.set('Cache-Control', 'public, max-age=900').json({
+        symbol, asOf, close, rsi14, sma50, sma200, pctVsSma50, pctVsSma200, lastCross: lastCross ? { type: lastCross.type, date: lastCross.date } : null, volumeRatio20, pctFrom52wHigh, trend,
+        note: 'Computed from daily adjusted closes. Descriptive statistics of past prices, not a forecast or a trade signal.'
+    });
 });
 
 // Spoken questions for Ask (speech-to-text.js). Signed-in accounts only, the
@@ -16497,6 +16524,7 @@ if (String(process.env.DISABLE_BACKGROUND_JOBS || '') === '1') {
     startTrialLifecycleJobs();
     // 🧪 AI Paper Portfolio daily sweep (no-ops when the experiment is switched off).
     aiPaper.start();
+    require('./technicals-universe').start();
 }
 // Dossier pre-warming is expensive because each dossier composes several AI
 // sections. Keep it off in every environment unless an operator explicitly

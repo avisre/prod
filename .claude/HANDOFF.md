@@ -29,16 +29,26 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   - Stamp is now `20261024-ui30`.
   - The demo fundamentals route sends `Server-Timing` (evidence, topup, fx, gzip). Read it on prod after the deploy.
   - Local cold misses are now 0.4–0.5s (topup 100–360ms is the remainder). Predeploy passed.
-- **Uncommitted, in progress:**
-  - Phase 2: onboarding follow-up chips and Follow button (`onboarding.html`), and `ask-coverage.js`, which
-    appends `> Next: Continue with …` when a 3+ ticker question was cut off.
-  - Phase 3: `technicals.js` (Wilder RSI14, SMA50/200, crosses, volume ratio, distance from the 52-week high) and
-    the `get_technicals` Ask tool.
-  - The `ai-chat.js` hunks are mine. The **staged** `ai-chat.js` / `filing-monitor.js` / `insights.js` /
-    `no-fcf-financials.test.js` changes belong to another session (10/19): commit around them with a temp
-    `GIT_INDEX_FILE`.
-  - Still to do: Phase 3 screener snapshot and company-page band, Phase 4 auto-follow (`company_views` recorded in
-    `/api/company/:symbol/filings`), Phase 5 checklist grid.
+- **Phase 2 committed `cf53fe301`, NOT pushed:** onboarding follow-up chips + Follow button; `ask-coverage.js`
+  appends `> Next: Continue with …` when a 3+ ticker question was cut off.
+- **Phase 3 (price trend) committed locally, NOT pushed.** Stamp now `20261024-ui31`.
+  - `technicals.js`: Wilder RSI14, SMA50/200, last golden/death cross, volume vs prior-20-day avg, % from 52-week
+    high (closes), trend label. `forSymbol()` fetches ~430 days, kept 6h. KO checked against an independent
+    recomputation from the same Yahoo series: every field identical.
+  - `technicals-universe.js`: daily in-process snapshot (2 at a time, 250ms gap, ~21 min for 5,090 symbols, ~617 KB)
+    in Mongo `technicals_snapshot` `_id:'latest'`. Builds at/after 22:00 UTC on weekdays once >20h old, and at 240s
+    after the first boot when none exists. A run where >half the fetches fail keeps the old snapshot.
+    `TECHNICALS_SNAPSHOT=0` disables it. Locally (`DISABLE_BACKGROUND_JOBS=1`) there is no snapshot.
+  - Ask: `get_technicals` tool; `screen_universe` gains `min_rsi14`, `max_rsi14`, `sma200_position`,
+    `golden_cross_within_days`, `min_volume_ratio_20` and sorts; no snapshot → an error naming the 10-month fallback.
+  - Screener: Uptrend chip + 4 filters, RSI column and "price trend as of" only when the snapshot answered.
+  - Company page: "Price trend" band under the chart from `GET /api/company/:symbol/technicals` (snapshot row, else
+    `forSymbol` for non-crawlers — HeadlessChrome counts as a crawler, so Playwright needs a desktop UA).
+  - **After a push:** check the Render log for `[technicals] snapshot {... saved:true}` ~25 min after boot.
+- The **staged** `ai-chat.js` / `filing-monitor.js` / `insights.js` / `no-fcf-financials.test.js` changes belong to
+  another session (10/19): commit around them with a temp `GIT_INDEX_FILE`.
+- Still to do: Phase 4 auto-follow (`company_views` recorded in `/api/company/:symbol/filings`), Phase 5 checklist
+  grid.
 
 ## Ask chat parity + search cleanup — 2026-10-18 (committed locally, NOT pushed)
 - `97f55bfe0`: search dropdown has no statement badges, drops futures/FX (`=`/`^` symbols); a whole-word company

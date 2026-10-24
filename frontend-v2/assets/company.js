@@ -1106,6 +1106,31 @@
         $('cap-toggle').hidden = chartMode !== 'price' || mixedCurrencies || !sharesByPeriod.size || sharesBasis === 'current';
         $('chart-block').hidden = false;
     }
+    // Price trend from daily closes under the chart, fetched after the page is
+    // drawn (3 of last month's 10 customer questions asked for RSI, a golden
+    // cross or a volume breakout). Descriptive, so nothing is coloured as good
+    // or bad; nothing shows when there is no daily series.
+    async function renderTrendBand() {
+        try {
+            const r = await fetch(`${API}/company/${encodeURIComponent(symbol)}/technicals`);
+            if (!r.ok) return;
+            const t = await r.json();
+            const signed = (v) => (v === null || v === undefined ? '—' : (v > 0 ? '+' : '') + fixed(v, 1) + '%');
+            const day = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+            const items = [
+                ['Trend', t.trend ? t.trend[0].toUpperCase() + t.trend.slice(1) : '—'],
+                ['RSI (14)', fixed(t.rsi14, 0)],
+                ['vs 50-day avg', signed(t.pctVsSma50)],
+                ['vs 200-day avg', signed(t.pctVsSma200)],
+                ['Last 50/200 cross', t.lastCross ? `${t.lastCross.type === 'golden' ? 'Golden' : 'Death'} · ${day(t.lastCross.date)}` : 'None recently'],
+                ['Volume vs 20-day', t.volumeRatio20 === null ? '—' : fixed(t.volumeRatio20, 2) + '×'],
+                ['From 52-week high', signed(t.pctFrom52wHigh)]
+            ];
+            $('trend-band').innerHTML = `<div class="trend-items">${items.map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`
+                + `<p class="provenance">Price trend as of ${esc(day(t.asOf))}, from daily adjusted closes. It describes past prices and is not a trade signal.</p>`;
+            $('trend-band').hidden = false;
+        } catch (_) { /* the page is complete without it */ }
+    }
     $('cap-toggle').addEventListener('click', () => {
         showCap = !showCap;
         $('cap-toggle').setAttribute('aria-pressed', String(showCap));
@@ -2719,6 +2744,7 @@
             buildSharesMap();
             renderMasthead();
             renderMainChart();
+            renderTrendBand();
             renderKv();
             renderDossier();
             renderAbout();

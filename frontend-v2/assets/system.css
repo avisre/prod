@@ -1411,6 +1411,11 @@ main { min-height: 60vh; padding-bottom: var(--s7); }
 .mast-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
 .mast-price { font-size: 30px; font-weight: 650; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; line-height: 1.1; text-align: right; }
 /* the chart sits in a card, as the Markets page charts do */
+.trend-band { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.trend-items { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 13px; }
+.trend-items div { display: flex; gap: 8px; align-items: baseline; }
+.trend-items span { color: var(--ink-2); }
+.trend-items b { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .mast-chart { margin-top: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 12px; }
 #fund-chart { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 8px; margin-top: 10px; }
 @media (max-width: 640px) { .mast-chart { padding: 12px 10px 8px; } #fund-chart { padding: 10px 8px 6px; } }
