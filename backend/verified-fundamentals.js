@@ -16,7 +16,7 @@ function safeRows(data,st,basis,perShareAllowed) {
  const metadata=new Set(['fiscalDateEnding','periodStart','reportedCurrency','periodType']);
  const asOf=p.day(new Date().toISOString());
  return (data?.[st]?.[basis] || []).map(r=>{
-  const row={...r,_sources:{...r._sources},_derivations:{...r._derivations},_scopes:{...r._scopes},_signs:{...r._signs}};
+  const row={...r,_sources:{...r._sources},_derivations:{...r._derivations},_scopes:{...r._scopes},_signs:{...r._signs},_classes:r._classes && Object.fromEntries(Object.entries(r._classes).map(([f,m])=>[f,{...m}]))};
   // Check every populated financial field, including ones with no source map.
   const fields=new Set([...Object.keys(r).filter(f=>!metadata.has(f) && !f.startsWith('_')),...Object.keys(r._sources || {})]);
   for(const field of fields)if(!p.verifiedField(data,r,field) || !p.day(r.fiscalDateEnding) || r.fiscalDateEnding>asOf || (r._sources?.[field] || []).some(id=>data.sources?.[id]?.filingDate>asOf) || (!perShareAllowed && /(?:EPS|^eps$|Shares)/.test(field))){row[field]=null;delete row._sources[field];delete row._derivations[field];delete row._scopes[field];delete row._signs[field];}
@@ -42,12 +42,32 @@ function perShareBasis(company,data,quote,quoteCurrency) {
  if(!classes.length)return 'share_class';
  const price=p.number(quote?.price),pe=p.number(quote?.trailingPE);
  if(!(price>0 && pe>0))return 'share_class';
- // The quote's P/E is trailing twelve months, so compare with the fiscal year moved on by the
- // quarters filed since it, less the same quarters a year earlier (Q4 is never filed alone).
- const perShare=r=>p.number(r?.dilutedEPS) ?? p.number(r?.eps),quarters=data?.income?.quarterlyReports || [];
+ const perShare=r=>p.number(r?.dilutedEPS) ?? p.number(r?.eps);
+ return [perShare(latest),ttmPerShare(latest,data?.income?.quarterlyReports || [],perShare)].some(eps=>eps>0 && Math.abs(Math.log(price/pe/eps))<=Math.log(1/0.6))?null:'share_class';
+}
+// The quote's P/E is trailing twelve months, so compare with the fiscal year moved on by the
+// quarters filed since it, less the same quarters a year earlier (Q4 is never filed alone).
+function ttmPerShare(latest,quarters,perShare) {
  const since=quarters.filter(r=>r.fiscalDateEnding>latest?.fiscalDateEnding),before=since.map(r=>quarters.find(x=>Math.abs((Date.parse(r.fiscalDateEnding)-Date.parse(x.fiscalDateEnding))/864e5-365)<=10));
- const ttm=perShare(latest)!==null && [...since,...before].every(r=>perShare(r)!==null)?since.reduce((t,r,i)=>t+perShare(r)-perShare(before[i]),perShare(latest)):null;
- return [perShare(latest),ttm].some(eps=>eps>0 && Math.abs(Math.log(price/pe/eps))<=Math.log(1/0.6))?null:'share_class';
+ return perShare(latest)!==null && [...since,...before].every(r=>perShare(r)!==null)?since.reduce((t,r,i)=>t+perShare(r)-perShare(before[i]),perShare(latest)):null;
+}
+// A filing that reports one EPS per class of stock leaves each class's figure on the row (_classes,
+// sec-facts): the listing's own class is the one whose figures the quote's trailing P/E confirms within
+// 5% while no other class's are that close (V: Class A 1.5% vs Class B1 32%; GEF-B's stale annual put
+// Class A 36% off). Its figures go onto a per-listing copy of the issuer file, never onto the cached one
+// loadIssuer shares between the two classes.
+function listingClassData(data,quote) {
+ const latest=data?.income?.annualReports?.[0],price=p.number(quote?.price),pe=p.number(quote?.trailingPE);
+ if(!latest?._classes || !(price>0 && pe>0))return null;
+ const members=[...new Set(['dilutedEPS','eps'].flatMap(f=>Object.keys(latest._classes[f] || {})))],band=Math.log(1.05);
+ // A row whose classes filed one figure carries it on the field itself (HSY's older quarters).
+ const figure=(r,m)=>p.number(r?._classes?.dilutedEPS?.[m]?.v) ?? p.number(r?._classes?.eps?.[m]?.v) ?? p.number(r?.dilutedEPS) ?? p.number(r?.eps);
+ const distance=m=>{const f=r=>figure(r,m);return [f(latest),ttmPerShare(latest,data.income.quarterlyReports || [],f)].reduce((best,eps)=>eps>0?Math.min(best,Math.abs(Math.log(price/pe/eps))):best,Infinity);};
+ const ranked=members.map(m=>[m,distance(m)]).sort((a,b)=>a[1]-b[1]);
+ const member=ranked.length && ranked[0][1]<=band && ranked.slice(1).every(([,d])=>d>band)?ranked[0][0]:null;
+ if(!member)return null;
+ const on=r=>{let copy=null;for(const f of ['eps','dilutedEPS'])if(r._classes?.[f]?.[member]){(copy ??= {...r,_sources:{...r._sources}})[f]=r._classes[f][member].v;copy._sources[f]=[r._classes[f][member].id];}return copy || r;};
+ return {...data,income:{...data.income,annualReports:data.income.annualReports.map(on),quarterlyReports:(data.income.quarterlyReports || []).map(on)}};
 }
 function adapt(company,raw,data,entry,issuer) {
  const type=company.securityType || 'stock';
@@ -61,18 +81,19 @@ function adapt(company,raw,data,entry,issuer) {
  // Verified company market values retain the dated provider quote instead.
  const quote=require('./quote-store').getDailyQuote(company.symbol,{useLegacySecShares:false});
  const marketData=quote?.asOf?{...quote,source:'Yahoo Finance daily snapshot',financialSource:false}:null;
- const perShareReason=perShareBasis(company,data,marketData,marketData?.currency || raw?.overview?.Currency || 'USD'),perShareAllowed=!perShareReason;
+ const rowsData=listingClassData(data,marketData) || data;
+ const perShareReason=perShareBasis(company,rowsData,marketData,marketData?.currency || raw?.overview?.Currency || 'USD'),perShareAllowed=!perShareReason;
  if(marketData && !perShareAllowed){marketData.trailingPE=null;marketData.forwardPE=null;marketData.sharesOutstanding=null;}
  if(marketData){overview.MarketCapitalization=p.number(marketData.marketCap);overview.PERatio=p.number(marketData.trailingPE);overview.ForwardPE=p.number(marketData.forwardPE);overview.DividendYield=p.number(marketData.dividendYield);overview['52WeekHigh']=p.number(marketData.fiftyTwoWeekHigh);overview['52WeekLow']=p.number(marketData.fiftyTwoWeekLow);if(perShareAllowed)overview.SharesOutstanding=p.number(marketData.sharesOutstanding);}
- const out={overview,daily:raw?.daily || {},monthly:raw?.monthly || {},marketData,coverage:{annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:data?(entry?.financialCoverage || 'unavailable'):'unavailable',securityType:type,latestAnnual:issuer?.evidence?.latestAnnual || null,lastSuccessfulCheckAt:issuer?.evidence?.lastSuccessfulCheckAt || null,sic:issuer?.evidence?.sic || null,investmentCompany:!!data?.investmentCompany,perShareAllowed,perShareReason,missingReason:!data?'No verified SEC financial observations are available.':null},provenance:{sources:data?.sources || {},financialDigest:issuer?.financialDigest || issuer?.evidence?.financialDigest || null},fetchedAt:data?.fetchedAt || null};
- for(const st of ['income','balance','cash'])out[st]={annualReports:type==='stock'?safeRows(data,st,'annualReports',perShareAllowed):[],quarterlyReports:type==='stock'?safeRows(data,st,'quarterlyReports',perShareAllowed):[]};
+ const out={overview,daily:raw?.daily || {},monthly:raw?.monthly || {},marketData,coverage:{annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:rowsData?(entry?.financialCoverage || 'unavailable'):'unavailable',securityType:type,latestAnnual:issuer?.evidence?.latestAnnual || null,lastSuccessfulCheckAt:issuer?.evidence?.lastSuccessfulCheckAt || null,sic:issuer?.evidence?.sic || null,investmentCompany:!!rowsData?.investmentCompany,perShareAllowed,perShareReason,missingReason:!rowsData?'No verified SEC financial observations are available.':null},provenance:{sources:rowsData?.sources || {},financialDigest:issuer?.financialDigest || issuer?.evidence?.financialDigest || null},fetchedAt:rowsData?.fetchedAt || null};
+ for(const st of ['income','balance','cash'])out[st]={annualReports:type==='stock'?safeRows(rowsData,st,'annualReports',perShareAllowed):[],quarterlyReports:type==='stock'?safeRows(rowsData,st,'quarterlyReports',perShareAllowed):[]};
  const inc=out.income.annualReports[0];overview.Currency=inc?.reportedCurrency || out.balance.annualReports[0]?.reportedCurrency || 'USD';
  overview.EPS=inc?.dilutedEPS ?? inc?.eps ?? null;
  // An ADR's or foreign filer's EPS stays out of the statement rows, where readers pair it
  // with the listing's price; the page shows it alone, in the filing currency, per ordinary share.
- if(type==='stock' && ['adr','currency'].includes(perShareReason)){const row=safeRows(data,'income','annualReports',true)[0];if(row && (p.number(row.dilutedEPS)!==null || p.number(row.eps)!==null))out.filedPerShare={fiscalDateEnding:row.fiscalDateEnding,reportedCurrency:row.reportedCurrency,dilutedEPS:p.number(row.dilutedEPS),eps:p.number(row.eps),basis:'per ordinary share'};}
+ if(type==='stock' && ['adr','currency'].includes(perShareReason)){const row=safeRows(rowsData,'income','annualReports',true)[0];if(row && (p.number(row.dilutedEPS)!==null || p.number(row.eps)!==null))out.filedPerShare={fiscalDateEnding:row.fiscalDateEnding,reportedCurrency:row.reportedCurrency,dilutedEPS:p.number(row.dilutedEPS),eps:p.number(row.eps),basis:'per ordinary share'};}
  if(!perShareAllowed)overview.PERatio=null;
- if(type==='stock')out.supplementalObservations=require('./company-observations').reconcile(require('./company-observations').observations(data),require('./committed-supplements').forIssuer(company.cik || 'listing:'+company.symbol.replace(/\./g,'-'))).filter(f=>f.state==='available');
+ if(type==='stock')out.supplementalObservations=require('./company-observations').reconcile(require('./company-observations').observations(rowsData),require('./committed-supplements').forIssuer(company.cik || 'listing:'+company.symbol.replace(/\./g,'-'))).filter(f=>f.state==='available');
  // The cost lines a company files in place of a cost of revenue (filed-costs.js).
  const latest=out.income.annualReports[0];
  if(type==='stock' && latest && latest.costOfRevenue==null && latest.grossProfit==null){const filed=require('./filed-costs').forIssuer(company.cik,out.income.annualReports);if(filed)out.filedCosts=filed;}

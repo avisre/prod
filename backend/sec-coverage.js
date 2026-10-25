@@ -146,6 +146,18 @@ function verifiedField(data, row, field, accessions) {
         const values = sources.map(s => number(s.rawValue)), sum = values.reduce((a, b) => a + b, 0);
         return presentedCapexFacts(derived.presentedConcepts, values) && row._signs?.[field] === -1 && number(row[field]) === -Math.abs(sum);
     }
+    // A balance-sheet field as the sum of the segment columns the balance sheet is presented in
+    // (sec-facts presentedColumns): one allow-listed axis, one filing, one source per member, and
+    // the columns' Assets are this row's own total assets (Berkshire 2026-06-30: 1,010,646 + 252,425 = 1,263,071).
+    if (derived?.formula === 'sum_member_columns') {
+        const MAPS = require('./sec-facts').MAPS;
+        if (!MAPS.balance[field] || row.periodType !== 'instant' || !Array.isArray(derived.members) || derived.members.length < 2 || sources.length !== derived.members.length || new Set(derived.members).size !== derived.members.length) return false;
+        if (!['ProductOrService', 'BusinessSegments'].includes(derived.axis)) return false;
+        if (!sources.every((s, i) => s.verificationMethod === 'statement_line' && s.periodStart === null && s.concept === derived.presentedConcept && s.dimension === derived.axis + '=' + derived.members[i] && s.accessionNumber === sources[0].accessionNumber)) return false;
+        if (!Array.isArray(derived.memberAssets) || derived.memberAssets.length !== derived.members.length || !derived.memberAssets.every(v => number(v) > 0) || derived.memberAssets.reduce((a, b) => a + b, 0) !== number(row.totalAssets)) return false;
+        const values = sources.map(s => number(s.rawValue));
+        return number(row[field]) === values.reduce((a, b) => a + b, 0) && !row._signs?.[field];
+    }
     if (!row._derivations?.[field] && sources.length !== 1) return false;
     if (!row._derivations?.[field] && number(row[field]) !== (row._signs?.[field] === -1 ? -Math.abs(number(sources[0].rawValue)) : number(sources[0].rawValue))) return false;
     if (derived) {

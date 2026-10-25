@@ -18,7 +18,8 @@
 //   s statement (income|balance|cash)  f field          t taxonomy (custom: the filer's prefix)
 //   c concept   l printed label        u unit           v value as filed
 //   e period end (YYYY-MM-DD)          q quarters (0 instant, 1 quarter, 4 year)
-//   a accession m form  d filing date  g dimension ("ClassOfStock=CommonStock"), if any
+//   a accession m form  d filing date  g dimension ("ClassOfStock=CommonStock"), or the column members
+//   k record kind (debt|capex|columns); a columns record also carries x axis and ta member Assets values
 const fs=require('node:fs'),path=require('node:path'),p=require('./sec-coverage');
 const STATEMENT={IS:'income',BS:'balance',CF:'cash'};
 const ANY='(?:income|loss|\\(loss\\) income|income \\(loss\\)|earnings|\\(loss\\) earnings|earnings \\(loss\\)|profit|\\(loss\\) profit|profit \\(loss\\))';
@@ -115,6 +116,10 @@ function mappedTags(){
 // statement of that filing presents a noncontrolling interest, so that a bare
 // "net income" or total is the consolidated figure, not the parent's. `crdr` is
 // the tag's declared balance (tag.txt), when it is known.
+// A standard EPS tag is the filed EPS whatever the line is called (Berkshire: "Net earnings per
+// average equivalent Class A share", Erie: "Common stock - basic"): the company-facts feed drops the
+// figure with every dimensional fact, so the tag decides the field when the label excludes nothing.
+const EPS_TAG={EarningsPerShareBasic:['eps'],EarningsPerShareDiluted:['dilutedEPS'],EarningsPerShareBasicAndDiluted:['eps','dilutedEPS']};
 function fieldsFor(stmt,plabel,tag,{custom=false,mapped=new Set(),noncontrolling=false,crdr,memberTotal=false}={}) {
  const full=label(plabel),text=netLabel(full);if(!STATEMENT[stmt] || !text || EXCLUDE.test(full) || TAG_DENY.test(tag) || (!custom && STD_DENY.has(tag)))return [];
  const out=[];
@@ -128,6 +133,9 @@ function fieldsFor(stmt,plabel,tag,{custom=false,mapped=new Set(),noncontrolling
   if(fields.some(f=>TAG_REQUIRE[f] && !TAG_REQUIRE[f].test(tag)))continue;
   out.push(...fields);
  }
+ // The label decides first: SPACs tag their one "Basic and diluted net loss per share, Class A" line
+ // EarningsPerShareBasic, and the filing states that figure for both.
+ if(stmt==='IS' && !custom && EPS_TAG[tag] && !out.some(f=>f==='eps' || f==='dilutedEPS'))out.push(...EPS_TAG[tag]);
  // A standard tag of ours reaches the cell already, except a per-class EPS figure,
  // which the company-facts feed drops with every other dimensional fact, and, for the
  // builder (memberTotal), a total revenue filed only under one product member.
@@ -145,6 +153,26 @@ function memberTotal(members){
 }
 // A fact on a dimension is kept only for a per-share figure filed for one class of stock.
 function acceptedDimension(segments,field){if(!segments)return true;return (field==='eps' || field==='dilutedEPS') && /^ClassOfStock=[^;=]+;?$/.test(segments);}
+// The axes a balance sheet's columns may be summed over (columnSum, sec-facts presentedColumns).
+// Fresh-start columns add up too — Vroom's 10-Q for 2024-12-31 sums its accumulated deficit to 0 over
+// predecessor + plan effect + fresh-start adjustment — but those are adjustments, not parts of the company.
+const COLUMN_AXES=new Set(['ProductOrService','BusinessSegments']);
+// A balance sheet presented in segment columns: one allow-listed axis whose members' single-dimension
+// Assets are each > 0 and sum exactly to the plain Assets are the columns; a line with no plain value and
+// exactly one value per column is the sum of those (Berkshire's 10-Q for 2026-06-30, ProductOrService:
+// cash 35,096 + 5,513 = 40,609; PP&E 39,409 + 185,815 = 225,224, ignoring the Railroad and
+// UtilitiesAndEnergy note members outside the Assets columns). A member with two values arrives as NaN
+// and skips the line; so do two qualifying axes and any line that already has a plain value.
+function columnSum(assets,line){
+ const plain=assets?.plain;
+ if(!Number.isFinite(plain))return null;
+ const axes=[...(assets.axes || [])].filter(([axis,members])=>COLUMN_AXES.has(axis) && members.size>=2 && [...members.values()].every(v=>Number.isFinite(v) && v>0) && Math.abs([...members.values()].reduce((a,b)=>a+b,0)-plain)<0.5);
+ if(axes.length!==1)return null;
+ const axis=axes[0][0],members=[...assets.axes.get(axis).keys()].sort(),own=line?.axes?.get(axis);
+ if(line?.plain!=null || !own || !members.every(m=>Number.isFinite(own.get(m))))return null;
+ const values=members.map(m=>own.get(m));
+ return {axis,members,values,assets:members.map(m=>assets.axes.get(axis).get(m)),sum:values.reduce((a,b)=>a+b,0)};
+}
 // A balance-sheet line that is borrowing of any kind. Read wide on purpose: a presented line
 // this matches but the row does not hold leaves total debt unread (sec-facts presentedDebt),
 // while one it missed would understate it. Leases, interest and totals are not debt lines.
@@ -175,4 +203,4 @@ function capexLine(tag,plabel){
 const CAPEX_TAGS=new Set(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsForSoftware','PaymentsToAcquireSoftware','PaymentsToDevelopSoftware','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']);
 const DIR=()=>path.join(p.DATA_DIR,'sec-statement-lines');
 function forCik(cik){const id=p.cik(cik);if(!id)return [];try{const doc=JSON.parse(fs.readFileSync(path.join(DIR(),id+'.json'),'utf8'));return doc.cik===id && Array.isArray(doc.lines)?doc.lines:[];}catch(e){if(e.code==='ENOENT')return [];throw e;}}
-module.exports={RULES,BALANCE,debtLine,capexLine,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT};
+module.exports={RULES,BALANCE,debtLine,capexLine,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};

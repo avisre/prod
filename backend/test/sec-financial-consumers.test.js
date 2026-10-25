@@ -9,7 +9,8 @@ test('units and rights never expose issuer statements, EPS or ratios',async()=>{
 });
 test('native currency is preserved and per-share class ambiguity is suppressed',()=>{
  const foreign=require('../fundamentals-cache').loadFundamentals('MUFG');assert.equal(foreign.income.annualReports[0].reportedCurrency,'JPY');assert.equal(foreign.overview.EPS,null);
- const brk=require('../fundamentals-cache').loadFundamentals('BRK.B');assert.equal(brk.overview.PERatio,null);assert.equal(brk.income.annualReports[0].dilutedEPS,null);
+ const gef=require('../fundamentals-cache').loadFundamentals('GEF-B');assert.equal(gef.overview.PERatio,null);assert.equal(gef.income.annualReports[0].dilutedEPS,null);
+ const brk=require('../fundamentals-cache').loadFundamentals('BRK.B');assert.ok(brk.overview.PERatio>0);assert.ok(brk.income.annualReports[0].eps>0 && brk.income.annualReports[0].eps<1000);
  assert.equal(require('../verified-seo').amount(100,'JPY'),'JPY 100');assert.equal(require('../verified-seo').amount(null),'—');
 });
 test('screener uses ready issuers and missing fields stay null',()=>{

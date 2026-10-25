@@ -12,8 +12,11 @@
 // cover (a file in frontend/data/sec-financials) are kept.
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),readline=require('node:readline'),{spawn}=require('node:child_process');
 const backend=path.join(__dirname,'../backend'),req=m=>require(path.join(backend,'node_modules',m));
-const lines=require('../backend/statement-lines'),p=require('../backend/sec-coverage');
+const lines=require('../backend/statement-lines'),p=require('../backend/sec-coverage'),{MAPS}=require('../backend/sec-facts');
 const FORM=/^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
+// A balance-sheet face tag and the one field it maps to (MAPS.balance us-gaap list); a tag on two
+// fields (LiabilitiesAndStockholdersEquity) and custom tags are not read as columns.
+const BALANCE_TAG=new Map();for(const [field,def] of Object.entries(MAPS.balance))for(const c of def['us-gaap'] || []){if(!BALANCE_TAG.has(c))BALANCE_TAG.set(c,new Set());BALANCE_TAG.get(c).add(field);}
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i>0?process.argv[i+1]:fallback;};
 const day=s=>/^\d{8}$/.test(s || '')?`${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`:null;
 
@@ -31,10 +34,11 @@ async function child(file,out,covered){
  await table(zip,'sub.txt',(c,h)=>{const cik=p.cik(c[h.cik]);if(covered.has(cik) && FORM.test(c[h.form]))subs.set(c[h.adsh],{cik,form:c[h.form],filed:day(c[h.filed]),period:day(c[h.period])});});
  // Statement lines first, the noncontrolling-interest flag of each statement with them:
  // the flag can come after the line it qualifies, so fields are settled once it is known.
- const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),capex=new Map();
+ const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),capex=new Map(),face=new Map(),columns=new Map();
  await table(zip,'pre.txt',(c,h)=>{
   const adsh=c[h.adsh],stmt=c[h.stmt];if(!subs.has(adsh) || !lines.STATEMENT[stmt] || c[h.inpth]!=='0')return;
   const tag=c[h.tag],version=c[h.version],plabel=c[h.plabel];
+  if(stmt==='BS' && (tag==='Assets' || BALANCE_TAG.get(tag)?.size===1))face.set(adsh+'|'+tag+'|'+version,plabel);
   if(stmt==='BS' && lines.debtLine(tag,plabel)){if(!debt.has(adsh))debt.set(adsh,new Map());debt.get(adsh).set(tag+'|'+version,tag);}
   if(stmt==='CF' && lines.capexLine(tag,plabel)){const k=adsh+'|'+tag+'|'+version;if(!capex.has(k))capex.set(k,{tag,custom:version===adsh,version,plabel});}
   if(/noncontrolling|minority/i.test(tag+' '+plabel))nci.add(adsh+'|'+stmt);
@@ -63,11 +67,20 @@ async function child(file,out,covered){
  // (statement-lines capexLine): one record per filing, period and currency, summed in sec-facts.
  const spent=new Map(),revenue=new Map(),plainRevenue=new Set(),revenueTags=new Set(Object.values(require('../backend/sec-facts').MAPS.income.totalRevenue).filter(Array.isArray).flat());
  await table(zip,'num.txt',(c,h)=>{
-  const adsh=c[h.adsh],key=adsh+'|'+c[h.tag]+'|'+c[h.version],want=wanted.get(key),line=capex.get(key);
+  const adsh=c[h.adsh],key=adsh+'|'+c[h.tag]+'|'+c[h.version],want=wanted.get(key),line=capex.get(key),column=face.has(key);
   if(!c[h.segments] && !c[h.coreg] && revenueTags.has(c[h.tag]) && c[h.value]!=='')plainRevenue.add([adsh,day(c[h.ddate]),c[h.qtrs],c[h.uom]].join('|'));
-  if(!want && !line || c[h.coreg])return;
+  if(!want && !line && !column || c[h.coreg])return;
   const value=Number(c[h.value]),end=day(c[h.ddate]),qtrs=c[h.qtrs],uom=c[h.uom],segments=c[h.segments] || '',sub=subs.get(adsh);
   if(!Number.isFinite(value) || c[h.value]==='' || !end || end>sub.filed || !/^[A-Z]{3}(\/shares)?$/.test(uom))return;
+  // A balance sheet presented in segment columns (statement-lines columnSum): plain value and
+  // single-dimension member values per filing, date and currency; a member seen twice with two
+  // figures is NaN and skips the line.
+  if(column && qtrs==='0' && /^[A-Z]{3}$/.test(uom)){
+   const k=adsh+'|'+end+'|'+uom;if(!columns.has(k))columns.set(k,new Map());
+   const by=columns.get(k);if(!by.has(key))by.set(key,{plain:null,axes:new Map()});const e=by.get(key);
+   if(!segments)e.plain=e.plain!==null && e.plain!==value?NaN:value;
+   else{const mm=/^([^=;]+)=([^=;]+);?$/.exec(segments);if(mm){if(!e.axes.has(mm[1]))e.axes.set(mm[1],new Map());const m=e.axes.get(mm[1]);m.set(mm[2],m.has(mm[2]) && m.get(mm[2])!==value?NaN:value);}}
+  }
   if(line && !segments && (qtrs==='1' || qtrs==='4') && /^[A-Z]{3}$/.test(uom)){
    const k=adsh+'|'+end+'|'+qtrs+'|'+uom;if(!spent.has(k))spent.set(k,new Map());
    const by=spent.get(k),id=line.tag+'|'+line.version;if(!by.has(id))by.set(id,{line,values:new Set()});by.get(id).values.add(value);
@@ -93,6 +106,22 @@ async function child(file,out,covered){
   // A line with two figures for one period is not read, and neither is that period's capital spending.
   if(parts.some(x=>x.values.size!==1))continue;
   w.write(JSON.stringify([sub.cik,{s:'cash',k:'capex',f:'',e:end,q:Number(qtrs),u:uom,c:parts.map(x=>x.line.tag),t:parts.map(x=>x.line.custom?'custom':String(x.line.version).split('/')[0]),l:parts.map(x=>x.line.plabel),v:parts.map(x=>[...x.values][0]),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;
+ }
+ // A balance sheet presented in segment columns (statement-lines columnSum): Berkshire's 10-Q for
+ // 2026-06-30 files cash and property, plant and equipment only per InsuranceAndOther and
+ // RailroadUtilitiesAndEnergy column, and the company-facts feed drops every dimensional fact.
+ for(const [k,by] of columns){
+  const [adsh,end,uom]=k.split('|'),sub=subs.get(adsh),anchors=[...by.keys()].filter(id=>id.split('|')[1]==='Assets');
+  if(anchors.length!==1)continue;
+  const anchor=by.get(anchors[0]);
+  for(const [id,e] of by){
+   const tag=id.split('|')[1];if(tag==='Assets')continue;
+   const fields=[...BALANCE_TAG.get(tag) || []];if(fields.length!==1)continue;
+   const sum=lines.columnSum(anchor,e);
+   if(!sum)continue;
+   const version=id.split('|')[2];
+   w.write(JSON.stringify([sub.cik,{s:'balance',k:'columns',f:fields[0],e:end,q:0,u:uom,t:version===adsh?'custom':String(version).split('/')[0],c:tag,l:face.get(id),x:sum.axis,g:sum.members,v:sum.values,ta:sum.assets,a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;
+  }
  }
  // A total revenue line filed only under one product member, never on its own: APA's 2025 "Total revenues" of
  // $8,920m is ProductOrService=OilAndGas, its own production plus purchased oil and gas ($7,229m + $1,691m), and
@@ -128,7 +157,7 @@ async function main(){
  const outDir=lines.DIR();fs.mkdirSync(outDir,{recursive:true});
  const builtFrom=zips.map(z=>z.replace(/\.zip$/,''));let total=0;
  for(const [cik,recs] of by){
-  const list=[...recs.values()].sort((x,y)=>y.e.localeCompare(x.e)||x.s.localeCompare(y.s)||x.f.localeCompare(y.f)||y.d.localeCompare(x.d)||x.a.localeCompare(y.a)||String(x.g || '').localeCompare(String(y.g || ''))||String(x.k || '').localeCompare(String(y.k || ''))||(x.q ?? -1)-(y.q ?? -1)||String(x.u || '').localeCompare(String(y.u || '')));
+  const list=[...recs.values()].sort((x,y)=>y.e.localeCompare(x.e)||x.s.localeCompare(y.s)||x.f.localeCompare(y.f)||y.d.localeCompare(x.d)||x.a.localeCompare(y.a)||String(x.g || '').localeCompare(String(y.g || ''))||String(x.k || '').localeCompare(String(y.k || ''))||(x.q ?? -1)-(y.q ?? -1)||String(x.u || '').localeCompare(String(y.u || ''))||String(x.x || '').localeCompare(String(y.x || ''))||String(x.v ?? '').localeCompare(String(y.v ?? ''))||String(x.ta ?? '').localeCompare(String(y.ta ?? '')));
   total+=list.length;
   p.atomicWrite(path.join(outDir,cik+'.json'),{schemaVersion:1,cik,builtFrom,lines:list});
  }

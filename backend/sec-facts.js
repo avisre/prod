@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261025-rev1';
+const EXTRACTION_VERSION = '20261025-rev2';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -353,6 +353,21 @@ function investmentCompany(document,asOf) {
  const filed=t=>Object.values(g[t]?.units || {}).some(fs=>Array.isArray(fs) && fs.some(f=>/^10-K/.test(f?.form || '') && (f.filed || '')>=since));
  return filed('NetAssetValuePerShare') && Object.keys(g).filter(t=>/^InvestmentCompany/.test(t) && filed(t)).length>=3;
 }
+// SEC Financial Statement Data Sets store a period end as a MONTH END: Hershey's 10-Q 0001628280-26-050900
+// is for the quarter ended 2026-06-28, but the 2026q3 data set files it at 20260630 — sub.txt's period and every
+// num.txt ddate — so a lookup by the row's exact end (the company-facts date) found nothing at all for the 383
+// covered issuers whose latest quarter does not end on a month end, 42 of them with no EPS on it. The data-set
+// date of a period end is the end itself when it is a month end, else the nearest month end within 10 days
+// (2026-06-28→2026-06-30, 2026-07-03→2026-06-30, 2026-01-03→2025-12-31; 2026-06-15 is 15 days from either month
+// end and stays itself). The cited-filing requirement keeps the rounding safe: the line must come from a filing
+// this row already cites, and one filing never reports two periods within 10 days.
+function dataSetDate(end) {
+ const t=Date.parse(end);if(!Number.isFinite(t))return end;
+ const d=new Date(t),y=d.getUTCFullYear(),m=d.getUTCMonth(),last=new Date(Date.UTC(y,m+1,0)),prev=new Date(Date.UTC(y,m,0));
+ if(d.getUTCDate()===last.getUTCDate())return end;
+ const near=Math.abs(last-t)<=Math.abs(prev-t)?last:prev;
+ return Math.abs(near-t)/DAY<=10?near.toISOString().slice(0,10):end;
+}
 function extract(document, evidence, {asOf = p.day(new Date().toISOString()), statementLines = []} = {}) {
  const issuer = p.cik(document?.cik);
  if (!issuer || issuer !== p.cik(evidence?.cik) || !document.facts || typeof document.facts !== 'object') throw new Error('SEC_IDENTITY_MISMATCH');
@@ -477,11 +492,15 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  // A line fills an empty figure in a period built above, from a filing the period's
  // row already cites, and never adds a year, a quarter or a derived figure.
  const lineIndex=new Map(),startsAt=new Map();
- const presented=new Map(),capexIndex=new Map();
+ const presented=new Map(),capexIndex=new Map(),columnIndex=new Map();
  for(const l of Array.isArray(statementLines)?statementLines:[]){
   if(l?.k==='debt'){if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && Array.isArray(l.c))presented.set(l.a,l.c);continue;}
   if(l?.k==='capex'){
    if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && FORM.test(l.m || '') && p.day(l.e) && p.day(l.d) && (l.q===1 || l.q===4) && /^[A-Z]{3}$/.test(l.u || '') && Array.isArray(l.c) && l.c.length && [l.t,l.l,l.v].every(x=>Array.isArray(x) && x.length===l.c.length) && l.v.every(Number.isFinite)){if(!capexIndex.has(l.e))capexIndex.set(l.e,[]);capexIndex.get(l.e).push(l);}
+   continue;
+  }
+  if(l?.k==='columns'){
+   if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && FORM.test(l.m || '') && p.day(l.e) && p.day(l.d) && l.q===0 && /^[A-Z]{3}$/.test(l.u || '') && MAPS.balance[l.f] && [l.g,l.v,l.ta].every(x=>Array.isArray(x) && x.length>=2) && l.g.length===l.v.length && l.v.length===l.ta.length && new Set(l.g).size===l.g.length && [...l.v,...l.ta].every(Number.isFinite)){if(!columnIndex.has(l.e))columnIndex.set(l.e,[]);columnIndex.get(l.e).push(l);}
    continue;
   }
   if(!l || !MAPS[l.s]?.[l.f] || !p.day(l.e) || !p.day(l.d) || !Number.isFinite(l.v) || !/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') || !FORM.test(l.m || '') || !l.t || !l.c)continue;
@@ -501,7 +520,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    const held=(row._sources[field] || []).map(id=>out.sources[id]),weak=held.length && (!row._derivations?.[field] || row._derivations[field].formula==='ytd_difference') && held.every(s=>s && FILLS.has(s.taxonomy+':'+s.concept));
    if(row[field]!==null && !weak)continue;
    const unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':cur;
-   let candidates=(lineIndex.get(st+'|'+field+'|'+end) || []).filter(l=>l.q===qtrs && (l.u===unit || (unit===cur+'/shares' && l.u===cur)) && cited.has(l.a) && (!restrict || annualAccessions.has(l.a)) && l.d>=end && l.d<=asOf
+   let candidates=(lineIndex.get(st+'|'+field+'|'+dataSetDate(end)) || []).filter(l=>l.q===qtrs && (l.u===unit || (unit===cur+'/shares' && l.u===cur)) && cited.has(l.a) && (!restrict || annualAccessions.has(l.a)) && l.d>=end && l.d<=asOf
     && (basis!=='annual' || /^(10-K|20-F|40-F)(\/A)?$/.test(l.m) || !!cited.get(l.a).annualFiling));
    // SEC's data set can disagree with the filing it is built from. J.M. Smucker's FY2026 10-K tags
    // cash of $58.6M on its balance sheet (us-gaap, no dimension); the data set lists 0, the value of a
@@ -517,10 +536,23 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    candidates.sort((x,y)=>y.d.localeCompare(x.d)||y.a.localeCompare(x.a));
    let same=candidates.filter(l=>l.a===candidates[0].a);
    // EPS filed per class: the common stock's figure is the company's when every other
-   // class is preferred (Oruka 2025: common -1.85, Series B preferred -154.03). Two
-   // common classes with different figures are left blank.
+   // class is preferred (Oruka 2025: common -1.85, Series B preferred -154.03). Two common
+   // classes with different figures leave the cell blank and keep each class's own figure
+   // for its listing (Berkshire Q2 2026: Class A 17,868, Class B 11.91).
    if(new Set(same.map(l=>l.v)).size>1){const common=same.filter(l=>/^ClassOfStock=(?:CommonStock|OrdinaryShares)$/.test(l.g || ''));if(common.length && same.every(l=>common.includes(l) || /Preferred/i.test(l.g || '')))same=common;}
-   if(new Set(same.map(l=>l.v)).size>1)continue;
+   if(new Set(same.map(l=>l.v)).size>1){
+    if((field==='eps' || field==='dilutedEPS') && same.every(l=>/^ClassOfStock=[^;=]+;?$/.test(l.g || ''))){
+     const from=cited.get(same[0].a);
+     for(const c of same){
+      if(rejected.get(st+'|'+basis+'|'+end+'|'+field)?.has(c.t+':'+c.c))continue;
+      const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:c.t,concept:c.c,unit,rawValue:c.v,periodStart:start,periodEnd:end,form:c.m,filingDate:c.d,accessionNumber:c.a,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${c.a.replace(/-/g,'')}/${c.a}-index.htm`,linkage:'xbrl_fact',...(from.annualFiling?{annualFiling:from.annualFiling}:{}),
+       verificationMethod:'statement_line',dataSet:'SEC Financial Statement Data Sets',presentationLabel:c.l,periodQuarters:c.q,dimension:c.g,...(c.dataSetValue!==undefined?{dataSetValue:c.dataSetValue}:{}),accountingBasis:from.accountingBasis || 'US GAAP',scope:MAPS[st][field].scope,retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
+      const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;
+      (row._classes ??= {})[field] ??= {};row._classes[field][c.g.replace(/^ClassOfStock=/,'').replace(/;$/,'')]={v:c.v,id};
+     }
+    }
+    continue;
+   }
    const l=same[0],from=cited.get(l.a);
    if(rejected.get(st+'|'+basis+'|'+end+'|'+field)?.has(l.t+':'+l.c))continue;
    const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:l.t,concept:l.c,unit,rawValue:l.v,periodStart:start,periodEnd:end,form:l.m,filingDate:l.d,accessionNumber:l.a,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${l.a.replace(/-/g,'')}/${l.a}-index.htm`,linkage:'xbrl_fact',...(from.annualFiling?{annualFiling:from.annualFiling}:{}),
@@ -541,7 +573,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   if(row[F]!==null && !weak && !single || !row.periodStart)return;
   const cited=new Map();for(const ids of Object.values(row._sources))for(const id of ids){const s=out.sources[id];if(s?.accessionNumber && !cited.has(s.accessionNumber))cited.set(s.accessionNumber,s);}
   const q=basis==='annual'?4:1,restrict=basis==='annual' && a?.reportDate===end;
-  const l=(capexIndex.get(end) || []).filter(x=>x.q===q && x.u===cur && cited.has(x.a) && (!restrict || annualAccessions.has(x.a)) && x.d>=end && x.d<=asOf
+  const l=(capexIndex.get(dataSetDate(end)) || []).filter(x=>x.q===q && x.u===cur && cited.has(x.a) && (!restrict || annualAccessions.has(x.a)) && x.d>=end && x.d<=asOf
    && (basis!=='annual' || /^(10-K|20-F|40-F)(\/A)?$/.test(x.m) || !!cited.get(x.a).annualFiling)).sort((x,y)=>y.d.localeCompare(x.d)||y.a.localeCompare(x.a))[0];
   if(!l || single && (l.c.length<2 || held[0].accessionNumber!==l.a || !l.c.includes(held[0].concept)))return;
   // A standard tag is read against the company facts of the same filing and span, as fillFromLines does.
@@ -565,6 +597,34 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   });
   row[F]=value;row._sources[F]=ids;row._scopes[F]=MAPS.cash[F].scope;row._signs[F]=-1;
   row._derivations[F]={formula:'sum_presented_capex',inputValues:values,presentedConcepts:[...l.c]};
+ }
+ // A balance sheet presented in segment columns (statement-lines columnSum): the columns are the one
+ // axis whose members' Assets sum exactly to this row's own total assets, and a field the filing shows
+ // only per column is the sum of those (Berkshire's 10-Q for 2026-06-30: cash 35,096 + 5,513 = 40,609;
+ // PP&E 39,409 + 185,815 = 225,224 — the company-facts feed drops every dimensional fact, so neither
+ // figure ever reached the row). Only a still-null cell, from a filing the row cites, newest first.
+ function presentedColumns(basis,row,end,cur) {
+  if(row.totalAssets===null)return;
+  const cited=new Map();for(const ids of Object.values(row._sources))for(const id of ids){const s=out.sources[id];if(s?.accessionNumber && !cited.has(s.accessionNumber))cited.set(s.accessionNumber,s);}
+  if(!cited.size)return;
+  const restrict=basis==='annual' && a?.reportDate===end;
+  for(const field of Object.keys(MAPS.balance)) {
+   if(row[field]!==null)continue;
+   const hits=(columnIndex.get(dataSetDate(end)) || []).filter(x=>x.f===field && x.u===cur && cited.has(x.a) && (!restrict || annualAccessions.has(x.a)) && x.d>=end && x.d<=asOf
+    && (basis!=='annual' || /^(10-K|20-F|40-F)(\/A)?$/.test(x.m) || !!cited.get(x.a).annualFiling)).sort((x,y)=>y.d.localeCompare(x.d)||y.a.localeCompare(x.a));
+   if(!hits.length)continue;
+   const same=hits.filter(x=>x.a===hits[0].a);
+   if(same.length>1)continue;
+   const l=same[0];
+   if(!['ProductOrService','BusinessSegments'].includes(l.x) || !l.ta.every(v=>v>0) || p.number(row.totalAssets)!==l.ta.reduce((n,v)=>n+v,0))continue;
+   const from=cited.get(l.a),ids=l.g.map((member,i)=>{
+    const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:l.t,concept:l.c,unit:cur,rawValue:l.v[i],periodStart:null,periodEnd:end,form:l.m,filingDate:l.d,accessionNumber:l.a,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${l.a.replace(/-/g,'')}/${l.a}-index.htm`,linkage:'xbrl_fact',...(from.annualFiling?{annualFiling:from.annualFiling}:{}),
+     verificationMethod:'statement_line',dataSet:'SEC Financial Statement Data Sets',presentationLabel:l.l,periodQuarters:l.q,dimension:l.x+'='+member,accountingBasis:from.accountingBasis || 'US GAAP',scope:MAPS.balance[field].scope,retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
+    const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;return id;
+   });
+   row[field]=l.v.reduce((n,v)=>n+v,0);row._sources[field]=ids;row._scopes[field]=MAPS.balance[field].scope;
+   row._derivations[field]={formula:'sum_member_columns',axis:l.x,members:[...l.g],inputValues:[...l.v],memberAssets:[...l.ta],presentedConcept:l.c};
+  }
  }
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
@@ -775,6 +835,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     combine('shortLongTermDebtTotal','shortTermDebt','longTermDebt','sum_fields');
    }
    if(lineIndex.size)fillFromLines(st,basis,row,end,cur);
+   if(st==='balance' && columnIndex.size)presentedColumns(basis,row,end,cur);
    if(st==='cash' && capexIndex.size)presentedCapex(basis,row,end,cur);
    if(st==='balance' && presented.size)presentedDebt(out,row,presented,document);
    if(st==='balance')liabilitiesAndEquity(out,row,document);
@@ -810,4 +871,4 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  if(document.industryTables?.length)out.industryObservations=require('./sec-industry-tables').extractTables(document.industryTables,document.industryFiling,issuer,out);
  return out;
 }
-module.exports={extract,presentedDebt,MAPS,OUTFLOWS,ROWS_ADDED,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept,scope};
+module.exports={extract,presentedDebt,MAPS,OUTFLOWS,ROWS_ADDED,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept,scope,dataSetDate};

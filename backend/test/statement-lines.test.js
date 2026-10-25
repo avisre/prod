@@ -19,6 +19,24 @@ test('a line is read by its statement and its whole label, never by a part of on
  assert.deepEqual(lines.fieldsFor('IS','Net loss per share, basic and diluted','EarningsPerShareBasicAndDiluted',{mapped}),['eps','dilutedEPS']);
 });
 
+test('a standard EPS tag is the filed EPS whatever its printed label says',()=>{
+ const eps=(l,tag,custom=false)=>lines.fieldsFor('IS',l,tag,{custom,mapped});
+ // 2026q3 labels no label rule matches, on the standard tags themselves.
+ assert.deepEqual(eps('Basic and diluted net loss per ordinary share (in Dollars per share)','EarningsPerShareBasic'),['eps','dilutedEPS']); // SPAC: the label decides first
+ assert.deepEqual(eps('Net earnings per average equivalent Class A share','EarningsPerShareBasic'),['eps']); // Berkshire
+ assert.deepEqual(eps('Net income per share - basic (USD per share)','EarningsPerShareBasic'),['eps']); // Hershey
+ assert.deepEqual(eps('Common stock - basic (in dollars per share)','EarningsPerShareBasic'),['eps']); // Erie Indemnity
+ assert.deepEqual(eps('Common Stock (in dollars per share)','EarningsPerShareBasic'),['eps']); // Coca-Cola Consolidated
+ assert.deepEqual(eps('Basic income per Class A common stock (in dollars per share)','EarningsPerShareBasic'),['eps']); // Baker Hughes
+ assert.deepEqual(eps('Earnings per Class A and Class B common stock - basic (in usd per share)','EarningsPerShareBasic'),['eps']); // Greif
+ assert.deepEqual(eps('Diluted income per Class A common stock (in dollars per share)','EarningsPerShareDiluted'),['dilutedEPS']); // Baker Hughes
+ assert.deepEqual(eps('Net earnings per average equivalent Class A and Class B share','EarningsPerShareBasicAndDiluted'),['eps','dilutedEPS']);
+ // The tag decides only a standard tag: the filer's own label still has to match a rule.
+ assert.deepEqual(eps('Net earnings per average equivalent Class A share','ClassAEPS',true),[]);
+ // And an excluded label stays out.
+ assert.deepEqual(eps('Class A and Class B common stock (discontinued operations) - basic (in usd per share)','EarningsPerShareBasic'),[]);
+});
+
 test('an allowance or accumulated depreciation clause reads as ", net", and nothing else after it does',()=>{
  // ReceivablesNetCurrent has been read from the facts since 2026-10-17, so it no longer comes from the face.
  const bs=(l,tag='AccountsNotesAndLoansReceivableNetCurrent')=>lines.fieldsFor('BS',l,tag,{crdr:'D',mapped});
@@ -302,4 +320,96 @@ test('a product-member revenue total fills a blank revenue and keeps its dimensi
  const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[line({t:'us-gaap',c:'Revenues',v:8920,g:'ProductOrService=OilAndGas'})]}),row=d.income.annualReports[0];
  assert.equal(row.totalRevenue,8920);assert.equal(d.sources[row._sources.totalRevenue[0]].dimension,'ProductOrService=OilAndGas');
  assert.deepEqual(p.validateFinancial(d,'0000000123','2026-10-03'),[]);
+});
+// A balance sheet presented in segment columns (statement-lines columnSum). Berkshire's 10-Q
+// 0001193125-26-341032 for 2026-06-30, axis ProductOrService: Assets 1,010,646 + 252,425 = 1,263,071;
+// cash 35,096 + 5,513 = 40,609 and PP&E 39,409 + 185,815 = 225,224, with no plain figures at all.
+test('columnSum takes one allow-listed axis whose member Assets sum exactly, and ignores members outside it',()=>{
+ const assets={plain:1263071000000,axes:new Map([['ProductOrService',new Map([['InsuranceAndOther',1010646000000],['RailroadUtilitiesAndEnergy',252425000000]])]])};
+ const cash={plain:null,axes:new Map([['ProductOrService',new Map([['InsuranceAndOther',35096000000],['RailroadUtilitiesAndEnergy',5513000000]])]])};
+ const ppe={plain:null,axes:new Map([['ProductOrService',new Map([['InsuranceAndOther',39409000000],['RailroadUtilitiesAndEnergy',185815000000],['Railroad',72776000000],['UtilitiesAndEnergy',113039000000]])]])};
+ assert.deepEqual(lines.columnSum(assets,cash),{axis:'ProductOrService',members:['InsuranceAndOther','RailroadUtilitiesAndEnergy'],values:[35096000000,5513000000],assets:[1010646000000,252425000000],sum:40609000000});
+ assert.deepEqual(lines.columnSum(assets,ppe),{axis:'ProductOrService',members:['InsuranceAndOther','RailroadUtilitiesAndEnergy'],values:[39409000000,185815000000],assets:[1010646000000,252425000000],sum:225224000000});
+ // a plain figure present, a column missing, a member with two figures, Assets not summing, one member only.
+ assert.equal(lines.columnSum(assets,{plain:40609000000,axes:cash.axes}),null);
+ assert.equal(lines.columnSum(assets,{plain:null,axes:new Map([['ProductOrService',new Map([['InsuranceAndOther',35096000000]])]])}),null);
+ assert.equal(lines.columnSum(assets,{plain:null,axes:new Map([['ProductOrService',new Map([['InsuranceAndOther',35096000000],['RailroadUtilitiesAndEnergy',NaN]])]])}),null);
+ assert.equal(lines.columnSum({plain:100,axes:new Map([['ProductOrService',new Map([['A',60],['B',50]])]])},cash),null);
+ assert.equal(lines.columnSum({plain:100,axes:new Map([['ProductOrService',new Map([['A',100]])]])},cash),null);
+ // Vroom's fresh-start columns are adjustments, not parts of the company: a member's negative Assets
+ // (2024-12-31: predecessor + plan effect + fresh-start adjustment = 0), or an axis outside the allow-list.
+ const fresh=(axis,a,b,c)=>({plain:0,axes:new Map([[axis,new Map([['Predecessor',a],['PlanEffect',b],['FreshStartAdjustment',c]])]])});
+ assert.equal(lines.columnSum(fresh('FreshStartAdjustmentsTypeOfFreshStartAdjustment',1,-2,1),cash),null,'axis not allow-listed');
+ assert.equal(lines.columnSum(fresh('ProductOrService',1,-2,1),cash),null,'a negative member Assets');
+ // two axes both summing to the plain Assets: ambiguous, so nothing.
+ assert.equal(lines.columnSum({plain:100,axes:new Map([['ProductOrService',new Map([['A',60],['B',40]])],['BusinessSegments',new Map([['X',70],['Y',30]])]])},cash),null);
+});
+const column=o=>({s:'balance',k:'columns',f:'cashAndCashEquivalentsAtCarryingValue',e:'2025-12-31',q:0,u:'USD',t:'us-gaap',c:'CashAndCashEquivalentsAtCarryingValue',l:'Cash and cash equivalents',x:'ProductOrService',g:['InsuranceAndOther','RailroadUtilitiesAndEnergy'],v:[35096000000,5513000000],ta:[1010646000000,252425000000],a:ACC,m:'10-K',d:'2026-02-01',...o});
+const columnRow=(statementLines,assets=1263071000000,cash)=>{const {doc,evidence}=fixture();doc.facts['us-gaap'].Assets.units.USD[0].val=assets;if(cash!=null)doc.facts['us-gaap'].CashAndCashEquivalentsAtCarryingValue={units:{USD:[{val:cash,end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}};const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines});return {d,row:d.balance.annualReports[0]};};
+test('a balance sheet presented in segment columns fills a blank cell with the column sum (Berkshire: cash 35,096 + 5,513)',()=>{
+ const {d,row}=columnRow([column()]);
+ assert.equal(row.cashAndCashEquivalentsAtCarryingValue,40609000000);
+ assert.deepEqual(row._derivations.cashAndCashEquivalentsAtCarryingValue,{formula:'sum_member_columns',axis:'ProductOrService',members:['InsuranceAndOther','RailroadUtilitiesAndEnergy'],inputValues:[35096000000,5513000000],memberAssets:[1010646000000,252425000000],presentedConcept:'CashAndCashEquivalentsAtCarryingValue'});
+ assert.deepEqual(row._sources.cashAndCashEquivalentsAtCarryingValue.map(id=>d.sources[id].dimension),['ProductOrService=InsuranceAndOther','ProductOrService=RailroadUtilitiesAndEnergy']);
+ assert.equal(p.verifiedField(d,row,'cashAndCashEquivalentsAtCarryingValue'),true);
+ assert.deepEqual(p.validateFinancial(d,d.cik,'2026-10-03'),[]);
+ // the columns must add up to this row's own total assets; a filed figure is never replaced.
+ assert.equal(columnRow([column()],1263071000001).row.cashAndCashEquivalentsAtCarryingValue,null);
+ const kept=columnRow([column()],1263071000000,51000000000);
+ assert.equal(kept.row.cashAndCashEquivalentsAtCarryingValue,51000000000);
+ assert.equal(kept.row._derivations.cashAndCashEquivalentsAtCarryingValue,undefined);
+});
+test('the validator re-checks a column sum against its columns and the row\'s own total assets',()=>{
+ const {d,row}=columnRow([column()]),first=r=>r._sources.cashAndCashEquivalentsAtCarryingValue[0];
+ for(const tamper of [r=>{r.cashAndCashEquivalentsAtCarryingValue=40609000001;},(r,c)=>{c.sources[first(r)].rawValue=35096000001;},(r,c)=>{c.sources[first(r)].periodStart='2025-01-01';},
+  r=>{r._derivations.cashAndCashEquivalentsAtCarryingValue.members=['RailroadUtilitiesAndEnergy','InsuranceAndOther'];},r=>{r.totalAssets=1263071000001;}]){
+  const copy=structuredClone(d),r=copy.balance.annualReports[0];tamper(r,copy);assert.equal(p.verifiedField(copy,r,'cashAndCashEquivalentsAtCarryingValue'),false);
+ }
+});
+// The data sets file a period end at its month end (Hershey 10-Q 0001628280-26-050900: quarter ended 2026-06-28,
+// every ddate 20260630), so a row whose period does not end on a month end looks its lines up at the rounded date.
+test('the data-set date of a period end is the nearest month end within ten days',()=>{
+ const {dataSetDate}=require('../sec-facts');
+ assert.equal(dataSetDate('2026-06-28'),'2026-06-30');
+ assert.equal(dataSetDate('2026-06-27'),'2026-06-30');
+ assert.equal(dataSetDate('2026-07-03'),'2026-06-30');
+ assert.equal(dataSetDate('2026-08-02'),'2026-07-31');
+ assert.equal(dataSetDate('2026-09-03'),'2026-08-31');
+ assert.equal(dataSetDate('2026-01-03'),'2025-12-31');
+ assert.equal(dataSetDate('2026-06-15'),'2026-06-15','too far from either month end: no rounding');
+ assert.equal(dataSetDate('2025-12-31'),'2025-12-31','a month end is its own date');
+});
+const QACC='0000000123-26-000004';
+const hershey=()=>{const {doc,evidence}=fixture();doc.facts['us-gaap'].Revenues.units.USD.push({val:1000,start:'2026-03-29',end:'2026-06-28',accn:QACC,form:'10-Q',filed:'2026-08-12'});return {doc,evidence};};
+const qline=o=>({s:'income',f:'eps',t:'us-gaap',c:'EarningsPerShareBasic',l:'Net income per share - basic (USD per share)',u:'USD/shares',v:1.03,e:'2026-06-30',q:1,a:QACC,m:'10-Q',d:'2026-08-12',...o});
+test('a line the data set files at the month end fills the quarter it rounds to (Hershey 2026-06-28)',()=>{
+ const {doc,evidence}=hershey();
+ // Per-class EPS: Hershey files CommonStock 1.03 and CommonClassB 0.94 at 20260630; the row keeps both.
+ const per=(g,v)=>qline({g:'ClassOfStock='+g,v});
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[per('CommonStock',1.03),per('CommonClassB',0.94)]}),row=d.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-28');
+ assert.equal(row.eps,null);
+ assert.deepEqual(Object.keys(row._classes.eps).sort(),['CommonClassB','CommonStock']);
+ assert.equal(row._classes.eps.CommonStock.v,1.03);assert.equal(row._classes.eps.CommonClassB.v,0.94);
+ // One line without a dimension fills the row, and the source carries the row's own end, not the data set's.
+ const one=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[qline({v:1.03})]}),r=one.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-28');
+ assert.equal(r.eps,1.03);assert.equal(one.sources[r._sources.eps[0]].periodEnd,'2026-06-28');
+ assert.equal(p.verifiedField(one,r,'eps'),true);
+ // The same line from a filing the row does not cite fills nothing.
+ const other=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[qline({a:'0000000123-26-000009'})]});
+ assert.equal(other.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-28').eps,null);
+});
+test('a quarter whose end is more than ten days from a month end is not rounded to one',()=>{
+ const {doc,evidence}=fixture();doc.facts['us-gaap'].Revenues.units.USD.push({val:1000,start:'2026-03-15',end:'2026-06-15',accn:QACC,form:'10-Q',filed:'2026-07-30'});
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[qline({e:'2026-06-30',d:'2026-07-30'})]});
+ assert.equal(d.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-15').eps,null);
+});
+test('presented capex and column lines are looked up at the data set\'s month end too',()=>{
+ const {doc,evidence}=hershey();
+ doc.facts['us-gaap'].NetCashProvidedByUsedInOperatingActivities.units.USD.push({val:50,start:'2026-03-29',end:'2026-06-28',accn:QACC,form:'10-Q',filed:'2026-08-12'});
+ doc.facts['us-gaap'].Assets.units.USD.push({val:1263071,end:'2026-06-28',accn:QACC,form:'10-Q',filed:'2026-08-12'});
+ const spend={s:'cash',k:'capex',f:'',e:'2026-06-30',q:1,u:'USD',c:['PaymentsToAcquireToolsDiesAndMolds'],t:['custom'],l:['Purchases of tools, dies, and molds'],v:[71374],a:QACC,m:'10-Q',d:'2026-08-12'};
+ const cols={s:'balance',k:'columns',f:'cashAndCashEquivalentsAtCarryingValue',e:'2026-06-30',q:0,u:'USD',t:'us-gaap',c:'CashAndCashEquivalentsAtCarryingValue',l:'Cash and cash equivalents',x:'ProductOrService',g:['InsuranceAndOther','RailroadUtilitiesAndEnergy'],v:[35096,5513],ta:[1010646,252425],a:QACC,m:'10-Q',d:'2026-08-12'};
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[spend,cols]}),cash=d.cash.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-28'),bal=d.balance.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-28');
+ assert.equal(cash.capitalExpenditures,-71374);assert.equal(p.verifiedField(d,cash,'capitalExpenditures'),true);
+ assert.equal(bal.cashAndCashEquivalentsAtCarryingValue,40609);assert.equal(p.verifiedField(d,bal,'cashAndCashEquivalentsAtCarryingValue'),true);
 });

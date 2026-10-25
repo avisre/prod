@@ -166,7 +166,12 @@ test('foreign financial and health tools use native currency and compact exact p
 });
 
 test('quote tools and shared adapter suppress ambiguous share-class and ADR ratios', async () => {
-    for (const symbol of ['BRK.B', 'MUFG']) {
+    // BRK.B is no longer ambiguous: its P/E matches Class B alone, so it gets Class B's EPS. Greif's latest
+    // annual is stale and matches neither class within 5%, so GEF-B stays suppressed.
+    const brk = ask.loadFund('BRK.B');
+    assert.equal(brk.coverage.perShareAllowed, true);
+    assert.ok(brk.income.annualReports[0].eps > 0 && brk.income.annualReports[0].eps < 1000, 'Class B, not Class A');
+    for (const symbol of ['GEF-B', 'MUFG']) {
         const d = ask.loadFund(symbol);
         assert.equal(d.coverage.perShareAllowed, false);
         assert.equal(d.marketData?.trailingPE ?? null, null);

@@ -52,8 +52,10 @@ async function main(argv=process.argv.slice(2)) {
  const report=JSON.parse(fs.readFileSync(REPORT,'utf8'));
  let list=JSON.parse(fs.readFileSync(path.join(DATA,'us-companies.json'),'utf8')).companies;
  const symbols=opt('--symbols');
- if(symbols){const wanted=new Set(symbols.split(',').map(s=>s.trim().toUpperCase()));list=list.filter(c=>wanted.has(c.symbol));}
- let todo=issuersFor(list).filter(i=>(symbols || report.issuers[i.cik]?.extractionVersion!==EXTRACTION_VERSION) && (!offline || report.issuers[i.cik]?.latestAnnual || report.issuers[i.cik]?.latestPeriodic));
+ // --symbols picks whole issuers: filtering the listings first rewrote BRK's symbols to the one asked for and
+ // dropped BRK-A from the report (2026-10-25, also GEF-B and MMEDV).
+ const wanted=symbols?new Set(symbols.split(',').map(s=>s.trim().toUpperCase())):null;
+ let todo=issuersFor(list).filter(i=>(!wanted || i.symbols.some(s=>wanted.has(s))) && (symbols || report.issuers[i.cik]?.extractionVersion!==EXTRACTION_VERSION) && (!offline || report.issuers[i.cik]?.latestAnnual || report.issuers[i.cik]?.latestPeriodic));
  if(shard){const [i,n]=shard.split('/').map(Number);todo=todo.filter((_,k)=>k%n===i);pace(8/n);}
  const touched={};
  const clientImpl={fetchReporting:offline?async()=>({}):client.fetchReporting,fetchFacts:async cik=>(await bulk.documentForCik(p.cik(cik))) || client.fetchFacts(cik)};

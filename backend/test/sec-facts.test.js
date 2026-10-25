@@ -205,6 +205,22 @@ test('a partnership that files one per-unit figure as basic and diluted gets bot
  const d=extract(doc,evidence,{asOf:'2026-10-03'});
  assert.equal(d.income.annualReports[0].dilutedEPS,5.17);assert.equal(d.income.annualReports[0].eps,5.17);
 });
+test('two common classes file two figures: each class keeps its own, and one figure fills as before',()=>{
+ const cls=(member,v)=>({s:'income',f:'eps',t:'us-gaap',c:'EarningsPerShareBasic',l:'Net income per Class A common stock, basic',u:'USD/shares',v,e:'2025-12-31',q:4,a:ACC,m:'10-K',d:'2026-02-01',g:'ClassOfStock='+member});
+ const {doc,evidence}=fixture();
+ // Berkshire Q2 2026: Class A 17,868, Class B 11.91 — the issuer's one cell stays blank.
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[cls('ClassACommonStock',17868),cls('ClassBCommonStock',11.91)]}),row=d.income.annualReports[0];
+ assert.equal(row.eps,null);
+ assert.deepEqual(Object.keys(row._classes.eps).sort(),['ClassACommonStock','ClassBCommonStock']);
+ assert.equal(row._classes.eps.ClassACommonStock.v,17868);
+ assert.equal(d.sources[row._classes.eps.ClassACommonStock.id].dimension,'ClassOfStock=ClassACommonStock');
+ assert.equal(d.sources[row._classes.eps.ClassBCommonStock.id].rawValue,11.91);
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+ // Two classes with the same figure are one figure of the company.
+ const one=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[cls('ClassACommonStock',2),cls('ClassBCommonStock',2)]});
+ assert.equal(one.income.annualReports[0].eps,2);
+ assert.equal(one.income.annualReports[0]._classes,undefined);
+});
 // Canadian National files its audited annual statements in a 6-K on the day of its 40-F, whose
 // own XBRL is one cover-page share count; the page had no fiscal year at all.
 test('a 6-K filed the same day as a 40-F that tags no statements is that year\'s annual report',()=>{
