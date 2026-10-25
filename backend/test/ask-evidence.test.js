@@ -166,7 +166,7 @@ test('foreign financial and health tools use native currency and compact exact p
 });
 
 test('quote tools and shared adapter suppress ambiguous share-class and ADR ratios', async () => {
-    for (const symbol of ['BRK.B', 'GOOGL', 'MUFG']) {
+    for (const symbol of ['BRK.B', 'MUFG']) {
         const d = ask.loadFund(symbol);
         assert.equal(d.coverage.perShareAllowed, false);
         assert.equal(d.marketData?.trailingPE ?? null, null);
@@ -178,6 +178,13 @@ test('quote tools and shared adapter suppress ambiguous share-class and ADR rati
         if (d.marketData) assert.equal(r.asOf, d.marketData.asOf);
         assert.ok(r.missingReasons.perShare);
     }
+    // Alphabet's classes share one EPS, and price / filed EPS agrees with the quote P/E, so per-share stays.
+    const d = ask.loadFund('GOOGL');
+    assert.equal(d.coverage.perShareAllowed, true);
+    const r = await ask.runTool('get_quote', { symbol: 'GOOGL' });
+    assert.equal(r.peRatio, d.marketData.trailingPE);
+    assert.equal(r.eps, d.income.annualReports[0].dilutedEPS);
+    assert.equal(r.missingReasons.perShare, null);
 });
 
 test('partial, historical and unavailable stocks preserve coverage and missing facts', async () => {
