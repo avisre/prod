@@ -1663,13 +1663,15 @@
             const med = (key) => (data.median || {})[key] ?? null;
             const group = data.group || {};
             const rows = [data.self].concat(data.peers);
-            const cell = (v, f, colored) => v === null || v === undefined ? '—'
+            const peerUrl = (sym) => `/company.html?symbol=${encodeURIComponent(sym)}`;
+            const cell =(v, f, colored) => v === null || v === undefined ? '—'
                 : `<span class="${colored && v !== 0 ? (v > 0 ? 'delta-pos' : 'delta-neg') : ''}">${f(v)}</span>`;
             let html = `<thead><tr><th class="row-head" style="text-align:left;">Company</th><th>Mkt cap</th><th>P/E</th><th>Rev CAGR 5y</th><th>Profit growth YoY</th><th>Net margin</th><th>ROE</th><th>Div yield</th><th>Profit yrs/10</th></tr></thead><tbody>`;
             for (const x of rows) {
                 const hl = x === data.self;
                 html += `<tr data-sym="${esc(x.symbol)}" style="${hl ? 'font-weight:650;' : ''}">
-                  <td class="row-head">${hl ? esc(x.symbol) : `<a href="/company.html?symbol=${encodeURIComponent(x.symbol)}" target="_blank" rel="noopener">${esc(x.symbol)}</a>`}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></td>
+                  <td class="row-head">${hl ? `${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span>`
+                    : `<span class="sym-cell"><a class="sym-link" href="${esc(peerUrl(x.symbol))}">${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></a><a class="sym-newtab" href="${esc(peerUrl(x.symbol))}" target="_blank" rel="noopener" title="Open ${esc(x.symbol)} in a new tab" aria-label="Open ${esc(x.symbol)} in a new tab">↗</a></span>`}</td>
                   <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
                   <td data-label="P/E">${x.pe == null && x.netMarginPct < 0 ? 'n/m (loss)' : fixed(x.pe, 1)}</td>
                   <td data-label="Rev CAGR 5y">${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
@@ -1700,14 +1702,22 @@
             // which made the table feel like it couldn't be scrolled on a phone.
             let pStart = null;
             table.addEventListener('pointerdown', (e) => { pStart = { x: e.clientX, y: e.clientY }; });
-            table.querySelectorAll('tr[data-sym]').forEach((tr) =>
+            // A peer opens the way a screener result does (owner, 2026-10-26): a
+            // click opens it here, the ↗ beside it, a Ctrl/⌘-click or a
+            // middle-click opens a new tab. The links open themselves.
+            table.querySelectorAll('tr[data-sym]').forEach((tr) => {
+                if (tr.dataset.sym === symbol) return;
+                const url = peerUrl(tr.dataset.sym);
                 tr.addEventListener('click', (e) => {
                     if (pStart && (Math.abs(e.clientX - pStart.x) > 8 || Math.abs(e.clientY - pStart.y) > 8)) return;
-                    // A peer always opens in a new tab (owner, 2026-10-19), so the
-                    // company being read stays where it was. The ticker link does it itself.
                     if (e.target.closest('a')) return;
-                    if (tr.dataset.sym !== symbol) window.open(`/company.html?symbol=${encodeURIComponent(tr.dataset.sym)}`, '_blank', 'noopener');
-                }));
+                    if (e.metaKey || e.ctrlKey) window.open(url, '_blank', 'noopener');
+                    else location.href = url;
+                });
+                tr.addEventListener('auxclick', (e) => {
+                    if (e.button === 1 && !e.target.closest('a')) window.open(url, '_blank', 'noopener');
+                });
+            });
             $('peers-section').hidden = false;
             attachHScroll(table.closest('.table-wrap'));
         } catch (_) { /* enrichment */ }
