@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261025-ui34" />
+  <link rel="stylesheet" href="assets/system.css?v=20261025-ui35" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -165,8 +165,8 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20261025-ui34"></script>
-  <script src="assets/social.js?v=20260831-paidfirst1"></script>
+  <script src="assets/app.js?v=20261025-ui35"></script>
+  <script src="assets/social.js?v=20261025-ui35"></script>
   <script>
     V2.nav('register');
     // One record per plan drives the whole summary column: price, cadence,
@@ -306,7 +306,7 @@
       PLANS.monthly.amount = `$${promo.price}`;
       PLANS.monthly.was = `$${promo.listPrice}`;
       PLANS.monthly.note = `${promo.note} Charged today through Stripe, cancel anytime.`;
-      // spTrack reports the conversion value below, so it has to be the number
+      // Keep the displayed offer aligned with the charged price; this is the number
       // actually charged, not the list price.
       PLAN_VALUE.monthly = Number(promo.price);
       // Annual loses its savings pitch for the length of the promo: twelve
@@ -393,7 +393,7 @@
             const data = await r.json().catch(() => ({}));
             if (r.ok && data.token) {
               sessionStorage.removeItem('pendingRegisterCredentials');
-              try { if (window.spTrack) window.spTrack('subscribe', { value: PLAN_VALUE[plan] || 0, currency: 'USD', plan }); } catch (_) { /* best-effort */ }
+              try { if (window.spTrackPaidSignup) await window.spTrackPaidSignup(data.conversion); } catch (_) { /* measurement never blocks access */ }
               location.href = '/' + nextPath;
               return;
             }
@@ -425,9 +425,7 @@
           const data = await r.json().catch(() => ({}));
           if (r.ok && data.token && data.subscription && data.subscription.isActive) {
             sessionStorage.removeItem('pendingRegisterCredentials');
-            // Funnel: payment confirmed on Stripe return (Purchase + Ads
-            // subscribe), valued in the actual charged currency (USD).
-            try { if (window.spTrack) window.spTrack('subscribe', { value: PLAN_VALUE[plan] || 0, currency: 'USD', plan }); } catch (_) { /* best-effort */ }
+            // An active login alone is not evidence of a new purchase.
             location.href = '/' + next;
             return;
           }

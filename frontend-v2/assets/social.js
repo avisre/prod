@@ -125,6 +125,7 @@
             });
             const data = await r.json().catch(() => ({}));
             if (r.ok && data.token) {
+              try { if (window.spTrackPaidSignup) await window.spTrackPaidSignup(data.conversion); } catch (_) { /* measurement never blocks access */ }
               setStatus(status, 'Account ready — redirecting…');
               location.href = '/' + next;
               return;
