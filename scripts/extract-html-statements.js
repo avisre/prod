@@ -1070,7 +1070,8 @@ function qualifies(target, subs) {
     const list = filingsOf(subs);
     if (target.coverage === 'unavailable') return true;
     const annual = list.find(f => ANNUAL_FORMS.test(f.form));
-    return Boolean(annual && !annual.isXBRL);
+    if (annual) return !annual.isXBRL;
+    return list.some(f => PROSPECTUS_FORMS.test(f.form));
 }
 
 // ───────────────────────── worker pool ─────────────────────────
@@ -1140,7 +1141,7 @@ async function runIssuer(pool, cacheDir, issuer, report) {
     if (!sub) { report.result = 'no submissions'; return []; }
     const subs = JSON.parse(fs.readFileSync(sub.file, 'utf8'));
     report.name = subs.name;
-    if (!qualifies(issuer, subs)) { report.result = 'has XBRL annual filing; not a target'; return []; }
+    if (!qualifies(issuer, subs)) { const annual = (subs.filings?.recent && filingsOf(subs).find(f => ANNUAL_FORMS.test(f.form))) || null; report.result = annual ? 'has XBRL annual filing; not a target' : 'no annual filing or prospectus; not a target'; return []; }
     const list = filingsOf(subs);
     const state = subs.addresses?.business?.stateOrCountry;
     issuer.domestic = US_STATES.has(state) && list.some(f => /^(?:10-K|10-Q|S-1)/.test(f.form));
@@ -1168,6 +1169,7 @@ async function runIssuer(pool, cacheDir, issuer, report) {
     const interim = list.filter(f => INTERIM_FORMS.test(f.form) && f.filingDate > latest);
     let looked = 0;
     for (const f of interim) {
+        if (!annual.length && issuer.coverage !== 'unavailable' && f.isXBRL) continue;
         if (looked >= (f.form.startsWith('10-Q') ? 2 : 10)) break;
         looked++;
         const got = await runFiling(pool, cacheDir, issuer, subs, f, report);
@@ -1245,6 +1247,6 @@ async function main() {
     if (write) require(path.join(BACKEND, 'committed-supplements')).readAll();
 }
 
-module.exports = { entityOf, entityKey, parseAmount, parseScale, currenciesIn, symbolCurrency, fullDates, durationOf, parseTables, statementTitle, normLabel, mapRow, extractDocument, observationsFor, combine, accountingBasis, resolvePeriods, readColumns, EXTRACTION_VERSION, SOURCE_NAME };
+module.exports = { entityOf, entityKey, parseAmount, parseScale, currenciesIn, symbolCurrency, fullDates, durationOf, parseTables, statementTitle, normLabel, mapRow, extractDocument, observationsFor, combine, accountingBasis, resolvePeriods, readColumns, qualifies, EXTRACTION_VERSION, SOURCE_NAME };
 
 if (isMainThread && require.main === module) main().catch(e => { console.error(e); process.exit(1); });

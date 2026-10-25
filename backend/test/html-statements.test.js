@@ -260,3 +260,31 @@ test('a note table titled only in its own rows is not read as a statement', () =
   const r = x.extractDocument(html, ctx());
   assert.equal(r.statements.length, 0);
 });
+
+function subsOf(filings) {
+  return { filings: { recent: {
+    form: filings.map(f => f.form), filingDate: filings.map(f => f.filingDate), accessionNumber: filings.map(f => f.accession),
+    primaryDocument: filings.map(() => 'doc.htm'), isXBRL: filings.map(f => f.isXBRL), reportDate: filings.map(f => f.filingDate),
+  } } };
+}
+const filing = (form, isXBRL = true, filingDate = '2026-05-01') => ({ form, isXBRL, filingDate, accession: `${CIK}-26-000001` });
+const target = (coverage) => ({ symbol: 'ACME', cik: CIK, coverage, name: 'Acme Widgets, Inc.' });
+
+test('an issuer with no annual filing but a prospectus qualifies', () => {
+  assert.equal(x.qualifies(target('partial'), subsOf([filing('10-Q'), filing('424B4'), filing('S-1', false)])), true);
+});
+
+test('an issuer with no annual filing and no prospectus does not qualify', () => {
+  assert.equal(x.qualifies(target('partial'), subsOf([filing('10-Q')])), false);
+});
+
+test('an XBRL annual filing still disqualifies despite a prospectus', () => {
+  assert.equal(x.qualifies(target('partial'), subsOf([filing('10-K'), filing('S-1')])), false);
+});
+
+test('non-XBRL annual, unavailable coverage and missing subs keep their rules', () => {
+  assert.equal(x.qualifies(target('partial'), subsOf([filing('10-K', false)])), true);
+  assert.equal(x.qualifies(target('unavailable'), subsOf([])), true);
+  assert.equal(x.qualifies(target('unavailable'), { missing: true }), false);
+  assert.equal(x.qualifies(target('partial'), null), false);
+});
