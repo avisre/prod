@@ -76,6 +76,12 @@ jobs:
         run: node scripts/run-financial-stage.js promote
       - name: Refresh optional currency presentation
         run: node scripts/refresh-sec-fx.js
+      # test-stock-coverage.js copies frontend/data (6+ GB) into /tmp; on 2026-10-24 the
+      # runner ran out of disk there and the whole reconciled generation went unpublished.
+      - name: Free runner disk for the isolated test copy
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h / /tmp
       - name: Build and validate one generation
         run: |
           node --max-old-space-size=1536 scripts/build-public-stock-index.js
