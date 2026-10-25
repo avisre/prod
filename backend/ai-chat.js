@@ -43,6 +43,7 @@ const savedScreens = require('./saved-screens');
 const fundFetch = require('./fundamentals-fetch');
 const stockUniverse = require('./stock-universe');
 const evidence = require('./ask-evidence');
+const industryMetrics = require('../frontend-v2/assets/industry-metrics');
 const sectorVocab = require('./sector');
 const requirements = require('./ask-requirements');
 const askIndustry = require('./ask-industry-profile');
@@ -454,7 +455,8 @@ function healthChecksFromData(data, symbol) {
     const ocfPos5 = span(5).every((y) => get(y, 'cash', 'operatingCashflow') > 0);
     add('Cash flow', 'Positive operating cash flow (last 5 yrs)', require('./financial-metrics').annualWindow(data.cash?.annualReports || [], last.end, 5, 'operatingCashflow') && compatibleHistory(span(5), 'cash', 'operatingCashflow') ? ocfPos5 : null, '', span(5).map(y => obs(y, 'cash', 'operatingCashflow')), 'every annual operatingCashflow > 0');
     const fcfN = evidence.freeCashFlow(last.cash || {}).value;
-    add('Cash flow', 'Free cash flow positive (latest yr)', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : `${mm(fcfN)}M`, [obs(last, 'cash', 'operatingCashflow'), obs(last, 'cash', 'capitalExpenditures')], 'operatingCashflow - abs(capitalExpenditures) > 0');
+    // A bank or insurer has no free cash flow (industryMetrics.NO_FCF); the page skips this check too.
+    if (!industryMetrics.hasNoFcf(data)) add('Cash flow', 'Free cash flow positive (latest yr)', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : `${mm(fcfN)}M`, [obs(last, 'cash', 'operatingCashflow'), obs(last, 'cash', 'capitalExpenditures')], 'operatingCashflow - abs(capitalExpenditures) > 0');
     // Share counts are as-filed (not split-adjusted), so only compare within
     // a window with no split-sized jump (>1.8x either way) year to year.
     const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');

@@ -49,3 +49,29 @@ test('the dossier history carries no free cash flow for a bank, and keeps it for
     assert.ok(fcfOf('6021').every((v) => v == null));
     assert.ok(fcfOf('6331').some((v) => v === 25e9));
 });
+
+test('the health checks, filing deltas and insight fact pack carry no free cash flow for a bank or a no-capex insurer', () => {
+    const aiChat = require('../ai-chat');
+    const filingMonitor = require('../filing-monitor');
+    const insights = require('../insights');
+    // The health check counts only sourced filed values in one currency.
+    const sourced = (sic) => {
+        const d = payload(sic);
+        for (const r of d.cash.annualReports) Object.assign(r, { reportedCurrency: 'USD', _sources: { operatingCashflow: ['s1'], capitalExpenditures: ['s2'] } });
+        return d;
+    };
+    const noCapex = sourced('6331');
+    for (const r of noCapex.cash.annualReports) delete r.capitalExpenditures;
+    const fcfCheck = (d) => (aiChat.healthChecksFromData(d, 'ZZZQ').checks || []).some((c) => /free cash flow/i.test(c.label));
+    const fcfDelta = (d) => filingMonitor.computeDeltas(d, '10-K').deltas.some((x) => x.label === 'Free cash flow');
+    const cashLine = (d) => insights.buildFactPack('ZZZQ', d).lines.split('\n').find((l) => l.startsWith('CASH:'));
+    for (const d of [sourced('6021'), sourced('6311'), noCapex]) {
+        assert.equal(fcfCheck(d), false);
+        assert.equal(fcfDelta(d), false);
+        assert.doesNotMatch(cashLine(d), /FCF latest/);
+        assert.equal(insights.buildFactPack('ZZZQ', d).noFcf, true);
+    }
+    assert.equal(fcfCheck(sourced('6331')), true);
+    assert.equal(fcfDelta(sourced('6331')), true);
+    assert.match(cashLine(sourced('6331')), /^CASH: FCF latest USD 25(\.0)?B/);
+});

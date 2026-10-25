@@ -15,6 +15,8 @@ const aiChat = require('./ai-chat');
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 const num = require('./sec-coverage').number;
+const industryMetrics = require('../frontend-v2/assets/industry-metrics');
+const FCF_TEXT = /free[- ]cash[- ]flow|\bFCF\b/i;
 const r1 = (v) => v === null ? null : Math.round(v * 10) / 10;
 function cagr(first, last, years) {
     if (!first || !last || first <= 0 || last <= 0 || years < 1.5) return null;
@@ -74,7 +76,8 @@ function buildFactPack(symbol,supplied=null) {
     L.push(`NET INCOME: latest ${last.income?.reportedCurrency || ov.Currency || 'currency unavailable'} ${ni(last)===null?'—':r1(ni(last) / 1e9)}B. 5y CAGR ${years.length > 5 ? r1(cagr(ni(yr(5)), ni(last), 5)) : '—'}%, 1y ${ni(yr(1)) > 0 ? r1((ni(last) / ni(yr(1)) - 1) * 100) : '—'}%.`);
     L.push(`MARGINS (gross/operating/net %): now ${r1(gp(last))}/${r1(om(last))}/${r1(nm(last))}; 5y ago ${years.length > 5 ? `${r1(gp(yr(5)))}/${r1(om(yr(5)))}/${r1(nm(yr(5)))}` : '—'}; 10y ago ${years.length > 10 ? `${r1(gp(yr(10)))}/${r1(om(yr(10)))}/${r1(nm(yr(10)))}` : '—'}.`);
     const f0 = fcf(last); const o0 = g(last, 'cash', 'operatingCashflow');
-    L.push(`CASH: FCF latest ${last.cash?.reportedCurrency || ov.Currency || 'currency unavailable'} ${f0 === null ? '—' : r1(f0 / 1e9)}B (FCF margin ${f0 !== null && rev(last) ? r1(f0 / rev(last) * 100) : '—'}%). OCF/netIncome ${o0 !== null && ni(last) ? r1(o0 / ni(last) * 100) / 100 : '—'}.`);
+    if (industryMetrics.hasNoFcf(d)) L.push(`CASH: free cash flow is not a measure for this company and must not be cited. ${industryMetrics.NO_FCF}`);
+    else L.push(`CASH: FCF latest ${last.cash?.reportedCurrency || ov.Currency || 'currency unavailable'} ${f0 === null ? '—' : r1(f0 / 1e9)}B (FCF margin ${f0 !== null && rev(last) ? r1(f0 / rev(last) * 100) : '—'}%). OCF/netIncome ${o0 !== null && ni(last) ? r1(o0 / ni(last) * 100) / 100 : '—'}.`);
     const s0 = sh(last); const s5 = years.length > 5 ? sh(yr(5)) : null; const s10 = years.length > 10 ? sh(yr(10)) : null;
     L.push(`SHARES OUT: ${s0 ? r1(s0 / 1e9) + 'B' : '—'}; change 5y ${s0 && s5 ? r1((s0 / s5 - 1) * 100) + '%' : '—'}, 10y ${s0 && s10 ? r1((s0 / s10 - 1) * 100) + '%' : '—'}. Buybacks latest yr ${last.cash?.reportedCurrency || ov.Currency || 'currency unavailable'} ${g(last, 'cash', 'paymentsForRepurchaseOfCommonStock') !== null ? r1(Math.abs(g(last, 'cash', 'paymentsForRepurchaseOfCommonStock')) / 1e9) : '—'}B, dividends ${g(last, 'cash', 'dividendPayout') !== null ? r1(Math.abs(g(last, 'cash', 'dividendPayout')) / 1e9) : '—'}B.`);
     // For an ADR the filed share count is ORDINARY shares while price, market cap
@@ -128,7 +131,7 @@ function buildFactPack(symbol,supplied=null) {
             L.push(`SECTOR (${sector}, ${rows.length} companies) MEDIANS: P/E ${med('pe')}, net margin ${med('netMarginPct')}%, revenue CAGR 5y ${med('revCagr5Pct')}%, ROE ${med('roePct')}%.`);
         }
     } catch (_) { /* sector context optional */ }
-    return { lines: L.join('\n'), fyEnd: String(last.end) };
+    return { lines: L.join('\n'), fyEnd: String(last.end), noFcf: industryMetrics.hasNoFcf(d) };
 }
 
 const SYSTEM = [
@@ -186,7 +189,10 @@ async function generateInsights(symbol) {
     const col = mongoose.connection.collection('company_insights');
     try {
         const hit = await col.findOne({ symbol, fyEnd: pack.fyEnd });
-        if (hit && Date.now() - new Date(hit.at).getTime() < CACHE_TTL_MS) return { ...hit.payload, cached: true };
+        // Insights cached before banks and insurers stopped showing free cash flow may cite it.
+        const citesFcf = (i) => FCF_TEXT.test(`${i.title} ${i.body}`);
+        const stale = pack.noFcf && ((hit && hit.payload && hit.payload.insights) || []).some(citesFcf);
+        if (hit && !stale && Date.now() - new Date(hit.at).getTime() < CACHE_TTL_MS) return { ...hit.payload, cached: true };
     } catch (_) { /* cache best-effort */ }
 
     const biz = await businessContext(symbol);

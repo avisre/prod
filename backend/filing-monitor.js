@@ -23,6 +23,7 @@ const filingDiff = require('./filing-diff');
 const aiChat = require('./ai-chat');
 const aiClient = require('./ai-client');
 const unitEconomics = require('./unit-economics');
+const industryMetrics = require('../frontend-v2/assets/industry-metrics');
 const { plainSummary } = require('./plain-language');
 const { tidyQuote } = require('./html-text');
 
@@ -143,7 +144,7 @@ function computeDeltas(data, form = '10-Q') {
     ptsDelta('Operating margin', round1(margin(latest, 'operatingIncome')), round1(margin(prior, 'operatingIncome')));
     ptsDelta('Net margin', round1(margin(latest, 'netIncome')), round1(margin(prior, 'netIncome')));
     const fcfL = fcfOf(cash, latest.fiscalDateEnding), fcfP = fcfOf(cash, prior.fiscalDateEnding);
-    pctDelta('Free cash flow', fcfL, fcfP, money);
+    if (!industryMetrics.hasNoFcf(data)) pctDelta('Free cash flow', fcfL, fcfP, money);
 
     return { deltas, period: latest.fiscalDateEnding, priorPeriod: prior.fiscalDateEnding, currency: cur };
 }
@@ -299,6 +300,15 @@ async function execSummary(facts) {
     }
 }
 
+// A report cached before banks and insurers stopped showing free cash flow still
+// carries a free cash flow delta (and a summary written over it); rebuild those.
+async function cacheUsable(sym, payload) {
+    if (!payload || payload.schemaVersion !== REPORT_SCHEMA_VERSION) return false;
+    if (!(payload.deltas || []).some((d) => d.label === 'Free cash flow')) return true;
+    const data = await aiChat.loadFundAny(sym).catch(() => null);
+    return !(data && industryMetrics.hasNoFcf(data));
+}
+
 // ---- 4. Orchestrate one report, cached by the periodic filing's accession ----
 function reportCol() { return mongoose.connection.collection('filing_reports'); }
 
@@ -333,7 +343,7 @@ async function buildReport(symbol, { force = false, onStage = () => {} } = {}) {
     if (!force) {
         try {
             const hit = await col.findOne({ symbol: sym, accession: keyFiling.accession }, { projection: { _id: 0 } });
-        if (hit && hit.payload && hit.payload.schemaVersion === REPORT_SCHEMA_VERSION) return { ...hit.payload, cached: true };
+        if (hit && await cacheUsable(sym, hit.payload)) return { ...hit.payload, cached: true };
         } catch (_) { /* cache best-effort */ }
     }
 
@@ -442,7 +452,7 @@ async function peekReport(symbol) {
     const keyFiling = found.periodic || found.latest;
     try {
         const hit = await reportCol().findOne({ symbol: sym, accession: keyFiling.accession }, { projection: { _id: 0 } });
-        return hit && hit.payload && hit.payload.schemaVersion === REPORT_SCHEMA_VERSION ? { ...hit.payload, cached: true } : null;
+        return hit && await cacheUsable(sym, hit.payload) ? { ...hit.payload, cached: true } : null;
     } catch (_) { return null; }
 }
 
