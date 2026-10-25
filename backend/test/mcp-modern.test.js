@@ -271,3 +271,19 @@ test('isModern routes by era: initialize and legacy versions stay on the SDK pat
     assert.equal(mcpModern.isModern(req([1, 2])), false, 'a batch body is not a modern request');
     assert.equal(mcpModern.isModern(req(null)), false);
 });
+test('a new tool lists and answers through the modern path', { timeout: 60000 }, async (t) => {
+    const deps = anonDeps({ check: async () => ({ ok: true }), spend: async () => {} });
+    deps.recentFilings = () => ({
+        since: '2026-10-18', kinds: ['annual'], match_count: 1,
+        filings: [{ ticker: 'AAPL', name: 'Apple Inc.', kind: 'annual', form: '10-K', filing_date: '2026-10-20', period_end: '2026-09-26', filing_url: 'https://www.sec.gov/x' }]
+    });
+    const url = await mount(t, anonCtx(), deps);
+    const list = await (await modernPost(url, { method: 'tools/list' })).json();
+    assert.ok(list.result.tools.some((tl) => tl.name === 'get_recent_filings'));
+    const res = await modernPost(url, { method: 'tools/call', params: { name: 'get_recent_filings', arguments: { kinds: ['annual'] } } });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.result.resultType, 'complete');
+    assert.ok(!body.result.isError);
+    assert.equal(JSON.parse(body.result.content[0].text).filings[0].ticker, 'AAPL');
+});

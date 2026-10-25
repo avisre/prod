@@ -104,13 +104,17 @@ test('the /api landing page quotes credits.COST rather than typed-in numbers', (
     const mcpRows = [...html.matchAll(
         /<code>([a-z_]+)<\/code><\/td><td>[^<]*<\/td><td>(free|\d+(?:\.\d+)?)<\/td>/g
     )].map((m) => [m[1], m[2]]);
-    assert.equal(mcpRows.length, 6, `expected six MCP tool rows, found ${mcpRows.length}`);
+    // One row per served tool, priced by the same aiCost flag the limiter
+    // charges by, read from the endpoint's own definitions.
+    const { TOOL_DEFS } = require('../mcp-endpoint');
+    assert.deepEqual(mcpRows.map(([tool]) => tool).sort(), TOOL_DEFS.map((d) => d.name).sort(), 'one row per served MCP tool');
+    const askPriced = new Set(TOOL_DEFS.filter((d) => d.aiCost).map((d) => d.name));
     for (const [tool, price] of mcpRows) {
         if (tool === 'sp_health') {
             assert.equal(price, 'free', `${tool} is documented as costing something`);
             continue;
         }
-        assert.equal(Number(price), tool === 'ask_filings' ? COST.mcp_ask : COST.mcp_lookup,
+        assert.equal(Number(price), askPriced.has(tool) ? COST.mcp_ask : COST.mcp_lookup,
             `${tool} is priced ${price} on /api`);
     }
 

@@ -156,7 +156,9 @@ test('the connector passes the subject to the ledger and keeps it out of the app
     // The ChatGPT app endpoint does the same, or its calls show up with no detail.
     const apps = read('mcp-apps.js');
     assert.match(apps, /const subject = ctx\.anonymous \? null : connectorUsage\.subjectFor\(args\);/);
-    assert.match(apps, /deps\.limiter\.spend\(ctx\.userId, 'mcp_lookup', `mcp-apps:\$\{name\}`, subject, ctx\.client \|\| null\);/);
+    // costKey is mcp_ask for a tool that runs the model (aiCost), else mcp_lookup.
+    assert.match(apps, /const costKey = def\.aiCost \? 'mcp_ask' : 'mcp_lookup';/);
+    assert.match(apps, /deps\.limiter\.spend\(ctx\.userId, costKey, `mcp-apps:\$\{name\}`, subject, ctx\.client \|\| null\);/);
     assert.match(apps, /caller: ctx\.logId \|\| null \}, \{ subject \}\);/);
     assert.match(app, /onLog: \(evt, detail\) => \{ console\.log\('\[mcp-apps\]', JSON\.stringify\(evt\)\); nudgeOnRefusal\(req, evt\); recordConnectorRefusal\(req, evt, detail, client\); \}/);
 });

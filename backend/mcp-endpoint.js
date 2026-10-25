@@ -44,6 +44,8 @@ const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/ser
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
 const fin = require('./mcp-financials');
 const aiChat = require('./ai-chat');
+const recentFilings = require('./mcp-recent-filings');
+const filingDiff = require('./filing-diff');
 const { quotaError } = require('./api-response');
 const connectorUsage = require('./connector-usage');
 const connectorNotices = require('./connector-notices');
@@ -80,6 +82,7 @@ const SERVER_INSTRUCTIONS = [
     'StockPortfolio.pro returns SEC filing data for US-listed public companies.',
     'If a company name is ambiguous, call search_companies first and use the exact ticker it returns.',
     'get_company_fundamentals returns financial statements by fiscal period, each value carrying the SEC filing that reports it.',
+    'get_recent_filings lists each covered company\u2019s most recent report and earnings release, screen_companies screens the covered universe, get_filing_changes compares a company\u2019s two most recent filings of the same form, and get_red_flags returns warning signs computed from filed statements.',
     'A value that was not reported is null and is never estimated; never fill a null with your own number.',
     'Cite the SEC source URL that accompanies a figure when you state it.',
     'sp_health is free. Every other tool, search_companies included, spends from the caller\u2019s allowance.',
@@ -164,6 +167,14 @@ const DEFAULT_FUNDAMENTAL_METRICS = [
 ];
 
 const ALL_METRIC_IDS = new Set([...Object.keys(fin.METRICS), ...Object.keys(fin.DERIVED)]);
+
+// Shared with the website screener so the two never drift (this list once
+// lacked netIncomeCagr5Pct).
+const { SCREEN_SORT_KEYS } = aiChat;
+
+// An account-only tool: a keyless caller is refused before the allowance is
+// reserved. The copy names the feature, the fix, and nothing else.
+const MSG_ACCOUNT_REQUIRED = 'Connect your account to use it.';
 
 const TOOL_DEFS = [
     {
@@ -434,6 +445,216 @@ const TOOL_DEFS = [
         }
     },
     {
+        name: 'get_recent_filings',
+        title: 'Recent filings',
+        description: 'List what is newly filed across covered companies: each company\u2019s MOST RECENT annual (10-K/20-F/40-F), quarterly (10-Q) and earnings-release filing from a date window — not every filing. Each row carries the form, filing date, period end and filing URL, and whether that period appears in the company\u2019s financial statements. Filter by kind and ticker. Costs one data lookup.',
+        inputSchema: {
+            type: 'object',
+            properties: {
+                since: { type: 'string', description: 'Earliest filing date (YYYY-MM-DD). Defaults to 7 days ago and never reaches further back than 92 days.' },
+                kinds: { type: 'array', items: { type: 'string', enum: ['quarterly', 'annual', 'earnings_release'] }, description: 'Kinds to include. Defaults to all three.' },
+                tickers: { type: 'array', items: { type: 'string' }, description: 'Optional tickers, restricting the result to those companies.' },
+                limit: { type: 'integer', minimum: 1, maximum: 100, default: 25, description: 'Maximum rows to return.' }
+            },
+            additionalProperties: false
+        },
+        outputSchema: {
+            type: 'object',
+            properties: {
+                since: { type: 'string' },
+                kinds: { type: 'array', items: { type: 'string' } },
+                match_count: { type: 'integer' },
+                filings: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            ticker: { type: 'string' },
+                            name: { type: ['string', 'null'] },
+                            kind: { type: 'string' },
+                            form: { type: 'string' },
+                            filing_date: { type: 'string' },
+                            period_end: { type: ['string', 'null'] },
+                            filing_url: { type: ['string', 'null'] },
+                            in_statements: { type: ['boolean', 'null'] }
+                        },
+                        additionalProperties: true
+                    }
+                },
+                notes: { type: 'array', items: { type: 'string' } }
+            },
+            additionalProperties: true
+        },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+        // One row set spanning every covered company: the anti-scraping cap on
+        // different companies per account must not fire for it.
+        breadth: false,
+        handler: (args, deps, ctx) => {
+            const run = deps && typeof deps.recentFilings === 'function' ? deps.recentFilings : recentFilings.recentFilings;
+            const result = run(args || {});
+            // The keyless tier sees a short list, and is told so in the result.
+            const cap = 10;
+            if (ctx && ctx.anonymous && Array.isArray(result.filings) && result.filings.length > cap) {
+                result.filings = result.filings.slice(0, cap);
+                result.match_count = result.filings.length;
+                result.notes = [...(result.notes || []), `At most ${cap} rows are returned without a signed-in StockPortfolio.pro account.`];
+            }
+            return result;
+        }
+    },
+    {
+        name: 'screen_companies',
+        title: 'Screen companies',
+        description: 'Screen the covered universe of US-listed companies with filed fundamentals: growth, margins, returns, valuation, index membership, price trend, or a named ticker list, with every threshold optional and freely combined. Returns the rows that pass and the size of the screenable universe; companies without usable statements are not included. Needs a signed-in StockPortfolio.pro account. Costs one data lookup.',
+        inputSchema: {
+            type: 'object',
+            properties: {
+                similar_to: { type: 'string', description: 'Ticker of the company to model the screen on — e.g. "APP" for "companies like AppLovin".' },
+                sector: { type: 'string', description: 'Sector substring filter, e.g. TECHNOLOGY, ENERGY' },
+                min_revenue_cagr_5y_pct: { type: 'number' },
+                max_revenue_cagr_5y_pct: { type: 'number' },
+                min_net_margin_pct: { type: 'number' },
+                min_roe_pct: { type: 'number' },
+                max_roe_pct: { type: 'number', description: 'Ceiling that excludes negative/negligible-equity ROE distortions' },
+                min_dividend_yield_pct: { type: 'number' },
+                max_pe: { type: 'number' },
+                max_peg: { type: 'number' },
+                min_price_to_book: { type: 'number' },
+                max_price_to_book: { type: 'number' },
+                min_market_cap_billions: { type: 'number' },
+                max_market_cap_billions: { type: 'number' },
+                min_profitable_years_of_last_10: { type: 'integer' },
+                min_latest_qtr_earnings_growth_yoy_pct: { type: 'number', description: 'Latest quarter net income growth vs same quarter a year ago, in %' },
+                symbols: { type: 'array', items: { type: 'string' }, description: 'Restrict to these tickers (up to 25).' },
+                index: { type: 'string', description: 'Index membership from stored, dated member lists: "sp500", "sp100", "nasdaq100", or several joined with "or".' },
+                min_price: { type: 'number', description: 'Minimum share price in USD' },
+                max_price: { type: 'number', description: 'Maximum share price in USD' },
+                min_net_income_cagr_5y_pct: { type: 'number', description: '5-year compound growth in net income, in %' },
+                min_price_vs_10_month_avg_pct: { type: 'number', description: 'Price relative to its 10-month average, in %. 0 means "trading above its 10-month average".' },
+                min_rsi14: { type: 'number' },
+                max_rsi14: { type: 'number' },
+                sma200_position: { type: 'string', enum: ['above', 'below'] },
+                golden_cross_within_days: { type: 'number' },
+                min_volume_ratio_20: { type: 'number' },
+                require_positive_fcf: { type: 'boolean' },
+                exclude_secondary_listings: { type: 'boolean' },
+                sort_by: { type: 'string', enum: SCREEN_SORT_KEYS },
+                limit: { type: 'integer', minimum: 1, maximum: 50, default: 20, description: 'Maximum rows to return.' }
+            },
+            additionalProperties: false
+        },
+        outputSchema: {
+            type: 'object',
+            properties: {
+                universe: { type: 'integer' },
+                matched: { type: 'integer' },
+                rows: { type: 'array', items: { type: 'object', additionalProperties: true } },
+                not_in_universe: { type: ['array', 'null'], items: { type: 'string' } }
+            },
+            additionalProperties: true
+        },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+        // Account-only (requiresAccount): the screener is a whole-universe
+        // pull, and a multi-company result must not count as breadth either.
+        requiresAccount: true,
+        breadth: false,
+        handler: async (args, deps) => {
+            const a = args && typeof args === 'object' ? args : {};
+            const limit = Math.min(Math.max(Number(a.limit) || 20, 1), 50);
+            // screenArgsFromClient drops symbols (a website screen never names
+            // tickers), so the named list is passed through here. established_first
+            // ranks unproven growers below established ones, as ask_filings does.
+            const symbols = Array.isArray(a.symbols) ? a.symbols.filter((x) => typeof x === 'string').slice(0, 25) : [];
+            const criteria = { ...aiChat.screenArgsFromClient(a), ...(symbols.length ? { symbols } : {}), established_first: true, limit, maxLimit: 50 };
+            if (SCREEN_SORT_KEYS.includes(a.sort_by)) criteria.sort_by = a.sort_by;
+            const run = deps && typeof deps.screenUniverse === 'function' ? deps.screenUniverse : aiChat.screenRows;
+            const result = await run(criteria);
+            if (!result || result.error) throw fin.mcpError('SCREEN_FAILED', String((result && result.error) || 'The screen could not be run.'));
+            return {
+                universe: result.universe,
+                matched: result.matched,
+                rows: result.rows,
+                ...(result.similarTo ? { similar_to: result.similarTo } : {}),
+                ...(result.technicalsAsOf ? { technicals_as_of: result.technicalsAsOf } : {}),
+                ...(Array.isArray(result.notInUniverse) && result.notInUniverse.length ? { not_in_universe: result.notInUniverse } : {})
+            };
+        }
+    },
+    {
+        name: 'get_filing_changes',
+        title: 'Filing changes',
+        description: 'What changed between a company\u2019s newest 10-K/10-Q/20-F/40-F and its previous filing of the same form: guidance and outlook language, risk factors, demand and margin commentary, quoted from both documents and checked against them. The first comparison for a filing pair can take 30\u201360 seconds; later calls are served from the cache. Needs a signed-in StockPortfolio.pro account. Metered like ask_filings: consumes the account\u2019s allowance.',
+        inputSchema: {
+            type: 'object',
+            properties: {
+                ticker: { type: 'string', description: 'US ticker, e.g. NVDA or AAPL.' }
+            },
+            required: ['ticker'],
+            additionalProperties: false
+        },
+        outputSchema: {
+            type: 'object',
+            properties: {
+                symbol: { type: 'string' },
+                headline: { type: 'string' },
+                tone: { type: ['string', 'null'] },
+                changes: { type: 'array', items: { type: 'object', additionalProperties: true } },
+                latest: { type: 'object', properties: { form: { type: 'string' }, date: { type: 'string' }, url: { type: 'string' } }, additionalProperties: true },
+                prev: { type: 'object', properties: { form: { type: 'string' }, date: { type: 'string' }, url: { type: 'string' } }, additionalProperties: true },
+                note: { type: ['string', 'null'] }
+            },
+            additionalProperties: true
+        },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+        // Account-only, and priced like ask_filings: the comparison runs the
+        // model over two filing excerpts (aiCost selects mcp_ask everywhere).
+        requiresAccount: true,
+        aiCost: true,
+        handler: async (args, deps) => {
+            const symbol = String(args && args.ticker || '').trim().toUpperCase();
+            if (!symbol) throw fin.mcpError('COMPANY_REQUIRED', 'Provide the ticker whose filings to compare.');
+            const run = deps && typeof deps.filingDiff === 'function' ? deps.filingDiff : filingDiff.computeFilingDiff;
+            const result = await run(symbol);
+            if (!result || result.error) {
+                throw fin.mcpError('FILING_NOT_FOUND', String((result && result.error) || 'No comparable filing pair was found for that company.'));
+            }
+            return result;
+        }
+    },
+    {
+        name: 'get_red_flags',
+        title: 'Red flags',
+        description: 'Conservative warning signs computed from a company\u2019s filed statements — receivables or inventory outrunning sales, earnings ahead of cash, dilution, heavy debt, shrinking margins — each with the filed figures behind it. A missing figure never raises a flag, and nothing here is a judgement or advice. Costs one data lookup.',
+        inputSchema: {
+            type: 'object',
+            properties: {
+                ticker: { type: 'string', description: 'US ticker, e.g. NVDA or AAPL.' }
+            },
+            required: ['ticker'],
+            additionalProperties: false
+        },
+        outputSchema: {
+            type: 'object',
+            properties: {
+                symbol: { type: 'string' },
+                flags: { type: 'array', items: { type: 'object', additionalProperties: true } },
+                flagCount: { type: 'integer' },
+                asOf: { type: ['string', 'null'] },
+                source: { type: ['string', 'null'] }
+            },
+            additionalProperties: true
+        },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+        handler: (args, deps) => {
+            const symbol = String(args && args.ticker || '').trim().toUpperCase();
+            if (!symbol) throw fin.mcpError('COMPANY_REQUIRED', 'Provide the ticker to scan.');
+            const run = deps && typeof deps.redFlags === 'function' ? deps.redFlags : aiChat.redFlagsFor;
+            const flags = run(symbol);
+            if (!flags) throw fin.mcpError('COMPANY_NOT_FOUND', `No filed statements were found for ${symbol}.`);
+            return flags;
+        }
+    },
+    {
         name: 'sp_health',
         title: 'Health check',
         description: 'Liveness probe: reports the server version and the number of tools. Safe to call before any other tool and useful for verifying a connection. Free: needs no account and consumes no allowance.',
@@ -541,7 +762,8 @@ const KNOWN_CODES = new Set([
     'COMPANY_REQUIRED', 'COMPANY_NOT_FOUND', 'AMBIGUOUS_COMPANY', 'UNSUPPORTED_METRIC',
     'QUESTION_REQUIRED', 'FILING_NOT_FOUND', 'UNSUPPORTED_SECTION', 'TOO_MANY_COMPANIES',
     'TOO_FEW_COMPANIES', 'INVALID_PERIOD', 'AUTHENTICATION_REQUIRED', 'ENTITLEMENT_REQUIRED',
-    'QUOTA_EXCEEDED', 'RATE_LIMITED', 'UNKNOWN_TOOL', 'UPSTREAM_DATA_ERROR'
+    'QUOTA_EXCEEDED', 'RATE_LIMITED', 'UNKNOWN_TOOL', 'UPSTREAM_DATA_ERROR',
+    'SCREEN_FAILED', 'ASSET_FEATURE_UNAVAILABLE'
 ]);
 
 function textResult(payload) {
@@ -638,7 +860,11 @@ async function listToolsResult(ctx, deps) {
         // client offer sign-in instead of a refusal.
         securitySchemes: def.free
             ? [{ type: 'noauth' }]
-            : [{ type: 'noauth' }, { type: 'oauth2', scopes }],
+            : def.requiresAccount
+                // An account-only tool has no keyless tier to advertise — only
+                // the OAuth grant that unlocks it.
+                ? [{ type: 'oauth2', scopes }]
+                : [{ type: 'noauth' }, { type: 'oauth2', scopes }],
         // `title` belongs in BOTH places. Tool.title and ToolAnnotations.title
         // are separate fields in the spec, and the directory's connector checker
         // reads the annotation one: with only the top-level field set, all six
@@ -677,6 +903,12 @@ async function callToolResult(ctx, deps, params) {
             ms: Date.now() - started,
             caller: ctx.logId || null
         }, { subject });
+        // The mcp_calls usage log (mcp-usage-log.js): one structured row per
+        // call, keyless included, refusals included — a refusal is a demand
+        // signal too. Guarded like logEvent so telemetry can never fail a call.
+        if (typeof deps.usage === 'function') {
+            try { deps.usage({ tool: String(name || ''), args, result, code: code || null, ms: Date.now() - started }); } catch (_) { /* ignore */ }
+        }
         return result;
     };
 
@@ -693,7 +925,18 @@ async function callToolResult(ctx, deps, params) {
         // upstream service, costs nothing and holds no data, so gating it
         // would break discovery testing for no benefit.
         if (def.free) {
-            return finish(textResult(await def.handler(args)));
+            return finish(textResult(await def.handler(args, deps, ctx)));
+        }
+
+        // An account-only tool (requiresAccount) refuses a keyless caller
+        // BEFORE the limiter reserves anything, so the refusal costs no unit
+        // of the free allowance. The challenge makes the AI client offer its
+        // sign-in UI instead of a dead end.
+        if (def.requiresAccount && ctx.anonymous) {
+            return finish(withWwwAuthenticate(errorResult('AUTHENTICATION_REQUIRED',
+                `${def.title} needs a signed-in StockPortfolio.pro account. ${MSG_ACCOUNT_REQUIRED}`, {
+                    authenticate: true, tool: def.name
+                }), deps, 'Connect a StockPortfolio.pro account to continue.'), 'AUTHENTICATION_REQUIRED');
         }
 
         // ---- Everything below is a protected operation ----
@@ -757,7 +1000,7 @@ async function callToolResult(ctx, deps, params) {
             // The anti-scraping cap on different companies one account
             // pulls (company-breadth.js). Keyless callers are already held to a
             // small allowance, so only an account carries this dependency.
-            const companies = deps.breadth && !ctx.anonymous ? companyBreadth.companiesIn(args) : [];
+            const companies = deps.breadth && !ctx.anonymous && def.breadth !== false ? companyBreadth.companiesIn(args) : [];
             if (companies.length) {
                 const breadth = await deps.breadth.check(companies);
                 if (!breadth.ok) {
@@ -770,7 +1013,7 @@ async function callToolResult(ctx, deps, params) {
             // own ledger row pass for "the last call" and hide credits that had
             // just arrived (it failed the deploy workflow twice on 2026-10-10).
             const pendingNotice = connectorNotices.begin(deps, gate);
-            let result = await def.handler(args);
+            let result = await def.handler(args, deps, ctx);
             const notice = await pendingNotice;
             // Confirms the reservation check() made — a failed lookup never
             // spends the caller's allowance.

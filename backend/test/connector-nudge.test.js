@@ -126,5 +126,6 @@ test('app.js sends it for signed-in callers on both endpoints, through the suppo
     assert.match(fn, /anonymous: false/);
     assert.match(fn, /CONNECTOR_NUDGE_EMAILS/);
     // The anonymous branches keep their plain logger: no address, no email.
-    assert.match(src, /entitled: \(\) => false,\s*\n\s*wallReason: [^\n]*\n\s*onLog: logMcp/);
+    // (The usage-log and tool-data deps may sit between, but never a nudge.)
+    assert.match(src, /entitled: \(\) => false,\s*\n\s*wallReason: [^\n]*\n(?:\s*(?:usage: mcpUsageCallback|\.\.\.mcpToolDeps\(\))[^\n]*\n)*\s*onLog: logMcp\n/);
 });

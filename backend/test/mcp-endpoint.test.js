@@ -36,12 +36,21 @@ const fin = require('../mcp-financials');
 const aiChat = require('../ai-chat');
 const mcpEndpoint = require('../mcp-endpoint');
 const connectorNotices = require('../connector-notices');
+const recentFilingsModule = require('../mcp-recent-filings');
+const mcpAnon = require('../mcp-anon');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 
 const ASK_LIMIT = 10;
 const EXPECTED_TOOLS = [
     'ask_filings',
     'get_company_fundamentals',
     'get_filing',
+    'get_recent_filings',
+    'screen_companies',
+    'get_filing_changes',
+    'get_red_flags',
     'search_companies',
     'search_filings',
     'sp_health'
@@ -787,11 +796,20 @@ test('tools/list declares per-tool security schemes that survive to the wire', {
         [{ type: 'noauth' }],
         'the free probe needs no credential and says so'
     );
-    for (const name of ['search_companies', 'get_company_fundamentals', 'search_filings', 'get_filing', 'ask_filings']) {
+    for (const name of ['search_companies', 'get_company_fundamentals', 'search_filings', 'get_filing', 'ask_filings', 'get_recent_filings', 'get_red_flags']) {
         assert.deepEqual(
             byName.get(name).securitySchemes,
             [{ type: 'noauth' }, { type: 'oauth2', scopes: ['financials:read', 'filings:read', 'research:read'] }],
             `${name} declares the keyless tier and the OAuth grant that unlocks it`
+        );
+    }
+    // The account-only tools have no keyless tier to advertise: only the
+    // OAuth grant, which is what makes the client offer sign-in.
+    for (const name of ['screen_companies', 'get_filing_changes']) {
+        assert.deepEqual(
+            byName.get(name).securitySchemes,
+            [{ type: 'oauth2', scopes: ['financials:read', 'filings:read', 'research:read'] }],
+            `${name} is account-only and declares only the OAuth grant`
         );
     }
 });
@@ -856,4 +874,304 @@ test('AUTHENTICATION_REQUIRED, the keyless-off refusal, carries the challenge to
     assert.equal(res.isError, true);
     assert.equal(jsonOf(res).code, 'AUTHENTICATION_REQUIRED');
     assert.ok(Array.isArray(res._meta && res._meta['mcp/www_authenticate']), 'the auth refusal points at the OAuth metadata');
+});
+
+// ---------------------------------------------------------------------------
+// The mcp_calls usage log wiring — deps.usage is invoked once per call,
+// refusals included (mcp-usage-log.js)
+// ---------------------------------------------------------------------------
+
+test('deps.usage is invoked once per tool call, including for a refusal', { timeout: 60000 }, async (t) => {
+    stubFinancials();
+    t.after(restoreFinancials);
+    const events = [];
+    const shape = keyedShape({
+        limiter: {
+            check: async () => ({ ok: true, used: 0, allowance: 20, resetsAt: null }),
+            spend: async () => {}
+        }
+    });
+    shape.deps.usage = (evt) => events.push(evt);
+    const refused = keyedShape({
+        limiter: {
+            check: async () => ({ ok: false, used: 3, allowance: 3, resetsAt: null, message: 'That was all 3 free questions.' }),
+            spend: async () => {}
+        }
+    });
+    refused.deps.usage = (evt) => events.push(evt);
+
+    const client = await connect(t, await mount(t, shape));
+    await client.callTool({ name: 'sp_health', arguments: {} });
+    await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    const drained = await connect(t, await mount(t, refused));
+    await drained.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+
+    assert.equal(events.length, 3, 'one usage event per call');
+    assert.equal(events.filter((e) => e.tool === 'sp_health').length, 1);
+    const ok = events.find((e) => e.tool === 'search_companies' && e.code === null);
+    assert.ok(ok, 'a successful call is recorded');
+    assert.ok(ok.args && ok.args.query === 'Apple', 'the event carries the raw args for facet extraction');
+    assert.equal(typeof ok.ms, 'number');
+    const refusal = events.find((e) => e.code === 'QUOTA_EXCEEDED');
+    assert.ok(refusal, 'a refusal is recorded too');
+    assert.ok(refusal.result && refusal.result.isError, 'the event carries the result for outcome facets');
+});
+
+// ---------------------------------------------------------------------------
+// The new tools — get_recent_filings, screen_companies, get_filing_changes,
+// get_red_flags
+// ---------------------------------------------------------------------------
+
+// A small sec-reporting fixture (never the real ~5,900-issuer file) plus the
+// per-company statements file, in a temp dir the module is pointed at.
+function writeRecentFilingsFixture(t) {
+    const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mcp-recent-'));
+    const issuers = {};
+    const NOW = new Date('2026-10-25T12:00:00Z');
+    for (let i = 0; i < 15; i++) {
+        const cik = String(1000000000 + i);
+        const issuer = {
+            cik,
+            issuerName: `Test Issuer ${i} Inc.`,
+            symbols: [`T${String(i).padStart(2, '0')}`],
+            financialFile: `sec-financials/${cik}.json`,
+            latestPeriodic: {
+                form: '10-Q',
+                accessionNumber: `${cik}-26-000001`,
+                filingDate: '2026-10-20',
+                reportDate: '2026-09-30',
+                filingUrl: `https://www.sec.gov/Archives/edgar/data/${cik}/one.htm`
+            }
+        };
+        // One issuer reports a period its statements do not carry, so
+        // in_statements:false is exercised, not just true.
+        if (i === 1) issuer.latestPeriodic.reportDate = '2026-09-29';
+        if (i % 2 === 0) {
+            issuer.latestAnnual = {
+                form: '10-K',
+                accessionNumber: `${cik}-26-000002`,
+                filingDate: '2026-10-21',
+                reportDate: '2025-09-27',
+                filingUrl: `https://www.sec.gov/Archives/edgar/data/${cik}/two.htm`
+            };
+        }
+        if (i % 3 === 0) {
+            issuer.latestEarningsRelease = {
+                form: '8-K',
+                accessionNumber: `${cik}-26-000003`,
+                filingDate: '2026-10-22',
+                reportDate: '2026-10-22',
+                items: '2.02',
+                filingUrl: `https://www.sec.gov/Archives/edgar/data/${cik}/three.htm`
+            };
+        }
+        issuers[cik] = issuer;
+        fs.mkdirSync(path.join(dataDir, 'sec-financials'), { recursive: true });
+        fs.writeFileSync(path.join(dataDir, 'sec-financials', `${cik}.json`), JSON.stringify({
+            income: {
+                quarterlyReports: [{ fiscalDateEnding: '2026-09-30' }],
+                annualReports: [{ fiscalDateEnding: '2025-09-27' }]
+            }
+        }));
+    }
+    const reportingFile = path.join(dataDir, 'sec-reporting.json');
+    fs.writeFileSync(reportingFile, JSON.stringify({ schemaVersion: 'test', issuers }));
+    t.after(() => { fs.rmSync(dataDir, { recursive: true, force: true }); recentFilingsModule._resetCache(); });
+    return (args) => recentFilingsModule.recentFilings(args, { reportingFile, dataDir, now: NOW });
+}
+
+test('get_recent_filings lists newest filings, honours kinds/tickers/limit and in_statements', { timeout: 60000 }, async (t) => {
+    const shape = keyedShape({
+        limiter: { check: async () => ({ ok: true, used: 0, allowance: 20, resetsAt: null }), spend: async () => {} }
+    });
+    shape.deps.recentFilings = writeRecentFilingsFixture(t);
+    const client = await connect(t, await mount(t, shape));
+
+    const all = jsonOf(await client.callTool({ name: 'get_recent_filings', arguments: {} }));
+    assert.equal(all.match_count, all.filings.length);
+    assert.ok(all.filings.length > 10, 'the fixture yields more than the keyless cap');
+    const dates = all.filings.map((r) => r.filing_date);
+    assert.deepEqual(dates, [...dates].sort().reverse(), 'newest first');
+    for (const row of all.filings) {
+        assert.match(row.filing_url, /^https:\/\/www\.sec\.gov\//);
+        assert.ok(['annual', 'quarterly', 'earnings_release'].includes(row.kind));
+        if (row.kind !== 'earnings_release') assert.ok(typeof row.in_statements === 'boolean');
+    }
+    const outOfStatements = all.filings.find((r) => r.ticker === 'T01');
+    assert.equal(outOfStatements.in_statements, false, 'a period end missing from the statements is flagged');
+    const inStatements = all.filings.find((r) => r.ticker === 'T00' && r.kind === 'quarterly');
+    assert.equal(inStatements.in_statements, true);
+
+    const annual = jsonOf(await client.callTool({ name: 'get_recent_filings', arguments: { kinds: ['annual'] } }));
+    assert.ok(annual.filings.length > 0);
+    assert.ok(annual.filings.every((r) => r.kind === 'annual' && r.form === '10-K'));
+
+    const one = jsonOf(await client.callTool({ name: 'get_recent_filings', arguments: { tickers: ['t00'] } }));
+    assert.ok(one.filings.length > 0);
+    assert.ok(one.filings.every((r) => r.ticker === 'T00'), 'the ticker filter is case-insensitive');
+
+    const capped = jsonOf(await client.callTool({ name: 'get_recent_filings', arguments: { limit: 3 } }));
+    assert.equal(capped.filings.length, 3);
+});
+
+test('a keyless caller gets at most 10 recent-filings rows, and is told so', { timeout: 60000 }, async (t) => {
+    const shape = anonShape({
+        limiter: { check: async () => ({ ok: true, used: 0, allowance: 25, resetsAt: null }), spend: async () => {} }
+    });
+    shape.deps.recentFilings = writeRecentFilingsFixture(t);
+    const client = await connect(t, await mount(t, shape));
+    const result = jsonOf(await client.callTool({ name: 'get_recent_filings', arguments: { limit: 100 } }));
+    assert.equal(result.filings.length, 10, 'the keyless cap is 10 rows');
+    assert.equal(result.match_count, 10);
+    assert.ok(result.notes.some((note) => /at most 10 rows/i.test(note)), 'the cap is said in a notes entry');
+});
+
+test('account-only tools refuse a keyless caller with the sign-in challenge and consume no allowance', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+
+    const ip = '203.0.113.9';
+    const shape = anonShape({
+        // The REAL anonymous limiter, so the no-allowance-consumed claim is
+        // checked against the actual mcp_free_usage row.
+        limiter: mcpAnon.creditsFor(ip, process.env, null, { pool: 'visitor' })
+    });
+    shape.deps.resourceMetadataUrl = 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource';
+    shape.deps.screenUniverse = async () => ({ universe: 10, matched: 1, rows: [{ symbol: 'AAPL' }] });
+    shape.deps.filingDiff = async () => ({ headline: 'x' });
+    const client = await connect(t, await mount(t, shape));
+
+    for (const [tool, args] of [['screen_companies', { sector: 'TECHNOLOGY' }], ['get_filing_changes', { ticker: 'AAPL' }]]) {
+        const res = await client.callTool({ name: tool, arguments: args });
+        assert.equal(res.isError, true, `${tool} refuses a keyless caller`);
+        const payload = jsonOf(res);
+        assert.equal(payload.code, 'AUTHENTICATION_REQUIRED');
+        assert.match(payload.error, /needs a signed-in StockPortfolio\.pro account\. Connect your account to use it\./);
+        assert.ok(Array.isArray(res._meta && res._meta['mcp/www_authenticate']), `${tool} carries the sign-in challenge`);
+        assert.match(res._meta['mcp/www_authenticate'][0], /insufficient_scope/);
+    }
+    // Not one unit of the free allowance was reserved or spent: no row exists.
+    const row = await mongoose.connection.collection('mcp_free_usage').findOne({ _id: ip });
+    assert.equal(row, null, 'a requiresAccount refusal never touches the allowance');
+});
+
+test('keyed calls to the new tools succeed and charge the right cost key', { timeout: 60000 }, async (t) => {
+    const checked = [];
+    const spent = [];
+    const shape = keyedShape({
+        limiter: {
+            check: async (id, op) => { checked.push(op); return { ok: true, used: 0, allowance: 20, resetsAt: null }; },
+            spend: async (id, op, reason) => { spent.push(`${op}|${reason}`); }
+        }
+    });
+    shape.deps.recentFilings = writeRecentFilingsFixture(t);
+    shape.deps.screenUniverse = async () => ({ universe: 5870, matched: 2, rows: [{ symbol: 'AAPL' }, { symbol: 'MSFT' }] });
+    shape.deps.filingDiff = async () => ({
+        symbol: 'AAPL', headline: 'Services grew', changes: [],
+        latest: { form: '10-K', date: '2025-10-31', url: 'https://www.sec.gov/a' },
+        prev: { form: '10-K', date: '2024-11-01', url: 'https://www.sec.gov/b' }
+    });
+    shape.deps.redFlags = () => ({ symbol: 'AAPL', flags: [], flagCount: 0, asOf: '2025-09-27', source: 'computed' });
+    const client = await connect(t, await mount(t, shape));
+
+    const screen = jsonOf(await client.callTool({ name: 'screen_companies', arguments: { sector: 'TECHNOLOGY', limit: 5 } }));
+    assert.equal(screen.universe, 5870, 'the universe size travels with the rows');
+    assert.equal(screen.rows.length, 2);
+
+    const diff = jsonOf(await client.callTool({ name: 'get_filing_changes', arguments: { ticker: 'AAPL' } }));
+    assert.equal(diff.symbol, 'AAPL');
+    assert.equal(diff.latest.form, '10-K', 'both filings travel with form, date and URL');
+
+    const flags = jsonOf(await client.callTool({ name: 'get_red_flags', arguments: { ticker: 'AAPL' } }));
+    assert.equal(flags.symbol, 'AAPL');
+    assert.equal(flags.flagCount, 0);
+
+    await client.callTool({ name: 'get_recent_filings', arguments: { limit: 3 } });
+
+    // Lookup cost for the read tools; the filing comparison runs the model, so
+    // it is charged as an ask exactly like ask_filings.
+    assert.deepEqual(checked.sort(), ['mcp_ask', 'mcp_lookup', 'mcp_lookup', 'mcp_lookup']);
+    assert.deepEqual(spent.sort(), [
+        'mcp_ask|mcp:get_filing_changes',
+        'mcp_lookup|mcp:get_recent_filings',
+        'mcp_lookup|mcp:get_red_flags',
+        'mcp_lookup|mcp:screen_companies'
+    ]);
+});
+
+test('the breadth cap ignores get_recent_filings and screen_companies', { timeout: 60000 }, async (t) => {
+    const checked = [];
+    const shape = keyedShape({
+        limiter: { check: async () => ({ ok: true }), spend: async () => {} }
+    });
+    shape.deps.recentFilings = writeRecentFilingsFixture(t);
+    shape.deps.screenUniverse = async () => ({ universe: 10, matched: 3, rows: [] });
+    shape.deps.breadth = {
+        check: async (c) => { checked.push(['check', ...c]); return { ok: true }; },
+        record: async (c) => { checked.push(['record', ...c]); }
+    };
+    const client = await connect(t, await mount(t, shape));
+    await client.callTool({ name: 'get_recent_filings', arguments: { tickers: ['T00', 'T01', 'T02'] } });
+    await client.callTool({ name: 'screen_companies', arguments: { symbols: ['AAPL', 'MSFT'] } });
+    assert.equal(checked.length, 0, 'a multi-company list is not per-company breadth');
+    // A single-company tool still counts, as today.
+    shape.deps.redFlags = () => ({ symbol: 'AAPL', flags: [], flagCount: 0, asOf: null, source: 'x' });
+    await client.callTool({ name: 'get_red_flags', arguments: { ticker: 'AAPL' } });
+    assert.deepEqual(checked, [['check', 'AAPL'], ['record', 'AAPL']], 'checked before the work, recorded after it');
+});
+
+test('a fund asking for filing changes gets the same refusal copy as the website route', { timeout: 60000 }, async (t) => {
+    const shape = keyedShape({
+        limiter: { check: async () => ({ ok: true, used: 0, allowance: 100, resetsAt: null }), spend: async () => {} }
+    });
+    shape.deps.filingDiff = async () => {
+        const err = new Error('ETFs do not have comparable company 10-K/10-Q filing changes. Use Ask for the fund\'s latest holdings, costs, performance and risk.');
+        err.code = 'ASSET_FEATURE_UNAVAILABLE';
+        throw err;
+    };
+    const client = await connect(t, await mount(t, shape));
+    const res = await client.callTool({ name: 'get_filing_changes', arguments: { ticker: 'SPY' } });
+    assert.equal(res.isError, true);
+    const payload = jsonOf(res);
+    assert.equal(payload.code, 'ASSET_FEATURE_UNAVAILABLE');
+    assert.match(payload.error, /do not have comparable company 10-K\/10-Q filing changes/);
+});
+
+test('screen_companies passes a named ticker list and established-first ranking to the screener', { timeout: 60000 }, async (t) => {
+    const seen = [];
+    const shape = keyedShape({
+        limiter: { check: async () => ({ ok: true, used: 0, allowance: 20, resetsAt: null }), spend: async () => {} }
+    });
+    shape.deps.screenUniverse = async (criteria) => {
+        seen.push(criteria);
+        return { universe: 100, matched: 1, rows: [{ symbol: 'MSFT' }], notInUniverse: ['ZZZQ'], technicalsAsOf: '2026-10-24', similarTo: { symbol: 'ORCL' } };
+    };
+    const client = await connect(t, await mount(t, shape));
+    const result = jsonOf(await client.callTool({
+        name: 'screen_companies',
+        arguments: { symbols: ['MSFT', 'ZZZQ'], sort_by: 'netIncomeCagr5Pct', min_net_margin_pct: 10, limit: 70 }
+    }));
+    assert.deepEqual(seen[0].symbols, ['MSFT', 'ZZZQ'], 'the ticker list reaches the screener');
+    assert.equal(seen[0].established_first, true);
+    assert.equal(seen[0].sort_by, 'netIncomeCagr5Pct', 'every website sort key is accepted');
+    assert.equal(seen[0].min_net_margin_pct, 10);
+    assert.equal(seen[0].limit, 50, 'limit is capped at 50');
+    assert.deepEqual(result.not_in_universe, ['ZZZQ']);
+    assert.equal(result.technicals_as_of, '2026-10-24', 'the price-data date travels with the rows');
+    assert.deepEqual(result.similar_to, { symbol: 'ORCL' });
+});
+
+test('get_recent_filings reads a statements file only for the rows it returns', (t) => {
+    const run = writeRecentFilingsFixture(t);
+    const reads = [];
+    const real = fs.readFileSync;
+    t.mock.method(fs, 'readFileSync', function (p, ...rest) {
+        if (String(p).includes('sec-financials')) reads.push(String(p));
+        return real.call(fs, p, ...rest);
+    });
+    const result = run({ limit: 3 });
+    assert.equal(result.filings.length, 3);
+    const periodic = result.filings.filter((r) => r.kind !== 'earnings_release').length;
+    assert.equal(reads.length, periodic, 'one statements read per returned periodic row, none for the rest');
 });

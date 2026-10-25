@@ -32,7 +32,14 @@ const OPEN_WORLD = {
     search_filings: true,
     get_filing_content: true,
     compare_company_metrics: true,
-    get_financial_change_drivers: true
+    get_financial_change_drivers: true,
+    // The new tools: recent filings and the screener read bundled data files;
+    // red flags read the filed fundamentals cache — all closed-world. Only the
+    // filing comparison reaches SEC EDGAR (and the model), so only it is true.
+    get_recent_filings: false,
+    screen_companies: false,
+    get_filing_changes: true,
+    get_red_flags: false
 };
 
 // --- SEC fixtures -----------------------------------------------------------
@@ -110,7 +117,7 @@ function okLimiter() {
 // MCP client plus the logged events.
 async function withClient(t, overrides = {}) {
     stubSec(t);
-    const state = { logs: [] };
+    const state = { logs: [], usage: [] };
     const ctx = {
         userId: 'u1',
         user: { _id: 'u1' },
@@ -128,6 +135,8 @@ async function withClient(t, overrides = {}) {
         ...(overrides.resourceMetadataUrl ? { resourceMetadataUrl: overrides.resourceMetadataUrl } : {}),
         ...(overrides.accountNotice ? { accountNotice: overrides.accountNotice } : {}),
         ...(overrides.breadth ? { breadth: overrides.breadth } : {}),
+        ...(overrides.usage ? { usage: (evt) => state.usage.push(evt) } : {}),
+        ...(overrides.deps || {}),
         onLog: (event) => state.logs.push(event)
     };
     const app = express();
@@ -153,7 +162,7 @@ test('tools/list advertises the OpenAI-ready contract: names, titles, both schem
     const { tools } = await client.listTools();
     assert.deepEqual(
         tools.map((tl) => tl.name).sort(),
-        ['compare_company_metrics', 'get_company_financials', 'get_filing_content', 'get_financial_change_drivers', 'get_metric_history', 'search_companies', 'search_filings'].sort()
+        ['compare_company_metrics', 'get_company_financials', 'get_filing_changes', 'get_filing_content', 'get_financial_change_drivers', 'get_metric_history', 'get_recent_filings', 'get_red_flags', 'screen_companies', 'search_companies', 'search_filings'].sort()
     );
     for (const tl of tools) {
         assert.ok(tl.title, `${tl.name} needs a human-readable title`);
@@ -551,13 +560,21 @@ test('tools/list declares a per-tool security scheme naming the scope that unloc
         ['get_metric_history', 'financials:read'],
         ['search_filings', 'filings:read'],
         ['get_filing_content', 'filings:read'],
+        ['get_recent_filings', 'filings:read'],
         ['compare_company_metrics', 'research:read'],
-        ['get_financial_change_drivers', 'research:read']
+        ['get_financial_change_drivers', 'research:read'],
+        ['screen_companies', 'research:read'],
+        ['get_filing_changes', 'filings:read'],
+        ['get_red_flags', 'research:read']
     ]) {
+        const expected = ['screen_companies', 'get_filing_changes'].includes(name)
+            // Account-only tools have no keyless tier to declare.
+            ? [{ type: 'oauth2', scopes: [scope] }]
+            : [{ type: 'noauth' }, { type: 'oauth2', scopes: [scope] }];
         assert.deepEqual(
             byName.get(name).securitySchemes,
-            [{ type: 'noauth' }, { type: 'oauth2', scopes: [scope] }],
-            `${name} declares the keyless trial and the one scope that unlocks it`
+            expected,
+            `${name} declares the right security schemes for its tier`
         );
     }
 });
@@ -587,4 +604,117 @@ test('an anonymous quota refusal carries the sign-in challenge; a keyed one does
     const keyedResult = await keyed.client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
     assert.equal(keyedResult.isError, true);
     assert.equal(keyedResult._meta, undefined, 'a keyed refusal carries no challenge');
+});
+
+// ---------------------------------------------------------------------------
+// The new tools on the ChatGPT surface: account-only refusals, the mcp_ask
+// cost key, name resolution, and commerce-neutral copy throughout.
+// ---------------------------------------------------------------------------
+
+test('account-only tools refuse a keyless connection with the challenge before any allowance check', async (t) => {
+    let checks = 0;
+    const { client } = await withClient(t, {
+        ctx: { anonymous: true, user: null, subscription: null, tier: 'free' },
+        limiter: { check: async () => { checks += 1; return { ok: true }; }, spend: async () => {} },
+        resourceMetadataUrl: 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource/mcp/apps',
+        deps: { screenUniverse: async () => ({ universe: 1, matched: 0, rows: [] }), filingDiff: async () => ({ symbol: 'AAPL' }) }
+    });
+    for (const [name, args] of [['screen_companies', { sector: 'TECHNOLOGY' }], ['get_filing_changes', { company: 'AAPL' }]]) {
+        const result = await client.callTool({ name, arguments: args });
+        assert.equal(result.isError, true, `${name} refuses a keyless connection`);
+        const payload = parse(result);
+        assert.equal(payload.code, 'AUTHENTICATION_REQUIRED');
+        assert.match(payload.error, /needs a signed-in StockPortfolio\.pro account\. Connect your account to use it\./);
+        assert.ok(Array.isArray(result._meta && result._meta['mcp/www_authenticate']), `${name} carries the sign-in challenge`);
+    }
+    assert.equal(checks, 0, 'a requiresAccount refusal never reaches the limiter');
+});
+
+test('the filing comparison is charged as an ask; the other new tools as lookups', async (t) => {
+    const checked = [];
+    const spent = [];
+    const { client } = await withClient(t, {
+        limiter: {
+            check: async (id, op) => { checked.push(op); return { ok: true }; },
+            spend: async (id, op) => { spent.push(op); }
+        },
+        deps: {
+            recentFilings: () => ({ since: '2026-10-18', kinds: ['annual'], match_count: 0, filings: [] }),
+            screenUniverse: async () => ({ universe: 5, matched: 0, rows: [] }),
+            filingDiff: async (s) => ({ symbol: s, headline: 'x', changes: [] }),
+            redFlags: (s) => ({ symbol: s, flags: [], flagCount: 0, asOf: null, source: 'x' })
+        }
+    });
+    for (const [name, args] of [
+        ['get_filing_changes', { company: 'AAPL' }],
+        ['get_recent_filings', {}],
+        ['screen_companies', {}],
+        ['get_red_flags', { company: 'AAPL' }]
+    ]) {
+        const result = await client.callTool({ name, arguments: args });
+        assert.equal(result.isError, undefined, `${name} succeeds for a connected account`);
+    }
+    assert.deepEqual(checked, ['mcp_ask', 'mcp_lookup', 'mcp_lookup', 'mcp_lookup']);
+    assert.deepEqual(spent, ['mcp_ask', 'mcp_lookup', 'mcp_lookup', 'mcp_lookup']);
+});
+
+test('get_red_flags and get_filing_changes resolve a company name, and refuse an unknown one', async (t) => {
+    const asked = [];
+    const { client } = await withClient(t, {
+        deps: {
+            filingDiff: async (s) => { asked.push(['diff', s]); return { symbol: s, headline: 'x', changes: [] }; },
+            redFlags: (s) => { asked.push(['flags', s]); return { symbol: s, flags: [], flagCount: 0, asOf: null, source: 'x' }; }
+        }
+    });
+    const flags = await client.callTool({ name: 'get_red_flags', arguments: { company: 'Apple Inc.' } });
+    assert.equal(flags.isError, undefined);
+    const diff = await client.callTool({ name: 'get_filing_changes', arguments: { company: 'aapl' } });
+    assert.equal(diff.isError, undefined);
+    assert.deepEqual(asked, [['flags', 'AAPL'], ['diff', 'AAPL']], 'the data layer sees the resolved ticker, never the raw name');
+
+    const unknown = await client.callTool({ name: 'get_red_flags', arguments: { company: 'ZZZZZZQQ' } });
+    assert.equal(unknown.isError, true);
+    assert.equal(parse(unknown).code, 'COMPANY_NOT_FOUND');
+    assert.equal(asked.length, 2, 'an unresolved company never reaches the data layer');
+});
+
+test('no description, title, instruction or new-tool refusal on this surface names a plan, price, upgrade or trial', async (t) => {
+    // "price" alone is a data term here (share price, price trend), so only
+    // money amounts and commerce words count.
+    const COMMERCE = /\$\d|\/month|\bpricing\b|\bplans?\b|upgrade|\btrial\b|subscri|checkout/i;
+    assert.doesNotMatch(mcpApps.SERVER_INSTRUCTIONS, COMMERCE);
+    for (const def of mcpApps.TOOL_DEFS) {
+        assert.doesNotMatch(def.title, COMMERCE, `${def.name} title`);
+        assert.doesNotMatch(def.description, COMMERCE, `${def.name} description`);
+        for (const [prop, spec] of Object.entries(def.inputSchema.properties || {})) {
+            if (spec.description) assert.doesNotMatch(spec.description, COMMERCE, `${def.name}.${prop}`);
+        }
+    }
+    const anon = await withClient(t, {
+        ctx: { anonymous: true, user: null, subscription: null, tier: 'free' },
+        limiter: { check: async () => ({ ok: false }), spend: async () => {} },
+        resourceMetadataUrl: 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource/mcp/apps'
+    });
+    const refusals = [
+        await anon.client.callTool({ name: 'screen_companies', arguments: {} }),
+        await anon.client.callTool({ name: 'get_recent_filings', arguments: {} })
+    ];
+    for (const result of refusals) {
+        assert.equal(result.isError, true);
+        assert.doesNotMatch(parse(result).error, COMMERCE);
+        for (const challenge of (result._meta && result._meta['mcp/www_authenticate']) || []) assert.doesNotMatch(challenge, COMMERCE);
+    }
+});
+
+test('deps.usage is invoked once per call on this surface, refusals included', async (t) => {
+    const { client, state } = await withClient(t, {
+        usage: true,
+        deps: { redFlags: (s) => ({ symbol: s, flags: [], flagCount: 0, asOf: null, source: 'x' }) }
+    });
+    await client.callTool({ name: 'get_red_flags', arguments: { company: 'AAPL' } });
+    await client.callTool({ name: 'get_metric_history', arguments: { company: 'AAPL', metric: 'ebitda_margin_thing' } });
+    assert.equal(state.usage.length, 2, 'one usage event per call');
+    assert.equal(state.usage[0].tool, 'get_red_flags');
+    assert.equal(state.usage[0].code, null);
+    assert.equal(state.usage[1].code, 'UNSUPPORTED_METRIC');
 });

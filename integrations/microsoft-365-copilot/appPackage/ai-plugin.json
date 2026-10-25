@@ -85,6 +85,50 @@
           ]
         }
       }
+    },
+    {
+      "name": "get_recent_filings",
+      "description": "List what is newly filed across covered companies: each company’s MOST RECENT annual (10-K/20-F/40-F), quarterly (10-Q) and earnings-release filing from a date window — not every filing. Each row carries the form, filing date, period end and filing URL, and whether that period appears in the company’s financial statements. Filter by kind and ticker.",
+      "capabilities": {
+        "security_info": {
+          "data_handling": [
+            "GetPublicData"
+          ]
+        }
+      }
+    },
+    {
+      "name": "screen_companies",
+      "description": "Screen the covered universe of US-listed companies with filed fundamentals: growth, margins, returns, valuation, index membership, price trend, or a named ticker list, with every threshold optional and freely combined. Returns the rows that pass and the size of the screenable universe; companies without usable statements are not included. Needs a connected StockPortfolio.pro account.",
+      "capabilities": {
+        "security_info": {
+          "data_handling": [
+            "GetPublicData"
+          ]
+        }
+      }
+    },
+    {
+      "name": "get_filing_changes",
+      "description": "What changed between a company’s newest 10-K/10-Q/20-F/40-F and its previous filing of the same form: guidance and outlook language, risk factors, demand and margin commentary, quoted from both documents and checked against them. The first comparison for a filing pair can take 30–60 seconds; later calls are served from the cache. Needs a connected StockPortfolio.pro account.",
+      "capabilities": {
+        "security_info": {
+          "data_handling": [
+            "GetPublicData"
+          ]
+        }
+      }
+    },
+    {
+      "name": "get_red_flags",
+      "description": "Conservative warning signs computed from a company’s filed statements — receivables or inventory outrunning sales, earnings ahead of cash, dilution, heavy debt, shrinking margins — each with the filed figures behind it. A missing figure never raises a flag, and nothing here is a judgement or advice.",
+      "capabilities": {
+        "security_info": {
+          "data_handling": [
+            "GetPublicData"
+          ]
+        }
+      }
     }
   ],
   "runtimes": [
@@ -101,7 +145,11 @@
         "search_filings",
         "get_filing_content",
         "compare_company_metrics",
-        "get_financial_change_drivers"
+        "get_financial_change_drivers",
+        "get_recent_filings",
+        "screen_companies",
+        "get_filing_changes",
+        "get_red_flags"
       ],
       "spec": {
         "url": "https://www.stockportfolio.pro/mcp/apps",
@@ -373,6 +421,221 @@
                   "compare_to_period_end": {
                     "type": "string",
                     "description": "Optional period to compare against (YYYY-MM-DD). Defaults to the same fiscal period one year earlier."
+                  }
+                },
+                "required": [
+                  "company"
+                ],
+                "additionalProperties": false
+              }
+            },
+            {
+              "name": "get_recent_filings",
+              "description": "List what is newly filed across covered companies: each company’s MOST RECENT annual (10-K/20-F/40-F), quarterly (10-Q) and earnings-release filing from a date window — not every filing. Each row carries the form, filing date, period end and filing URL, and whether that period appears in the company’s financial statements. Filter by kind and ticker.",
+              "inputSchema": {
+                "type": "object",
+                "properties": {
+                  "since": {
+                    "type": "string",
+                    "description": "Earliest filing date (YYYY-MM-DD). Defaults to 7 days ago and never reaches further back than 92 days."
+                  },
+                  "kinds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "quarterly",
+                        "annual",
+                        "earnings_release"
+                      ]
+                    },
+                    "description": "Kinds to include. Defaults to all three."
+                  },
+                  "tickers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Optional tickers, restricting the result to those companies."
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 25,
+                    "description": "Maximum rows to return."
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            {
+              "name": "screen_companies",
+              "description": "Screen the covered universe of US-listed companies with filed fundamentals: growth, margins, returns, valuation, index membership, price trend, or a named ticker list, with every threshold optional and freely combined. Returns the rows that pass and the size of the screenable universe; companies without usable statements are not included. Needs a connected StockPortfolio.pro account.",
+              "inputSchema": {
+                "type": "object",
+                "properties": {
+                  "similar_to": {
+                    "type": "string",
+                    "description": "Ticker of the company to model the screen on — e.g. \"APP\" for \"companies like AppLovin\"."
+                  },
+                  "sector": {
+                    "type": "string",
+                    "description": "Sector substring filter, e.g. TECHNOLOGY, ENERGY"
+                  },
+                  "min_revenue_cagr_5y_pct": {
+                    "type": "number"
+                  },
+                  "max_revenue_cagr_5y_pct": {
+                    "type": "number"
+                  },
+                  "min_net_margin_pct": {
+                    "type": "number"
+                  },
+                  "min_roe_pct": {
+                    "type": "number"
+                  },
+                  "max_roe_pct": {
+                    "type": "number",
+                    "description": "Ceiling that excludes negative/negligible-equity ROE distortions"
+                  },
+                  "min_dividend_yield_pct": {
+                    "type": "number"
+                  },
+                  "max_pe": {
+                    "type": "number"
+                  },
+                  "max_peg": {
+                    "type": "number"
+                  },
+                  "min_price_to_book": {
+                    "type": "number"
+                  },
+                  "max_price_to_book": {
+                    "type": "number"
+                  },
+                  "min_market_cap_billions": {
+                    "type": "number"
+                  },
+                  "max_market_cap_billions": {
+                    "type": "number"
+                  },
+                  "min_profitable_years_of_last_10": {
+                    "type": "integer"
+                  },
+                  "min_latest_qtr_earnings_growth_yoy_pct": {
+                    "type": "number",
+                    "description": "Latest quarter net income growth vs same quarter a year ago, in %"
+                  },
+                  "symbols": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Restrict to these tickers (up to 25)."
+                  },
+                  "index": {
+                    "type": "string",
+                    "description": "Index membership from stored, dated member lists: \"sp500\", \"sp100\", \"nasdaq100\", or several joined with \"or\"."
+                  },
+                  "min_price": {
+                    "type": "number",
+                    "description": "Minimum share price in USD"
+                  },
+                  "max_price": {
+                    "type": "number",
+                    "description": "Maximum share price in USD"
+                  },
+                  "min_net_income_cagr_5y_pct": {
+                    "type": "number",
+                    "description": "5-year compound growth in net income, in %"
+                  },
+                  "min_price_vs_10_month_avg_pct": {
+                    "type": "number",
+                    "description": "Price relative to its 10-month average, in %. 0 means \"trading above its 10-month average\"."
+                  },
+                  "min_rsi14": {
+                    "type": "number"
+                  },
+                  "max_rsi14": {
+                    "type": "number"
+                  },
+                  "sma200_position": {
+                    "type": "string",
+                    "enum": [
+                      "above",
+                      "below"
+                    ]
+                  },
+                  "golden_cross_within_days": {
+                    "type": "number"
+                  },
+                  "min_volume_ratio_20": {
+                    "type": "number"
+                  },
+                  "require_positive_fcf": {
+                    "type": "boolean"
+                  },
+                  "exclude_secondary_listings": {
+                    "type": "boolean"
+                  },
+                  "sort_by": {
+                    "type": "string",
+                    "enum": [
+                      "revCagr5Pct",
+                      "netIncomeCagr5Pct",
+                      "netMarginPct",
+                      "roePct",
+                      "marketCapB",
+                      "pe",
+                      "divYieldPct",
+                      "qtrNetIncomeYoYPct",
+                      "fcfAbs",
+                      "pegRatio",
+                      "priceToBook",
+                      "priceVsAvg10mPct",
+                      "rsi14",
+                      "volumeRatio20",
+                      "pctVsSma200"
+                    ]
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 50,
+                    "default": 20,
+                    "description": "Maximum rows to return."
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            {
+              "name": "get_filing_changes",
+              "description": "What changed between a company’s newest 10-K/10-Q/20-F/40-F and its previous filing of the same form: guidance and outlook language, risk factors, demand and margin commentary, quoted from both documents and checked against them. The first comparison for a filing pair can take 30–60 seconds; later calls are served from the cache. Needs a connected StockPortfolio.pro account.",
+              "inputSchema": {
+                "type": "object",
+                "properties": {
+                  "company": {
+                    "type": "string",
+                    "description": "Ticker (preferred) or company name."
+                  }
+                },
+                "required": [
+                  "company"
+                ],
+                "additionalProperties": false
+              }
+            },
+            {
+              "name": "get_red_flags",
+              "description": "Conservative warning signs computed from a company’s filed statements — receivables or inventory outrunning sales, earnings ahead of cash, dilution, heavy debt, shrinking margins — each with the filed figures behind it. A missing figure never raises a flag, and nothing here is a judgement or advice.",
+              "inputSchema": {
+                "type": "object",
+                "properties": {
+                  "company": {
+                    "type": "string",
+                    "description": "Ticker (preferred) or company name."
                   }
                 },
                 "required": [

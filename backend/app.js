@@ -43,6 +43,7 @@ const connectorNotices = require('./connector-notices');
 const savedScreens = require('./saved-screens');
 const speechToText = require('./speech-to-text');
 const connectorUsage = require('./connector-usage');
+const mcpUsageLog = require('./mcp-usage-log');
 const companyBreadth = require('./company-breadth');
 const oauthOidc = require('./oauth-oidc');
 const oauthMcp = require('./oauth-mcp');
@@ -6985,6 +6986,82 @@ function recordConnectorRefusal(req, evt, detail, client) {
     }).catch(() => {});
 }
 
+// ---- The mcp_calls usage log (mcp-usage-log.js) ----
+// One structured row per connector tool call, keyed to the surface's own
+// mcp_calls collection, for signed-in AND keyless callers. The facets (what
+// the call was about) and the caller hash are computed inside mcp-usage-log —
+// this wiring only supplies what only the request knows: era, client, pool,
+// plan and identity. Fire-and-forget; a DB blip means no row, never a failed
+// call.
+function mcpUsageCallback(req, { surface, anonymous, platform, pool, client }) {
+    return ({ tool, args, result, code, ms }) => {
+        try {
+            if (mongoose.connection.readyState !== 1) return;
+            const body = req.body && typeof req.body === 'object' && !Array.isArray(req.body) ? req.body : {};
+            const meta = body.params && body.params._meta && typeof body.params._meta === 'object' ? body.params._meta : null;
+            const clientInfo = meta ? meta['io.modelcontextprotocol/clientInfo'] : null;
+            mcpUsageLog.record(mongoose.connection.collection('mcp_calls'), {
+                surface,
+                era: mcpModern.isModern(req) ? 'modern' : 'legacy',
+                // A keyed caller is named by the OAuth client it connected
+                // through; a modern keyless one by the clientInfo the protocol
+                // version carries, when present.
+                client: client || (clientInfo && clientInfo.name ? String(clientInfo.name).slice(0, 40) : null),
+                platform: platform || null,
+                anonymous: Boolean(anonymous),
+                pool: pool || null,
+                // Pseudonymous: u:<account> for signed-in, a salted monthly hash
+                // for keyless (mcp-usage-log.js). The raw IP is never written.
+                caller: mcpUsageLog.callerHash({
+                    anonymous,
+                    userId: req.userId,
+                    ip: anonymous ? _anonAskIp(req) : null
+                }),
+                plan: anonymous ? null : (req.subscription && req.subscription.planName) || null,
+                tool, code, ms,
+                ...mcpUsageLog.facetsFor(tool, args),
+                ...mcpUsageLog.resultFacets(result)
+            });
+        } catch (_) { /* usage logging must never fail a connector call */ }
+    };
+}
+
+// ---- Filing Diff access, shared by the website route and the connectors ----
+// The inflight Map lives here (above the MCP routes) so /mcp's get_filing_changes
+// reuses the same concurrent-first-hit collapse as /api/company/:symbol/filing-diff.
+const filingDiffEngine = require('./filing-diff');
+const _diffInflight = new Map(); // SYM -> Promise (collapse concurrent first hits)
+async function filingDiffFor(symbol) {
+    // Funds have no comparable company filings: the same refusal copy the
+    // website route returns, thrown so the connector surfaces it as a typed
+    // tool error (ASSET_FEATURE_UNAVAILABLE).
+    const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
+    if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+        const err = new Error(`${instrument.assetTypeLabel}s do not have comparable company 10-K/10-Q filing changes. Use Ask for the fund's latest holdings, costs, performance and risk.`);
+        err.code = 'ASSET_FEATURE_UNAVAILABLE';
+        err.status = 422;
+        err.assetType = instrument.assetType;
+        throw err;
+    }
+    let p = _diffInflight.get(symbol);
+    if (!p) {
+        p = filingDiffEngine.computeFilingDiff(symbol).finally(() => _diffInflight.delete(symbol));
+        _diffInflight.set(symbol, p);
+    }
+    return p;
+}
+
+// Data dependencies the connector tools draw through (ai-chat.js, the filing
+// diff above), so both MCP surfaces serve one implementation of each.
+function mcpToolDeps() {
+    return {
+        recentFilings: (args) => require('./mcp-recent-filings').recentFilings(args),
+        screenUniverse: (criteria) => aiChat.screenRows(criteria),
+        filingDiff: filingDiffFor,
+        redFlags: (symbol) => aiChat.redFlagsFor(symbol)
+    };
+}
+
 app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) => {
     const started = Date.now();
     try {
@@ -7031,6 +7108,8 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
                 oauthScopes: OAUTH_SCOPES,
                 entitled: () => false,
                 wallReason: req.mcpWallReason || null,
+                usage: mcpUsageCallback(req, { surface: 'mcp', anonymous: true, platform, pool: platform ? 'platform' : 'visitor' }),
+                ...mcpToolDeps(),
                 onLog: logMcp
             };
             const ctx = { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, platform, logId };
@@ -7060,6 +7139,8 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
             resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource`,
             oauthScopes: OAUTH_SCOPES,
             accountNotice: (gate) => connectorAccountNotice(req, gate, false),
+            usage: mcpUsageCallback(req, { surface: 'mcp', anonymous: false, platform: null, pool: null, client }),
+            ...mcpToolDeps(),
             onLog: (evt, detail) => { logMcp(evt); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
         };
         if (mcpModern.isModern(req)) {
@@ -7112,6 +7193,8 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
                 // The /mcp/apps protected-resource metadata is the audience
                 // a sign-in for this surface discovers (RFC 9728).
                 resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource/mcp/apps`,
+                usage: mcpUsageCallback(req, { surface: 'apps', anonymous: true, platform, pool: platform ? 'platform' : 'visitor' }),
+                ...mcpToolDeps(),
                 onLog: (evt) => console.log('[mcp-apps]', JSON.stringify(evt))
             };
             const ctx = { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, scopes: null, platform, logId };
@@ -7134,6 +7217,8 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
             entitled: () => hasApiAccess(req),
             resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource/mcp/apps`,
             accountNotice: (gate) => connectorAccountNotice(req, gate, true),
+            usage: mcpUsageCallback(req, { surface: 'apps', anonymous: false, platform: null, pool: null, client }),
+            ...mcpToolDeps(),
             onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
         };
         if (mcpModern.isModern(req)) {
@@ -11438,29 +11523,20 @@ app.get('/api/company/:symbol/segments', authMiddleware, proGate, async (req, re
 
 // Filing Diff — what changed in the newest 10-K/10-Q vs the prior one (Pro).
 // First call per filing pair fetches both documents and runs the comparison
-// (~30-60s); after that it's served from the Mongo cache.
-const filingDiff = require('./filing-diff');
-const _diffInflight = new Map(); // SYM -> Promise (collapse concurrent first hits)
+// (~30-60s); after that it's served from the Mongo cache. The engine access
+// and the concurrent-first-hit collapse live in filingDiffFor() above, shared
+// with the get_filing_changes connector tool.
 app.get('/api/company/:symbol/filing-diff', authMiddleware, proGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
-        const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
-        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
-            return res.status(422).json({
-                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
-                message: `${instrument.assetTypeLabel}s do not have comparable company 10-K/10-Q filing changes. Use Ask for the fund's latest holdings, costs, performance and risk.`
-            });
-        }
-        let p = _diffInflight.get(symbol);
-        if (!p) {
-            p = filingDiff.computeFilingDiff(symbol).finally(() => _diffInflight.delete(symbol));
-            _diffInflight.set(symbol, p);
-        }
-        const result = await p;
+        const result = await filingDiffFor(symbol);
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
+        if (error && error.code === 'ASSET_FEATURE_UNAVAILABLE') {
+            return res.status(422).json({ code: error.code, assetType: error.assetType, message: error.message });
+        }
         res.status(500).json({ message: publicErrorMessage(error, 'Filing comparison failed') });
     }
 });
@@ -15749,7 +15825,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
             return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#1c1b18')}${n(row.signup)}</td><td>${bar(row.trial_start, '#8a5f00')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
         }).join('');
         const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
-body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#1c1b18;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">…on the Apps surface</span><strong>${n(mcp.appsCapHits || 0)}</strong><small>/mcp/apps keyless callers refused</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Consent screens viewed</span><strong>${n(mcp.authorizeViews || 0)}</strong><small>authorize page shown (${n(mcp.authorizeViewsSignedIn || 0)} already signed in)</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
+body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#1c1b18;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/admin/mcp-usage">MCP usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">…on the Apps surface</span><strong>${n(mcp.appsCapHits || 0)}</strong><small>/mcp/apps keyless callers refused</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Consent screens viewed</span><strong>${n(mcp.authorizeViews || 0)}</strong><small>authorize page shown (${n(mcp.authorizeViewsSignedIn || 0)} already signed in)</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
         const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;
@@ -15761,6 +15837,61 @@ body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-sy
     } catch (error) {
         console.error('[marketing] dashboard render failed:', error && error.message);
         res.status(500).send('Marketing dashboard unavailable');
+    }
+});
+
+// ---------------------------------------------------------------------------
+// MCP connector usage — the mcp_calls log behind the admin report
+// (mcp-usage-log.js). Same audience as /admin/marketing: a valid
+// x-admin-token (dealMirrorAdminAuth-style) is allowed outright, everyone
+// else falls through to the same authMiddleware + marketingDashboardOnly pair
+// the marketing dashboard uses.
+const mcpUsageAdminAuth = mcpUsageLog.adminAuth({ sessionAuth: authMiddleware, dashboardOnly: marketingDashboardOnly });
+
+app.get('/api/admin/mcp-usage', mcpUsageAdminAuth, async (req, res) => {
+    if (mongoose.connection.readyState !== 1) return res.status(503).json({ message: 'Database is still starting' });
+    try {
+        const days = Math.min(Math.max(Number(req.query.days) || 7, 1), 90);
+        res.set('Cache-Control', 'no-store').json(await mcpUsageLog.collectMcpUsage(mongoose.connection.collection('mcp_calls'), { days }));
+    } catch (error) {
+        console.error('[mcp-usage] report failed:', error && error.message);
+        res.status(500).json({ message: 'MCP usage report unavailable' });
+    }
+});
+
+app.get('/admin/mcp-usage', mcpUsageAdminAuth, async (req, res) => {
+    if (mongoose.connection.readyState !== 1) return res.status(503).send('Database is still starting');
+    try {
+        const days = Math.min(Math.max(Number(req.query.days) || 7, 1), 90);
+        const data = await mcpUsageLog.collectMcpUsage(mongoose.connection.collection('mcp_calls'), { days });
+        const e = escapeHtml;
+        const n = (value) => Number(value || 0).toLocaleString('en-IN');
+        const num = (value) => (value === null || value === undefined ? '—' : String(value));
+        const t = data.totals;
+        const cards = [
+            ['Calls', t.calls, `${data.days} days`],
+            ['Answered', t.ok, `${t.calls ? Math.round((t.ok / t.calls) * 100) : 0}% of calls`],
+            ['Refused', t.refused, 'quota, scope, entitlement…'],
+            ['Distinct callers', t.callers, `${t.anonymousCallers} keyless · ${t.signedInCallers} signed in`]
+        ].map(([label, value, note]) => `<div class="card"><div class="label">${label}</div><strong>${n(value)}</strong><small>${e(note)}</small></div>`).join('');
+        const table = (head, rows, empty) => `<table><tr>${head.map((h) => `<th>${h}</th>`).join('')}</tr>${rows.length ? rows : `<tr><td colspan="${head.length}">${e(empty)}</td></tr>`}</table>`;
+        const byToolRows = data.byTool.map((r) => `<tr><td>${e(r.tool)}</td><td>${e(r.surface || '—')}</td><td>${n(r.calls)}</td><td>${num(r.okRate === null ? null : `${r.okRate}%`)}</td><td>${num(r.p50Ms)}</td><td>${num(r.p95Ms)}</td><td>${num(r.avgRows)}</td><td>${num(r.avgNullShare)}</td><td>${n(r.emptyCount)}</td></tr>`).join('');
+        const byClientRows = data.byClient.map((r) => `<tr><td>${e(r.client)}</td><td>${e(r.platform || '—')}</td><td>${n(r.calls)}</td></tr>`).join('');
+        const refusalsRows = data.refusals.map((r) => `<tr><td>${e(r.code)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const tickersRows = data.tickers.map((r) => `<tr><td>${e(r.ticker)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const metricsRows = data.metrics.map((r) => `<tr><td>${e(r.metric)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const formsRows = data.forms.map((r) => `<tr><td>${e(r.form)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const sectionsRows = data.sections.map((r) => `<tr><td>${e(r.section)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const emptyTermsRows = data.emptySearchTerms.map((r) => `<tr><td>${e(r.term)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const askTopicsRows = data.askTopics.map((r) => `<tr><td>${e(r.topic)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const perDayRows = data.perDay.map((r) => `<tr><td>${e(r.day)}</td><td>${n(r.calls)}</td></tr>`).join('');
+        const firstToolsRows = data.firstTools.map((r) => `<tr><td>${e(r.tool)}</td><td>${n(r.count)}</td></tr>`).join('');
+        const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MCP usage — StockPortfolio.pro</title><style>
+body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a{color:#1c1b18;text-decoration:none;margin-left:10px}</style></head><body><main><div class="nav"><a href="/admin/marketing">Marketing dashboard</a><a href="/api/admin/mcp-usage">JSON</a></div><h1>MCP connector usage</h1><div class="muted">Tool calls on /mcp and /mcp/apps · ${data.days} days · generated ${e(data.generatedAt)}</div><div class="legend">Keyless callers are pseudonymous and rotate monthly; connector traffic arrives from the AI platform's network, so a keyless caller cannot be joined to a later account. Free-text questions are stored only as a topic category and length, never the text.</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Tool × surface</h2>${table(['Tool', 'Surface', 'Calls', 'OK rate', 'p50 ms', 'p95 ms', 'Avg rows', 'Avg null share', 'Empty'], byToolRows, 'No calls recorded yet')}</section><section class="panel"><h2>Refusals by code</h2>${table(['Code', 'Calls'], refusalsRows, 'No refusals in the window')}</section></div><div class="grid"><section class="panel"><h2>Companies asked about</h2>${table(['Ticker', 'Calls'], tickersRows, 'No tickers recorded yet')}</section><section class="panel"><h2>Metrics asked for</h2>${table(['Metric', 'Calls'], metricsRows, 'No metrics recorded yet')}</section></div><div class="grid"><section class="panel"><h2>Filing forms and sections</h2>${table(['Form', 'Calls'], formsRows, 'No forms recorded yet')}${table(['Section', 'Calls'], sectionsRows, 'No sections recorded yet')}</section><section class="panel"><h2>Company searches with no match</h2>${table(['Search term', 'Calls'], emptyTermsRows, 'Every company search found a match')}</section></div><div class="grid"><section class="panel"><h2>Client and platform</h2>${table(['Client', 'Platform pool', 'Calls'], byClientRows, 'No client names recorded yet')}</section><section class="panel"><h2>First tool per caller</h2>${table(['Tool', 'Callers'], firstToolsRows, 'No callers in the window')}<div class="legend">Each caller's earliest tool in the window — how people start with the connector.</div></section></div><div class="grid"><section class="panel"><h2>Question topics (ask_filings)</h2>${table(['Topic', 'Calls'], askTopicsRows, 'No questions recorded yet')}</section><section class="panel"><h2>Calls per day</h2>${table(['Day (UTC)', 'Calls'], perDayRows, 'No calls recorded yet')}</section></div></main></body></html>`;
+        res.set('Cache-Control', 'no-store').type('html').send(html);
+    } catch (error) {
+        console.error('[mcp-usage] report render failed:', error && error.message);
+        res.status(500).send('MCP usage report unavailable');
     }
 });
 

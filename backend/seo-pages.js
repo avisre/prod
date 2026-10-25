@@ -730,6 +730,10 @@ function renderApiLanding() {
       <tr><td><code>search_filings</code></td><td>Filings by type and date range, with direct EDGAR links</td><td>${COST.mcp_lookup}</td></tr>
       <tr><td><code>get_filing</code></td><td>One filing's metadata and content, by accession number or ticker</td><td>${COST.mcp_lookup}</td></tr>
       <tr><td><code>ask_filings</code></td><td>A filing-grounded answer, with the figures and citations behind it</td><td>${COST.mcp_ask}</td></tr>
+      <tr><td><code>get_recent_filings</code></td><td>Each covered company's most recent 10-K/10-Q/20-F/40-F and 8-K earnings release, newest first</td><td>${COST.mcp_lookup}</td></tr>
+      <tr><td><code>screen_companies</code></td><td>Screen the covered universe on growth, margins, returns, valuation, index and price trend (signed-in accounts)</td><td>${COST.mcp_lookup}</td></tr>
+      <tr><td><code>get_filing_changes</code></td><td>What changed between a company's newest filing and its previous one of the same form, quoted from both (signed-in accounts)</td><td>${COST.mcp_ask}</td></tr>
+      <tr><td><code>get_red_flags</code></td><td>Conservative warning signs computed from the filed statements, with the figures behind each</td><td>${COST.mcp_lookup}</td></tr>
       <tr><td><code>sp_health</code></td><td>Liveness probe — safe to call before anything else</td><td>free</td></tr>
     </tbody>
   </table>

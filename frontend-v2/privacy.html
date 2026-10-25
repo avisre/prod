@@ -30,7 +30,7 @@
         <h1 class="title-1" style="margin-top:10px;">Privacy policy</h1>
         <p style="margin-top:14px; max-width:60ch;">This policy explains what data we collect, how we use it, and the controls you have. The product is designed to use the minimum data needed to deliver account access, research tools, and support.</p>
         <div class="legal-meta">
-          <div><span class="label">Last updated</span><b>29 September 2026</b></div>
+          <div><span class="label">Last updated</span><b>25 October 2026</b></div>
           <div><span class="label">Primary region</span><b>UK / EEA</b></div>
           <div><span class="label">Contact</span><b><a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a></b></div>
         </div>
@@ -97,6 +97,7 @@
         <li>We do not receive or store your chat conversation. A tool request carries only the research input (for example a ticker, metric or SEC filing identifier) plus the connected account, and tool responses contain public company financial data and SEC filing references rather than personal data.</li>
         <li>OAuth access and refresh tokens are stored only as irreversible hashes, expire on a schedule, and are revoked when you change your password, use the revoke control for connected apps, or delete your account.</li>
         <li>API and MCP requests are rate-limited and metered against your account allowance. Call metadata (tool name, success or failure, latency and an account identifier) is logged for security, abuse prevention and reliability.</li>
+        <li>To improve coverage and the tools themselves we keep a usage record of each connector call for 90 days: the tool used, its research inputs (tickers, metric names, filing types and sections, and company search terms), the outcome, response size and latency, and a pseudonymous caller identifier. For requests made without signing in that identifier is derived from the IP address with a secret that changes every month and cannot be reversed to it. Free-text questions are stored only as a topic category and length, never the text.</li>
         <li>Requests made without signing in are limited per visitor IP address, which is held in a usage record for the allowance window to enforce that limit.</li>
       </ul>
 
