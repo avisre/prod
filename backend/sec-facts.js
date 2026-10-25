@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261025-rev2';
+const EXTRACTION_VERSION = '20261025-rev3';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -146,6 +146,12 @@ const MAPS = {
   depreciationDepletionAndAmortization:mapping(['DepreciationDepletionAndAmortization','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet'],['AdjustmentsForDepreciationAndAmortisationExpense','DepreciationAndAmortisationExpense']),
   operatingCashflowContinuing:mapping(['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
   operatingCashflowDiscontinued:mapping(['CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations']),
+  // A disposal splits investing and financing the same way it splits operating, and no total is
+  // filed (News Corp FY2025: -406m continuing plus 253m discontinued investing; Zimmer Biomet FY2022).
+  investingCashflowContinuing:mapping(['NetCashProvidedByUsedInInvestingActivitiesContinuingOperations'],['CashFlowsFromUsedInInvestingActivitiesContinuingOperations']),
+  investingCashflowDiscontinued:mapping(['CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInInvestingActivitiesDiscontinuedOperations']),
+  financingCashflowContinuing:mapping(['NetCashProvidedByUsedInFinancingActivitiesContinuingOperations'],['CashFlowsFromUsedInFinancingActivitiesContinuingOperations']),
+  financingCashflowDiscontinued:mapping(['CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInFinancingActivitiesDiscontinuedOperations']),
   // Page rows with no reading until 2026-10-17. Working-capital changes are
   // kept as filed: a positive figure is an increase in the balance (Apple
   // FY2025 receivables +6.68bn filed, +6.37bn on the balance sheet), so the
@@ -384,7 +390,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  // A figure a guard turned down is recorded, so neither a presented line under the same tag nor the same-filing
  // last-good rule (sec-last-good.js) puts it back: FBS Global 2025 cash of S$4.0m beside S$5.3m of equivalents was.
  const rejected=new Map(),reject=(st,basis,end,field,tag)=>{const k=st+'|'+basis+'|'+end+'|'+field;if(!rejected.has(k))rejected.set(k,new Set());rejected.get(k).add(tag);};
- const added=new Set(['us-gaap:'+LEASE_REVENUE,...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...FILLS_ADDED,...fillGuards]);
+ const added=new Set(['us-gaap:'+LEASE_REVENUE,...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInInvestingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInFinancingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...FILLS_ADDED,...fillGuards]);
  for(const [taxonomy, concepts] of Object.entries(document.facts)) for(const [concept, def] of Object.entries(concepts)) {
   if(!wanted.has(taxonomy + ':' + concept)) continue;
   for(const [unit, facts] of Object.entries(def.units || {})) for(const f of facts) {
@@ -724,6 +730,16 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   // tag after the 2016 1-for-5 reverse split), so it never displaces a filed EPS line.
   if(basis==='quarterly' && field!=='totalRevenue' && yearLines.has(field)){const lines=yearLines.get(field),years=[...lines.keys()].sort(),line=lines.get(years.find(e=>e>=end) || years.at(-1));if(!((unit.endsWith('/shares') && added.has(line)) || FILLS.has(line)))ordered.sort((x,y)=>(y.join(':')===line)-(x.join(':')===line));}
   if(revenueFirst)ordered.sort((x,y)=>(y[0]===revenueFirst.taxonomy && y[1]===revenueFirst.concept)-(x[0]===revenueFirst.taxonomy && x[1]===revenueFirst.concept));
+  // A narrower tag stands in for the full figure only when the filing shows the difference is nil
+  // (STAND_INS, FILL_GUARDS, TOTAL_FLOORS); the test is per filing and span, so the reading
+  // below and the quarter rules after it share one definition.
+  const differsIn=(taxonomy,concept)=>{
+   const guards=['netIncome','operatingCashflow','cashflowFromInvestment','cashflowFromFinancing','eps','dilutedEPS'].includes(field) && STAND_INS[taxonomy+':'+concept];
+   const parts=FILL_GUARDS[taxonomy+':'+concept],floors=TOTAL_FLOORS[taxonomy+':'+concept];
+   return f=>guards && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val!==0)
+    || parts && rows.some(r=>parts.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.val!==0)
+    || floors && [floors,[TOTAL_INTEREST]].every(tags=>rows.some(r=>tags.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val>f.val));
+  };
   for(const [taxonomy,concept] of ordered) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
    let all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
@@ -738,23 +754,70 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    if(basis==='quarterly' && st!=='balance')for(let i=candidates.length-1;i>=0;i--){const c=candidates[i];if(c.val!==0 && all.some(r=>r.accn===c.accn && r.end===c.end && r.days>=340 && r.val===c.val))candidates.splice(i,1);}
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
-   const guards=['netIncome','operatingCashflow','cashflowFromInvestment','cashflowFromFinancing','eps','dilutedEPS'].includes(field) && STAND_INS[taxonomy+':'+concept];
-   const parts=FILL_GUARDS[taxonomy+':'+concept],floors=TOTAL_FLOORS[taxonomy+':'+concept];
-   const differs=f=>guards && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val!==0)
-    || parts && rows.some(r=>parts.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.val!==0)
-    || floors && [floors,[TOTAL_INTEREST]].every(tags=>rows.some(r=>tags.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val>f.val));
+   const differs=differsIn(taxonomy,concept);
    if(selected && differs(selected)){reject(st,basis,end,field,taxonomy+':'+concept);continue;}
    if(selected){if(basis==='annual'){if(field==='totalRevenue')yearRevenueLine.set(end,taxonomy+':'+concept);else if(ordered.length>1){if(!yearLines.has(field))yearLines.set(field,new Map());yearLines.get(field).set(end,taxonomy+':'+concept);}}return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};}
    if(basis==='quarterly' && st!=='balance' && unit===cur) {
     const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);
     if(ytd?.ambiguous)return null;
     if(ytd) {
-     const prev=select(all.filter(r=>r.start===ytd.start && r.end<end && r.days>=ytd.days-QUARTER_MAX_DAYS && r.days<=ytd.days-75 && r.filed<=ytd.filed && (!/\/A$/.test(ytd.form) || r.accn===ytd.accn)),field);
+     const window=r=>r.start===ytd.start && r.end<end && r.days>=ytd.days-QUARTER_MAX_DAYS && r.days<=ytd.days-75;
+     const prev=select(all.filter(r=>window(r) && r.filed<=ytd.filed && (!/\/A$/.test(ytd.form) || r.accn===ytd.accn)),field);
      if(prev?.ambiguous)return null;
      // A quarter derived from year-to-date figures takes a stand-in line only when both figures pass its test.
      if(prev && (differs(ytd) || differs(prev))){reject(st,basis,end,field,taxonomy+':'+concept);continue;}
      if(prev){const start=new Date(Date.parse(prev.end)+DAY).toISOString().slice(0,10);return {value:ytd.val-prev.val,refs:[source(ytd),source(prev)],start,scope:scope(concept,def.scope),derivation:{formula:'ytd_difference',inputValues:[ytd.val,prev.val]}};}
     }
+   }
+  }
+  // The amended and later-comparative quarter rules fill only after every concept has failed the
+  // logic above: fired inside the loop they displaced the figure a later concept gave (SBA's SBC
+  // 2.7m from the allocated-expense tag displaced by its add-back's later comparative — 349 changed
+  // cells on 2026-10-25). Every span they use — the year-to-date and the previous — must carry one
+  // value across every filing in the document (Fortress Biotech FY2019 R&D: 75,236,000 first filed,
+  // 6,090,000 restated; AI Financial's Q4 2017 paired a restated year with nine months filed as both
+  // 74.5m and 29.6m), the year-to-date must be as filed — reported by the first filing that reported
+  // the period end, never a chain living only in later filings' comparatives (AI Financial's
+  // contract-revenue line, first filed fifteen months after its year) — and neither may set a row's
+  // period ahead of a filed line (CIK 1005286's derived quarter starting 2016-02-29 against the
+  // filing's own 2016-03-01 dropped four cells), so their starts count only as a fill-only tag's
+  // and verifiedField drops a span the row disproves.
+  if(basis==='quarterly' && st!=='balance' && unit===cur) for(const [taxonomy,concept] of ordered) {
+   if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
+   let all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
+   if(asReportedQuarter && quartersAsFiled){const filed=all.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))all=filed;}
+   const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);
+   if(!ytd || ytd.ambiguous)continue;
+   const conceptRows=byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || [],spanOf=f=>conceptRows.filter(r=>r.start===f.start && r.end===f.end);
+   // One value across every filing of the span, or the figure is not confirmed: a restatement
+   // anywhere in the document makes the pairing unprovable (AI Financial's nine months above).
+   const oneValue=f=>new Set(spanOf(f).map(r=>r.val)).size===1;
+   if(!oneValue(ytd))continue;
+   // And the year-to-date must be as filed, reported by the first filing that reported the period
+   // end: a chain living only in later filings' comparatives (AI Financial's contract-revenue line,
+   // first filed fifteen months after the year it belongs to) pairs restatement with restatement.
+   if(spanOf(ytd).map(r=>r.filed).sort()[0]!==(byEnd.get(ytd.end) || []).map(r=>r.filed).sort()[0])continue;
+   const window=r=>r.start===ytd.start && r.end<end && r.days>=ytd.days-QUARTER_MAX_DAYS && r.days<=ytd.days-75;
+   const differs=differsIn(taxonomy,concept);
+   // An amendment that repeats the original's year-to-date figure files no comparative of its own
+   // (UniFirst's 10-Q/A of 2026-04-07 for the half ended 2026-02-28), so the quarter is derived
+   // from the original filing the amendment left unchanged, and the original is what is cited.
+   if(/\/A$/.test(ytd.form)) {
+    const original=select(all.filter(r=>!/\/A$/.test(r.form) && r.start===ytd.start && r.end===ytd.end && r.val===ytd.val),field);
+    if(original) {
+     const prev=select(all.filter(r=>window(r) && r.filed<=original.filed),field);
+     if(prev && oneValue(prev) && !(differs(ytd) || differs(original) || differs(prev))){const start=new Date(Date.parse(prev.end)+DAY).toISOString().slice(0,10);return {value:original.val-prev.val,refs:[source(original),source(prev)],start,scope:scope(concept,def.scope),derivation:{formula:'ytd_difference',inputValues:[original.val,prev.val]},lateFill:true};}
+    }
+   }
+   // The previous year-to-date can exist only as a later filing's comparative (eBay's Q1 2025
+   // proceeds from stock issuance, tagged first in the 2026 Q1 10-Q): a later year-to-date fact
+   // of exactly the same value confirms the figure was not restated — the later filing is what
+   // the derivation cites, as the one whose own comparative the previous figure is (verifiedField
+   // requires it filed no earlier).
+   const prev=select(conceptRows.filter(r=>window(r) && (!/\/A$/.test(ytd.form) || r.accn===ytd.accn)),field);
+   if(prev && oneValue(prev) && !(differs(ytd) || differs(prev))) {
+    const confirming=select(conceptRows.filter(r=>r.start===ytd.start && r.end===ytd.end && r.filed>=prev.filed),field);
+    if(confirming && confirming.val===ytd.val){const start=new Date(Date.parse(prev.end)+DAY).toISOString().slice(0,10);return {value:ytd.val-prev.val,refs:[source(confirming),source(prev)],start,scope:scope(concept,def.scope),derivation:{formula:'ytd_difference',inputValues:[ytd.val,prev.val],confirmedBy:confirming.accn},lateFill:true};}
    }
   }
   return null;
@@ -763,6 +826,10 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   const cur=currency(end,basis==='annual');if(!cur)continue;
   for(const st of ['income','balance','cash']) {
    const row={fiscalDateEnding:end,periodStart:null,reportedCurrency:cur,periodType:st==='balance'?'instant':basis,_sources:{},_derivations:{},_scopes:{},_signs:{}};
+   // Fields filled by the late quarter rules: they never displace a figure — not a later concept's
+   // (second pass) and not a sum the combines below produce from filed parts (CIK 1023994's operating
+   // total was the parts' sum before the later-comparative rule filled it from the total tag).
+   const late=new Set();
    // A fill-only tag sets the period only when nothing else does: its start can be a day off the
    // statement's, and the row's start decides which of its other figures are kept.
    let fillStart=null;
@@ -773,12 +840,16 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     row._sources[field]=found.refs;row._scopes[field]=found.scope;
     if(negate)row._signs[field]=-1;
     if(found.derivation)row._derivations[field]=found.derivation;
-    if(found.refs.every(id=>FILLS.has(out.sources[id].taxonomy+':'+out.sources[id].concept))){if(found.start && !fillStart)fillStart=found.start;}
+    // A late quarter rule's derived start can chain a day off the filing's own span (CIK 1005286's
+    // Q4 starting 2016-02-29 against the 2016-03-01 its income lines file), so like a fill-only tag
+    // it never sets the period ahead of a filed line: verifiedField drops it if the row disagrees.
+    if(found.lateFill)late.add(field);
+    if(found.lateFill || found.refs.every(id=>FILLS.has(out.sources[id].taxonomy+':'+out.sources[id].concept))){if(found.start && !fillStart)fillStart=found.start;}
     else if(found.start && !row.periodStart)row.periodStart=found.start;
    }
    if(!row.periodStart)row.periodStart=fillStart;
    function combine(field, left, right, operation) {
-    if(row[field]!==null || row[left]===null || row[right]===null || !p.verifiedField(out,row,left) || !p.verifiedField(out,row,right))return;
+    if((row[field]!==null && !late.has(field)) || row[left]===null || row[right]===null || !p.verifiedField(out,row,left) || !p.verifiedField(out,row,right))return;
     const refs=[...row._sources[left],...row._sources[right]];
     const scopes=[row._scopes[left],row._scopes[right]];
     if(scopes[0]!==scopes[1])return;
@@ -837,6 +908,13 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    if(lineIndex.size)fillFromLines(st,basis,row,end,cur);
    if(st==='balance' && columnIndex.size)presentedColumns(basis,row,end,cur);
    if(st==='cash' && capexIndex.size)presentedCapex(basis,row,end,cur);
+   // The investing and financing sums run after the statement lines: a line can present the
+   // company's own total under a continuing-operations element (CIK 1061736's financing total),
+   // and the filed total wins over the sum exactly as a filed total tag does.
+   if(st==='cash') {
+    combine('cashflowFromInvestment','investingCashflowContinuing','investingCashflowDiscontinued','sum_fields');
+    combine('cashflowFromFinancing','financingCashflowContinuing','financingCashflowDiscontinued','sum_fields');
+   }
    if(st==='balance' && presented.size)presentedDebt(out,row,presented,document);
    if(st==='balance')liabilitiesAndEquity(out,row,document);
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}

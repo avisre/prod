@@ -329,12 +329,20 @@ test('the same line under another filer\'s tag fills a blank row, never adds a p
  assert.deepEqual([d.cash.annualReports[0].dividendPayout,d.cash.annualReports[0].cashflowFromInvestment,d.cash.annualReports[0].cashflowFromFinancing],[-8,-55,-25]);
  assert.equal(run({AccountsReceivableNet:inst(31)}).balance.annualReports[0].currentNetReceivables,31);
 });
-test('continuing-operations investing and financing cash flow stands in only when no discontinued flow is reported',()=>{
+test('investing and financing totals are the sum of their continuing and discontinued parts; a filed total still wins',()=>{
+ // News Corp's FY2025 10-K files no investing or financing total, only the two parts of each
+ // (-406m continuing and 253m discontinued investing); Zimmer Biomet FY2022 files both signed.
  const at={start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'},flow=val=>({units:{USD:[{...at,val}]}});
- const {doc,evidence}=fixture();Object.assign(doc.facts['us-gaap'],{NetCashProvidedByUsedInInvestingActivitiesContinuingOperations:flow(-50),NetCashProvidedByUsedInFinancingActivitiesContinuingOperations:flow(-20),
-  CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations:flow(-7),CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations:flow(0)});
- const cash=extract(doc,evidence,{asOf:'2026-10-03'}).cash.annualReports[0];
- assert.deepEqual([cash.cashflowFromInvestment,cash.cashflowFromFinancing],[null,-20]);
+ const run=extra=>{const {doc,evidence}=fixture();Object.assign(doc.facts['us-gaap'],{NetCashProvidedByUsedInInvestingActivitiesContinuingOperations:flow(-406000000),CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations:flow(253000000),
+  NetCashProvidedByUsedInFinancingActivitiesContinuingOperations:flow(-500000000),CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations:flow(-12000000),...extra});const d=extract(doc,evidence,{asOf:'2026-10-03'});return [d.cash.annualReports[0],d];};
+ const [row,d]=run();
+ assert.deepEqual([row.cashflowFromInvestment,row.cashflowFromFinancing],[-153000000,-512000000]);
+ assert.deepEqual([row._derivations.cashflowFromInvestment.inputs,row._derivations.cashflowFromFinancing.inputs],[['investingCashflowContinuing','investingCashflowDiscontinued'],['financingCashflowContinuing','financingCashflowDiscontinued']]);
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+ assert.equal(p.verifiedField(d,row,'cashflowFromInvestment'),true);
+ // The filed total line is kept, never replaced by the sum of the parts.
+ const [total]=run({NetCashProvidedByUsedInInvestingActivities:flow(-1000000)});
+ assert.equal(total.cashflowFromInvestment,-1000000);
 });
 // 2026-10-17: with the continuing tags read last-resort, 91 quarters followed their year onto them and took later
 // filings' restated figures (Rithm Capital Q3 2014 investing: -$497.6m as filed, -$13.0m restated).
@@ -357,6 +365,66 @@ test('a quarter derived from year-to-date continuing figures needs both to pass 
  assert.equal(quarter(),50);
  g.CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations={units:{USD:[at(-6,'2025-01-01','2025-06-30',Q2,'2025-08-01')]}};
  assert.notEqual(quarter(),50);
+});
+// UniFirst (CIK 717954) filed its 10-Q and 10-Q/A on the same 2026-04-07 for the half ended 2026-02-28,
+// with investing cash flow unchanged; the amendment carries no comparative of the earlier quarter.
+test('an amended year-to-date figure fills the quarter from the original filing it left unchanged',()=>{
+ const {doc,evidence}=fixture(),g=doc.facts['us-gaap'],Q1='0000000123-26-000002',Q2='0000000123-26-000004',Q2A='0000000123-26-000005';
+ const at=(val,start,end,accn,form='10-Q',filed)=>({val,start,end,accn,form,filed});
+ g.Revenues.units.USD.push(at(10,'2026-04-01','2026-06-30',Q2,'10-Q','2026-08-01'));
+ g.NetCashProvidedByUsedInInvestingActivities={units:{USD:[at(-52100000,'2026-01-01','2026-03-31',Q1,'10-Q','2026-05-01'),at(-91549000,'2026-01-01','2026-06-30',Q2,'10-Q','2026-08-01'),at(-91549000,'2026-01-01','2026-06-30',Q2A,'10-Q/A','2026-08-01')]}};
+ const run=()=>{const d=extract(doc,evidence,{asOf:'2026-10-03'});const row=d.cash.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-30');return [row,d];};
+ const [row,d]=run();
+ assert.equal(row.cashflowFromInvestment,-39449000);
+ assert.equal(row._derivations.cashflowFromInvestment.formula,'ytd_difference');
+ assert.equal(d.sources[row._sources.cashflowFromInvestment[0]].form,'10-Q','the original, not the amendment, is cited');
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+ // An amendment that changed the figure keeps the quarter blank.
+ g.NetCashProvidedByUsedInInvestingActivities.units.USD[2].val=-90000000;
+ assert.equal(run()[0]?.cashflowFromInvestment ?? null,null);
+ // Fortress Biotech Q4 2019: the excluding-IPR&D year was first filed as 75,236,000 and a later
+ // restated comparative (and its 10-K/A) says 6,090,000 — the year-to-date is no longer the value
+ // the span was first filed with, so no rule fires and the software line keeps the quarter as it
+ // was, never negative.
+ const f=fixture(),K1='0000000123-20-000002',K2='0000000123-21-000003',K3='0000000123-21-000004',Q3='0000000123-19-000005';
+ const at19=(val,start,end,accn,form,filed)=>({val,start,end,accn,form,filed});
+ f.doc.facts['us-gaap'].Revenues.units.USD.push(at19(10,'2019-10-01','2019-12-31',K1,'10-K','2020-03-16'));
+ const rd={units:{USD:[at19(75236000,'2019-01-01','2019-12-31',K1,'10-K','2020-03-16'),at19(6090000,'2019-01-01','2019-12-31',K2,'10-K','2021-03-31'),at19(6090000,'2019-01-01','2019-12-31',K3,'10-K/A','2021-04-09'),at19(56355000,'2019-01-01','2019-09-30',Q3,'10-Q','2019-11-06')]}};
+ const soft={units:{USD:[at19(61095000,'2019-01-01','2019-12-31',K1,'10-K','2020-03-16'),at19(56355000,'2019-01-01','2019-09-30',Q3,'10-Q','2019-11-06')]}};
+ Object.assign(f.doc.facts['us-gaap'],{ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost:rd,ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost:soft});
+ const d2=extract(f.doc,f.evidence,{asOf:'2026-10-03'}),q4=d2.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2019-12-31');
+ assert.equal(q4.researchAndDevelopment,4740000);
+ assert.deepEqual(q4._derivations.researchAndDevelopment,{formula:'ytd_difference',inputValues:[61095000,56355000]});
+ assert.deepEqual(p.validateFinancial(d2,CIK,'2026-10-03'),[]);
+});
+// eBay (CIK 1065088) never tagged Q1 2025 stock issuance in its own Q1 10-Q, only as the 2026 Q1
+// comparative; the half figure is unchanged in the 2026 Q2 10-Q that confirms it.
+test('a previous year-to-date that exists only in a later comparative fills when a later filing repeats the total',()=>{
+ const {doc,evidence}=fixture(),g=doc.facts['us-gaap'],A='0000000123-25-000002',B='0000000123-26-000003',C='0000000123-26-000004';
+ const at=(val,start,end,accn,filed)=>({val,start,end,accn,form:'10-Q',filed});
+ g.Revenues.units.USD.push(at(10,'2025-04-01','2025-06-30',A,'2025-08-01'));
+ g.ProceedsFromIssuanceOfCommonStock={units:{USD:[at(93000000,'2025-01-01','2025-06-30',A,'2025-08-01'),at(0,'2025-01-01','2025-03-31',B,'2026-05-01'),at(93000000,'2025-01-01','2025-06-30',C,'2026-08-01')]}};
+ const run=()=>{const d=extract(doc,evidence,{asOf:'2026-10-03'});return [d.cash.quarterlyReports.find(r=>r.fiscalDateEnding==='2025-06-30'),d];};
+ const [row,d]=run();
+ assert.equal(row.proceedsFromIssuanceOfCommonStock,93000000);
+ assert.equal(d.sources[row._sources.proceedsFromIssuanceOfCommonStock[0]].filingDate,'2026-08-01','the later filing that confirms the total is cited');
+ assert.equal(row._derivations.proceedsFromIssuanceOfCommonStock.confirmedBy,C);
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+ // A later year-to-date that restates the figure leaves the quarter blank.
+ g.ProceedsFromIssuanceOfCommonStock.units.USD[2].val=80000000;
+ assert.equal(run()[0]?.proceedsFromIssuanceOfCommonStock ?? null,null);
+ // AI Financial (CIK 862861) Q4 2017: the restated 41.5m year against nine months filed as both
+ // 74.5m and 29.6m, and beside it a contract-revenue chain first filed only in the next year's
+ // filings (36.4m year, 25.4m nine months) — a span ever filed with two values, or a year-to-date
+ // never as filed, fills no quarter, never negative.
+ const f=fixture(),K1='0000000123-18-000002',K2='0000000123-19-000003',K3='0000000123-19-000004',Q3='0000000123-17-000005',Q3R='0000000123-18-000006',Q3A='0000000123-18-000007';
+ const at17=(val,start,end,accn,form,filed)=>({val,start,end,accn,form,filed});
+ f.doc.facts['us-gaap'].NetIncomeLoss.units.USD.push(at17(1,'2017-10-01','2017-12-30',K1,'10-K','2018-06-12'));
+ f.doc.facts['us-gaap'].Revenues.units.USD.push(at17(41544000,'2017-01-01','2017-12-30',K1,'10-K','2018-06-12'),at17(41544000,'2017-01-01','2017-12-30',K2,'10-K','2019-04-02'),at17(41544000,'2017-01-01','2017-12-30',K3,'10-K/A','2019-11-15'),
+  at17(74505000,'2017-01-01','2017-09-30',Q3,'10-Q','2017-11-14'),at17(29647000,'2017-01-01','2017-09-30',Q3R,'10-Q','2018-11-13'),at17(74505000,'2017-01-01','2017-09-30',Q3A,'10-Q/A','2018-11-13'));
+ f.doc.facts['us-gaap'].RevenueFromContractWithCustomerIncludingAssessedTax={units:{USD:[at17(25363000,'2017-01-01','2017-09-30',Q3R,'10-Q','2018-11-13'),at17(36351000,'2017-01-01','2017-12-30',K2,'10-K','2019-04-02'),at17(36351000,'2017-01-01','2017-12-30',K3,'10-K/A','2019-11-15')]}};
+ const d3=extract(f.doc,f.evidence,{asOf:'2026-10-03'}),q4=d3.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2017-12-30');
+ assert.equal(q4?.totalRevenue ?? null,null);
 });
 test('cash, receivables and distributions fill only when the filing reports no other part of the line',()=>{
  const at={accn:ACC,form:'10-K',filed:'2026-02-01'},flow=val=>({units:{USD:[{...at,val,start:'2025-01-01',end:'2025-12-31'}]}}),inst=val=>({units:{USD:[{...at,val,end:'2025-12-31'}]}});

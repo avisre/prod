@@ -121,7 +121,7 @@ function verifiedField(data, row, field, accessions) {
     if(['sum_fields','difference_fields'].includes(derived?.formula)) {
         const permitted={totalRevenue:['netInterestIncome','nonInterestIncome'],grossProfit:['totalRevenue','costOfRevenue'],shortTermDebt:['shortTermBorrowings','currentLongTermDebt'],shortLongTermDebtTotal:['shortTermDebt','longTermDebt']};
         // Net sales plus other revenues, for IFRS filers that report no total line.
-        const alternate={totalRevenue:['revenueFromSaleOfGoods','otherRevenue'],operatingCashflow:['operatingCashflowContinuing','operatingCashflowDiscontinued']};
+        const alternate={totalRevenue:['revenueFromSaleOfGoods','otherRevenue'],operatingCashflow:['operatingCashflowContinuing','operatingCashflowDiscontinued'],cashflowFromInvestment:['investingCashflowContinuing','investingCashflowDiscontinued'],cashflowFromFinancing:['financingCashflowContinuing','financingCashflowDiscontinued']};
         const inputs=JSON.stringify(derived.inputs)===JSON.stringify(alternate[field])?alternate[field]:permitted[field];
         if(!inputs || JSON.stringify(derived.inputs)!==JSON.stringify(inputs) || !inputs.every(f=>verifiedField(data,row,f,accessions)))return false;
         if(row._scopes?.[inputs[0]]!==row._scopes?.[inputs[1]])return false;
