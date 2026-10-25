@@ -50,7 +50,7 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!data) { data = await aiChat.loadFundAny(sym).catch(() => null); }
     if (!data) return { error: `No data for ${sym}.` };
-    if (industryMetrics.hasNoFcf(data)) return { error: `Not run: ${industryMetrics.NO_FCF}` };
+    if (industryMetrics.hasNoFcf(data)) return { error: `Not run: ${industryMetrics.noFcfReason(data)}` };
 
     const ov = data.overview || {};
     if(data.marketData?.currency && data.cash?.annualReports?.[0]?.reportedCurrency && data.marketData.currency!==data.cash.annualReports[0].reportedCurrency)return {error:'Valuation requires compatible financial and quote currencies; no verified conversion is supplied.'};

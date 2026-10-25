@@ -266,11 +266,28 @@
       return v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));
     });
   }
-  function hasNoFcf(data) {
+  // Left out as well (checked 2026-10-25 on stockanalysis.com): an investment
+  // company under ASC 946, such as a BDC, buys its loans through operating cash
+  // flow (ARCC: -$1.7B for 2025, no capex row); a mortgage REIT carries no FCF
+  // or capex row (AGNC); a blank-check company (SIC 6770) has no business yet,
+  // only cash held in trust.
+  const NO_FCF_WHY = {
+    investment: 'Free cash flow is not shown for this company: an investment company such as a BDC buys and sells its loans and securities through operating cash flow, so free cash flow would not measure the cash the business generates.',
+    mortgageReit: 'Free cash flow is not shown for this company: a mortgage REIT holds loans and mortgage securities rather than property, so it has no capital spending and free cash flow would not measure the cash the business generates.',
+    spac: 'Free cash flow is not shown for this company: a blank-check company has no operating business yet, only cash held in trust for an acquisition.'
+  };
+  function noFcfKind(data) {
     const c = classify(data);
-    if (c.kind === 'bank') return true;
-    return c.kind === 'insurer' && (c.insurerType === 'life' || !filesCapex(data));
+    if (c.kind === 'bank') return 'bank';
+    if (c.kind === 'insurer' && (c.insurerType === 'life' || !filesCapex(data))) return 'insurer';
+    if (data?.coverage?.investmentCompany) return 'investment';
+    const sic = String(c.sic || '').padStart(4, '0');
+    if (sic === '6798' && /mortgage/i.test(data?.overview?.Industry || '')) return 'mortgageReit';
+    if (sic === '6770') return 'spac';
+    return null;
   }
+  function hasNoFcf(data) { return !!noFcfKind(data); }
+  function noFcfReason(data) { return NO_FCF_WHY[noFcfKind(data)] || NO_FCF; }
 
   // A metric with no value in any year shown is left out and named once,
   // never drawn as a row of dashes (TRV and CB file no other underwriting
@@ -290,5 +307,5 @@
     return built;
   }
 
-  return { build, classify, hasNoFcf, emptyKeys, NO_FCF, collect, buildBank, buildInsurance, kindFromSic, insurerType, hasCombinedRatio, fyOf, BANK_SIC, INSURER_SIC, YEARS };
+  return { build, classify, hasNoFcf, noFcfReason, emptyKeys, NO_FCF, collect, buildBank, buildInsurance, kindFromSic, insurerType, hasCombinedRatio, fyOf, BANK_SIC, INSURER_SIC, YEARS };
 });

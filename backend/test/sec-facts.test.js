@@ -29,6 +29,24 @@ test('quarterly EPS is never inferred by subtracting YTD EPS',()=>{
 test('identity mismatch is rejected before financial extraction',()=>{
  const {doc,evidence}=fixture();assert.throws(()=>extract({...doc,cik:456},evidence),/IDENTITY/);
 });
+test('an issuer filing investment-company highlights in a recent 10-K is marked as one; one tag or an old filing is not',()=>{
+ const mark=(tags,filed='2026-02-01')=>{const {doc,evidence}=fixture();for(const t of tags)doc.facts['us-gaap'][t]={units:{USD:[{val:1,end:'2025-12-31',accn:ACC,form:'10-K',filed}]}};return extract(doc,evidence,{asOf:'2026-10-03'}).investmentCompany;};
+ const bdc=['NetAssetValuePerShare','InvestmentCompanyTotalReturn','InvestmentCompanyExpenseRatioIncludingFeeWaiver','InvestmentCompanyInvestmentIncomeLossRatio'];
+ assert.equal(mark(bdc),true);
+ assert.equal(mark(bdc.slice(1)),undefined,'no net asset value per share');
+ assert.equal(mark(bdc.slice(0,3)),undefined,'two ratios are not the highlights (Rapport Therapeutics files one)');
+ assert.equal(mark(bdc,'2023-02-01'),undefined,'not filed in the last two years');
+});
+test('continuing-operations EPS fills EPS only when the filing reports no discontinued operations, and never displaces it',()=>{
+ const eps=(extra)=>{const {doc,evidence}=fixture();const fact=(val,unit='USD/shares')=>({units:{[unit]:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}});
+  doc.facts['us-gaap'].IncomeLossFromContinuingOperationsPerDilutedShare=fact(1.5);doc.facts['us-gaap'].IncomeLossFromContinuingOperationsPerBasicShare=fact(1.6);
+  for(const [t,v,u] of extra)doc.facts['us-gaap'][t]=fact(v,u);const d=extract(doc,evidence,{asOf:'2026-10-03'}),r=d.income.annualReports[0];return {d,r};};
+ const {d,r}=eps([]);
+ assert.equal(r.dilutedEPS,1.5);assert.equal(r.eps,1.6);assert.equal(p.verifiedField(d,r,'dilutedEPS'),true);
+ assert.equal(eps([['IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare',-0.2]]).r.dilutedEPS,null,'a discontinued per-share line');
+ assert.equal(eps([['IncomeLossFromDiscontinuedOperationsNetOfTax',-20,'USD']]).r.eps,null,'a discontinued income line');
+ assert.equal(eps([['EarningsPerShareDiluted',1.3]]).r.dilutedEPS,1.3,'the filed EPS line wins');
+});
 module.exports={fixture};
 
 // Measured 2026-10-06: 1,104 stock issuers lacked a core figure in their newest
@@ -101,6 +119,49 @@ test('a bank that files net interest and noninterest income is measured on their
  const {doc,evidence}=fixture();evidence.sic='6022';const f=val=>({units:{USD:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}});
  Object.assign(doc.facts['us-gaap'],{Revenues:f(68),InterestIncomeExpenseNet:f(300),NoninterestIncome:f(90)});
  const d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.income.annualReports[0].totalRevenue,390);assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+});
+// 2026-10-25 revenue audit: lenders without a total, IFRS banks, equity REITs, a year filed on a quarter's dates.
+test('a card or consumer lender\'s two income parts fill a blank revenue, but never replace a filed one',()=>{
+ const f=val=>({units:{USD:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}});
+ const rev=(extra)=>{const {doc,evidence}=fixture();evidence.sic='6199';delete doc.facts['us-gaap'].Revenues;Object.assign(doc.facts['us-gaap'],extra);const d=extract(doc,evidence,{asOf:'2026-10-03'});return [d.income.annualReports[0].totalRevenue,p.validateFinancial(d,CIK,'2026-10-03')];};
+ assert.deepEqual(rev({InterestIncomeExpenseNet:f(18466),NoninterestIncome:f(520)}),[18986,[]]);
+ assert.equal(rev({Revenues:f(20000),InterestIncomeExpenseNet:f(18466),NoninterestIncome:f(520)})[0],20000);
+});
+test('an IFRS bank\'s gross-income line is its revenue, moved off gross profit; not where a cost of sales is filed',()=>{
+ const f=val=>({units:{EUR:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'20-F',filed:'2026-02-01'}]}});
+ const run=(extra,sic='6029')=>{const {doc,evidence}=fixture('ifrs-full','EUR');evidence.sic=sic;delete doc.facts['ifrs-full'].Revenue;Object.assign(doc.facts['ifrs-full'],extra);const d=extract(doc,evidence,{asOf:'2026-10-03'});return {r:d.income.annualReports[0],issues:p.validateFinancial(d,CIK,'2026-10-03')};};
+ const bank=run({GrossProfit:f(36931),InterestRevenueExpense:f(26280)});
+ assert.equal(bank.r.totalRevenue,36931);assert.equal(bank.r.grossProfit,null);assert.equal(bank.r.netInterestIncome,26280);assert.deepEqual(bank.issues,[]);
+ assert.equal(run({GrossProfit:f(36931),CostOfSales:f(1000)}).r.totalRevenue,null,'a cost of sales makes it a gross profit');
+ assert.equal(run({GrossProfit:f(36931)},'2834').r.totalRevenue,null,'only a bank');
+});
+test('an equity REIT\'s lease income is its revenue when it files no total; not for a lender or below its profit',()=>{
+ const f=(val,accn=ACC)=>({units:{USD:[{val,start:'2025-01-01',end:'2025-12-31',accn,form:'10-K',filed:'2026-02-01'}]}});
+ const rev=(extra,sic='6798')=>{const {doc,evidence}=fixture();evidence.sic=sic;delete doc.facts['us-gaap'].Revenues;Object.assign(doc.facts['us-gaap'],extra);const d=extract(doc,evidence,{asOf:'2026-10-03'});return [d.income.annualReports[0]?.totalRevenue ?? null,p.validateFinancial(d,CIK,'2026-10-03')];};
+ assert.deepEqual(rev({OperatingLeaseLeaseIncome:f(1850)}),[1850,[]]);
+ assert.equal(rev({OperatingLeaseLeaseIncome:f(1850),Revenues:f(1900)})[0],1900,'a filed total stays');
+ assert.equal(rev({OperatingLeaseLeaseIncome:f(1850),InterestIncomeExpenseNet:f(300)})[0],null,'a mortgage REIT');
+ assert.equal(rev({OperatingLeaseLeaseIncome:f(150),InterestIncomeOperating:f(1300)})[0],null,'a lender\'s rent from foreclosed property (BXMT)');
+ assert.equal(rev({OperatingLeaseLeaseIncome:f(1850),NoninterestIncome:f(159)})[0],null,'an "other income" total marks a lender');
+ assert.equal(rev({OperatingLeaseLeaseIncome:f(60)})[0],null,'below the 100 of net income');
+ assert.equal(rev({OperatingLeaseLeaseIncome:f(1850)},'6500')[0],null,'only an equity REIT');
+ assert.equal(rev({OperatingLeaseLeaseIncome:f(1850,'0000000123-25-000009')})[0],null,'another filing than the net income');
+});
+test('a year filed on a quarter\'s dates is read as the year; a real fourth quarter is not',()=>{
+ const run=q4=>{
+  const {doc,evidence}=fixture();const g=doc.facts['us-gaap'];
+  evidence.latestAnnual.reportDate='2026-01-02';
+  for(const k of Object.keys(g))for(const r of g[k].units.USD){r.end='2026-01-02';if(r.start)r.start='2025-01-04';}
+  // The filing's own tell: its prior year sits on both the year's and the fourth quarter's dates (L3Harris FY2025).
+  const k=(val,start,end)=>({val,start,end,accn:ACC,form:'10-K',filed:'2026-02-01'});
+  g.Revenues.units.USD=[k(q4,'2025-10-04','2026-01-02'),k(21325,'2023-12-30','2025-01-03'),k(21325,'2024-09-28','2025-01-03'),{val:16217,start:'2025-01-04',end:'2025-10-03',accn:'0000000123-25-000003',form:'10-Q',filed:'2025-10-28'}];
+  return extract(doc,evidence,{asOf:'2026-10-03'});
+ };
+ const d=run(21865),year=d.income.annualReports[0];
+ assert.equal(year.totalRevenue,21865);assert.equal(d.sources[year._sources.totalRevenue[0]].periodCorrection,'year_tagged_on_quarter_context');
+ assert.equal(d.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-01-02').totalRevenue,5648);
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+ const real=run(5648);assert.equal(real.income.annualReports[0].totalRevenue,null,'a quarter below nine months is a quarter');
 });
 
 // 2026-10-10: only goodwill was read out of the long-term assets, so the

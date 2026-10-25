@@ -168,6 +168,27 @@ test('free cash flow is left out for banks, life insurers and insurers that file
     assert.match(model.NO_FCF, /^Free cash flow is not shown for this company/);
 });
 
+// 2026-10-25, checked on stockanalysis.com: ARCC (a BDC) has no capex row and an
+// operating cash flow of -$1.7B for 2025; AGNC (a mortgage REIT) has no FCF row.
+test('free cash flow is left out for investment companies, mortgage REITs and blank-check companies', () => {
+    const d = (coverage, Industry) => ({ coverage, overview: { Industry }, cash: { annualReports: [{ capitalExpenditures: null }] } });
+    const cases = [
+        [d({ sic: null, investmentCompany: true }, 'Asset Management'), 'investment company'],
+        [d({ sic: '6798' }, 'REIT - Mortgage'), 'mortgage REIT'],
+        [d({ sic: '6770' }, 'Shell Companies'), 'blank-check']
+    ];
+    for (const [data, kind] of cases) {
+        assert.equal(model.hasNoFcf(data), true, kind);
+        assert.match(model.noFcfReason(data), /^Free cash flow is not shown for this company: /, kind);
+        assert.notEqual(model.noFcfReason(data), model.NO_FCF, kind);
+    }
+    assert.match(model.noFcfReason(cases[0][0]), /BDC/);
+    // An equity REIT and an asset manager keep it; a bank keeps the bank wording.
+    assert.equal(model.hasNoFcf(d({ sic: '6798' }, 'REIT - Retail')), false, 'equity REIT (O)');
+    assert.equal(model.hasNoFcf(d({ sic: '6282', investmentCompany: false }, 'Asset Management')), false, 'asset manager (BLK)');
+    assert.equal(model.noFcfReason(d({ sic: '6021' }, 'Banks - Diversified')), model.NO_FCF);
+});
+
 test('a metric with no value in any year shown is named once, not drawn as a row of dashes', () => {
     // Travelers files no other underwriting expense, so no expense or combined ratio.
     const TRV = PGR.map((r) => ({ ...r, otherUnderwritingExpense: undefined }));

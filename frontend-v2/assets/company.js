@@ -1182,9 +1182,11 @@
         const price = num((payload.marketData || {}).price);
         const eps = num(inc.dilutedEPS);
         const filed = payload.filedPerShare;
+        // A filer with only basic EPS (no dilutive securities) is divided by that, and says so.
+        const peEps = eps ?? num(inc.eps), peBasis = eps !== null ? 'diluted' : 'basic';
         const pe = num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
-            : (ni !== null && ni <= 0) || (eps !== null && eps <= 0) ? ['n/m (loss)', `${fy} net loss`]
-            : eps > 0 && price > 0 && quoteCur === reportCur && !hasCurrencyMismatch() ? [fixed(price / eps, 1), `price ÷ ${fy} diluted EPS`]
+            : (ni !== null && ni <= 0) || (peEps !== null && peEps <= 0) ? ['n/m (loss)', `${fy} net loss`]
+            : peEps > 0 && price > 0 && quoteCur === reportCur && !hasCurrencyMismatch() ? [fixed(price / peEps, 1), `price ÷ ${fy} ${peBasis} EPS`]
             : cap > 0 && ni > 0 ? [fixed(cap / ni, 1), `market cap ÷ ${fy} net income`]
             : ['—'];
         const fwd = num(ov.ForwardPE);
@@ -1432,7 +1434,7 @@
         const withFcf = !m.noFcf;
         const flow = flowRows.length ? `<div class="sbc-flow">
           <p class="sbc-flow-summary">${esc(m.verdict)}</p>
-          ${withFcf ? '' : `<p class="small muted" style="margin:0 0 8px;">${esc(window.IndustryMetrics.NO_FCF)}</p>`}
+          ${withFcf ? '' : `<p class="small muted" style="margin:0 0 8px;">${esc(window.IndustryMetrics.noFcfReason(payload))}</p>`}
           <table class="sbc-years">
             <thead><tr><th>Fiscal year</th>${withFcf ? '<th>FCF</th>' : ''}<th>SBC</th>${withFcf ? '<th>FCF after SBC</th>' : ''}<th>Buybacks</th><th>Diluted shares</th><th>Verdict</th></tr></thead>
             <tbody>${flowRows.map((y) => `<tr>
@@ -1669,7 +1671,7 @@
                 html += `<tr data-sym="${esc(x.symbol)}" style="${hl ? 'font-weight:650;' : ''}">
                   <td class="row-head">${hl ? esc(x.symbol) : `<a href="/company.html?symbol=${encodeURIComponent(x.symbol)}" target="_blank" rel="noopener">${esc(x.symbol)}</a>`}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></td>
                   <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
-                  <td data-label="P/E">${fixed(x.pe, 1)}</td>
+                  <td data-label="P/E">${x.pe == null && x.netMarginPct < 0 ? 'n/m (loss)' : fixed(x.pe, 1)}</td>
                   <td data-label="Rev CAGR 5y">${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
                   <td data-label="Profit growth YoY">${cell(x.qtrNetIncomeYoYPct, (v) => pct(v), true)}</td>
                   <td data-label="Net margin">${cell(x.netMarginPct, (v) => pct(v))}</td>
@@ -2072,11 +2074,23 @@
         const provenance = $('stmt-prov');
         if (provenance) {
             const mismatch = hasCurrencyMismatch();
+            // Airbnb's 10-Ks since FY2023 present no capital-spending line on the cash-flow statement
+            // (it sits inside "other investing activities, net"), so those years have no free cash flow.
+            const untagged = stState === 'cash' && !noFcf()
+                ? rows.filter((r) => num(r.operatingCashflow) !== null && num(r.capitalExpenditures) === null).map((r) => periodLabel(r, basisState))
+                : [];
+            // A drug developer before its first sale files no revenue line at all (its statement opens with
+            // research and development), so revenue and the margins are blank, not zero.
+            const noRevenue = stState === 'income'
+                ? rows.filter((r) => num(r.netIncome) !== null && derive(r).rev === null).map((r) => periodLabel(r, basisState))
+                : [];
             const conversionText = converted
                 ? `Financial statements are shown in USD, converted from ${sourceReportingCurrency()}. ${payload.currencyConversion.restatedFrom ? `Under hyperinflation accounting (IAS 29) each filing restates its figures, earlier years included, into the currency of its own balance-sheet date, so figures from those filings use that date’s closing FX rate; earlier filings use the period basis below. ` : ''}Balance-sheet figures use the fiscal-period closing monthly FX rate; income and cash-flow figures use average month-end FX rates over each reporting period. This is an approximate convenience conversion. `
                 : `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. `;
             provenance.textContent = conversionText +
                 (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}; valuation overlays per listed share stay off because ${perShareWhy()}. ` : '') +
+                (untagged.length ? `Capital spending is not tagged in the filing for ${untagged.length > 3 ? `${untagged.length} periods (latest ${untagged[untagged.length - 1]})` : untagged.join(', ')}: no capital-spending line on its cash-flow statement could be read, so capital expenditure and free cash flow are left blank there rather than estimated. ` : '') +
+                (noRevenue.length ? `No revenue is reported for ${noRevenue.length === rows.length ? 'any period shown' : noRevenue.length > 3 ? `${noRevenue.length} periods (latest ${noRevenue[noRevenue.length - 1]})` : noRevenue.join(', ')}: the income statement presents no revenue line that could be read, so revenue and margins are left blank rather than shown as zero. ` : '') +
                 (defs.some((d) => d.filed) ? `The company files no cost of revenue; its cost lines are shown as filed in its ${payload.filedCosts.filing.form}s, with the filing’s own labels and headings. ` : '') +
                 'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Reported per-share values retain their filed basis. Calculated figures require available verified inputs; missing inputs stay missing. ▸ unfolds a total into its components.';
         }

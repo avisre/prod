@@ -227,3 +227,79 @@ test('a presented line wins over a figure from a fill-only tag, and the fill sta
  doc.facts['us-gaap'].ShareBasedCompensation={units:{USD:[{...period,val:600}]}};
  assert.equal(extract(doc,evidence,{asOf:'2026-10-03',statementLines:[sbc]}).cash.annualReports[0].shareBasedCompensation,600);
 });
+
+test('a cash-flow line is a capital-spending line by its tag or label; sales, accruals, financing and notes are not',()=>{
+ for(const [tag,label] of [['PaymentsToAcquirePropertyPlantAndEquipment','Purchases of property and equipment'],['PaymentsForSoftware','Capitalized software development costs'],
+  ['PaymentsToAcquireToolsDiesAndMolds','Purchases of tools, dies and molds'],['Custom1','Capital expenditures'],['Custom2','Additions to property, plant and equipment']])assert.equal(lines.capexLine(tag,label),true,label);
+ for(const [tag,label] of [['ProceedsFromSaleOfPropertyPlantAndEquipment','Proceeds from sale of property and equipment'],['CapitalExpendituresIncurredButNotYetPaid','Capital expenditures included in accounts payable'],
+  ['PaymentsToAcquireIntangibleAssets','Purchases of intellectual property'],['RepaymentsOfNotesPayable','Repayments of equipment notes'],['PaymentsToAcquireBusinessesNetOfCashAcquired','Acquisitions, net of cash acquired'],
+  ['PaymentsToAcquireOtherProductiveAssets','Investment in new communities'],['Depreciation','Depreciation of property and equipment'],['FinanceLeasePrincipalPayments','Principal payments on finance lease equipment']])assert.equal(lines.capexLine(tag,label),false,label);
+});
+
+const spend=o=>({s:'cash',k:'capex',f:'',e:'2025-12-31',q:4,u:'USD',c:['PaymentsToAcquireOtherPropertyPlantAndEquipment','PaymentsToAcquireToolsDiesAndMolds'],t:['us-gaap','custom'],
+ l:['Purchases of other property, plant, and equipment','Purchases of tools, dies, and molds'],v:[110618,71374],a:ACC,m:'10-K',d:'2026-02-01',...o});
+const capexRow=(statementLines,facts={})=>{const {doc,evidence}=fixture();for(const [t,v] of Object.entries(facts))doc.facts['us-gaap'][t]={units:{USD:[].concat(v).map(val=>({val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}))}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines});return {d,row:d.cash.annualReports[0]};};
+
+test('capital spending is the sum of the lines the cash-flow statement presents (Mattel 2025: $110.6m + $71.4m)',()=>{
+ const {d,row}=capexRow([spend()]);
+ assert.equal(row.capitalExpenditures,-181992);
+ assert.deepEqual(row._derivations.capitalExpenditures,{formula:'sum_presented_capex',inputValues:[110618,71374],presentedConcepts:['PaymentsToAcquireOtherPropertyPlantAndEquipment','PaymentsToAcquireToolsDiesAndMolds']});
+ assert.deepEqual(row._sources.capitalExpenditures.map(id=>d.sources[id].presentationLabel),['Purchases of other property, plant, and equipment','Purchases of tools, dies, and molds']);
+ assert.equal(p.verifiedField(d,row,'capitalExpenditures'),true);
+ assert.deepEqual(p.validateFinancial(d,d.cik,'2026-10-03'),[]);
+ // One line alone is read the same way (Veeva: capitalized software is its only capital spending).
+ assert.equal(capexRow([spend({c:['PaymentsForSoftware'],t:['us-gaap'],l:['Capitalized software'],v:[29131]})]).row.capitalExpenditures,-29131);
+});
+
+test('a filed capex tag stays, a single presented line widens to the sum, and the filing\'s own figure beats the data set',()=>{
+ assert.equal(capexRow([spend()],{PaymentsToAcquirePropertyPlantAndEquipment:150000}).row.capitalExpenditures,-150000);
+ const single=line({s:'cash',f:'capitalExpenditures',c:'PaymentsToAcquireToolsDiesAndMolds',l:'Purchases of tools, dies, and molds',v:71374});
+ assert.equal(capexRow([single]).row.capitalExpenditures,-71374);
+ const wide=capexRow([single,spend()]);
+ assert.equal(wide.row.capitalExpenditures,-181992);assert.equal(p.verifiedField(wide.d,wide.row,'capitalExpenditures'),true);
+ // A single line of another filing is not widened by this one's lines.
+ assert.equal(capexRow([single,spend({c:['PaymentsToAcquireOtherPropertyPlantAndEquipment','OtherCapex'],t:['us-gaap','custom']})]).row.capitalExpenditures,-71374);
+ const filed=capexRow([spend({v:[0,71374]})],{PaymentsToAcquireOtherPropertyPlantAndEquipment:110618});
+ assert.equal(filed.row.capitalExpenditures,-181992);assert.equal(filed.d.sources[filed.row._sources.capitalExpenditures[0]].dataSetValue,0);
+ assert.equal(capexRow([spend()],{PaymentsToAcquireOtherPropertyPlantAndEquipment:[110618,110619]}).row.capitalExpenditures,null);
+});
+
+test('presented capex lines are left unread when they do not make one total of one filing for the row\'s span',()=>{
+ for(const [why,o] of [['another filing',{a:'0000000123-26-000009'}],['a quarter',{q:1}],['another currency',{u:'EUR'}],['mixed signs',{v:[110618,-71374]}],['all zero',{v:[0,0]}],
+  ['a subtotal beside its parts',{c:['A','B','C'],t:['custom','custom','custom'],l:['a','b','c'],v:[60,40,100]}],
+  ['productive assets beside other lines',{c:['PaymentsToAcquireProductiveAssets','PaymentsForSoftware'],t:['us-gaap','us-gaap']}]])
+  assert.equal(capexRow([spend(o)]).row.capitalExpenditures,null,why);
+});
+
+test('the validator re-checks a presented capex total against its lines',()=>{
+ const {d,row}=capexRow([spend()]),first=r=>r._sources.capitalExpenditures[0];
+ for(const tamper of [r=>{r.capitalExpenditures=-181993;},r=>{r.capitalExpenditures=181992;},r=>{delete r._signs.capitalExpenditures;},
+  r=>{r._derivations.capitalExpenditures.presentedConcepts.reverse();},r=>{r._sources.capitalExpenditures=r._sources.capitalExpenditures.slice(0,1);},
+  (r,c)=>{c.sources[first(r)].accessionNumber='0000000123-26-000009';},(r,c)=>{c.sources[first(r)].periodStart='2025-02-01';},
+  (r,c)=>{c.sources[first(r)].verificationMethod='xbrl_fact';},(r,c)=>{c.sources[first(r)].rawValue=-110618;}]){
+  const copy=structuredClone(d),r=copy.cash.annualReports[0];tamper(r,copy);assert.equal(p.verifiedField(copy,r,'capitalExpenditures'),false);
+ }
+});
+// 2026-10-25 revenue audit.
+test('a total filed only under one product member is the whole only when it alone sums the others and is the largest',()=>{
+ // APA 2025: oil and gas $8,920m = own production $7,229m + purchased $1,691m.
+ assert.deepEqual(lines.memberTotal([['OilAndGas',8920],['OilAndGasProduction',7229],['OilAndGasPurchased',1691]]),['OilAndGas',8920]);
+ assert.equal(lines.memberTotal([['A',5],['B',3]]),null,'two members cannot show a whole and its parts');
+ assert.equal(lines.memberTotal([['Total',100],['A',60],['B',40],['Bigger',500]]),null,'a sum that is not the largest is a subtotal');
+ assert.equal(lines.memberTotal([['X',10],['Y',4],['Z',6],['W',10]]),null,'two members sum the others');
+ assert.equal(lines.memberTotal([['A',10],['B',3],['C',2]]),null,'no member sums the others');
+});
+test('"total closing revenue" and a custom "total income" line are revenue; a mapped tag reaches the builder only as a member total',()=>{
+ assert.deepEqual(lines.fieldsFor('IS','Total closing revenue','TotalClosingRevenue',{custom:true,crdr:'C',mapped}),['totalRevenue']);
+ assert.deepEqual(lines.fieldsFor('IS','Total income','OperatingIncome',{custom:true,crdr:'C',mapped}),['totalRevenue']);
+ assert.deepEqual(lines.fieldsFor('IS','Total other income','OtherIncome',{custom:true,crdr:'C',mapped}),[]);
+ assert.deepEqual(lines.fieldsFor('IS','Total revenues','Revenues',{crdr:'C',mapped}),[]);
+ assert.deepEqual(lines.fieldsFor('IS','Total revenues','Revenues',{crdr:'C',mapped,memberTotal:true}),['totalRevenue']);
+});
+test('a product-member revenue total fills a blank revenue and keeps its dimension on the source',()=>{
+ const {doc,evidence}=blankRevenue();
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[line({t:'us-gaap',c:'Revenues',v:8920,g:'ProductOrService=OilAndGas'})]}),row=d.income.annualReports[0];
+ assert.equal(row.totalRevenue,8920);assert.equal(d.sources[row._sources.totalRevenue[0]].dimension,'ProductOrService=OilAndGas');
+ assert.deepEqual(p.validateFinancial(d,'0000000123','2026-10-03'),[]);
+});

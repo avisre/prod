@@ -77,4 +77,4 @@ async function main(argv=process.argv.slice(2)) {
  save();console.log(JSON.stringify({done,total,tally}));
 }
 if(require.main===module)main().then(()=>process.exit(0)).catch(e=>{console.error(e.message);process.exit(1);});
-module.exports={main};
+module.exports={main,pace};

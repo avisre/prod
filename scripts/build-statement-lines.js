@@ -31,13 +31,14 @@ async function child(file,out,covered){
  await table(zip,'sub.txt',(c,h)=>{const cik=p.cik(c[h.cik]);if(covered.has(cik) && FORM.test(c[h.form]))subs.set(c[h.adsh],{cik,form:c[h.form],filed:day(c[h.filed]),period:day(c[h.period])});});
  // Statement lines first, the noncontrolling-interest flag of each statement with them:
  // the flag can come after the line it qualifies, so fields are settled once it is known.
- const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map();
+ const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),capex=new Map();
  await table(zip,'pre.txt',(c,h)=>{
   const adsh=c[h.adsh],stmt=c[h.stmt];if(!subs.has(adsh) || !lines.STATEMENT[stmt] || c[h.inpth]!=='0')return;
   const tag=c[h.tag],version=c[h.version],plabel=c[h.plabel];
   if(stmt==='BS' && lines.debtLine(tag,plabel)){if(!debt.has(adsh))debt.set(adsh,new Map());debt.get(adsh).set(tag+'|'+version,tag);}
+  if(stmt==='CF' && lines.capexLine(tag,plabel)){const k=adsh+'|'+tag+'|'+version;if(!capex.has(k))capex.set(k,{tag,custom:version===adsh,version,plabel});}
   if(/noncontrolling|minority/i.test(tag+' '+plabel))nci.add(adsh+'|'+stmt);
-  if(!lines.fieldsFor(stmt,plabel,tag,{custom:version===adsh,mapped}).length)return;
+  if(!lines.fieldsFor(stmt,plabel,tag,{custom:version===adsh,mapped,memberTotal:true}).length)return;
   const key=adsh+'|'+tag+'|'+version;if(!raw.has(key))raw.set(key,[]);raw.get(key).push({stmt,plabel});
  });
  const crdr=new Map();for(const key of raw.keys()){const [,tag,version]=key.split('|');crdr.set(tag+'|'+version,undefined);}
@@ -46,7 +47,7 @@ async function child(file,out,covered){
  const wanted=new Map();
  for(const [key,uses] of raw){
   const [adsh,tag,version]=key.split('|'),custom=version===adsh,found=new Map();
-  for(const {stmt,plabel} of uses)for(const field of lines.fieldsFor(stmt,plabel,tag,{custom,mapped,noncontrolling:nci.has(adsh+'|'+stmt),crdr:crdr.get(tag+'|'+version)})){const k=stmt+'|'+field;if(!found.has(k))found.set(k,{stmt,field,plabel});}
+  for(const {stmt,plabel} of uses)for(const field of lines.fieldsFor(stmt,plabel,tag,{custom,mapped,noncontrolling:nci.has(adsh+'|'+stmt),crdr:crdr.get(tag+'|'+version),memberTotal:true})){const k=stmt+'|'+field;if(!found.has(k))found.set(k,{stmt,field,plabel});}
   // One line, one field: a tag shown under two different fields of one statement is not read.
   const per=new Map();for(const x of found.values())per.set(x.stmt,(per.get(x.stmt) || 0)+1);
   const kept=[...found.values()].filter(x=>per.get(x.stmt)===1 || (x.field==='eps' || x.field==='dilutedEPS') && per.get(x.stmt)===2 && [...found.values()].filter(y=>y.stmt===x.stmt).every(y=>/^(eps|dilutedEPS)$/.test(y.field)));
@@ -58,12 +59,27 @@ async function child(file,out,covered){
   const sub=subs.get(adsh),kept=[...tags].filter(([k])=>crdr.get(k)!=='D').map(([,tag])=>tag);
   if(sub.period && kept.length){w.write(JSON.stringify([sub.cik,{s:'balance',k:'debt',f:'',e:sub.period,c:[...new Set(kept)].sort(),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;}
  }
+ // The capital-spending lines each cash-flow statement presents, with their figures per period
+ // (statement-lines capexLine): one record per filing, period and currency, summed in sec-facts.
+ const spent=new Map(),revenue=new Map(),plainRevenue=new Set(),revenueTags=new Set(Object.values(require('../backend/sec-facts').MAPS.income.totalRevenue).filter(Array.isArray).flat());
  await table(zip,'num.txt',(c,h)=>{
-  const adsh=c[h.adsh],key=adsh+'|'+c[h.tag]+'|'+c[h.version],want=wanted.get(key);if(!want || c[h.coreg])return;
+  const adsh=c[h.adsh],key=adsh+'|'+c[h.tag]+'|'+c[h.version],want=wanted.get(key),line=capex.get(key);
+  if(!c[h.segments] && !c[h.coreg] && revenueTags.has(c[h.tag]) && c[h.value]!=='')plainRevenue.add([adsh,day(c[h.ddate]),c[h.qtrs],c[h.uom]].join('|'));
+  if(!want && !line || c[h.coreg])return;
   const value=Number(c[h.value]),end=day(c[h.ddate]),qtrs=c[h.qtrs],uom=c[h.uom],segments=c[h.segments] || '',sub=subs.get(adsh);
   if(!Number.isFinite(value) || c[h.value]==='' || !end || end>sub.filed || !/^[A-Z]{3}(\/shares)?$/.test(uom))return;
+  if(line && !segments && (qtrs==='1' || qtrs==='4') && /^[A-Z]{3}$/.test(uom)){
+   const k=adsh+'|'+end+'|'+qtrs+'|'+uom;if(!spent.has(k))spent.set(k,new Map());
+   const by=spent.get(k),id=line.tag+'|'+line.version;if(!by.has(id))by.set(id,{line,values:new Set()});by.get(id).values.add(value);
+  }
+  if(!want)return;
   for(const {stmt,field,plabel} of want.kept){
    if(stmt==='BS'?qtrs!=='0':qtrs!=='1' && qtrs!=='4')continue;
+   if(field==='totalRevenue'){
+    const k=[adsh,stmt,want.tag,c[h.version],end,qtrs,uom].join('|'),r=revenue.get(k) || {plain:false,members:new Map(),rec:null};revenue.set(k,r);
+    if(!segments){r.plain=true;plainRevenue.add([adsh,end,qtrs,uom].join('|'));}
+    else if(/^ProductOrService=[^;=]+;?$/.test(segments) && /^total\b/i.test(plabel)){const m=segments.replace(/^ProductOrService=|;$/g,'');if(!r.members.has(m))r.members.set(m,new Set());r.members.get(m).add(value);r.rec={s:lines.STATEMENT[stmt],f:field,t:want.custom?'custom':String(c[h.version]).split('/')[0],c:want.tag,l:plabel,u:uom,e:end,q:Number(qtrs),a:adsh,m:sub.form,d:sub.filed};}
+   }
    if(!lines.acceptedDimension(segments,field))continue;
    // A standard EPS tag is in the company-facts feed already, unless it is filed per class.
    if(!want.custom && mapped.has(want.tag) && !segments)continue;
@@ -72,6 +88,24 @@ async function child(file,out,covered){
    w.write(JSON.stringify([sub.cik,rec])+'\n');n++;
   }
  });
+ for(const [k,by] of spent){
+  const [adsh,end,qtrs,uom]=k.split('|'),sub=subs.get(adsh),parts=[...by.values()].sort((x,y)=>x.line.tag.localeCompare(y.line.tag));
+  // A line with two figures for one period is not read, and neither is that period's capital spending.
+  if(parts.some(x=>x.values.size!==1))continue;
+  w.write(JSON.stringify([sub.cik,{s:'cash',k:'capex',f:'',e:end,q:Number(qtrs),u:uom,c:parts.map(x=>x.line.tag),t:parts.map(x=>x.line.custom?'custom':String(x.line.version).split('/')[0]),l:parts.map(x=>x.line.plabel),v:parts.map(x=>[...x.values][0]),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;
+ }
+ // A total revenue line filed only under one product member, never on its own: APA's 2025 "Total revenues" of
+ // $8,920m is ProductOrService=OilAndGas, its own production plus purchased oil and gas ($7,229m + $1,691m), and
+ // Meritage's "Total closing revenue" is RealEstate, homes plus land. Only where the statement shows no revenue
+ // figure on no dimension for the period under any revenue tag (Plug Power's equipment member sums its parts too,
+ // beside a $709.9m total), the line is labelled a total (Hilltop's "Revenue" is a fee line), and it is the largest member and the only one that is the exact sum of two or more of the others.
+ for(const r of revenue.values()){
+  // Only for the filing's own period: Newsmax's Q1 2026 10-Q files its Q1 2025 members again under a year ended 2025-12-31.
+  if(r.plain || !r.rec || r.rec.e!==subs.get(r.rec.a).period || plainRevenue.has([r.rec.a,r.rec.e,String(r.rec.q),r.rec.u].join('|')) || [...r.members.values()].some(v=>v.size!==1))continue;
+  const total=lines.memberTotal([...r.members].map(([k,v])=>[k,[...v][0]]));
+  if(!total)continue;
+  w.write(JSON.stringify([subs.get(r.rec.a).cik,{...r.rec,v:total[1],g:'ProductOrService='+total[0]}])+'\n');n++;
+ }
  await new Promise(r=>w.end(r));zip.zf.close();
  return n;
 }
@@ -94,7 +128,7 @@ async function main(){
  const outDir=lines.DIR();fs.mkdirSync(outDir,{recursive:true});
  const builtFrom=zips.map(z=>z.replace(/\.zip$/,''));let total=0;
  for(const [cik,recs] of by){
-  const list=[...recs.values()].sort((x,y)=>y.e.localeCompare(x.e)||x.s.localeCompare(y.s)||x.f.localeCompare(y.f)||y.d.localeCompare(x.d)||x.a.localeCompare(y.a)||String(x.g || '').localeCompare(String(y.g || '')));
+  const list=[...recs.values()].sort((x,y)=>y.e.localeCompare(x.e)||x.s.localeCompare(y.s)||x.f.localeCompare(y.f)||y.d.localeCompare(x.d)||x.a.localeCompare(y.a)||String(x.g || '').localeCompare(String(y.g || ''))||String(x.k || '').localeCompare(String(y.k || ''))||(x.q ?? -1)-(y.q ?? -1)||String(x.u || '').localeCompare(String(y.u || '')));
   total+=list.length;
   p.atomicWrite(path.join(outDir,cik+'.json'),{schemaVersion:1,cik,builtFrom,lines:list});
  }

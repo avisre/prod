@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261019-bank1';
+const EXTRACTION_VERSION = '20261025-rev1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -30,7 +30,7 @@ const MAPS = {
   premiums:mapping(['PremiumsEarnedNet'],['InsuranceRevenue']),
   investmentIncome:mapping(['InvestmentIncomeNet'],[]),
   interestIncome:mapping(['InvestmentIncomeInterest','InterestIncomeOperating','InterestAndDividendIncomeOperating'],['InterestIncome','RevenueFromInterest','InterestRevenueCalculatedUsingEffectiveInterestMethod']),
-  netInterestIncome:mapping(['InterestIncomeExpenseNet'],[]),
+  netInterestIncome:mapping(['InterestIncomeExpenseNet'],['InterestRevenueExpense']),
   nonInterestIncome:mapping(['NoninterestIncome'],[]),
   // Bank and insurer lines read for the industry panels. Each is a filed face
   // line, not a ratio: noninterest expense, the credit-loss provision, and the
@@ -49,11 +49,11 @@ const MAPS = {
   incomeTaxExpense:mapping(['IncomeTaxExpenseBenefit'],['IncomeTaxExpenseContinuingOperations']),
   incomeBeforeTax:mapping(['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'],['ProfitLossBeforeTax']),
   // A partnership reports earnings per unit, not per share (AllianceBernstein Holding, Natural Resource Partners).
-  eps:mapping(['EarningsPerShareBasic','NetIncomeLossPerOutstandingLimitedPartnershipUnitBasicNetOfTax','EarningsPerShareBasicAndDiluted','NetIncomeLossPerOutstandingLimitedPartnershipAndGeneralPartnershipUnitBasicAndDiluted'],['BasicEarningsLossPerShare','BasicAndDilutedEarningsLossPerShare'],'parent'),
+  eps:mapping(['EarningsPerShareBasic','NetIncomeLossPerOutstandingLimitedPartnershipUnitBasicNetOfTax','EarningsPerShareBasicAndDiluted','NetIncomeLossPerOutstandingLimitedPartnershipAndGeneralPartnershipUnitBasicAndDiluted','IncomeLossFromContinuingOperationsPerBasicShare','IncomeLossFromContinuingOperationsPerBasicAndDilutedShare'],['BasicEarningsLossPerShare','BasicAndDilutedEarningsLossPerShare'],'parent'),
   weightedAverageSharesOutstanding:mapping(['WeightedAverageNumberOfSharesOutstandingBasic','WeightedAverageNumberOfShareOutstandingBasicAndDiluted'],['WeightedAverageNumberOfSharesOutstandingBasic','WeightedAverageShares'],'parent'),
   weightedAverageSharesDiluted:mapping(['WeightedAverageNumberOfDilutedSharesOutstanding','WeightedAverageNumberOfShareOutstandingBasicAndDiluted'],['AdjustedWeightedAverageShares'],'parent'),
   // A filer with no dilutive securities reports one figure tagged as both basic and diluted.
-  dilutedEPS:mapping(['EarningsPerShareDiluted','NetIncomeLossNetOfTaxPerOutstandingLimitedPartnershipUnitDiluted','EarningsPerShareBasicAndDiluted','NetIncomeLossPerOutstandingLimitedPartnershipAndGeneralPartnershipUnitBasicAndDiluted'],['DilutedEarningsLossPerShare','BasicAndDilutedEarningsLossPerShare'],'parent'),
+  dilutedEPS:mapping(['EarningsPerShareDiluted','NetIncomeLossNetOfTaxPerOutstandingLimitedPartnershipUnitDiluted','EarningsPerShareBasicAndDiluted','NetIncomeLossPerOutstandingLimitedPartnershipAndGeneralPartnershipUnitBasicAndDiluted','IncomeLossFromContinuingOperationsPerDilutedShare','IncomeLossFromContinuingOperationsPerBasicAndDilutedShare'],['DilutedEarningsLossPerShare','BasicAndDilutedEarningsLossPerShare'],'parent'),
   // Helper inputs sit last so they can never set a row's period ahead of an original field.
   revenueFromSaleOfGoods:mapping([],['RevenueFromSaleOfGoods']),
   otherRevenue:mapping([],['OtherRevenue']),
@@ -171,12 +171,18 @@ const MAPS = {
 // difference is nil: net income to common equals net income when no preferred
 // dividend is reported, and continuing-operations cash flow equals total cash
 // flow when no discontinued operating cash flow is reported.
+const DISCONTINUED_EPS = [...['IncomeLossFromDiscontinuedOperationsNetOfTax','DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTax'].flatMap(t=>['PerDilutedShare','PerBasicShare','PerBasicAndDilutedShare'].map(x=>'us-gaap:'+t+x)),
+ 'us-gaap:IncomeLossFromDiscontinuedOperationsNetOfTax','us-gaap:IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity','us-gaap:IncomeLossFromDiscontinuedOperationsNetOfTaxIncludingPortionAttributableToNoncontrollingInterest'];
 const STAND_INS = {
  'us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic':['us-gaap:PreferredStockDividendsIncomeStatementImpact','us-gaap:DividendsPreferredStock','us-gaap:PreferredStockDividendsAndOtherAdjustments','us-gaap:NetIncomeLossAttributableToNoncontrollingInterest'],
  'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations':['us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],
  'ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations':['ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations'],
  'us-gaap:NetCashProvidedByUsedInInvestingActivitiesContinuingOperations':['us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations'],
- 'us-gaap:NetCashProvidedByUsedInFinancingActivitiesContinuingOperations':['us-gaap:CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations']
+ 'us-gaap:NetCashProvidedByUsedInFinancingActivitiesContinuingOperations':['us-gaap:CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations'],
+ // Continuing-operations EPS is the company's EPS when it has no discontinued operations: Halliburton, Oshkosh and
+ // Hexcel tag their only EPS line so for FY2025 (2026-10-25 scan: 43 blank diluted and 41 blank basic latest years
+ // filled; 15 more report a discontinued line beside it and stay blank).
+ ...Object.fromEntries(['PerDilutedShare','PerBasicShare','PerBasicAndDilutedShare'].map(x=>['us-gaap:IncomeLossFromContinuingOperations'+x,DISCONTINUED_EPS]))
 };
 // Tags added on 2026-10-06 for filers that use nothing else. They are tried only
 // after every original tag in either taxonomy has come up empty, so no figure
@@ -239,10 +245,12 @@ const TOTAL_FLOORS = {'us-gaap:InvestmentIncomeInterest':['us-gaap:InterestIncom
  'us-gaap:InterestIncomeOperating':['us-gaap:InterestIncomeExpenseNet','us-gaap:InterestAndFeeIncomeLoansAndLeases']};
 const FILLS_ADDED = ['us-gaap:ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost','us-gaap:ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost','us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted','us-gaap:PaymentsOfDividendsCommonStock','us-gaap:PaymentsForRepurchaseOfEquity','us-gaap:AllocatedShareBasedCompensationExpense',
  'ifrs-full:SellingGeneralAndAdministrativeExpense','ifrs-full:InterestExpense','ifrs-full:BasicAndDilutedEarningsLossPerShare','ifrs-full:DepreciationAndAmortisationExpense','ifrs-full:AdjustmentsForDepreciationAndAmortisationExpense','ifrs-full:NumberOfSharesOutstanding','ifrs-full:PaymentsToAcquireOrRedeemEntitysShares','ifrs-full:AdjustmentsForSharebasedPayments',
- ...IFRS_ADDED,...EQUIVALENTS_ADDED];
+ ...IFRS_ADDED,...EQUIVALENTS_ADDED,...['PerDilutedShare','PerBasicShare','PerBasicAndDilutedShare'].map(x=>'us-gaap:IncomeLossFromContinuingOperations'+x)];
 // A figure one of them gives yields to the line the statement presents (a note's share-based expense, $900k,
 // is not the cash-flow add-back of $588k), and a quarter does not follow its year onto one of them.
-const FILLS=new Set(FILLS_ADDED);
+// Fill-only like FILLS_ADDED, so a presented total line still takes its place (sec-facts extract, equity REITs).
+const LEASE_REVENUE='OperatingLeaseLeaseIncome';
+const FILLS=new Set([...FILLS_ADDED,'us-gaap:'+LEASE_REVENUE]);
 const BORROWED = {income:['depreciationAndAmortization'],cash:['cashFlowNetIncome']};
 const FORM = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
 function scope(concept, fallback) {
@@ -331,26 +339,37 @@ function liabilitiesAndEquity(out,row,document) {
  row[T]=pick.val;row._sources[T]=[factSource(out,pick)];row._scopes[T]=scope(pick.concept,'entity');delete row._signs[T];delete row._derivations[T];
 }
 function factSource(out,f) {
- const s={type:'sec_xbrl_fact',cik:out.cik,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(out.cik)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.annualFiling?{annualFiling:f.annualFiling}:{}),...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
+ const s={type:'sec_xbrl_fact',cik:out.cik,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(out.cik)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.annualFiling?{annualFiling:f.annualFiling}:{}),...(f.filedStart?{filedPeriodStart:f.filedStart,periodCorrection:'year_tagged_on_quarter_context'}:{}),...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
  const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;return id;
 }
 
+// An investment company under ASC 946 (a business development company, a listed credit fund) files its
+// financial highlights: net asset value per share and the InvestmentCompany* ratios. Its loans and
+// securities are bought and sold through operating cash flow, so it has no free cash flow. Measured
+// 2026-10-25 on the company facts of every issuer we cover: 49 file both in a 10-K since 2024, all BDCs
+// with no SIC (ARCC, MAIN, FSK, OBDC); biotechs, Medallion and WisdomTree file one tag or two, never both.
+function investmentCompany(document,asOf) {
+ const g=document.facts?.['us-gaap'] || {},since=String(Number(asOf.slice(0,4))-2)+asOf.slice(4);
+ const filed=t=>Object.values(g[t]?.units || {}).some(fs=>Array.isArray(fs) && fs.some(f=>/^10-K/.test(f?.form || '') && (f.filed || '')>=since));
+ return filed('NetAssetValuePerShare') && Object.keys(g).filter(t=>/^InvestmentCompany/.test(t) && filed(t)).length>=3;
+}
 function extract(document, evidence, {asOf = p.day(new Date().toISOString()), statementLines = []} = {}) {
  const issuer = p.cik(document?.cik);
  if (!issuer || issuer !== p.cik(evidence?.cik) || !document.facts || typeof document.facts !== 'object') throw new Error('SEC_IDENTITY_MISMATCH');
  const out = {schemaVersion:1,extractionVersion:EXTRACTION_VERSION,reportingSic:String(evidence.sic || ''),validationVersion:VALIDATION_VERSION,cik:issuer,issuerName:document.entityName || evidence.issuerName || '',fetchedAt:new Date().toISOString(),factsDigest:p.digest(document),income:{annualReports:[],quarterlyReports:[]},balance:{annualReports:[],quarterlyReports:[]},cash:{annualReports:[],quarterlyReports:[]},sources:{},issues:[]};
+ if(investmentCompany(document,asOf))out.investmentCompany=true;
  const rows = [];
  const wanted = new Map();
  for(const fields of Object.values(MAPS)) for(const def of Object.values(fields)) for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) wanted.set(taxonomy + ':' + concept,true);
  for(const guards of Object.values(STAND_INS)) for(const concept of guards) wanted.set(concept,true);
  const fillGuards=[...new Set([...Object.values(FILL_GUARDS),...Object.values(TOTAL_FLOORS)].flat())].filter(concept=>!wanted.has(concept));for(const concept of fillGuards)wanted.set(concept,true);
- wanted.set('us-gaap:CostsAndExpenses',true);
+ wanted.set('us-gaap:CostsAndExpenses',true);wanted.set('us-gaap:'+LEASE_REVENUE,true);
  // Tags introduced on 2026-10-06 may fill a figure but never add a reporting
  // period of their own, so the set of years and quarters is what it was.
  // A figure a guard turned down is recorded, so neither a presented line under the same tag nor the same-filing
  // last-good rule (sec-last-good.js) puts it back: FBS Global 2025 cash of S$4.0m beside S$5.3m of equivalents was.
  const rejected=new Map(),reject=(st,basis,end,field,tag)=>{const k=st+'|'+basis+'|'+end+'|'+field;if(!rejected.has(k))rejected.set(k,new Set());rejected.get(k).add(tag);};
- const added=new Set([...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...FILLS_ADDED,...fillGuards]);
+ const added=new Set(['us-gaap:'+LEASE_REVENUE,...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...FILLS_ADDED,...fillGuards]);
  for(const [taxonomy, concepts] of Object.entries(document.facts)) for(const [concept, def] of Object.entries(concepts)) {
   if(!wanted.has(taxonomy + ':' + concept)) continue;
   for(const [unit, facts] of Object.entries(def.units || {})) for(const f of facts) {
@@ -360,6 +379,32 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    if(days !== null && days <= 0) continue;
    rows.push({taxonomy,concept,unit,val,start,end,days,filed,form:f.form,accn:f.accn,original:f._original || null});
   }
+ }
+ // L3Harris's FY2025 10-K tags the year's revenue ($21.865bn) and cost of revenue on the fourth-quarter context
+ // (2025-10-04 to 2026-01-02) and its 2024 comparative on both the year and the quarter; its own release puts
+ // Q4 2025 at $5.6bn. In an annual filing whose quarter context repeats the figure of a year it also files as a
+ // year, a quarter figure is the year's: it is dropped as a quarter, and at a year end with no year figure it
+ // moves to the year's span when it exceeds every nine-month 10-Q figure for that year, which a quarter cannot.
+ {
+  const filings=new Map(),drop=new Set();
+  for(const r of rows)if(/^(10-K|20-F|40-F)(\/A)?$/.test(r.form)){if(!filings.has(r.accn))filings.set(r.accn,new Map());const g=filings.get(r.accn),k=r.taxonomy+':'+r.concept+'|'+r.unit;if(!g.has(k))g.set(k,[]);g.get(k).push(r);}
+  for(const groups of filings.values()){
+   const starts=new Map();for(const g of groups.values())for(const r of g)if(r.days>=340 && r.days<=380){const n=starts.get(r.end) || new Map();n.set(r.start,(n.get(r.start) || 0)+1);starts.set(r.end,n);}
+   for(const g of groups.values()){
+    const year=g.filter(r=>r.days>=340 && r.days<=380),quarter=g.filter(r=>r.days>=75 && r.days<=QUARTER_MAX_DAYS && r.val!==0);
+    const copied=quarter.filter(q=>year.some(y=>y.end===q.end && y.val===q.val));
+    if(!copied.length)continue;
+    for(const q of copied)drop.add(q);
+    for(const q of quarter){
+     if(copied.includes(q) || year.some(y=>y.end===q.end) || !starts.has(q.end))continue;
+     const start=[...starts.get(q.end)].sort((x,y)=>y[1]-x[1])[0][0];
+     const nine=rows.filter(r=>r.taxonomy===q.taxonomy && r.concept===q.concept && r.unit===q.unit && r.start===start && r.days>=250 && r.days<=290 && /^10-Q/.test(r.form));
+     if(!nine.length || !nine.every(n=>Math.sign(n.val)===Math.sign(q.val) && Math.abs(q.val)>Math.abs(n.val)))continue;
+     drop.add(q);rows.push({...q,start,days:(Date.parse(q.end)-Date.parse(start))/DAY+1,filedStart:q.start});
+    }
+   }
+  }
+  if(drop.size){const kept=rows.filter(r=>!drop.has(r));rows.length=0;for(const r of kept)rows.push(r);}
  }
  // Canadian National files its audited annual statements in a 6-K on the day of the 40-F that
  // incorporates them, and the 40-F's own XBRL is one cover-page share count (every year since
@@ -432,9 +477,13 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  // A line fills an empty figure in a period built above, from a filing the period's
  // row already cites, and never adds a year, a quarter or a derived figure.
  const lineIndex=new Map(),startsAt=new Map();
- const presented=new Map();
+ const presented=new Map(),capexIndex=new Map();
  for(const l of Array.isArray(statementLines)?statementLines:[]){
   if(l?.k==='debt'){if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && Array.isArray(l.c))presented.set(l.a,l.c);continue;}
+  if(l?.k==='capex'){
+   if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && FORM.test(l.m || '') && p.day(l.e) && p.day(l.d) && (l.q===1 || l.q===4) && /^[A-Z]{3}$/.test(l.u || '') && Array.isArray(l.c) && l.c.length && [l.t,l.l,l.v].every(x=>Array.isArray(x) && x.length===l.c.length) && l.v.every(Number.isFinite)){if(!capexIndex.has(l.e))capexIndex.set(l.e,[]);capexIndex.get(l.e).push(l);}
+   continue;
+  }
   if(!l || !MAPS[l.s]?.[l.f] || !p.day(l.e) || !p.day(l.d) || !Number.isFinite(l.v) || !/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') || !FORM.test(l.m || '') || !l.t || !l.c)continue;
   const k=l.s+'|'+l.f+'|'+l.e;if(!lineIndex.has(k))lineIndex.set(k,[]);lineIndex.get(k).push(l);
  }
@@ -481,6 +530,41 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    row[field]=negate?-Math.abs(l.v):l.v;row._sources[field]=[id];row._scopes[field]=s.scope;if(negate)row._signs[field]=-1;else delete row._signs[field];delete row._derivations[field];
    if(st!=='balance')row.periodStart=start;
   }
+ }
+ // Capital spending as the sum of the capital-spending lines the cash-flow statement presents (statement-lines
+ // capexLine). It fills a period with no figure, or one read from a single presented line of the same filing
+ // that the sum includes: Mattel 2025 presents $110.6m of other property, plant and equipment and its tools,
+ // dies and molds on a tag of its own, $182.0m in all. A standard capex tag the row already holds is kept.
+ function presentedCapex(basis,row,end,cur) {
+  const F='capitalExpenditures',held=(row._sources[F] || []).map(id=>out.sources[id]),own=!row._derivations?.[F];
+  const weak=held.length && own && held.every(s=>s && FILLS.has(s.taxonomy+':'+s.concept)),single=held.length===1 && own && held[0]?.verificationMethod==='statement_line';
+  if(row[F]!==null && !weak && !single || !row.periodStart)return;
+  const cited=new Map();for(const ids of Object.values(row._sources))for(const id of ids){const s=out.sources[id];if(s?.accessionNumber && !cited.has(s.accessionNumber))cited.set(s.accessionNumber,s);}
+  const q=basis==='annual'?4:1,restrict=basis==='annual' && a?.reportDate===end;
+  const l=(capexIndex.get(end) || []).filter(x=>x.q===q && x.u===cur && cited.has(x.a) && (!restrict || annualAccessions.has(x.a)) && x.d>=end && x.d<=asOf
+   && (basis!=='annual' || /^(10-K|20-F|40-F)(\/A)?$/.test(x.m) || !!cited.get(x.a).annualFiling)).sort((x,y)=>y.d.localeCompare(x.d)||y.a.localeCompare(x.a))[0];
+  if(!l || single && (l.c.length<2 || held[0].accessionNumber!==l.a || !l.c.includes(held[0].concept)))return;
+  // A standard tag is read against the company facts of the same filing and span, as fillFromLines does.
+  const values=[];
+  for(let i=0;i<l.c.length;i++){
+   let v=l.v[i];
+   if(l.t[i]!=='custom' && document.facts[l.t[i]]){
+    const filed=new Set(Object.entries(document.facts[l.t[i]][l.c[i]]?.units || {}).filter(([u])=>u===cur).flatMap(([,fs])=>fs)
+     .filter(f=>f.accn===l.a && p.day(f.end)===end && (f.start?p.day(f.start):null)===row.periodStart).map(f=>p.number(f.val)).filter(x=>x!==null));
+    if(filed.size>1)return;if(filed.size===1)v=[...filed][0];
+   }
+   values.push(v);
+  }
+  if(!p.presentedCapexFacts(l.c,values))return;
+  const value=-Math.abs(values.reduce((n,v)=>n+v,0));
+  if(single && value===row[F])return;
+  const from=cited.get(l.a),ids=l.c.map((concept,i)=>{
+   const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:l.t[i],concept,unit:cur,rawValue:values[i],periodStart:row.periodStart,periodEnd:end,form:l.m,filingDate:l.d,accessionNumber:l.a,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${l.a.replace(/-/g,'')}/${l.a}-index.htm`,linkage:'xbrl_fact',...(from.annualFiling?{annualFiling:from.annualFiling}:{}),
+    verificationMethod:'statement_line',dataSet:'SEC Financial Statement Data Sets',presentationLabel:l.l[i],periodQuarters:l.q,...(values[i]!==l.v[i]?{dataSetValue:l.v[i]}:{}),accountingBasis:from.accountingBasis || 'US GAAP',scope:MAPS.cash[F].scope,retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
+   const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;return id;
+  });
+  row[F]=value;row._sources[F]=ids;row._scopes[F]=MAPS.cash[F].scope;row._signs[F]=-1;
+  row._derivations[F]={formula:'sum_presented_capex',inputValues:values,presentedConcepts:[...l.c]};
  }
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
@@ -594,7 +678,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    if(basis==='quarterly' && st!=='balance')for(let i=candidates.length-1;i>=0;i--){const c=candidates[i];if(c.val!==0 && all.some(r=>r.accn===c.accn && r.end===c.end && r.days>=340 && r.val===c.val))candidates.splice(i,1);}
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
-   const guards=['netIncome','operatingCashflow','cashflowFromInvestment','cashflowFromFinancing'].includes(field) && STAND_INS[taxonomy+':'+concept];
+   const guards=['netIncome','operatingCashflow','cashflowFromInvestment','cashflowFromFinancing','eps','dilutedEPS'].includes(field) && STAND_INS[taxonomy+':'+concept];
    const parts=FILL_GUARDS[taxonomy+':'+concept],floors=TOTAL_FLOORS[taxonomy+':'+concept];
    const differs=f=>guards && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val!==0)
     || parts && rows.some(r=>parts.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.val!==0)
@@ -653,7 +737,17 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
      if(row.totalRevenue!==null && row.netInterestIncome!==null && row.nonInterestIncome!==null && row.totalRevenue!==row.netInterestIncome+row.nonInterestIncome && p.verifiedField(out,row,'netInterestIncome') && p.verifiedField(out,row,'nonInterestIncome')
       && row._scopes.netInterestIncome===row._scopes.nonInterestIncome && filings('netInterestIncome')===filings('nonInterestIncome')){row.totalRevenue=null;delete row._sources.totalRevenue;delete row._scopes.totalRevenue;delete row._derivations.totalRevenue;}
      combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
+     // An IFRS bank has no noninterest-income total to add; Santander and BBVA present their top line ("Total
+     // income", "Gross profit" — margen bruto) on the gross-profit tag, with no cost of sales above it. On a
+     // bank that line is the revenue, moved rather than shown twice.
+     if(row.totalRevenue===null && row.costOfRevenue===null && row.grossProfit!==null && row.grossProfit>0 && row._sources.grossProfit.every(id=>out.sources[id].taxonomy==='ifrs-full') && p.verifiedField(out,row,'grossProfit')){
+      row.totalRevenue=row.grossProfit;row._sources.totalRevenue=row._sources.grossProfit;row._scopes.totalRevenue=row._scopes.grossProfit;
+      row.grossProfit=null;delete row._sources.grossProfit;delete row._scopes.grossProfit;delete row._derivations.grossProfit;
+     }
     }
+    // A card or consumer lender (Synchrony 6199, SLM and OneMain 6141) files the same two parts and no total;
+    // only fill the blank here, never replace a filed "Revenues" figure as the depository rule above does.
+    else if(/^61/.test(String(evidence.sic || '')))combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
     if(row.totalRevenue===null && row.revenueFromSaleOfGoods!==null && row.otherRevenue!==null && row.grossProfit!==null && row.costOfRevenue!==null && row.revenueFromSaleOfGoods+row.otherRevenue===row.grossProfit+row.costOfRevenue)combine('totalRevenue','revenueFromSaleOfGoods','otherRevenue','sum_fields');
     // Filled only when the year has no revenue figure, never in place of one,
     // and never from a line smaller than the profit it would have to produce:
@@ -661,6 +755,17 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     // company's total. The filed line stays the cited source.
     if(row.totalRevenue===null && row.reportedRevenueTotal!==null && row.reportedRevenueTotal>0 && p.verifiedField(out,row,'reportedRevenueTotal') && row.netIncome!==null && row.reportedRevenueTotal>=Math.abs(row.netIncome)) {
      row.totalRevenue=row.reportedRevenueTotal;row._sources.totalRevenue=row._sources.reportedRevenueTotal;row._scopes.totalRevenue=row._scopes.reportedRevenueTotal;
+    }
+    // An equity REIT whose rent is its one revenue line files no total: American Homes 4 Rent's 2025 statement
+    // opens with "Rents and other single-family property revenues" on the lease-income tag and goes on to its
+    // expenses (Industrial Logistics, American Strategic the same). Read from the filing and span of the row's net
+    // income, never for a lender (net interest income is its top line) or below the profit it would produce.
+    if(row.totalRevenue===null && out.reportingSic==='6798' && row.netInterestIncome===null && row.netIncome!==null && row.periodStart && p.verifiedField(out,row,'netIncome')){
+     const accn=out.sources[row._sources.netIncome[0]]?.accessionNumber;
+     const lease=(byConceptUnit.get('us-gaap:'+LEASE_REVENUE+'|'+cur) || []).filter(r=>r.accn===accn && r.end===end && r.start===row.periodStart);
+     // Blackstone Mortgage Trust and Granite Point also file rent, from foreclosed property: a lender's interest
+     // income outweighs it, and their "other income" total marks them too.
+     if(lease.length && new Set(lease.map(r=>r.val)).size===1 && lease[0].val>0 && lease[0].val>=Math.abs(row.netIncome) && row.nonInterestIncome===null && !(Math.abs(row.interestIncome ?? 0)>=lease[0].val)){row.totalRevenue=lease[0].val;row._sources.totalRevenue=[source(lease[0])];row._scopes.totalRevenue=scope(LEASE_REVENUE,MAPS.income.totalRevenue.scope);}
     }
     if(!/^(602|603|609|63)/.test(out.reportingSic))combine('grossProfit','totalRevenue','costOfRevenue','difference_fields');
    }
@@ -670,6 +775,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     combine('shortLongTermDebtTotal','shortTermDebt','longTermDebt','sum_fields');
    }
    if(lineIndex.size)fillFromLines(st,basis,row,end,cur);
+   if(st==='cash' && capexIndex.size)presentedCapex(basis,row,end,cur);
    if(st==='balance' && presented.size)presentedDebt(out,row,presented,document);
    if(st==='balance')liabilitiesAndEquity(out,row,document);
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}

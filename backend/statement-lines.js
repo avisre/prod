@@ -29,7 +29,7 @@ const re=s=>new RegExp(s);
 // [statement, field, label, tag?]. Labels are matched whole, after normalising case, spacing
 // and quotes; a rule with a fourth entry also needs the line's tag to match it.
 const RULES=[
- ['IS','totalRevenue',/^(?:total )?(?:net )?(?:operating )?(?:revenues?|sales)(?:, net| net)?$|^total (?:net )?(?:revenues?|sales)$|^revenues?, net$|^net (?:sales|revenues?)$/],
+ ['IS','totalRevenue',/^(?:total )?(?:net )?(?:operating )?(?:revenues?|sales)(?:, net| net)?$|^total (?:net )?(?:revenues?|sales)$|^revenues?, net$|^net (?:sales|revenues?)$|^total (?:home )?closing revenues?$|^total income$/],
  ['IS','costOfRevenue',/^(?:total )?cost of (?:revenues?|sales|goods sold|products sold)$/],
  ['IS','grossProfit',/^gross (?:profit|margin|loss|\(loss\) profit|profit \(loss\))$/],
  ['IS','operatingIncome',re(`^(?:total )?operating ${ANY}$|^${ANY} from operations$`)],
@@ -115,7 +115,7 @@ function mappedTags(){
 // statement of that filing presents a noncontrolling interest, so that a bare
 // "net income" or total is the consolidated figure, not the parent's. `crdr` is
 // the tag's declared balance (tag.txt), when it is known.
-function fieldsFor(stmt,plabel,tag,{custom=false,mapped=new Set(),noncontrolling=false,crdr}={}) {
+function fieldsFor(stmt,plabel,tag,{custom=false,mapped=new Set(),noncontrolling=false,crdr,memberTotal=false}={}) {
  const full=label(plabel),text=netLabel(full);if(!STATEMENT[stmt] || !text || EXCLUDE.test(full) || TAG_DENY.test(tag) || (!custom && STD_DENY.has(tag)))return [];
  const out=[];
  for(const [s,field,rule,tagRule] of RULES){
@@ -129,9 +129,19 @@ function fieldsFor(stmt,plabel,tag,{custom=false,mapped=new Set(),noncontrolling
   out.push(...fields);
  }
  // A standard tag of ours reaches the cell already, except a per-class EPS figure,
- // which the company-facts feed drops with every other dimensional fact.
- if(!custom && mapped.has(tag) && !out.every(f=>f==='eps' || f==='dilutedEPS'))return [];
+ // which the company-facts feed drops with every other dimensional fact, and, for the
+ // builder (memberTotal), a total revenue filed only under one product member.
+ if(!custom && mapped.has(tag) && !out.every(f=>f==='eps' || f==='dilutedEPS' || memberTotal && f==='totalRevenue'))return [];
  return [...new Set(out)];
+}
+// The one member of a product breakdown that is the whole (build-statement-lines): [member, value] of the largest
+// member, when it and no other is the exact sum of two or more of the other positive members, else null.
+function memberTotal(members){
+ if(members.length<3 || members.length>16)return null;
+ const top=Math.max(...members.map(x=>x[1]));
+ const sums=(parts,v)=>{for(let mask=1;mask<1<<parts.length;mask++){let n=0,c=0;for(let i=0;i<parts.length;i++)if(mask&1<<i){n+=parts[i];c++;}if(c>=2 && Math.abs(n-v)<0.5)return true;}return false;};
+ const totals=members.filter(([k,v])=>v>0 && sums(members.filter(x=>x[0]!==k && x[1]>0).map(x=>x[1]),v));
+ return totals.length===1 && totals[0][1]===top?totals[0]:null;
 }
 // A fact on a dimension is kept only for a per-share figure filed for one class of stock.
 function acceptedDimension(segments,field){if(!segments)return true;return (field==='eps' || field==='dilutedEPS') && /^ClassOfStock=[^;=]+;?$/.test(segments);}
@@ -145,6 +155,24 @@ function debtLine(tag,plabel){
  if(/operating lease|lease liabilit|interest payable|accrued interest|securities|issuance cost|warrant|derivative|deferred|tax|receivable|other than|equity|guarantee/.test(text.replace(/,? *(?:net of|less|including|excluding)\b[^|]*$/,'')))return false;
  return /debt|borrowing|\bnotes?\b|commercial paper|\bloans?\b|credit facilit|lines? of credit|debentures?|revolv|mortgages?\b|\bbonds?\b|federal home loan|fhlb|convertible/.test(text);
 }
+// A cash-flow line that is money spent on the company's own long-lived assets: property and equipment,
+// software it builds or buys, tooling. Capital spending is often split over several lines, one of them on a
+// tag of the company's own (Mattel 2025: $110.6m of property, plant and equipment beside its tools, dies and
+// molds, $182.0m in all), so the lines are summed (sec-facts presentedCapex). Proceeds, businesses bought,
+// investments and the noncash supplemental lines ("purchases included in accounts payable") are not spending.
+function capexLine(tag,plabel){
+ const words=String(tag || '').replace(/([a-z])([A-Z])/g,'$1 $2').toLowerCase(),text=label(plabel);
+ if(/proceeds|sales? of|sold|disposal|dispositions?|business|acquired|investments? in|securities|accounts payable|accrued|non-?cash|unpaid|not (?:yet )?paid|but not|pending|on account|payment terms|included in|liabilit|financed|financings?|financing activities|finance lease|capital lease|exchange|right of use|repayments?|principal|\bnotes?\b|deposit|affiliate|compensation|stock-based|share-based|depreciation|amorti[sz]ation|impairment|decommission|operating activities|advance|in credit|prior (?:years?|periods?)|transferred|prepaid|incentive|discontinued|held for sale|related part|reimburse|insurance|grants?\b|total/.test(words+' | '+text))return false;
+ if(CAPEX_TAGS.has(tag))return true;
+ const spent=/^(?:purchases?|acquisitions?|additions?|payments?|expenditures?|investments?|capitali[sz]ed|capitali[sz]ation of|capital expenditures?|cash paid|spending)\b/;
+ const asset=/property,? (?:plant|and|&)|plant|equipment|software|fixed assets?|tools|dies|molds|moulds|tooling|productive assets|capital improvements|leasehold improvements|premises|computer/;
+ return spent.test(text) && asset.test(text) || /^capital expenditures?$/.test(text);
+}
+// Standard tags that are capital spending whatever the line is called ("software development costs").
+// The "other productive assets" and "other property" tags are not among them: filed under those were
+// land purchases, "acquisition of new communities" and "purchases of other assets" (2026q1 annual reports),
+// and under the productive-assets tag businesses bought ("cash paid for asset acquisitions").
+const CAPEX_TAGS=new Set(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsForSoftware','PaymentsToAcquireSoftware','PaymentsToDevelopSoftware','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']);
 const DIR=()=>path.join(p.DATA_DIR,'sec-statement-lines');
 function forCik(cik){const id=p.cik(cik);if(!id)return [];try{const doc=JSON.parse(fs.readFileSync(path.join(DIR(),id+'.json'),'utf8'));return doc.cik===id && Array.isArray(doc.lines)?doc.lines:[];}catch(e){if(e.code==='ENOENT')return [];throw e;}}
-module.exports={RULES,BALANCE,debtLine,fieldsFor,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT};
+module.exports={RULES,BALANCE,debtLine,capexLine,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT};

@@ -77,6 +77,16 @@ function presentedDebtFacts(concepts, values, row) {
     const cap=number(row.totalLiabilities) ?? number(row.totalAssets);
     return cap!==null && values.reduce((a,b)=>a+b,0)<=cap;
 }
+// The capital-spending lines one cash-flow statement presents for a period (statement-lines capexLine), as
+// filed: all one sign, no line the sum of others (a subtotal, or one figure shown twice), and the
+// productive-assets total never beside other lines, which can be its own parts (Entergy 2025).
+function presentedCapexFacts(concepts, values) {
+    if(!concepts.length || concepts.length!==values.length || new Set(concepts).size!==concepts.length || values.some(v=>number(v)===null))return false;
+    if(!(values.every(v=>v>=0) || values.every(v=>v<=0)) || values.every(v=>v===0))return false;
+    if(concepts.length>1 && concepts.includes('PaymentsToAcquireProductiveAssets'))return false;
+    for(let j=0;j<values.length;j++){const others=values.filter((_,k)=>k!==j);if(values[j]!==0 && others.length && others.length<=12)for(let m=1;m<(1<<others.length);m++){let s=0;for(let b=0;b<others.length;b++)if(m>>b&1)s+=others[b];if(s===values[j])return false;}}
+    return true;
+}
 // These narrower/broader concepts are not equivalent to the displayed field.
 const INCOMPATIBLE={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
 function verifiedField(data, row, field, accessions) {
@@ -128,6 +138,14 @@ function verifiedField(data, row, field, accessions) {
     // A 6-K counts only as the annual statements of the 20-F or 40-F filed that same day.
     const annualSource=s=>/^(10-K|20-F|40-F)(\/A)?$/.test(s.form) || (s.form==='6-K' && /^(20-F|40-F)$/.test(s.annualFiling?.form || '') && /^\d{10}-\d{2}-\d{6}$/.test(s.annualFiling.accessionNumber || '') && s.annualFiling.filingDate===s.filingDate);
     if (row.periodType==='annual' && sources.some(s=>!annualSource(s) ||(Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1<340 || (Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1>380)) return false;
+    // Capital spending as the sum of the lines one cash-flow statement presents (sec-facts presentedCapex):
+    // every part a statement line of one filing, for this row's own span.
+    if (derived?.formula === 'sum_presented_capex') {
+        if (field !== 'capitalExpenditures' || !Array.isArray(derived.presentedConcepts) || sources.length !== derived.presentedConcepts.length || row.periodType === 'instant') return false;
+        if (!sources.every((s, i) => s.verificationMethod === 'statement_line' && s.periodStart === row.periodStart && s.concept === derived.presentedConcepts[i] && s.accessionNumber === sources[0].accessionNumber)) return false;
+        const values = sources.map(s => number(s.rawValue)), sum = values.reduce((a, b) => a + b, 0);
+        return presentedCapexFacts(derived.presentedConcepts, values) && row._signs?.[field] === -1 && number(row[field]) === -Math.abs(sum);
+    }
     if (!row._derivations?.[field] && sources.length !== 1) return false;
     if (!row._derivations?.[field] && number(row[field]) !== (row._signs?.[field] === -1 ? -Math.abs(number(sources[0].rawValue)) : number(sources[0].rawValue))) return false;
     if (derived) {
@@ -192,4 +210,4 @@ function validateFinancial(data, expectedCik, asOf=day(new Date().toISOString())
     for(const g of data.segmentObservations || [])if(!require('./sec-segment-observations').validGroup(g,data))errors.push('Invalid segment disclosure provenance '+g.periodEnd);
     return errors;
 }
-module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS, presentedDebtFacts };
+module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS, presentedDebtFacts, presentedCapexFacts };

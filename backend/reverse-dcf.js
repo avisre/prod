@@ -58,7 +58,7 @@ async function computeReverseDcf(symbol, opts = {}) {
 // can compute without the async loader.
 function computeFromData(symbol, data, opts = {}) {
     const ov = data.overview || {};
-    if (industryMetrics.hasNoFcf(data)) return { error: `Not run: ${industryMetrics.NO_FCF}` };
+    if (industryMetrics.hasNoFcf(data)) return { error: `Not run: ${industryMetrics.noFcfReason(data)}` };
     if(data.marketData?.currency && data.cash?.annualReports?.[0]?.reportedCurrency && data.marketData.currency!==data.cash.annualReports[0].reportedCurrency)return {error:'Valuation requires compatible financial and quote currencies; no verified conversion is supplied.'};
     const marketCap = num(ov.MarketCapitalization);
     const reports = ((data.cash || {}).annualReports || []).slice(0, 20); // newest first
