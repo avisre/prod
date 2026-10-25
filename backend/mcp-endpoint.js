@@ -68,6 +68,12 @@ const ANON_MCP_CONFIG = mcpAnon.config();
 // status.
 const KEYLESS_WALL_APPLIES = process.env.MCP_KEYLESS_WALL === 'true';
 
+// The scopes a tools/list entry advertises for its oauth2 security scheme.
+// app.js passes the live OAUTH_SCOPES list via deps.oauthScopes — requiring
+// app.js here would boot the whole server, so the fallback mirrors it and the
+// test suite pins the two together.
+const DEFAULT_OAUTH_SCOPES = ['financials:read', 'filings:read', 'research:read'];
+
 // First 512 characters are what a client reads most closely, so the order of
 // operations comes first and the honesty rules come second.
 const SERVER_INSTRUCTIONS = [
@@ -552,6 +558,19 @@ function errorResult(code, message, details, extra) {
     return { isError: true, content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }] };
 }
 
+// The account-linking handshake the AI clients implement (OpenAI Apps auth
+// docs, "Authenticate users"): a tool error result carrying
+// _meta['mcp/www_authenticate'] with a Bearer challenge is what makes the
+// client surface its sign-in UI instead of showing the model a dead end.
+// Only an anonymous refusal qualifies — a keyed caller's refusals mean
+// something else and are unchanged. No resourceMetadataUrl in deps (tests,
+// the npm bridge) means no challenge, exactly as before.
+function withWwwAuthenticate(result, deps, description) {
+    if (!deps || !deps.resourceMetadataUrl) return result;
+    const challenge = `Bearer resource_metadata="${deps.resourceMetadataUrl}", error="insufficient_scope", error_description="${description}"`;
+    return { ...result, _meta: { ...(result._meta || {}), 'mcp/www_authenticate': [challenge] } };
+}
+
 // These explain what is missing and stop. /mcp/apps, the surface submitted
 // under the OpenAI plugin guidelines (no plan, price or checkout in the app),
 // keeps its own commerce-neutral copy in mcp-apps.js and reads none of these.
@@ -590,84 +609,117 @@ function buildMcpServer(ctx, deps) {
     );
 
     // Discovery. No identity, entitlement or allowance is consulted here, and
-    // this handler cannot fail for an authentication reason — a client has to be
-    // able to read the schema before it can be told it is not allowed to use it.
-    server.setRequestHandler(ListToolsRequestSchema, async () => {
-        const tools = TOOL_DEFS.map((def) => ({
-            name: def.name,
-            title: def.title,
-            description: toolDescription(def),
-            inputSchema: def.inputSchema,
-            outputSchema: def.outputSchema,
-            // `title` belongs in BOTH places. Tool.title and
-            // ToolAnnotations.title are separate fields in the spec, and the
-            // directory's connector checker reads the annotation one: with only
-            // the top-level field set, all six tools came back "Missing title
-            // annotation. Add annotations.title" on the submission form
-            // (2026-10-01). Spread after so an explicit annotations.title, if one
-            // is ever added, still wins.
-            annotations: { title: def.title, ...def.annotations }
-        }));
-        logEvent(deps, { event: 'tools/list', toolCount: tools.length, caller: ctx.logId || null });
-        return { tools };
-    });
+    // this cannot fail for an authentication reason — a client has to be able
+    // to read the schema before it can be told it is not allowed to use it.
+    // Shared with the 2026-07-28 path (mcp-modern.js), which serves the same
+    // list without the SDK's initialize handshake.
+    server.setRequestHandler(ListToolsRequestSchema, async () => listToolsResult(ctx, deps));
 
-    server.setRequestHandler(CallToolRequestSchema, async (req) => {
-        const { name, arguments: rawArgs } = (req && req.params) || {};
-        const args = rawArgs && typeof rawArgs === 'object' && !Array.isArray(rawArgs) ? rawArgs : {};
-        const started = Date.now();
-        // What the call was about, for the account's own usage log. Only for a
-        // signed-in caller: a keyless one has no account to show it to.
-        const subject = ctx.anonymous ? null : connectorUsage.subjectFor(args);
-        const finish = (result, code) => {
-            logEvent(deps, {
-                event: 'tools/call',
-                tool: String(name || ''),
-                ok: !(result && result.isError),
-                code: code || null,
-                anonymous: Boolean(ctx.anonymous),
-                // Recorded even when it does not refuse, so the wall's real
-                // traffic share on this surface stays measurable while the
-                // policy above is off.
-                wall: ctx.anonymous ? (deps.wallReason || null) : null,
-                ms: Date.now() - started,
-                caller: ctx.logId || null
-            }, { subject });
-            return result;
-        };
+    server.setRequestHandler(CallToolRequestSchema, async (req) => callToolResult(ctx, deps, req.params));
 
-        const def = TOOL_BY_NAME.get(name);
+    return server;
+}
 
+// The tools/list answer, extracted so the modern (2026-07-28) path in
+// mcp-modern.js serves the identical list without the SDK's handshake.
+async function listToolsResult(ctx, deps) {
+    const scopes = Array.isArray(deps.oauthScopes) && deps.oauthScopes.length
+        ? deps.oauthScopes.slice()
+        : DEFAULT_OAUTH_SCOPES.slice();
+    const tools = TOOL_DEFS.map((def) => ({
+        name: def.name,
+        title: def.title,
+        description: toolDescription(def),
+        inputSchema: def.inputSchema,
+        outputSchema: def.outputSchema,
+        // Per-tool auth declaration (OpenAI Apps auth docs): a tool the keyless
+        // tier can run says so with `noauth`, and every protected tool also
+        // names the OAuth grant that unlocks it — which is what lets the
+        // client offer sign-in instead of a refusal.
+        securitySchemes: def.free
+            ? [{ type: 'noauth' }]
+            : [{ type: 'noauth' }, { type: 'oauth2', scopes }],
+        // `title` belongs in BOTH places. Tool.title and ToolAnnotations.title
+        // are separate fields in the spec, and the directory's connector checker
+        // reads the annotation one: with only the top-level field set, all six
+        // tools came back "Missing title annotation. Add annotations.title" on
+        // the submission form (2026-10-01). Spread after so an explicit
+        // annotations.title, if one is ever added, still wins.
+        annotations: { title: def.title, ...def.annotations }
+    }));
+    logEvent(deps, { event: 'tools/list', toolCount: tools.length, caller: ctx.logId || null });
+    return { tools };
+}
+
+// The tools/call answer, extracted for the same reason as listToolsResult.
+// `params` is the JSON-RPC params object ({name, arguments}) on both paths.
+async function callToolResult(ctx, deps, params) {
+    const { name, arguments: rawArgs } = params || {};
+    const args = rawArgs && typeof rawArgs === 'object' && !Array.isArray(rawArgs) ? rawArgs : {};
+    const started = Date.now();
+    // What the call was about, for the account's own usage log. Only for a
+    // signed-in caller: a keyless one has no account to show it to.
+    const subject = ctx.anonymous ? null : connectorUsage.subjectFor(args);
+    const finish = (result, code) => {
+        logEvent(deps, {
+            event: 'tools/call',
+            tool: String(name || ''),
+            ok: !(result && result.isError),
+            code: code || null,
+            anonymous: Boolean(ctx.anonymous),
+            // Recorded even when it does not refuse, so the wall's real
+            // traffic share on this surface stays measurable while the
+            // policy above is off.
+            wall: ctx.anonymous ? (deps.wallReason || null) : null,
+            // Which allowance this caller draws on: an AI platform's shared
+            // pool or the per-visitor window (ai-platform-egress.js).
+            platform: ctx.platform || null,
+            ms: Date.now() - started,
+            caller: ctx.logId || null
+        }, { subject });
+        return result;
+    };
+
+    const def = TOOL_BY_NAME.get(name);
+
+    try {
+        if (!def) {
+            return finish(errorResult('UNKNOWN_TOOL', `Unknown tool: ${name}`, {
+                available_tools: TOOL_DEFS.map((t) => t.name)
+            }), 'UNKNOWN_TOOL');
+        }
+
+        // The liveness probe is reachable by any caller. It touches no
+        // upstream service, costs nothing and holds no data, so gating it
+        // would break discovery testing for no benefit.
+        if (def.free) {
+            return finish(textResult(await def.handler(args)));
+        }
+
+        // ---- Everything below is a protected operation ----
+        // The order is deliberate: who is calling, then whether this
+        // network may use the free tier, then whether the allowance is
+        // spent. Each refusal is a tool result the model can read out.
+        const gate = await deps.limiter.check(
+            ctx.userId,
+            def.aiCost ? 'mcp_ask' : 'mcp_lookup',
+            deps.effectiveAskLimit(ctx),
+            ctx.subscription && ctx.subscription.planId,
+            ctx.user
+        );
+
+        // check() RESERVED a unit of the caller's allowance (mcp-anon.js).
+        // Several paths below can still refuse before spend() confirms it,
+        // and every one of them must hand the reservation back — or a
+        // refused call silently burns the free allowance. credits.js has no
+        // release(), hence the typeof guard.
+        let spent = false;
         try {
-            if (!def) {
-                return finish(errorResult('UNKNOWN_TOOL', `Unknown tool: ${name}`, {
-                    available_tools: TOOL_DEFS.map((t) => t.name)
-                }), 'UNKNOWN_TOOL');
-            }
-
-            // The liveness probe is reachable by any caller. It touches no
-            // upstream service, costs nothing and holds no data, so gating it
-            // would break discovery testing for no benefit.
-            if (def.free) {
-                return finish(textResult(await def.handler(args)));
-            }
-
-            // ---- Everything below is a protected operation ----
-            // The order is deliberate: who is calling, then whether this
-            // network may use the free tier, then whether the allowance is
-            // spent. Each refusal is a tool result the model can read out.
-            const gate = await deps.limiter.check(
-                ctx.userId,
-                def.aiCost ? 'mcp_ask' : 'mcp_lookup',
-                deps.effectiveAskLimit(ctx),
-                ctx.subscription && ctx.subscription.planId,
-                ctx.user
-            );
-
             if (ctx.anonymous && deps.wallReason && KEYLESS_WALL_APPLIES) {
                 const code = deps.wallReason === 'network' ? 'NETWORK_PAID_ONLY' : 'REGION_PAID_ONLY';
                 const message = deps.wallReason === 'network' ? MSG_NETWORK : MSG_REGION;
-                return finish(errorResult(code, message, { authenticate: true, tool: def.name }), code);
+                return finish(withWwwAuthenticate(errorResult(code, message, { authenticate: true, tool: def.name }), deps,
+                    'Sign in with a StockPortfolio.pro account to continue.'), code);
             }
 
             // A connected account whose plan does not include API/MCP access is
@@ -690,10 +742,10 @@ function buildMcpServer(ctx, deps) {
                     // earlier version guessed it from the refusal prose, which
                     // read "That was all 3 free questions…" as an auth failure.
                     const code = mcpAnon.enabled() ? 'QUOTA_EXCEEDED' : 'AUTHENTICATION_REQUIRED';
-                    return finish(errorResult(code, String(gate.message || MSG_NO_CREDENTIALS), {
+                    return finish(withWwwAuthenticate(errorResult(code, String(gate.message || MSG_NO_CREDENTIALS), {
                         authenticate: code === 'AUTHENTICATION_REQUIRED',
                         tool: def.name
-                    }), code);
+                    }), deps, 'Connect a StockPortfolio.pro account to continue.'), code);
                 }
                 // The published keyed-caller body is unchanged — quotaError's
                 // own fields stay at the top level, so a client written against
@@ -702,7 +754,7 @@ function buildMcpServer(ctx, deps) {
                 return finish(errorResult('QUOTA_EXCEEDED', q.error, q), 'QUOTA_EXCEEDED');
             }
 
-            // Anti-scraping: a cap on how many different companies one account
+            // The anti-scraping cap on different companies one account
             // pulls (company-breadth.js). Keyless callers are already held to a
             // small allowance, so only an account carries this dependency.
             const companies = deps.breadth && !ctx.anonymous ? companyBreadth.companiesIn(args) : [];
@@ -720,9 +772,10 @@ function buildMcpServer(ctx, deps) {
             const pendingNotice = connectorNotices.begin(deps, gate);
             let result = await def.handler(args);
             const notice = await pendingNotice;
-            // Charged after the work succeeded, so a failed lookup never spends
-            // the caller's allowance.
+            // Confirms the reservation check() made — a failed lookup never
+            // spends the caller's allowance.
             await deps.limiter.spend(ctx.userId, def.aiCost ? 'mcp_ask' : 'mcp_lookup', `mcp:${def.name}`, subject, ctx.client || null);
+            spent = true;
             if (companies.length) await deps.breadth.record(companies);
             result = connectorNotices.attach(result, notice);
 
@@ -737,10 +790,17 @@ function buildMcpServer(ctx, deps) {
                     window_days: gate.windowDays || 30,
                     resets_at: gate.resetsAt || null
                 };
-                result.notice = mcpAnon.askUsageNotice(gate.used + 1, gate.allowance, gate.windowDays || 30);
+                result.notice = mcpAnon.askUsageNotice(gate.used + 1, gate.allowance, gate.windowDays || 30, gate.pool || 'visitor');
             }
             return finish(textResult(result));
-        } catch (err) {
+        } finally {
+            if (!spent && gate.ok && typeof deps.limiter.release === 'function') {
+                // The reservation goes back on any refusal or a handler
+                // throw that reached this block without spending.
+                try { await deps.limiter.release(ctx.userId, def.aiCost ? 'mcp_ask' : 'mcp_lookup'); } catch (_) { /* never mask the answer */ }
+            }
+        }
+    } catch (err) {
             const known = err && KNOWN_CODES.has(err.code);
             const code = known ? err.code : 'UPSTREAM_DATA_ERROR';
             const message = known ? err.message : 'The request could not be completed right now. Try again shortly.';
@@ -748,10 +808,7 @@ function buildMcpServer(ctx, deps) {
                 try { console.error('[mcp] tool failed:', String(name || ''), err && err.message); } catch (_) { /* ignore */ }
             }
             return finish(errorResult(code, message, err && err.details), code);
-        }
-    });
-
-    return server;
+    }
 }
 
 // Tool descriptions carry runtime facts (the live free-allowance size) so a
@@ -797,5 +854,7 @@ module.exports = {
     TOOL_DEFS,
     DEFAULT_FUNDAMENTAL_METRICS,
     buildMcpServer,
-    handleMcpRequest
+    handleMcpRequest,
+    listToolsResult,
+    callToolResult
 };

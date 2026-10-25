@@ -760,3 +760,100 @@ test('an account over its company cap is refused before the work and never charg
     await under.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
     assert.equal(checked.length, 1);
 });
+
+// ---------------------------------------------------------------------------
+// OpenAI Apps auth contract: per-tool securitySchemes on tools/list, and the
+// _meta['mcp/www_authenticate'] challenge that makes ChatGPT/Claude surface
+// their account-linking UI on a refusal an account would fix.
+// ---------------------------------------------------------------------------
+
+test('tools/list declares per-tool security schemes that survive to the wire', { timeout: 60000 }, async (t) => {
+    const url = await mount(t, keyedShape());
+    // Raw fetch, not the SDK client: the client's Zod parse strips fields the
+    // 2025-11-25 SDK does not know, so the wire is the only place the new
+    // field can be asserted. What a directory's scanner reads is the wire.
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' },
+        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} })
+    });
+    assert.equal(res.status, 200);
+    // The transport answers SSE; one data: line holds the whole result.
+    const dataLine = (await res.text()).split('\n').find((l) => l.startsWith('data: '));
+    const { result } = JSON.parse(dataLine.slice(6));
+    const byName = new Map(result.tools.map((tl) => [tl.name, tl]));
+    assert.deepEqual(
+        byName.get('sp_health').securitySchemes,
+        [{ type: 'noauth' }],
+        'the free probe needs no credential and says so'
+    );
+    for (const name of ['search_companies', 'get_company_fundamentals', 'search_filings', 'get_filing', 'ask_filings']) {
+        assert.deepEqual(
+            byName.get(name).securitySchemes,
+            [{ type: 'noauth' }, { type: 'oauth2', scopes: ['financials:read', 'filings:read', 'research:read'] }],
+            `${name} declares the keyless tier and the OAuth grant that unlocks it`
+        );
+    }
+});
+
+test('an anonymous refusal an account would fix carries the sign-in challenge; a keyed one does not', { timeout: 60000 }, async (t) => {
+    stubFinancials();
+    t.after(restoreFinancials);
+    const metadataUrl = 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource';
+    const refused = {
+        check: async () => ({ ok: false, used: 3, allowance: 3, resetsAt: null, message: 'That was all 3 free questions in this rolling 30-day window.' }),
+        spend: async () => {}
+    };
+
+    const anon = anonShape({ limiter: refused });
+    anon.deps.resourceMetadataUrl = metadataUrl;
+    const client = await connect(t, await mount(t, anon));
+    const res = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(res.isError, true);
+    assert.equal(jsonOf(res).code, 'QUOTA_EXCEEDED');
+    const challenges = res._meta && res._meta['mcp/www_authenticate'];
+    assert.ok(Array.isArray(challenges) && challenges.length === 1, 'the refusal carries exactly one challenge');
+    assert.match(challenges[0], new RegExp(`resource_metadata="${metadataUrl.replace(/\//g, '\\/')}"`));
+    assert.match(challenges[0], /error="insufficient_scope"/);
+    assert.match(challenges[0], /Connect a StockPortfolio\.pro account to continue\./);
+
+    // Keyed callers already have an account; their refusal must not trigger
+    // the client's sign-in flow, and stays byte-for-byte as published.
+    const keyed = keyedShape({ limiter: refused });
+    keyed.deps.resourceMetadataUrl = metadataUrl;
+    const keyedClient = await connect(t, await mount(t, keyed));
+    const keyedRes = await keyedClient.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(keyedRes.isError, true);
+    assert.equal(jsonOf(keyedRes).code, 'QUOTA_EXCEEDED');
+    assert.equal(keyedRes._meta, undefined, 'a keyed refusal carries no challenge');
+
+    // Without a resource metadata URL in deps (the npm bridge, older mounts)
+    // the refusal is exactly what it was before the challenge existed.
+    const bare = await connect(t, await mount(t, anonShape({ limiter: refused })));
+    const bareRes = await bare.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(bareRes.isError, true);
+    assert.equal(bareRes._meta, undefined, 'no metadata URL in deps means no challenge');
+});
+
+test('AUTHENTICATION_REQUIRED, the keyless-off refusal, carries the challenge too', { timeout: 60000 }, async (t) => {
+    stubFinancials();
+    t.after(restoreFinancials);
+    const priorLimit = process.env.ANON_MCP_ASK_LIMIT;
+    process.env.ANON_MCP_ASK_LIMIT = '0';
+    t.after(() => {
+        if (priorLimit === undefined) delete process.env.ANON_MCP_ASK_LIMIT;
+        else process.env.ANON_MCP_ASK_LIMIT = priorLimit;
+    });
+    const shape = anonShape({
+        limiter: {
+            check: async () => ({ ok: false, used: 0, allowance: 0, resetsAt: null, message: 'Keyless access is not available. Get a key.' }),
+            spend: async () => {}
+        }
+    });
+    shape.deps.resourceMetadataUrl = 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource';
+    const client = await connect(t, await mount(t, shape));
+    const res = await client.callTool({ name: 'get_company_fundamentals', arguments: { ticker: 'AAPL' } });
+    assert.equal(res.isError, true);
+    assert.equal(jsonOf(res).code, 'AUTHENTICATION_REQUIRED');
+    assert.ok(Array.isArray(res._meta && res._meta['mcp/www_authenticate']), 'the auth refusal points at the OAuth metadata');
+});

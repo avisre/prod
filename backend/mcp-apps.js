@@ -462,6 +462,10 @@ function wireTool(def) {
         description: def.description,
         inputSchema: portableSchema(def.inputSchema),
         outputSchema: portableSchema(def.outputSchema),
+        // Per-tool auth declaration (OpenAI Apps auth docs): the keyless trial
+        // can run every tool, and the OAuth grant names the single scope that
+        // unlocks it — the same scope INSUFFICIENT_SCOPE refuses on below.
+        securitySchemes: [{ type: 'noauth' }, { type: 'oauth2', scopes: [def.requiredScope] }],
         // Both fields, for the same reason as mcp-endpoint.js: the directory's
         // connector checker reads ToolAnnotations.title, not Tool.title.
         annotations: { title: def.title, ...def.annotations }
@@ -496,55 +500,88 @@ function errorResult(code, message, details) {
     return { isError: true, content: [{ type: 'text', text: JSON.stringify(payload) }] };
 }
 
+// The account-linking handshake the AI clients implement (OpenAI Apps auth
+// docs, "Authenticate users"): a tool error result carrying
+// _meta['mcp/www_authenticate'] with a Bearer challenge is what makes the
+// client surface its sign-in UI instead of showing the model a dead end.
+// Only the anonymous quota refusal carries it — a connected account's
+// refusals mean something else and stay unchanged. No resourceMetadataUrl in
+// deps means no challenge, exactly as before.
+function withWwwAuthenticate(result, deps, description) {
+    if (!deps || !deps.resourceMetadataUrl) return result;
+    const challenge = `Bearer resource_metadata="${deps.resourceMetadataUrl}", error="insufficient_scope", error_description="${description}"`;
+    return { ...result, _meta: { ...(result._meta || {}), 'mcp/www_authenticate': [challenge] } };
+}
+
 function buildMcpAppsServer(ctx, deps) {
     const server = new Server(
         { name: SERVER_NAME, version: SERVER_VERSION },
         { capabilities: { tools: {} }, instructions: SERVER_INSTRUCTIONS }
     );
 
-    server.setRequestHandler(ListToolsRequestSchema, async () => ({
-        tools: TOOL_DEFS.map(wireTool)
-    }));
+    server.setRequestHandler(ListToolsRequestSchema, async () => listAppsToolsResult(ctx, deps));
 
-    server.setRequestHandler(CallToolRequestSchema, async (req) => {
-        const { name, arguments: rawArgs = {} } = req.params || {};
-        const args = rawArgs && typeof rawArgs === 'object' ? rawArgs : {};
-        const def = TOOL_BY_NAME.get(name);
-        const started = Date.now();
-        // What the call was about, for the account's own usage log (see
-        // connector-usage.js). It rides beside the event, never inside it: the
-        // event is printed to the application log.
-        const subject = ctx.anonymous ? null : connectorUsage.subjectFor(args);
+    server.setRequestHandler(CallToolRequestSchema, async (req) => callAppsToolResult(ctx, deps, req.params));
 
-        const log = (ok, code) => {
-            if (typeof deps.onLog !== 'function') return;
-            try {
-                deps.onLog({ event: 'tools/call', tool: name, ok, code: code || null, ms: Date.now() - started, caller: ctx.logId || null }, { subject });
-            } catch (_) { /* telemetry must never fail a call */ }
-        };
+    return server;
+}
 
-        if (!def) {
-            log(false, 'UNKNOWN_TOOL');
-            return errorResult('UNKNOWN_TOOL', `Unknown tool: ${name}`);
-        }
-        // Declared input schemas forbid unknown properties, so a tool cannot be
-        // used as a smuggling channel for extra conversation content.
+// The tools/list answer, extracted so the modern (2026-07-28) path in
+// mcp-modern.js serves the identical list without the SDK's handshake.
+async function listAppsToolsResult(ctx, deps) {
+    return { tools: TOOL_DEFS.map(wireTool) };
+}
+
+// The tools/call answer, extracted for the same reason as listAppsToolsResult.
+// `params` is the JSON-RPC params object ({name, arguments}) on both paths.
+async function callAppsToolResult(ctx, deps, params) {
+    const { name, arguments: rawArgs = {} } = params || {};
+    const args = rawArgs && typeof rawArgs === 'object' ? rawArgs : {};
+    const def = TOOL_BY_NAME.get(name);
+    const started = Date.now();
+    // What the call was about, for the account's own usage log (see
+    // connector-usage.js). It rides beside the event, never inside it: the
+    // event is printed to the application log.
+    const subject = ctx.anonymous ? null : connectorUsage.subjectFor(args);
+
+    const log = (ok, code) => {
+        if (typeof deps.onLog !== 'function') return;
         try {
-            const scope = def.requiredScope;
-            if (scope && Array.isArray(ctx.scopes) && !ctx.scopes.includes(scope) && !ctx.scopes.includes('mcp')) {
-                log(false, 'INSUFFICIENT_SCOPE');
-                return errorResult('INSUFFICIENT_SCOPE', `This connection was not granted the ${scope} scope. Reconnect and approve the requested scopes.`);
-            }
-            if (!ctx.anonymous && typeof deps.entitled === 'function' && !deps.entitled()) {
-                log(false, 'ENTITLEMENT_REQUIRED');
-                return errorResult('ENTITLEMENT_REQUIRED', MSG_ENTITLEMENT);
-            }
-            const gate = await deps.limiter.check(ctx.userId, 'mcp_lookup', deps.effectiveAskLimit(), ctx.subscription && ctx.subscription.planId, ctx.user);
-            if (!gate.ok) {
-                const message = ctx.anonymous ? MSG_TRIAL : MSG_ALLOWANCE;
-                log(false, 'QUOTA_EXCEEDED');
-                return errorResult('QUOTA_EXCEEDED', message);
-            }
+            deps.onLog({ event: 'tools/call', tool: name, ok, code: code || null, platform: ctx.platform || null, ms: Date.now() - started, caller: ctx.logId || null }, { subject });
+        } catch (_) { /* telemetry must never fail a call */ }
+    };
+
+    if (!def) {
+        log(false, 'UNKNOWN_TOOL');
+        return errorResult('UNKNOWN_TOOL', `Unknown tool: ${name}`);
+    }
+    // Declared input schemas forbid unknown properties, so a tool cannot be
+    // used as a smuggling channel for extra conversation content.
+    try {
+        const scope = def.requiredScope;
+        if (scope && Array.isArray(ctx.scopes) && !ctx.scopes.includes(scope) && !ctx.scopes.includes('mcp')) {
+            log(false, 'INSUFFICIENT_SCOPE');
+            return errorResult('INSUFFICIENT_SCOPE', `This connection was not granted the ${scope} scope. Reconnect and approve the requested scopes.`);
+        }
+        if (!ctx.anonymous && typeof deps.entitled === 'function' && !deps.entitled()) {
+            log(false, 'ENTITLEMENT_REQUIRED');
+            return errorResult('ENTITLEMENT_REQUIRED', MSG_ENTITLEMENT);
+        }
+        const gate = await deps.limiter.check(ctx.userId, 'mcp_lookup', deps.effectiveAskLimit(), ctx.subscription && ctx.subscription.planId, ctx.user);
+        if (!gate.ok) {
+            const message = ctx.anonymous ? MSG_TRIAL : MSG_ALLOWANCE;
+            log(false, 'QUOTA_EXCEEDED');
+            const result = errorResult('QUOTA_EXCEEDED', message);
+            return ctx.anonymous
+                ? withWwwAuthenticate(result, deps, 'Connect a StockPortfolio.pro account to continue.')
+                : result;
+        }
+        // check() RESERVED a unit of the caller's allowance (mcp-anon.js).
+        // Any path below that returns without spending must hand the
+        // reservation back, or a refused call silently burns the free
+        // allowance. credits.js has no release(), hence the typeof guard.
+        let spent = false;
+        try {
             // Anti-scraping cap on different companies per account (company-breadth.js).
             const companies = deps.breadth && !ctx.anonymous ? companyBreadth.companiesIn(args) : [];
             if (companies.length) {
@@ -559,11 +596,20 @@ function buildMcpAppsServer(ctx, deps) {
             const pendingNotice = connectorNotices.begin(deps, gate);
             const result = await def.handler(args);
             const notice = await pendingNotice;
+            // Confirms the reservation check() made.
             await deps.limiter.spend(ctx.userId, 'mcp_lookup', `mcp-apps:${name}`, subject, ctx.client || null);
+            spent = true;
             if (companies.length) await deps.breadth.record(companies);
             log(true, null);
             return textResult(connectorNotices.attach(result, notice));
-        } catch (err) {
+        } finally {
+            if (!spent && typeof deps.limiter.release === 'function') {
+                // The reservation goes back on any refusal or a handler
+                // throw that reached this block without spending.
+                try { await deps.limiter.release(ctx.userId, 'mcp_lookup'); } catch (_) { /* never mask the answer */ }
+            }
+        }
+    } catch (err) {
             const code = err && KNOWN_CODES.has(err.code) ? err.code : 'UPSTREAM_DATA_ERROR';
             const message = err && KNOWN_CODES.has(err.code)
                 ? err.message
@@ -573,10 +619,7 @@ function buildMcpAppsServer(ctx, deps) {
             }
             log(false, code);
             return errorResult(code, message, err && err.details);
-        }
-    });
-
-    return server;
+    }
 }
 
 // One-shot handler for the stateless POST /mcp/apps route: a fresh Server and
@@ -596,6 +639,8 @@ module.exports = {
     TOOL_DEFS,
     buildMcpAppsServer,
     handleMcpAppsRequest,
+    listAppsToolsResult,
+    callAppsToolResult,
     portableSchema,
     MSG_ENTITLEMENT,
     MSG_ALLOWANCE,

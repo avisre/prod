@@ -23,13 +23,18 @@ const EVENT_NAMES = Object.freeze(new Set([
     'activation', 'appsumo_click', 'appsumo_redemption', 'stripe_subscribe', 'paid', 'cancel',
     'customer_success', 'review_shown', 'review_clicked', 'review_dismissed',
     'onboarding_started', 'onboarding_step_completed', 'onboarding_completed', 'onboarding_skipped',
-    // Developer funnel. Without these three the keyless/OAuth MCP tier emits
+    // Developer funnel. Without these the keyless/OAuth MCP tier emits
     // nothing measurable — normalizeEventName() below DROPS any name absent
     // from this set, so an unregistered event is silently discarded rather
     // than logged, which is why /mcp traffic was invisible.
     // mcp_keyless_cap_hit is the demand signal: a caller who wanted more than
     // the free allowance is the only population worth selling the Dev plan to.
-    'mcp_keyless_cap_hit', 'mcp_oauth_client_registered', 'mcp_oauth_authorized'
+    // mcp_apps_keyless_cap_hit is the same signal on the OpenAI Apps surface
+    // (it was emitted from app.js but never registered here, so it logged
+    // nothing until 2026-10-20); mcp_oauth_authorize_view measures the consent
+    // screen the OAuth funnel starts at.
+    'mcp_keyless_cap_hit', 'mcp_apps_keyless_cap_hit', 'mcp_oauth_client_registered', 'mcp_oauth_authorized',
+    'mcp_oauth_authorize_view'
 ]));
 
 const BROWSER_EVENTS = Object.freeze(new Set([

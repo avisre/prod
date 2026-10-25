@@ -323,3 +323,69 @@ test('a confidential client’s refresh token cannot be used by leaving the clie
     const third = await flow(pub);
     assert.ok(await oauth.refresh({ refreshToken: third.refresh_token, clientId: '' }));
 });
+
+// ---------------------------------------------------------------------------
+// RFC 9207 (`iss`) and authorize-page telemetry — asserted against the app.js
+// source, same pattern as test/api-access-gating.test.js: requiring app.js
+// boots the whole server, and these routes live only there.
+// ---------------------------------------------------------------------------
+
+test('every authorization redirect carries iss = the metadata issuer, and the metadata says so', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const src = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+
+    // GET /oauth/authorize: fail() is the one helper every error redirect goes
+    // through, and it must stamp iss on the URL it redirects to.
+    const authorize = src.slice(src.indexOf("app.get('/oauth/authorize'"), src.indexOf("app.get('/oauth/session'"));
+    const fail = authorize.slice(authorize.indexOf('const fail = (code, description)'), authorize.indexOf("if (String(q.response_type || '') !== 'code')"));
+    assert.match(fail, /url\.searchParams\.set\('iss', oauthBase\(req\)\)/, 'fail() stamps iss on every error redirect');
+
+    // POST /oauth/authorize/decision: one shared `url` carries the code and
+    // every error, so iss set on it reaches all of them.
+    const decision = src.slice(src.indexOf("app.post('/oauth/authorize/decision'"), src.indexOf("app.post('/oauth/token'"));
+    assert.match(decision, /url\.searchParams\.set\('iss', oauthBase\(req\)\)/, 'the decision route stamps iss on its shared redirect URL');
+
+    // The value must equal what the discovery documents publish as `issuer`:
+    // both are oauthBase(req).
+    const metadata = src.slice(src.indexOf("app.get('/.well-known/oauth-authorization-server'"), src.indexOf("app.get('/.well-known/openid-configuration'"));
+    assert.match(metadata, /issuer: base/, 'the authorization-server document publishes an issuer');
+    assert.match(src.slice(src.indexOf('function oauthBase(req)'), src.indexOf('const OAUTH_SCOPES =')), /`\$\{proto\}:\/\/\$\{host\}`/, 'oauthBase is the same origin the iss parameter uses');
+
+    // The RFC 9207 capability flag, on both discovery documents.
+    const openidStart = src.indexOf("app.get('/.well-known/openid-configuration'");
+    const openid = src.slice(openidStart, src.indexOf('app.get(\'/oauth/userinfo\''));
+    assert.match(metadata, /authorization_response_iss_parameter_supported: true/, 'the AS metadata declares the iss parameter');
+    assert.match(openid, /authorization_response_iss_parameter_supported: true/, 'and so does the OIDC discovery document');
+});
+
+test('the authorize view is measured: the event is registered and recorded before rendering', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const growth = require('../growth-measurement');
+    const src = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+
+    // trackFunnel silently drops unregistered names (normalizeEventName), so
+    // the registration IS the feature. mcp_apps_keyless_cap_hit was emitted
+    // from app.js but unregistered until 2026-10-20 — it logged nothing.
+    assert.equal(growth.EVENT_NAMES.has('mcp_oauth_authorize_view'), true, 'the authorize-view event is canonical');
+    assert.equal(growth.EVENT_NAMES.has('mcp_apps_keyless_cap_hit'), true, 'the Apps-surface cap hit is canonical too');
+
+    // The view is recorded after client + redirect validation and before either
+    // consent screen renders, deduped per client per signed-in state per day,
+    // and skipping review accounts like mcp_oauth_authorized does.
+    const authorize = src.slice(src.indexOf("app.get('/oauth/authorize'"), src.indexOf("app.get('/oauth/session'"));
+    const viewCall = authorize.slice(authorize.indexOf('if (!user || !user.reviewAccount)'), authorize.indexOf('const selfUrl = oauthBase(req) + req.originalUrl;'));
+    assert.ok(viewCall.length > 0, 'the authorize-view call sits before the render');
+    assert.match(viewCall, /dedupeKey: `mcp_oauth_authorize_view:\$\{clientId\}:\$\{user \? 1 : 0\}:\$\{new Date\(\)\.toISOString\(\)\.slice\(0, 10\)\}`/);
+    assert.match(viewCall, /signedIn: Boolean\(user\)/);
+    assert.match(viewCall, /hasAccess: Boolean\(user && hasApiAccess\(/);
+    assert.match(viewCall, /if \(!user \|\| !user\.reviewAccount\)/, 'review accounts are excluded, as for mcp_oauth_authorized');
+
+    // The cohort reads it back alongside the Apps-surface cap hits.
+    const cohort = src.slice(src.indexOf('async function collectMcpCohort'), src.indexOf('function marketingDashboardOnly'));
+    assert.match(cohort, /'mcp_apps_keyless_cap_hit'/, 'Apps cap hits are counted');
+    assert.match(cohort, /appsCapHits/, 'and broken out');
+    assert.match(cohort, /authorizeViews/, 'authorize views are counted');
+    assert.match(cohort, /authorizeViewsSignedIn/, 'including the signed-in share');
+});

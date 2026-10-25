@@ -125,6 +125,7 @@ async function withClient(t, overrides = {}) {
         limiter: overrides.limiter || okLimiter(),
         effectiveAskLimit: () => 200,
         entitled: () => (overrides.entitled === undefined ? true : overrides.entitled),
+        ...(overrides.resourceMetadataUrl ? { resourceMetadataUrl: overrides.resourceMetadataUrl } : {}),
         ...(overrides.accountNotice ? { accountNotice: overrides.accountNotice } : {}),
         ...(overrides.breadth ? { breadth: overrides.breadth } : {}),
         onLog: (event) => state.logs.push(event)
@@ -136,10 +137,11 @@ async function withClient(t, overrides = {}) {
     const server = http.createServer(app);
     await new Promise((resolve) => server.listen(0, resolve));
     t.after(() => new Promise((resolve) => server.close(resolve)));
+    const url = `http://127.0.0.1:${server.address().port}/mcp/apps`;
     const client = new Client({ name: 'openai-scan', version: '1.0.0' });
-    await client.connect(new StreamableHTTPClientTransport(new URL(`http://127.0.0.1:${server.address().port}/mcp/apps`)));
+    await client.connect(new StreamableHTTPClientTransport(new URL(url)));
     t.after(() => client.close());
-    return { client, state };
+    return { client, state, url };
 }
 
 function parse(result) {
@@ -520,4 +522,69 @@ test('the company cap refuses an over-broad account without charging it', async 
     assert.equal(parse(result).code, 'COMPANY_LIMIT');
     assert.equal(spent, 0);
     assert.ok(state.logs.some((e) => e.code === 'COMPANY_LIMIT'), 'the refusal is logged for the usage page');
+});
+
+// ---------------------------------------------------------------------------
+// OpenAI Apps auth contract: per-tool securitySchemes on tools/list, and the
+// _meta['mcp/www_authenticate'] challenge that makes the client surface its
+// account-linking UI on an anonymous quota refusal.
+// ---------------------------------------------------------------------------
+
+test('tools/list declares a per-tool security scheme naming the scope that unlocks it', async (t) => {
+    const { url } = await withClient(t);
+    // Raw fetch, not the SDK client: the client's Zod parse strips fields the
+    // 2025-11-25 SDK does not know, so the wire is the only place the new
+    // field can be asserted. What ChatGPT's scanner reads is the wire.
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', accept: 'application/json, text/event-stream' },
+        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} })
+    });
+    assert.equal(res.status, 200);
+    // The transport answers SSE; one data: line holds the whole result.
+    const dataLine = (await res.text()).split('\n').find((l) => l.startsWith('data: '));
+    const { result } = JSON.parse(dataLine.slice(6));
+    const byName = new Map(result.tools.map((tl) => [tl.name, tl]));
+    for (const [name, scope] of [
+        ['search_companies', 'financials:read'],
+        ['get_company_financials', 'financials:read'],
+        ['get_metric_history', 'financials:read'],
+        ['search_filings', 'filings:read'],
+        ['get_filing_content', 'filings:read'],
+        ['compare_company_metrics', 'research:read'],
+        ['get_financial_change_drivers', 'research:read']
+    ]) {
+        assert.deepEqual(
+            byName.get(name).securitySchemes,
+            [{ type: 'noauth' }, { type: 'oauth2', scopes: [scope] }],
+            `${name} declares the keyless trial and the one scope that unlocks it`
+        );
+    }
+});
+
+test('an anonymous quota refusal carries the sign-in challenge; a keyed one does not', async (t) => {
+    const metadataUrl = 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource/mcp/apps';
+    const refused = { check: async () => ({ ok: false }), spend: async () => {} };
+    const anon = await withClient(t, {
+        ctx: { anonymous: true, user: null, subscription: null, tier: 'free' },
+        limiter: refused,
+        resourceMetadataUrl: metadataUrl
+    });
+    const result = await anon.client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(result.isError, true);
+    assert.equal(parse(result).code, 'QUOTA_EXCEEDED');
+    const challenges = result._meta && result._meta['mcp/www_authenticate'];
+    assert.ok(Array.isArray(challenges) && challenges.length === 1, 'the refusal carries exactly one challenge');
+    assert.match(challenges[0], new RegExp(`resource_metadata="${metadataUrl.replace(/\//g, '\\/')}"`));
+    assert.match(challenges[0], /error="insufficient_scope"/);
+    // Commerce-neutral, per the plugin guidelines: no plan, price or link.
+    assert.match(challenges[0], /Connect a StockPortfolio\.pro account to continue\./);
+    assert.doesNotMatch(challenges[0], /\$|upgrade|subscribe|plan=/);
+
+    // A connected account's refusal means something else (its own allowance),
+    // so it must not trigger the client's sign-in flow.
+    const keyed = await withClient(t, { limiter: refused, resourceMetadataUrl: metadataUrl });
+    const keyedResult = await keyed.client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(keyedResult.isError, true);
+    assert.equal(keyedResult._meta, undefined, 'a keyed refusal carries no challenge');
 });

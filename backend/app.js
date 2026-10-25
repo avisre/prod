@@ -34,6 +34,8 @@ const publicApi = require('./public-api');
 const mcpEndpoint = require('./mcp-endpoint');
 const mcpApps = require('./mcp-apps');
 const mcpAnon = require('./mcp-anon');
+const aiPlatformEgress = require('./ai-platform-egress');
+const mcpModern = require('./mcp-modern');
 const oauthCsp = require('./oauth-csp');
 const oauthOffer = require('./oauth-signin-offer');
 const connectorNudge = require('./connector-nudge');
@@ -6374,6 +6376,9 @@ app.get('/.well-known/oauth-authorization-server', (req, res) => {
         code_challenge_methods_supported: ['S256'],
         token_endpoint_auth_methods_supported: ['none', 'client_secret_post', 'client_secret_basic'],
         userinfo_endpoint: `${base}/oauth/userinfo`,
+        // RFC 9207: every authorization response from this server carries
+        // `iss`, and this flag is how a client learns it may rely on that.
+        authorization_response_iss_parameter_supported: true,
         // The identity scopes belong here and not in the RFC 9728 resource
         // document: the resource is the filings API, and it reads nothing that
         // openid/email unlocks.
@@ -6399,6 +6404,9 @@ app.get('/.well-known/openid-configuration', (req, res) => {
         code_challenge_methods_supported: ['S256'],
         token_endpoint_auth_methods_supported: ['none', 'client_secret_post', 'client_secret_basic'],
         scopes_supported: OAUTH_SCOPES_SUPPORTED,
+        // RFC 9207, mirrored from the authorization-server document above so
+        // an OIDC-first client reads the same promise.
+        authorization_response_iss_parameter_supported: true,
         subject_types_supported: ['public']
     });
 });
@@ -6529,6 +6537,10 @@ app.get('/oauth/authorize', async (req, res) => {
         url.searchParams.set('error', code);
         if (description) url.searchParams.set('error_description', description);
         if (q.state) url.searchParams.set('state', String(q.state));
+        // RFC 9207: every authorization response names its issuer, so the
+        // client can reject a response that did not come from the server it
+        // asked. Must equal the `issuer` the discovery documents publish.
+        url.searchParams.set('iss', oauthBase(req));
         return res.redirect(302, url.toString());
     };
     if (String(q.response_type || '') !== 'code') return fail('unsupported_response_type', 'Only the authorization code flow is supported.');
@@ -6547,6 +6559,23 @@ app.get('/oauth/authorize', async (req, res) => {
     if (patchedCsp) res.setHeader('Content-Security-Policy', patchedCsp);
 
     const user = await oauthCurrentUser(req);
+    // The top of the OAuth funnel: a consent screen was shown at all. One row
+    // per client per signed-in state per day, so a client that bounces a user
+    // through reconnect loops does not manufacture views. Mirrors the
+    // mcp_oauth_authorized call below (same signature, same review-account
+    // skip) and, like every funnel call, must never break the page it measures.
+    try {
+        if (!user || !user.reviewAccount) {
+            trackFunnel('mcp_oauth_authorize_view', user ? user._id : null,
+                user && user.subscription ? user.subscription.planName : null, {
+                eventName: 'mcp_oauth_authorize_view',
+                dedupeKey: `mcp_oauth_authorize_view:${clientId}:${user ? 1 : 0}:${new Date().toISOString().slice(0, 10)}`,
+                signedIn: Boolean(user),
+                hasAccess: Boolean(user && hasApiAccess({ user, subscription: user.subscription })),
+                clientName: client.clientName || null
+            });
+        }
+    } catch (_) { /* telemetry must never throw into the request */ }
     const selfUrl = oauthBase(req) + req.originalUrl;
     const destination = `<p class="sub">Access will be sent to <strong>${escapeHtmlOauth(oauthMcp.redirectDisplayHost(redirectUri))}</strong>. Only continue if you started this from that app.</p>`;
     const hidden = ['client_id', 'redirect_uri', 'state', 'code_challenge', 'code_challenge_method', 'scope', 'resource']
@@ -6675,6 +6704,9 @@ app.post('/oauth/authorize/decision', express.urlencoded({ extended: false }), a
 
     const url = new URL(redirectUri);
     if (body.state) url.searchParams.set('state', String(body.state));
+    // RFC 9207: every authorization response — the code and every error —
+    // names its issuer, equal to the `issuer` the metadata publishes.
+    url.searchParams.set('iss', oauthBase(req));
 
     const user = await oauthCurrentUser(req);
     if (!user) {
@@ -6847,7 +6879,13 @@ async function apiKeyAuthOptional(req, res, next) {
 // different people.
 const anonMcpRateLimit = rateLimit({
     windowMs: 60 * 1000,
-    max: Number(process.env.ANON_MCP_RATE_LIMIT || 20),
+    // A per-minute ceiling as a function of the caller: requests leaving an AI
+    // platform's shared egress network are many users behind one address, so
+    // they share the platform's higher ceiling rather than the per-visitor one
+    // (express-rate-limit v7 accepts max as (req, res) => number).
+    max: (req) => aiPlatformEgress.match(visitorIp(req))
+        ? Number(process.env.ANON_MCP_PLATFORM_RATE_LIMIT || 120)
+        : Number(process.env.ANON_MCP_RATE_LIMIT || 20),
     standardHeaders: true,
     legacyHeaders: false,
     keyGenerator: visitorKeyGenerator,
@@ -6886,6 +6924,25 @@ function nudgeOnRefusal(req, evt) {
 function logMcp(event) {
     try { console.log('[mcp]', JSON.stringify(event)); } catch (_) { /* logging must never fail a request */ }
 }
+
+// The 2026-07-28 ("modern") surfaces for mcp-modern.js: the same tool layer
+// the SDK path serves — the extracted listTools/callTool handlers — with no
+// initialize handshake. A modern client must see the identical tools a
+// legacy one does, from one implementation of each.
+const MCP_MODERN_SURFACE = {
+    name: mcpEndpoint.SERVER_NAME,
+    version: mcpEndpoint.SERVER_VERSION,
+    instructions: mcpEndpoint.SERVER_INSTRUCTIONS,
+    listTools: (ctx, deps) => mcpEndpoint.listToolsResult(ctx, deps),
+    callTool: (ctx, deps, params) => mcpEndpoint.callToolResult(ctx, deps, params)
+};
+const MCP_APPS_MODERN_SURFACE = {
+    name: mcpApps.SERVER_NAME,
+    version: mcpApps.SERVER_VERSION,
+    instructions: mcpApps.SERVER_INSTRUCTIONS,
+    listTools: (ctx, deps) => mcpApps.listAppsToolsResult(ctx, deps),
+    callTool: (ctx, deps, params) => mcpApps.callAppsToolResult(ctx, deps, params)
+};
 
 // The assistant a signed-in connector call came through, by the name it
 // registered with ("Claude"). Cached: a client's name never changes and this is
@@ -6936,6 +6993,12 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
         if (req.anonMcp) {
             const identity = _anonAskIp(req);
             const logId = require('crypto').createHash('sha256').update(String(identity)).digest('hex').slice(0, 12);
+            // A connector call from Claude or ChatGPT egresses from the AI
+            // platform's own network, not the user's address — so a caller
+            // from those ranges shares the platform pool (metered per UTC day)
+            // instead of a per-IP rolling window one busy user closes for
+            // everyone. See ai-platform-egress.js for the sources.
+            const platform = aiPlatformEgress.match(identity);
             // The anonymous limiter is credits-shaped, so the endpoint and every
             // tool handler run unmodified. effectiveAskLimit is only consulted to
             // size a wallet this caller does not have.
@@ -6948,25 +7011,38 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
                 // day, so a hammering client counts once instead of filling the
                 // collection. The identity is an IP, so it is hashed —
                 // funnel_events must not become a log of addresses.
-                limiter: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance }) => {
+                limiter: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance, pool }) => {
                     trackFunnel('mcp_keyless_cap_hit', null, null, {
                         eventName: 'mcp_keyless_cap_hit',
                         dedupeKey: `mcp_keyless_cap_hit:${reason}:${logId}:${new Date().toISOString().slice(0, 10)}`,
                         capReason: reason,
                         used,
-                        allowance
+                        allowance,
+                        platform: pool || null
                     });
-                }),
+                }, { pool: platform ? 'platform' : 'visitor' }),
                 effectiveAskLimit: () => 0,
+                // What an anonymous refusal's _meta['mcp/www_authenticate']
+                // challenge points at (mcp-endpoint.js); the OAuth discovery
+                // doc for this endpoint is the protected-resource metadata.
+                resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource`,
+                // The scopes tools/list advertises in its oauth2 security
+                // schemes — the same three /oauth/authorize will issue.
+                oauthScopes: OAUTH_SCOPES,
                 entitled: () => false,
                 wallReason: req.mcpWallReason || null,
                 onLog: logMcp
             };
-            await mcpEndpoint.handleMcpRequest(
-                req, res,
-                { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, logId },
-                deps
-            );
+            const ctx = { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, platform, logId };
+            if (mcpModern.isModern(req)) {
+                // A 2026-07-28 client: no initialize, headers carry the
+                // handshake. Same tool layer, same walls, same allowance.
+                const modernStarted = Date.now();
+                await mcpModern.handleModern(req, res, MCP_MODERN_SURFACE, ctx, deps);
+                logMcp({ event: 'modern', method, ms: Date.now() - modernStarted, caller: logId });
+                return;
+            }
+            await mcpEndpoint.handleMcpRequest(req, res, ctx, deps);
             if (method === 'initialize') {
                 logMcp({ event: 'initialize', anonymous: true, protocolVersion: (body.params && body.params.protocolVersion) || null, ms: Date.now() - started, caller: logId });
             }
@@ -6974,19 +7050,25 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
         }
         const logId = require('crypto').createHash('sha256').update(String(req.userId)).digest('hex').slice(0, 12);
         const client = await connectorClientName(req.oauthClientId);
-        await mcpEndpoint.handleMcpRequest(
-            req, res,
-            { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client },
-            {
-                limiter: credits,
-                breadth: companyBreadthFor(req),
-                effectiveAskLimit: () => effectiveAskLimit(req),
-                entitled: () => hasApiAccess(req),
-                wallReason: null,
-                accountNotice: (gate) => connectorAccountNotice(req, gate, false),
-                onLog: (evt, detail) => { logMcp(evt); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
-            }
-        );
+        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client };
+        const deps = {
+            limiter: credits,
+            breadth: companyBreadthFor(req),
+            effectiveAskLimit: () => effectiveAskLimit(req),
+            entitled: () => hasApiAccess(req),
+            wallReason: null,
+            resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource`,
+            oauthScopes: OAUTH_SCOPES,
+            accountNotice: (gate) => connectorAccountNotice(req, gate, false),
+            onLog: (evt, detail) => { logMcp(evt); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
+        };
+        if (mcpModern.isModern(req)) {
+            const modernStarted = Date.now();
+            await mcpModern.handleModern(req, res, MCP_MODERN_SURFACE, ctx, deps);
+            logMcp({ event: 'modern', method, ms: Date.now() - modernStarted, caller: logId });
+            return;
+        }
+        await mcpEndpoint.handleMcpRequest(req, res, ctx, deps);
         if (method === 'initialize') {
             logMcp({ event: 'initialize', anonymous: false, protocolVersion: (body.params && body.params.protocolVersion) || null, ms: Date.now() - started, caller: logId });
         }
@@ -7011,40 +7093,56 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
         if (req.anonMcp) {
             const identity = _anonAskIp(req);
             const logId = require('crypto').createHash('sha256').update(String(identity)).digest('hex').slice(0, 12);
-            await mcpApps.handleMcpAppsRequest(
-                req, res,
-                { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, scopes: null, logId },
-                {
-                    limiter: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance }) => {
-                        trackFunnel('mcp_apps_keyless_cap_hit', null, null, {
-                            eventName: 'mcp_apps_keyless_cap_hit',
-                            dedupeKey: `mcp_apps_keyless_cap_hit:${reason}:${logId}:${new Date().toISOString().slice(0, 10)}`,
-                            capReason: reason,
-                            used,
-                            allowance
-                        });
-                    }),
-                    effectiveAskLimit: () => 0,
-                    entitled: () => false,
-                    onLog: (evt) => console.log('[mcp-apps]', JSON.stringify(evt))
-                }
-            );
+            // Same shared AI-platform pool as /mcp: a ChatGPT connector caller
+            // is one of many behind OpenAI's published egress list.
+            const platform = aiPlatformEgress.match(identity);
+            const deps = {
+                limiter: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance, pool }) => {
+                    trackFunnel('mcp_apps_keyless_cap_hit', null, null, {
+                        eventName: 'mcp_apps_keyless_cap_hit',
+                        dedupeKey: `mcp_apps_keyless_cap_hit:${reason}:${logId}:${new Date().toISOString().slice(0, 10)}`,
+                        capReason: reason,
+                        used,
+                        allowance,
+                        platform: pool || null
+                    });
+                }, { pool: platform ? 'platform' : 'visitor' }),
+                effectiveAskLimit: () => 0,
+                entitled: () => false,
+                // The /mcp/apps protected-resource metadata is the audience
+                // a sign-in for this surface discovers (RFC 9728).
+                resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource/mcp/apps`,
+                onLog: (evt) => console.log('[mcp-apps]', JSON.stringify(evt))
+            };
+            const ctx = { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, scopes: null, platform, logId };
+            if (mcpModern.isModern(req)) {
+                const modernStarted = Date.now();
+                await mcpModern.handleModern(req, res, MCP_APPS_MODERN_SURFACE, ctx, deps);
+                console.log('[mcp-apps]', JSON.stringify({ event: 'modern', method, ms: Date.now() - modernStarted, caller: logId }));
+                return;
+            }
+            await mcpApps.handleMcpAppsRequest(req, res, ctx, deps);
             return;
         }
         const logId = require('crypto').createHash('sha256').update(String(req.userId)).digest('hex').slice(0, 12);
         const client = await connectorClientName(req.oauthClientId);
-        await mcpApps.handleMcpAppsRequest(
-            req, res,
-            { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client },
-            {
-                limiter: credits,
-                breadth: companyBreadthFor(req),
-                effectiveAskLimit: () => effectiveAskLimit(req),
-                entitled: () => hasApiAccess(req),
-                accountNotice: (gate) => connectorAccountNotice(req, gate, true),
-                onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
-            }
-        );
+        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client };
+        const deps = {
+            limiter: credits,
+            breadth: companyBreadthFor(req),
+            effectiveAskLimit: () => effectiveAskLimit(req),
+            entitled: () => hasApiAccess(req),
+            resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource/mcp/apps`,
+            accountNotice: (gate) => connectorAccountNotice(req, gate, true),
+            onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
+        };
+        if (mcpModern.isModern(req)) {
+            const modernStarted = Date.now();
+            await mcpModern.handleModern(req, res, MCP_APPS_MODERN_SURFACE, ctx, deps);
+            console.log('[mcp-apps]', JSON.stringify({ event: 'modern', method, ms: Date.now() - modernStarted, caller: logId }));
+            return;
+        }
+        await mcpApps.handleMcpAppsRequest(req, res, ctx, deps);
     } catch (error) {
         console.error('[mcp-apps] request failed:', error && error.message);
         if (!res.headersSent) res.status(500).json({ error: 'MCP request failed.' });
@@ -15360,20 +15458,31 @@ async function collectMcpCohort(col, now) {
         // `timestamp`, not `createdAt` — this collection has no createdAt at
         // all, so that filter would match nothing and report zero demand
         // forever. logFunnelEvent writes `timestamp` on every event and it is
-        // indexed. (capReason survives because FunnelEventSchema is strict:false.)
-        { $match: { event: { $in: ['mcp_keyless_cap_hit', 'mcp_oauth_client_registered', 'mcp_oauth_authorized'] }, timestamp: { $gte: since7 } } },
-        { $group: { _id: { event: '$event', reason: '$capReason' }, count: { $sum: 1 } } }
+        // indexed. (capReason and signedIn survive because FunnelEventSchema
+        // is strict:false.)
+        { $match: { event: { $in: ['mcp_keyless_cap_hit', 'mcp_apps_keyless_cap_hit', 'mcp_oauth_client_registered', 'mcp_oauth_authorized', 'mcp_oauth_authorize_view'] }, timestamp: { $gte: since7 } } },
+        { $group: { _id: { event: '$event', reason: '$capReason', signedIn: '$signedIn' }, count: { $sum: 1 } } }
     ]).toArray().catch(() => []);
 
-    const out = { capHits: 0, byReason: {}, clientsRegistered: 0, authorized: 0, since: since7.toISOString() };
+    const out = {
+        capHits: 0, byReason: {}, appsCapHits: 0, clientsRegistered: 0, authorized: 0,
+        authorizeViews: 0, authorizeViewsSignedIn: 0, since: since7.toISOString()
+    };
     for (const r of rows) {
         const event = r._id && r._id.event;
-        if (event === 'mcp_keyless_cap_hit') {
+        if (event === 'mcp_keyless_cap_hit' || event === 'mcp_apps_keyless_cap_hit') {
+            // Both surfaces' cap hits pool into the one demand number, with the
+            // Apps surface's share broken out so its own funnel stays readable.
             out.capHits += r.count;
             const reason = (r._id && r._id.reason) || 'unknown';
             out.byReason[reason] = (out.byReason[reason] || 0) + r.count;
+            if (event === 'mcp_apps_keyless_cap_hit') out.appsCapHits += r.count;
         } else if (event === 'mcp_oauth_client_registered') out.clientsRegistered += r.count;
         else if (event === 'mcp_oauth_authorized') out.authorized += r.count;
+        else if (event === 'mcp_oauth_authorize_view') {
+            out.authorizeViews += r.count;
+            if (r._id && r._id.signedIn) out.authorizeViewsSignedIn += r.count;
+        }
     }
     return out;
 }
@@ -15640,7 +15749,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
             return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#1c1b18')}${n(row.signup)}</td><td>${bar(row.trial_start, '#8a5f00')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
         }).join('');
         const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
-body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#1c1b18;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
+body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#1c1b18;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">…on the Apps surface</span><strong>${n(mcp.appsCapHits || 0)}</strong><small>/mcp/apps keyless callers refused</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Consent screens viewed</span><strong>${n(mcp.authorizeViews || 0)}</strong><small>authorize page shown (${n(mcp.authorizeViewsSignedIn || 0)} already signed in)</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
         const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;
