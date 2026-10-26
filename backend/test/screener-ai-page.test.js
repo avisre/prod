@@ -100,7 +100,7 @@ test('ai-paper-portfolio: the persona prompts teach the new screen and the real 
     assert.ok(!/~1,500 US companies/.test(src), 'the stale universe count is gone');
 });
 
-test('screener results: each company is a real link and has a ↗ that opens it in a new tab', () => {
+test('screener results: each company is a real link and has an icon that opens it in a new tab', () => {
     const js = read('frontend-v2', 'assets', 'screener.js');
     const css = read('frontend-v2', 'assets', 'system.css');
     assert.match(js, /<a class="sym-link" href="\$\{esc\(companyUrl\(r\.symbol\)\)\}">/);
@@ -109,7 +109,7 @@ test('screener results: each company is a real link and has a ↗ that opens it 
     assert.match(js, /if \(e\.target\.closest\('a'\)\) return;/);
     assert.match(js, /if \(e\.metaKey \|\| e\.ctrlKey\) window\.open\(url, '_blank', 'noopener'\);/);
     assert.match(js, /addEventListener\('auxclick'/);
-    // shown on hover, and always where there is no hover
-    assert.match(css, /\.table-data tbody tr:hover \.sym-newtab, \.sym-newtab:focus-visible \{ opacity: 1; \}/);
-    assert.match(css, /@media \(hover: none\) \{ \.sym-newtab \{ opacity: 1; \} \}/);
+    // an icon, not a glyph, and always visible rather than only on row hover (owner, 2026-10-26)
+    assert.match(js, /in a new tab"><svg [^>]*aria-hidden="true">/);
+    assert.doesNotMatch(css, /\.sym-newtab[^}]*opacity: 0/);
 });

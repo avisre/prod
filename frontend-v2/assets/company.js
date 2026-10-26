@@ -1042,8 +1042,13 @@
                 ? win.map((p) => { const s = sharesAt(p.month.slice(0, 7)); return s ? p.close * s : null; })
                 : null;
             // left axis ALWAYS reads in market cap — via the live cap line
-            // when shown, otherwise price × the current share count
-            const sharesNow = !mixedCurrencies && sharesByPeriod.size ? sharesAt('9999-12') : null;
+            // when shown, otherwise price × the current share count. An ADR's
+            // filings count ordinary shares, not the depositary shares the price
+            // is quoted in (Sony, Alibaba), so its count is the one implied by
+            // today's market cap ÷ today's price, both in the quote currency.
+            const capToday = num((payload.overview || {}).MarketCapitalization), priceToday = num((payload.marketData || {}).price);
+            const sharesNow = !mixedCurrencies && sharesByPeriod.size ? sharesAt('9999-12')
+                : capToday > 0 && priceToday > 0 ? capToday / priceToday : null;
             // the multiple beside the market cap is the page's headline P/E, so the two agree
             const peNow = num((payload.overview || {}).PERatio);
             const capMultiple = cap ? (peNow !== null && peNow > 0 ? Math.round(peNow) + '× P/E' : 'P/E NM') : null;
@@ -1075,7 +1080,7 @@
                 chEl.className = 'small num ' + (rangePct >= 0 ? 'delta-pos' : 'delta-neg');
             }
             $('chart-prov').textContent = mixedCurrencies
-                ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because ${perShareWhy()}.`
+                ? `Price is shown in ${quoteCurrency()}.${sharesNow ? ' Left axis: the equivalent market cap at today’s share count (today’s market cap ÷ today’s price).' : ''} Historical P/E and price × filed-share-count overlays are disabled because ${perShareWhy()}.`
                 : cap
                 ? `Price (right axis): split-adjusted — ink. Market cap (left axis): price × that ${sharesBasis === 'weighted' ? 'period’s filed weighted-average share count (the balance sheet files no period-end count)' : 'fiscal year’s filed share count'} — orange. Where the lines drift apart, buybacks or dilution is why.`
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count${sharesBasis === 'weighted' ? ' (the latest filed weighted-average count)' : sharesBasis === 'current' ? ' (the count on the latest filing’s cover)' : ''}.`;
@@ -1678,7 +1683,7 @@
                 const hl = x === data.self;
                 html += `<tr data-sym="${esc(x.symbol)}" style="${hl ? 'font-weight:650;' : ''}">
                   <td class="row-head">${hl ? `${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span>`
-                    : `<span class="sym-cell"><a class="sym-link" href="${esc(peerUrl(x.symbol))}">${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></a><a class="sym-newtab" href="${esc(peerUrl(x.symbol))}" target="_blank" rel="noopener" title="Open ${esc(x.symbol)} in a new tab" aria-label="Open ${esc(x.symbol)} in a new tab">↗</a></span>`}</td>
+                    : `<span class="sym-cell"><a class="sym-link" href="${esc(peerUrl(x.symbol))}">${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></a><a class="sym-newtab" href="${esc(peerUrl(x.symbol))}" target="_blank" rel="noopener" title="Open ${esc(x.symbol)} in a new tab" aria-label="Open ${esc(x.symbol)} in a new tab"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5 7.5 8.5M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg></a></span>`}</td>
                   <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
                   <td data-label="P/E">${x.pe == null && x.netMarginPct < 0 ? 'Loss' : fixed(x.pe, 1)}</td>
                   <td data-label="Rev CAGR 5y">${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
@@ -1710,7 +1715,7 @@
             let pStart = null;
             table.addEventListener('pointerdown', (e) => { pStart = { x: e.clientX, y: e.clientY }; });
             // A peer opens the way a screener result does (owner, 2026-10-26): a
-            // click opens it here, the ↗ beside it, a Ctrl/⌘-click or a
+            // click opens it here, the new-tab icon beside it, a Ctrl/⌘-click or a
             // middle-click opens a new tab. The links open themselves.
             table.querySelectorAll('tr[data-sym]').forEach((tr) => {
                 if (tr.dataset.sym === symbol) return;

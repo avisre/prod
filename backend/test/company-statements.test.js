@@ -100,8 +100,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261026-ui40/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261026-ui40/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261026-ui41/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261026-ui41/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -302,4 +302,11 @@ test('a company that files no cost of revenue shows its filed cost lines under i
   const CASH = { cash: [{ label: 'Operating cash flow' }, { label: 'Free cash flow', fcf: true }] };
   assert.deepEqual(make({}, 'cash', 'annual', () => 'USD', String, CASH, () => true).statementDefs(false).map((d) => d.label), ['Operating cash flow']);
   assert.equal(make({}, 'cash', 'annual', () => 'USD', String, CASH).statementDefs(false), CASH.cash);
+});
+
+test('an ADR chart still reads market cap on its left axis, from today\'s market cap ÷ today\'s price', () => {
+  // Sony, Alibaba: the filings count ordinary shares, so the filed count cannot scale an ADS price
+  // (owner, 2026-10-26: the left axis was blank on every ADR peer)
+  assert.match(companySource, /const sharesNow = !mixedCurrencies && sharesByPeriod\.size \? sharesAt\('9999-12'\)\s+: capToday > 0 && priceToday > 0 \? capToday \/ priceToday : null;/);
+  assert.match(companySource, /capToday = num\(\(payload\.overview \|\| \{\}\)\.MarketCapitalization\), priceToday = num\(\(payload\.marketData \|\| \{\}\)\.price\)/);
 });
