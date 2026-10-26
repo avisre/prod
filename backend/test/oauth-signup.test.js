@@ -188,3 +188,18 @@ test('the three consent notices and the signup form say what the trial is and th
     assert.match(oauthOffer.trialSignupScript(), /fetch\('\/oauth\/signup'/);
     assert.match(oauthOffer.signupOfferHtml({ ...facts, secondary: true }), /Or start with the Monthly plan/);
 });
+
+test('a ChatGPT redirect gets no signup, even from a hand-made POST', async () => {
+    const chatgptClient = 'https://chatgpt.com/connector/oauth/abc123';
+    CLIENT.redirectUris.push(chatgptClient);
+    try {
+        const h = harness();
+        const res = await h.post({ ...GOOD, redirect_uri: chatgptClient });
+        assert.equal(res.statusCode, 403);
+        assert.equal(res.body.code, 'OAUTH_SIGNUP_UNAVAILABLE');
+        assert.equal(h.saved.length, 0);
+        assert.equal(h.cookies.length, 0);
+    } finally {
+        CLIENT.redirectUris.pop();
+    }
+});

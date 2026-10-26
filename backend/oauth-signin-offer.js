@@ -195,6 +195,57 @@ function trialEndedNoticeHtml(status, { price, lookupCost, askCost, credits = 20
 </div>`;
 }
 
+// ChatGPT's app guidelines also cover this screen when ChatGPT is the client:
+// no trial, price, plan offer or checkout link, and no new-account signup
+// (owner decision 2026-10-26). What they allow is saying the account lacks an
+// entitlement and linking to an informational page about plans, which is the
+// homepage's plans section. ChatGPT returns to chatgpt.com/connector/oauth/...
+// (or the legacy chatgpt.com/connector_platform_oauth_redirect), so the
+// redirect_uri host identifies it; openai.com is covered for older clients.
+const INFO_URL = '/?utm_source=connector&utm_campaign=chatgpt#pricing';
+const HOME_URL = '/?utm_source=connector&utm_campaign=chatgpt';
+
+function isChatGptRedirect(redirectUri) {
+    let host;
+    try { host = new URL(String(redirectUri || '')).hostname.toLowerCase(); } catch (_) { return false; }
+    return ['chatgpt.com', 'openai.com'].some((d) => host === d || host.endsWith(`.${d}`));
+}
+
+// Signed out, ChatGPT: where an account comes from, without an offer.
+function neutralSigninHtml() {
+    return `<div class="offer">
+  <h2>No account yet?</h2>
+  <p>Accounts are created on the StockPortfolio.pro website. Once you are signed in there, come back to this page to connect.</p>
+  <a class="btn" href="${escapeHtml(HOME_URL)}" target="_blank" rel="noopener">Go to StockPortfolio.pro</a>
+  <p class="fine">Opens in a new tab. This page continues by itself once you are signed in.</p>
+</div>`;
+}
+
+// Consent, ChatGPT, account without connector access (never had it, or its
+// connector allowance is over): what is unavailable, and where plans are described.
+function neutralNoAccessNoticeHtml({ ended = false } = {}) {
+    const why = ended ? 'This account’s connector allowance is over' : 'This account does not include this connector';
+    return `<div class="offer warn">
+  <h2>${escapeHtml(why)}</h2>
+  <p>You can still connect, but every request will be refused until the account includes connector access.</p>
+  <a class="btn" href="${escapeHtml(INFO_URL)}" target="_blank" rel="noopener">See what is included</a>
+  <p class="fine">Opens in a new tab. This page updates by itself once the account has access.</p>
+</div>`;
+}
+
+// Consent, ChatGPT, account on a live connector trial: what is left, stated as
+// the account's allowance.
+function neutralAllowanceNoticeHtml(status) {
+    const st = status || {};
+    const when = st.started
+        ? ` until ${longDate(st.endsAt)}`
+        : `, for ${plural(st.days, 'day')} from the first request`;
+    return `<div class="offer warn">
+  <h2>Connector allowance</h2>
+  <p>This account has ${plural(st.lookupsLeft, 'data lookup')} and ${plural(st.asksLeft, 'AI answer')} left${escapeHtml(when)}. It does not renew.</p>
+</div>`;
+}
+
 const OFFER_CSS = `.offer{margin-top:22px;padding-top:18px;border-top:1px solid #e8e6e0}
 .offer.warn{margin:0 0 20px;padding:14px 16px;border:1px solid #e7c98a;border-radius:10px;background:#fdf8ec}
 .offer h2{font-size:15px;margin:0 0 6px}.offer p{font-size:14px;color:#45423c;margin:0 0 12px}
@@ -228,5 +279,6 @@ function pollScript(waitFor) {
 module.exports = {
     RESUME_COOKIE, RESUME_NEXT, RESUME_PATH, RESUME_MAX_AGE_SECONDS, SIGNUP_URL, UPGRADE_URL, OFFER_CSS,
     resumeCookie, clearResumeCookie, resumeTarget, signupOfferHtml, noAccessNoticeHtml, pollScript,
-    trialTerms, trialSignupHtml, trialSignupScript, trialNoticeHtml, trialEndedNoticeHtml
+    trialTerms, trialSignupHtml, trialSignupScript, trialNoticeHtml, trialEndedNoticeHtml,
+    INFO_URL, isChatGptRedirect, neutralSigninHtml, neutralNoAccessNoticeHtml, neutralAllowanceNoticeHtml
 };

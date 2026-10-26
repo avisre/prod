@@ -93,3 +93,56 @@ test('register.html carries only the connector return path through checkout', ()
         'any other ?next= falls back to the dashboard');
     assert.equal(offer.RESUME_NEXT, 'oauth/resume');
 });
+
+// ChatGPT as the client (owner decision 2026-10-26): its app guidelines rule
+// out advertising a trial or price, showing plans, linking to checkout and
+// new-account sign-up, so its screens carry none of that. The visible text is
+// held to the same COMMERCE pattern test/mcp-apps.test.js applies to /mcp/apps.
+test('a ChatGPT redirect is recognised by host, and nothing else is', () => {
+    for (const uri of [
+        'https://chatgpt.com/connector/oauth/abc123',
+        'https://chatgpt.com/connector_platform_oauth_redirect',
+        'https://chat.openai.com/aip/plugin-x/oauth/callback',
+        'https://CHATGPT.com/connector/oauth/abc'
+    ]) assert.equal(offer.isChatGptRedirect(uri), true, uri);
+    for (const uri of [
+        'https://claude.ai/api/mcp/auth_callback',
+        'https://chatgpt.com.evil.example/cb',
+        'https://notchatgpt.com/cb',
+        'http://localhost:6274/oauth/callback',
+        '',
+        'not a url'
+    ]) assert.equal(offer.isChatGptRedirect(uri), false, uri);
+});
+
+test('the ChatGPT screens name no trial, price, plan or checkout and link only to the homepage', () => {
+    const COMMERCE = /\$\d|\/month|\bpricing\b|\bplans?\b|upgrade|\btrial\b|subscri|checkout/i;
+    const text = (html) => html.replace(/<[^>]+>/g, ' ');
+    const screens = [
+        offer.neutralSigninHtml(),
+        offer.neutralNoAccessNoticeHtml(),
+        offer.neutralNoAccessNoticeHtml({ ended: true }),
+        offer.neutralAllowanceNoticeHtml({ started: false, days: 30, lookupsLeft: 25, asksLeft: 3 }),
+        offer.neutralAllowanceNoticeHtml({ started: true, endsAt: '2026-11-25T00:00:00Z', daysLeft: 30, lookupsLeft: 1, asksLeft: 0 })
+    ];
+    for (const html of screens) {
+        assert.doesNotMatch(text(html), COMMERCE);
+        assert.doesNotMatch(html, /\/register|\/upgrade|\/recharge|\/checkout|<form/);
+        for (const [, href] of html.matchAll(/href="([^"]*)"/g)) assert.match(href, /^\/\?utm_source=connector&amp;utm_campaign=chatgpt(#pricing)?$/);
+    }
+    assert.match(screens[1], /This account does not include this connector/);
+    assert.match(screens[2], /This account’s connector allowance is over/);
+    assert.match(screens[3], /25 data lookups and 3 AI answers left, for 30 days from the first request\. It does not renew\./);
+    assert.match(screens[4], /1 data lookup and 0 AI answers left until 25 November 2026\./);
+});
+
+test('app.js gives a ChatGPT client the neutral sign-in and consent screens', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+    assert.match(source, /const chatgpt = oauthOffer\.isChatGptRedirect\(redirectUri\);/);
+    const start = source.indexOf('if (!user && chatgpt) {');
+    const branch = source.slice(start, source.indexOf('    if (!user) {', start));
+    assert.match(branch, /oauthOffer\.neutralSigninHtml\(\)/);
+    assert.doesNotMatch(branch, /trialSignup|signupOfferHtml|resumeCookie/);
+    assert.match(source, /: chatgpt \? \(trialLive \? oauthOffer\.neutralAllowanceNoticeHtml\(trial\) : oauthOffer\.neutralNoAccessNoticeHtml\(\{ ended: Boolean\(trial\) \}\)\)/);
+    assert.match(source, /chatgpt \? 'Use this account\u2019s connector allowance' : 'Use your free connector trial'/);
+});

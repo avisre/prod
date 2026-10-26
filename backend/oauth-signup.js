@@ -27,6 +27,7 @@
 // requires app.js.
 
 const fields = require('./signup-fields');
+const offer = require('./oauth-signin-offer');
 
 function connectorSignupHandler(deps) {
     if (!deps || typeof deps.getClient !== 'function' || !deps.User) {
@@ -69,6 +70,17 @@ function connectorSignupHandler(deps) {
                 return res.status(400).json({
                     message: 'Please start the sign-in from your assistant\u2019s connection screen and try again.',
                     code: 'OAUTH_CLIENT_UNKNOWN'
+                });
+            }
+
+            // ChatGPT's sign-in screen offers no signup (oauth-signin-offer.js:
+            // its app guidelines rule out a trial and new-account sign-up), so
+            // a request naming a ChatGPT redirect is refused rather than
+            // granted the trial by a hand-made POST.
+            if (offer.isChatGptRedirect(redirectUri)) {
+                return res.status(403).json({
+                    message: 'Create your account on the StockPortfolio.pro website, then return to this page to connect.',
+                    code: 'OAUTH_SIGNUP_UNAVAILABLE'
                 });
             }
 

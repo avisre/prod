@@ -6604,6 +6604,30 @@ ${oauthOffer.OFFER_CSS}</style>`;
     // in credits.js); mcp-anon.js quotes the same figure.
     const offerFacts = { price: CORE_PLAN_PRICE, lookupCost: credits.LISTED_COST.mcp_lookup, askCost: credits.COST.mcp_ask, credits: 200 };
     const cookieSecure = process.env.NODE_ENV === 'production';
+    // ChatGPT as the client: no trial, price, plan offer, checkout link or
+    // signup on either screen (its app guidelines; see oauth-signin-offer.js).
+    const chatgpt = oauthOffer.isChatGptRedirect(redirectUri);
+
+    if (!user && chatgpt) {
+        return res.type('html').send(`${head}
+<div class="card">
+  <h1>Sign in to connect</h1>
+  <p class="sub"><strong>${escapeHtmlOauth(client.clientName)}</strong> wants to use your StockPortfolio.pro account.</p>
+  ${destination}
+  <form id="f">
+    <label for="e">Email</label><input id="e" type="email" autocomplete="username" required>
+    <label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required>
+    <button type="submit">Sign in</button>
+    <div class="err" id="err"></div>
+  </form>
+  <p class="alt">Signed up with Google?
+    <a href="/login.html" target="_blank" rel="noopener nofollow">Sign in here</a>, then
+    <a href="${escapeHtmlOauth(selfUrl)}">continue</a>.</p>
+  ${oauthOffer.neutralSigninHtml()}
+</div>
+${oauthOffer.pollScript('session')}
+${OAUTH_SIGNIN_SCRIPT}`);
+    }
 
     if (!user) {
         // Sign-in is inline so the consent request survives it. The new-tab
@@ -6636,7 +6660,44 @@ ${oauthOffer.OFFER_CSS}</style>`;
 </div>
 ${oauthOffer.pollScript('session')}
 ${oauthOffer.trialSignupScript()}
-<script>
+${OAUTH_SIGNIN_SCRIPT}`);
+    }
+
+    const email = escapeHtmlOauth(user.email || '');
+    // An account without connector access is told before it clicks Allow, not
+    // by a refusal on its first call. Allow stays available: the connection
+    // picks a new plan up on the next call. A connector-made account sees its
+    // trial instead: what is left, or that it is over.
+    const hasAccess = hasApiAccess({ user, subscription: user.subscription });
+    const trial = !hasAccess && mcpTrial.eligible(user) ? await mcpTrial.status(user._id) : null;
+    const trialLive = Boolean(trial) && trialIsLive(trial);
+    const notice = hasAccess ? ''
+        : chatgpt ? (trialLive ? oauthOffer.neutralAllowanceNoticeHtml(trial) : oauthOffer.neutralNoAccessNoticeHtml({ ended: Boolean(trial) }))
+        : trialLive ? oauthOffer.trialNoticeHtml(trial, offerFacts)
+        : trial ? oauthOffer.trialEndedNoticeHtml(trial, offerFacts)
+        : oauthOffer.noAccessNoticeHtml(offerFacts);
+    return res.type('html').send(`${head}
+<div class="card">
+  <h1>Connect ${escapeHtmlOauth(client.clientName)}</h1>
+  <p class="sub">Signed in as ${email}</p>
+  ${notice}
+  ${destination}
+  <ul>
+    <li>Read filing-grounded company data through your account</li>
+    <li>${trialLive ? (chatgpt ? 'Use this account’s connector allowance' : 'Use your free connector trial') : 'Spend credits from your monthly allowance'}</li>
+    <li>No access to your password, card details or portfolios</li>
+  </ul>
+  <form method="POST" action="/oauth/authorize/decision">${hidden}
+    <button type="submit" name="decision" value="allow">Allow access</button>
+    <button type="submit" name="decision" value="deny" class="ghost">Cancel</button>
+  </form>
+</div>
+${hasAccess || trialLive ? '' : oauthOffer.pollScript('access')}`);
+});
+
+// The sign-in form on both /oauth/authorize sign-in screens: same-origin login,
+// then a reload lands on the consent screen with the new session.
+const OAUTH_SIGNIN_SCRIPT = `<script>
 document.getElementById('f').addEventListener('submit', async function (ev) {
   ev.preventDefault();
   var err = document.getElementById('err'); err.textContent = '';
@@ -6649,39 +6710,7 @@ document.getElementById('f').addEventListener('submit', async function (ev) {
     location.reload();
   } catch (_) { err.textContent = 'Sign in failed. Please try again.'; }
 });
-</script>`);
-    }
-
-    const email = escapeHtmlOauth(user.email || '');
-    // An account without connector access is told before it clicks Allow, not
-    // by a refusal on its first call. Allow stays available: the connection
-    // picks a new plan up on the next call. A connector-made account sees its
-    // trial instead: what is left, or that it is over.
-    const hasAccess = hasApiAccess({ user, subscription: user.subscription });
-    const trial = !hasAccess && mcpTrial.eligible(user) ? await mcpTrial.status(user._id) : null;
-    const trialLive = Boolean(trial) && trialIsLive(trial);
-    const notice = hasAccess ? ''
-        : trialLive ? oauthOffer.trialNoticeHtml(trial, offerFacts)
-        : trial ? oauthOffer.trialEndedNoticeHtml(trial, offerFacts)
-        : oauthOffer.noAccessNoticeHtml(offerFacts);
-    return res.type('html').send(`${head}
-<div class="card">
-  <h1>Connect ${escapeHtmlOauth(client.clientName)}</h1>
-  <p class="sub">Signed in as ${email}</p>
-  ${notice}
-  ${destination}
-  <ul>
-    <li>Read filing-grounded company data through your account</li>
-    <li>${trialLive ? 'Use your free connector trial' : 'Spend credits from your monthly allowance'}</li>
-    <li>No access to your password, card details or portfolios</li>
-  </ul>
-  <form method="POST" action="/oauth/authorize/decision">${hidden}
-    <button type="submit" name="decision" value="allow">Allow access</button>
-    <button type="submit" name="decision" value="deny" class="ghost">Cancel</button>
-  </form>
-</div>
-${hasAccess || trialLive ? '' : oauthOffer.pollScript('access')}`);
-});
+</script>`;
 
 // A connector trial is live while it has not ended by date and something is
 // left to spend (mcp-trial.js status shape).
