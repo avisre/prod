@@ -138,7 +138,7 @@ function keyedShape(overrides = {}) {
     return {
         // planId 'free' on purpose: credits.balance() sizes the wallet from the
         // stored user record while credits.check() honours the planId passed in,
-        // so a 'dev' caller here would be checked against a 200-credit allowance
+        // so a 'dev' caller here would be checked against a 2,000-credit allowance
         // that balance() reports as 20 — and the drain-the-wallet test would
         // under-drain and pass for the wrong reason. Entitlement is stubbed
         // explicitly rather than inferred from the plan, so the two stay

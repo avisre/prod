@@ -1,6 +1,6 @@
 'use strict';
 
-// The Dev plan ($200/mo, 200 credits) is the self-serve rung the entire
+// The Dev plan ($200/mo, 2,000 credits) is the self-serve rung the entire
 // developer funnel converts on — the npm package, the MCP directory listings,
 // the embeddable widgets and the programmatic SEO pages all land on /api and
 // end at this checkout. These are structural guards on the parts of that
@@ -205,27 +205,26 @@ test('the subscription webhook prefers metadata.planId over the price id', () =>
     assert.match(reader, /config\.planId === raw/, 'an unrecognised planId must not round-trip into a Monthly grant');
 });
 
-test('the Dev credit floor is 200 and beats the derived wallet', () => {
+test('the Dev credit floor is 2,000 and beats the derived wallet', () => {
     // Asserted through allowance() rather than the floor table directly (which
     // credits.js doesn't export): passing the free tier's Ask limit is exactly
     // what a Dev subscriber resolves to, so this pins both the floor's
     // existence and its value in one call.
-    assert.equal(credits.allowance(3, 'dev', null), 200, 'Dev gets an explicit 200-credit floor');
+    assert.equal(credits.allowance(3, 'dev', null), 2000, 'Dev gets an explicit 2,000-credit floor');
     // Monthly and Annual carry explicit floors since 2026-10-26 (owner
     // decision: Monthly moved from 100 to 200, Annual to 300).
     assert.equal(credits.allowance(3, 'monthly', null), 200, 'the Monthly wallet floor is 200');
     assert.equal(credits.allowance(3, 'annual', null), 300, 'the Annual wallet floor is 300');
     // Sanity: a plan with no floor still derives from the Ask limit (x2).
     assert.equal(credits.allowance(3, 'free', null), 6, 'an unfloored plan still derives from the Ask limit');
-    // Since the 2026-10-08 reprice the plan is dearer per credit than the
-    // recharge pack it would otherwise be bought alongside: $200/200 = $1.00
-    // vs $14.99/150 = $0.09993, about ten times. That inverts the rule in
-    // credits.js on purpose (an owner decision on the price). Recorded, not
-    // hidden: pin both rates so neither moves without this being re-read.
-    const planRate = 200 / 200;
+    // Owner decision 2026-10-26: the $200 plan buys what $200 of recharge
+    // packs would. $200/2,000 = $0.10 vs $14.99/150 = $0.09993 a credit.
+    // Pin both rates so neither moves without this being re-read.
+    const planRate = 200 / 2000;
     const packRate = 14.99 / 150;
-    assert.equal(planRate, 1, 'Dev is $1.00 per credit');
-    assert.ok(planRate > packRate * 10, `plan rate ${planRate} is about ten times pack rate ${packRate}`);
+    assert.equal(planRate, 0.1, 'Dev is $0.10 per credit');
+    assert.ok(Math.abs(planRate - packRate) < 0.001, `plan rate ${planRate} matches pack rate ${packRate}`);
+    assert.equal(Math.floor(200 / packRate), 2001, '$200 of packs is 2,001 credits');
     // Guard the arithmetic above, so a future edit to the price or the floor
     // has to re-derive the rate rather than inherit a stale claim.
     assert.equal(credits.COST.mcp_ask, 42, 'the AI-backed MCP action is priced at the 6x-frontier anchor');
@@ -234,9 +233,8 @@ test('the Dev credit floor is 200 and beats the derived wallet', () => {
 
 test('the Dev wallet cannot be spent on the website Ask box', () => {
     // The one web surface a Dev subscriber could otherwise reach: Ask is
-    // metered by the credit wallet and has no tier gate, so Dev's flat 200
-    // credits would buy 100 web questions against Monthly's 50 at a lower
-    // price. The refusal has to sit in the authenticated Ask handler, before
+    // metered by the credit wallet and has no tier gate, so Dev's flat 2,000
+    // credits would buy 1,000 web questions without the web app. The refusal has to sit in the authenticated Ask handler, before
     // the wallet is consulted.
     const ask = appSource.indexOf("app.post('/api/ai/chat', askAuth, async (req, res) => {");
     assert.ok(ask >= 0, 'the Ask route exists');
@@ -255,7 +253,7 @@ test('the API landing page renders, prices the Dev plan, and carries the real ex
     assert.ok(typeof html === 'string' && html.length > 2000, 'renderApiLanding returns a page');
     assert.match(html, /<link rel="canonical" href="https:\/\/www\.stockportfolio\.pro\/api" \/>/, 'canonical is /api');
     assert.match(html, /\$200\/mo/, 'the page states the Dev price');
-    assert.match(html, /200 credits/, 'the page states the Dev allowance');
+    assert.match(html, /2,000 credits/, 'the page states the Dev allowance');
     assert.match(html, /register\?plan=dev/, 'the CTA routes to the Dev checkout');
     // The example payload is a real captured response, not a mock-up — if it
     // ever drifts from what the extractor returns, this page is lying.

@@ -795,10 +795,10 @@ const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 // (subscription_data.metadata, further down) and still read FIRST by
 // syncSubscriptionFromStripe(); see ambiguousStripePriceIds() for why that
 // ordering survives even though the ids no longer collide. What the buyer gets
-// for $200 is the API instead of the web app: 200 credits and the
+// for $200 is the API instead of the web app: 2,000 credits and the
 // programmatic surface, with no web-app features.
 //
-// Credit economics: 200 credits/mo at $200 = $1.00/credit, ten times the
+// Credit economics: 2,000 credits/mo at $200 = $0.10/credit, the same as the
 // $14.99/150 top-up rate ($0.09993). See PLAN_ALLOWANCE_FLOOR in credits.js
 // for the allowance side of this.
 const FILING_WATCH_PLAN_ID = 'filing-watch';
@@ -10429,9 +10429,10 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         // its reach — Dossier is behind proGate, Monitor behind monitorGate,
         // and userTier() reads Dev as 'free' so coreGate closes the rest — but
         // Ask has NO tier gate: it is metered purely by the credit wallet, and
-        // Dev's wallet is a flat 200 credits (PLAN_ALLOWANCE_FLOOR). Left open,
-        // a Dev subscriber could spend those 200 credits on the website Ask box
-        // — 100 questions against Monthly's 50, for $5 less a month. That is a
+        // Dev's wallet is a flat 2,000 credits (PLAN_ALLOWANCE_FLOOR). Left
+        // open, a Dev subscriber could spend those credits on the website Ask
+        // box — 1,000 questions against Monthly's 100 — without buying the
+        // web app. That is a
         // pricing leak with no error anywhere, so it is refused here rather
         // than discovered later in the revenue numbers.
         if (String(planId || '') === DEV_PLAN_ID) {

@@ -297,29 +297,28 @@ async function grant(userId, amount, reason, refId) {
 // drawing from that same pool. Keyed on the *uncollapsed* planId so it must be
 // read from req.subscription.planId, not req.tier. Every other plan keeps the
 // plain ×2 — no current user's capacity shrinks.
-// The Dev plan (app.js DEV_PLAN_ID) is the API/MCP-only rung: $200/mo for 200
+// The Dev plan (app.js DEV_PLAN_ID) is the API/MCP-only rung: $200/mo for 2,000
 // credits. It gets an explicit floor rather than the derived x2 for the same
 // reason Power/Desk do — its Ask limit is the FREE tier's (it deliberately
 // grants no web-app features, so userTier() reads it as 'free'), and x2 off
-// that would be 6 credits, not the 200 that were sold. Keyed on the
+// that would be 6 credits, not the 2,000 that were sold. Keyed on the
 // uncollapsed planId, so it must be read from req.subscription.planId.
 //
-// $200 for 200 credits = $1.00/credit against the $14.99/150 recharge-pack
-// rate of $0.09993, so since the 2026-10-08 reprice (from $19.99) the pack is
-// ten times the cheaper of the two per credit. That is the inversion the rule
-// above forbids, by an owner decision on the price rather than by rounding;
-// test/dev-plan.test.js pins the two rates so the gap stays a recorded fact.
-// Worst case all 200 credits go to mcp_ask (42 each) = 4 AI calls, the same
-// tail the V2 LTD note below is protecting against.
+// 2,000 credits is what $200 buys at the $14.99/150 recharge-pack rate
+// ($0.09993/credit: $200 / $0.09993 = 2,001), so the plan and the pack cost
+// the same per credit (owner decision 2026-10-26: "make sure they get the
+// equivalent usage for 200 usd"). From the 2026-10-08 reprice until then the
+// floor stayed at 200, $1.00/credit, ten times the pack. test/dev-plan.test.js
+// pins both rates. Worst case all 2,000 credits go to mcp_ask (42 each) = 47
+// AI calls, sold at the same per-credit price as a top-up.
 //
 // Monthly and Annual were given explicit floors on 2026-10-26 (owner
 // decision): Monthly moved from 100 credits a month to 200, Annual to 300.
 // Before this, both sat on the derived x2 off a 50-question Ask limit (100
 // credits), which the first paying connector customer spent in 28 minutes.
 // Annual gets the larger wallet as the reward for paying a year upfront.
-// Pure widening, so no grandfather clause is needed. The Dev floor above is
-// untouched.
-const PLAN_ALLOWANCE_FLOOR = { monthly: 200, annual: 300, power: 2000, 'power-monthly': 2000, desk: 10000, dev: 200 };
+// Pure widening, so no grandfather clause is needed.
+const PLAN_ALLOWANCE_FLOOR = { monthly: 200, annual: 300, power: 2000, 'power-monthly': 2000, desk: 10000, dev: 2000 };
 
 // Explicit per-tier wallet for AppSumo/DealMirror lifetime buyers, replacing the
 // derived x2 for those accounts. The derived form made the listing a second,
