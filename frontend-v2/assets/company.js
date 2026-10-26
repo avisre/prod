@@ -1168,7 +1168,13 @@
         const d = derive(inc);
         const fy = last.end ? 'FY' + new Date(last.end).getFullYear() : 'latest FY';
         const roe = ratio(num(inc.netIncome), num(bal.totalShareholderEquity));
-        const nm = ratio(num(inc.netIncome), d.rev);
+        const ni = num(inc.netIncome);
+        // A year with a discontinued business is read on the business that continues, as the
+        // filing presents it: Sony FY2026 lost ¥326.9bn after ¥1,357.8bn from its spun-off
+        // financial arm and earned ¥1,030.9bn from continuing operations.
+        const disc = num(inc.discontinuedOperations);
+        const contNi = ni !== null && disc ? ni - disc : null;
+        const nm = ratio(contNi ?? ni, d.rev);
         const fcf = fcfOf(cf);
         const sh = num(bal.commonStockSharesOutstanding);
         const equity = num(bal.totalShareholderEquity);
@@ -1178,13 +1184,14 @@
         // Market cap against filed totals needs both in one currency (a converted
         // foreign filer is in USD by now); the rest of each multiple is labelled with its basis.
         const cap = quoteCur === reportCur ? num(ov.MarketCapitalization) : null;
-        const ni = num(inc.netIncome);
         const price = num((payload.marketData || {}).price);
         const eps = num(inc.dilutedEPS);
         const filed = payload.filedPerShare;
         // A filer with only basic EPS (no dilutive securities) is divided by that, and says so.
         const peEps = eps ?? num(inc.eps), peBasis = eps !== null ? 'diluted' : 'basic';
         const pe = num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
+            : contNi !== null ? (contNi <= 0 ? ['Loss', `${fy} continuing operations`]
+                : cap > 0 ? [fixed(cap / contNi, 1), `market cap ÷ ${fy} net income from continuing operations`] : ['—'])
             : (ni !== null && ni <= 0) || (peEps !== null && peEps <= 0) ? ['Loss']
             : peEps > 0 && price > 0 && quoteCur === reportCur && !hasCurrencyMismatch() ? [fixed(price / peEps, 1), `price ÷ ${fy} ${peBasis} EPS`]
             : cap > 0 && ni > 0 ? [fixed(cap / ni, 1), `market cap ÷ ${fy} net income`]
@@ -1207,7 +1214,7 @@
             ['P/E', ...pe],
             [`Revenue ${fy}`, currencyAmount(d.rev, reportCur)],
             ['Forward P/E', fwd !== null && fwd < 0 ? 'Loss' : fixed(fwd, 1)],
-            ['Net margin', pctFmt(nm)],
+            ['Net margin', pctFmt(nm), contNi !== null ? 'continuing operations' : ''],
             ['Dividend yield', ...dividend],
             ['Return on equity', pctFmt(roe)],
             epsRow,
