@@ -103,7 +103,8 @@ test('a ChatGPT redirect is recognised by host, and nothing else is', () => {
         'https://chatgpt.com/connector/oauth/abc123',
         'https://chatgpt.com/connector_platform_oauth_redirect',
         'https://chat.openai.com/aip/plugin-x/oauth/callback',
-        'https://CHATGPT.com/connector/oauth/abc'
+        'https://CHATGPT.com/connector/oauth/abc',
+        'https://chatgpt-staging.com/connector/oauth/HWbF3Wa8u_Ah'
     ]) assert.equal(offer.isChatGptRedirect(uri), true, uri);
     for (const uri of [
         'https://claude.ai/api/mcp/auth_callback',

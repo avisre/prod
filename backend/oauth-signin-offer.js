@@ -208,7 +208,9 @@ const HOME_URL = '/?utm_source=connector&utm_campaign=chatgpt';
 function isChatGptRedirect(redirectUri) {
     let host;
     try { host = new URL(String(redirectUri || '')).hostname.toLowerCase(); } catch (_) { return false; }
-    return ['chatgpt.com', 'openai.com'].some((d) => host === d || host.endsWith(`.${d}`));
+    // chatgpt-staging.com is ChatGPT's staging client, a registered client in
+    // production (seen 2026-10-26) and plausibly the one app review connects from.
+    return ['chatgpt.com', 'chatgpt-staging.com', 'openai.com'].some((d) => host === d || host.endsWith(`.${d}`));
 }
 
 // Signed out, ChatGPT: where an account comes from, without an offer.
