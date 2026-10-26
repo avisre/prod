@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261025-rev3';
+const EXTRACTION_VERSION = '20261026-rev1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -136,13 +136,17 @@ const MAPS = {
   // sample of 70, these tags cover about half and the rest file no such line.
   // The IFRS element is "...ClassifiedAsInvestingActivities"; the short name
   // listed first never matched a foreign filer.
-  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets','PaymentsForCapitalImprovements','PaymentsToAcquireOilAndGasPropertyAndEquipment'],['PurchaseOfPropertyPlantAndEquipment','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities','PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets']),
+  // ADP (FY2008 on), FLEX LNG and Brookfield Asset Management file their only capital spending line as
+  // "other" property (2026-10-26: 560 annual years blank at 261 issuers tagging it); it fills only (FILL_GUARDS).
+  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets','PaymentsForCapitalImprovements','PaymentsToAcquireOilAndGasPropertyAndEquipment','PaymentsToAcquireOtherPropertyPlantAndEquipment'],['PurchaseOfPropertyPlantAndEquipment','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities','PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets']),
   cashflowFromInvestment:mapping(['NetCashProvidedByUsedInInvestingActivities','NetCashProvidedByUsedInInvestingActivitiesContinuingOperations'],['CashFlowsFromUsedInInvestingActivities']),
   cashflowFromFinancing:mapping(['NetCashProvidedByUsedInFinancingActivities','NetCashProvidedByUsedInFinancingActivitiesContinuingOperations'],['CashFlowsFromUsedInFinancingActivities']),
   dividendPayout:mapping(['PaymentsOfDividends','PaymentsOfOrdinaryDividends','PaymentsOfDividendsCommonStock','PaymentsOfCapitalDistribution'],['DividendsPaid','DividendsPaidClassifiedAsFinancingActivities']),
   dividendPayoutCommonStock:mapping(['PaymentsOfDividendsCommonStock'],['DividendsPaidToEquityHoldersOfParentClassifiedAsFinancingActivities']),
   paymentsForRepurchaseOfCommonStock:mapping(['PaymentsForRepurchaseOfCommonStock','PaymentsForRepurchaseOfEquity'],['PaymentsToAcquireOrRedeemEntitysShares']),
-  shareBasedCompensation:mapping(['ShareBasedCompensation','AllocatedShareBasedCompensationExpense'],['AdjustmentsForSharebasedPayments']),
+  // Sony, Barclays and 48 more IFRS filers tag the note's expense and no cash-flow add-back (2026-10-26); where
+  // both are filed the two agree exactly in 61% of 3,169 years, so like the US GAAP note line it only fills.
+  shareBasedCompensation:mapping(['ShareBasedCompensation','AllocatedShareBasedCompensationExpense'],['AdjustmentsForSharebasedPayments','ExpenseFromSharebasedPaymentTransactionsWithEmployees']),
   depreciationDepletionAndAmortization:mapping(['DepreciationDepletionAndAmortization','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet'],['AdjustmentsForDepreciationAndAmortisationExpense','DepreciationAndAmortisationExpense']),
   operatingCashflowContinuing:mapping(['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
   operatingCashflowDiscontinued:mapping(['CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations']),
@@ -240,7 +244,10 @@ const EQUIVALENTS_ADDED = ['InterestExpenseOperating','InterestAndDividendIncome
 // part (measured 2026-10-17): cash beside its cash equivalents (CIK 1737523: $0.60m cash, $1.21m equivalents), accounts
 // receivable beside a noncurrent part (CIK 1590715), distributions beside ordinary dividends (CIK 1637207: $4.8m, $169.3m).
 const FILL_GUARDS = {'us-gaap:Cash':['us-gaap:CashEquivalentsAtCarryingValue'],'us-gaap:AccountsReceivableNet':['us-gaap:AccountsReceivableNetNoncurrent'],
- 'us-gaap:PaymentsOfCapitalDistribution':['us-gaap:PaymentsOfDividends','us-gaap:PaymentsOfOrdinaryDividends','us-gaap:PaymentsOfDividendsCommonStock']};
+ 'us-gaap:PaymentsOfCapitalDistribution':['us-gaap:PaymentsOfDividends','us-gaap:PaymentsOfOrdinaryDividends','us-gaap:PaymentsOfDividendsCommonStock'],
+ // "Other" property is one part beside real estate, oil and gas, buildings or equipment in 582 of those years.
+ 'us-gaap:PaymentsToAcquireOtherPropertyPlantAndEquipment':['OilAndGasProperty','OilAndGasEquipment','RealEstate','OtherRealEstate','RealEstateHeldForInvestment','AndDevelopRealEstate','Timberlands','OtherProductiveAssets','MiningAssets',
+  'Buildings','LandHeldForUse','Land','EquipmentOnLease','MachineryAndEquipment','FurnitureAndFixtures','RoyaltyInterestsInMiningProperties'].map(t=>'us-gaap:PaymentsToAcquire'+t).concat('us-gaap:PaymentsToDevelopRealEstateAssets')};
 // Total interest income is never below the same filing's net interest income or loan interest. Where a bank tags a
 // sub-line as interest income it is (measured 2026-10-17: 244 years at 38 issuers, CIK 862831 FY2012 $0.56m beside
 // $97.6m total interest and dividend income), so the filed total is read. Only when that filing reports the larger
@@ -251,11 +258,12 @@ const TOTAL_FLOORS = {'us-gaap:InvestmentIncomeInterest':['us-gaap:InterestIncom
  'us-gaap:InterestIncomeOperating':['us-gaap:InterestIncomeExpenseNet','us-gaap:InterestAndFeeIncomeLoansAndLeases']};
 const FILLS_ADDED = ['us-gaap:ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost','us-gaap:ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost','us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted','us-gaap:PaymentsOfDividendsCommonStock','us-gaap:PaymentsForRepurchaseOfEquity','us-gaap:AllocatedShareBasedCompensationExpense',
  'ifrs-full:SellingGeneralAndAdministrativeExpense','ifrs-full:InterestExpense','ifrs-full:BasicAndDilutedEarningsLossPerShare','ifrs-full:DepreciationAndAmortisationExpense','ifrs-full:AdjustmentsForDepreciationAndAmortisationExpense','ifrs-full:NumberOfSharesOutstanding','ifrs-full:PaymentsToAcquireOrRedeemEntitysShares','ifrs-full:AdjustmentsForSharebasedPayments',
+ 'ifrs-full:ExpenseFromSharebasedPaymentTransactionsWithEmployees','us-gaap:PaymentsToAcquireOtherPropertyPlantAndEquipment',
  ...IFRS_ADDED,...EQUIVALENTS_ADDED,...['PerDilutedShare','PerBasicShare','PerBasicAndDilutedShare'].map(x=>'us-gaap:IncomeLossFromContinuingOperations'+x)];
 // A figure one of them gives yields to the line the statement presents (a note's share-based expense, $900k,
 // is not the cash-flow add-back of $588k), and a quarter does not follow its year onto one of them.
 // Fill-only like FILLS_ADDED, so a presented total line still takes its place (sec-facts extract, equity REITs).
-const LEASE_REVENUE='OperatingLeaseLeaseIncome';
+const LEASE_REVENUE='OperatingLeaseLeaseIncome',OTHER_PPE='PaymentsToAcquireOtherPropertyPlantAndEquipment';
 const FILLS=new Set([...FILLS_ADDED,'us-gaap:'+LEASE_REVENUE]);
 const BORROWED = {income:['depreciationAndAmortization'],cash:['cashFlowNetIncome']};
 const FORM = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
@@ -512,6 +520,11 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   if(!l || !MAPS[l.s]?.[l.f] || !p.day(l.e) || !p.day(l.d) || !Number.isFinite(l.v) || !/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') || !FORM.test(l.m || '') || !l.t || !l.c)continue;
   const k=l.s+'|'+l.f+'|'+l.e;if(!lineIndex.has(k))lineIndex.set(k,[]);lineIndex.get(k).push(l);
  }
+ // "Other" property stands in for capital spending only at a company whose statements never show it as one part
+ // of a larger total: Mattel presents it beside its tools, dies and molds, and Alibaba's FY2022 20-F presents
+ // FY2020's ¥32,550m where the ¥24,662m it had tagged as other property left out its land use rights.
+ const otherPpePart=[...capexIndex.values()].flat().some(l=>l.c.includes(OTHER_PPE)?l.c.length>1
+  :(byConceptUnit.get('us-gaap:'+OTHER_PPE+'|'+l.u) || []).some(r=>r.end===l.e && (l.q===4?r.days>=340 && r.days<=380:r.days>=75 && r.days<=QUARTER_MAX_DAYS) && Math.abs(r.val)<Math.abs(l.v.reduce((n,v)=>n+v,0))));
  function fillFromLines(st,basis,row,end,cur) {
   const cited=new Map(),cite=id=>{const s=out.sources[id];if(s?.accessionNumber && !cited.has(s.accessionNumber))cited.set(s.accessionNumber,s);};
   for(const ids of Object.values(row._sources))ids.forEach(cite);
@@ -741,7 +754,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     || floors && [floors,[TOTAL_INTEREST]].every(tags=>rows.some(r=>tags.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val>f.val));
   };
   for(const [taxonomy,concept] of ordered) {
-   if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
+   if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept) || concept===OTHER_PPE && otherPpePart)continue;
    let all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
    // The newest year's annual figures are as reported in its own annual report.
    // Its quarters must be too: next year's 10-Qs restate them as comparatives
@@ -783,7 +796,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   // filing's own 2016-03-01 dropped four cells), so their starts count only as a fill-only tag's
   // and verifiedField drops a span the row disproves.
   if(basis==='quarterly' && st!=='balance' && unit===cur) for(const [taxonomy,concept] of ordered) {
-   if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
+   if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept) || concept===OTHER_PPE && otherPpePart)continue;
    let all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
    if(asReportedQuarter && quartersAsFiled){const filed=all.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))all=filed;}
    const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);

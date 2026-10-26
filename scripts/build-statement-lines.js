@@ -40,7 +40,7 @@ async function child(file,out,covered){
   const tag=c[h.tag],version=c[h.version],plabel=c[h.plabel];
   if(stmt==='BS' && (tag==='Assets' || BALANCE_TAG.get(tag)?.size===1))face.set(adsh+'|'+tag+'|'+version,plabel);
   if(stmt==='BS' && lines.debtLine(tag,plabel)){if(!debt.has(adsh))debt.set(adsh,new Map());debt.get(adsh).set(tag+'|'+version,tag);}
-  if(stmt==='CF' && lines.capexLine(tag,plabel)){const k=adsh+'|'+tag+'|'+version;if(!capex.has(k))capex.set(k,{tag,custom:version===adsh,version,plabel});}
+  if(stmt==='CF' && lines.capexLine(tag,plabel,version===adsh)){const k=adsh+'|'+tag+'|'+version;if(!capex.has(k))capex.set(k,{tag,custom:version===adsh,version,plabel});}
   if(/noncontrolling|minority/i.test(tag+' '+plabel))nci.add(adsh+'|'+stmt);
   if(!lines.fieldsFor(stmt,plabel,tag,{custom:version===adsh,mapped,memberTotal:true}).length)return;
   const key=adsh+'|'+tag+'|'+version;if(!raw.has(key))raw.set(key,[]);raw.get(key).push({stmt,plabel});

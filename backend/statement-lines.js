@@ -109,6 +109,12 @@ function netLabel(text){return text.replace(NET_OF,', net').replace(/ [-–—] 
 function mappedTags(){
  const {MAPS}=require('./sec-facts'),out=new Set(['CostsAndExpenses','PreferredStockDividendsIncomeStatementImpact','DividendsPreferredStock','NetIncomeLossAttributableToNoncontrollingInterest',...Object.values(p.INCOMPATIBLE).flat()]);
  for(const fields of Object.values(MAPS))for(const def of Object.values(fields))for(const t of ['us-gaap','ifrs-full'])for(const c of def[t])out.add(c);
+ // FEMSA and Prudential file their whole investing and financing totals under the IFRS continuing-operations
+ // elements, which the extraction reads only as one part of a sum; the line is what reaches the total.
+ for(const f of ['investingCashflowContinuing','financingCashflowContinuing'])for(const c of MAPS.cash[f]['ifrs-full'])out.delete(c);
+ // The IFRS employee share-based expense only fills, like the add-back beside it; where the cash-flow statement
+ // presents it (Pembina 2022: C$126m, the add-back tag holding -C$45m of another line) the line still wins.
+ out.delete('ExpenseFromSharebasedPaymentTransactionsWithEmployees');
  return out;
 }
 // Fields a filing line maps to, or []. `mapped` holds every tag our own maps read; a
@@ -188,13 +194,18 @@ function debtLine(tag,plabel){
 // tag of the company's own (Mattel 2025: $110.6m of property, plant and equipment beside its tools, dies and
 // molds, $182.0m in all), so the lines are summed (sec-facts presentedCapex). Proceeds, businesses bought,
 // investments and the noncash supplemental lines ("purchases included in accounts payable") are not spending.
-function capexLine(tag,plabel){
+function capexLine(tag,plabel,custom=false){
  const words=String(tag || '').replace(/([a-z])([A-Z])/g,'$1 $2').toLowerCase(),text=label(plabel);
  if(/proceeds|sales? of|sold|disposal|dispositions?|business|acquired|investments? in|securities|accounts payable|accrued|non-?cash|unpaid|not (?:yet )?paid|but not|pending|on account|payment terms|included in|liabilit|financed|financings?|financing activities|finance lease|capital lease|exchange|right of use|repayments?|principal|\bnotes?\b|deposit|affiliate|compensation|stock-based|share-based|depreciation|amorti[sz]ation|impairment|decommission|operating activities|advance|in credit|prior (?:years?|periods?)|transferred|prepaid|incentive|discontinued|held for sale|related part|reimburse|insurance|grants?\b|total/.test(words+' | '+text))return false;
  if(CAPEX_TAGS.has(tag))return true;
  const spent=/^(?:purchases?|acquisitions?|additions?|payments?|expenditures?|investments?|capitali[sz]ed|capitali[sz]ation of|capital expenditures?|cash paid|spending)\b/;
  const asset=/property,? (?:plant|and|&)|plant|equipment|software|fixed assets?|tools|dies|molds|moulds|tooling|productive assets|capital improvements|leasehold improvements|premises|computer/;
- return spent.test(text) && asset.test(text) || /^capital expenditures?$/.test(text);
+ // A line under a "Purchases of:" heading names only the asset; then a tag of the company's own that says it is
+ // spent on that asset decides (Alibaba from FY2021: PaymentsToAcquireLandUseRightsPropertyAndEquipment, "Land use
+ // rights, property and equipment"). Standard tags are not read this way: under them were a loan ("Loan to Diamond
+ // Green Diesel") and an associate ("pilot plant development"). "Shares issued for purchase of software" is not cash.
+ const bought=custom && /^(?:payments? to acquire|purchases? of)\b/.test(words) && asset.test(words) && !/\bissued\b/.test(text);
+ return (spent.test(text) || bought) && asset.test(text) || /^capital expenditures?$/.test(text);
 }
 // Standard tags that are capital spending whatever the line is called ("software development costs").
 // The "other productive assets" and "other property" tags are not among them: filed under those were

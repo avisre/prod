@@ -254,6 +254,15 @@ test('a cash-flow line is a capital-spending line by its tag or label; sales, ac
   ['PaymentsToAcquireOtherProductiveAssets','Investment in new communities'],['Depreciation','Depreciation of property and equipment'],['FinanceLeasePrincipalPayments','Principal payments on finance lease equipment']])assert.equal(lines.capexLine(tag,label),false,label);
 });
 
+// Alibaba from FY2021 presents "Land use rights, property and equipment" under a "Purchases of:" heading,
+// on a tag of its own that says what it buys; under standard tags the same shape was a loan and an associate.
+test('a line naming only the asset is capital spending when the company\'s own tag says it is spent on it',()=>{
+ assert.equal(lines.capexLine('PaymentsToAcquireLandUseRightsPropertyAndEquipment','Land use rights, property and equipment',true),true);
+ assert.equal(lines.capexLine('PaymentsToAcquireLandUseRightsPropertyAndEquipment','Land use rights, property and equipment'),false);
+ assert.equal(lines.capexLine('PaymentsToAcquireEquityMethodInvestments','Loan to Diamond Green Diesel'),false);
+ assert.equal(lines.capexLine('PurchaseOfSoftwareSharesIssued','Shares issued for purchase of software',true),false);
+});
+
 const spend=o=>({s:'cash',k:'capex',f:'',e:'2025-12-31',q:4,u:'USD',c:['PaymentsToAcquireOtherPropertyPlantAndEquipment','PaymentsToAcquireToolsDiesAndMolds'],t:['us-gaap','custom'],
  l:['Purchases of other property, plant, and equipment','Purchases of tools, dies, and molds'],v:[110618,71374],a:ACC,m:'10-K',d:'2026-02-01',...o});
 const capexRow=(statementLines,facts={})=>{const {doc,evidence}=fixture();for(const [t,v] of Object.entries(facts))doc.facts['us-gaap'][t]={units:{USD:[].concat(v).map(val=>({val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}))}};
@@ -281,6 +290,22 @@ test('a filed capex tag stays, a single presented line widens to the sum, and th
  const filed=capexRow([spend({v:[0,71374]})],{PaymentsToAcquireOtherPropertyPlantAndEquipment:110618});
  assert.equal(filed.row.capitalExpenditures,-181992);assert.equal(filed.d.sources[filed.row._sources.capitalExpenditures[0]].dataSetValue,0);
  assert.equal(capexRow([spend()],{PaymentsToAcquireOtherPropertyPlantAndEquipment:[110618,110619]}).row.capitalExpenditures,null);
+});
+
+// Alibaba's FY2022 20-F presents FY2020's capital spending as ¥32,550m on a tag of its own, where its earlier
+// filings had tagged ¥24,662m as other property and left out land use rights; its FY2017-2019 other property
+// figures are then no total either.
+test('other property never stands in for capital spending at a company whose statements show it as one part',()=>{
+ const run=statementLines=>{const {doc,evidence}=fixture(),yr=(val,y)=>({val,start:y+'-01-01',end:y+'-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'});
+  doc.facts['us-gaap'].NetCashProvidedByUsedInOperatingActivities.units.USD.push(yr(100,2024));
+  doc.facts['us-gaap'].PaymentsToAcquireOtherPropertyPlantAndEquipment={units:{USD:[yr(24662,2025),yr(5680,2024)]}};
+  return extract(doc,evidence,{asOf:'2026-10-03',statementLines}).cash.annualReports.map(r=>r.capitalExpenditures);};
+ assert.deepEqual(run([]),[-24662,-5680]);
+ assert.deepEqual(run([spend({c:['PaymentsToAcquireLandUseRightsPropertyAndEquipment'],t:['custom'],l:['Land use rights, property and equipment'],v:[32550]})]),[-32550,null]);
+ // Presented beside another line (Mattel's tools, dies and molds).
+ assert.equal(run([spend()])[1],null);
+ // A presented line that is the tag alone, at its amount, leaves it standing.
+ assert.deepEqual(run([spend({c:['PaymentsToAcquireOtherPropertyPlantAndEquipment'],t:['us-gaap'],l:['Purchases of property and equipment'],v:[24662]})]),[-24662,-5680]);
 });
 
 test('presented capex lines are left unread when they do not make one total of one filing for the row\'s span',()=>{

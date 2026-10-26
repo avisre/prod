@@ -249,6 +249,25 @@ test('an IFRS filer\'s SG&A, interest expense, D&A, share-based payments, buybac
  assert.deepEqual(d.income.annualReports.map(r=>r.fiscalDateEnding),['2025-12-31']);
  assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
 });
+// 2026-10-26: Sony (CIK 313838) tags its share-based expense only in the note (FY2025 ¥29,416m) and no
+// cash-flow add-back; 50 IFRS filers' latest year was blank. The add-back still wins where both are filed.
+test('an IFRS filer\'s share-based expense to employees fills share-based compensation and yields to the add-back',()=>{
+ const run=tags=>{const {doc,evidence}=fixture('ifrs-full','JPY');for(const [k,val] of Object.entries(tags))doc.facts['ifrs-full'][k]={units:{JPY:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'20-F',filed:'2026-02-01'}]}};return extract(doc,evidence,{asOf:'2026-10-03'});};
+ let d=run({ExpenseFromSharebasedPaymentTransactionsWithEmployees:29416});
+ assert.equal(d.cash.annualReports[0].shareBasedCompensation,29416);
+ assert.deepEqual(d.income.annualReports.map(r=>r.fiscalDateEnding),['2025-12-31']);
+ d=run({ExpenseFromSharebasedPaymentTransactionsWithEmployees:29416,AdjustmentsForSharebasedPayments:28000});
+ assert.equal(d.cash.annualReports[0].shareBasedCompensation,28000);
+});
+// ADP files its capital expenditures as "other" property and equipment ($180.3m, FY2008); in 582 annual
+// filings at other issuers that tag is one part beside real estate, oil and gas or equipment, and is not read.
+test('other property and equipment fills capital spending only when the filing reports no other part',()=>{
+ const period={start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'},f=val=>({units:{USD:[{...period,val}]}});
+ const run=extra=>{const {doc,evidence}=fixture();Object.assign(doc.facts['us-gaap'],extra);return extract(doc,evidence,{asOf:'2026-10-03'}).cash.annualReports[0].capitalExpenditures;};
+ assert.equal(run({PaymentsToAcquireOtherPropertyPlantAndEquipment:f(180)}),-180);
+ assert.equal(run({PaymentsToAcquireOtherPropertyPlantAndEquipment:f(20),PaymentsToAcquireRealEstate:f(400)}) ?? null,null);
+ assert.equal(run({PaymentsToAcquireOtherPropertyPlantAndEquipment:f(20),PaymentsToAcquirePropertyPlantAndEquipment:f(90)}),-90);
+});
 test('a narrower US GAAP line fills a blank row and never displaces the broader one',()=>{
  const period={start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'},f=val=>({units:{USD:[{...period,val}]}});
  const run=extra=>{const {doc,evidence}=fixture();Object.assign(doc.facts['us-gaap'],extra);return extract(doc,evidence,{asOf:'2026-10-03'});};
