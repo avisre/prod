@@ -634,9 +634,16 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .sym-cell { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .sym-link { color: inherit; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .sym-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-.sym-newtab { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; color: var(--ink-3); border-radius: 6px; transition: color 0.12s ease, background 0.12s ease; }
-.sym-newtab svg { display: block; }
-.sym-newtab:hover, .sym-newtab:focus-visible { color: var(--ink); background: var(--line); }
+.sym-newtab { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 1px 2px rgba(28, 27, 24, 0.06); transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease; }
+.sym-newtab svg { display: block; overflow: visible; }
+.sym-newtab .nt-arrow { transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+tr:hover .sym-newtab { color: var(--ink); border-color: var(--ink-3); }
+/* .sym-cell outranks the row-hover rule above, which would keep the icon ink on ink */
+.sym-cell .sym-newtab:hover, .sym-cell .sym-newtab:focus-visible { color: var(--paper); background: var(--ink); border-color: var(--ink); box-shadow: 0 3px 10px rgba(28, 27, 24, 0.22); }
+.sym-cell .sym-newtab:hover .nt-arrow, .sym-cell .sym-newtab:focus-visible .nt-arrow { transform: translate(1.5px, -1.5px); }
+.sym-newtab:active { transform: scale(0.92); }
+.sym-newtab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .sym-newtab, .sym-newtab .nt-arrow { transition: none; } }
 
 /* ---------- Fund holdings pane ----------
    A complete portfolio runs to hundreds of rows (520 for VOO, 17,409 for BND),
