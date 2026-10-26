@@ -668,6 +668,18 @@
     }
     function buildSharesMap() {
         sharesByPeriod = new Map();
+        // An ADR's or foreign filer's counts are kept out of the statement rows and
+        // arrive apart, in ordinary shares (verified-fundamentals.js filedShareCounts);
+        // renderMainChart puts them on the listing's basis.
+        const filed = payload.filedShareCounts;
+        if (filed) {
+            for (const r of filed.periodEnd || []) if (r.fiscalDateEnding && num(r.shares)) sharesByPeriod.set(String(r.fiscalDateEnding), num(r.shares));
+            sharesBasis = 'period-end';
+            if (sharesByPeriod.size) return;
+            for (const r of filed.weighted || []) if (r.fiscalDateEnding && num(r.shares)) sharesByPeriod.set(String(r.fiscalDateEnding), num(r.shares));
+            sharesBasis = 'weighted';
+            return;
+        }
         for (const kind of ['annualReports', 'quarterlyReports']) {
             for (const r of ((payload.balance || {})[kind]) || []) {
                 const k = String(r.fiscalDateEnding || '');
@@ -1018,7 +1030,16 @@
             document.querySelectorAll('#seg-chart button').forEach((button) =>
                 button.setAttribute('aria-pressed', String(button.dataset.cm === 'price')));
         }
-        if (mixedCurrencies) showCap = false;
+        // An ADR's filings count ordinary shares, not the depositary shares the
+        // price is quoted in (Sony, Alibaba: one ADS is eight ordinary shares).
+        // Today's market cap ÷ today's price, both in the quote currency, is the
+        // count on the listing's basis; scaling the filed counts by it to today
+        // keeps the market-cap line on the same basis as the price.
+        const capToday = num((payload.overview || {}).MarketCapitalization), priceToday = num((payload.marketData || {}).price);
+        const listedNow = capToday > 0 && priceToday > 0 ? capToday / priceToday : null;
+        const filedNow = sharesByPeriod.size ? sharesAt('9999-12') : null;
+        const toListed = !mixedCurrencies ? 1 : listedNow && filedNow ? listedNow / filedNow : null;
+        if (!toListed) showCap = false;
         if (chartMode === 'price') {
             // 6M uses the daily series; longer ranges use monthly
             // A company listed within the last year has too few monthly closes for a
@@ -1038,20 +1059,16 @@
             let seen = '';
             const yl = rawLabels.map((y) => { if (y === seen) return ''; seen = y; return y; });
             // a line needs a count per period; with only today's count it would just retrace the price
-            const cap = (!mixedCurrencies && showCap && sharesByPeriod.size && sharesBasis !== 'current')
-                ? win.map((p) => { const s = sharesAt(p.month.slice(0, 7)); return s ? p.close * s : null; })
+            const cap = (toListed && showCap && sharesByPeriod.size && sharesBasis !== 'current')
+                ? win.map((p) => { const s = sharesAt(p.month.slice(0, 7)); return s ? p.close * s * toListed : null; })
                 : null;
             // left axis ALWAYS reads in market cap — via the live cap line
-            // when shown, otherwise price × the current share count. An ADR's
-            // filings count ordinary shares, not the depositary shares the price
-            // is quoted in (Sony, Alibaba), so its count is the one implied by
-            // today's market cap ÷ today's price, both in the quote currency.
-            const capToday = num((payload.overview || {}).MarketCapitalization), priceToday = num((payload.marketData || {}).price);
-            const sharesNow = !mixedCurrencies && sharesByPeriod.size ? sharesAt('9999-12')
-                : capToday > 0 && priceToday > 0 ? capToday / priceToday : null;
-            // the multiple beside the market cap is the page's headline P/E, so the two agree
+            // when shown, otherwise price × the current share count
+            const sharesNow = !mixedCurrencies && filedNow ? filedNow : listedNow;
+            // the multiple beside the market cap is the page's headline P/E, so the two agree;
+            // an ADR's quoted P/E is not set against its filed earnings, so it carries none
             const peNow = num((payload.overview || {}).PERatio);
-            const capMultiple = cap ? (peNow !== null && peNow > 0 ? Math.round(peNow) + '× P/E' : 'P/E NM') : null;
+            const capMultiple = cap && !mixedCurrencies ? (peNow !== null && peNow > 0 ? Math.round(peNow) + '× P/E' : 'P/E NM') : null;
             $('main-chart').innerHTML = dualChart(price, cap, yl, null, cap ? null : sharesNow, capMultiple);
             const fmtPoint = useDaily
                 ? (m) => new Date(m + 'T12:00').toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -1080,7 +1097,7 @@
                 chEl.className = 'small num ' + (rangePct >= 0 ? 'delta-pos' : 'delta-neg');
             }
             $('chart-prov').textContent = mixedCurrencies
-                ? `Price is shown in ${quoteCurrency()}.${sharesNow ? ' Left axis: the equivalent market cap at today’s share count (today’s market cap ÷ today’s price).' : ''} Historical P/E and price × filed-share-count overlays are disabled because ${perShareWhy()}.`
+                ? `Price is shown in ${quoteCurrency()}.${cap ? ` Market cap (left axis): price × that ${sharesBasis === 'weighted' ? 'period’s filed weighted-average share count' : 'fiscal year’s filed share count'}, put on the listing’s share basis by today’s market cap ÷ today’s price — orange. Where the lines drift apart, buybacks or dilution is why.` : sharesNow ? ' Left axis: the equivalent market cap at today’s share count (today’s market cap ÷ today’s price).' : ''} Historical P/E is disabled because ${perShareWhy()}.`
                 : cap
                 ? `Price (right axis): split-adjusted — ink. Market cap (left axis): price × that ${sharesBasis === 'weighted' ? 'period’s filed weighted-average share count (the balance sheet files no period-end count)' : 'fiscal year’s filed share count'} — orange. Where the lines drift apart, buybacks or dilution is why.`
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count${sharesBasis === 'weighted' ? ' (the latest filed weighted-average count)' : sharesBasis === 'current' ? ' (the count on the latest filing’s cover)' : ''}.`;
@@ -1116,7 +1133,7 @@
             }
             $('chart-prov').textContent = `P/E by fiscal year: average monthly close across the year ÷ that year’s diluted EPS, both split-adjusted. Loss years and multiples above ${NM_PE}× are not meaningful (NM) and left off the scale.`;
         }
-        $('cap-toggle').hidden = chartMode !== 'price' || mixedCurrencies || !sharesByPeriod.size || sharesBasis === 'current';
+        $('cap-toggle').hidden = chartMode !== 'price' || !toListed || !sharesByPeriod.size || sharesBasis === 'current';
         $('chart-block').hidden = false;
     }
     // Price trend from daily closes under the chart, fetched after the page is
@@ -1855,7 +1872,8 @@
                 vals: raw.map((v, i) => {
                     // Keyed by the full period-end date (buildSharesMap); a month
                     // key matched nothing, so every cell read "—" (2026-10-19).
-                    const sh = sharesBasis === 'current' ? null : sharesByPeriod.get(String(rows[i].fiscalDateEnding || ''));
+                    // An ADR's counts are ordinary shares in the filing currency, not the listing's.
+                    const sh = sharesBasis === 'current' || payload.filedShareCounts ? null : sharesByPeriod.get(String(rows[i].fiscalDateEnding || ''));
                     return (v !== null && sh) ? v / sh : null;
                 }),
                 fmt: (v) => v === null ? '—' : '$' + fixed(v, 2), colored: false

@@ -100,8 +100,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261026-ui41/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261026-ui41/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261026-ui42/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261026-ui42/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -195,8 +195,9 @@ test('company page separates quote currency from financial-reporting currency', 
 
 test('cross-currency listings do not run mixed-currency valuation visuals', () => {
   assert.match(companySource, /peButton\.hidden = mixedCurrencies/);
-  assert.match(companySource, /if \(mixedCurrencies\) showCap = false/);
-  assert.match(companySource, /Historical P\/E and price × filed-share-count overlays are disabled/);
+  // the market-cap line stays, rebased to the listing's share basis (owner, 2026-10-26)
+  assert.match(companySource, /if \(!toListed\) showCap = false/);
+  assert.match(companySource, /Historical P\/E is disabled because \$\{perShareWhy\(\)\}/);
   assert.match(companySource, /one American depositary share can stand for several ordinary shares/);
   assert.doesNotMatch(companySource, /depositary-share ratio/);
 });
@@ -259,15 +260,17 @@ function pageFunction(from, to, names, body) {
 }
 
 test('the per-share view divides by the share count filed for that same period end', () => {
-  const make = pageFunction('    function viewVals(', '    // statement-convention grouping', ['viewState', 'sharesByPeriod', 'sharesBasis', 'fixed', 'signedPct'], '\nreturn viewVals;');
+  const make = pageFunction('    function viewVals(', '    // statement-convention grouping', ['viewState', 'sharesByPeriod', 'sharesBasis', 'fixed', 'signedPct', 'payload'], '\nreturn viewVals;');
   const shares = new Map([['2025-09-27', 15e9], ['2024-09-28', 15.5e9]]);
   const rows = [{ fiscalDateEnding: '2024-09-28' }, { fiscalDateEnding: '2025-09-27' }];
   const fixed = (v, d) => v.toFixed(d);
-  const ps = make('ps', shares, 'period-end', fixed, null)({ kind: 'money', fmt: String }, [31e9, 30e9], rows);
+  const ps = make('ps', shares, 'period-end', fixed, null, {})({ kind: 'money', fmt: String }, [31e9, 30e9], rows);
   assert.deepEqual(ps.vals, [2, 2]);
   assert.equal(ps.fmt(2), '$2.00');
   // the cover page's count is today's, not any past year's
-  assert.deepEqual(make('ps', new Map([['9999-12-31', 15e9]]), 'current', fixed, null)({ kind: 'money', fmt: String }, [31e9, 30e9], rows).vals, [null, null]);
+  assert.deepEqual(make('ps', new Map([['9999-12-31', 15e9]]), 'current', fixed, null, {})({ kind: 'money', fmt: String }, [31e9, 30e9], rows).vals, [null, null]);
+  // an ADR's counts are ordinary shares in the filing currency: no dollar figure per listed share
+  assert.deepEqual(make('ps', shares, 'period-end', fixed, null, { filedShareCounts: {} })({ kind: 'money', fmt: String }, [31e9, 30e9], rows).vals, [null, null]);
 });
 
 test('a company that files no cost of revenue shows its filed cost lines under its own headings, annual only', () => {
@@ -307,6 +310,11 @@ test('a company that files no cost of revenue shows its filed cost lines under i
 test('an ADR chart still reads market cap on its left axis, from today\'s market cap ÷ today\'s price', () => {
   // Sony, Alibaba: the filings count ordinary shares, so the filed count cannot scale an ADS price
   // (owner, 2026-10-26: the left axis was blank on every ADR peer)
-  assert.match(companySource, /const sharesNow = !mixedCurrencies && sharesByPeriod\.size \? sharesAt\('9999-12'\)\s+: capToday > 0 && priceToday > 0 \? capToday \/ priceToday : null;/);
+  assert.match(companySource, /const listedNow = capToday > 0 && priceToday > 0 \? capToday \/ priceToday : null;/);
+  assert.match(companySource, /const sharesNow = !mixedCurrencies && filedNow \? filedNow : listedNow;/);
+  // its market-cap line: the filed ordinary-share counts rebased to the listing by listedNow ÷ filedNow
+  assert.match(companySource, /const toListed = !mixedCurrencies \? 1 : listedNow && filedNow \? listedNow \/ filedNow : null;/);
+  assert.match(companySource, /const filed = payload\.filedShareCounts;/);
+  assert.match(companySource, /sharesBasis === 'current' \|\| payload\.filedShareCounts \? null : sharesByPeriod\.get/);
   assert.match(companySource, /capToday = num\(\(payload\.overview \|\| \{\}\)\.MarketCapitalization\), priceToday = num\(\(payload\.marketData \|\| \{\}\)\.price\)/);
 });

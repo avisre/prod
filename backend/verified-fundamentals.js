@@ -92,6 +92,10 @@ function adapt(company,raw,data,entry,issuer) {
  // An ADR's or foreign filer's EPS stays out of the statement rows, where readers pair it
  // with the listing's price; the page shows it alone, in the filing currency, per ordinary share.
  if(type==='stock' && ['adr','currency'].includes(perShareReason)){const row=safeRows(rowsData,'income','annualReports',true)[0];if(row && (p.number(row.dilutedEPS)!==null || p.number(row.eps)!==null))out.filedPerShare={fiscalDateEnding:row.fiscalDateEnding,reportedCurrency:row.reportedCurrency,dilutedEPS:p.number(row.dilutedEPS),eps:p.number(row.eps),basis:'per ordinary share'};}
+ // The filed share counts stay out of the rows for the same reason. The company page needs them
+ // for the market-cap history and puts them on the listing's share basis itself (today's market
+ // cap ÷ today's price), so they travel apart, labelled as ordinary shares.
+ if(type==='stock' && ['adr','currency'].includes(perShareReason)){const counts=(st,field)=>['annualReports','quarterlyReports'].flatMap(k=>safeRows(rowsData,st,k,true)).map(r=>({fiscalDateEnding:r.fiscalDateEnding,shares:p.number(r[field])})).filter(r=>r.shares>0);const periodEnd=counts('balance','commonStockSharesOutstanding'),weighted=counts('income','weightedAverageSharesOutstanding');if(periodEnd.length || weighted.length)out.filedShareCounts={basis:'ordinary shares',periodEnd,weighted};}
  if(!perShareAllowed)overview.PERatio=null;
  if(type==='stock')out.supplementalObservations=require('./company-observations').reconcile(require('./company-observations').observations(rowsData),require('./committed-supplements').forIssuer(company.cik || 'listing:'+company.symbol.replace(/\./g,'-'))).filter(f=>f.state==='available');
  // The cost lines a company files in place of a cost of revenue (filed-costs.js).

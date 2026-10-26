@@ -185,3 +185,14 @@ test('the chosen class fills every per-share field it filed, each from its own s
     assert.equal(erie.income.annualReports[0].eps, null);
     assert.equal(erie.income.annualReports[0].dilutedEPS, null);
 });
+
+test('an ADR\'s filed share counts stay out of the rows but travel apart, labelled as ordinary shares', (t) => {
+    // Alibaba files ordinary shares (eight per ADS); the company page needs the counts for its
+    // market-cap history and rebases them itself (owner, 2026-10-26: BABA had no market-cap line)
+    const out = reason(t, 'BABA', require('../../frontend/data/sec-financials/0001577552.json'), { ...quote(99.64, 15), marketCap: 247.88e9 });
+    assert.equal(out.coverage.perShareReason, 'adr');
+    assert.equal(out.balance.annualReports[0].commonStockSharesOutstanding, null);
+    assert.equal(out.filedShareCounts.basis, 'ordinary shares');
+    assert.deepEqual(out.filedShareCounts.periodEnd.find((r) => r.fiscalDateEnding === '2026-03-31'), { fiscalDateEnding: '2026-03-31', shares: 18580374278 });
+    assert.equal(reason(t, 'DUK', issuer(6.31), quote(121.47, 19.2)).filedShareCounts, undefined);
+});
