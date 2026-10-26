@@ -311,7 +311,15 @@ async function grant(userId, amount, reason, refId) {
 // test/dev-plan.test.js pins the two rates so the gap stays a recorded fact.
 // Worst case all 200 credits go to mcp_ask (42 each) = 4 AI calls, the same
 // tail the V2 LTD note below is protecting against.
-const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000, dev: 200 };
+//
+// Monthly and Annual were given explicit floors on 2026-10-26 (owner
+// decision): Monthly moved from 100 credits a month to 200, Annual to 300.
+// Before this, both sat on the derived x2 off a 50-question Ask limit (100
+// credits), which the first paying connector customer spent in 28 minutes.
+// Annual gets the larger wallet as the reward for paying a year upfront.
+// Pure widening, so no grandfather clause is needed. The Dev floor above is
+// untouched.
+const PLAN_ALLOWANCE_FLOOR = { monthly: 200, annual: 300, power: 2000, 'power-monthly': 2000, desk: 10000, dev: 200 };
 
 // Explicit per-tier wallet for AppSumo/DealMirror lifetime buyers, replacing the
 // derived x2 for those accounts. The derived form made the listing a second,
@@ -475,6 +483,17 @@ async function spend(userId, cost, reason, refId, client) {
     } catch (error) { console.error('[credits] spend failed:', error && error.message); }
 }
 
+// Credits spent since a moment, per month — what a priced refund deducts
+// (refund-quote.js). Unlike used(), this THROWS on a read error: a refund must
+// not be priced off a metering blip that reads as zero.
+async function spentByMonthSince(userId, since) {
+    const rows = await ledgerCol().aggregate([
+        { $match: { userId: String(userId), delta: { $lt: 0 }, at: { $gte: new Date(since) } } },
+        { $group: { _id: '$month', total: { $sum: '$delta' } } }
+    ]).toArray();
+    return rows.map((r) => ({ month: r._id, spent: -r.total }));
+}
+
 // One step of a long Ask, charged while it runs. It is the same question as
 // the row that carries its flat price, so it adds to what Ask spent and not to
 // how many questions were asked (`step` keeps it out of monthBreakdown's count).
@@ -544,4 +563,4 @@ const LISTED_COST = { ...COST, mcp_lookup: LISTED_LOOKUP_COST, api_lookup: LISTE
 // app.js charges it and the /docs pages quote it, so the number lives in one place.
 const DEEP_THINKING_FACTOR = 3;
 
-module.exports = { askCredits, spendAskStep, refundRun, ASK_BASE_TOKENS, ASK_TOKENS_PER_CREDIT, COST, LISTED_COST, DEEP_THINKING_FACTOR, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };
+module.exports = { askCredits, spendAskStep, refundRun, spentByMonthSince, ASK_BASE_TOKENS, ASK_TOKENS_PER_CREDIT, COST, LISTED_COST, DEEP_THINKING_FACTOR, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };

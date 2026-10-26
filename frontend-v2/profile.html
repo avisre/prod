@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261026-ui36" />
+  <link rel="stylesheet" href="assets/system.css?v=20261026-ui38" />
   <link rel="stylesheet" href="assets/messages.css?v=20260824-msgreply1" />
   <style>
     .pcard { margin-top: 18px; }
@@ -337,6 +337,10 @@
                     <p class="label" style="margin:0;">Claude and ChatGPT connector</p>
                     <span class="small muted" id="cu-meta"></span>
                   </div>
+                  <!-- The free-trial line (assets/connector-usage.js): shown for a
+                       signed-in account on its 30-day connector trial, or whose
+                       trial has ended. -->
+                  <p class="small" id="cu-trial" hidden style="margin:0 0 8px;"></p>
                   <div class="cu-bar">
                     <strong id="cu-balance"></strong>
                     <span class="cu-actions">
@@ -487,9 +491,9 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261026-ui36"></script>
+  <script src="assets/app.js?v=20261026-ui38"></script>
   <script src="assets/profile.js?v=20261011-ask1"></script>
   <script src="assets/messages.js?v=20261011-ask1"></script>
-  <script src="assets/connector-usage.js?v=20261011-ask1"></script>
+  <script src="assets/connector-usage.js?v=20261026-ui38"></script>
 </body>
 </html>

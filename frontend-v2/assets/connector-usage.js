@@ -81,19 +81,54 @@
     return `At this pace, your credits last about ${plural(p.minutesLeft, 'more minute', 'more minutes')}.`;
   }
 
+  // One sentence for an account on (or past) its free connector trial
+  // (mcp-trial.js on the server): what is left, when it ends, and what comes
+  // after. The only place on the page a trial account's connector status
+  // appears.
+  function trialLine(t) {
+    if (!t || !t.started) return '';
+    if (t.ended) {
+      return 'Your free connector trial has ended and does not renew. It continues on the Monthly plan — <a rel="nofollow" href="/upgrade.html">see plans</a>.';
+    }
+    const ends = t.endsAt ? new Date(t.endsAt) : null;
+    const when = ends && !Number.isNaN(ends.getTime())
+      ? `, ${ends.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })} (${plural(t.daysLeft, 'day', 'days')} left)`
+      : '';
+    return `Free trial: <strong>${t.lookupsLeft} of ${t.lookupsLimit} lookups</strong> and <strong>${t.asksLeft} of ${t.asksLimit} AI answers</strong> left${when}. After that the connector needs the Monthly plan.`;
+  }
+
   function render(d) {
-    if (!d || !(d.hasApiAccess || d.sessionCount > 0)) return;
+    if (!d) return;
+    const trial = d.trial && d.trial.started ? d.trial : null;
+    if (!(d.hasApiAccess || d.sessionCount > 0 || trial)) return;
     root.hidden = false;
-    $('cu-meta').textContent = d.sessionCount
-      ? `${plural(d.calls, 'call', 'calls')} · ${plural(d.credits, 'credit', 'credits')} this month${d.refused ? ` · ${num(d.refused)} refused` : ''}`
-      : 'No calls this month';
+    // A trial account has no wallet yet: the balance, the refill button and
+    // the pace forecast speak to credits it does not have, so the trial line
+    // carries the whole story instead.
+    const walletless = Boolean(trial) && !d.hasApiAccess;
+    const line = trialLine(trial);
+    const trialEl = $('cu-trial');
+    if (trialEl) {
+      trialEl.innerHTML = line;
+      trialEl.hidden = !line;
+    }
+    $('cu-meta').textContent = walletless
+      ? `Free ${trial.days ? `${trial.days}-day ` : ''}trial`
+      : (d.sessionCount
+        ? `${plural(d.calls, 'call', 'calls')} · ${plural(d.credits, 'credit', 'credits')} this month${d.refused ? ` · ${num(d.refused)} refused` : ''}`
+        : 'No calls this month');
     $('cu-balance').textContent = `${num(d.remaining)} of ${num(d.allowance)} credits left`;
-    const pace = paceLine(d);
+    $('cu-balance').hidden = walletless;
+    const refill = root.querySelector('a[href="/recharge.html"]');
+    if (refill) refill.hidden = walletless;
+    const pace = walletless ? '' : paceLine(d);
     $('cu-pace').textContent = pace;
     $('cu-pace').hidden = !pace;
-    $('cu-pace').classList.toggle('cu-refused', Number(d.remaining) <= 0);
+    $('cu-pace').classList.toggle('cu-refused', !walletless && Number(d.remaining) <= 0);
     $('cu-sessions').innerHTML = (d.sessions || []).map(sessionRow).join('')
-      || '<li class="small muted" style="padding:12px 14px;">Nothing yet. Calls made from Claude or ChatGPT will be listed here by session.</li>';
+      || (walletless
+        ? '<li class="small muted" style="padding:12px 14px;">Trial calls are counted by the trial line above, not itemised by session.</li>'
+        : '<li class="small muted" style="padding:12px 14px;">Nothing yet. Calls made from Claude or ChatGPT will be listed here by session.</li>');
     const more = d.sessionCount - (d.sessions || []).length;
     $('cu-more').textContent = more > 0 ? `${plural(more, 'earlier session is', 'earlier sessions are')} in the CSV.` : '';
     $('cu-csv').hidden = !d.sessionCount;

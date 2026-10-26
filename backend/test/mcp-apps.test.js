@@ -718,3 +718,93 @@ test('deps.usage is invoked once per call on this surface, refusals included', a
     assert.equal(state.usage[0].code, null);
     assert.equal(state.usage[1].code, 'UNSUPPORTED_METRIC');
 });
+
+// ---------------------------------------------------------------------------
+// The signed-in free account's evaluation access (mcp-trial.js): on this
+// surface every word the caller reads is commerce-neutral (plugin guidelines),
+// so the trial is described as "evaluation access" and never by plan or price.
+// ---------------------------------------------------------------------------
+
+const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const mcpTrial = require('../mcp-trial');
+
+// The regex test/mcp-apps.test.js polices commerce words with (mirrored here so
+// the trial copy is held to the same standard in-line).
+const COMMERCE = /\$\d|\/month|\bpricing\b|\bplans?\b|upgrade|\btrial\b|subscri|checkout/i;
+
+async function mongo(t) {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+    return () => mongoose.connection.collection(mcpTrial.COLLECTION);
+}
+
+test('a trial caller gets data plus neutral trial fields, and the copy passes COMMERCE', { timeout: 60000 }, async (t) => {
+    const col = await mongo(t);
+    const { client } = await withClient(t, {
+        ctx: { userId: 't1', user: { _id: 't1' }, tier: 'free', subscription: { planId: 'free' }, trial: true },
+        limiter: mcpTrial.creditsFor('t1')
+    });
+    const result = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple', limit: 3 } });
+    assert.equal(result.isError, undefined, 'a signed-in free account runs on the trial');
+    const payload = parse(result);
+    assert.equal(payload.trial.lookups_left, 24, 'the result reports the evaluation access after this call');
+    assert.equal(payload.trial.asks_left, 3);
+    assert.equal(payload.trial.days_left, 30);
+    assert.ok(payload.trial.ends_at, 'the end date travels');
+    assert.match(payload.notice, /^Evaluation access: 24 lookups and 3 AI answers left; ends \d+ \w+ \d{4}\.$/, 'the notice is one neutral sentence');
+    // The plugin guidelines: no plan names, prices, checkout or commerce words.
+    assert.doesNotMatch(payload.notice, COMMERCE);
+    const doc = await col().findOne({ _id: 't1' });
+    assert.ok(doc.startedAt instanceof Date, 'the trial row is written at the first call');
+});
+
+test('a trial past its end gets TRIAL_ENDED with neutral copy, and an exhausted allowance the allowance message', { timeout: 60000 }, async (t) => {
+    const col = await mongo(t);
+    await col().updateOne(
+        { _id: 't1' },
+        { $set: { startedAt: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000), lookups: 3, asks: 0 } },
+        { upsert: true }
+    );
+    const ended = await withClient(t, {
+        ctx: { userId: 't1', user: { _id: 't1' }, tier: 'free', subscription: { planId: 'free' }, trial: true },
+        limiter: mcpTrial.creditsFor('t1'),
+        resourceMetadataUrl: 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource/mcp/apps'
+    });
+    const refused = await ended.client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(refused.isError, true);
+    const payload = parse(refused);
+    assert.equal(payload.code, 'TRIAL_ENDED');
+    assert.equal(payload.error, mcpApps.MSG_EVAL_ENDED, 'This account\u2019s evaluation access has ended.');
+    assert.doesNotMatch(payload.error, COMMERCE);
+    assert.equal(refused._meta, undefined, 'a keyed refusal carries no sign-in challenge, trial or not');
+
+    // An allowance used up (not the window) keeps the published quota code.
+    await col().updateOne(
+        { _id: 't2' },
+        { $set: { startedAt: new Date(), lookups: 25, asks: 3 } },
+        { upsert: true }
+    );
+    const spent = await withClient(t, {
+        ctx: { userId: 't2', user: { _id: 't2' }, tier: 'free', subscription: { planId: 'free' }, trial: true },
+        limiter: mcpTrial.creditsFor('t2')
+    });
+    const over = await spent.client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(over.isError, true);
+    const overPayload = parse(over);
+    assert.equal(overPayload.code, 'QUOTA_EXCEEDED');
+    assert.equal(overPayload.error, mcpApps.MSG_ALLOWANCE);
+    assert.doesNotMatch(overPayload.error, COMMERCE);
+});
+
+test('a paid account on this surface never sees trial fields', { timeout: 60000 }, async (t) => {
+    await mongo(t);
+    const { client } = await withClient(t, {});
+    const result = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple', limit: 1 } });
+    assert.equal(result.isError, undefined);
+    const payload = parse(result);
+    assert.equal(payload.trial, undefined, 'no trial block for a paid caller');
+    assert.equal(payload.notice, undefined, 'and no trial notice');
+    assert.equal(await mongoose.connection.collection(mcpTrial.COLLECTION).countDocuments({ _id: 'u1' }), 0, 'no trial row is opened');
+});

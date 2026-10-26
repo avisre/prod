@@ -702,6 +702,10 @@ function wireTool(def) {
 // checkout or upgrade links, so these messages explain the limit and stop.
 const MSG_ENTITLEMENT = 'This capability is not included in the connected StockPortfolio.pro account.';
 const MSG_ALLOWANCE = 'The connected StockPortfolio.pro account\u2019s allowance for this capability is exhausted.';
+// The signed-in free account's evaluation access (mcp-trial.js) is described
+// the same way the keyless tier is: by capability, never by plan or price.
+const MSG_EVAL_ENDED = 'This account\u2019s evaluation access has ended.';
+const MSG_EVAL_DAY = 'Today\u2019s shared evaluation allowance for AI answers is used up. Try again after 00:00 UTC.';
 // The keyless refusal. Reworded 2026-10-25: the old copy said "trial", a word
 // the plugin guidelines keep out of this surface's text.
 const MSG_TRIAL = 'The free allowance for unauthenticated connections is exhausted. Connect a StockPortfolio.pro account to continue.';
@@ -713,7 +717,7 @@ const KNOWN_CODES = new Set([
     'COMPANY_REQUIRED', 'COMPANY_NOT_FOUND', 'AMBIGUOUS_COMPANY', 'UNSUPPORTED_METRIC',
     'INVALID_PERIOD', 'FILING_NOT_FOUND', 'UNSUPPORTED_SECTION', 'TOO_MANY_COMPANIES',
     'TOO_FEW_COMPANIES', 'ENTITLEMENT_REQUIRED', 'INSUFFICIENT_SCOPE', 'QUOTA_EXCEEDED',
-    'RATE_LIMITED', 'UPSTREAM_DATA_ERROR', 'AUTHENTICATION_REQUIRED', 'SCREEN_FAILED',
+    'TRIAL_ENDED', 'RATE_LIMITED', 'UPSTREAM_DATA_ERROR', 'AUTHENTICATION_REQUIRED', 'SCREEN_FAILED',
     'ASSET_FEATURE_UNAVAILABLE'
 ]);
 
@@ -728,6 +732,18 @@ function errorResult(code, message, details) {
     const payload = { code, error: message };
     if (details) Object.assign(payload, details);
     return { isError: true, content: [{ type: 'text', text: JSON.stringify(payload) }] };
+}
+
+// The neutral one-sentence status a trial (evaluation-access) caller reads on
+// a successful call. "Evaluation access" wording only — the plugin guidelines
+// keep plan, price and commerce words out of this surface's results.
+function evaluationNotice(gate) {
+    if (!gate || !gate.ok) return null;
+    const ends = gate.endsAt ? new Date(gate.endsAt) : null;
+    const endsCopy = ends && !Number.isNaN(ends.getTime())
+        ? `; ends ${ends.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}`
+        : '';
+    return `Evaluation access: ${gate.lookupsLeft} lookups and ${gate.asksLeft} AI answers left${endsCopy}.`;
 }
 
 // The account-linking handshake the AI clients implement (OpenAI Apps auth
@@ -824,6 +840,19 @@ async function callAppsToolResult(ctx, deps, params) {
         const costKey = def.aiCost ? 'mcp_ask' : 'mcp_lookup';
         const gate = await deps.limiter.check(ctx.userId, costKey, deps.effectiveAskLimit(), ctx.subscription && ctx.subscription.planId, ctx.user);
         if (!gate.ok) {
+            // A signed-in free account on its evaluation access gets a code it
+            // can act on, in this surface's commerce-neutral copy: the trial
+            // limiter's own message names a plan and a price, so it is never
+            // used here (plugin guidelines; test/mcp-apps.test.js COMMERCE).
+            if (ctx.trial) {
+                const code = gate.reason === 'trial_ended' ? 'TRIAL_ENDED' : 'QUOTA_EXCEEDED';
+                const message = gate.reason === 'trial_ended'
+                    ? MSG_EVAL_ENDED
+                    : (gate.reason === 'global_ask_day' ? MSG_EVAL_DAY : MSG_ALLOWANCE);
+                const result = errorResult(code, message);
+                log(false, code, result);
+                return result;
+            }
             const message = ctx.anonymous ? MSG_TRIAL : MSG_ALLOWANCE;
             const result = errorResult('QUOTA_EXCEEDED', message);
             log(false, 'QUOTA_EXCEEDED', result);
@@ -856,6 +885,18 @@ async function callAppsToolResult(ctx, deps, params) {
             await deps.limiter.spend(ctx.userId, costKey, `mcp-apps:${name}`, subject, ctx.client || null);
             spent = true;
             if (companies.length) await deps.breadth.record(companies);
+            // A trial caller reads its remaining evaluation access in the
+            // result, in the same neutral copy — what remains and when it
+            // ends, with no commerce words.
+            if (ctx.trial && gate.ok) {
+                result.trial = {
+                    lookups_left: gate.lookupsLeft,
+                    asks_left: gate.asksLeft,
+                    ends_at: gate.endsAt,
+                    days_left: gate.daysLeft
+                };
+                result.notice = evaluationNotice(gate);
+            }
             const final = textResult(connectorNotices.attach(result, notice));
             log(true, null, final);
             return final;
@@ -901,5 +942,7 @@ module.exports = {
     portableSchema,
     MSG_ENTITLEMENT,
     MSG_ALLOWANCE,
-    MSG_TRIAL
+    MSG_TRIAL,
+    MSG_EVAL_ENDED,
+    MSG_EVAL_DAY
 };

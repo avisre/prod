@@ -51,6 +51,7 @@ const connectorUsage = require('./connector-usage');
 const connectorNotices = require('./connector-notices');
 const companyBreadth = require('./company-breadth');
 const mcpAnon = require('./mcp-anon');
+const mcpTrial = require('./mcp-trial');
 
 const SERVER_NAME = 'stockportfolio-mcp';
 const SERVER_VERSION = '1.0.0';
@@ -762,7 +763,7 @@ const KNOWN_CODES = new Set([
     'COMPANY_REQUIRED', 'COMPANY_NOT_FOUND', 'AMBIGUOUS_COMPANY', 'UNSUPPORTED_METRIC',
     'QUESTION_REQUIRED', 'FILING_NOT_FOUND', 'UNSUPPORTED_SECTION', 'TOO_MANY_COMPANIES',
     'TOO_FEW_COMPANIES', 'INVALID_PERIOD', 'AUTHENTICATION_REQUIRED', 'ENTITLEMENT_REQUIRED',
-    'QUOTA_EXCEEDED', 'RATE_LIMITED', 'UNKNOWN_TOOL', 'UPSTREAM_DATA_ERROR',
+    'QUOTA_EXCEEDED', 'TRIAL_ENDED', 'RATE_LIMITED', 'UNKNOWN_TOOL', 'UPSTREAM_DATA_ERROR',
     'SCREEN_FAILED', 'ASSET_FEATURE_UNAVAILABLE'
 ]);
 
@@ -809,7 +810,7 @@ const MSG_REGION = 'The free allowance is not available from this region. Authen
 const UPGRADE_URL = 'https://www.stockportfolio.pro/upgrade.html?utm_source=connector&utm_campaign=no_access';
 const MSG_NO_ENTITLEMENT = 'The plan on the connected StockPortfolio.pro account does not include this connector. '
     + `To use it, open ${UPGRADE_URL} and choose the Monthly plan ($79.99/month, cancel anytime). `
-    + 'It includes this connector with 100 credits a month (a data lookup costs 2 credits, an AI answer 42). '
+    + 'It includes this connector with 200 credits a month (a data lookup costs 2 credits, an AI answer 42). '
     + 'This connection picks the new plan up on the next call; there is nothing to reconnect.';
 
 // ---------------------------------------------------------------------------
@@ -990,6 +991,16 @@ async function callToolResult(ctx, deps, params) {
                         tool: def.name
                     }), deps, 'Connect a StockPortfolio.pro account to continue.'), code);
                 }
+                // A signed-in free account on its one-per-account trial: the
+                // refusal distinguishes a spent allowance (QUOTA_EXCEEDED) from
+                // the trial's 30 days being over (TRIAL_ENDED), which is the
+                // code the usage log, the emails and the profile page key on.
+                // The limiter's own copy already says what the trial included
+                // and how to continue.
+                if (ctx.trial) {
+                    const code = gate.reason === 'trial_ended' ? 'TRIAL_ENDED' : 'QUOTA_EXCEEDED';
+                    return finish(errorResult(code, String(gate.message || ''), { tool: def.name, reason: gate.reason || null }), code);
+                }
                 // The published keyed-caller body is unchanged — quotaError's
                 // own fields stay at the top level, so a client written against
                 // the REST 402 reads the same shape here.
@@ -1021,6 +1032,20 @@ async function callToolResult(ctx, deps, params) {
             spent = true;
             if (companies.length) await deps.breadth.record(companies);
             result = connectorNotices.attach(result, notice);
+
+            // A trial caller reads its remaining trial in the result, so the
+            // limit is never a surprise: the same reasoning as the keyless
+            // usage notice above, for the account-keyed trial. accountNotice
+            // is absent on the trial path, so `notice` is null here.
+            if (ctx.trial) {
+                result.trial = {
+                    lookups_left: gate.lookupsLeft,
+                    asks_left: gate.asksLeft,
+                    ends_at: gate.endsAt,
+                    days_left: gate.daysLeft
+                };
+                result.notice = mcpTrial.usageNotice(gate);
+            }
 
             if (def.aiCost && ctx.anonymous) {
                 // A free AI answer reports what is left, so the caller learns
@@ -1054,13 +1079,18 @@ async function callToolResult(ctx, deps, params) {
     }
 }
 
-// Tool descriptions carry runtime facts (the live free-allowance size) so a
-// model reads the real number rather than one baked in at build time.
+// Tool descriptions carry runtime facts so a model reads the real number
+// rather than one baked in at build time. The keyless allowance is env-
+// switched and OFF by default since 2026-10-26, so ask_filings points at
+// signing in (a free account made on the connector sign-in screen starts the trial) instead of quoting a
+// keyless cap that no longer exists.
 function toolDescription(def) {
     if (def.name !== 'ask_filings') return def.description;
     const limit = ANON_MCP_CONFIG.askLimit;
     const windowDays = ANON_MCP_CONFIG.windowDays;
-    return `${def.description} Without an account this tool allows ${limit} questions per caller in each rolling ${windowDays}-day window; a successful answer reports the remaining count.`;
+    return limit > 0
+        ? `${def.description} Without an account this tool allows ${limit} questions per caller in each rolling ${windowDays}-day window; a successful answer reports the remaining count.`
+        : `${def.description} Needs a signed-in StockPortfolio.pro account; a free account created on this connector's sign-in screen includes a one-time ${mcpTrial.config().days}-day trial that does not renew.`;
 }
 
 // One-shot handler for the stateless POST /mcp route: a fresh Server and

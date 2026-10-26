@@ -306,6 +306,12 @@ test('search_companies is metered as a lookup, and reports a bad query honestly'
 test('search_companies is refused once the allowance is gone, and for an account without API access', { timeout: 60000 }, async (t) => {
     stubFinancials();
     t.after(restoreFinancials);
+    // The keyless tier is off by default since 2026-10-26, and a refused
+    // keyless call then reads AUTHENTICATION_REQUIRED, not QUOTA_EXCEEDED. This
+    // test exercises the allowance, so it opts the tier in explicitly.
+    const priorAsk = process.env.ANON_MCP_ASK_LIMIT;
+    process.env.ANON_MCP_ASK_LIMIT = '3';
+    t.after(() => { if (priorAsk === undefined) delete process.env.ANON_MCP_ASK_LIMIT; else process.env.ANON_MCP_ASK_LIMIT = priorAsk; });
     const spent = [];
     const drained = await connect(t, await mount(t, anonShape({
         limiter: {
@@ -443,6 +449,11 @@ test('a walled network is not by itself a refusal while MCP_KEYLESS_WALL is off'
 test('a keyless refusal keeps the limiter’s own copy, not the recharge body', { timeout: 60000 }, async (t) => {
     stubFinancials();
     t.after(restoreFinancials);
+    // Keyless tier opted in explicitly: off by default it would read as an
+    // auth failure instead of an exhausted allowance.
+    const priorAsk = process.env.ANON_MCP_ASK_LIMIT;
+    process.env.ANON_MCP_ASK_LIMIT = '3';
+    t.after(() => { if (priorAsk === undefined) delete process.env.ANON_MCP_ASK_LIMIT; else process.env.ANON_MCP_ASK_LIMIT = priorAsk; });
     const url = await mount(t, anonShape({
         limiter: {
             check: async () => ({
@@ -817,6 +828,11 @@ test('tools/list declares per-tool security schemes that survive to the wire', {
 test('an anonymous refusal an account would fix carries the sign-in challenge; a keyed one does not', { timeout: 60000 }, async (t) => {
     stubFinancials();
     t.after(restoreFinancials);
+    // Keyless tier opted in: the anonymous half of this test asserts the
+    // QUOTA_EXCEEDED branch, which only exists while the tier is enabled.
+    const priorAsk = process.env.ANON_MCP_ASK_LIMIT;
+    process.env.ANON_MCP_ASK_LIMIT = '3';
+    t.after(() => { if (priorAsk === undefined) delete process.env.ANON_MCP_ASK_LIMIT; else process.env.ANON_MCP_ASK_LIMIT = priorAsk; });
     const metadataUrl = 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource';
     const refused = {
         check: async () => ({ ok: false, used: 3, allowance: 3, resetsAt: null, message: 'That was all 3 free questions in this rolling 30-day window.' }),
@@ -1174,4 +1190,171 @@ test('get_recent_filings reads a statements file only for the rows it returns', 
     assert.equal(result.filings.length, 3);
     const periodic = result.filings.filter((r) => r.kind !== 'earnings_release').length;
     assert.equal(reads.length, periodic, 'one statements read per returned periodic row, none for the rest');
+});
+
+// ---------------------------------------------------------------------------
+// The per-account trial (mcp-trial.js, owner decision 2026-10-26): a signed-in
+// account WITHOUT API/MCP access no longer gets ENTITLEMENT_REQUIRED on every
+// call — it runs on the one-per-account 30-day trial, reads its remaining
+// trial in every successful result, and is refused with TRIAL_ENDED once the
+// 30 days are over. hasApiAccess itself is unchanged and still gates the REST
+// API and the OAuth consent screen.
+// ---------------------------------------------------------------------------
+
+const mcpTrial = require('../mcp-trial');
+
+function trialShape(overrides = {}) {
+    const shape = {
+        ctx: {
+            userId: 't1', user: { _id: 't1' }, tier: 'free', subscription: { planId: 'free' },
+            anonymous: false, trial: true, logId: 'trial1', ...(overrides.ctx || {})
+        },
+        deps: {
+            limiter: overrides.limiter || mcpTrial.creditsFor('t1'),
+            effectiveAskLimit: () => 0,
+            // A trial caller's entitlement is the trial itself; entitlement is
+            // not re-consulted against hasApiAccess on this path.
+            entitled: () => true,
+            wallReason: null,
+            onLog: () => {},
+            ...(overrides.deps || {})
+        }
+    };
+    return shape;
+}
+
+test('a free signed-in account gets data plus its trial/notice, and the trial starts at the first call', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+
+    const url = await mount(t, trialShape());
+    const client = await connect(t, url);
+
+    const res = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.ok(!res.isError, `a trial account may call a lookup: ${res.content[0].text}`);
+    const payload = jsonOf(res);
+    assert.equal(payload.trial.lookups_left, 24, 'the result reports the trial after this call');
+    assert.equal(payload.trial.asks_left, 3);
+    assert.equal(payload.trial.days_left, 30);
+    assert.ok(/^\d{4}-\d{2}-\d{2}T/.test(payload.trial.ends_at), 'the end date is an ISO date');
+    assert.match(payload.notice, /Free trial: 24 of 25 lookups and 3 of 3 AI answers left; ends \d+ \w+ \d{4} \(30 days left\)\./);
+    assert.match(payload.notice, /Monthly plan \(\$79\.99\/month, 200 credits\)/);
+
+    // startedAt was stamped by the FIRST reserved call, not at signup.
+    const doc = await mongoose.connection.collection(mcpTrial.COLLECTION).findOne({ _id: 't1' });
+    assert.ok(doc.startedAt instanceof Date, 'the trial row exists');
+    assert.equal(doc.lookups, 1, 'one lookup was reserved and spent');
+    assert.equal(doc.asks, 0);
+
+    // A second caller's trial is its own: the allowance is per account.
+    const other = await connect(t, await mount(t, trialShape({ ctx: { userId: 't2', user: { _id: 't2' }, trial: true }, deps: { limiter: mcpTrial.creditsFor('t2') } })));
+    const second = jsonOf(await other.callTool({ name: 'search_companies', arguments: { query: 'Apple' } }));
+    assert.equal(second.trial.lookups_left, 24, 'a second account starts its own trial');
+});
+
+test('a trial past its end is refused with TRIAL_ENDED and the continue copy, and reserves nothing', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+
+    await mongoose.connection.collection(mcpTrial.COLLECTION).updateOne(
+        { _id: 't1' },
+        { $set: { startedAt: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000), lookups: 4, asks: 1 } },
+        { upsert: true }
+    );
+    const client = await connect(t, await mount(t, trialShape()));
+    const res = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(res.isError, true);
+    const payload = jsonOf(res);
+    assert.equal(payload.code, 'TRIAL_ENDED', 'the refusal distinguishes the ended trial from a spent wallet');
+    assert.match(payload.error, /30-day free trial .* has ended/);
+    assert.match(payload.error, /subscribe to the Monthly plan \(\$79\.99\/month, cancel anytime\)/);
+    assert.match(payload.error, /200 credits a month/);
+    assert.match(payload.error, /upgrade\.html\?utm_source=connector&utm_campaign=trial/);
+    assert.match(payload.error, /picks the new plan up on the next call/, 'the fix needs no reconnect');
+    assert.equal(payload.reason, 'trial_ended', 'the structured reason rides along');
+    // The refusal reserved nothing.
+    const doc = await mongoose.connection.collection(mcpTrial.COLLECTION).findOne({ _id: 't1' });
+    assert.deepEqual([doc.lookups, doc.asks], [4, 1]);
+});
+
+test('a trial that has used its lookups is refused with QUOTA_EXCEEDED and the trial copy', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+
+    await mongoose.connection.collection(mcpTrial.COLLECTION).updateOne(
+        { _id: 't1' },
+        { $set: { startedAt: new Date(), lookups: 25, asks: 0 } },
+        { upsert: true }
+    );
+    const client = await connect(t, await mount(t, trialShape()));
+    const res = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(res.isError, true);
+    const payload = jsonOf(res);
+    assert.equal(payload.code, 'QUOTA_EXCEEDED', 'a spent allowance keeps the published quota code');
+    assert.match(payload.error, /all 25 free data lookups in the 30-day free trial/);
+    assert.match(payload.error, /\$79\.99\/month/, 'the copy says how to continue');
+    // Asks are metered separately: an AI answer is still allowed after the lookups run out.
+    stubFinancials();
+    t.after(restoreFinancials);
+    const ask = await client.callTool({ name: 'ask_filings', arguments: { ticker: 'AAPL', question: 'Why did revenue grow?' } });
+    assert.ok(!ask.isError, `the ask allowance is separate: ${ask.content[0].text}`);
+    const askPayload = jsonOf(ask);
+    assert.match(askPayload.notice, /Free trial: 0 of 25 lookups and 2 of 3 AI answers left/);
+    assert.equal(askPayload.trial.asks_left, 2);
+});
+
+test('a paid account is unaffected: no trial fields, wallet charged as before', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+
+    const client = await connect(t, await mount(t, keyedShape()));
+    const res = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.ok(!res.isError);
+    const payload = jsonOf(res);
+    assert.equal(payload.trial, undefined, 'a paid caller never sees trial fields');
+    assert.equal(payload.notice, undefined, 'and no trial notice is attached');
+    // ...and the wallet, not a trial row, was charged.
+    const bal = await credits.balance('u1', ASK_LIMIT);
+    assert.equal(bal.used, credits.COST.mcp_lookup, 'the paid caller spends from the credit ledger');
+    assert.equal(await mongoose.connection.collection(mcpTrial.COLLECTION).countDocuments({ _id: 'u1' }), 0, 'and never opens a trial row');
+});
+
+test('a keyless caller gets AUTHENTICATION_REQUIRED by default, not a free allowance', { timeout: 60000 }, async (t) => {
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+
+    // The real keyless limiter with the DEFAULT env (earlier tests in this file
+    // may have set and restored ANON_MCP_ASK_LIMIT; make sure it is unset).
+    const priorAsk = process.env.ANON_MCP_ASK_LIMIT;
+    const priorLookup = process.env.ANON_MCP_LOOKUP_LIMIT;
+    delete process.env.ANON_MCP_ASK_LIMIT;
+    delete process.env.ANON_MCP_LOOKUP_LIMIT;
+    t.after(() => {
+        if (priorAsk !== undefined) process.env.ANON_MCP_ASK_LIMIT = priorAsk;
+        if (priorLookup !== undefined) process.env.ANON_MCP_LOOKUP_LIMIT = priorLookup;
+    });
+
+    const ip = '203.0.113.40';
+    const shape = anonShape({ limiter: mcpAnon.creditsFor(ip) });
+    shape.deps.resourceMetadataUrl = 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource';
+    const client = await connect(t, await mount(t, shape));
+
+    const res = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
+    assert.equal(res.isError, true, 'keyless calls are closed by default since 2026-10-26');
+    const payload = jsonOf(res);
+    assert.equal(payload.code, 'AUTHENTICATION_REQUIRED');
+    assert.equal(payload.authenticate, true);
+    assert.ok(Array.isArray(res._meta && res._meta['mcp/www_authenticate']), 'the refusal carries the sign-in challenge');
+
+    // Discovery and the free probe still answer for a keyless caller.
+    const tools = await client.listTools();
+    assert.equal(tools.tools.length, EXPECTED_TOOLS.length, 'tools/list works without an account');
+    const health = await client.callTool({ name: 'sp_health', arguments: {} });
+    assert.ok(!health.isError, 'sp_health works without an account');
+    assert.match(tools.tools.find((tl) => tl.name === 'ask_filings').description, /Needs a signed-in StockPortfolio\.pro account/, 'the ask_filings description points at signing in, not a keyless cap');
 });

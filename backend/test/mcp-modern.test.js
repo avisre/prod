@@ -287,3 +287,55 @@ test('a new tool lists and answers through the modern path', { timeout: 60000 },
     assert.ok(!body.result.isError);
     assert.equal(JSON.parse(body.result.content[0].text).filings[0].ticker, 'AAPL');
 });
+
+// ---------------------------------------------------------------------------
+// The per-account trial through the 2026-07-28 path: a modern client that
+// signed in on a free account runs on the same trial limiter the legacy path
+// uses, and reads the same trial block and refusal codes.
+// ---------------------------------------------------------------------------
+
+test('a modern trial caller gets the trial block, and a TRIAL_ENDED refusal is a result, never an HTTP error', { timeout: 60000 }, async (t) => {
+    const mongoose = require('mongoose');
+    const { MongoMemoryServer } = require('mongodb-memory-server');
+    const mcpTrial = require('../mcp-trial');
+    const mem = await MongoMemoryServer.create();
+    await mongoose.connect(mem.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await mem.stop(); });
+
+    const trialCtx = { userId: 't1', user: { _id: 't1' }, tier: 'free', subscription: { planId: 'free' }, anonymous: false, trial: true, logId: 'moderntrial' };
+    const trialDeps = () => ({
+        limiter: mcpTrial.creditsFor('t1'),
+        effectiveAskLimit: () => 0,
+        entitled: () => true,
+        wallReason: null,
+        oauthScopes: ['financials:read', 'filings:read', 'research:read'],
+        resourceMetadataUrl: 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource',
+        onLog: () => {}
+    });
+
+    const url = await mount(t, trialCtx, trialDeps());
+    const ok = await modernPost(url, { method: 'tools/call', params: { name: 'search_companies', arguments: { query: 'Apple', limit: 2 } } });
+    assert.equal(ok.status, 200, 'a trial caller answers through the modern path');
+    const okBody = await ok.json();
+    assert.ok(!okBody.result.isError);
+    const payload = JSON.parse(okBody.result.content[0].text);
+    assert.ok(payload.match_count >= 1, 'the data is real');
+    assert.equal(payload.trial.lookups_left, 24, 'the trial block rides on the modern result');
+    assert.equal(payload.trial.days_left, 30);
+    assert.match(payload.notice, /Free trial: 24 of 25 lookups and 3 of 3 AI answers left/);
+
+    // The 30 days are over: the refusal is a tool result with the trial's own
+    // code, never a transport error — the same rule as every other refusal.
+    await mongoose.connection.collection(mcpTrial.COLLECTION).updateOne(
+        { _id: 't1' },
+        { $set: { startedAt: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000), lookups: 3, asks: 0 } }
+    );
+    const refused = await modernPost(url, { method: 'tools/call', params: { name: 'search_companies', arguments: { query: 'Apple' } } });
+    assert.equal(refused.status, 200, 'a trial-ended refusal is a result, not an HTTP error');
+    const refusedBody = await refused.json();
+    assert.equal(refusedBody.result.isError, true);
+    const refusal = JSON.parse(refusedBody.result.content[0].text);
+    assert.equal(refusal.code, 'TRIAL_ENDED');
+    assert.match(refusal.error, /30-day free trial .* has ended/);
+    assert.ok(refusedBody.result._meta['io.modelcontextprotocol/serverInfo'], 'serverInfo still rides on a trial refusal');
+});

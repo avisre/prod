@@ -34,6 +34,10 @@ const publicApi = require('./public-api');
 const mcpEndpoint = require('./mcp-endpoint');
 const mcpApps = require('./mcp-apps');
 const mcpAnon = require('./mcp-anon');
+const mcpTrial = require('./mcp-trial');
+const refundQuote = require('./refund-quote');
+const oauthSignup = require('./oauth-signup');
+const { SMS_GATEWAY_DOMAINS, passwordMeetsPolicy, normalizeEmail, emailLooksValid, deriveNameFromEmail } = require('./signup-fields');
 const aiPlatformEgress = require('./ai-platform-egress');
 const mcpModern = require('./mcp-modern');
 const oauthCsp = require('./oauth-csp');
@@ -2014,33 +2018,6 @@ function subscriptionIsActive(sub) {
   return sub && ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
 }
 
-function passwordMeetsPolicy(password) {
-  if (typeof password !== 'string') return false;
-  return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password);
-}
-
-function normalizeEmail(email) {
-  return String(email || '').trim().toLowerCase();
-}
-
-function emailLooksValid(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim());
-}
-
-// Provisional display name from an email local-part when no name is supplied
-// at sign-up (e.g. "jane.doe@x.com" -> "Jane Doe"). Falls back to "Member".
-function deriveNameFromEmail(email) {
-  const local = String(email || '').split('@')[0] || '';
-  const words = local
-    .replace(/[._\-+]+/g, ' ')
-    .replace(/[^a-zA-Z ]/g, '')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1));
-  return words.join(' ') || 'Member';
-}
-
 function isDatabaseUnavailableError(error) {
   const msg = String(error?.message || '').toLowerCase();
   return (
@@ -3137,7 +3114,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261026-ui36" />
+<link rel="stylesheet" href="/assets/system.css?v=20261026-ui38" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3166,7 +3143,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261026-ui36"></script>
+<script src="/assets/app.js?v=20261026-ui38"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3258,7 +3235,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261026-ui36" />
+<link rel="stylesheet" href="/assets/system.css?v=20261026-ui38" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3286,7 +3263,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261026-ui36"></script>
+<script src="/assets/app.js?v=20261026-ui38"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3394,7 +3371,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261026-ui36" />
+<link rel="stylesheet" href="/assets/system.css?v=20261026-ui38" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3427,7 +3404,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261026-ui36"></script>
+<script src="/assets/app.js?v=20261026-ui38"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3646,6 +3623,20 @@ const UserSchema = new mongoose.Schema({
     initialInvoiceId: { type: String, default: null },
     initialPaymentIntentId: { type: String, default: null },
     initialChargeId: { type: String, default: null },
+    // What the first invoice actually charged (after any coupon), and whether
+    // its refund deducts the credits used since (refund-quote.js: plans priced
+    // above Monthly, decided when the payment is recorded).
+    initialPaidMinor: { type: Number, default: null },
+    initialPaidCurrency: { type: String, default: null },
+    initialRefundDeductsUsage: { type: Boolean, default: false },
+    // The free connector trial (mcp-trial.js) belongs only to accounts created
+    // on the connector's sign-in screen (oauth-signup.js). Nothing else sets it,
+    // so website signups and older plan-less accounts never get the trial.
+    mcpTrial: {
+        eligible: { type: Boolean, default: false },
+        grantedAt: { type: Date, default: null },
+        clientId: { type: String, default: null }
+    },
     // Password reset via email. Stores only a SHA-256 hash of the emailed token
     // (never the raw token) plus its expiry; both are cleared on a successful
     // reset so the link is single-use. See /api/password/forgot + /reset.
@@ -5417,6 +5408,14 @@ async function recordInitialStripePayment(user, invoice, fallbackAt = new Date()
     user.initialInvoiceId = invoice.id || user.initialInvoiceId || null;
     user.initialPaymentIntentId = paymentIntent || user.initialPaymentIntentId || null;
     user.initialChargeId = charge || user.initialChargeId || null;
+    user.initialPaidMinor = Number.isFinite(Number(invoice.amount_paid)) ? Number(invoice.amount_paid) : null;
+    user.initialPaidCurrency = invoice.currency || null;
+    // The plan the invoice actually bought, read off its price; the account's
+    // stored plan is the fallback for an invoice without line items.
+    const line = invoice.lines && Array.isArray(invoice.lines.data) ? invoice.lines.data[0] : null;
+    const linePriceId = line && line.price ? (typeof line.price === 'string' ? line.price : line.price.id) : null;
+    const boughtPlan = (linePriceId && getPlanConfigByPriceId(linePriceId)) || getPlanConfig(user.subscription && user.subscription.planId);
+    user.initialRefundDeductsUsage = refundQuote.deductsUsage(boughtPlan && boughtPlan.price, CORE_PLAN_PRICE);
     await user.save();
     return true;
 }
@@ -5664,7 +5663,9 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         custom_text: {
             submit: {
                 message: extraMetadata.initialSignup === true
-                    ? `Charged today. If the service is not right for you, request a full refund within ${INITIAL_REFUND_DAYS} days.`
+                    ? (refundQuote.deductsUsage(planConfig.price, CORE_PLAN_PRICE)
+                        ? `Charged today. **Refund terms for this plan:** within ${INITIAL_REFUND_DAYS} days you can request a refund of this payment **minus the credits you have used**, at $${CREDIT_TOPUP_PRICE} per ${CREDIT_TOPUP_CREDITS} credits (about $0.10 each). Your dashboard shows the exact refund before you confirm. Only the Monthly plan has a full refund.`
+                        : `Charged today. If the service is not right for you, request a full refund within ${INITIAL_REFUND_DAYS} days.`)
                     : 'Charged today for this upgrade. Cancel anytime before renewal.'
             }
         },
@@ -6262,10 +6263,11 @@ app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, 
 // ===========================================================================
 // OAuth 2.1 + Dynamic Client Registration — the paid path for chatbot clients
 // ===========================================================================
-// mcp-anon.js lets ChatGPT and claude.ai reach /mcp at all, but a keyless
-// caller gets 2 free asks and then a paywall it cannot pass FROM INSIDE THAT
-// CLIENT, because neither product can send a static API key. This is the only
-// route by which a paying customer authenticates from a chatbot.
+// Keyless callers reached /mcp through mcp-anon.js's allowance; since
+// 2026-10-26 that tier is off by default and the free path is the per-account
+// 30-day trial (mcp-trial.js), which a signed-in chatbot user reaches over
+// this OAuth flow. This is the only route by which a paying customer
+// authenticates from a chatbot.
 //
 // The consent screen below is server-rendered with inline CSS/JS on purpose.
 // login.html loads assets/app.js, and CLAUDE.md's cache-stamp rule means any
@@ -6597,10 +6599,10 @@ button{width:100%;padding:12px;border:0;border-radius:8px;background:#1c1b18;col
 .alt{font-size:13px;color:#726e65;text-align:center;margin-top:14px}
 a{color:#1c1b18}
 ${oauthOffer.OFFER_CSS}</style>`;
-    // Plan facts for the two offers below, from the same constants checkout
-    // and the credit ledger use. 100 is the Monthly wallet (credits.js derives
-    // it as twice the plan's Ask limit); mcp-anon.js quotes the same figure.
-    const offerFacts = { price: CORE_PLAN_PRICE, lookupCost: credits.LISTED_COST.mcp_lookup, askCost: credits.COST.mcp_ask, credits: 100 };
+    // Plan facts for the offers below, from the same constants checkout and
+    // the credit ledger use. 200 is the Monthly wallet (PLAN_ALLOWANCE_FLOOR
+    // in credits.js); mcp-anon.js quotes the same figure.
+    const offerFacts = { price: CORE_PLAN_PRICE, lookupCost: credits.LISTED_COST.mcp_lookup, askCost: credits.COST.mcp_ask, credits: 200 };
     const cookieSecure = process.env.NODE_ENV === 'production';
 
     if (!user) {
@@ -6609,9 +6611,10 @@ ${oauthOffer.OFFER_CSS}</style>`;
         // no password to type here, and adding a ?next= to login.html would
         // have meant editing assets/app.js and stamping every page in the app.
         //
-        // Someone with no account gets the plan and a signup link here; the
-        // cookie is what brings them back to this exact request after
-        // checkout (see oauth-signin-offer.js and /oauth/resume).
+        // Someone with no account can create a free one here, which is the
+        // only way to the connector trial (oauth-signup.js), or take the
+        // Monthly plan; the cookie is what brings them back to this exact
+        // request after checkout (see oauth-signin-offer.js and /oauth/resume).
         const resume = oauthOffer.resumeCookie(req.originalUrl.split('?')[1] || '', { secure: cookieSecure });
         if (resume) res.append('Set-Cookie', resume);
         return res.type('html').send(`${head}
@@ -6628,9 +6631,11 @@ ${oauthOffer.OFFER_CSS}</style>`;
   <p class="alt">Signed up with Google?
     <a href="/login.html" target="_blank" rel="noopener nofollow">Sign in here</a>, then
     <a href="${escapeHtmlOauth(selfUrl)}">continue</a>.</p>
-  ${oauthOffer.signupOfferHtml({ ...offerFacts, canResume: Boolean(resume) })}
+  ${oauthOffer.trialSignupHtml({ clientId, redirectUri, trial: mcpTrial.config(), price: offerFacts.price, credits: offerFacts.credits })}
+  ${oauthOffer.signupOfferHtml({ ...offerFacts, canResume: Boolean(resume), secondary: true })}
 </div>
 ${oauthOffer.pollScript('session')}
+${oauthOffer.trialSignupScript()}
 <script>
 document.getElementById('f').addEventListener('submit', async function (ev) {
   ev.preventDefault();
@@ -6650,17 +6655,24 @@ document.getElementById('f').addEventListener('submit', async function (ev) {
     const email = escapeHtmlOauth(user.email || '');
     // An account without connector access is told before it clicks Allow, not
     // by a refusal on its first call. Allow stays available: the connection
-    // picks a new plan up on the next call.
+    // picks a new plan up on the next call. A connector-made account sees its
+    // trial instead: what is left, or that it is over.
     const hasAccess = hasApiAccess({ user, subscription: user.subscription });
+    const trial = !hasAccess && mcpTrial.eligible(user) ? await mcpTrial.status(user._id) : null;
+    const trialLive = Boolean(trial) && trialIsLive(trial);
+    const notice = hasAccess ? ''
+        : trialLive ? oauthOffer.trialNoticeHtml(trial, offerFacts)
+        : trial ? oauthOffer.trialEndedNoticeHtml(trial, offerFacts)
+        : oauthOffer.noAccessNoticeHtml(offerFacts);
     return res.type('html').send(`${head}
 <div class="card">
   <h1>Connect ${escapeHtmlOauth(client.clientName)}</h1>
   <p class="sub">Signed in as ${email}</p>
-  ${hasAccess ? '' : oauthOffer.noAccessNoticeHtml(offerFacts)}
+  ${notice}
   ${destination}
   <ul>
     <li>Read filing-grounded company data through your account</li>
-    <li>Spend credits from your monthly allowance</li>
+    <li>${trialLive ? 'Use your free connector trial' : 'Spend credits from your monthly allowance'}</li>
     <li>No access to your password, card details or portfolios</li>
   </ul>
   <form method="POST" action="/oauth/authorize/decision">${hidden}
@@ -6668,16 +6680,51 @@ document.getElementById('f').addEventListener('submit', async function (ev) {
     <button type="submit" name="decision" value="deny" class="ghost">Cancel</button>
   </form>
 </div>
-${hasAccess ? '' : oauthOffer.pollScript('access')}`);
+${hasAccess || trialLive ? '' : oauthOffer.pollScript('access')}`);
 });
 
-// What the two /oauth/authorize screens poll: is anyone signed in, and does
-// their plan include the connector. Nothing else about the account is exposed.
+// A connector trial is live while it has not ended by date and something is
+// left to spend (mcp-trial.js status shape).
+function trialIsLive(trial) {
+    return Boolean(trial) && !trial.ended && (trial.lookupsLeft > 0 || trial.asksLeft > 0);
+}
+
+// Can this account's tool calls be served right now: a plan with connector
+// access, or a connector-made account whose trial is still live.
+async function connectorUsable(user) {
+    if (!user) return false;
+    if (hasApiAccess({ user, subscription: user.subscription })) return true;
+    if (!mcpTrial.eligible(user)) return false;
+    return trialIsLive(await mcpTrial.status(user._id));
+}
+
+// What the two /oauth/authorize screens poll: is anyone signed in, and can
+// their account use the connector. Nothing else about the account is exposed.
 app.get('/oauth/session', async (req, res) => {
     res.set('Cache-Control', 'no-store');
     const user = await oauthCurrentUser(req);
-    res.json({ signedIn: Boolean(user), hasAccess: Boolean(user && hasApiAccess({ user, subscription: user.subscription })) });
+    res.json({ signedIn: Boolean(user), hasAccess: await connectorUsable(user) });
 });
+
+// The free account the sign-in screen above offers: the only free signup, and
+// connector-only, since it needs the client_id and exact redirect_uri of a
+// live authorization (oauth-signup.js). Anyone can register an OAuth client,
+// so the real brake is subscribeLimiter, the same one /api/subscribe uses.
+app.post('/oauth/signup', subscribeLimiter, jsonParser, oauthSignup.connectorSignupHandler({
+    getClient: (id) => oauthMcp.getClient(id),
+    User,
+    hashPassword: (password) => bcrypt.hash(password, 10),
+    planConfig: getPlanConfig(FREE_PLAN_ID),
+    ensureSubscriptionShape,
+    attachSignupAttribution,
+    recordCustomerLifecycleEvent,
+    sendNewUserEmails,
+    trackFunnel,
+    createUserToken,
+    setAuthCookie,
+    trackingRequestFields,
+    sendApiError
+}));
 
 // The way back from signup and checkout to the authorization the person
 // started. It only ever redirects to our own /oauth/authorize, which validates
@@ -6826,8 +6873,11 @@ app.post('/oauth/token', express.urlencoded({ extended: false }), jsonParser, as
 // /mcp accepts BOTH a keyed caller and a keyless one. The keyless path exists
 // because ChatGPT and claude.ai cannot send a static bearer token to a custom
 // connector (ChatGPT mandates OAuth 2.1 + DCR; claude.ai offers only OAuth
-// client id/secret fields) while both DO support authless servers. Without it,
-// a user of either product cannot reach this endpoint at any price.
+// client id/secret fields) while both DO support authless servers. Since
+// 2026-10-26 the keyless tier carries no allowance by default (mcp-anon.js):
+// a keyless tool call answers AUTHENTICATION_REQUIRED with the sign-in
+// challenge below, and free evaluation happens per-account over OAuth via
+// the 30-day trial (mcp-trial.js).
 //
 // A key that IS presented must still be valid: this only skips authentication
 // when no credential was offered at all, so a revoked or mistyped key fails
@@ -6919,6 +6969,28 @@ function nudgeOnRefusal(req, evt) {
         // nothing; a send or a failed send is worth a line each.
         if (String(status).startsWith('sent:')) logMcp({ event: 'nudge_email', sent: true, reason: status.slice(5), caller: evt.caller || null });
         else if (status === 'send_failed' || status === 'error') logMcp({ event: 'nudge_email', sent: false, status, code: evt.code, caller: evt.caller || null });
+    }).catch(() => {});
+}
+
+// The trial-stage emails (connector-nudge.maybeSendTrial): one per account for
+// the trial starting, for 7 days left, and for the trial or its allowance
+// being used up. Fired from the keyed routes for a TRIAL caller after the call,
+// never from the anonymous path (no account, no address). Fire-and-forget like
+// the nudge: it must never delay or fail the tool result, and the same
+// CONNECTOR_NUDGE_EMAILS off-switch silences it.
+function trialEmailOnEvent(req, evt) {
+    if (!CONNECTOR_NUDGE_EMAILS || !evt || evt.event !== 'tools/call') return;
+    connectorNudge.maybeSendTrial(
+        { user: req.user, code: evt.ok ? null : evt.code },
+        {
+            users: User.collection,
+            sendMail: mailer.sendMail,
+            status: () => mcpTrial.status(req.userId),
+            facts: { monthlyPrice: CORE_PLAN_PRICE, lookupCost: credits.LISTED_COST.mcp_lookup, askCost: credits.COST.mcp_ask }
+        }
+    ).then((status) => {
+        if (String(status).startsWith('sent:')) logMcp({ event: 'trial_email', sent: true, kind: status.slice(5), caller: evt.caller || null });
+        else if (status === 'send_failed' || status === 'error') logMcp({ event: 'trial_email', sent: false, status, code: evt.code || null, caller: evt.caller || null });
     }).catch(() => {});
 }
 
@@ -7129,19 +7201,38 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
         }
         const logId = require('crypto').createHash('sha256').update(String(req.userId)).digest('hex').slice(0, 12);
         const client = await connectorClientName(req.oauthClientId);
-        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client };
+        // A signed-in account WITHOUT API/MCP access is a TRIAL caller only
+        // when it was created on the connector sign-in screen (owner decision
+        // 2026-10-26; mcpTrial.eligible, set only by oauth-signup.js). It gets
+        // the one-per-account trial (mcp-trial.js); every other account
+        // without access is refused with ENTITLEMENT_REQUIRED as before.
+        // hasApiAccess itself is UNCHANGED — it still gates the REST API and
+        // the OAuth consent screen — this branch only decides which limiter
+        // serves the tool calls.
+        const trialCaller = !hasApiAccess(req) && mcpTrial.eligible(req.user);
+        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller ? { trial: true } : {}) };
         const deps = {
-            limiter: credits,
-            breadth: companyBreadthFor(req),
+            limiter: trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
             effectiveAskLimit: () => effectiveAskLimit(req),
-            entitled: () => hasApiAccess(req),
+            // The trial IS the entitlement on this request; a paid caller
+            // keeps the live check so a plan change is picked up next call.
+            entitled: () => (trialCaller ? true : hasApiAccess(req)),
             wallReason: null,
             resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource`,
             oauthScopes: OAUTH_SCOPES,
-            accountNotice: (gate) => connectorAccountNotice(req, gate, false),
+            // The breadth cap and account notices read the credit wallet,
+            // which a trial caller does not have: skipped for trial callers.
+            ...(trialCaller ? {} : {
+                breadth: companyBreadthFor(req),
+                accountNotice: (gate) => connectorAccountNotice(req, gate, false)
+            }),
             usage: mcpUsageCallback(req, { surface: 'mcp', anonymous: false, platform: null, pool: null, client }),
             ...mcpToolDeps(),
-            onLog: (evt, detail) => { logMcp(evt); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
+            // The refusal nudge speaks to wallet and plan problems; a trial
+            // caller's stages (started, 7 days left, ended) go to the trial
+            // emails instead (both fire-and-forget, both gated by
+            // CONNECTOR_NUDGE_EMAILS).
+            onLog: (evt, detail) => { logMcp(evt); if (trialCaller) trialEmailOnEvent(req, evt); else nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
         };
         if (mcpModern.isModern(req)) {
             const modernStarted = Date.now();
@@ -7209,17 +7300,23 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
         }
         const logId = require('crypto').createHash('sha256').update(String(req.userId)).digest('hex').slice(0, 12);
         const client = await connectorClientName(req.oauthClientId);
-        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client };
+        // Same trial split as /mcp above: a signed-in account without
+        // API/MCP access runs on the per-account trial here too, with this
+        // surface's commerce-neutral copy (mcp-apps.js).
+        const trialCaller = !hasApiAccess(req) && mcpTrial.eligible(req.user);
+        const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller ? { trial: true } : {}) };
         const deps = {
-            limiter: credits,
-            breadth: companyBreadthFor(req),
+            limiter: trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
             effectiveAskLimit: () => effectiveAskLimit(req),
-            entitled: () => hasApiAccess(req),
+            entitled: () => (trialCaller ? true : hasApiAccess(req)),
             resourceMetadataUrl: `${oauthBase(req)}/.well-known/oauth-protected-resource/mcp/apps`,
-            accountNotice: (gate) => connectorAccountNotice(req, gate, true),
+            ...(trialCaller ? {} : {
+                breadth: companyBreadthFor(req),
+                accountNotice: (gate) => connectorAccountNotice(req, gate, true)
+            }),
             usage: mcpUsageCallback(req, { surface: 'apps', anonymous: false, platform: null, pool: null, client }),
             ...mcpToolDeps(),
-            onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
+            onLog: (evt, detail) => { console.log('[mcp-apps]', JSON.stringify(evt)); if (trialCaller) trialEmailOnEvent(req, evt); else nudgeOnRefusal(req, evt); recordConnectorRefusal(req, evt, detail, client); }
         };
         if (mcpModern.isModern(req)) {
             const modernStarted = Date.now();
@@ -7235,18 +7332,6 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
 });
 app.get('/mcp/apps', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — use POST.' }));
 app.delete('/mcp/apps', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — no session to terminate.' }));
-
-// Email-to-SMS gateways (phone-number@carrier). Signup bots use these to text
-// strangers' phones via our welcome email — no human signs up with one.
-const SMS_GATEWAY_DOMAINS = new Set([
-    'vtext.com', 'vzwpix.com',                      // Verizon
-    'txt.att.net', 'mms.att.net',                   // AT&T
-    'tmomail.net',                                  // T-Mobile
-    'messaging.sprintpcs.com', 'pm.sprint.com',     // Sprint
-    'msg.fi.google.com',                            // Google Fi
-    'sms.myboostmobile.com', 'myboostmobile.com',   // Boost
-    'mymetropcs.com', 'email.uscc.net', 'text.republicwireless.com'
-]);
 
 // Subscription signup route
 app.post('/api/subscribe', async (req, res) => {
@@ -8300,6 +8385,33 @@ app.post('/api/password/reset', async (req, res) => {
 // Refund the first Stripe payment for a paid-first signup. This is an explicit
 // customer action, limited to the recorded seven-day window and never
 // available for AppSumo/DealMirror lifetime entitlements.
+// The refund this account would get now: the payment minus plan credits used
+// since paying (refund-quote.js). Null for a full refund. Throws when the
+// ledger or Stripe can't be read, so a refund is never priced off a blip.
+async function initialRefundQuote(req, user = req.user) {
+    if (!user || user.initialRefundDeductsUsage !== true || !user.initialPaymentAt) return null;
+    let paidMinor = Number(user.initialPaidMinor);
+    let currency = user.initialPaidCurrency || null;
+    if (!Number.isFinite(paidMinor) && stripe && user.initialInvoiceId) {
+        const invoice = await stripe.invoices.retrieve(user.initialInvoiceId);
+        paidMinor = Number(invoice.amount_paid);
+        currency = currency || invoice.currency || null;
+    }
+    if (!Number.isFinite(paidMinor)) throw new Error('The initial payment amount is not available.');
+    const planId = user.subscription && user.subscription.planId;
+    return {
+        ...refundQuote.quote({
+            paidMinor,
+            spentByMonth: await credits.spentByMonthSince(user._id, user.initialPaymentAt),
+            monthlyAllowance: credits.allowance(effectiveAskLimit(req), planId, user),
+            topupPriceMinor: Math.round(CREDIT_TOPUP_PRICE * 100),
+            topupCredits: CREDIT_TOPUP_CREDITS
+        }),
+        currency: String(currency || CORE_PLAN_CURRENCY).toLowerCase(),
+        rate: { price: CREDIT_TOPUP_PRICE, credits: CREDIT_TOPUP_CREDITS }
+    };
+}
+
 app.post('/api/billing/refund', authMiddleware, async (req, res) => {
     if (!stripe) return res.status(503).json({ message: 'Refunds are temporarily unavailable. Please contact support@stockportfolio.pro.', code: 'STRIPE_UNAVAILABLE' });
     const user = req.user;
@@ -8343,10 +8455,20 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
             chargeId = chargeId || (typeof invoice.charge === 'string' ? invoice.charge : invoice.charge && invoice.charge.id);
         }
         if (!paymentIntentId && !chargeId) throw new Error('The initial Stripe payment reference is not available yet.');
+        // Plans above Monthly refund the payment minus the credits used.
+        const priced = await initialRefundQuote(req, claimed);
+        if (priced && priced.refundMinor <= 0) {
+            await User.updateOne({ _id: claimed._id, initialRefundStatus: 'requested' }, { $set: { initialRefundStatus: 'eligible' } }).catch(() => {});
+            return res.status(400).json({ message: 'The credits used since your payment cover the whole payment, so there is nothing left to refund. Please contact support@stockportfolio.pro if you need help.', code: 'REFUND_NOTHING_LEFT' });
+        }
         const refund = await stripe.refunds.create({
             ...(paymentIntentId ? { payment_intent: paymentIntentId } : { charge: chargeId }),
+            ...(priced ? { amount: priced.refundMinor } : {}),
             reason: 'requested_by_customer',
-            metadata: { userId: String(claimed._id), type: 'initial_seven_day_refund', refundReason: reason, ...(details ? { refundDetails: details } : {}) }
+            metadata: {
+                userId: String(claimed._id), type: 'initial_seven_day_refund', refundReason: reason, ...(details ? { refundDetails: details } : {}),
+                ...(priced ? { creditsUsed: String(priced.creditsUsed), deductionMinor: String(priced.deductionMinor), paidMinor: String(priced.paidMinor) } : {})
+            }
         });
         if (claimed.stripeSubscriptionId) {
             await stripe.subscriptions.cancel(claimed.stripeSubscriptionId).catch((cancelError) => {
@@ -8376,7 +8498,10 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
             mailer.sendMail({ to: mailer.config().owner, subject: ownerMail.subject, html: ownerMail.html, text: ownerMail.text })
                 .catch((mailError) => console.error('[mailer] refund reason email error:', mailError && mailError.message));
         }
-        return res.status(200).json({ ok: true, status: 'refunded', message: 'Your initial payment was refunded and the subscription was cancelled.' });
+        const refundedText = priced
+            ? `${String(refund.currency).toLowerCase() === 'usd' ? '$' : ''}${(refund.amount / 100).toFixed(2)}${String(refund.currency).toLowerCase() === 'usd' ? '' : ` ${String(refund.currency).toUpperCase()}`} was refunded (your payment minus ${priced.creditsUsed} credits used) and the subscription was cancelled.`
+            : 'Your initial payment was refunded and the subscription was cancelled.';
+        return res.status(200).json({ ok: true, status: 'refunded', message: refundedText, ...(priced ? { refundedMinor: refund.amount, creditsUsed: priced.creditsUsed } : {}) });
     } catch (error) {
         await User.updateOne({ _id: claimed._id, initialRefundStatus: 'requested' }, { $set: { initialRefundStatus: 'eligible' } }).catch(() => {});
         console.error('Initial Stripe refund failed:', error && error.message);
@@ -8402,6 +8527,16 @@ app.post('/api/subscription/cancel', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Unable to cancel the subscription right now.' });
     }
 });
+
+// The dashboard's refund preview. Only priced while a refund is actually open;
+// a failed read shows the rule without a figure instead of breaking /api/session.
+async function sessionRefundQuote(req, user) {
+    const open = user.initialRefundStatus === 'eligible' && user.initialRefundUntil
+        && new Date(user.initialRefundUntil).getTime() >= Date.now();
+    if (!open || user.initialRefundDeductsUsage !== true) return null;
+    try { return await initialRefundQuote(req, user); }
+    catch (error) { console.error('[refund] quote failed:', error && error.message); return null; }
+}
 
 // Session route for client-side gating
 app.get('/api/session', authMiddleware, async (req, res) => {
@@ -8438,7 +8573,10 @@ app.get('/api/session', authMiddleware, async (req, res) => {
                     && user.initialRefundUntil
                     && new Date(user.initialRefundUntil).getTime() >= Date.now(),
                 reasons: Object.entries(INITIAL_REFUND_REASONS).map(([id, label]) => ({ id, label })),
-                detailsMax: INITIAL_REFUND_DETAILS_MAX
+                detailsMax: INITIAL_REFUND_DETAILS_MAX,
+                // Plans above Monthly: the refund is the payment minus credits used.
+                deductsUsage: user.initialRefundDeductsUsage === true,
+                quote: await sessionRefundQuote(req, user)
             },
             onboarding: onboardingState(user),
             // The experiment's menu entry is drawn only for the one account that may use it.
@@ -11644,14 +11782,19 @@ async function connectorUsageRows(userId) {
 app.get('/api/credits/connector', authMiddleware, async (req, res) => {
     try {
         const planId = req.subscription && req.subscription.planId;
-        const [bal, rows] = await Promise.all([
+        // The trial status rides on the same read the connector panel already
+        // makes, so the profile page can show the trial line without a second
+        // endpoint (mcp-trial.js; owner decision 2026-10-26).
+        const [bal, rows, trial] = await Promise.all([
             credits.balance(req.userId, effectiveAskLimit(req), planId, req.user),
-            connectorUsageRows(req.userId)
+            connectorUsageRows(req.userId),
+            mcpTrial.status(req.userId)
         ]);
         const all = connectorUsage.sessions(rows.ledgerRows, rows.refusalRows);
         res.set('Cache-Control', 'no-store').json({
             month: rows.month,
             hasApiAccess: hasApiAccess(req),
+            trial,
             remaining: bal.remaining,
             allowance: bal.allowance,
             resetsAt: bal.resetsAt,

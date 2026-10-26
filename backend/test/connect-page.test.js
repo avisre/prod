@@ -47,12 +47,20 @@ test('the directory URLs live in lib/connector-listings.js and nowhere else', ()
     }
 });
 
-test('the free allowance on the page is the configured one, not a typed number', () => {
-    const cfg = anon.config();
-    assert.ok(HTML.includes(`${cfg.askLimit} AI answers and ${cfg.lookupLimit} data lookups every ${cfg.windowDays} days`));
-    const custom = anon.config({ ANON_MCP_ASK_LIMIT: '7', ANON_MCP_LOOKUP_LIMIT: '11' });
-    assert.equal(custom.askLimit, 7);
-    assert.equal(custom.lookupLimit, 11);
+test('the free trial offer on the page is the configured one, not a typed number', () => {
+    // Since 2026-10-26 the /connect page sells the per-account trial
+    // (mcp-trial.js), not a keyless allowance (mcp-anon.js is off by default).
+    const cfg = require('../mcp-trial').config();
+    assert.ok(HTML.includes(`a free ${cfg.days}-day trial for a free account created on the connector's sign-in screen: ${cfg.lookups} data lookups and ${cfg.asks} AI answers, once per account, with no renewal`),
+        'the trial figures come from mcp-trial\'s config');
+    const custom = require('../mcp-trial').config({ MCP_TRIAL_LOOKUPS: '11', MCP_TRIAL_ASKS: '7' });
+    assert.equal(custom.lookups, 11);
+    assert.equal(custom.asks, 7);
+    // The keyless allowance is closed by default, so the page must not sell it.
+    const anon = require('../mcp-anon').config();
+    assert.equal(anon.askLimit, 0, 'precondition: the keyless tier is off');
+    assert.doesNotMatch(HTML, /without an account/i, 'the page no longer offers a no-account allowance');
+    assert.doesNotMatch(HTML, /free allowance/i, 'nor names one');
 });
 
 test('nothing claims a partnership or endorsement — these are directory listings', () => {

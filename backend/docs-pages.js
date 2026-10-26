@@ -23,10 +23,11 @@ const credits = require('./credits');
 const COST = credits.LISTED_COST;
 // Deep thinking on Ask is charged at this multiple of COST.ask (credits.js).
 const DEEP = credits.DEEP_THINKING_FACTOR;
-// The keyless allowance is env-switchable, so the docs quote the live config
-// instead of a typed number (it said "two" while the default was three).
-const ANON = require('./mcp-anon').config();
-const STAMP = '20261026-ui36';
+// The trial figures are env-switchable, so the docs quote the live config
+// instead of a typed number (they once said "two" while the default was
+// three). The keyless allowance has been closed by default since 2026-10-26.
+const TRIAL = require('./mcp-trial').config();
+const STAMP = '20261026-ui38';
 const UPDATED = '18 October 2026';
 
 function esc(value) {
@@ -404,7 +405,7 @@ const DOC_PAGES = Object.freeze({
         title: 'API and MCP server — StockPortfolio.pro documentation',
         description: 'Connect Claude, ChatGPT or your own code to the filing data: setup for each MCP client and the REST API, with authentication, costs and rate limits.',
         heading: 'API and MCP server',
-        intro: 'Using Claude or ChatGPT rather than writing code? <a class="prose-link" href="/connect">Start here</a>: add StockPortfolio from the directory, try it free without an account, and the Monthly plan ($79.99 a month) covers it after that. The rest of this page is the setup reference. One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT or any other MCP-capable assistant. This page is the setup guide for each of them.',
+        intro: 'Using Claude or ChatGPT rather than writing code? <a class="prose-link" href="/connect">Start here</a>: add StockPortfolio from the directory and create a free account on its sign-in screen to start a free trial (' + TRIAL.lookups + ' data lookups and ' + TRIAL.asks + ' AI answers over ' + TRIAL.days + ' days, once per account, no renewal); the Monthly plan ($79.99 a month) covers it after that. The rest of this page is the setup reference. One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT or any other MCP-capable assistant. This page is the setup guide for each of them.',
         tier: 'Dev, Monthly, Annual, Pro, Power, Desk and Investor/Pro lifetime tiers',
         costTable: [
             ['REST data lookup', 'api_lookup'],
@@ -506,7 +507,7 @@ Accept: application/json, text/event-stream`
             { title: 'Rate limit', body: '60 requests per minute per key. Past that you get a 429 — back off rather than retrying in a tight loop.' },
             { title: 'Lookups and AI answers are priced very differently', body: 'A lookup returns filed data and costs ' + COST.api_lookup + ' credits, on REST and MCP alike. An AI answer costs ' + COST.api_ask + ' on either surface, because it reads and reasons over whole filings. Structure integrations to use lookups for data and reserve AI answers for questions that genuinely need them.' },
             { title: 'Access is checked on every call', body: 'Not just when the key is created. If the plan behind a key lapses, the key stops working immediately with <code>API_ACCESS_REQUIRED</code>.' },
-            { title: 'An assistant can try it before anyone buys a key', body: 'Call the MCP endpoint with no key at all and you get a small free allowance — ' + ANON.askLimit + ' AI answers and ' + ANON.lookupLimit + ' data lookups every ' + ANON.windowDays + ' days by default — so a client can see a cited answer before signing up. Past that it asks for a key, and a connector that signed in over OAuth keeps going without one.' },
+            { title: 'An assistant can try it before anyone buys a key', body: 'Connect the MCP server and create a free account on its sign-in screen: a one-time ' + TRIAL.days + '-day trial, which does not renew, includes ' + TRIAL.lookups + ' data lookups and ' + TRIAL.asks + ' AI answers, so a client can see a cited answer before anyone pays. Past that the connection asks for a plan that includes it, and a connector that signed in over OAuth picks a new plan up on the next call.' },
             { title: 'Keep your key server-side', body: 'A key spends your credit allowance. Never ship one in client-side code or a public repository. Revoke and reissue from your profile if one is exposed.' },
             { title: 'The connector shows no tools', body: 'Restart the client. MCP configuration is read once at startup, so a server added to a running client stays invisible until it restarts.' },
             { title: 'Use the www host, not the bare domain', body: 'Every URL above carries <code>www</code> deliberately. The apex redirect from <code>stockportfolio.pro</code> to <code>www.stockportfolio.pro</code> drops the <code>Authorization</code> header, so a client pointed at the apex arrives as an anonymous caller and quietly falls back to the free allowance instead of your key.' }

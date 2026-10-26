@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Stripe checkout. Monthly $79.99, Annual $649.99, Pro $799.99/year or Desk $1,999.99/year. Request a refund within 7 days." />
+  <meta name="description" content="Pay by Stripe: Monthly $79.99, Annual $649.99, Pro $799.99/yr, Desk $1,999.99/yr; refund within 7 days: full on Monthly, minus credits used on yearly plans." />
   <link rel="canonical" href="https://www.stockportfolio.pro/register" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261026-ui36" />
+  <link rel="stylesheet" href="assets/system.css?v=20261026-ui38" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -112,8 +112,8 @@
           </details>
 
           <div class="guarantee">
-            <strong>7-day money-back guarantee</strong>
-            <span>Not right for you? Request a full refund from your dashboard — no email needed, just tell us why.</span>
+            <strong id="sum-refund-title">7-day money-back guarantee</strong>
+            <span id="sum-refund-copy">Not right for you? Request a full refund from your dashboard — no email needed, just tell us why.</span>
           </div>
         </aside>
 
@@ -165,30 +165,30 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20261026-ui36"></script>
-  <script src="assets/social.js?v=20261026-ui36"></script>
+  <script src="assets/app.js?v=20261026-ui38"></script>
+  <script src="assets/social.js?v=20261026-ui38"></script>
   <script>
     V2.nav('register');
     // One record per plan drives the whole summary column: price, cadence,
     // the line under it, the feature list and the submit label.
     const PLANS = {
       'filing-watch': {
-        name: 'Filing Watch · founder-prepared', amount: '$49', cadence: 'per month',
+        name: 'Filing Watch · founder-prepared', amount: '$49', cadence: 'per month', fullRefund: true,
         note: 'One subscription: weekly research assistance plus Monthly software access. Charged today; cancel before renewal.',
         cta: 'Continue to $49/month checkout',
         features: ['Three supported US-listed stocks', 'Starting brief within 48 hours of submitting your stocks', 'A Friday email with filing changes, source links and open questions', 'A clear update when there are no new filings', 'Standard Monthly software access included', 'Factual research assistance; no buy or sell recommendations']
       },
       monthly: {
-        name: 'Monthly', amount: '$79.99', cadence: 'per month',
+        name: 'Monthly', amount: '$79.99', cadence: 'per month', fullRefund: true,
         note: 'Charged today through Stripe. Cancel anytime.',
         cta: 'Continue to secure checkout',
-        features: ['Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Peer comparison and side-by-side company compare', 'Portfolio tracker, watchlist and SEC filing alerts', '50 Ask questions a month, every answer sourced', 'Works in Claude and ChatGPT on the same 100 credits: 50 data lookups or 2 AI answers there', 'CSV export of any table']
+        features: ['Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Peer comparison and side-by-side company compare', 'Portfolio tracker, watchlist and SEC filing alerts', '50 Ask questions a month, every answer sourced', 'Works in Claude and ChatGPT on the same 200 credits: 100 data lookups or 4 AI answers there', 'CSV export of any table']
       },
       annual: {
         name: 'Annual', amount: '$649.99', cadence: 'per year',
         note: 'Billed today, renews yearly. Save $309.89 a year versus monthly.',
         cta: 'Continue to annual checkout',
-        features: ['Everything in the Monthly plan', 'Save $309.89 a year vs monthly — $54.17/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
+        features: ['Everything in the Monthly plan', '300 credits a month instead of 200: 150 data lookups or 7 AI answers in Claude and ChatGPT', 'Save $309.89 a year vs monthly — $54.17/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
       },
       // Pro monthly is retired — the picker's Pro card is pro-annual, and a
       // ?plan=pro URL is remapped to it above (RETIRED_PLAN_REMAP).
@@ -270,6 +270,14 @@
       was.hidden = !meta.was;
       document.getElementById('sum-cadence').textContent = meta.cadence;
       document.getElementById('plan-summary').textContent = meta.note;
+      // Plans above Monthly refund the payment minus the credits used
+      // (backend/refund-quote.js); say so before the customer pays.
+      document.getElementById('sum-refund-title').textContent = meta.fullRefund
+        ? '7-day money-back guarantee'
+        : '7-day refund, minus credits used';
+      document.getElementById('sum-refund-copy').textContent = meta.fullRefund
+        ? 'Not right for you? Request a full refund from your dashboard — no email needed, just tell us why.'
+        : 'Within 7 days you can request a refund of this payment minus the credits you have used, at $14.99 per 150 credits (about $0.10 each). Your dashboard shows the exact amount before you confirm. Only the Monthly plan has a full refund.';
       document.getElementById('sum-features').replaceChildren(...meta.features.map((f) => {
         const li = document.createElement('li'); li.textContent = f; return li;
       }));

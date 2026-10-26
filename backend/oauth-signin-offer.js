@@ -83,13 +83,74 @@ function planSummary({ price, lookupCost, askCost, credits }) {
         + `${each ? ` (${each})` : ''} and the full StockPortfolio.pro website.`;
 }
 
+function plural(n, word) {
+    return `${n} ${word}${Number(n) === 1 ? '' : 's'}`;
+}
+
+function longDate(value) {
+    const d = value ? new Date(value) : null;
+    if (!d || Number.isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
+
+// What the free connector trial includes, in one sentence (mcp-trial.js config).
+function trialTerms({ lookups, asks, days }) {
+    return `${plural(lookups, 'data lookup')} and ${plural(asks, 'AI answer')}, for ${plural(days, 'day')} from your first request. One trial per account; it does not renew.`;
+}
+
+// Shown under the sign-in form to someone with no session: a free account made
+// here gets the connector trial (oauth-signup.js), the only free way in. The
+// form proves the connector request by sending back the client_id and
+// redirect_uri this page was opened with.
+function trialSignupHtml({ clientId, redirectUri, trial, price, credits = 200 } = {}) {
+    return `<div class="offer" id="trial">
+  <h2>No account yet? Start a free connector trial</h2>
+  <p>Create a free account here and use this connector with ${escapeHtml(trialTerms(trial || {}))} After that it needs the Monthly plan (${escapeHtml(money(price))}/month, ${Number(credits)} credits a month).</p>
+  <form id="ts">
+    <input type="hidden" id="ts-client" value="${escapeHtml(clientId)}">
+    <input type="hidden" id="ts-redirect" value="${escapeHtml(redirectUri)}">
+    <div style="position:absolute;left:-9999px" aria-hidden="true"><label for="ts-website">Website</label><input id="ts-website" type="text" tabindex="-1" autocomplete="off"></div>
+    <label for="ts-e">Email</label><input id="ts-e" type="email" autocomplete="email" required>
+    <label for="ts-p">Password</label><input id="ts-p" type="password" autocomplete="new-password" minlength="8" required>
+    <p class="fine">At least 8 characters, with an uppercase letter, a lowercase letter and a number.</p>
+    <button type="submit">Create free account and continue</button>
+    <div class="err" id="ts-err"></div>
+  </form>
+</div>`;
+}
+
+// The signup form's submit handler. Same-origin fetch, like the sign-in form;
+// a reload then lands on the consent screen with the new session.
+function trialSignupScript() {
+    return `<script>
+document.getElementById('ts').addEventListener('submit', async function (ev) {
+  ev.preventDefault();
+  var err = document.getElementById('ts-err'); err.textContent = '';
+  try {
+    var r = await fetch('/oauth/signup', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+      body: JSON.stringify({
+        email: document.getElementById('ts-e').value,
+        password: document.getElementById('ts-p').value,
+        website: document.getElementById('ts-website').value,
+        client_id: document.getElementById('ts-client').value,
+        redirect_uri: document.getElementById('ts-redirect').value
+      })
+    });
+    if (!r.ok) { var b = await r.json().catch(function(){return {};}); err.textContent = b.message || 'Sign-up failed.'; return; }
+    location.reload();
+  } catch (_) { err.textContent = 'Sign-up failed. Please try again.'; }
+});
+</script>`;
+}
+
 // Shown under the sign-in form to someone with no session.
-function signupOfferHtml({ price, lookupCost, askCost, credits = 100, canResume = true } = {}) {
+function signupOfferHtml({ price, lookupCost, askCost, credits = 200, canResume = true, secondary = false } = {}) {
     const after = canResume
         ? 'After checkout you come straight back here to finish connecting.'
         : 'After checkout, reconnect from your assistant and sign in.';
     return `<div class="offer">
-  <h2>No account yet?</h2>
+  <h2>${secondary ? 'Or start with the Monthly plan' : 'No account yet?'}</h2>
   <p>The Monthly plan is ${escapeHtml(planSummary({ price, lookupCost, askCost, credits }))}</p>
   <a class="btn" href="${escapeHtml(SIGNUP_URL)}">Get the Monthly plan</a>
   <p class="fine">${escapeHtml(after)}</p>
@@ -99,10 +160,36 @@ function signupOfferHtml({ price, lookupCost, askCost, credits = 100, canResume 
 // Shown above the Allow button to a signed-in account whose plan has no
 // connector access. It informs; it does not block — Allow still works, and the
 // connection picks a new plan up on the next call.
-function noAccessNoticeHtml({ price, lookupCost, askCost, credits = 100 } = {}) {
+function noAccessNoticeHtml({ price, lookupCost, askCost, credits = 200 } = {}) {
     return `<div class="offer warn">
   <h2>Your plan does not include this connector</h2>
   <p>You can still connect, but every request will be refused until the account has a plan that includes it. The Monthly plan is ${escapeHtml(planSummary({ price, lookupCost, askCost, credits }))}</p>
+  <a class="btn" href="${escapeHtml(UPGRADE_URL)}" target="_blank" rel="noopener">See plans</a>
+  <p class="fine">Opens in a new tab. This page updates by itself once the plan is active.</p>
+</div>`;
+}
+
+// Consent screen, signed-in account on a live connector trial: what is left,
+// when it ends, and what comes after.
+function trialNoticeHtml(status, { price, credits = 200 } = {}) {
+    const st = status || {};
+    const when = st.started
+        ? `It ends on ${longDate(st.endsAt)} (${plural(st.daysLeft, 'day')} left).`
+        : `The ${plural(st.days, 'day')} start with your first request.`;
+    return `<div class="offer warn">
+  <h2>Free connector trial</h2>
+  <p>You have ${plural(st.lookupsLeft, 'data lookup')} and ${plural(st.asksLeft, 'AI answer')} left. ${escapeHtml(when)} One trial per account; it does not renew. After it, this connector needs the Monthly plan (${escapeHtml(money(price))}/month, ${Number(credits)} credits a month).</p>
+</div>`;
+}
+
+// Consent screen, signed-in account whose connector trial is over: ended by
+// date or used up. Connecting still works; calls are refused until a plan.
+function trialEndedNoticeHtml(status, { price, lookupCost, askCost, credits = 200 } = {}) {
+    const st = status || {};
+    const why = st.ended ? 'Your free connector trial has ended.' : 'You have used everything in your free connector trial.';
+    return `<div class="offer warn">
+  <h2>${escapeHtml(why)}</h2>
+  <p>You can still connect, but every request will be refused until the account has a plan that includes this connector. The trial does not renew. The Monthly plan is ${escapeHtml(planSummary({ price, lookupCost, askCost, credits }))}</p>
   <a class="btn" href="${escapeHtml(UPGRADE_URL)}" target="_blank" rel="noopener">See plans</a>
   <p class="fine">Opens in a new tab. This page updates by itself once the plan is active.</p>
 </div>`;
@@ -140,5 +227,6 @@ function pollScript(waitFor) {
 
 module.exports = {
     RESUME_COOKIE, RESUME_NEXT, RESUME_PATH, RESUME_MAX_AGE_SECONDS, SIGNUP_URL, UPGRADE_URL, OFFER_CSS,
-    resumeCookie, clearResumeCookie, resumeTarget, signupOfferHtml, noAccessNoticeHtml, pollScript
+    resumeCookie, clearResumeCookie, resumeTarget, signupOfferHtml, noAccessNoticeHtml, pollScript,
+    trialTerms, trialSignupHtml, trialSignupScript, trialNoticeHtml, trialEndedNoticeHtml
 };

@@ -80,6 +80,25 @@
             const until = policy.eligibleUntil ? new Date(policy.eligibleUntil) : null;
             const dateText = until && !Number.isNaN(until.getTime()) ? ` before ${until.toLocaleDateString()}` : '';
             copy.textContent = `Your initial Stripe payment is eligible for a refund${dateText}. Requesting it cancels the subscription and removes paid access.`;
+            // Plans above Monthly refund the payment minus the credits used,
+            // so the customer sees the exact figure before confirming.
+            if (policy.deductsUsage) {
+                const q = policy.quote;
+                const cash = (minor) => {
+                    const cur = String((q && q.currency) || 'usd').toUpperCase();
+                    try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: cur }).format(minor / 100); }
+                    catch (_) { return `${(minor / 100).toFixed(2)} ${cur}`; }
+                };
+                const terms = document.createElement('p');
+                terms.className = 'small';
+                terms.id = 'billing-refund-quote';
+                terms.style.margin = '0 0 12px';
+                terms.textContent = q
+                    ? `Refund for your plan: you paid ${cash(q.paidMinor)}. You have used ${q.creditsUsed} credits since then, charged at $${q.rate.price} per ${q.rate.credits} credits (${cash(q.deductionMinor)}), so you would get back ${cash(q.refundMinor)}. Only the Monthly plan has a full refund.`
+                    : 'Refund for your plan: your payment minus the credits you have used since paying, at $14.99 per 150 credits (about $0.10 each). Only the Monthly plan has a full refund. The exact figure could not be loaded right now; reload to see it before you confirm.';
+                copy.insertAdjacentElement('afterend', terms);
+                if (q) button.textContent = `Request a ${cash(q.refundMinor)} refund`;
+            }
             reveal();
             button.addEventListener('click', async () => {
                 status.hidden = false;

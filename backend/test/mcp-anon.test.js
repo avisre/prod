@@ -35,7 +35,7 @@ test('keyless MCP allowance: limits, messaging, ceilings and rollover', { timeou
     assert.equal(exhausted.ok, false, 'the ask allowance is enforced');
     assert.match(exhausted.message, /all 3 free questions/, 'says how many were free');
     assert.match(exhausted.message, /\$79\.99\/month/, 'quotes the Monthly price');
-    assert.match(exhausted.message, /100 credits a month/, 'says what the plan buys in the connector');
+    assert.match(exhausted.message, /200 credits a month/, 'says what the plan buys in the connector');
     assert.match(exhausted.message, /register\?plan=monthly/, 'links somewhere a purchase can happen');
     assert.doesNotMatch(exhausted.message, /Out of credits for this month/, 'does not reuse the wallet wording');
 
@@ -70,7 +70,9 @@ test('the global daily ceiling bounds total anonymous spend', { timeout: 60000 }
 
     // A high per-IP allowance with a tiny global ceiling: the ceiling must win,
     // because per-IP limits are worthless against a caller with many addresses.
-    const env = { ANON_MCP_ASK_LIMIT: '50', ANON_MCP_GLOBAL_ASK_DAY: '2' };
+    // The lookup limit is set explicitly: the keyless tier is off by default
+    // since 2026-10-26, so a test that exercises it opts in per knob.
+    const env = { ANON_MCP_ASK_LIMIT: '50', ANON_MCP_LOOKUP_LIMIT: '50', ANON_MCP_GLOBAL_ASK_DAY: '2' };
 
     for (const who of ['a', 'b']) {
         assert.equal((await mcpAnon.creditsFor(who, env).check(who, 'mcp_ask', 0, null, null)).ok, true, `${who} is inside the ceiling`);
@@ -87,11 +89,18 @@ test('the global daily ceiling bounds total anonymous spend', { timeout: 60000 }
     assert.equal(lookup.ok, true, 'the global ask ceiling does not close cheap lookups');
 });
 
-test('the tier can be switched off entirely, and fails closed without a database', async () => {
+test('the keyless tier is off by default, and fails closed without a database', async () => {
     assert.equal(mcpAnon.enabled({ ANON_MCP_ASK_LIMIT: '0' }), false, 'ANON_MCP_ASK_LIMIT=0 removes the tier');
-    assert.equal(mcpAnon.enabled({}), true, 'it is on by default');
-    assert.equal(mcpAnon.config({}).askLimit, 3, 'the default offer is 3 free questions');
-    assert.equal(mcpAnon.config({}).globalAskDay, 100, 'the daily ceiling stays conservative');
+    // Off by default since 2026-10-26 (owner decision): free evaluation is the
+    // per-account trial in mcp-trial.js, so a keyless call answers
+    // AUTHENTICATION_REQUIRED with the sign-in challenge instead.
+    assert.equal(mcpAnon.enabled({}), false, 'it is off with no env at all');
+    assert.equal(mcpAnon.config({}).askLimit, 0, 'the default ask allowance is zero');
+    assert.equal(mcpAnon.config({}).lookupLimit, 0, 'the default lookup allowance is zero');
+    assert.equal(mcpAnon.enabled({ ANON_MCP_ASK_LIMIT: '3' }), true, 'env can bring the tier back');
+    assert.equal(mcpAnon.config({}).globalAskDay, 100, 'the daily ceiling stays conservative (the trial reserves on it too)');
+    assert.equal(typeof mcpAnon.dayKey, 'function', 'the day key is shared with mcp-trial.js');
+    assert.match(mcpAnon.dayKey(new Date('2026-10-26T12:00:00Z')), /^global:2026-10-26$/);
 
     // Not connected here: a database blip must not hand out unlimited free
     // inference, so an unavailable store reads as exhausted rather than open.

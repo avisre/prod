@@ -6,9 +6,18 @@
 // send a static `Authorization: Bearer <key>` to a custom connector — ChatGPT
 // requires OAuth 2.1 + Dynamic Client Registration, and claude.ai exposes only
 // OAuth client id/secret fields. Both, however, explicitly support *authless*
-// remote servers. So a keyless tier is not merely a growth idea: until the
-// OAuth work lands it is the ONLY way a user of either product can reach this
-// server at all.
+// remote servers, so a keyless tier was how either product could reach this
+// server before the OAuth work landed.
+//
+// Since 2026-10-26 (owner decision) the keyless tier is OFF by default:
+// askLimit and lookupLimit both default to 0, enabled() is false, and a
+// keyless caller gets AUTHENTICATION_REQUIRED plus the
+// mcp/www_authenticate sign-in challenge. Free evaluation moved to the
+// per-account 30-day trial in mcp-trial.js, keyed to a signed-in userId
+// rather than a refillable IP window. The knobs stay env-switchable so the
+// keyless tier can be brought back without a deploy, and the global day
+// ceiling below still bounds the trial tier's AI answers too — mcp-trial.js
+// reserves on this module's day doc.
 //
 // The shape deliberately mirrors the anonymous-Ask limiter already in app.js
 // (ANON_ASK_LIMIT / ANON_ASK_IP_DAY / ANON_ASK_GLOBAL_DAY): a per-identity
@@ -40,17 +49,24 @@ function config(env = process.env) {
         return Number.isFinite(n) && n >= 0 ? n : fallback;
     };
     return {
-        // The headline offer: three keyless AI answers in each rolling window.
-        // The answer payload reports how many remain and tells callers how to
-        // subscribe and configure their MCP client before the allowance runs out.
-        askLimit: num(env.ANON_MCP_ASK_LIMIT, 3),
+        // Keyless tier OFF by default since 2026-10-26 (owner decision): free
+        // evaluation moved to the per-account 30-day trial (mcp-trial.js). A
+        // keyless caller now gets AUTHENTICATION_REQUIRED plus the
+        // mcp/www_authenticate sign-in challenge instead of an allowance —
+        // the IP-keyed tier had no identity, refilled forever and was shared
+        // by everyone behind one egress address. Set ANON_MCP_ASK_LIMIT /
+        // ANON_MCP_LOOKUP_LIMIT to bring the keyless tier back; enabled()
+        // reports it either way.
+        askLimit: num(env.ANON_MCP_ASK_LIMIT, 0),
         // Lookups hit cache/SEC/Yahoo with no model in the loop. 25 (was 50
         // until 2026-10-08, owner decision) is enough to judge the data; company
         // search counts against it like any other lookup.
-        lookupLimit: num(env.ANON_MCP_LOOKUP_LIMIT, 25),
+        lookupLimit: num(env.ANON_MCP_LOOKUP_LIMIT, 0),
         // Hard ceiling across ALL anonymous callers per UTC day. This is the
         // real cost control; per-IP limits alone are worthless against a caller
-        // with many egress addresses.
+        // with many egress addresses. The per-account trial reserves on this
+        // same doc (mcp-trial.js), so trial and any keyless traffic share the
+        // one ceiling and can never be bounded twice.
         //
         // Deliberately NOT the website's ANON_ASK_GLOBAL_DAY=400. That figure
         // guards a funnel where the visitor has already landed on the site; this
@@ -82,6 +98,10 @@ function enabled(env = process.env) {
     return config(env).askLimit > 0;
 }
 
+// The day key of the shared global AI-answer doc. Exported because the
+// per-account trial (mcp-trial.js) reserves on the SAME doc so trial and
+// keyless traffic share one ceiling; the two modules must never compute
+// different ids for the same UTC day.
 function dayKey(now = new Date()) {
     return `global:${now.toISOString().slice(0, 10)}`;
 }
@@ -154,7 +174,7 @@ const SETUP_URL = 'https://www.stockportfolio.pro/docs/api-mcp';
 // cap. So the step after paying is "sign in on the connector you added", not
 // the manual setup guide; SETUP_URL is kept for clients that take a bearer key.
 function upgradeInstructions() {
-    return `To keep going now, open ${SIGNUP_URL} and subscribe to the Monthly plan ($79.99/month, cancel anytime). It includes this connector with 100 credits a month (a data lookup costs 2 credits, an AI answer 42) and the full StockPortfolio.pro website; a top-up adds 150 credits for $14.99. After subscribing, reconnect this StockPortfolio connector in ChatGPT or Claude and sign in with the same account — nothing else to set up. Clients that use an API key instead: ${SETUP_URL}.`;
+    return `To keep going now, open ${SIGNUP_URL} and subscribe to the Monthly plan ($79.99/month, cancel anytime). It includes this connector with 200 credits a month (a data lookup costs 2 credits, an AI answer 42) and the full StockPortfolio.pro website; a top-up adds 150 credits for $14.99. After subscribing, reconnect this StockPortfolio connector in ChatGPT or Claude and sign in with the same account — nothing else to set up. Clients that use an API key instead: ${SETUP_URL}.`;
 }
 
 function askUsageNotice(used, allowance, windowDays = 30, pool = 'visitor') {
@@ -378,4 +398,4 @@ function creditsFor(identity, env = process.env, onCapHit = null, opts = {}) {
     };
 }
 
-module.exports = { config, enabled, creditsFor, askUsageNotice, COLLECTION, SIGNUP_URL, SETUP_URL };
+module.exports = { config, enabled, creditsFor, askUsageNotice, dayKey, COLLECTION, SIGNUP_URL, SETUP_URL };

@@ -194,7 +194,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261026-ui36" />
+<link rel="stylesheet" href="/assets/system.css?v=20261026-ui38" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -257,7 +257,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261026-ui36"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261026-ui38"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -781,23 +781,27 @@ function renderApiLanding() {
 // launch posts — lands here, so the two outbound listing links exist in exactly
 // one place (lib/connector-listings.js) and nowhere else on the site.
 //
-// The free allowance is read from mcp-anon's config rather than typed, because
-// it is env-switchable and the docs once said "two" while the code said three.
-// The worked example reuses the NVDA response captured for /api above — same
-// rule as there: a number on the page is a number the product returns.
+// The trial figures are read from mcp-trial's config rather than typed,
+// because they are env-switchable and the docs once said "two" while the code
+// said three. The worked example reuses the NVDA response captured for /api
+// above — same rule as there: a number on the page is a number the product
+// returns.
 function renderConnect() {
     const canonical = `${SITE}/connect`;
     const listings = require('../lib/connector-listings').list();
-    const anon = require('./mcp-anon').config();
+    const trial = require('./mcp-trial').config();
     const title = 'StockPortfolio in Claude and ChatGPT — SEC filing answers, cited';
     const description = 'StockPortfolio is listed in the Claude connector directory and the ChatGPT app directory. Add it once and ask about any US company — every figure cites its SEC filing.';
-    const free = `${anon.askLimit} AI answers and ${anon.lookupLimit} data lookups every ${anon.windowDays} days`;
+    // The offer since 2026-10-26 (owner decision): keyless calls are closed and
+    // free evaluation is a per-account trial, so the page sells signing up, not
+    // an anonymous allowance.
+    const free = `a free ${trial.days}-day trial for a free account created on the connector's sign-in screen: ${trial.lookups} data lookups and ${trial.asks} AI answers, once per account, with no renewal`;
     const faq = [
         ['Is StockPortfolio available in Claude?', `Yes. StockPortfolio is listed in the Claude connector directory. Add it from Claude's connector settings and ask about a company; answers come from SEC filings and each figure carries its source.`],
         ['Is StockPortfolio available in ChatGPT?', `Yes. StockPortfolio is listed in the ChatGPT app directory. Add it there and ask about a company in any conversation.`],
-        ['Is it free?', `You can try it without an account: ${free}. Past that, the Monthly plan is $79.99 a month: the connector and the full website, with 100 credits a month. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, and a top-up adds 150 credits for $14.99.`],
+        ['Is it free?', `To start, ${free}. Create the account when the connector asks you to sign in, and the ${trial.days} days run from your first tool call. Accounts made on the website start on a paid plan. Past the trial, the Monthly plan is $79.99 a month: the connector and the full website, with 200 credits a month. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, and a top-up adds 150 credits for $14.99.`],
         ['Where do the numbers come from?', 'From the company\'s own SEC filings — 10-K, 10-Q and 8-K. A value the filing does not report comes back empty; it is never estimated. Every figure carries a link to the filing it was read from.'],
-        ['I already have a StockPortfolio plan. Do I pay again?', `No. Sign in from the connector with your StockPortfolio account and it spends the credits your plan already includes, on the plans that carry API and MCP access. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, so the 100 credits on Monthly or Annual cover ${Math.floor(100 / COST.mcp_lookup)} lookups or ${Math.floor(100 / COST.mcp_ask)} AI answers a month, and the 600 on Pro cover ${Math.floor(600 / COST.mcp_lookup)} lookups or ${Math.floor(600 / COST.mcp_ask)} AI answers. If you run out, a top-up adds 150 credits for $14.99.`]
+        ['I already have a StockPortfolio plan. Do I pay again?', `No. Sign in from the connector with your StockPortfolio account and it spends the credits your plan already includes, on the plans that carry API and MCP access. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, so the 200 credits on Monthly cover ${Math.floor(200 / COST.mcp_lookup)} lookups or ${Math.floor(200 / COST.mcp_ask)} AI answers a month, the 300 on Annual cover ${Math.floor(300 / COST.mcp_lookup)} lookups or ${Math.floor(300 / COST.mcp_ask)} AI answers, and the 600 on Pro cover ${Math.floor(600 / COST.mcp_lookup)} lookups or ${Math.floor(600 / COST.mcp_ask)} AI answers. If you run out, a top-up adds 150 credits for $14.99.`]
     ];
     const jsonld = JSON.stringify([
         { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'StockPortfolio connector for Claude and ChatGPT', url: canonical,
@@ -810,14 +814,14 @@ function renderConnect() {
     const card = (l) => `<div class="seo-next-action" id="${l.key}" style="margin:0">
       <p class="seo-next-action-kicker">Listed in ${esc(l.directory)}</p>
       <h2>Add to ${esc(l.name)}</h2>
-      <p>${l.find} Approve the sign-in if you have an account, or skip it and use the free allowance.</p>
+      <p>${l.find} When it asks you to sign in, create a free account there and the ${trial.days}-day trial starts at your first tool call.</p>
       ${l.url ? `<p><a class="seo-cta-btn" href="${esc(l.url)}" target="_blank" rel="noopener" data-connect="${l.key}">Open the ${esc(l.name)} listing &rarr;</a></p>` : ''}
     </div>`;
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/">Home</a> / Claude &amp; ChatGPT</div>
   <h1 class="seo-h1">Ask SEC filings from inside Claude or ChatGPT</h1>
-  <p class="seo-sub">StockPortfolio is listed in both directories. Add it once, then ask about any covered US company in the assistant you already use — every figure comes back with the SEC filing it was read from. Free to try: ${free}, no account. After that it is on the Monthly plan, $79.99 a month.</p>
+  <p class="seo-sub">StockPortfolio is listed in both directories. Add it once, then ask about any covered US company in the assistant you already use — every figure comes back with the SEC filing it was read from. Free to try: ${free}. After that it is on the Monthly plan, $79.99 a month.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:28px 0">
     ${listings.map(card).join('\n    ')}
@@ -859,8 +863,8 @@ function renderConnect() {
     </ul>
     <p>The assistant does the reading and the arithmetic; the connector supplies only what the company filed, with the link, so every figure can be checked before it leaves your desk.</p>`)}
 
-  ${S('What it costs', `<p><strong>Free:</strong> ${free}, with no account and nothing to install.</p>
-    <p><strong>Monthly plan — $79.99/month:</strong> the connector and the full StockPortfolio.pro website, with 100 credits a month. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, so 100 credits is ${Math.floor(100 / COST.mcp_lookup)} lookups or ${Math.floor(100 / COST.mcp_ask)} AI answers; a top-up adds 150 credits for $14.99. Cancel any time. <a href="/register?plan=monthly&amp;utm_source=website&amp;utm_campaign=connect">Start the Monthly plan &rarr;</a></p>
+  ${S('What it costs', `<p><strong>Free trial:</strong> ${free} — create the account on the connector's sign-in screen and the ${trial.days} days run from your first tool call. Nothing to install.</p>
+    <p><strong>Monthly plan — $79.99/month:</strong> the connector and the full StockPortfolio.pro website, with 200 credits a month. Through the connector a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}, so 200 credits is ${Math.floor(200 / COST.mcp_lookup)} lookups or ${Math.floor(200 / COST.mcp_ask)} AI answers; a top-up adds 150 credits for $14.99. Cancel any time. <a href="/register?plan=monthly&amp;utm_source=website&amp;utm_campaign=connect">Start the Monthly plan &rarr;</a></p>
     <p><strong>Dev plan — $200/month:</strong> the API and connector without the website. 200 credits. A data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}. Cancel any time. <a href="/register?plan=dev&amp;utm_source=website&amp;utm_campaign=connect">Get the Dev plan &rarr;</a></p>
     <p><strong>Already a customer?</strong> Sign in from the connector and it spends the credits your plan already includes. Which plans carry API and MCP access is on the <a href="/docs/plans">plans page</a>.</p>`)}
 

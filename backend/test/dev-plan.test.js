@@ -211,9 +211,12 @@ test('the Dev credit floor is 200 and beats the derived wallet', () => {
     // what a Dev subscriber resolves to, so this pins both the floor's
     // existence and its value in one call.
     assert.equal(credits.allowance(3, 'dev', null), 200, 'Dev gets an explicit 200-credit floor');
-    // Sanity: the same call for a plan with no floor derives 3 x 2 = 6, which
-    // is what Dev would get without the floor above.
-    assert.equal(credits.allowance(3, 'monthly', null), 6, 'an unfloored plan still derives from the Ask limit');
+    // Monthly and Annual carry explicit floors since 2026-10-26 (owner
+    // decision: Monthly moved from 100 to 200, Annual to 300).
+    assert.equal(credits.allowance(3, 'monthly', null), 200, 'the Monthly wallet floor is 200');
+    assert.equal(credits.allowance(3, 'annual', null), 300, 'the Annual wallet floor is 300');
+    // Sanity: a plan with no floor still derives from the Ask limit (x2).
+    assert.equal(credits.allowance(3, 'free', null), 6, 'an unfloored plan still derives from the Ask limit');
     // Since the 2026-10-08 reprice the plan is dearer per credit than the
     // recharge pack it would otherwise be bought alongside: $200/200 = $1.00
     // vs $14.99/150 = $0.09993, about ten times. That inverts the rule in

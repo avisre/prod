@@ -33,7 +33,10 @@ const REFUSAL_LABELS = Object.freeze({
     ENTITLEMENT_REQUIRED: 'Plan does not include the connector',
     REGION_PAID_ONLY: 'Region requires a paid plan',
     NETWORK_PAID_ONLY: 'VPN or data-centre connection requires a paid plan',
-    COMPANY_LIMIT: 'Too many different companies'
+    COMPANY_LIMIT: 'Too many different companies',
+    // The signed-in free account's one-per-account trial (mcp-trial.js): a
+    // distinct label, because the fix is a plan change, not a refill.
+    TRIAL_ENDED: 'Free trial ended'
 });
 
 function clean(value, max) {

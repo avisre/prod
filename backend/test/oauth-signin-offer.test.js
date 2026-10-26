@@ -12,7 +12,7 @@ const path = require('node:path');
 
 const offer = require('../oauth-signin-offer');
 
-const FACTS = { price: 79.99, lookupCost: 2, askCost: 42, credits: 100 };
+const FACTS = { price: 79.99, lookupCost: 2, askCost: 42, credits: 200 };
 const QUERY = 'response_type=code&client_id=mcpc_abc&redirect_uri=https%3A%2F%2Fchatgpt.com%2Fconnector_platform_oauth_redirect&state=s%261&code_challenge=xyz&code_challenge_method=S256&resource=https%3A%2F%2Fwww.stockportfolio.pro%2Fmcp%2Fapps';
 
 // What app.js's parseCookieHeader does to a Set-Cookie value on the way back.
@@ -24,7 +24,7 @@ test('the signed-out offer names the plan, its price and what it includes, and l
     const html = offer.signupOfferHtml(FACTS);
     assert.match(html, /No account yet\?/);
     assert.match(html, /\$79\.99 a month, cancel anytime/);
-    assert.match(html, /100 credits a month \(a data lookup costs 2 credits, an AI answer 42\)/);
+    assert.match(html, /200 credits a month \(a data lookup costs 2 credits, an AI answer 42\)/);
     assert.match(html, /href="\/register\?plan=monthly&amp;next=oauth%2Fresume&amp;utm_source=connector&amp;utm_campaign=oauth_signin"/);
     assert.match(html, /come straight back here/);
     // Without a stored request there is no return trip to promise.

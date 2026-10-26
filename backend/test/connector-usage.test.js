@@ -141,7 +141,10 @@ test('the connector passes the subject to the ledger and keeps it out of the app
     assert.match(endpoint, /try \{ deps\.onLog\(event, detail\); \}/);
 
     const app = read('app.js');
-    assert.match(app, /onLog: \(evt, detail\) => \{ logMcp\(evt\); nudgeOnRefusal\(req, evt\); recordConnectorRefusal\(req, evt, detail, client\); \}/);
+    // The keyed routes split their refusal mail by caller since 2026-10-26: a
+    // paid caller keeps the wallet/plan nudge, a trial caller gets the trial-
+    // stage emails, and both record refusals for the account's usage log.
+    assert.match(app, /onLog: \(evt, detail\) => \{ logMcp\(evt\); if \(trialCaller\) trialEmailOnEvent\(req, evt\); else nudgeOnRefusal\(req, evt\); recordConnectorRefusal\(req, evt, detail, client\); \}/);
     assert.match(app, /function logMcp\(event\) \{\s*try \{ console\.log\('\[mcp\]', JSON\.stringify\(event\)\); \}/, 'logMcp prints the event only');
     assert.match(app, /col\('connector_refusals'\)\.createIndex\(\{ userId: 1, month: 1, at: 1 \}/);
     // Both endpoints read only the signed-in account's own rows.
@@ -160,7 +163,7 @@ test('the connector passes the subject to the ledger and keeps it out of the app
     assert.match(apps, /const costKey = def\.aiCost \? 'mcp_ask' : 'mcp_lookup';/);
     assert.match(apps, /deps\.limiter\.spend\(ctx\.userId, costKey, `mcp-apps:\$\{name\}`, subject, ctx\.client \|\| null\);/);
     assert.match(apps, /caller: ctx\.logId \|\| null \}, \{ subject \}\);/);
-    assert.match(app, /onLog: \(evt, detail\) => \{ console\.log\('\[mcp-apps\]', JSON\.stringify\(evt\)\); nudgeOnRefusal\(req, evt\); recordConnectorRefusal\(req, evt, detail, client\); \}/);
+    assert.match(app, /onLog: \(evt, detail\) => \{ console\.log\('\[mcp-apps\]', JSON\.stringify\(evt\)\); if \(trialCaller\) trialEmailOnEvent\(req, evt\); else nudgeOnRefusal\(req, evt\); recordConnectorRefusal\(req, evt, detail, client\); \}/);
 });
 
 test('the profile page carries the panel, the refill button and the script', () => {
