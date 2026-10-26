@@ -1433,10 +1433,12 @@ main { min-height: 60vh; padding-bottom: var(--s7); }
 /* ---------- Key-numbers grid (label left, value right, hairline rows) ---------- */
 .kv-block { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 36px; align-items: start; }
 .kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+/* One line per row, caption beside the label (full text in its title), so
+   every row is the same height and the two columns stay level. */
 .kv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
-.kv-row span { color: var(--ink-2); }
+.kv-row span { color: var(--ink-2); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .kv-row b { font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; white-space: nowrap; }
-.kv-row small { display: block; margin-top: 1px; color: var(--ink-3); font-size: 11.5px; }
+.kv-row small { margin-left: 6px; color: var(--ink-3); font-size: 11.5px; }
 
 /* clamped prose with read-more */
 .clamp { display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; overflow: hidden; }

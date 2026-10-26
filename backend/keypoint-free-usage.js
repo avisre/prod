@@ -6,16 +6,18 @@
 // a stock already claimed this month is free, so the allowance counts distinct
 // companies rather than page views.
 
-function createModel(mongoose) {
+// The same accounting backs the signed-out Insights allowance (app.js), in its
+// own collection so the two allowances never share a count.
+function createModel(mongoose, { modelName = 'KeypointFreeUsage', collection = 'keypoint_free_usage' } = {}) {
     const schema = new mongoose.Schema({
         clientKey: { type: String, required: true },
         monthKey: { type: String, required: true },
         symbols: { type: [String], default: [] },
         expiresAt: { type: Date, required: true }
-    }, { timestamps: true, versionKey: false, collection: 'keypoint_free_usage' });
+    }, { timestamps: true, versionKey: false, collection });
     schema.index({ clientKey: 1, monthKey: 1 }, { unique: true });
     schema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
-    return mongoose.models.KeypointFreeUsage || mongoose.model('KeypointFreeUsage', schema);
+    return mongoose.models[modelName] || mongoose.model(modelName, schema);
 }
 
 async function getOrCreate(Model, { clientKey, monthKey, expiresAt }) {

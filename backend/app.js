@@ -3114,7 +3114,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261026-ui38" />
+<link rel="stylesheet" href="/assets/system.css?v=20261026-ui39" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3143,7 +3143,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261026-ui38"></script>
+<script src="/assets/app.js?v=20261026-ui39"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3235,7 +3235,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261026-ui38" />
+<link rel="stylesheet" href="/assets/system.css?v=20261026-ui39" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3263,7 +3263,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261026-ui38"></script>
+<script src="/assets/app.js?v=20261026-ui39"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3371,7 +3371,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261026-ui38" />
+<link rel="stylesheet" href="/assets/system.css?v=20261026-ui39" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3404,7 +3404,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261026-ui38"></script>
+<script src="/assets/app.js?v=20261026-ui39"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -11557,7 +11557,49 @@ app.get('/api/company/:symbol/reverse-dcf', authMiddleware, coreGate, async (req
 // Insights — connected, decision-relevant analysis from a deterministic
 // fact pack (Pro: this is the synthesized intelligence tier).
 const insights = require('./insights');
-app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, res) => {
+const keypointFreeUsage = require('./keypoint-free-usage');
+
+// Insights · Pro (insights + segments) for signed-out visitors: N DISTINCT
+// stocks per calendar month, then sign-in and a plan (owner decision
+// 2026-10-26). Same durable per-visitor accounting as the Key Points cap, in
+// its own collection; the drawer's two requests for one stock count once.
+// Signed-in accounts keep the Pro gate. INSIGHTS_ANON_STOCKS=0 closes it.
+const configuredInsightsAnonStocks = Number.parseInt(process.env.INSIGHTS_ANON_STOCKS || '20', 10);
+const INSIGHTS_ANON_STOCKS = Number.isFinite(configuredInsightsAnonStocks) ? Math.max(0, Math.min(100, configuredInsightsAnonStocks)) : 20;
+const InsightsAnonUsage = keypointFreeUsage.createModel(mongoose, { modelName: 'InsightsAnonUsage', collection: 'insights_anon_usage' });
+
+async function insightsGate(req, res, next) {
+    if (req.user) return proGate(req, res, next);
+    const symbol = safeUpper(req.params.symbol);
+    if (INSIGHTS_ANON_STOCKS <= 0 || !isValidTicker(symbol)) {
+        return res.status(401).json({ message: 'Authentication required', code: 'AUTH_REQUIRED' });
+    }
+    try {
+        const claim = await keypointFreeUsage.claim(InsightsAnonUsage, keypointFreeContext(req), symbol, INSIGHTS_ANON_STOCKS);
+        res.setHeader('Cache-Control', 'no-store');
+        res.setHeader('RateLimit-Limit', String(INSIGHTS_ANON_STOCKS));
+        res.setHeader('RateLimit-Remaining', String(claim.remaining));
+        if (!claim.allowed) {
+            return res.status(402).json({
+                code: 'INSIGHTS_ANON_QUOTA',
+                message: `That's your ${INSIGHTS_ANON_STOCKS} free stocks with Insights this month. Sign in or choose a plan to keep going.`,
+                quota: { used: INSIGHTS_ANON_STOCKS, limit: INSIGHTS_ANON_STOCKS, remaining: 0 }
+            });
+        }
+        // A stock that turns out to have nothing to show (a fund, no filings,
+        // a failure) gives its count back.
+        if (claim.claimed) {
+            res.on('finish', () => {
+                if (res.statusCode >= 400) keypointFreeUsage.release(InsightsAnonUsage, claim.id, symbol).catch(() => {});
+            });
+        }
+        return next();
+    } catch (error) {
+        return res.status(500).json({ message: publicErrorMessage(error, 'Insights failed') });
+    }
+}
+
+app.get('/api/company/:symbol/insights', optionalAuth, insightsGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
@@ -11582,7 +11624,6 @@ app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, re
 // DISTINCT stocks per calendar month, then Core is required for more. Viewing
 // a stock already counted this month, or one nobody has generated yet, is free.
 const keypoints = require('./keypoints');
-const keypointFreeUsage = require('./keypoint-free-usage');
 const configuredKeypointsFreeStocks = Number.parseInt(process.env.KEYPOINTS_FREE_STOCKS || '5', 10);
 const KEYPOINTS_FREE_STOCKS = Number.isFinite(configuredKeypointsFreeStocks) ? Math.max(0, Math.min(50, configuredKeypointsFreeStocks)) : 5;
 const KeypointFreeUsage = keypointFreeUsage.createModel(mongoose);
@@ -11670,7 +11711,7 @@ app.get('/api/company/:symbol/ownership', optionalAuth, anonCompanyGate, async (
 // Business segments, AI-extracted from the latest 10-K (Pro — the synthesized
 // intelligence is metered; the raw numbers everywhere else stay open).
 const segments = require('./segments');
-app.get('/api/company/:symbol/segments', authMiddleware, proGate, async (req, res) => {
+app.get('/api/company/:symbol/segments', optionalAuth, insightsGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {

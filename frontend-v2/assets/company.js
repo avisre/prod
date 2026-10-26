@@ -1185,7 +1185,7 @@
         // A filer with only basic EPS (no dilutive securities) is divided by that, and says so.
         const peEps = eps ?? num(inc.eps), peBasis = eps !== null ? 'diluted' : 'basic';
         const pe = num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
-            : (ni !== null && ni <= 0) || (peEps !== null && peEps <= 0) ? ['n/m (loss)', `${fy} net loss`]
+            : (ni !== null && ni <= 0) || (peEps !== null && peEps <= 0) ? ['Loss']
             : peEps > 0 && price > 0 && quoteCur === reportCur && !hasCurrencyMismatch() ? [fixed(price / peEps, 1), `price ÷ ${fy} ${peBasis} EPS`]
             : cap > 0 && ni > 0 ? [fixed(cap / ni, 1), `market cap ÷ ${fy} net income`]
             : ['—'];
@@ -1197,7 +1197,7 @@
             : paid > 0 && cap > 0 ? [pct(paid / cap * 100, 2), `${fy} dividends paid ÷ market cap`]
             : ['—'];
         const pb = cap > 0 && equity > 0 ? [fixed(cap / equity, 1) + '×', bps !== null ? `book ${currencyAmount(bps, reportCur, { compact: false })} / share` : `market cap ÷ ${fy} equity`]
-            : equity !== null && equity <= 0 ? ['n/m (negative equity)'] : ['—'];
+            : equity !== null && equity <= 0 ? ['Negative equity'] : ['—'];
         const epsRow = eps !== null ? ['EPS, diluted', currencyAmount(eps, reportCur, { compact: false })]
             : num(inc.eps) !== null ? ['EPS, basic', currencyAmount(inc.eps, reportCur, { compact: false }), 'no diluted EPS filed']
             : filed ? [filed.dilutedEPS !== null ? 'EPS, diluted' : 'EPS, basic', currencyAmount(filed.dilutedEPS ?? filed.eps, filed.reportedCurrency, { compact: false }), 'per ordinary share, as filed']
@@ -1206,7 +1206,7 @@
             ['Market cap', currencyAmount(ov.MarketCapitalization, quoteCur)],
             ['P/E', ...pe],
             [`Revenue ${fy}`, currencyAmount(d.rev, reportCur)],
-            ['Forward P/E', fwd !== null && fwd < 0 ? 'n/m (loss)' : fixed(fwd, 1)],
+            ['Forward P/E', fwd !== null && fwd < 0 ? 'Loss' : fixed(fwd, 1)],
             ['Net margin', pctFmt(nm)],
             ['Dividend yield', ...dividend],
             ['Return on equity', pctFmt(roe)],
@@ -1217,7 +1217,7 @@
             ['Fiscal year end', ov.FiscalYearEnd || (last.end ? new Date(last.end).toLocaleString('en-US', { month: 'short' }) : '—')]
         ].filter(([l]) => !(l === 'Free cash flow' && noFcf()));
         $('kv-grid').innerHTML = items.map(([l, v, basis]) =>
-            `<div class="kv-row"><span>${l}${basis ? `<small>${esc(basis)}</small>` : ''}</span><b>${v}</b></div>`).join('');
+            `<div class="kv-row"><span${basis ? ` title="${esc(basis)}"` : ''}>${l}${basis ? `<small>${esc(basis)}</small>` : ''}</span><b>${v}</b></div>`).join('');
     }
 
     // ---------- ③ key points: the dossier from the 10-K ----------
@@ -1266,7 +1266,7 @@
             ['Country', ov.Country], ['Fiscal year end', ov.FiscalYearEnd]
         ].filter(([, v]) => v);
         $('about-facts').innerHTML = facts.map(([l, v]) =>
-            `<div class="kv-row" style="padding:5px 0;"><span>${l}</span><b style="font-weight:550;">${esc(v)}</b></div>`).join('');
+            `<div class="kv-row"><span>${l}</span><b style="font-weight:550;">${esc(v)}</b></div>`).join('');
         $('about-text').innerHTML = `<p>${esc(String(ov.Description))}</p>`;
         $('about-col').hidden = false;
         const txt = $('about-text');
@@ -1673,7 +1673,7 @@
                   <td class="row-head">${hl ? `${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span>`
                     : `<span class="sym-cell"><a class="sym-link" href="${esc(peerUrl(x.symbol))}">${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></a><a class="sym-newtab" href="${esc(peerUrl(x.symbol))}" target="_blank" rel="noopener" title="Open ${esc(x.symbol)} in a new tab" aria-label="Open ${esc(x.symbol)} in a new tab">↗</a></span>`}</td>
                   <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
-                  <td data-label="P/E">${x.pe == null && x.netMarginPct < 0 ? 'n/m (loss)' : fixed(x.pe, 1)}</td>
+                  <td data-label="P/E">${x.pe == null && x.netMarginPct < 0 ? 'Loss' : fixed(x.pe, 1)}</td>
                   <td data-label="Rev CAGR 5y">${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
                   <td data-label="Profit growth YoY">${cell(x.qtrNetIncomeYoYPct, (v) => pct(v), true)}</td>
                   <td data-label="Net margin">${cell(x.netMarginPct, (v) => pct(v))}</td>
@@ -2634,6 +2634,7 @@
         $('drawer-close').addEventListener('click', close);
         dim.addEventListener('click', close);
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer.classList.contains('open')) close(); });
+        if (!token()) tab.textContent = 'Insights · free';
         tab.hidden = false;
     }
     let insightsLoaded = false;
@@ -2642,21 +2643,26 @@
         insightsLoaded = true;
         const segBody = $('seg-body');
         const insBody = $('insights-body');
+        // Signed out: a few free stocks a month (the server counts them), then
+        // sign-in and a plan. Signed in: the Pro gate.
+        const anon = !token();
+        const headers = anon ? {} : { Authorization: `Bearer ${token()}` };
         const teaser = (what) => `${what} is a Pro feature — <a href="/upgrade.html">upgrade</a> or <a href="/login.html">log in</a>.`;
-        if (!token()) {
-            segBody.innerHTML = `<p class="small muted">${teaser('Business segments from the 10-K')}</p>`;
-            insBody.innerHTML = `<p class="small muted">${teaser('Insights — the analyst’s reading of 19 years of filings, the valuation record and sector position')}</p>`;
-            return;
-        }
+        const anonQuota = (limit) => `You've used your ${limit} free stocks with Insights this month. <a href="/login.html">Sign in</a> or <a href="/#pricing">choose a plan</a> to keep going.`;
+        const locked = async (r, what) => {
+            if (!anon) return teaser(what);
+            const q = await r.json().catch(() => ({}));
+            return anonQuota((q.quota || {}).limit || 20);
+        };
         // This is the only path allowed to generate the key-point dossier.
         // Passive company-page loads request cache-only data and consume no AI.
-        renderDossier(true);
+        if (!anon) renderDossier(true);
         insBody.innerHTML = '<p class="loading-line"><span class="spin"></span>Connecting 19 years of filings, the valuation record and sector medians…</p>';
         (async () => {
             try {
-                const r = await fetch(`${API}/company/${encodeURIComponent(symbol)}/insights`, { headers: { Authorization: `Bearer ${token()}` } });
-                if (r.status === 402 || r.status === 403) {
-                    insBody.innerHTML = `<p class="small muted">${teaser('Insights')}</p>`;
+                const r = await fetch(`${API}/company/${encodeURIComponent(symbol)}/insights`, { headers });
+                if (r.status === 401 || r.status === 402 || r.status === 403) {
+                    insBody.innerHTML = `<p class="small muted">${await locked(r, 'Insights')}</p>`;
                 } else if (r.ok) {
                     const d = await r.json();
                     insBody.innerHTML = (d.insights || []).map((i) => `
@@ -2671,6 +2677,13 @@
                         text: (d.insights || []).map((i) => `${i.title}: ${i.body}`).join('\n\n')
                     });
                     insBody.appendChild(share);
+                    const left = r.headers.get('RateLimit-Remaining');
+                    if (anon && left !== null) {
+                        const note = document.createElement('p');
+                        note.className = 'small muted';
+                        note.innerHTML = `${esc(left)} free ${Number(left) === 1 ? 'stock' : 'stocks'} with Insights left this month. <a href="/login.html">Sign in</a> for more.`;
+                        insBody.appendChild(note);
+                    }
                 } else {
                     insBody.innerHTML = '<p class="small muted">Insights unavailable right now.</p>';
                 }
@@ -2678,9 +2691,9 @@
         })();
         segBody.innerHTML = '<p class="loading-line"><span class="spin"></span>Reading the 10-K…</p>';
         try {
-            const r = await fetch(`${API}/company/${encodeURIComponent(symbol)}/segments`, { headers: { Authorization: `Bearer ${token()}` } });
-            if (r.status === 402 || r.status === 403) {
-                segBody.innerHTML = `<p class="small muted">${teaser('Business segments from the 10-K')}</p>`;
+            const r = await fetch(`${API}/company/${encodeURIComponent(symbol)}/segments`, { headers });
+            if (r.status === 401 || r.status === 402 || r.status === 403) {
+                segBody.innerHTML = `<p class="small muted">${await locked(r, 'Business segments from the 10-K')}</p>`;
             } else if (r.ok) {
                 const d = await r.json();
                 if (Array.isArray(d.segments) && d.segments.length) {

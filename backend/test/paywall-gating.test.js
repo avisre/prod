@@ -158,3 +158,52 @@ test('cache stamp is bumped and consistent across the touched frontend assets', 
     assert.equal(companyStamp, gurusStamp, 'company.html and gurus.html must carry the same stamp');
     assert.notEqual(companyStamp, '20260902-aiorder1', 'stamp must have moved past the pre-paywall value');
 });
+
+// Insights · Pro for signed-out visitors (owner decision 2026-10-26): 20
+// distinct stocks a month per visitor, then sign-in and a plan.
+test('the signed-out Insights allowance keeps its own count, apart from Key Points', { timeout: 120000 }, async (t) => {
+    const server = await MongoMemoryServer.create();
+    const db = new Mongoose();
+    await db.connect(server.getUri());
+    t.after(async () => { await db.disconnect().catch(() => {}); await server.stop(); });
+
+    const Keypoints = usage.createModel(db);
+    const Insights = usage.createModel(db, { modelName: 'InsightsAnonUsage', collection: 'insights_anon_usage' });
+    assert.equal(Insights.collection.collectionName, 'insights_anon_usage');
+    assert.equal(Keypoints.collection.collectionName, 'keypoint_free_usage');
+
+    const context = { clientKey: 'ip:abc', monthKey: '2026-10', expiresAt: new Date('2026-12-01T00:00:00Z') };
+    for (let i = 0; i < 20; i += 1) assert.equal((await usage.claim(Insights, context, `T${i}`, 20)).allowed, true);
+    assert.equal((await usage.claim(Insights, context, 'T21', 20)).allowed, false, 'the 21st stock is refused');
+    assert.equal((await usage.claim(Insights, context, 'T3', 20)).allowed, true, 'a stock already opened stays open');
+    assert.equal((await usage.claim(Keypoints, context, 'T21', 5)).allowed, true, 'Key Points has its own count');
+
+    // A stock with nothing to show gives its count back.
+    const t0 = await usage.claim(Insights, context, 'T0', 20);
+    await usage.release(Insights, t0.id, 'T0');
+    assert.equal((await usage.claim(Insights, context, 'T21', 20)).allowed, true);
+});
+
+test('insights and segments let a signed-out visitor through the allowance and keep the Pro gate for accounts', () => {
+    const src = appSource();
+    assert.match(src, /process\.env\.INSIGHTS_ANON_STOCKS \|\| '20'/);
+    assert.match(src, /app\.get\('\/api\/company\/:symbol\/insights', optionalAuth, insightsGate,/);
+    assert.match(src, /app\.get\('\/api\/company\/:symbol\/segments', optionalAuth, insightsGate,/);
+    const gate = src.slice(src.indexOf('async function insightsGate('), src.indexOf("app.get('/api/company/:symbol/insights'"));
+    assert.match(gate, /if \(req\.user\) return proGate\(req, res, next\);/);
+    assert.match(gate, /keypointFreeUsage\.claim\(InsightsAnonUsage, keypointFreeContext\(req\), symbol, INSIGHTS_ANON_STOCKS\)/);
+    assert.match(gate, /code: 'INSIGHTS_ANON_QUOTA'/);
+    assert.match(gate, /res\.statusCode >= 400\) keypointFreeUsage\.release\(InsightsAnonUsage, claim\.id, symbol\)/);
+    // The require sits above its first use (a const used before it is declared throws at boot).
+    assert.ok(src.indexOf("const keypointFreeUsage = require('./keypoint-free-usage');") < src.indexOf('keypointFreeUsage.createModel(mongoose, {'));
+});
+
+test('company.js opens Insights signed out and says when the free stocks are used up', () => {
+    const src = companyJsSource();
+    const fn = src.slice(src.indexOf('async function loadInsights()'), src.indexOf('// ---------- ', src.indexOf('async function loadInsights()')));
+    assert.match(fn, /const anon = !token\(\);/);
+    assert.match(fn, /if \(!anon\) renderDossier\(true\);/, 'a visitor never triggers key-point generation');
+    assert.doesNotMatch(fn, /if \(!token\(\)\) \{\s*segBody/, 'no blanket signed-out teaser');
+    assert.match(fn, /free stocks with Insights this month/);
+    assert.match(src, /if \(!token\(\)\) tab\.textContent = 'Insights · free';/);
+});
