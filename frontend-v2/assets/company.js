@@ -21,6 +21,8 @@
     // Ask for the statements straight away. The page used to wait about a second
     // for the asset profile before even sending this, the slowest request it makes.
     const earlyFundamentals = FUND_TYPES.includes(assetTypeHint) ? null : fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`).catch(() => null);
+    // the statements as the company files them, every line under its own label (backend/as-filed.js)
+    const earlyAsFiled = FUND_TYPES.includes(assetTypeHint) ? null : fetch(`/api/company/${encodeURIComponent(symbol)}/as-filed`).then((r) => r.ok ? r.json() : null).catch(() => null);
     nav('company');
     footer();
     try { // recently-viewed trail for the Markets sidebar
@@ -715,6 +717,10 @@
     let sharesByPeriod = new Map();
     let sharesBasis = 'period-end'; // which filed count sharesByPeriod holds (buildSharesMap)
     let lastRender = { rows: [], periods: [] };
+    let asFiled = null;
+    // 'filed' or 'standard' once the reader picks; until then the as-filed lines are shown
+    // whenever they reach the latest year the standardized rows have
+    let linesState = null;
 
     function quoteCurrency(data = payload) {
         return currencyCode(data?.marketData?.currency || (data && data.overview && data.overview.Currency) || 'USD');
@@ -2027,6 +2033,38 @@
     }
     // The row set for this company's industry (bank, P&C, life or health insurer), from
     // the same classification as the industry panel; every other company is generic.
+    // The as-filed statement when it is the one shown: annual figures, reported or as growth.
+    const nearDay = (a, b) => Math.abs(Date.parse(a) - Date.parse(b)) <= 20 * 86400000;
+    function filedStatement() {
+        const s = asFiled?.statements?.[stState];
+        if (!s || basisState !== 'annual' || viewState === 'ps' || linesState === 'standard') return null;
+        if (linesState === null) {
+            const std = reports(stState, 'annual'), latest = std.length ? String(std[std.length - 1].fiscalDateEnding || '') : '';
+            // a report filed after SEC's latest quarterly data set is in the standardized rows only
+            if (latest && s.ends[s.ends.length - 1] < latest && !nearDay(s.ends[s.ends.length - 1], latest)) return null;
+        }
+        return s;
+    }
+    // SEC's data sets give each date as the nearest month end; the standardized row's own date is used where one is that close
+    function filedRows(s) {
+        const std = reports(stState, 'annual');
+        return s.ends.map((end, i) => ({ fiscalDateEnding: std.find((r) => nearDay(r.fiscalDateEnding, end))?.fiscalDateEnding || end, _i: i, _src: asFiled.filings[s.src[i]] ? { a: s.src[i], ...asFiled.filings[s.src[i]] } : null }));
+    }
+    function filedDefs(s) {
+        const fmtOf = (k) => k === 'money' || k === 'shares' ? (v) => v === 0 ? '0' : money(v) : (v) => fixed(v, 2);
+        return s.lines.map((l) => ({
+            label: l.l, kind: l.k, fmt: fmtOf(l.k), neutral: true, get: (r) => l.v[r._i] ?? null,
+            blank: (r) => (l.x || []).includes(r._i) ? 'Not a line in this year’s report' : 'The report shows no amount for this line'
+        }));
+    }
+    const filingUrl = (a) => `https://www.sec.gov/Archives/edgar/data/${Number(asFiled.cik)}/${a.replace(/-/g, '')}/${a}-index.htm`;
+    function syncLinesControl() {
+        const seg = $('seg-lines');
+        if (!seg) return;
+        seg.hidden = !asFiled?.statements?.[stState] || basisState !== 'annual';
+        const on = !!filedStatement();
+        seg.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String((x.dataset.lines === 'filed') === on)));
+    }
     function statementRows() {
         const set = ROWSETS[layoutOf(window.IndustryMetrics && payload ? window.IndustryMetrics.classify(payload) : null)];
         return set[stState];
@@ -2168,7 +2206,9 @@
     function renderStatements() {
         if (!payload) return; // a unit, right or fund page has no statements to switch between
         renderFinancialSources();
-        const rows = reports(stState, basisState);
+        syncLinesControl();
+        const filed = filedStatement();
+        const rows = filed ? filedRows(filed) : reports(stState, basisState);
         const table = $('stmt-table');
         if (!rows.length) {
             table.innerHTML = '<tbody><tr><td style="text-align:left">No data filed for this view.</td></tr></tbody>';
@@ -2176,13 +2216,13 @@
             if ($('stmt-prov')) $('stmt-prov').textContent = 'No financial statements filed with the SEC are available for this view.';
             return;
         }
-        lastRender = { rows: [], periods: rows.map((r) => periodLabel(r, basisState)) };
+        lastRender = { rows: [], periods: rows.map((r) => periodLabel(r, basisState)), cur: filed ? asFiled.currency : null };
         table.classList.toggle('trend-hidden', !showStatementTrend);
         const expanded = expandedGroups[stState] || new Set();
         const reportCur = reportingCurrency();
         const converted = Boolean(payload.currencyConversion && payload.currencyConversion.from && payload.currencyConversion.to === 'USD');
         let html = '<thead><tr><th class="row-head" style="text-align:left">' +
-            (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · ${converted ? 'converted' : 'reported'}`) + '</th>';
+            (viewState === 'yoy' ? 'YoY growth' : filed ? `${esc(asFiled.currency || reportCur)} · as filed` : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · ${converted ? 'converted' : 'reported'}`) + '</th>';
         if (showStatementTrend) {
             html += `<th class="stmt-trend-head" style="width:96px"><span>${trendPeriodLabel()} trend</span><button class="stmt-trend-close" type="button" aria-expanded="true" aria-controls="stmt-table" aria-label="Hide ${trendPeriodLabel()} trend" title="Hide ${trendPeriodLabel()} trend">×</button></th>`;
         }
@@ -2191,11 +2231,11 @@
             // Keep the period header unambiguous: the fiscal year already
             // identifies the latest column, so do not duplicate it with a
             // second "Latest" label.
-            html += `<th${latest ? " class='col-now'" : ''}>${periodLabel(r, basisState)}</th>`;
+            html += `<th${latest ? " class='col-now'" : ''}${r._src ? ` title="${esc(`From the ${r._src.form} filed ${r._src.filed}`)}"` : ''}>${periodLabel(r, basisState)}</th>`;
         });
         html += '</tr></thead><tbody>';
         let ri = 0;
-        const defs = groupDefs(statementDefs(converted), stState);
+        const defs = filed ? filedDefs(filed) : groupDefs(statementDefs(converted), stState);
         // Shown open the first time: with no cost of revenue they are the only
         // costs on the statement.
         if (!filedCostsOpened && defs.some((d) => d.parentOf === FILED_GROUP)) { expanded.add(FILED_GROUP); filedCostsOpened = true; }
@@ -2227,7 +2267,7 @@
                     i === vals.length - 1 ? 'col-now' : '',
                     (colored && v !== null) ? (v >= 0 ? 'delta-pos' : 'delta-neg') : (v !== null && v < 0 ? 'delta-neg' : '')
                 ].join(' ');
-                html += `<td class="${colCls}">${fmt(v)}</td>`;
+                html += `<td class="${colCls}"${v === null && def.blank ? ` title="${esc(def.blank(rows[i]))}"` : ''}>${fmt(v)}</td>`;
             });
             html += '</tr>';
             ri++;
@@ -2241,7 +2281,11 @@
         });
         syncStatementTrendControls();
         const provenance = $('stmt-prov');
-        if (provenance) {
+        if (provenance && filed) {
+            const used = [...new Set(rows.map((r) => r._src?.a).filter(Boolean))].reverse();
+            provenance.innerHTML = esc(`Every line as the company presents it in its annual reports, under its own labels, in ${asFiled.currency || reportCur} as reported (no FX conversion). Each year's figures come from the latest report that presents that year, so a restated figure replaces the original. A dash is a line the report shows no amount for, or one that year's report does not have; hover over it to see which. From SEC's Financial Statement Data Sets: `) +
+                used.map((a) => { const f = asFiled.filings[a]; const yrs = rows.filter((r) => r._src?.a === a).map((r) => periodLabel(r, 'annual')); return `<a href="${esc(filingUrl(a))}" target="_blank" rel="noopener">${esc(f.form)} filed ${esc(f.filed)}</a> (${esc(yrs.join(', '))})`; }).join(', ') + '.';
+        } else if (provenance) {
             const mismatch = hasCurrencyMismatch();
             // Airbnb's 10-Ks since FY2023 present no capital-spending line on the cash-flow statement
             // (it sits inside "other investing activities, net"), so those years have no free cash flow.
@@ -2908,13 +2952,13 @@
     // ---------- CSV ----------
     $('csv-btn').addEventListener('click', () => {
         if (!lastRender.rows.length) return;
-        const head = [`Metric (${viewState === 'yoy' ? 'percent' : reportingCurrency()})`].concat(lastRender.periods).join(',');
+        const head = [`Metric (${viewState === 'yoy' ? 'percent' : lastRender.cur || reportingCurrency()})`].concat(lastRender.periods).join(',');
         const lines = lastRender.rows.map((row) =>
             [JSON.stringify(row.label)].concat(row.vals.map((v) => v === null ? '' : v)).join(','));
         const blob = new Blob([[head].concat(lines).join('\n')], { type: 'text/csv' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `${symbol}-${stState}-${basisState}-${viewState}.csv`;
+        a.download = `${symbol}-${stState}-${basisState}-${viewState}${lastRender.cur ? '-as-filed' : ''}.csv`;
         a.click();
         URL.revokeObjectURL(a.href);
     });
@@ -2924,6 +2968,15 @@
         b.addEventListener('click', () => {
             document.querySelectorAll('#seg-statement button').forEach((x) => x.setAttribute('aria-pressed', x === b));
             stState = b.dataset.st;
+            renderStatements();
+        }));
+    document.querySelectorAll('#seg-lines button').forEach((b) =>
+        b.addEventListener('click', () => {
+            linesState = b.dataset.lines;
+            if (linesState === 'filed' && viewState === 'ps') {
+                viewState = 'usd';
+                document.querySelectorAll('#seg-view button').forEach((x) => x.setAttribute('aria-pressed', x.dataset.view === 'usd'));
+            }
             renderStatements();
         }));
     document.querySelectorAll('#seg-basis button').forEach((b) =>
@@ -2989,6 +3042,7 @@
                 syncStatementTrendControls();
             }
             renderStatements();
+            earlyAsFiled?.then((doc) => { if (doc) { asFiled = doc; renderStatements(); } });
             renderCagrCards();
             renderRatios();
             renderPeers();

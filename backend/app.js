@@ -3114,7 +3114,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261031-ui44" />
+<link rel="stylesheet" href="/assets/system.css?v=20261031-ui45" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3143,7 +3143,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261031-ui44"></script>
+<script src="/assets/app.js?v=20261031-ui45"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3235,7 +3235,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261031-ui44" />
+<link rel="stylesheet" href="/assets/system.css?v=20261031-ui45" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3263,7 +3263,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261031-ui44"></script>
+<script src="/assets/app.js?v=20261031-ui45"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3371,7 +3371,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261031-ui44" />
+<link rel="stylesheet" href="/assets/system.css?v=20261031-ui45" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3404,7 +3404,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261031-ui44"></script>
+<script src="/assets/app.js?v=20261031-ui45"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -11174,6 +11174,15 @@ app.get('/api/company/:symbol/peers', (req, res) => {
     } catch (error) {
         res.status(error.status || 500).json({ code: error.code || 'PEERS_FAILED', message: publicErrorMessage(error, 'Peers failed') });
     }
+});
+
+// The income statement, balance sheet and cash-flow statement as the company files them,
+// every line under its own label (backend/as-filed.js). Public like the standardized rows.
+app.get('/api/company/:symbol/as-filed', (req, res) => {
+    const company = require('./stock-universe').lookup(safeUpper(req.params.symbol));
+    const doc = company && require('./as-filed').forCik(company.cik);
+    if (!doc) return res.status(404).json({ code: 'AS_FILED_UNAVAILABLE', message: 'No filed statements are available for this company.' });
+    res.set('Cache-Control', 'public, max-age=3600').json(doc);
 });
 
 // Price-trend band under the company chart. The daily universe snapshot

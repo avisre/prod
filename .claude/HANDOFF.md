@@ -14,6 +14,73 @@ peers by industry label, long-term asset lines, the 10/10 site-audit fixes, cape
 core statement extraction), `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## As-filed statements on the company page — 2026-10-31 (local commit, NOT pushed)
+- Owner ask: every covered stock's income / balance / cash-flow statement filled as filed with the SEC, every row.
+  The standardized rows map a fixed tag list, so company-specific lines had no row. Now the page defaults to an
+  **As filed | Standardized** toggle (annual basis only; Per share and Quarterly stay standardized).
+- Data: `scripts/build-as-filed.js` reads the FSDS quarterly zips (`~/.cache/stockportfolio/fsds/2022q1..2026q3`,
+  ~40 s, `--keep DIR` reuses intermediates) → `frontend/data/sec-as-filed/<cik>.json` (5,264 issuers, ~106 MB).
+  Stitching in `backend/as-filed.js` (newest report wins, older years matched by tag → equal figure → label;
+  cash beginning/end lines are instants, opening chosen by label then position; LegalEntity-only filers such as
+  Deutsche Bank / REIT+OP read via their main entity). Route `GET /api/company/:symbol/as-filed` (public).
+  Tests: `test/as-filed.test.js`. Stamp `20261031-ui45`.
+- Measured fill, last 3 years: income 96.2%, balance 94.7%, cash 91.3%; the rest is the filing showing no amount
+  (1.9/1.8/5.2%) or the line not being in that year's report (1.9/3.5/3.5%) — a dash, with a tooltip saying which.
+- Limits: FSDS ends 2026q3, so a 10-K filed after 9/30/2026 appears only after SEC's next quarterly set (the page
+  falls back to standardized when as-filed is behind); 10-KT transition periods skipped; per-class EPS
+  (dimension-only) not read. Rebuild each quarter: download the new zip into the cache, rerun the script.
+
+## Google Ads conversion tracking — include in the next push (owner instruction, 2026-10-24)
+- Owner asked to tell Claude to include the tested tracking change in its **next push**, rather than deploy it separately now.
+- Local commit **`1bba0cf27` — `Track verified paid signups in Google Ads`** is ready on branch
+  `fix/ads-conversions-20261024`, worktree `~/.local/share/stockportfolio-worktrees/ads-conversions-20261024`.
+- Integrate that commit into the current work before the next authorized push; preserve all current Ask,
+  stock/fund latency and price-trend work. Use the current upstream/main and normal deployment guards.
+- **Cache-stamp conflict:** this commit used `20261024-ui30`; current price-trend work uses `ui31`.
+  Resolve all shared app/SSR/HTML/test references to a fresh consistent stamp (`ui32` or newer), never back to `ui30`.
+- Verified paid Stripe checkout claims return sanitized revenue + stable transaction IDs; email/social returns
+  await consent-gated tags, retain pending receipts across redirects and deduplicate. Active-login fallback cannot count a purchase.
+- New technical details/limitations: `docs/PIXELS.md`. Google Ads goal setup is already saved; do not recreate actions.
+- Standalone gate passed: 129 test files, 1212/1217 cases (five documented baseline failures), plus stock-page/sitemap check.
+  Run the normal gate again after integrating with the current changes.
+- After deployment verify `/api/analytics/config` is populated, register/app/social bundles use the new stamp,
+  and claim validation/consent remain intact. Do not fabricate a live purchase or claim Google recorded a customer.
+- Private acquisition/account evidence stays outside the repository:
+  `~/.local/share/stockportfolio-context/google-ads-2026-10-19/conversion-status-2026-10-24.json`.
+
+## Missing-data audit fixes — 2026-10-25 (PUSHED 10/25, `523b8a6a8..e5d879dbf`, owner-authorized)
+- One push carried: audit fixes, the full `20261025-rev1` re-extract, the latency/Ask/price-trend commits
+  (c7fdea5c3, cf53fe301, 351e4c8b6 …), the weekly branch (679791999, 624fccf66, merged via f32852065), and the Ads
+  branch (1bba0cf27, merged via 8d8f16869; the Ads section above is now done). The stamp is **`20261025-ui35`**.
+- The 12 weekly-sourced issuers (NGG, KB, SHG, KEP, WF, RDY, BVN, ENIC, IFS, PHI, RNW, BMMX) were re-checked on
+  10/25 so validate's current-cycle check passes. 11 of them keep the `20261019-bank1` files (rev1 discards them).
+- The pre-push hook IS enabled on Ubuntu now (`core.hooksPath=.githooks`, runs locally; no predeploy.env).
+- A ~1 GB pack took ~10 min to upload after the hook's ~10 min gate. `ask-evidence` now expects GOOGL per-share.
+- **Live 05:36 UTC 10/25** (`dep-dbep8d3ncjis73f01m1g`). Prod cold fundamentals, right after boot: HSY 16.9→7.1s,
+  CL 10.2→6.0s, ITW 10.3→4.5s; later misses MSFT/CROX/MMM/GIS/HD TTFB 0.85–1.7s with Server-Timing
+  `evidence` 0.35–0.8s. Responses still read `x-fundamentals-cache: miss` on repeat while the background refresh
+  runs. Pages carry `ui35` and `sp-asset-type`. SYF/SAN revenue filled, GOOGL P/E 16.07, BXMT revenue stays blank.
+- Not yet: the technicals snapshot in the Render log (~25 min after boot), and cleanup of
+  `~/Downloads/new/checkpoint-parts` + the `prod-weekly-20261024` worktree (awaiting owner OK).
+- Commits `c347cb880` (fixes 1–3 and 8: forward P/E, yield, P/B, per-share basis), `351a9d8a5` (Ask voice input),
+  plus the revenue/FCF/P/E/EPS commit. `EXTRACTION_VERSION` is `20261025-rev1`.
+- Revenue (fix 6): covered latest-annual revenue blanks went from 541 to 521, with 0 newly blank. Measured over
+  the full bulk re-extract.
+  - Banks (SIC 602/603/609) on IFRS move the face "gross income" tag to revenue: SAN, BBVA, BBAR.
+  - 61xx lenders get NII + noninterest income as a fill only: SYF, SLM, OMF, AXP and others. SYF's own net
+    revenue deducts RSA.
+  - Equity REITs (6798) fill from `OperatingLeaseLeaseIncome`. The fill is skipped when interest income ≥ lease or
+    a noninterest total exists (that is what kept BXMT and GPMT REO rent out).
+  - Statement-line `memberTotal` (MTH, APA) is limited to the filing's own period (Newsmax false positive).
+  - Year-on-quarter re-span (LHX).
+- FCF/capex (fix 4): presented capex lines are summed (256 issuers). Company page notes untagged capex.
+- P/E (fix 5) falls back to basic EPS with a basis label. Peers show `n/m (loss)`. EPS (fix 7) falls back to
+  continuing operations (274 issuers).
+- Expected discards: 11 20-F issuers keep their old files (rows from original_inline_xbrl that the bulk run does not
+  fetch).
+- **Still to do (Phase D):** fix 9 (380 issuers with no statements), fix 10 (30 stale: 10-KT, 40-F switchers, NT
+  filers), fix 11 (stored gaps into refresh jobs).
+
 ## Stocks & funds page latency + customer-delight features — 2026-10-24 (plan: `~/.claude/plans/the-stocks-and-funds-fuzzy-scone.md`)
 - **Phase 1 (latency) committed locally, NOT pushed.** Prod cold `/api/demo/alpha/fundamentals/KO` was 8–12s.
   Causes and fixes:
@@ -282,3 +349,8 @@ page hides all-null rows (`company.js` around :1708), which is why Apple looked 
 9. **Monthly provider bill** — the one input that states AI margin in dollars.
 10. Orphan IndexNow key `1668f45a03ea53cf94c51b61c43163d4.txt`; `mcp-server` README lists retired `sp_*` names;
     `scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.
+
+
+## Claude directory listing — verified 2026-10-25
+
+Authenticated portal confirms plugin bundle **Published**, live v0.2.3 (`307aceb`), published October10, listed in ClaudeCode, Cowork and Claudeapps; MCP connector also Published. Supersedes older “Publish requested” notes. No new application needed. Custom icon awaits review; this does not block the live plugin. No submission, push or deploy performed. Private portal receipts: `~/.local/share/stockportfolio-context/claude-listing-2026-10-25/README.md`.
