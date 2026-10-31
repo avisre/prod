@@ -405,14 +405,14 @@
       "revenue": 835983000000,
       "operatingIncome": 582915000000,
       "netIncome": 283198000000,
-      "dilutedEPS": 6.14,
+      "dilutedEPS": null,
       "totalAssets": 1102553000000,
       "totalEquity": 813758000000,
       "cashAndEquivalents": 81242000000,
       "totalDebt": 77598000000,
       "operatingCashFlow": 333607000000,
       "capex": -121955000000,
-      "dividendPerShare": 4.2,
+      "dividendPerShare": null,
       "sharesOutstanding": null,
       "employees": 70762,
       "fiscalYear": 2017,
@@ -471,6 +471,8 @@
     }
   ],
   "gaps": [
+    "FY2017 dilutedEPS: not found in the company's reports (prospectus 2017 EPS 6.14 is on the pre-IPO share capital and does not reconcile with 2017 net income on the 200bn-share basis used from FY2018; no restated 2017 EPS is printed)",
+    "FY2017 dividendPerShare: not found in the company's reports (FY2017 dividend SR 4.2 per share is on the pre-2019 3bn-share capital, not comparable with the 200bn-share basis used from FY2018; no restated figure printed)",
     "FY2017 sharesOutstanding: not found in the company's reports (Same as 2016: prospectus PDF p. 232 gives no year-end 2017 count; the only 2017 figure is the EPS weighted average (3,000,000 thousand, PDF p. 567), excluded by the brief.)",
     "FY2016 dilutedEPS: not found in the company's reports (Prospectus income statement covers 2018 and 2017 only (PDF p. 505); 2019 AR covers 2019 and 2018; 2021, 2023, 2025 reports have no 2016 EPS.)",
     "FY2016 dividendPerShare: not found in the company's reports (Prospectus PDF p. 232 says pre-2018 the Company made distributions to the Government rather than dividends; PDF p. 264 prints 2016G dividend payments only as a total (SAR 11.3bn), not per share. No 2016 per-share figure in the prospectus or the 2019, 2021, 2023, 2025 reports.)",
@@ -507,6 +509,8 @@
     "FY2022 employees: 70,496 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 37 — 2023 AR five-year table 'Company employees', 2022 column.",
     "FY2023 employees: 73,311 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 37 — 2023 AR five-year table 'Company employees', 2023 column.",
     "FY2024 employees: 75,118 (units) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 76 — 2025 AR five-year table 'Company employees', 2024 column.",
-    "FY2025 employees: 76,664 (units) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 76 — 2025 AR five-year table 'Company employees', 2025 column."
+    "FY2025 employees: 76,664 (units) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 76 — 2025 AR five-year table 'Company employees', 2025 column.",
+    "FY2017 dilutedEPS: corrected to None — prospectus 2017 EPS 6.14 is on the pre-IPO share capital and does not reconcile with 2017 net income on the 200bn-share basis used from FY2018; no restated 2017 EPS is printed",
+    "FY2017 dividendPerShare: corrected to None — FY2017 dividend SR 4.2 per share is on the pre-2019 3bn-share capital, not comparable with the 200bn-share basis used from FY2018; no restated figure printed"
   ]
 }
