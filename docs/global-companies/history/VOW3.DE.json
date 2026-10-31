@@ -17,7 +17,7 @@
    "totalAssets": 644467000000,
    "totalEquity": 174002000000,
    "cashAndEquivalents": 38801000000,
-   "totalDebt": null,
+   "totalDebt": 264703000000,
    "operatingCashFlow": 15009000000,
    "capex": -15299000000,
    "dividendPerShare": 5.26,
@@ -27,7 +27,16 @@
    "source": {
     "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
     "document": "Volkswagen Group Annual Report 2025 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
+      "page": "PDF p. 469",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   },
   {
@@ -42,7 +51,7 @@
    "totalAssets": 632905000000,
    "totalEquity": 168404000000,
    "cashAndEquivalents": 40296000000,
-   "totalDebt": null,
+   "totalDebt": 254081000000,
    "operatingCashFlow": 17151000000,
    "capex": -17202000000,
    "dividendPerShare": 6.36,
@@ -52,7 +61,17 @@
    "source": {
     "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
     "document": "Volkswagen Group Annual Report 2025 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
+      "page": "PDF p. 469",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -67,7 +86,7 @@
    "totalAssets": 600649000000,
    "totalEquity": 159813000000,
    "cashAndEquivalents": 43522000000,
-   "totalDebt": null,
+   "totalDebt": 232813000000,
    "operatingCashFlow": 19356000000,
    "capex": -14653000000,
    "dividendPerShare": 9.06,
@@ -77,7 +96,17 @@
    "source": {
     "url": "https://uploads.vw-mms.de/system/production/documents/cws/002/931/file_en/953dcbb8e57270df70ca288218092dba4721fd63/2025-03-11-volkswagen-group-annual-report-2024-en.pdf",
     "document": "Volkswagen Group Annual Report 2024 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://uploads.vw-mms.de/system/production/documents/cws/002/931/file_en/953dcbb8e57270df70ca288218092dba4721fd63/2025-03-11-volkswagen-group-annual-report-2024-en.pdf",
+      "page": "PDF p. 478",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -92,7 +121,7 @@
    "totalAssets": 564013000000,
    "totalEquity": 151255000000,
    "cashAndEquivalents": 29738000000,
-   "totalDebt": null,
+   "totalDebt": 205312000000,
    "operatingCashFlow": 28496000000,
    "capex": -12948000000,
    "dividendPerShare": 8.76,
@@ -102,7 +131,17 @@
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2023-2671/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2023 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2023-2671/download?disposition=attachment",
+      "page": "PDF p. 275",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -117,7 +156,7 @@
    "totalAssets": 528609000000,
    "totalEquity": 130009000000,
    "cashAndEquivalents": 39123000000,
-   "totalDebt": null,
+   "totalDebt": 210213000000,
    "operatingCashFlow": 38633000000,
    "capex": -10655000000,
    "dividendPerShare": 7.56,
@@ -127,7 +166,17 @@
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2022-1677/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2022 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2022-1677/download?disposition=attachment",
+      "page": "PDF p. 285",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -142,17 +191,34 @@
    "totalAssets": 497114000000,
    "totalEquity": 111336000000,
    "cashAndEquivalents": 33432000000,
-   "totalDebt": null,
+   "totalDebt": 203457000000,
    "operatingCashFlow": 24901000000,
    "capex": -11273000000,
    "dividendPerShare": 4.86,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 501295263,
    "employees": 662600,
    "restated": false,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2021-1791/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2021 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2021-1791/download?disposition=attachment",
+      "page": "PDF p. 228",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment",
+      "page": "PDF p. 273",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -167,17 +233,34 @@
    "totalAssets": 488071000000,
    "totalEquity": 109117000000,
    "cashAndEquivalents": 24329000000,
-   "totalDebt": null,
+   "totalDebt": 201468000000,
    "operatingCashFlow": 17983000000,
    "capex": -14230000000,
    "dividendPerShare": 6.56,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 501295263,
    "employees": 671200,
    "restated": false,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2020 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment",
+      "page": "PDF p. 216",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment",
+      "page": "PDF p. 261",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -192,17 +275,34 @@
    "totalAssets": 458156000000,
    "totalEquity": 104522000000,
    "cashAndEquivalents": 28113000000,
-   "totalDebt": null,
+   "totalDebt": 190883000000,
    "operatingCashFlow": 7272000000,
    "capex": -13729000000,
    "dividendPerShare": 4.86,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 501295263,
    "employees": 664500,
    "restated": false,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2019 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment",
+      "page": "PDF p. 204",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment",
+      "page": "PDF p. 266",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -217,17 +317,34 @@
    "totalAssets": 422193000000,
    "totalEquity": 97761000000,
    "cashAndEquivalents": 18038000000,
-   "totalDebt": null,
+   "totalDebt": 163472000000,
    "operatingCashFlow": -1185000000,
    "capex": -13052000000,
    "dividendPerShare": 3.96,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 501295263,
    "employees": 642300,
    "restated": true,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2018 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment",
+      "page": "PDF p. 204",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment",
+      "page": "PDF p. 261",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -242,17 +359,34 @@
    "totalAssets": 409732000000,
    "totalEquity": 85122000000,
    "cashAndEquivalents": 18833000000,
-   "totalDebt": null,
+   "totalDebt": 154819000000,
    "operatingCashFlow": 9430000000,
    "capex": -13152000000,
    "dividendPerShare": 2.06,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 501295263,
    "employees": 626715,
    "restated": false,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2017 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment",
+      "page": "PDF p. 206",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment",
+      "page": "PDF p. 270",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -267,17 +401,34 @@
    "totalAssets": 381935000000,
    "totalEquity": 80500000000,
    "cashAndEquivalents": 20462000000,
-   "totalDebt": null,
+   "totalDebt": 145604000000,
    "operatingCashFlow": 13679000000,
    "capex": -13213000000,
    "dividendPerShare": 0.17,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 501295263,
    "employees": 610076,
    "restated": false,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2016 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment",
+      "page": "PDF p. 216",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment",
+      "page": "PDF p. 286",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -292,17 +443,34 @@
    "totalAssets": 351209000000,
    "totalEquity": 84950000000,
    "cashAndEquivalents": 18634000000,
-   "totalDebt": null,
+   "totalDebt": 133980000000,
    "operatingCashFlow": 10784000000,
    "capex": -12012000000,
    "dividendPerShare": 4.86,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 475731296,
    "employees": 592586,
    "restated": true,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2015 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment",
+      "page": "PDF p. 232",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment",
+      "page": "PDF p. 268",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -317,17 +485,34 @@
    "totalAssets": 324333000000,
    "totalEquity": 85730000000,
    "cashAndEquivalents": 22009000000,
-   "totalDebt": null,
+   "totalDebt": 121504000000,
    "operatingCashFlow": 12595000000,
    "capex": -11385000000,
    "dividendPerShare": 4.06,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 465237989,
    "employees": 572800,
    "restated": true,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2014 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment",
+      "page": "PDF p. 218",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment",
+      "page": "PDF p. 262",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -342,17 +527,34 @@
    "totalAssets": 309518000000,
    "totalEquity": 77682000000,
    "cashAndEquivalents": 17794000000,
-   "totalDebt": null,
+   "totalDebt": 117663000000,
    "operatingCashFlow": 7209000000,
    "capex": -10493000000,
    "dividendPerShare": 3.56,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 465232596,
    "employees": 549763,
    "restated": true,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2013 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment",
+      "page": "PDF p. 208",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment",
+      "page": "PDF p. 312",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -367,17 +569,34 @@
    "totalAssets": 253769000000,
    "totalEquity": 57539000000,
    "cashAndEquivalents": 16495000000,
-   "totalDebt": null,
+   "totalDebt": 93533000000,
    "operatingCashFlow": 8500000000,
    "capex": -8087000000,
    "dividendPerShare": 3.06,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 465232595,
    "employees": 501956,
    "restated": false,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2012 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment",
+      "page": "PDF p. 260",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment",
+      "page": "PDF p. 308",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -392,17 +611,34 @@
    "totalAssets": 199393000000,
    "totalEquity": 45978000000,
    "cashAndEquivalents": 18228000000,
-   "totalDebt": null,
+   "totalDebt": 77012000000,
    "operatingCashFlow": 11455000000,
    "capex": -5758000000,
    "dividendPerShare": 2.26,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 465188345,
    "employees": 399381,
    "restated": false,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2011 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment",
+      "page": "PDF p. 252",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment",
+      "page": "PDF p. 282",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -417,17 +653,34 @@
    "totalAssets": 177178000000,
    "totalEquity": 35281000000,
    "cashAndEquivalents": 18235000000,
-   "totalDebt": null,
+   "totalDebt": 77599000000,
    "operatingCashFlow": 12741000000,
    "capex": -5963000000,
    "dividendPerShare": 1.66,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 400243677,
    "employees": 368500,
    "restated": true,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2010 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment",
+      "page": "PDF p. 234",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment",
+      "page": "PDF p. 259",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -442,17 +695,34 @@
    "totalAssets": 167919000000,
    "totalEquity": 35011000000,
    "cashAndEquivalents": 9443000000,
-   "totalDebt": null,
+   "totalDebt": 69555000000,
    "operatingCashFlow": 2702000000,
    "capex": -6883000000,
    "dividendPerShare": 1.99,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 400158487,
    "employees": 369928,
    "restated": true,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2009 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment",
+      "page": "PDF p. 212",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
+      "page": "PDF p. 242",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -467,23 +737,44 @@
    "totalAssets": 145357000000,
    "totalEquity": 31875000000,
    "cashAndEquivalents": 9914000000,
-   "totalDebt": null,
+   "totalDebt": 57992000000,
    "operatingCashFlow": 9308000000,
    "capex": -4638000000,
    "dividendPerShare": 1.86,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 396575547,
    "employees": 329305,
    "restated": true,
    "source": {
     "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
     "document": "Volkswagen Group Annual Report 2008 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+    "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+    "supplementalSources": [
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
+      "page": "PDF p. 195",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
+      "page": "PDF p. 242",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2007-FY2025 totalDebt: Volkswagen does not publish a single group total-debt figure; it reports Automotive net liquidity and Financial Services financial liabilities separately",
-  "FY2007-FY2025 sharesOutstanding: not taken (two share classes: ordinary and preferred)"
+  "FY2025 sharesOutstanding: not found in the company's reports (AR2025 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+  "FY2024 sharesOutstanding: not found in the company's reports (AR2024 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+  "FY2023 sharesOutstanding: not found in the company's reports (AR2023 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+  "FY2022 sharesOutstanding: not found in the company's reports (AR2022 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+  "FY2021 sharesOutstanding: not found in the company's reports (AR2021 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)"
  ],
  "notes": [
   "IFRS throughout. Each year's figures are taken from the following year's annual report (prior-year column) so that restatements are reflected; FY2025 from Annual Report 2025",
@@ -494,6 +785,39 @@
   "capex = Group investments in property, plant and equipment, investment property and intangible assets excluding capitalized development costs (FY2007-FY2012: acquisition of property, plant and equipment); capitalized development costs (e.g. 9,047M in 2025) are excluded",
   "employees = total workforce at Dec. 31 including the Chinese joint ventures (Key Figures); FY2017-FY2023 published in thousands to one decimal",
   "FY2015 loss reflects diesel-issue special items of 16.9bn; FY2017 operating cash flow is negative because of diesel payments",
-  "Yahoo net income is 4-9% higher in 2022-2025 because it includes the share attributable to hybrid capital investors; this file follows the brief (owners of the parent excluding hybrid capital), e.g. 2025 earnings after tax 6,904M, of which Volkswagen AG shareholders 6,673M"
+  "Yahoo net income is 4-9% higher in 2022-2025 because it includes the share attributable to hybrid capital investors; this file follows the brief (owners of the parent excluding hybrid capital), e.g. 2025 earnings after tax 6,904M, of which Volkswagen AG shareholders 6,673M",
+  "FY2007 totalDebt: 57,992 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment PDF p. 195 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2008",
+  "FY2008 totalDebt: 69,555 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment PDF p. 212 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2009",
+  "FY2009 totalDebt: 77,599 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment PDF p. 234 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2010",
+  "FY2010 totalDebt: 77,012 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment PDF p. 252 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2011",
+  "FY2011 totalDebt: 93,533 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment PDF p. 260 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2012",
+  "FY2012 totalDebt: 117,663 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment PDF p. 208 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2013",
+  "FY2013 totalDebt: 121,504 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment PDF p. 218 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2014",
+  "FY2014 totalDebt: 133,980 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment PDF p. 232 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2015",
+  "FY2015 totalDebt: 145,604 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment PDF p. 216 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2016",
+  "FY2016 totalDebt: 154,819 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment PDF p. 206 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2017",
+  "FY2017 totalDebt: 163,472 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment PDF p. 204 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2018",
+  "FY2018 totalDebt: 190,883 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment PDF p. 204 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2019",
+  "FY2019 totalDebt: 201,468 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment PDF p. 216 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2020",
+  "FY2020 totalDebt: 203,457 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2021-1791/download?disposition=attachment PDF p. 228 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2021",
+  "FY2021 totalDebt: 210,213 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2022-1677/download?disposition=attachment PDF p. 285 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2022",
+  "FY2022 totalDebt: 205,312 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2023-2671/download?disposition=attachment PDF p. 275 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2023",
+  "FY2023 totalDebt: 232,813 (million) from https://uploads.vw-mms.de/system/production/documents/cws/002/931/file_en/953dcbb8e57270df70ca288218092dba4721fd63/2025-03-11-volkswagen-group-annual-report-2024-en.pdf PDF p. 478 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2024",
+  "FY2024 totalDebt: 254,081 (million) from https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf PDF p. 469 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2025",
+  "FY2025 totalDebt: 264,703 (million) from https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf PDF p. 469 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; current-year column; source AR2025",
+  "FY2007 sharesOutstanding: 396,575,547 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment PDF p. 242 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31 (prior-year column of AR2008); issued count, treasury not deducted",
+  "FY2008 sharesOutstanding: 400,158,487 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment PDF p. 242 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2009 sharesOutstanding: 400,243,677 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment PDF p. 259 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2010 sharesOutstanding: 465,188,345 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment PDF p. 282 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2011 sharesOutstanding: 465,232,595 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment PDF p. 308 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2012 sharesOutstanding: 465,232,596 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment PDF p. 312 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2013 sharesOutstanding: 465,237,989 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment PDF p. 262 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2014 sharesOutstanding: 475,731,296 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment PDF p. 268 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2015 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment PDF p. 286 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2016 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment PDF p. 270 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2017 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment PDF p. 261 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2018 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment PDF p. 266 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2019 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment PDF p. 261 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+  "FY2020 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment PDF p. 273 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted"
  ]
 }

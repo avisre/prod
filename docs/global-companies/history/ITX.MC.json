@@ -11,7 +11,7 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 39864000000,
-   "operatingIncome": null,
+   "operatingIncome": 7997000000,
    "netIncome": 6220000000,
    "dilutedEPS": 1.995,
    "totalAssets": 35638000000,
@@ -22,12 +22,28 @@
    "capex": -2193000000,
    "dividendPerShare": 1.75,
    "sharesOutstanding": 3116652000,
-   "employees": null,
+   "employees": 163047,
    "restated": false,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2025 (ended 31 January 2026)",
-    "page": "PDF pp. 20, 22, 33, 42, 43, 50"
+    "page": "PDF pp. 20, 22, 33, 42, 43, 50",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+      "page": "PDF p. 16",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+      "page": "PDF p. 40",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -36,23 +52,48 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 38632000000,
-   "operatingIncome": null,
+   "operatingIncome": 7554000000,
    "netIncome": 5866000000,
    "dilutedEPS": 1.881,
    "totalAssets": 34714000000,
    "totalEquity": 19676000000,
    "cashAndEquivalents": 6382000000,
-   "totalDebt": null,
+   "totalDebt": 7000000,
    "operatingCashFlow": 9288000000,
    "capex": -2207000000,
    "dividendPerShare": 1.68,
    "sharesOutstanding": 3116652000,
-   "employees": null,
+   "employees": 162083,
    "restated": true,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2024 (ended 31 January 2025)",
-    "page": "PDF pp. 20, 22, 27, 33, 42"
+    "page": "PDF pp. 20, 22, 27, 33, 42",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+      "page": "PDF p. 16",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+      "page": "PDF p. 41",
+      "fields": [
+       "employees"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
+      "page": "PDF p. 49",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   },
   {
@@ -67,17 +108,42 @@
    "totalAssets": 32735000000,
    "totalEquity": 18642000000,
    "cashAndEquivalents": 7007000000,
-   "totalDebt": null,
+   "totalDebt": 16000000,
    "operatingCashFlow": 8667000000,
    "capex": -1399000000,
    "dividendPerShare": 1.54,
-   "sharesOutstanding": null,
-   "employees": null,
+   "sharesOutstanding": 3116652000,
+   "employees": 161281,
    "restated": true,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2023 (ended 31 January 2024)",
-    "page": "PDF pp. 3, 7, 9, 11, 32, 40"
+    "page": "PDF pp. 3, 7, 9, 11, 32, 40",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
+      "page": "PDF p. 40",
+      "fields": [
+       "employees"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
+      "page": "PDF p. 49",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
+      "page": "PDF p. 43",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -92,17 +158,49 @@
    "totalAssets": 29983000000,
    "totalEquity": 17008000000,
    "cashAndEquivalents": 5561000000,
-   "totalDebt": null,
+   "totalDebt": 13000000,
    "operatingCashFlow": 6674000000,
    "capex": -1027000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 0.796,
+   "sharesOutstanding": 3116652000,
+   "employees": 164997,
    "restated": true,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2023 (ended 31 January 2024) (prior-year column)",
-    "page": "PDF pp. 3, 7, 9, 11, 32, 40"
+    "page": "PDF pp. 3, 7, 9, 11, 32, 40",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
+      "page": "PDF p. 30",
+      "fields": [
+       "employees"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
+      "page": "PDF p. 41",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+      "page": "PDF p. 54",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+      "page": "PDF p. 80",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -117,17 +215,49 @@
    "totalAssets": 28945000000,
    "totalEquity": 15733000000,
    "cashAndEquivalents": 7021000000,
-   "totalDebt": null,
+   "totalDebt": 36000000,
    "operatingCashFlow": 6754000000,
    "capex": -666000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 0.63,
+   "sharesOutstanding": 3116652000,
+   "employees": 165042,
    "restated": true,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2021 (ended 31 January 2022)",
-    "page": "PDF pp. 18, 22, 24, 26, 69, 82"
+    "page": "PDF pp. 18, 22, 24, 26, 69, 82",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+      "page": "PDF p. 42",
+      "fields": [
+       "employees"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+      "page": "PDF p. 52",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+      "page": "PDF p. 86",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+      "page": "PDF p. 104",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -142,17 +272,42 @@
    "totalAssets": 26418000000,
    "totalEquity": 14520000000,
    "cashAndEquivalents": 7398000000,
-   "totalDebt": null,
+   "totalDebt": 14000000,
    "operatingCashFlow": 3017000000,
    "capex": -467000000,
    "dividendPerShare": 0.7,
-   "sharesOutstanding": null,
-   "employees": null,
+   "sharesOutstanding": 3116652000,
+   "employees": 144116,
    "restated": true,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2021 (ended 31 January 2022) (prior-year column)",
-    "page": "PDF pp. 18, 22, 24, 26, 69, 82"
+    "page": "PDF pp. 18, 22, 24, 26, 69, 82",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+      "page": "PDF p. 63",
+      "fields": [
+       "employees"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+      "page": "PDF p. 82",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616",
+      "page": "PDF p. 65",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -167,17 +322,34 @@
    "totalAssets": 28391000000,
    "totalEquity": 14913000000,
    "cashAndEquivalents": 4780000000,
-   "totalDebt": null,
+   "totalDebt": 39000000,
    "operatingCashFlow": 6900000000,
    "capex": -914000000,
    "dividendPerShare": 0.35,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3116652000,
    "employees": 176611,
    "restated": true,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2020 (ended 31 January 2021) (prior-year column)",
-    "page": "PDF pp. 13, 15, 16, 17, 50, 78"
+    "page": "PDF pp. 13, 15, 16, 17, 50, 78",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616",
+      "page": "PDF p. 63",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304",
+      "page": "PDF p. 57",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -192,17 +364,41 @@
    "totalAssets": 21684000000,
    "totalEquity": 14653000000,
    "cashAndEquivalents": 4866000000,
-   "totalDebt": null,
+   "totalDebt": 90000000,
    "operatingCashFlow": 4029000000,
    "capex": -1391000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 0.66,
+   "sharesOutstanding": 3116652000,
    "employees": 174386,
    "restated": true,
    "source": {
     "url": "https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2019 (ended 31 January 2020) (prior-year column)",
-    "page": "PDF pp. 12, 14, 15, 24, 68"
+    "page": "PDF pp. 12, 14, 15, 24, 68",
+    "supplementalSources": [
+     {
+      "url": "https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304",
+      "page": "PDF p. 55",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
+      "page": "PDF p. 53",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
+      "page": "PDF p. 89",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -217,17 +413,34 @@
    "totalAssets": 20231000000,
    "totalEquity": 13497000000,
    "cashAndEquivalents": 4931000000,
-   "totalDebt": null,
+   "totalDebt": 16000000,
    "operatingCashFlow": 3961000000,
    "capex": -1589000000,
    "dividendPerShare": 0.75,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3116652000,
    "employees": 171839,
    "restated": true,
    "source": {
     "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2018 (ended 31 January 2019) (prior-year column)",
-    "page": "PDF pp. 12, 14, 15, 16, 41, 42"
+    "page": "PDF pp. 12, 14, 15, 16, 41, 42",
+    "supplementalSources": [
+     {
+      "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
+      "page": "PDF p. 51",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2017.pdf",
+      "page": "PDF p. 62",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -242,17 +455,33 @@
    "totalAssets": 19621000000,
    "totalEquity": 12713000000,
    "cashAndEquivalents": 4116000000,
-   "totalDebt": null,
+   "totalDebt": 62194000,
    "operatingCashFlow": 4131000000,
    "capex": -1258523000,
    "dividendPerShare": 0.68,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3116652000,
    "employees": 162450,
    "restated": false,
    "source": {
     "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2017.pdf",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2017 (ended 31 January 2018) (prior-year column)",
-    "page": "PDF pp. 12, 14, 15, 16, 77"
+    "page": "PDF pp. 12, 14, 15, 16, 77",
+    "supplementalSources": [
+     {
+      "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
+      "page": "PDF p. 51",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
+      "page": "PDF p. 53",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -267,17 +496,34 @@
    "totalAssets": 17357148000,
    "totalEquity": 11410197000,
    "cashAndEquivalents": 4225527000,
-   "totalDebt": null,
+   "totalDebt": 11003000,
    "operatingCashFlow": 4499528000,
    "capex": -1353610000,
    "dividendPerShare": 0.68,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3116652000,
    "employees": 152854,
    "restated": false,
    "source": {
     "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2016 (ended 31 January 2017) (prior-year column)",
-    "page": "PDF pp. 6, 8, 9, 10, 68, 69"
+    "page": "PDF pp. 6, 8, 9, 10, 68, 69",
+    "supplementalSources": [
+     {
+      "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
+      "page": "PDF p. 51",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a",
+      "page": "PDF p. 120",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -292,17 +538,34 @@
    "totalAssets": 15377000000,
    "totalEquity": 10430655000,
    "cashAndEquivalents": 3797930000,
-   "totalDebt": null,
+   "totalDebt": 10088000,
    "operatingCashFlow": 3247506000,
    "capex": -1629523000,
    "dividendPerShare": 0.52,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3116652000,
    "employees": 137054,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2015 (ended 31 January 2016) (prior-year column)",
-    "page": "PDF pp. 174, 176, 177, 178, 193, 201"
+    "page": "PDF pp. 174, 176, 177, 178, 193, 201",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a",
+      "page": "PDF p. 190",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
+      "page": "PDF p. 205",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -317,17 +580,35 @@
    "totalAssets": 13756261000,
    "totalEquity": 9246244000,
    "cashAndEquivalents": 3846726000,
-   "totalDebt": null,
+   "totalDebt": 4654000,
    "operatingCashFlow": 2827272000,
    "capex": -1117066000,
    "dividendPerShare": 2.42,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 623330400,
    "employees": 128313,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2014 (ended 31 January 2015) (prior-year column)",
-    "page": "PDF pp. 187, 189, 190, 191, 203, 214"
+    "page": "PDF pp. 187, 189, 190, 191, 203, 214",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
+      "page": "PDF p. 203",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
+      "page": "PDF p. 205",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -342,17 +623,34 @@
    "totalAssets": 12890316000,
    "totalEquity": 8445936000,
    "cashAndEquivalents": 3842918000,
-   "totalDebt": null,
+   "totalDebt": 6743000,
    "operatingCashFlow": 3118952000,
    "capex": -1192590000,
    "dividendPerShare": 2.2,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 623330400,
    "employees": 120314,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20150924034510id_/http://www.inditex.com/documents/10279/18789/Inditex_Group_Annual_Report_2013.pdf/88b623b8-b6b0-4d38-b45e-45822932ff72",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2013 (ended 31 January 2014) (prior-year column)",
-    "page": "PDF pp. 175, 177, 178, 179, 182, 194"
+    "page": "PDF pp. 175, 177, 178, 179, 182, 194",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20150924034510id_/http://www.inditex.com/documents/10279/18789/Inditex_Group_Annual_Report_2013.pdf/88b623b8-b6b0-4d38-b45e-45822932ff72",
+      "page": "PDF p. 191",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de",
+      "page": "PDF p. 148",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -367,7 +665,7 @@
    "totalAssets": 10959178000,
    "totalEquity": 7414806000,
    "cashAndEquivalents": 3466752000,
-   "totalDebt": null,
+   "totalDebt": 2230000,
    "operatingCashFlow": 2408661000,
    "capex": -1081867000,
    "dividendPerShare": 1.8,
@@ -377,7 +675,17 @@
    "source": {
     "url": "https://web.archive.org/web/20140517122719id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2012 (ended 31 January 2013) (prior-year column)",
-    "page": "PDF pp. 133, 134, 135, 146, 152, 176"
+    "page": "PDF pp. 133, 134, 135, 146, 152, 176",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de",
+      "page": "PDF p. 146",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -392,17 +700,43 @@
    "totalAssets": 9826079000,
    "totalEquity": 6386183000,
    "cashAndEquivalents": 3433452000,
-   "totalDebt": null,
+   "totalDebt": 6854000,
    "operatingCashFlow": 2556213000,
    "capex": -616551000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 1.4,
+   "sharesOutstanding": 623330400,
    "employees": 100138,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2011 (ended 31 January 2012) (prior-year column)",
-    "page": "PDF pp. 111, 112, 113, 135, 158, 159"
+    "page": "PDF pp. 111, 112, 113, 135, 158, 159",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
+      "page": "PDF p. 127",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
+      "page": "PDF p. 129",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
+      "page": "PDF p. 210",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -417,17 +751,33 @@
    "totalAssets": 8335437000,
    "totalEquity": 5329166000,
    "cashAndEquivalents": 2420110000,
-   "totalDebt": null,
+   "totalDebt": 40054000,
    "operatingCashFlow": 2320847000,
    "capex": -460995000,
-   "dividendPerShare": null,
+   "dividendPerShare": 1.1,
    "sharesOutstanding": 623330400,
    "employees": 92301,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2009 (ended 31 January 2010)",
-    "page": "PDF pp. 172, 174, 175, 188, 195, 221"
+    "page": "PDF pp. 172, 174, 175, 188, 195, 221",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
+      "page": "PDF p. 187",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
+      "page": "PDF p. 218",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -445,14 +795,23 @@
    "totalDebt": 247278000,
    "operatingCashFlow": 1775176000,
    "capex": -851973000,
-   "dividendPerShare": null,
+   "dividendPerShare": 1.05,
    "sharesOutstanding": 623330400,
    "employees": 89112,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2009 (ended 31 January 2010) (prior-year column)",
-    "page": "PDF pp. 172, 174, 175, 188, 195, 221"
+    "page": "PDF pp. 172, 174, 175, 188, 195, 221",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
+      "page": "PDF p. 274",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -470,70 +829,43 @@
    "totalDebt": 413634000,
    "operatingCashFlow": 1817452000,
    "capex": -850109000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 1.05,
+   "sharesOutstanding": 623330400,
    "employees": 79517,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20210822110435id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
     "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2008 (ended 31 January 2009) (prior-year column)",
-    "page": "PDF pp. 226, 227, 228, 241, 249, 278"
+    "page": "PDF pp. 226, 227, 228, 241, 249, 278",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
+      "page": "PDF p. 243",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
+      "page": "PDF p. 342",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2026 operatingIncome: not found in the reports read",
-  "FY2026 totalDebt: not found in the reports read",
-  "FY2026 employees: not found in the reports read",
-  "FY2025 operatingIncome: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 employees: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2024 sharesOutstanding: not found in the reports read",
-  "FY2024 employees: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2023 dividendPerShare: not found in the reports read",
-  "FY2023 sharesOutstanding: not found in the reports read",
-  "FY2023 employees: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 dividendPerShare: not found in the reports read",
-  "FY2022 sharesOutstanding: not found in the reports read",
-  "FY2022 employees: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2021 sharesOutstanding: not found in the reports read",
-  "FY2021 employees: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2020 sharesOutstanding: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 dividendPerShare: not found in the reports read",
-  "FY2019 sharesOutstanding: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2018 sharesOutstanding: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2017 sharesOutstanding: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 sharesOutstanding: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2015 sharesOutstanding: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2014 sharesOutstanding: not found in the reports read",
-  "FY2013 dilutedEPS: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 sharesOutstanding: not found in the reports read",
-  "FY2012 dilutedEPS: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2011 dilutedEPS: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2011 dividendPerShare: not found in the reports read",
-  "FY2011 sharesOutstanding: not found in the reports read",
-  "FY2010 dilutedEPS: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 dividendPerShare: not found in the reports read",
-  "FY2009 dilutedEPS: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2008 dilutedEPS: not found in the reports read",
-  "FY2008 dividendPerShare: not found in the reports read",
-  "FY2008 sharesOutstanding: not found in the reports read"
+  "FY2026 totalDebt: cannot exist: No single total line in the 2026 report: balance sheet shows current financial debt 2 and non-current financial debt nil as separate lines (not summed)",
+  "FY2013 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+  "FY2012 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+  "FY2011 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+  "FY2010 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+  "FY2009 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+  "FY2008 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))"
  ],
  "notes": [
   "fiscalYear is the calendar year of the 31 January year-end: Inditex \"FY2024\" = fiscalYear 2025.",
@@ -586,6 +918,51 @@
   "FY2010 capex: Payments for investments in property, plant and equipment only (intangibles excluded), current column",
   "FY2009 capex: Payments for investments in property, plant and equipment only (intangibles excluded), prior-year column of the next report",
   "FY2008 capex: read from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 (PDF p. 228)",
-  "FY2008 capex: Payments for investments in property, plant and equipment only (intangibles excluded), prior-year column of the next report"
+  "FY2008 capex: Payments for investments in property, plant and equipment only (intangibles excluded), prior-year column of the next report",
+  "FY2026 operatingIncome: 7,997 (million) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 16 — Net operating profit (EBIT), consolidated income statement, 31/01/2026 column",
+  "FY2025 operatingIncome: 7,554 (million) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 16 — Net operating profit (EBIT), 31/01/2025 prior-year column in the 2026 report",
+  "FY2026 employees: 163,047 (units) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 40 — Headcount table at 31 January 2026, Total (Group and jointly controlled entities)",
+  "FY2025 employees: 162,083 (units) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 41 — Headcount table, 31 January 2025 Total, prior-year column in the 2026 report",
+  "FY2024 employees: 161,281 (units) from https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340 PDF p. 40 — Headcount table, 31 January 2024 Total, prior-year column in the 2025 report",
+  "FY2023 employees: 164,997 (units) from https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773 PDF p. 30 — Headcount table, 31 January 2023 Total, prior-year column in the 2024 report",
+  "FY2022 employees: 165,042 (units) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 42 — Headcount table, 31 January 2022 Total, prior-year column in the 2023 report",
+  "FY2021 employees: 144,116 (units) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 63 — Headcount table, 31 January 2021 Total, prior-year column in the 2022 report",
+  "FY2010 totalDebt: 40,054 (thousand) from https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9 PDF p. 187 — Group loans and borrowings table at 31/01/2010, printed Total row (current 35,058; non-current 4,996)",
+  "FY2011 totalDebt: 6,854 (thousand) from https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645 PDF p. 127 — Total column for 31/01/2011 in the bank borrowings and finance leases table (prior-year column of the 2012 report)",
+  "FY2012 totalDebt: 2,230 (thousand) from https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de PDF p. 146 — Total column for 31/01/2012, borrowings table, prior-year column in the 2013 report",
+  "FY2013 totalDebt: 6,743 (thousand) from https://web.archive.org/web/20150924034510id_/http://www.inditex.com/documents/10279/18789/Inditex_Group_Annual_Report_2013.pdf/88b623b8-b6b0-4d38-b45e-45822932ff72 PDF p. 191 — Total column for 31/01/2013, borrowings table, prior-year column in the 2014 report",
+  "FY2014 totalDebt: 4,654 (thousand) from https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099 PDF p. 203 — Total column for 31/01/2014, borrowings table, prior-year column in the 2015 report",
+  "FY2015 totalDebt: 10,088 (thousand) from https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a PDF p. 190 — Total column for 31/01/2015, borrowings table, prior-year column in the 2016 report",
+  "FY2016 totalDebt: 11,003 (thousand) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf PDF p. 51 — Total column for 31/01/2016 (10,254 current plus 749 non-current), prior-year column in the 2017 report",
+  "FY2017 totalDebt: 62,194 (thousand) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf PDF p. 51 — Total column for 31/01/2017, loans and finance leases table (61,696 current plus 498 non-current)",
+  "FY2018 totalDebt: 16 (million) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf PDF p. 51 — Total column for 31/01/2018, prior-year column in the 2019 report (current 12, non-current 4)",
+  "FY2019 totalDebt: 90 (million) from https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304 PDF p. 55 — Total column for 31/01/2019, prior-year column in the 2020 report (current 84, non-current 5)",
+  "FY2020 totalDebt: 39 (million) from https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616 PDF p. 63 — Total column for 31/01/2020, prior-year column in the 2021 report (current 32, non-current 6)",
+  "FY2021 totalDebt: 14 (million) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 82 — Total column for 31/01/2021, prior-year column in the 2022 report (current 11, non-current 3)",
+  "FY2022 totalDebt: 36 (million) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 52 — Total column for 31/01/2022, prior-year column in the 2023 report (current 35, non-current 1)",
+  "FY2023 totalDebt: 13 (million) from https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773 PDF p. 41 — Total column for 31/01/2023, prior-year column in the 2024 report (current 12, non-current 1)",
+  "FY2024 totalDebt: 16 (million) from https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340 PDF p. 49 — Total column for 31/01/2024, prior-year column in the 2025 report (current 15, non-current 1)",
+  "FY2025 totalDebt: 7 (million) from https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340 PDF p. 49 — Total column for 31/01/2025, debt table (current 6, non-current 1)",
+  "FY2024 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773 PDF p. 43 — Share capital note: EUR 94m divided into 3,116,652,000 fully subscribed and paid shares. Issued count as printed; no net-of-treasury figure printed in this sentence",
+  "FY2023 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 54 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+  "FY2022 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 86 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+  "FY2021 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616 PDF p. 65 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+  "FY2020 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304 PDF p. 57 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+  "FY2019 sharesOutstanding: 3,116,652,000 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf PDF p. 53 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+  "FY2018 sharesOutstanding: 3,116,652,000 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2017.pdf PDF p. 62 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+  "FY2017 sharesOutstanding: 3,116,652,000 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf PDF p. 53 — Share capital note: 3,116,652,000 fully subscribed and paid shares of Euros 0.03 par value (issued count as printed)",
+  "FY2016 sharesOutstanding: 3,116,652,000 (units) from https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a PDF p. 120 — Share capital note: EUR 93,499,560 divided into 3,116,652,000 shares (issued count as printed)",
+  "FY2015 sharesOutstanding: 3,116,652,000 (units) from https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099 PDF p. 205 — Share capital note, 3,116,652,000 shares of EUR 0.03 par value (post 5-for-1 split; issued count as printed)",
+  "FY2014 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099 PDF p. 205 — Share capital note in the 2015 report: at 31 January 2014 divided into 623,330,400 shares of EUR 0.15 par value (pre-split basis; issued count as printed)",
+  "FY2013 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de PDF p. 148 — Note on share capital: 623,330,400 registered shares of EUR 0.15 par value (pre-split basis; issued count as printed)",
+  "FY2011 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645 PDF p. 129 — Share capital sentence 'At 31 January 2012 and 2011': 623,330,400 registered shares (prior-year column; pre-split basis; issued count as printed)",
+  "FY2008 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 PDF p. 243 — Share capital sentence 'At 31 January 2009 and 2008': 623,330,400 registered shares (prior-year column; pre-split basis; issued count as printed)",
+  "FY2023 dividendPerShare: 0.796 (units) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 80 — Ordinary dividend 0.796 for FY ended 31/01/2023 (total 1.20 = ordinary 0.796 + bonus 0.404; ordinary per brief)",
+  "FY2022 dividendPerShare: 0.63 (units) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 104 — Ordinary dividend 0.63 for FY ended 31/01/2022 (total 0.93 = ordinary 0.63 + bonus 0.30; ordinary per brief)",
+  "FY2019 dividendPerShare: 0.66 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf PDF p. 89 — Ordinary dividend 0.66 for FY ended 31/01/2019 (total 0.88 = ordinary 0.66 + bonus 0.22; ordinary per brief)",
+  "FY2011 dividendPerShare: 1.40 (units) from https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645 PDF p. 210 — AGM resolution text printed in the 2012 report: fixed gross dividend 1.60 = ordinary 1.40 + extraordinary 0.20 for FY ended 31/01/2011 (ordinary per brief)",
+  "FY2010 dividendPerShare: 1.10 (units) from https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9 PDF p. 218 — Ordinary dividend 1.10 for FY ended 31/01/2010 (total 1.20 = ordinary 1.10 + bonus 0.10; ordinary per brief)",
+  "FY2009 dividendPerShare: 1.05 (units) from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 PDF p. 274 — Total dividend 1.05 proposed for FY ended 31/01/2009 (0.55 payable 4 May 2009, 0.50 on 2 Nov 2009); no bonus element printed",
+  "FY2008 dividendPerShare: 1.05 (units) from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 PDF p. 342 — AGM 15 July 2008 resolution for FY ended 31/01/2008: 1.05 gross ordinary dividend paid from 1 Aug 2008 (report of the following year)"
  ]
 }

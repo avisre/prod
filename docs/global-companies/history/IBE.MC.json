@@ -17,17 +17,33 @@
    "totalAssets": 160762000000,
    "totalEquity": 63419000000,
    "cashAndEquivalents": 3670000000,
-   "totalDebt": null,
+   "totalDebt": 57410000000,
    "operatingCashFlow": 11635000000,
    "capex": -7607000000,
    "dividendPerShare": 0.645,
    "sharesOutstanding": 6681227377,
-   "employees": null,
+   "employees": 43555,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2025",
-    "page": "PDF pp. 14, 15, 16, 20, 31, 123"
+    "page": "PDF pp. 14, 15, 16, 20, 31, 123",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
+      "page": "PDF p. 119",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
+      "page": "PDF p. 201",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -42,7 +58,7 @@
    "totalAssets": 158293000000,
    "totalEquity": 61051000000,
    "cashAndEquivalents": 4082000000,
-   "totalDebt": null,
+   "totalDebt": 57996000000,
    "operatingCashFlow": 11925000000,
    "capex": -7665000000,
    "dividendPerShare": 0.558,
@@ -52,7 +68,17 @@
    "source": {
     "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2025 (prior-year column)",
-    "page": "PDF pp. 14, 15, 16, 20, 31, 123"
+    "page": "PDF pp. 14, 15, 16, 20, 31, 123",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
+      "page": "PDF p. 119",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -67,7 +93,7 @@
    "totalAssets": 150033000000,
    "totalEquity": 60292000000,
    "cashAndEquivalents": 3019000000,
-   "totalDebt": null,
+   "totalDebt": 51980000000,
    "operatingCashFlow": 12130000000,
    "capex": -7336000000,
    "dividendPerShare": 0.501,
@@ -77,7 +103,17 @@
    "source": {
     "url": "https://web.archive.org/web/20250531054534id_/https://www.iberdrola.com/documents/20125/4778712/gsm25-annual-accounts-consolidated-2024.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2024 (prior-year column)",
-    "page": "PDF pp. 15, 16, 17, 21, 30, 171"
+    "page": "PDF pp. 15, 16, 17, 21, 30, 171",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20250517085037id_/https://www.iberdrola.com/documents/20125/4778712/gsm25-annual-accounts-consolidated-2024.pdf",
+      "page": "PDF p. 118",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -92,7 +128,7 @@
    "totalAssets": 150114000000,
    "totalEquity": 41119000000,
    "cashAndEquivalents": 4608000000,
-   "totalDebt": null,
+   "totalDebt": 50080000000,
    "operatingCashFlow": 10443000000,
    "capex": -6277000000,
    "dividendPerShare": null,
@@ -102,7 +138,17 @@
    "source": {
     "url": "https://web.archive.org/web/20261011165633id_/https://www.iberdrola.com/documents/20125/3643974/gsm24-annual-accounts-consolidated-2023.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2023 (prior-year column)",
-    "page": "PDF pp. 15, 16, 17, 21, 32, 126, 161"
+    "page": "PDF pp. 15, 16, 17, 21, 32, 126, 161",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20240518034613id_/https://www.iberdrola.com/documents/20125/3643974/gsm24-annual-accounts-consolidated-2023.pdf",
+      "page": "PDF p. 108",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -117,7 +163,7 @@
    "totalAssets": 141752000000,
    "totalEquity": 56126000000,
    "cashAndEquivalents": 4033000000,
-   "totalDebt": null,
+   "totalDebt": 44334000000,
    "operatingCashFlow": 8106000000,
    "capex": -6327000000,
    "dividendPerShare": 0.422,
@@ -127,7 +173,17 @@
    "source": {
     "url": "https://web.archive.org/web/20230306024025id_/https://www.iberdrola.com/documents/20125/2931678/gsm23_FinancialStatements_AuditorsReport_Consolidated2022.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2022 (prior-year column)",
-    "page": "PDF pp. 15, 16, 17, 21, 54, 99, 100, 126"
+    "page": "PDF pp. 15, 16, 17, 21, 54, 99, 100, 126",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20230306024025id_/https://www.iberdrola.com/documents/20125/2931678/gsm23_FinancialStatements_AuditorsReport_Consolidated2022.pdf",
+      "page": "PDF p. 111",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -142,7 +198,7 @@
    "totalAssets": 122518000000,
    "totalEquity": 27592000000,
    "cashAndEquivalents": 3427000000,
-   "totalDebt": null,
+   "totalDebt": 40687000000,
    "operatingCashFlow": 8347000000,
    "capex": -5851000000,
    "dividendPerShare": 0.405,
@@ -152,7 +208,17 @@
    "source": {
     "url": "https://web.archive.org/web/20220407181925id_/https://www.iberdrola.com/documents/20125/1606413/gsm22_FinancialStatements_AuditorsReport_Consolidated2021.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2021 (prior-year column)",
-    "page": "PDF pp. 15, 16, 17, 21, 51, 118, 147"
+    "page": "PDF pp. 15, 16, 17, 21, 51, 118, 147",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20220407181925id_/https://www.iberdrola.com/documents/20125/1606413/gsm22_FinancialStatements_AuditorsReport_Consolidated2021.pdf",
+      "page": "PDF p. 103",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -167,7 +233,7 @@
    "totalAssets": 122369000000,
    "totalEquity": 47195000000,
    "cashAndEquivalents": 2113000000,
-   "totalDebt": null,
+   "totalDebt": 41119000000,
    "operatingCashFlow": 6915000000,
    "capex": -5169000000,
    "dividendPerShare": null,
@@ -177,7 +243,17 @@
    "source": {
     "url": "https://web.archive.org/web/20220119101404id_/https://www.iberdrola.com/documents/20125/42397/gsm21_FinancialStatements_AuditorsReport_Consolidated.pdf/bea1ca7d-18bc-320e-3125-486210b81190",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2020 (prior-year column)",
-    "page": "PDF pp. 18, 19, 20, 24, 29, 51"
+    "page": "PDF pp. 18, 19, 20, 24, 29, 51",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20220119101404id_/https://www.iberdrola.com/documents/20125/42397/gsm21_FinancialStatements_AuditorsReport_Consolidated.pdf/bea1ca7d-18bc-320e-3125-486210b81190",
+      "page": "PDF p. 99",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -186,7 +262,7 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 35075873000,
-   "operatingIncome": null,
+   "operatingIncome": 5439373000,
    "netIncome": 3014052000,
    "dilutedEPS": null,
    "totalAssets": 113037923000,
@@ -202,7 +278,17 @@
    "source": {
     "url": "https://web.archive.org/web/20201104085145id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/corporativos/docs/gsm20_FinancialStatements_AuditorsReport_Consolidated_Acc.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2019 (prior-year column)",
-    "page": "PDF pp. 15, 16, 17, 21, 49, 60, 109"
+    "page": "PDF pp. 15, 16, 17, 21, 49, 60, 109",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20201104085145id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/corporativos/docs/gsm20_FinancialStatements_AuditorsReport_Consolidated_Acc.pdf",
+      "page": "PDF p. 17",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -211,7 +297,7 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 31263262000,
-   "operatingIncome": null,
+   "operatingIncome": 2712631000,
    "netIncome": 2803994000,
    "dilutedEPS": 0.478,
    "totalAssets": 110688559000,
@@ -227,7 +313,17 @@
    "source": {
     "url": "https://web.archive.org/web/20240604124650id_/https://www.iberdrola.com/documents/20125/595848/gsm19_FinancialStatements_AuditorsReport_Consolidated_Acc_en.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2018 (prior-year column)",
-    "page": "PDF pp. 14, 15, 16, 20, 52, 98, 147"
+    "page": "PDF pp. 14, 15, 16, 20, 52, 98, 147",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20240604124650id_/https://www.iberdrola.com/documents/20125/595848/gsm19_FinancialStatements_AuditorsReport_Consolidated_Acc_en.pdf",
+      "page": "PDF p. 16",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -242,17 +338,34 @@
    "totalAssets": 106706220000,
    "totalEquity": 36690965000,
    "cashAndEquivalents": 1432686000,
-   "totalDebt": null,
+   "totalDebt": 32025746000,
    "operatingCashFlow": 6719884000,
    "capex": -4639161000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.317,
    "sharesOutstanding": 6362079000,
    "employees": 28389,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2017 (prior-year column)",
-    "page": "PDF pp. 15, 16, 17, 21, 107, 162, 167"
+    "page": "PDF pp. 15, 16, 17, 21, 107, 162, 167",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
+      "page": "PDF p. 118",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
+      "page": "PDF p. 323",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -267,17 +380,35 @@
    "totalAssets": 104664182000,
    "totalEquity": 37158658000,
    "cashAndEquivalents": 1153273000,
-   "totalDebt": null,
+   "totalDebt": 30340038000,
    "operatingCashFlow": 6259936000,
    "capex": -3828998000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.286,
    "sharesOutstanding": 6336870000,
    "employees": 27169,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20240925105734id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2016 (prior-year column)",
-    "page": "PDF pp. 9, 10, 11, 15, 56, 149"
+    "page": "PDF pp. 9, 10, 11, 15, 56, 149",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf",
+      "page": "PDF p. 99",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
+      "page": "PDF p. 323",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -292,17 +423,35 @@
    "totalAssets": 93742388000,
    "totalEquity": 34954490000,
    "cashAndEquivalents": 1805533000,
-   "totalDebt": null,
+   "totalDebt": 28191329000,
    "operatingCashFlow": 6800295000,
    "capex": -3363416000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.276,
    "sharesOutstanding": 6388483000,
    "employees": 28021,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2015 (prior-year column)",
-    "page": "PDF pp. 7, 8, 9, 13, 49, 134"
+    "page": "PDF pp. 7, 8, 9, 13, 49, 134",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf",
+      "page": "PDF p. 88",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf",
+      "page": "PDF p. 294",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -311,23 +460,49 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 31077112000,
-   "operatingIncome": null,
+   "operatingIncome": 2219458000,
    "netIncome": 2364733000,
    "dilutedEPS": 0.396,
    "totalAssets": 89786879000,
    "totalEquity": 34584689000,
    "cashAndEquivalents": 1331735000,
-   "totalDebt": null,
+   "totalDebt": 28496175000,
    "operatingCashFlow": 5805499000,
    "capex": -3091851000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.275,
    "sharesOutstanding": 6239975000,
    "employees": 28212,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20230604211254id_/http://www.iberdrola.com/wcorp/gc/prod/es_ES/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
     "document": "Iberdrola Cuentas Anuales Consolidadas 2014 (prior-year column)",
-    "page": "PDF pp. 7, 8, 10, 13, 130"
+    "page": "PDF pp. 7, 8, 10, 13, 130",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
+      "page": "PDF p. 90",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
+      "page": "PDF p. 9",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf",
+      "page": "PDF p. 279",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -336,7 +511,7 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 34201193000,
-   "operatingIncome": null,
+   "operatingIncome": 4376890000,
    "netIncome": 2868539000,
    "dilutedEPS": 0.459,
    "totalAssets": 96816375000,
@@ -345,14 +520,38 @@
    "totalDebt": 33951981000,
    "operatingCashFlow": 6979902000,
    "capex": -3896475000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 0.308,
+   "sharesOutstanding": 6138893000,
    "employees": 31338,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
     "document": "Iberdrola Cuentas Anuales Consolidadas 2012",
-    "page": "PDF pp. 12, 13, 15, 17, 65, 135"
+    "page": "PDF pp. 12, 13, 15, 17, 65, 135",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+      "page": "PDF p. 14",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
+      "page": "PDF p. 259",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+      "page": "PDF p. 96",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -361,7 +560,7 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 31648035000,
-   "operatingIncome": null,
+   "operatingIncome": 4505093000,
    "netIncome": 2905229000,
    "dilutedEPS": 0.458,
    "totalAssets": 97016529000,
@@ -371,13 +570,31 @@
    "operatingCashFlow": 6111677000,
    "capex": -4043359000,
    "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 5882490000,
    "employees": 31885,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
     "document": "Iberdrola Cuentas Anuales Consolidadas 2012 (prior-year column)",
-    "page": "PDF pp. 12, 13, 15, 17, 65, 135"
+    "page": "PDF pp. 12, 13, 15, 17, 65, 135",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+      "page": "PDF p. 14",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+      "page": "PDF p. 95",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -386,23 +603,47 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 30431034000,
-   "operatingIncome": null,
+   "operatingIncome": 4829741000,
    "netIncome": 2870924000,
    "dilutedEPS": 0.527,
    "totalAssets": 93700952000,
    "totalEquity": 29078799000,
    "cashAndEquivalents": 2101857000,
-   "totalDebt": null,
+   "totalDebt": 32984755000,
    "operatingCashFlow": 7919064000,
    "capex": -5225914000,
    "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 5483843000,
    "employees": 31344,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2010",
-    "page": "PDF pp. 12, 13, 15, 17, 55, 115"
+    "page": "PDF pp. 12, 13, 15, 17, 55, 115",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+      "page": "PDF p. 83",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+      "page": "PDF p. 14",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+      "page": "PDF p. 95",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -411,7 +652,7 @@
    "standard": "IFRS",
    "currency": "EUR",
    "revenue": 25891938000,
-   "operatingIncome": null,
+   "operatingIncome": 4509183000,
    "netIncome": 2824335000,
    "dilutedEPS": 0.532,
    "totalAssets": 87010994000,
@@ -421,13 +662,31 @@
    "operatingCashFlow": 6481156000,
    "capex": -4578372000,
    "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 5252323716,
    "employees": 32711,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2010 (prior-year column)",
-    "page": "PDF pp. 12, 13, 15, 17, 55, 115"
+    "page": "PDF pp. 12, 13, 15, 17, 55, 115",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+      "page": "PDF p. 14",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+      "page": "PDF p. 82",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -446,13 +705,23 @@
    "operatingCashFlow": 4568713000,
    "capex": -6800390000,
    "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 5002323716,
    "employees": 30413,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2008",
-    "page": "PDF pp. 12, 13, 15, 46, 74, 98"
+    "page": "PDF pp. 12, 13, 15, 46, 74, 98",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+      "page": "PDF p. 82",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -467,62 +736,47 @@
    "totalAssets": 67532361000,
    "totalEquity": 25537218000,
    "cashAndEquivalents": 980577000,
-   "totalDebt": null,
+   "totalDebt": 22760736000,
    "operatingCashFlow": 7058753000,
    "capex": -5014146000,
    "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 4993742040,
    "employees": 58213,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf",
     "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2008 (prior-year column)",
-    "page": "PDF pp. 12, 13, 15, 46, 74, 98"
+    "page": "PDF pp. 12, 13, 15, 46, 74, 98",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20110921185412id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/InformacionLegal2007.pdf",
+      "page": "PDF p. 64",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 employees: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 dividendPerShare: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 dividendPerShare: not found in the reports read",
-  "FY2018 operatingIncome: not found in the reports read",
-  "FY2018 dilutedEPS: not found in the reports read",
-  "FY2018 dividendPerShare: not found in the reports read",
-  "FY2017 operatingIncome: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 dividendPerShare: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2015 dividendPerShare: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2014 dividendPerShare: not found in the reports read",
-  "FY2013 operatingIncome: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 dividendPerShare: not found in the reports read",
-  "FY2012 operatingIncome: not found in the reports read",
-  "FY2012 dividendPerShare: not found in the reports read",
-  "FY2012 sharesOutstanding: not found in the reports read",
-  "FY2011 operatingIncome: not found in the reports read",
-  "FY2011 dividendPerShare: not found in the reports read",
-  "FY2011 sharesOutstanding: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 dividendPerShare: not found in the reports read",
-  "FY2010 sharesOutstanding: not found in the reports read",
-  "FY2009 operatingIncome: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2009 sharesOutstanding: not found in the reports read",
-  "FY2008 dividendPerShare: not found in the reports read",
-  "FY2008 sharesOutstanding: not found in the reports read",
-  "FY2007 totalDebt: not found in the reports read",
-  "FY2007 dividendPerShare: not found in the reports read",
-  "FY2007 sharesOutstanding: not found in the reports read"
+  "FY2022 dividendPerShare: not found in the company's reports (2023 report p.330 2023 column: interim 0.180 and final 0.316 (components, paid 2023 for FY2022); no printed FY total; not summed)",
+  "FY2019 dividendPerShare: not found in the company's reports (2020 report p.294 2020 column: interim 0.168 and complementary 0.232 (components, paid 2020 for FY2019); no printed FY total; not summed)",
+  "FY2018 dilutedEPS: not found in the company's reports (2018 report p.16 prints continuing diluted 0.475 and discontinued (0.008); 2019 report p.17 restated 2018 continuing diluted 0.454 and discontinued (0.008); no group basic-and-diluted total line printed in either report; not summed)",
+  "FY2018 dividendPerShare: not found in the company's reports (2019 report p.286 2019 column: interim 0.151 and complementary 0.200; 2019 report p.102 says the supplementary amount was not determinable at report date; no printed FY total; not summed)",
+  "FY2011 dividendPerShare: not found in the company's reports (2012 report p.101 complementary 0.03; extraordinary 1.20 (p.99) excluded as not ordinary; no printed FY ordinary total; 2011 report not in folder)",
+  "FY2010 dividendPerShare: not found in the company's reports (2010 report p.87 proposed complementary 0.03 (paid 1 Jul 2011); no printed FY total; 2011 report not in folder)",
+  "FY2009 dividendPerShare: not found in the company's reports (2009 report p.94 interim 0.143 (approved 15 Dec 2009); complementary not located as a printed total; 2010 report p.87 gives only 0.03 complementary for 2010)",
+  "FY2008 dividendPerShare: not found in the company's reports (2008 report p.73 interim 0.143 and proposed complementary 0.184; no printed FY total; not summed)",
+  "FY2007 dividendPerShare: not found in the company's reports (2007 report p.68 interim 0.115 (approved 18 Dec 2007) and p.69 proposed complementary 0.156; no printed FY total; not summed)"
  ],
  "notes": [
   "2007-2010, 2012 and 2014 read from the Spanish consolidated annual accounts.",
@@ -532,6 +786,38 @@
   "FY2010 dilutedEPS: Printed 0,527 (decimal comma written as a dot).",
   "FY2011 dilutedEPS: Prior-year column of the 2012 report, printed 0,458 (decimal comma written as a dot).",
   "FY2012 dilutedEPS: Printed 0,459 (decimal comma written as a dot).",
-  "FY2013 dilutedEPS: Prior-year column of the 2014 report, printed 0,396 (decimal comma written as a dot). This is the figure restated for the scrip issues (IAS 33)."
+  "FY2013 dilutedEPS: Prior-year column of the 2014 report, printed 0,396 (decimal comma written as a dot). This is the figure restated for the scrip issues (IAS 33).",
+  "FY2025 totalDebt: 57,410 (million) from https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf PDF p. 119 — Gross financial debt (A), 2025 column of net debt note",
+  "FY2024 totalDebt: 57,996 (million) from https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf PDF p. 119 — Gross financial debt (A), prior-year column in 2025 report",
+  "FY2023 totalDebt: 51,980 (million) from https://web.archive.org/web/20250517085037id_/https://www.iberdrola.com/documents/20125/4778712/gsm25-annual-accounts-consolidated-2024.pdf PDF p. 118 — Gross financial debt (A), prior-year column in 2024 report",
+  "FY2022 totalDebt: 50,080 (million) from https://web.archive.org/web/20240518034613id_/https://www.iberdrola.com/documents/20125/3643974/gsm24-annual-accounts-consolidated-2023.pdf PDF p. 108 — Gross financial debt (A), prior-year column in 2023 report",
+  "FY2021 totalDebt: 44,334 (million) from https://web.archive.org/web/20230306024025id_/https://www.iberdrola.com/documents/20125/2931678/gsm23_FinancialStatements_AuditorsReport_Consolidated2022.pdf PDF p. 111 — Gross financial debt (A), prior-year column in 2022 report",
+  "FY2020 totalDebt: 40,687 (million) from https://web.archive.org/web/20220407181925id_/https://www.iberdrola.com/documents/20125/1606413/gsm22_FinancialStatements_AuditorsReport_Consolidated2021.pdf PDF p. 103 — Gross financial debt (A), prior-year column in 2021 report",
+  "FY2019 totalDebt: 41,119 (million) from https://web.archive.org/web/20220119101404id_/https://www.iberdrola.com/documents/20125/42397/gsm21_FinancialStatements_AuditorsReport_Consolidated.pdf/bea1ca7d-18bc-320e-3125-486210b81190 PDF p. 99 — Gross financial debt (A), prior-year column in 2020 report; the 2019 report itself printed Gross debt 41,351,110 thousand (not restated)",
+  "FY2016 totalDebt: 32,025,746 (thousand) from https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf PDF p. 118 — Gross debt, prior-year column in 2017 report",
+  "FY2015 totalDebt: 30,340,038 (thousand) from https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf PDF p. 99 — Gross debt, prior-year column in 2016 report",
+  "FY2014 totalDebt: 28,191,329 (thousand) from https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf PDF p. 88 — Gross debt, prior-year column in 2015 report",
+  "FY2013 totalDebt: 28,496,175 (thousand) from https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf PDF p. 90 — Deuda bruta, prior-year column in 2014 report (2013 report not in folder)",
+  "FY2010 totalDebt: 32,984,755 (thousand) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 83 — Deuda bruta, 2010 column (2011 report not in folder)",
+  "FY2007 totalDebt: 22,760,736 (thousand) from https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf PDF p. 69 — Deuda Bruta, prior-year column in 2008 report",
+  "FY2018 operatingIncome: 5,439,373 (thousand) from https://web.archive.org/web/20201104085145id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/corporativos/docs/gsm20_FinancialStatements_AuditorsReport_Consolidated_Acc.pdf PDF p. 17 — OPERATING PROFIT (EBITDA) line, prior-year column in 2019 report; the 2019 report footnote defines EBIT as operating profit",
+  "FY2017 operatingIncome: 2,712,631 (thousand) from https://web.archive.org/web/20240604124650id_/https://www.iberdrola.com/documents/20125/595848/gsm19_FinancialStatements_AuditorsReport_Consolidated_Acc_en.pdf PDF p. 16 — OPERATING PROFIT (EBITDA) line, prior-year column in 2018 report",
+  "FY2013 operatingIncome: 2,219,458 (thousand) from https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf PDF p. 9 — BENEFICIO DE EXPLOTACION, 2013 re-expressed column in 2014 report (Nota 2.a)",
+  "FY2012 operatingIncome: 4,376,890 (thousand) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, 2012 column",
+  "FY2011 operatingIncome: 4,505,093 (thousand) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, prior-year column in 2012 report",
+  "FY2010 operatingIncome: 4,829,741 (thousand) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, 2010 column (2011 report not in folder)",
+  "FY2009 operatingIncome: 4,509,183 (thousand) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, prior-year column in 2010 report",
+  "FY2025 employees: 43,555 (units) from https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf PDF p. 201 — average number of employees of the consolidated group in 2025 (average, not year-end; only figure printed)",
+  "FY2016 dividendPerShare: 0.317 (units) from https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf PDF p. 323 — Dividends paid (euros), 2017 column = dividend charged to 2016 (paid in 2017)",
+  "FY2015 dividendPerShare: 0.286 (units) from https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf PDF p. 323 — Dividends paid (euros), 2016 column in 2017 report = dividend charged to 2015",
+  "FY2014 dividendPerShare: 0.276 (units) from https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf PDF p. 294 — Dividends paid (euros), 2015 column in 2016 report = dividend charged to 2014",
+  "FY2013 dividendPerShare: 0.275 (units) from https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf PDF p. 279 — Dividends paid (euros), 2014 column in 2015 report = dividend charged to 2013",
+  "FY2012 dividendPerShare: 0.308 (units) from https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf PDF p. 259 — Dividendos pagados (euros), 2013 column in 2014 report = dividend charged to 2012",
+  "FY2012 sharesOutstanding: 6,138,893,000 (units) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 96 — issued shares (capital of 6,138,893,000 shares of EUR 0.75) at 31 Dec 2012; only issued count printed, treasury shares not deducted",
+  "FY2011 sharesOutstanding: 5,882,490,000 (units) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 95 — issued shares at 31 Dec 2011 (prior-year statement in 2012 report); treasury not deducted",
+  "FY2010 sharesOutstanding: 5,483,843,000 (units) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 95 — issued shares at 31 Dec 2010 (prior-year statement in 2012 report); treasury not deducted",
+  "FY2009 sharesOutstanding: 5,252,323,716 (units) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 82 — issued shares at 31 Dec 2009 (prior-year statement in 2010 report); treasury not deducted",
+  "FY2008 sharesOutstanding: 5,002,323,716 (units) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 82 — issued shares at 31 Dec 2008 (prior-year statement in 2010 report; also in 2008 report p.68); treasury not deducted",
+  "FY2007 sharesOutstanding: 4,993,742,040 (units) from https://web.archive.org/web/20110921185412id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/InformacionLegal2007.pdf PDF p. 64 — issued shares as described in 2007 report (capital EUR 3,745,306,530 at 0.75 per share ties to 2007 report p.120); treasury not deducted"
  ]
 }

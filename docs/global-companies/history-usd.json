@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-31T01:02:24.179Z",
+ "generatedAt": "2026-10-31T01:08:27.320Z",
  "basis": "Company annual reports, converted to USD at Yahoo historical FX (balance sheet: period-end rate; flows and per-share: 12-month average)",
  "companies": [
   {
@@ -22589,47 +22589,15 @@
    "fiscalYearEnd": "12-31",
    "irUrl": "https://www.iberdrola.com/shareholders-investors",
    "gaps": [
-    "FY2025 totalDebt: not found in the reports read",
-    "FY2025 employees: not found in the reports read",
-    "FY2024 totalDebt: not found in the reports read",
-    "FY2023 totalDebt: not found in the reports read",
-    "FY2022 totalDebt: not found in the reports read",
-    "FY2022 dividendPerShare: not found in the reports read",
-    "FY2021 totalDebt: not found in the reports read",
-    "FY2020 totalDebt: not found in the reports read",
-    "FY2019 totalDebt: not found in the reports read",
-    "FY2019 dividendPerShare: not found in the reports read",
-    "FY2018 operatingIncome: not found in the reports read",
-    "FY2018 dilutedEPS: not found in the reports read",
-    "FY2018 dividendPerShare: not found in the reports read",
-    "FY2017 operatingIncome: not found in the reports read",
-    "FY2016 totalDebt: not found in the reports read",
-    "FY2016 dividendPerShare: not found in the reports read",
-    "FY2015 totalDebt: not found in the reports read",
-    "FY2015 dividendPerShare: not found in the reports read",
-    "FY2014 totalDebt: not found in the reports read",
-    "FY2014 dividendPerShare: not found in the reports read",
-    "FY2013 operatingIncome: not found in the reports read",
-    "FY2013 totalDebt: not found in the reports read",
-    "FY2013 dividendPerShare: not found in the reports read",
-    "FY2012 operatingIncome: not found in the reports read",
-    "FY2012 dividendPerShare: not found in the reports read",
-    "FY2012 sharesOutstanding: not found in the reports read",
-    "FY2011 operatingIncome: not found in the reports read",
-    "FY2011 dividendPerShare: not found in the reports read",
-    "FY2011 sharesOutstanding: not found in the reports read",
-    "FY2010 operatingIncome: not found in the reports read",
-    "FY2010 totalDebt: not found in the reports read",
-    "FY2010 dividendPerShare: not found in the reports read",
-    "FY2010 sharesOutstanding: not found in the reports read",
-    "FY2009 operatingIncome: not found in the reports read",
-    "FY2009 dividendPerShare: not found in the reports read",
-    "FY2009 sharesOutstanding: not found in the reports read",
-    "FY2008 dividendPerShare: not found in the reports read",
-    "FY2008 sharesOutstanding: not found in the reports read",
-    "FY2007 totalDebt: not found in the reports read",
-    "FY2007 dividendPerShare: not found in the reports read",
-    "FY2007 sharesOutstanding: not found in the reports read"
+    "FY2022 dividendPerShare: not found in the company's reports (2023 report p.330 2023 column: interim 0.180 and final 0.316 (components, paid 2023 for FY2022); no printed FY total; not summed)",
+    "FY2019 dividendPerShare: not found in the company's reports (2020 report p.294 2020 column: interim 0.168 and complementary 0.232 (components, paid 2020 for FY2019); no printed FY total; not summed)",
+    "FY2018 dilutedEPS: not found in the company's reports (2018 report p.16 prints continuing diluted 0.475 and discontinued (0.008); 2019 report p.17 restated 2018 continuing diluted 0.454 and discontinued (0.008); no group basic-and-diluted total line printed in either report; not summed)",
+    "FY2018 dividendPerShare: not found in the company's reports (2019 report p.286 2019 column: interim 0.151 and complementary 0.200; 2019 report p.102 says the supplementary amount was not determinable at report date; no printed FY total; not summed)",
+    "FY2011 dividendPerShare: not found in the company's reports (2012 report p.101 complementary 0.03; extraordinary 1.20 (p.99) excluded as not ordinary; no printed FY ordinary total; 2011 report not in folder)",
+    "FY2010 dividendPerShare: not found in the company's reports (2010 report p.87 proposed complementary 0.03 (paid 1 Jul 2011); no printed FY total; 2011 report not in folder)",
+    "FY2009 dividendPerShare: not found in the company's reports (2009 report p.94 interim 0.143 (approved 15 Dec 2009); complementary not located as a printed total; 2010 report p.87 gives only 0.03 complementary for 2010)",
+    "FY2008 dividendPerShare: not found in the company's reports (2008 report p.73 interim 0.143 and proposed complementary 0.184; no printed FY total; not summed)",
+    "FY2007 dividendPerShare: not found in the company's reports (2007 report p.68 interim 0.115 (approved 18 Dec 2007) and p.69 proposed complementary 0.156; no printed FY total; not summed)"
    ],
    "notes": [
     "2007-2010, 2012 and 2014 read from the Spanish consolidated annual accounts.",
@@ -22639,7 +22607,39 @@
     "FY2010 dilutedEPS: Printed 0,527 (decimal comma written as a dot).",
     "FY2011 dilutedEPS: Prior-year column of the 2012 report, printed 0,458 (decimal comma written as a dot).",
     "FY2012 dilutedEPS: Printed 0,459 (decimal comma written as a dot).",
-    "FY2013 dilutedEPS: Prior-year column of the 2014 report, printed 0,396 (decimal comma written as a dot). This is the figure restated for the scrip issues (IAS 33)."
+    "FY2013 dilutedEPS: Prior-year column of the 2014 report, printed 0,396 (decimal comma written as a dot). This is the figure restated for the scrip issues (IAS 33).",
+    "FY2025 totalDebt: 57,410 (million) from https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf PDF p. 119 — Gross financial debt (A), 2025 column of net debt note",
+    "FY2024 totalDebt: 57,996 (million) from https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf PDF p. 119 — Gross financial debt (A), prior-year column in 2025 report",
+    "FY2023 totalDebt: 51,980 (million) from https://web.archive.org/web/20250517085037id_/https://www.iberdrola.com/documents/20125/4778712/gsm25-annual-accounts-consolidated-2024.pdf PDF p. 118 — Gross financial debt (A), prior-year column in 2024 report",
+    "FY2022 totalDebt: 50,080 (million) from https://web.archive.org/web/20240518034613id_/https://www.iberdrola.com/documents/20125/3643974/gsm24-annual-accounts-consolidated-2023.pdf PDF p. 108 — Gross financial debt (A), prior-year column in 2023 report",
+    "FY2021 totalDebt: 44,334 (million) from https://web.archive.org/web/20230306024025id_/https://www.iberdrola.com/documents/20125/2931678/gsm23_FinancialStatements_AuditorsReport_Consolidated2022.pdf PDF p. 111 — Gross financial debt (A), prior-year column in 2022 report",
+    "FY2020 totalDebt: 40,687 (million) from https://web.archive.org/web/20220407181925id_/https://www.iberdrola.com/documents/20125/1606413/gsm22_FinancialStatements_AuditorsReport_Consolidated2021.pdf PDF p. 103 — Gross financial debt (A), prior-year column in 2021 report",
+    "FY2019 totalDebt: 41,119 (million) from https://web.archive.org/web/20220119101404id_/https://www.iberdrola.com/documents/20125/42397/gsm21_FinancialStatements_AuditorsReport_Consolidated.pdf/bea1ca7d-18bc-320e-3125-486210b81190 PDF p. 99 — Gross financial debt (A), prior-year column in 2020 report; the 2019 report itself printed Gross debt 41,351,110 thousand (not restated)",
+    "FY2016 totalDebt: 32,025,746 (thousand) from https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf PDF p. 118 — Gross debt, prior-year column in 2017 report",
+    "FY2015 totalDebt: 30,340,038 (thousand) from https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf PDF p. 99 — Gross debt, prior-year column in 2016 report",
+    "FY2014 totalDebt: 28,191,329 (thousand) from https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf PDF p. 88 — Gross debt, prior-year column in 2015 report",
+    "FY2013 totalDebt: 28,496,175 (thousand) from https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf PDF p. 90 — Deuda bruta, prior-year column in 2014 report (2013 report not in folder)",
+    "FY2010 totalDebt: 32,984,755 (thousand) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 83 — Deuda bruta, 2010 column (2011 report not in folder)",
+    "FY2007 totalDebt: 22,760,736 (thousand) from https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf PDF p. 69 — Deuda Bruta, prior-year column in 2008 report",
+    "FY2018 operatingIncome: 5,439,373 (thousand) from https://web.archive.org/web/20201104085145id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/corporativos/docs/gsm20_FinancialStatements_AuditorsReport_Consolidated_Acc.pdf PDF p. 17 — OPERATING PROFIT (EBITDA) line, prior-year column in 2019 report; the 2019 report footnote defines EBIT as operating profit",
+    "FY2017 operatingIncome: 2,712,631 (thousand) from https://web.archive.org/web/20240604124650id_/https://www.iberdrola.com/documents/20125/595848/gsm19_FinancialStatements_AuditorsReport_Consolidated_Acc_en.pdf PDF p. 16 — OPERATING PROFIT (EBITDA) line, prior-year column in 2018 report",
+    "FY2013 operatingIncome: 2,219,458 (thousand) from https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf PDF p. 9 — BENEFICIO DE EXPLOTACION, 2013 re-expressed column in 2014 report (Nota 2.a)",
+    "FY2012 operatingIncome: 4,376,890 (thousand) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, 2012 column",
+    "FY2011 operatingIncome: 4,505,093 (thousand) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, prior-year column in 2012 report",
+    "FY2010 operatingIncome: 4,829,741 (thousand) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, 2010 column (2011 report not in folder)",
+    "FY2009 operatingIncome: 4,509,183 (thousand) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 14 — BENEFICIO DE EXPLOTACION, prior-year column in 2010 report",
+    "FY2025 employees: 43,555 (units) from https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf PDF p. 201 — average number of employees of the consolidated group in 2025 (average, not year-end; only figure printed)",
+    "FY2016 dividendPerShare: 0.317 (units) from https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf PDF p. 323 — Dividends paid (euros), 2017 column = dividend charged to 2016 (paid in 2017)",
+    "FY2015 dividendPerShare: 0.286 (units) from https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf PDF p. 323 — Dividends paid (euros), 2016 column in 2017 report = dividend charged to 2015",
+    "FY2014 dividendPerShare: 0.276 (units) from https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf PDF p. 294 — Dividends paid (euros), 2015 column in 2016 report = dividend charged to 2014",
+    "FY2013 dividendPerShare: 0.275 (units) from https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf PDF p. 279 — Dividends paid (euros), 2014 column in 2015 report = dividend charged to 2013",
+    "FY2012 dividendPerShare: 0.308 (units) from https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf PDF p. 259 — Dividendos pagados (euros), 2013 column in 2014 report = dividend charged to 2012",
+    "FY2012 sharesOutstanding: 6,138,893,000 (units) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 96 — issued shares (capital of 6,138,893,000 shares of EUR 0.75) at 31 Dec 2012; only issued count printed, treasury shares not deducted",
+    "FY2011 sharesOutstanding: 5,882,490,000 (units) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 95 — issued shares at 31 Dec 2011 (prior-year statement in 2012 report); treasury not deducted",
+    "FY2010 sharesOutstanding: 5,483,843,000 (units) from https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf PDF p. 95 — issued shares at 31 Dec 2010 (prior-year statement in 2012 report); treasury not deducted",
+    "FY2009 sharesOutstanding: 5,252,323,716 (units) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 82 — issued shares at 31 Dec 2009 (prior-year statement in 2010 report); treasury not deducted",
+    "FY2008 sharesOutstanding: 5,002,323,716 (units) from https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf PDF p. 82 — issued shares at 31 Dec 2008 (prior-year statement in 2010 report; also in 2008 report p.68); treasury not deducted",
+    "FY2007 sharesOutstanding: 4,993,742,040 (units) from https://web.archive.org/web/20110921185412id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/InformacionLegal2007.pdf PDF p. 64 — issued shares as described in 2007 report (capital EUR 3,745,306,530 at 0.75 per share ties to 2007 report p.120); treasury not deducted"
    ],
    "years": [
     {
@@ -22651,7 +22651,23 @@
      "source": {
       "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2025",
-      "page": "PDF pp. 14, 15, 16, 20, 31, 123"
+      "page": "PDF pp. 14, 15, 16, 20, 31, 123",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
+        "page": "PDF p. 119",
+        "fields": [
+         "totalDebt"
+        ]
+       },
+       {
+        "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
+        "page": "PDF p. 201",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1747292280197144,
      "fxAverage": 1.132278134425481,
@@ -22665,9 +22681,9 @@
      "totalAssets": 188851820154.90533,
      "totalEquity": 74500152911.78226,
      "cashAndEquivalents": 4311256266.832352,
-     "totalDebt": null,
+     "totalDebt": 67441204980.6118,
      "sharesOutstanding": 6681227377,
-     "employees": null,
+     "employees": 43555,
      "freeCashFlow": 4560816325.4658375
     },
     {
@@ -22679,7 +22695,17 @@
      "source": {
       "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2025 (prior-year column)",
-      "page": "PDF pp. 14, 15, 16, 20, 31, 123"
+      "page": "PDF pp. 14, 15, 16, 20, 31, 123",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20260303213448id_/https://www.iberdrola.com/documents/20125/5613162/gsm26-annual-accounts-consolidated-2025.pdf",
+        "page": "PDF p. 119",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.040615200996399,
      "fxAverage": 1.0802579522132874,
@@ -22693,7 +22719,7 @@
      "totalAssets": 164722102011.32297,
      "totalEquity": 63530598636.03115,
      "cashAndEquivalents": 4247791250.4673004,
-     "totalDebt": null,
+     "totalDebt": 60351519196.98715,
      "sharesOutstanding": 6440265033,
      "employees": 41689,
      "freeCashFlow": 4601898876.428604
@@ -22707,7 +22733,17 @@
      "source": {
       "url": "https://web.archive.org/web/20250531054534id_/https://www.iberdrola.com/documents/20125/4778712/gsm25-annual-accounts-consolidated-2024.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2024 (prior-year column)",
-      "page": "PDF pp. 15, 16, 17, 21, 30, 171"
+      "page": "PDF pp. 15, 16, 17, 21, 30, 171",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20250517085037id_/https://www.iberdrola.com/documents/20125/4778712/gsm25-annual-accounts-consolidated-2024.pdf",
+        "page": "PDF p. 118",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.1068191528320312,
      "fxAverage": 1.0847990016142528,
@@ -22721,7 +22757,7 @@
      "totalAssets": 166059397956.84814,
      "totalEquity": 66732340362.54883,
      "cashAndEquivalents": 3341487022.3999023,
-     "totalDebt": null,
+     "totalDebt": 57532459564.208984,
      "sharesOutstanding": 6423299000,
      "employees": 41448,
      "freeCashFlow": 5200526413.738729
@@ -22735,7 +22771,17 @@
      "source": {
       "url": "https://web.archive.org/web/20261011165633id_/https://www.iberdrola.com/documents/20125/3643974/gsm24-annual-accounts-consolidated-2023.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2023 (prior-year column)",
-      "page": "PDF pp. 15, 16, 17, 21, 32, 126, 161"
+      "page": "PDF pp. 15, 16, 17, 21, 32, 126, 161",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20240518034613id_/https://www.iberdrola.com/documents/20125/3643974/gsm24-annual-accounts-consolidated-2023.pdf",
+        "page": "PDF p. 108",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.066075325012207,
      "fxAverage": 1.0517233262459438,
@@ -22749,7 +22795,7 @@
      "totalAssets": 160032831338.88245,
      "totalEquity": 43835951289.17694,
      "cashAndEquivalents": 4912475097.65625,
-     "totalDebt": null,
+     "totalDebt": 53389052276.61133,
      "sharesOutstanding": 6472869744,
      "employees": 40090,
      "freeCashFlow": 4381479377.140602
@@ -22763,7 +22809,17 @@
      "source": {
       "url": "https://web.archive.org/web/20230306024025id_/https://www.iberdrola.com/documents/20125/2931678/gsm23_FinancialStatements_AuditorsReport_Consolidated2022.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2022 (prior-year column)",
-      "page": "PDF pp. 15, 16, 17, 21, 54, 99, 100, 126"
+      "page": "PDF pp. 15, 16, 17, 21, 54, 99, 100, 126",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20230306024025id_/https://www.iberdrola.com/documents/20125/2931678/gsm23_FinancialStatements_AuditorsReport_Consolidated2022.pdf",
+        "page": "PDF p. 111",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.132502794265747,
      "fxAverage": 1.181806057691574,
@@ -22777,7 +22833,7 @@
      "totalAssets": 160534536092.75818,
      "totalEquity": 63562851830.95932,
      "cashAndEquivalents": 4567383769.273758,
-     "totalDebt": null,
+     "totalDebt": 50208378880.97763,
      "sharesOutstanding": 6437563000,
      "employees": 38702,
      "freeCashFlow": 2102432976.6333103
@@ -22791,7 +22847,17 @@
      "source": {
       "url": "https://web.archive.org/web/20220407181925id_/https://www.iberdrola.com/documents/20125/1606413/gsm22_FinancialStatements_AuditorsReport_Consolidated2021.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2021 (prior-year column)",
-      "page": "PDF pp. 15, 16, 17, 21, 51, 118, 147"
+      "page": "PDF pp. 15, 16, 17, 21, 51, 118, 147",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20220407181925id_/https://www.iberdrola.com/documents/20125/1606413/gsm22_FinancialStatements_AuditorsReport_Consolidated2021.pdf",
+        "page": "PDF p. 103",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.2299896478652954,
      "fxAverage": 1.147858162720998,
@@ -22805,7 +22871,7 @@
      "totalAssets": 150695871677.16028,
      "totalEquity": 33937874363.89923,
      "cashAndEquivalents": 4215174523.2343674,
-     "totalDebt": null,
+     "totalDebt": 50044588802.695274,
      "sharesOutstanding": 6437104371,
      "employees": 35637,
      "freeCashFlow": 2865053974.1516104
@@ -22819,7 +22885,17 @@
      "source": {
       "url": "https://web.archive.org/web/20220119101404id_/https://www.iberdrola.com/documents/20125/42397/gsm21_FinancialStatements_AuditorsReport_Consolidated.pdf/bea1ca7d-18bc-320e-3125-486210b81190",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2020 (prior-year column)",
-      "page": "PDF pp. 18, 19, 20, 24, 29, 51"
+      "page": "PDF pp. 18, 19, 20, 24, 29, 51",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20220119101404id_/https://www.iberdrola.com/documents/20125/42397/gsm21_FinancialStatements_AuditorsReport_Consolidated.pdf/bea1ca7d-18bc-320e-3125-486210b81190",
+        "page": "PDF p. 99",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.120229721069336,
      "fxAverage": 1.1193193296591442,
@@ -22833,7 +22909,7 @@
      "totalAssets": 137081390737.53357,
      "totalEquity": 52869241685.86731,
      "cashAndEquivalents": 2367045400.619507,
-     "totalDebt": null,
+     "totalDebt": 46062725900.650024,
      "sharesOutstanding": 6362072000,
      "employees": 34306,
      "freeCashFlow": 1954331549.5848665
@@ -22847,12 +22923,22 @@
      "source": {
       "url": "https://web.archive.org/web/20201104085145id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/corporativos/docs/gsm20_FinancialStatements_AuditorsReport_Consolidated_Acc.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2019 (prior-year column)",
-      "page": "PDF pp. 15, 16, 17, 21, 49, 60, 109"
+      "page": "PDF pp. 15, 16, 17, 21, 49, 60, 109",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20201104085145id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/corporativos/docs/gsm20_FinancialStatements_AuditorsReport_Consolidated_Acc.pdf",
+        "page": "PDF p. 17",
+        "fields": [
+         "operatingIncome"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.1439945697784424,
      "fxAverage": 1.1790358225504558,
      "revenue": 41355710774.23032,
-     "operatingIncome": null,
+     "operatingIncome": 6413215619.21374,
      "netIncome": 3553675279.029846,
      "operatingCashFlow": 8944458150.75175,
      "capex": -6174788637.105942,
@@ -22875,12 +22961,22 @@
      "source": {
       "url": "https://web.archive.org/web/20240604124650id_/https://www.iberdrola.com/documents/20125/595848/gsm19_FinancialStatements_AuditorsReport_Consolidated_Acc_en.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2018 (prior-year column)",
-      "page": "PDF pp. 14, 15, 16, 20, 52, 98, 147"
+      "page": "PDF pp. 14, 15, 16, 20, 52, 98, 147",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20240604124650id_/https://www.iberdrola.com/documents/20125/595848/gsm19_FinancialStatements_AuditorsReport_Consolidated_Acc_en.pdf",
+        "page": "PDF p. 16",
+        "fields": [
+         "operatingIncome"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.1941723823547363,
      "fxAverage": 1.13605331381162,
      "revenue": 35516732395.6609,
-     "operatingIncome": null,
+     "operatingIncome": 3081693436.6981287,
      "netIncome": 3185486675.6078997,
      "operatingCashFlow": 6458977721.170217,
      "capex": -6355504849.29494,
@@ -22903,7 +22999,24 @@
      "source": {
       "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2017 (prior-year column)",
-      "page": "PDF pp. 15, 16, 17, 21, 107, 162, 167"
+      "page": "PDF pp. 15, 16, 17, 21, 107, 162, 167",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
+        "page": "PDF p. 118",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
+        "page": "PDF p. 323",
+        "fields": [
+         "dividendPerShare"
+        ]
+       }
+      ]
      },
      "fxClose": 1.0575296878814697,
      "fxAverage": 1.1041130423545837,
@@ -22913,11 +23026,11 @@
      "operatingCashFlow": 7419511567.50989,
      "capex": -5122158165.682734,
      "dilutedEPS": 0.4670398169159889,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.35000383442640304,
      "totalAssets": 112844995531.61145,
      "totalEquity": 38801784764.51993,
      "cashAndEquivalents": 1515107978.4121513,
-     "totalDebt": null,
+     "totalDebt": 33868177171.551228,
      "sharesOutstanding": 6362079000,
      "employees": 28389,
      "freeCashFlow": 2297353401.827156
@@ -22931,7 +23044,25 @@
      "source": {
       "url": "https://web.archive.org/web/20240925105734id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2016 (prior-year column)",
-      "page": "PDF pp. 9, 10, 11, 15, 56, 149"
+      "page": "PDF pp. 9, 10, 11, 15, 56, 149",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf",
+        "page": "PDF p. 99",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20240604124341id_/https://www.iberdrola.com/documents/20125/42343/FinancialStatements_AuditorsReport_Consolidated17.pdf",
+        "page": "PDF p. 323",
+        "fields": [
+         "dividendPerShare"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.093398094177246,
      "fxAverage": 1.1049070954322815,
@@ -22941,11 +23072,11 @@
      "operatingCashFlow": 6916647703.3519745,
      "capex": -4230687058.596015,
      "dilutedEPS": 0.40660581111907956,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.31600342929363245,
      "totalAssets": 114439617127.42043,
      "totalEquity": 40629205839.38408,
      "cashAndEquivalents": 1260986500.2660751,
-     "totalDebt": null,
+     "totalDebt": 33173739726.465225,
      "sharesOutstanding": 6336870000,
      "employees": 27169,
      "freeCashFlow": 2685960644.7559595
@@ -22959,7 +23090,25 @@
      "source": {
       "url": "https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2015 (prior-year column)",
-      "page": "PDF pp. 7, 8, 9, 13, 49, 134"
+      "page": "PDF pp. 7, 8, 9, 13, 49, 134",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf",
+        "page": "PDF p. 88",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20240805002611id_/https://www.iberdrola.com/documents/20125/42328/FinancialStatements_AuditorsReport_Consolidated16.pdf",
+        "page": "PDF p. 294",
+        "fields": [
+         "dividendPerShare"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.2162047624588013,
      "fxAverage": 1.321585049231847,
@@ -22969,11 +23118,11 @@
      "operatingCashFlow": 8987168202.366083,
      "capex": -4445040299.947182,
      "dilutedEPS": 0.47444903267423305,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.3647574735879898,
      "totalAssets": 114009938729.86078,
      "totalEquity": 42511817207.31854,
      "cashAndEquivalents": 2195897833.376527,
-     "totalDebt": null,
+     "totalDebt": 34286428589.842915,
      "sharesOutstanding": 6388483000,
      "employees": 28021,
      "freeCashFlow": 4542127902.418901
@@ -22987,21 +23136,47 @@
      "source": {
       "url": "https://web.archive.org/web/20230604211254id_/http://www.iberdrola.com/wcorp/gc/prod/es_ES/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
       "document": "Iberdrola Cuentas Anuales Consolidadas 2014 (prior-year column)",
-      "page": "PDF pp. 7, 8, 10, 13, 130"
+      "page": "PDF pp. 7, 8, 10, 13, 130",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
+        "page": "PDF p. 90",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
+        "page": "PDF p. 9",
+        "fields": [
+         "operatingIncome"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20260731080639id_/https://www.iberdrola.com/documents/20125/4230713/FinancialStatements_AuditorsReport_Consolidated15.pdf",
+        "page": "PDF p. 279",
+        "fields": [
+         "dividendPerShare"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.3810056447982788,
      "fxAverage": 1.332046647866567,
      "revenue": 41396162864.97386,
-     "operatingIncome": null,
+     "operatingIncome": 2956421588.9806347,
      "netIncome": 3149934665.74945,
      "operatingCashFlow": 7733195482.142706,
      "capex": -4118489760.252893,
      "dilutedEPS": 0.5274904725551606,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.3663128281633059,
      "totalAssets": 123996186727.82004,
      "totalEquity": 47761650732.59294,
      "cashAndEquivalents": 1839133552.3754358,
-     "totalDebt": null,
+     "totalDebt": 39353378530.15959,
      "sharesOutstanding": 6239975000,
      "employees": 28212,
      "freeCashFlow": 3614705721.889813
@@ -23015,22 +23190,46 @@
      "source": {
       "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
       "document": "Iberdrola Cuentas Anuales Consolidadas 2012",
-      "page": "PDF pp. 12, 13, 15, 17, 65, 135"
+      "page": "PDF pp. 12, 13, 15, 17, 65, 135",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+        "page": "PDF p. 14",
+        "fields": [
+         "operatingIncome"
+        ]
+       },
+       {
+        "url": "https://web.archive.org/web/20191016100610id_/https://www.iberdrola.com/wcorp/gc/prod/en_US/inversores/docs/IA_CuentasAnualesConsolidadas2014.pdf",
+        "page": "PDF p. 259",
+        "fields": [
+         "dividendPerShare"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+        "page": "PDF p. 96",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.3227688074111938,
      "fxAverage": 1.2902992864449818,
      "revenue": 44129774923.46711,
-     "operatingIncome": null,
+     "operatingIncome": 5647498043.848176,
      "netIncome": 3701273824.8396015,
      "operatingCashFlow": 9006162570.0559,
      "capex": -5027618912.15071,
      "dilutedEPS": 0.5922473724782467,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.39741218022505437,
      "totalAssets": 128065680896.62492,
      "totalEquity": 44656651128.36337,
      "cashAndEquivalents": 4026377295.6477404,
      "totalDebt": 44910621416.617516,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 6138893000,
      "employees": 31338,
      "freeCashFlow": 3978543657.9051905
     },
@@ -23043,12 +23242,30 @@
      "source": {
       "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
       "document": "Iberdrola Cuentas Anuales Consolidadas 2012 (prior-year column)",
-      "page": "PDF pp. 12, 13, 15, 17, 65, 135"
+      "page": "PDF pp. 12, 13, 15, 17, 65, 135",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+        "page": "PDF p. 14",
+        "fields": [
+         "operatingIncome"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+        "page": "PDF p. 95",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.2956053018569946,
      "fxAverage": 1.3987077871958415,
      "revenue": 44266353003.94655,
-     "operatingIncome": null,
+     "operatingIncome": 6301308661.141476,
      "netIncome": 4063566425.8871875,
      "operatingCashFlow": 8548450212.725719,
      "capex": -5655477719.728391,
@@ -23058,7 +23275,7 @@
      "totalEquity": 42609702625.5995,
      "cashAndEquivalents": 2709119755.420089,
      "totalDebt": 44863510400.9986,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 5882490000,
      "employees": 31885,
      "freeCashFlow": 2892972492.9973288
     },
@@ -23071,12 +23288,36 @@
      "source": {
       "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2010",
-      "page": "PDF pp. 12, 13, 15, 17, 55, 115"
+      "page": "PDF pp. 12, 13, 15, 17, 55, 115",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+        "page": "PDF p. 83",
+        "fields": [
+         "totalDebt"
+        ]
+       },
+       {
+        "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+        "page": "PDF p. 14",
+        "fields": [
+         "operatingIncome"
+        ]
+       },
+       {
+        "url": "https://web.archive.org/web/20161104210551id_/https://www.iberdrola.com/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2012.pdf",
+        "page": "PDF p. 95",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.3301233053207397,
      "fxAverage": 1.3194849292437236,
      "revenue": 40153290744.303345,
-     "operatingIncome": null,
+     "operatingIncome": 6372770461.650511,
      "netIncome": 3788140951.004108,
      "operatingCashFlow": 10449085601.716518,
      "capex": -6895514764.523785,
@@ -23085,8 +23326,8 @@
      "totalAssets": 124633819985.93997,
      "totalEquity": 38678388240.63742,
      "cashAndEquivalents": 2795728980.151534,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 43873791345.7948,
+     "sharesOutstanding": 5483843000,
      "employees": 31344,
      "freeCashFlow": 3553570837.192734
     },
@@ -23099,12 +23340,30 @@
      "source": {
       "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2010 (prior-year column)",
-      "page": "PDF pp. 12, 13, 15, 17, 55, 115"
+      "page": "PDF pp. 12, 13, 15, 17, 55, 115",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+        "page": "PDF p. 14",
+        "fields": [
+         "operatingIncome"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+        "page": "PDF p. 82",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.4327058792114258,
      "fxAverage": 1.3962559898694356,
      "revenue": 36151773521.82806,
-     "operatingIncome": null,
+     "operatingIncome": 6295973773.167431,
      "netIncome": 3943494661.1478925,
      "operatingCashFlow": 9049352886.27823,
      "capex": -6392579328.850508,
@@ -23114,7 +23373,7 @@
      "totalEquity": 38162490788.32054,
      "cashAndEquivalents": 1562536253.279686,
      "totalDebt": 47109319221.17329,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 5252323716,
      "employees": 32711,
      "freeCashFlow": 2656773557.427723
     },
@@ -23127,7 +23386,17 @@
      "source": {
       "url": "https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2008",
-      "page": "PDF pp. 12, 13, 15, 46, 74, 98"
+      "page": "PDF pp. 12, 13, 15, 46, 74, 98",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20111104100220id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/IA_CuentasAnualesConsolidadas2010.pdf",
+        "page": "PDF p. 82",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.3979953527450562,
      "fxAverage": 1.470569630463918,
@@ -23142,7 +23411,7 @@
      "totalEquity": 32662233581.296803,
      "cashAndEquivalents": 2917076674.9727726,
      "totalDebt": 47522255939.198135,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 5002323716,
      "employees": 30413,
      "freeCashFlow": -3281836421.2048264
     },
@@ -23155,7 +23424,24 @@
      "source": {
       "url": "https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf",
       "document": "Iberdrola Consolidated Financial Statements and Auditor's Report 2008 (prior-year column)",
-      "page": "PDF pp. 12, 13, 15, 46, 74, 98"
+      "page": "PDF pp. 12, 13, 15, 46, 74, 98",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20110515200238id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/CuentasConsolidadas2008.pdf",
+        "page": "PDF p. 69",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20110921185412id_/http://www.iberdrola.es/webibd/gc/prod/es/doc/InformacionLegal2007.pdf",
+        "page": "PDF p. 64",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.4601097106933594,
      "fxAverage": 1.3800255060195923,
@@ -23169,8 +23455,8 @@
      "totalAssets": 98604656082.1495,
      "totalEquity": 37287139985.89325,
      "cashAndEquivalents": 1431749999.7825623,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 33233171656.12793,
+     "sharesOutstanding": 4993742040,
      "employees": 58213,
      "freeCashFlow": 2821609809.7861996
     }
@@ -23742,58 +24028,13 @@
    "fiscalYearEnd": "01-31",
    "irUrl": "https://www.inditex.com/itxcomweb/ww/en/investors",
    "gaps": [
-    "FY2026 operatingIncome: not found in the reports read",
-    "FY2026 totalDebt: not found in the reports read",
-    "FY2026 employees: not found in the reports read",
-    "FY2025 operatingIncome: not found in the reports read",
-    "FY2025 totalDebt: not found in the reports read",
-    "FY2025 employees: not found in the reports read",
-    "FY2024 totalDebt: not found in the reports read",
-    "FY2024 sharesOutstanding: not found in the reports read",
-    "FY2024 employees: not found in the reports read",
-    "FY2023 totalDebt: not found in the reports read",
-    "FY2023 dividendPerShare: not found in the reports read",
-    "FY2023 sharesOutstanding: not found in the reports read",
-    "FY2023 employees: not found in the reports read",
-    "FY2022 totalDebt: not found in the reports read",
-    "FY2022 dividendPerShare: not found in the reports read",
-    "FY2022 sharesOutstanding: not found in the reports read",
-    "FY2022 employees: not found in the reports read",
-    "FY2021 totalDebt: not found in the reports read",
-    "FY2021 sharesOutstanding: not found in the reports read",
-    "FY2021 employees: not found in the reports read",
-    "FY2020 totalDebt: not found in the reports read",
-    "FY2020 sharesOutstanding: not found in the reports read",
-    "FY2019 totalDebt: not found in the reports read",
-    "FY2019 dividendPerShare: not found in the reports read",
-    "FY2019 sharesOutstanding: not found in the reports read",
-    "FY2018 totalDebt: not found in the reports read",
-    "FY2018 sharesOutstanding: not found in the reports read",
-    "FY2017 totalDebt: not found in the reports read",
-    "FY2017 sharesOutstanding: not found in the reports read",
-    "FY2016 totalDebt: not found in the reports read",
-    "FY2016 sharesOutstanding: not found in the reports read",
-    "FY2015 totalDebt: not found in the reports read",
-    "FY2015 sharesOutstanding: not found in the reports read",
-    "FY2014 totalDebt: not found in the reports read",
-    "FY2014 sharesOutstanding: not found in the reports read",
-    "FY2013 dilutedEPS: not found in the reports read",
-    "FY2013 totalDebt: not found in the reports read",
-    "FY2013 sharesOutstanding: not found in the reports read",
-    "FY2012 dilutedEPS: not found in the reports read",
-    "FY2012 totalDebt: not found in the reports read",
-    "FY2011 dilutedEPS: not found in the reports read",
-    "FY2011 totalDebt: not found in the reports read",
-    "FY2011 dividendPerShare: not found in the reports read",
-    "FY2011 sharesOutstanding: not found in the reports read",
-    "FY2010 dilutedEPS: not found in the reports read",
-    "FY2010 totalDebt: not found in the reports read",
-    "FY2010 dividendPerShare: not found in the reports read",
-    "FY2009 dilutedEPS: not found in the reports read",
-    "FY2009 dividendPerShare: not found in the reports read",
-    "FY2008 dilutedEPS: not found in the reports read",
-    "FY2008 dividendPerShare: not found in the reports read",
-    "FY2008 sharesOutstanding: not found in the reports read"
+    "FY2026 totalDebt: cannot exist: No single total line in the 2026 report: balance sheet shows current financial debt 2 and non-current financial debt nil as separate lines (not summed)",
+    "FY2013 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+    "FY2012 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+    "FY2011 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+    "FY2010 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+    "FY2009 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))",
+    "FY2008 dilutedEPS: not found in the company's reports (reports of that year print EPS in euro cents on the pre-2014-split basis only; no split-adjusted figure printed (Inditex prints EPS only in euro cents on the pre-2014-split share basis (e.g. 2013 report p133 'EARNINGS PER SHARE, euro cents'); not recorded as a per-share euro figure per owner instruction))"
    ],
    "notes": [
     "fiscalYear is the calendar year of the 31 January year-end: Inditex \"FY2024\" = fiscalYear 2025.",
@@ -23846,7 +24087,52 @@
     "FY2010 capex: Payments for investments in property, plant and equipment only (intangibles excluded), current column",
     "FY2009 capex: Payments for investments in property, plant and equipment only (intangibles excluded), prior-year column of the next report",
     "FY2008 capex: read from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 (PDF p. 228)",
-    "FY2008 capex: Payments for investments in property, plant and equipment only (intangibles excluded), prior-year column of the next report"
+    "FY2008 capex: Payments for investments in property, plant and equipment only (intangibles excluded), prior-year column of the next report",
+    "FY2026 operatingIncome: 7,997 (million) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 16 — Net operating profit (EBIT), consolidated income statement, 31/01/2026 column",
+    "FY2025 operatingIncome: 7,554 (million) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 16 — Net operating profit (EBIT), 31/01/2025 prior-year column in the 2026 report",
+    "FY2026 employees: 163,047 (units) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 40 — Headcount table at 31 January 2026, Total (Group and jointly controlled entities)",
+    "FY2025 employees: 162,083 (units) from https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929 PDF p. 41 — Headcount table, 31 January 2025 Total, prior-year column in the 2026 report",
+    "FY2024 employees: 161,281 (units) from https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340 PDF p. 40 — Headcount table, 31 January 2024 Total, prior-year column in the 2025 report",
+    "FY2023 employees: 164,997 (units) from https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773 PDF p. 30 — Headcount table, 31 January 2023 Total, prior-year column in the 2024 report",
+    "FY2022 employees: 165,042 (units) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 42 — Headcount table, 31 January 2022 Total, prior-year column in the 2023 report",
+    "FY2021 employees: 144,116 (units) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 63 — Headcount table, 31 January 2021 Total, prior-year column in the 2022 report",
+    "FY2010 totalDebt: 40,054 (thousand) from https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9 PDF p. 187 — Group loans and borrowings table at 31/01/2010, printed Total row (current 35,058; non-current 4,996)",
+    "FY2011 totalDebt: 6,854 (thousand) from https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645 PDF p. 127 — Total column for 31/01/2011 in the bank borrowings and finance leases table (prior-year column of the 2012 report)",
+    "FY2012 totalDebt: 2,230 (thousand) from https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de PDF p. 146 — Total column for 31/01/2012, borrowings table, prior-year column in the 2013 report",
+    "FY2013 totalDebt: 6,743 (thousand) from https://web.archive.org/web/20150924034510id_/http://www.inditex.com/documents/10279/18789/Inditex_Group_Annual_Report_2013.pdf/88b623b8-b6b0-4d38-b45e-45822932ff72 PDF p. 191 — Total column for 31/01/2013, borrowings table, prior-year column in the 2014 report",
+    "FY2014 totalDebt: 4,654 (thousand) from https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099 PDF p. 203 — Total column for 31/01/2014, borrowings table, prior-year column in the 2015 report",
+    "FY2015 totalDebt: 10,088 (thousand) from https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a PDF p. 190 — Total column for 31/01/2015, borrowings table, prior-year column in the 2016 report",
+    "FY2016 totalDebt: 11,003 (thousand) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf PDF p. 51 — Total column for 31/01/2016 (10,254 current plus 749 non-current), prior-year column in the 2017 report",
+    "FY2017 totalDebt: 62,194 (thousand) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf PDF p. 51 — Total column for 31/01/2017, loans and finance leases table (61,696 current plus 498 non-current)",
+    "FY2018 totalDebt: 16 (million) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf PDF p. 51 — Total column for 31/01/2018, prior-year column in the 2019 report (current 12, non-current 4)",
+    "FY2019 totalDebt: 90 (million) from https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304 PDF p. 55 — Total column for 31/01/2019, prior-year column in the 2020 report (current 84, non-current 5)",
+    "FY2020 totalDebt: 39 (million) from https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616 PDF p. 63 — Total column for 31/01/2020, prior-year column in the 2021 report (current 32, non-current 6)",
+    "FY2021 totalDebt: 14 (million) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 82 — Total column for 31/01/2021, prior-year column in the 2022 report (current 11, non-current 3)",
+    "FY2022 totalDebt: 36 (million) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 52 — Total column for 31/01/2022, prior-year column in the 2023 report (current 35, non-current 1)",
+    "FY2023 totalDebt: 13 (million) from https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773 PDF p. 41 — Total column for 31/01/2023, prior-year column in the 2024 report (current 12, non-current 1)",
+    "FY2024 totalDebt: 16 (million) from https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340 PDF p. 49 — Total column for 31/01/2024, prior-year column in the 2025 report (current 15, non-current 1)",
+    "FY2025 totalDebt: 7 (million) from https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340 PDF p. 49 — Total column for 31/01/2025, debt table (current 6, non-current 1)",
+    "FY2024 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773 PDF p. 43 — Share capital note: EUR 94m divided into 3,116,652,000 fully subscribed and paid shares. Issued count as printed; no net-of-treasury figure printed in this sentence",
+    "FY2023 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 54 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+    "FY2022 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 86 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+    "FY2021 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616 PDF p. 65 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+    "FY2020 sharesOutstanding: 3,116,652,000 (units) from https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304 PDF p. 57 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+    "FY2019 sharesOutstanding: 3,116,652,000 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf PDF p. 53 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+    "FY2018 sharesOutstanding: 3,116,652,000 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2017.pdf PDF p. 62 — Share capital note, fully subscribed and paid shares (issued count as printed)",
+    "FY2017 sharesOutstanding: 3,116,652,000 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf PDF p. 53 — Share capital note: 3,116,652,000 fully subscribed and paid shares of Euros 0.03 par value (issued count as printed)",
+    "FY2016 sharesOutstanding: 3,116,652,000 (units) from https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a PDF p. 120 — Share capital note: EUR 93,499,560 divided into 3,116,652,000 shares (issued count as printed)",
+    "FY2015 sharesOutstanding: 3,116,652,000 (units) from https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099 PDF p. 205 — Share capital note, 3,116,652,000 shares of EUR 0.03 par value (post 5-for-1 split; issued count as printed)",
+    "FY2014 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099 PDF p. 205 — Share capital note in the 2015 report: at 31 January 2014 divided into 623,330,400 shares of EUR 0.15 par value (pre-split basis; issued count as printed)",
+    "FY2013 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de PDF p. 148 — Note on share capital: 623,330,400 registered shares of EUR 0.15 par value (pre-split basis; issued count as printed)",
+    "FY2011 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645 PDF p. 129 — Share capital sentence 'At 31 January 2012 and 2011': 623,330,400 registered shares (prior-year column; pre-split basis; issued count as printed)",
+    "FY2008 sharesOutstanding: 623,330,400 (units) from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 PDF p. 243 — Share capital sentence 'At 31 January 2009 and 2008': 623,330,400 registered shares (prior-year column; pre-split basis; issued count as printed)",
+    "FY2023 dividendPerShare: 0.796 (units) from https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881 PDF p. 80 — Ordinary dividend 0.796 for FY ended 31/01/2023 (total 1.20 = ordinary 0.796 + bonus 0.404; ordinary per brief)",
+    "FY2022 dividendPerShare: 0.63 (units) from https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257 PDF p. 104 — Ordinary dividend 0.63 for FY ended 31/01/2022 (total 0.93 = ordinary 0.63 + bonus 0.30; ordinary per brief)",
+    "FY2019 dividendPerShare: 0.66 (units) from https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf PDF p. 89 — Ordinary dividend 0.66 for FY ended 31/01/2019 (total 0.88 = ordinary 0.66 + bonus 0.22; ordinary per brief)",
+    "FY2011 dividendPerShare: 1.40 (units) from https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645 PDF p. 210 — AGM resolution text printed in the 2012 report: fixed gross dividend 1.60 = ordinary 1.40 + extraordinary 0.20 for FY ended 31/01/2011 (ordinary per brief)",
+    "FY2010 dividendPerShare: 1.10 (units) from https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9 PDF p. 218 — Ordinary dividend 1.10 for FY ended 31/01/2010 (total 1.20 = ordinary 1.10 + bonus 0.10; ordinary per brief)",
+    "FY2009 dividendPerShare: 1.05 (units) from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 PDF p. 274 — Total dividend 1.05 proposed for FY ended 31/01/2009 (0.55 payable 4 May 2009, 0.50 on 2 Nov 2009); no bonus element printed",
+    "FY2008 dividendPerShare: 1.05 (units) from https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2 PDF p. 342 — AGM 15 July 2008 resolution for FY ended 31/01/2008: 1.05 gross ordinary dividend paid from 1 Aug 2008 (report of the following year)"
    ],
    "years": [
     {
@@ -23858,12 +24144,28 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2025 (ended 31 January 2026)",
-      "page": "PDF pp. 20, 22, 33, 42, 43, 50"
+      "page": "PDF pp. 20, 22, 33, 42, 43, 50",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+        "page": "PDF p. 16",
+        "fields": [
+         "operatingIncome"
+        ]
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+        "page": "PDF p. 40",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 1.19657301902771,
      "fxAverage": 1.1453485588232677,
      "revenue": 45658174948.93074,
-     "operatingIncome": null,
+     "operatingIncome": 9159352424.909672,
      "netIncome": 7124068035.880725,
      "operatingCashFlow": 10573857895.056408,
      "capex": -2511749389.499426,
@@ -23874,7 +24176,7 @@
      "cashAndEquivalents": 6313119248.390198,
      "totalDebt": null,
      "sharesOutstanding": 3116652000,
-     "employees": null,
+     "employees": 163047,
      "freeCashFlow": 8062108505.556982
     },
     {
@@ -23886,12 +24188,37 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2024 (ended 31 January 2025)",
-      "page": "PDF pp. 20, 22, 27, 33, 42"
+      "page": "PDF pp. 20, 22, 27, 33, 42",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+        "page": "PDF p. 16",
+        "fields": [
+         "operatingIncome"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/50ba1fc0-3862-4408-8da2-4f973f1be18e/AnnualAccountsDirectorsReportandAuditReportconsolidated.pdf?t=1785169856929",
+        "page": "PDF p. 41",
+        "fields": [
+         "employees"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
+        "page": "PDF p. 49",
+        "fields": [
+         "totalDebt"
+        ]
+       }
+      ]
      },
      "fxClose": 1.0397279262542725,
      "fxAverage": 1.0765402813752492,
      "revenue": 41588904150.08862,
-     "operatingIncome": null,
+     "operatingIncome": 8132185285.508632,
      "netIncome": 6314985290.547212,
      "operatingCashFlow": 9998906133.413315,
      "capex": -2375924400.995175,
@@ -23900,9 +24227,9 @@
      "totalAssets": 36093115231.990814,
      "totalEquity": 20457686676.979065,
      "cashAndEquivalents": 6635543625.354767,
-     "totalDebt": null,
+     "totalDebt": 7278095.483779907,
      "sharesOutstanding": 3116652000,
-     "employees": null,
+     "employees": 162083,
      "freeCashFlow": 7622981732.41814
     },
     {
@@ -23914,7 +24241,32 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2023 (ended 31 January 2024)",
-      "page": "PDF pp. 3, 7, 9, 11, 32, 40"
+      "page": "PDF pp. 3, 7, 9, 11, 32, 40",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
+        "page": "PDF p. 40",
+        "fields": [
+         "employees"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/84135f02-0208-4439-b9c0-b13608fbfeb5/Annualaccountsanddirectorsreport2024consolidated.pdf?t=1742203067340",
+        "page": "PDF p. 49",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
+        "page": "PDF p. 43",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.08433997631073,
      "fxAverage": 1.0847382148106892,
@@ -23928,9 +24280,9 @@
      "totalAssets": 35495869124.531746,
      "totalEquity": 20214265838.38463,
      "cashAndEquivalents": 7597970214.009285,
-     "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "totalDebt": 17349439.62097168,
+     "sharesOutstanding": 3116652000,
+     "employees": 161281,
      "freeCashFlow": 7883877345.24409
     },
     {
@@ -23942,7 +24294,39 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2023 (ended 31 January 2024) (prior-year column)",
-      "page": "PDF pp. 3, 7, 9, 11, 32, 40"
+      "page": "PDF pp. 3, 7, 9, 11, 32, 40",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
+        "page": "PDF p. 30",
+        "fields": [
+         "employees"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/d6fe6dfd-6e68-4fa7-a540-b187f3b582ba/Consolidated_Annual_Accounts_Inditex_Group%202023.pdf?t=1710505956773",
+        "page": "PDF p. 41",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+        "page": "PDF p. 54",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+        "page": "PDF p. 80",
+        "fields": [
+         "dividendPerShare"
+        ]
+       }
+      ]
      },
      "fxClose": 1.0850694179534912,
      "fxAverage": 1.0492093215386074,
@@ -23952,13 +24336,13 @@
      "operatingCashFlow": 7002423011.948666,
      "capex": -1077537973.2201498,
      "dilutedEPS": 1.3912515603601934,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.8351706199447315,
      "totalAssets": 32533636358.499527,
      "totalEquity": 18454860660.55298,
      "cashAndEquivalents": 6034071033.239365,
-     "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "totalDebt": 14105902.433395386,
+     "sharesOutstanding": 3116652000,
+     "employees": 164997,
      "freeCashFlow": 5924885038.728516
     },
     {
@@ -23970,7 +24354,39 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2021 (ended 31 January 2022)",
-      "page": "PDF pp. 18, 22, 24, 26, 69, 82"
+      "page": "PDF pp. 18, 22, 24, 26, 69, 82",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+        "page": "PDF p. 42",
+        "fields": [
+         "employees"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/e8099751-3c82-47e8-8c59-903bcf99e79a/Inditex%202022%20Consolidated%20Annual%20Accounts.pdf?t=1682613825881",
+        "page": "PDF p. 52",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+        "page": "PDF p. 86",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+        "page": "PDF p. 104",
+        "fields": [
+         "dividendPerShare"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1152374744415283,
      "fxAverage": 1.1737422049045563,
@@ -23980,13 +24396,13 @@
      "operatingCashFlow": 7927454851.925373,
      "capex": -781712308.4664345,
      "dilutedEPS": 1.2230393775105477,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.7394575890898705,
      "totalAssets": 32280548697.710037,
      "totalEquity": 17546031185.388565,
      "cashAndEquivalents": 7830082308.05397,
-     "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "totalDebt": 40148549.07989502,
+     "sharesOutstanding": 3116652000,
+     "employees": 165042,
      "freeCashFlow": 7145742543.458939
     },
     {
@@ -23998,7 +24414,32 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2021 (ended 31 January 2022) (prior-year column)",
-      "page": "PDF pp. 18, 22, 24, 26, 69, 82"
+      "page": "PDF pp. 18, 22, 24, 26, 69, 82",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+        "page": "PDF p. 63",
+        "fields": [
+         "employees"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/5d3b3aec-3d72-41a0-9abd-275f2ac4a14c/2021%20Inditex%20Consolidated%20Annual%20Accounts.pdf?t=1682612310257",
+        "page": "PDF p. 82",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616",
+        "page": "PDF p. 65",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.2120037078857422,
      "fxAverage": 1.1569490730762482,
@@ -24012,9 +24453,9 @@
      "totalAssets": 32018713954.925537,
      "totalEquity": 17598293838.500977,
      "cashAndEquivalents": 8966403430.93872,
-     "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "totalDebt": 16968051.91040039,
+     "sharesOutstanding": 3116652000,
+     "employees": 144116,
      "freeCashFlow": 2950220136.344433
     },
     {
@@ -24026,7 +24467,24 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2020 (ended 31 January 2021) (prior-year column)",
-      "page": "PDF pp. 13, 15, 16, 17, 50, 78"
+      "page": "PDF pp. 13, 15, 16, 17, 50, 78",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/8ba991ee-382e-4d95-8595-a5763c9d7e5d/2020_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305845616",
+        "page": "PDF p. 63",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304",
+        "page": "PDF p. 57",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1029127836227417,
      "fxAverage": 1.1154983043670654,
@@ -24040,8 +24498,8 @@
      "totalAssets": 31312796839.83326,
      "totalEquity": 16447738342.165947,
      "cashAndEquivalents": 5271923105.716705,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 43013598.561286926,
+     "sharesOutstanding": 3116652000,
      "employees": 176611,
      "freeCashFlow": 6677372849.941254
     },
@@ -24054,7 +24512,31 @@
      "source": {
       "url": "https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2019 (ended 31 January 2020) (prior-year column)",
-      "page": "PDF pp. 12, 14, 15, 24, 68"
+      "page": "PDF pp. 12, 14, 15, 24, 68",
+      "supplementalSources": [
+       {
+        "url": "https://www.inditex.com/itxcomweb/api/media/884971c4-5be8-4442-b73f-c50e703be45f/2019_annual_accounts__management_report_and_auditors_report_of_inditex_group.pdf?t=1655305840304",
+        "page": "PDF p. 55",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
+        "page": "PDF p. 53",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
+        "page": "PDF p. 89",
+        "fields": [
+         "dividendPerShare"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1487650871276855,
      "fxAverage": 1.1713532010714214,
@@ -24064,12 +24546,12 @@
      "operatingCashFlow": 4719382047.116756,
      "capex": -1629352302.6903472,
      "dilutedEPS": 1.2955166403849923,
-     "dividendPerShare": null,
+     "dividendPerShare": 0.7730931127071381,
      "totalAssets": 24909822149.276733,
      "totalEquity": 16832854821.681976,
      "cashAndEquivalents": 5589890913.963318,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 103388857.8414917,
+     "sharesOutstanding": 3116652000,
      "employees": 174386,
      "freeCashFlow": 3090029744.4264092
     },
@@ -24082,7 +24564,24 @@
      "source": {
       "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2018 (ended 31 January 2019) (prior-year column)",
-      "page": "PDF pp. 12, 14, 15, 16, 41, 42"
+      "page": "PDF pp. 12, 14, 15, 16, 41, 42",
+      "supplementalSources": [
+       {
+        "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2018.pdf",
+        "page": "PDF p. 51",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2017.pdf",
+        "page": "PDF p. 62",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.2409565448760986,
      "fxAverage": 1.1502281328042347,
@@ -24096,8 +24595,8 @@
      "totalAssets": 25105791859.38835,
      "totalEquity": 16749190486.192703,
      "cashAndEquivalents": 6119156722.784042,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 19855304.718017578,
+     "sharesOutstanding": 3116652000,
      "employees": 171839,
      "freeCashFlow": 2728341131.011645
     },
@@ -24110,7 +24609,23 @@
      "source": {
       "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2017.pdf",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2017 (ended 31 January 2018) (prior-year column)",
-      "page": "PDF pp. 12, 14, 15, 16, 77"
+      "page": "PDF pp. 12, 14, 15, 16, 77",
+      "supplementalSources": [
+       {
+        "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
+        "page": "PDF p. 51",
+        "fields": [
+         "totalDebt"
+        ]
+       },
+       {
+        "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
+        "page": "PDF p. 53",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.0708587169647217,
      "fxAverage": 1.1022098461786907,
@@ -24124,8 +24639,8 @@
      "totalAssets": 21011318885.564804,
      "totalEquity": 13613826868.772507,
      "cashAndEquivalents": 4407654479.026794,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 66600987.0429039,
+     "sharesOutstanding": 3116652000,
      "employees": 162450,
      "freeCashFlow": 3166072432.3218265
     },
@@ -24138,7 +24653,24 @@
      "source": {
       "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2016 (ended 31 January 2017) (prior-year column)",
-      "page": "PDF pp. 6, 8, 9, 10, 68, 69"
+      "page": "PDF pp. 6, 8, 9, 10, 68, 69",
+      "supplementalSources": [
+       {
+        "url": "https://static.inditex.com/annual_report_2021/en/documents/inditex-consolidated-annual-acounts-2016.pdf",
+        "page": "PDF p. 51",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a",
+        "page": "PDF p. 120",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.0936970710754395,
      "fxAverage": 1.1015855570634205,
@@ -24152,8 +24684,8 @@
      "totalAssets": 18983461929.82292,
      "totalEquity": 12479299039.293766,
      "cashAndEquivalents": 4621446503.650188,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 12033948.87304306,
+     "sharesOutstanding": 3116652000,
      "employees": 152854,
      "freeCashFlow": 3465497832.5058413
     },
@@ -24166,7 +24698,24 @@
      "source": {
       "url": "https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2015 (ended 31 January 2016) (prior-year column)",
-      "page": "PDF pp. 174, 176, 177, 178, 193, 201"
+      "page": "PDF pp. 174, 176, 177, 178, 193, 201",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/2017id_/https://www.inditex.com/documents/10279/246750/Annual+Report_2015.pdf/b599669d-6512-481f-b9d5-5244885f607a",
+        "page": "PDF p. 190",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
+        "page": "PDF p. 205",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.13355553150177,
      "fxAverage": 1.303058256705602,
@@ -24180,8 +24729,8 @@
      "totalAssets": 17430683407.902718,
      "totalEquity": 11823726672.436596,
      "cashAndEquivalents": 4305164559.756517,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 11435308.201789856,
+     "sharesOutstanding": 3116652000,
      "employees": 137054,
      "freeCashFlow": 2108326107.3592997
     },
@@ -24194,7 +24743,25 @@
      "source": {
       "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2014 (ended 31 January 2015) (prior-year column)",
-      "page": "PDF pp. 187, 189, 190, 191, 203, 214"
+      "page": "PDF pp. 187, 189, 190, 191, 203, 214",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
+        "page": "PDF p. 203",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20160304120216id_/http://www.inditex.com/documents/10279/18789/Inditex_Annual_Report_2014_web.pdf/a8323597-3932-4357-9f36-6458f55ac099",
+        "page": "PDF p. 205",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.3558770418167114,
      "fxAverage": 1.3319669266541798,
@@ -24208,8 +24775,8 @@
      "totalAssets": 18651798471.138596,
      "totalEquity": 12536769962.635517,
      "cashAndEquivalents": 5215687469.559431,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 6310251.752614975,
+     "sharesOutstanding": 623330400,
      "employees": 128313,
      "freeCashFlow": 2277937829.765538
     },
@@ -24222,7 +24789,24 @@
      "source": {
       "url": "https://web.archive.org/web/20150924034510id_/http://www.inditex.com/documents/10279/18789/Inditex_Group_Annual_Report_2013.pdf/88b623b8-b6b0-4d38-b45e-45822932ff72",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2013 (ended 31 January 2014) (prior-year column)",
-      "page": "PDF pp. 175, 177, 178, 179, 182, 194"
+      "page": "PDF pp. 175, 177, 178, 179, 182, 194",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20150924034510id_/http://www.inditex.com/documents/10279/18789/Inditex_Group_Annual_Report_2013.pdf/88b623b8-b6b0-4d38-b45e-45822932ff72",
+        "page": "PDF p. 191",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de",
+        "page": "PDF p. 148",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.3568336963653564,
      "fxAverage": 1.293872356414795,
@@ -24236,8 +24820,8 @@
      "totalAssets": 17490015105.597496,
      "totalEquity": 11459730562.145233,
      "cashAndEquivalents": 5214200634.768963,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 9149129.614591599,
+     "sharesOutstanding": 623330400,
      "employees": 120314,
      "freeCashFlow": 2492466540.247917
     },
@@ -24250,7 +24834,17 @@
      "source": {
       "url": "https://web.archive.org/web/20140517122719id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2012 (ended 31 January 2013) (prior-year column)",
-      "page": "PDF pp. 133, 134, 135, 146, 152, 176"
+      "page": "PDF pp. 133, 134, 135, 146, 152, 176",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20150924034503id_/http://www.inditex.com/documents/10279/18789/Annual_report_2012.pdf/1f394d3f-55cc-49b8-af13-14f87f8da3de",
+        "page": "PDF p. 146",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.3139568567276,
      "fxAverage": 1.3950978815555573,
@@ -24264,7 +24858,7 @@
      "totalAssets": 14399887077.198267,
      "totalEquity": 9742735185.00495,
      "cashAndEquivalents": 4555162560.974121,
-     "totalDebt": null,
+     "totalDebt": 2930123.790502548,
      "sharesOutstanding": 623330400,
      "employees": 109512,
      "freeCashFlow": 1851007498.6606238
@@ -24278,7 +24872,33 @@
      "source": {
       "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2011 (ended 31 January 2012) (prior-year column)",
-      "page": "PDF pp. 111, 112, 113, 135, 158, 159"
+      "page": "PDF pp. 111, 112, 113, 135, 158, 159",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
+        "page": "PDF p. 127",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
+        "page": "PDF p. 129",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20140401160044id_/http://www.inditex.com:80/documents/10279/18789/Grupo_INDITEX_Annual-Report-Inditex-2011.pdf/1d9158ad-dcbe-4ee7-b11e-6be2284e7645",
+        "page": "PDF p. 210",
+        "fields": [
+         "dividendPerShare"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.3572757244110107,
      "fxAverage": 1.3170334696769714,
@@ -24288,12 +24908,12 @@
      "operatingCashFlow": 3366618076.62338,
      "capex": -812018302.7628064,
      "dilutedEPS": null,
-     "dividendPerShare": null,
+     "dividendPerShare": 1.8438468575477598,
      "totalAssets": 13336698492.84482,
      "totalEquity": 8667811157.546282,
      "cashAndEquivalents": 4660141050.530434,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 9302767.815113068,
+     "sharesOutstanding": 623330400,
      "employees": 100138,
      "freeCashFlow": 2554599773.860574
     },
@@ -24306,7 +24926,23 @@
      "source": {
       "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2009 (ended 31 January 2010)",
-      "page": "PDF pp. 172, 174, 175, 188, 195, 221"
+      "page": "PDF pp. 172, 174, 175, 188, 195, 221",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
+        "page": "PDF p. 187",
+        "fields": [
+         "totalDebt"
+        ]
+       },
+       {
+        "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
+        "page": "PDF p. 218",
+        "fields": [
+         "dividendPerShare"
+        ]
+       }
+      ]
      },
      "fxClose": 1.3866932392120361,
      "fxAverage": 1.404838999112447,
@@ -24316,11 +24952,11 @@
      "operatingCashFlow": 3260416376.5731254,
      "capex": -647623754.3958426,
      "dilutedEPS": null,
-     "dividendPerShare": null,
+     "dividendPerShare": 1.5453228990236918,
      "totalAssets": 11558694133.777857,
      "totalEquity": 7389918462.83865,
      "cashAndEquivalents": 3355950175.149441,
-     "totalDebt": null,
+     "totalDebt": 55542611.003398895,
      "sharesOutstanding": 623330400,
      "employees": 92301,
      "freeCashFlow": 2612792622.177283
@@ -24334,7 +24970,16 @@
      "source": {
       "url": "https://web.archive.org/web/20190507190620id_/https://www.inditex.com/documents/10279/246065/AnnualReport_2009.pdf/a1d1fc1a-f920-4a70-b64c-d0ec7a7c4cf9",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2009 (ended 31 January 2010) (prior-year column)",
-      "page": "PDF pp. 172, 174, 175, 188, 195, 221"
+      "page": "PDF pp. 172, 174, 175, 188, 195, 221",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
+        "page": "PDF p. 274",
+        "fields": [
+         "dividendPerShare"
+        ]
+       }
+      ]
      },
      "fxClose": 1.2836971282958984,
      "fxAverage": 1.4536691804726918,
@@ -24344,7 +24989,7 @@
      "operatingCashFlow": 2580518641.114791,
      "capex": -1238486892.6948607,
      "dilutedEPS": null,
-     "dividendPerShare": null,
+     "dividendPerShare": 1.5263526394963265,
      "totalAssets": 9982858137.973785,
      "totalEquity": 6061250702.43454,
      "cashAndEquivalents": 1882273545.9461212,
@@ -24362,7 +25007,25 @@
      "source": {
       "url": "https://web.archive.org/web/20210822110435id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
       "document": "Inditex Group Consolidated Annual Accounts, fiscal year 2008 (ended 31 January 2009) (prior-year column)",
-      "page": "PDF pp. 226, 227, 228, 241, 249, 278"
+      "page": "PDF pp. 226, 227, 228, 241, 249, 278",
+      "supplementalSources": [
+       {
+        "url": "https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
+        "page": "PDF p. 243",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://web.archive.org/web/20190509035506id_/https://www.inditex.com/documents/10279/245941/AnnualReport_2008.pdf/01929075-3c8e-401b-a378-d431dc552bd2",
+        "page": "PDF p. 342",
+        "fields": [
+         "dividendPerShare"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.4865025281906128,
      "fxAverage": 1.3953754007816315,
@@ -24372,12 +25035,12 @@
      "operatingCashFlow": 2536027812.9013777,
      "capex": -1186221186.583072,
      "dilutedEPS": null,
-     "dividendPerShare": null,
+     "dividendPerShare": 1.4651441708207131,
      "totalAssets": 10562495337.316275,
      "totalEquity": 6233096859.529376,
      "cashAndEquivalents": 2178967433.410287,
      "totalDebt": 614867986.7455959,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 623330400,
      "employees": 79517,
      "freeCashFlow": 1349806626.3183057
     }
@@ -36963,8 +37626,11 @@
    "fiscalYearEnd": "12-31",
    "irUrl": "https://www.volkswagen-group.com/en/investor-relations-15720",
    "gaps": [
-    "FY2007-FY2025 totalDebt: Volkswagen does not publish a single group total-debt figure; it reports Automotive net liquidity and Financial Services financial liabilities separately",
-    "FY2007-FY2025 sharesOutstanding: not taken (two share classes: ordinary and preferred)"
+    "FY2025 sharesOutstanding: not found in the company's reports (AR2025 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+    "FY2024 sharesOutstanding: not found in the company's reports (AR2024 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+    "FY2023 sharesOutstanding: not found in the company's reports (AR2023 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+    "FY2022 sharesOutstanding: not found in the company's reports (AR2022 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)",
+    "FY2021 sharesOutstanding: not found in the company's reports (AR2021 prints the classes separately (295,089,818 ordinary and 206,205,445 preferred) but no total; not summed)"
    ],
    "notes": [
     "IFRS throughout. Each year's figures are taken from the following year's annual report (prior-year column) so that restatements are reflected; FY2025 from Annual Report 2025",
@@ -36975,7 +37641,40 @@
     "capex = Group investments in property, plant and equipment, investment property and intangible assets excluding capitalized development costs (FY2007-FY2012: acquisition of property, plant and equipment); capitalized development costs (e.g. 9,047M in 2025) are excluded",
     "employees = total workforce at Dec. 31 including the Chinese joint ventures (Key Figures); FY2017-FY2023 published in thousands to one decimal",
     "FY2015 loss reflects diesel-issue special items of 16.9bn; FY2017 operating cash flow is negative because of diesel payments",
-    "Yahoo net income is 4-9% higher in 2022-2025 because it includes the share attributable to hybrid capital investors; this file follows the brief (owners of the parent excluding hybrid capital), e.g. 2025 earnings after tax 6,904M, of which Volkswagen AG shareholders 6,673M"
+    "Yahoo net income is 4-9% higher in 2022-2025 because it includes the share attributable to hybrid capital investors; this file follows the brief (owners of the parent excluding hybrid capital), e.g. 2025 earnings after tax 6,904M, of which Volkswagen AG shareholders 6,673M",
+    "FY2007 totalDebt: 57,992 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment PDF p. 195 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2008",
+    "FY2008 totalDebt: 69,555 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment PDF p. 212 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2009",
+    "FY2009 totalDebt: 77,599 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment PDF p. 234 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2010",
+    "FY2010 totalDebt: 77,012 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment PDF p. 252 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2011",
+    "FY2011 totalDebt: 93,533 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment PDF p. 260 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2012",
+    "FY2012 totalDebt: 117,663 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment PDF p. 208 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2013",
+    "FY2013 totalDebt: 121,504 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment PDF p. 218 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2014",
+    "FY2014 totalDebt: 133,980 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment PDF p. 232 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2015",
+    "FY2015 totalDebt: 145,604 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment PDF p. 216 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2016",
+    "FY2016 totalDebt: 154,819 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment PDF p. 206 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2017",
+    "FY2017 totalDebt: 163,472 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment PDF p. 204 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2018",
+    "FY2018 totalDebt: 190,883 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment PDF p. 204 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2019",
+    "FY2019 totalDebt: 201,468 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment PDF p. 216 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2020",
+    "FY2020 totalDebt: 203,457 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2021-1791/download?disposition=attachment PDF p. 228 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2021",
+    "FY2021 totalDebt: 210,213 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2022-1677/download?disposition=attachment PDF p. 285 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2022",
+    "FY2022 totalDebt: 205,312 (million) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2023-2671/download?disposition=attachment PDF p. 275 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2023",
+    "FY2023 totalDebt: 232,813 (million) from https://uploads.vw-mms.de/system/production/documents/cws/002/931/file_en/953dcbb8e57270df70ca288218092dba4721fd63/2025-03-11-volkswagen-group-annual-report-2024-en.pdf PDF p. 478 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2024",
+    "FY2024 totalDebt: 254,081 (million) from https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf PDF p. 469 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; prior-year column; source AR2025",
+    "FY2025 totalDebt: 264,703 (million) from https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf PDF p. 469 — Group 'Total third-party borrowings' (noncurrent + current financial liabilities), net-liquidity reconciliation; printed with a minus sign as a deduction, magnitude recorded; current-year column; source AR2025",
+    "FY2007 sharesOutstanding: 396,575,547 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment PDF p. 242 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31 (prior-year column of AR2008); issued count, treasury not deducted",
+    "FY2008 sharesOutstanding: 400,158,487 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment PDF p. 242 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2009 sharesOutstanding: 400,243,677 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment PDF p. 259 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2010 sharesOutstanding: 465,188,345 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment PDF p. 282 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2011 sharesOutstanding: 465,232,595 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment PDF p. 308 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2012 sharesOutstanding: 465,232,596 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment PDF p. 312 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2013 sharesOutstanding: 465,237,989 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment PDF p. 262 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2014 sharesOutstanding: 475,731,296 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment PDF p. 268 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2015 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment PDF p. 286 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2016 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment PDF p. 270 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2017 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment PDF p. 261 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2018 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment PDF p. 266 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2019 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment PDF p. 261 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted",
+    "FY2020 sharesOutstanding: 501,295,263 (units) from https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment PDF p. 273 — Ordinary + preferred shares, 'Change in ordinary and preferred shares and subscribed capital', Balance at December 31; issued count, treasury not deducted"
    ],
    "years": [
     {
@@ -36987,7 +37686,16 @@
      "source": {
       "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
       "document": "Volkswagen Group Annual Report 2025 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
+        "page": "PDF p. 469",
+        "fields": [
+         "totalDebt"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1747292280197144,
      "fxAverage": 1.132278134425481,
@@ -37001,7 +37709,7 @@
      "totalAssets": 757074221394.1813,
      "totalEquity": 204405235133.88635,
      "cashAndEquivalents": 45580668776.39294,
-     "totalDebt": null,
+     "totalDebt": 310954350844.50244,
      "sharesOutstanding": null,
      "employees": 662942,
      "freeCashFlow": -328360658.9833908
@@ -37015,7 +37723,17 @@
      "source": {
       "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
       "document": "Volkswagen Group Annual Report 2025 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/212/file_en/41966a4270c8a0a4185b3ab69eaa433cf6892168/2026-03-10-volkswagen-group-annual-report-2025-en.pdf",
+        "page": "PDF p. 469",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.040615200996399,
      "fxAverage": 1.0802579522132874,
@@ -37029,7 +37747,7 @@
      "totalAssets": 658610563786.6259,
      "totalEquity": 175243762308.59756,
      "cashAndEquivalents": 41932630139.35089,
-     "totalDebt": null,
+     "totalDebt": 264400550884.36603,
      "sharesOutstanding": null,
      "employees": 679472,
      "freeCashFlow": -55093155.562877655
@@ -37043,7 +37761,17 @@
      "source": {
       "url": "https://uploads.vw-mms.de/system/production/documents/cws/002/931/file_en/953dcbb8e57270df70ca288218092dba4721fd63/2025-03-11-volkswagen-group-annual-report-2024-en.pdf",
       "document": "Volkswagen Group Annual Report 2024 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://uploads.vw-mms.de/system/production/documents/cws/002/931/file_en/953dcbb8e57270df70ca288218092dba4721fd63/2025-03-11-volkswagen-group-annual-report-2024-en.pdf",
+        "page": "PDF p. 478",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.1068191528320312,
      "fxAverage": 1.0847990016142528,
@@ -37057,7 +37785,7 @@
      "totalAssets": 664809817329.4067,
      "totalEquity": 176884089271.5454,
      "cashAndEquivalents": 48170983169.555664,
-     "totalDebt": null,
+     "totalDebt": 257681887428.2837,
      "sharesOutstanding": null,
      "employees": 684000,
      "freeCashFlow": 5101809704.591829
@@ -37071,7 +37799,17 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2023-2671/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2023 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2023-2671/download?disposition=attachment",
+        "page": "PDF p. 275",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.066075325012207,
      "fxAverage": 1.0517233262459438,
@@ -37085,7 +37823,7 @@
      "totalAssets": 601280342286.1099,
      "totalEquity": 161249223284.72137,
      "cashAndEquivalents": 31702948015.213013,
-     "totalDebt": null,
+     "totalDebt": 218878057128.90625,
      "sharesOutstanding": null,
      "employees": 675800,
      "freeCashFlow": 16352194276.471933
@@ -37099,7 +37837,17 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2022-1677/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2022 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2025",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2022-1677/download?disposition=attachment",
+        "page": "PDF p. 285",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.132502794265747,
      "fxAverage": 1.181806057691574,
@@ -37113,7 +37861,7 @@
      "totalAssets": 598651169574.0223,
      "totalEquity": 147235555779.6955,
      "cashAndEquivalents": 44306906820.05882,
-     "totalDebt": null,
+     "totalDebt": 238066809890.98547,
      "sharesOutstanding": null,
      "employees": 672800,
      "freeCashFlow": 33064569882.094864
@@ -37127,7 +37875,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2021-1791/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2021 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2021-1791/download?disposition=attachment",
+        "page": "PDF p. 228",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment",
+        "page": "PDF p. 273",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.2299896478652954,
      "fxAverage": 1.147858162720998,
@@ -37141,8 +37906,8 @@
      "totalAssets": 611445073808.9084,
      "totalEquity": 136942127434.73053,
      "cashAndEquivalents": 41121013907.432556,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 250250003785.7294,
+     "sharesOutstanding": 501295263,
      "employees": 662600,
      "freeCashFlow": 15643011041.561762
     },
@@ -37155,7 +37920,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2020 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2020-2057/download?disposition=attachment",
+        "page": "PDF p. 216",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment",
+        "page": "PDF p. 261",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.120229721069336,
      "fxAverage": 1.1193193296591442,
@@ -37169,8 +37951,8 @@
      "totalAssets": 546751640192.03186,
      "totalEquity": 122236106473.92273,
      "cashAndEquivalents": 27254068883.895874,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 225690441444.39697,
+     "sharesOutstanding": 501295263,
      "employees": 671200,
      "freeCashFlow": 4200805444.2107697
     },
@@ -37183,7 +37965,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2019 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2019-2011/download?disposition=attachment",
+        "page": "PDF p. 204",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment",
+        "page": "PDF p. 266",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1439945697784424,
      "fxAverage": 1.1790358225504558,
@@ -37197,8 +37996,8 @@
      "totalAssets": 524127976111.41205,
      "totalEquity": 119572600422.38235,
      "cashAndEquivalents": 32161119340.18135,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 218369115463.01843,
+     "sharesOutstanding": 501295263,
      "employees": 664500,
      "freeCashFlow": -7613034306.208293
     },
@@ -37211,7 +38010,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2018 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2018-2417/download?disposition=attachment",
+        "page": "PDF p. 204",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment",
+        "page": "PDF p. 261",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1941723823547363,
      "fxAverage": 1.13605331381162,
@@ -37225,8 +38041,8 @@
      "totalAssets": 504171220623.49316,
      "totalEquity": 116743486271.38138,
      "cashAndEquivalents": 21540481432.914734,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 195213747688.29346,
+     "sharesOutstanding": 501295263,
      "employees": 642300,
      "freeCashFlow": -16173991028.736034
     },
@@ -37239,7 +38055,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2017 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2020",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2017-2334/download?disposition=attachment",
+        "page": "PDF p. 206",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment",
+        "page": "PDF p. 270",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.0575296878814697,
      "fxAverage": 1.1041130423545837,
@@ -37253,8 +38086,8 @@
      "totalAssets": 433303754075.05035,
      "totalEquity": 90019042091.84647,
      "cashAndEquivalents": 19916456611.87172,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 163725688748.12128,
+     "sharesOutstanding": 501295263,
      "employees": 626715,
      "freeCashFlow": -4109508743.6437607
     },
@@ -37267,7 +38100,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2016 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2016-2335/download?disposition=attachment",
+        "page": "PDF p. 216",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment",
+        "page": "PDF p. 286",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.093398094177246,
      "fxAverage": 1.1049070954322815,
@@ -37281,8 +38131,8 @@
      "totalAssets": 417607001099.5865,
      "totalEquity": 88018546581.26831,
      "cashAndEquivalents": 22373111803.05481,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 159203136104.58374,
+     "sharesOutstanding": 501295263,
      "employees": 610076,
      "freeCashFlow": 514886706.4714432
     },
@@ -37295,7 +38145,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2015 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2015-2333/download?disposition=attachment",
+        "page": "PDF p. 232",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment",
+        "page": "PDF p. 268",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.2162047624588013,
      "fxAverage": 1.321585049231847,
@@ -37309,8 +38176,8 @@
      "totalAssets": 427142058418.3931,
      "totalEquity": 103316594570.87517,
      "cashAndEquivalents": 22662759543.657303,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 162947114074.2302,
+     "sharesOutstanding": 475731296,
      "employees": 592586,
      "freeCashFlow": -1622906440.456709
     },
@@ -37323,7 +38190,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2014 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2014-2332/download?disposition=attachment",
+        "page": "PDF p. 218",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment",
+        "page": "PDF p. 262",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.3810056447982788,
      "fxAverage": 1.332046647866567,
@@ -37337,8 +38221,8 @@
      "totalAssets": 447905703794.36017,
      "totalEquity": 118393613928.55644,
      "cashAndEquivalents": 30394553236.36532,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 167797709865.57007,
+     "sharesOutstanding": 465237989,
      "employees": 572800,
      "freeCashFlow": 1611776443.9185448
     },
@@ -37351,7 +38235,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2013 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2013-2331/download?disposition=attachment",
+        "page": "PDF p. 208",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment",
+        "page": "PDF p. 312",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.3227688074111938,
      "fxAverage": 1.2902992864449818,
@@ -37365,8 +38266,8 @@
      "totalAssets": 409420755732.2979,
      "totalEquity": 102755326497.31636,
      "cashAndEquivalents": 23537348159.074783,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 155640946186.4233,
+     "sharesOutstanding": 465232596,
      "employees": 549763,
      "freeCashFlow": -4237342856.68532
     },
@@ -37379,7 +38280,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2012 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2015",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2012-2330/download?disposition=attachment",
+        "page": "PDF p. 260",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment",
+        "page": "PDF p. 308",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.2956053018569946,
      "fxAverage": 1.3987077871958415,
@@ -37393,8 +38311,8 @@
      "totalAssets": 328784461846.9477,
      "totalEquity": 74547833463.54962,
      "cashAndEquivalents": 21371009454.131126,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 121181850698.59027,
+     "sharesOutstanding": 465232595,
      "employees": 501956,
      "freeCashFlow": 577666316.1118832
     },
@@ -37407,7 +38325,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2011 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2011-2329/download?disposition=attachment",
+        "page": "PDF p. 252",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment",
+        "page": "PDF p. 282",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.3301233053207397,
      "fxAverage": 1.3194849292437236,
@@ -37421,8 +38356,8 @@
      "totalAssets": 265217276217.81827,
      "totalEquity": 61156409332.03697,
      "cashAndEquivalents": 24245487609.386444,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 102435455989.36081,
+     "sharesOutstanding": 465188345,
      "employees": 399381,
      "freeCashFlow": 7517105641.901494
     },
@@ -37435,7 +38370,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2010 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2010-2328/download?disposition=attachment",
+        "page": "PDF p. 234",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment",
+        "page": "PDF p. 259",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.4327058792114258,
      "fxAverage": 1.3962559898694356,
@@ -37449,8 +38401,8 @@
      "totalAssets": 253843962266.922,
      "totalEquity": 50547296124.45831,
      "cashAndEquivalents": 26125391707.42035,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 111176543520.92743,
+     "sharesOutstanding": 400243677,
      "employees": 368500,
      "freeCashFlow": 9463823099.335035
     },
@@ -37463,7 +38415,24 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2009 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2009-2327/download?disposition=attachment",
+        "page": "PDF p. 212",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
+        "page": "PDF p. 242",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.3979953527450562,
      "fxAverage": 1.470569630463918,
@@ -37477,8 +38446,8 @@
      "totalAssets": 234749981637.59708,
      "totalEquity": 48945215294.95716,
      "cashAndEquivalents": 13201270115.971565,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 97237566760.18237,
+     "sharesOutstanding": 400158487,
      "employees": 369928,
      "freeCashFlow": -6148451624.969641
     },
@@ -37491,7 +38460,25 @@
      "source": {
       "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
       "document": "Volkswagen Group Annual Report 2008 (prior-year column); revenue, operating result, total assets and operating cash flow from the Five-Year Review in Annual Report 2010",
-      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review"
+      "page": "Key Figures; consolidated income statement (earnings attributable to Volkswagen AG shareholders, EPS per preferred share); balance sheet by division (equity attributable to Volkswagen AG shareholders); cash flow statement by division (cash at Dec. 31, capex); Five-Year Review",
+      "supplementalSources": [
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
+        "page": "PDF p. 195",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.volkswagen-group.com/en/publications/corporate/annual-report-2008-2326/download?disposition=attachment",
+        "page": "PDF p. 242",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.4601097106933594,
      "fxAverage": 1.3800255060195923,
@@ -37505,8 +38492,8 @@
      "totalAssets": 212237167217.25464,
      "totalEquity": 46540997028.35083,
      "cashAndEquivalents": 14475527671.813965,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 84674682342.5293,
+     "sharesOutstanding": 396575547,
      "employees": 329305,
      "freeCashFlow": 6444719113.111496
     }
