@@ -71,6 +71,37 @@ test('a successor column is the registrant\'s statements for a year the plain co
  assert.deepEqual(vals(head.replace(ctx('p','x:PredecessorMember','2025-06-01'),'')+body.replace(fact('Revenues','p',41),''),'Revenues'),[]);
 });
 
+// Innodata's 10-Q for June 2026: one operating segment, gross profit and operating income tagged only
+// in the segment note on ConsolidationItemsAxis/OperatingSegmentsMember, beside the note's revenue and
+// tax that repeat the statements' (tax shown there as a deduction).
+test('a single segment\'s total stands for a line the statements leave untagged, once the note agrees with the statements',()=>{
+ const filing={accessionNumber:ACC,form:'10-Q',filingDate:'2026-08-06',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/a.htm'};
+ const ctx=(id,dims)=>`<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier>${dims.length?`<xbrli:segment>${dims.map(([a,m])=>`<xbrldi:explicitMember dimension="${a}">${m}</xbrldi:explicitMember>`).join('')}</xbrli:segment>`:''}</xbrli:entity><xbrli:period><xbrli:startDate>2026-04-01</xbrli:startDate><xbrli:endDate>2026-06-30</xbrli:endDate></xbrli:period></xbrli:context>`;
+ const seg=['srt:ConsolidationItemsAxis','us-gaap:OperatingSegmentsMember'];
+ const head=ctx('c0',[])+ctx('s',[seg])+'<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>';
+ const fact=(name,c,v,sign)=>`<ix:nonFraction name="us-gaap:${name}" contextRef="${c}" unitRef="usd" decimals="-3" scale="3"${sign?' sign="-"':''}>${v}</ix:nonFraction>`;
+ const vals=(t,name)=>(parseOriginal('<html>'+head+t+'</html>',filing,CIK).facts['us-gaap']?.[name]?.units.USD || []).map(f=>f.val);
+ const body=fact('RevenueFromContractWithCustomerExcludingAssessedTax','c0','92,142')+fact('IncomeTaxExpenseBenefit','c0','3,143')
+  +fact('RevenueFromContractWithCustomerExcludingAssessedTax','s','92,142')+fact('IncomeTaxExpenseBenefit','s','3,143',true)+fact('GrossProfit','s','42,460')+fact('OperatingIncomeLoss','s','15,860');
+ assert.deepEqual(vals(body,'GrossProfit'),[42460000]);
+ assert.deepEqual(vals(body,'OperatingIncomeLoss'),[15860000]);
+ // the statement's own figure is never doubled
+ assert.deepEqual(vals(body,'RevenueFromContractWithCustomerExcludingAssessedTax'),[92142000]);
+ // a filing that breaks out business segments: the consolidation total is the segments' sum, not the company
+ const multi=ctx('d',[['us-gaap:StatementBusinessSegmentsAxis','x:DdsMember']])+fact('Revenues','d','50,000');
+ assert.deepEqual(vals(body+multi,'GrossProfit'),[]);
+ // a note whose revenue differs from the statements' is not the company's
+ assert.deepEqual(vals(body.replace(fact('RevenueFromContractWithCustomerExcludingAssessedTax','s','92,142'),fact('RevenueFromContractWithCustomerExcludingAssessedTax','s','90,000')),'GrossProfit'),[]);
+ // nor one with no figure to check against the statements
+ assert.deepEqual(vals(fact('GrossProfit','s','42,460'),'GrossProfit'),[]);
+ // a cash-flow figure in the note is not a statement line
+ assert.deepEqual(vals(body+fact('ShareBasedCompensation','s','1,200'),'ShareBasedCompensation'),[]);
+ // an expense beside a note that shows deductions (the tax) may carry either sign, so it is left out
+ assert.deepEqual(vals(body+fact('CostOfRevenue','s','49,682'),'CostOfRevenue'),[]);
+ const plain=body.replace(fact('IncomeTaxExpenseBenefit','s','3,143',true),fact('IncomeTaxExpenseBenefit','s','3,143'));
+ assert.deepEqual(vals(plain+fact('CostOfRevenue','s','49,682'),'CostOfRevenue'),[49682000]);
+});
+
 // Cadrenal's FY2025 10-K tags its net loss twice on the year's context: -13,237,362 on the
 // statement and -13,200,000 ("$13.2 million", decimals -5) in the discussion. A rounded copy of
 // the same figure is the same fact, as in SEC's facts feed; a copy that does not round to it stays.

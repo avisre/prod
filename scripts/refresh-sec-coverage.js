@@ -23,6 +23,8 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
  try {evidence=await clientImpl.fetchReporting(issuer,{asOf});}
  catch(error){return {...old,cik:issuer.cik,symbols:issuer.symbols,lastAttemptAt:attempted,lastAttemptResult:/IDENTITY/.test(error.message)?'invalid_identity':'transient_failure',lastErrorCode:String(error.response?.status || error.code || error.message).slice(0,100)};}
  const merged={...old,...evidence};
+ // Used below and not kept: it would add every quarterly report to the shared file.
+ const yearPeriodics=merged.yearPeriodics || [];delete merged.yearPeriodics;
  merged.lastFinancialAttemptAt=attempted;
  const file=path.join(DATA,'sec-financials',issuer.cik+'.json');
  const changed=old.latestAnnual?.accessionNumber!==evidence.latestAnnual?.accessionNumber || old.latestPeriodic?.accessionNumber!==evidence.latestPeriodic?.accessionNumber || p.digest(old.latestAnnual?.amendments || [])!==p.digest(evidence.latestAnnual?.amendments || []);
@@ -33,7 +35,7 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
  if(!force && old.extractionVersion===EXTRACTION_VERSION && old.validationVersion===VALIDATION_VERSION && !changed && !unfinished && old.lastFinancialResult==='success' && matchingFinancialFile(old,file))return merged;
  try {
   // Both describe this attempt; a status left from an earlier one would retry forever.
-  delete merged.originalExtraction;delete merged.periodicExtraction;delete merged.previousPeriodicExtraction;
+  delete merged.originalExtraction;delete merged.periodicExtraction;delete merged.previousPeriodicExtraction;delete merged.lineGapExtraction;
   let raw;try{raw=await clientImpl.fetchFacts(issuer.cik);}catch(e){if(e.response?.status!==404 || !merged.latestAnnual)throw e;raw={cik:Number(issuer.cik),entityName:merged.issuerName,facts:{}};}
   const statementLines=(clientImpl.statementLines || require('../backend/statement-lines').forCik)(issuer.cik);
   let data=extract(raw,merged,{asOf,statementLines});
@@ -58,6 +60,24 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
   if(periodic?.form==='10-Q' && data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate) && quarterCash()?.operatingCashflow==null && earlier?.primaryDocument) {
    try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,earlier);raw=require('../backend/sec-original').mergeFacts(raw,original);data=extract(raw,merged,{asOf,statementLines});merged.previousPeriodicExtraction={status:quarterCash()?.operatingCashflow!=null?'success':'no_quarter_found',source:original.originalDocument};}
    catch(error){merged.previousPeriodicExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
+  }
+  // A quarter can be in the feed and still lack a line the same quarter a year earlier carried: a
+  // single-segment filer that tags it only in its segment note (Innodata's gross profit and operating
+  // income, March and June 2026). The report itself holds it.
+  const lacking=filing=>{const rows=data.income.quarterlyReports,row=rows.find(r=>r.fiscalDateEnding===filing?.reportDate);if(!row)return false;
+   const prior=rows.find(r=>Math.abs(Date.parse(r.fiscalDateEnding)+365.25*864e5-Date.parse(row.fiscalDateEnding))<10*864e5);
+   return !!prior && Object.keys(prior).some(k=>typeof prior[k]==='number' && row[k]==null);};
+  for(const filing of [periodic,earlier,...yearPeriodics].filter((f,i,all)=>f && all.findIndex(g=>g?.accessionNumber===f.accessionNumber)===i)) {
+   if(filing?.form!=='10-Q' || !filing.primaryDocument || (raw.originalDocuments || []).some(d=>d.accessionNumber===filing.accessionNumber) || !lacking(filing))continue;
+   // It may only add lines: re-reading the report once cost Waters its December 2025 net income.
+   // Only the quarter's own facts: its comparative columns would replace other periods' (Alnylam, March 2026).
+   try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,filing);
+    const own={...original,facts:Object.fromEntries(Object.entries(original.facts || {}).map(([tax,concepts])=>[tax,Object.fromEntries(Object.entries(concepts).map(([concept,fact])=>[concept,{...fact,units:Object.fromEntries(Object.entries(fact.units).map(([measure,rows])=>[measure,rows.filter(f=>f.end===filing.reportDate)]))}]))]))};
+    const nextRaw=require('../backend/sec-original').mergeFacts(raw,own),next=extract(nextRaw,merged,{asOf,statementLines});
+    const lost=['income','balance','cash'].flatMap(st=>['annualReports','quarterlyReports'].flatMap(kind=>data[st][kind].flatMap(r=>{const n=next[st][kind].find(x=>x.fiscalDateEnding===r.fiscalDateEnding);return Object.keys(r).filter(k=>typeof r[k]==='number' && n?.[k]!==r[k]).map(k=>st+':'+r.fiscalDateEnding+':'+k);})));
+    if(lost.length){(merged.lineGapExtraction ||= []).push({reportDate:filing.reportDate,status:'rejected_changes_filed_values',changed:lost.slice(0,5),source:original.originalDocument});continue;}
+    raw=nextRaw;data=next;(merged.lineGapExtraction ||= []).push({reportDate:filing.reportDate,status:lacking(filing)?'lines_not_found':'success',source:original.originalDocument});}
+   catch(error){(merged.lineGapExtraction ||= []).push({reportDate:filing.reportDate,status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)});}
   }
   const previous=read(file,null);
   data=require('../backend/sec-last-good').preserveSameFiling(data,previous,merged);

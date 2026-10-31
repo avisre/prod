@@ -210,6 +210,33 @@ test('a quarter with year-to-date cash flow only is derived from the previous 10
  const row=JSON.parse(fs.readFileSync(file,'utf8')).cash.quarterlyReports.find(x=>x.fiscalDateEnding==='2026-06-30');
  assert.equal(row.operatingCashflow,40);
  `));
+// Alnylam's March 2026 quarter on 2026-11-01: revenue and operating income in its 10-Q, absent from
+// the feed, a report that is neither of the two newest. Re-reading a report may only add lines.
+test('a quarter lacking a line its year-earlier quarter carried is read from its own 10-Q, which may only add lines',()=>isolated(`
+ const {refreshIssuer}=require(root+'/scripts/refresh-sec-coverage');
+ const filing=(n,report,filed)=>({form:'10-Q',accessionNumber:'0000000123-26-00000'+n,reportDate:report,filingDate:filed,primaryDocument:'q'+n+'.htm'});
+ const q1=filing(2,'2026-03-31','2026-05-01'),q2=filing(3,'2026-06-30','2026-08-01'),q3=filing(4,'2026-09-30','2026-10-01');
+ const fact=(accn,filed,start,end,val)=>({val,start,end,accn,form:'10-Q',filed});
+ const facts=structuredClone(doc),g=facts.facts['us-gaap'];
+ g.OperatingIncomeLoss={units:{USD:[fact('0000000123-25-000005','2025-05-01','2025-01-01','2025-03-31',10)]}};
+ g.Revenues.units.USD.push(fact('0000000123-25-000005','2025-05-01','2025-01-01','2025-03-31',40),fact(q1.accessionNumber,q1.filingDate,'2026-01-01','2026-03-31',50),fact(q3.accessionNumber,q3.filingDate,'2026-07-01','2026-09-30',70));
+ const run=async lines=>{const reads=[];
+  const r=await refreshIssuer({cik:CIK,symbols:['AAPL']},evidence,{asOf:'2026-10-03',force:true,clientImpl:{fetchReporting:async()=>({...evidence,latestPeriodic:q3,previousPeriodic:q2,yearPeriodics:[q3,q2,q1]}),fetchFacts:async()=>structuredClone(facts),
+   fetchOriginal:async(cik,f)=>{reads.push(f.accessionNumber);return {cik:123,facts:{'us-gaap':f===q1?lines:{}},segments:[],originalDocument:{form:'10-Q',accessionNumber:f.accessionNumber}};}}});
+  return {r,reads,row:JSON.parse(fs.readFileSync(file,'utf8')).income.quarterlyReports.find(x=>x.fiscalDateEnding==='2026-03-31')};};
+ const operating={OperatingIncomeLoss:{units:{USD:[fact(q1.accessionNumber,q1.filingDate,'2026-01-01','2026-03-31',11)]}}};
+ // its comparative column (a restated year-earlier revenue) is not merged
+ const filled=await run({...operating,Revenues:{units:{USD:[fact(q1.accessionNumber,q1.filingDate,'2025-01-01','2025-03-31',41)]}}});
+ // the newest two are read for the quarter's cash flow, which the feed gives year to date
+ assert.equal(filled.reads.filter(a=>a===q1.accessionNumber).length,1);
+ assert.equal(filled.row.operatingIncome,11);assert.equal(filled.row.totalRevenue,50);
+ assert.equal(JSON.parse(fs.readFileSync(file,'utf8')).income.quarterlyReports.find(x=>x.fiscalDateEnding==='2025-03-31').totalRevenue,40);
+ assert.equal(filled.r.yearPeriodics,undefined,'the list of reports is not kept');
+ assert.equal(filled.r.lineGapExtraction[0].status,'success');
+ const changed=await run({...operating,Revenues:{units:{USD:[fact(q1.accessionNumber,q1.filingDate,'2026-01-01','2026-03-31',55)]}}});
+ assert.equal(changed.row.totalRevenue,50);assert.equal(changed.row.operatingIncome ?? null,null);
+ assert.equal(changed.r.lineGapExtraction[0].status,'rejected_changes_filed_values');
+ `));
 test('the industry stage reads an annual report once per filing and VERSION',()=>isolated(`
  const original=require(root+'/backend/sec-original'),industry=require(root+'/backend/sec-industry');
  let fetched=0;original.fetchOriginal=async()=>{fetched++;throw new Error('offline');};

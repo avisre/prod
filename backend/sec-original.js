@@ -77,6 +77,21 @@ function parseOriginal(text, filing, cik, shared) {
   for(const f of facts){const c=contexts.get(f.contextref);if(lead.has(f.name) && successor(c) && !plainLead.has(period(c)))successorYears.add(period(c));}
   for(const f of facts){const c=contexts.get(f.contextref);if(successor(c) && successorYears.has(period(c)))successorLines.add(f.name+'|'+period(c));}
  }
+ // Innodata reports one operating segment from 2026 (10-Q for June 2026) and, under ASU 2023-07, tags
+ // its gross profit and operating income only in the segment note, on the OperatingSegmentsMember of
+ // the consolidation axis; SEC's facts feed drops every dimensional fact, so both quarters read empty.
+ // With no business-segment axis anywhere in the filing that one segment is the company, so its total
+ // stands for a line the statements leave untagged, once the note's revenue and profit for the same
+ // period match the statements' own figures.
+ const segmentTotal=c=>c?.dimensions.length===1 && c.dimensions[0].axis.trim()==='srt:ConsolidationItemsAxis' && c.dimensions[0].member.trim()==='us-gaap:OperatingSegmentsMember';
+ const multiSegment=[...contexts.values()].some(c=>c.dimensions.some(d=>/(?:BusinessSegments|Segments)Axis$/.test(d.axis.trim())));
+ const segmentTotals=[];
+ // Income-statement lines only: a cash-flow figure in the note is a quarter where the statement gives
+ // the year to date (Profusa's share-based compensation). Profit lines keep their sign in the note; an
+ // expense can be shown as a deduction, so it is taken only when positive and no anchor was flipped.
+ const incomeTags=(fields)=>new Set(fields.flatMap(k=>['us-gaap','ifrs-full'].flatMap(tax=>MAPS.income[k][tax].map(tag=>tax+':'+tag))));
+ const profitLine=incomeTags(['totalRevenue','grossProfit','operatingIncome','incomeBeforeTax','netIncome']);
+ const incomeLine=incomeTags(Object.keys(MAPS.income).filter(k=>!/eps|EPS|Shares/.test(k)));
  const doc={cik:Number(cik),facts:{},originalDocument:{url:filing.documentUrl,documentUrl:filing.documentUrl,accession:filing.accessionNumber,accessionNumber:filing.accessionNumber,form:filing.form,filingDate:filing.filingDate},segments:[]};
  for(const raw of facts) {
   const c=contexts.get(raw.contextref),u=units.get(raw.unitref),name=raw.name;
@@ -91,6 +106,7 @@ function parseOriginal(text, filing, cik, shared) {
   const f={val,start:c.start?.trim() || undefined,end:c.end.trim(),accn:filing.accessionNumber,form:filing.form,filed:filing.filingDate,
    _original:{documentUrl:filing.documentUrl,contextRef:raw.contextref,decimals:raw.decimals || null,dimensions:c.dimensions,numericReceipt:receipt}};
   if(!c.dimensions.length && c.start && successorLines.has(name+'|'+period(c)))continue;
+  if(incomeLine.has(name) && c.start && !multiSegment && segmentTotal(c))segmentTotals.push({taxonomy,concept,measure,f});
   if(c.dimensions.length && !(ownMember && legal(c)===ownMember) && !(successor(c) && successorYears.has(period(c)))) {
    // A single disclosed segment axis is retained separately, never entity revenue.
    const segmentDims=c.dimensions.filter(d=>!(d.axis==='srt:ConsolidationItemsAxis' && d.member==='us-gaap:OperatingSegmentsMember'));
@@ -106,6 +122,16 @@ function parseOriginal(text, filing, cik, shared) {
   if(!wanted.has(name))continue;
   ((doc.facts[taxonomy] ||= {})[concept] ||= {units:{}}).units[measure] ||= [];
   doc.facts[taxonomy][concept].units[measure].push(f);
+ }
+ const statementRows=(x)=>doc.facts[x.taxonomy]?.[x.concept]?.units[x.measure]?.filter(f=>!f._original.dimensions.length && f.start===x.f.start && f.end===x.f.end) || [];
+ const byPeriod=new Map();for(const x of segmentTotals){const k=x.f.start+'|'+x.f.end;if(!byPeriod.has(k))byPeriod.set(k,[]);byPeriod.get(k).push(x);}
+ for(const group of byPeriod.values()) {
+  const anchors=group.filter(x=>statementRows(x).length);
+  // The note's reconciliation can show tax as a deduction (-2,444,000 beside the statement's 2,444,000,
+  // Innodata, March 2026), and the discussion can repeat a statement figure rounded.
+  if(!anchors.length || !anchors.every(x=>statementRows(x).some(f=>Math.abs(f.val)===Math.abs(x.f.val))))continue;
+  const flipped=anchors.some(x=>!statementRows(x).some(f=>f.val===x.f.val));
+  for(const x of group)if(!statementRows(x).length && (profitLine.has(x.taxonomy+':'+x.concept) || (!flipped && x.f.val>=0)))((doc.facts[x.taxonomy] ||= {})[x.concept] ||= {units:{}}).units[x.measure]=[...(doc.facts[x.taxonomy][x.concept].units[x.measure] || []),x.f];
  }
  // Cadrenal tags its FY2025 net loss on the statement (-13,237,362) and again as "$13.2 million"
  // (decimals -5) in the discussion. A copy that rounds the precise figure to its own decimals is the
