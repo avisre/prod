@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261026-rev1';
+const EXTRACTION_VERSION = '20261031-ind2';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -72,7 +72,23 @@ const MAPS = {
   // sold business (AppLovin FY2024: $3.22bn continuing revenue against $2.10bn of total
   // operating cash flow read as a 65% free-cash-flow margin; the apps business it sold in
   // 2025 was in the cash but not the revenue). Last and fill-only, so it never sets a period.
-  discontinuedOperations:mapping(['IncomeLossFromDiscontinuedOperationsNetOfTax','IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity','IncomeLossFromDiscontinuedOperationsNetOfTaxIncludingPortionAttributableToNoncontrollingInterest'],['ProfitLossFromDiscontinuedOperations'])
+  discontinuedOperations:mapping(['IncomeLossFromDiscontinuedOperationsNetOfTax','IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity','IncomeLossFromDiscontinuedOperationsNetOfTaxIncludingPortionAttributableToNoncontrollingInterest'],['ProfitLossFromDiscontinuedOperations']),
+  // Face lines of a bank's and an insurer's income statement, for the page's industry layouts
+  // (2026-10-31, FY2025 10-K face lines of JPM, BAC, WFC, FITB, ZION, PGR, TRV, CB, ALL, GL, MET, PRU, AFL;
+  // counts are issuers tagging each since mid-2023 out of 311 banks, 71 P&C, 21 life and 10 health insurers).
+  // Fill-only (INDUSTRY_ADDED), so none adds a period. Net interest income after the provision: 283 banks.
+  netInterestIncomeAfterProvision:mapping(['InterestIncomeExpenseAfterProvisionForLoanLoss'],[]),
+  // An insurer's investment gains: the total first (MetLife's face line is GainLossOnInvestments, -$1.145bn in
+  // 2025, of which RealizedInvestmentGainsLosses is -$371m), then realized gains (TRV, CB, ALL, PRU, GL), then
+  // the securities line Progressive files ($727m, equal to its realized figure).
+  investmentGains:mapping(['GainLossOnInvestments','RealizedInvestmentGainsLosses','DebtAndEquitySecuritiesGainLoss'],[]),
+  // A life insurer's policy charges and fee income (MetLife, Prudential).
+  policyFees:mapping(['InsuranceCommissionsAndFees'],[]),
+  insuranceOtherIncome:mapping(['OtherIncome'],[]),
+  interestCreditedToPolicyholders:mapping(['InterestCreditedToPolicyholdersAccountBalances'],[]),
+  policyholderDividends:mapping(['PolicyholderDividends'],[]),
+  // The insurer's own total of benefits, losses and expenses (all eight insurers above file it).
+  totalBenefitsAndExpenses:mapping(['BenefitsLossesAndExpenses'],[])
  },
  balance: {
   // Total liabilities and equity equals total assets on every balance sheet; a
@@ -121,7 +137,45 @@ const MAPS = {
   totalNonCurrentLiabilities:mapping(['LiabilitiesNoncurrent'],['NoncurrentLiabilities']),
   otherNonCurrentLiabilities:mapping(['OtherLiabilitiesNoncurrent'],['OtherNoncurrentLiabilities']),
   commonStock:mapping(['CommonStockValue','CommonStocksIncludingAdditionalPaidInCapital','CommonStockValueOutstanding'],['IssuedCapital']),
-  treasuryStock:mapping(['TreasuryStockValue','TreasuryStockCommonValue'],['TreasuryShares'])
+  treasuryStock:mapping(['TreasuryStockValue','TreasuryStockCommonValue'],['TreasuryShares']),
+  // A bank's unclassified balance sheet, line by line as filed (sources as for the income lines above).
+  // Each is its own filed line: gross loans and the allowance are read as filed, never netted here.
+  cashAndDueFromBanks:mapping(['CashAndDueFromBanks'],[]),
+  interestBearingDepositsInBanks:mapping(['InterestBearingDepositsInBanks'],[]),
+  fedFundsSoldAndResale:mapping(['FederalFundsSoldAndSecuritiesPurchasedUnderAgreementsToResell'],[]),
+  // Fifth Third files its trading account as debt securities only.
+  tradingAssets:mapping(['TradingSecurities','TradingSecuritiesDebt'],[]),
+  // The CECL-era name first (JPM, BAC, WFC, FITB, ALL), then the older fair-value line (TRV, CB, MET, PRU, AFL).
+  availableForSaleSecurities:mapping(['DebtSecuritiesAvailableForSaleExcludingAccruedInterest','AvailableForSaleSecuritiesDebtSecurities'],[]),
+  heldToMaturitySecurities:mapping(['DebtSecuritiesHeldToMaturityExcludingAccruedInterestAfterAllowanceForCreditLoss','HeldToMaturitySecurities'],[]),
+  loansGross:mapping(['FinancingReceivableExcludingAccruedInterestBeforeAllowanceForCreditLoss'],[]),
+  allowanceForCreditLosses:mapping(['FinancingReceivableAllowanceForCreditLossExcludingAccruedInterest'],[]),
+  otherAssets:mapping(['OtherAssets'],[]),
+  noninterestBearingDeposits:mapping(['NoninterestBearingDepositLiabilities'],[]),
+  interestBearingDeposits:mapping(['InterestBearingDepositLiabilities'],[]),
+  fedFundsPurchasedAndRepo:mapping(['FederalFundsPurchasedAndSecuritiesSoldUnderAgreementsToRepurchase'],[]),
+  fhlbAdvances:mapping(['AdvancesFromFederalHomeLoanBanks'],[]),
+  // Long-term debt with its current part, the face line of an unclassified balance sheet (FITB, BAC, WFC, ALL,
+  // CB; JPM's includes finance leases). Its own field: sec-coverage keeps LongTermDebt out of the noncurrent line.
+  longTermDebtTotal:mapping(['LongTermDebt','LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities'],[]),
+  otherLiabilities:mapping(['OtherLiabilities'],[]),
+  // An insurer's balance sheet. Investments is the filed total (TRV, CB, ALL, PGR, GL, MET, PRU).
+  totalInvestments:mapping(['Investments'],[]),
+  equitySecurities:mapping(['EquitySecuritiesFvNi'],[]),
+  mortgageLoans:mapping(['MortgageLoansOnRealEstateCommercialAndConsumerNet'],[]),
+  policyLoans:mapping(['LoansInsurancePolicy'],[]),
+  premiumsReceivable:mapping(['PremiumsReceivableAtCarryingValue'],[]),
+  // The P&C line on paid and unpaid losses first; the broader total where that is not filed (PRU, MET, AFL).
+  reinsuranceRecoverables:mapping(['ReinsuranceRecoverablesOnPaidAndUnpaidLosses','ReinsuranceRecoverables'],[]),
+  deferredAcquisitionCosts:mapping(['DeferredPolicyAcquisitionCosts','DeferredPolicyAcquisitionCostsAndValueOfBusinessAcquired'],[]),
+  separateAccountAssets:mapping(['SeparateAccountAssets'],[]),
+  // Gross reserves are the face line (TRV $65.7bn gross, $58.2bn net of reinsurance in the note); Aflac's face
+  // carries only the net figure from 2023.
+  lossReserves:mapping(['LiabilityForClaimsAndClaimsAdjustmentExpense','LiabilityForUnpaidClaimsAndClaimsAdjustmentExpenseNet'],[]),
+  unearnedPremiums:mapping(['UnearnedPremiums'],[]),
+  futurePolicyBenefits:mapping(['LiabilityForFuturePolicyBenefits'],[]),
+  policyholderAccountBalances:mapping(['PolicyholderContractDeposits'],[]),
+  separateAccountLiabilities:mapping(['SeparateAccountsLiability'],[])
  },
  cash: {
   operatingCashflow:mapping(['NetCashProvidedByUsedInOperatingActivities','NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivities','CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
@@ -174,7 +228,9 @@ const MAPS = {
   repaymentsOfLongTermDebt:mapping(['RepaymentsOfLongTermDebt'],['RepaymentsOfNoncurrentBorrowings']),
   proceedsFromRepaymentsOfShortTermDebt:mapping(['ProceedsFromRepaymentsOfShortTermDebt','ProceedsFromRepaymentsOfCommercialPaper'],[]),
   proceedsFromIssuanceOfCommonStock:mapping(['ProceedsFromIssuanceOfCommonStock'],['ProceedsFromIssueOfOrdinaryShares','ProceedsFromIssuingShares']),
-  changeInCashAndCashEquivalents:mapping(['CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect','CashAndCashEquivalentsPeriodIncreaseDecrease'],['IncreaseDecreaseInCashAndCashEquivalents','IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges'])
+  changeInCashAndCashEquivalents:mapping(['CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect','CashAndCashEquivalentsPeriodIncreaseDecrease'],['IncreaseDecreaseInCashAndCashEquivalents','IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges']),
+  // A bank's financing line for the net change in deposits (JPM, BAC, WFC, FITB, ZION, USB). Fill-only.
+  changeInDeposits:mapping(['IncreaseDecreaseInDeposits'],[])
  }
 };
 // A narrower tag stands in for the full figure only when the filing shows the
@@ -204,6 +260,14 @@ const LAST_RESORT = new Set(['us-gaap:EarningsPerShareBasicAndDiluted','us-gaap:
  'us-gaap:PartnersCapitalIncludingPortionAttributableToNoncontrollingInterest','us-gaap:LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest',
  'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations','us-gaap:RegulatedAndUnregulatedOperatingRevenue','us-gaap:GrossInvestmentIncomeOperating','us-gaap:NetIncomeLossPerOutstandingLimitedPartnershipUnitBasicNetOfTax','us-gaap:NetIncomeLossNetOfTaxPerOutstandingLimitedPartnershipUnitDiluted',
  'us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted','ifrs-full:BasicAndDilutedEarningsLossPerShare']);
+// The industry layouts' lines (MAPS above, from netInterestIncomeAfterProvision, cashAndDueFromBanks and
+// changeInDeposits on): first read on 2026-10-31, they fill a figure and never add a year or quarter.
+const INDUSTRY_FIELDS = {income:['netInterestIncomeAfterProvision','investmentGains','policyFees','insuranceOtherIncome','interestCreditedToPolicyholders','policyholderDividends','totalBenefitsAndExpenses'],
+ balance:['cashAndDueFromBanks','interestBearingDepositsInBanks','fedFundsSoldAndResale','tradingAssets','availableForSaleSecurities','heldToMaturitySecurities','loansGross','allowanceForCreditLosses','otherAssets','noninterestBearingDeposits','interestBearingDeposits','fedFundsPurchasedAndRepo','fhlbAdvances','longTermDebtTotal','otherLiabilities',
+  'totalInvestments','equitySecurities','mortgageLoans','policyLoans','premiumsReceivable','reinsuranceRecoverables','deferredAcquisitionCosts','separateAccountAssets','lossReserves','unearnedPremiums','futurePolicyBenefits','policyholderAccountBalances','separateAccountLiabilities'],
+ cash:['changeInDeposits']};
+const INDUSTRY_ADDED = Object.entries(INDUSTRY_FIELDS).flatMap(([st,fields])=>fields.flatMap(f=>MAPS[st][f]['us-gaap'].map(t=>'us-gaap:'+t)));
+const INDUSTRY_TAGS = new Set(INDUSTRY_ADDED);
 const DISCONTINUED_ADDED = [...MAPS.income.discontinuedOperations['us-gaap'].map(t=>'us-gaap:'+t),...MAPS.income.discontinuedOperations['ifrs-full'].map(t=>'ifrs-full:'+t)];
 const OUTFLOWS = new Set(['capitalExpenditures','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock','repaymentsOfLongTermDebt','treasuryStock']);
 // Tags first read on 2026-10-17. Like the 2026-10-06 additions they fill a
@@ -253,7 +317,10 @@ const FILL_GUARDS = {'us-gaap:Cash':['us-gaap:CashEquivalentsAtCarryingValue'],'
 // $97.6m total interest and dividend income), so the filed total is read. Only when that filing reports the larger
 // total: outside banking the net line is often signed as an expense and interest-and-fee income includes fees, and
 // as a floor alone they cleared 360 true figures (CIK 887733 $0.1m interest income beside a $33.6m "net").
-const TOTAL_INTEREST='us-gaap:InterestAndDividendIncomeOperating';
+// JPMorgan files its total as InterestIncomeOperating ($193.3bn in 2025) and no interest-and-dividend total, so its
+// interest income read the securities sub-line InvestmentIncomeInterest ($28.0bn) beside $95.4bn of net interest
+// income; either total counts (2026-10-31).
+const TOTAL_INTEREST=['us-gaap:InterestAndDividendIncomeOperating','us-gaap:InterestIncomeOperating'];
 const TOTAL_FLOORS = {'us-gaap:InvestmentIncomeInterest':['us-gaap:InterestIncomeExpenseNet','us-gaap:InterestAndFeeIncomeLoansAndLeases'],
  'us-gaap:InterestIncomeOperating':['us-gaap:InterestIncomeExpenseNet','us-gaap:InterestAndFeeIncomeLoansAndLeases']};
 const FILLS_ADDED = ['us-gaap:ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost','us-gaap:ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost','us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted','us-gaap:PaymentsOfDividendsCommonStock','us-gaap:PaymentsForRepurchaseOfEquity','us-gaap:AllocatedShareBasedCompensationExpense',
@@ -398,7 +465,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  // A figure a guard turned down is recorded, so neither a presented line under the same tag nor the same-filing
  // last-good rule (sec-last-good.js) puts it back: FBS Global 2025 cash of S$4.0m beside S$5.3m of equivalents was.
  const rejected=new Map(),reject=(st,basis,end,field,tag)=>{const k=st+'|'+basis+'|'+end+'|'+field;if(!rejected.has(k))rejected.set(k,new Set());rejected.get(k).add(tag);};
- const added=new Set(['us-gaap:'+LEASE_REVENUE,...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInInvestingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInFinancingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...FILLS_ADDED,...fillGuards]);
+ const added=new Set(['us-gaap:'+LEASE_REVENUE,...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInInvestingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInFinancingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...INDUSTRY_ADDED,...FILLS_ADDED,...fillGuards]);
  for(const [taxonomy, concepts] of Object.entries(document.facts)) for(const [concept, def] of Object.entries(concepts)) {
   if(!wanted.has(taxonomy + ':' + concept)) continue;
   for(const [unit, facts] of Object.entries(def.units || {})) for(const f of facts) {
@@ -447,7 +514,9 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  }
  const annualForm=r=>/^(10-K|20-F|40-F)(\/A)?$/.test(r.form) || !!r.annualFiling;
  const byConceptUnit=new Map(),byEnd=new Map(),sourceCache=new Map();
- for(const row of rows){const key=row.taxonomy+':'+row.concept+'|'+row.unit;const concept=byConceptUnit.get(key) || [];concept.push(row);byConceptUnit.set(key,concept);const ending=byEnd.get(row.end) || [];ending.push(row);byEnd.set(row.end,ending);}
+ // A bank or insurer line does not date a period end: LongTermDebt of $2.0m dated 2023-12-31 in Prairie Operating's
+ // Q3 2023 10-Q made its Q4 2023 year-to-date look restated and dropped five quarter cells (2026-10-31).
+ for(const row of rows){const key=row.taxonomy+':'+row.concept+'|'+row.unit;const concept=byConceptUnit.get(key) || [];concept.push(row);byConceptUnit.set(key,concept);if(INDUSTRY_TAGS.has(row.taxonomy+':'+row.concept))continue;const ending=byEnd.get(row.end) || [];ending.push(row);byEnd.set(row.end,ending);}
  const a=evidence.latestAnnual;
  const annualAccessions=new Set(a?[a.accessionNumber,...(a.amendments || []).map(x=>x.accessionNumber)]:[]);
  for(const r of rows)if(a && r.annualFiling?.accessionNumber===a.accessionNumber)annualAccessions.add(r.accn);
@@ -527,10 +596,12 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   :(byConceptUnit.get('us-gaap:'+OTHER_PPE+'|'+l.u) || []).some(r=>r.end===l.e && (l.q===4?r.days>=340 && r.days<=380:r.days>=75 && r.days<=QUARTER_MAX_DAYS) && Math.abs(r.val)<Math.abs(l.v.reduce((n,v)=>n+v,0))));
  function fillFromLines(st,basis,row,end,cur) {
   const cited=new Map(),cite=id=>{const s=out.sources[id];if(s?.accessionNumber && !cited.has(s.accessionNumber))cited.set(s.accessionNumber,s);};
-  for(const ids of Object.values(row._sources))ids.forEach(cite);
+  // A bank or insurer line (INDUSTRY_FIELDS) is often a later filing's comparative: it does not choose the filings.
+  const citing=(s,r)=>Object.entries(r._sources).filter(([f])=>!INDUSTRY_FIELDS[s]?.includes(f)).forEach(([,ids])=>ids.forEach(cite));
+  citing(st,row);
   // A statement with no figure of its own takes the filings, and the span, of the period's other statements.
   const empty=!cited.size;
-  if(empty)for(const other of ['income','balance','cash'])for(const r of out[other][basis+'Reports'])if(r.fiscalDateEnding===end)for(const ids of Object.values(r._sources))ids.forEach(cite);
+  if(empty)for(const other of ['income','balance','cash'])for(const r of out[other][basis+'Reports'])if(r.fiscalDateEnding===end)citing(other,r);
   if(!cited.size)return;
   const start=st==='balance'?null:row.periodStart || (empty?startsAt.get(basis+'|'+end):null) || null;
   if(st!=='balance'){if(!start)return;const days=(Date.parse(end)-Date.parse(start))/DAY+1;if(basis==='annual'?days<340 || days>380:days<75 || days>QUARTER_MAX_DAYS)return;}
@@ -751,7 +822,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    const parts=FILL_GUARDS[taxonomy+':'+concept],floors=TOTAL_FLOORS[taxonomy+':'+concept];
    return f=>guards && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val!==0)
     || parts && rows.some(r=>parts.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.val!==0)
-    || floors && [floors,[TOTAL_INTEREST]].every(tags=>rows.some(r=>tags.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val>f.val));
+    || floors && [floors,TOTAL_INTEREST].every(tags=>rows.some(r=>tags.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val>f.val));
   };
   for(const [taxonomy,concept] of ordered) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept) || concept===OTHER_PPE && otherPpePart)continue;
@@ -933,8 +1004,9 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}
    for(const [k,tags] of rejected){const [s0,b0,e0,field]=k.split('|');if(s0===st && b0===basis && e0===end && row[field]===null)out.issues.push({code:'REJECTED_PART',statement:st,basis,field,periodEnd:end,concepts:[...tags]});}
    // Net income on the cash-flow statement and D&A on the income statement are
-   // the other statement's lines; on their own they are not a statement.
-   if(Object.keys(row._sources).every(f=>BORROWED[st]?.includes(f)))for(const f of Object.keys(row._sources)){row[f]=null;delete row._sources[f];delete row._scopes[f];delete row._derivations[f];delete row._signs[f];}
+   // the other statement's lines; on their own they are not a statement. Nor are
+   // bank and insurer lines, which never add a period.
+   if(Object.keys(row._sources).every(f=>BORROWED[st]?.includes(f) || INDUSTRY_FIELDS[st]?.includes(f)))for(const f of Object.keys(row._sources)){row[f]=null;delete row._sources[f];delete row._scopes[f];delete row._derivations[f];delete row._signs[f];}
    if(st!=='balance' && row.periodStart && Object.keys(row._sources).length && !startsAt.has(basis+'|'+end))startsAt.set(basis+'|'+end,row.periodStart);
    if(Object.keys(row._sources).length)out[st][basis+'Reports'].push(row);
   }
@@ -962,4 +1034,4 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  if(document.industryTables?.length)out.industryObservations=require('./sec-industry-tables').extractTables(document.industryTables,document.industryFiling,issuer,out);
  return out;
 }
-module.exports={extract,presentedDebt,MAPS,OUTFLOWS,ROWS_ADDED,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept,scope,dataSetDate};
+module.exports={extract,presentedDebt,MAPS,OUTFLOWS,ROWS_ADDED,INDUSTRY_FIELDS,INDUSTRY_ADDED,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept,scope,dataSetDate};

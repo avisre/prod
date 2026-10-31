@@ -30,7 +30,12 @@ const ANNUAL_PERIODS = 5;
 const QUARTER_PERIODS = 8;
 
 // ---------- the page's own row definitions ----------
-function pageRows() {
+// Banks and insurers have their own row sets (company.js ROWSETS), chosen by the
+// page's own IndustryMetrics classification; layoutFor() is that choice.
+const IndustryMetrics = require(path.join(ROOT, 'frontend-v2', 'assets', 'industry-metrics.js'));
+let compiled = null;
+function compile() {
+    if (compiled) return compiled;
     const src = fs.readFileSync(path.join(ROOT, 'frontend-v2', 'assets', 'company.js'), 'utf8');
     const cut = (from, to) => {
         const a = src.indexOf(from); const b = src.indexOf(to, a);
@@ -40,14 +45,23 @@ function pageRows() {
     const code = [
         cut('    // ---------- shared math ----------', '    let payload = null;'),
         cut('    function groupDefs(defs, st) {', '    function alignStatementYearColumns'),
-        ';({ ROWS, groupDefs });'
+        ';({ ROWSETS, layoutOf, groupDefs });'
     ].join('\n');
     const num = (v) => {
         if (v === null || v === undefined || (typeof v === 'string' && /^(?:none|null)?$/i.test(v.trim()))) return null;
         const n = Number(v); return Number.isFinite(n) ? n : null;
     };
     const fmt = () => '';
-    const { ROWS, groupDefs } = vm.runInNewContext(code, { num, money: fmt, fixed: fmt, pct: fmt, Math, Number, Object, Set });
+    compiled = vm.runInNewContext(code, { num, money: fmt, fixed: fmt, pct: fmt, Math, Number, Object, Set });
+    return compiled;
+}
+function layoutFor(payload) {
+    return compile().layoutOf(payload ? IndustryMetrics.classify(payload) : null);
+}
+function pageRows(layout = 'generic') {
+    const { ROWSETS, groupDefs } = compile();
+    const ROWS = ROWSETS[layout];
+    if (!ROWS) throw new Error(`company.js has no ${layout} row set`);
     const out = {};
     for (const st of ['income', 'balance', 'cash']) {
         out[st] = groupDefs(ROWS[st], st).map((d) => {
@@ -57,7 +71,7 @@ function pageRows() {
             if (/fcfOf\(r\)/.test(body)) ['operatingCashflow', 'capitalExpenditures'].forEach((f) => fields.add(f));
             fields.delete('_sources');
             const role = d.parentOf !== undefined ? 'dropdown' : d.gid !== undefined ? 'in-dropdown' : 'row';
-            return { label: d.label, get: d.get, fields: [...fields], role, gid: d.gid, parentOf: d.parentOf, kind: d.kind };
+            return { label: d.label, get: d.get, fields: [...fields], role, gid: d.gid, parentOf: d.parentOf, kind: d.kind, fallback: !!d.fallback, fcf: !!d.fcf };
         });
     }
     return out;
@@ -67,8 +81,12 @@ function pageRows() {
 const BANK_ONLY = new Set(['Net interest income', 'Noninterest income', 'Loans', 'Deposits']);
 const NO_COST_OF_SALES = new Set(['Cost of revenue', 'Gross margin', 'Gross profit', 'Inventory', 'Change in inventory', 'R&D',
     'Total current assets', 'Total current liabilities', 'Total long-term assets', 'Total long-term liabilities']);
-function notApplicable(label, archetype) {
-    if (BANK_ONLY.has(label)) return archetype !== 'bank';
+// The industry layouts carry only their own industry's lines, so on them the rules below
+// are for a layout's own gaps: a health insurer files current assets and an operating
+// income line, but no inventory or R&D.
+function notApplicable(label, archetype, layout = 'generic') {
+    if (layout === 'health') return ['Inventory', 'Change in inventory', 'R&D'].includes(label);
+    if (BANK_ONLY.has(label)) return archetype !== 'bank' && layout !== 'bank';
     // Banks and insurers file no operating income line, so EBIT and EBITDA have no base.
     if (['bank', 'insurer'].includes(archetype)) return NO_COST_OF_SALES.has(label) || ['EBIT', 'EBITDA'].includes(label);
     if (archetype === 'reit') return ['Inventory', 'Change in inventory', 'R&D', 'Total current assets', 'Total current liabilities', 'Total long-term assets', 'Total long-term liabilities'].includes(label);
@@ -158,7 +176,7 @@ function secMatcher(facts) {
 }
 
 async function main() {
-    const ROWDEFS = pageRows();
+    const ROWDEFS = {};
     const { MAPS } = require('../backend/sec-facts');
     // Per statement: a field extraction fills on the income statement (netIncome)
     // is still blank when the cash-flow table reads it from a cash-flow row.
@@ -199,20 +217,27 @@ async function main() {
         if (bulk && s.cik) { try { const gaap = await bulk.factsForCik(s.cik); facts = gaap ? { 'us-gaap': gaap } : null; } catch (_) { facts = null; } }
         const secHas = facts ? secMatcher(facts) : null;
         const perShare = !(payload && payload.coverage && payload.coverage.perShareAllowed === false);
+        const layout = layoutFor(payload);
+        const rowDefs = ROWDEFS[layout] ||= pageRows(layout);
+        // Banks and life insurers have no free cash flow; the page leaves the row out (industry-metrics.js).
+        const noFcf = !!(payload && IndustryMetrics.hasNoFcf(payload));
 
-        const stock = { sym: s.symbol, name: s.name || '', tier, archetype, hasSecFile: !!raw, statements: {} };
+        const stock = { sym: s.symbol, name: s.name || '', tier, archetype, layout, hasSecFile: !!raw, statements: {} };
         for (const st of ['income', 'balance', 'cash']) {
             for (const basis of ['annual', 'quarterly']) {
                 const rows = ((payload && payload[st] && payload[st][basis + 'Reports']) || []).slice(0, basis === 'annual' ? ANNUAL_PERIODS : QUARTER_PERIODS);
                 const rawRows = (raw && raw[st] && raw[st][basis + 'Reports']) || [];
                 const out = [];
-                for (const def of ROWDEFS[st]) {
+                for (const def of rowDefs[st]) {
+                    if (def.fcf && noFcf) continue;
                     const vals = rows.map((r) => { try { return def.get(r); } catch (_) { return null; } });
                     const filled = vals.filter((v) => v !== null).length;
                     const status = !rows.length || !filled ? 'hidden' : filled === rows.length ? 'filled' : 'gappy';
                     let reason = null; let tag = null;
                     if (status !== 'filled') {
-                        if (notApplicable(def.label, archetype)) reason = 'not_applicable';
+                        if (notApplicable(def.label, archetype, layout)) reason = 'not_applicable';
+                        // shown only in place of another line (a bank's cash line where it files no cash and due from banks)
+                        else if (def.fallback) reason = 'formula_blank_by_design';
                         else if (!rows.length) reason = raw ? 'no_statement_rows' : 'no_sec_file';
                         else if (!perShare && (def.kind === 'ps' || def.kind === 'shares')) reason = 'per_share_withheld';
                         else {
@@ -319,4 +344,4 @@ async function main() {
 }
 
 if (require.main === module) main();
-module.exports = { pageRows, notApplicable, secMatcher };
+module.exports = { pageRows, layoutFor, notApplicable, secMatcher };

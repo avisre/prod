@@ -579,6 +579,129 @@
             { label: 'Free cash flow', get: (r) => fcfOf(r), fmt: money, kind: 'money', rule: true, solo: true, fcf: true }
         ]
     };
+    // Banks and insurers file no revenue less cost of sales, no current assets and
+    // no inventory: their statements follow their own industry's face lines, in the
+    // filed order (2026-10-31, FY2025 10-Ks of JPM, BAC, WFC, FITB, ZION; PGR, TRV,
+    // CB, ALL; GL, MET, PRU, AFL; UNH, ELV). Lines are flat rather than folded under
+    // a total, because a total some filers leave out would hide its components.
+    // Each row is one filed field; nothing here adds or nets lines.
+    const pick = (st, label, over) => ({ ...ROWS[st].find((d) => d.label === label), ...over });
+    const line = (label, get, over) => ({ label, get, fmt: money, kind: 'money', ...over });
+    const PER_SHARE = ['EPS, basic', 'EPS, diluted'].map((l) => pick('income', l));
+    const TAX_TO_NET = [pick('income', 'Income tax'), pick('income', 'Effective tax rate'), pick('income', 'Net income'), pick('income', 'Net margin')];
+    const EQUITY_TO_END = ['Shareholder equity', 'Common stock', 'Retained earnings', 'Treasury stock', 'Total liabilities & equity', 'Shares outstanding'].map((l) => pick('balance', l));
+    const assetLines = (labels) => labels.map((l) => pick('balance', l, { sub: false, solo: true }));
+    const BANK_ROWS = {
+        income: [
+            line('Interest income', (r) => num(r.interestIncome), { solo: true }),
+            line('Interest expense', (r) => num(r.interestExpense), { solo: true, neutral: true }),
+            line('Net interest income', (r) => num(r.netInterestIncome), { rule: true, solo: true }),
+            line('Provision for credit losses', (r) => num(r.provisionForCreditLosses), { solo: true, neutral: true }),
+            line('Net interest income after provision', (r) => num(r.netInterestIncomeAfterProvision), { solo: true }),
+            line('Noninterest income', (r) => num(r.nonInterestIncome), { solo: true }),
+            line('Total net revenue', (r) => derive(r).rev, { rule: true, solo: true }),
+            line('Noninterest expense', (r) => num(r.nonInterestExpense), { solo: true, neutral: true }),
+            pick('income', 'Pre-tax income', { solo: true }),
+            ...TAX_TO_NET, ...PER_SHARE
+        ],
+        balance: [
+            line('Cash and due from banks', (r) => num(r.cashAndDueFromBanks), { solo: true }),
+            // a bank that files no cash-and-due line shows its cash line instead, never both
+            line('Cash and cash equivalents', (r) => num(r.cashAndDueFromBanks) === null ? num(r.cashAndCashEquivalentsAtCarryingValue) : null, { solo: true, fallback: true }),
+            line('Interest-bearing deposits in banks', (r) => num(r.interestBearingDepositsInBanks), { solo: true }),
+            line('Fed funds sold & resale agreements', (r) => num(r.fedFundsSoldAndResale), { solo: true }),
+            line('Trading assets', (r) => num(r.tradingAssets), { solo: true }),
+            line('Securities available for sale', (r) => num(r.availableForSaleSecurities), { solo: true }),
+            line('Securities held to maturity', (r) => num(r.heldToMaturitySecurities), { solo: true }),
+            line('Loans, net', (r) => num(r.loans)),
+            line('Loans, gross', (r) => num(r.loansGross), { sub: true }),
+            line('Allowance for credit losses', (r) => num(r.allowanceForCreditLosses), { sub: true, neutral: true }),
+            pick('balance', 'Property, plant & equipment', { label: 'Premises and equipment', sub: false, solo: true }),
+            ...assetLines(['Goodwill', 'Intangible assets']),
+            line('Other assets', (r) => num(r.otherAssets), { solo: true, neutral: true }),
+            pick('balance', 'Total assets'),
+            line('Deposits', (r) => num(r.deposits)),
+            line('Noninterest-bearing deposits', (r) => num(r.noninterestBearingDeposits), { sub: true }),
+            line('Interest-bearing deposits', (r) => num(r.interestBearingDeposits), { sub: true }),
+            line('Fed funds purchased & repurchase agreements', (r) => num(r.fedFundsPurchasedAndRepo), { solo: true, neutral: true }),
+            line('Short-term borrowings', (r) => num(r.shortTermBorrowings), { solo: true, neutral: true }),
+            line('Federal Home Loan Bank advances', (r) => num(r.fhlbAdvances), { solo: true, neutral: true }),
+            line('Long-term debt', (r) => num(r.longTermDebtTotal), { solo: true, neutral: true }),
+            line('Other liabilities', (r) => num(r.otherLiabilities), { solo: true, neutral: true }),
+            pick('balance', 'Total liabilities'),
+            ...EQUITY_TO_END
+        ],
+        cash: ROWS.cash.filter((d) => !['Change in receivables', 'Change in inventory', 'Change in accounts payable'].includes(d.label)).flatMap((d) => d.label === 'Cash flow from financing'
+            ? [d, line('Net change in deposits', (r) => num(r.changeInDeposits), { sub: true, neutral: true })] : [d])
+    };
+    // Life (6311, 6321) and P&C (6331, 6351, 6361, 6399) insurers: the same face, with the
+    // lines only one kind files. A line a filer does not tag is hidden with the other blanks.
+    const insurerRows = (type) => {
+        const life = type === 'life';
+        return {
+            income: [
+                line('Net premiums earned', (r) => num(r.premiums), { solo: true }),
+                ...(life ? [line('Policy charges and fee income', (r) => num(r.policyFees), { solo: true })] : []),
+                line('Net investment income', (r) => { const n = num(r.netInvestmentIncome); return n !== null ? n : num(r.investmentIncome); }, { solo: true }),
+                // Progressive reports interest and dividends as its investment income line
+                line('Interest income', (r) => num(r.netInvestmentIncome) === null && num(r.investmentIncome) === null ? num(r.interestIncome) : null, { solo: true, fallback: true }),
+                line('Investment gains (losses)', (r) => num(r.investmentGains), { solo: true }),
+                line('Other income', (r) => num(r.insuranceOtherIncome), { solo: true }),
+                line('Total revenues', (r) => derive(r).rev, { rule: true, solo: true }),
+                line(life ? 'Policyholder benefits and claims' : 'Losses and loss adjustment expenses', (r) => num(r.lossesAndLossAdjustmentExpense), { solo: true, neutral: true }),
+                ...(life ? [line('Interest credited to policyholder accounts', (r) => num(r.interestCreditedToPolicyholders), { solo: true, neutral: true }),
+                    line('Policyholder dividends', (r) => num(r.policyholderDividends), { solo: true, neutral: true })] : []),
+                line('Amortization of deferred acquisition costs', (r) => num(r.policyAcquisitionExpense), { solo: true, neutral: true }),
+                line('Other underwriting expenses', (r) => num(r.otherUnderwritingExpense), { solo: true, neutral: true }),
+                line('Interest expense', (r) => num(r.interestExpense), { solo: true, neutral: true }),
+                line('Total benefits, losses and expenses', (r) => num(r.totalBenefitsAndExpenses), { rule: true, solo: true, neutral: true }),
+                pick('income', 'Pre-tax income', { solo: true }),
+                ...TAX_TO_NET, ...PER_SHARE
+            ],
+            balance: [
+                line('Total investments', (r) => num(r.totalInvestments)),
+                line('Fixed maturities available for sale', (r) => num(r.availableForSaleSecurities), { sub: true }),
+                line('Equity securities', (r) => num(r.equitySecurities), { sub: true }),
+                ...(life ? [line('Mortgage loans', (r) => num(r.mortgageLoans), { sub: true }), line('Policy loans', (r) => num(r.policyLoans), { sub: true })] : []),
+                pick('balance', 'Cash and cash equivalents', { sub: false, solo: true }),
+                ...(life ? [] : [line('Premiums receivable', (r) => num(r.premiumsReceivable), { solo: true })]),
+                line('Reinsurance recoverables', (r) => num(r.reinsuranceRecoverables), { solo: true }),
+                line('Deferred acquisition costs', (r) => num(r.deferredAcquisitionCosts), { solo: true }),
+                ...assetLines(['Goodwill', 'Intangible assets']),
+                ...(life ? [line('Separate account assets', (r) => num(r.separateAccountAssets), { solo: true })] : []),
+                line('Other assets', (r) => num(r.otherAssets), { solo: true, neutral: true }),
+                pick('balance', 'Total assets'),
+                ...(life ? [line('Future policy benefits', (r) => num(r.futurePolicyBenefits), { solo: true, neutral: true }),
+                    line('Policyholder account balances', (r) => num(r.policyholderAccountBalances), { solo: true, neutral: true })] : []),
+                line(life ? 'Policy and contract claims' : 'Loss and loss adjustment expense reserves', (r) => num(r.lossReserves), { solo: true, neutral: true }),
+                line('Unearned premiums', (r) => num(r.unearnedPremiums), { solo: true, neutral: true }),
+                ...(life ? [line('Separate account liabilities', (r) => num(r.separateAccountLiabilities), { solo: true, neutral: true })] : []),
+                line('Short-term debt', (r) => num(r.shortTermBorrowings), { solo: true, neutral: true }),
+                line('Long-term debt', (r) => num(r.longTermDebtTotal) ?? num(r.longTermDebt), { solo: true, neutral: true }),
+                line('Total debt', (r) => num(r.shortLongTermDebtTotal), { solo: true, neutral: true }),
+                line('Other liabilities', (r) => num(r.otherLiabilities), { solo: true, neutral: true }),
+                pick('balance', 'Total liabilities'),
+                ...EQUITY_TO_END
+            ],
+            cash: ROWS.cash.filter((d) => d.label !== 'Change in inventory')
+        };
+    };
+    // Health insurers (6324) file a classified balance sheet and an operating income
+    // line, like any company; their cost line is medical costs, and the cost of
+    // products they also file is not the cost of their revenue (UnitedHealth FY2025:
+    // $50.7bn of products against $448bn of revenue), so there is no gross profit.
+    const HEALTH_ROWS = {
+        income: ROWS.income.filter((d) => !['Cost of revenue', 'Gross profit', 'Gross margin'].includes(d.label)).flatMap((d) => d.label === 'Revenue'
+            ? [d, line('Premiums', (r) => num(r.premiums), { sub: true }),
+                line('Medical costs and benefits', (r) => num(r.lossesAndLossAdjustmentExpense), { solo: true, neutral: true }),
+                line('Cost of products sold', (r) => num(r.costOfRevenue), { solo: true, neutral: true })] : [d]),
+        balance: ROWS.balance.flatMap((d) => d.label === 'Accounts payable'
+            ? [d, line('Medical costs payable', (r) => num(r.lossReserves), { sub: true, neutral: true })] : [d]),
+        cash: ROWS.cash
+    };
+    const ROWSETS = { generic: ROWS, bank: BANK_ROWS, pc: insurerRows('pc'), life: insurerRows('life'), health: HEALTH_ROWS };
+    // The statement layout for an IndustryMetrics.classify() result.
+    const layoutOf = (cls) => (cls && cls.kind === 'bank') ? 'bank' : (cls && cls.kind === 'insurer') ? (cls.insurerType || 'pc') : 'generic';
 
     let payload = null;
     let stState = 'income';
@@ -1902,9 +2025,15 @@
                 ? { label: l.label, get: () => null, fmt: blank, kind: 'heading', heading: true, sub: true, depth: l.depth }
                 : { label: l.label, get: at(l), fmt: money, kind: 'money', sub: true, neutral: true, depth: l.depth }));
     }
+    // The row set for this company's industry (bank, P&C, life or health insurer), from
+    // the same classification as the industry panel; every other company is generic.
+    function statementRows() {
+        const set = ROWSETS[layoutOf(window.IndustryMetrics && payload ? window.IndustryMetrics.classify(payload) : null)];
+        return set[stState];
+    }
     function statementDefs(converted) {
         const filed = filedCostDefs(converted);
-        if (!filed.length) return noFcf() ? ROWS[stState].filter((d) => !d.fcf) : ROWS[stState];
+        if (!filed.length || statementRows() !== ROWS[stState]) return noFcf() ? statementRows().filter((d) => !d.fcf) : statementRows();
         const at = ROWS.income.findIndex((d) => d.label === 'Cost of revenue') + 1;
         return ROWS.income.slice(0, at).concat(filed, ROWS.income.slice(at));
     }

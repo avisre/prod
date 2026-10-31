@@ -466,6 +466,39 @@ test('interest income reads the filed total when the tagged figure is below the 
  // interest and fee income that includes fees is not a floor on its own.
  assert.equal(run({InvestmentIncomeInterest:flow(119),InterestIncomeExpenseNet:flow(33587)}),119);
  assert.equal(run({InterestIncomeOperating:flow(416969),InterestAndFeeIncomeLoansAndLeases:flow(500000)}),416969);
+ // JPMorgan FY2025: the securities sub-line ($28.0bn) beside its InterestIncomeOperating total ($193.3bn) and
+ // $95.4bn of net interest income; the total is the line.
+ assert.equal(run({InvestmentIncomeInterest:flow(28032),InterestIncomeOperating:flow(193341),InterestIncomeExpenseNet:flow(95443)}),193341);
+});
+
+test('bank and insurer face lines are read as filed, never add a period and never take another field\'s tag',()=>{
+ const {INDUSTRY_FIELDS,INDUSTRY_ADDED,MAPS}=require('../sec-facts');
+ const {doc,evidence}=fixture();const before=extract(doc,evidence,{asOf:'2026-10-03'});
+ const at={accn:ACC,form:'10-K',filed:'2026-02-01'},flow=(val,y=2025)=>({...at,val,start:y+'-01-01',end:y+'-12-31'}),inst=(val,y=2025)=>({...at,val,end:y+'-12-31'});
+ // JPMorgan's FY2025 10-K; the 2019 figures are on a year this filing has no other line for.
+ Object.assign(doc.facts['us-gaap'],{CashAndDueFromBanks:{units:{USD:[inst(21742),inst(20000,2019)]}},DebtSecuritiesHeldToMaturityExcludingAccruedInterestAfterAllowanceForCreditLoss:{units:{USD:[inst(270134)]}},
+  FinancingReceivableExcludingAccruedInterestBeforeAllowanceForCreditLoss:{units:{USD:[inst(1408905)]}},InterestIncomeExpenseAfterProvisionForLoanLoss:{units:{USD:[flow(81231),flow(70000,2019)]}},
+  IncreaseDecreaseInDeposits:{units:{USD:[flow(153168)]}},LiabilityForClaimsAndClaimsAdjustmentExpense:{units:{USD:[inst(43310)]}}});
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});
+ const b=d.balance.annualReports[0],i=d.income.annualReports[0],c=d.cash.annualReports[0];
+ assert.equal(b.cashAndDueFromBanks,21742);assert.equal(b.heldToMaturitySecurities,270134);assert.equal(b.loansGross,1408905);assert.equal(b.lossReserves,43310);
+ assert.equal(i.netInterestIncomeAfterProvision,81231);assert.equal(c.changeInDeposits,153168);
+ for(const st of ['income','balance','cash'])assert.deepEqual(d[st].annualReports.map(r=>r.fiscalDateEnding),before[st].annualReports.map(r=>r.fiscalDateEnding));
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+ // a quarter the income statement files does not get a balance sheet made of a bank line alone
+ const q={...at,form:'10-Q',accn:'0000000123-25-000002',filed:'2025-08-01'};
+ doc.facts['us-gaap'].Revenues.units.USD.push({...q,val:5,start:'2025-04-01',end:'2025-06-30'});
+ doc.facts['us-gaap'].CashAndDueFromBanks.units.USD.push({...q,val:21000,end:'2025-06-30'});
+ const dq=extract(doc,evidence,{asOf:'2026-10-03'});
+ assert.ok(dq.income.quarterlyReports.some(r=>r.fiscalDateEnding==='2025-06-30'));
+ assert.ok(!dq.balance.quarterlyReports.some(r=>r.fiscalDateEnding==='2025-06-30'));
+ // every tag the new fields read is fill-only, and none was already read by another field
+ const owners=new Map();for(const [st,m] of Object.entries(MAPS))for(const [f,x] of Object.entries(m))for(const t of x['us-gaap'] || [])owners.set(t,[...(owners.get(t) || []),st+'.'+f]);
+ const fields=Object.entries(INDUSTRY_FIELDS).flatMap(([st,fs])=>fs.map(f=>st+'.'+f));
+ for(const [st,fs] of Object.entries(INDUSTRY_FIELDS))for(const f of fs)for(const t of MAPS[st][f]['us-gaap']){
+  assert.ok(INDUSTRY_ADDED.includes('us-gaap:'+t),t+' is fill-only');
+  assert.deepEqual(owners.get(t).filter(o=>!fields.includes(o)),[],t+' is read only by '+st+'.'+f);
+ }
 });
 
 test('total liabilities and equity comes from the filing that gave the row its total assets, or one that agrees with it',()=>{

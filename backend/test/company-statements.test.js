@@ -100,8 +100,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261026-ui43/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261026-ui43/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261031-ui44/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261031-ui44/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -274,8 +274,8 @@ test('the per-share view divides by the share count filed for that same period e
 });
 
 test('a company that files no cost of revenue shows its filed cost lines under its own headings, annual only', () => {
-  const build = pageFunction('    const FILED_GROUP = 900;', '    function groupDefs(', ['payload', 'stState', 'basisState', 'reportingCurrency', 'money', 'ROWS', 'noFcf'], '\nreturn { filedCostDefs, statementDefs, FILED_GROUP };');
-  const make = (p, st, basis, cur, money, rows, noFcf = () => false) => build(p, st, basis, cur, money, rows, noFcf);
+  const build = pageFunction('    const FILED_GROUP = 900;', '    function groupDefs(', ['payload', 'stState', 'basisState', 'reportingCurrency', 'money', 'ROWS', 'noFcf', 'ROWSETS', 'layoutOf', 'window'], '\nreturn { filedCostDefs, statementDefs, FILED_GROUP };');
+  const make = (p, st, basis, cur, money, rows, noFcf = () => false, sets = { generic: rows }, layout = 'generic') => build(p, st, basis, cur, money, rows, noFcf, sets, () => layout, { IndustryMetrics: { classify: () => ({}) } });
   const ROWS = { income: [{ label: 'Revenue', solo: true }, { label: 'Cost of revenue', solo: true }, { label: 'Gross profit' }] };
   const payload = { filedCosts: { currency: 'USD', heading: 'Costs and expenses', filing: { form: '10-K', accession: '0001104659-26-021292' }, lines: [
     { heading: true, label: 'Restaurant operating costs', depth: 0 },
@@ -305,6 +305,21 @@ test('a company that files no cost of revenue shows its filed cost lines under i
   const CASH = { cash: [{ label: 'Operating cash flow' }, { label: 'Free cash flow', fcf: true }] };
   assert.deepEqual(make({}, 'cash', 'annual', () => 'USD', String, CASH, () => true).statementDefs(false).map((d) => d.label), ['Operating cash flow']);
   assert.equal(make({}, 'cash', 'annual', () => 'USD', String, CASH).statementDefs(false), CASH.cash);
+  // a bank or insurer shows its own industry's rows, without the generic cost lines
+  const BANK = { income: [{ label: 'Interest income' }, { label: 'Net interest income' }], cash: CASH.cash };
+  assert.equal(make(payload, 'income', 'annual', () => 'USD', String, ROWS, () => false, { generic: ROWS, bank: BANK }, 'bank').statementDefs(false), BANK.income);
+  assert.deepEqual(make({}, 'cash', 'annual', () => 'USD', String, CASH, () => true, { generic: CASH, bank: BANK }, 'bank').statementDefs(false).map((d) => d.label), ['Operating cash flow']);
+});
+
+test('the statement layout follows the industry classification', () => {
+  const layoutOf = pageFunction('    const layoutOf = ', '\n', [], '\nreturn layoutOf;')();
+  assert.equal(layoutOf({ kind: 'bank' }), 'bank');
+  assert.equal(layoutOf({ kind: 'insurer', insurerType: 'life' }), 'life');
+  assert.equal(layoutOf({ kind: 'insurer', insurerType: 'health' }), 'health');
+  assert.equal(layoutOf({ kind: 'insurer', insurerType: 'pc' }), 'pc');
+  assert.equal(layoutOf({ kind: null }), 'generic');
+  assert.equal(layoutOf(null), 'generic');
+  assert.match(companySource, /const ROWSETS = \{ generic: ROWS, bank: BANK_ROWS, pc: insurerRows\('pc'\), life: insurerRows\('life'\), health: HEALTH_ROWS \};/);
 });
 
 test('an ADR chart still reads market cap on its left axis, from today\'s market cap ÷ today\'s price', () => {
