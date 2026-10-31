@@ -75,8 +75,14 @@ function adapt(company,raw,data,entry,issuer) {
  // fundamentals file carries Yahoo ones, and every peer/median consumer groups on
  // the GICS key. Falling back to the file's own label is what keeps ~1,968
  // companies that are absent from us-companies from losing peer context entirely.
- const overview={Symbol:company.symbol,Name:company.name,CIK:company.cik || '',Sector:sector.canonical(company.sector) || sector.canonical(raw?.overview?.Sector) || '',Exchange:company.exchange || '',Currency:'USD'};
+ // A company with no fundamentals file (about 1,200 on 2026-10-31, mostly foreign filers) has
+ // only its stored profile (scripts/refresh-profiles.js) for these; withIdentity, which merges
+ // it, runs only on a file that exists.
+ const profile=raw?.overview?.Description?null:stocks.profileFor(company.symbol);
+ const overview={Symbol:company.symbol,Name:company.name,CIK:company.cik || '',Sector:sector.canonical(company.sector) || sector.canonical(raw?.overview?.Sector) || sector.canonical(profile?.sector) || '',Exchange:company.exchange || '',Currency:'USD'};
  for(const key of ['Industry','Description','Country','AssetType'])if(raw?.overview?.[key])overview[key]=raw.overview[key];
+ if(!overview.Description && profile?.description)overview.Description=profile.description;
+ if(!overview.Industry && profile?.industry)overview.Industry=profile.industry;
  // Legacy cover-page share overlays infer security basis from provider scale.
  // Verified company market values retain the dated provider quote instead.
  const quote=require('./quote-store').getDailyQuote(company.symbol,{useLegacySecShares:false});

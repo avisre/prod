@@ -33,7 +33,7 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
  if(!force && old.extractionVersion===EXTRACTION_VERSION && old.validationVersion===VALIDATION_VERSION && !changed && !unfinished && old.lastFinancialResult==='success' && matchingFinancialFile(old,file))return merged;
  try {
   // Both describe this attempt; a status left from an earlier one would retry forever.
-  delete merged.originalExtraction;delete merged.periodicExtraction;
+  delete merged.originalExtraction;delete merged.periodicExtraction;delete merged.previousPeriodicExtraction;
   let raw;try{raw=await clientImpl.fetchFacts(issuer.cik);}catch(e){if(e.response?.status!==404 || !merged.latestAnnual)throw e;raw={cik:Number(issuer.cik),entityName:merged.issuerName,facts:{}};}
   const statementLines=(clientImpl.statementLines || require('../backend/statement-lines').forCik)(issuer.cik);
   let data=extract(raw,merged,{asOf,statementLines});
@@ -50,6 +50,14 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
   if(periodic && periodic.form==='10-Q' && periodic.primaryDocument && !data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate)) {
    try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,periodic);raw=require('../backend/sec-original').mergeFacts(raw,original);data=extract(raw,merged,{asOf,statementLines});merged.periodicExtraction={status:data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate)?'success':'no_quarter_found',source:original.originalDocument};}
    catch(error){merged.periodicExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
+  }
+  // A 10-Q gives cash flow year to date; its quarter is the difference from the previous 10-Q's,
+  // which the facts feed can also lack (Prologis, United Rentals: Q3 2026 on 2026-10-31).
+  const quarterCash=()=>data.cash.quarterlyReports.find(r=>r.fiscalDateEnding===periodic?.reportDate);
+  const earlier=merged.previousPeriodic;
+  if(periodic?.form==='10-Q' && data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate) && quarterCash()?.operatingCashflow==null && earlier?.primaryDocument) {
+   try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,earlier);raw=require('../backend/sec-original').mergeFacts(raw,original);data=extract(raw,merged,{asOf,statementLines});merged.previousPeriodicExtraction={status:quarterCash()?.operatingCashflow!=null?'success':'no_quarter_found',source:original.originalDocument};}
+   catch(error){merged.previousPeriodicExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
   }
   const previous=read(file,null);
   data=require('../backend/sec-last-good').preserveSameFiling(data,previous,merged);

@@ -326,3 +326,22 @@ test('a complete company name narrows the search to that company; partial words 
     assert.deepEqual(focus('texas instruments', [{ symbol: 'TXN', name: 'Texas Instruments Incorporated' }, { symbol: 'TXRH', name: 'Texas Roadhouse' }]).map((r) => r.symbol), ['TXN']);
     assert.ok(appSource.includes('if (/[=^]/.test(sym)) return false;'));
 });
+
+// Yahoo's fund modules return nothing for a closed-end fund (all 358 on 2026-10-31), so its net
+// assets and top positions come from its latest N-PORT, with the filing named and dated.
+test('a closed-end fund takes net assets and top holdings from its N-PORT', async (t) => {
+    const Yahoo = require('yahoo-finance2').default;
+    const stocks = require('../stock-universe'), fees = require('../fund-fees');
+    const saved = { quote: Yahoo.prototype.quote, quoteSummary: Yahoo.prototype.quoteSummary, lookup: stocks.lookup, fetchFundHoldings: fundHoldings.fetchFundHoldings, fetchFundFees: fees.fetchFundFees };
+    t.after(() => { Object.assign(Yahoo.prototype, { quote: saved.quote, quoteSummary: saved.quoteSummary }); stocks.lookup = saved.lookup; fundHoldings.fetchFundHoldings = saved.fetchFundHoldings; fees.fetchFundFees = saved.fetchFundFees; });
+    Yahoo.prototype.quote = async () => ({ quoteType: 'EQUITY', regularMarketPrice: 25, longName: 'Example Closed-End Fund' });
+    Yahoo.prototype.quoteSummary = async () => ({ summaryDetail: {}, defaultKeyStatistics: {} });
+    stocks.lookup = () => ({ securityType: 'closed_end_fund' });
+    fees.fetchFundFees = async () => null;
+    fundHoldings.fetchFundHoldings = async () => ({ netAssets: 3319950999, asOf: '2026-09-30', source: 'SEC Form N-PORT', sourceUrl: 'https://www.sec.gov/x-index.htm', holdings: [{ name: 'NVIDIA Corporation', weight: 0.085 }, { name: 'Short position', weight: -0.01 }] });
+    const p = await assetProfile.fetchAssetProfile('XCEF');
+    assert.equal(p.totalAssets, 3319950999);
+    assert.equal(p.totalAssetsSource, 'SEC Form N-PORT');
+    assert.equal(p.totalAssetsAsOf, '2026-09-30');
+    assert.deepEqual(p.topHoldings, [{ symbol: '', name: 'NVIDIA Corporation', weight: 0.085 }]);
+});

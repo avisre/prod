@@ -241,9 +241,14 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
     // Those look like the fund's Morningstar category average rather than the
     // fund, which is why the cheapest index funds are the worst hit: exactly
     // the funds people choose on cost.
-    const feeLookup = (fundDetails && isFundAsset(assetType))
-        ? await withTimeout(fundFees.fetchFundFees(key), FEE_TIMEOUT_MS)
-        : { value: null, timedOut: false };
+    // A closed-end fund gets nothing from Yahoo's fund modules (all 358 on 2026-10-31); its latest
+    // Form N-PORT states its net assets and every position, so those come from there instead.
+    const fromYahoo = number(summary.defaultKeyStatistics?.totalAssets ?? summary.summaryDetail?.totalAssets) !== null && (summary.topHoldings?.holdings || []).length > 0;
+    const [feeLookup, nportLookup] = await Promise.all([
+        (fundDetails && isFundAsset(assetType)) ? withTimeout(fundFees.fetchFundFees(key), FEE_TIMEOUT_MS) : { value: null, timedOut: false },
+        (fundDetails && isFundAsset(assetType) && !fromYahoo) ? withTimeout(require('./fund-holdings').fetchFundHoldings(key), FEE_TIMEOUT_MS) : { value: null, timedOut: false }
+    ]);
+    const nport = nportLookup.value;
     const filedFees = feeLookup.value;
 
     const sd = summary.summaryDetail || {};
@@ -295,7 +300,8 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
         freshness: !date(quote.regularMarketTime) ? 'timestamp_unavailable' : assetType === 'mutual_fund' ? 'dated_nav' : quote.marketState === 'REGULAR' ? 'delayed' : 'market_closed',
         category: ks.category || fund.categoryName || fp.fundCategoryName || '',
         fundFamily: ks.fundFamily || fund.family || '',
-        totalAssets: number(ks.totalAssets ?? sd.totalAssets ?? fees.totalNetAssets),
+        totalAssets: number(ks.totalAssets ?? sd.totalAssets ?? fees.totalNetAssets) ?? number(nport?.netAssets),
+        ...(number(ks.totalAssets ?? sd.totalAssets ?? fees.totalNetAssets) === null && number(nport?.netAssets) !== null ? { totalAssetsSource: nport.source, totalAssetsAsOf: nport.asOf, totalAssetsUrl: nport.sourceUrl } : {}),
         expenseRatio: expenseRatio.value,
         expenseRatioSource: expenseRatio.source,
         expenseRatioAsOf: expenseRatio.asOf,
@@ -339,7 +345,7 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
             symbol: holding.symbol || '',
             name: holding.holdingName || holding.symbol || '',
             weight: number(holding.holdingPercent)
-        })).filter((holding) => holding.name),
+        })).filter((holding) => holding.name).concat((th.holdings || []).length ? [] : (nport?.holdings || []).filter((h) => h.weight > 0).slice(0, 15).map((h) => ({ symbol: '', name: h.name, weight: h.weight }))),
         risk: (((fp.riskOverviewStatistics || {}).riskStatistics) || []).map((row) => ({
             period: row.year || row.period || '',
             alpha: number(row.alpha), beta: number(row.beta), standardDeviation: number(row.stdDev),
@@ -353,7 +359,7 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
         },
         source: 'Yahoo Finance'
     };
-    cache.set(cacheKey, { at: Date.now(), value, ttl: assetType==='stock'?60*1000:feeLookup.timedOut ? FEE_RETRY_TTL_MS : TTL_MS });
+    cache.set(cacheKey, { at: Date.now(), value, ttl: assetType==='stock'?60*1000:(feeLookup.timedOut || nportLookup.timedOut) ? FEE_RETRY_TTL_MS : TTL_MS });
     if (cache.size > 1000) cache.delete(cache.keys().next().value);
     return value;
 }

@@ -71,7 +71,7 @@ test('the profile prefers the filed figure and never shows an unverified mutual-
     // Yahoo is accurate for ETFs and wrong for roughly half the mutual funds
     // measured, so a mutual fund with no filed table shows nothing at all.
     assert.ok(profileSource.includes("assetType === 'etf' && yahooExpenseRatio !== null"));
-    assert.ok(profileSource.includes('const feeLookup = (fundDetails && isFundAsset(assetType))'));
+    assert.ok(profileSource.includes('(fundDetails && isFundAsset(assetType)) ? withTimeout(fundFees.fetchFundFees(key), FEE_TIMEOUT_MS)'));
     assert.ok(profileSource.includes('expenseRatioSource: expenseRatio.source'));
 });
 
@@ -85,7 +85,7 @@ test('a profile built on a timed-out lookup expires in a minute, not half an hou
     // it. A fund that simply has no filed table (SPY, GLD) is not a timeout and
     // keeps the normal TTL, so those do not re-hit Yahoo every minute.
     assert.ok(profileSource.includes('const FEE_RETRY_TTL_MS = 60 * 1000;'));
-    assert.ok(profileSource.includes("ttl: assetType==='stock'?60*1000:feeLookup.timedOut ? FEE_RETRY_TTL_MS : TTL_MS"));
+    assert.ok(profileSource.includes("ttl: assetType==='stock'?60*1000:(feeLookup.timedOut || nportLookup.timedOut) ? FEE_RETRY_TTL_MS : TTL_MS"));
     assert.ok(profileSource.includes('(hit.ttl || TTL_MS)'));
 });
 

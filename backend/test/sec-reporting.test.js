@@ -26,3 +26,12 @@ test('resumed reconciliation never treats an interrupted or modified financial f
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'sec-checkpoint-')),file=path.join(dir,'facts.json');
  try{fs.writeFileSync(file,'{"value":1}');const e={financialDigest:p.digest(fs.readFileSync(file,'utf8'))};assert.equal(matchingFinancialFile(e,file),true);fs.writeFileSync(file,'{"value":2}');assert.equal(matchingFinancialFile(e,file),false);fs.unlinkSync(file);assert.equal(matchingFinancialFile(e,file),false);}finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
+test('the previous quarterly report is the earlier 10-Q of the same fiscal year, or none',async()=>{
+ const rows=[['0000000123-25-000009','10-Q','2025-11-01','2025-09-30'],['0000000123-26-000001','10-K','2026-02-01','2025-12-31'],['0000000123-26-000002','10-Q','2026-05-01','2026-03-31'],['0000000123-26-000003','10-Q','2026-08-01','2026-06-30']];
+ const raw=n=>({cik:123,name:'Example',filings:{recent:{accessionNumber:rows.slice(0,n).map(r=>r[0]),form:rows.slice(0,n).map(r=>r[1]),filingDate:rows.slice(0,n).map(r=>r[2]),reportDate:rows.slice(0,n).map(r=>r[3]),primaryDocument:rows.slice(0,n).map(()=>'x.htm')},files:[]}});
+ const second=await reporting.fetchReporting({cik:'0000000123'},{asOf:'2026-10-03',request:async()=>raw(4)});
+ assert.equal(second.latestPeriodic.reportDate,'2026-06-30');assert.equal(second.previousPeriodic.reportDate,'2026-03-31');
+ // the first quarter's predecessor would be last fiscal year's, which the annual report closes
+ const first=await reporting.fetchReporting({cik:'0000000123'},{asOf:'2026-10-03',request:async()=>raw(3)});
+ assert.equal(first.latestPeriodic.reportDate,'2026-03-31');assert.equal(first.previousPeriodic,null);
+});

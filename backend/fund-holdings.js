@@ -129,6 +129,7 @@ async function fetchFundHoldings(symbol) {
                                 count: holdings.length,
                                 complete: true,
                                 asOf: tag(doc.xml, 'repPdDate') || null,
+                                netAssets: numberOrNull(tag(doc.xml, 'netAssets')),
                                 filedAt: filing.filedAt,
                                 source: 'SEC Form N-PORT',
                                 sourceUrl: filing.indexUrl

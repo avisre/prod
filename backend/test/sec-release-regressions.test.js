@@ -143,6 +143,17 @@ test('public calculators use verified native-currency facts with exact provenanc
  assert.equal(result.status,200);assert.equal(result.body.currency,'EUR');assert.equal(result.body.revenue,data.income.annualReports[0].totalRevenue);
  assert.equal(result.body.coverage.financialCoverage,'ready');assert.ok(result.body.provenance.sources);assert.ok(result.body.provenance.statements.income[0].sources.netIncome);
  `,{taxonomy:'ifrs-full',currency:'EUR'}));
+test('a company without a fundamentals file takes its description, sector and industry from its stored profile',()=>isolated(`
+ p.atomicWrite(path.join(dir,'company-profiles.json'),{profiles:{AAPL:{sector:'Technology',industry:'Consumer Electronics',description:'Makes phones.'}}});
+ // the setup's index build already read (and cached) the profiles before this file existed
+ for(const m of ['stock-universe','verified-fundamentals'])delete require.cache[require.resolve(root+'/backend/'+m)];
+ const adapt=(r)=>require(root+'/backend/verified-fundamentals').adapt({...company,sector:''},r,data,p.classify(evidence,data,'2026-10-03'),{evidence}).overview;
+ const bare=adapt(null);
+ assert.equal(bare.Description,'Makes phones.');assert.equal(bare.Industry,'Consumer Electronics');assert.equal(bare.Sector,require(root+'/backend/sector').canonical('Technology'));
+ // a file's own overview wins
+ const own=adapt({...raw,overview:{...raw.overview,Description:'Own words.',Industry:'Own industry'}});
+ assert.equal(own.Description,'Own words.');assert.equal(own.Industry,'Own industry');
+ `));
 test('public calculators preserve unknown dividends, buybacks and incomplete debt',()=>isolated(`
  const view=require(root+'/backend/verified-fundamentals').adapt(company,raw,data,p.classify(evidence,data,'2026-10-03'),{evidence});
  view.balance.annualReports[0].currentDebt=12;view.balance.annualReports[0].longTermDebt=null;view.balance.annualReports[0].totalDebt=null;
@@ -182,6 +193,22 @@ test('the weekly run re-reads an issuer only when its filings, extractor or file
  assert.equal(retried.r.periodicExtraction,undefined,'a finished retry clears the old status');
  assert.equal((await run(old,old,true)).read,true,'forced');
  assert.doesNotMatch(fs.readFileSync(root+'/scripts/refresh-sec-coverage.js','utf8'),/force:[^}]*--weekly/,'--weekly is not forced');
+ `));
+test('a quarter with year-to-date cash flow only is derived from the previous 10-Q, read when the feed lacks it',()=>isolated(`
+ const {refreshIssuer}=require(root+'/scripts/refresh-sec-coverage');
+ const filing=(n,report,filed)=>({form:'10-Q',accessionNumber:'0000000123-26-00000'+n,reportDate:report,filingDate:filed,primaryDocument:'q'+n+'.htm'});
+ const q1=filing(2,'2026-03-31','2026-05-01'),q2=filing(3,'2026-06-30','2026-08-01');
+ const fact=(accn,start,end,val)=>({val,start,end,accn,form:'10-Q',filed:accn===q2.accessionNumber?q2.filingDate:q1.filingDate});
+ const facts=structuredClone(doc);
+ facts.facts['us-gaap'].Revenues.units.USD.push(fact(q2.accessionNumber,'2026-04-01','2026-06-30',50));
+ facts.facts['us-gaap'].NetCashProvidedByUsedInOperatingActivities.units.USD.push(fact(q2.accessionNumber,'2026-01-01','2026-06-30',70));
+ const reads=[];
+ const original={cik:123,facts:{'us-gaap':{NetCashProvidedByUsedInOperatingActivities:{units:{USD:[fact(q1.accessionNumber,'2026-01-01','2026-03-31',30)]}}}},segments:[],originalDocument:{form:'10-Q',accessionNumber:q1.accessionNumber}};
+ const r=await refreshIssuer({cik:CIK,symbols:['AAPL']},evidence,{asOf:'2026-10-03',force:true,clientImpl:{fetchReporting:async()=>({...evidence,latestPeriodic:q2,previousPeriodic:q1}),fetchFacts:async()=>facts,fetchOriginal:async(cik,f)=>{reads.push(f.accessionNumber);if(f===q1)return original;throw new Error('offline');}}});
+ assert.deepEqual(reads,[q1.accessionNumber]);
+ assert.equal(r.previousPeriodicExtraction.status,'success');
+ const row=JSON.parse(fs.readFileSync(file,'utf8')).cash.quarterlyReports.find(x=>x.fiscalDateEnding==='2026-06-30');
+ assert.equal(row.operatingCashflow,40);
  `));
 test('the industry stage reads an annual report once per filing and VERSION',()=>isolated(`
  const original=require(root+'/backend/sec-original'),industry=require(root+'/backend/sec-industry');

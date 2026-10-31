@@ -44,4 +44,4 @@ function withIdentity(data, company) {
         ...(company.exchange && !ov.Exchange ? { Exchange: company.exchange } : {}),
         ...(company.sector && !ov.Sector ? { Sector: company.sector } : {}) } };
 }
-module.exports = { register,resolveListing:(...args)=>require('./listing-resolver').resolveListing(...args),companies, lookup, hasStatements, usable, withIdentity };
+module.exports = { register,resolveListing:(...args)=>require('./listing-resolver').resolveListing(...args),companies, lookup, hasStatements, usable, withIdentity, profileFor };
