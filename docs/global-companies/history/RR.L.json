@@ -17,17 +17,40 @@
       "totalAssets": 38115000000,
       "totalEquity": 2726000000,
       "cashAndEquivalents": 6244000000,
-      "totalDebt": null,
+      "totalDebt": 4269000000,
       "operatingCashFlow": 4565000000,
       "capex": -621000000,
       "dividendPerShare": 0.095,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 8443808552,
+      "employees": 42600,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2025",
-        "page": "PDF115/117/118 (printed113/115/116): consolidated income statement/balance sheet/cash-flow statement; dividend proposal and payments: note6, PDF148"
+        "page": "PDF115/117/118 (printed113/115/116): consolidated income statement/balance sheet/cash-flow statement; dividend proposal and payments: note6, PDF148",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf",
+            "page": "PDF p. 214",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf",
+            "page": "PDF p. 120",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf",
+            "page": "PDF p. 149",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -42,17 +65,41 @@
       "totalAssets": 35686000000,
       "totalEquity": -912000000,
       "cashAndEquivalents": 5575000000,
-      "totalDebt": null,
+      "totalDebt": 5131000000,
       "operatingCashFlow": 3782000000,
       "capex": -519000000,
       "dividendPerShare": 0.06,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 8504896989,
+      "employees": 42400,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2025",
-        "page": "PDF115/117/118 (printed113/115/116): consolidated income statement/balance sheet/cash-flow statement; dividend proposal and payments: note6, PDF148"
+        "page": "PDF115/117/118 (printed113/115/116): consolidated income statement/balance sheet/cash-flow statement; dividend proposal and payments: note6, PDF148",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 222",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 121",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf",
+            "page": "PDF p. 149",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -67,17 +114,42 @@
       "totalAssets": 31512000000,
       "totalEquity": -3681000000,
       "cashAndEquivalents": 3784000000,
-      "totalDebt": null,
+      "totalDebt": 5706000000,
       "operatingCashFlow": 2485000000,
       "capex": -429000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 0.0,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 41400,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2024",
-        "page": "PDF116/118/119 (printed114/116/117): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF116/118/119 (printed114/116/117): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 121",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 152",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 8",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -92,17 +164,48 @@
       "totalAssets": 29450000000,
       "totalEquity": -6050000000,
       "cashAndEquivalents": 2607000000,
-      "totalDebt": null,
+      "totalDebt": 5953000000,
       "operatingCashFlow": 1850000000,
       "capex": -359000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.0,
+      "sharesOutstanding": 8367596989,
+      "employees": 41800,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2022",
-        "page": "PDF104/106/107 (printed102/104/105): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF104/106/107 (printed102/104/105): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf",
+            "page": "PDF p. 209",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 121",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf",
+            "page": "PDF p. 140",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 8",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -117,17 +220,41 @@
       "totalAssets": 28674000000,
       "totalEquity": -4662000000,
       "cashAndEquivalents": 2621000000,
-      "totalDebt": null,
+      "totalDebt": 7841000000,
       "operatingCashFlow": -259000000,
       "capex": -328000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 0.0,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 44000,
       "restated": true,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2022",
-        "page": "PDF104/106/107 (printed102/104/105): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF104/106/107 (printed102/104/105): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf",
+            "page": "PDF p. 109",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf",
+            "page": "PDF p. 140",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf",
+            "page": "PDF p. 8",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -142,17 +269,41 @@
       "totalAssets": 29517000000,
       "totalEquity": -4897000000,
       "cashAndEquivalents": 3452000000,
-      "totalDebt": null,
+      "totalDebt": 7323000000,
       "operatingCashFlow": -3009000000,
       "capex": -585000000,
       "dividendPerShare": 0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 8367596989,
+      "employees": 48200,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2020",
-        "page": "PDF108/110/111 (printed106/108/109): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF108/110/111 (printed106/108/109): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf",
+            "page": "PDF p. 210",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf",
+            "page": "PDF p. 109",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf",
+            "page": "PDF p. 140",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -167,17 +318,35 @@
       "totalAssets": 32266000000,
       "totalEquity": -3376000000,
       "cashAndEquivalents": 4443000000,
-      "totalDebt": null,
+      "totalDebt": 5677000000,
       "operatingCashFlow": 2297000000,
       "capex": -747000000,
       "dividendPerShare": 0.016,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 51700,
       "restated": true,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2020",
-        "page": "PDF108/110/111 (printed106/108/109): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF108/110/111 (printed106/108/109): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf",
+            "page": "PDF p. 112",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf",
+            "page": "PDF p. 140",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -192,17 +361,40 @@
       "totalAssets": 31857000000,
       "totalEquity": -1074000000,
       "cashAndEquivalents": 4974000000,
-      "totalDebt": null,
+      "totalDebt": 4640000000,
       "operatingCashFlow": 2226000000,
       "capex": -905000000,
       "dividendPerShare": 0.117,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 1895710451,
+      "employees": 54500,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2018",
-        "page": "PDF109/111/112 (printed107/109/110): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF109/111/112 (printed107/109/110): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
+            "page": "PDF p. 202",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
+            "page": "PDF p. 113",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
+            "page": "PDF p. 137",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -217,17 +409,35 @@
       "totalAssets": 27927000000,
       "totalEquity": 930000000,
       "cashAndEquivalents": 2953000000,
-      "totalDebt": null,
+      "totalDebt": 3468000000,
       "operatingCashFlow": 1512000000,
       "capex": -730000000,
       "dividendPerShare": 0.117,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 50000,
       "restated": true,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2018",
-        "page": "PDF109/111/112 (printed107/109/110): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF109/111/112 (printed107/109/110): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
+            "page": "PDF p. 113",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
+            "page": "PDF p. 137",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -242,12 +452,12 @@
       "totalAssets": 24083000000,
       "totalEquity": -2559000000,
       "cashAndEquivalents": 2771000000,
-      "totalDebt": null,
+      "totalDebt": 3357000000,
       "operatingCashFlow": 1411000000,
       "capex": -585000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 11.7,
+      "sharesOutstanding": 1838796763,
+      "employees": 49900,
       "restated": true,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf",
@@ -257,6 +467,35 @@
           {
             "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
             "page": "PDF111/printed109, opening balance sheet1January2017, restatedIFRS15; totalAssets,totalEquity,cashAndEquivalents"
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf",
+            "page": "PDF p. 188",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf",
+            "page": "PDF p. 113",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf",
+            "page": "PDF p. 141",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf",
+            "page": "PDF p. 157",
+            "fields": [
+              "dividendPerShare"
+            ]
           }
         ]
       }
@@ -273,12 +512,12 @@
       "totalAssets": 22324000000,
       "totalEquity": 5014000000,
       "cashAndEquivalents": 3176000000,
-      "totalDebt": null,
+      "totalDebt": 3302000000,
       "operatingCashFlow": 1094000000,
       "capex": -487000000,
       "dividendPerShare": 0.1637,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 1838677392,
+      "employees": 50500,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf",
@@ -288,6 +527,28 @@
           {
             "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf",
             "page": "PDF108/printed107 payments per ordinary share16.37p"
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf",
+            "page": "PDF p. 179",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf",
+            "page": "PDF p. 126",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf",
+            "page": "PDF p. 141",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
           }
         ]
       }
@@ -304,17 +565,35 @@
       "totalAssets": 22224000000,
       "totalEquity": 6382000000,
       "cashAndEquivalents": 2862000000,
-      "totalDebt": null,
+      "totalDebt": 2261000000,
       "operatingCashFlow": 1301000000,
       "capex": -648000000,
       "dividendPerShare": 0.231,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 54100,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2015",
-        "page": "PDF108/110/111 (printed107/109/110): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF108/110/111 (printed107/109/110): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf",
+            "page": "PDF p. 126",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf",
+            "page": "PDF p. 132",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -329,17 +608,40 @@
       "totalAssets": 23063000000,
       "totalEquity": 5605000000,
       "cashAndEquivalents": 3990000000,
-      "totalDebt": null,
+      "totalDebt": 2371000000,
       "operatingCashFlow": 2040000000,
       "capex": -669000000,
       "dividendPerShare": 0.22,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 1880301654,
+      "employees": 55200,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2013",
-        "page": "PDF77/78/79 (printed75/76/77): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF77/78/79 (printed75/76/77): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
+            "page": "PDF p. 72",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
+            "page": "PDF p. 93",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
+            "page": "PDF p. 99",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -354,17 +656,42 @@
       "totalAssets": 18146000000,
       "totalEquity": 5979000000,
       "cashAndEquivalents": 2585000000,
-      "totalDebt": null,
+      "totalDebt": 1383000000,
       "operatingCashFlow": 1255000000,
       "capex": -435000000,
       "dividendPerShare": 0.195,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 1872303563,
+      "employees": 42800,
       "restated": true,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2013",
-        "page": "PDF77/78/79 (printed75/76/77): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF77/78/79 (printed75/76/77): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rolls-royce-annual-report-2012-tcm92-44211.pdf",
+            "page": "PDF p. 70",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
+            "page": "PDF p. 93",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
+            "page": "PDF p. 99",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -379,12 +706,12 @@
       "totalAssets": 16459000000,
       "totalEquity": 4401000000,
       "cashAndEquivalents": 1310000000,
-      "totalDebt": null,
+      "totalDebt": 1204000000,
       "operatingCashFlow": 1306000000,
       "capex": -412000000,
       "dividendPerShare": 0.175,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 40400,
       "restated": true,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rolls-royce-annual-report-2012-tcm92-44211.pdf",
@@ -394,6 +721,22 @@
           {
             "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
             "page": "PDF78/printed76, opening1January2012 comparative balance sheet; totalAssets,totalEquity,cashAndEquivalents"
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf",
+            "page": "PDF p. 93",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rolls-royce-annual-report-2012-tcm92-44211.pdf",
+            "page": "PDF p. 95",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
           }
         ]
       }
@@ -410,17 +753,40 @@
       "totalAssets": 16234000000,
       "totalEquity": 3975000000,
       "cashAndEquivalents": 2859000000,
-      "totalDebt": null,
+      "totalDebt": 1852000000,
       "operatingCashFlow": 1378000000,
       "capex": -354000000,
       "dividendPerShare": 0.16,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 1871779201,
+      "employees": 38900,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2010",
-        "page": "PDF86/87/88 (printed84/85/86): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF86/87/88 (printed84/85/86): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
+            "page": "PDF p. 80",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
+            "page": "PDF p. 101",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
+            "page": "PDF p. 105",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -435,17 +801,42 @@
       "totalAssets": 15422000000,
       "totalEquity": 3782000000,
       "cashAndEquivalents": 2962000000,
-      "totalDebt": null,
+      "totalDebt": 1913000000,
       "operatingCashFlow": 859000000,
       "capex": -258000000,
       "dividendPerShare": 0.15,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 1854087040,
+      "employees": 38500,
       "restated": false,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
         "document": "Rolls-Royce Group/Holdings annual report2010",
-        "page": "PDF86/87/88 (printed84/85/86): consolidated income statement/balance sheet/cash-flow statement"
+        "page": "PDF86/87/88 (printed84/85/86): consolidated income statement/balance sheet/cash-flow statement",
+        "supplementalSources": [
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-annual-report-2009-tcm92-17398.pdf",
+            "page": "PDF p. 77",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
+            "page": "PDF p. 101",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
+            "page": "PDF p. 105",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -460,12 +851,12 @@
       "totalAssets": 15348000000,
       "totalEquity": 2216000000,
       "cashAndEquivalents": 2471000000,
-      "totalDebt": null,
+      "totalDebt": 1348000000,
       "operatingCashFlow": 1015000000,
       "capex": -286000000,
       "dividendPerShare": 0.143,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 1843740136,
+      "employees": 39000,
       "restated": true,
       "source": {
         "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-annual-report-2009-tcm92-17398.pdf",
@@ -479,6 +870,28 @@
           {
             "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-ar-2008-tcm92-11217.pdf",
             "page": "PDF90/printed88, cash flow: PP&E purchases286m, OCF1015m"
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-ar-2008-tcm92-11217.pdf",
+            "page": "PDF p. 83",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-annual-report-2009-tcm92-17398.pdf",
+            "page": "PDF p. 109",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-ar-2008-tcm92-11217.pdf",
+            "page": "PDF p. 44",
+            "fields": [
+              "employees"
+            ]
           }
         ]
       }
@@ -495,7 +908,7 @@
       "totalAssets": 11459000000,
       "totalEquity": 3179000000,
       "cashAndEquivalents": 1897000000,
-      "totalDebt": null,
+      "totalDebt": 1064000000,
       "operatingCashFlow": 705000000,
       "capex": -304000000,
       "dividendPerShare": 0.13,
@@ -510,31 +923,28 @@
           {
             "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf",
             "page": "PDF143/printed141 Group five-year review: latest historical revenue,parent net income,totalAssets,parent equity,OCF andpayments per share"
+          },
+          {
+            "url": "https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-annual-report-2009-tcm92-17398.pdf",
+            "page": "PDF p. 109",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
           }
         ]
       }
     }
   ],
   "gaps": [
-    "FY2025: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2024: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2023: totalDebt, dividendPerShare, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2022: totalDebt, dividendPerShare, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2021: totalDebt, dividendPerShare, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2020: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2019: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2018: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2017: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2016: totalDebt, dividendPerShare, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2015: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2014: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2013: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2012: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2011: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2010: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2009: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2008: totalDebt, sharesOutstanding, employees not established from inspected source tables.",
-    "FY2007: totalDebt, sharesOutstanding, employees not established from inspected source tables."
+    "FY2023 sharesOutstanding: not found in the company's reports (2024 AR (p. 222 gives 2024; p. 123 shows 2023 EBT movements only); no 2023 year-end total printed.)",
+    "FY2021 sharesOutstanding: not found in the company's reports (2022 AR (p. 209 gives 2022; p. 111 shows 2021 EBT movements only); no 2021 year-end total printed.)",
+    "FY2019 sharesOutstanding: not found in the company's reports (2020 AR (p. 210 gives 2020; p. 114 shows 2019 EBT movements only); no 2019 year-end total printed.)",
+    "FY2017 sharesOutstanding: not found in the company's reports (2016 AR (gives 2016) and 2018 AR (p. 202 gives 2018; p. 114 shows 2017 movements only); no 2017 year-end total printed.)",
+    "FY2014 sharesOutstanding: not found in the company's reports (2015 AR (p. 179 gives 2015 only; p. 113 shows 2014 treasury/EBT movements, not a total); 2014 AR not in the downloaded set.)",
+    "FY2011 sharesOutstanding: not found in the company's reports (2012 AR (p. 70 gives 2012; p. 80 gives 1,872,188,709 shares issued under the 2011 scheme of arrangement, which is not a year-end total); 2011 AR not in the downloaded set.)",
+    "FY2007 sharesOutstanding: not found in the company's reports (2008 AR (share capital p. 83 gives 2008 only) and 2009 AR; no 2007 year-end share count printed. 2007 AR not in the downloaded set.)",
+    "FY2007 employees: not found in the company's reports (2008 AR and 2009 AR: no headcount table; only approximate 'around 39,000' (2008) and 'around 38,500' (2009). No 2007 figure printed.)"
   ],
   "notes": [
     "Consolidated IFRS financial statements in fullGBP units; EPS/payments originally published in pence are scaled toGBP. netIncome is total profit/loss attributable to ordinary shareholders, including discontinued operations; dilutedEPS also uses the continuing-and-discontinued line where separate lines are presented (FY2021/22 andFY2014). totalEquity excludes noncontrolling interests.",
@@ -545,6 +955,59 @@
     "FY2012 and the opening1January2012 balance sheet were restated in the2013report forIAS19 andRRSA accounting; those latest inspected values are used forFY2012 andFY2011 balance sheet respectively. FY2007/08 balance-sheet historical totals use the2010report five-year review; other fields use actual earlier statements or their comparatives.",
     "FY2019 EPS and payment per share are adjusted for the bonus element of the2020rights issue as explicitly printed in the2020report. Earlier EPS/share-payment amounts remain published historical values, not an artificially share-adjusted whole-series calculation.",
     "dividendPerShare includes company-reported payments to ordinary shareholders (historically viaC shares), with2025/2024 fiscal-year dividends including proposals as printed in2025note.2020 explicitly shows no payment. Missing dividends are null rather than inferred zero.",
-    "No aggregate totalDebt was independently extracted from the component debt/lease disclosures. Shares outstanding are not calculated from issued shares less treasury shares or substituted with an EPS weighted-average denominator. Employee counts were not independently extracted."
+    "No aggregate totalDebt was independently extracted from the component debt/lease disclosures. Shares outstanding are not calculated from issued shares less treasury shares or substituted with an EPS weighted-average denominator. Employee counts were not independently extracted.",
+    "FY2008 sharesOutstanding: 1,843,740,136 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-ar-2008-tcm92-11217.pdf PDF p. 83 — On December 31, 2008, there were 1,843,740,136 ordinary shares (Shareholder information). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2009 sharesOutstanding: 1,854,087,040 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-annual-report-2009-tcm92-17398.pdf PDF p. 77 — On December 31, 2009, there were 1,854,087,040 ordinary shares (Risk/shareholder section). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2010 sharesOutstanding: 1,871,779,201 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf PDF p. 80 — On December 31, 2010, there were 1,871,779,201 ordinary shares of 20p each in issue. Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2012 sharesOutstanding: 1,872,303,563 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rolls-royce-annual-report-2012-tcm92-44211.pdf PDF p. 70 — On 31 December 2012, there were 1,872,303,563 ordinary shares of 20 pence each in issue (Shareholders and share capital). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2013 sharesOutstanding: 1,880,301,654 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf PDF p. 72 — On 31 December 2013, there were 1,880,301,654 ordinary shares of 20 pence each (Shareholders and share capital). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2015 sharesOutstanding: 1,838,677,392 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf PDF p. 179 — On 31 December 2015, 1,838,677,392 ordinary shares of 20p each were in issue (Share capital). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2016 sharesOutstanding: 1,838,796,763 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf PDF p. 188 — On 31 December 2016 1,838,796,763 ordinary shares of 20p each were in issue (Share capital). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2018 sharesOutstanding: 1,895,710,451 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf PDF p. 202 — On 31 December 2018, the issued share capital comprised 1,895,710,451 ordinary shares of 20p each (Other statutory information). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2020 sharesOutstanding: 8,367,596,989 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf PDF p. 210 — On 31 December 2020, the issued share capital comprised 8,367,596,989 ordinary shares of 20p each (Share capital). Post-2020 rights issue. Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2022 sharesOutstanding: 8,367,596,989 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf PDF p. 209 — On 31 December 2022, the issued share capital comprised 8,367,596,989 Ordinary Shares of 20p each (Share capital). Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2024 sharesOutstanding: 8,504,896,989 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 222 — On 31 December 2024, the issued share capital comprised 8,504,896,989 ordinary shares of 20p each. 2025 AR states nil treasury shares at 31 Dec 2024. Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2025 sharesOutstanding: 8,443,808,552 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf PDF p. 214 — On 31 December 2025, the issued share capital comprised 8,443,808,552 ordinary shares of 20p each (after cancellation of 61,088,437 bought-back shares). 2025 AR states nil treasury shares held at 31 Dec 2025. Issued ordinary shares at 31 Dec (share capital statement); no treasury shares printed, so issued count used.",
+    "FY2007 totalDebt: 1,064 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-annual-report-2009-tcm92-17398.pdf PDF p. 109 — 'Borrowings' line, reportable segment reconciliation, third column (2007) of the 2009 AR. Balance-sheet current (34) + non-current (1,030) from the 2008 AR agree; the single total line is used.",
+    "FY2008 totalDebt: 1,348 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-annual-report-2009-tcm92-17398.pdf PDF p. 109 — 'Borrowings' line, reportable segment reconciliation, second column (2008) of the 2009 AR.",
+    "FY2009 totalDebt: 1,913 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf PDF p. 101 — 'Borrowings' line, reportable segment reconciliation, second column (2009) of the 2010 AR.",
+    "FY2010 totalDebt: 1,852 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf PDF p. 101 — 'Borrowings' line, reportable segment reconciliation, first column (2010).",
+    "FY2011 totalDebt: 1,204 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf PDF p. 93 — 'Borrowings' line, reportable segment reconciliation, third column (2011) of the 2013 AR.",
+    "FY2012 totalDebt: 1,383 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf PDF p. 93 — 'Borrowings' line, reportable segment reconciliation, second column (2012) of the 2013 AR.",
+    "FY2013 totalDebt: 2,371 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf PDF p. 93 — 'Borrowings' line, reportable segment reconciliation, first column (2013).",
+    "FY2014 totalDebt: 2,261 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf PDF p. 126 — 'Borrowings' line, reportable segment reconciliation, second column (2014) of the 2015 AR.",
+    "FY2015 totalDebt: 3,302 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf PDF p. 126 — 'Borrowings' line, reportable segment reconciliation, first column (2015).",
+    "FY2016 totalDebt: 3,357 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf PDF p. 113 — 'Financial liabilities' row, net debt reconciliation: opening balance 1 Jan 2017 (= 31 Dec 2016) in the 2018 AR.",
+    "FY2017 totalDebt: 3,468 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf PDF p. 113 — 'Financial liabilities' row, net debt reconciliation: closing 2017 column in the 2018 AR.",
+    "FY2018 totalDebt: 4,640 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf PDF p. 113 — 'Financial liabilities' row, net debt reconciliation: closing 31 Dec 2018 (2018 AR). Includes non-current and other current borrowings and finance leases, as printed.",
+    "FY2019 totalDebt: 5,677 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf PDF p. 112 — 'Financial liabilities' row, net debt reconciliation: opening balance 1 Jan 2020 (= 31 Dec 2019) in the 2020 AR.",
+    "FY2020 totalDebt: 7,323 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf PDF p. 109 — 'Financial liabilities' row, net debt reconciliation: 2020 column (closing) in the 2022 AR.",
+    "FY2021 totalDebt: 7,841 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf PDF p. 109 — 'Financial liabilities' row, net debt reconciliation: closing 31 Dec 2021 (2022 AR).",
+    "FY2022 totalDebt: 5,953 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 121 — 'Financial liabilities' row, net debt reconciliation: opening 2023 (= 31 Dec 2022) in the 2024 AR.",
+    "FY2023 totalDebt: 5,706 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 121 — 'Financial liabilities' row, net debt reconciliation: closing 31 Dec 2023 in the 2024 AR.",
+    "FY2024 totalDebt: 5,131 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 121 — 'Financial liabilities' row, net debt reconciliation: closing 31 Dec 2024 (2024 AR). The 2024 AR maturity table prints 'Total borrowings and lease liabilities' 5,132, a rounding difference.",
+    "FY2025 totalDebt: 4,269 (million) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf PDF p. 120 — 'Financial liabilities' row, net debt reconciliation: closing 31 Dec 2025 (2025 AR).",
+    "FY2008 employees: 39,000 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-ar-2008-tcm92-11217.pdf PDF p. 44 — Approximate: 'With around 39,000 employees in more than 50 countries' (2008 AR). No headcount table printed in this report, so the approximate figure is used.",
+    "FY2009 employees: 38,500 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf PDF p. 105 — 'Average number of employees' total row, second column (2009) in the 2010 AR (labelled Restated*). Average, not year-end.",
+    "FY2010 employees: 38,900 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full-ar-2010-tcm92-26816.pdf PDF p. 105 — 'Average number of employees' total row, first column (2010) in the 2010 AR. Average, not year-end.",
+    "FY2011 employees: 40,400 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rolls-royce-annual-report-2012-tcm92-44211.pdf PDF p. 95 — 'Average number of employees' total row, second column (2011) in the 2012 AR. Average, not year-end.",
+    "FY2012 employees: 42,800 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf PDF p. 99 — 'Average number of employees' total row, second column (2012) in the 2013 AR. Average, not year-end.",
+    "FY2013 employees: 55,200 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/rr-full%20annual%20report--tcm92-55530.pdf PDF p. 99 — 'Average number of employees' total row, first column (2013) in the 2013 AR. Average, not year-end.",
+    "FY2014 employees: 54,100 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2015-annual-report-v1.pdf PDF p. 132 — 'Average number of employees' total row, second column (2014) in the 2015 AR. Average, not year-end.",
+    "FY2015 employees: 50,500 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf PDF p. 141 — 'Average number of employees' total row, second column (2015) in the 2016 AR. Average, not year-end.",
+    "FY2016 employees: 49,900 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf PDF p. 141 — 'Average number of employees' total row, first column (2016) in the 2016 AR. Average, not year-end.",
+    "FY2017 employees: 50,000 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf PDF p. 137 — 'Average number of employees' total row, second column (2017) in the 2018 AR. Average, not year-end.",
+    "FY2018 employees: 54,500 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2018/2018-full-annual-report.pdf PDF p. 137 — 'Average number of employees' total row, first column (2018) in the 2018 AR. Average, not year-end.",
+    "FY2019 employees: 51,700 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf PDF p. 140 — 'Monthly average number of employees' total row, second column (2019) in the 2020 AR. Average, not year-end.",
+    "FY2020 employees: 48,200 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2020/2020-full-annual-report.pdf PDF p. 140 — 'Monthly average number of employees' total row, first column (2020) in the 2020 AR. Average, not year-end.",
+    "FY2021 employees: 44,000 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf PDF p. 140 — 'Monthly average number of employees' total row, second column (2021) in the 2022 AR. Average, not year-end.",
+    "FY2022 employees: 41,800 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2022/2022-full-annual-report.pdf PDF p. 140 — 'Monthly average number of employees' total row, first column (2022) in the 2022 AR. Average, not year-end.",
+    "FY2023 employees: 41,400 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 152 — 'Monthly average number of employees' total row, second column (2023) in the 2024 AR. Average, not year-end.",
+    "FY2024 employees: 42,400 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf PDF p. 149 — 'Monthly average number of employees' total row, second column (2024) in the 2025 AR. Average, not year-end.",
+    "FY2025 employees: 42,600 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2026/2025-annual-report.pdf PDF p. 149 — 'Monthly average number of employees' total row, first column (2025) in the 2025 AR. Average, not year-end.",
+    "FY2016 dividendPerShare: 11.70 (pence) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/investors/annual-reports/2016-annual-report.pdf PDF p. 157 — 'C Shares were declared' table: Interim 4.60p + Final 7.10p = 11.70p per share for 2016 (paid as C Shares). Printed in pence; not converted.",
+    "FY2021 dividendPerShare: 0 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 8 — No dividend for 2021. 2024 AR: 'reinstate dividends for the first time since 2019' (p. 8). 2022 AR p. 150: restrictions on distributions to shareholders on or prior to 31 Dec 2022.",
+    "FY2022 dividendPerShare: 0 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 8 — No dividend for 2022. 2024 AR: 'reinstate dividends for the first time since 2019' (p. 8). 2022 AR p. 150: restrictions on distributions to shareholders on or prior to 31 Dec 2022.",
+    "FY2023 dividendPerShare: 0 (units) from https://www.rolls-royce.com/~/media/Files/R/Rolls-Royce/documents/annual-report/2025/2024-annual-report.pdf PDF p. 8 — No dividend for 2023. 2024 AR p. 8: 'reinstate dividends for the first time since 2019'; p. 22: 'reinstating dividends in respect of the full year 2024'."
   ]
 }

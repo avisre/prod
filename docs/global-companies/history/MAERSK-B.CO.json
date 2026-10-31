@@ -1,6 +1,6 @@
 {
   "symbol": "MAERSK-B.CO",
-  "name": "A.P. M\u00f8ller - M\u00e6rsk A/S",
+  "name": "A.P. Møller - Mærsk A/S",
   "reportingCurrency": "USD",
   "fiscalYearEnd": "12-31",
   "irUrl": "https://investor.maersk.com/",
@@ -21,13 +21,22 @@
       "operatingCashFlow": 641000000,
       "capex": -4799000000,
       "dividendPerShare": 76.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 15828942,
       "employees": 105030,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2025",
-        "page": "PDF p.7; FY2024\u20132025 balance sheet/cash flows/employee and debt notes pp.122\u2013123,132,144"
+        "document": "A.P. Møller - Mærsk Annual Report 2025",
+        "page": "PDF p.7; FY2024–2025 balance sheet/cash flows/employee and debt notes pp.122–123,132,144",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
+            "page": "PDF p. 41 (share data) and p. 143 (note 4.1)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -46,13 +55,22 @@
       "operatingCashFlow": 723000000,
       "capex": -4201000000,
       "dividendPerShare": 155.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 15828942,
       "employees": 104890,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2025",
-        "page": "PDF p.7; FY2024\u20132025 balance sheet/cash flows/employee and debt notes pp.122\u2013123,132,144"
+        "document": "A.P. Møller - Mærsk Annual Report 2025",
+        "page": "PDF p.7; FY2024–2025 balance sheet/cash flows/employee and debt notes pp.122–123,132,144",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
+            "page": "PDF p. 143 (note 4.1, 1 January 2025 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -65,19 +83,49 @@
       "netIncome": 3822000000,
       "dilutedEPS": 227.0,
       "totalAssets": 82578000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 54030000000,
+      "cashAndEquivalents": 6701000000,
       "totalDebt": null,
       "operatingCashFlow": 572000000,
       "capex": -3646000000,
       "dividendPerShare": 74.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 17569715,
+      "employees": 105909,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2025",
-        "page": "PDF p.7; FY2024\u20132025 balance sheet/cash flows/employee and debt notes pp.122\u2013123,132,144"
+        "document": "A.P. Møller - Mærsk Annual Report 2025",
+        "page": "PDF p.7; FY2024–2025 balance sheet/cash flows/employee and debt notes pp.122–123,132,144",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
+            "page": "PDF p. 143 (note 4.1, 1 January 2024 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478",
+            "page": "PDF p. 63 (balance sheet)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478",
+            "page": "PDF p. 63 (balance sheet)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478",
+            "page": "PDF p. 73 (average number of employees)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -90,19 +138,42 @@
       "netIncome": 29198000000,
       "dilutedEPS": 1595.0,
       "totalAssets": 1000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 63991000000,
+      "cashAndEquivalents": 10057000000,
       "totalDebt": null,
       "operatingCashFlow": 1889000000,
       "capex": -4163000000,
       "dividendPerShare": 623.0,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 104260,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2025",
-        "page": "PDF p.7; FY2024\u20132025 balance sheet/cash flows/employee and debt notes pp.122\u2013123,132,144"
+        "document": "A.P. Møller - Mærsk Annual Report 2025",
+        "page": "PDF p.7; FY2024–2025 balance sheet/cash flows/employee and debt notes pp.122–123,132,144",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478",
+            "page": "PDF p. 63 (balance sheet, 2022 column)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478",
+            "page": "PDF p. 63 (balance sheet, 2022 column)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478",
+            "page": "PDF p. 73 (2022 column)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -126,8 +197,8 @@
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2025",
-        "page": "PDF p.7; FY2024\u20132025 balance sheet/cash flows/employee and debt notes pp.122\u2013123,132,144"
+        "document": "A.P. Møller - Mærsk Annual Report 2025",
+        "page": "PDF p.7; FY2024–2025 balance sheet/cash flows/employee and debt notes pp.122–123,132,144"
       }
     },
     {
@@ -147,12 +218,21 @@
       "capex": -1322000000,
       "dividendPerShare": 55.0,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 83624,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2020",
-        "page": "PDF pp.14\u201315; FY2019\u20132020 balance sheet/cash flows pp.66\u201367"
+        "document": "A.P. Møller - Mærsk Annual Report 2020",
+        "page": "PDF pp.14–15; FY2019–2020 balance sheet/cash flows pp.66–67",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
+            "page": "PDF p. 73 (average number of employees)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -171,13 +251,29 @@
       "operatingCashFlow": 7828000000,
       "capex": -2035000000,
       "dividendPerShare": 22.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 20816862,
+      "employees": 83512,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2020",
-        "page": "PDF pp.14\u201315; FY2019\u20132020 balance sheet/cash flows pp.66\u201367"
+        "document": "A.P. Møller - Mærsk Annual Report 2020",
+        "page": "PDF pp.14–15; FY2019–2020 balance sheet/cash flows pp.66–67",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
+            "page": "PDF p. 85 (note 4.1, 1 January 2020 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
+            "page": "PDF p. 73 (2019 column)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -190,19 +286,49 @@
       "netIncome": 2985000000,
       "dilutedEPS": -37.0,
       "totalAssets": 62690000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 32621000000,
+      "cashAndEquivalents": 2851000000,
       "totalDebt": null,
       "operatingCashFlow": 5919000000,
       "capex": -3219000000,
       "dividendPerShare": 23.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 20816862,
+      "employees": 80220,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2020",
-        "page": "PDF pp.14\u201315; FY2019\u20132020 balance sheet/cash flows pp.66\u201367"
+        "document": "A.P. Møller - Mærsk Annual Report 2020",
+        "page": "PDF pp.14–15; FY2019–2020 balance sheet/cash flows pp.66–67",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
+            "page": "PDF p. 85 (note 4.1, 1 January 2019 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef",
+            "page": "PDF p. 70 (balance sheet)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef",
+            "page": "PDF p. 70 (balance sheet)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef",
+            "page": "PDF p. 76 (average number of employees)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -215,19 +341,49 @@
       "netIncome": -1205000000,
       "dilutedEPS": -11.0,
       "totalAssets": 63227000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 30609000000,
+      "cashAndEquivalents": 2171000000,
       "totalDebt": null,
       "operatingCashFlow": 4442000000,
       "capex": -4050000000,
       "dividendPerShare": 24.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 20816862,
+      "employees": 75813,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2020",
-        "page": "PDF pp.14\u201315; FY2019\u20132020 balance sheet/cash flows pp.66\u201367"
+        "document": "A.P. Møller - Mærsk Annual Report 2020",
+        "page": "PDF pp.14–15; FY2019–2020 balance sheet/cash flows pp.66–67",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef",
+            "page": "PDF p. 87 (note 4.1, 1 January 2018 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef",
+            "page": "PDF p. 70 (balance sheet, 2017 column)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef",
+            "page": "PDF p. 70 (balance sheet, 2017 column)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef",
+            "page": "PDF p. 76 (2017 column)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -240,19 +396,49 @@
       "netIncome": -1939000000,
       "dilutedEPS": -25.0,
       "totalAssets": 61118000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 31258000000,
+      "cashAndEquivalents": 4105000000,
       "totalDebt": null,
       "operatingCashFlow": 3115000000,
       "capex": -2105000000,
       "dividendPerShare": 21.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 20816862,
+      "employees": 76265,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2020",
-        "page": "PDF pp.14\u201315; FY2019\u20132020 balance sheet/cash flows pp.66\u201367"
+        "document": "A.P. Møller - Mærsk Annual Report 2020",
+        "page": "PDF pp.14–15; FY2019–2020 balance sheet/cash flows pp.66–67",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf",
+            "page": "PDF p. 81 (note, 1 January 2017 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf",
+            "page": "PDF p. 65 (balance sheet, 2016 column)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf",
+            "page": "PDF p. 65 (balance sheet, 2016 column)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf",
+            "page": "PDF p. 72 (average number of employees)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -276,8 +462,8 @@
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2015",
-        "page": "PDF p.9; FY2014\u20132015 balance sheet/cash flows/employee/debt notes pp.28\u201329,35,52"
+        "document": "A.P. Møller - Mærsk Annual Report 2015",
+        "page": "PDF p.9; FY2014–2015 balance sheet/cash flows/employee/debt notes pp.28–29,35,52"
       }
     },
     {
@@ -296,13 +482,22 @@
       "operatingCashFlow": 401000000,
       "capex": -8639000000,
       "dividendPerShare": 49.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 21978000,
       "employees": 89207,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2015",
-        "page": "PDF p.9; FY2014\u20132015 balance sheet/cash flows/employee/debt notes pp.28\u201329,35,52"
+        "document": "A.P. Møller - Mærsk Annual Report 2015",
+        "page": "PDF p.9; FY2014–2015 balance sheet/cash flows/employee/debt notes pp.28–29,35,52",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d",
+            "page": "PDF p. 46 (note 4.1, 1 January 2015 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -315,19 +510,57 @@
       "netIncome": 3450000000,
       "dilutedEPS": 158.0,
       "totalAssets": 74509000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 215582000000,
+      "cashAndEquivalents": 17640000000,
       "totalDebt": null,
       "operatingCashFlow": 408000000,
-      "capex": null,
+      "capex": -35178000000,
       "dividendPerShare": 52.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 21978000,
+      "employees": 88909,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2015",
-        "page": "PDF p.9; FY2014\u20132015 balance sheet/cash flows/employee/debt notes pp.28\u201329,35,52"
+        "document": "A.P. Møller - Mærsk Annual Report 2015",
+        "page": "PDF p.9; FY2014–2015 balance sheet/cash flows/employee/debt notes pp.28–29,35,52",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d",
+            "page": "PDF p. 46 (note 4.1, 1 January 2014 column)",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 77 (consolidated balance sheet)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 76 (balance sheet)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 89 (average number of employees in continuing operations)",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 78 (cash flow statement)",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -340,19 +573,60 @@
       "netIncome": 3740000000,
       "dilutedEPS": 171.0,
       "totalAssets": 72396000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 208800000000,
+      "cashAndEquivalents": 11670000000,
       "totalDebt": null,
       "operatingCashFlow": 323000000,
-      "capex": null,
+      "capex": -43608000000,
       "dividendPerShare": 42.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 4395600,
+      "employees": 89569,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2015",
-        "page": "PDF p.9; FY2014\u20132015 balance sheet/cash flows/employee/debt notes pp.28\u201329,35,52"
+        "document": "A.P. Møller - Mærsk Annual Report 2015",
+        "page": "PDF p.9; FY2014–2015 balance sheet/cash flows/employee/debt notes pp.28–29,35,52",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 105 (note, 1 January 2013 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 77 (balance sheet, 2012 column)",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 76 (balance sheet, 2012 column)",
+            "fields": [
+              "cashAndEquivalents"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 89 (2012 column)",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 78 (cash flow statement, 2012 column)",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -365,19 +639,58 @@
       "netIncome": 2836000000,
       "dilutedEPS": 130.0,
       "totalAssets": 70444000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 194157000000,
+      "cashAndEquivalents": 12013000000,
       "totalDebt": null,
       "operatingCashFlow": 305000000,
-      "capex": null,
+      "capex": -42058000000,
       "dividendPerShare": 35.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 4395600,
+      "employees": 117080,
       "restated": true,
       "source": {
         "url": "https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2015",
-        "page": "PDF p.9; FY2014\u20132015 balance sheet/cash flows/employee/debt notes pp.28\u201329,35,52"
+        "document": "A.P. Møller - Mærsk Annual Report 2015",
+        "page": "PDF p.9; FY2014–2015 balance sheet/cash flows/employee/debt notes pp.28–29,35,52",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf",
+            "page": "PDF p. 113 (note, 1 January 2012 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 77 (balance sheet, 2011 column)",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8",
+            "page": "PDF p. 76 (balance sheet, 2011 column)",
+            "fields": [
+              "cashAndEquivalents"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf",
+            "page": "PDF p. 98 (2011 column)",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf",
+            "page": "PDF p. 78 (cash flow statement, 2011 column)",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -396,13 +709,22 @@
       "operatingCashFlow": 56972000000,
       "capex": -30958000000,
       "dividendPerShare": 1000,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4395600,
       "employees": null,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2010",
-        "page": "PDF p.8 (DKK financial highlights); FY2009\u20132010 balance sheet and cash flows pp.62\u201364"
+        "document": "A.P. Møller - Mærsk Annual Report 2010",
+        "page": "PDF p.8 (DKK financial highlights); FY2009–2010 balance sheet and cash flows pp.62–64",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf",
+            "page": "PDF p. 113 (note, 1 January 2011 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -421,13 +743,22 @@
       "operatingCashFlow": 25098000000,
       "capex": -43822000000,
       "dividendPerShare": 325,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4395600,
       "employees": null,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2010",
-        "page": "PDF p.8 (DKK financial highlights); FY2009\u20132010 balance sheet and cash flows pp.62\u201364"
+        "document": "A.P. Møller - Mærsk Annual Report 2010",
+        "page": "PDF p.8 (DKK financial highlights); FY2009–2010 balance sheet and cash flows pp.62–64",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf",
+            "page": "PDF p. 93 (note, 1 January 2010 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -440,19 +771,42 @@
       "netIncome": 16960000000,
       "dilutedEPS": 4122,
       "totalAssets": 343110000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 149541000000,
+      "cashAndEquivalents": 13665000000,
       "totalDebt": null,
       "operatingCashFlow": 43422000000,
       "capex": null,
       "dividendPerShare": 650,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4395600,
       "employees": null,
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2010",
-        "page": "PDF p.8 (DKK financial highlights); FY2009\u20132010 balance sheet and cash flows pp.62\u201364"
+        "document": "A.P. Møller - Mærsk Annual Report 2010",
+        "page": "PDF p.8 (DKK financial highlights); FY2009–2010 balance sheet and cash flows pp.62–64",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf",
+            "page": "PDF p. 93 (note, 1 January 2009 column)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf",
+            "page": "PDF p. 65 (balance sheet)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf",
+            "page": "PDF p. 64 (balance sheet)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          }
+        ]
       }
     },
     {
@@ -465,8 +819,8 @@
       "netIncome": 17809000000,
       "dilutedEPS": 4328,
       "totalAssets": 328098000000,
-      "totalEquity": null,
-      "cashAndEquivalents": null,
+      "totalEquity": 138178000000,
+      "cashAndEquivalents": 22926000000,
       "totalDebt": null,
       "operatingCashFlow": 39820000000,
       "capex": null,
@@ -476,38 +830,111 @@
       "restated": false,
       "source": {
         "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf",
-        "document": "A.P. M\u00f8ller - M\u00e6rsk Annual Report 2010",
-        "page": "PDF p.8 (DKK financial highlights); FY2009\u20132010 balance sheet and cash flows pp.62\u201364"
+        "document": "A.P. Møller - Mærsk Annual Report 2010",
+        "page": "PDF p.8 (DKK financial highlights); FY2009–2010 balance sheet and cash flows pp.62–64",
+        "supplementalSources": [
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf",
+            "page": "PDF p. 65 (balance sheet, 2007 column)",
+            "fields": [
+              "totalEquity"
+            ]
+          },
+          {
+            "url": "https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf",
+            "page": "PDF p. 64 (balance sheet, 2007 column)",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          }
+        ]
       }
     }
   ],
   "gaps": [
-    "FY2007 totalEquity, cashAndEquivalents, totalDebt, capex, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2008 totalEquity, cashAndEquivalents, totalDebt, capex, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2009 totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2010 totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2011 totalEquity, cashAndEquivalents, totalDebt, capex, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2012 totalEquity, cashAndEquivalents, totalDebt, capex, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2013 totalEquity, cashAndEquivalents, totalDebt, capex, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2014 sharesOutstanding: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2015 sharesOutstanding: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2016 totalEquity, cashAndEquivalents, totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2017 totalEquity, cashAndEquivalents, totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2018 totalEquity, cashAndEquivalents, totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2019 totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2020 totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2021 totalEquity, cashAndEquivalents, totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2022 totalEquity, cashAndEquivalents, totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2023 totalEquity, cashAndEquivalents, totalDebt, sharesOutstanding, employees: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2024 sharesOutstanding: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used.",
-    "FY2025 sharesOutstanding: not directly extracted from the opened official financial-history tables; no aggregation, interpolation or substitute net-debt figure used."
+    "FY2023 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2022 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2022 sharesOutstanding: not found in the company's reports (Searched AR2023 p.84 (issued shares 1 January, 2023/2022 columns; figures not parsed from layout text), AR2020 p.85 (no 31 Dec 2020 figure), AR2015 p.46 (no 31 Dec 2015 figure), AR2008 p.12 (A/B share counts present but do not reconcile to a single printed total).)",
+    "FY2021 totalEquity: not found in the company's reports (FY2021 balance sheet needed (AR2021 or AR2022). AR2022 PDF not retrieved; AR2023 shows only 2023 and 2022.)",
+    "FY2021 cashAndEquivalents: not found in the company's reports (FY2021 balance sheet needed (AR2021 or AR2022); not retrieved.)",
+    "FY2021 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2021 sharesOutstanding: not found in the company's reports (No annual report located for FY2021 (Annual Report 2022 PDF not retrieved; the file offered by search was a Q3 2022 interim report).)",
+    "FY2021 employees: not found in the company's reports (FY2021 headcount not in AR2023 (2023/2022 only) and AR2022 not retrieved.)",
+    "FY2020 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2020 sharesOutstanding: not found in the company's reports (Searched AR2023 p.84 (issued shares 1 January, 2023/2022 columns; figures not parsed from layout text), AR2020 p.85 (no 31 Dec 2020 figure), AR2015 p.46 (no 31 Dec 2015 figure), AR2008 p.12 (A/B share counts present but do not reconcile to a single printed total).)",
+    "FY2019 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2018 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2017 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2016 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2015 sharesOutstanding: not found in the company's reports (Searched AR2023 p.84 (issued shares 1 January, 2023/2022 columns; figures not parsed from layout text), AR2020 p.85 (no 31 Dec 2020 figure), AR2015 p.46 (no 31 Dec 2015 figure), AR2008 p.12 (A/B share counts present but do not reconcile to a single printed total).)",
+    "FY2013 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2012 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2011 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2010 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2010 employees: not found in the company's reports (AR2010 p.79 and AR2008 p.72 contain average-employee lines but the values did not parse from the layout text; FY2021 not in AR2023 (only 2023 and 2022 printed).)",
+    "FY2009 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2009 employees: not found in the company's reports (AR2010 p.79 and AR2008 p.72 contain average-employee lines but the values did not parse from the layout text; FY2021 not in AR2023 (only 2023 and 2022 printed).)",
+    "FY2008 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2008 capex: not found in the company's reports (AR2008 cash flow statement: only five-year summary cash-flow lines (net, scope includes divestments, not used per brief) found; gross purchase line not parsed.)",
+    "FY2008 employees: not found in the company's reports (AR2010 p.79 and AR2008 p.72 contain average-employee lines but the values did not parse from the layout text; FY2021 not in AR2023 (only 2023 and 2022 printed).)",
+    "FY2007 totalDebt: not found in the company's reports (Borrowings notes read (AR2023 p.85-86, AR2018 p.90, AR2013 p.185 and others) show Total borrowings only in reconciliation and maturity tables, not as a single year-end balance line; not extracted in this pass.)",
+    "FY2007 capex: not found in the company's reports (AR2008 cash flow statement for FY2007 not parsed; only net five-year summary lines found.)",
+    "FY2007 sharesOutstanding: not found in the company's reports (Searched AR2023 p.84 (issued shares 1 January, 2023/2022 columns; figures not parsed from layout text), AR2020 p.85 (no 31 Dec 2020 figure), AR2015 p.46 (no 31 Dec 2015 figure), AR2008 p.12 (A/B share counts present but do not reconcile to a single printed total).)",
+    "FY2007 employees: not found in the company's reports (AR2010 p.79 and AR2008 p.72 contain average-employee lines but the values did not parse from the layout text; FY2021 not in AR2023 (only 2023 and 2022 printed).)"
   ],
   "notes": [
-    "All historical values come from the company\u2019s official five-year summaries and consolidated statements. FY2007\u20132010 uses published DKK values, not translated USD summary data; FY2011 onward uses published USD figures. A currency change is represented per year.",
-    "netIncome is A.P. M\u00f8ller - M\u00e6rsk A/S share of total profit, including discontinued operations; revenue/operatingIncome are the continuing-operations scope of the corresponding published summary. Divestments of oil, tankers, drilling, retail and Svitzer materially change comparability. FY2016\u20132018 income and cash-flow figures are the restated history published in 2020; 2018 is presented as if IFRS16 had been implemented. FY2023 assets were restated in 2024.",
-    "totalEquity uses directly published equity attributable to the parent. Where only total group equity including minorities appears in the historical summary, the field is null rather than subtracting minority equity. totalDebt uses directly published Total borrowings and leases for FY2024\u20132025 and Total borrowings for FY2014\u20132015; those older figures exclude operating leases under the then applicable accounting standard.",
+    "All historical values come from the company’s official five-year summaries and consolidated statements. FY2007–2010 uses published DKK values, not translated USD summary data; FY2011 onward uses published USD figures. A currency change is represented per year.",
+    "netIncome is A.P. Møller - Mærsk A/S share of total profit, including discontinued operations; revenue/operatingIncome are the continuing-operations scope of the corresponding published summary. Divestments of oil, tankers, drilling, retail and Svitzer materially change comparability. FY2016–2018 income and cash-flow figures are the restated history published in 2020; 2018 is presented as if IFRS16 had been implemented. FY2023 assets were restated in 2024.",
+    "totalEquity uses directly published equity attributable to the parent. Where only total group equity including minorities appears in the historical summary, the field is null rather than subtracting minority equity. totalDebt uses directly published Total borrowings and leases for FY2024–2025 and Total borrowings for FY2014–2015; those older figures exclude operating leases under the then applicable accounting standard.",
     "cashAndEquivalents is the balance-sheet Cash and bank balances figure; bank overdrafts are separately deducted in the cash-flow reconciliation. capex is purchases of intangible assets and property, plant and equipment; the older summary line Cash flow used for capital expenditure includes divestments and is not substituted for gross purchases.",
-    "Historical dilutedEPS/ordinary dividends are the published per-share values in each source, including the issuer\u2019s split-adjusted older comparatives in later summaries. The 2010 report\u2019s DKK per-share figures predate the 2014 bonus-share issuance and are not manually adjusted. FY2016\u20132020 dilutedEPS is explicitly continuing-operations EPS; total attributable income has a different scope.",
-    "Dividend per share excludes special distributions where the source reports ordinary separately. Employees, where available, is the average employee count from the consolidated employee note; no estimated or backfilled headcount/shares were introduced."
+    "Historical dilutedEPS/ordinary dividends are the published per-share values in each source, including the issuer’s split-adjusted older comparatives in later summaries. The 2010 report’s DKK per-share figures predate the 2014 bonus-share issuance and are not manually adjusted. FY2016–2020 dilutedEPS is explicitly continuing-operations EPS; total attributable income has a different scope.",
+    "Dividend per share excludes special distributions where the source reports ordinary separately. Employees, where available, is the average employee count from the consolidated employee note; no estimated or backfilled headcount/shares were introduced.",
+    "FY2025 sharesOutstanding: 15,828,942 (units) from https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135 PDF p. 41 (share data) and p. 143 (note 4.1) — Issued shares as printed; treasury shares not deducted (brief fallback). Total of A and B issued; no shares cancelled in 2025.",
+    "FY2024 sharesOutstanding: 15,828,942 (units) from https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135 PDF p. 143 (note 4.1, 1 January 2025 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Year-end 2024 = 1 January 2025 balance.",
+    "FY2023 sharesOutstanding: 17,569,715 (units) from https://investor.maersk.com/static-files/75fac9de-c2cc-421c-8eaf-17d5c5d86135 PDF p. 143 (note 4.1, 1 January 2024 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Year-end 2023 = 1 January 2024 balance (AR2025).",
+    "FY2019 sharesOutstanding: 20,816,862 (units) from https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361 PDF p. 85 (note 4.1, 1 January 2020 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Year-end 2019 = 1 January 2020 balance.",
+    "FY2018 sharesOutstanding: 20,816,862 (units) from https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361 PDF p. 85 (note 4.1, 1 January 2019 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Year-end 2018 = 1 January 2019 balance.",
+    "FY2017 sharesOutstanding: 20,816,862 (units) from https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef PDF p. 87 (note 4.1, 1 January 2018 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Year-end 2017 = 1 January 2018 balance.",
+    "FY2016 sharesOutstanding: 20,816,862 (units) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf PDF p. 81 (note, 1 January 2017 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Year-end 2016 = 1 January 2017 balance.",
+    "FY2014 sharesOutstanding: 21,978,000 (units) from https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d PDF p. 46 (note 4.1, 1 January 2015 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Year-end 2014 = 1 January 2015 balance.",
+    "FY2013 sharesOutstanding: 21,978,000 (units) from https://investor.maersk.com/static-files/ea313f01-9fe4-4248-91ca-4b6c29ddd60d PDF p. 46 (note 4.1, 1 January 2014 column) — Issued shares as printed; treasury shares not deducted (brief fallback). Restated in AR2015 for the bonus share issue (AR2013 printed 4,395,600).",
+    "FY2012 sharesOutstanding: 4,395,600 (units) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 105 (note, 1 January 2013 column) — Issued shares as printed; treasury shares not deducted (brief fallback). As printed in AR2013 (pre bonus-issue restatement, which AR2015 applies x5 to later years).",
+    "FY2011 sharesOutstanding: 4,395,600 (units) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf PDF p. 113 (note, 1 January 2012 column) — Issued shares as printed; treasury shares not deducted (brief fallback). As printed in AR2012.",
+    "FY2010 sharesOutstanding: 4,395,600 (units) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf PDF p. 113 (note, 1 January 2011 column) — Issued shares as printed; treasury shares not deducted (brief fallback). As printed in AR2012.",
+    "FY2009 sharesOutstanding: 4,395,600 (units) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf PDF p. 93 (note, 1 January 2010 column) — Issued shares as printed; treasury shares not deducted (brief fallback). As printed in AR2010 (DKK-era count).",
+    "FY2008 sharesOutstanding: 4,395,600 (units) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/4-43-54/100154_AR2010_UK.pdf PDF p. 93 (note, 1 January 2009 column) — Issued shares as printed; treasury shares not deducted (brief fallback). As printed in AR2010 (DKK-era count).",
+    "FY2023 totalEquity: 54,030 (million) from https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478 PDF p. 63 (balance sheet) — Equity attributable to A.P. Moller - Maersk A/S, USD million.",
+    "FY2022 totalEquity: 63,991 (million) from https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478 PDF p. 63 (balance sheet, 2022 column) — Prior-year column of AR2023; USD million.",
+    "FY2018 totalEquity: 32,621 (million) from https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef PDF p. 70 (balance sheet) — Equity attributable to parent, USD million.",
+    "FY2017 totalEquity: 30,609 (million) from https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef PDF p. 70 (balance sheet, 2017 column) — Prior-year column of AR2018; USD million.",
+    "FY2016 totalEquity: 31,258 (million) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf PDF p. 65 (balance sheet, 2016 column) — Prior-year column of AR2017; USD million.",
+    "FY2013 totalEquity: 215,582 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 77 (consolidated balance sheet) — DKK million: AR2013 consolidated statements are in DKK (USD summary gives total equity only).",
+    "FY2012 totalEquity: 208,800 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 77 (balance sheet, 2012 column) — DKK million, prior-year column of AR2013 (AR2012 printed 222,544 total equity incl. minorities).",
+    "FY2011 totalEquity: 194,157 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 77 (balance sheet, 2011 column) — DKK million, third column of AR2013 consolidated balance sheet.",
+    "FY2008 totalEquity: 149,541 (million) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf PDF p. 65 (balance sheet) — Equity attributable to parent, DKK million (AR2008 DKK statements).",
+    "FY2007 totalEquity: 138,178 (million) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf PDF p. 65 (balance sheet, 2007 column) — Prior-year column of AR2008; DKK million.",
+    "FY2023 cashAndEquivalents: 6,701 (million) from https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478 PDF p. 63 (balance sheet) — Cash and bank balances, USD million.",
+    "FY2022 cashAndEquivalents: 10,057 (million) from https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478 PDF p. 63 (balance sheet, 2022 column) — Prior-year column of AR2023; USD million.",
+    "FY2018 cashAndEquivalents: 2,851 (million) from https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef PDF p. 70 (balance sheet) — Cash and bank balances, USD million.",
+    "FY2017 cashAndEquivalents: 2,171 (million) from https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef PDF p. 70 (balance sheet, 2017 column) — Prior-year column of AR2018; USD million.",
+    "FY2016 cashAndEquivalents: 4,105 (million) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf PDF p. 65 (balance sheet, 2016 column) — Prior-year column of AR2017; USD million.",
+    "FY2013 cashAndEquivalents: 17,640 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 76 (balance sheet) — DKK million (AR2013 consolidated statements in DKK).",
+    "FY2012 cashAndEquivalents: 11,670 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 76 (balance sheet, 2012 column) — DKK million, prior-year column of AR2013 (AR2012 printed 13,011).",
+    "FY2011 cashAndEquivalents: 12,013 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 76 (balance sheet, 2011 column) — DKK million, third column of AR2013 (AR2012 printed 13,095).",
+    "FY2008 cashAndEquivalents: 13,665 (million) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf PDF p. 64 (balance sheet) — Cash and bank balances, DKK million.",
+    "FY2007 cashAndEquivalents: 22,926 (million) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2012/06/14/4-00-15/UK_APM_Beretning-08_Internet.pdf PDF p. 64 (balance sheet, 2007 column) — Prior-year column of AR2008; DKK million.",
+    "FY2023 employees: 105,909 (units) from https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478 PDF p. 73 (average number of employees) — Average, not year-end (year-end headcount not located in AR2023).",
+    "FY2022 employees: 104,260 (units) from https://investor.maersk.com/static-files/3676346f-38c4-430d-8c28-054919aec478 PDF p. 73 (2022 column) — Average (prior-year column of AR2023).",
+    "FY2020 employees: 83,624 (units) from https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361 PDF p. 73 (average number of employees) — Average (YTD) per AR2020 footnote.",
+    "FY2019 employees: 83,512 (units) from https://investor.maersk.com/static-files/97a03c29-46a2-4e84-9b7e-12d4ee451361 PDF p. 73 (2019 column) — Average (prior-year column of AR2020).",
+    "FY2018 employees: 80,220 (units) from https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef PDF p. 76 (average number of employees) — Average, continuing operations; AR2018 footnote gives 84,404 total incl. discontinued.",
+    "FY2017 employees: 75,813 (units) from https://investor.maersk.com/static-files/9295e4f7-97f8-4ea7-a503-fe716bf99bef PDF p. 76 (2017 column) — Average, continuing operations (prior-year column of AR2018).",
+    "FY2016 employees: 76,265 (units) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2018/04/25/13-00-21/A.P._Moller_-_Maersk_Annual_Report_2017.pdf PDF p. 72 (average number of employees) — Average as printed in AR2017 (scope per AR2017 footnote; footnote gives 85,667 incl. discontinued for 2017).",
+    "FY2013 employees: 88,909 (units) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 89 (average number of employees in continuing operations) — Average, continuing operations.",
+    "FY2012 employees: 89,569 (units) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 89 (2012 column) — Average, continuing operations, prior-year column of AR2013; AR2012 printed 121,105 excluding discontinued ops (different scope).",
+    "FY2011 employees: 117,080 (units) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf PDF p. 98 (2011 column) — Average excluding discontinued operations as printed in AR2012 (no later restated figure in the reports read).",
+    "FY2013 capex: -35,178 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 78 (cash flow statement) — Purchase of intangible assets and property, plant and equipment, DKK million.",
+    "FY2012 capex: -43,608 (million) from https://investor.maersk.com/static-files/f9126c88-9da0-4b11-8960-a70056e5b5d8 PDF p. 78 (cash flow statement, 2012 column) — Prior-year column of AR2013, DKK million (AR2012 printed -47,108).",
+    "FY2011 capex: -42,058 (million) from https://investor.maersk.com/system/files-encrypted/nasdaq_kms/assets/2013/02/21/21-01-32/Annual%20Report%202012.pdf PDF p. 78 (cash flow statement, 2011 column) — Purchase of intangible assets and PP&E as printed in AR2012 (prior-year column), DKK million."
   ]
 }

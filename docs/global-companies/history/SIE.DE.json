@@ -422,12 +422,21 @@
    "capex": -2923000000,
    "dividendPerShare": 1.6,
    "sharesOutstanding": 866425760,
-   "employees": null,
+   "employees": 405000,
    "restated": true,
    "source": {
     "url": "https://www.sec.gov/Archives/edgar/data/1135644/000119312513456190/d614475d20f.htm",
     "document": "Form 20-F 2013 (https://www.sec.gov/Archives/edgar/data/1135644/000119312513456190/d614475d20f.htm); Form 20-F 2009 (https://www.sec.gov/Archives/edgar/data/1135644/000095012309068324/f03197e20vf.htm); Form 20-F 2011 (https://www.sec.gov/Archives/edgar/data/1135644/000119312511325840/d259938d20f.htm)",
-    "page": "Form 20-F 2013 Item 3 (revenue 68,726, pre-tax income 3,917, total assets 94,926, diluted EPS 2.57, shares outstanding 866,425,760, dividends 1.60); Form 20-F 2009 Item 5 capital structure (equity attributable 26,646, cash 10,159, total debt 19,638) and Item 18 cash flow statement (operating cash flow 6,709, capex 2,923); net income attributable 2,292 from Form 20-F 2011 Item 5 MD&A"
+    "page": "Form 20-F 2013 Item 3 (revenue 68,726, pre-tax income 3,917, total assets 94,926, diluted EPS 2.57, shares outstanding 866,425,760, dividends 1.60); Form 20-F 2009 Item 5 capital structure (equity attributable 26,646, cash 10,159, total debt 19,638) and Item 18 cash flow statement (operating cash flow 6,709, capex 2,923); net income attributable 2,292 from Form 20-F 2011 Item 5 MD&A",
+    "supplementalSources": [
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/1135644/000095012309068324/f03197e20vf.htm",
+      "page": "20-F p. 28",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -447,12 +456,22 @@
    "capex": -3721000000,
    "dividendPerShare": 1.6,
    "sharesOutstanding": 861557756,
-   "employees": null,
+   "employees": 427000,
    "restated": true,
    "source": {
     "url": "https://www.sec.gov/Archives/edgar/data/1135644/000119312511325840/d259938d20f.htm",
     "document": "Form 20-F 2011 (https://www.sec.gov/Archives/edgar/data/1135644/000119312511325840/d259938d20f.htm); Form 20-F 2008 (https://www.sec.gov/Archives/edgar/data/1135644/000132693208000323/f02099e20vf.htm)",
-    "page": "Form 20-F 2011 Item 3 (revenue 69,577, pre-tax income 2,440, total assets 94,463, diluted EPS 6.39, shares outstanding 861,557,756, dividends 1.60); Form 20-F 2008 Item 5 capital structure (equity attributable 26,774, total debt 16,079), Item 18 income statement (net income attributable 5,725) and cash flow statement (cash and cash equivalents 6,893, operating cash flow 9,281, capex 3,721)"
+    "page": "Form 20-F 2011 Item 3 (revenue 69,577, pre-tax income 2,440, total assets 94,463, diluted EPS 6.39, shares outstanding 861,557,756, dividends 1.60); Form 20-F 2008 Item 5 capital structure (equity attributable 26,774, total debt 16,079), Item 18 income statement (net income attributable 5,725) and cash flow statement (cash and cash equivalents 6,893, operating cash flow 9,281, capex 3,721)",
+    "supplementalSources": [
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/1135644/000095012309068324/f03197e20vf.htm",
+      "page": "20-F p. 28",
+      "fields": [
+       "employees"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -472,23 +491,26 @@
    "capex": -3751000000,
    "dividendPerShare": 1.6,
    "sharesOutstanding": 914203038,
-   "employees": null,
+   "employees": 398000,
    "restated": true,
    "source": {
     "url": "https://www.sec.gov/Archives/edgar/data/1135644/000119312511325840/d259938d20f.htm",
     "document": "Form 20-F 2011 (https://www.sec.gov/Archives/edgar/data/1135644/000119312511325840/d259938d20f.htm); Form 20-F 2008 (https://www.sec.gov/Archives/edgar/data/1135644/000132693208000323/f02099e20vf.htm)",
-    "page": "Form 20-F 2011 Item 3 (revenue 64,238, pre-tax income 4,390, total assets 91,555, diluted EPS 4.10, shares outstanding 914,203,038, dividends 1.60); Form 20-F 2008 Item 5 capital structure (equity attributable 28,996, total debt 15,497), Item 18 income statement (net income attributable 3,806) and cash flow statement (cash and cash equivalents 4,005, operating cash flow 9,822, capex 3,751)"
+    "page": "Form 20-F 2011 Item 3 (revenue 64,238, pre-tax income 4,390, total assets 91,555, diluted EPS 4.10, shares outstanding 914,203,038, dividends 1.60); Form 20-F 2008 Item 5 capital structure (equity attributable 28,996, total debt 15,497), Item 18 income statement (net income attributable 3,806) and cash flow statement (cash and cash equivalents 4,005, operating cash flow 9,822, capex 3,751)",
+    "supplementalSources": [
+     {
+      "url": "https://www.sec.gov/Archives/edgar/data/1135644/000095012309068324/f03197e20vf.htm",
+      "page": "20-F p. 28",
+      "fields": [
+       "employees"
+      ],
+      "restated": true
+     }
+    ]
    }
   }
  ],
- "gaps": [
-  "FY2007 employees: no September 30 headcount in any document used - the Form 20-F only says 'more than 400,000 employees' (fiscal-2008 report gives a fiscal-2008 average of 420,841 people, which is an average, not a period-end count)",
-  "FY2008 employees: no September 30 headcount - the Form 20-F says 'during fiscal 2008, Siemens employed an average of 420,841 people'; no later document republishes a 2008 headcount",
-  "FY2009 employees: no September 30 headcount - the Form 20-F says 'during fiscal 2009, Siemens employed an average of 413,650 people' plus 'more than 400,000 employees'; nothing on a basis comparable with FY2010 onward",
-  "FY2010 netIncome: EUR 3,899m is the last published attributable figure (Form 20-F 2011 and 2012 MD&A); after OSRAM and Siemens IT Solutions and Services were presented as discontinued operations the Form 20-F 2013 shows FY2010 total net income of EUR 3,881m without republishing the amount attributable to shareholders",
-  "FY2018 operatingIncome: EUR 8,050m is the pre-tax income published in the FY2018 and FY2019 reports, i.e. still including Siemens Energy and SGRE, which became discontinued operations in FY2020; no report republished FY2018 pre-tax income on the continuing-operations basis",
-  "FY2022 operatingIncome: EUR 7,154m is the pre-tax income from the FY2023 report, i.e. before Innomotics was classified as a discontinued operation in FY2024; no report republished FY2022 pre-tax income on the Innomotics basis"
- ],
+ "gaps": [],
  "notes": [
   "IFRS throughout FY2007-FY2025 (IFRS as endorsed by the EU, also full IFRS); no change of accounting standard in the period, so a standard switch is not a factor. Fiscal year ends September 30; fiscalYear is the calendar year the fiscal year ends in.",
   "revenue = the revenue line of the consolidated income statement (continuing operations), read from the latest document that republished the year (normally the five-year summary of a later report).",
@@ -505,6 +527,9 @@
   "FY2007-FY2009 come from the Form 20-F filings (Siemens' last 20-F is fiscal 2013). Nothing republished them after IFRS 11, so their revenue is on the older basis (FY2009: 70,053 originally, 68,726 in the 2013 filing), whereas FY2010-FY2011 revenue are the IFRS 11 values from the FY2014 annual report. Net income attributable for FY2007-FY2009 is the figure published before those reclassifications (FY2007 3,806, FY2008 5,725, FY2009 2,292).",
   "20-F source references point to the EDGAR HTML filings: Item/section plus the F-page numbers of the audited statements in Item 18, because no paginated PDF of those filings was used. Where a year needed two documents, the second document's URL is given in the source.document text.",
   "Five-year-summary links: Siemens stores each year's 'Five-Year Summary' PDF under a content hash that changes when the file is re-published, so the three summary links (fiscal 2017, 2018 and 2019 editions) were refreshed from the hashes that the IR annual-reports page (irUrl) currently publishes and the cited columns re-read; every URL in this file was re-opened and returned a PDF/HTML document.",
-  "Yahoo cross-check (snapshot-2026-10-26, USD at the fiscal-year average rate): FY2025 revenue 78,914 x 1.1066 = 87,320 vs 87,320; FY2024 75,930 x 1.0872 = 82,550 vs 82,548; FY2025 net income 9,620 x 1.1066 = 10,645 vs 10,645; FY2024 8,301 x 1.0872 = 9,025 vs 9,025; FY2023 and FY2022 net income also match at the average rates (8,509 and 4,020). The only gap above 3% is FY2022 revenue: Yahoo carries USD 77,716, which corresponds to the pre-Innomotics figure of EUR 71,977m, while this file uses the restated EUR 69,519m (about 3.4% lower)."
+  "Yahoo cross-check (snapshot-2026-10-26, USD at the fiscal-year average rate): FY2025 revenue 78,914 x 1.1066 = 87,320 vs 87,320; FY2024 75,930 x 1.0872 = 82,550 vs 82,548; FY2025 net income 9,620 x 1.1066 = 10,645 vs 10,645; FY2024 8,301 x 1.0872 = 9,025 vs 9,025; FY2023 and FY2022 net income also match at the average rates (8,509 and 4,020). The only gap above 3% is FY2022 revenue: Yahoo carries USD 77,716, which corresponds to the pre-Innomotics figure of EUR 71,977m, while this file uses the restated EUR 69,519m (about 3.4% lower).",
+  "FY2009 employees: 405 (thousand) from https://www.sec.gov/Archives/edgar/data/1135644/000095012309068324/f03197e20vf.htm 20-F p. 28 — Employees by segments table (Total), as of September 30, 2009 = fiscal year-end headcount; printed in thousands, rounded",
+  "FY2008 employees: 427 (thousand) from https://www.sec.gov/Archives/edgar/data/1135644/000095012309068324/f03197e20vf.htm 20-F p. 28 — Same table, Total as of September 30, 2008 (prior-year column of the FY2009 20-F); printed in thousands, rounded",
+  "FY2007 employees: 398 (thousand) from https://www.sec.gov/Archives/edgar/data/1135644/000095012309068324/f03197e20vf.htm 20-F p. 28 — Same table, Total as of September 30, 2007 (prior-year column of the FY2009 20-F); printed in thousands, rounded"
  ]
 }

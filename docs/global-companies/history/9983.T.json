@@ -15,9 +15,9 @@
       "cashAndEquivalents": 893239000000,
       "totalDebt": 211328000000,
       "operatingCashFlow": 580618000000,
-      "capex": null,
+      "capex": -171902000000,
       "dividendPerShare": 500,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 59522,
       "fiscalYear": 2025,
       "periodEnd": "2025-08-31",
@@ -27,12 +27,28 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389",
+        "page": "PDF/printed pp.88–89",
         "additional": [
           {
             "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en_financial.pdf",
             "document": "Consolidated Financial Statements 2025",
-            "page": "PDF pp.3\u20134 and35 (printed pp.1\u20132 and33): parent equity and diluted EPS"
+            "page": "PDF pp.3–4 and35 (printed pp.1–2 and33): parent equity and diluted EPS"
+          }
+        ],
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ]
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "sharesOutstanding"
+            ]
           }
         ]
       }
@@ -47,9 +63,9 @@
       "cashAndEquivalents": 1193560000000,
       "totalDebt": 240935000000,
       "operatingCashFlow": 651521000000,
-      "capex": null,
+      "capex": -112112000000,
       "dividendPerShare": 400,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 60454,
       "fiscalYear": 2024,
       "periodEnd": "2024-08-31",
@@ -59,12 +75,30 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389",
+        "page": "PDF/printed pp.88–89",
         "additional": [
           {
             "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en_financial.pdf",
             "document": "Consolidated Financial Statements 2025",
-            "page": "PDF pp.3\u20134 and35 (printed pp.1\u20132 and33): parent equity and diluted EPS"
+            "page": "PDF pp.3–4 and35 (printed pp.1–2 and33): parent equity and diluted EPS"
+          }
+        ],
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
           }
         ]
       }
@@ -73,15 +107,15 @@
       "revenue": 2766557000000,
       "operatingIncome": 381090000000,
       "netIncome": 296229000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 964.48,
       "totalAssets": 3303694000000,
-      "totalEquity": null,
+      "totalEquity": 1821405000000,
       "cashAndEquivalents": 903280000000,
       "totalDebt": 240913000000,
       "operatingCashFlow": 463216000000,
-      "capex": null,
+      "capex": -102024000000,
       "dividendPerShare": 290,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 59871,
       "fiscalYear": 2023,
       "periodEnd": "2023-08-31",
@@ -91,22 +125,56 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2024_en_financial.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2024_en_financial.pdf",
+            "page": "PDF p. 3",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
       "revenue": 2301122000000,
       "operatingIncome": 297325000000,
       "netIncome": 273335000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 890.43,
       "totalAssets": 3183762000000,
-      "totalEquity": null,
+      "totalEquity": 1561652000000,
       "cashAndEquivalents": 1358292000000,
       "totalDebt": 371496000000,
       "operatingCashFlow": 430817000000,
-      "capex": null,
+      "capex": -86516000000,
       "dividendPerShare": 206.7,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 57576,
       "fiscalYear": 2022,
       "periodEnd": "2022-08-31",
@@ -116,7 +184,41 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2023_en_financial.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2023_en_financial.pdf",
+            "page": "PDF p. 3",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -125,13 +227,13 @@
       "netIncome": 169847000000,
       "dilutedEPS": null,
       "totalAssets": 2509976000000,
-      "totalEquity": null,
+      "totalEquity": 1116484000000,
       "cashAndEquivalents": 1177736000000,
       "totalDebt": 382634000000,
       "operatingCashFlow": 428968000000,
-      "capex": null,
+      "capex": -100653000000,
       "dividendPerShare": 160,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 55589,
       "fiscalYear": 2021,
       "periodEnd": "2021-08-31",
@@ -141,7 +243,33 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2022_en_financial.pdf",
+            "page": "PDF p. 3",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -154,9 +282,9 @@
       "cashAndEquivalents": 1093531000000,
       "totalDebt": 484496000000,
       "operatingCashFlow": 264868000000,
-      "capex": null,
+      "capex": -82736000000,
       "dividendPerShare": 160,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 57727,
       "fiscalYear": 2020,
       "periodEnd": "2020-08-31",
@@ -166,7 +294,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -179,9 +325,9 @@
       "cashAndEquivalents": 1086519000000,
       "totalDebt": 513405000000,
       "operatingCashFlow": 300505000000,
-      "capex": null,
+      "capex": -85201000000,
       "dividendPerShare": 160,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 56523,
       "fiscalYear": 2019,
       "periodEnd": "2019-08-31",
@@ -191,7 +337,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -204,9 +368,9 @@
       "cashAndEquivalents": 999697000000,
       "totalDebt": 544502000000,
       "operatingCashFlow": 176403000000,
-      "capex": null,
+      "capex": -69380000000,
       "dividendPerShare": 146.7,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 52839,
       "fiscalYear": 2018,
       "periodEnd": "2018-08-31",
@@ -216,7 +380,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -229,9 +411,9 @@
       "cashAndEquivalents": 683802000000,
       "totalDebt": 281512000000,
       "operatingCashFlow": 212168000000,
-      "capex": null,
+      "capex": -59755000000,
       "dividendPerShare": 116.7,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 44424,
       "fiscalYear": 2017,
       "periodEnd": "2017-08-31",
@@ -241,7 +423,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -254,9 +454,9 @@
       "cashAndEquivalents": 385431000000,
       "totalDebt": 283465000000,
       "operatingCashFlow": 98755000000,
-      "capex": null,
+      "capex": -52387000000,
       "dividendPerShare": 116.7,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 318220968,
       "employees": 43639,
       "fiscalYear": 2016,
       "periodEnd": "2016-08-31",
@@ -266,7 +466,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
         "document": "Annual / Integrated Report 2025, Financial Summary",
-        "page": "PDF/printed pp.88\u201389"
+        "page": "PDF/printed pp.88–89",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -279,9 +497,9 @@
       "cashAndEquivalents": 355212000000,
       "totalDebt": 38035000000,
       "operatingCashFlow": 134931000000,
-      "capex": null,
+      "capex": -62461000000,
       "dividendPerShare": 350,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 41646,
       "fiscalYear": 2015,
       "periodEnd": "2015-08-31",
@@ -291,22 +509,38 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "capex"
+            ]
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
       "revenue": 1382935000000,
       "operatingIncome": 130402000000,
       "netIncome": 74546000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 730.81,
       "totalAssets": 992307000000,
-      "totalEquity": null,
+      "totalEquity": 618381000000,
       "cashAndEquivalents": 314049000000,
       "totalDebt": 37561000000,
       "operatingCashFlow": 110595000000,
-      "capex": null,
+      "capex": -58814000000,
       "dividendPerShare": 300,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 30448,
       "fiscalYear": 2014,
       "periodEnd": "2014-08-31",
@@ -316,22 +550,54 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf",
+            "page": "PDF p. 79",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf",
+            "page": "PDF p. 78",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
       "revenue": 1142971000000,
       "operatingIncome": 134101000000,
       "netIncome": 104595000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 1025.75,
       "totalAssets": 901208000000,
-      "totalEquity": null,
+      "totalEquity": 570428000000,
       "cashAndEquivalents": 296708000000,
       "totalDebt": 37259000000,
       "operatingCashFlow": 99474000000,
-      "capex": null,
+      "capex": -39681000000,
       "dividendPerShare": 290,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 23982,
       "fiscalYear": 2013,
       "periodEnd": "2013-08-31",
@@ -341,22 +607,56 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf",
+            "page": "PDF p. 79",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf",
+            "page": "PDF p. 78",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
       "revenue": 928669000000,
       "operatingIncome": 126450000000,
       "netIncome": 71654000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 703.06,
       "totalAssets": 595102000000,
       "totalEquity": null,
       "cashAndEquivalents": 266020000000,
       "totalDebt": 23194000000,
       "operatingCashFlow": 127643000000,
-      "capex": null,
+      "capex": -40184000000,
       "dividendPerShare": 260,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 18854,
       "fiscalYear": 2012,
       "periodEnd": "2012-08-31",
@@ -366,22 +666,48 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2013_en.pdf",
+            "page": "PDF p. 86",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
       "revenue": 820349000000,
       "operatingIncome": 116365000000,
       "netIncome": 54354000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 533.66,
       "totalAssets": 533777000000,
       "totalEquity": null,
       "cashAndEquivalents": 202104000000,
       "totalDebt": 28263000000,
       "operatingCashFlow": 57158000000,
-      "capex": null,
+      "capex": -33993000000,
       "dividendPerShare": 180,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 14612,
       "fiscalYear": 2011,
       "periodEnd": "2011-08-31",
@@ -391,7 +717,33 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2013_en.pdf",
+            "page": "PDF p. 86",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -404,9 +756,9 @@
       "cashAndEquivalents": 200462000000,
       "totalDebt": 28834000000,
       "operatingCashFlow": 88623000000,
-      "capex": null,
+      "capex": -28018000000,
       "dividendPerShare": 230,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 11596,
       "fiscalYear": 2010,
       "periodEnd": "2010-08-31",
@@ -416,7 +768,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -429,9 +799,9 @@
       "cashAndEquivalents": 169574000000,
       "totalDebt": 35400000000,
       "operatingCashFlow": 59214000000,
-      "capex": null,
+      "capex": -22601000000,
       "dividendPerShare": 160,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 11037,
       "fiscalYear": 2009,
       "periodEnd": "2009-08-31",
@@ -441,7 +811,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 62",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 62",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -454,9 +842,9 @@
       "cashAndEquivalents": 169888000000,
       "totalDebt": 20016000000,
       "operatingCashFlow": 87336000000,
-      "capex": null,
+      "capex": -21017000000,
       "dividendPerShare": 130,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 8054,
       "fiscalYear": 2008,
       "periodEnd": "2008-08-31",
@@ -466,7 +854,25 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 62",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 62",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -479,9 +885,9 @@
       "cashAndEquivalents": 119216000000,
       "totalDebt": 24429000000,
       "operatingCashFlow": 18847000000,
-      "capex": null,
+      "capex": -26441000000,
       "dividendPerShare": 130,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 106073656,
       "employees": 6514,
       "fiscalYear": 2007,
       "periodEnd": "2007-08-31",
@@ -491,36 +897,107 @@
       "source": {
         "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
         "document": "Annual / Integrated Report 2015, Financial Summary",
-        "page": "PDF/printed pp.62\u201363"
+        "page": "PDF/printed pp.62–63",
+        "supplementalSources": [
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 62",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf",
+            "page": "PDF p. 62",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     }
   ],
   "gaps": [
-    "FY2007: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2008: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2009: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2010: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2011: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2012: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2013: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2014: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2015: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2016: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2017: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2018: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2019: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2020: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2021: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2022: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2023: dilutedEPS, totalEquity, capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2024: capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred.",
-    "FY2025: capex, sharesOutstanding not extracted on the required definition from the opened summary/statements; not inferred."
+    "FY2021 dilutedEPS: not found in the company's reports (FY2022 statements print 1,660.44 (pre-split). FY2023 securities report (EDINET S100SD9V, consolidated five-year table) prints 1,660.44 for 第60期 (FY2021), pre-split: its note 2 applies the split only from 第61期 (FY2022). No split-adjusted FY2021 diluted EPS printed in any later report.)",
+    "FY2020 dilutedEPS: not found in the company's reports (FY2023 securities report (EDINET S100SD9V, consolidated five-year table) prints 883.62 diluted for 第59期 (FY2020), pre-split: its note 2 applies the split only from 第61期 (FY2022). Not split-adjusted, so not filled. Full FY2020 statements not located.)",
+    "FY2020 totalEquity: not found in the company's reports (FY2020 summary prints total equity including NCI only; attributable amount not printed. Full statements (Securities Report) not located.)",
+    "FY2019 dilutedEPS: not found in the company's reports (FY2023 securities report (EDINET S100SD9V, consolidated five-year table) prints 1,590.55 diluted for 第58期 (FY2019), pre-split (split basis starts 第61期). Not split-adjusted, so not filled. FY2019 annual report prints basic EPS only.)",
+    "FY2019 totalEquity: not found in the company's reports (FY2019 summary prints total equity including NCI only; attributable amount not printed. Full statements not located.)",
+    "FY2018 dilutedEPS: not found in the company's reports (FY2018 annual report prints basic EPS only; full statements (Securities Report) not located.)",
+    "FY2018 totalEquity: not found in the company's reports (FY2018 summary prints total equity including NCI only; attributable amount not printed. Full statements not located.)",
+    "FY2017 dilutedEPS: not found in the company's reports (FY2017 annual report prints basic EPS only; full statements (Securities Report) not located.)",
+    "FY2017 totalEquity: not found in the company's reports (FY2017 summary prints total equity including NCI only; attributable amount not printed. Full statements not located.)",
+    "FY2016 dilutedEPS: not found in the company's reports (FY2016 annual report prints basic EPS only; full statements (Securities Report) not located.)",
+    "FY2016 totalEquity: not found in the company's reports (FY2016 summary prints total equity including NCI only; attributable amount not printed. Full statements not located.)",
+    "FY2015 dilutedEPS: not found in the company's reports (FY2015 annual report prints basic EPS only (no diluted line); FY2016 report does not print FY2015 diluted EPS.)",
+    "FY2015 totalEquity: not found in the company's reports (FY2015 summary prints total equity including NCI (774,804) and attributable per share only; no attributable amount printed in the FY2015 or FY2016 reports.)",
+    "FY2012 totalEquity: not found in the company's reports (FY2013 (JGAAP) balance sheet prints total net assets and minority interests separately, no line for equity attributable to owners; FY2014 IFRS statements do not cover 2012.)",
+    "FY2011 totalEquity: not found in the company's reports (FY2013 report balance sheet covers 2012-2013 only; older annual reports not reachable under known names (ar2008_en to ar2012_en return 404).)",
+    "FY2010 dilutedEPS: not found in the company's reports (FY2013 report P&L and per-share note cover 2011-2013 only; FY2015 report prints basic EPS only. Older annual report PDFs (ar2008_en to ar2012_en) return 404 on the IR library path tried. Full FY2010 statements not located.)",
+    "FY2010 totalEquity: not found in the company's reports (Older annual reports not reachable (ar2008_en to ar2012_en return 404); FY2015 summary prints equity attributable per share only.)",
+    "FY2009 dilutedEPS: not found in the company's reports (As FY2010: older annual reports not reachable under known names (ar2008_en to ar2012_en return 404); FY2013 report does not cover 2009.)",
+    "FY2009 totalEquity: not found in the company's reports (As FY2010: older annual reports not reachable; FY2015 summary prints equity attributable per share only.)",
+    "FY2008 dilutedEPS: not found in the company's reports (As FY2010: older annual reports not reachable under known names (ar2008_en to ar2012_en return 404); FY2013 report does not cover 2008.)",
+    "FY2008 totalEquity: not found in the company's reports (As FY2010: older annual reports not reachable; FY2015 summary prints equity attributable per share only.)",
+    "FY2007 dilutedEPS: not found in the company's reports (As FY2010: older annual reports not reachable under known names (ar2008_en to ar2012_en return 404); FY2013 report does not cover 2007.)",
+    "FY2007 totalEquity: not found in the company's reports (As FY2010: older annual reports not reachable; FY2015 summary prints equity attributable per share only.)"
   ],
   "notes": [
     "Consolidated figures in JPY millions scaled to full yen. FY ends31August. IFRS adopted FY2014; FY2013 IFRS comparative is the restatement published in the2015 summary, earlier years J-GAAP.",
-    "Net income is attributable to owners. Parent-attributable equity and diluted EPS use the2025 audited statements for2024\u20132025; the historical summary total equity includes minorities and its EPS is basic, so those are not substituted.",
+    "Net income is attributable to owners. Parent-attributable equity and diluted EPS use the2025 audited statements for2024–2025; the historical summary total equity includes minorities and its EPS is basic, so those are not substituted.",
     "totalDebt is the published interest-bearing debt in the summary; lease liabilities are not added.",
-    "Dividends2016\u20132022 are the split-adjusted amounts published in2025 (three-for-one split1March2023);2007\u20132015 retain the per-share basis published in2015. Do not compare these without the stated basis change.",
-    "The summary labels share count as issued shares including treasury stock (2025 report); no subtraction/derived outstanding count made. Capital expenditure summary does not establish the required cash purchases basis; capex is left null. Employees are the full-time / total employees defined in the summary, excluding part-time workers."
+    "Dividends2016–2022 are the split-adjusted amounts published in2025 (three-for-one split1March2023);2007–2015 retain the per-share basis published in2015. Do not compare these without the stated basis change.",
+    "The summary labels share count as issued shares including treasury stock (2025 report); no subtraction/derived outstanding count made. Capital expenditure summary does not establish the required cash purchases basis; capex is left null. Employees are the full-time / total employees defined in the summary, excluding part-time workers.",
+    "FY2025 capex: 171,902 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 summary table, 'Capital expenditures' row, Millions of yen, FY ended 31 Aug 2025. Sign as printed (positive).",
+    "FY2024 capex: 112,112 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 report 10-year summary, 'Capital expenditures' row, 2024 column. Sign as printed (positive).",
+    "FY2023 capex: 102,024 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 report 10-year summary, 'Capital expenditures' row, 2023 column. Sign as printed (positive).",
+    "FY2022 capex: 86,516 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 report 10-year summary, 'Capital expenditures' row, 2022 column. Sign as printed (positive).",
+    "FY2021 capex: 100,653 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 report 10-year summary, 'Capital expenditures' row, 2021 column. Sign as printed (positive).",
+    "FY2020 capex: 82,736 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 report 10-year summary, 'Capital expenditures' row, 2020 column. Sign as printed (positive).",
+    "FY2019 capex: 85,201 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 report 10-year summary, 'Capital expenditures' row, 2019 column. Sign as printed (positive).",
+    "FY2018 capex: 69,380 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 report 10-year summary, 'Capital expenditures' row, 2018 column. Sign as printed (positive).",
+    "FY2017 capex: 59,755 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 report 10-year summary, 'Capital expenditures' row, 2017 column. Sign as printed (positive).",
+    "FY2016 capex: 52,387 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 report 10-year summary, 'Capital expenditures' row, 2016 column. Sign as printed (positive).",
+    "FY2015 capex: 62,461 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 report 10-year summary (IFRS), 'Capital expenditures' row, 2015 column. Sign as printed (positive).",
+    "FY2014 capex: 58,814 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 report 10-year summary, 'Capital expenditures' row, 2014 column. Sign as printed (positive).",
+    "FY2013 capex: 39,681 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 report 10-year summary, 'Capital expenditures' row, 2013 column (footnote: 2013 recalculated under IFRS). Sign as printed (positive).",
+    "FY2012 capex: 40,184 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 report 10-year summary, 'Capital expenditures' row, 2012 column. Sign as printed (positive).",
+    "FY2011 capex: 33,993 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 report 10-year summary, 'Capital expenditures' row, 2011 column. Sign as printed (positive).",
+    "FY2010 capex: 28,018 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 report 10-year summary, 'Capital expenditures' row, 2010 column. Sign as printed (positive).",
+    "FY2009 capex: 22,601 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 62 — FY2015 report 10-year summary (JGAAP years), 'Capital expenditures' row, 2009 column. Sign as printed (positive).",
+    "FY2008 capex: 21,017 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 62 — FY2015 report 10-year summary (JGAAP years), 'Capital expenditures' row, 2008 column. Sign as printed (positive).",
+    "FY2007 capex: 26,441 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 62 — FY2015 report 10-year summary (JGAAP years), 'Capital expenditures' row, 2007 column. Sign as printed (positive).",
+    "FY2025 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 summary, 'Number of issued shares (including treasury stock)'. Issued count only; treasury not netted (not printed in the summary). Split-adjusted for 3-for-1 split of 1 Mar 2023 (footnote *4).",
+    "FY2024 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2024 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2023 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2023 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2022 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2022 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2021 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2021 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2020 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 89 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2020 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2019 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2019 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2018 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2018 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2017 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2017 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2016 sharesOutstanding: 318,220,968 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2025_en.pdf PDF p. 88 — FY2025 summary, 'Number of issued shares (including treasury stock)', 2016 column. Issued count, treasury not netted; split-adjusted (footnote *4).",
+    "FY2015 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 summary, 'Number of shares outstanding', 2015 column. Pre-split figure (no split until 2023). Figure equals the issued total: treasury not netted (FY2014 EPS note weighted average was 101,908,470).",
+    "FY2014 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 summary, 'Number of shares outstanding', 2014 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2013 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 summary, 'Number of shares outstanding', 2013 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2012 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 summary, 'Number of shares outstanding', 2012 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2011 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 summary, 'Number of shares outstanding', 2011 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2010 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 63 — FY2015 summary, 'Number of shares outstanding', 2010 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2009 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 62 — FY2015 summary, 'Number of shares outstanding', 2009 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2008 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 62 — FY2015 summary, 'Number of shares outstanding', 2008 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2007 sharesOutstanding: 106,073,656 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2015_en.pdf PDF p. 62 — FY2015 summary, 'Number of shares outstanding', 2007 column. Figure equals the issued total: treasury not netted (see FY2015 note).",
+    "FY2023 dilutedEPS: 964.48 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2024_en_financial.pdf PDF p. 4 — FY2024 financial statements, consolidated P&L, 'Diluted (yen)' row, 2023 column (same figure as FY2023 statements, which are the own-year source).",
+    "FY2022 dilutedEPS: 890.43 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2023_en_financial.pdf PDF p. 4 — FY2023 financial statements, consolidated P&L, 'Diluted (yen)' row, 2022 column. Split-adjusted for 3-for-1 split of 1 Mar 2023; FY2022 report prints 2,671.29 pre-split.",
+    "FY2014 dilutedEPS: 730.81 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf PDF p. 79 — FY2014 report, consolidated statement of profit or loss, 'Earnings per share, Diluted' row, 2014 column (IFRS). Also note 26.",
+    "FY2013 dilutedEPS: 1,025.75 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf PDF p. 79 — FY2014 report, consolidated statement of profit or loss, 'Diluted' row, 2013 column (IFRS recalculation; prior-year column). Also note 26.",
+    "FY2012 dilutedEPS: 703.06 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2013_en.pdf PDF p. 86 — FY2013 report, Per Share Data note (18), 'Diluted' row, 2012 column. JGAAP basis (pre-IFRS); no IFRS-restated diluted figure printed in the files reviewed.",
+    "FY2011 dilutedEPS: 533.66 (units) from https://www.fastretailing.com/eng/ir/library/pdf/ar2013_en.pdf PDF p. 86 — FY2013 report, Per Share Data note (18), 'Diluted' row, 2011 column. JGAAP basis (pre-IFRS).",
+    "FY2022 totalEquity: 1,561,652 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2023_en_financial.pdf PDF p. 3 — FY2023 financial statements, consolidated statement of financial position, 'Equity attributable to owners of the Parent', 2022 column (prior-year column). Excludes non-controlling interests.",
+    "FY2023 totalEquity: 1,821,405 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2024_en_financial.pdf PDF p. 3 — FY2024 financial statements, consolidated statement of financial position, 'Equity attributable to owners of the Parent', 2023 column (prior-year column). Excludes non-controlling interests.",
+    "FY2021 totalEquity: 1,116,484 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2022_en_financial.pdf PDF p. 3 — FY2022 financial statements, consolidated statement of financial position, 'Equity attributable to owners of the Parent', 2021 column (prior-year column). Excludes non-controlling interests.",
+    "FY2014 totalEquity: 618,381 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf PDF p. 78 — FY2014 report, consolidated statement of financial position (IFRS), 'Equity attributable to owners of the parent', 2014 column. Total equity incl. NCI is 636,041.",
+    "FY2013 totalEquity: 570,428 (million) from https://www.fastretailing.com/eng/ir/library/pdf/ar2014_en.pdf PDF p. 78 — FY2014 report, consolidated statement of financial position (IFRS), 'Equity attributable to owners of the parent', 2013 column (prior-year column, IFRS recalculation). Excludes NCI."
   ]
 }

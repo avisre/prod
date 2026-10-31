@@ -17,17 +17,47 @@
    "totalAssets": 21781400000000,
    "totalEquity": 10858660000000,
    "cashAndEquivalents": 1459770000000,
-   "totalDebt": null,
+   "totalDebt": 3744210000000,
    "operatingCashFlow": 1921130000000,
    "capex": -1229160000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 6.0,
+   "sharesOutstanding": 13532472634,
+   "employees": 419000,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf",
     "document": "Reliance Industries Annual Report 2025-26",
-    "page": "PDF pp. 100, 101, 103, 127, 144, 145"
+    "page": "PDF pp. 100, 101, 103, 127, 144, 145",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf",
+      "page": "PDF p. 125",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf",
+      "page": "PDF p. 71",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf",
+      "page": "PDF p. 93",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf",
+      "page": "PDF p. 21",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -42,17 +72,47 @@
    "totalAssets": 19501210000000,
    "totalEquity": 10096260000000,
    "cashAndEquivalents": 1065020000000,
-   "totalDebt": null,
+   "totalDebt": 3475300000000,
    "operatingCashFlow": 1787030000000,
    "capex": -1399670000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 5.5,
+   "sharesOutstanding": 13532372898,
+   "employees": 400000,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf",
     "document": "Reliance Industries Annual Report 2025-26 (prior-year column)",
-    "page": "PDF pp. 100, 101, 103, 127, 144, 145"
+    "page": "PDF pp. 100, 101, 103, 127, 144, 145",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf",
+      "page": "PDF p. 126",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf",
+      "page": "PDF p. 70",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf",
+      "page": "PDF p. 138",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf",
+      "page": "PDF p. 20",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -67,17 +127,33 @@
    "totalAssets": 17559860000000,
    "totalEquity": 9257880000000,
    "cashAndEquivalents": 972250000000,
-   "totalDebt": null,
+   "totalDebt": 3246220000000,
    "operatingCashFlow": 1587880000000,
    "capex": -1528830000000,
    "dividendPerShare": 10,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 6766109014,
    "employees": 29467,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf",
     "document": "Reliance Industries Annual Report 2024-25 (prior-year column)",
-    "page": "PDF pp. 99, 100, 102, 113, 120, 127"
+    "page": "PDF pp. 99, 100, 102, 113, 120, 127",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2024-08/RIL-Integrated-Annual-Report-2023-24.pdf",
+      "page": "PDF p. 138",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2024-08/RIL-Integrated-Annual-Report-2023-24.pdf",
+      "page": "PDF p. 80",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -92,17 +168,47 @@
    "totalAssets": 16074310000000,
    "totalEquity": 8288810000000,
    "cashAndEquivalents": 686640000000,
-   "totalDebt": null,
+   "totalDebt": 3139660000000,
    "operatingCashFlow": 1150320000000,
    "capex": -1409880000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 9.0,
+   "sharesOutstanding": 6766094014,
+   "employees": 389414,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2024-08/RIL-Integrated-Annual-Report-2023-24.pdf",
     "document": "Reliance Industries Annual Report 2023-24 (prior-year column)",
-    "page": "PDF pp. 110, 111, 113, 131, 132, 142"
+    "page": "PDF pp. 110, 111, 113, 131, 132, 142",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf",
+      "page": "PDF p. 24",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf",
+      "page": "PDF p. 178",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf",
+      "page": "PDF p. 141",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf",
+      "page": "PDF p. 4",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -117,17 +223,40 @@
    "totalAssets": 14996650000000,
    "totalEquity": 8889840000000,
    "cashAndEquivalents": 361780000000,
-   "totalDebt": null,
+   "totalDebt": 2663050000000,
    "operatingCashFlow": 1106540000000,
    "capex": -1001450000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 8.0,
+   "sharesOutstanding": 6765994014,
    "employees": 22642,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf",
     "document": "Reliance Industries Annual Report 2022-23 (prior-year column)",
-    "page": "PDF pp. 208, 209, 211, 234, 246"
+    "page": "PDF pp. 208, 209, 211, 234, 246",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/AR_2021-22.pdf",
+      "page": "PDF p. 25",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/AR_2021-22.pdf",
+      "page": "PDF p. 170",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/AR_2021-22.pdf",
+      "page": "PDF p. 135",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -142,17 +271,33 @@
    "totalAssets": 13212120000000,
    "totalEquity": 7550950000000,
    "cashAndEquivalents": 173970000000,
-   "totalDebt": null,
+   "totalDebt": 2518110000000,
    "operatingCashFlow": 261850000000,
    "capex": -1058370000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 7.0,
    "sharesOutstanding": 470136000,
    "employees": 236334,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/AR_2021-22.pdf",
     "document": "Reliance Industries Annual Report 2021-22 (prior-year column)",
-    "page": "PDF pp. 198, 200, 213, 220, 229"
+    "page": "PDF pp. 198, 200, 213, 220, 229",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2021.pdf",
+      "page": "PDF p. 26",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2021.pdf",
+      "page": "PDF p. 152",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -167,17 +312,33 @@
    "totalAssets": 11659150000000,
    "totalEquity": 4533310000000,
    "cashAndEquivalents": 309200000000,
-   "totalDebt": null,
+   "totalDebt": 3362940000000,
    "operatingCashFlow": 948770000000,
    "capex": -765170000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 6.5,
    "sharesOutstanding": 41164000000,
    "employees": 26488,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL_Integrated-Annual-Report-2019-2020.pdf",
     "document": "Reliance Industries Annual Report 2019-20",
-    "page": "PDF pp. 165, 167, 180, 185, 194"
+    "page": "PDF pp. 165, 167, 180, 185, 194",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL_Integrated-Annual-Report-2019-2020.pdf",
+      "page": "PDF p. 16",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL_Integrated-Annual-Report-2019-2020.pdf",
+      "page": "PDF p. 108",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -192,17 +353,33 @@
    "totalAssets": 10024060000000,
    "totalEquity": 3870120000000,
    "cashAndEquivalents": 110810000000,
-   "totalDebt": null,
+   "totalDebt": 2875050000000,
    "operatingCashFlow": 423460000000,
    "capex": -936260000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 6.5,
    "sharesOutstanding": 40969000000,
    "employees": 28967,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/ril-annual-report-2019.pdf",
     "document": "Reliance Industries Annual Report 2018-19",
-    "page": "PDF pp. 348, 352, 356, 390, 410"
+    "page": "PDF pp. 348, 352, 356, 390, 410",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/ril-annual-report-2019.pdf",
+      "page": "PDF p. 54",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/ril-annual-report-2019.pdf",
+      "page": "PDF p. 55",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -217,17 +394,40 @@
    "totalAssets": 8163480000000,
    "totalEquity": 2935060000000,
    "cashAndEquivalents": 42550000000,
-   "totalDebt": null,
+   "totalDebt": 2187630000000,
    "operatingCashFlow": 714590000000,
    "capex": -739530000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 6.0,
+   "sharesOutstanding": 6334651022,
    "employees": 29533,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf",
     "document": "Reliance Industries Annual Report 2017-18",
-    "page": "PDF pp. 348, 353, 357, 382, 394, 412"
+    "page": "PDF pp. 348, 353, 357, 382, 394, 412",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf",
+      "page": "PDF p. 48",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf",
+      "page": "PDF p. 309",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf",
+      "page": "PDF p. 49",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -242,17 +442,41 @@
    "totalAssets": 7068020000000,
    "totalEquity": 2607500000000,
    "cashAndEquivalents": 30230000000,
-   "totalDebt": null,
+   "totalDebt": 1965990000000,
    "operatingCashFlow": 495500000000,
    "capex": -781090000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 11.0,
+   "sharesOutstanding": 3251278100,
    "employees": 24167,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf",
     "document": "Reliance Industries Annual Report 2017-18 (prior-year column)",
-    "page": "PDF pp. 348, 353, 357, 382, 394, 412"
+    "page": "PDF pp. 348, 353, 357, 382, 394, 412",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf",
+      "page": "PDF p. 107",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-Integrated-AR-2016-17HRF.pdf",
+      "page": "PDF p. 316",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-Integrated-AR-2016-17HRF.pdf",
+      "page": "PDF p. 65",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -267,17 +491,41 @@
    "totalAssets": 6062140000000,
    "totalEquity": 2436430000000,
    "cashAndEquivalents": 111970000000,
-   "totalDebt": null,
+   "totalDebt": 1806650000000,
    "operatingCashFlow": 398110000000,
    "capex": -496620000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 10.5,
+   "sharesOutstanding": 3240376321,
    "employees": 24121,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2015-16.pdf",
     "document": "Reliance Industries Annual Report 2015-16",
-    "page": "PDF pp. 321, 323, 326, 356, 365, 381"
+    "page": "PDF pp. 321, 323, 326, 356, 365, 381",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-Integrated-AR-2016-17HRF.pdf",
+      "page": "PDF p. 64",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2015-16.pdf",
+      "page": "PDF p. 272",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2015-16.pdf",
+      "page": "PDF p. 63",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -292,17 +540,40 @@
    "totalAssets": 5044860000000,
    "totalEquity": 2184820000000,
    "cashAndEquivalents": 125450000000,
-   "totalDebt": null,
+   "totalDebt": 1608600000000,
    "operatingCashFlow": 343740000000,
    "capex": -633640000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 10.0,
+   "sharesOutstanding": 3235688765,
    "employees": 24930,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf",
     "document": "Reliance Industries Annual Report 2014-15",
-    "page": "PDF pp. 240, 241, 242, 243, 244, 276"
+    "page": "PDF pp. 240, 241, 242, 243, 244, 276",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf",
+      "page": "PDF p. 34",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf",
+      "page": "PDF p. 197",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf",
+      "page": "PDF p. 140",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -317,17 +588,40 @@
    "totalAssets": 4288430000000,
    "totalEquity": 1986700000000,
    "cashAndEquivalents": 379840000000,
-   "totalDebt": null,
+   "totalDebt": 1387610000000,
    "operatingCashFlow": 432610000000,
    "capex": -600870000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 9.5,
+   "sharesOutstanding": 3231901858,
    "employees": 23853,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf",
     "document": "Reliance Industries Annual Report 2014-15 (prior-year column)",
-    "page": "PDF pp. 240, 241, 242, 243, 244, 276"
+    "page": "PDF pp. 240, 241, 242, 243, 244, 276",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf",
+      "page": "PDF p. 50",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf",
+      "page": "PDF p. 178",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf",
+      "page": "PDF p. 151",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -342,17 +636,41 @@
    "totalAssets": 3623570000000,
    "totalEquity": 1820300000000,
    "cashAndEquivalents": 504560000000,
-   "totalDebt": null,
+   "totalDebt": 1072190000000,
    "operatingCashFlow": 369180000000,
    "capex": -307260000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 9.0,
+   "sharesOutstanding": 3228663382,
    "employees": 23519,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf",
     "document": "Reliance Industries Annual Report 2013-14 (prior-year column)",
-    "page": "PDF pp. 221, 222, 223, 224, 225, 253"
+    "page": "PDF pp. 221, 222, 223, 224, 225, 253",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf",
+      "page": "PDF p. 50",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2012-2013.pdf",
+      "page": "PDF p. 125",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2012-2013.pdf",
+      "page": "PDF p. 89",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -370,14 +688,30 @@
    "totalDebt": null,
    "operatingCashFlow": 244830000000,
    "capex": -163810000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 8.5,
+   "sharesOutstanding": 3271059340,
    "employees": 23166,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2012-2013.pdf",
     "document": "Reliance Industries Annual Report 2012-13 (prior-year column)",
-    "page": "PDF pp. 164, 165, 166, 167, 171, 193"
+    "page": "PDF pp. 164, 165, 166, 167, 171, 193",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2011-2012.pdf",
+      "page": "PDF p. 121",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2011-2012.pdf",
+      "page": "PDF p. 91",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -392,17 +726,40 @@
    "totalAssets": 2500720600000,
    "totalEquity": 1540930000000,
    "cashAndEquivalents": 301390300000,
-   "totalDebt": null,
+   "totalDebt": 841061900000,
    "operatingCashFlow": 333380000000,
    "capex": -338650000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 8.0,
+   "sharesOutstanding": 3273374008,
    "employees": 25487,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2010-2011.pdf",
     "document": "Reliance Industries Annual Report 2010-11",
-    "page": "PDF pp. 155, 157, 158, 159, 161, 169"
+    "page": "PDF pp. 155, 157, 158, 159, 161, 169",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2010-2011.pdf",
+      "page": "PDF p. 156",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2010-2011.pdf",
+      "page": "PDF p. 110",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2010-2011.pdf",
+      "page": "PDF p. 85",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -417,17 +774,40 @@
    "totalAssets": 2168596000000,
    "totalEquity": 1380249600000,
    "cashAndEquivalents": 138908300000,
-   "totalDebt": null,
+   "totalDebt": 646055200000,
    "operatingCashFlow": 204942700000,
    "capex": -232781000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 7.0,
+   "sharesOutstanding": 3270374360,
    "employees": 24696,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2009-2010.pdf",
     "document": "Reliance Industries Annual Report 2009-10",
-    "page": "PDF pp. 161, 163, 164, 165, 167, 175"
+    "page": "PDF pp. 161, 163, 164, 165, 167, 175",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2009-2010.pdf",
+      "page": "PDF p. 162",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2009-2010.pdf",
+      "page": "PDF p. 114",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2009-2010.pdf",
+      "page": "PDF p. 90",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -442,17 +822,47 @@
    "totalAssets": 2072033700000,
    "totalEquity": 1198126100000,
    "cashAndEquivalents": 227421000000,
-   "totalDebt": null,
+   "totalDebt": 762566000000,
    "operatingCashFlow": 162874500000,
    "capex": -278567700000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 13.0,
+   "sharesOutstanding": 1573798233,
+   "employees": 24679,
    "restated": true,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf",
     "document": "Reliance Industries Annual Report 2008-09",
-    "page": "PDF pp. 7, 159, 160, 161, 163, 171"
+    "page": "PDF pp. 7, 159, 160, 161, 163, 171",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf",
+      "page": "PDF p. 158",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf",
+      "page": "PDF p. 110",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf",
+      "page": "PDF p. 89",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf",
+      "page": "PDF p. 15",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -467,97 +877,64 @@
    "totalAssets": 1480934900000,
    "totalEquity": 855104800000,
    "cashAndEquivalents": 44741600000,
-   "totalDebt": null,
+   "totalDebt": 506960900000,
    "operatingCashFlow": 162331000000,
    "capex": -267453600000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 13.0,
+   "sharesOutstanding": 1453648601,
    "employees": 25487,
    "restated": false,
    "source": {
     "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2007-2008.pdf",
     "document": "Reliance Industries Annual Report 2007-08",
-    "page": "PDF pp. 161, 162, 163, 164, 165, 173"
+    "page": "PDF pp. 161, 162, 163, 164, 165, 173",
+    "supplementalSources": [
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2007-2008.pdf",
+      "page": "PDF p. 160",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2007-2008.pdf",
+      "page": "PDF p. 114",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2007-2008.pdf",
+      "page": "PDF p. 95",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2026 operatingIncome: not found in the reports read",
-  "FY2026 totalDebt: not found in the reports read",
-  "FY2026 dividendPerShare: not found in the reports read",
-  "FY2026 sharesOutstanding: not found in the reports read",
-  "FY2026 employees: not found in the reports read",
-  "FY2025 operatingIncome: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 dividendPerShare: not found in the reports read",
-  "FY2025 sharesOutstanding: not found in the reports read",
-  "FY2025 employees: not found in the reports read",
-  "FY2024 operatingIncome: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2024 sharesOutstanding: not found in the reports read",
-  "FY2023 operatingIncome: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2023 dividendPerShare: not found in the reports read",
-  "FY2023 sharesOutstanding: not found in the reports read",
-  "FY2023 employees: not found in the reports read",
-  "FY2022 operatingIncome: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 dividendPerShare: not found in the reports read",
-  "FY2022 sharesOutstanding: not found in the reports read",
-  "FY2021 operatingIncome: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2021 dividendPerShare: not found in the reports read",
-  "FY2020 operatingIncome: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2020 dividendPerShare: not found in the reports read",
-  "FY2019 operatingIncome: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 dividendPerShare: not found in the reports read",
-  "FY2018 operatingIncome: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2018 dividendPerShare: not found in the reports read",
-  "FY2018 sharesOutstanding: not found in the reports read",
-  "FY2017 operatingIncome: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2017 dividendPerShare: not found in the reports read",
-  "FY2017 sharesOutstanding: not found in the reports read",
-  "FY2016 operatingIncome: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 dividendPerShare: not found in the reports read",
-  "FY2016 sharesOutstanding: not found in the reports read",
-  "FY2015 operatingIncome: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2015 dividendPerShare: not found in the reports read",
-  "FY2015 sharesOutstanding: not found in the reports read",
-  "FY2014 operatingIncome: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2014 dividendPerShare: not found in the reports read",
-  "FY2014 sharesOutstanding: not found in the reports read",
-  "FY2013 operatingIncome: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 dividendPerShare: not found in the reports read",
-  "FY2013 sharesOutstanding: not found in the reports read",
-  "FY2012 operatingIncome: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2012 dividendPerShare: not found in the reports read",
-  "FY2012 sharesOutstanding: not found in the reports read",
-  "FY2011 operatingIncome: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2011 dividendPerShare: not found in the reports read",
-  "FY2011 sharesOutstanding: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 dividendPerShare: not found in the reports read",
-  "FY2010 sharesOutstanding: not found in the reports read",
-  "FY2009 operatingIncome: not found in the reports read",
-  "FY2009 totalDebt: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2009 sharesOutstanding: not found in the reports read",
-  "FY2009 employees: not found in the reports read",
-  "FY2008 operatingIncome: not found in the reports read",
-  "FY2008 totalDebt: not found in the reports read",
-  "FY2008 dividendPerShare: not found in the reports read",
-  "FY2008 sharesOutstanding: not found in the reports read"
+  "FY2026 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2025 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2024 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2023 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2022 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2021 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2020 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2019 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2018 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2017 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2016 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2015 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2014 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2013 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2012 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2012 totalDebt: not found in the company's reports (2012 report: MD&A 'total debt' 68,259 (PDF p. 25) is standalone; consolidated balance sheet prints Long Term Borrowings 65,352 and Short Term Borrowings 17,283 separately with no total (PDF p. 158); no consolidated gross debt total found)",
+  "FY2011 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2010 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2009 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income",
+  "FY2008 operatingIncome: cannot exist: no operating profit line printed in the consolidated P&L (FY2008-FY2026); EBITDA and cash-flow 'operating profit before working capital changes' are not P&L operating income"
  ],
  "notes": [
   "Indian GAAP to FY2016, Ind AS from FY2017 (FY2016 comparatives restated under Ind AS).",
@@ -617,6 +994,62 @@
   "FY2014 operatingCashFlow: consolidated cash flow statement; the FY2015 report's comparative agrees",
   "FY2014 capex: read from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf (PDF p. 224)",
   "FY2014 capex: Purchase of Fixed Assets, consolidated cash flow statement",
-  "FY2015 capex: Purchase of Fixed Assets, consolidated cash flow statement"
+  "FY2015 capex: Purchase of Fixed Assets, consolidated cash flow statement",
+  "FY2026 totalDebt: 3,74,421 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf PDF p. 125 — Consolidated gross debt table in MD&A (standalone shown separately, excluded)",
+  "FY2025 totalDebt: 3,47,530 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf PDF p. 126 — Consolidated gross debt, MD&A table; same figure is the prior-year column of FY2026 report",
+  "FY2024 totalDebt: 3,24,622 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2024-08/RIL-Integrated-Annual-Report-2023-24.pdf PDF p. 138 — Consolidated gross debt, MD&A table (standalone excluded)",
+  "FY2023 totalDebt: 3,13,966 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf PDF p. 24 — MD&A: 'Reliance's Gross Debt was at 3,13,966 crore' (consolidated; standalone 2,15,823 excluded)",
+  "FY2022 totalDebt: 2,66,305 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/AR_2021-22.pdf PDF p. 25 — MD&A consolidated gross debt; same figure in FY2023 report consolidated comparative (p. 243)",
+  "FY2021 totalDebt: 2,51,811 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2021.pdf PDF p. 26 — MD&A consolidated gross debt",
+  "FY2020 totalDebt: 3,36,294 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL_Integrated-Annual-Report-2019-2020.pdf PDF p. 16 — MD&A consolidated gross debt",
+  "FY2019 totalDebt: 2,87,505 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/ril-annual-report-2019.pdf PDF p. 54 — MD&A consolidated gross debt",
+  "FY2018 totalDebt: 2,18,763 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf PDF p. 48 — MD&A consolidated gross debt (standalone 1,16,881 excluded)",
+  "FY2017 totalDebt: 1,96,599 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf PDF p. 107 — Prior-year column of FY2018 gross debt table; original FY2017 report printed 1,96,601 (PDF p. 64)",
+  "FY2016 totalDebt: 1,80,665 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-Integrated-AR-2016-17HRF.pdf PDF p. 64 — Prior-year column of FY2017 gross debt table; original FY2016 report printed 1,81,079 (PDF p. 62)",
+  "FY2015 totalDebt: 1,60,860 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf PDF p. 34 — MD&A consolidated gross debt table",
+  "FY2014 totalDebt: 1,38,761 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf PDF p. 50 — Consolidated gross debt (standalone 89,968 excluded)",
+  "FY2013 totalDebt: 1,07,219 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf PDF p. 50 — Prior-year consolidated column of FY2014 gross debt table; FY2013 report prints only standalone 72,427",
+  "FY2011 totalDebt: 84,106.19 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2010-2011.pdf PDF p. 156 — Consolidated balance sheet 'Loan Funds' subtotal (Secured 10,578.47 + Unsecured 73,527.72 as printed); the only borrowings total printed for the consolidated group",
+  "FY2010 totalDebt: 64,605.52 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2009-2010.pdf PDF p. 162 — Consolidated balance sheet 'Loan Funds' subtotal (Secured 11,694.40 + Unsecured 52,911.12 as printed)",
+  "FY2009 totalDebt: 76,256.60 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf PDF p. 158 — Consolidated balance sheet 'Loan Funds' subtotal (Secured 10,747.73 + Unsecured 65,508.87 as printed)",
+  "FY2008 totalDebt: 50,696.09 (crore) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2007-2008.pdf PDF p. 160 — Consolidated balance sheet 'Loan Funds' subtotal (Secured 19,576.52 + Unsecured 31,119.57 as printed)",
+  "FY2026 sharesOutstanding: 13,53,24,72,634 (units) from https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf PDF p. 71 — Share capital note: equity shares of Rs 10 each, issued and fully paid; issued count used",
+  "FY2025 sharesOutstanding: 13,53,23,72,898 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf PDF p. 70 — Share capital note: equity shares of Rs 10 each, issued and fully paid; issued count used",
+  "FY2024 sharesOutstanding: 6,76,61,09,014 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2024-08/RIL-Integrated-Annual-Report-2023-24.pdf PDF p. 80 — Share capital note, year-end count as printed in FY2024 report",
+  "FY2023 sharesOutstanding: 6,76,60,94,014 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf PDF p. 178 — Share capital note, year-end count; issued count used",
+  "FY2022 sharesOutstanding: 6,76,59,94,014 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/AR_2021-22.pdf PDF p. 170 — Share capital note, year-end count; issued count used",
+  "FY2018 sharesOutstanding: 6,33,46,51,022 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf PDF p. 309 — Share capital note, year-end count; issued count used",
+  "FY2017 sharesOutstanding: 3,25,12,78,100 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-Integrated-AR-2016-17HRF.pdf PDF p. 316 — Share capital note, year-end count; issued count used",
+  "FY2016 sharesOutstanding: 324,03,76,321 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2015-16.pdf PDF p. 272 — Printed as 324,03,76,321 in the equity note (grand total at PDF p. 242 reads 3,24,03,76,321); issued count",
+  "FY2015 sharesOutstanding: 323,56,88,765 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf PDF p. 197 — Equity note 'Equity Shares at the end of the year'; issued count",
+  "FY2014 sharesOutstanding: 323,19,01,858 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf PDF p. 178 — Equity note 'Equity Shares at the end of the year'; issued count",
+  "FY2013 sharesOutstanding: 322,86,63,382 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2012-2013.pdf PDF p. 125 — Equity note year-end count; issued count",
+  "FY2012 sharesOutstanding: 327,10,59,340 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2011-2012.pdf PDF p. 121 — Equity note year-end count; issued count",
+  "FY2011 sharesOutstanding: 327,33,74,008 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2010-2011.pdf PDF p. 110 — Equity note year-end count; issued count",
+  "FY2010 sharesOutstanding: 327,03,74,360 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2009-2010.pdf PDF p. 114 — Equity note year-end count; issued count (post 2009-10 1:1 bonus)",
+  "FY2009 sharesOutstanding: 157,37,98,233 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf PDF p. 110 — Issued, subscribed and paid-up equity shares at 31 Mar 2009; prior-year column 145,36,48,601; issued count",
+  "FY2008 sharesOutstanding: 145,36,48,601 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2007-2008.pdf PDF p. 114 — Equity note year-end count; issued count",
+  "FY2026 dividendPerShare: 6 (units) from https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf PDF p. 93 — Directors recommended dividend for FY2025-26",
+  "FY2025 dividendPerShare: 5.5 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf PDF p. 138 — Directors recommended dividend for FY2024-25",
+  "FY2023 dividendPerShare: 9 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf PDF p. 141 — Directors recommended Rs 9 per equity share for FY2022-23",
+  "FY2022 dividendPerShare: 8 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/AR_2021-22.pdf PDF p. 135 — Directors recommended dividend for FY2021-22",
+  "FY2021 dividendPerShare: 7 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2021.pdf PDF p. 152 — Directors recommended dividend for FY2020-21",
+  "FY2020 dividendPerShare: 6.5 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL_Integrated-Annual-Report-2019-2020.pdf PDF p. 108 — Directors recommended dividend for FY2019-20",
+  "FY2019 dividendPerShare: 6.5 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/ril-annual-report-2019.pdf PDF p. 55 — Directors recommended dividend for FY2018-19",
+  "FY2018 dividendPerShare: 6 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2018.pdf PDF p. 49 — Directors recommended dividend for FY2017-18",
+  "FY2017 dividendPerShare: 11.0 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-Integrated-AR-2016-17HRF.pdf PDF p. 65 — Directors recommended dividend for FY2016-17",
+  "FY2016 dividendPerShare: 10.5 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2015-16.pdf PDF p. 63 — Directors recommended dividend for FY2015-16",
+  "FY2015 dividendPerShare: 10 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/RIL-AR-2014-15.pdf PDF p. 140 — Directors recommended dividend for FY2014-15",
+  "FY2014 dividendPerShare: 9.50 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/1400665256661_AR21052014.pdf PDF p. 151 — Directors recommended dividend for FY2013-14",
+  "FY2013 dividendPerShare: 9.00 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2012-2013.pdf PDF p. 89 — Directors recommended dividend for FY2012-13",
+  "FY2012 dividendPerShare: 8.50 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2011-2012.pdf PDF p. 91 — Directors recommended dividend for FY2011-12",
+  "FY2011 dividendPerShare: 8 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2010-2011.pdf PDF p. 85 — Directors recommended dividend for FY2010-11",
+  "FY2010 dividendPerShare: 7 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2009-2010.pdf PDF p. 90 — Recommended Rs 7 per share for FY2009-10 on post-bonus capital (report states last year Rs 13 was on pre-bonus capital)",
+  "FY2009 dividendPerShare: 13 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf PDF p. 89 — Recommended Rs 13 per equity share for FY2008-09 on pre-bonus capital (1:1 bonus followed in 2009-10)",
+  "FY2008 dividendPerShare: 13 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2007-2008.pdf PDF p. 95 — Recommended Rs 13 per equity share for FY2007-08",
+  "FY2026 employees: 4.19 lakh+ (lakh) from https://rilstaticasset.akamaized.net/sites/default/files/reports/RIL-Integrated-Annual-Report-2025-26.pdf PDF p. 21 — Group headcount as of 31 Mar 2026, printed approximately ('the Group's headcount is 4.19 lakh+'); no exact count printed",
+  "FY2025 employees: over 4 Lakh (lakh) from https://rilstaticasset.akamaized.net/sites/default/files/2025-08/RIL-Integrated-Annual-Report-2024-25.pdf PDF p. 20 — Group headcount, printed approximately ('The Group's headcount expanded to over 4 Lakh'); no exact count printed",
+  "FY2023 employees: 3,89,414 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2023-08/RIL-Integrated-Annual-Report-2022-23.pdf PDF p. 4 — 'Number of employees across the Group' 3,89,414; same total in employee table at PDF p. 95",
+  "FY2009 employees: 24,679 (units) from https://rilstaticasset.akamaized.net/sites/default/files/2022-12/2008-2009.pdf PDF p. 15 — Five-year summary 'Number of Employees', column 2008-09; scope not labelled on the page"
  ]
 }

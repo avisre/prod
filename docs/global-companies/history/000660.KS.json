@@ -13,11 +13,11 @@
       "totalAssets": 176107659000000,
       "totalEquity": 120516178000000,
       "cashAndEquivalents": 14923766000000,
-      "totalDebt": null,
+      "totalDebt": 22247905000000,
       "operatingCashFlow": 53373126000000,
       "capex": -27518924000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 3000.0,
+      "sharesOutstanding": 701691520,
       "employees": null,
       "fiscalYear": 2025,
       "periodEnd": "2025-12-31",
@@ -27,7 +27,30 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/121822586381465204.pdf",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2025",
-        "page": "PDF pp.7, 8, 9, 12 (KRW columns)"
+        "page": "PDF pp.7, 8, 9, 12 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635",
+            "page": "DART document",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635",
+            "page": "DART document",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635",
+            "page": "DART document",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -38,11 +61,11 @@
       "totalAssets": 119855209000000,
       "totalEquity": 73903394000000,
       "cashAndEquivalents": 11205117000000,
-      "totalDebt": null,
+      "totalDebt": 22683733000000,
       "operatingCashFlow": 29795885000000,
       "capex": -15945534000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 2204.0,
+      "sharesOutstanding": 689038731,
       "employees": null,
       "fiscalYear": 2024,
       "periodEnd": "2024-12-31",
@@ -52,7 +75,33 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/121822586381465204.pdf",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2025",
-        "page": "PDF pp.7, 8, 9, 12 (KRW columns)"
+        "page": "PDF pp.7, 8, 9, 12 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635",
+            "page": "DART document",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635",
+            "page": "DART document",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635",
+            "page": "DART document",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -63,7 +112,7 @@
       "totalAssets": 100330165000000,
       "totalEquity": 53504285000000,
       "cashAndEquivalents": 7587329000000,
-      "totalDebt": null,
+      "totalDebt": 29468632000000,
       "operatingCashFlow": 4278191000000,
       "capex": -8325138000000,
       "dividendPerShare": null,
@@ -77,7 +126,17 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/57467790007756546.PDF",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2023",
-        "page": "PDF pp.8, 9, 10, 13 (KRW columns)"
+        "page": "PDF pp.8, 9, 10, 13 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635",
+            "page": "DART document",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -88,11 +147,11 @@
       "totalAssets": 103871512000000,
       "totalEquity": 63266355000000,
       "cashAndEquivalents": 4977007000000,
-      "totalDebt": null,
+      "totalDebt": 22994604000000,
       "operatingCashFlow": 14780517000000,
       "capex": -19010261000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 1200.0,
+      "sharesOutstanding": 687651040,
       "employees": null,
       "fiscalYear": 2022,
       "periodEnd": "2022-12-31",
@@ -102,7 +161,30 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/57467790007756546.PDF",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2023",
-        "page": "PDF pp.8, 9, 10, 13 (KRW columns)"
+        "page": "PDF pp.8, 9, 10, 13 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209",
+            "page": "DART document",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209",
+            "page": "DART document",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209",
+            "page": "DART document",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -113,11 +195,11 @@
       "totalAssets": 96386474000000,
       "totalEquity": 62157072000000,
       "cashAndEquivalents": 5057982000000,
-      "totalDebt": null,
+      "totalDebt": 17623809000000,
       "operatingCashFlow": 19797648000000,
       "capex": -12486635000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 1540.0,
+      "sharesOutstanding": 687620673,
       "employees": null,
       "fiscalYear": 2021,
       "periodEnd": "2021-12-31",
@@ -127,7 +209,33 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4922420618844748.pdf",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2021",
-        "page": "PDF pp.7, 8, 9, 12 (KRW columns)"
+        "page": "PDF pp.7, 8, 9, 12 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209",
+            "page": "DART document",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209",
+            "page": "DART document",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209",
+            "page": "DART document",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -138,7 +246,7 @@
       "totalAssets": 71173853000000,
       "totalEquity": 51888541000000,
       "cashAndEquivalents": 2975989000000,
-      "totalDebt": null,
+      "totalDebt": 11251648000000,
       "operatingCashFlow": 12314571000000,
       "capex": -10068662000000,
       "dividendPerShare": null,
@@ -152,7 +260,17 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4922420618844748.pdf",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2021",
-        "page": "PDF pp.7, 8, 9, 12 (KRW columns)"
+        "page": "PDF pp.7, 8, 9, 12 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209",
+            "page": "DART document",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -311,7 +429,7 @@
       "netIncome": 2872470000000,
       "dilutedEPS": 4045.0,
       "totalAssets": 20797298000000,
-      "totalEquity": null,
+      "totalEquity": 13067243000000,
       "cashAndEquivalents": 631867000000,
       "totalDebt": null,
       "operatingCashFlow": 6372056000000,
@@ -327,7 +445,16 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4657122183934810.pdf",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2013",
-        "page": "PDF pp.5, 6, 8 (KRW columns)"
+        "page": "PDF pp.5, 6, 8 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4657122183934810.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -336,7 +463,7 @@
       "netIncome": -158886000000,
       "dilutedEPS": -233.0,
       "totalAssets": 18648693000000,
-      "totalEquity": null,
+      "totalEquity": 9740156000000,
       "cashAndEquivalents": 658387000000,
       "totalDebt": null,
       "operatingCashFlow": 2211651000000,
@@ -352,7 +479,16 @@
       "source": {
         "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4657122183934810.pdf",
         "document": "SK hynix (Hynix Semiconductor), audited consolidated financial statements 2013",
-        "page": "PDF pp.5, 6, 8 (KRW columns)"
+        "page": "PDF pp.5, 6, 8 (KRW columns)",
+        "supplementalSources": [
+          {
+            "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4657122183934810.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -482,32 +618,94 @@
     }
   ],
   "gaps": [
-    "FY2007: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2009: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2008: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2011: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2010: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2013: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2012: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2015: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2014: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2017: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2016: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2019: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2018: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2021: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2020: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2023: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2022: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2025: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred.",
-    "FY2024: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from the opened audited statements; not inferred."
+    "FY2025 employees: not found in the company's reports (DART 직원 현황 table in this year's report is 본사 재직자 (head office) basis, rejected; no 연결 (consolidated) headcount printed)",
+    "FY2024 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2023 dividendPerShare: not found in the company's reports (No official SK hynix document covering FY2023 obtained: FY2025 DART report prints 2024-2025 and FY2022 report prints 2021-2022 only; FY2023 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2023 sharesOutstanding: not found in the company's reports (No official SK hynix document covering FY2023 obtained: FY2025 DART report prints 2024-2025 and FY2022 report prints 2021-2022 only; FY2023 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2023 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2022 employees: not found in the company's reports (DART 직원 현황 table in this year's report is 본사 재직자 (head office) basis, rejected; no 연결 (consolidated) headcount printed)",
+    "FY2021 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2020 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2020 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2020 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2019 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2019 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2019 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2019 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2018 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2018 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2018 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2018 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2017 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2017 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2017 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2017 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2016 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2016 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2016 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2016 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2015 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2015 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2015 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2015 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2014 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2014 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2014 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2014 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2013 totalDebt: not found in the company's reports (FY2010-FY2013 사업보고서 (차입금 합계 in 요약연결재무정보) not located via official links (web search found no dsaf001 link); the 2011 and 2013 English statements print only current and non-current borrowings lines)",
+    "FY2013 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2013 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2013 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2012 totalDebt: not found in the company's reports (FY2010-FY2013 사업보고서 (차입금 합계 in 요약연결재무정보) not located via official links (web search found no dsaf001 link); the 2011 and 2013 English statements print only current and non-current borrowings lines)",
+    "FY2012 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2012 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2012 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2011 totalEquity: not found in the company's reports (FY2011 사업보고서 (지배기업 소유주지분 for 2011 and 2010 in 요약연결재무정보) not located via official links (web search found no dsaf001 link); the 2011 English statements print no parent-attributable subtotal)",
+    "FY2011 totalDebt: not found in the company's reports (FY2010-FY2013 사업보고서 (차입금 합계 in 요약연결재무정보) not located via official links (web search found no dsaf001 link); the 2011 and 2013 English statements print only current and non-current borrowings lines)",
+    "FY2011 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2011 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2011 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2010 totalEquity: not found in the company's reports (FY2011 사업보고서 (지배기업 소유주지분 for 2011 and 2010 in 요약연결재무정보) not located via official links (web search found no dsaf001 link); the 2011 English statements print no parent-attributable subtotal)",
+    "FY2010 totalDebt: not found in the company's reports (FY2010-FY2013 사업보고서 (차입금 합계 in 요약연결재무정보) not located via official links (web search found no dsaf001 link); the 2011 and 2013 English statements print only current and non-current borrowings lines)",
+    "FY2010 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2010 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2010 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2009 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2009 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2009 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2009 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2008 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2008 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2008 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2008 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))",
+    "FY2007 totalEquity: not found in the company's reports (No official SK hynix document for FY2007 obtained (DART rcpNo not found via official links))",
+    "FY2007 totalDebt: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 요약연결재무정보 summaries cover 2020-2025 only)",
+    "FY2007 dividendPerShare: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2007 sharesOutstanding: not found in the company's reports (No official SK hynix document covering this year obtained: FY2022 and FY2025 DART reports cover 2021-2022 and 2024-2025 only; earlier 사업보고서 rcpNo not found via official links (web search found none; DART search form not driven))",
+    "FY2007 employees: not found in the company's reports (No official SK hynix document covering this year obtained; the FY2022 and FY2025 DART 직원 현황 tables are head-office basis only (rejected))"
   ],
   "notes": [
     "Official audit-report archive obtained from the company public IR board (bcode101), which links the company-owned CDN PDFs. No aggregator values used. Source files are consolidated, not separate company accounts.",
-    "2007\u20132009 figures are Korean won thousands scaled by1000;2010onward figures are won millions scaled by1000000. Per-share values remain won.",
-    "K-IFRS adopted2011with2010comparative;2007\u20132009 K-GAAP. Historical net income is attributable to equity holders/owners, not group total profit. Parent equity populated only where a direct subtotal is printed; no subtraction of minority interests.",
+    "2007–2009 figures are Korean won thousands scaled by1000;2010onward figures are won millions scaled by1000000. Per-share values remain won.",
+    "K-IFRS adopted2011with2010comparative;2007–2009 K-GAAP. Historical net income is attributable to equity holders/owners, not group total profit. Parent equity populated only where a direct subtotal is printed; no subtraction of minority interests.",
     "Capex is the direct cash flow PP&E acquisition line, negative, excluding separately reported intangibles. No total debt derived by summing current/noncurrent borrowings or leases.",
     "Each odd-year audit supplies current and prior-year comparative. restated remains false unless an explicit restatement was identified; next-year comparative alone is not a restatement.",
-    "No direct closing share count, annual dividend-per-share or consolidated headcount was extracted from these statements; fields remain null."
+    "No direct closing share count, annual dividend-per-share or consolidated headcount was extracted from these statements; fields remain null.",
+    "FY2013 totalEquity: 13,067,243 (million) from https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4657122183934810.pdf PDF p. 5 — Unlabelled subtotal row printed under \"Equity attributable to owners of the Parent Company\" (KRW millions); excludes non-controlling interest (-384)",
+    "FY2012 totalEquity: 9,740,156 (million) from https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/4657122183934810.pdf PDF p. 5 — Comparative column of the 2013 statements: unlabelled parent-attributable subtotal (KRW millions); excludes non-controlling interest (-714)",
+    "FY2025 dividendPerShare: 3,000 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635 DART document — Current-year (FY2025) 주당배당금 in the 배당에 관한 사항 table, FY2025 사업보고서 (rcpNo 20260317000635)",
+    "FY2024 dividendPerShare: 2,204 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635 DART document — Prior-year (전기) 주당배당금 in the same FY2025 사업보고서 배당 table (comparative column)",
+    "FY2022 dividendPerShare: 1,200 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209 DART document — Current-year (FY2022) 주당배당금 in the 배당에 관한 사항 table, FY2022 사업보고서 (rcpNo 20230321001209); 24% of 5,000 face value",
+    "FY2021 dividendPerShare: 1,540 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209 DART document — Prior-year (전기) 주당배당금 in the FY2022 사업보고서 배당 table (comparative column); 31% of 5,000 face value",
+    "FY2025 sharesOutstanding: 701,691,520 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635 DART document — 유통주식수 (Ⅵ, after treasury) at 2025-12-31, 주식의 총수 table: issued 728,002,365 less treasury 26,310,845",
+    "FY2024 sharesOutstanding: 689,038,731 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635 DART document — 전기말 유통주식수 in the FY2025 사업보고서 주식 table (prior-year column)",
+    "FY2022 sharesOutstanding: 687,651,040 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209 DART document — 유통주식수 (Ⅳ-Ⅴ) at 2022-12-31, 주식의 총수 table: issued 728,002,365 less treasury 40,351,325",
+    "FY2021 sharesOutstanding: 687,620,673 (units) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209 DART document — 전기말 유통주식수 in the FY2022 사업보고서 주식 table (prior-year column; issued 728,002,365 less treasury 40,381,692)",
+    "FY2025 totalDebt: 22,247,905 (million) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635 DART document — 차입금 합계 (total borrowings) in the MD&A 4. 유동성 및 자금조달과 지출 table (순현금(순차입금) 변동내역), 제78기 column of FY2025 사업보고서; cash in that table ties to consolidated 요약연결재무정보",
+    "FY2024 totalDebt: 22,683,733 (million) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635 DART document — 차입금 합계, 제77기 comparative column in the MD&A 순현금(순차입금) 변동내역 table, FY2025 사업보고서",
+    "FY2023 totalDebt: 29,468,632 (million) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260317000635 DART document — 차입금 합계, 제76기 comparative column in the MD&A 순현금(순차입금) 변동내역 table, FY2025 사업보고서",
+    "FY2022 totalDebt: 22,994,604 (million) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209 DART document — 차입금 합계, 제75기 column in 요약연결재무정보 of FY2022 사업보고서 (consolidated)",
+    "FY2021 totalDebt: 17,623,809 (million) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209 DART document — 차입금 합계, 제74기 comparative column in FY2022 사업보고서 요약연결재무정보",
+    "FY2020 totalDebt: 11,251,648 (million) from https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20230321001209 DART document — 차입금 합계, 제73기 comparative column in FY2022 사업보고서 요약연결재무정보"
   ]
 }

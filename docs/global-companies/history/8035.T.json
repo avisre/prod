@@ -482,9 +482,20 @@
   }
  ],
  "gaps": [
-  "FY2010 dilutedEPS: company states dilution not assumed (net loss year)",
-  "FY2014 dilutedEPS: company states dilution not assumed (net loss year)",
-  "FY2015-FY2026 totalDebt: no interest-bearing borrowings line on the balance sheet (left null, effectively zero borrowings)"
+  "FY2026 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2025 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2024 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2023 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2022 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2021 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2020 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2019 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2018 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2017 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2016 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2015 totalDebt: cannot exist: TEL prints no borrowings or total-debt line: Databook db2026 (sheet 1-1, FY2016-FY2026) has no borrowings line in liabilities; Fact Book fb2016 shows only nil dashes for short-term borrowings and long-term debt in FY2015-FY2016. The brief forbids summing components, so no printed total exists",
+  "FY2014 dilutedEPS: not found in the company's reports (Fact Book fb2016 prints basic net income per share only (no diluted line); FY2014 yuho / kessan tanshin not downloaded)",
+  "FY2010 dilutedEPS: not found in the company's reports (Fact Book fb2016 and Databook db2026 do not cover FY2010 diluted EPS; FY2010 yuho / kessan tanshin not downloaded)"
  ],
  "notes": [
   "J-GAAP throughout FY2008-FY2026 (TEL has not adopted IFRS).",

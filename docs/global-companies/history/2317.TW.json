@@ -11,15 +11,15 @@
    "standard": "TIFRS",
    "currency": "TWD",
    "revenue": 8103104763000,
-   "operatingIncome": null,
+   "operatingIncome": 259222960000,
    "netIncome": 189354000000,
-   "dilutedEPS": null,
+   "dilutedEPS": 13.4,
    "totalAssets": 5104672223000,
    "totalEquity": 1772771627000,
-   "cashAndEquivalents": null,
+   "cashAndEquivalents": 1016439967000,
    "totalDebt": null,
    "operatingCashFlow": 226900000000,
-   "capex": null,
+   "capex": -173763139000,
    "dividendPerShare": 7.2,
    "sharesOutstanding": 13964222294,
    "employees": null,
@@ -27,7 +27,37 @@
    "source": {
     "url": "https://image.honhai.com/upload/202605/financy_by_year/2025_Annual_Report_20260523_7728.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2025",
-    "page": "PDF pp. 108, 109, 111, 162, 163, 164"
+    "page": "PDF pp. 108, 109, 111, 162, 163, 164",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_year/2025_Annual_Report_20260523_7728.pdf",
+      "page": "PDF p. 163",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 8",
+      "fields": [
+       "cashAndEquivalents"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 11",
+      "fields": [
+       "dilutedEPS"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 14",
+      "fields": [
+       "capex"
+      ]
+     }
+    ]
    }
   },
   {
@@ -36,23 +66,73 @@
    "standard": "TIFRS",
    "currency": "TWD",
    "revenue": 6859615493000,
-   "operatingIncome": null,
+   "operatingIncome": 200607227000,
    "netIncome": 152705000000,
-   "dilutedEPS": null,
+   "dilutedEPS": 10.79,
    "totalAssets": 4394499511000,
    "totalEquity": 1645201565000,
-   "cashAndEquivalents": null,
+   "cashAndEquivalents": 937108093000,
    "totalDebt": null,
-   "operatingCashFlow": null,
-   "capex": null,
+   "operatingCashFlow": 166028839000,
+   "capex": -136339059000,
    "dividendPerShare": 5.8,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 13890729000,
    "employees": null,
    "restated": false,
    "source": {
     "url": "https://image.honhai.com/upload/202605/financy_by_year/2025_Annual_Report_20260523_7728.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2025 (prior-year column)",
-    "page": "PDF pp. 108, 109, 111, 162, 163, 164"
+    "page": "PDF pp. 108, 109, 111, 162, 163, 164",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_year/2025_Annual_Report_20260523_7728.pdf",
+      "page": "PDF p. 163",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 8",
+      "fields": [
+       "cashAndEquivalents"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 11",
+      "fields": [
+       "dilutedEPS"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 14",
+      "fields": [
+       "capex"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 13",
+      "fields": [
+       "operatingCashFlow"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf",
+      "page": "PDF p. 80",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -63,21 +143,65 @@
    "revenue": 6162221359000,
    "operatingIncome": 166528495000,
    "netIncome": 142098208000,
-   "dilutedEPS": null,
+   "dilutedEPS": 10.07,
    "totalAssets": 3939788977000,
    "totalEquity": 1686243646000,
-   "cashAndEquivalents": null,
+   "cashAndEquivalents": 1197662695000,
    "totalDebt": null,
-   "operatingCashFlow": null,
-   "capex": null,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "operatingCashFlow": 445552717000,
+   "capex": -111744970000,
+   "dividendPerShare": 5.4,
+   "sharesOutstanding": 13862991000,
    "employees": null,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2023",
-    "page": "PDF pp. 7, 145, 146, 147, 149, 150, 622"
+    "page": "PDF pp. 7, 145, 146, 147, 149, 150, 622",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 163",
+      "fields": [
+       "dilutedEPS"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 160",
+      "fields": [
+       "cashAndEquivalents"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 166",
+      "fields": [
+       "capex"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 165",
+      "fields": [
+       "operatingCashFlow"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 92",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 95",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -88,21 +212,70 @@
    "revenue": 6626996750000,
    "operatingIncome": 173787842000,
    "netIncome": 141482714000,
-   "dilutedEPS": null,
+   "dilutedEPS": 10.06,
    "totalAssets": 4133974280000,
    "totalEquity": 1450544916000,
-   "cashAndEquivalents": null,
+   "cashAndEquivalents": 1062326324000,
    "totalDebt": null,
-   "operatingCashFlow": null,
-   "capex": null,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "operatingCashFlow": 109708366000,
+   "capex": -97935016000,
+   "dividendPerShare": 5.3,
+   "sharesOutstanding": 13862991000,
    "employees": 181490,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2023 (prior-year column)",
-    "page": "PDF pp. 7, 145, 146, 147, 149, 150, 622"
+    "page": "PDF pp. 7, 145, 146, 147, 149, 150, 622",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 163",
+      "fields": [
+       "dilutedEPS"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 160",
+      "fields": [
+       "cashAndEquivalents"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 166",
+      "fields": [
+       "capex"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 165",
+      "fields": [
+       "operatingCashFlow"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf",
+      "page": "PDF p. 107",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf",
+      "page": "PDF p. 95",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -116,18 +289,59 @@
    "dilutedEPS": 9.91,
    "totalAssets": 3908878394000,
    "totalEquity": 1380457310000,
-   "cashAndEquivalents": null,
+   "cashAndEquivalents": 1059417011000,
    "totalDebt": null,
-   "operatingCashFlow": null,
-   "capex": null,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "operatingCashFlow": -98212384000,
+   "capex": -92295684000,
+   "dividendPerShare": 5.2,
+   "sharesOutstanding": 13862991000,
    "employees": 645317,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20250304222224id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2022 (prior-year column)",
-    "page": "PDF pp. 9, 161, 163, 165, 166, 631"
+    "page": "PDF pp. 9, 161, 163, 165, 166, 631",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf",
+      "page": "PDF p. 178",
+      "fields": [
+       "cashAndEquivalents"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf",
+      "page": "PDF p. 184",
+      "fields": [
+       "capex"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf",
+      "page": "PDF p. 183",
+      "fields": [
+       "operatingCashFlow"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year/110%E5%B9%B4%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1.pdf",
+      "page": "PDF p. 92",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf",
+      "page": "PDF p. 111",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -145,14 +359,23 @@
    "totalDebt": null,
    "operatingCashFlow": 377623917000,
    "capex": -65500041000,
-   "dividendPerShare": 4.2,
+   "dividendPerShare": 4.0,
    "sharesOutstanding": null,
    "employees": 267456,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/110%E5%B9%B4%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2021 (prior-year column)",
-    "page": "PDF pp. 145, 147, 149, 150, 349"
+    "page": "PDF pp. 145, 147, 149, 150, 349",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7109%E5%B9%B4%E5%A0%B1_EN-v2_(2).pdf",
+      "page": "PDF p. 220",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -170,14 +393,23 @@
    "totalDebt": null,
    "operatingCashFlow": 248017738000,
    "capex": -77521451000,
-   "dividendPerShare": 4.0,
+   "dividendPerShare": 4.2,
    "sharesOutstanding": null,
    "employees": 699721,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7109%E5%B9%B4%E5%A0%B1_EN-v2_(2).pdf",
     "document": "Hon Hai Precision Industry Annual Report 2020 (prior-year column)",
-    "page": "PDF pp. 132, 134, 136, 150, 151, 153, 156"
+    "page": "PDF pp. 132, 134, 136, 150, 151, 153, 156",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7109%E5%B9%B4%E5%A0%B1_EN-v2_(2).pdf",
+      "page": "PDF p. 220",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -188,21 +420,58 @@
    "revenue": 5293803022000,
    "operatingIncome": 136146875000,
    "netIncome": 129065105000,
-   "dilutedEPS": null,
+   "dilutedEPS": 7.95,
    "totalAssets": 3040867509000,
    "totalEquity": 1267221148000,
-   "cashAndEquivalents": null,
+   "cashAndEquivalents": 788662325000,
    "totalDebt": null,
-   "operatingCashFlow": null,
-   "capex": null,
-   "dividendPerShare": null,
+   "operatingCashFlow": -40156222000,
+   "capex": -65532812000,
+   "dividendPerShare": 4.0,
    "sharesOutstanding": null,
    "employees": 4163,
    "restated": false,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2018",
-    "page": "PDF pp. 8, 130, 132, 135, 136, 376"
+    "page": "PDF pp. 8, 130, 132, 135, 136, 376",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
+      "page": "PDF p. 151",
+      "fields": [
+       "dilutedEPS"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
+      "page": "PDF p. 148",
+      "fields": [
+       "cashAndEquivalents"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
+      "page": "PDF p. 154",
+      "fields": [
+       "capex"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
+      "page": "PDF p. 153",
+      "fields": [
+       "operatingCashFlow"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
+      "page": "PDF p. 81",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -220,14 +489,24 @@
    "totalDebt": null,
    "operatingCashFlow": -39341313000,
    "capex": -60384846000,
-   "dividendPerShare": null,
+   "dividendPerShare": 2.0,
    "sharesOutstanding": 4327532403,
    "employees": 153692,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2018 (prior-year column)",
-    "page": "PDF pp. 8, 130, 132, 135, 136, 376"
+    "page": "PDF pp. 8, 130, 132, 135, 136, 376",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf",
+      "page": "PDF p. 81",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -245,14 +524,23 @@
    "totalDebt": null,
    "operatingCashFlow": 174020734000,
    "capex": -53204353000,
-   "dividendPerShare": 4.0,
+   "dividendPerShare": 4.5,
    "sharesOutstanding": null,
    "employees": 149026,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/2016_annual_rpt_e.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2016",
-    "page": "PDF pp. 101, 102, 103, 116, 117, 119, 121, 122"
+    "page": "PDF pp. 101, 102, 103, 116, 117, 119, 121, 122",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72017%E5%B9%B4%E5%A0%B1_E_1594173900.pdf",
+      "page": "PDF p. 197",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -270,14 +558,23 @@
    "totalDebt": null,
    "operatingCashFlow": 242322634000,
    "capex": -70959526000,
-   "dividendPerShare": 4.5,
+   "dividendPerShare": 4.0,
    "sharesOutstanding": 131498761,
    "employees": 160622,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/2016_annual_rpt_e.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2016 (prior-year column)",
-    "page": "PDF pp. 101, 102, 103, 116, 117, 119, 121, 122"
+    "page": "PDF pp. 101, 102, 103, 116, 117, 119, 121, 122",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/2016_annual_rpt_e.pdf",
+      "page": "PDF p. 187",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -295,14 +592,24 @@
    "totalDebt": null,
    "operatingCashFlow": 190675711000,
    "capex": -27565013000,
-   "dividendPerShare": null,
+   "dividendPerShare": 3.8,
    "sharesOutstanding": 131498761,
    "employees": 6236,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/2014_annual_rpt_e.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2014",
-    "page": "PDF pp. 112, 113, 114, 116, 117"
+    "page": "PDF pp. 112, 113, 114, 116, 117",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/2015_annual_rpt_e.pdf",
+      "page": "PDF p. 66",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -320,14 +627,31 @@
    "totalDebt": null,
    "operatingCashFlow": 172751571000,
    "capex": -44395165000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 1.8,
+   "sharesOutstanding": 13128707000,
    "employees": 6568,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/2014_annual_rpt_e.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2014 (prior-year column)",
-    "page": "PDF pp. 112, 113, 114, 116, 117"
+    "page": "PDF pp. 112, 113, 114, 116, 117",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/2013_annual_rpt_e.pdf",
+      "page": "PDF p. 62",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year/2014_annual_rpt_e.pdf",
+      "page": "PDF p. 72",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -345,14 +669,24 @@
    "totalDebt": null,
    "operatingCashFlow": 173491558000,
    "capex": -80466662000,
-   "dividendPerShare": null,
+   "dividendPerShare": 1.5,
    "sharesOutstanding": 1290000,
    "employees": 6651,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/2013_annual_rpt_e.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2013 (prior-year column)",
-    "page": "PDF pp. 105, 106, 107, 108, 109, 110"
+    "page": "PDF pp. 105, 106, 107, 108, 109, 110",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/2013_annual_rpt_e.pdf",
+      "page": "PDF p. 67",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -370,14 +704,31 @@
    "totalDebt": null,
    "operatingCashFlow": 101207991000,
    "capex": -91666421000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 1.5,
+   "sharesOutstanding": 10689097000,
    "employees": 6568,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year/2012_annual_rpt_e.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2012 (prior-year column)",
-    "page": "PDF pp. 97, 99, 100, 101, 103, 104, 139"
+    "page": "PDF pp. 97, 99, 100, 101, 103, 104, 139",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year/2012_annual_rpt_e.pdf",
+      "page": "PDF p. 64",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 38",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -385,24 +736,97 @@
    "periodEnd": "2010-12-31",
    "standard": "ROC GAAP",
    "currency": "TWD",
-   "revenue": null,
-   "operatingIncome": null,
+   "revenue": 2997205316000,
+   "operatingIncome": 86145933000,
    "netIncome": 77154551000,
-   "dilutedEPS": null,
-   "totalAssets": null,
+   "dilutedEPS": 7.03,
+   "totalAssets": 1380532121000,
    "totalEquity": 480592756000,
-   "cashAndEquivalents": null,
+   "cashAndEquivalents": 254241323000,
    "totalDebt": null,
-   "operatingCashFlow": null,
-   "capex": null,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "operatingCashFlow": 62455529000,
+   "capex": -72715922000,
+   "dividendPerShare": 1.0,
+   "sharesOutstanding": 9661248000,
    "employees": null,
    "restated": false,
    "source": {
     "url": "https://image.honhai.com/financy_by_year_reports/2010_annual_rpt_c.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2010",
-    "page": "PDF pp. 1, 2"
+    "page": "PDF pp. 1, 2",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 6",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 6",
+      "fields": [
+       "dilutedEPS"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 4",
+      "fields": [
+       "cashAndEquivalents"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 8",
+      "fields": [
+       "capex"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 8",
+      "fields": [
+       "operatingCashFlow"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 6",
+      "fields": [
+       "revenue"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf",
+      "page": "PDF p. 4",
+      "fields": [
+       "totalAssets"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year_reports/2010_annual_rpt_c.pdf",
+      "page": "PDF p. 36",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year_reports/2011_annual_rpt_c.pdf",
+      "page": "PDF p. 39",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -420,14 +844,32 @@
    "totalDebt": null,
    "operatingCashFlow": 99964897000,
    "capex": -26975006000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 2.0,
+   "sharesOutstanding": 8578932000,
    "employees": null,
    "restated": false,
    "source": {
     "url": "https://image.honhai.com/financy_by_year_reports/2009_annual_rpt_c.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2009",
-    "page": "PDF pp. 4, 58, 61, 67, 160, 191"
+    "page": "PDF pp. 4, 58, 61, 67, 160, 191",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year_reports/2010_annual_rpt_c.pdf",
+      "page": "PDF p. 37",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://image.honhai.com/financy_by_year_reports/2010_annual_rpt_c.pdf",
+      "page": "PDF p. 36",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -445,14 +887,24 @@
    "totalDebt": null,
    "operatingCashFlow": 63421111000,
    "capex": -69866509000,
-   "dividendPerShare": null,
+   "dividendPerShare": 1.1,
    "sharesOutstanding": 7414623478,
    "employees": 329989,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year_reports/2009_annual_rpt_c.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2009 (prior-year column)",
-    "page": "PDF pp. 4, 58, 61, 67, 160, 191"
+    "page": "PDF pp. 4, 58, 61, 67, 160, 191",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year_reports/2009_annual_rpt_c.pdf",
+      "page": "PDF p. 91",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -470,98 +922,56 @@
    "totalDebt": null,
    "operatingCashFlow": 105477820000,
    "capex": -87634306000,
-   "dividendPerShare": null,
+   "dividendPerShare": 3.0,
    "sharesOutstanding": 326791,
    "employees": 326791,
    "restated": true,
    "source": {
     "url": "https://image.honhai.com/financy_by_year_reports/2008_annual_rpt_c.pdf",
     "document": "Hon Hai Precision Industry Annual Report 2008 (prior-year column)",
-    "page": "PDF pp. 4, 54, 57, 63, 150, 179"
+    "page": "PDF pp. 4, 54, 57, 63, 150, 179",
+    "supplementalSources": [
+     {
+      "url": "https://image.honhai.com/financy_by_year_reports/2009_annual_rpt_c.pdf",
+      "page": "PDF p. 91",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2025 operatingIncome: not found in the reports read",
-  "FY2025 dilutedEPS: not found in the reports read",
-  "FY2025 cashAndEquivalents: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 capex: not found in the reports read",
-  "FY2025 employees: not found in the reports read",
-  "FY2024 operatingIncome: not found in the reports read",
-  "FY2024 dilutedEPS: not found in the reports read",
-  "FY2024 cashAndEquivalents: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2024 operatingCashFlow: not found in the reports read",
-  "FY2024 capex: not found in the reports read",
-  "FY2024 sharesOutstanding: not found in the reports read",
-  "FY2024 employees: not found in the reports read",
-  "FY2023 dilutedEPS: not found in the reports read",
-  "FY2023 cashAndEquivalents: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2023 operatingCashFlow: not found in the reports read",
-  "FY2023 capex: not found in the reports read",
-  "FY2023 dividendPerShare: not found in the reports read",
-  "FY2023 sharesOutstanding: not found in the reports read",
-  "FY2023 employees: not found in the reports read",
-  "FY2022 dilutedEPS: not found in the reports read",
-  "FY2022 cashAndEquivalents: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 operatingCashFlow: not found in the reports read",
-  "FY2022 capex: not found in the reports read",
-  "FY2022 dividendPerShare: not found in the reports read",
-  "FY2022 sharesOutstanding: not found in the reports read",
-  "FY2021 cashAndEquivalents: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2021 operatingCashFlow: not found in the reports read",
-  "FY2021 capex: not found in the reports read",
-  "FY2021 dividendPerShare: not found in the reports read",
-  "FY2021 sharesOutstanding: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2020 sharesOutstanding: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 sharesOutstanding: not found in the reports read",
-  "FY2018 dilutedEPS: not found in the reports read",
-  "FY2018 cashAndEquivalents: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2018 operatingCashFlow: not found in the reports read",
-  "FY2018 capex: not found in the reports read",
-  "FY2018 dividendPerShare: not found in the reports read",
-  "FY2018 sharesOutstanding: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2017 dividendPerShare: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 sharesOutstanding: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2014 dividendPerShare: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 dividendPerShare: not found in the reports read",
-  "FY2013 sharesOutstanding: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2012 dividendPerShare: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2011 dividendPerShare: not found in the reports read",
-  "FY2011 sharesOutstanding: not found in the reports read",
-  "FY2010 revenue: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 dilutedEPS: not found in the reports read",
-  "FY2010 totalAssets: not found in the reports read",
-  "FY2010 cashAndEquivalents: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 operatingCashFlow: not found in the reports read",
-  "FY2010 capex: not found in the reports read",
-  "FY2010 dividendPerShare: not found in the reports read",
-  "FY2010 sharesOutstanding: not found in the reports read",
-  "FY2010 employees: not found in the reports read",
-  "FY2009 totalDebt: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2009 sharesOutstanding: not found in the reports read",
-  "FY2009 employees: not found in the reports read",
-  "FY2008 totalDebt: not found in the reports read",
-  "FY2008 dividendPerShare: not found in the reports read",
-  "FY2007 totalDebt: not found in the reports read",
-  "FY2007 dividendPerShare: not found in the reports read"
+  "FY2025 totalDebt: not found in the company's reports (FY2025 consolidated balance sheet (2025Q4 consolidated report, PDF p. 8-9) prints components only: short-term loans, short-term notes and bills payable, corporate bonds, long-term loans, and current portion of long-term liabilities. No single printed total debt line; not summed.)",
+  "FY2025 employees: not found in the company's reports (2025 AR gives only the rounded letter figure '900,000 employees across the globe' (PDF p. 5); no year-end headcount table found)",
+  "FY2024 totalDebt: not found in the company's reports (FY2025 consolidated balance sheet (2025Q4 consolidated report, PDF p. 8-9) prints components only: short-term loans, short-term notes and bills payable, corporate bonds, long-term loans, and current portion of long-term liabilities. No single printed total debt line; not summed.)",
+  "FY2024 employees: not found in the company's reports (2024 AR not in local set; no exact year-end headcount in the 2025 AR)",
+  "FY2023 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2023 employees: not found in the company's reports (2023 AR: no year-end headcount line found in the text (searched employee/personnel lines))",
+  "FY2022 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2021 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2020 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2020 sharesOutstanding: not found in the company's reports (2020 AR capital table not located in text; balance sheet shows NT$ amount only (common stock 138,629,906 thousand), not a share count)",
+  "FY2019 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2019 sharesOutstanding: not found in the company's reports (2019 AR not in local set; 2020 AR shows only the common stock amount, not a share count)",
+  "FY2018 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2018 sharesOutstanding: not found in the company's reports (2018 AR capital table not located in text search; balance sheet shows NT$ amount only)",
+  "FY2017 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2016 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2016 sharesOutstanding: not found in the company's reports (2016 AR capital table not located in text search; balance sheet shows NT$ amount only)",
+  "FY2015 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2014 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2013 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2012 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2011 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2010 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2010 employees: not found in the company's reports (2010 AR (2010.pdf) and 2011 AR (2011.pdf): text layers garbled; numeric search of both for six-digit headcounts found no employee table; rendered 2011 AR pp. 9-12 (org chart, department duties, director table) with no employee table. 2011 consolidated FS Note 1 prints about 961,000 at Dec 31, 2011, not 2010.)",
+  "FY2009 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2009 employees: not found in the company's reports (2010 AR (2010.pdf) text layer garbled; rendered 2010 AR pp. 36-37 (capital table, shareholders, market table) with no employee count; no 2009 employee count located in the downloaded 2009-2011 reports.)",
+  "FY2008 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)",
+  "FY2007 totalDebt: not found in the company's reports (Consolidated balance sheets checked (2018, 2022-2023 AR) print components only (short-term loans, short-term notes and bills payable, corporate bonds payable, long-term loans); no single total-borrowings line, and components were not summed)"
  ],
  "notes": [
   "ROC GAAP to 2012, Taiwan-IFRS (TIFRS) from 2013 (2012 comparatives restated).",
@@ -645,6 +1055,62 @@
   "FY2007 operatingIncome: 營業淨利, 2007 column of the 2008 consolidated income statement",
   "FY2008 capex: 購置固定資產, 2008 column of the 2009 consolidated cash flow statement",
   "FY2007 capex: 購置固定資產, 2007 column of the 2008 consolidated cash flow statement",
-  "FY2007 operatingCashFlow: 營業活動之淨現金流入, 2007 column of the 2008 consolidated cash flow statement"
+  "FY2007 operatingCashFlow: 營業活動之淨現金流入, 2007 column of the 2008 consolidated cash flow statement",
+  "FY2025 operatingIncome: 259,222,960 (thousand) from https://image.honhai.com/upload/202605/financy_by_year/2025_Annual_Report_20260523_7728.pdf PDF p. 163 — MD&A comparative income statement, 'Operating Income' (NT$ thousand); consolidated",
+  "FY2024 operatingIncome: 200,607,227 (thousand) from https://image.honhai.com/upload/202605/financy_by_year/2025_Annual_Report_20260523_7728.pdf PDF p. 163 — prior-year column of the 2025 AR MD&A income statement ('Operating Income')",
+  "FY2023 dilutedEPS: 10.07 (units) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 163 — Consolidated statement of comprehensive income, 'Diluted earnings per share'",
+  "FY2022 dilutedEPS: 10.06 (units) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 163 — prior-year column, 2023 AR consolidated statement of comprehensive income",
+  "FY2018 dilutedEPS: 7.95 (units) from https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf PDF p. 151 — Consolidated statements of income, 'Diluted earnings per share' (not the parent-only 7.95 at PDF p. 424, same figure)",
+  "FY2023 cashAndEquivalents: 1,197,662,695 (thousand) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 160 — Consolidated balance sheet, Cash and cash equivalents (1100)",
+  "FY2022 cashAndEquivalents: 1,062,326,324 (thousand) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 160 — prior-year column, 2023 AR consolidated balance sheet; also 2022 AR PDF p. 178",
+  "FY2021 cashAndEquivalents: 1,059,417,011 (thousand) from https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf PDF p. 178 — prior-year column, 2022 AR consolidated balance sheet (Cash and cash equivalents 1100)",
+  "FY2018 cashAndEquivalents: 788,662,325 (thousand) from https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf PDF p. 148 — Consolidated balance sheet, Cash and cash equivalents (1100)",
+  "FY2023 capex: (111,744,970) (thousand) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 166 — Consolidated cash flows, investing: Acquisition of property, plant and equipment (outflow shown in parentheses)",
+  "FY2022 capex: (97,935,016) (thousand) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 166 — prior-year column, 2023 AR consolidated cash flows: Acquisition of property, plant and equipment",
+  "FY2021 capex: (92,295,684) (thousand) from https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf PDF p. 184 — prior-year column, 2022 AR consolidated cash flows: Acquisition of property, plant and equipment",
+  "FY2018 capex: (65,532,812) (thousand) from https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf PDF p. 154 — Consolidated cash flows, investing: Acquisition of property, plant and equipment",
+  "FY2023 operatingCashFlow: 445,552,717 (thousand) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 165 — Consolidated cash flows: Net cash flows from operating activities",
+  "FY2022 operatingCashFlow: 109,708,366 (thousand) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 165 — prior-year column, 2023 AR consolidated cash flows: Net cash flows from operating activities",
+  "FY2021 operatingCashFlow: (98,212,384) (thousand) from https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf PDF p. 183 — prior-year column, 2022 AR consolidated cash flows: Net cash flows from (used in) operating activities",
+  "FY2018 operatingCashFlow: (40,156,222) (thousand) from https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf PDF p. 153 — Consolidated cash flows: Net cash flows used in operating activities",
+  "FY2023 sharesOutstanding: 13,862,991 (thousand) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 92 — Capital and shares table, 'Registered Common Shares' outstanding (unit 1,000 shares), table dated 4/2/2024; FYE count not printed separately",
+  "FY2022 sharesOutstanding: 13,862,991 (thousand) from https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf PDF p. 107 — Capital and shares table, outstanding common shares (unit 1,000 shares); table date not used as FYE",
+  "FY2021 sharesOutstanding: 13,862,991 (thousand) from https://image.honhai.com/financy_by_year/110%E5%B9%B4%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1.pdf PDF p. 92 — Capital and shares table, outstanding common shares (unit 1,000 shares); table date not used as FYE",
+  "FY2013 sharesOutstanding: 13,128,707 (thousand) from https://image.honhai.com/financy_by_year/2013_annual_rpt_e.pdf PDF p. 62 — Capital and shares table, outstanding common shares (unit 1,000 shares); table date not used as FYE",
+  "FY2023 dividendPerShare: 5.4 (units) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 95 — Market price and dividend table, cash dividend for 2023 earnings",
+  "FY2022 dividendPerShare: 5.3 (units) from https://web.archive.org/web/20241009135456id_/https://image.honhai.com/financy_by_year/R1305000090%E9%B4%BB%E6%B5%B7%E7%B2%BE%E5%AF%86%E8%8B%B1%E6%96%87%E5%B9%B4%E5%A0%B1(%E4%B8%8A)-0522.pdf PDF p. 95 — Market price and dividend table, cash dividend for 2022 earnings (2023 AR comparative column)",
+  "FY2021 dividendPerShare: 5.2 (units) from https://web.archive.org/web/20230619162653id_/https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7111%E5%B9%B4%E5%A0%B1_EN(0516%E8%BF%BD%E5%8A%A0)_for_Print.pdf PDF p. 111 — 2022 AR dividend table, cash dividend for 2021 earnings",
+  "FY2018 dividendPerShare: 4.00 (units) from https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf PDF p. 81 — Dividend table: 2018 cash dividend, 'not yet approved by the AGM' (proposed figure)",
+  "FY2017 dividendPerShare: 2.00 (units) from https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72018%E5%B9%B4%E5%A0%B1-E_1594173867.pdf PDF p. 81 — 2018 AR dividend table, 2017 cash dividend (prior-year column); also 2017 AR PDF p. 71",
+  "FY2014 dividendPerShare: 3.8 (units) from https://image.honhai.com/financy_by_year/2015_annual_rpt_e.pdf PDF p. 66 — 2015 AR dividend table, 2014 cash dividend (prior-year column); also 2014 AR PDF p. 72",
+  "FY2013 dividendPerShare: 1.8 (units) from https://image.honhai.com/financy_by_year/2014_annual_rpt_e.pdf PDF p. 72 — 2014 AR dividend table, 2013 cash dividend (prior-year column); also 2013 AR PDF p. 67",
+  "FY2012 dividendPerShare: 1.5 (units) from https://image.honhai.com/financy_by_year/2013_annual_rpt_e.pdf PDF p. 67 — 2013 AR dividend table, 2012 cash dividend (prior-year column); also 2012 AR PDF p. 64",
+  "FY2011 dividendPerShare: 1.5 (units) from https://image.honhai.com/financy_by_year/2012_annual_rpt_e.pdf PDF p. 64 — 2012 AR five-year/dividend table, 2011 cash dividend (prior-year column)",
+  "FY2008 dividendPerShare: 1.1 (units) from https://image.honhai.com/financy_by_year_reports/2009_annual_rpt_c.pdf PDF p. 91 — 2009 AR (Chinese) distribution table: cash dividend approved for FY2008 (97年度) = 1.1; 2008 AR showed a board proposal of 0.8 (PDF p. 33) superseded by this figure",
+  "FY2007 dividendPerShare: 3.0 (units) from https://image.honhai.com/financy_by_year_reports/2009_annual_rpt_c.pdf PDF p. 91 — 2009 AR distribution table, cash dividend for FY2007 (96年度) (prior-year column)",
+  "FY2025 cashAndEquivalents: 1,016,439,967 (thousand) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 8 — FY2025 consolidated balance sheet, Dec 31 2025 column; consolidated",
+  "FY2025 dilutedEPS: 13.40 (units) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 11 — FY2025 consolidated statement of comprehensive income, printed diluted EPS (NT$), line 9850",
+  "FY2025 capex: (173,763,139) (thousand) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 14 — FY2025 consolidated cash flow statement, investing: acquisition of property, plant and equipment",
+  "FY2024 cashAndEquivalents: 937,108,093 (thousand) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 8 — Prior-year column of FY2025 consolidated balance sheet",
+  "FY2024 dilutedEPS: 10.79 (units) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 11 — Prior-year column of FY2025 consolidated statement of comprehensive income, line 9850",
+  "FY2024 capex: (136,339,059) (thousand) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 14 — Prior-year column of FY2025 consolidated cash flow statement, acquisition of property, plant and equipment",
+  "FY2024 operatingCashFlow: 166,028,839 (thousand) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 13 — Prior-year column of FY2025 consolidated cash flow statement, net cash flows from operating activities",
+  "FY2024 sharesOutstanding: 13,890,729 (thousand) from https://image.honhai.com/upload/202605/financy_by_quarterly/2025Q4_consolidared_report(e)_20260515_5808.pdf PDF p. 80 — Issued shares (in thousands), Note 6(25)A, prior-year column. Not net of the 1,483,078 shares held by subsidiary Hon Jin (Note 6(25)G, PDF p. 82). Note 6(25)B movement table prints 13,890,219 at Dec 31, 2024 including certificate of entitlement",
+  "FY2010 operatingIncome: 86,145,933 (thousand) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 6 — Prior-year column, 2011 consolidated statement of income (ROC GAAP)",
+  "FY2010 dilutedEPS: 7.03 (units) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 6 — Prior-year column, diluted EPS, net income attributable to equity holders of the Company, after income tax (ROC GAAP)",
+  "FY2010 cashAndEquivalents: 254,241,323 (thousand) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 4 — Prior-year column, 2011 consolidated balance sheet",
+  "FY2010 capex: (72,715,922) (thousand) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 8 — Prior-year column, 2011 consolidated cash flow statement, acquisition of property, plant and equipment",
+  "FY2010 operatingCashFlow: 62,455,529 (thousand) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 8 — Prior-year column, 2011 consolidated cash flow statement, net cash provided by operating activities",
+  "FY2010 revenue: 2,997,205,316 (thousand) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 6 — Prior-year column, 2011 consolidated statement of income, Sales (Note 5), operating revenue",
+  "FY2010 totalAssets: 1,380,532,121 (thousand) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 4 — Prior-year column, 2011 consolidated balance sheet, TOTAL ASSETS",
+  "FY2010 sharesOutstanding: 9,661,248 (thousand) from https://image.honhai.com/financy_by_year_reports/2010_annual_rpt_c.pdf PDF p. 36 — Issued shares per capital-formation table, row 99/09 (last change before 2011); numerals read from ASCII text layer; matches 2010 common stock NT$96,612,482 thousand on the 2011 consolidated balance sheet. Subsidiary-held treasury shares not deducted",
+  "FY2010 dividendPerShare: 1.0 (units) from https://image.honhai.com/financy_by_year_reports/2011_annual_rpt_c.pdf PDF p. 39 — Cash dividend, 99 (2010) column of FY2011 AR table (PDF p. 39, printed p. 35). FY2010 AR (PDF p. 37) prints the same 1.0 cash as proposed. Stock dividend 1.0 excluded",
+  "FY2009 dividendPerShare: 2.0 (units) from https://image.honhai.com/financy_by_year_reports/2010_annual_rpt_c.pdf PDF p. 37 — Cash dividend, 98 (2009) column, prior-year column of FY2010 AR table (printed p. 33). Stock dividend 1.2 excluded",
+  "FY2009 sharesOutstanding: 8,578,932 (thousand) from https://image.honhai.com/financy_by_year_reports/2010_annual_rpt_c.pdf PDF p. 36 — Issued shares per capital-formation table, row 98/06 (last change in 2009), from FY2010 AR; FY2009 AR not checked. Treasury shares not deducted",
+  "FY2011 sharesOutstanding: 10,689,097 (thousand) from https://image.honhai.com/financy_by_quarterly/2011Q4_consolidated_report_e.pdf PDF p. 38 — Issued and outstanding common stock at Dec 31, 2011, Note 4(19)(1) of the 2011 consolidated FS; treasury not deducted",
+  "FY2015 dividendPerShare: corrected to 4.0 — was on a paid-in-year basis (swapped with the neighbouring year); the appropriation-of-earnings table gives this fiscal year's cash dividend (plus a NT$1.0 stock dividend, not included) (https://image.honhai.com/financy_by_year/2016_annual_rpt_e.pdf PDF p. 187)",
+  "FY2016 dividendPerShare: corrected to 4.5 — was on a paid-in-year basis (swapped with the neighbouring year); the appropriation-of-earnings table gives this fiscal year's cash dividend (https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B72017%E5%B9%B4%E5%A0%B1_E_1594173900.pdf PDF p. 197)",
+  "FY2019 dividendPerShare: corrected to 4.2 — was on a paid-in-year basis (swapped with the neighbouring year); the appropriation-of-earnings table gives this fiscal year's cash dividend (https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7109%E5%B9%B4%E5%A0%B1_EN-v2_(2).pdf PDF p. 220)",
+  "FY2020 dividendPerShare: corrected to 4.0 — was on a paid-in-year basis (swapped with the neighbouring year); the appropriation-of-earnings table gives this fiscal year's cash dividend (https://image.honhai.com/financy_by_year/%E9%B4%BB%E6%B5%B7109%E5%B9%B4%E5%A0%B1_EN-v2_(2).pdf PDF p. 220)"
  ]
 }

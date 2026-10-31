@@ -16,9 +16,9 @@
       "totalDebt": null,
       "operatingCashFlow": 61522204989.35,
       "capex": -3127594916.41,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 27.993,
+      "sharesOutstanding": 1252270215,
+      "employees": 34992,
       "fiscalYear": 2025,
       "periodEnd": "2025-12-31",
       "standard": "PRC ASBEs",
@@ -27,7 +27,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
         "document": "Kweichow Moutai Annual Report 2025",
-        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+        "page": "PDF pp.6–7, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+            "page": "PDF p. 37",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+            "page": "PDF p. 75",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -40,7 +63,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
-          "page": "PDF pp.85\u201386, consolidated cash-flow statement",
+          "page": "PDF pp.85–86, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -59,9 +82,9 @@
       "totalDebt": null,
       "operatingCashFlow": 92463692168.43,
       "capex": -4678712053.56,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 27.624,
+      "sharesOutstanding": 1256197800,
+      "employees": 34750,
       "fiscalYear": 2024,
       "periodEnd": "2024-12-31",
       "standard": "PRC ASBEs",
@@ -70,7 +93,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
         "document": "Kweichow Moutai Annual Report 2025",
-        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+        "page": "PDF pp.6–7, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2025-04-03/1222993920.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2025-04-03/1222993920.PDF",
+            "page": "PDF p. 33",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2025-04-03/1222993920.PDF",
+            "page": "PDF p. 49",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -83,7 +129,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
-          "page": "PDF pp.85\u201386, consolidated cash-flow statement",
+          "page": "PDF pp.85–86, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -102,9 +148,9 @@
       "totalDebt": null,
       "operatingCashFlow": 66593247721.09,
       "capex": -2619755888.79,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 30.876,
+      "sharesOutstanding": 1256197800,
+      "employees": 33302,
       "fiscalYear": 2023,
       "periodEnd": "2023-12-31",
       "standard": "PRC ASBEs",
@@ -113,7 +159,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
         "document": "Kweichow Moutai Annual Report 2023",
-        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+        "page": "PDF pp.6–7, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+            "page": "PDF p. 43",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -126,7 +195,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
-          "page": "PDF pp.84\u201385, consolidated cash-flow statement",
+          "page": "PDF pp.84–85, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -145,9 +214,9 @@
       "totalDebt": null,
       "operatingCashFlow": 36698595830.03,
       "capex": -5306546416.54,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 25.911,
+      "sharesOutstanding": 1256197800,
+      "employees": 31413,
       "fiscalYear": 2022,
       "periodEnd": "2022-12-31",
       "standard": "PRC ASBEs",
@@ -156,7 +225,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
         "document": "Kweichow Moutai Annual Report 2023",
-        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+        "page": "PDF pp.6–7, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2023-03-31/1216281757.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2023-03-31/1216281757.PDF",
+            "page": "PDF p. 30",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2023-03-31/1216281757.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -169,7 +261,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
-          "page": "PDF pp.84\u201385, consolidated cash-flow statement",
+          "page": "PDF pp.84–85, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -188,9 +280,9 @@
       "totalDebt": null,
       "operatingCashFlow": 64028676147.37,
       "capex": -3408784532.01,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 21.675,
+      "sharesOutstanding": 1256197800,
+      "employees": 29971,
       "fiscalYear": 2021,
       "periodEnd": "2021-12-31",
       "standard": "PRC ASBEs",
@@ -199,12 +291,35 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
         "document": "Kweichow Moutai Annual Report 2021",
-        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+        "page": "PDF pp.6–7, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+            "page": "PDF p. 37",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
           "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
-          "page": "PDF pp.6\u20137, FY2021 after-adjustment columns",
+          "page": "PDF pp.6–7, FY2021 after-adjustment columns",
           "fields": [
             "netIncome",
             "totalEquity",
@@ -222,7 +337,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
-          "page": "PDF pp.72\u201373, consolidated cash-flow statement",
+          "page": "PDF pp.72–73, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -241,9 +356,9 @@
       "totalDebt": null,
       "operatingCashFlow": 51669068693.03,
       "capex": -2089769498.78,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 19.293,
+      "sharesOutstanding": 1256197800,
+      "employees": 29031,
       "fiscalYear": 2020,
       "periodEnd": "2020-12-31",
       "standard": "PRC ASBEs",
@@ -252,7 +367,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
         "document": "Kweichow Moutai Annual Report 2021",
-        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+        "page": "PDF pp.6–7, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2021-03-31/1209495421.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2021-03-31/1209495421.PDF",
+            "page": "PDF p. 41",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2021-03-31/1209495421.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -265,7 +403,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
-          "page": "PDF pp.72\u201373, consolidated cash-flow statement",
+          "page": "PDF pp.72–73, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -284,9 +422,9 @@
       "totalDebt": null,
       "operatingCashFlow": 45210612632.56,
       "capex": -3148864661.38,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 17.025,
+      "sharesOutstanding": 1256197800,
+      "employees": 27005,
       "fiscalYear": 2019,
       "periodEnd": "2019-12-31",
       "standard": "PRC ASBEs",
@@ -295,7 +433,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
         "document": "Kweichow Moutai Annual Report 2019",
-        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+        "page": "PDF pp.5–6, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+            "page": "PDF p. 45",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -308,7 +469,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
-          "page": "PDF pp.59\u201360, consolidated cash-flow statement",
+          "page": "PDF pp.59–60, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -327,9 +488,9 @@
       "totalDebt": null,
       "operatingCashFlow": 41385234406.72,
       "capex": -1606750226.28,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 14.539,
+      "sharesOutstanding": 1256197800,
+      "employees": 26568,
       "fiscalYear": 2018,
       "periodEnd": "2018-12-31",
       "standard": "PRC ASBEs",
@@ -338,7 +499,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
         "document": "Kweichow Moutai Annual Report 2019",
-        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+        "page": "PDF pp.5–6, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2019-03-29/1205958206.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2019-03-29/1205958206.PDF",
+            "page": "PDF p. 44",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2019-03-29/1205958206.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -351,7 +535,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
-          "page": "PDF pp.59\u201360, consolidated cash-flow statement",
+          "page": "PDF pp.59–60, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -370,9 +554,9 @@
       "totalDebt": null,
       "operatingCashFlow": 22153036084.13,
       "capex": -1125017192.45,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 10.999,
+      "sharesOutstanding": 1256197800,
+      "employees": 24029,
       "fiscalYear": 2017,
       "periodEnd": "2017-12-31",
       "standard": "PRC ASBEs",
@@ -381,7 +565,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
         "document": "Kweichow Moutai Annual Report 2017",
-        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+        "page": "PDF pp.4–5, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+            "page": "PDF p. 38",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -395,7 +602,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
-          "page": "PDF pp.52\u201352, consolidated cash-flow statement",
+          "page": "PDF pp.52–52, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -414,9 +621,9 @@
       "totalDebt": null,
       "operatingCashFlow": 37451249647.05,
       "capex": -1019178136.92,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 6.787,
+      "sharesOutstanding": 1256197800,
+      "employees": 21237,
       "fiscalYear": 2016,
       "periodEnd": "2016-12-31",
       "standard": "PRC ASBEs",
@@ -425,7 +632,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
         "document": "Kweichow Moutai Annual Report 2017",
-        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+        "page": "PDF pp.4–5, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2017-04-15/1203301659.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2017-04-15/1203301659.PDF",
+            "page": "PDF p. 36",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2017-04-15/1203301659.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -439,7 +669,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
-          "page": "PDF pp.52\u201352, consolidated cash-flow statement",
+          "page": "PDF pp.52–52, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -458,9 +688,9 @@
       "totalDebt": null,
       "operatingCashFlow": 17436340141.72,
       "capex": -2061470481.32,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 6.171,
+      "sharesOutstanding": 1256197800,
+      "employees": 21115,
       "fiscalYear": 2015,
       "periodEnd": "2015-12-31",
       "standard": "PRC ASBEs",
@@ -469,7 +699,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
         "document": "Kweichow Moutai Annual Report 2015",
-        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+        "page": "PDF pp.5–6, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+            "page": "PDF p. 32",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -483,7 +736,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
-          "page": "PDF pp.44\u201345, consolidated cash-flow statement",
+          "page": "PDF pp.44–45, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -502,9 +755,9 @@
       "totalDebt": null,
       "operatingCashFlow": 12632522436.6,
       "capex": -4431065066.05,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 4.374,
+      "sharesOutstanding": 1141998000,
+      "employees": 17487,
       "fiscalYear": 2014,
       "periodEnd": "2014-12-31",
       "standard": "PRC ASBEs",
@@ -513,7 +766,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
         "document": "Kweichow Moutai Annual Report 2015",
-        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+        "page": "PDF pp.5–6, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2015-04-21/1200877315.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2015-04-21/1200877315.PDF",
+            "page": "PDF p. 31",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2015-04-21/1200877315.PDF",
+            "page": "PDF p. 1",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -527,7 +803,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
-          "page": "PDF pp.44\u201345, consolidated cash-flow statement",
+          "page": "PDF pp.44–45, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -546,9 +822,9 @@
       "totalDebt": null,
       "operatingCashFlow": 12655024861.92,
       "capex": -5405740026.23,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 4.374,
+      "sharesOutstanding": 1038180000,
+      "employees": 16800,
       "fiscalYear": 2013,
       "periodEnd": "2013-12-31",
       "standard": "PRC ASBEs",
@@ -557,7 +833,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
         "document": "Kweichow Moutai Annual Report 2013",
-        "page": "PDF pp.7\u20138, three-year accounting data and indicators"
+        "page": "PDF pp.7–8, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+            "page": "PDF p. 35",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -571,7 +870,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
-          "page": "PDF pp.50\u201352, consolidated cash-flow statement",
+          "page": "PDF pp.50–52, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -590,9 +889,9 @@
       "totalDebt": null,
       "operatingCashFlow": 11921310609.25,
       "capex": -4211900807.91,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 6.419,
+      "sharesOutstanding": 1038180000,
+      "employees": 13717,
       "fiscalYear": 2012,
       "periodEnd": "2012-12-31",
       "standard": "PRC ASBEs",
@@ -601,7 +900,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
         "document": "Kweichow Moutai Annual Report 2013",
-        "page": "PDF pp.7\u20138, three-year accounting data and indicators"
+        "page": "PDF pp.7–8, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF",
+            "page": "PDF p. 35",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF",
+            "page": "PDF p. 2",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -615,7 +937,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
-          "page": "PDF pp.50\u201352, consolidated cash-flow statement",
+          "page": "PDF pp.50–52, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -629,14 +951,14 @@
       "netIncome": 8763145910.23,
       "dilutedEPS": 8.44,
       "totalAssets": 34900868975.41,
-      "totalEquity": null,
+      "totalEquity": 24991179971,
       "cashAndEquivalents": 18254690162.04,
       "totalDebt": null,
       "operatingCashFlow": 10148564689.53,
       "capex": -2184528163.11,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 3.997,
+      "sharesOutstanding": 1038180000,
+      "employees": 11456,
       "fiscalYear": 2011,
       "periodEnd": "2011-12-31",
       "standard": "PRC ASBEs",
@@ -645,7 +967,37 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
         "document": "Kweichow Moutai Annual Report 2011",
-        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+        "page": "PDF pp.5–6, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+            "page": "PDF p. 32",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+            "page": "PDF p. 14",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+            "page": "PDF p. 32",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF",
+            "page": "PDF p. 7",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -659,7 +1011,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
-          "page": "PDF pp.47\u201349, consolidated cash-flow statement",
+          "page": "PDF pp.47–49, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -673,14 +1025,14 @@
       "netIncome": 5051194218.26,
       "dilutedEPS": 4.87,
       "totalAssets": 25587579940.69,
-      "totalEquity": null,
+      "totalEquity": 18398774061,
       "cashAndEquivalents": 12888393889.29,
       "totalDebt": null,
       "operatingCashFlow": 6201476519.57,
       "capex": -1731913788.52,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 2.3,
+      "sharesOutstanding": 943800000,
+      "employees": 10062,
       "fiscalYear": 2010,
       "periodEnd": "2010-12-31",
       "standard": "PRC ASBEs",
@@ -689,7 +1041,37 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
         "document": "Kweichow Moutai Annual Report 2011",
-        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+        "page": "PDF pp.5–6, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF",
+            "page": "PDF p. 30",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF",
+            "page": "PDF p. 14",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF",
+            "page": "PDF p. 39",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+            "page": "PDF p. 41",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -703,7 +1085,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
-          "page": "PDF pp.47\u201349, consolidated cash-flow statement",
+          "page": "PDF pp.47–49, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -717,14 +1099,14 @@
       "netIncome": 4312446124.73,
       "dilutedEPS": 4.57,
       "totalAssets": 19769623147.72,
-      "totalEquity": null,
+      "totalEquity": 14465982843,
       "cashAndEquivalents": 9743152155.24,
       "totalDebt": null,
       "operatingCashFlow": 4223937144.19,
       "capex": -1356601530.09,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.185,
+      "sharesOutstanding": 943800000,
+      "employees": 9149,
       "fiscalYear": 2009,
       "periodEnd": "2009-12-31",
       "standard": "PRC ASBEs",
@@ -733,7 +1115,37 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
         "document": "Kweichow Moutai Annual Report 2009",
-        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+        "page": "PDF pp.4–5, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+            "page": "PDF p. 23",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+            "page": "PDF p. 10",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+            "page": "PDF p. 23",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF",
+            "page": "PDF p. 39",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -746,7 +1158,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
-          "page": "PDF pp.36\u201338, consolidated cash-flow statement",
+          "page": "PDF pp.36–38, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -760,14 +1172,14 @@
       "netIncome": 3799480558.51,
       "dilutedEPS": 4.03,
       "totalAssets": 15754187836.35,
-      "totalEquity": null,
+      "totalEquity": 11244569516,
       "cashAndEquivalents": 8093721891.16,
       "totalDebt": null,
       "operatingCashFlow": 5247488535.74,
       "capex": -1010735786.04,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.156,
+      "sharesOutstanding": 943800000,
+      "employees": 8363,
       "fiscalYear": 2008,
       "periodEnd": "2008-12-31",
       "standard": "PRC ASBEs",
@@ -776,7 +1188,37 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
         "document": "Kweichow Moutai Annual Report 2009",
-        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+        "page": "PDF pp.4–5, three-year accounting data and indicators",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2009-03-25/50486330.PDF",
+            "page": "PDF p. 22",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2009-03-25/50486330.PDF",
+            "page": "PDF p. 11",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2009-03-25/50486330.PDF",
+            "page": "PDF p. 22",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+            "page": "PDF p. 31",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -789,7 +1231,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
-          "page": "PDF pp.36\u201338, consolidated cash-flow statement",
+          "page": "PDF pp.36–38, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -808,9 +1250,9 @@
       "totalDebt": null,
       "operatingCashFlow": 1743303211.38,
       "capex": -772456652.49,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.836,
+      "sharesOutstanding": 943800000,
+      "employees": 7306,
       "fiscalYear": 2007,
       "periodEnd": "2007-12-31",
       "standard": "PRC ASBEs",
@@ -819,7 +1261,30 @@
       "source": {
         "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
         "document": "Kweichow Moutai Annual Report2009",
-        "page": "PDF pp.4\u20135, FY2007 column"
+        "page": "PDF pp.4–5, FY2007 column",
+        "supplementalSources": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF",
+            "page": "PDF p. 25",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF",
+            "page": "PDF p. 12",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF",
+            "page": "PDF p. 25",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -833,7 +1298,7 @@
         },
         {
           "url": "https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF",
-          "page": "PDF pp.36\u201336, consolidated cash-flow statement",
+          "page": "PDF pp.36–36, consolidated cash-flow statement",
           "fields": [
             "capex",
             "cashAndEquivalents"
@@ -843,31 +1308,92 @@
     }
   ],
   "gaps": [
-    "FY2007: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2008: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2009: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2010: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2011: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2012: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2013: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2014: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2015: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2016: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2017: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2018: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2019: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2020: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2021: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2022: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2023: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2024: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
-    "FY2025: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents."
+    "FY2025 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2024 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2023 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2022 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2021 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2020 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2019 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2018 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2017 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2016 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2015 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2014 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2013 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2012 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2011 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2010 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2009 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2008 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed",
+    "FY2007 totalDebt: cannot exist: Company prints no total borrowings/debt line in any year: balance sheet lists short-term borrowings, long-term borrowings, bonds payable and lease liabilities separately; not summed"
   ],
   "notes": [
     "All financial statement amounts are original full CNY units; no aggregation, estimation or interpolation. Accounting standard is the PRC Accounting Standards for Business Enterprises, first adopted2007; earlier comparative reclassifications do not change the year dates.",
-    "revenue is Operating revenue(\u8425\u4e1a\u6536\u5165) from the issuer three-year key-data table. It excludes separately reported interest and other income of the finance subsidiary; providers using total operating income may differ. operatingIncome is the consolidated PRC operating profit line, not an adjusted EBITDA measure.",
+    "revenue is Operating revenue(营业收入) from the issuer three-year key-data table. It excludes separately reported interest and other income of the finance subsidiary; providers using total operating income may differ. operatingIncome is the consolidated PRC operating profit line, not an adjusted EBITDA measure.",
     "netIncome is attributable to listed-company shareholders. totalEquity uses the explicitly published parent-equity aggregate; ambiguous early total-equity summary rows are not substituted.2021 and2022 use the2023 report explicitly restated deferred-tax comparatives under Accounting Standards Interpretation16.",
     "capex is the company-published combined purchase of fixed assets, intangible assets and other long-term assets, stored negative. Cash and equivalents is from the consolidated cash-flow statement, not the broader monetary-funds balance. Finance subsidiary deposit flows can materially affect operating cash flow.",
-    "Dividends, total debt, shares outstanding and employees are null where compatible direct annual values were not extracted; no issued-minus-treasury calculation, debt component sum or inferred zero is used. EPS retains the published split/bonus-share basis of the cited report rather than applying an unsourced adjustment."
+    "Dividends, total debt, shares outstanding and employees are null where compatible direct annual values were not extracted; no issued-minus-treasury calculation, debt component sum or inferred zero is used. EPS retains the published split/bonus-share basis of the cited report rather than applying an unsourced adjustment.",
+    "FY2025 dividendPerShare: 27.993 (units) from https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF PDF p. 2 — Proposal for FY2025: RMB 27.993 per share (printed; 279.93 per 10 in the distribution table); the RMB 239.57 per 10 interim (2025) is excluded",
+    "FY2024 dividendPerShare: 27.624 (units) from https://static.cninfo.com.cn/finalpage/2025-04-03/1222993920.PDF PDF p. 2 — Proposal for FY2024: RMB 276.24 per 10 shares (printed), i.e. 27.624 per share; the RMB 238.82 per 10 interim (2024) is excluded",
+    "FY2023 dividendPerShare: 30.876 (units) from https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF PDF p. 2 — Proposal for FY2023: RMB 308.76 per 10 shares (printed), i.e. 30.876 per share; the RMB 191.06 per 10 interim paid in 2023 is excluded",
+    "FY2022 dividendPerShare: 25.911 (units) from https://static.cninfo.com.cn/finalpage/2023-03-31/1216281757.PDF PDF p. 2 — Proposal for FY2022: RMB 259.11 per 10 shares (printed), i.e. 25.911 per share; the RMB 219.1 per 10 special dividend in 2022 is excluded (not ordinary)",
+    "FY2021 dividendPerShare: 21.675 (units) from https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF PDF p. 2 — Proposal for FY2021: CNY 216.75 per 10 shares (printed), i.e. 21.675 per share",
+    "FY2020 dividendPerShare: 19.293 (units) from https://static.cninfo.com.cn/finalpage/2021-03-31/1209495421.PDF PDF p. 2 — Proposal for FY2020: RMB 192.93 per 10 shares (printed), i.e. 19.293 per share",
+    "FY2019 dividendPerShare: 17.025 (units) from https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF PDF p. 2 — Proposal for FY2019: RMB 170.25 per 10 shares (printed), i.e. 17.025 per share",
+    "FY2018 dividendPerShare: 14.539 (units) from https://static.cninfo.com.cn/finalpage/2019-03-29/1205958206.PDF PDF p. 2 — Proposal for FY2018: RMB 145.39 per 10 shares (printed), i.e. 14.539 per share",
+    "FY2017 dividendPerShare: 10.999 (units) from https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF PDF p. 1 — Proposal for FY2017: RMB 109.99 per 10 shares (printed), i.e. 10.999 per share",
+    "FY2016 dividendPerShare: 6.787 (units) from https://static.cninfo.com.cn/finalpage/2017-04-15/1203301659.PDF PDF p. 1 — Proposal for FY2016: RMB 67.87 per 10 shares (printed), i.e. 6.787 per share",
+    "FY2015 dividendPerShare: 6.171 (units) from https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF PDF p. 1 — Proposal for FY2015: RMB 61.71 per 10 shares (printed), i.e. 6.171 per share",
+    "FY2014 dividendPerShare: 4.374 (units) from https://static.cninfo.com.cn/finalpage/2015-04-21/1200877315.PDF PDF p. 1 — Proposal for FY2014: cash RMB 43.74 per 10 shares (printed), i.e. 4.374 per share; also 1 bonus share per 10",
+    "FY2013 dividendPerShare: 4.374 (units) from https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF PDF p. 2 — Proposal for FY2013: cash RMB 43.74 per 10 shares (printed), i.e. 4.374 per share; also 1 bonus share per 10",
+    "FY2012 dividendPerShare: 6.419 (units) from https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF PDF p. 2 — Proposal for FY2012: RMB 64.19 per 10 shares (printed), i.e. 6.419 per share",
+    "FY2011 dividendPerShare: 3.997 (units) from https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF PDF p. 32 — Proposal for FY2011: RMB 39.97 per 10 shares (printed), i.e. 3.997 per share",
+    "FY2010 dividendPerShare: 2.3 (units) from https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF PDF p. 30 — Proposal for FY2010: cash RMB 23 per 10 shares (printed), i.e. 2.3 per share; also 1 bonus share per 10",
+    "FY2009 dividendPerShare: 1.185 (units) from https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF PDF p. 23 — Proposal for FY2009: RMB 11.85 per 10 shares (printed), i.e. 1.185 per share",
+    "FY2008 dividendPerShare: 1.156 (units) from https://static.cninfo.com.cn/finalpage/2009-03-25/50486330.PDF PDF p. 22 — Proposal for FY2008: RMB 11.56 per 10 shares (printed), i.e. 1.156 per share",
+    "FY2007 dividendPerShare: 0.836 (units) from https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF PDF p. 25 — Proposal for FY2007: RMB 8.36 per 10 shares (printed), i.e. 0.836 per share",
+    "FY2025 employees: 34,992 (units) from https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF PDF p. 37 — Total Number of Employees (parent 33,504 + main subsidiary 1,488, year end)",
+    "FY2024 employees: 34,750 (units) from https://static.cninfo.com.cn/finalpage/2025-04-03/1222993920.PDF PDF p. 33 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2023 employees: 33,302 (units) from https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF PDF p. 43 — Total number of current employees (parent + main subsidiaries, year end)",
+    "FY2022 employees: 31,413 (units) from https://static.cninfo.com.cn/finalpage/2023-03-31/1216281757.PDF PDF p. 30 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2021 employees: 29,971 (units) from https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF PDF p. 37 — Total number of current employees (parent + main subsidiaries, year end)",
+    "FY2020 employees: 29,031 (units) from https://static.cninfo.com.cn/finalpage/2021-03-31/1209495421.PDF PDF p. 41 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2019 employees: 27,005 (units) from https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF PDF p. 45 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2018 employees: 26,568 (units) from https://static.cninfo.com.cn/finalpage/2019-03-29/1205958206.PDF PDF p. 44 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2017 employees: 24,029 (units) from https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF PDF p. 38 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2016 employees: 21,237 (units) from https://static.cninfo.com.cn/finalpage/2017-04-15/1203301659.PDF PDF p. 36 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2015 employees: 21,115 (units) from https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF PDF p. 32 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2014 employees: 17,487 (units) from https://static.cninfo.com.cn/finalpage/2015-04-21/1200877315.PDF PDF p. 31 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2013 employees: 16,800 (units) from https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF PDF p. 35 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2012 employees: 13,717 (units) from https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF PDF p. 35 — 在职员工的数量合计 (consolidated total, year end)",
+    "FY2011 employees: 11,456 (units) from https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF PDF p. 14 — 在职员工总数 (employees on duty, year end)",
+    "FY2010 employees: 10,062 (units) from https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF PDF p. 14 — 在职员工总数 (employees on duty, year end)",
+    "FY2009 employees: 9,149 (units) from https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF PDF p. 10 — 在职员工总数 (employees on duty, year end)",
+    "FY2008 employees: 8,363 (units) from https://static.cninfo.com.cn/finalpage/2009-03-25/50486330.PDF PDF p. 11 — 在职员工总数 (employees on duty, year end)",
+    "FY2007 employees: 7,306 (units) from https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF PDF p. 12 — Company employees on duty at period end (sentence in 2007 report; no consolidated total line in this report)",
+    "FY2025 sharesOutstanding: 1,252,270,215 (units) from https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF PDF p. 75 — Share capital at 31 Dec 2025 per balance sheet (after cancelling 3,927,585 repurchased shares). Treasury: 794,176 repurchase-account shares printed at 31 Mar 2026, year-end count not printed, not deducted",
+    "FY2024 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2025-04-03/1222993920.PDF PDF p. 49 — Share capital unchanged in 2024 (printed 1,256,197,800). Treasury: 1,082,700 repurchase-account shares printed at 31 Mar 2025, year-end treasury count not printed, not deducted",
+    "FY2023 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF PDF p. 2 — Total capital at end of 2023 printed as 1,256,197,800 shares",
+    "FY2022 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2023-03-31/1216281757.PDF PDF p. 2 — Total capital at 31 Dec 2022 printed as 125,619.78万 shares",
+    "FY2021 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF PDF p. 2 — Total capital at end of 2021 printed as 1,256,197,800 shares",
+    "FY2020 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2021-03-31/1209495421.PDF PDF p. 2 — Year-end total share capital 125,619.78万 shares (printed in 2020 proposal)",
+    "FY2019 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF PDF p. 2 — Year-end total share capital 125,619.78万 shares (printed in 2019 proposal)",
+    "FY2018 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2019-03-29/1205958206.PDF PDF p. 2 — Year-end total share capital 125,619.78万 shares (printed in 2018 proposal)",
+    "FY2017 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF PDF p. 1 — Year-end total share capital 125,619.78万 shares (printed in 2017 proposal)",
+    "FY2016 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2017-04-15/1203301659.PDF PDF p. 1 — Year-end total share capital 125,619.78万 shares (printed in 2016 proposal)",
+    "FY2015 sharesOutstanding: 1,256,197,800 (units) from https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF PDF p. 1 — Year-end total share capital 125,619.78万 shares (printed in 2015 proposal)",
+    "FY2014 sharesOutstanding: 1,141,998,000 (units) from https://static.cninfo.com.cn/finalpage/2015-04-21/1200877315.PDF PDF p. 1 — Year-end total share capital 114,199.80万 shares (printed in 2014 proposal); 2015 AR comparative column agrees",
+    "FY2013 sharesOutstanding: 1,038,180,000 (units) from https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF PDF p. 2 — Year-end total share capital 103,818万 shares (printed in 2013 proposal)",
+    "FY2012 sharesOutstanding: 1,038,180,000 (units) from https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF PDF p. 2 — Year-end total share capital 103,818万 shares (printed in 2012 proposal)",
+    "FY2011 sharesOutstanding: 1,038,180,000 (units) from https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF PDF p. 32 — Year-end total share capital 103,818万 shares (printed in 2011 proposal); bonus shares from 2010 plan",
+    "FY2010 sharesOutstanding: 943,800,000 (units) from https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF PDF p. 39 — Share capital (实收资本) at 31 Dec 2010 per balance sheet; the 1-for-10 bonus issue came in 2011",
+    "FY2009 sharesOutstanding: 943,800,000 (units) from https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF PDF p. 23 — Year-end total share capital 94,380万 shares (printed in 2009 proposal)",
+    "FY2008 sharesOutstanding: 943,800,000 (units) from https://static.cninfo.com.cn/finalpage/2009-03-25/50486330.PDF PDF p. 22 — Year-end total share capital 94,380万 shares (printed in 2008 proposal)",
+    "FY2007 sharesOutstanding: 943,800,000 (units) from https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF PDF p. 25 — Year-end total share capital 94,380万 shares (printed in 2007 proposal)",
+    "FY2011 totalEquity: 24,991,179,971.03 (units) from https://static.cninfo.com.cn/finalpage/2013-03-29/62296687.PDF PDF p. 7 — Equity attributable to owners of parent, 2011 comparative in 2012 AR summary; same figure in 2011 AR",
+    "FY2010 totalEquity: 18,398,774,060.80 (units) from https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF PDF p. 41 — Equity attributable to owners of parent, 2010 comparative column of 2011 AR balance sheet; same figure in 2010 AR",
+    "FY2009 totalEquity: 14,465,982,842.81 (units) from https://static.cninfo.com.cn/finalpage/2011-04-09/59243061.PDF PDF p. 39 — Equity attributable to owners of parent, 2009 comparative column of 2010 AR (revised) balance sheet; same figure in 2009 AR",
+    "FY2008 totalEquity: 11,244,569,516.47 (units) from https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF PDF p. 31 — Equity attributable to owners of parent (归属于母公司所有者权益合计), 2008 column of 2009 AR balance sheet; same figure in 2008 AR"
   ]
 }

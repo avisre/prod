@@ -95,14 +95,24 @@
    "totalDebt": null,
    "operatingCashFlow": 322843000000,
    "capex": -22190000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 186.0,
    "sharesOutstanding": 1298690000,
    "employees": 7317,
    "restated": false,
    "source": {
     "url": "https://www.nintendo.co.jp/ir/pdf/2024/240507e.pdf",
     "document": "Nintendo Consolidated Financial Statements (full-year earnings release) 240507; net sales/operating profit/profit from Historical Data 'Consolidated Statements of Income Transition' (https://www.nintendo.co.jp/ir/finance/historical_data/xls/consolidated_pl_e2603.xls); employees from https://www.nintendo.co.jp/ir/pdf/2026/annual2603e.pdf (key-indicator 5-year table)",
-    "page": "p.1 highlights (EPS, assets, cash flows, dividends); balance sheet and cash flow statement pages; shares outstanding in notes p.2"
+    "page": "p.1 highlights (EPS, assets, cash flows, dividends); balance sheet and cash flow statement pages; shares outstanding in notes p.2",
+    "supplementalSources": [
+     {
+      "url": "https://www.nintendo.co.jp/ir/pdf/2023/annual2303e.pdf",
+      "page": "PDF p. 34",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -482,8 +492,25 @@
   }
  ],
  "gaps": [
-  "totalDebt FY2008-FY2026: Nintendo has no interest-bearing borrowings on its consolidated balance sheet (left null)",
-  "dividendPerShare FY2023: 10-for-1 split on 2022-10-01; company printed interim 630 yen (pre-split) and year-end 123 yen (post-split) and no annual total"
+  "FY2026 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2025 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2024 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2023 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2022 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2021 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2020 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2019 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2018 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2017 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2016 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2015 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2014 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2013 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2012 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2011 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2010 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2009 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded.",
+  "FY2008 totalDebt: cannot exist: Nintendo has no borrowings: consolidated balance sheets in the earnings releases for FY3/2008 through FY3/2026 (releases for FY2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024, 2026, each showing two years) print no bank loan, bond or borrowings line. The only 'borrowings/loans from subsidiaries' lines (FY2018-FY2022 releases, p.13-14) are intercompany and excluded."
  ],
  "notes": [
   "J-GAAP for all years.",
@@ -493,6 +520,7 @@
   "capex = 'Purchase of property, plant and equipment and intangible assets' (combined line) from FY2013; FY2008-FY2012 the release shows 'Purchase of property, plant and equipment' only.",
   "cashAndEquivalents = cash and cash equivalents at end of period (cash flow statement), much smaller than cash+deposits+securities on the balance sheet.",
   "sharesOutstanding = shares issued including treasury shares, as printed in the release notes.",
-  "employees = consolidated number of employees (persons employed) from the securities report / annual report key-indicators table."
+  "employees = consolidated number of employees (persons employed) from the securities report / annual report key-indicators table.",
+  "FY2023 dividendPerShare: 186 (units) from https://www.nintendo.co.jp/ir/pdf/2023/annual2303e.pdf PDF p. 34 — FY ended 31 Mar 2023 annual report, dividend policy text: 'the annual dividend per share would be 186 yen (interim: 63 yen, year-end: 123 yen)' on a split-adjusted basis; the release prints only 630.00 (pre-split interim) and 123.00 and no annual total (FY2024 release p.1 shows annual '-')"
  ]
 }

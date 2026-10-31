@@ -17,17 +17,40 @@
    "totalAssets": 142199000000,
    "totalEquity": 33606000000,
    "cashAndEquivalents": 2945000000,
-   "totalDebt": null,
+   "totalDebt": 41486000000,
    "operatingCashFlow": 5642000000,
    "capex": -5932000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.17,
    "sharesOutstanding": 13011865,
-   "employees": null,
+   "employees": 80423,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf",
     "document": "Glencore Annual Report 2025",
-    "page": "PDF pp. 138, 140, 141, 146, 193"
+    "page": "PDF pp. 138, 140, 141, 146, 193",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf",
+      "page": "PDF p. 48",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf",
+      "page": "PDF p. 193",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf",
+      "page": "PDF p. 43",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -42,17 +65,40 @@
    "totalAssets": 130460000000,
    "totalEquity": 35660000000,
    "cashAndEquivalents": 2389000000,
-   "totalDebt": null,
+   "totalDebt": 38107000000,
    "operatingCashFlow": 10055000000,
    "capex": -5611000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.1,
    "sharesOutstanding": 13450000000,
-   "employees": null,
+   "employees": 84146,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf",
     "document": "Glencore Annual Report 2025 (prior-year column)",
-    "page": "PDF pp. 138, 140, 141, 146, 193"
+    "page": "PDF pp. 138, 140, 141, 146, 193",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/7a4295e4-3674-45e9-94c4-7d7fb285faff/GLEN-2024-Annual-Report.pdf",
+      "page": "PDF p. 65",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/7a4295e4-3674-45e9-94c4-7d7fb285faff/GLEN-2024-Annual-Report.pdf",
+      "page": "PDF p. 138",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/7a4295e4-3674-45e9-94c4-7d7fb285faff/GLEN-2024-Annual-Report.pdf",
+      "page": "PDF p. 60",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -67,17 +113,33 @@
    "totalAssets": 123869000000,
    "totalEquity": 38237000000,
    "cashAndEquivalents": 1925000000,
-   "totalDebt": null,
+   "totalDebt": 32241000000,
    "operatingCashFlow": 11036000000,
    "capex": -4484000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.13,
    "sharesOutstanding": 13550000,
    "employees": 83426,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/static/7a4295e4-3674-45e9-94c4-7d7fb285faff/GLEN-2024-Annual-Report.pdf",
     "document": "Glencore Annual Report 2024 (prior-year column)",
-    "page": "PDF pp. 161, 163, 164, 165, 169, 217"
+    "page": "PDF pp. 161, 163, 164, 165, 169, 217",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/d09d8212-4a9f-4034-b2d4-49152e5a0aff/GLEN-2023-Annual-Report.pdf",
+      "page": "PDF p. 84",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/static/d09d8212-4a9f-4034-b2d4-49152e5a0aff/GLEN-2023-Annual-Report.pdf",
+      "page": "PDF p. 163",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -92,17 +154,33 @@
    "totalAssets": 132583000000,
    "totalEquity": 45219000000,
    "cashAndEquivalents": 1923000000,
-   "totalDebt": null,
+   "totalDebt": 28777000000,
    "operatingCashFlow": 13659000000,
    "capex": -4177000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.44,
    "sharesOutstanding": 13800000000,
    "employees": 140000,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/static/d09d8212-4a9f-4034-b2d4-49152e5a0aff/GLEN-2023-Annual-Report.pdf",
     "document": "Glencore Annual Report 2023 (prior-year column)",
-    "page": "PDF pp. 182, 184, 185, 186, 204, 242"
+    "page": "PDF pp. 182, 184, 185, 186, 204, 242",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/ded10fa92974aa388a43aa9f86f483e9/GLEN-2022-Annual-Report.pdf",
+      "page": "PDF p. 72",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/ded10fa92974aa388a43aa9f86f483e9/GLEN-2022-Annual-Report.pdf",
+      "page": "PDF p. 219",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -117,17 +195,33 @@
    "totalAssets": 127510000000,
    "totalEquity": 36917000000,
    "cashAndEquivalents": 3241000000,
-   "totalDebt": null,
+   "totalDebt": 34641000000,
    "operatingCashFlow": 8860000000,
    "capex": -3618000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.26,
    "sharesOutstanding": 14586200066,
    "employees": 81284,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/ded10fa92974aa388a43aa9f86f483e9/GLEN-2022-Annual-Report.pdf",
     "document": "Glencore Annual Report 2022 (prior-year column)",
-    "page": "PDF pp. 160, 162, 163, 164, 182, 219"
+    "page": "PDF pp. 160, 162, 163, 164, 182, 219",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20230521145723id_/https://www.glencore.com/dam/jcr:aab67399-639f-4cb2-be57-b3a66f8a91d6/GLEN-2021-annual-report.pdf",
+      "page": "PDF p. 52",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20230521145723id_/https://www.glencore.com/dam/jcr:aab67399-639f-4cb2-be57-b3a66f8a91d6/GLEN-2021-annual-report.pdf",
+      "page": "PDF p. 120",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -142,17 +236,34 @@
    "totalAssets": 118000000000,
    "totalEquity": 34402000000,
    "cashAndEquivalents": 1498000000,
-   "totalDebt": null,
+   "totalDebt": 37479000000,
    "operatingCashFlow": 2664000000,
    "capex": -3569000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.16,
    "sharesOutstanding": 14586200066,
    "employees": 87822,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20230521145723id_/https://www.glencore.com/dam/jcr:aab67399-639f-4cb2-be57-b3a66f8a91d6/GLEN-2021-annual-report.pdf",
     "document": "Glencore Annual Report 2021 (prior-year column)",
-    "page": "PDF pp. 145, 147, 148, 153, 197, 200"
+    "page": "PDF pp. 145, 147, 148, 153, 197, 200",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20210317001712id_/https://www.glencore.com/dam/jcr:e03a8caf-f2aa-46ad-81c5-821719caf5bf/glen-2020-annual-report-.pdf",
+      "page": "PDF p. 52",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/20230521145723id_/https://www.glencore.com/dam/jcr:aab67399-639f-4cb2-be57-b3a66f8a91d6/GLEN-2021-annual-report.pdf",
+      "page": "PDF p. 120",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -167,17 +278,40 @@
    "totalAssets": 124076000000,
    "totalEquity": 39236000000,
    "cashAndEquivalents": 1899000000,
-   "totalDebt": null,
+   "totalDebt": 37043000000,
    "operatingCashFlow": 8729000000,
    "capex": -4712000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.2,
    "sharesOutstanding": 14586200,
-   "employees": null,
+   "employees": 89092,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20210317001712id_/https://www.glencore.com/dam/jcr:e03a8caf-f2aa-46ad-81c5-821719caf5bf/glen-2020-annual-report-.pdf",
     "document": "Glencore Annual Report 2020 (prior-year column)",
-    "page": "PDF pp. 135, 137, 138, 139, 140, 149"
+    "page": "PDF pp. 135, 137, 138, 139, 140, 149",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/5a08fe1942f92df7f2301ac3681e23aa/glen-2019-annual-report-interactive.pdf",
+      "page": "PDF p. 54",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/5a08fe1942f92df7f2301ac3681e23aa/glen-2019-annual-report-interactive.pdf",
+      "page": "PDF p. 124",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/5a08fe1942f92df7f2301ac3681e23aa/glen-2019-annual-report-interactive.pdf",
+      "page": "PDF p. 35",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -192,17 +326,33 @@
    "totalAssets": 128672000000,
    "totalEquity": 45383000000,
    "cashAndEquivalents": 2046000000,
-   "totalDebt": null,
+   "totalDebt": 34994000000,
    "operatingCashFlow": 11559000000,
    "capex": -4687000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.2,
    "sharesOutstanding": 14586200066,
    "employees": 158000,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/5a08fe1942f92df7f2301ac3681e23aa/glen-2019-annual-report-interactive.pdf",
     "document": "Glencore Annual Report 2019 (prior-year column)",
-    "page": "PDF pp. 141, 143, 144, 145, 159, 190"
+    "page": "PDF pp. 141, 143, 144, 145, 159, 190",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/86c793f0e276ae24d427d194c0d62b24/glen-2018-annual-report--.pdf",
+      "page": "PDF p. 58",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/86c793f0e276ae24d427d194c0d62b24/glen-2018-annual-report--.pdf",
+      "page": "PDF p. 61",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -217,17 +367,33 @@
    "totalAssets": 135593000000,
    "totalEquity": 49455000000,
    "cashAndEquivalents": 2124000000,
-   "totalDebt": null,
+   "totalDebt": 33934000000,
    "operatingCashFlow": 4817000000,
    "capex": -3586000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.2,
    "sharesOutstanding": 14586200000,
    "employees": 146000,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/86c793f0e276ae24d427d194c0d62b24/glen-2018-annual-report--.pdf",
     "document": "Glencore Annual Report 2018 (prior-year column)",
-    "page": "PDF pp. 137, 139, 140, 141, 144, 180"
+    "page": "PDF pp. 137, 139, 140, 141, 144, 180",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/94c45f6e64e01219136c6965f953a058/glen-2017-annual-report.pdf",
+      "page": "PDF p. 60",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/94c45f6e64e01219136c6965f953a058/glen-2017-annual-report.pdf",
+      "page": "PDF p. 110",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -242,17 +408,33 @@
    "totalAssets": 124600000000,
    "totalEquity": 43781000000,
    "cashAndEquivalents": 2518000000,
-   "totalDebt": null,
+   "totalDebt": 33218000000,
    "operatingCashFlow": 4833000000,
    "capex": -3048000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.07,
    "sharesOutstanding": 14586200,
    "employees": null,
    "restated": true,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/94c45f6e64e01219136c6965f953a058/glen-2017-annual-report.pdf",
     "document": "Glencore Annual Report 2017 (prior-year column)",
-    "page": "PDF pp. 126, 128, 129, 136, 182"
+    "page": "PDF pp. 126, 128, 129, 136, 182",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/d523912ae57caadd08fb3384fc545729/GLEN-2016-Annual-Report.pdf",
+      "page": "PDF p. 52",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/d523912ae57caadd08fb3384fc545729/GLEN-2016-Annual-Report.pdf",
+      "page": "PDF p. 112",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -267,17 +449,33 @@
    "totalAssets": 128485000000,
    "totalEquity": 41343000000,
    "cashAndEquivalents": 2707000000,
-   "totalDebt": null,
+   "totalDebt": 44049000000,
    "operatingCashFlow": 13218000000,
    "capex": -5372000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.06,
    "sharesOutstanding": 14586200066,
    "employees": 203637,
    "restated": true,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/5f125eeeeccd6ecf6288f4e8fe8a4bd5/GLEN-2015-Annual-Report.pdf",
     "document": "Glencore Annual Report 2015",
-    "page": "PDF pp. 112, 114, 115, 116, 123, 149"
+    "page": "PDF pp. 112, 114, 115, 116, 123, 149",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/5f125eeeeccd6ecf6288f4e8fe8a4bd5/GLEN-2015-Annual-Report.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/5f125eeeeccd6ecf6288f4e8fe8a4bd5/GLEN-2015-Annual-Report.pdf",
+      "page": "PDF p. 149",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -292,17 +490,33 @@
    "totalAssets": 152205000000,
    "totalEquity": 51480000000,
    "cashAndEquivalents": 2824000000,
-   "totalDebt": null,
+   "totalDebt": 52693000000,
    "operatingCashFlow": 8136000000,
    "capex": -7854000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.18,
    "sharesOutstanding": 13278405,
    "employees": 181349,
    "restated": true,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/5f125eeeeccd6ecf6288f4e8fe8a4bd5/GLEN-2015-Annual-Report.pdf",
     "document": "Glencore Annual Report 2015 (prior-year column)",
-    "page": "PDF pp. 112, 114, 115, 116, 123, 149"
+    "page": "PDF pp. 112, 114, 115, 116, 123, 149",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/bcc3565e83ebfba3196edf8ce30e6640/GLEN-2014-Annual-Report.pdf",
+      "page": "PDF p. 40",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/bcc3565e83ebfba3196edf8ce30e6640/GLEN-2014-Annual-Report.pdf",
+      "page": "PDF p. 107",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -317,17 +531,34 @@
    "totalAssets": 154862000000,
    "totalEquity": 49313000000,
    "cashAndEquivalents": 2849000000,
-   "totalDebt": null,
+   "totalDebt": 55173000000,
    "operatingCashFlow": 9184000000,
    "capex": -8390000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.165,
    "sharesOutstanding": 13278405466,
    "employees": 18306,
    "restated": true,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/330f9c2a1ba02dd35a6365724ea45aa2/GLEN-2013-Annual-Report.pdf",
     "document": "Glencore Annual Report 2013",
-    "page": "PDF pp. 37, 124, 126, 127, 128, 171"
+    "page": "PDF pp. 37, 124, 126, 127, 128, 171",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/bcc3565e83ebfba3196edf8ce30e6640/GLEN-2014-Annual-Report.pdf",
+      "page": "PDF p. 40",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/330f9c2a1ba02dd35a6365724ea45aa2/GLEN-2013-Annual-Report.pdf",
+      "page": "PDF p. 110",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -342,17 +573,33 @@
    "totalAssets": 105564000000,
    "totalEquity": 34300000000,
    "cashAndEquivalents": 2782000000,
-   "totalDebt": null,
+   "totalDebt": 35526000000,
    "operatingCashFlow": 4381000000,
    "capex": -2970000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.1575,
    "sharesOutstanding": 7099456,
    "employees": null,
    "restated": false,
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/330f9c2a1ba02dd35a6365724ea45aa2/GLEN-2013-Annual-Report.pdf",
     "document": "Glencore Annual Report 2013 (prior-year column)",
-    "page": "PDF pp. 37, 124, 126, 127, 128, 171"
+    "page": "PDF pp. 37, 124, 126, 127, 128, 171",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/d7dd4ddf32d4cc354fea7a2849389fba/GLEN-Annual-Report-2012.pdf",
+      "page": "PDF p. 41",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/d7dd4ddf32d4cc354fea7a2849389fba/GLEN-Annual-Report-2012.pdf",
+      "page": "PDF p. 9",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -367,7 +614,7 @@
    "totalAssets": 86165000000,
    "totalEquity": 32335000000,
    "cashAndEquivalents": 1305000000,
-   "totalDebt": null,
+   "totalDebt": 28068000000,
    "operatingCashFlow": -343000000,
    "capex": -2606000000,
    "dividendPerShare": null,
@@ -377,7 +624,17 @@
    "source": {
     "url": "https://www.glencore.com/.rest/api/v1/documents/d7dd4ddf32d4cc354fea7a2849389fba/GLEN-Annual-Report-2012.pdf",
     "document": "Glencore Annual Report 2012 (prior-year column)",
-    "page": "PDF pp. 20, 41, 110, 112, 113, 139"
+    "page": "PDF pp. 20, 41, 110, 112, 113, 139",
+    "supplementalSources": [
+     {
+      "url": "https://www.glencore.com/.rest/api/v1/documents/d7dd4ddf32d4cc354fea7a2849389fba/GLEN-Annual-Report-2012.pdf",
+      "page": "PDF p. 41",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -392,7 +649,7 @@
    "totalAssets": 79787000000,
    "totalEquity": 8318000000,
    "cashAndEquivalents": 1463000000,
-   "totalDebt": null,
+   "totalDebt": 30616000000,
    "operatingCashFlow": 111000000,
    "capex": -1890000000,
    "dividendPerShare": null,
@@ -402,7 +659,16 @@
    "source": {
     "url": "https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf",
     "document": "Glencore Annual Report 2010",
-    "page": "PDF pp. 143, 178, 198, 199, 412"
+    "page": "PDF pp. 143, 178, 198, 199, 412",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf",
+      "page": "PDF p. 145",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   },
   {
@@ -417,7 +683,7 @@
    "totalAssets": 66276000000,
    "totalEquity": 5699000000,
    "cashAndEquivalents": 860000000,
-   "totalDebt": null,
+   "totalDebt": 24066000000,
    "operatingCashFlow": -3010000000,
    "capex": -1343000000,
    "dividendPerShare": null,
@@ -427,7 +693,16 @@
    "source": {
     "url": "https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf",
     "document": "Glencore Annual Report 2010 (prior-year column)",
-    "page": "PDF pp. 143, 178, 198, 199, 412"
+    "page": "PDF pp. 143, 178, 198, 199, 412",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf",
+      "page": "PDF p. 145",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   },
   {
@@ -442,7 +717,7 @@
    "totalAssets": 61311000000,
    "totalEquity": 2801000000,
    "cashAndEquivalents": 826000000,
-   "totalDebt": null,
+   "totalDebt": 18316000000,
    "operatingCashFlow": 5960000000,
    "capex": -1823000000,
    "dividendPerShare": 13.33,
@@ -452,81 +727,54 @@
    "source": {
     "url": "https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf",
     "document": "Glencore plc (reviewed)",
-    "page": "PDF p. 196"
+    "page": "PDF p. 196",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf",
+      "page": "PDF p. 145",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2007: no annual report obtained",
-  "FY2025 operatingIncome: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 dividendPerShare: not found in the reports read",
-  "FY2025 employees: not found in the reports read",
-  "FY2024 operatingIncome: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2024 dividendPerShare: not found in the reports read",
-  "FY2024 employees: not found in the reports read",
-  "FY2023 operatingIncome: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2023 dividendPerShare: not found in the reports read",
-  "FY2022 operatingIncome: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 dividendPerShare: not found in the reports read",
-  "FY2021 operatingIncome: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2021 dividendPerShare: not found in the reports read",
-  "FY2020 operatingIncome: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2020 dividendPerShare: not found in the reports read",
-  "FY2019 operatingIncome: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 dividendPerShare: not found in the reports read",
-  "FY2019 employees: not found in the reports read",
-  "FY2018 operatingIncome: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2018 dividendPerShare: not found in the reports read",
-  "FY2017 operatingIncome: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2017 dividendPerShare: not found in the reports read",
-  "FY2016 operatingIncome: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 dividendPerShare: not found in the reports read",
-  "FY2016 employees: not found in the reports read",
-  "FY2015 operatingIncome: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2015 dividendPerShare: not found in the reports read",
-  "FY2014 operatingIncome: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2014 dividendPerShare: not found in the reports read",
-  "FY2013 operatingIncome: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 dividendPerShare: not found in the reports read",
-  "FY2012 operatingIncome: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2012 dividendPerShare: not found in the reports read",
-  "FY2012 employees: not found in the reports read",
-  "FY2011 operatingIncome: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2011 dividendPerShare: not found in the reports read",
-  "FY2011 sharesOutstanding: not found in the reports read",
-  "FY2011 employees: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 dilutedEPS: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 dividendPerShare: not found in the reports read",
-  "FY2010 sharesOutstanding: not found in the reports read",
-  "FY2010 employees: not found in the reports read",
-  "FY2009 operatingIncome: not found in the reports read",
-  "FY2009 dilutedEPS: not found in the reports read",
-  "FY2009 totalDebt: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2009 sharesOutstanding: not found in the reports read",
-  "FY2009 employees: not found in the reports read",
-  "FY2008 operatingIncome: not found in the reports read",
-  "FY2008 dilutedEPS: not found in the reports read",
-  "FY2008 totalDebt: not found in the reports read",
-  "FY2008 sharesOutstanding: not found in the reports read",
-  "FY2008 employees: not found in the reports read"
+  "FY2025 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2024 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2023 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2022 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2021 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2020 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2019 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2018 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2017 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2016 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2016 employees: not found in the company's reports (2016 AR: only combined \"employees and contractors\" figures printed; no employees-only year-end count.)",
+  "FY2015 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2014 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2013 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2012 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2012 employees: not found in the company's reports (2012 AR: only combined \"employees and contractors\" figures printed; no employees-only year-end count.)",
+  "FY2011 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2011 dividendPerShare: not found in the company's reports (2011 AR copy truncated (unreadable). 2012 AR and prospectus: 2011 distributions printed only as components, no FY2011 total labelled for the year.)",
+  "FY2011 sharesOutstanding: not found in the company's reports (2011 AR copy truncated (unreadable). 2012 AR: no 31 December 2011 share count matched in the text. Only the post-offer share count is printed in the prospectus.)",
+  "FY2011 employees: not found in the company's reports (2011 AR copy truncated (unreadable). 2012 AR: no employees-only figure for 2011 found.)",
+  "FY2010 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2010 dilutedEPS: cannot exist: Prospectus (2011) p. 223: \"Earnings Per Share information is not presented on the grounds that the historical number of ordinary shares will have no relevance on completion of the Global Offer\". No EPS is printed for these years.",
+  "FY2010 dividendPerShare: not found in the company's reports (2011 IPO prospectus and 2012 AR: no FY2010 per-share total on the listed-share basis; only instalments or components are printed.)",
+  "FY2010 sharesOutstanding: not found in the company's reports (Same documents as 2008: only the post-offer share count is printed. No pre-IPO year-end count on the listed-share basis.)",
+  "FY2010 employees: not found in the company's reports (Prospectus: 54,884 is an industrial-assets subset (\"employed by Glencore's industrial assets\"), not the group total, so it is not used. No group employees-only count found.)",
+  "FY2009 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2009 dilutedEPS: cannot exist: Prospectus (2011) p. 223: \"Earnings Per Share information is not presented on the grounds that the historical number of ordinary shares will have no relevance on completion of the Global Offer\". No EPS is printed for these years.",
+  "FY2009 dividendPerShare: not found in the company's reports (2011 IPO prospectus: only the pre-IPO combined 2008/2009 figure (US$13.33 per share) on the pre-IPO share basis; the user brief says pre-IPO years have no listed-basis DPS. No listed-basis FY2009 figure in the available documents.)",
+  "FY2009 sharesOutstanding: not found in the company's reports (Same documents as 2008: only the post-offer share count (6,893,292,886) is printed. No pre-IPO year-end count on the listed-share basis.)",
+  "FY2009 employees: not found in the company's reports (2011 IPO prospectus and 2012 AR searched: no employees-only year-end count for 2009.)",
+  "FY2008 operatingIncome: cannot exist: No \"operating profit\" or \"operating income\" line in the consolidated income statement of any available report. The 2012-2025 ARs have no such line; the only \"operating profit\" line in the prospectus is Xstrata's summary table, not Glencore's. Glencore prints only non-GAAP Adjusted EBIT in its KPI section.",
+  "FY2008 dilutedEPS: cannot exist: Prospectus (2011) p. 223: \"Earnings Per Share information is not presented on the grounds that the historical number of ordinary shares will have no relevance on completion of the Global Offer\". No EPS is printed for these years.",
+  "FY2008 sharesOutstanding: not found in the company's reports (2011 IPO prospectus gives only the post-offer share count (6,893,292,886). The 2011 AR copy is truncated. No pre-IPO year-end count on the listed-share basis.)",
+  "FY2008 employees: not found in the company's reports (2011 IPO prospectus and 2012 AR searched: no employees-only year-end count for 2008. Only combined employees and contractors figures are printed.)"
  ],
  "notes": [
   "Listed May 2011; 2008-2010 come from the IPO prospectus and the 2011 annual report.",
@@ -540,6 +788,41 @@
   "FY2008 cashAndEquivalents: Balance sheet, Cash and cash equivalents (printed p. 195).",
   "FY2008 operatingCashFlow: Net cash generated/(used) by operating activities after working capital, net interest and income tax (printed p. 196).",
   "FY2008 capex: Purchase of property, plant and equipment (printed p. 196). Exploration and evaluation (52) not added.",
-  "FY2008 dividendPerShare: Note 2 to Statement of Changes in Equity: 'U.S.$13.33 per share (2009 and 2008)'. Pre-IPO per-share basis; not comparable with post-IPO figures."
+  "FY2008 dividendPerShare: Note 2 to Statement of Changes in Equity: 'U.S.$13.33 per share (2009 and 2008)'. Pre-IPO per-share basis; not comparable with post-IPO figures.",
+  "FY2008 totalDebt: 18,316 (million) from https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf PDF p. 145 — 2011 IPO prospectus, 'Financial information' table (Xstrata-style summary table is separate); row 'Gross debt (unaudited)', columns 2008/2009/2010. Securities filing, not an annual report.",
+  "FY2009 totalDebt: 24,066 (million) from https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf PDF p. 145 — Prospectus 'Gross debt (unaudited)' row, 2009 column.",
+  "FY2010 totalDebt: 30,616 (million) from https://web.archive.org/web/20220203082047id_/https://www.glencore.com/dam/jcr:268b58d2-61b8-44d1-997a-17e76bb66f93/Final-Prospectus-3-May-2011-lowres.pdf PDF p. 145 — Prospectus 'Gross debt (unaudited)' row, 2010 column.",
+  "FY2011 totalDebt: 28,068 (million) from https://www.glencore.com/.rest/api/v1/documents/d7dd4ddf32d4cc354fea7a2849389fba/GLEN-Annual-Report-2012.pdf PDF p. 41 — 2011 comparative 'Gross debt' line in 2012 AR. The 2011 AR copy in the folder is truncated and unreadable.",
+  "FY2012 totalDebt: 35 526 (million) from https://www.glencore.com/.rest/api/v1/documents/d7dd4ddf32d4cc354fea7a2849389fba/GLEN-Annual-Report-2012.pdf PDF p. 41 — 2012 AR 'Gross debt' line. The report prints the thousands separator as a space ('35 526').",
+  "FY2013 totalDebt: 55,173 (million) from https://www.glencore.com/.rest/api/v1/documents/bcc3565e83ebfba3196edf8ce30e6640/GLEN-2014-Annual-Report.pdf PDF p. 40 — 2014 AR 'Gross debt' prior-year column (restated). The 2013 AR prints 55,185.",
+  "FY2014 totalDebt: 52,693 (million) from https://www.glencore.com/.rest/api/v1/documents/bcc3565e83ebfba3196edf8ce30e6640/GLEN-2014-Annual-Report.pdf PDF p. 40 — 2014 AR 'Gross debt' line.",
+  "FY2015 totalDebt: 44,049 (million) from https://www.glencore.com/.rest/api/v1/documents/5f125eeeeccd6ecf6288f4e8fe8a4bd5/GLEN-2015-Annual-Report.pdf PDF p. 42 — 2015 AR 'Gross debt' line.",
+  "FY2016 totalDebt: 33,218 (million) from https://www.glencore.com/.rest/api/v1/documents/d523912ae57caadd08fb3384fc545729/GLEN-2016-Annual-Report.pdf PDF p. 52 — 2016 AR 'Total borrowings as per financial statements'.",
+  "FY2017 totalDebt: 33,934 (million) from https://www.glencore.com/.rest/api/v1/documents/94c45f6e64e01219136c6965f953a058/glen-2017-annual-report.pdf PDF p. 60 — 2017 AR 'Total borrowings as per financial statements'.",
+  "FY2018 totalDebt: 34,994 (million) from https://www.glencore.com/.rest/api/v1/documents/86c793f0e276ae24d427d194c0d62b24/glen-2018-annual-report--.pdf PDF p. 58 — 2018 AR 'Total borrowings as per financial statements'.",
+  "FY2019 totalDebt: 37,043 (million) from https://www.glencore.com/.rest/api/v1/documents/5a08fe1942f92df7f2301ac3681e23aa/glen-2019-annual-report-interactive.pdf PDF p. 54 — 2019 AR 'Total borrowings as per financial statements'.",
+  "FY2020 totalDebt: 37,479 (million) from https://web.archive.org/web/20210317001712id_/https://www.glencore.com/dam/jcr:e03a8caf-f2aa-46ad-81c5-821719caf5bf/glen-2020-annual-report-.pdf PDF p. 52 — 2020 AR 'Total borrowings as per financial statements'.",
+  "FY2021 totalDebt: 34,641 (million) from https://web.archive.org/web/20230521145723id_/https://www.glencore.com/dam/jcr:aab67399-639f-4cb2-be57-b3a66f8a91d6/GLEN-2021-annual-report.pdf PDF p. 52 — 2021 AR 'Total borrowings as per financial statements'.",
+  "FY2022 totalDebt: 28,777 (million) from https://www.glencore.com/.rest/api/v1/documents/ded10fa92974aa388a43aa9f86f483e9/GLEN-2022-Annual-Report.pdf PDF p. 72 — 2022 AR 'Total borrowings as per financial statements'.",
+  "FY2023 totalDebt: 32,241 (million) from https://www.glencore.com/.rest/api/v1/documents/static/d09d8212-4a9f-4034-b2d4-49152e5a0aff/GLEN-2023-Annual-Report.pdf PDF p. 84 — 2023 AR 'Total borrowings as per financial statements'.",
+  "FY2024 totalDebt: 38,107 (million) from https://www.glencore.com/.rest/api/v1/documents/static/7a4295e4-3674-45e9-94c4-7d7fb285faff/GLEN-2024-Annual-Report.pdf PDF p. 65 — 2024 AR 'Total borrowings as per financial statements'.",
+  "FY2025 totalDebt: 41,486 (million) from https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf PDF p. 48 — 2025 AR 'Total borrowings as per financial statements'.",
+  "FY2012 dividendPerShare: 0.1575 (units) from https://www.glencore.com/.rest/api/v1/documents/d7dd4ddf32d4cc354fea7a2849389fba/GLEN-Annual-Report-2012.pdf PDF p. 9 — 2012 AR: 'total dividend for the year to $0.1575'.",
+  "FY2013 dividendPerShare: 0.165 (units) from https://www.glencore.com/.rest/api/v1/documents/330f9c2a1ba02dd35a6365724ea45aa2/GLEN-2013-Annual-Report.pdf PDF p. 110 — 2013 AR: distribution for the 2013 financial year of $0.165.",
+  "FY2014 dividendPerShare: 0.18 (units) from https://www.glencore.com/.rest/api/v1/documents/bcc3565e83ebfba3196edf8ce30e6640/GLEN-2014-Annual-Report.pdf PDF p. 107 — 2014 AR distribution for the 2014 financial year.",
+  "FY2015 dividendPerShare: 0.06 (units) from https://www.glencore.com/.rest/api/v1/documents/5f125eeeeccd6ecf6288f4e8fe8a4bd5/GLEN-2015-Annual-Report.pdf PDF p. 149 — 2015 AR: 'Interim distribution for 2015 - $0.06 per ordinary share'. The final distribution for 2015 was suspended, so the FY total is the interim only.",
+  "FY2016 dividendPerShare: 0.07 (units) from https://www.glencore.com/.rest/api/v1/documents/d523912ae57caadd08fb3384fc545729/GLEN-2016-Annual-Report.pdf PDF p. 112 — 2016 AR: 'US$0.07 per share in respect of the 2016 financial year'.",
+  "FY2017 dividendPerShare: 0.20 (units) from https://www.glencore.com/.rest/api/v1/documents/94c45f6e64e01219136c6965f953a058/glen-2017-annual-report.pdf PDF p. 110 — 2017 AR: 'US$0.20 per share in respect of the 2017 financial year'.",
+  "FY2018 dividendPerShare: 0.20 (units) from https://www.glencore.com/.rest/api/v1/documents/86c793f0e276ae24d427d194c0d62b24/glen-2018-annual-report--.pdf PDF p. 61 — 2018 AR: 'The Directors have recommended a 2018 financial year cash distribution of $0.20 per share'.",
+  "FY2019 dividendPerShare: 0.20 (units) from https://www.glencore.com/.rest/api/v1/documents/5a08fe1942f92df7f2301ac3681e23aa/glen-2019-annual-report-interactive.pdf PDF p. 124 — 2019 AR: 'aggregate capital distribution of US$0.20 per share in respect of the 2019 financial year' (recommended).",
+  "FY2020 dividendPerShare: 0.16 (units) from https://web.archive.org/web/20230521145723id_/https://www.glencore.com/dam/jcr:aab67399-639f-4cb2-be57-b3a66f8a91d6/GLEN-2021-annual-report.pdf PDF p. 120 — 2021 AR: 'A total capital distribution of US$0.16 per share was paid in two instalments in 2021 in respect of the 2020 financial year' (later report used per brief). CONFLICT: 2020 AR p. 52 prints '2020 financial year cash distribution of $0.12 per share'.",
+  "FY2021 dividendPerShare: 0.26 (units) from https://web.archive.org/web/20230521145723id_/https://www.glencore.com/dam/jcr:aab67399-639f-4cb2-be57-b3a66f8a91d6/GLEN-2021-annual-report.pdf PDF p. 120 — 2021 AR: 'aggregate capital distribution of US$0.26 per share in respect of the 2021 financial year' (recommended).",
+  "FY2022 dividendPerShare: 0.44 (units) from https://www.glencore.com/.rest/api/v1/documents/ded10fa92974aa388a43aa9f86f483e9/GLEN-2022-Annual-Report.pdf PDF p. 219 — 2022 AR: 'proposed distribution in respect of the year ended 31 December 2022 of $0.44 per ordinary share'. The separate US$0.11 cash distribution is not included.",
+  "FY2023 dividendPerShare: 0.13 (units) from https://www.glencore.com/.rest/api/v1/documents/static/d09d8212-4a9f-4034-b2d4-49152e5a0aff/GLEN-2023-Annual-Report.pdf PDF p. 163 — 2023 AR: 'aggregate capital distribution of $0.13 per share in respect of the 2023 financial year' (recommended).",
+  "FY2024 dividendPerShare: 0.10 (units) from https://www.glencore.com/.rest/api/v1/documents/static/7a4295e4-3674-45e9-94c4-7d7fb285faff/GLEN-2024-Annual-Report.pdf PDF p. 138 — 2024 AR: 'aggregate capital distribution of $0.10 per share in respect of the 2024 financial year'.",
+  "FY2025 dividendPerShare: 0.17 (units) from https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf PDF p. 193 — 2025 AR: 'proposed distribution in respect of the year ended 31 December 2025 of $0.17 per ordinary share'.",
+  "FY2019 employees: 89,092 (units) from https://www.glencore.com/.rest/api/v1/documents/5a08fe1942f92df7f2301ac3681e23aa/glen-2019-annual-report-interactive.pdf PDF p. 35 — 2019 AR people section chart: '89,092 employees at 31 December 2019' (2018: 86,621). Employees only, contractors excluded.",
+  "FY2024 employees: 84,146 (units) from https://www.glencore.com/.rest/api/v1/documents/static/7a4295e4-3674-45e9-94c4-7d7fb285faff/GLEN-2024-Annual-Report.pdf PDF p. 60 — 2024 AR: 'Employees: 84,146 Contractors: 73,968'. Employees only.",
+  "FY2025 employees: 80,423 (units) from https://www.glencore.com/.rest/api/v1/documents/static/9b103e11-72e7-40bf-ae7c-eabe57361522/GLEN-2025-Annual-Report.pdf PDF p. 43 — 2025 AR: 'Employees: 80,423 Contractors: 59,710'. Employees only."
  ]
 }

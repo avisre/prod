@@ -11,7 +11,7 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 2670210000000,
-   "operatingIncome": null,
+   "operatingIncome": 668380000000,
    "netIncome": 492100000000,
    "dilutedEPS": 136.01,
    "totalAssets": 1823720000000,
@@ -21,13 +21,29 @@
    "operatingCashFlow": 520940000000,
    "capex": -36700000000,
    "dividendPerShare": 110,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3618087518,
    "employees": 617437,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20260515215417id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
     "document": "TCS Annual Report 2025-26",
-    "page": "PDF pp. 166, 167, 172, 173, 212, 224"
+    "page": "PDF pp. 166, 167, 172, 173, 212, 224",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 196",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -46,13 +62,22 @@
    "operatingCashFlow": 489080000000,
    "capex": -29170000000,
    "dividendPerShare": 126,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3618087518,
    "employees": 607979,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/20260515215417id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
     "document": "TCS Annual Report 2025-26 (prior-year column)",
-    "page": "PDF pp. 166, 167, 172, 173, 212, 224"
+    "page": "PDF pp. 166, 167, 172, 173, 212, 224",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/ar/annual-report-2024-2025.pdf",
+      "page": "PDF p. 202",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -71,13 +96,22 @@
    "operatingCashFlow": 443380000000,
    "capex": -22020000000,
    "dividendPerShare": 73,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3618087518,
    "employees": 601546,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/ar/annual-report-2024-2025.pdf",
     "document": "TCS Annual Report 2024-25 (prior-year column)",
-    "page": "PDF pp. 88, 180, 181, 184, 185, 186"
+    "page": "PDF pp. 88, 180, 181, 184, 185, 186",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2023-24/ar/annual-report-2023-2024.pdf",
+      "page": "PDF p. 202",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -86,7 +120,7 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 2254580000000,
-   "operatingIncome": null,
+   "operatingIncome": 542370000000,
    "netIncome": 421470000000,
    "dilutedEPS": 115.19,
    "totalAssets": 1436510000000,
@@ -96,13 +130,30 @@
    "operatingCashFlow": 419650000000,
    "capex": -25320000000,
    "dividendPerShare": 73,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 3659051373,
    "employees": 614795,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2023-24/ar/annual-report-2023-2024.pdf",
     "document": "TCS Annual Report 2023-24 (prior-year column)",
-    "page": "PDF pp. 180, 181, 184, 185, 217, 228"
+    "page": "PDF pp. 180, 181, 184, 185, 217, 228",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2022-23/ar/annual-report-2022-2023.pdf",
+      "page": "PDF p. 212",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -111,7 +162,7 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 1917540000000,
-   "operatingIncome": null,
+   "operatingIncome": 484530000000,
    "netIncome": 383270000000,
    "dilutedEPS": 103.62,
    "totalAssets": 1415140000000,
@@ -120,14 +171,45 @@
    "totalDebt": null,
    "operatingCashFlow": 399490000000,
    "capex": -24830000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 43.0,
+   "sharesOutstanding": 3659051373,
+   "employees": 592195,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2022-23/ar/annual-report-2022-2023.pdf",
     "document": "TCS Annual Report 2022-23 (prior-year column)",
-    "page": "PDF pp. 190, 191, 194, 195, 227, 239"
+    "page": "PDF pp. 190, 191, 194, 195, 227, 239",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2021-22/ar/annual-report-2021-2022.pdf",
+      "page": "PDF p. 272",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2021-22/ar/annual-report-2021-2022.pdf",
+      "page": "PDF p. 83",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2021-22/ar/annual-report-2021-2022.pdf",
+      "page": "PDF p. 133",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -136,7 +218,7 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 1641770000000,
-   "operatingIncome": null,
+   "operatingIncome": 424810000000,
    "netIncome": 324300000000,
    "dilutedEPS": 86.71,
    "totalAssets": 1307590000000,
@@ -145,14 +227,38 @@
    "totalDebt": null,
    "operatingCashFlow": 388020000000,
    "capex": -27190000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 38.0,
+   "sharesOutstanding": 3699051373,
    "employees": 488649,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2020-21/ar/annual-report-2020-2021.pdf",
     "document": "TCS Annual Report 2020-21",
-    "page": "PDF pp. 183, 184, 186, 190, 191, 228, 243"
+    "page": "PDF pp. 183, 184, 186, 190, 191, 228, 243",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2020-21/ar/annual-report-2020-2021.pdf",
+      "page": "PDF p. 211",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2020-21/ar/annual-report-2020-2021.pdf",
+      "page": "PDF p. 48",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -161,23 +267,54 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 1569490000000,
-   "operatingIncome": null,
+   "operatingIncome": 385800000000,
    "netIncome": 323400000000,
    "dilutedEPS": 86.19,
    "totalAssets": 1208990000000,
    "totalEquity": 841260000000,
    "cashAndEquivalents": 86460000000,
-   "totalDebt": null,
+   "totalDebt": 40000000,
    "operatingCashFlow": 323690000000,
    "capex": -25380000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 73.0,
+   "sharesOutstanding": 3752384706,
    "employees": 448464,
    "restated": false,
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf",
     "document": "TCS Annual Report 2019-20",
-    "page": "PDF pp. 179, 180, 181, 185, 222, 237, 265"
+    "page": "PDF pp. 179, 180, 181, 185, 222, 237, 265",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf",
+      "page": "PDF p. 74",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf",
+      "page": "PDF p. 205",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf",
+      "page": "PDF p. 115",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -186,23 +323,47 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 1464630000000,
-   "operatingIncome": null,
+   "operatingIncome": 374500000000,
    "netIncome": 314720000000,
    "dilutedEPS": 83.05,
    "totalAssets": 1149430000000,
    "totalEquity": 894460000000,
    "cashAndEquivalents": 72240000000,
-   "totalDebt": null,
+   "totalDebt": 430000000,
    "operatingCashFlow": 285930000000,
    "capex": -20530000000,
    "dividendPerShare": 30,
-   "sharesOutstanding": 424285,
+   "sharesOutstanding": 3752384706,
    "employees": 424285,
    "restated": false,
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf",
     "document": "TCS Annual Report 2019-20 (prior-year column)",
-    "page": "PDF pp. 179, 180, 181, 185, 222, 237, 265"
+    "page": "PDF pp. 179, 180, 181, 185, 222, 237, 265",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400319.pdf",
+      "page": "PDF p. 60",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400319.pdf",
+      "page": "PDF p. 146",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -211,23 +372,48 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 1231040000000,
-   "operatingIncome": null,
+   "operatingIncome": 305020000000,
    "netIncome": 258260000000,
    "dilutedEPS": 67.1,
    "totalAssets": 1062960000000,
    "totalEquity": 851280000000,
    "cashAndEquivalents": 48830000000,
-   "totalDebt": null,
+   "totalDebt": 2280000000,
    "operatingCashFlow": 250670000000,
    "capex": -18620000000,
    "dividendPerShare": 50,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 1914287591,
    "employees": 394998,
    "restated": true,
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400319.pdf",
     "document": "TCS Annual Report 2018-19 (prior-year column)",
-    "page": "PDF pp. 78, 118, 119, 122, 170, 192"
+    "page": "PDF pp. 78, 118, 119, 122, 170, 192",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400318.pdf",
+      "page": "PDF p. 58",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400319.pdf",
+      "page": "PDF p. 146",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     }
+    ]
    }
   },
   {
@@ -236,23 +422,47 @@
    "standard": "Ind AS",
    "currency": "INR",
    "revenue": 1179660000000,
-   "operatingIncome": null,
+   "operatingIncome": 303240000000,
    "netIncome": 262890000000,
    "dilutedEPS": 133.41,
    "totalAssets": 1032520000000,
    "totalEquity": 862140000000,
    "cashAndEquivalents": 35970000000,
-   "totalDebt": null,
+   "totalDebt": 2710000000,
    "operatingCashFlow": 252230000000,
    "capex": -19890000000,
    "dividendPerShare": 47,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 1970427941,
    "employees": 387223,
    "restated": false,
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400318.pdf",
     "document": "TCS Annual Report 2017-18 (prior-year column)",
-    "page": "PDF pp. 75, 113, 114, 116, 159, 176"
+    "page": "PDF pp. 75, 113, 114, 116, 159, 176",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf",
+      "page": "PDF p. 69",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400317.pdf",
+      "page": "PDF p. 79",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400317.pdf",
+      "page": "PDF p. 107",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -261,23 +471,47 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 1086460000000,
-   "operatingIncome": null,
+   "operatingIncome": 287890000000,
    "netIncome": 242700000000,
    "dilutedEPS": 123.18,
    "totalAssets": 893843800000,
    "totalEquity": 710720000000,
    "cashAndEquivalents": 67847600000,
-   "totalDebt": null,
+   "totalDebt": 1954900000,
    "operatingCashFlow": 191154400000,
    "capex": -20465200000,
    "dividendPerShare": 43.5,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 1970427941,
    "employees": 353843,
    "restated": true,
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400317.pdf",
     "document": "TCS Annual Report 2016-17 (prior-year column)",
-    "page": "PDF pp. 75, 78, 87, 88"
+    "page": "PDF pp. 75, 78, 87, 88",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2023-24/ar/annual-report-2023-2024.pdf",
+      "page": "PDF p. 89",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400316.pdf",
+      "page": "PDF p. 88",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400316.pdf",
+      "page": "PDF p. 124",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -286,23 +520,47 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 946484100000,
-   "operatingIncome": null,
+   "operatingIncome": 253110000000,
    "netIncome": 219118500000,
    "dilutedEPS": 101.35,
    "totalAssets": 736608800000,
    "totalEquity": 506347600000,
    "cashAndEquivalents": 185560400000,
-   "totalDebt": null,
+   "totalDebt": 2998300000,
    "operatingCashFlow": 193687800000,
    "capex": -29492000000,
    "dividendPerShare": 79.0,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 1958727979,
    "employees": 319656,
    "restated": true,
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400315.pdf",
     "document": "TCS Annual Report 2014-15",
-    "page": "PDF pp. 76, 82, 89, 93, 138"
+    "page": "PDF pp. 76, 82, 89, 93, 138",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2023-24/ar/annual-report-2023-2024.pdf",
+      "page": "PDF p. 89",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400315.pdf",
+      "page": "PDF p. 77",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400315.pdf",
+      "page": "PDF p. 146",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -311,7 +569,7 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 818093600000,
-   "operatingIncome": null,
+   "operatingIncome": 237651200000,
    "netIncome": 191638700000,
    "dilutedEPS": 97.67,
    "totalAssets": 671377800000,
@@ -327,7 +585,16 @@
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400314.pdf",
     "document": "TCS Annual Report 2013-14",
-    "page": "PDF pp. 53, 58, 59, 69, 106, 108"
+    "page": "PDF pp. 53, 58, 59, 69, 106, 108",
+    "supplementalSources": [
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400314.pdf",
+      "page": "PDF p. 48",
+      "fields": [
+       "operatingIncome"
+      ]
+     }
+    ]
    }
   },
   {
@@ -336,7 +603,7 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 629894800000,
-   "operatingIncome": null,
+   "operatingIncome": 169115000000,
    "netIncome": 139173100000,
    "dilutedEPS": 70.99,
    "totalAssets": 522672200000,
@@ -352,7 +619,16 @@
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400314.pdf",
     "document": "TCS Annual Report 2013-14 (prior-year column)",
-    "page": "PDF pp. 53, 58, 59, 69, 106, 108"
+    "page": "PDF pp. 53, 58, 59, 69, 106, 108",
+    "supplementalSources": [
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400313.pdf",
+      "page": "PDF p. 47",
+      "fields": [
+       "operatingIncome"
+      ]
+     }
+    ]
    }
   },
   {
@@ -361,13 +637,13 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 488938300000,
-   "operatingIncome": null,
+   "operatingIncome": 134951400000,
    "netIncome": 104134900000,
    "dilutedEPS": 53.07,
    "totalAssets": 413304900000,
    "totalEquity": 295792300000,
    "cashAndEquivalents": 58130800000,
-   "totalDebt": null,
+   "totalDebt": 1162600000,
    "operatingCashFlow": 69771700000,
    "capex": -20070700000,
    "dividendPerShare": 25.0,
@@ -377,7 +653,23 @@
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400312.pdf",
     "document": "TCS Annual Report 2011-12",
-    "page": "PDF pp. 31, 43, 48, 58, 78, 80"
+    "page": "PDF pp. 31, 43, 48, 58, 78, 80",
+    "supplementalSources": [
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400312.pdf",
+      "page": "PDF p. 40",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400312.pdf",
+      "page": "PDF p. 43",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   },
   {
@@ -386,13 +678,13 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 373245100000,
-   "operatingIncome": null,
+   "operatingIncome": 104166200000,
    "netIncome": 90680400000,
    "dilutedEPS": 46.27,
    "totalAssets": 251472700000,
    "totalEquity": 245048100000,
    "cashAndEquivalents": 47008500000,
-   "totalDebt": null,
+   "totalDebt": 411200000,
    "operatingCashFlow": 66143800000,
    "capex": -18503200000,
    "dividendPerShare": 14,
@@ -402,7 +694,23 @@
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400312.pdf",
     "document": "TCS Annual Report 2011-12 (prior-year column)",
-    "page": "PDF pp. 31, 43, 48, 58, 78, 80"
+    "page": "PDF pp. 31, 43, 48, 58, 78, 80",
+    "supplementalSources": [
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400311.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400311.pdf",
+      "page": "PDF p. 114",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   },
   {
@@ -411,23 +719,53 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 300289200000,
-   "operatingIncome": null,
+   "operatingIncome": 80175600000,
    "netIncome": 70006400000,
    "dilutedEPS": 35.67,
    "totalAssets": 190003600000,
    "totalEquity": 184667200000,
    "cashAndEquivalents": 47185900000,
-   "totalDebt": null,
+   "totalDebt": 357400000,
    "operatingCashFlow": 74062300000,
    "capex": -10447900000,
    "dividendPerShare": 20,
-   "sharesOutstanding": null,
-   "employees": null,
+   "sharesOutstanding": 1957220996,
+   "employees": 160429,
    "restated": false,
    "source": {
     "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400311.pdf",
     "document": "TCS Annual Report 2010-11 (prior-year column)",
-    "page": "PDF pp. 36, 40, 45, 48, 56, 80"
+    "page": "PDF pp. 36, 40, 45, 48, 56, 80",
+    "supplementalSources": [
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf",
+      "page": "PDF p. 63",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf",
+      "page": "PDF p. 140",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf",
+      "page": "PDF p. 107",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf",
+      "page": "PDF p. 73",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -436,23 +774,53 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 278128800000,
-   "operatingIncome": null,
+   "operatingIncome": 65770600000,
    "netIncome": 52564200000,
    "dilutedEPS": 26.81,
    "totalAssets": 166696000000,
    "totalEquity": 157000100000,
    "cashAndEquivalents": 26981400000,
-   "totalDebt": null,
+   "totalDebt": 403700000,
    "operatingCashFlow": 54085600000,
    "capex": -11088100000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 14.0,
+   "sharesOutstanding": 978610498,
    "employees": 143761,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
     "document": "TCS Annual Report 2008-09",
-    "page": "PDF pp. 66, 74, 83, 158, 160, 161"
+    "page": "PDF pp. 66, 74, 83, 158, 160, 161",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
+      "page": "PDF p. 182",
+      "fields": [
+       "operatingIncome"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
+      "page": "PDF p. 106",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
+      "page": "PDF p. 109",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
+      "page": "PDF p. 23",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -461,82 +829,67 @@
    "standard": "Indian GAAP",
    "currency": "INR",
    "revenue": 226195200000,
-   "operatingIncome": null,
+   "operatingIncome": 51176600000,
    "netIncome": 50260200000,
    "dilutedEPS": 51.36,
    "totalAssets": 130881300000,
    "totalEquity": 123001200000,
    "cashAndEquivalents": 12234000000,
-   "totalDebt": null,
+   "totalDebt": 182500000,
    "operatingCashFlow": 38948800000,
    "capex": -12709800000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 14.0,
+   "sharesOutstanding": 978610498,
    "employees": 111407,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
     "document": "TCS Annual Report 2008-09 (prior-year column)",
-    "page": "PDF pp. 66, 74, 83, 158, 160, 161"
+    "page": "PDF pp. 66, 74, 83, 158, 160, 161",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
+      "page": "PDF p. 182",
+      "fields": [
+       "operatingIncome"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
+      "page": "PDF p. 106",
+      "fields": [
+       "totalDebt"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf",
+      "page": "PDF p. 109",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf",
+      "page": "PDF p. 74",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2026 operatingIncome: not found in the reports read",
-  "FY2026 totalDebt: not found in the reports read",
-  "FY2026 sharesOutstanding: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 sharesOutstanding: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2024 sharesOutstanding: not found in the reports read",
-  "FY2023 operatingIncome: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2023 sharesOutstanding: not found in the reports read",
-  "FY2022 operatingIncome: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 dividendPerShare: not found in the reports read",
-  "FY2022 sharesOutstanding: not found in the reports read",
-  "FY2022 employees: not found in the reports read",
-  "FY2021 operatingIncome: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2021 dividendPerShare: not found in the reports read",
-  "FY2021 sharesOutstanding: not found in the reports read",
-  "FY2020 operatingIncome: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2020 dividendPerShare: not found in the reports read",
-  "FY2020 sharesOutstanding: not found in the reports read",
-  "FY2019 operatingIncome: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2018 operatingIncome: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2018 sharesOutstanding: not found in the reports read",
-  "FY2017 operatingIncome: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2017 sharesOutstanding: not found in the reports read",
-  "FY2016 operatingIncome: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 sharesOutstanding: not found in the reports read",
-  "FY2015 operatingIncome: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2015 sharesOutstanding: not found in the reports read",
-  "FY2014 operatingIncome: not found in the reports read",
-  "FY2013 operatingIncome: not found in the reports read",
-  "FY2012 operatingIncome: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2011 operatingIncome: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 sharesOutstanding: not found in the reports read",
-  "FY2010 employees: not found in the reports read",
-  "FY2009 operatingIncome: not found in the reports read",
-  "FY2009 totalDebt: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2009 sharesOutstanding: not found in the reports read",
-  "FY2008 operatingIncome: not found in the reports read",
-  "FY2008 totalDebt: not found in the reports read",
-  "FY2008 dividendPerShare: not found in the reports read",
-  "FY2008 sharesOutstanding: not found in the reports read"
+  "FY2026 totalDebt: not found in the company's reports (2021 to 2026 reports: no borrowings or indebtedness total printed; balance sheets show lease liabilities only (current and non-current lines, no total debt line))",
+  "FY2025 totalDebt: not found in the company's reports (2021 to 2026 reports: no borrowings or indebtedness total printed; balance sheets show lease liabilities only (current and non-current lines, no total debt line))",
+  "FY2024 totalDebt: not found in the company's reports (2021 to 2026 reports: no borrowings or indebtedness total printed; balance sheets show lease liabilities only (current and non-current lines, no total debt line))",
+  "FY2023 totalDebt: not found in the company's reports (2021 to 2026 reports: no borrowings or indebtedness total printed; balance sheets show lease liabilities only (current and non-current lines, no total debt line))",
+  "FY2022 totalDebt: not found in the company's reports (2021 to 2026 reports: no borrowings or indebtedness total printed; balance sheets show lease liabilities only (current and non-current lines, no total debt line))",
+  "FY2021 totalDebt: not found in the company's reports (2021 to 2026 reports: no borrowings or indebtedness total printed; balance sheets show lease liabilities only (current and non-current lines, no total debt line))"
  ],
  "notes": [
   "Indian GAAP to FY2016, Ind AS from FY2017.",
@@ -624,6 +977,56 @@
   "FY2022 capex: payment for purchase of property, plant and equipment, consolidated",
   "FY2008 totalAssets: TOTAL ASSETS (NET) (Indian GAAP net presentation), March 31, 2008 column of the 2009 report",
   "FY2008 totalEquity: Shareholders' funds, March 31, 2008 column of the 2009 report",
-  "FY2014 cashAndEquivalents: (e) Cash and bank balances, consolidated balance sheet (Indian GAAP)"
+  "FY2014 cashAndEquivalents: (e) Cash and bank balances, consolidated balance sheet (Indian GAAP)",
+  "FY2026 operatingIncome: 66,838 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), ten-year Profitability row, FY2026 column",
+  "FY2023 operatingIncome: 54,237 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), FY2026 report ten-year row (FY2023 column)",
+  "FY2022 operatingIncome: 48,453 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), FY2026 report ten-year row (FY2022 column)",
+  "FY2021 operatingIncome: 42,481 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), FY2026 report ten-year row (FY2021 column)",
+  "FY2020 operatingIncome: 38,580 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), FY2026 report ten-year row (FY2020 column)",
+  "FY2019 operatingIncome: 37,450 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), FY2026 report ten-year row (FY2019 column)",
+  "FY2018 operatingIncome: 30,502 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), FY2026 report ten-year row (FY2018 column)",
+  "FY2017 operatingIncome: 30,324 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 69 — EBIT (Before other income), FY2026 report ten-year row (FY2017 column)",
+  "FY2016 operatingIncome: 28,789 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2023-24/ar/annual-report-2023-2024.pdf PDF p. 89 — EBIT, FY2024 report ten-year row (restated Ind AS basis; FY2016 column)",
+  "FY2015 operatingIncome: 25,311 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2023-24/ar/annual-report-2023-2024.pdf PDF p. 89 — EBIT, FY2024 report ten-year row (restated Ind AS basis; FY2015 column)",
+  "FY2014 operatingIncome: 23,765.12 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400314.pdf PDF p. 48 — Indian GAAP 'Operating income' line, FY2014 report",
+  "FY2013 operatingIncome: 16,911.50 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400313.pdf PDF p. 47 — Indian GAAP 'Operating income' line, FY2013 report",
+  "FY2012 operatingIncome: 13,495.14 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400312.pdf PDF p. 40 — Indian GAAP 'Operating income' line, FY2012 report",
+  "FY2011 operatingIncome: 10,416.62 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400311.pdf PDF p. 42 — Indian GAAP 'Operating income' line, FY2011 report",
+  "FY2010 operatingIncome: 8,017.56 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf PDF p. 63 — Financial highlights 'Operating Income' line, FY2010 report",
+  "FY2009 operatingIncome: 6577.06 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf PDF p. 182 — 'Operating income' line, FY2009 report",
+  "FY2008 operatingIncome: 5117.66 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf PDF p. 182 — 'Operating income' prior-year column of FY2009 report",
+  "FY2020 totalDebt: 4 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf PDF p. 74 — Indebtedness table (end of year) Total: deposits only; no borrowings line",
+  "FY2019 totalDebt: 43 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400319.pdf PDF p. 60 — Indebtedness table (end of year) Total: finance lease 39 + deposits 4",
+  "FY2018 totalDebt: 228 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400318.pdf PDF p. 58 — Indebtedness table (end of year) Total: bank overdraft 181 + finance lease 44 + deposits 3",
+  "FY2017 totalDebt: 271 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400317.pdf PDF p. 79 — Standalone short- and long-term borrowings table, Total (FY2017 column)",
+  "FY2016 totalDebt: 195.49 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400316.pdf PDF p. 88 — Standalone short- and long-term borrowings table, Total (FY2016 column)",
+  "FY2015 totalDebt: 299.83 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400315.pdf PDF p. 77 — Standalone short- and long-term borrowings table, Total (FY2015 column)",
+  "FY2012 totalDebt: 116.26 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400312.pdf PDF p. 43 — Standalone short- and long-term borrowings table, Total (FY2012 column)",
+  "FY2011 totalDebt: 41.12 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400311.pdf PDF p. 114 — Standalone balance sheet LOAN FUNDS subtotal (secured 35.87 + unsecured 5.25); no total-borrowings label",
+  "FY2010 totalDebt: 35.74 (crore) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf PDF p. 140 — Standalone balance sheet LOAN FUNDS subtotal (secured 29.25 + unsecured 6.49)",
+  "FY2009 totalDebt: 40.37 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf PDF p. 106 — Standalone balance sheet LOAN FUNDS subtotal (secured 32.63 + unsecured 7.74)",
+  "FY2008 totalDebt: 18.25 (crore) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf PDF p. 106 — Standalone LOAN FUNDS subtotal, FY2008 prior-year column of FY2009 report (secured 9.27 + unsecured 8.98)",
+  "FY2026 sharesOutstanding: 361,80,87,518 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2025-26/ar/annual-report-2025-2026.pdf PDF p. 196 — Share capital note: issued, subscribed and fully paid-up equity shares; no treasury line",
+  "FY2025 sharesOutstanding: 361,80,87,518 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/ar/annual-report-2024-2025.pdf PDF p. 202 — Share capital note: issued, subscribed and fully paid-up equity shares",
+  "FY2024 sharesOutstanding: 361,80,87,518 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2023-24/ar/annual-report-2023-2024.pdf PDF p. 202 — Share capital note: issued, subscribed and fully paid-up equity shares",
+  "FY2023 sharesOutstanding: 365,90,51,373 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2022-23/ar/annual-report-2022-2023.pdf PDF p. 212 — Share capital note: issued, subscribed and fully paid-up equity shares",
+  "FY2022 sharesOutstanding: 365,90,51,373 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2021-22/ar/annual-report-2021-2022.pdf PDF p. 272 — Statement of changes in equity shares, closing balance",
+  "FY2021 sharesOutstanding: 369,90,51,373 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2020-21/ar/annual-report-2020-2021.pdf PDF p. 211 — Share capital note: issued, subscribed and fully paid-up equity shares",
+  "FY2020 sharesOutstanding: 375,23,84,706 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf PDF p. 205 — Share capital note: closing balance of equity shares",
+  "FY2018 sharesOutstanding: 191,42,87,591 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400319.pdf PDF p. 146 — Statement of changes in equity shares, opening balance of FY2019 (FY2018 closing)",
+  "FY2017 sharesOutstanding: 1,97,04,27,941 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400317.pdf PDF p. 107 — Shareholding statement GRAND TOTAL = equity shares issued",
+  "FY2016 sharesOutstanding: 197,04,27,941 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400316.pdf PDF p. 124 — Shareholding statement GRAND TOTAL = equity shares issued",
+  "FY2015 sharesOutstanding: 195,87,27,979 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400315.pdf PDF p. 146 — Share capital note: equity shares of Re 1 each",
+  "FY2010 sharesOutstanding: 195,72,20,996 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf PDF p. 107 — Share capital note: equity shares of Re 1 each",
+  "FY2009 sharesOutstanding: 97,86,10,498 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf PDF p. 109 — Share capital note: equity shares of Re 1 each",
+  "FY2008 sharesOutstanding: 97,86,10,498 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf PDF p. 109 — Share capital note, March 31 2008 comparative",
+  "FY2022 dividendPerShare: 43 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2021-22/ar/annual-report-2021-2022.pdf PDF p. 83 — Total dividend for FY2022 (interim plus final Rs 22)",
+  "FY2021 dividendPerShare: 38 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2020-21/ar/annual-report-2020-2021.pdf PDF p. 48 — Total dividend for FY2021 (interims Rs 23 plus final Rs 15)",
+  "FY2020 dividendPerShare: 73.00 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400320.pdf PDF p. 115 — Ten-year Dividend Per Share, FY2020 column; includes special dividend Rs 40 (ordinary part not printed as one figure)",
+  "FY2009 dividendPerShare: 14.00 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2008-09/ar/TCS%20Annual%20Report%202008-09.pdf PDF p. 23 — Dividend table total for FY2009 (three interims Rs 3 plus final Rs 5)",
+  "FY2008 dividendPerShare: 14.00 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf PDF p. 74 — Five-year Dividend Per Share, FY2008 column of FY2010 report (pre-bonus)",
+  "FY2022 employees: 592,195 (units) from https://web.archive.org/web/2026id_/https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2021-22/ar/annual-report-2021-2022.pdf PDF p. 133 — Headcount (including subsidiaries) as on March 31, 2022",
+  "FY2010 employees: 160,429 (units) from https://www.bseindia.com/bseplus/AnnualReport/532540/5325400310.pdf PDF p. 73 — Headcount (including subsidiaries) as on March 31, 2010",
+  "FY2019 sharesOutstanding: corrected to 375,23,84,706 — stored 424285 was the FY2019 employee count; equity share capital note, closing balance of equity shares at 31 March 2019 (https://www.bseindia.com/bseplus/AnnualReport/532540/5325400319.pdf PDF p. 146)"
  ]
 }

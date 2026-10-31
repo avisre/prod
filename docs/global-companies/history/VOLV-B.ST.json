@@ -27,7 +27,7 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41"
       }
     },
     {
@@ -52,7 +52,7 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41"
       }
     },
     {
@@ -63,9 +63,9 @@
       "revenue": 552764000000,
       "operatingIncome": 66784000000,
       "netIncome": 49825000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 24.5,
       "totalAssets": 41910000000,
-      "totalEquity": null,
+      "totalEquity": 177791000000,
       "cashAndEquivalents": 83415000000,
       "totalDebt": 236791000000,
       "operatingCashFlow": 26700000000,
@@ -77,7 +77,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/events/2024/feb/annual-report-2023/AB-Volvo-Annual-Report-2023.pdf",
+            "page": "PDF p. 59",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/events/2024/feb/annual-report-2023/AB-Volvo-Annual-Report-2023.pdf",
+            "page": "PDF p. 63",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -88,9 +104,9 @@
       "revenue": 473479000000,
       "operatingIncome": 45712000000,
       "netIncome": 32722000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 16.09,
       "totalAssets": 43518000000,
-      "totalEquity": null,
+      "totalEquity": 162717000000,
       "cashAndEquivalents": 83979000000,
       "totalDebt": 210948000000,
       "operatingCashFlow": 33200000000,
@@ -102,7 +118,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/investors/reports-and-presentations/annual-reports/AB-Volvo-Annual-Report-2022.pdf",
+            "page": "PDF p. 45",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/investors/reports-and-presentations/annual-reports/AB-Volvo-Annual-Report-2022.pdf",
+            "page": "PDF p. 49",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -113,9 +145,9 @@
       "revenue": 372216000000,
       "operatingIncome": 43074000000,
       "netIncome": 32787000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 16.12,
       "totalAssets": 39969000000,
-      "totalEquity": null,
+      "totalEquity": 141045000000,
       "cashAndEquivalents": 62293000000,
       "totalDebt": 153624000000,
       "operatingCashFlow": 33600000000,
@@ -127,7 +159,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2022/feb/4195846-ab-volvo-annual-and-sustainability-report-2021-en.pdf",
+            "page": "PDF p. 47",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2022/feb/4195846-ab-volvo-annual-and-sustainability-report-2021-en.pdf",
+            "page": "PDF p. 51",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -138,9 +186,9 @@
       "revenue": 338446000000,
       "operatingIncome": 27484000000,
       "netIncome": 19318000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 9.5,
       "totalAssets": 37962000000,
-      "totalEquity": null,
+      "totalEquity": 145295000000,
       "cashAndEquivalents": 85419000000,
       "totalDebt": 153424000000,
       "operatingCashFlow": 30600000000,
@@ -152,7 +200,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf",
+            "page": "PDF p. 44",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf",
+            "page": "PDF p. 49",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -163,21 +227,47 @@
       "revenue": 431980000000,
       "operatingIncome": 49531000000,
       "netIncome": 35861000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 17.64,
       "totalAssets": 43326000000,
-      "totalEquity": null,
+      "totalEquity": 138595000000,
       "cashAndEquivalents": 61660000000,
       "totalDebt": 157752000000,
       "operatingCashFlow": 39000000000,
       "capex": -12000000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 0.0,
       "sharesOutstanding": 2033000000,
       "employees": 92575,
       "restated": false,
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf",
+            "page": "PDF p. 44",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf",
+            "page": "PDF p. 49",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf",
+            "page": "PDF p. 7",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -188,9 +278,9 @@
       "revenue": 390834000000,
       "operatingIncome": 34478000000,
       "netIncome": 24897000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 12.24,
       "totalAssets": 43103000000,
-      "totalEquity": null,
+      "totalEquity": 123379000000,
       "cashAndEquivalents": 47093000000,
       "totalDebt": 135857000000,
       "operatingCashFlow": 31200000000,
@@ -202,7 +292,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf",
+            "page": "PDF p. 84",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -213,9 +319,9 @@
       "revenue": 334748000000,
       "operatingIncome": 30327000000,
       "netIncome": 20981000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 10.07,
       "totalAssets": 37166000000,
-      "totalEquity": null,
+      "totalEquity": 105861000000,
       "cashAndEquivalents": 36270000000,
       "totalDebt": 127676000000,
       "operatingCashFlow": 37600000000,
@@ -227,7 +333,25 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf",
+            "page": "PDF p. 84",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -238,9 +362,9 @@
       "revenue": 301914000000,
       "operatingIncome": 20826000000,
       "netIncome": 13147000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 6.47,
       "totalAssets": 34693000000,
-      "totalEquity": null,
+      "totalEquity": 96061000000,
       "cashAndEquivalents": 25172000000,
       "totalDebt": 141048000000,
       "operatingCashFlow": 17500000000,
@@ -252,7 +376,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf",
+            "page": "PDF p. 87",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -263,9 +403,9 @@
       "revenue": 312515000000,
       "operatingIncome": 23318000000,
       "netIncome": 15058000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 7.41,
       "totalAssets": 32531000000,
-      "totalEquity": null,
+      "totalEquity": 83810000000,
       "cashAndEquivalents": 24393000000,
       "totalDebt": 132607000000,
       "operatingCashFlow": 25900000000,
@@ -277,7 +417,25 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2026/feb/5313699-volvo-group---annual-report-2025.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2025, Eleven-year Summary",
-        "page": "PDF pp.223\u2013226,230 (printed pp.221\u2013224,228); FY2024\u20132025 diluted EPS and parent equity PDF pp.37,41"
+        "page": "PDF pp.223–226,230 (printed pp.221–224,228); FY2024–2025 diluted EPS and parent equity PDF pp.37,41",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf",
+            "page": "PDF p. 87",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -288,9 +446,9 @@
       "revenue": 282948000000,
       "operatingIncome": 5824000000,
       "netIncome": 2099000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 1.03,
       "totalAssets": 31218000000,
-      "totalEquity": null,
+      "totalEquity": 78325000000,
       "cashAndEquivalents": 33554000000,
       "totalDebt": 147985000000,
       "operatingCashFlow": 8700000000,
@@ -302,7 +460,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf",
+            "page": "PDF p. 114",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf",
+            "page": "PDF p. 119",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -313,9 +487,9 @@
       "revenue": 272622000000,
       "operatingIncome": 7138000000,
       "netIncome": 3583000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 1.76,
       "totalAssets": 25672000000,
-      "totalEquity": null,
+      "totalEquity": 76032000000,
       "cashAndEquivalents": 29559000000,
       "totalDebt": 135001000000,
       "operatingCashFlow": 11000000000,
@@ -327,7 +501,25 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf",
+            "page": "PDF p. 114",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf",
+            "page": "PDF p. 119",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -338,9 +530,9 @@
       "revenue": 303647000000,
       "operatingIncome": 17622000000,
       "netIncome": 11039000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 5.44,
       "totalAssets": 29022000000,
-      "totalEquity": null,
+      "totalEquity": 85648000000,
       "cashAndEquivalents": 28889000000,
       "totalDebt": 131842000000,
       "operatingCashFlow": 3800000000,
@@ -352,7 +544,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf",
+            "page": "PDF p. 94",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf",
+            "page": "PDF p. 99",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -363,9 +571,9 @@
       "revenue": 310367000000,
       "operatingIncome": 26899000000,
       "netIncome": 17751000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 8.75,
       "totalAssets": 23922000000,
-      "totalEquity": null,
+      "totalEquity": 84581000000,
       "cashAndEquivalents": 37241000000,
       "totalDebt": 130479000000,
       "operatingCashFlow": 19700000000,
@@ -377,7 +585,25 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf",
+            "page": "PDF p. 94",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf",
+            "page": "PDF p. 99",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -388,9 +614,9 @@
       "revenue": 264749000000,
       "operatingIncome": 18000000000,
       "netIncome": 10866000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 5.36,
       "totalAssets": 19647000000,
-      "totalEquity": null,
+      "totalEquity": 73110000000,
       "cashAndEquivalents": 32733000000,
       "totalDebt": 123695000000,
       "operatingCashFlow": 32700000000,
@@ -402,7 +628,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf",
+            "page": "PDF p. 71",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf",
+            "page": "PDF p. 72",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -413,9 +655,9 @@
       "revenue": 218361000000,
       "operatingIncome": -17013000000,
       "netIncome": -14718000000,
-      "dilutedEPS": null,
+      "dilutedEPS": -7.26,
       "totalAssets": 20388000000,
-      "totalEquity": null,
+      "totalEquity": 66405000000,
       "cashAndEquivalents": 37910000000,
       "totalDebt": 156852000000,
       "operatingCashFlow": 14900000000,
@@ -427,7 +669,25 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf",
+            "page": "PDF p. 71",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf",
+            "page": "PDF p. 72",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -438,9 +698,9 @@
       "revenue": 303667000000,
       "operatingIncome": 15851000000,
       "netIncome": 9942000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 4.9,
       "totalAssets": 25429000000,
-      "totalEquity": null,
+      "totalEquity": 84010000000,
       "cashAndEquivalents": 23614000000,
       "totalDebt": 145727000000,
       "operatingCashFlow": 700000000,
@@ -452,7 +712,23 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf",
+            "page": "PDF p. 79",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf",
+            "page": "PDF p. 80",
+            "fields": [
+              "totalEquity"
+            ]
+          }
+        ]
       }
     },
     {
@@ -463,9 +739,9 @@
       "revenue": 285405000000,
       "operatingIncome": 22231000000,
       "netIncome": 14932000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 7.37,
       "totalAssets": 22502000000,
-      "totalEquity": null,
+      "totalEquity": 82202000000,
       "cashAndEquivalents": 31034000000,
       "totalDebt": 108318000000,
       "operatingCashFlow": 18400000000,
@@ -477,34 +753,69 @@
       "source": {
         "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2017.pdf",
         "document": "Volvo Group Annual and Sustainability Report 2017, Eleven-year Summary",
-        "page": "PDF pp.216\u2013218,220,223 (printed pp.214\u2013216,218,221)"
+        "page": "PDF pp.216–218,220,223 (printed pp.214–216,218,221)",
+        "supplementalSources": [
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf",
+            "page": "PDF p. 79",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf",
+            "page": "PDF p. 80",
+            "fields": [
+              "totalEquity"
+            ],
+            "restated": true
+          }
+        ]
       }
     }
   ],
-  "gaps": [
-    "FY2007 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2008 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2009 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2010 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2011 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2012 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2013 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2014 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2015 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2016 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2017 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2018 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2019 dilutedEPS, totalEquity, dividendPerShare: not separately published in the extracted official tables; no value inferred.",
-    "FY2020 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2021 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2022 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred.",
-    "FY2023 dilutedEPS, totalEquity: not separately published in the extracted official tables; no value inferred."
-  ],
+  "gaps": [],
   "notes": [
     "All values come from Volvo Group official annual-report eleven-year tables; SEK million balance sheet/income rows and SEK billion cash flows are scaled to full SEK. Cash flows retain the published one-decimal-billion precision. The eleven-year tables state that each historical year follows the accounting standards then applicable and is not restated for later accounting changes.",
-    "netIncome is attributable to owners of AB Volvo. totalEquity is left null where the extracted eleven-year table reports only total equity including non-controlling interests; subtraction was not used. FY2024\u20132025 uses directly published parent equity from the consolidated balance sheet.",
+    "netIncome is attributable to owners of AB Volvo. totalEquity is left null where the extracted eleven-year table reports only total equity including non-controlling interests; subtraction was not used. FY2024–2025 uses directly published parent equity from the consolidated balance sheet.",
     "capex is the consolidated cash-flow line Investments in fixed assets / Investments in in-/tangible assets, negative; purchases of assets for operating leases are separately reported and excluded.",
     "sharesOutstanding is the published average number of shares outstanding in millions, scaled to shares, rather than a computed sum of A/B closing share classes. dividendPerShare is the ordinary dividend associated with the fiscal year; extraordinary distributions are separately reported and excluded. A dash for FY2019 dividend is retained as null, not assumed zero.",
-    "employees is regular employees at year-end excluding consultants/temporary staff from FY2009; FY2007\u20132008 include temporary employees. IFRS16 lease changes and divestments change comparability. Diluted EPS is left null where only basic EPS is published in the extracted multiyear tables."
+    "employees is regular employees at year-end excluding consultants/temporary staff from FY2009; FY2007–2008 include temporary employees. IFRS16 lease changes and divestments change comparability. Diluted EPS is left null where only basic EPS is published in the extracted multiyear tables.",
+    "FY2007 dilutedEPS: 7.37 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf PDF p. 79 — Consolidated income statement, Diluted earnings per share, SEK (FY2007 column of FY2008 report)",
+    "FY2008 dilutedEPS: 4.90 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf PDF p. 79 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2009 dilutedEPS: (7.26) (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf PDF p. 71 — Consolidated income statement, Diluted earnings per share, SEK (FY2009 column of FY2010 report)",
+    "FY2010 dilutedEPS: 5.36 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf PDF p. 71 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2011 dilutedEPS: 8.75 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf PDF p. 94 — Consolidated income statement, Diluted earnings per share, SEK (FY2011 column of FY2012 report)",
+    "FY2012 dilutedEPS: 5.44 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf PDF p. 94 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2013 dilutedEPS: 1.76 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf PDF p. 114 — Consolidated income statement, Diluted earnings per share, SEK (FY2013 column of FY2014 report)",
+    "FY2014 dilutedEPS: 1.03 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf PDF p. 114 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2015 dilutedEPS: 7.41 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf PDF p. 82 — Consolidated income statement, Diluted earnings per share, SEK (FY2015 column of FY2016 report)",
+    "FY2016 dilutedEPS: 6.47 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf PDF p. 82 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2017 dilutedEPS: 10.07 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf PDF p. 84 — Consolidated income statement, Diluted earnings per share, SEK (FY2017 column of FY2018 report)",
+    "FY2018 dilutedEPS: 12.24 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf PDF p. 84 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2019 dilutedEPS: 17.64 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf PDF p. 44 — Consolidated income statement, Diluted earnings per share, SEK (FY2019 column of FY2020 report)",
+    "FY2020 dilutedEPS: 9.50 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf PDF p. 44 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2021 dilutedEPS: 16.12 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2022/feb/4195846-ab-volvo-annual-and-sustainability-report-2021-en.pdf PDF p. 47 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2022 dilutedEPS: 16.09 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/master/investors/reports-and-presentations/annual-reports/AB-Volvo-Annual-Report-2022.pdf PDF p. 45 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2023 dilutedEPS: 24.50 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/master/events/2024/feb/annual-report-2023/AB-Volvo-Annual-Report-2023.pdf PDF p. 59 — Consolidated income statement, Diluted earnings per share, SEK",
+    "FY2007 totalEquity: 82,202 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf PDF p. 80 — Equity attributable to the equity holders of the parent company (FY2007 column of FY2008 report)",
+    "FY2008 totalEquity: 84,010 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2008-EN.pdf PDF p. 80 — Equity attributable to the equity holders of the parent company",
+    "FY2009 totalEquity: 66,405 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf PDF p. 72 — Equity attributable to the equity holders of the Parent Company (FY2009 column of FY2010 report)",
+    "FY2010 totalEquity: 73,110 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2010-EN.pdf PDF p. 72 — Equity attributable to the equity holders of the Parent Company",
+    "FY2011 totalEquity: 84,581 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf PDF p. 99 — Balance sheet by business area, Group column, Equity attributable to owners of the parent (FY2011 column of FY2012 report)",
+    "FY2012 totalEquity: 85,648 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2012-EN.pdf PDF p. 99 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2013 totalEquity: 76,032 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf PDF p. 119 — Balance sheet by business area, Group column, Equity attributable to owners of the parent (FY2013 column of FY2014 report)",
+    "FY2014 totalEquity: 78,325 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/classic/investors/reports-and-presentations/annual-reports/Volvo-Group-Annual-Report-2014-EN.pdf PDF p. 119 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2015 totalEquity: 83,810 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf PDF p. 87 — Balance sheet by business area, Group column, Equity attributable to owners of the parent (FY2015 column of FY2016 report)",
+    "FY2016 totalEquity: 96,061 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/netherlands/csr-and-sustainability/annual-and-sustainability-report-2016.pdf.coredownload.pdf PDF p. 87 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2017 totalEquity: 105,861 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf PDF p. 89 — Balance sheet by business area, Group column, Equity attributable to owners of the parent (FY2017 column of FY2018 report)",
+    "FY2018 totalEquity: 123,379 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2018.pdf PDF p. 89 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2019 totalEquity: 138,595 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf PDF p. 49 — Balance sheet by business area, Group column, Equity attributable to owners of the parent (FY2019 column of FY2020 report)",
+    "FY2020 totalEquity: 145,295 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf PDF p. 49 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2021 totalEquity: 141,045 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/master/news/2022/feb/4195846-ab-volvo-annual-and-sustainability-report-2021-en.pdf PDF p. 51 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2022 totalEquity: 162,717 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/master/investors/reports-and-presentations/annual-reports/AB-Volvo-Annual-Report-2022.pdf PDF p. 49 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2023 totalEquity: 177,791 (million) from https://www.volvogroup.com/content/dam/volvo-group/markets/master/events/2024/feb/annual-report-2023/AB-Volvo-Annual-Report-2023.pdf PDF p. 63 — Balance sheet by business area, Group column, Equity attributable to owners of the parent",
+    "FY2019 dividendPerShare: 0 (units) from https://www.volvogroup.com/content/dam/volvo-group/markets/global/en-en/investors/reports-and-presentations/annual-reports/annual-and-sustainability-report-2020.pdf PDF p. 7 — Key ratios, Dividend per share, SEK, 2019 column of FY2020 report (PDF p. 7); AGM June 18, 2020 resolved that no payment of dividend will be made (PDF p. 43)"
   ]
 }

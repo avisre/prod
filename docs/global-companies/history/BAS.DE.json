@@ -288,13 +288,13 @@
       "revenue": 74326000000,
       "operatingIncome": 7626000000,
       "netIncome": 5155000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 5.6,
       "totalAssets": 71359000000,
       "totalEquity": 27614000000,
       "cashAndEquivalents": 1718000000,
-      "totalDebt": null,
+      "totalDebt": 15384000000,
       "operatingCashFlow": 6958000000,
-      "capex": null,
+      "capex": -5296000000,
       "dividendPerShare": 2.8,
       "sharesOutstanding": 918500000,
       "employees": 113292,
@@ -302,7 +302,30 @@
       "source": {
         "url": "https://www.basf.com/dam/jcr:ad007a03-e35a-3f19-99f6-23eff9e47eb3/basf/www/global/documents/en/investor-relations/calendar-and-publications/reports/2018/BASF_Report_2017.pdf",
         "document": "BASF Report 2017, Ten-year summary; equity of shareholders of BASF SE (27,614 as of Jan 1, 2015) from BASF Report 2016 statement of changes in equity p. 177 (https://basf.com/dam/jcr:b39eaf14-d170-3410-940a-f78c5c770e4b/BASF_Report_2016.pdf)",
-        "page": "pp. 247-248"
+        "page": "pp. 247-248",
+        "supplementalSources": [
+          {
+            "url": "https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf",
+            "page": "PDF p. 212",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf",
+            "page": "PDF p. 87",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -313,13 +336,13 @@
       "revenue": 73973000000,
       "operatingIncome": 7160000000,
       "netIncome": 4792000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 5.21,
       "totalAssets": 64204000000,
       "totalEquity": null,
       "cashAndEquivalents": 1827000000,
-      "totalDebt": null,
+      "totalDebt": 14407000000,
       "operatingCashFlow": 8100000000,
-      "capex": null,
+      "capex": -4873000000,
       "dividendPerShare": 2.7,
       "sharesOutstanding": 918500000,
       "employees": 112206,
@@ -327,7 +350,32 @@
       "source": {
         "url": "https://www.basf.com/dam/jcr:ad007a03-e35a-3f19-99f6-23eff9e47eb3/basf/www/global/documents/en/investor-relations/calendar-and-publications/reports/2018/BASF_Report_2017.pdf",
         "document": "BASF Report 2017, Ten-year summary (2013 adjusted for dissolution of natural gas trading disposal group)",
-        "page": "pp. 247-248"
+        "page": "pp. 247-248",
+        "supplementalSources": [
+          {
+            "url": "https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf",
+            "page": "PDF p. 212",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf",
+            "page": "PDF p. 67",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf",
+            "page": "PDF p. 89",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -338,13 +386,13 @@
       "revenue": 72129000000,
       "operatingIncome": 6742000000,
       "netIncome": 4819000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 5.25,
       "totalAssets": 62726000000,
       "totalEquity": null,
       "cashAndEquivalents": 1647000000,
-      "totalDebt": null,
+      "totalDebt": 12798000000,
       "operatingCashFlow": 6602000000,
-      "capex": null,
+      "capex": -4015000000,
       "dividendPerShare": 2.6,
       "sharesOutstanding": 918500000,
       "employees": 110782,
@@ -352,7 +400,33 @@
       "source": {
         "url": "https://www.basf.com/dam/jcr:ad007a03-e35a-3f19-99f6-23eff9e47eb3/basf/www/global/documents/en/investor-relations/calendar-and-publications/reports/2018/BASF_Report_2017.pdf",
         "document": "BASF Report 2017, Ten-year summary (2012 restated for IFRS 10/11 and IAS 19 revised)",
-        "page": "pp. 247-248"
+        "page": "pp. 247-248",
+        "supplementalSources": [
+          {
+            "url": "https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf",
+            "page": "PDF p. 186",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf",
+            "page": "PDF p. 67",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf",
+            "page": "PDF p. 69",
+            "fields": [
+              "capex"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -482,21 +556,8 @@
     }
   ],
   "gaps": [
-    "FY2012-FY2014 dilutedEPS: only basic EPS in the ten-year summaries found (2012: 5.25, 2013: 5.22, 2014: 5.61); the BASF Reports 2012-2014 were not retrievable from basf.com",
-    "FY2012-FY2014 totalDebt: only current/noncurrent financial indebtedness published separately in the ten-year summary (no total found); not summed",
-    "FY2012-FY2014 capex: cash-flow payments for PP&E/intangibles not in the ten-year summary; BASF Reports 2012-2014 not retrievable",
-    "FY2012-FY2013 totalEquity: equity attributable to shareholders not published in the ten-year summary (only total equity incl. minority interests)",
-    "FY2014 dilutedEPS: not found in the company documents used",
-    "FY2014 totalDebt: not found in the company documents used",
-    "FY2014 capex: not found in the company documents used",
-    "FY2013 dilutedEPS: not found in the company documents used",
-    "FY2013 totalEquity: not found in the company documents used",
-    "FY2013 totalDebt: not found in the company documents used",
-    "FY2013 capex: not found in the company documents used",
-    "FY2012 dilutedEPS: not found in the company documents used",
-    "FY2012 totalEquity: not found in the company documents used",
-    "FY2012 totalDebt: not found in the company documents used",
-    "FY2012 capex: not found in the company documents used"
+    "FY2013 totalEquity: not found in the company's reports (2013 AR balance sheet prints only \"Equity 27,789\", which includes \"Minority interests 678\". No equity-attributable-to-shareholders total is printed; subtracting is not allowed. 2014 AR: Equity 27,673 for 2013 (also includes minority interests).)",
+    "FY2012 totalEquity: not found in the company's reports (2013 AR balance sheet prints only \"Equity 25,621\", which includes \"Minority interests 1,010\". No equity-attributable-to-shareholders total is printed; subtracting is not allowed.)"
   ],
   "notes": [
     "IFRS throughout (BASF reports under IFRS since 2005).",
@@ -505,6 +566,15 @@
     "Restatements: 2017 restated for oil & gas (Wintershall) as discontinued operations, 2018 for construction chemicals, 2024 for Coatings; 2019 EBIT restated in the 2020 report (4,052 -> 4,201).",
     "Two-for-one stock split in Q2 2008: FY2007 EPS, DPS and share count are split-adjusted as published in the 2008 report.",
     "sharesOutstanding = number of shares at year-end (after deduction of repurchased shares earmarked for cancellation). employees = employees at year-end.",
-    "Yahoo check (USD/rough avg rate): revenue and net income FY2022-FY2025 within ~2% of the reported EUR figures."
+    "Yahoo check (USD/rough avg rate): revenue and net income FY2022-FY2025 within ~2% of the reported EUR figures.",
+    "FY2012 dilutedEPS: 5.25 (units) from https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf PDF p. 186 — 2013 AR 'Diluted earnings per share € 5.27 5.25': 2012 comparative. The 2012 AR is not in the folder, so the 2013 AR is used.",
+    "FY2013 dilutedEPS: 5.21 (units) from https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf PDF p. 212 — 2014 AR 'Diluted earnings per share € 5.60 5.21': 2013 comparative (restated; 2013 AR printed 5.27 basic and diluted).",
+    "FY2014 dilutedEPS: 5.60 (units) from https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf PDF p. 212 — 2014 AR 'Diluted earnings per share € 5.60 5.21'.",
+    "FY2012 totalDebt: 12,798 (million) from https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf PDF p. 67 — 2013 AR 'Financial indebtedness 14,407 12,798' (printed total; 2012 comparative). The 2012 AR is not in the folder.",
+    "FY2013 totalDebt: 14,407 (million) from https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf PDF p. 67 — 2013 AR printed total 'Financial indebtedness 14,407 12,798' (net debt table). The 2014 AR shows the same 14,407.",
+    "FY2014 totalDebt: 15,384 (million) from https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf PDF p. 87 — 2014 AR printed total 'Financial indebtedness 15,384 14,407' (net debt table).",
+    "FY2012 capex: (4,015) (million) from https://www.basf.com/dam/jcr:99a74810-e434-3b2f-ba14-4178ae60ad2d/BASF_Report_2013.pdf PDF p. 69 — 2013 AR cash flow 'Payments related to property, plant and equipment and intangible assets (4,660) (4,015)': 2012 comparative. Used as capex (cash purchases of PP&E and intangibles).",
+    "FY2013 capex: (4,873) (million) from https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf PDF p. 89 — 2014 AR cash flow 'Payments for property, plant and equipment and intangible assets (5,296) (4,873)': 2013 comparative (restated; 2013 AR printed (4,660)).",
+    "FY2014 capex: (5,296) (million) from https://www.basf.com/dam/jcr:f758ea2e-a8e9-3e18-a2df-f538460069c3/BASF_Report_2014.pdf PDF p. 89 — 2014 AR cash flow 'Payments for property, plant and equipment and intangible assets (5,296) (4,873)'."
   ]
 }

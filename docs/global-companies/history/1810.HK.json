@@ -220,14 +220,23 @@
       "totalDebt": 10800000000,
       "operatingCashFlow": -995669000,
       "capex": -1217806000,
-      "dividendPerShare": null,
+      "dividendPerShare": 0.0,
       "sharesOutstanding": null,
       "employees": null,
       "restated": false,
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf",
         "document": "Xiaomi Corporation Global Offering prospectus (25 June 2018), Appendix I Accountant's Report; total borrowings from Financial Information - Indebtedness (section E120.pdf of the same prospectus)",
-        "page": "pp. I-4 (income statement), I-6 (balance sheet), I-14 (cash flows)"
+        "page": "pp. I-4 (income statement), I-6 (balance sheet), I-14 (cash flows)",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf",
+            "page": "PDF p. 90",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -245,14 +254,23 @@
       "totalDebt": 4200000000,
       "operatingCashFlow": 4531264000,
       "capex": -1826245000,
-      "dividendPerShare": null,
+      "dividendPerShare": 0.0,
       "sharesOutstanding": null,
       "employees": null,
       "restated": false,
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf",
         "document": "Xiaomi Corporation Global Offering prospectus (25 June 2018), Appendix I Accountant's Report; total borrowings from Financial Information - Indebtedness (section E120.pdf of the same prospectus)",
-        "page": "pp. I-4 (income statement), I-6 (balance sheet), I-14 (cash flows)"
+        "page": "pp. I-4 (income statement), I-6 (balance sheet), I-14 (cash flows)",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf",
+            "page": "PDF p. 90",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -270,22 +288,33 @@
       "totalDebt": 3200000000,
       "operatingCashFlow": -2601311000,
       "capex": -2524356000,
-      "dividendPerShare": null,
+      "dividendPerShare": 0.0,
       "sharesOutstanding": null,
       "employees": null,
       "restated": false,
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf",
         "document": "Xiaomi Corporation Global Offering prospectus (25 June 2018), Appendix I Accountant's Report; total borrowings from Financial Information - Indebtedness (section E120.pdf of the same prospectus)",
-        "page": "pp. I-4 (income statement), I-6 (balance sheet), I-14 (cash flows)"
+        "page": "pp. I-4 (income statement), I-6 (balance sheet), I-14 (cash flows)",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf",
+            "page": "PDF p. 90",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     }
   ],
   "gaps": [
-    "FY2007-FY2014: no published financial statements. Xiaomi was founded in 2010 and listed in July 2018; the prospectus track record starts at FY2015.",
-    "dividendPerShare: null for FY2015, FY2016, FY2017 - pre-IPO; no dividend information",
-    "sharesOutstanding: null for FY2015, FY2016, FY2017 - pre-IPO share structure (preferred shares, pre-capitalisation) not comparable",
-    "employees: null for FY2015, FY2016, FY2017 - prospectus gives headcount only at 31 March 2018 (14,513), not at year-ends FY2015-2017"
+    "FY2017 sharesOutstanding: not found in the company's reports (Appendix I Note 26 (PDF p. 84) prints outstanding Class A (669,518,772) and Class B (308,698,531) ordinary shares 'as of December 31, 2015, 2016 and 2017' separately; not summed per brief, and these pre-Share-Subdivision counts are not a single printed total)",
+    "FY2017 employees: not found in the company's reports (Appendix I checked (no year-end headcount); a search for the main June 2018 prospectus located only the 25 June 2018 announcement (8 pages), not the prospectus; main-prospectus headcount section not located)",
+    "FY2016 sharesOutstanding: not found in the company's reports (Appendix I Note 26 (PDF p. 84) prints outstanding Class A (669,518,772) and Class B (308,698,531) ordinary shares 'as of December 31, 2015, 2016 and 2017' separately; not summed per brief, and these pre-Share-Subdivision counts are not a single printed total)",
+    "FY2016 employees: not found in the company's reports (Appendix I checked (no year-end headcount); a search for the main June 2018 prospectus located only the 25 June 2018 announcement (8 pages), not the prospectus; main-prospectus headcount section not located)",
+    "FY2015 sharesOutstanding: not found in the company's reports (Appendix I Note 26 (PDF p. 84) prints outstanding Class A (669,518,772) and Class B (308,698,531) ordinary shares 'as of December 31, 2015, 2016 and 2017' separately; not summed per brief, and these pre-Share-Subdivision counts are not a single printed total)",
+    "FY2015 employees: not found in the company's reports (Appendix I checked (no year-end headcount); a search for the main June 2018 prospectus located only the 25 June 2018 announcement (8 pages), not the prospectus; main-prospectus headcount section not located)"
   ],
   "notes": [
     "IFRS throughout; RMB (CNY), reports in RMB'000.",
@@ -294,6 +323,9 @@
     "capex = 'Capital expenditures' line of the cash flow statement (property and equipment, intangibles and land use rights together; FY2025 line renamed 'Purchase of property, plant and equipment, land use rights and intangible assets').",
     "operatingCashFlow is the statutory cash flow statement figure; the MD&A uses a different measure for some years (e.g. FY2019 RMB9.9bn excluding fintech loan movements).",
     "sharesOutstanding = total issued Class A + Class B ordinary shares per the share capital note table (published in thousands), including shares held by share scheme trusts. Pre-IPO share counts (FY2015-2017) are not comparable and left null.",
-    "dividendPerShare = 0 for FY2018-FY2025: each annual report states the Board resolved not to declare any final dividend."
+    "dividendPerShare = 0 for FY2018-FY2025: each annual report states the Board resolved not to declare any final dividend.",
+    "FY2015 dividendPerShare: 0 (units) from https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf PDF p. 90 — Prospectus Appendix I (Note 28 dividends): 'No dividends have been paid or declared by the Company during each of the years ended December 31, 2015, 2016 and 2017'",
+    "FY2016 dividendPerShare: 0 (units) from https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf PDF p. 90 — Prospectus Appendix I (Note 28 dividends): 'No dividends have been paid or declared by the Company during each of the years ended December 31, 2015, 2016 and 2017'",
+    "FY2017 dividendPerShare: 0 (units) from https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0625/01810_3375336/E131.pdf PDF p. 90 — Prospectus Appendix I (Note 28 dividends): 'No dividends have been paid or declared by the Company during each of the years ended December 31, 2015, 2016 and 2017'"
   ]
 }

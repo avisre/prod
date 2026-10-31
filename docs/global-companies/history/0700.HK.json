@@ -17,7 +17,7 @@
       "totalAssets": 2038986000000,
       "totalEquity": 1154152000000,
       "cashAndEquivalents": 141041000000,
-      "totalDebt": null,
+      "totalDebt": 387733000000,
       "operatingCashFlow": 303052000000,
       "capex": -87482000000,
       "dividendPerShare": 5.3,
@@ -27,7 +27,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0409/2026040901231.pdf",
         "document": "Tencent Annual Report 2025 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.139; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025"
+        "page": "cash flow statement p.139; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0409/2026040901231.pdf",
+            "page": "PDF p. 184",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -42,7 +51,7 @@
       "totalAssets": 1780995000000,
       "totalEquity": 973548000000,
       "cashAndEquivalents": 132519000000,
-      "totalDebt": null,
+      "totalDebt": 338615000000,
       "operatingCashFlow": 258521000000,
       "capex": -62927000000,
       "dividendPerShare": 4.5,
@@ -52,7 +61,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0408/2025040800667.pdf",
         "document": "Tencent Annual Report 2024 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.133; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025"
+        "page": "cash flow statement p.133; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0408/2025040800667.pdf",
+            "page": "PDF p. 177",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -67,7 +85,7 @@
       "totalAssets": 1577246000000,
       "totalEquity": 808591000000,
       "cashAndEquivalents": 172320000000,
-      "totalDebt": null,
+      "totalDebt": 348618000000,
       "operatingCashFlow": 221962000000,
       "capex": -21008000000,
       "dividendPerShare": 3.4,
@@ -77,7 +95,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0408/2024040801822.pdf",
         "document": "Tencent Annual Report 2023 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.138; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025"
+        "page": "cash flow statement p.138; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0408/2024040801822.pdf",
+            "page": "PDF p. 184",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -92,7 +119,7 @@
       "totalAssets": 1578131000000,
       "totalEquity": 721391000000,
       "cashAndEquivalents": 156739000000,
-      "totalDebt": null,
+      "totalDebt": 334363000000,
       "operatingCashFlow": 146091000000,
       "capex": -22679000000,
       "dividendPerShare": 2.4,
@@ -102,7 +129,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2023/0406/2023040601848.pdf",
         "document": "Tencent Annual Report 2022 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.141; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025; operating profit as restated in AR2023 Financial Summary p.4"
+        "page": "cash flow statement p.141; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025; operating profit as restated in AR2023 Financial Summary p.4",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2023/0406/2023040601848.pdf",
+            "page": "PDF p. 186",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -117,7 +153,7 @@
       "totalAssets": 1612364000000,
       "totalEquity": 806299000000,
       "cashAndEquivalents": 167966000000,
-      "totalDebt": null,
+      "totalDebt": 301529000000,
       "operatingCashFlow": 175186000000,
       "capex": -29302000000,
       "dividendPerShare": 1.6,
@@ -127,7 +163,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0407/2022040701694.pdf",
         "document": "Tencent Annual Report 2021 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.179; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025; operating profit as restated in AR2023 Financial Summary p.4"
+        "page": "cash flow statement p.179; revenue/net income/total assets/equity from Financial Summary p.4 of AR2025; operating profit as restated in AR2023 Financial Summary p.4",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0407/2022040701694.pdf",
+            "page": "PDF p. 224",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -142,7 +187,7 @@
       "totalAssets": 1333425000000,
       "totalEquity": 703984000000,
       "cashAndEquivalents": 152798000000,
-      "totalDebt": null,
+      "totalDebt": 248444000000,
       "operatingCashFlow": 194119000000,
       "capex": -34070000000,
       "dividendPerShare": 1.6,
@@ -152,7 +197,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2021/0408/2021040802045.pdf",
         "document": "Tencent Annual Report 2020 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.174; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020; operating profit as restated in AR2023 Financial Summary p.4"
+        "page": "cash flow statement p.174; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020; operating profit as restated in AR2023 Financial Summary p.4",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2021/0408/2021040802045.pdf",
+            "page": "PDF p. 217",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -167,7 +221,7 @@
       "totalAssets": 953986000000,
       "totalEquity": 432706000000,
       "cashAndEquivalents": 132991000000,
-      "totalDebt": null,
+      "totalDebt": 220813000000,
       "operatingCashFlow": 148590000000,
       "capex": -22766000000,
       "dividendPerShare": 1.2,
@@ -177,7 +231,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2020/0402/2020040201883.pdf",
         "document": "Tencent Annual Report 2019 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.146; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020; operating profit as restated in AR2023 Financial Summary p.4"
+        "page": "cash flow statement p.146; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020; operating profit as restated in AR2023 Financial Summary p.4",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2020/0402/2020040201883.pdf",
+            "page": "PDF p. 185",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -192,7 +255,7 @@
       "totalAssets": 723521000000,
       "totalEquity": 323510000000,
       "cashAndEquivalents": 97814000000,
-      "totalDebt": null,
+      "totalDebt": 179289000000,
       "operatingCashFlow": 110936000000,
       "capex": -19743000000,
       "dividendPerShare": 1.0,
@@ -202,7 +265,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2019/0401/ltn201904012133.pdf",
         "document": "Tencent Annual Report 2018 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.141; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020"
+        "page": "cash flow statement p.141; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2019/0401/ltn201904012133.pdf",
+            "page": "PDF p. 186",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -217,7 +289,7 @@
       "totalAssets": 554672000000,
       "totalEquity": 256074000000,
       "cashAndEquivalents": 105697000000,
-      "totalDebt": null,
+      "totalDebt": 131905000000,
       "operatingCashFlow": 106140000000,
       "capex": -12108000000,
       "dividendPerShare": 0.88,
@@ -227,7 +299,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0410/ltn20180410929.pdf",
         "document": "Tencent Annual Report 2017 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.129; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020"
+        "page": "cash flow statement p.129; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0410/ltn20180410929.pdf",
+            "page": "PDF p. 169",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -242,7 +323,7 @@
       "totalAssets": 395899000000,
       "totalEquity": 174624000000,
       "cashAndEquivalents": 71902000000,
-      "totalDebt": null,
+      "totalDebt": 109497000000,
       "operatingCashFlow": 65518000000,
       "capex": -8399000000,
       "dividendPerShare": 0.61,
@@ -252,7 +333,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2017/0410/ltn201704101125.pdf",
         "document": "Tencent Annual Report 2016 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.117; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020"
+        "page": "cash flow statement p.117; revenue/net income/total assets/equity from Financial Summary p.4 of AR2020",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2017/0410/ltn201704101125.pdf",
+            "page": "PDF p. 154",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -267,7 +357,7 @@
       "totalAssets": 306818000000,
       "totalEquity": 120035000000,
       "cashAndEquivalents": 43438000000,
-      "totalDebt": null,
+      "totalDebt": 65329000000,
       "operatingCashFlow": 45431000000,
       "capex": -5440000000,
       "dividendPerShare": 0.47,
@@ -277,7 +367,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2016/0329/ltn201603291387.pdf",
         "document": "Tencent Annual Report 2015 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.91; revenue/net income/total assets/equity from Financial Summary p.4 of AR2015"
+        "page": "cash flow statement p.91; revenue/net income/total assets/equity from Financial Summary p.4 of AR2015",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2016/0329/ltn201603291387.pdf",
+            "page": "PDF p. 125",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -292,7 +391,7 @@
       "totalAssets": 171166000000,
       "totalEquity": 80013000000,
       "cashAndEquivalents": 42713000000,
-      "totalDebt": null,
+      "totalDebt": 35584000000,
       "operatingCashFlow": 32711000000,
       "capex": -4296000000,
       "dividendPerShare": 0.36,
@@ -302,7 +401,16 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2015/0330/ltn201503301212.pdf",
         "document": "Tencent Annual Report 2014 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.85; revenue/net income/total assets/equity from Financial Summary p.4 of AR2015"
+        "page": "cash flow statement p.85; revenue/net income/total assets/equity from Financial Summary p.4 of AR2015",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2015/0330/ltn201503301212.pdf",
+            "page": "PDF p. 123",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -317,7 +425,7 @@
       "totalAssets": 107235000000,
       "totalEquity": 57945000000,
       "cashAndEquivalents": 20228000000,
-      "totalDebt": null,
+      "totalDebt": 15053000000,
       "operatingCashFlow": 24374000000,
       "capex": -4788000000,
       "dividendPerShare": 1.2,
@@ -327,7 +435,17 @@
       "source": {
         "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2014/0331/ltn20140331919.pdf",
         "document": "Tencent Annual Report 2013 (consolidated financial statements; final dividend from Directors' Report; employees from MD&A)",
-        "page": "cash flow statement p.83; revenue/net income/total assets/equity from Financial Summary p.4 of AR2015"
+        "page": "cash flow statement p.83; revenue/net income/total assets/equity from Financial Summary p.4 of AR2015",
+        "supplementalSources": [
+          {
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2015/0330/ltn201503301212.pdf",
+            "page": "PDF p. 123",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -482,7 +600,12 @@
     }
   ],
   "gaps": [
-    "totalDebt: null for FY2007, FY2008, FY2009, FY2010, FY2011, FY2012, FY2013, FY2014, FY2015, FY2016, FY2017, FY2018, FY2019, FY2020, FY2021, FY2022, FY2023, FY2024, FY2025 - Tencent publishes Borrowings and Notes payable as separate lines in its net-cash table (e.g. FY2025: borrowings RMB250,987m, notes payable RMB136,746m) but no total-debt figure; not summed per brief"
+    "FY2012 totalDebt: not found in the company's reports (AR2012 read in full (text search for 'total debt'/'total borrowings'); no total figure printed, only narrative mention in the liquidity section)",
+    "FY2011 totalDebt: not found in the company's reports (AR2011 read in full (text search for 'total debt'/'total borrowings'); no total figure printed, only narrative mention in the liquidity section)",
+    "FY2010 totalDebt: not found in the company's reports (AR2010 read in full (text search for 'total debt'/'total borrowings'); no total figure printed, only narrative mention in the liquidity section)",
+    "FY2009 totalDebt: not found in the company's reports (AR2009 read in full (text search for 'total debt'/'total borrowings'); no total figure printed, only narrative mention in the liquidity section)",
+    "FY2008 totalDebt: not found in the company's reports (AR2008 read in full (text search for 'total debt'/'total borrowings'); no total figure printed, only narrative mention in the liquidity section)",
+    "FY2007 totalDebt: not found in the company's reports (AR2007 read in full (text search for 'total debt'/'total borrowings'); no total figure printed, only narrative mention in the liquidity section)"
   ],
   "notes": [
     "IFRS throughout. Reporting currency RMB (CNY). Figures in RMB'000 until FY2012 and RMB million from FY2013 in the reports; scaled to units.",
@@ -492,6 +615,19 @@
     "dividendPerShare is the final dividend recommended for the year, declared in HKD (not RMB). Special/in-specie distributions (e.g. Meituan and JD shares) are excluded.",
     "capex = 'Purchase of fixed assets / property, plant and equipment, construction in progress and investment properties' (from FY2024 the line reads 'Purchase of/prepayments for ...'); intangible asset and land-use-right purchases are separate lines and are excluded.",
     "sharesOutstanding = issued shares per the share capital note (Group) at 31 December.",
-    "OCF FY2007 (1,835,704k) and FY2018 (110,936m) and capex FY2011 are the restated comparatives from the following year's report."
+    "OCF FY2007 (1,835,704k) and FY2018 (110,936m) and capex FY2011 are the restated comparatives from the following year's report.",
+    "FY2013 totalDebt: 15,053 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2015/0330/ltn201503301212.pdf PDF p. 123 — 2013 comparative column of AR2014 'Total debts' line; AR2013 prints no total debts line",
+    "FY2014 totalDebt: 35,584 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2015/0330/ltn201503301212.pdf PDF p. 123 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2015 totalDebt: 65,329 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2016/0329/ltn201603291387.pdf PDF p. 125 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2016 totalDebt: 109,497 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2017/0410/ltn201704101125.pdf PDF p. 154 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2017 totalDebt: 131,905 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0410/ltn20180410929.pdf PDF p. 169 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2018 totalDebt: 179,289 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2019/0401/ltn201904012133.pdf PDF p. 186 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2019 totalDebt: 220,813 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2020/0402/2020040201883.pdf PDF p. 185 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2020 totalDebt: 248,444 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2021/0408/2021040802045.pdf PDF p. 217 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2021 totalDebt: 301,529 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0407/2022040701694.pdf PDF p. 224 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2022 totalDebt: 334,363 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2023/0406/2023040601848.pdf PDF p. 186 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2023 totalDebt: 348,618 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0408/2024040801822.pdf PDF p. 184 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2024 totalDebt: 338,615 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0408/2025040800667.pdf PDF p. 177 — 'Total debts' line in leverage ratio table (RMB in millions); report defines total debts as borrowings plus notes payable",
+    "FY2025 totalDebt: 387,733 (million) from https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0409/2026040901231.pdf PDF p. 184 — 'Total debt' line in leverage ratio table (RMB in millions); total debts = borrowings plus notes payable"
   ]
 }

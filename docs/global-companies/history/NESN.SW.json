@@ -21,7 +21,7 @@
       "operatingCashFlow": 15904000000,
       "capex": -4527000000,
       "dividendPerShare": 3.1,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2572200000,
       "employees": 271000,
       "restated": false,
       "source": {
@@ -39,6 +39,13 @@
               "cashAndEquivalents",
               "capex",
               "totalEquity"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/2026-02/financial-statements-2025-en.pdf",
+            "page": "PDF p. 83",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -60,7 +67,7 @@
       "operatingCashFlow": 16675000000,
       "capex": -5638000000,
       "dividendPerShare": 3.05,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2572700000,
       "employees": 277000,
       "restated": false,
       "source": {
@@ -78,6 +85,13 @@
               "cashAndEquivalents",
               "capex",
               "totalEquity"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/2026-02/financial-statements-2025-en.pdf",
+            "page": "PDF p. 83",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -99,7 +113,7 @@
       "operatingCashFlow": 15941000000,
       "capex": -5714000000,
       "dividendPerShare": 3.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2621300000,
       "employees": 275000,
       "restated": false,
       "source": {
@@ -117,6 +131,13 @@
               "cashAndEquivalents",
               "capex",
               "totalEquity"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/2024-02/2023-financial-statements-en.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -138,7 +159,7 @@
       "operatingCashFlow": 11907000000,
       "capex": -5095000000,
       "dividendPerShare": 2.95,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2668100000,
       "employees": 275000,
       "restated": false,
       "source": {
@@ -156,6 +177,13 @@
               "cashAndEquivalents",
               "capex",
               "totalEquity"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/2024-02/2023-financial-statements-en.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -177,7 +205,7 @@
       "operatingCashFlow": 13864000000,
       "capex": -4880000000,
       "dividendPerShare": 2.8,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2759600000,
       "employees": 276000,
       "restated": false,
       "source": {
@@ -195,6 +223,13 @@
               "cashAndEquivalents",
               "capex",
               "totalEquity"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/2022-02/2021-financial-statements-en.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -216,7 +251,7 @@
       "operatingCashFlow": 14377000000,
       "capex": -4076000000,
       "dividendPerShare": 2.75,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2816500000,
       "employees": 273000,
       "restated": false,
       "source": {
@@ -233,6 +268,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/2022-02/2021-financial-statements-en.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -254,7 +296,7 @@
       "operatingCashFlow": 15850000000,
       "capex": -3695000000,
       "dividendPerShare": 2.7,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2880000000,
       "employees": 291000,
       "restated": false,
       "source": {
@@ -271,6 +313,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/2021-02/2020-financial-statements-en.pdf",
+            "page": "PDF p. 81",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -292,7 +341,7 @@
       "operatingCashFlow": 15398000000,
       "capex": -3869000000,
       "dividendPerShare": 2.45,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 2974500000,
       "employees": 308000,
       "restated": false,
       "source": {
@@ -309,6 +358,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2018-financial-statements-en.pdf",
+            "page": "PDF p. 84",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -330,7 +386,7 @@
       "operatingCashFlow": 14199000000,
       "capex": -3938000000,
       "dividendPerShare": 2.35,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3057600000,
       "employees": 323000,
       "restated": true,
       "source": {
@@ -347,6 +403,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2018-financial-statements-en.pdf",
+            "page": "PDF p. 84",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -368,7 +431,7 @@
       "operatingCashFlow": 15582000000,
       "capex": -4010000000,
       "dividendPerShare": 2.3,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3098000000,
       "employees": 328000,
       "restated": false,
       "source": {
@@ -385,6 +448,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2016-financial-statements-en.pdf",
+            "page": "PDF p. 74",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -406,7 +476,7 @@
       "operatingCashFlow": 14302000000,
       "capex": -3872000000,
       "dividendPerShare": 2.25,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3084500000,
       "employees": 335000,
       "restated": false,
       "source": {
@@ -423,6 +493,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2016-financial-statements-en.pdf",
+            "page": "PDF p. 74",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -444,7 +521,7 @@
       "operatingCashFlow": 14700000000,
       "capex": -3914000000,
       "dividendPerShare": 2.2,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3168400000,
       "employees": 339000,
       "restated": false,
       "source": {
@@ -461,6 +538,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2015-financial-statements-en.pdf",
+            "page": "PDF p. 74",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -482,7 +566,7 @@
       "operatingCashFlow": 14992000000,
       "capex": -4928000000,
       "dividendPerShare": 2.15,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3189600000,
       "employees": 333000,
       "restated": false,
       "source": {
@@ -499,6 +583,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2013-financial-statements-en.pdf",
+            "page": "PDF p. 65",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -520,7 +611,7 @@
       "operatingCashFlow": 15668000000,
       "capex": -5273000000,
       "dividendPerShare": 2.05,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3188600000,
       "employees": 333000,
       "restated": true,
       "source": {
@@ -537,6 +628,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2013-financial-statements-en.pdf",
+            "page": "PDF p. 65",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -558,7 +656,7 @@
       "operatingCashFlow": 10180000000,
       "capex": -4779000000,
       "dividendPerShare": 1.95,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3172000000,
       "employees": 328000,
       "restated": true,
       "source": {
@@ -575,6 +673,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2011-financial-statements-en.pdf",
+            "page": "PDF p. 67",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -596,7 +701,7 @@
       "operatingCashFlow": 13608000000,
       "capex": -4576000000,
       "dividendPerShare": 1.85,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3257000000,
       "employees": 281000,
       "restated": false,
       "source": {
@@ -613,6 +718,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2011-financial-statements-en.pdf",
+            "page": "PDF p. 67",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -634,7 +746,7 @@
       "operatingCashFlow": 17934000000,
       "capex": -4641000000,
       "dividendPerShare": 1.6,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3472000000,
       "employees": 278000,
       "restated": false,
       "source": {
@@ -651,6 +763,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2010-financial-statements-en.pdf",
+            "page": "PDF p. 70",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -672,7 +791,7 @@
       "operatingCashFlow": 10763000000,
       "capex": -4869000000,
       "dividendPerShare": 1.4,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3615607240,
       "employees": 283000,
       "restated": false,
       "source": {
@@ -689,6 +808,13 @@
               "dilutedEPS",
               "cashAndEquivalents",
               "capex"
+            ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2008-financial-statements-en.pdf",
+            "page": "PDF p. 68",
+            "fields": [
+              "sharesOutstanding"
             ]
           }
         ]
@@ -710,7 +836,7 @@
       "operatingCashFlow": 13439000000,
       "capex": -4971000000,
       "dividendPerShare": 1.22,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3762717580,
       "employees": 276000,
       "restated": true,
       "source": {
@@ -728,31 +854,39 @@
               "cashAndEquivalents",
               "capex"
             ]
+          },
+          {
+            "url": "https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2008-financial-statements-en.pdf",
+            "page": "PDF p. 68",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
           }
         ]
       }
     }
   ],
   "gaps": [
-    "FY2025: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2024: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2023: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2022: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2021: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2020: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2019: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2018: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2017: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2016: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2015: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2014: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2013: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2012: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2011: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2010: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2009: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2008: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent.",
-    "FY2007: totalDebt, sharesOutstanding not established from the inspected company-published tables; net debt and weighted-average EPS denominator are not equivalent."
+    "FY2025 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2024 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2023 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2022 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2021 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2020 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2019 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2018 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2017 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2016 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2015 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2014 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2013 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2012 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2011 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2010 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2009 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2008 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed",
+    "FY2007 totalDebt: cannot exist: no single printed total debt line in the consolidated statements inspected (FY2007-FY2025 reports); current and non-current financial debt are printed separately and not summed"
   ],
   "notes": [
     "Consolidated IFRS accounts in fullCHF units; netIncome and totalEquity are attributable to shareholders of the parent, not total profit/equity including noncontrolling interests.",
@@ -763,6 +897,25 @@
     "Historical revenue and operating profit reflect the reporting scope in the latest inspected published historical summaries; Alcon disposal in2010 generated a large attributable net gain and preinterest/tax profit, and earlier years include the Alcon business. No artificial like-for-like history is calculated.",
     "dividendPerShare is the fiscal-year dividend, paid or proposed for payment in the following year;2025 is the board proposal printed in the2025report.",
     "employees is the rounded figure published in thousands scaled to persons.2021/2022 are FTE while2023-2025 are headcount, as the2025review explicitly notes; historical definitions otherwise follow the source review.",
-    "totalDebt is null because no verified single aggregate matching the required debt scope was extracted; net financial debt is not substituted and current/noncurrent balances are not summed. sharesOutstanding is null because the summaries publish weighted-average EPS shares rather than period-end outstanding shares, and issued less treasury shares is not computed."
+    "totalDebt is null because no verified single aggregate matching the required debt scope was extracted; net financial debt is not substituted and current/noncurrent balances are not summed. sharesOutstanding is null because the summaries publish weighted-average EPS shares rather than period-end outstanding shares, and issued less treasury shares is not computed.",
+    "FY2007 sharesOutstanding: 3,762,717,580 (units) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2008-financial-statements-en.pdf PDF p. 68 — Outstanding at 31 Dec 2007 (issued less treasury), units; 2007 comparative restated for 1-for-10 share split effective 30 Jun 2008; FY2008 statements [retrieved via web.archive.org id_ copy]",
+    "FY2008 sharesOutstanding: 3,615,607,240 (units) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2008-financial-statements-en.pdf PDF p. 68 — Outstanding at 31 Dec 2008 (issued less treasury), units; FY2008 statements, post 1-for-10 split [retrieved via web.archive.org id_ copy]",
+    "FY2009 sharesOutstanding: 3,472 (millions) from https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2010-financial-statements-en.pdf PDF p. 70 — Outstanding at 31 Dec 2009 (issued less treasury), millions of units; FY2010 statements, note 18.4 [retrieved via web.archive.org id_ copy]",
+    "FY2010 sharesOutstanding: 3,257 (millions) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2011-financial-statements-en.pdf PDF p. 67 — Outstanding at 31 Dec 2010 (issued less treasury), millions of units; FY2011 statements, note 18.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2011 sharesOutstanding: 3,172 (millions) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2011-financial-statements-en.pdf PDF p. 67 — Outstanding at 31 Dec 2011 (issued less treasury), millions of units; FY2011 statements, note 18.4 [retrieved via web.archive.org id_ copy]",
+    "FY2012 sharesOutstanding: 3,188.6 (millions) from https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2013-financial-statements-en.pdf PDF p. 65 — Outstanding at 31 Dec 2012 (issued less treasury), millions of units; FY2013 statements, note 19.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2013 sharesOutstanding: 3,189.6 (millions) from https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2013-financial-statements-en.pdf PDF p. 65 — Outstanding at 31 Dec 2013 (issued less treasury), millions of units; FY2013 statements, note 19.4 [retrieved via web.archive.org id_ copy]",
+    "FY2014 sharesOutstanding: 3,168.4 (millions) from https://www.nestle.com/asset-library/documents/library/documents/financial_statements/2015-financial-statements-en.pdf PDF p. 74 — Outstanding at 31 Dec 2014 (issued less treasury), millions of units; FY2015 statements, note 18.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2015 sharesOutstanding: 3,084.5 (millions) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2016-financial-statements-en.pdf PDF p. 74 — Outstanding at 31 Dec 2015 (issued less treasury), millions of units; FY2016 statements, note 17.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2016 sharesOutstanding: 3,098.0 (millions) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2016-financial-statements-en.pdf PDF p. 74 — Outstanding at 31 Dec 2016 (issued less treasury), millions of units; FY2016 statements, note 17.4 [retrieved via web.archive.org id_ copy]",
+    "FY2017 sharesOutstanding: 3,057.6 (millions) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2018-financial-statements-en.pdf PDF p. 84 — Outstanding at 31 Dec 2017 (issued less treasury), millions of units; FY2018 statements, note 17.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2018 sharesOutstanding: 2,974.5 (millions) from https://www.nestle.com/sites/default/files/asset-library/documents/library/documents/financial_statements/2018-financial-statements-en.pdf PDF p. 84 — Outstanding at 31 Dec 2018 (issued less treasury), millions of units; FY2018 statements, note 17.4 [retrieved via web.archive.org id_ copy]",
+    "FY2019 sharesOutstanding: 2,880.0 (millions) from https://www.nestle.com/sites/default/files/2021-02/2020-financial-statements-en.pdf PDF p. 81 — Outstanding at 31 Dec 2019 (issued less treasury), millions of units; FY2020 statements, note 17.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2020 sharesOutstanding: 2,816.5 (millions) from https://www.nestle.com/sites/default/files/2022-02/2021-financial-statements-en.pdf PDF p. 82 — Outstanding at 31 Dec 2020 (issued less treasury), millions of units; FY2021 statements, note 17.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2021 sharesOutstanding: 2,759.6 (millions) from https://www.nestle.com/sites/default/files/2022-02/2021-financial-statements-en.pdf PDF p. 82 — Outstanding at 31 Dec 2021 (issued less treasury), millions of units; FY2021 statements, note 17.4 [retrieved via web.archive.org id_ copy]",
+    "FY2022 sharesOutstanding: 2,668.1 (millions) from https://www.nestle.com/sites/default/files/2024-02/2023-financial-statements-en.pdf PDF p. 82 — Outstanding at 31 Dec 2022 (issued less treasury), millions of units; FY2023 statements, note 17.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2023 sharesOutstanding: 2,621.3 (millions) from https://www.nestle.com/sites/default/files/2024-02/2023-financial-statements-en.pdf PDF p. 82 — Outstanding at 31 Dec 2023 (issued less treasury), millions of units; FY2023 statements, note 17.4 [retrieved via web.archive.org id_ copy]",
+    "FY2024 sharesOutstanding: 2,572.7 (millions) from https://www.nestle.com/sites/default/files/2026-02/financial-statements-2025-en.pdf PDF p. 83 — Outstanding at 31 Dec 2024 (issued less treasury), millions of units; FY2025 statements, note 17.4 comparative [retrieved via web.archive.org id_ copy]",
+    "FY2025 sharesOutstanding: 2,572.2 (millions) from https://www.nestle.com/sites/default/files/2026-02/financial-statements-2025-en.pdf PDF p. 83 — Outstanding at 31 Dec 2025 (issued less treasury), millions of units; FY2025 statements, note 17.4 [retrieved via web.archive.org id_ copy]"
   ]
 }

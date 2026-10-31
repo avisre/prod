@@ -20,14 +20,23 @@
    "totalDebt": null,
    "operatingCashFlow": 33209000000,
    "capex": -1693000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 17.1,
    "sharesOutstanding": 380418897,
    "employees": 155785,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2025/en-allianz-group-annual-report-2025.pdf",
     "document": "Allianz Group Annual Report 2025",
-    "page": "PDF pp. 192, 193, 196, 211, 213, 275"
+    "page": "PDF pp. 192, 193, 196, 211, 213, 275",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2025/en-allianz-group-annual-report-2025.pdf",
+      "page": "PDF p. 159",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -97,12 +106,21 @@
    "capex": -1444000000,
    "dividendPerShare": 11.4,
    "sharesOutstanding": 403313996,
-   "employees": null,
+   "employees": 157332,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2022/en-Allianz-Group-Annual-Report-2022.pdf",
     "document": "Allianz Group Annual Report 2022",
-    "page": "PDF pp. 126, 127, 130, 131, 150, 151, 193"
+    "page": "PDF pp. 126, 127, 130, 131, 150, 151, 193",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2022/en-Allianz-Group-Annual-Report-2022.pdf",
+      "page": "PDF p. 193",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -120,14 +138,37 @@
    "totalDebt": null,
    "operatingCashFlow": 25124000000,
    "capex": -1494000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 10.8,
+   "sharesOutstanding": 408219153,
+   "employees": 152840,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2022/en-Allianz-Group-Annual-Report-2022.pdf",
     "document": "Allianz Group Annual Report 2022 (prior-year column)",
-    "page": "PDF pp. 126, 127, 130, 131, 150, 151, 193"
+    "page": "PDF pp. 126, 127, 130, 131, 150, 151, 193",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2021/en-Allianz-Group-Annual-Report-2021.pdf",
+      "page": "PDF p. 88",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2021/en-Allianz-Group-Annual-Report-2021.pdf",
+      "page": "PDF p. 183",
+      "fields": [
+       "employees"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2021/en-Allianz-Group-Annual-Report-2021.pdf",
+      "page": "PDF p. 161",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -147,12 +188,21 @@
    "capex": -1429000000,
    "dividendPerShare": 9.6,
    "sharesOutstanding": 412293128,
-   "employees": null,
+   "employees": 148737,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2021/en-Allianz-Group-Annual-Report-2021.pdf",
     "document": "Allianz Group Annual Report 2021 (prior-year column)",
-    "page": "PDF pp. 120, 121, 124, 125, 142, 143, 183"
+    "page": "PDF pp. 120, 121, 124, 125, 142, 143, 183",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2020/en-Allianz-Group-Annual-Report-2020.pdf",
+      "page": "PDF p. 172",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -172,12 +222,21 @@
    "capex": -1238000000,
    "dividendPerShare": 9.6,
    "sharesOutstanding": 417172859,
-   "employees": null,
+   "employees": 144864,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2020/en-Allianz-Group-Annual-Report-2020.pdf",
     "document": "Allianz Group Annual Report 2020 (prior-year column)",
-    "page": "PDF pp. 106, 107, 110, 111, 130, 131, 171"
+    "page": "PDF pp. 106, 107, 110, 111, 130, 131, 171",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2019/en-AR-Group-Annual-Report-Allianz-2019.pdf",
+      "page": "PDF p. 159",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -197,12 +256,21 @@
    "capex": -1258000000,
    "dividendPerShare": 9,
    "sharesOutstanding": 438879929,
-   "employees": null,
+   "employees": 141507,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2019/en-AR-Group-Annual-Report-Allianz-2019.pdf",
     "document": "Allianz Group Annual Report 2019 (prior-year column)",
-    "page": "PDF pp. 96, 97, 100, 101, 118, 119, 159"
+    "page": "PDF pp. 96, 97, 100, 101, 118, 119, 159",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2018/en-AR-Group-2018.pdf",
+      "page": "PDF p. 154",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -222,12 +290,21 @@
    "capex": -1374000000,
    "dividendPerShare": 7.6,
    "sharesOutstanding": 440249646,
-   "employees": null,
+   "employees": 140403,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2018/en-AR-Group-2018.pdf",
     "document": "Allianz Group Annual Report 2018 (prior-year column)",
-    "page": "PDF pp. 94, 95, 98, 99, 114, 115, 154"
+    "page": "PDF pp. 94, 95, 98, 99, 114, 115, 154",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2017/en-group-2017-annual-report-allianz-group.pdf",
+      "page": "PDF p. 141",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -245,14 +322,30 @@
    "totalDebt": null,
    "operatingCashFlow": 21461000000,
    "capex": -1335000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 7.6,
    "sharesOutstanding": 457000000,
-   "employees": null,
+   "employees": 142066,
    "restated": true,
    "source": {
     "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2017/en-group-2017-annual-report-allianz-group.pdf",
     "document": "Allianz Group Annual Report 2017 (prior-year column)",
-    "page": "PDF pp. 82, 83, 86, 87, 100, 101, 141"
+    "page": "PDF pp. 82, 83, 86, 87, 100, 101, 141",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results/2016-fy/ar-2016-annual-report-allianz-group.pdf",
+      "page": "PDF p. 53",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results/2016-fy/ar-2016-annual-report-allianz-group.pdf",
+      "page": "PDF p. 139",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -320,14 +413,37 @@
    "totalDebt": null,
    "operatingCashFlow": 23239000000,
    "capex": -1484000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 5.3,
+   "sharesOutstanding": 453736619,
+   "employees": 147627,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20220223110513id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2014/ar2014_group.pdf",
     "document": "Allianz Group Annual Report 2014 (prior-year column)",
-    "page": "PDF pp. 155, 156, 159, 160, 182, 183, 257"
+    "page": "PDF pp. 155, 156, 159, 160, 182, 183, 257",
+    "supplementalSources": [
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2013/ar2013_allianzgroup.pdf",
+      "page": "PDF p. 3",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2013/ar2013_allianzgroup.pdf",
+      "page": "PDF p. 3",
+      "fields": [
+       "employees"
+      ]
+     },
+     {
+      "url": "https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2013/ar2013_allianzgroup.pdf",
+      "page": "PDF p. 198",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -482,58 +598,44 @@
   }
  ],
  "gaps": [
-  "FY2025 operatingIncome: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 dividendPerShare: not found in the reports read",
-  "FY2024 operatingIncome: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2023 operatingIncome: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2022 operatingIncome: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 employees: not found in the reports read",
-  "FY2021 operatingIncome: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2021 dividendPerShare: not found in the reports read",
-  "FY2021 sharesOutstanding: not found in the reports read",
-  "FY2021 employees: not found in the reports read",
-  "FY2020 operatingIncome: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2020 employees: not found in the reports read",
-  "FY2019 operatingIncome: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 employees: not found in the reports read",
-  "FY2018 operatingIncome: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2018 employees: not found in the reports read",
-  "FY2017 operatingIncome: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2017 employees: not found in the reports read",
-  "FY2016 operatingIncome: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 dividendPerShare: not found in the reports read",
-  "FY2016 employees: not found in the reports read",
-  "FY2015 operatingIncome: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2014 operatingIncome: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2013 operatingIncome: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 dividendPerShare: not found in the reports read",
-  "FY2013 sharesOutstanding: not found in the reports read",
-  "FY2013 employees: not found in the reports read",
-  "FY2012 operatingIncome: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2011 operatingIncome: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2009 operatingIncome: not found in the reports read",
-  "FY2009 totalDebt: not found in the reports read",
-  "FY2008 operatingIncome: not found in the reports read",
-  "FY2008 totalDebt: not found in the reports read",
-  "FY2007 operatingIncome: not found in the reports read",
-  "FY2007 totalDebt: not found in the reports read"
+  "FY2025 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2025 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2024 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2024 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2023 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2023 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2022 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2022 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2021 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2021 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2020 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2020 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2019 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2019 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2018 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2018 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2017 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2017 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2016 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2016 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2015 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2015 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2014 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2014 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2013 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2013 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2012 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2012 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2011 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2011 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2010 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2010 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2009 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2009 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2008 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2008 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)",
+  "FY2007 operatingIncome: cannot exist: no consolidated operating profit line printed in the income statement; 'operating profit' is a non-GAAP segment measure (not used)",
+  "FY2007 totalDebt: not found in the company's reports (balance sheet shows 'Subordinated liabilities' and the financing table shows 'Total bonds' only; no single printed total debt line)"
  ],
  "notes": [
   "Insurer: revenue = \"Total income\" to 2022; from 2023 the IFRS 17 \"Insurance revenue\" line (IFRS 17 prints no total income), so the series breaks at 2022/2023.",
@@ -575,6 +677,20 @@
   "FY2008 netIncome: Net income (loss) attributable to shareholders; 2009 report confirms Shareholders (2,444)",
   "FY2007 revenue: latest published figure: restated in the 2008 report (first published 102,734)",
   "FY2023 netIncome: read from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2024/en-allianz-group-annual-report-2024.pdf (PDF p. 229)",
-  "FY2023 netIncome: Net income attributable to shareholders, 2023 column of the 2024 consolidated income statement (9,032 is total net income incl. non-controlling interests)"
+  "FY2023 netIncome: Net income attributable to shareholders, 2023 column of the 2024 consolidated income statement (9,032 is total net income incl. non-controlling interests)",
+  "FY2025 dividendPerShare: 17.10 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2025/en-allianz-group-annual-report-2025.pdf PDF p. 159 — proposed dividend per share, as printed ('propose a dividend of EUR 17.10 per share')",
+  "FY2021 dividendPerShare: 10.80 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2021/en-Allianz-Group-Annual-Report-2021.pdf PDF p. 88 — dividend proposal EUR 10.80 (2020: EUR 9.60) as printed",
+  "FY2016 dividendPerShare: 7.60 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results/2016-fy/ar-2016-annual-report-allianz-group.pdf PDF p. 53 — proposed dividend EUR 7.60 per share as printed",
+  "FY2013 dividendPerShare: 5.30 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2013/ar2013_allianzgroup.pdf PDF p. 3 — key-figures summary prints 5.30; the table on p.27 prints 5.303 with a footnote marker",
+  "FY2022 employees: 157,332 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2022/en-Allianz-Group-Annual-Report-2022.pdf PDF p. 193 — average number of employees as printed",
+  "FY2021 employees: 152,840 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2021/en-Allianz-Group-Annual-Report-2021.pdf PDF p. 183 — average number of employees as printed",
+  "FY2020 employees: 148,737 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2020/en-Allianz-Group-Annual-Report-2020.pdf PDF p. 172 — average number of employees as printed",
+  "FY2019 employees: 144,864 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2019/en-AR-Group-Annual-Report-Allianz-2019.pdf PDF p. 159 — average number of employees as printed",
+  "FY2018 employees: 141,507 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2018/en-AR-Group-2018.pdf PDF p. 154 — average number of employees as printed",
+  "FY2017 employees: 140,403 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2017/en-group-2017-annual-report-allianz-group.pdf PDF p. 141 — average number of employees as printed",
+  "FY2016 employees: 142,066 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results/2016-fy/ar-2016-annual-report-allianz-group.pdf PDF p. 139 — average number of employees as printed",
+  "FY2013 employees: 147,627 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2013/ar2013_allianzgroup.pdf PDF p. 3 — key-figures 'Employees' row; basis (average or year-end) not stated in the report",
+  "FY2021 sharesOutstanding: 408,219,153 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar-2021/en-Allianz-Group-Annual-Report-2021.pdf PDF p. 161 — 'Number of issued shares outstanding as of 31 December' as printed",
+  "FY2013 sharesOutstanding: 453,736,619 (units) from https://web.archive.org/web/2025id_/https://www.allianz.com/content/dam/onemarketing/azcom/Allianz_com/investor-relations/en/results-reports/annual-report/ar2013/ar2013_allianzgroup.pdf PDF p. 198 — 'Issued shares outstanding as of 31 December' as printed"
  ]
 }

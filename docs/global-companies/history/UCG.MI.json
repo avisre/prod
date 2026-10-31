@@ -45,14 +45,23 @@
    "totalDebt": null,
    "operatingCashFlow": -7076000000,
    "capex": -1250000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 2.402,
    "sharesOutstanding": 1551419850,
    "employees": 75265,
    "restated": true,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2025 (prior-year column)",
-    "page": "PDF pp. 355, 359, 524, 741, 742, 823, 1019, 1020"
+    "page": "PDF pp. 355, 359, 524, 741, 742, 823, 1019, 1020",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf",
+      "page": "PDF p. 103",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -70,14 +79,31 @@
    "totalDebt": null,
    "operatingCashFlow": -41128000000,
    "capex": -1152000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 1.803,
+   "sharesOutstanding": 1712000000,
    "employees": 75923,
    "restated": true,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2024/4Q24/2024-Annual-Reports-and-Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2024 (prior-year column)",
-    "page": "PDF pp. 112, 357, 363, 452, 735, 736, 840"
+    "page": "PDF pp. 112, 357, 363, 452, 735, 736, 840",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf",
+      "page": "PDF p. 103",
+      "fields": [
+       "dividendPerShare"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf",
+      "page": "PDF p. 103",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -170,14 +196,23 @@
    "totalDebt": null,
    "operatingCashFlow": -16207000000,
    "capex": -2185000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.0,
    "sharesOutstanding": 2233376842,
    "employees": 84245,
    "restated": true,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2020/4Q20/2020-Annual-Report-and-Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2020 (prior-year column)",
-    "page": "PDF pp. 107, 108, 112, 117, 262, 439, 440"
+    "page": "PDF pp. 107, 108, 112, 117, 262, 439, 440",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf",
+      "page": "PDF p. 103",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -245,14 +280,30 @@
    "totalDebt": null,
    "operatingCashFlow": 4980041000,
    "capex": -1277902000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 0.0,
+   "sharesOutstanding": 6180000000,
    "employees": 117659,
    "restated": false,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2017/4Q17/2017-Consolidated-Reports-and-Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2017 (prior-year column)",
-    "page": "PDF pp. 26, 28, 29, 86, 92, 214"
+    "page": "PDF pp. 26, 28, 29, 86, 92, 214",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf",
+      "page": "PDF p. 103",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -320,14 +371,37 @@
    "totalDebt": null,
    "operatingCashFlow": 4134427000,
    "capex": -929234000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 0.1,
+   "sharesOutstanding": 5792000000,
+   "employees": 138159,
    "restated": true,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2013/2013-Consolidated-Reports-and-Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2013",
-    "page": "PDF pp. 30, 32, 33, 88, 92, 222"
+    "page": "PDF pp. 30, 32, 33, 88, 92, 222",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2013/2013-Consolidated-Reports-and-Accounts.pdf",
+      "page": "PDF p. 28",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -345,14 +419,30 @@
    "totalDebt": null,
    "operatingCashFlow": -10189061000,
    "capex": -927889000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 0.09,
+   "sharesOutstanding": 5789000000,
    "employees": 156354,
    "restated": true,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2012/2012-consolidated-reports-and-accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2012",
-    "page": "PDF pp. 30, 86, 87, 88, 92, 222, 230"
+    "page": "PDF pp. 30, 86, 87, 88, 92, 222, 230",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -370,14 +460,23 @@
    "totalDebt": null,
    "operatingCashFlow": 4742044000,
    "capex": -974214000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.0,
    "sharesOutstanding": 1927425171,
    "employees": 160360,
    "restated": true,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2012/2012-consolidated-reports-and-accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2012 (prior-year column)",
-    "page": "PDF pp. 30, 86, 87, 88, 92, 222, 230"
+    "page": "PDF pp. 30, 86, 87, 88, 92, 222, 230",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -395,14 +494,30 @@
    "totalDebt": null,
    "operatingCashFlow": -8265725000,
    "capex": -1401103000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 0.03,
+   "sharesOutstanding": 19297600000,
    "employees": 162009,
    "restated": false,
    "source": {
     "url": "https://web.archive.org/web/20190104231015id_/https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2011/2011-Consolidated-Reports-and-Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2011 (prior-year column)",
-    "page": "PDF pp. 30, 32, 134, 138, 242, 268"
+    "page": "PDF pp. 30, 32, 134, 138, 242, 268",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -420,14 +535,38 @@
    "totalDebt": null,
    "operatingCashFlow": -3983545000,
    "capex": -1634432000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 0.03,
+   "sharesOutstanding": 16779300000,
+   "employees": 155000,
    "restated": false,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-calendar/2010/UniCredit_Group_2009_Consolidated_Reports_and_Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2009",
-    "page": "PDF pp. 30, 32, 33, 126, 130, 234"
+    "page": "PDF pp. 30, 32, 33, 126, 130, 234",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf",
+      "page": "PDF p. 42",
+      "fields": [
+       "sharesOutstanding"
+      ],
+      "restated": true
+     },
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-calendar/2010/UniCredit_Group_2009_Consolidated_Reports_and_Accounts.pdf",
+      "page": "PDF p. 28",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -470,76 +609,67 @@
    "totalDebt": null,
    "operatingCashFlow": 15270980000,
    "capex": -7018499000,
-   "dividendPerShare": null,
+   "dividendPerShare": 0.26,
    "sharesOutstanding": 21706552,
    "employees": 169816,
    "restated": false,
    "source": {
     "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-calendar/2008/En2008_Reports_and_Accounts.pdf",
     "document": "UniCredit Group Consolidated Reports and Accounts 2008 (prior-year column)",
-    "page": "PDF pp. 30, 31, 140, 141, 143, 146, 222"
+    "page": "PDF pp. 30, 31, 140, 141, 143, 146, 222",
+    "supplementalSources": [
+     {
+      "url": "https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2016/4Q16/2016-Consolidated-Reports-and-Accounts.pdf",
+      "page": "PDF p. 35",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2025 operatingIncome: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 dividendPerShare: not found in the reports read",
-  "FY2024 operatingIncome: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2024 dividendPerShare: not found in the reports read",
-  "FY2023 operatingIncome: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2023 dividendPerShare: not found in the reports read",
-  "FY2023 sharesOutstanding: not found in the reports read",
-  "FY2022 operatingIncome: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2021 operatingIncome: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2020 operatingIncome: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2019 operatingIncome: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 dividendPerShare: not found in the reports read",
-  "FY2018 operatingIncome: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2017 operatingIncome: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2016 operatingIncome: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 dividendPerShare: not found in the reports read",
-  "FY2016 sharesOutstanding: not found in the reports read",
-  "FY2015 operatingIncome: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2014 operatingIncome: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2013 operatingIncome: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 dividendPerShare: not found in the reports read",
-  "FY2013 sharesOutstanding: not found in the reports read",
-  "FY2013 employees: not found in the reports read",
-  "FY2012 operatingIncome: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2012 dividendPerShare: not found in the reports read",
-  "FY2012 sharesOutstanding: not found in the reports read",
-  "FY2011 operatingIncome: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2011 dividendPerShare: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 dividendPerShare: not found in the reports read",
-  "FY2010 sharesOutstanding: not found in the reports read",
-  "FY2009 operatingIncome: not found in the reports read",
-  "FY2009 totalDebt: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2009 sharesOutstanding: not found in the reports read",
-  "FY2009 employees: not found in the reports read",
-  "FY2008 operatingIncome: not found in the reports read",
-  "FY2008 totalDebt: not found in the reports read",
-  "FY2008 dividendPerShare: not found in the reports read",
-  "FY2007 operatingIncome: not found in the reports read",
-  "FY2007 totalDebt: not found in the reports read",
-  "FY2007 dividendPerShare: not found in the reports read"
+  "FY2025 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2025 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2025 dividendPerShare: not found in the company's reports (2025 report p.6 prints interim EUR 1.4282 (paid Nov 2025) and preliminary final EUR 1.7205 (calculated 6 Feb 2026); no single FY2025 total printed, sum not taken; the share table p.103 shows '-' under 2025)",
+  "FY2024 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2024 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2023 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2023 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2022 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2022 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2021 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2021 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2020 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2020 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2019 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2019 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2018 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2018 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2017 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2017 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2016 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2016 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2015 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2015 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2014 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2014 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2013 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2013 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2012 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2012 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2011 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2011 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2010 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2010 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2009 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2009 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2008 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2008 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)",
+  "FY2008 dividendPerShare: not found in the company's reports (2008 and 2009 reports: ordinary DPS shown only as '(*)'; 2009 report footnote p.37: 2008 dividend paid in cash to savings shares (EUR 0.025) and in newly issued shares (scrip))",
+  "FY2007 operatingIncome: cannot exist: bank: no operating profit line printed in the consolidated (statutory) income statement; operating profit appears only in reclassified or key-figures tables",
+  "FY2007 totalDebt: not found in the company's reports (balance sheet and debt tables searched; only separate lines printed (debt securities, subordinated liabilities), no single total debt line)"
  ],
  "notes": [
   "Bank: revenue = statutory item 120 \"Net interest and other banking income\" (total operating income), the same line in every year.",
@@ -590,6 +720,24 @@
   "FY2007 dilutedEPS: 'Diluted earnings per share (EUR)', prior-year column of 2008 report; printed with decimal comma (basic 0,533) (printed 0,532 with a decimal comma)",
   "FY2007 netIncome: consolidated income statement item 340 'Net profit attributable to the Parent Company', prior-year column; the reclassified table shows 6,506 for 2007, not used; uncertain",
   "FY2012 netIncome: read from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2013/2013-Consolidated-Reports-and-Accounts.pdf (PDF p. 88)",
-  "FY2012 netIncome: item 340, profit attributable to the Parent Company; 2012 column of the 2013 report (statements in EUR thousand)"
+  "FY2012 netIncome: item 340, profit attributable to the Parent Company; 2012 column of the 2013 report (statements in EUR thousand)",
+  "FY2024 dividendPerShare: 2.402 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf PDF p. 103 — 2025 report multi-year share table prints 2.402 under 2024; the 2024 report table shows '-' for 2024 (p.119); latest published used",
+  "FY2023 dividendPerShare: 1.803 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf PDF p. 103 — 2025 report multi-year table prints 1.803 under 2023 (latest published); the 2023 report prints 1.78 (p.28 and p.47)",
+  "FY2019 dividendPerShare: 0 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf PDF p. 103 — no dividend: share table prints '-' under 2019 (2025 report p.103; 2019 report p.42)",
+  "FY2016 dividendPerShare: 0 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — no dividend: 2019 report share table prints '-' under 2016 (p.42)",
+  "FY2013 dividendPerShare: 0.100 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — dividend per ordinary share, 2013 column of the 2019 report (p.42); same figure in the 2013 report p.37",
+  "FY2012 dividendPerShare: 0.090 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — dividend per ordinary share, 2012 column of the 2019 report (p.42)",
+  "FY2011 dividendPerShare: 0 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — no dividend: 2019 report prints '-' under 2011 (p.42); 2013 report footnote (***) p.37: UniCredit S.p.A. 'did not pay any dividends with respect to its 2011 financial results'",
+  "FY2010 dividendPerShare: 0.030 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — dividend per ordinary share, 2010 column of the 2019 report (p.42)",
+  "FY2009 dividendPerShare: 0.030 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — dividend per ordinary share, 2009 column of the 2019 report (p.42); the 2009 report p.37 prints the same",
+  "FY2007 dividendPerShare: 0.260 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2016/4Q16/2016-Consolidated-Reports-and-Accounts.pdf PDF p. 35 — dividend per ordinary share, 2007 column of the 2016 report (p.35)",
+  "FY2023 sharesOutstanding: 1,712 (million) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf PDF p. 103 — 'Number of outstanding shares (million) - at period end' 2023 column of the 2025 report; net of treasury per 2023 report footnote (p.173)",
+  "FY2016 sharesOutstanding: 6,180 (million) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2025/4q25/2025-Annual-Reports-and-Accounts.pdf PDF p. 103 — 'at period end' 2016 column (2025 report p.103); net of treasury, includes 96.76 million usufruct shares per 2016 report footnote (1) p.35",
+  "FY2013 sharesOutstanding: 5,792 (million) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — 'at period end' 2013 column of the 2019 report (p.42); net of treasury per footnote (1)",
+  "FY2012 sharesOutstanding: 5,789 (million) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — 'at period end' 2012 column of the 2019 report (p.42); net of treasury per footnote (1)",
+  "FY2010 sharesOutstanding: 19,297.6 (million) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — 'at period end' 2010 column of the 2019 report (p.42); the 2011 report p.37 prints the same as a prior-year column",
+  "FY2009 sharesOutstanding: 16,779.3 (million) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/2019/4Q19/2019-Annual-Report-and-Accounts.pdf PDF p. 42 — 'at period end' 2009 column of the 2019 report (p.42); the 2009 report p.37 prints 16,779.7 for the same row",
+  "FY2013 employees: 138,159 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-reports/previous-years/2013/2013-Consolidated-Reports-and-Accounts.pdf PDF p. 28 — key-figures row 'Employees (subsidiaries are consolidated proportionately)'; the 2012 report footnotes this basis as FTE",
+  "FY2009 employees: 155,000 (units) from https://www.unicreditgroup.eu/content/dam/unicreditgroup-eu/documents/en/investors/financial-calendar/2010/UniCredit_Group_2009_Consolidated_Reports_and_Accounts.pdf PDF p. 28 — key-figures row 'Employees (subsidiaries are consolidated proportionately)'; the 2009 report's segment table labels the total FTE"
  ]
 }

@@ -17,17 +17,47 @@
    "totalAssets": 407211000000,
    "totalEquity": 28515000000,
    "cashAndEquivalents": 7086000000,
-   "totalDebt": null,
+   "totalDebt": 14021000000,
    "operatingCashFlow": 5903000000,
    "capex": -480000000,
-   "dividendPerShare": 28,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 30.0,
+   "sharesOutstanding": 146355754,
+   "employees": 63965,
    "restated": false,
    "source": {
     "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2025",
-    "page": "PDF pp. 3, 8, 9, 86, 101, 122"
+    "page": "PDF pp. 3, 8, 9, 86, 101, 122",
+    "supplementalSources": [
+     {
+      "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf",
+      "page": "PDF p. 82",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf",
+      "page": "PDF p. 84",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2025/annual-report-2025-en.pdf?v=2",
+      "page": "PDF p. 114",
+      "fields": [
+       "employees"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2025/annual-report-2025-en.pdf?v=2",
+      "page": "PDF p. 259",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -42,17 +72,47 @@
    "totalAssets": 358005000000,
    "totalEquity": 25472000000,
    "cashAndEquivalents": 6768000000,
-   "totalDebt": null,
+   "totalDebt": 12891000000,
    "operatingCashFlow": 7603000000,
    "capex": -370000000,
-   "dividendPerShare": 26,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 28.0,
+   "sharesOutstanding": 146355754,
+   "employees": 62393,
    "restated": false,
    "source": {
     "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2025 (prior-year column)",
-    "page": "PDF pp. 3, 8, 9, 86, 101, 122"
+    "page": "PDF pp. 3, 8, 9, 86, 101, 122",
+    "supplementalSources": [
+     {
+      "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2024/q4/consolidated-financial-statements-annual-results-2024.pdf",
+      "page": "PDF p. 85",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf",
+      "page": "PDF p. 84",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2024/annual-report-2024-en.pdf?v=2",
+      "page": "PDF p. 103",
+      "fields": [
+       "employees"
+      ]
+     },
+     {
+      "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -67,17 +127,40 @@
    "totalAssets": 361382000000,
    "totalEquity": 24860000000,
    "cashAndEquivalents": 7280000000,
-   "totalDebt": null,
+   "totalDebt": 13749000000,
    "operatingCashFlow": 7345000000,
    "capex": -418000000,
-   "dividendPerShare": null,
+   "dividendPerShare": 26.0,
    "sharesOutstanding": 146355754,
-   "employees": null,
+   "employees": 59593,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2024/consolidated-financial-statements-annual-results-2023.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2023",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 97, 113"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 97, 113",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2024/consolidated-financial-statements-annual-results-2023.pdf",
+      "page": "PDF p. 93",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2024/q4/consolidated-financial-statements-annual-results-2024.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "dividendPerShare"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2023/annual-report-2023-en.pdf?v=2",
+      "page": "PDF p. 106",
+      "fields": [
+       "employees"
+      ]
+     }
+    ]
    }
   },
   {
@@ -92,17 +175,47 @@
    "totalAssets": 335412000000,
    "totalEquity": 25683000000,
    "cashAndEquivalents": 7560000000,
-   "totalDebt": null,
+   "totalDebt": 13970000000,
    "operatingCashFlow": 5042000000,
    "capex": -535000000,
-   "dividendPerShare": 22,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 24.0,
+   "sharesOutstanding": 150460167,
+   "employees": 59498,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2022",
-    "page": "PDF pp. 3, 8, 9, 32, 41, 42, 102"
+    "page": "PDF pp. 3, 8, 9, 32, 41, 42, 102",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf",
+      "page": "PDF p. 64",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf",
+      "page": "PDF p. 66",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2022/annual-report-2022-en.pdf?v=2",
+      "page": "PDF p. 106",
+      "fields": [
+       "employees"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2024/consolidated-financial-statements-annual-results-2023.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -117,17 +230,47 @@
    "totalAssets": 435826000000,
    "totalEquity": 37881000000,
    "cashAndEquivalents": 8698000000,
-   "totalDebt": null,
+   "totalDebt": 15109000000,
    "operatingCashFlow": 3167000000,
    "capex": -576000000,
-   "dividendPerShare": 20,
-   "sharesOutstanding": null,
-   "employees": null,
+   "dividendPerShare": 22.0,
+   "sharesOutstanding": 150460167,
+   "employees": 54914,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2022 (prior-year column)",
-    "page": "PDF pp. 3, 8, 9, 32, 41, 42, 102"
+    "page": "PDF pp. 3, 8, 9, 32, 41, 42, 102",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2022/consolidated-financial-statements-annual-results-2021.pdf",
+      "page": "PDF p. 61",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2022/consolidated-financial-statements-annual-results-2021.pdf",
+      "page": "PDF p. 63",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2021/annual-report-2021-en.pdf?v=2",
+      "page": "PDF p. 116",
+      "fields": [
+       "employees"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -142,17 +285,33 @@
    "totalAssets": 439299000000,
    "totalEquity": 38278000000,
    "cashAndEquivalents": 11106000000,
-   "totalDebt": null,
+   "totalDebt": 13777000000,
    "operatingCashFlow": 5701000000,
    "capex": -552000000,
    "dividendPerShare": 20,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 150460167,
    "employees": 52930,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2022/consolidated-financial-statements-annual-results-2021.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2021 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 100, 104"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 100, 104",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2021/consolidated-financial-statements-annual-results-2020.pdf",
+      "page": "PDF p. 59",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2021/consolidated-financial-statements-annual-results-2020.pdf",
+      "page": "PDF p. 61",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -167,17 +326,40 @@
    "totalAssets": 404688000000,
    "totalEquity": 35004000000,
    "cashAndEquivalents": 7880000000,
-   "totalDebt": null,
+   "totalDebt": 11999000000,
    "operatingCashFlow": 4884000000,
    "capex": -752000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 20.0,
+   "sharesOutstanding": 149608027,
    "employees": 54030,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2021/consolidated-financial-statements-annual-results-2020.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2020 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 98, 112"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 98, 112",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2019/consolidated-financial-statements-annual-results-2019.pdf",
+      "page": "PDF p. 61",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2019/consolidated-financial-statements-annual-results-2019.pdf",
+      "page": "PDF p. 63",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2021/consolidated-financial-statements-annual-results-2020.pdf",
+      "page": "PDF p. 63",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -192,17 +374,40 @@
    "totalAssets": 395342000000,
    "totalEquity": 30189000000,
    "cashAndEquivalents": 8649000000,
-   "totalDebt": null,
+   "totalDebt": 12012000000,
    "operatingCashFlow": 4388000000,
    "capex": -1152000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 19.0,
+   "sharesOutstanding": 151348027,
    "employees": 52267,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2019/consolidated-financial-statements-annual-results-2019.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2019 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 100, 114"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 100, 114",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2018/consolidated-financial-statements-annual-results-2018.pdf",
+      "page": "PDF p. 59",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2018/consolidated-financial-statements-annual-results-2018.pdf",
+      "page": "PDF p. 61",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2019/consolidated-financial-statements-annual-results-2019.pdf",
+      "page": "PDF p. 64",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -217,17 +422,40 @@
    "totalAssets": 422065000000,
    "totalEquity": 33062000000,
    "cashAndEquivalents": 8228000000,
-   "totalDebt": null,
+   "totalDebt": 10784000000,
    "operatingCashFlow": 5207000000,
    "capex": -530000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 18.0,
+   "sharesOutstanding": 151339851,
    "employees": 51633,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2018/consolidated-financial-statements-annual-results-2018.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2018 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 60, 98, 112"
+    "page": "PDF pp. 3, 6, 7, 8, 60, 98, 112",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2017/consolidated-financial-statements-annual-results-2017.pdf",
+      "page": "PDF p. 58",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2017/consolidated-financial-statements-annual-results-2017.pdf",
+      "page": "PDF p. 60",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2018/consolidated-financial-statements-annual-results-2018.pdf",
+      "page": "PDF p. 62",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -242,17 +470,33 @@
    "totalAssets": 382348000000,
    "totalEquity": 30660000000,
    "cashAndEquivalents": 7197000000,
-   "totalDebt": null,
+   "totalDebt": 11212000000,
    "operatingCashFlow": 1473000000,
    "capex": -715000000,
    "dividendPerShare": 17,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 150607406,
    "employees": 52473,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2017/consolidated-financial-statements-annual-results-2017.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2017 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 76, 94, 108"
+    "page": "PDF pp. 3, 6, 7, 8, 76, 94, 108",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2016/consolidated-financial-statements-annual-results-2016.pdf",
+      "page": "PDF p. 58",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2016/consolidated-financial-statements-annual-results-2016.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -267,17 +511,33 @@
    "totalAssets": 381972000000,
    "totalEquity": 31178000000,
    "cashAndEquivalents": 8159000000,
-   "totalDebt": null,
+   "totalDebt": 10086000000,
    "operatingCashFlow": 5222000000,
    "capex": -678000000,
    "dividendPerShare": 17,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 150404964,
    "employees": 54335,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2016/consolidated-financial-statements-annual-results-2016.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2016 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 44, 92, 106"
+    "page": "PDF pp. 3, 6, 7, 8, 44, 92, 106",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2015/consolidated-financial-statements-annual-results-2015.pdf",
+      "page": "PDF p. 56",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2015/consolidated-financial-statements-annual-results-2015.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -292,17 +552,33 @@
    "totalAssets": 406529000000,
    "totalEquity": 34735000000,
    "cashAndEquivalents": 7600000000,
-   "totalDebt": null,
+   "totalDebt": 11236000000,
    "operatingCashFlow": 5860000000,
    "capex": -1381000000,
    "dividendPerShare": 17,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 149636836,
    "employees": 54551,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2015/consolidated-financial-statements-annual-results-2015.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2015 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 30, 31, 90"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 30, 31, 90",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2014/consolidated-financial-statements-annual-results-2014.pdf",
+      "page": "PDF p. 57",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2014/consolidated-financial-statements-annual-results-2014.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -317,17 +593,33 @@
    "totalAssets": 415053000000,
    "totalEquity": 32503000000,
    "cashAndEquivalents": 7181000000,
-   "totalDebt": null,
+   "totalDebt": 12386000000,
    "operatingCashFlow": 1443000000,
    "capex": -282000000,
    "dividendPerShare": 17,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 148903222,
    "employees": 55102,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2014/consolidated-financial-statements-annual-results-2014.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2014 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 9, 13, 88"
+    "page": "PDF pp. 3, 6, 7, 9, 13, 88",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2013/consolidated-financial-statements-annual-results-2013.pdf",
+      "page": "PDF p. 67",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2013/consolidated-financial-statements-annual-results-2013.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -342,17 +634,40 @@
    "totalAssets": 408831000000,
    "totalEquity": 34505000000,
    "cashAndEquivalents": 9098000000,
-   "totalDebt": null,
+   "totalDebt": 12521000000,
    "operatingCashFlow": 2868000000,
    "capex": -226000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 17.0,
+   "sharesOutstanding": 148300123,
    "employees": 52722,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2013/consolidated-financial-statements-annual-results-2013.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2013 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 13, 14"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 13, 14",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf",
+      "page": "PDF p. 71",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2013/consolidated-financial-statements-annual-results-2013.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -367,17 +682,40 @@
    "totalAssets": 385869000000,
    "totalEquity": 31636000000,
    "cashAndEquivalents": 8768000000,
-   "totalDebt": null,
+   "totalDebt": 12017000000,
    "operatingCashFlow": 3888000000,
    "capex": -199000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 17.0,
+   "sharesOutstanding": 147385822,
    "employees": 52648,
    "restated": false,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2012 (prior-year column)",
-    "page": "PDF pp. 3, 8, 9, 13, 14, 15"
+    "page": "PDF pp. 3, 8, 9, 13, 14, 15",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2011/consolidated-financial-statements-q4-2011.pdf",
+      "page": "PDF p. 73",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2011/consolidated-financial-statements-q4-2011.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -392,17 +730,40 @@
    "totalAssets": 375623000000,
    "totalEquity": 31905000000,
    "cashAndEquivalents": 8182000000,
-   "totalDebt": null,
+   "totalDebt": 11057000000,
    "operatingCashFlow": 1543000000,
    "capex": -182000000,
-   "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "dividendPerShare": 17.0,
+   "sharesOutstanding": 146586896,
    "employees": 54934,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2011/consolidated-financial-statements-q4-2011.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2011 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 15, 16"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 15, 16",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2010/consolidated-financial-statements-financial-information-2010.pdf",
+      "page": "PDF p. 73",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2010/consolidated-financial-statements-financial-information-2010.pdf",
+      "page": "PDF p. 12",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "dividendPerShare"
+      ]
+     }
+    ]
    }
   },
   {
@@ -417,17 +778,33 @@
    "totalAssets": 369202000000,
    "totalEquity": 29304000000,
    "cashAndEquivalents": 11041000000,
-   "totalDebt": null,
+   "totalDebt": 11444000000,
    "operatingCashFlow": -1346000000,
    "capex": -359000000,
    "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 147473068,
    "employees": 56668,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2010/consolidated-financial-statements-financial-information-2010.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2010 (prior-year column)",
-    "page": "PDF pp. 5, 8, 9, 10, 11, 15, 16"
+    "page": "PDF pp. 5, 8, 9, 10, 11, 15, 16",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2009/consolidated-financial-statements-q4-2009.pdf",
+      "page": "PDF p. 78",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2009/consolidated-financial-statements-q4-2009.pdf",
+      "page": "PDF p. 10",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -442,17 +819,33 @@
    "totalAssets": 327944000000,
    "totalEquity": 22103000000,
    "cashAndEquivalents": 12428000000,
-   "totalDebt": null,
+   "totalDebt": 8455000000,
    "operatingCashFlow": 7350000000,
    "capex": -444000000,
    "dividendPerShare": null,
-   "sharesOutstanding": null,
+   "sharesOutstanding": 142122620,
    "employees": 57609,
    "restated": true,
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2009/consolidated-financial-statements-q4-2009.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2009 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 13, 15"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 13, 15",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2008/consolidated-financial-statements-2008.pdf",
+      "page": "PDF p. 7",
+      "fields": [
+       "totalDebt"
+      ]
+     },
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2008/consolidated-financial-statements-2008.pdf",
+      "page": "PDF p. 84",
+      "fields": [
+       "sharesOutstanding"
+      ]
+     }
+    ]
    }
   },
   {
@@ -467,7 +860,7 @@
    "totalAssets": 389342000000,
    "totalEquity": 28273000000,
    "cashAndEquivalents": 13943000000,
-   "totalDebt": null,
+   "totalDebt": 8300000000,
    "operatingCashFlow": -1580000000,
    "capex": -338000000,
    "dividendPerShare": null,
@@ -477,81 +870,42 @@
    "source": {
     "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2008/consolidated-financial-statements-2008.pdf",
     "document": "Zurich Insurance Group Consolidated Financial Statements 2008 (prior-year column)",
-    "page": "PDF pp. 3, 6, 7, 8, 9, 15, 56"
+    "page": "PDF pp. 3, 6, 7, 8, 9, 15, 56",
+    "supplementalSources": [
+     {
+      "url": "https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2007/consolidated-financial-statements-2007.pdf",
+      "page": "PDF p. 5",
+      "fields": [
+       "totalDebt"
+      ]
+     }
+    ]
    }
   }
  ],
  "gaps": [
-  "FY2025 operatingIncome: not found in the reports read",
-  "FY2025 totalDebt: not found in the reports read",
-  "FY2025 sharesOutstanding: not found in the reports read",
-  "FY2025 employees: not found in the reports read",
-  "FY2024 operatingIncome: not found in the reports read",
-  "FY2024 totalDebt: not found in the reports read",
-  "FY2024 sharesOutstanding: not found in the reports read",
-  "FY2024 employees: not found in the reports read",
-  "FY2023 operatingIncome: not found in the reports read",
-  "FY2023 totalDebt: not found in the reports read",
-  "FY2023 dividendPerShare: not found in the reports read",
-  "FY2023 employees: not found in the reports read",
-  "FY2022 operatingIncome: not found in the reports read",
-  "FY2022 totalDebt: not found in the reports read",
-  "FY2022 sharesOutstanding: not found in the reports read",
-  "FY2022 employees: not found in the reports read",
-  "FY2021 operatingIncome: not found in the reports read",
-  "FY2021 totalDebt: not found in the reports read",
-  "FY2021 sharesOutstanding: not found in the reports read",
-  "FY2021 employees: not found in the reports read",
-  "FY2020 operatingIncome: not found in the reports read",
-  "FY2020 totalDebt: not found in the reports read",
-  "FY2020 sharesOutstanding: not found in the reports read",
-  "FY2019 operatingIncome: not found in the reports read",
-  "FY2019 totalDebt: not found in the reports read",
-  "FY2019 dividendPerShare: not found in the reports read",
-  "FY2019 sharesOutstanding: not found in the reports read",
-  "FY2018 operatingIncome: not found in the reports read",
-  "FY2018 totalDebt: not found in the reports read",
-  "FY2018 dividendPerShare: not found in the reports read",
-  "FY2018 sharesOutstanding: not found in the reports read",
-  "FY2017 operatingIncome: not found in the reports read",
-  "FY2017 totalDebt: not found in the reports read",
-  "FY2017 dividendPerShare: not found in the reports read",
-  "FY2017 sharesOutstanding: not found in the reports read",
-  "FY2016 operatingIncome: not found in the reports read",
-  "FY2016 totalDebt: not found in the reports read",
-  "FY2016 sharesOutstanding: not found in the reports read",
-  "FY2015 operatingIncome: not found in the reports read",
-  "FY2015 totalDebt: not found in the reports read",
-  "FY2015 sharesOutstanding: not found in the reports read",
-  "FY2014 operatingIncome: not found in the reports read",
-  "FY2014 totalDebt: not found in the reports read",
-  "FY2014 sharesOutstanding: not found in the reports read",
-  "FY2013 operatingIncome: not found in the reports read",
-  "FY2013 totalDebt: not found in the reports read",
-  "FY2013 sharesOutstanding: not found in the reports read",
-  "FY2012 operatingIncome: not found in the reports read",
-  "FY2012 totalDebt: not found in the reports read",
-  "FY2012 dividendPerShare: not found in the reports read",
-  "FY2012 sharesOutstanding: not found in the reports read",
-  "FY2011 operatingIncome: not found in the reports read",
-  "FY2011 totalDebt: not found in the reports read",
-  "FY2011 dividendPerShare: not found in the reports read",
-  "FY2011 sharesOutstanding: not found in the reports read",
-  "FY2010 operatingIncome: not found in the reports read",
-  "FY2010 totalDebt: not found in the reports read",
-  "FY2010 dividendPerShare: not found in the reports read",
-  "FY2010 sharesOutstanding: not found in the reports read",
-  "FY2009 operatingIncome: not found in the reports read",
-  "FY2009 totalDebt: not found in the reports read",
-  "FY2009 dividendPerShare: not found in the reports read",
-  "FY2009 sharesOutstanding: not found in the reports read",
-  "FY2008 operatingIncome: not found in the reports read",
-  "FY2008 totalDebt: not found in the reports read",
-  "FY2008 dividendPerShare: not found in the reports read",
-  "FY2008 sharesOutstanding: not found in the reports read",
-  "FY2007 operatingIncome: not found in the reports read",
-  "FY2007 totalDebt: not found in the reports read",
-  "FY2007 dividendPerShare: not found in the reports read"
+  "FY2025 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2024 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2023 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2022 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2021 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2020 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2019 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2018 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2017 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2016 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2015 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2014 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2013 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2012 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2011 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2010 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2009 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2009 dividendPerShare: not found in the company's reports (2007-2010 consolidated financial statements searched; only cash 'Dividends paid' totals are printed, no per-share dividend for this year)",
+  "FY2008 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2008 dividendPerShare: not found in the company's reports (2007-2010 consolidated financial statements searched; only cash 'Dividends paid' totals are printed, no per-share dividend for this year)",
+  "FY2007 operatingIncome: cannot exist: no consolidated operating profit or income line in the income statement; the only operating profit measure printed is segment 'business operating profit' (non-GAAP)",
+  "FY2007 dividendPerShare: not found in the company's reports (2007-2010 consolidated financial statements searched; only cash 'Dividends paid' totals are printed, no per-share dividend for this year)"
  ],
  "notes": [
   "Insurer: revenue = \"Total revenues\" to 2022; from 2023 the IFRS 17 \"Insurance revenue\" line (not like-for-like with 2022 and earlier, and below the total revenue that data vendors show).",
@@ -587,6 +941,58 @@
   "FY2009 netIncome: latest published figure: restated in the 2010 report (first published 3,215)",
   "FY2009 operatingCashFlow: latest published figure: restated in the 2010 report (first published (2,470))",
   "FY2007 capex: read from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2007/consolidated-financial-statements-2007.pdf (PDF p. 7)",
-  "FY2007 capex: 'Purchase of property and equipment', 2007 column. Matches the 2008 report's 2007 comparative."
+  "FY2007 capex: 'Purchase of property and equipment', 2007 column. Matches the 2008 report's 2007 comparative.",
+  "FY2025 totalDebt: 14,021 (million) from https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf PDF p. 82 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2024 totalDebt: 12,891 (million) from https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2024/q4/consolidated-financial-statements-annual-results-2024.pdf PDF p. 85 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2023 totalDebt: 13,749 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2024/consolidated-financial-statements-annual-results-2023.pdf PDF p. 93 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2022 totalDebt: 13,970 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf PDF p. 64 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2021 totalDebt: 15,109 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2022/consolidated-financial-statements-annual-results-2021.pdf PDF p. 61 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2020 totalDebt: 13,777 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2021/consolidated-financial-statements-annual-results-2020.pdf PDF p. 59 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2019 totalDebt: 11,999 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2019/consolidated-financial-statements-annual-results-2019.pdf PDF p. 61 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2018 totalDebt: 12,012 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2018/consolidated-financial-statements-annual-results-2018.pdf PDF p. 59 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2017 totalDebt: 10,784 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2017/consolidated-financial-statements-annual-results-2017.pdf PDF p. 58 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2016 totalDebt: 11,212 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2016/consolidated-financial-statements-annual-results-2016.pdf PDF p. 58 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2015 totalDebt: 10,086 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2015/consolidated-financial-statements-annual-results-2015.pdf PDF p. 56 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2014 totalDebt: 11,236 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2014/consolidated-financial-statements-annual-results-2014.pdf PDF p. 57 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2013 totalDebt: 12,386 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2013/consolidated-financial-statements-annual-results-2013.pdf PDF p. 67 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2012 totalDebt: 12,521 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf PDF p. 71 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2011 totalDebt: 12,017 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2011/consolidated-financial-statements-q4-2011.pdf PDF p. 73 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2010 totalDebt: 11,057 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2010/consolidated-financial-statements-financial-information-2010.pdf PDF p. 73 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2009 totalDebt: 11,444 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2009/consolidated-financial-statements-q4-2009.pdf PDF p. 78 — printed total debt line in the balance sheet/debt table (USD millions)",
+  "FY2008 totalDebt: 8,455 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2008/consolidated-financial-statements-2008.pdf PDF p. 7 — balance sheet line 'Senior and subordinated debt' (USD millions)",
+  "FY2007 totalDebt: 8,300 (million) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2007/consolidated-financial-statements-2007.pdf PDF p. 5 — balance sheet debt line (USD millions)",
+  "FY2025 sharesOutstanding: 146,355,754 (units) from https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf PDF p. 84 — issued share capital, Table 18.1 'As of December 31, 2025'; treasury shares not deducted (brief fallback)",
+  "FY2024 sharesOutstanding: 146,355,754 (units) from https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf PDF p. 84 — issued share capital, Table 18.1 'As of December 31, 2024' in the 2025 report; treasury not deducted (brief fallback)",
+  "FY2022 sharesOutstanding: 150,460,167 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf PDF p. 66 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2021 sharesOutstanding: 150,460,167 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2022/consolidated-financial-statements-annual-results-2021.pdf PDF p. 63 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2020 sharesOutstanding: 150,460,167 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2021/consolidated-financial-statements-annual-results-2020.pdf PDF p. 61 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2019 sharesOutstanding: 149,608,027 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2019/consolidated-financial-statements-annual-results-2019.pdf PDF p. 63 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2018 sharesOutstanding: 151,348,027 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2018/consolidated-financial-statements-annual-results-2018.pdf PDF p. 61 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2017 sharesOutstanding: 151,339,851 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2017/consolidated-financial-statements-annual-results-2017.pdf PDF p. 60 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2016 sharesOutstanding: 150,607,406 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2016/consolidated-financial-statements-annual-results-2016.pdf PDF p. 10 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2015 sharesOutstanding: 150,404,964 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2015/consolidated-financial-statements-annual-results-2015.pdf PDF p. 10 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2014 sharesOutstanding: 149,636,836 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2014/consolidated-financial-statements-annual-results-2014.pdf PDF p. 10 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2013 sharesOutstanding: 148,903,222 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2013/consolidated-financial-statements-annual-results-2013.pdf PDF p. 10 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2012 sharesOutstanding: 148,300,123 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf PDF p. 10 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2011 sharesOutstanding: 147,385,822 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2011/consolidated-financial-statements-q4-2011.pdf PDF p. 10 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2010 sharesOutstanding: 146,586,896 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2010/consolidated-financial-statements-financial-information-2010.pdf PDF p. 12 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2009 sharesOutstanding: 147,473,068 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2009/consolidated-financial-statements-q4-2009.pdf PDF p. 10 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2008 sharesOutstanding: 142,122,620 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2008/consolidated-financial-statements-2008.pdf PDF p. 84 — issued share count at 31 Dec as printed (share capital table); treasury shares not deducted (brief fallback)",
+  "FY2023 dividendPerShare: 26 (units) from https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2024/q4/consolidated-financial-statements-annual-results-2024.pdf PDF p. 10 — FY2023 dividend CHF 26, footnote 3 of the 2024 report (paid 16 Apr 2024)",
+  "FY2019 dividendPerShare: 20 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2021/consolidated-financial-statements-annual-results-2020.pdf PDF p. 63 — FY2019 dividend per share as printed in the 2020 report",
+  "FY2018 dividendPerShare: 19 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2019/consolidated-financial-statements-annual-results-2019.pdf PDF p. 64 — FY2018 dividend per share as printed in the 2019 report",
+  "FY2017 dividendPerShare: 18 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2018/consolidated-financial-statements-annual-results-2018.pdf PDF p. 62 — FY2017 dividend per share as printed in the 2018 report",
+  "FY2012 dividendPerShare: 17 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2013/consolidated-financial-statements-annual-results-2013.pdf PDF p. 10 — FY2012 dividend per share as printed in the 2013 report (CHF)",
+  "FY2011 dividendPerShare: 17 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf PDF p. 10 — FY2011 dividend per share as printed in the 2012 report (CHF)",
+  "FY2010 dividendPerShare: 17 (units) from https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2012/consolidated-financial-statements-annual-results-2012.pdf PDF p. 10 — FY2010 dividend per share, 2010 column in the 2012 report (AGM 31 Mar 2011)",
+  "FY2025 employees: 63,965 (units) from https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2025/annual-report-2025-en.pdf?v=2 PDF p. 114 — year-end full-time equivalent (FTE) employees: 'The Group had 63,965 full-time equivalent (FTE) employees as of December 31, 2025' (Annual Report 2025). Same FTE basis as the existing 2020 value (52,930). Year-end headcount of 65,437 is printed on p. 191 and not used.",
+  "FY2024 employees: 62,393 (units) from https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2024/annual-report-2024-en.pdf?v=2 PDF p. 103 — year-end full-time equivalent (FTE) employees: 'The Group had 62,393 full-time equivalent (FTE) employees as of December 31, 2024' (Annual Report 2024). Year-end headcount of 63,842 is printed on p. 192 and not used.",
+  "FY2023 employees: 59,593 (units) from https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2023/annual-report-2023-en.pdf?v=2 PDF p. 106 — year-end full-time equivalent (FTE) employees: 'The Group had 59,593 full-time equivalent employees as of December 31, 2023' (Annual Report 2023). Year-end headcount of 61,067 is printed on p. 193 and not used.",
+  "FY2022 employees: 59,498 (units) from https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2022/annual-report-2022-en.pdf?v=2 PDF p. 106 — year-end full-time equivalent (FTE) employees: 'The Group had 59,498 full-time equivalent employees as of December 31, 2022' (Annual Report 2022). Year-end headcount of 60,936 is printed on p. 182 and not used.",
+  "FY2021 employees: 54,914 (units) from https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2021/annual-report-2021-en.pdf?v=2 PDF p. 116 — year-end full-time equivalent (FTE) employees: 'The Group had 54,914 full-time equivalent employees as of December 31, 2021' (Annual Report 2021). No exact year-end headcount is printed (only 'about 56,000' on p. 2).",
+  "FY2021 dividendPerShare: corrected to 22 — Stored 20 is the FY2020 dividend (paid Apr 2021). FY2021 dividend CHF 22 per share: footnote 1 of the FY2022 consolidated financial statements, AGM 6 Apr 2022, paid 2022. (https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2023/consolidated-financial-statements-annual-results-2022.pdf PDF p. 10)",
+  "FY2022 dividendPerShare: corrected to 24 — Stored 22 is the FY2021 dividend. FY2022 dividend CHF 24 per share: footnote 5 of the FY2023 consolidated financial statements, AGM 6 Apr 2023, paid 14 Apr 2023. (https://www.zurich.com/-/media/project/zurich/dotcom/investor-relations/docs/results/2024/consolidated-financial-statements-annual-results-2023.pdf PDF p. 10)",
+  "FY2024 dividendPerShare: corrected to 28 — Stored 26 is the FY2023 dividend. FY2024 dividend CHF 28 per share: footnote 2 of the FY2025 consolidated financial statements, AGM 9 Apr 2025, paid 15 Apr 2025. (https://edge.sitecorecloud.io/zurichinsur6934-zwpcorp-prod-ae5e/media/project/zurich/dotcom/investor-relations/docs/results/2025/q4/consolidated-financial-statements-annual-results-2025.pdf PDF p. 10)",
+  "FY2025 dividendPerShare: corrected to 30 — Stored 28 is the FY2024 dividend. FY2025 proposal CHF 30 per share (7% increase): 'Dividend proposal of CHF 30 per share' (p. 259); appropriation table on p. 416 shows CHF 30.00 gross per share; AGM 8 Apr 2026. (https://www.zurich.com/-/media-assets/project/zurich/dotcom/investor-relations/docs/financial-reports/2025/annual-report-2025-en.pdf?v=2 PDF p. 259)"
  ]
 }

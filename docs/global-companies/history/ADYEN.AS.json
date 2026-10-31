@@ -307,12 +307,11 @@
     }
   ],
   "gaps": [
-    "FY2007-FY2013 (all fields): nothing published. Adyen was founded in 2006 and listed on Euronext Amsterdam in June 2018; the earliest consolidated financial statements it has published are the audited FY2015 statements, which carry FY2014 comparatives (June 2018 IPO prospectus). No annual report, results release or prospectus covering FY2007-FY2013 was found on the IR site.",
-    "FY2014 dilutedEPS: earnings per share is not presented in the FY2015 statements and the prospectus has no earlier EPS disclosure.",
-    "FY2015 dilutedEPS: not presented. The FY2015 and FY2016 statements in the prospectus contain no EPS note (the FY2017 statements, the first with an EPS note, show only FY2017 and FY2016).",
-    "FY2016 dilutedEPS: not presented in the FY2016 statements and no later opened document restates an FY2016 EPS.",
-    "FY2014 sharesOutstanding: the prospectus' historic share capital table starts at FY2015 (29,368,082 issued shares); no FY2014 share count is published.",
-    "FY2014 employees: no FTE figure is published for 2014; the prospectus' FTE-at-year-end table covers 2015-2017 only."
+    "FY2016 dilutedEPS: cannot exist: IAS 33 applies only to entities whose ordinary shares are publicly traded; Adyen was unlisted until its June 2018 IPO. The IPO prospectus (historic financial information FY2015-FY2017) prints no EPS line, so no EPS exists to report.",
+    "FY2015 dilutedEPS: cannot exist: IAS 33 applies only to entities whose ordinary shares are publicly traded; Adyen was unlisted until its June 2018 IPO. The IPO prospectus (historic financial information FY2015-FY2017) prints no EPS line, so no EPS exists to report.",
+    "FY2014 dilutedEPS: cannot exist: IAS 33 applies only to entities whose ordinary shares are publicly traded; Adyen was unlisted until its June 2018 IPO. The IPO prospectus (historic financial information FY2015-FY2017) prints no EPS line, so no EPS exists to report.",
+    "FY2014 sharesOutstanding: not found in the company's reports (IPO prospectus of 6 June 2018: historic share capital table (p.163) covers 2015-2017 only; FY2014 report not in the source set)",
+    "FY2014 employees: not found in the company's reports (IPO prospectus: year-end FTE table (p.158) covers 2015-2017 only (668/464/338 for 2017/2016/2015); FY2014 report not in the source set)"
   ],
   "notes": [
     "All figures are IFRS as adopted by the EU, the only basis Adyen has ever reported on (its first published statements are the FY2015 statements with FY2014 comparatives). Amounts were read in EUR thousands and scaled to units; EUR is the reporting currency in every year.",

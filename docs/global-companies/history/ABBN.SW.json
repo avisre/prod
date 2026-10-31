@@ -20,14 +20,37 @@
       "totalDebt": 8304000000,
       "operatingCashFlow": 5469000000,
       "capex": -1001000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.94,
+      "sharesOutstanding": 1818141427,
+      "employees": 111900,
       "restated": false,
       "source": {
         "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
         "document": "ABB Annual Reporting Suite2025, Financial Report",
-        "page": "PDF165/printed53 income; PDF167/printed55 balance; PDF168/printed56 cash flows; printed46 Total debt"
+        "page": "PDF165/printed53 income; PDF167/printed55 balance; PDF168/printed56 cash flows; printed46 Total debt",
+        "supplementalSources": [
+          {
+            "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
+            "page": "PDF p. 248",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
+            "page": "PDF p. 441",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
+            "page": "PDF p. 115",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -45,14 +68,37 @@
       "totalDebt": 6940000000,
       "operatingCashFlow": 4675000000,
       "capex": -799000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.9,
+      "sharesOutstanding": 1860614888,
+      "employees": 109900,
       "restated": true,
       "source": {
         "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
         "document": "ABB Annual Reporting Suite2025, Financial Report",
-        "page": "PDF165/printed53 income; PDF167/printed55 balance; PDF168/printed56 cash flows; printed46 Total debt"
+        "page": "PDF165/printed53 income; PDF167/printed55 balance; PDF168/printed56 cash flows; printed46 Total debt",
+        "supplementalSources": [
+          {
+            "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
+            "page": "PDF p. 219",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
+            "page": "PDF p. 244",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf",
+            "page": "PDF p. 115",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -71,9 +117,9 @@
       "totalDebt": 7828000000,
       "operatingCashFlow": 4290000000,
       "capex": -770000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.87,
+      "sharesOutstanding": 1841507246,
+      "employees": 105000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -205,7 +251,30 @@
             "frame": "CY2023",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465924026633/abb20231231.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465924026633/abb20231231.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465924026633/abb20231231.htm",
+            "page": "20-F HTML, market capitalization statement (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465924026633/abb20231231.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -224,9 +293,9 @@
       "totalDebt": 7678000000,
       "operatingCashFlow": 1287000000,
       "capex": -762000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.84,
+      "sharesOutstanding": 1865003331,
+      "employees": 105000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -358,7 +427,30 @@
             "frame": "CY2022",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465924026633/abb20231231.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465923024840/abb20221231.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465923024840/abb20221231.htm",
+            "page": "20-F HTML, market capitalization statement (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465923024840/abb20221231.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -377,9 +469,9 @@
       "totalDebt": 5561000000,
       "operatingCashFlow": 3330000000,
       "capex": -820000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.82,
+      "sharesOutstanding": 1958344400,
+      "employees": 105000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -511,7 +603,30 @@
             "frame": "CY2021",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465924026633/abb20231231.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465922026793/abb20211231.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465922026793/abb20211231.htm",
+            "page": "20-F HTML, market capitalization statement (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465922026793/abb20211231.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -530,9 +645,9 @@
       "totalDebt": 6121000000,
       "operatingCashFlow": 1693000000,
       "capex": -694000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.8,
+      "sharesOutstanding": 2030834169,
+      "employees": 105600,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -664,7 +779,30 @@
             "frame": "CY2020",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465923024840/abb20221231.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465921028374/abb20201231.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465921028374/abb20201231.htm",
+            "page": "20-F HTML, market capitalization statement (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465921028374/abb20201231.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -683,9 +821,9 @@
       "totalDebt": 9059000000,
       "operatingCashFlow": 2325000000,
       "capex": -762000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.8,
+      "sharesOutstanding": 2133501111,
+      "employees": 144400,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -817,7 +955,30 @@
             "frame": "CY2019",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465922026793/abb20211231.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465920024879/tm1925216-3_20f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465920024879/tm1925216-3_20f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000110465920024879/tm1925216-3_20f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -836,9 +997,9 @@
       "totalDebt": 8618000000,
       "operatingCashFlow": 2924000000,
       "capex": -772000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.8,
+      "sharesOutstanding": 2131962406,
+      "employees": 147000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -970,7 +1131,30 @@
             "frame": "CY2018",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465921028374/abb20201231.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm",
+            "page": "20-F HTML, market capitalization statement (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -989,9 +1173,9 @@
       "totalDebt": 7408000000,
       "operatingCashFlow": 3799000000,
       "capex": -752000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.78,
+      "sharesOutstanding": 2138606489,
+      "employees": 135000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -1123,7 +1307,30 @@
             "frame": "CY2017",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465920024879/tm1925216-3_20f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000110465918011480/a17-27629_520f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000110465918011480/a17-27629_520f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1142,9 +1349,9 @@
       "totalDebt": 6803000000,
       "operatingCashFlow": 3843000000,
       "capex": -632000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.76,
+      "sharesOutstanding": 2138706835,
+      "employees": 132000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -1276,7 +1483,30 @@
             "frame": "CY2016",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000110465917015892/a16-22210_620f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000110465917015892/a16-22210_620f.htm",
+            "page": "20-F HTML, market capitalization statement (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000110465917015892/a16-22210_620f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1295,9 +1525,9 @@
       "totalDebt": 7439000000,
       "operatingCashFlow": 3818000000,
       "capex": -876000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.74,
+      "sharesOutstanding": 2191625141,
+      "employees": 135000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -1429,7 +1659,30 @@
             "frame": "CY2015",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465918011480/a17-27629_520f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746916010413/a2227260z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746916010413/a2227260z20-f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746916010413/a2227260z20-f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1448,9 +1701,9 @@
       "totalDebt": 7665000000,
       "operatingCashFlow": 3845000000,
       "capex": -1026000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.72,
+      "sharesOutstanding": 2314743264,
+      "employees": 140000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -1582,7 +1835,30 @@
             "frame": "CY2014",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000110465917015892/a16-22210_620f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1601,8 +1877,8 @@
       "totalDebt": 8023000000,
       "operatingCashFlow": 3653000000,
       "capex": -1106000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 0.7,
+      "sharesOutstanding": 2314743264,
       "employees": null,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
@@ -1735,7 +2011,23 @@
             "frame": "CY2013",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000104746916010413/a2227260z20-f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746916010413/a2227260z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm",
+            "page": "20-F HTML, equity note (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1754,9 +2046,9 @@
       "totalDebt": 10071000000,
       "operatingCashFlow": 3779000000,
       "capex": -1293000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.68,
+      "sharesOutstanding": 2314743264,
+      "employees": 146000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -1885,7 +2177,30 @@
             "frame": "CY2012",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746913002744/a2213487z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746913002744/a2213487z20-f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746913002744/a2213487z20-f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1904,9 +2219,9 @@
       "totalDebt": 3996000000,
       "operatingCashFlow": 3612000000,
       "capex": -1021000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.65,
+      "sharesOutstanding": 2314743264,
+      "employees": 133600,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -2031,7 +2346,30 @@
             "fp": "FY",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000104746914001945/a2218323z20-f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746912002737/a2208055z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746912002737/a2208055z20-f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746912002737/a2208055z20-f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -2050,9 +2388,9 @@
       "totalDebt": 2182000000,
       "operatingCashFlow": 4197000000,
       "capex": -840000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.6,
+      "sharesOutstanding": 2283464611,
+      "employees": 116500,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -2184,7 +2522,30 @@
             "frame": "CY2010",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000104746913002744/a2213487z20-f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746911002277/a2202650z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746911002277/a2202650z20-f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/0001091587/000104746911002277/a2202650z20-f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -2203,9 +2564,9 @@
       "totalDebt": 2333000000,
       "operatingCashFlow": 4027000000,
       "capex": -967000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.51,
+      "sharesOutstanding": 2329324797,
+      "employees": 116000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -2337,7 +2698,30 @@
             "frame": "CY2009",
             "filingUrl": "https://www.sec.gov/Archives/edgar/data/1091587/000104746912002737/a2208055z20-f.htm"
           }
-        }
+        },
+        "supplementalSources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746910002469/a2197302z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746910002469/a2197302z20-f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746910002469/a2197302z20-f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -2356,9 +2740,9 @@
       "totalDebt": 2363000000,
       "operatingCashFlow": 3958000000,
       "capex": -1171000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 0.48,
+      "sharesOutstanding": 2322792835,
+      "employees": 120000,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
         "document": "ABB annual Form20-F tagged financial statements, SEC Company Facts",
@@ -2486,6 +2870,27 @@
             "fields": [
               "totalDebt"
             ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm",
+            "page": "20-F HTML, cover page (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm",
+            "page": "20-F HTML, business overview (no PDF page)",
+            "fields": [
+              "employees"
+            ]
           }
         ]
       }
@@ -2506,8 +2911,8 @@
       "totalDebt": 2674000000,
       "operatingCashFlow": 3054000000,
       "capex": -756000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 0.48,
+      "sharesOutstanding": 2316015102,
       "employees": null,
       "source": {
         "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001091587.json",
@@ -2614,31 +3019,28 @@
               "totalEquity",
               "totalDebt"
             ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm",
+            "page": "20-F HTML, dividend paragraph (no PDF page)",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm",
+            "page": "20-F HTML, equity note (no PDF page)",
+            "fields": [
+              "sharesOutstanding"
+            ]
           }
         ]
       }
     }
   ],
   "gaps": [
-    "FY2007: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2008: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2009: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2010: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2011: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2012: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2013: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2014: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2015: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2016: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2017: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2018: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2019: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2020: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2021: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2022: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2023: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2025: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation.",
-    "FY2024: dividendPerShare, sharesOutstanding, employees not populated from the inspected official disclosures; no substitution or computation."
+    "FY2013 employees: not found in the company's reports (FY2012 20-F (146,000 at Dec 31, 2012) and FY2014 20-F (140,000 at Dec 31, 2014) print no Dec 31, 2013 headcount; the FY2013 20-F/A was not retrieved)",
+    "FY2007 employees: not found in the company's reports (FY2008 20-F (a2191216z20-f.htm) prints only the Dec 31, 2008 headcount; the FY2007 20-F was not retrieved and no 2007 year-end headcount appears in the documents read)"
   ],
   "notes": [
     "US GAAP consolidated financial statements; USD full units; netIncome is attributable to ABB, including discontinued operations, and totalEquity excludes noncontrolling interests.",
@@ -2646,6 +3048,61 @@
     "capex is purchases of property, plant, equipment and intangible assets, stored negative. SEC PaymentsToAcquireProductiveAssets is the company-reported aggregate, not a sum calculated here.",
     "FY2024 revenue and operating income are recast in the2025 report for Robotics discontinued operations; FY2024 balance sheet also reflects the2025 change in information-system expense accounting. This causes a difference from a pre-recast Yahoo snapshot. Latest2025 source takes precedence. Older years use the latest available annual20-F comparative presentation and are not recast retrospectively beyond what ABB published in those source documents.",
     "dividendPerShare remains null because the ordinary-share dividend is published in CHF while the financial statements reportUSD; no unsupported cross-currency substitution. sharesOutstanding remains null because readily available statements publish issued shares and treasury shares separately; their subtraction is prohibited by the task. Weighted-average EPS denominators are not point-in-time shares. Employee headcounts have not been independently extracted.",
-    "Total debt is the company-published short- and long-term debt aggregate; the2025 report total does not include separately stated operating-lease liabilities. Coverage changes are not computed away."
+    "Total debt is the company-published short- and long-term debt aggregate; the2025 report total does not include separately stated operating-lease liabilities. Coverage changes are not computed away.",
+    "FY2025 dividendPerShare: 0.94 (units) from https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf PDF p. 248 — Gross dividend of CHF 0.94 per share proposed to the 2026 AGM for FY2025",
+    "FY2024 dividendPerShare: 0.90 (units) from https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf PDF p. 219 — CHF 0.90 per share for FY2024 (dividend text); also shown as paid in 2025 on PDF p. 244",
+    "FY2023 dividendPerShare: 0.87 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465924026633/abb20231231.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.87 per share for the year ended Dec 31, 2023",
+    "FY2022 dividendPerShare: 0.84 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465923024840/abb20221231.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.84 per share for the year ended Dec 31, 2022",
+    "FY2021 dividendPerShare: 0.82 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465922026793/abb20211231.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.82 per share for the year ended Dec 31, 2021",
+    "FY2020 dividendPerShare: 0.80 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465921028374/abb20201231.htm 20-F HTML, dividend paragraph (no PDF page) — CHF 0.80 per share for the year ended Dec 31, 2020 (dividend text)",
+    "FY2019 dividendPerShare: 0.80 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465920024879/tm1925216-3_20f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.80 per share for the year ended Dec 31, 2019",
+    "FY2018 dividendPerShare: 0.80 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.80 per share for the year ended Dec 31, 2018",
+    "FY2017 dividendPerShare: 0.78 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm 20-F HTML, dividend paragraph (no PDF page) — CHF 0.78 per share paid for the year ended Dec 31, 2017 (FY2018 20-F dividend text); FY2017 20-F not used",
+    "FY2016 dividendPerShare: 0.76 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000110465917015892/a16-22210_620f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.76 per share for the year ended Dec 31, 2016",
+    "FY2015 dividendPerShare: 0.74 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746916010413/a2227260z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.74 per share for FY2015, distributed by nominal value reduction",
+    "FY2014 dividendPerShare: 0.72 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — Total CHF 0.72 per share proposed for FY2014: 0.55 from capital contribution reserves plus 0.17 nominal value reduction",
+    "FY2013 dividendPerShare: 0.70 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746916010413/a2227260z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — CHF 0.70 per share for the year ended Dec 31, 2013 (FY2015 20-F dividend text)",
+    "FY2012 dividendPerShare: 0.68 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746913002744/a2213487z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.68 per share for the year ended Dec 31, 2012",
+    "FY2011 dividendPerShare: 0.65 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746912002737/a2208055z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.65 per share for the year ended Dec 31, 2011",
+    "FY2010 dividendPerShare: 0.60 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746911002277/a2202650z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.60 per share for FY2010, paid out of capital contribution reserve",
+    "FY2009 dividendPerShare: 0.51 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746910002469/a2197302z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.51 per share for FY2009, by nominal value reduction",
+    "FY2008 dividendPerShare: 0.48 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — Board proposed CHF 0.48 per share for FY2008, by nominal value reduction",
+    "FY2007 dividendPerShare: 0.48 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm 20-F HTML, dividend paragraph (no PDF page) — CHF 0.48 per share for FY2007, paid in 2008 by nominal value reduction (FY2008 20-F dividend text)",
+    "FY2025 sharesOutstanding: 1,818,141,427 (units) from https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf PDF p. 441 — Total number of outstanding shares at Dec 31, 2025 (market capitalization statement)",
+    "FY2024 sharesOutstanding: 1,860,614,888 (units) from https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf PDF p. 244 — Issued shares at Dec 31, 2024 (share capital table); outstanding count not printed, so issued used per brief fallback",
+    "FY2023 sharesOutstanding: 1,841,507,246 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465924026633/abb20231231.htm 20-F HTML, market capitalization statement (no PDF page) — Total number of outstanding shares at Dec 31, 2023",
+    "FY2022 sharesOutstanding: 1,865,003,331 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465923024840/abb20221231.htm 20-F HTML, market capitalization statement (no PDF page) — Total number of outstanding shares at Dec 31, 2022",
+    "FY2021 sharesOutstanding: 1,958,344,400 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465922026793/abb20211231.htm 20-F HTML, market capitalization statement (no PDF page) — Total number of outstanding shares at Dec 31, 2021",
+    "FY2020 sharesOutstanding: 2,030,834,169 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465921028374/abb20201231.htm 20-F HTML, market capitalization statement (no PDF page) — Total number of outstanding shares at Dec 31, 2020",
+    "FY2019 sharesOutstanding: 2,133,501,111 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465920024879/tm1925216-3_20f.htm 20-F HTML, cover page (no PDF page) — Outstanding shares as of the close of the period covered by the FY2019 20-F",
+    "FY2018 sharesOutstanding: 2,131,962,406 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm 20-F HTML, market capitalization statement (no PDF page) — Total number of outstanding shares at Dec 31, 2018",
+    "FY2017 sharesOutstanding: 2,138,606,489 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000110465918011480/a17-27629_520f.htm 20-F HTML, cover page (no PDF page) — Outstanding shares as of the close of the period covered by the FY2017 20-F",
+    "FY2016 sharesOutstanding: 2,138,706,835 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000110465917015892/a16-22210_620f.htm 20-F HTML, market capitalization statement (no PDF page) — Total number of outstanding shares at Dec 31, 2016",
+    "FY2015 sharesOutstanding: 2,191,625,141 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746916010413/a2227260z20-f.htm 20-F HTML, cover page (no PDF page) — Outstanding shares as of the close of the period covered by the FY2015 20-F",
+    "FY2014 sharesOutstanding: 2,314,743,264 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm 20-F HTML, cover page (no PDF page) — Cover reads Registered Shares (including treasury shares), so this is the issued count, used as fallback",
+    "FY2013 sharesOutstanding: 2,314,743,264 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm 20-F HTML, equity note (no PDF page) — Issued shares at Dec 31, 2013 (FY2014 20-F equity note); outstanding not printed, issued used as fallback",
+    "FY2012 sharesOutstanding: 2,314,743,264 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746913002744/a2213487z20-f.htm 20-F HTML, cover page (no PDF page) — Cover-page count at close of FY2012; equals issued shares at Dec 31, 2012 in the equity note",
+    "FY2011 sharesOutstanding: 2,314,743,264 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746912002737/a2208055z20-f.htm 20-F HTML, cover page (no PDF page) — Cover-page count at close of FY2011; equals issued shares at Dec 31, 2011 in the equity note",
+    "FY2010 sharesOutstanding: 2,283,464,611 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746911002277/a2202650z20-f.htm 20-F HTML, cover page (no PDF page) — Cover-page outstanding shares at close of FY2010 (issued 2,308,782,064 per equity note)",
+    "FY2009 sharesOutstanding: 2,329,324,797 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746910002469/a2197302z20-f.htm 20-F HTML, cover page (no PDF page) — Cover-page count at close of FY2009; equals issued shares at Dec 31, 2009 in the equity note",
+    "FY2008 sharesOutstanding: 2,322,792,835 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm 20-F HTML, cover page (no PDF page) — Cover-page count at close of FY2008; equals issued shares at Dec 31, 2008 in the equity note",
+    "FY2007 sharesOutstanding: 2,316,015,102 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm 20-F HTML, equity note (no PDF page) — Issued shares at Dec 31, 2007 (FY2008 20-F equity note); outstanding not printed, issued used as fallback",
+    "FY2025 employees: 111,900 (units) from https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf PDF p. 115 — Year-end total employees (employee table total, 2025 column)",
+    "FY2024 employees: 109,900 (units) from https://library.e.abb.com/public/b292a84b973f444a821a629d668bdf1f/ABB%20Annual%20Reporting%20Suite%202025%20-%20Consolidated%20file.pdf PDF p. 115 — Year-end total employees (employee table total, 2024 column)",
+    "FY2023 employees: 105,000 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465924026633/abb20231231.htm 20-F HTML, business overview (no PDF page) — Printed as more than 105,000 people at Dec 31, 2023 (floor, not an exact count)",
+    "FY2022 employees: 105,000 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465923024840/abb20221231.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 105,000 people at Dec 31, 2022 (approximate)",
+    "FY2021 employees: 105,000 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465922026793/abb20211231.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 105,000 people at Dec 31, 2021 (approximate)",
+    "FY2020 employees: 105,600 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465921028374/abb20201231.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 105,600 people at Dec 31, 2020 (approximate)",
+    "FY2019 employees: 144,400 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000110465920024879/tm1925216-3_20f.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 144,400 people at Dec 31, 2019 (approximate)",
+    "FY2018 employees: 147,000 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000141057819000158/maindocument001.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 147,000 people at Dec 31, 2018 (approximate)",
+    "FY2017 employees: 135,000 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000110465918011480/a17-27629_520f.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 135,000 people at Dec 31, 2017 (approximate)",
+    "FY2016 employees: 132,000 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000110465917015892/a16-22210_620f.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 132,000 people at Dec 31, 2016 (approximate)",
+    "FY2015 employees: 135,000 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746916010413/a2227260z20-f.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 135,000 people at Dec 31, 2015 (approximate)",
+    "FY2014 employees: 140,000 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746915001710/a2222979z20-f.htm 20-F HTML, business overview (no PDF page) — Printed as employed about 140,000 people at Dec 31, 2014 (approximate)",
+    "FY2012 employees: 146,000 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746913002744/a2213487z20-f.htm 20-F HTML, business overview (no PDF page) — Printed as employed approximately 146,000 people at Dec 31, 2012 (approximate)",
+    "FY2011 employees: 133,600 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746912002737/a2208055z20-f.htm 20-F HTML, business overview (no PDF page) — Printed as employed approximately 133,600 people at Dec 31, 2011 (approximate)",
+    "FY2010 employees: 116,500 (units) from https://www.sec.gov/Archives/edgar/data/0001091587/000104746911002277/a2202650z20-f.htm 20-F HTML, business overview (no PDF page) — Printed as employed approximately 116,500 people at Dec 31, 2010 (approximate)",
+    "FY2009 employees: 116,000 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746910002469/a2197302z20-f.htm 20-F HTML, business overview (no PDF page) — Printed as employed approximately 116,000 people at Dec 31, 2009 (approximate)",
+    "FY2008 employees: 120,000 (units) from https://www.sec.gov/Archives/edgar/data/1091587/000104746909002416/a2191216z20-f.htm 20-F HTML, business overview (no PDF page) — Printed as employed approximately 120,000 people at Dec 31, 2008 (approximate)"
   ]
 }

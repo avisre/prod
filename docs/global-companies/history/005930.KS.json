@@ -16,9 +16,9 @@
       "totalDebt": null,
       "operatingCashFlow": 85315148000000,
       "capex": -47522179000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 1668.0,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 259149,
       "fiscalYear": 2025,
       "periodEnd": "2025-12-31",
       "standard": "K-IFRS",
@@ -27,7 +27,23 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2025, KRW columns",
-        "page": "PDF pp.6, 7, 8, 9, 15, 16"
+        "page": "PDF pp.6, 7, 8, 9, 15, 16",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_Interim_Report.pdf",
+            "page": "PDF p. 193",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.samsung.com/global/sustainability/digital-library/facts-figures",
+            "page": "web table 'Number of employees', total row",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -41,9 +57,9 @@
       "totalDebt": null,
       "operatingCashFlow": 72982621000000,
       "capex": -51406355000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 1446.0,
       "sharesOutstanding": null,
-      "employees": null,
+      "employees": 262647,
       "fiscalYear": 2024,
       "periodEnd": "2024-12-31",
       "standard": "K-IFRS",
@@ -52,7 +68,23 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2025, KRW columns",
-        "page": "PDF pp.6, 7, 8, 9, 15, 16"
+        "page": "PDF pp.6, 7, 8, 9, 15, 16",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_Interim_Report.pdf",
+            "page": "PDF p. 193",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.samsung.com/global/sustainability/digital-library/facts-figures",
+            "page": "web table 'Number of employees', total row",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -66,9 +98,9 @@
       "totalDebt": null,
       "operatingCashFlow": 44137427000000,
       "capex": -57611292000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1444.0,
+      "sharesOutstanding": 5969782550,
+      "employees": 267860,
       "fiscalYear": 2023,
       "periodEnd": "2023-12-31",
       "standard": "K-IFRS",
@@ -77,7 +109,30 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2023, KRW columns",
-        "page": "PDF pp.6, 7, 8, 9, 15, 16"
+        "page": "PDF pp.6, 7, 8, 9, 15, 16",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf",
+            "page": "PDF p. 209",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.samsung.com/global/sustainability/digital-library/facts-figures",
+            "page": "web table 'Number of employees', total row",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -91,7 +146,7 @@
       "totalDebt": null,
       "operatingCashFlow": 62181346000000,
       "capex": -49430428000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 1444.0,
       "sharesOutstanding": null,
       "employees": null,
       "fiscalYear": 2022,
@@ -102,7 +157,16 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2023, KRW columns",
-        "page": "PDF pp.6, 7, 8, 9, 15, 16"
+        "page": "PDF pp.6, 7, 8, 9, 15, 16",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf",
+            "page": "PDF p. 209",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -116,7 +180,7 @@
       "totalDebt": null,
       "operatingCashFlow": 65105448000000,
       "capex": -47122106000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 1444.0,
       "sharesOutstanding": null,
       "employees": null,
       "fiscalYear": 2021,
@@ -127,7 +191,16 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2021_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2021, KRW columns",
-        "page": "PDF pp.6, 7, 8, 9, 15, 16"
+        "page": "PDF pp.6, 7, 8, 9, 15, 16",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf",
+            "page": "PDF p. 209",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -141,8 +214,8 @@
       "totalDebt": null,
       "operatingCashFlow": 65287009000000,
       "capex": -37592034000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 2994.0,
+      "sharesOutstanding": 5969782550,
       "employees": null,
       "fiscalYear": 2020,
       "periodEnd": "2020-12-31",
@@ -152,7 +225,23 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2021_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2021, KRW columns",
-        "page": "PDF pp.6, 7, 8, 9, 15, 16"
+        "page": "PDF pp.6, 7, 8, 9, 15, 16",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf",
+            "page": "PDF p. 24",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf",
+            "page": "PDF p. 21",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -166,8 +255,8 @@
       "totalDebt": null,
       "operatingCashFlow": 45382915000000,
       "capex": -25367756000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 1416.0,
+      "sharesOutstanding": 5969782550,
       "employees": null,
       "fiscalYear": 2019,
       "periodEnd": "2019-12-31",
@@ -177,7 +266,23 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2019, KRW columns",
-        "page": "PDF pp.7, 8, 9, 10, 16, 17"
+        "page": "PDF pp.7, 8, 9, 10, 16, 17",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf",
+            "page": "PDF p. 24",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_Business_Report.pdf",
+            "page": "PDF p. 129",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -191,8 +296,8 @@
       "totalDebt": null,
       "operatingCashFlow": 67031863000000,
       "capex": -29556406000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 1416.0,
+      "sharesOutstanding": 5969782550,
       "employees": null,
       "fiscalYear": 2018,
       "periodEnd": "2018-12-31",
@@ -202,7 +307,23 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2019, KRW columns",
-        "page": "PDF pp.7, 8, 9, 10, 16, 17"
+        "page": "PDF pp.7, 8, 9, 10, 16, 17",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf",
+            "page": "PDF p. 24",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_Business_Report.pdf",
+            "page": "PDF p. 129",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -216,7 +337,7 @@
       "totalDebt": null,
       "operatingCashFlow": 62162041000000,
       "capex": -42792234000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 850.0,
       "sharesOutstanding": null,
       "employees": null,
       "fiscalYear": 2017,
@@ -227,7 +348,16 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2017_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2017, KRW columns",
-        "page": "PDF pp.4, 5, 6, 7, 13, 14"
+        "page": "PDF pp.4, 5, 6, 7, 13, 14",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_Business_Report.pdf",
+            "page": "PDF p. 24",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -241,7 +371,7 @@
       "totalDebt": null,
       "operatingCashFlow": 47385644000000,
       "capex": -24142973000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 28500.0,
       "sharesOutstanding": null,
       "employees": null,
       "fiscalYear": 2016,
@@ -252,7 +382,16 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2017_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2017, KRW columns",
-        "page": "PDF pp.4, 5, 6, 7, 13, 14"
+        "page": "PDF pp.4, 5, 6, 7, 13, 14",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/p5/global/ir/docs/170331_2016_Business_Report_vF.pdf",
+            "page": "PDF p. 21",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -266,7 +405,7 @@
       "totalDebt": null,
       "operatingCashFlow": 40061761000000,
       "capex": -25880222000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 21000.0,
       "sharesOutstanding": null,
       "employees": null,
       "fiscalYear": 2015,
@@ -277,7 +416,16 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2015_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2015, KRW columns",
-        "page": "PDF pp.4, 5, 6, 7, 13, 14"
+        "page": "PDF pp.4, 5, 6, 7, 13, 14",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/p5/global/ir/docs/170331_2016_Business_Report_vF.pdf",
+            "page": "PDF p. 21",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -291,7 +439,7 @@
       "totalDebt": null,
       "operatingCashFlow": 36975389000000,
       "capex": -22042943000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 20000.0,
       "sharesOutstanding": null,
       "employees": null,
       "fiscalYear": 2014,
@@ -302,7 +450,16 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2015_con_quarter04_all.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2015, KRW columns",
-        "page": "PDF pp.4, 5, 6, 7, 13, 14"
+        "page": "PDF pp.4, 5, 6, 7, 13, 14",
+        "supplementalSources": [
+          {
+            "url": "https://images.samsung.com/is/content/samsung/p5/global/ir/docs/170331_2016_Business_Report_vF.pdf",
+            "page": "PDF p. 21",
+            "fields": [
+              "dividendPerShare"
+            ]
+          }
+        ]
       }
     },
     {
@@ -427,7 +584,7 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/SECAR2009_Eng_Final.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2009, KRW columns",
-        "page": "PDF pp.23\u201326"
+        "page": "PDF pp.23–26"
       }
     },
     {
@@ -452,7 +609,7 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/SECAR2009_Eng_Final.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2009, KRW columns",
-        "page": "PDF pp.23\u201326"
+        "page": "PDF pp.23–26"
       }
     },
     {
@@ -477,37 +634,98 @@
       "source": {
         "url": "https://images.samsung.com/is/content/samsung/p5/global/ir/docs/SE2008_eng_final.pdf",
         "document": "Samsung Electronics consolidated audited financial statements 2008, KRW columns",
-        "page": "PDF pp.52\u201358"
+        "page": "PDF pp.52–58"
       }
     }
   ],
   "gaps": [
-    "FY2008: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2007: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2009: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2011: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2010: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2013: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2012: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2015: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2014: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2017: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2016: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2019: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2018: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2021: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2020: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2023: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2022: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2025: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed.",
-    "FY2024: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as the required directly published aggregate/definition from opened statements; not computed."
+    "FY2025 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2025 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2024 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2024 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2023 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2022 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2022 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2022 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2021 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2021 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2021 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2020 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2020 employees: not found in the company's reports (Only the parent/domestic headcount is printed in the 2019/2020 Business Report tables (rejected: group basis required); no global headcount in an official document obtained for this year)",
+    "FY2019 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2019 employees: not found in the company's reports (Only the parent/domestic headcount is printed in the 2019/2020 Business Report tables (rejected: group basis required); no global headcount in an official document obtained for this year)",
+    "FY2018 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2018 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2017 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2017 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2017 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2016 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2016 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2016 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2015 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2015 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2015 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2014 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2014 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2014 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2013 totalEquity: not found in the company's reports (2011 and 2013 English statements print parent components but no parent-attributable subtotal; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2013 totalDebt: not found in the company's reports (2011 and 2013 English statements print no single total-borrowings line; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2013 dividendPerShare: not found in the company's reports (no Samsung Business Report for these years obtained: 2016 report covers 2014-2016 only; name variants for 2007-2022 probed on images.samsung.com without a hit; DART 사업보고서 rcpNo not found via official links (web search returned no dsaf001 link; DART search form not driven))",
+    "FY2013 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2013 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2012 totalEquity: not found in the company's reports (2011 and 2013 English statements print parent components but no parent-attributable subtotal; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2012 totalDebt: not found in the company's reports (2011 and 2013 English statements print no single total-borrowings line; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2012 dividendPerShare: not found in the company's reports (no Samsung Business Report for these years obtained: 2016 report covers 2014-2016 only; name variants for 2007-2022 probed on images.samsung.com without a hit; DART 사업보고서 rcpNo not found via official links (web search returned no dsaf001 link; DART search form not driven))",
+    "FY2012 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2012 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2011 totalEquity: not found in the company's reports (2011 and 2013 English statements print parent components but no parent-attributable subtotal; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2011 totalDebt: not found in the company's reports (2011 and 2013 English statements print no single total-borrowings line; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2011 dividendPerShare: not found in the company's reports (no Samsung Business Report for these years obtained: 2016 report covers 2014-2016 only; name variants for 2007-2022 probed on images.samsung.com without a hit; DART 사업보고서 rcpNo not found via official links (web search returned no dsaf001 link; DART search form not driven))",
+    "FY2011 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2011 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2010 totalEquity: not found in the company's reports (2011 and 2013 English statements print parent components but no parent-attributable subtotal; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2010 totalDebt: not found in the company's reports (2011 and 2013 English statements print no single total-borrowings line; DART 사업보고서 for 2010-2013 not located via official links (web search found none; DART search form not driven))",
+    "FY2010 dividendPerShare: not found in the company's reports (no Samsung Business Report for these years obtained: 2016 report covers 2014-2016 only; name variants for 2007-2022 probed on images.samsung.com without a hit; DART 사업보고서 rcpNo not found via official links (web search returned no dsaf001 link; DART search form not driven))",
+    "FY2010 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2010 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2009 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2009 dividendPerShare: not found in the company's reports (no Samsung Business Report for these years obtained: 2016 report covers 2014-2016 only; name variants for 2007-2022 probed on images.samsung.com without a hit; DART 사업보고서 rcpNo not found via official links (web search returned no dsaf001 link; DART search form not driven))",
+    "FY2009 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2009 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2008 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2008 dividendPerShare: not found in the company's reports (no Samsung Business Report for these years obtained: 2016 report covers 2014-2016 only; name variants for 2007-2022 probed on images.samsung.com without a hit; DART 사업보고서 rcpNo not found via official links (web search returned no dsaf001 link; DART search form not driven))",
+    "FY2008 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2008 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)",
+    "FY2007 totalDebt: not found in the company's reports (no single total-debt line found in the 2019, 2020, 2023, 2024, 2025 Business Reports (searched for total borrowings / total debt); other years not obtained)",
+    "FY2007 dividendPerShare: not found in the company's reports (no Samsung Business Report for these years obtained: 2016 report covers 2014-2016 only; name variants for 2007-2022 probed on images.samsung.com without a hit; DART 사업보고서 rcpNo not found via official links (web search returned no dsaf001 link; DART search form not driven))",
+    "FY2007 sharesOutstanding: not found in the company's reports (no year-end ordinary share balance extracted: 2019/2020/2023 reports checked; 2016 report downloaded but not searched for this figure; 2024 and 2025 reports printed only report-date counts (5,940,082,550 and 5,827,808,935), no Dec 31 balance found; 2021-2022 reports not located)",
+    "FY2007 employees: not found in the company's reports (No official Samsung document for this year printing a global (group) headcount obtained; the Facts & Figures page covers 2023-2025 only)"
   ],
   "notes": [
-    "Consolidated KRW millions scaled to full won; USD convenience columns in reports are not used. FY2007\u20132009 K-GAAP;2010onward K-IFRS. Comparative years use next opened report, where available.",
+    "Consolidated KRW millions scaled to full won; USD convenience columns in reports are not used. FY2007–2009 K-GAAP;2010onward K-IFRS. Comparative years use next opened report, where available.",
     "Net income is controlling interests / owners of the parent, not total profit. Equity uses directly printed parent-attributable subtotal / Total Shareholders equity; no subtraction of minorities or component summation. Where subtotal absent retain null.",
     "capex is cash PP&E acquisition/purchases only, storednegative. Separate intangible-acquisition lines are not summed (company does not combine them). Cash flow is net total after interest/tax, not cash generated before those payments.",
     "DilutedEPS is explicitly labeled in income statements. Pre2018per-share figures retain originalpre50-for-one2018split basis;2018onward post-split basis. No unsourced split adjustment made.",
     "No aggregate debt, dividend-per-share, consolidatedemployees or closing ordinary shares were extracted; no sums of borrowings, dividend cash totals or issued-less-treasury calculations.",
-    "Prior years use the comparative values in the next opened audited report where available. restated is false unless an explicit accounting restatement was identified; a comparative column alone is not marked restated. Additional later restatements outside the paired opened sources have not been exhaustively audited."
+    "Prior years use the comparative values in the next opened audited report where available. restated is false unless an explicit accounting restatement was identified; a comparative column alone is not marked restated. Additional later restatements outside the paired opened sources have not been exhaustively audited.",
+    "FY2014 dividendPerShare: 20,000 (units) from https://images.samsung.com/is/content/samsung/p5/global/ir/docs/170331_2016_Business_Report_vF.pdf PDF p. 21 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2014 column; pre-2018 par-5000 basis as printed)",
+    "FY2015 dividendPerShare: 21,000 (units) from https://images.samsung.com/is/content/samsung/p5/global/ir/docs/170331_2016_Business_Report_vF.pdf PDF p. 21 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2015 column)",
+    "FY2016 dividendPerShare: 28,500 (units) from https://images.samsung.com/is/content/samsung/p5/global/ir/docs/170331_2016_Business_Report_vF.pdf PDF p. 21 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2016 column)",
+    "FY2017 dividendPerShare: 850 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_Business_Report.pdf PDF p. 24 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2017 column); the 2019 report states 2017 is calculated on a post-split basis (50:1 split 2018)",
+    "FY2018 dividendPerShare: 1,416 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf PDF p. 24 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2018 column, post-split)",
+    "FY2019 dividendPerShare: 1,416 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf PDF p. 24 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2019 column, post-split)",
+    "FY2020 dividendPerShare: 2,994 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf PDF p. 24 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2020 column)",
+    "FY2021 dividendPerShare: 1,444 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf PDF p. 209 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2021 column of the 2023 report 3-year table)",
+    "FY2022 dividendPerShare: 1,444 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf PDF p. 209 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2022 column)",
+    "FY2023 dividendPerShare: 1,444 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf PDF p. 209 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2023 column)",
+    "FY2024 dividendPerShare: 1,446 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_Interim_Report.pdf PDF p. 193 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2024 column of the 2025 report; the 2024 report prints the same figure)",
+    "FY2025 dividendPerShare: 1,668 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_Interim_Report.pdf PDF p. 193 — Common (ordinary) cash dividend per share, as printed in the Business Report 3-year dividend table (2025 column)",
+    "FY2018 sharesOutstanding: 5,969,782,550 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_Business_Report.pdf PDF p. 129 — Ordinary (common) shares outstanding, equity note balance at Dec 31, 2018; preferred shares (822,886,700) not included",
+    "FY2019 sharesOutstanding: 5,969,782,550 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2019_Business_Report.pdf PDF p. 129 — Ordinary (common) shares outstanding, equity note balance at Dec 31, 2019; preferred shares not included",
+    "FY2020 sharesOutstanding: 5,969,782,550 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2020_Business_Report.pdf PDF p. 21 — Ordinary shares: issued and outstanding printed \"as of the same date\" (report date); the FS note states Dec 31, 2020 outstanding equals issued (no treasury shares). Preferred not included",
+    "FY2023 sharesOutstanding: 5,969,782,550 (units) from https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2023_4Q_Interim_Report.pdf PDF p. 12 — Ordinary shares: printed \"as of the same date\" (report date); the FS note states Dec 31, 2023 outstanding is the same as issued. Preferred not included",
+    "FY2023 employees: 267,860 (units) from https://www.samsung.com/global/sustainability/digital-library/facts-figures web table 'Number of employees', total row — Number of employees table, total row (Individuals). The 'Global' row is overseas only (Global + Korea = total). Table has no as-of label.",
+    "FY2024 employees: 262,647 (units) from https://www.samsung.com/global/sustainability/digital-library/facts-figures web table 'Number of employees', total row — Number of employees table, total row (Individuals). The 'Global' row is overseas only (Global + Korea = total). Table has no as-of label.",
+    "FY2025 employees: 259,149 (units) from https://www.samsung.com/global/sustainability/digital-library/facts-figures web table 'Number of employees', total row — Number of employees table, total row (Individuals). The 'Global' row is overseas only (Global + Korea = total). Table has no as-of label."
   ]
 }

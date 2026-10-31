@@ -16,9 +16,9 @@
       "totalDebt": 363617000000,
       "operatingCashFlow": 510798000000,
       "capex": -190444000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.3248,
+      "sharesOutstanding": 242000000000,
+      "employees": 76664,
       "fiscalYear": 2025,
       "periodEnd": "2025-12-31",
       "standard": "IFRS",
@@ -27,7 +27,30 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
         "document": "Saudi Aramco Annual Report 2025",
-        "page": "PDF pp. 174, 176, 178; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 174, 176, 178; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
+            "page": "PDF p. 235",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
+            "page": "PDF p. 140",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
+            "page": "PDF p. 76",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -41,9 +64,9 @@
       "totalDebt": 319290000000,
       "operatingCashFlow": 508888000000,
       "capex": -188890000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.926,
+      "sharesOutstanding": 242000000000,
+      "employees": 75118,
       "fiscalYear": 2024,
       "periodEnd": "2024-12-31",
       "standard": "IFRS",
@@ -52,7 +75,33 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
         "document": "Saudi Aramco Annual Report 2025",
-        "page": "PDF pp. 174, 176, 178; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 174, 176, 178; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
+            "page": "PDF p. 235",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
+            "page": "PDF p. 179",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf",
+            "page": "PDF p. 76",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -66,9 +115,9 @@
       "totalDebt": 290147000000,
       "operatingCashFlow": 537814000000,
       "capex": -158308000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.5458,
+      "sharesOutstanding": 242000000000,
+      "employees": 73311,
       "fiscalYear": 2023,
       "periodEnd": "2023-12-31",
       "standard": "IFRS",
@@ -77,7 +126,30 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
         "document": "Saudi Aramco Annual Report 2023",
-        "page": "PDF pp. 84, 85, 86; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 84, 85, 86; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
+            "page": "PDF p. 114",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
+            "page": "PDF p. 62",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
+            "page": "PDF p. 37",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -91,9 +163,9 @@
       "totalDebt": 393144000000,
       "operatingCashFlow": 698152000000,
       "capex": -141161000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.3112,
+      "sharesOutstanding": 220000000000,
+      "employees": 70496,
       "fiscalYear": 2022,
       "periodEnd": "2022-12-31",
       "standard": "IFRS",
@@ -102,7 +174,33 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
         "document": "Saudi Aramco Annual Report 2023",
-        "page": "PDF pp. 84, 85, 86; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 84, 85, 86; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
+            "page": "PDF p. 114",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
+            "page": "PDF p. 115",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf",
+            "page": "PDF p. 37",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -116,9 +214,9 @@
       "totalDebt": 510921000000,
       "operatingCashFlow": 522601000000,
       "capex": -119645000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.4,
+      "sharesOutstanding": 200000000000,
+      "employees": 68493,
       "fiscalYear": 2021,
       "periodEnd": "2021-12-31",
       "standard": "IFRS",
@@ -127,7 +225,30 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf",
         "document": "Saudi Aramco Annual Report 2021",
-        "page": "PDF pp. 176, 178, 180; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 176, 178, 180; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf",
+            "page": "PDF p. 241",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf",
+            "page": "PDF p. 181",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -141,9 +262,9 @@
       "totalDebt": 536077000000,
       "operatingCashFlow": 285297000000,
       "capex": -101030000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.12,
+      "sharesOutstanding": 200000000000,
+      "employees": 66800,
       "fiscalYear": 2020,
       "periodEnd": "2020-12-31",
       "standard": "IFRS",
@@ -152,7 +273,32 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf",
         "document": "Saudi Aramco Annual Report 2021",
-        "page": "PDF pp. 176, 178, 180; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 176, 178, 180; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf",
+            "page": "PDF p. 241",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2020-english.pdf",
+            "page": "PDF p. 183",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf",
+            "page": "PDF p. 82",
+            "fields": [
+              "employees"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -166,9 +312,9 @@
       "totalDebt": 175585000000,
       "operatingCashFlow": 416529000000,
       "capex": -122882000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
-      "employees": null,
+      "dividendPerShare": 1.55,
+      "sharesOutstanding": 200000000000,
+      "employees": 69867,
       "fiscalYear": 2019,
       "periodEnd": "2019-12-31",
       "standard": "IFRS",
@@ -177,7 +323,30 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf",
         "document": "Saudi Aramco Annual Report 2019",
-        "page": "PDF pp. 138, 140, 142; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 138, 140, 142; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf",
+            "page": "PDF p. 196",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf",
+            "page": "PDF p. 214",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf",
+            "page": "PDF p. 81",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -191,8 +360,8 @@
       "totalDebt": 101318000000,
       "operatingCashFlow": 453701000000,
       "capex": -131766000000,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "dividendPerShare": 1.09,
+      "sharesOutstanding": 200000000000,
       "employees": 76418,
       "fiscalYear": 2018,
       "periodEnd": "2018-12-31",
@@ -202,7 +371,25 @@
       "source": {
         "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf",
         "document": "Saudi Aramco Annual Report 2019",
-        "page": "PDF pp. 138, 140, 142; total borrowings in gearing reconciliation"
+        "page": "PDF pp. 138, 140, 142; total borrowings in gearing reconciliation",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf",
+            "page": "PDF p. 196",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf",
+            "page": "PDF p. 232",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       },
       "additionalSources": [
         {
@@ -218,14 +405,14 @@
       "revenue": 835983000000,
       "operatingIncome": 582915000000,
       "netIncome": 283198000000,
-      "dilutedEPS": null,
+      "dilutedEPS": 6.14,
       "totalAssets": 1102553000000,
       "totalEquity": 813758000000,
       "cashAndEquivalents": 81242000000,
       "totalDebt": 77598000000,
       "operatingCashFlow": 333607000000,
       "capex": -121955000000,
-      "dividendPerShare": null,
+      "dividendPerShare": 4.2,
       "sharesOutstanding": null,
       "employees": 70762,
       "fiscalYear": 2017,
@@ -236,7 +423,25 @@
       "source": {
         "url": "https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf",
         "document": "Saudi Aramco IPO Prospectus (5 December 2019)",
-        "page": "PDF pp. 70\u201371 (Tables 5\u20138), 201 (employees including wholly owned subsidiaries), 231 (Table 58 parent equity), 245 (Table 71 capital expenditures)"
+        "page": "PDF pp. 70–71 (Tables 5–8), 201 (employees including wholly owned subsidiaries), 231 (Table 58 parent equity), 245 (Table 71 capital expenditures)",
+        "supplementalSources": [
+          {
+            "url": "https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf",
+            "page": "PDF p. 505",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf",
+            "page": "PDF p. 581",
+            "fields": [
+              "dividendPerShare"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -261,29 +466,47 @@
       "source": {
         "url": "https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf",
         "document": "Saudi Aramco IPO Prospectus (5 December 2019)",
-        "page": "PDF pp. 70\u201371 (Tables 5\u20138), 201 (employees including wholly owned subsidiaries), 231 (Table 58 parent equity), 245 (Table 71 capital expenditures)"
+        "page": "PDF pp. 70–71 (Tables 5–8), 201 (employees including wholly owned subsidiaries), 231 (Table 58 parent equity), 245 (Table 71 capital expenditures)"
       }
     }
   ],
   "gaps": [
-    "FY2007\u2013FY2015: no public consolidated financial statements located in the issuer reporting archive or IPO prospectus; no empty or estimated annual rows created.",
-    "FY2016: dilutedEPS, dividendPerShare, sharesOutstanding not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2017: dilutedEPS, dividendPerShare, sharesOutstanding not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2018: dividendPerShare, sharesOutstanding not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2019: dividendPerShare, sharesOutstanding, employees not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2020: dividendPerShare, sharesOutstanding, employees not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2021: dividendPerShare, sharesOutstanding, employees not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2022: dividendPerShare, sharesOutstanding, employees not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2023: dividendPerShare, sharesOutstanding, employees not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2024: dividendPerShare, sharesOutstanding, employees not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used.",
-    "FY2025: dividendPerShare, sharesOutstanding, employees not located as directly published compatible annual values in the selected reports. No quarterly dividend aggregation or issued-minus-treasury calculation used."
+    "FY2017 sharesOutstanding: not found in the company's reports (Same as 2016: prospectus PDF p. 232 gives no year-end 2017 count; the only 2017 figure is the EPS weighted average (3,000,000 thousand, PDF p. 567), excluded by the brief.)",
+    "FY2016 dilutedEPS: not found in the company's reports (Prospectus income statement covers 2018 and 2017 only (PDF p. 505); 2019 AR covers 2019 and 2018; 2021, 2023, 2025 reports have no 2016 EPS.)",
+    "FY2016 dividendPerShare: not found in the company's reports (Prospectus PDF p. 232 says pre-2018 the Company made distributions to the Government rather than dividends; PDF p. 264 prints 2016G dividend payments only as a total (SAR 11.3bn), not per share. No 2016 per-share figure in the prospectus or the 2019, 2021, 2023, 2025 reports.)",
+    "FY2016 sharesOutstanding: not found in the company's reports (Prospectus PDF p. 232: share capital set at 200bn shares only effective 1 Jan 2018; no share count printed for 31 Dec 2016. Only pre-2018 share figure is the EPS weighted average (3,000,000 thousand), which the brief excludes.)"
   ],
   "notes": [
     "All monetary amounts are SAR units, scaled only from published SAR millions. Company USD convenience columns were not used. IFRS as endorsed in Saudi Arabia; pre-IPO2016 comparative uses IFRS in the prospectus.",
     "revenue is the consolidated Revenue line, excluding separately presented other income related to sales. Before2017, production royalties were deducted from revenue; from2017 royalties are operating costs. The2017 revenue835,983m is the later IPO prospectus comparative under IFRS15 rather than the earlier summary840,483m. This change limits across-year comparability.",
     "netIncome and totalEquity are attributable to parent shareholders, excluding non-controlling interests. totalDebt is the company-published total borrowings(current and non-current), not a sum reconstructed from components. capex is company-published capital expenditures, negative as in cash flows.",
     "Shares outstanding are null because directly comparable period-end shares net of treasury were not located; issued shares and EPS weighted averages were not substituted. dividends per share left null where only quarterly amounts were located; these were not summed.",
-    "employees for2016\u20132018 cover Saudi Aramco and its wholly owned subsidiaries, as explicitly published in IPO prospectus p.120 (PDF201). Later annual headcounts have not been substituted from narrower parent-only disclosures.",
-    "EPS is the annual figure actually published in the selected report; earlier periods are not mathematically adjusted for later bonus issues.2022 is shown in the2023 report on its retrospectively bonus-adjusted basis. IFRS16 adopted2019 prospectively,2020 includes SABIC consolidation."
+    "employees for2016–2018 cover Saudi Aramco and its wholly owned subsidiaries, as explicitly published in IPO prospectus p.120 (PDF201). Later annual headcounts have not been substituted from narrower parent-only disclosures.",
+    "EPS is the annual figure actually published in the selected report; earlier periods are not mathematically adjusted for later bonus issues.2022 is shown in the2023 report on its retrospectively bonus-adjusted basis. IFRS16 adopted2019 prospectively,2020 includes SABIC consolidation.",
+    "FY2017 dilutedEPS: 6.14 (units) from https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf PDF p. 505 — Prospectus consolidated income statement, 2017 column, 'Earnings per share from net income attributable to equity holders of the Parent' (SAR). Printed on 3,000,000 thousand weighted shares (prospectus PDF p. 567). The 2019 AR prints 2018 EPS as 2.08 on the 200bn-share basis; the two bases are not reconciled here.",
+    "FY2017 dividendPerShare: 4.2 (units) from https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf PDF p. 581 — Prospectus, post-balance-sheet note: AGA of 17 April 2018 approved FY2017 cash dividends of SR 12.6bn (SR 4.2 per share). Pre-2018 share basis (3bn shares). FY2017 annual report not in the set.",
+    "FY2018 dividendPerShare: 1.09 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf PDF p. 196 — 2019 AR note 'Total declared' row, 2018 column (SAR 217,500m; 200bn-share basis).",
+    "FY2019 dividendPerShare: 1.55 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf PDF p. 196 — 2019 AR note 'Total declared' row, 2019 column (SAR 309,863m).",
+    "FY2020 dividendPerShare: 1.12 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf PDF p. 241 — 2021 AR note 36 'Total dividends declared' row, 2020 column (SAR 225,709m).",
+    "FY2021 dividendPerShare: 1.40 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf PDF p. 241 — 2021 AR note 36 'Total dividends declared' row, 2021 column (SAR 281,305m).",
+    "FY2022 dividendPerShare: 1.3112 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 114 — 2023 AR note 36 'Total' row, 2022 column (SAR 281,318m), full-width read.",
+    "FY2023 dividendPerShare: 1.5458 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 114 — 2023 AR note 36 'Total' row, 2023 column (SAR 366,674m).",
+    "FY2024 dividendPerShare: 1.9260 (units) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 235 — 2025 AR note 37 'Total1' row, 2024 column (SAR 465,918m).",
+    "FY2025 dividendPerShare: 1.3248 (units) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 235 — 2025 AR note 37 'Total1' row, 2025 column (SAR 320,447m).",
+    "FY2018 sharesOutstanding: 200 (billion) from https://www.aramco.com/-/media/images/investors/saudi-aramco-prospectus-en-051219.pdf PDF p. 232 — Prospectus: share capital SAR 60.0bn 'divided into 200 billion ordinary shares' effective 1 Jan 2018; no change in paid-up capital 31 Dec 2016 to 30 Jun 2019. Issued count; no treasury shares before the Dec 2019 IPO.",
+    "FY2019 sharesOutstanding: 200 (billion) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf PDF p. 214 — 2019 AR statement of share capital: 'two hundred billion (200,000,000,000) fully paid ordinary shares'. Issued count as printed; 117.2m treasury shares acquired at the IPO are printed separately and not deducted.",
+    "FY2020 sharesOutstanding: 200 (billion) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2020-english.pdf PDF p. 183 — 2020 AR statement of share capital (general information): 'two hundred billion (200,000,000,000) fully paid ordinary shares'. Issued count; treasury shares printed separately and not deducted.",
+    "FY2021 sharesOutstanding: 200 (billion) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf PDF p. 181 — 2021 AR statement of share capital: 'divided into 200 billion ordinary shares'. Issued count as printed; treasury shares printed separately and not deducted.",
+    "FY2022 sharesOutstanding: 220 (billion) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 115 — 2023 AR: share capital SAR 75,000m 'divided into 220 billion' after the May 2022 bonus issue. Issued count; treasury shares not deducted.",
+    "FY2023 sharesOutstanding: 242 (billion) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 62 — 2023 AR: bonus issue 'increase of ordinary shares outstanding from 220 billion to 242 billion'. Issued count; treasury shares not deducted.",
+    "FY2024 sharesOutstanding: 242 (billion) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 179 — 2025 AR Note 1: share capital 'after these increases' (May 2022 and May 2023 bonus issues) 'divided into 242 billion'. No separate 2024 year-end count printed. Issued count; treasury shares not deducted.",
+    "FY2025 sharesOutstanding: 242 (billion) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 140 — 2025 AR Note 1: '(242,000,000,000) fully paid ordinary shares'. Issued count; treasury shares not deducted.",
+    "FY2019 employees: 69,867 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2019-english.pdf PDF p. 81 — 2019 AR key figures table, 'Company employees', 2019 column (2018 column 67,947). Scope as labelled in the report.",
+    "FY2020 employees: 66,800 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf PDF p. 82 — 2021 AR 'Company employees' row, 2020 column.",
+    "FY2021 employees: 68,493 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2021-english.pdf PDF p. 82 — 2021 AR 'Company employees' row, 2021 column.",
+    "FY2022 employees: 70,496 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 37 — 2023 AR five-year table 'Company employees', 2022 column.",
+    "FY2023 employees: 73,311 (units) from https://www.aramco.com/-/media/publications/corporate-reports/annual-reports/saudi-aramco-ara-2023-english.pdf PDF p. 37 — 2023 AR five-year table 'Company employees', 2023 column.",
+    "FY2024 employees: 75,118 (units) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 76 — 2025 AR five-year table 'Company employees', 2024 column.",
+    "FY2025 employees: 76,664 (units) from https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-ara-2025-english.pdf PDF p. 76 — 2025 AR five-year table 'Company employees', 2025 column."
   ]
 }
