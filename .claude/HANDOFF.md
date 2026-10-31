@@ -14,7 +14,11 @@ peers by industry label, long-term asset lines, the 10/10 site-audit fixes, cape
 core statement extraction), `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
-## Bank and insurer rows filled — 2026-11-01 (local commit "sec: bank and insurer rows filled…", NOT pushed)
+## Bank and insurer rows filled — 2026-11-01 (PUSHED `8b92aab68`, Render live; merged origin's 10-31 price refresh, 6 indexes rebuilt)
+- Live check: BNS loans 771,045m, PRU policy loans 9,958m, BOH cash on `20261031-ind3`; 30/30 sampled financials on ind3.
+- **Open: MCY stuck on a 10-25 `rev1` production cache.** Its background re-extract fails `EXTRACTION_HISTORY_REGRESSION`
+  (`company-evidence.js:72`: the old cache has an observation ind3 lacks) yet still advances `lastSuccessfulCheckAt`, so the
+  cache keeps beating the committed file (line 118). Live MCY 2024/2025 annual losses+LAE show null; committed file has them.
 - `statement-lines.js` industry rules (`INDUSTRY_FIELDS`) fill loans, allowance, provision, fed funds, FHLB, other
   assets/liabilities, losses and LAE, policy loans, ... from face lines; applied only to SIC 602x/603x/609x/63xx (builder + `sec-facts`).
 - `mappedTags().industry`: a tag only the industry rows read no longer blocks another row's line (Humana opex, BOH cash).
