@@ -4,281 +4,77 @@ Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
 `backend/test/handoff-size.test.js`, which the pre-push gate runs whenever this file changes. Current state and open actions only, never a transcript. At ~400 lines,
 snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite it fresh; **delete superseded items to
 the snapshot rather than compressing them here**.
-Earlier snapshots: `handoff-archive/2026-10-17.md` (verbatim, taken 10/17 at 482 lines — the 10/10 and 10/11 write-ups:
-AppSumo sales retired, Ask conditions / credits-until-spent, the multi-company comparison fix, Ask vs AI Paper
-Portfolio split, customer-question fixes, trades + economic data, account actions, AI Portfolio accounting and owner
-controls, deploy checks moved off GitHub, connector pricing (charged 1 / listed 2), saved screens, parked voice input,
-peers by industry label, long-term asset lines, the 10/10 site-audit fixes, capex mapping, gurus, price history),
-`handoff-archive/2026-10-11.md` (verbatim, 492 lines — the 10/08 owner decisions that are live and settled),
-`handoff-archive/2026-10-10.md`, `2026-10-07.md` (the six 10/06 data-audit write-ups — read them before touching
-core statement extraction), `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
+Earlier snapshots: `handoff-archive/2026-11-01.md` (verbatim, 402 lines — bank/insurer fill, 10/31 page-gap fixes and
+traps, as-filed statements (off), the 10/25 push, latency + price-trend + Ask quality work of 10/24, Ask chat parity,
+the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly made incremental, FX/IAS 29)),
+`2026-10-17.md` (10/10–10/11 write-ups), `2026-10-11.md` (10/08 owner decisions, live and settled), `2026-10-10.md`,
+`2026-10-07.md` (the six 10/06 data-audit write-ups — read them before touching core statement extraction),
+`2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
-## Bank and insurer rows filled — 2026-11-01 (PUSHED `8b92aab68`, Render live; merged origin's 10-31 price refresh, 6 indexes rebuilt)
-- Live check: BNS loans 771,045m, PRU policy loans 9,958m, BOH cash on `20261031-ind3`; 30/30 sampled financials on ind3.
-- **Open: MCY stuck on a 10-25 `rev1` production cache.** Its background re-extract fails `EXTRACTION_HISTORY_REGRESSION`
+## Quarter lines tagged only in the segment note — 2026-11-01
+- Owner: Innodata's March/June 2026 quarters showed no gross profit or operating income though Yahoo had them.
+  Innodata reports one operating segment (ASU 2023-07 segment disclosure, interim periods from FY2025) and tags those
+  two lines only on `srt:ConsolidationItemsAxis=us-gaap:OperatingSegmentsMember`; SEC's companyfacts drops every
+  dimensional fact, so the feed never had them.
+- `sec-original.js`: a single-segment filing's (no `…SegmentsAxis` anywhere) consolidation-total fact stands for an
+  income line the statements leave untagged, once every note figure that the statements also tag for the same period
+  equals them (abs value: the note shows tax as a deduction). Income-statement lines only (a cash-flow figure there
+  is a quarter beside a year-to-date statement); an expense line only when positive and no anchor was sign-flipped.
+- `refresh-sec-coverage.js`: a 10-Q of the current fiscal year (`sec-reporting.js` `yearPeriodics`, not stored) whose
+  quarter lacks a line its year-earlier quarter carried is read from its own document, and the result is **kept only
+  if it adds lines** — any filed value changed or lost → `lineGapExtraction` status `rejected_changes_filed_values`
+  (ImageneBio June 2026). Only facts ending on the report date are merged: comparatives replaced other periods
+  (Alnylam). `EXTRACTION_VERSION` `20261101-seg1`. Tests in `sec-original` and `sec-release-regressions`.
+- Final run (556 issuers + industry stage, diff vs HEAD): 0 values lost; changed only FE/AEP below. Filled: Innodata
+  Mar/Jun 2026 gross profit + operating income, CBIZ Q1 2026, Alnylam's whole Q1 2026 (revenue $1,167,175K = its 8-K).
+  Rejected (data unchanged): GHC Q1, CIK 1818201 Q1, CIK 1835579 Q2. Retrieval failed: CIKs 765880, 1655050, 1633336.
+  Side effect: ~340 issuers last extracted at `rev3` gained the bank/insurer-era fields from the current extractor
+  (e.g. Salesforce long-term debt $14,439M, matches companyconcept).
+- Scan of 1,203 empty income cells over 561 issuers: segment-only 27 cells/16 issuers, filed plainly but missing 230,
+  other dimensions only 98, not tagged at all 841, no filing 7. Most segment-only cells are expense lines the note shows
+  as deductions (left out by design); a "plain" fact with empty text is a filed blank.
+- Waters (Q4 2024/2025 net income came from an earlier 10-K read that no longer triggers) and OneMain kept at their
+  pre-batch files; FirstEnergy/AEP June 2026 net income and equity now parent-attributable (FE $288M = its release).
+- Removed from the company page (owner): the price-trend band (trend, RSI, 50/200-day, cross, volume, 52-week high).
+  The `/api/company/:symbol/technicals` route, the snapshot and Ask's `get_technicals` stay. Stamp `20261101-ui52`.
+- Render runtime pinned to Node 22.23.4 (`09671381d`, security release; production had been on the 22.16.0 default).
+
+## Open
+- **MCY stuck on a 10-25 `rev1` production cache.** Its background re-extract fails `EXTRACTION_HISTORY_REGRESSION`
   (`company-evidence.js:72`: the old cache has an observation ind3 lacks) yet still advances `lastSuccessfulCheckAt`, so the
   cache keeps beating the committed file (line 118). Live MCY 2024/2025 annual losses+LAE show null; committed file has them.
-- `statement-lines.js` industry rules (`INDUSTRY_FIELDS`) fill loans, allowance, provision, fed funds, FHLB, other
-  assets/liabilities, losses and LAE, policy loans, ... from face lines; applied only to SIC 602x/603x/609x/63xx (builder + `sec-facts`).
-- `mappedTags().industry`: a tag only the industry rows read no longer blocks another row's line (Humana opex, BOH cash).
-- Hidden bank/insurer rows 6,977 → 5,914; 15,000+ cells filled, 0 lost. Remaining disagreements are note tags held over the face figure (Univest, Magyar), left as is.
-- Rebuilding all statement lines also changes ~11 non-financial files (from the `b4220eea9` map change, not this one); they were restored
-  to HEAD. Re-extract those issuers deliberately before committing a full rebuild.
+- Phase D of the 10/25 audit: 380 issuers with no statements, 30 stale (10-KT, 40-F switchers, NT filers), stored gaps
+  into refresh jobs. Phase 4 auto-follow and Phase 5 checklist grid (10/24 plan) not started.
+- As-filed statements are built but **off** (`AS_FILED_ON = false` in company.js) until the owner designs per-industry
+  layouts; `scripts/build-as-filed.js` must be rerun each quarter from SEC's FSDS zips.
+- Not yet done: cleanup of `~/Downloads/new/checkpoint-parts` + the `prod-weekly-20261024` worktree (awaiting owner OK).
 
-## Page data gaps fixed — 2026-10-31 (local commits `0c0cb52a3..`, NOT pushed)
-- Audit: `node scripts/audit-page-gaps.js [--explain]` (run from `backend/`, no server needed) → `docs/data-gaps/`
-  (stocks.csv, funds.csv, summary.md, causes read from each filing). Nil inline-XBRL facts are `filed_blank`, not zero.
-- Fixed: quarterly operating cash flow derived from the previous 10-Q when SEC's facts feed lacks it
-  (`sec-reporting.js` `previousPeriodic`, `refresh-sec-coverage.js` reads that 10-Q's own document; 39 of 58 filled, the
-  rest not derivable from what was filed); closed-end funds' net assets + top 15 holdings from Form N-PORT
-  (`asset-profile.js`, `fund-holdings.js` `netAssets`); description/sector/industry fall back to the stored profile.
-- **Trap: a manual coverage refresh (`refresh-sec-coverage.js --symbols`) strips the industry stage's fields**
-  (segment/industry/operating-expense observations + annual-report facts) — by design, `run-financial-stage.js` runs
-  `industry` after it. Always follow with `refresh-sec-industry.js --symbols <same> --jobs 4`, then rebuild the four
-  indexes. The 10/31 September-quarter fill skipped it: 12 of 63 golden breakdowns (AMZN, MSFT, BA…) vanished; restored
-  for 647 issuers in `8cfb3225b`. Big 10-Ks (KIM, PFG) need `SEC_ORIGINAL_MAX_MB=40`. The predeploy gate caught it
-  (`revenue-breakdown.test.js` golden).
-- **Trap: merging a data branch with origin's weekly reconciliation.** Merge `4dd8d563c` kept this side's newer
-  re-extraction for ~2,600 issuers but dropped origin's 10-31 check stamp, so `validate-stock-coverage.js --bootstrap`
-  failed for all of them (the gate prints only the first few). Fixed by carrying origin's `lastReconciledCycle` /
-  `lastAttemptAt` / `lastSuccessfulCheckAt` where both sides name the same latest filings (2,468), and re-checking the 148
-  where origin had found a newer filing. Next merge: take the stamp along with the entry.
-- Fixed bug: `--symbols` used to rewrite an issuer's symbols to only those named (GOOG refresh dropped GOOGL); it now
-  selects whole issuers. 9 unlisted issuers (Elme, 8 STRATS/CorTS trusts) still lack industry fields — not in the
-  directory, no page shows them.
-- Not fixable from an official source: closed-end fund expense ratio/yield/returns/category, mutual-fund category;
-  N-PORT allocation deliberately not shown (the bars clamp at 100% with no "% of net assets" label). USIO (SIC 6099)
-  revenue dropped by the bank partial-revenue rule — judgement call, left alone.
-
-## As-filed statements on the company page — 2026-10-31 (local commit, NOT pushed)
-- Owner ask: every covered stock's income / balance / cash-flow statement filled as filed with the SEC, every row.
-  The standardized rows map a fixed tag list, so company-specific lines had no row. Now the page defaults to an
-  **OFF (owner, 10/31 evening): every company shows the standardized rows only** — `AS_FILED_ON = false` in company.js skips the
-  fetch, so the toggle and Expand all never show; the code below stays for the per-industry filed layout the owner will design.
-  Before that: **Standardized | As filed** toggle for **banks and insurers only** (`layoutOf(...) !== 'generic'`), **Standardized is the default**
-  (owner, 10/31); every other company has the standardized rows alone. Annual basis only. As filed folds lines under their total
-  (sum of the lines above in ≥60% of years incl. latest, else a "Total …" label; cash supplementals fold under ending cash),
-  income shows at most 6 rows and balance at most 5 (owner, 10/31): one line per role picked by `FILED_ROLES` patterns
-  (bank: NII, provision, noninterest income, noninterest expense, pre-tax, net income | loans, total assets, deposits, total
-  liabilities, equity; insurer: premiums, total revenues, losses/benefits, total expenses, pre-tax, net income | investments,
-  total assets, reserves, total liabilities, equity), every other line folds under the next one below. Across all filed
-  issuers: banks 243/275 show all 6 income rows, none over the cap, none with zero. Totals and results get `row-rule`, **Expand all** button (`#stmt-expand`) shows every row. Nothing removed or computed for display.
-- Data: `scripts/build-as-filed.js` reads the FSDS quarterly zips (`~/.cache/stockportfolio/fsds/2022q1..2026q3`,
-  ~40 s, `--keep DIR` reuses intermediates) → `frontend/data/sec-as-filed/<cik>.json` (5,264 issuers, ~106 MB).
-  Stitching in `backend/as-filed.js` (newest report wins, older years matched by tag → equal figure → label;
-  cash beginning/end lines are instants, opening chosen by label then position; LegalEntity-only filers such as
-  Deutsche Bank / REIT+OP read via their main entity). Route `GET /api/company/:symbol/as-filed` (public).
-  Tests: `test/as-filed.test.js`. Stamp `20261031-ui51`.
-- Measured fill, last 3 years: income 96.2%, balance 94.7%, cash 91.3%; the rest is the filing showing no amount
-  (1.9/1.8/5.2%) or the line not being in that year's report (1.9/3.5/3.5%) — a dash, with a tooltip saying which.
-- Limits: FSDS ends 2026q3, so a 10-K filed after 9/30/2026 appears only after SEC's next quarterly set;
-  10-KT transition periods skipped; per-class EPS
-  (dimension-only) not read. Rebuild each quarter: download the new zip into the cache, rerun the script.
-
-## Google Ads conversion tracking — include in the next push (owner instruction, 2026-10-24)
-- Owner asked to tell Claude to include the tested tracking change in its **next push**, rather than deploy it separately now.
-- Local commit **`1bba0cf27` — `Track verified paid signups in Google Ads`** is ready on branch
-  `fix/ads-conversions-20261024`, worktree `~/.local/share/stockportfolio-worktrees/ads-conversions-20261024`.
-- Integrate that commit into the current work before the next authorized push; preserve all current Ask,
-  stock/fund latency and price-trend work. Use the current upstream/main and normal deployment guards.
-- **Cache-stamp conflict:** this commit used `20261024-ui30`; current price-trend work uses `ui31`.
-  Resolve all shared app/SSR/HTML/test references to a fresh consistent stamp (`ui32` or newer), never back to `ui30`.
-- Verified paid Stripe checkout claims return sanitized revenue + stable transaction IDs; email/social returns
-  await consent-gated tags, retain pending receipts across redirects and deduplicate. Active-login fallback cannot count a purchase.
-- New technical details/limitations: `docs/PIXELS.md`. Google Ads goal setup is already saved; do not recreate actions.
-- Standalone gate passed: 129 test files, 1212/1217 cases (five documented baseline failures), plus stock-page/sitemap check.
-  Run the normal gate again after integrating with the current changes.
-- After deployment verify `/api/analytics/config` is populated, register/app/social bundles use the new stamp,
-  and claim validation/consent remain intact. Do not fabricate a live purchase or claim Google recorded a customer.
-- Private acquisition/account evidence stays outside the repository:
-  `~/.local/share/stockportfolio-context/google-ads-2026-10-19/conversion-status-2026-10-24.json`.
-
-## Missing-data audit fixes — 2026-10-25 (PUSHED 10/25, `523b8a6a8..e5d879dbf`, owner-authorized)
-- One push carried: audit fixes, the full `20261025-rev1` re-extract, the latency/Ask/price-trend commits
-  (c7fdea5c3, cf53fe301, 351e4c8b6 …), the weekly branch (679791999, 624fccf66, merged via f32852065), and the Ads
-  branch (1bba0cf27, merged via 8d8f16869; the Ads section above is now done). The stamp is **`20261025-ui35`**.
-- The 12 weekly-sourced issuers (NGG, KB, SHG, KEP, WF, RDY, BVN, ENIC, IFS, PHI, RNW, BMMX) were re-checked on
-  10/25 so validate's current-cycle check passes. 11 of them keep the `20261019-bank1` files (rev1 discards them).
-- The pre-push hook IS enabled on Ubuntu now (`core.hooksPath=.githooks`, runs locally; no predeploy.env).
-- A ~1 GB pack took ~10 min to upload after the hook's ~10 min gate. `ask-evidence` now expects GOOGL per-share.
-- **Live 05:36 UTC 10/25** (`dep-dbep8d3ncjis73f01m1g`). Prod cold fundamentals, right after boot: HSY 16.9→7.1s,
-  CL 10.2→6.0s, ITW 10.3→4.5s; later misses MSFT/CROX/MMM/GIS/HD TTFB 0.85–1.7s with Server-Timing
-  `evidence` 0.35–0.8s. Responses still read `x-fundamentals-cache: miss` on repeat while the background refresh
-  runs. Pages carry `ui35` and `sp-asset-type`. SYF/SAN revenue filled, GOOGL P/E 16.07, BXMT revenue stays blank.
-- Not yet: the technicals snapshot in the Render log (~25 min after boot), and cleanup of
-  `~/Downloads/new/checkpoint-parts` + the `prod-weekly-20261024` worktree (awaiting owner OK).
-- Commits `c347cb880` (fixes 1–3 and 8: forward P/E, yield, P/B, per-share basis), `351a9d8a5` (Ask voice input),
-  plus the revenue/FCF/P/E/EPS commit. `EXTRACTION_VERSION` is `20261025-rev1`.
-- Revenue (fix 6): covered latest-annual revenue blanks went from 541 to 521, with 0 newly blank. Measured over
-  the full bulk re-extract.
-  - Banks (SIC 602/603/609) on IFRS move the face "gross income" tag to revenue: SAN, BBVA, BBAR.
-  - 61xx lenders get NII + noninterest income as a fill only: SYF, SLM, OMF, AXP and others. SYF's own net
-    revenue deducts RSA.
-  - Equity REITs (6798) fill from `OperatingLeaseLeaseIncome`. The fill is skipped when interest income ≥ lease or
-    a noninterest total exists (that is what kept BXMT and GPMT REO rent out).
-  - Statement-line `memberTotal` (MTH, APA) is limited to the filing's own period (Newsmax false positive).
-  - Year-on-quarter re-span (LHX).
-- FCF/capex (fix 4): presented capex lines are summed (256 issuers). Company page notes untagged capex.
-- P/E (fix 5) falls back to basic EPS with a basis label. Peers show `n/m (loss)`. EPS (fix 7) falls back to
-  continuing operations (274 issuers).
-- Expected discards: 11 20-F issuers keep their old files (rows from original_inline_xbrl that the bulk run does not
-  fetch).
-- **Still to do (Phase D):** fix 9 (380 issuers with no statements), fix 10 (30 stale: 10-KT, 40-F switchers, NT
-  filers), fix 11 (stored gaps into refresh jobs).
-
-## Stocks & funds page latency + customer-delight features — 2026-10-24 (plan: `~/.claude/plans/the-stocks-and-funds-fuzzy-scone.md`)
-- **Phase 1 (latency) committed locally, NOT pushed.** Prod cold `/api/demo/alpha/fundamentals/KO` was 8–12s.
-  Causes and fixes:
-  - `company-evidence.js` waited up to 15s on a live SEC/Yahoo refresh on every miss with a gap. Now
-    `getCompanyEvidence(..., opts={waitMs})` serves stored financials and refreshes in the background, and a
-    resolver `checked` map stops refetching remaining gaps for 6h after a successful no-change check. Only the
-    page routes pass `{waitMs:0}` (`app.js` `/stocks/:t`, `/api/alpha/fundamentals`, demo fundamentals). Ask, MCP,
-    the dossier and free tools still wait.
-  - `company-calculations.calculate()` was O(n²) and is now bucketed. Output is byte-identical on 286 tickers;
-    MSFT went from 435ms to 14ms.
-  - `/company` injects `<meta name="sp-asset-type">`. Stocks skip the profile call; funds make one
-    `profile?history=1` call and no fundamentals request.
-  - Stamp is now `20261024-ui30`.
-  - The demo fundamentals route sends `Server-Timing` (evidence, topup, fx, gzip). Read it on prod after the deploy.
-  - Local cold misses are now 0.4–0.5s (topup 100–360ms is the remainder). Predeploy passed.
-- **Phase 2 committed `cf53fe301`, NOT pushed:** onboarding follow-up chips + Follow button; `ask-coverage.js`
-  appends `> Next: Continue with …` when a 3+ ticker question was cut off.
-- **Phase 3 (price trend) committed locally, NOT pushed.** Stamp now `20261024-ui31`.
-  - `technicals.js`: Wilder RSI14, SMA50/200, last golden/death cross, volume vs prior-20-day avg, % from 52-week
-    high (closes), trend label. `forSymbol()` fetches ~430 days, kept 6h. KO checked against an independent
-    recomputation from the same Yahoo series: every field identical.
-  - `technicals-universe.js`: daily in-process snapshot (2 at a time, 250ms gap, ~21 min for 5,090 symbols, ~617 KB)
-    in Mongo `technicals_snapshot` `_id:'latest'`. Builds at/after 22:00 UTC on weekdays once >20h old, and at 240s
-    after the first boot when none exists. A run where >half the fetches fail keeps the old snapshot.
-    `TECHNICALS_SNAPSHOT=0` disables it. Locally (`DISABLE_BACKGROUND_JOBS=1`) there is no snapshot.
-  - Ask: `get_technicals` tool; `screen_universe` gains `min_rsi14`, `max_rsi14`, `sma200_position`,
-    `golden_cross_within_days`, `min_volume_ratio_20` and sorts; no snapshot → an error naming the 10-month fallback.
-  - Screener: Uptrend chip + 4 filters, RSI column and "price trend as of" only when the snapshot answered.
-  - Company page: "Price trend" band under the chart from `GET /api/company/:symbol/technicals` (snapshot row, else
-    `forSymbol` for non-crawlers — HeadlessChrome counts as a crawler, so Playwright needs a desktop UA).
-  - **After a push:** check the Render log for `[technicals] snapshot {... saved:true}` ~25 min after boot.
-- **Ask quality pass committed locally, NOT pushed.** Graded against the 10 real customer questions of
-  9/24–10/24 (text in the session scratchpad only, never the repo), re-run through dev-local streaming.
-  - Figure check: insider trade values, Polish scales (`mln`, `mld`, `tys`), falls named after the figure
-    ("a 2.9% decline", "(2.9%)") and Polish fall verbs are now claimable or signed correctly.
-  - A metered draft with a figure no tool supplied is sent back once to research it, instead of having it deleted
-    (`figureResearchSent` in the tool loop).
-  - `get_price_history` tops up a missing or stale series (SPOT had none). The checklist coverage rule now
-    requires `get_price_history` for a share-price part.
-  - The auto-chart never pools several companies' facts. On a focused answer it charts only a field the answer
-    mentions.
-  - `insiders.aggregate`: a Form 4 price with a dropped decimal (Lilly Endowment 2025-11-17, `1031414`) made LLY's
-    2025 Q4 sales $78.8bn. A price >50× the quarter's median is now read ÷1000 when that lands near the median,
-    and is otherwise left out of the values.
-  - `get_governance` now returns `claimable` (board independence %, CEO and median pay, net and quarterly insider
-    values). Before this they were nested and got deleted as unsourced.
-  - Known remaining: a 7-company, 10-question checklist takes ~5 min (77 tool calls). The model can still
-    misorder or mislabel screen rows; the screen note now tells it not to.
-- The **staged** `ai-chat.js` / `filing-monitor.js` / `insights.js` / `no-fcf-financials.test.js` changes belong to
-  another session (10/19): commit around them with a temp `GIT_INDEX_FILE`.
-- Still to do: Phase 4 auto-follow (`company_views` recorded in `/api/company/:symbol/filings`), Phase 5 checklist
-  grid.
-
-## Ask chat parity + search cleanup — 2026-10-18 (committed locally, NOT pushed)
-- `97f55bfe0`: search dropdown has no statement badges, drops futures/FX (`=`/`^` symbols); a whole-word company
-  name narrows results to that company (`focusOnNamedCompany`); statements label column 248px so "Cash flow from
-  operations" sits on one line at desktop (phone 180px column still wraps — left alone).
-- Next commit: **Regenerate in place with versions** (‹ n / m ›; earlier answers kept on the message as `versions`,
-  capped `ASK_ANSWER_VERSIONS_KEEP = 4` for Atlas), **Branch in new chat** (`POST /api/ask/threads/:id/branch
-  {through}`), **Custom instructions** (`User.askInstructions` ≤1500, `GET/PUT /api/ask/instructions`, a system
-  message after the rules in `askFresh`, report cache skipped when set). Stamp `20261018-ui23`. Verified end to end on
-  localhost with real model calls. Tests: `test/ask-chat-parity.test.js`.
-- Not built (bigger): Projects (chat folders with shared files/instructions), Canvas/Artifacts side editor.
-- Known, pre-existing: new accounts' "Getting started" card covers the composer/answer foot on phones.
-
-## Statements filled from SEC for every US stock — 2026-10-17 (local, NOT committed, NOT pushed)
-
-Owner: every US stock's income, balance and cash-flow statement filled, dropdown rows included, and the search
-dropdown should say how complete they are. Then: "refill the data first and then refix the saturday test to make
-sure u only update the relevant info and not all of it". Plan: `~/.claude/plans/golden-chasing-waffle.md`.
-Audit (before): `docs/statement-audit/summary.md` — 0 of 4,191 regular US reporters had every applicable row; the
-page hides all-null rows (`company.js` around :1708), which is why Apple looked full.
-- **Source is SEC filings only** (companyfacts XBRL, the original filing as backup). Nothing estimated.
-- **`sec-facts.js`**: `EXTRACTION_VERSION` `20261017-rows1` for the main run; `20261017-eps1`/`eps2` for the 1,565
-  issuers filing `EarningsPerShareBasicAndDiluted` and the 20 filing the partnership
-  `NetIncomeLossPerOutstandingLimitedPartnershipAndGeneralPartnershipUnitBasicAndDiluted` (CQP from 2022). Both sit
-  in `LAST_RESORT` (fill-only, tried after every original tag in BOTH taxonomies) and a per-share quarter never
-  follows its year onto them (`resolve`, the yearLines reorder): Comstock's later filings restate Q3 2015 EPS for a
-  1-for-5 reverse split (-59.05 vs -11.81 as filed) and the page split-adjusts again; Entera/Gravity have IFRS
-  diluted EPS that must win. Result vs the pre-change files: 35,927 + 171 EPS cells added, each equal to the SEC
-  fact it cites, 0 lost, 0 changed apart from Atlantic American's new 10-K (filed 2026-10-16).
-- **After ANY local re-extraction, rebuild `build-public-stock-index.js` then `build-screen-index.js` (6 min
-  each).** The server loads a file only when its digest matches the index (`company-evidence.js:17`); without the
-  rebuild 1,300 re-extracted stocks rendered "No data filed for this view". **Page stamps must not share a prefix
-  with `EXTRACTION_VERSION`**: a stamp sed for `20261017-rows11` once rewrote the extraction version too. Page
-  stamps now use `-uiNN`. 41 tags added (`ROWS_ADDED`, fill-only: they never
-  create a year or quarter). New fields: D&A and other non-operating income (income); accounts payable, other
-  current assets, cash & short-term investments, short-term investments, non-current liabilities, common stock,
-  treasury stock (balance); cash-flow net income, working-capital changes, debt issued / repaid, short-term
-  borrowing, stock issued, net change in cash (cash). `BORROWED`: a cash or income row made only of lines borrowed
-  from another statement is not published (a cash row of net income alone would invent a period).
-- **Working-capital changes are stored as filed** (positive = the balance grew; checked against balance-sheet
-  deltas for AAPL, MSFT, CAT, NKE). The page reverses receivables, inventory and other operating assets to show
-  the cash effect (`cashEffect` in `company.js`).
-- **Page (`company.js`, stamp `?v=20261017-ui12` on every page; pinned in `company-statements`, `ask-recovery`,
-  `free-tools`, `seo-research`, `profile-consolidation`, `ask-threads`, `portfolio-arrival` tests)**: income order
-  Revenue → Cost of revenue → Gross profit; revenue = cost of revenue + gross profit when only those two are filed
-  (VIV); P/E chart marks loss years and >100× as NM; SPAC units/rights hide the statement controls. EBIT = operating income; EBITDA = operating income + filed D&A; income
-  shares row is weighted-average shares; cash net income reads `cashFlowNetIncome`; SBC moved under operations;
-  debt shown as issued / repaid / short-term net (no more summing two different lines); dividends fall back to
-  common-only dividends; cash & short-term investments falls back to cash alone.
-- **Sample (20 issuers):** 0 changed and 0 lost values, 190/190 new values equal SEC companyfacts, size +26%.
-- **Full re-extraction:** `scripts/reextract-local.js` (facts from SEC's nightly bulk zip via
-  `companyfacts-bulk.documentForCik`, filing index and original documents live at ≤8 req/s). Needs a bulk zip
-  under 36 h old in `SEC_BULK_DIR`. Resumable: skips issuers already at the version.
-- **A core re-extraction drops each file's industry data** (`segmentObservations`, `operatingExpenseLines`,
-  `industryObservations`, `industryExtraction`; AAPL had 9 segment groups). The weekly restores it in its next
-  stage, so after a local re-extraction **run `node scripts/refresh-sec-industry.js` too** before building.
-- **Weekly made incremental (owner ask):** `refresh-sec-coverage.js --weekly` no longer forces every issuer. An
-  issuer is re-read only for a new or amended filing, an extractor/validator version change, a file that no
-  longer matches its digest, a failed last attempt, or an original document SEC did not return. The industry
-  stage reads a 10-K once per filing and VERSION (it used to re-download every issuer's 10-K every Saturday and
-  rewrite every file for a timestamp). Guards: two tests at the end of `sec-release-regressions.test.js`.
-- **Saturday conflict:** the GitHub weekly (Sat 22:30 UTC) runs whatever is on `main`. If this work is not pushed
-  first, it rewrites all ~5,700 files with the old code and this data must be re-extracted on top of it.
-- **Done 10/17:** industry stage (64 MB limit: `SEC_ORIGINAL_MAX_MB=64`, as in the workflow), the weekly build chain,
-  re-audit (Tier 1 rows filled 44.1% -> 59.9%, before/after in `docs/statement-audit/summary.md`), 10 page
-  checks (screenshots + cells against SEC), search badge (`statement-completeness.js`), Ask gaps, predeploy.
-  The 10 MB `by-stock.csv` stays out of git. `stash@{0}` holds the old ai-data-gaps flag (superseded; drop it).
-- **Total debt from the presented balance sheet:** `build-statement-lines.js` stores each 10-K/10-Q balance sheet's
-  debt lines from FSDS `pre.txt` (`k:'debt'`); `sec-facts.presentedDebt` sets `shortLongTermDebtTotal` =
-  their sum (`sum_presented_lines`, re-checked in `sec-coverage.verifiedField`) when every presented line is held
-  from that filing and no held debt figure sits off the face (Amazon). It also fixes the old `shortTermDebt`
-  double count (one line filed under two tags: AMD 874+874). Applied in place by `scripts/apply-presented-debt.js`
-  (1,400 issuers) because a re-extraction drops industry data; a refresh that re-extracts applies it in `extract`.
-- **Reconciliation cycle:** `validate-stock-coverage.js --bootstrap` requires every in-scope issuer's
-  `lastReconciledCycle` to equal `asOf`. `reextract-local.js` now stamps it on live runs (not
-  `--offline-reporting`), like `refresh-sec-coverage.js:110`. The 10/16–17 live run predated that, so its 5,517
-  issuers were stamped afterwards (each had a live filing-index check dated 10-16 or 10-17).
-- **Ask:** `get_financials` lists blank added fields once (`unavailableFields`), keeps compact mode to the old
-  fields, and the supplemental-only answer (FDIC banks such as OZK) respects `limit`/`before` (was 44 KB).
-  Ask gaps before -> after: debt-to-equity 4,534 -> 3,781 stocks blank, interest expense 4,368 -> 2,559.
-- **Non-USD issuers shown in USD (10/17, owner ask):** the page requests `?presentationCurrency=USD` again (8d8e0a56f
-  had dropped it). FX fixes: Yahoo FX bars are dated in London time (`exchangeDay`, yahoo-source.js); month rates
-  are month-end DAILY closes with a ±5-day median filter (`monthEndSeries`), because Yahoo's monthly bars had strays
-  (KRW 9.07 for Feb 2015 put SKM 2015 at $25T). `sec-fx.json` regenerated. SKHY (no 20-F yet) Yahoo observations
-  convert too. **IAS 29:** ARS (from 2018-07) and TRY (from 2022-06) cells convert at the closing rate of the month
-  their filing measures in (20-F: last FYE before filing date; 6-K: its latest period if furnished ≤6 months
-  after, else null) — the period average had GGAL 2023 at $35B, now $6.6B. `HYPERINFLATION` in sec-presentation.js.
-  Verified: TEO FY25 P$8,328,814M and TKC FY25 TRY 241,471M match their releases. Indexes rebuilt after it.
+## Data refresh traps (read before re-extracting)
+- **After ANY local re-extraction rebuild the indexes** — the server loads a file only when its digest matches
+  `public-stock-index.json`: `build-financial-coverage.js`, `build-public-stock-index.js` (`--max-old-space-size=1536`),
+  `build-screen-index.js`, `build-industry-map.js`, then `validate-stock-coverage.js --bootstrap`.
+- **A manual `refresh-sec-coverage.js --symbols` strips the industry stage's fields** for the issuers it rewrites
+  (segment/opex/industry observations); follow with `refresh-sec-industry.js --symbols <same> --jobs 4`
+  (`SEC_ORIGINAL_MAX_MB=40` for big 10-Ks) before the index rebuild. `revenue-breakdown.test.js` goldens catch it.
+- **Merging with origin's weekly reconciliation:** take `lastReconciledCycle` / `lastAttemptAt` /
+  `lastSuccessfulCheckAt` along with each entry, or `validate-stock-coverage.js --bootstrap` fails for every issuer.
+- Page stamps use `-uiNN` and must never share a prefix with `EXTRACTION_VERSION`.
+- Compare a batch against a snapshot taken immediately before it — a stale snapshot shows earlier commits'
+  fills (10/31 bank fields) as this batch's.
+- The deploy-skip marker matches anywhere in a commit message; `frontend/data/fundamentals/**` and
+  `frontend/data/sec-financials/**` commits must never carry it.
 
 ## Unpushed local work from earlier sessions (details in the 10/17 snapshot)
 - Branches `ask-conditions-20261011`, `ask-comparison-fallback-20261011`, and the Ask/AI-Portfolio split, Ask
   customer-question fixes, account actions, AI Portfolio accounting and controls — all committed locally, NOT pushed.
-- Owner still to add `FRED_API_KEY` and `BLS_API_KEY` to Render (values in `~/.config/stockportfolio/`).
 - `frontend/data/index-members.json` (Nasdaq 100, S&P 100) has no refresh job; redo it at reconstitution.
 - AppSumo listing itself is still live and selling; ending it is the owner's step with AppSumo.
 
 ## Session start
-- `bash scripts/dev-doctor.sh` once. On the Mac, local mongo is `brew services start mongodb-community`; this
-  Ubuntu checkout has no `mongod` (run the server with a dead `MONGODB_URI` for page checks). Harnesses use
-  `mongodb://127.0.0.1:27017/<scratch>`.
+- `bash scripts/dev-doctor.sh` once. This Ubuntu checkout has no `mongod` (run the server with a dead
+  `MONGODB_URI` for page checks; `scripts/dev-local.js` on :5055). Harnesses use `mongodb://127.0.0.1:27017/<scratch>`.
+  Stop dev-local before `npm test`/predeploy. The pre-push hook is enabled here (`core.hooksPath=.githooks`).
 - **Verify every deploy from outside** (`gh run list` + a live fetch) — the workflow's own conclusion lied
   once. `set-render-env.yml` alone never deploys. A push to `main` ships to prod.
 - **The MCP endpoint has a live checker: `cd backend && npm run test:mcp`** (`scripts/test-mcp.mjs`), and the
@@ -286,8 +82,7 @@ page hides all-null rows (`company.js` around :1708), which is why Apple looked 
   database — don't loop it). Key from `~/.config/stockportfolio/api-key`, fingerprinted, never printed.
 - **Parallel sessions share this working tree.** A push range starting at a SHA you do not recognise means
   someone committed between your `git add` and your push — check `git log`/`git status` before staging broadly.
-- Full suite needs `frontend/data` (5.8 GB); a slim checkout fails 35 tests without it. 7 tests already fail on
-  `main` (`scripts/predeploy-known-failures.json`).
+- Full suite needs `frontend/data` (5.8 GB). Tests already failing on `main`: `scripts/predeploy-known-failures.json`.
 
 ## Hard constraints — do not violate
 - **The AI provider is a trade secret.** `ai-client.js`'s `leaksIdentity()` is a backstop, not a licence;
@@ -304,27 +99,25 @@ page hides all-null rows (`company.js` around :1708), which is why Apple looked 
 - **SEC requests use the project's contact address** (`HEADERS` in `sec-reporting.js`), never the owner's
   personal email.
 - **`notes/filing-watch-*.csv` must stay untracked** — they will hold prospect PII.
+- Statement values are as filed, never estimated; a missing line stays a dash.
 
 ## In flight
 - **OpenAI ChatGPT plugin directory — owner reports APPROVED AND PUBLIC (10/07), not independently verified.**
   Surface `POST /mcp/apps` (7 read-only tools). `scripts/verify-mcp-apps.js --review-cases` = 23/23 against
   production; re-run after every deploy. `/mcp/apps` takes `company`; `/mcp` takes `ticker`. Only one review may
-  be active; never press *Cancel review*. Reviewer-credential fields were never re-checked. The ZIP
-  (`scripts/build-openai-plugin.sh`) is the source of truth; a re-recorded walkthrough needs a new filename.
-  No ID token is issued (deliberate). CIMD is not supported.
-- **Claude / Anthropic directory:** plugin bundle `Publish requested` (do not press `Cancel review`); MCP connector
-  `Published` 10/07, slug `stockportfolio`. Reviewer account `openai-review@stockportfolio.pro` is a `UserSchema`
-  path (`reviewAccount`) — Mongoose strips undeclared paths, so the schema half fails invisibly.
+  be active; never press *Cancel review*. The ZIP (`scripts/build-openai-plugin.sh`) is the source of truth.
+- **Claude directory (verified 10/25):** plugin bundle Published, live v0.2.3 (`307aceb`); MCP connector Published,
+  slug `stockportfolio`. Custom icon awaits review. Receipts:
+  `~/.local/share/stockportfolio-context/claude-listing-2026-10-25/README.md`. Reviewer account
+  `openai-review@stockportfolio.pro` is a `UserSchema` path (`reviewAccount`).
 - **Connector sign-in** (`oauth-mcp.js`) issues a client secret only when asked or for Perplexity / Teams
   redirect hosts. **Re-test a fresh Claude and ChatGPT connect after each deploy that touches it.**
-- **AppSumo v8 repricing** — superseded by retiring AppSumo sales; values in `docs/growth/appsumo-listing-v8.md`.
 - **Filing Watch $49/month pilot** — deployed flag-on, $0 collected, zero offers sent. Never send outreach
   without the owner's explicit authorization. Runbook `docs/growth/filing-watch-runbook.md`.
 - **Dossier redesign "The Plain Filing"** — mockup awaiting review; the port has not started
   (`node scripts/build-dossier-mockup-artifact.js`, never hand-edit).
-- **Emotional design** phases 6-7 not started. Standing rules: the error overlay's "Nothing was changed" is an
-  explicit `unchanged: true` opt-in; X-Ray exposure is summed in dollars; an empty alert list renders a quiet card.
 - **Voice input is parked and ships off** (`STT_API_KEY` / `VOICE_LOCAL_MODEL=true`).
+- Technicals snapshot (Mongo `technicals_snapshot`) still builds daily for the screener and Ask.
 
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from
@@ -342,9 +135,7 @@ page hides all-null rows (`company.js` around :1708), which is why Apple looked 
 - **87% of raw "impressions" are rank tools.** Parse GSC/Bing CSVs RFC4180.
 - Crawled-but-not-indexed = "insufficient value or user demand"; external links are the unattempted lever. Never
   `noindex` an unwanted URL — use robots.txt, a one-way door, or emit fewer URLs.
-- The URL Inspection API reports the last crawl, never a live fetch. There is no Gemini crawler.
-- Bing URL submission is 100/day and counts 301s; IndexNow is the free channel. Site Scan is UI-only.
-- Operator Python needs `.venv/bin/python3` on the Mac.
+- The URL Inspection API reports the last crawl, never a live fetch. Bing URL submission is 100/day; IndexNow is free.
 
 ## Prices, freshness, dead tickers
 - `backend/quote-store.js` is the one place pages ask for a price. Freshness = the data's own dates, never mtime
@@ -355,7 +146,6 @@ page hides all-null rows (`company.js` around :1708), which is why Apple looked 
 ## AI model + cost
 - Every purpose resolves to `glm-5.3` (`ai-client.js:20`), which needs `reasoning_effort: 'low'`
   (`ai-client.js:82`). Cost baseline $28.91/mo ≈ 48% of the $60 allowance on glm-5.1 — re-measure.
-- glm-5.3-flash on MCP/API Ask was validated and rejected (60% against an 80% tool-set bar, 1.55x slower).
 - `promptTokens`/`completionTokens` are missing before 9/11: use `$isNumber`.
 - Connector lookups are charged 1 credit, published at 2 (`credits.COST` vs `credits.LISTED_COST`; owner decision).
 
@@ -368,35 +158,20 @@ page hides all-null rows (`company.js` around :1708), which is why Apple looked 
 - A broadcast's recipient list is not a customer list. ~95% of first-party "unique visitors" are a botnet on
   `/register.html`.
 - Chrome headless's UA is 403'd by `bot-blocker.js` — override it; browser checks via CDP
-  (`scripts/screenshot-cdp.js`). A CSP failure that exists only in production is invisible to a same-origin
-  harness; read `Log.entryAdded` + `Network.loadingFailed` first.
-- `access_token()` in the GSC script returns a tuple.
+  (`scripts/screenshot-cdp.js`). Live verification budget: 100 non-asset requests per 5 min per IP.
 - A test can encode a coincidence; a source-pinning test should slice to the next function, not a char count.
-- **The deploy-skip marker matches anywhere in a commit message.** `frontend/data/fundamentals/**` and
-  `frontend/data/sec-financials/**` must never carry it.
-- Live verification budget: 100 non-asset requests per 5 min per IP (`bot-blocker.js:158`).
 - `ask.html` has `<body>` inside a CSS comment; mark the real tag with `/^<body>$/m`.
 - Filed EPS is not restated across splits (Nvidia 3.85 then 0.17); use profit growth.
-- **Re-extracting statements removes industry data until `refresh-sec-industry.js` runs** (see the 10/17 entry).
 
 ## Owner actions pending
-1. **Push decision for the statements work** (10/17 entry) before Saturday 22:30 UTC, or accept a re-extraction
-   after that weekly lands.
-2. **OpenAI plugin submission** — watch for the verdict; do not press **Cancel review**.
-3. **Dossier mockup review** — the port has not started.
-4. **URL Inspection → Request Indexing** on the highest-value pages; re-run Bing **Site Scan** and investigate the
-   duplicate-title/description/noindex/title-too-long cards.
-5. **`avisre/prod` visibility** — it names the AI provider while public. Render must be able to read the repo.
-6. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
+1. **OpenAI plugin submission** — watch for the verdict; do not press **Cancel review**.
+2. **Dossier mockup review** — the port has not started.
+3. **URL Inspection → Request Indexing** on the highest-value pages; re-run Bing **Site Scan**.
+4. **`avisre/prod` visibility** — it names the AI provider while public. Render must be able to read the repo.
+5. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
    SMTP_PASS, GOOGLE_CLIENT_SECRET, the provider key) at source AND on Render back-to-back per key; revoke the old
    GitHub PAT and npm token pasted 9/14.
-7. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
-8. **`FRED_API_KEY` and `BLS_API_KEY` on Render.**
-9. **Monthly provider bill** — the one input that states AI margin in dollars.
-10. Orphan IndexNow key `1668f45a03ea53cf94c51b61c43163d4.txt`; `mcp-server` README lists retired `sp_*` names;
-    `scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.
-
-
-## Claude directory listing — verified 2026-10-25
-
-Authenticated portal confirms plugin bundle **Published**, live v0.2.3 (`307aceb`), published October10, listed in ClaudeCode, Cowork and Claudeapps; MCP connector also Published. Supersedes older “Publish requested” notes. No new application needed. Custom icon awaits review; this does not block the live plugin. No submission, push or deploy performed. Private portal receipts: `~/.local/share/stockportfolio-context/claude-listing-2026-10-25/README.md`.
+6. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
+7. **`FRED_API_KEY` and `BLS_API_KEY` on Render** (values in `~/.config/stockportfolio/`).
+8. **Monthly provider bill** — the one input that states AI margin in dollars.
+9. Orphan IndexNow key `1668f45a03ea53cf94c51b61c43163d4.txt`; `mcp-server` README lists retired `sp_*` names.
