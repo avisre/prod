@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261031-ind2';
+const EXTRACTION_VERSION = '20261031-ind3';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -576,6 +576,9 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  // row already cites, and never adds a year, a quarter or a derived figure.
  const lineIndex=new Map(),startsAt=new Map();
  const presented=new Map(),capexIndex=new Map(),columnIndex=new Map();
+ // A bank's or insurer's own rows (loans, deposits, policy reserves) are read from its lines only; an ordinary
+ // company's "other liabilities" or "short-term borrowings" line stays out of its statements.
+ const industryLines=/^(602|603|609|63)/.test(out.reportingSic),industryOnly=require('./statement-lines').INDUSTRY_FIELDS;
  for(const l of Array.isArray(statementLines)?statementLines:[]){
   if(l?.k==='debt'){if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && Array.isArray(l.c))presented.set(l.a,l.c);continue;}
   if(l?.k==='capex'){
@@ -586,7 +589,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && FORM.test(l.m || '') && p.day(l.e) && p.day(l.d) && l.q===0 && /^[A-Z]{3}$/.test(l.u || '') && MAPS.balance[l.f] && [l.g,l.v,l.ta].every(x=>Array.isArray(x) && x.length>=2) && l.g.length===l.v.length && l.v.length===l.ta.length && new Set(l.g).size===l.g.length && [...l.v,...l.ta].every(Number.isFinite)){if(!columnIndex.has(l.e))columnIndex.set(l.e,[]);columnIndex.get(l.e).push(l);}
    continue;
   }
-  if(!l || !MAPS[l.s]?.[l.f] || !p.day(l.e) || !p.day(l.d) || !Number.isFinite(l.v) || !/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') || !FORM.test(l.m || '') || !l.t || !l.c)continue;
+  if(!l || !MAPS[l.s]?.[l.f] || !industryLines && industryOnly.has(l.f) || !p.day(l.e) || !p.day(l.d) || !Number.isFinite(l.v) || !/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') || !FORM.test(l.m || '') || !l.t || !l.c)continue;
   const k=l.s+'|'+l.f+'|'+l.e;if(!lineIndex.has(k))lineIndex.set(k,[]);lineIndex.get(k).push(l);
  }
  // "Other" property stands in for capital spending only at a company whose statements never show it as one part

@@ -14,6 +14,14 @@ peers by industry label, long-term asset lines, the 10/10 site-audit fixes, cape
 core statement extraction), `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Bank and insurer rows filled — 2026-11-01 (local commit "sec: bank and insurer rows filled…", NOT pushed)
+- `statement-lines.js` industry rules (`INDUSTRY_FIELDS`) fill loans, allowance, provision, fed funds, FHLB, other
+  assets/liabilities, losses and LAE, policy loans, ... from face lines; applied only to SIC 602x/603x/609x/63xx (builder + `sec-facts`).
+- `mappedTags().industry`: a tag only the industry rows read no longer blocks another row's line (Humana opex, BOH cash).
+- Hidden bank/insurer rows 6,977 → 5,914; 15,000+ cells filled, 0 lost. Remaining disagreements are note tags held over the face figure (Univest, Magyar), left as is.
+- Rebuilding all statement lines also changes ~11 non-financial files (from the `b4220eea9` map change, not this one); they were restored
+  to HEAD. Re-extract those issuers deliberately before committing a full rebuild.
+
 ## Page data gaps fixed — 2026-10-31 (local commits `0c0cb52a3..`, NOT pushed)
 - Audit: `node scripts/audit-page-gaps.js [--explain]` (run from `backend/`, no server needed) → `docs/data-gaps/`
   (stocks.csv, funds.csv, summary.md, causes read from each filing). Nil inline-XBRL facts are `filed_blank`, not zero.

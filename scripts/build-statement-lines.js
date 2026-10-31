@@ -31,7 +31,7 @@ async function table(zip,name,fn){
 
 async function child(file,out,covered){
  const zip=await openZip(file),subs=new Map();
- await table(zip,'sub.txt',(c,h)=>{const cik=p.cik(c[h.cik]);if(covered.has(cik) && FORM.test(c[h.form]))subs.set(c[h.adsh],{cik,form:c[h.form],filed:day(c[h.filed]),period:day(c[h.period])});});
+ await table(zip,'sub.txt',(c,h)=>{const cik=p.cik(c[h.cik]);if(covered.has(cik) && FORM.test(c[h.form]))subs.set(c[h.adsh],{cik,form:c[h.form],filed:day(c[h.filed]),period:day(c[h.period]),industry:/^(602|603|609|63)/.test(c[h.sic] || '')});});
  // Statement lines first, the noncontrolling-interest flag of each statement with them:
  // the flag can come after the line it qualifies, so fields are settled once it is known.
  const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),capex=new Map(),face=new Map(),columns=new Map();
@@ -50,8 +50,10 @@ async function child(file,out,covered){
  await table(zip,'tag.txt',(c,h)=>{const k=c[h.tag]+'|'+c[h.version];if(crdr.has(k))crdr.set(k,c[h.crdr] || '');});
  const wanted=new Map();
  for(const [key,uses] of raw){
+  // A bank's or insurer's own rows only from a bank's or insurer's filing (sec-facts reads them for those alone),
+  // and before the one-field check, so they never cost an ordinary company a line.
   const [adsh,tag,version]=key.split('|'),custom=version===adsh,found=new Map();
-  for(const {stmt,plabel} of uses)for(const field of lines.fieldsFor(stmt,plabel,tag,{custom,mapped,noncontrolling:nci.has(adsh+'|'+stmt),crdr:crdr.get(tag+'|'+version),memberTotal:true})){const k=stmt+'|'+field;if(!found.has(k))found.set(k,{stmt,field,plabel});}
+  for(const {stmt,plabel} of uses)for(const field of lines.fieldsFor(stmt,plabel,tag,{custom,mapped,noncontrolling:nci.has(adsh+'|'+stmt),crdr:crdr.get(tag+'|'+version),memberTotal:true})){if(!subs.get(adsh).industry && lines.INDUSTRY_FIELDS.has(field))continue;const k=stmt+'|'+field;if(!found.has(k))found.set(k,{stmt,field,plabel});}
   // One line, one field: a tag shown under two different fields of one statement is not read.
   const per=new Map();for(const x of found.values())per.set(x.stmt,(per.get(x.stmt) || 0)+1);
   const kept=[...found.values()].filter(x=>per.get(x.stmt)===1 || (x.field==='eps' || x.field==='dilutedEPS') && per.get(x.stmt)===2 && [...found.values()].filter(y=>y.stmt===x.stmt).every(y=>/^(eps|dilutedEPS)$/.test(y.field)));
@@ -95,7 +97,8 @@ async function child(file,out,covered){
    }
    if(!lines.acceptedDimension(segments,field))continue;
    // A standard EPS tag is in the company-facts feed already, unless it is filed per class.
-   if(!want.custom && mapped.has(want.tag) && !segments)continue;
+   // A tag only the bank and insurer rows read is not ours for another row (statement-lines mappedTags).
+   if(!want.custom && mapped.has(want.tag) && !segments && !(mapped.industry.has(want.tag) && !mapped.industry.get(want.tag).has(field)))continue;
    const rec={s:lines.STATEMENT[stmt],f:field,t:want.custom?'custom':String(c[h.version]).split('/')[0],c:want.tag,l:plabel,u:uom,v:value,e:end,q:Number(qtrs),a:adsh,m:sub.form,d:sub.filed};
    if(segments)rec.g=segments.replace(/;$/,'');
    w.write(JSON.stringify([sub.cik,rec])+'\n');n++;

@@ -27,6 +27,15 @@ const ANY='(?:income|loss|\\(loss\\) income|income \\(loss\\)|earnings|\\(loss\\
 const TO='(?: attributable to (?:the )?(?:common |ordinary |class a common |class a ordinary )?(?:stockholders|shareholders|share ?holders|owners of the parent|equity holders of the parent))?';
 const PER=`${TO} per (?:common |ordinary |basic |diluted )?share${TO}`;
 const re=s=>new RegExp(s);
+// A bank's credit-loss line under its many names: "provision for (reversal of) credit losses",
+// "allowance for loan and lease losses", "provision (benefit) for credit losses".
+const CREDIT_LOSSES='(?:credit losses|loan losses|loan and lease losses|credit losses on loans(?: and leases)?(?: held[- ]for[- ]investment)?|loan credit losses|credit losses - loans)';
+const SWING='\\((?:reversal of|recovery of|benefit from|benefit for|credit for|credit|benefit|reversal|recovery)\\)';
+// "(cost $1,064 and $1,936)", "(amortized cost of $9,512; fair value $8,901)": how a security line is measured.
+const COST='(?: \\((?:amortized )?(?:cost|fair value)\\b[^()]*\\))?';
+// An "other assets" or "other liabilities" line is the filer's own catch-all only on a tag that says so; Voya's "other
+// liabilities" of its consolidated investment entities and Berkley's tagged as subordinated notes are not it.
+const OTHER=/^(?!.*(?:ConsolidatedInvestment|ConsolidatedFund|VariableInterest|\bVie)).*Other/;
 // [statement, field, label, tag?]. Labels are matched whole, after normalising case, spacing
 // and quotes; a rule with a fourth entry also needs the line's tag to match it.
 const RULES=[
@@ -63,6 +72,35 @@ const RULES=[
  // unclassified balance sheet the same words are the whole debt.
  ['BS','longTermDebt',/^long-term debt(?:, net)?$/,/Noncurrent|^LongTermDebtAndCapitalLeaseObligations$/],
  ['BS','deposits',/^total deposits$/],
+ // Bank and insurer lines (sec-facts INDUSTRY_FIELDS and the bank provision): the rows of those
+ // companies' own statement layouts. A filer that tags one of these lines under its own name, or
+ // under a standard tag outside our maps, left the row blank: on 2026-10-31, 125 bank issuers'
+ // net loans and 103 their gross loans in the periods shown.
+ ['IS','provisionForCreditLosses',re(`^(?:total )?(?:provision|${SWING} provision|provision ${SWING}) for (?:${SWING} )?(?:credit losses|loan losses|loan and lease losses|loan credit losses)$|^(?:provision for )?credit loss expense(?: \\((?:benefit|reversal)\\))?$`),/^(?!.*(?:Unfunded|Commitment|Securit|DoubtfulAccounts|^ProvisionForOtherCreditLosses$))/],
+ ['IS','lossesAndLossAdjustmentExpense',/^(?:net )?(?:losses|loss) and (?:loss )?(?:adjustment|settlement) expenses(?: incurred)?(?: \(benefit\))?$|^(?:net )?losses and loss expenses(?: incurred)?$|^(?:net )?claims and claim (?:adjustment )?expenses(?: incurred)?$|^(?:net )?losses and lae(?: incurred)?$|^losses incurred, net$/],
+ ['IS','totalBenefitsAndExpenses',/^total (?:benefits and expenses|benefits, losses and expenses|losses and expenses|claims and expenses|claims, benefits and expenses|benefits, claims and expenses|losses, benefits and expenses)$/],
+ ['BS','cashAndDueFromBanks',/^(?:total )?cash and (?:amounts )?due from (?:banks|other banks|financial institutions|depository institutions)$/],
+ ['BS','interestBearingDepositsInBanks',/^interest[- ](?:bearing|earning) (?:deposits|balances) (?:in|with|at|due from) (?:banks|other banks|other financial institutions|financial institutions|the federal reserve(?: bank)?|federal reserve banks?)$/,/^(?!.*Time)(?=.*(?:Deposit|Balance|DueFrom))/],
+ ['BS','fedFundsSoldAndResale',/^(?:federal|fed) funds sold(?: and (?:securities purchased under (?:agreements|agreement) to resell|securities purchased under resale agreements|reverse repurchase agreements|resale agreements))?$|^securities purchased under (?:agreements|agreement) to resell$/],
+ ['BS','tradingAssets',re(`^trading (?:assets|securities|account assets|account securities|debt securities)(?:,? at fair value)?${COST}$`),/^(?!.*(?:Cost|Gross))/],
+ ['BS','availableForSaleSecurities',re(`^(?:(?:investment |debt )?securities(?:,| -)? )?available[- ]for[- ]sale(?: (?:debt |investment )?securities)?(?:,? (?:at|-) fair value)?${COST}$`),/^(?!.*(?:Cost|Gross))/],
+ ['BS','heldToMaturitySecurities',re(`^(?:(?:investment |debt )?securities(?:,| -)? )?held[- ]to[- ]maturity(?: (?:debt |investment )?securities)?(?:,? (?:at|-) amortized cost)?(?:, net)?${COST}$`)],
+ ['BS','loans',/^(?:total )?(?:net (?:loans|loans and leases|loans receivable|portfolio loans|loans held[- ]for[- ]investment|loans and leases held[- ]for[- ]investment)|(?:loans|loans and leases|loans receivable|portfolio loans|loans held[- ]for[- ]investment|loans and leases held[- ]for[- ]investment),? net)$/,/^(?!.*(?:NetOfDeferred|BeforeAllowance|Gross))/],
+ ['BS','loansGross',/^(?:total )?(?:loans|loans and leases|loans receivable|portfolio loans|loans held[- ]for[- ]investment|loans and leases held[- ]for[- ]investment|gross loans)(?:,? net of (?:unearned income|deferred (?:loan )?(?:fees and costs|fees|costs)|unearned income and deferred (?:loan )?(?:fees and costs|fees)))?$/,/^(?!.*(?:AfterAllowance|NetReportedAmount|ReceivableNet$))/],
+ ['BS','allowanceForCreditLosses',re(`^(?:less:? |less - )?(?:the )?allowance for ${CREDIT_LOSSES}(?: \\((?:acl|alll|acll|acl-loans)\\))?$`),/^(?!.*(?:Securit|Reinsurance|Premium|AccountsReceivable|Trade|Unfunded|OffBalance|Commitment))/],
+ ['BS','otherAssets',/^(?:other assets|(?:accrued )?interest receivable and other assets|accrued interest and other assets|accrued income and other assets)$/,OTHER],
+ ['BS','noninterestBearingDeposits',/^non-?interest[- ]bearing(?: demand)?(?: deposits)?$/,/Deposit|Demand/],
+ ['BS','interestBearingDeposits',/^(?:total )?interest[- ]bearing(?: deposits)?$/,/^(?!.*(?:InBank|DueFrom|Cash|OtherBank|FinancialInstitution|Time|Savings|Demand|MoneyMarket|Checking|Transaction)).*Deposit/],
+ ['BS','fedFundsPurchasedAndRepo',/^(?:federal|fed) funds purchased(?: and (?:securities sold under (?:agreements|agreement) to repurchase|securities sold under repurchase agreements|repurchase agreements|retail repurchase agreements))?$|^securities sold under (?:agreements|agreement) to repurchase$|^securities sold under repurchase agreements$/],
+ ['BS','shortTermBorrowings',/^(?:total )?short-term (?:borrowings|debt|borrowed funds)$/],
+ ['BS','fhlbAdvances',/^(?:federal home loan bank|fhlb|federal home loan bank \(fhlb\))(?: of [a-z .]+)? (?:long-term )?(?:advances|borrowings)$|^advances from (?:the )?(?:federal home loan bank|fhlb)(?: of [a-z .]+)?$/],
+ // A noncurrent tag makes the same words the noncurrent part (the longTermDebt rule above), not the whole debt.
+ ['BS','longTermDebtTotal',/^(?:total )?long-term (?:debt|borrowings|borrowed funds)(?:, net)?$/,/^(?!.*Noncurrent|LongTermDebtAndCapitalLeaseObligations$)/],
+ ['BS','otherLiabilities',/^(?:other liabilities|accrued (?:interest payable|expenses|interest|liabilities) and other liabilities|interest payable and other liabilities|other liabilities and accrued expenses|accounts payable and other liabilities|accrued and other liabilities)$/,OTHER],
+ ['BS','equitySecurities',re(`^(?:total )?(?:investments in )?equity (?:securities|investments)(?:,? (?:at|-) fair value|, fv-ni|, fair value)?${COST}$`),/^(?!.*Cost)/],
+ ['BS','futurePolicyBenefits',/^(?:liability for |total )?future (?:policy|contract) benefits?(?: reserves?)?$/],
+ ['BS','policyholderAccountBalances',/^(?:policyholders?'?|contract ?owner) account (?:balances|liabilities)$/],
+ ['BS','policyLoans',/^policy loans$/],
  ['CF','operatingCashflow',/^net cash (?:provided by|used in|provided by \(used in\)|\(used in\) provided by|used by|from|flows? from) operating activities$|^net cash flows? (?:from|provided by|used in) operating activities$/],
  ['CF','cashflowFromInvestment',/^net cash (?:provided by|used in|provided by \(used in\)|\(used in\) provided by|used by|from|flows? from) investing activities$|^net cash flows? (?:from|provided by|used in) investing activities$/],
  ['CF','cashflowFromFinancing',/^net cash (?:provided by|used in|provided by \(used in\)|\(used in\) provided by|used by|from|flows? from) financing activities$|^net cash flows? (?:from|provided by|used in) financing activities$/],
@@ -72,6 +110,9 @@ const RULES=[
  ['CF','paymentsForRepurchaseOfCommonStock',/^(?:repurchases?|purchases?) of (?:common|treasury) stock$/],
  ['CF','depreciationDepletionAndAmortization',/^depreciation and amortization$|^depreciation, depletion and amortization$/]
 ];
+// The bank and insurer rows above fill only a bank's or insurer's statements (sec-facts): elsewhere the same
+// words ("other liabilities", "short-term borrowings") would change ordinary companies' pages.
+const INDUSTRY_FIELDS=new Set(['provisionForCreditLosses','lossesAndLossAdjustmentExpense','totalBenefitsAndExpenses','cashAndDueFromBanks','interestBearingDepositsInBanks','fedFundsSoldAndResale','tradingAssets','availableForSaleSecurities','heldToMaturitySecurities','loans','loansGross','allowanceForCreditLosses','otherAssets','noninterestBearingDeposits','interestBearingDeposits','fedFundsPurchasedAndRepo','shortTermBorrowings','fhlbAdvances','longTermDebtTotal','otherLiabilities','equitySecurities','futurePolicyBenefits','policyholderAccountBalances','policyLoans']);
 // Parts and other entities' figures that a whole-label match could still mistake for the total.
 const EXCLUDE=/related[- ]part|affiliat|discontinued|held for sale|predecessor|successor|pro forma|guarantor|variable interest|\bvie\b/;
 const PER_SHARE=/PerShare|PerUnit|PerOutstanding|EarningsPer|LossPer|IncomePer/i;
@@ -83,7 +124,10 @@ const PER_SHARE=/PerShare|PerUnit|PerOutstanding|EarningsPer|LossPer|IncomePer/i
 // no balance in the standard taxonomy either.
 const BALANCE={totalRevenue:'C',grossProfit:'C',operatingIncome:'C',incomeBeforeTax:'C',netIncome:'C',costOfRevenue:'D',operatingExpenses:'D',sellingGeneralAndAdministrative:'D',researchAndDevelopment:'D',interestExpense:'D',incomeTaxExpense:'D',
  totalAssets:'D',totalCurrentAssets:'D',cashAndCashEquivalentsAtCarryingValue:'D',inventory:'D',currentNetReceivables:'D',goodwill:'D',propertyPlantEquipment:'D',intangibleAssetsExcludingGoodwill:'D',operatingLeaseRightOfUseAsset:'D',
- totalLiabilities:'C',totalCurrentLiabilities:'C',totalShareholderEquity:'C',currentAccountsPayable:'C',retainedEarnings:'C',longTermDebt:'C',deposits:'C'};
+ totalLiabilities:'C',totalCurrentLiabilities:'C',totalShareholderEquity:'C',currentAccountsPayable:'C',retainedEarnings:'C',longTermDebt:'C',deposits:'C',
+ provisionForCreditLosses:'D',lossesAndLossAdjustmentExpense:'D',totalBenefitsAndExpenses:'D',
+ cashAndDueFromBanks:'D',interestBearingDepositsInBanks:'D',fedFundsSoldAndResale:'D',tradingAssets:'D',availableForSaleSecurities:'D',heldToMaturitySecurities:'D',loans:'D',loansGross:'D',allowanceForCreditLosses:'C',otherAssets:'D',equitySecurities:'D',policyLoans:'D',
+ noninterestBearingDeposits:'C',interestBearingDeposits:'C',fedFundsPurchasedAndRepo:'C',shortTermBorrowings:'C',fhlbAdvances:'C',longTermDebtTotal:'C',otherLiabilities:'C',futurePolicyBenefits:'C',policyholderAccountBalances:'C'};
 // A label is read only when the tag behind it does not say otherwise. Measured on
 // 2026q3: 137 "loss before income taxes" lines tagged as income attributable to the
 // parent, 16 "net loss" lines tagged as comprehensive income, 38 "intangible assets,
@@ -108,6 +152,7 @@ function netLabel(text){return text.replace(NET_OF,', net').replace(/ [-–—] 
 // it uses only as arithmetic checks and those the validator refuses for a field.
 function mappedTags(){
  const {MAPS}=require('./sec-facts'),out=new Set(['CostsAndExpenses','PreferredStockDividendsIncomeStatementImpact','DividendsPreferredStock','NetIncomeLossAttributableToNoncontrollingInterest',...Object.values(p.INCOMPATIBLE).flat()]);
+ const own=new Set(out);
  for(const fields of Object.values(MAPS))for(const def of Object.values(fields))for(const t of ['us-gaap','ifrs-full'])for(const c of def[t])out.add(c);
  // FEMSA and Prudential file their whole investing and financing totals under the IFRS continuing-operations
  // elements, which the extraction reads only as one part of a sum; the line is what reaches the total.
@@ -115,6 +160,13 @@ function mappedTags(){
  // The IFRS employee share-based expense only fills, like the add-back beside it; where the cash-flow statement
  // presents it (Pembina 2022: C$126m, the add-back tag holding -C$45m of another line) the line still wins.
  out.delete('ExpenseFromSharebasedPaymentTransactionsWithEmployees');
+ // A tag only the bank and insurer rows read (sec-facts INDUSTRY_FIELDS) is ours for those rows alone: Humana's
+ // "Total operating expenses" is BenefitsLossesAndExpenses, Bank of Hawaii's "Cash and Cash Equivalents"
+ // InterestBearingDepositsInBanks, and the facts fill only the industry row from them.
+ const {INDUSTRY_FIELDS}=require('./sec-facts'),industry=new Map();
+ for(const [st,fields] of Object.entries(MAPS))for(const [f,def] of Object.entries(fields))if(!INDUSTRY_FIELDS[st]?.includes(f))for(const t of ['us-gaap','ifrs-full'])for(const c of def[t])own.add(c);
+ for(const [st,fields] of Object.entries(INDUSTRY_FIELDS))for(const f of fields)for(const t of ['us-gaap','ifrs-full'])for(const c of MAPS[st][f][t] || [])if(!own.has(c) && out.has(c)){if(!industry.has(c))industry.set(c,new Set());industry.get(c).add(f);}
+ out.industry=industry;
  return out;
 }
 // Fields a filing line maps to, or []. `mapped` holds every tag our own maps read; a
@@ -145,7 +197,7 @@ function fieldsFor(stmt,plabel,tag,{custom=false,mapped=new Set(),noncontrolling
  // A standard tag of ours reaches the cell already, except a per-class EPS figure,
  // which the company-facts feed drops with every other dimensional fact, and, for the
  // builder (memberTotal), a total revenue filed only under one product member.
- if(!custom && mapped.has(tag) && !out.every(f=>f==='eps' || f==='dilutedEPS' || memberTotal && f==='totalRevenue'))return [];
+ if(!custom && mapped.has(tag) && !out.every(f=>f==='eps' || f==='dilutedEPS' || memberTotal && f==='totalRevenue') && !(mapped.industry?.has(tag) && !out.some(f=>mapped.industry.get(tag).has(f))))return [];
  return [...new Set(out)];
 }
 // The one member of a product breakdown that is the whole (build-statement-lines): [member, value] of the largest
@@ -214,4 +266,4 @@ function capexLine(tag,plabel,custom=false){
 const CAPEX_TAGS=new Set(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsForSoftware','PaymentsToAcquireSoftware','PaymentsToDevelopSoftware','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']);
 const DIR=()=>path.join(p.DATA_DIR,'sec-statement-lines');
 function forCik(cik){const id=p.cik(cik);if(!id)return [];try{const doc=JSON.parse(fs.readFileSync(path.join(DIR(),id+'.json'),'utf8'));return doc.cik===id && Array.isArray(doc.lines)?doc.lines:[];}catch(e){if(e.code==='ENOENT')return [];throw e;}}
-module.exports={RULES,BALANCE,debtLine,capexLine,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};
+module.exports={RULES,BALANCE,INDUSTRY_FIELDS,debtLine,capexLine,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};

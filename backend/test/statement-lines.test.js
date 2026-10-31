@@ -54,7 +54,8 @@ test('a bare "long-term debt" needs a noncurrent tag, and intangibles a tag with
  const bs=(l,tag,custom=false)=>lines.fieldsFor('BS',l,tag,{custom,crdr:tag==='FiniteLivedIntangibleAssetsNet' || /Intangible/.test(tag)?'D':'C',mapped});
  assert.deepEqual(bs('Long-term debt','LongTermDebtAndCapitalLeaseObligations'),['longTermDebt']);
  assert.deepEqual(bs('Long-term debt, net','SeniorNotesNoncurrent'),['longTermDebt']);
- assert.deepEqual(bs('Long-term debt','LongTermDebtCustom',true),[]);
+ // Without a noncurrent tag the words are the whole debt, a bank's or insurer's row only (sec-facts).
+ assert.deepEqual(bs('Long-term debt','LongTermDebtCustom',true),['longTermDebtTotal']);
  assert.deepEqual(bs('Long-term debt, net of current portion','LongTermDebtCustom',true),['longTermDebt']);
  assert.deepEqual(bs('Intangibles, net','FiniteLivedIntangibleAssetsNet'),['intangibleAssetsExcludingGoodwill']);
  assert.deepEqual(bs('Intangible assets','IntangibleAssetsAndGoodwill'),[]);
@@ -437,4 +438,51 @@ test('presented capex and column lines are looked up at the data set\'s month en
  const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[spend,cols]}),cash=d.cash.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-28'),bal=d.balance.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-06-28');
  assert.equal(cash.capitalExpenditures,-71374);assert.equal(p.verifiedField(d,cash,'capitalExpenditures'),true);
  assert.equal(bal.cashAndCashEquivalentsAtCarryingValue,40609);assert.equal(p.verifiedField(d,bal,'cashAndCashEquivalentsAtCarryingValue'),true);
+});
+
+test('a bank\'s and an insurer\'s own rows are read by label, with the tag ruling out a part or another figure',()=>{
+ const is=(l,tag,custom=false)=>lines.fieldsFor('IS',l,tag,{custom,crdr:'D',mapped});
+ const bs=(l,tag,crdr='D',custom=true)=>lines.fieldsFor('BS',l,tag,{custom,crdr,mapped});
+ assert.deepEqual(is('Provision for (reversal of) credit losses','ProvisionForLoanLossesCustom',true),['provisionForCreditLosses']);
+ assert.deepEqual(is('Credit loss expense (benefit)','CreditLossExpense',true),['provisionForCreditLosses']);
+ assert.deepEqual(is('Provision for credit losses','ProvisionForUnfundedCommitments',true),[]);
+ assert.deepEqual(is('Losses and loss adjustment expenses','LossesAndLae',true),['lossesAndLossAdjustmentExpense']);
+ assert.deepEqual(is('Total benefits and expenses','TotalBenefitsAndExpenses',true),['totalBenefitsAndExpenses']);
+ assert.deepEqual(is('Total expenses','TotalBenefitsAndExpenses',true),[]);
+ assert.deepEqual(bs('Loans, net','LoansNet'),['loans']);
+ // Fulton's "Net loans" is tagged before the allowance: it is not the net figure.
+ assert.deepEqual(bs('Net loans','LoansAndLeasesReceivableNetOfDeferredIncome',undefined,false),[]);
+ assert.deepEqual(bs('Loans, net of unearned income','LoansGrossCustom'),['loansGross']);
+ assert.deepEqual(bs('Total loans','FinancingReceivableExcludingAccruedInterestAfterAllowanceForCreditLoss',undefined,false),[]);
+ assert.deepEqual(bs('Allowance for credit losses','AllowanceForLoanLossesCustom','C'),['allowanceForCreditLosses']);
+ // Capital One's securities allowance, Investar's cost, time deposits and Voya's investment-entity liabilities.
+ assert.deepEqual(bs('Allowance for credit losses','DebtSecuritiesAvailableForSaleAllowanceForCreditLossExcludingAccruedInterest','C',false),[]);
+ assert.deepEqual(bs('Equity securities, at fair value','EquitySecuritiesFvNiCost',undefined,false),[]);
+ assert.deepEqual(bs('Interest-bearing deposits in banks','InterestBearingDepositsInBanks'),['interestBearingDepositsInBanks']);
+ assert.deepEqual(bs('Interest-bearing deposits in banks','TimeDepositsInBanks'),[]);
+ assert.deepEqual(bs('Other liabilities','OtherLiabilitiesCustom','C'),['otherLiabilities']);
+ assert.deepEqual(bs('Other liabilities','OtherLiabilitiesConsolidatedInvestmentEntities','C'),[]);
+ assert.deepEqual(bs('Advances from the Federal Home Loan Bank','FhlbAdvances','C'),['fhlbAdvances']);
+ assert.deepEqual(bs('Policy loans','PolicyLoansCustom'),['policyLoans']);
+ // The same words on a noncurrent tag are the noncurrent part only, never two rows at once.
+ assert.deepEqual(bs('Long-term debt','LongTermDebtNoncurrentCustom','C'),['longTermDebt']);
+ assert.deepEqual(bs('Long-term debt','LongTermBorrowingsCustom','C'),['longTermDebtTotal']);
+ for(const f of ['loans','otherLiabilities','shortTermBorrowings','provisionForCreditLosses'])assert.ok(lines.INDUSTRY_FIELDS.has(f));
+ for(const f of ['deposits','longTermDebt','interestExpense'])assert.ok(!lines.INDUSTRY_FIELDS.has(f));
+});
+
+test('a bank\'s own row fills from its line only at a bank or insurer; an ordinary company\'s same line stays out',()=>{
+ const loans=sic=>{const {doc,evidence}=fixture();evidence.sic=sic;return extract(doc,evidence,{asOf:'2026-10-03',statementLines:[line({s:'balance',f:'loans',c:'LoansNet',l:'Loans, net',v:500,q:0})]}).balance.annualReports[0].loans ?? null;};
+ assert.equal(loans('6022'),500);
+ assert.equal(loans('6331'),500);
+ assert.equal(loans('3571'),null);
+});
+
+test('a tag only the bank and insurer rows read still gives another row its line',()=>{
+ // Humana's "Total operating expenses" and Bank of Hawaii's "Cash and Cash Equivalents" (10-Q 2026-06-30: $452.8m).
+ assert.deepEqual(lines.fieldsFor('IS','Total operating expenses','BenefitsLossesAndExpenses',{crdr:'D',mapped}),['operatingExpenses']);
+ assert.deepEqual(lines.fieldsFor('BS','Cash and Cash Equivalents','InterestBearingDepositsInBanks',{crdr:'D',mapped}),['cashAndCashEquivalentsAtCarryingValue']);
+ // The row the facts fill from the tag is not read from the line again.
+ assert.deepEqual(lines.fieldsFor('BS','Interest-bearing deposits in banks','InterestBearingDepositsInBanks',{crdr:'D',mapped}),[]);
+ assert.deepEqual(lines.fieldsFor('IS','Total operating expenses','CostsAndExpenses',{crdr:'D',mapped}),[]);
 });
