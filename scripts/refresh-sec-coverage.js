@@ -97,8 +97,10 @@ async function main(argv=process.argv.slice(2)) {
  let list=universe();const report=read(REPORT,{schemaVersion:1,issuers:{}});
  if(o['--audit']){console.log(JSON.stringify(audit(list,report,asOf),null,2));return;}
  if(!o['--bootstrap'] && !o['--weekly'] && !o['--daily'] && !o['--symbols'] && !o['--dry-run'])throw new Error('Choose --bootstrap, --daily, --symbols, --audit, or --dry-run');
- if(o['--symbols']){const selected=new Set(o['--symbols'].split(',').map(s=>s.trim().toUpperCase().replace(/\./g,'-')));list=list.filter(c=>selected.has(c.symbol.replace(/\./g,'-')));if(!list.length)throw new Error('No matching symbols');}
  let todo=issuersFor(list);
+ // Select whole issuers: filtering the listings first rewrote an issuer's symbols to only those named
+ // (a refresh of GOOG dropped GOOGL from Alphabet's entry on 2026-10-31).
+ if(o['--symbols']){const selected=new Set(o['--symbols'].split(',').map(s=>s.trim().toUpperCase().replace(/\./g,'-')));todo=todo.filter(i=>i.symbols.some(s=>selected.has(s.replace(/\./g,'-'))));if(!todo.length)throw new Error('No matching symbols');}
  const max=Number(o['--max-issuers'] || 0),concurrency=Number(o['--concurrency'] || 2);
  if(!Number.isInteger(max)||max<0||!Number.isInteger(concurrency)||concurrency<1||concurrency>2)throw new Error('Invalid max-issuers or concurrency (1-2)');
  if(max)todo=todo.slice(0,max);

@@ -35,3 +35,9 @@ test('the previous quarterly report is the earlier 10-Q of the same fiscal year,
  const first=await reporting.fetchReporting({cik:'0000000123'},{asOf:'2026-10-03',request:async()=>raw(3)});
  assert.equal(first.latestPeriodic.reportDate,'2026-03-31');assert.equal(first.previousPeriodic,null);
 });
+
+test('a refresh by one ticker keeps every share class of that issuer', {skip:!require('node:fs').existsSync(require('node:path').join(require('../sec-coverage').DATA_DIR,'us-companies.json'))}, async () => {
+ const lines=[],log=console.log;console.log=l=>lines.push(l);
+ try {await require('../../scripts/refresh-sec-coverage').main(['--symbols','GOOG','--dry-run']);} finally {console.log=log;}
+ assert.deepEqual(JSON.parse(lines[0]).symbols,[['GOOG','GOOGL']]);
+});
