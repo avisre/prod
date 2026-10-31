@@ -18,7 +18,7 @@
       "capex": -497829000000.0,
       "dividendPerShare": 50.0,
       "sharesOutstanding": null,
-      "employees": 0.27,
+      "employees": 287901,
       "fiscalYear": 2026,
       "periodEnd": "2026-03-31",
       "standard": "IFRS",
@@ -27,23 +27,32 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
+            "page": "PDF p. 43",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
       "revenue": 9783370000000.0,
       "operatingIncome": null,
       "netIncome": 615724000000.0,
-      "dilutedEPS": null,
+      "dilutedEPS": 133.72,
       "totalAssets": 13284813000000.0,
       "totalEquity": 5847091000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 866242000000,
       "totalDebt": 1206116000000.0,
       "operatingCashFlow": 1172240000000.0,
       "capex": -391648000000.0,
       "dividendPerShare": 43.0,
-      "sharesOutstanding": null,
-      "employees": 287901.0,
+      "sharesOutstanding": 4580341000,
+      "employees": 282743,
       "fiscalYear": 2025,
       "periodEnd": "2025-03-31",
       "standard": "IFRS",
@@ -52,23 +61,53 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
       "revenue": 9728716000000.0,
       "operatingIncome": null,
       "netIncome": 589896000000.0,
-      "dilutedEPS": null,
+      "dilutedEPS": 126.75,
       "totalAssets": 12221284000000.0,
       "totalEquity": 5703705000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 705367000000,
       "totalDebt": 1180022000000.0,
       "operatingCashFlow": 956612000000.0,
       "capex": -385145000000.0,
       "dividendPerShare": 36.0,
-      "sharesOutstanding": null,
-      "employees": 282743.0,
+      "sharesOutstanding": 927167000,
+      "employees": 268655,
       "fiscalYear": 2024,
       "periodEnd": "2024-03-31",
       "standard": "IFRS",
@@ -77,22 +116,54 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
       "revenue": 10881150000000.0,
       "operatingIncome": null,
       "netIncome": 649124000000.0,
-      "dilutedEPS": null,
+      "dilutedEPS": 136.78,
       "totalAssets": 12501414000000.0,
       "totalEquity": 4942854000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 833283000000,
       "totalDebt": 2213348000000.0,
       "operatingCashFlow": 827045000000.0,
       "capex": -410585000000.0,
       "dividendPerShare": 29.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 938083000,
       "employees": 322525.0,
       "fiscalYear": 2023,
       "periodEnd": "2023-03-31",
@@ -102,22 +173,47 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
       "revenue": 10264602000000.0,
       "operatingIncome": null,
       "netIncome": 583470000000.0,
-      "dilutedEPS": null,
+      "dilutedEPS": 120.59,
       "totalAssets": 13887502000000.0,
       "totalEquity": 4341836000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 968827000000,
       "totalDebt": 3126712000000.0,
       "operatingCashFlow": 729943000000.0,
       "capex": -439861000000.0,
       "dividendPerShare": 25.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 968234000,
       "employees": 368247.0,
       "fiscalYear": 2022,
       "periodEnd": "2022-03-31",
@@ -127,23 +223,48 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
       "revenue": 8729196000000.0,
       "operatingIncome": null,
       "netIncome": 501613000000.0,
-      "dilutedEPS": null,
+      "dilutedEPS": 103.7,
       "totalAssets": 11852853000000.0,
       "totalEquity": 3525502000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 1015886000000,
       "totalDebt": 2397356000000.0,
       "operatingCashFlow": 793128000000.0,
       "capex": -372945000000.0,
       "dividendPerShare": 21.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 967885000,
+      "employees": 350864,
       "fiscalYear": 2021,
       "periodEnd": "2021-03-31",
       "standard": "IFRS",
@@ -152,7 +273,39 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -162,13 +315,13 @@
       "dilutedEPS": null,
       "totalAssets": 9930081000000.0,
       "totalEquity": 3159986000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 812331000000,
       "totalDebt": 1485042000000.0,
       "operatingCashFlow": 560920000000.0,
       "capex": -421276000000.0,
       "dividendPerShare": 19.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 967280000,
+      "employees": 301056,
       "fiscalYear": 2020,
       "periodEnd": "2020-03-31",
       "standard": "IFRS",
@@ -177,7 +330,30 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -187,13 +363,13 @@
       "dilutedEPS": null,
       "totalAssets": 9626592000000.0,
       "totalEquity": 3262603000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 807593000000,
       "totalDebt": 1004771000000.0,
       "operatingCashFlow": 610025000000.0,
       "capex": -472249000000.0,
       "dividendPerShare": 18.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 966692000,
+      "employees": 295941,
       "fiscalYear": 2019,
       "periodEnd": "2019-03-31",
       "standard": "IFRS",
@@ -202,7 +378,30 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -212,13 +411,13 @@
       "dilutedEPS": null,
       "totalAssets": 10106603000000.0,
       "totalEquity": 3278024000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 697964000000,
       "totalDebt": 1050294000000.0,
       "operatingCashFlow": 727168000000.0,
       "capex": -440312000000.0,
       "dividendPerShare": 15.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 4833463000,
+      "employees": 307275,
       "fiscalYear": 2018,
       "periodEnd": "2018-03-31",
       "standard": "IFRS",
@@ -227,23 +426,46 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
       "revenue": 9162264000000.0,
       "operatingIncome": null,
       "netIncome": 231261000000.0,
-      "dilutedEPS": null,
+      "dilutedEPS": 47.88,
       "totalAssets": 9663917000000.0,
       "totalEquity": 2967085000000.0,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 765242000000,
       "totalDebt": 1176603000000.0,
       "operatingCashFlow": 629582000000.0,
       "capex": -417150000000.0,
       "dividendPerShare": 13.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 4833463000,
+      "employees": 303887,
       "fiscalYear": 2017,
       "periodEnd": "2017-03-31",
       "standard": "IFRS",
@@ -252,7 +474,37 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
         "document": "Hitachi Integrated Report2026",
-        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+        "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+            "page": "PDF p. 5",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "employees"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "dilutedEPS"
+            ]
+          }
+        ]
       }
     },
     {
@@ -262,12 +514,12 @@
       "dilutedEPS": 35.62,
       "totalAssets": 12551005000000,
       "totalEquity": 2735078000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 699315000000,
       "totalDebt": 3604455000000,
       "operatingCashFlow": 812226000000,
-      "capex": null,
+      "capex": -369494000000,
       "dividendPerShare": 12.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4833463000,
       "employees": 335244.0,
       "fiscalYear": 2016,
       "periodEnd": "2016-03-31",
@@ -277,7 +529,30 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.59, printed p.57"
+        "page": "PDF p.59, printed p.57",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+            "page": "PDF p. 88",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -287,12 +562,12 @@
       "dilutedEPS": 45.0,
       "totalAssets": 12433727000000,
       "totalEquity": 2942281000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 701703000000,
       "totalDebt": 3557356000000,
       "operatingCashFlow": 451825000000,
-      "capex": null,
+      "capex": -358141000000,
       "dividendPerShare": 12.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4833463000,
       "employees": 336670.0,
       "fiscalYear": 2015,
       "periodEnd": "2015-03-31",
@@ -302,7 +577,30 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.59, printed p.57"
+        "page": "PDF p.59, printed p.57",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 78",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -312,12 +610,12 @@
       "dilutedEPS": 85.66,
       "totalAssets": 11098191000000,
       "totalEquity": 2668657000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 560657000000,
       "totalDebt": 3033985000000,
       "operatingCashFlow": 306777000000,
-      "capex": null,
+      "capex": -391598000000,
       "dividendPerShare": 10.5,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4833463000,
       "employees": 323919.0,
       "fiscalYear": 2014,
       "periodEnd": "2014-03-31",
@@ -327,7 +625,30 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.59, printed p.57"
+        "page": "PDF p.59, printed p.57",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 78",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -337,12 +658,12 @@
       "dilutedEPS": 36.29,
       "totalAssets": 9809230000000,
       "totalEquity": 2082560000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 523357000000,
       "totalDebt": 2370079000000,
       "operatingCashFlow": 583508000000,
-      "capex": null,
+      "capex": -381731000000,
       "dividendPerShare": 10.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4833463000,
       "employees": 326240.0,
       "fiscalYear": 2013,
       "periodEnd": "2013-03-31",
@@ -352,7 +673,31 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.58, printed p.56"
+        "page": "PDF p.58, printed p.56",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2012_4_en.pdf",
+            "page": "PDF p. 94",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -362,12 +707,12 @@
       "dilutedEPS": 71.86,
       "totalAssets": 9418526000000,
       "totalEquity": 1771782000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 619577000000,
       "totalDebt": 2396454000000,
       "operatingCashFlow": 447155000000,
-      "capex": null,
+      "capex": -337502000000,
       "dividendPerShare": 8.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4637785000,
       "employees": 323540.0,
       "fiscalYear": 2012,
       "periodEnd": "2012-03-31",
@@ -377,7 +722,31 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.58, printed p.56"
+        "page": "PDF p.58, printed p.56",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 96",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -387,12 +756,12 @@
       "dilutedEPS": 49.38,
       "totalAssets": 9185629000000,
       "totalEquity": 1439865000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 554810000000,
       "totalDebt": 2521551000000,
       "operatingCashFlow": 841554000000,
-      "capex": null,
+      "capex": -254460000000,
       "dividendPerShare": 8.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 4520144000,
       "employees": 361745.0,
       "fiscalYear": 2011,
       "periodEnd": "2011-03-31",
@@ -402,7 +771,31 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.58, printed p.56"
+        "page": "PDF p.58, printed p.56",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 96",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -412,12 +805,12 @@
       "dilutedEPS": -29.2,
       "totalAssets": 8964464000000,
       "totalEquity": 1284658000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 577584000000,
       "totalDebt": 2367143000000,
       "operatingCashFlow": 798299000000,
-      "capex": null,
-      "dividendPerShare": null,
-      "sharesOutstanding": null,
+      "capex": -286259000000,
+      "dividendPerShare": 0.0,
+      "sharesOutstanding": 4518132000,
       "employees": 359746.0,
       "fiscalYear": 2010,
       "periodEnd": "2010-03-31",
@@ -427,7 +820,37 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.58, printed p.56"
+        "page": "PDF p.58, printed p.56",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "dividendPerShare"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 96",
+            "fields": [
+              "capex"
+            ]
+          }
+        ]
       }
     },
     {
@@ -437,12 +860,12 @@
       "dilutedEPS": -236.87,
       "totalAssets": 9403709000000,
       "totalEquity": 1049951000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 807926000000,
       "totalDebt": 2820109000000,
       "operatingCashFlow": 558947000000,
       "capex": null,
       "dividendPerShare": 3.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3368126000,
       "employees": 361796.0,
       "fiscalYear": 2009,
       "periodEnd": "2009-03-31",
@@ -452,7 +875,23 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.58, printed p.56"
+        "page": "PDF p.58, printed p.56",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -462,12 +901,12 @@
       "dilutedEPS": -17.77,
       "totalAssets": 10530847000000,
       "totalEquity": 2170612000000,
-      "cashAndEquivalents": null,
+      "cashAndEquivalents": 560960000000,
       "totalDebt": 2531506000000,
       "operatingCashFlow": 791837000000,
       "capex": null,
       "dividendPerShare": 6.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 3368126000,
       "employees": 347810.0,
       "fiscalYear": 2008,
       "periodEnd": "2008-03-31",
@@ -477,38 +916,114 @@
       "source": {
         "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
         "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-        "page": "PDF p.58, printed p.56"
+        "page": "PDF p.58, printed p.56",
+        "supplementalSources": [
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 4",
+            "fields": [
+              "cashAndEquivalents"
+            ]
+          },
+          {
+            "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+            "page": "PDF p. 6",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     }
   ],
   "gaps": [
-    "FY2008: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2009: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2010: cashAndEquivalents, capex, dividendPerShare, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2011: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2012: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2013: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2014: operatingIncome, cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2015: operatingIncome, cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2016: operatingIncome, cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2017: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2018: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2019: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2020: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2021: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2022: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2023: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2024: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2025: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2026: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred."
+    "FY2026 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2026 dilutedEPS: not found in the company's reports (FYE2026 Annual Securities Report (label 2025) not located; earlier probes of hit_sr_fy2025_*_en.pdf failed. Integrated Report 2026 (2026.pdf) 10-year table has no line for this item. Integrated Report 2026 10-year table prints only basic EPS.)",
+    "FY2026 cashAndEquivalents: not found in the company's reports (FYE2026 Annual Securities Report (label 2025) not located; earlier probes of hit_sr_fy2025_*_en.pdf failed. Integrated Report 2026 (2026.pdf) 10-year table has no line for this item. Integrated 2026 10-year table has no cash line.)",
+    "FY2026 sharesOutstanding: not found in the company's reports (FYE2026 Annual Securities Report (label 2025) not located; earlier probes of hit_sr_fy2025_*_en.pdf failed. Integrated Report 2026 (2026.pdf) 10-year table has no line for this item. No issued/treasury count for FYE2026 in the Integrated Report 2026 10-year table.)",
+    "FY2025 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2024 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2023 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2022 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2021 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2020 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2020 dilutedEPS: not found in the company's reports (sr2022 p.4 prints FYE2020 diluted EPS 90.60 only on the post-Oct-2018-consolidation basis; no current-basis figure printed. Not filled (same reason as FYE2018).)",
+    "FY2019 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2019 dilutedEPS: not found in the company's reports (sr2022 p.4 (ASR FYE2023) prints FYE2019 diluted EPS 230.25 only on the post-Oct-2018-consolidation basis; no current-basis figure printed. Not filled (same reason as FYE2018).)",
+    "FY2018 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2018 dilutedEPS: not found in the company's reports (sr2020 p.4 (ASR FYE2021) prints FYE2018 diluted EPS 375.60 only on the basis after the Oct-2018 1-for-5 consolidation; no current-basis (post-July-2024 split) figure is printed. Dividing it would be a computation the brief prohibits, so not filled. Printed value on that basis is recorded in note only.)",
+    "FY2017 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2016 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2015 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2014 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2009 capex: not found in the company's reports (FYE2009 cash-flow statement is in an ASR for FYE2009 (label 2008) or FYE2010 (label 2009); sr2011 CF covers FYE2010-2012 only. Probes hit_sr_fy2007/2008/2009_{1,4}_en.pdf returned 404. Not located.)",
+    "FY2008 capex: not found in the company's reports (FYE2008 cash-flow statement is in an ASR for FYE2008 (label 2007) or FYE2009/2010 reports; sr2011 CF covers FYE2010-2012 only. Probes hit_sr_fy2007/2008/2009_{1,4}_en.pdf returned 404. Not located.)"
   ],
   "notes": [
     "Company financial-year label names the year beginning1April; this file uses the following March calendar year. Full yen values scaled from published yen millions.",
-    "US GAAP throughFY2013 calendar end; IFRS comparative fromFY2014. The2016report also shows overlapping USGAAP2014\u201315 but latest IFRS figures are chosen.",
+    "US GAAP throughFY2013 calendar end; IFRS comparative fromFY2014. The2016report also shows overlapping USGAAP2014–15 but latest IFRS figures are chosen.",
     "Net income and equity are attributable to Hitachi stockholders. Older2016employee data are retrospectively presented excluding temporary employees; recent employees are Hitachi Group, not parent-only.",
     "Under USGAAP the company explicitly labels operating income on its Japanese-comparison presentation (revenues less cost of sales and SG&A); this excludes some charges classified in operating income under standardUSGAAP. IFRS table only gives Adjusted operating income and EBIT; neither is silently substituted for unadjusted operatingIncome.",
-    "Capex2017\u20132026 is the directly published Capital expenditures (CF basis) negative-normalized;2016andearlier property/plant/equipment investment summary lacks required cash-basis designation, retained null.",
-    "Recent dividends/per-share data reflect stock-consolidation/split adjustments in2026report; older data retain2016reportbasis. Current report notes ongoingportfolio changes; most recent table used for2017\u20132026.",
-    "Cash equivalents and shares outstanding are not derived from other lines. Recent basicEPS is not used for dilutedEPS; dilutedEPS only populated from directly labeled2016data."
+    "Capex2017–2026 is the directly published Capital expenditures (CF basis) negative-normalized;2016andearlier property/plant/equipment investment summary lacks required cash-basis designation, retained null.",
+    "Recent dividends/per-share data reflect stock-consolidation/split adjustments in2026report; older data retain2016reportbasis. Current report notes ongoingportfolio changes; most recent table used for2017–2026.",
+    "Cash equivalents and shares outstanding are not derived from other lines. Recent basicEPS is not used for dilutedEPS; dilutedEPS only populated from directly labeled2016data.",
+    "FY2008 cashAndEquivalents: 560,960 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated balance sheet key data, cash and cash equivalents at end of year (US GAAP), 139th term",
+    "FY2009 cashAndEquivalents: 807,926 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 140th term",
+    "FY2010 cashAndEquivalents: 577,584 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 141st term",
+    "FY2011 cashAndEquivalents: 554,810 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 142nd term",
+    "FY2012 cashAndEquivalents: 619,577 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 143rd term",
+    "FY2013 cashAndEquivalents: 523,357 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 4 — Consolidated key data, IFRS transition column \"Year end April 1, 2013\" (IFRS restated; first printed US GAAP 527,632 in sr2012 p.4)",
+    "FY2014 cashAndEquivalents: 560,657 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 145th term",
+    "FY2015 cashAndEquivalents: 701,703 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 146th term",
+    "FY2016 cashAndEquivalents: 699,315 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 147th term",
+    "FY2017 cashAndEquivalents: 765,242 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 148th term",
+    "FY2018 cashAndEquivalents: 697,964 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 149th term",
+    "FY2019 cashAndEquivalents: 807,593 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 150th term",
+    "FY2020 cashAndEquivalents: 812,331 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 151st term",
+    "FY2021 cashAndEquivalents: 1,015,886 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 152nd term",
+    "FY2022 cashAndEquivalents: 968,827 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 153rd term",
+    "FY2023 cashAndEquivalents: 833,283 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 154th term",
+    "FY2024 cashAndEquivalents: 705,367 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 155th term",
+    "FY2025 cashAndEquivalents: 866,242 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 156th term",
+    "FY2008 sharesOutstanding: 3,368,126 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\" at year end; issued count, treasury not netted (no outstanding count printed)",
+    "FY2009 sharesOutstanding: 3,368,126 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2010 sharesOutstanding: 4,518,132 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2011 sharesOutstanding: 4,520,144 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2012 sharesOutstanding: 4,637,785 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2013 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2014 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2015 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2016 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2017 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; pre Oct-2018 consolidation basis",
+    "FY2018 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; pre Oct-2018 consolidation basis",
+    "FY2019 sharesOutstanding: 966,692 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; after Oct-2018 1-for-5 consolidation, before July-2024 split",
+    "FY2020 sharesOutstanding: 967,280 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2021 sharesOutstanding: 967,885 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2022 sharesOutstanding: 968,234 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2023 sharesOutstanding: 938,083 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2024 sharesOutstanding: 927,167 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis, before July-2024 split",
+    "FY2025 sharesOutstanding: 4,580,341 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; after July-2024 5-for-1 split",
+    "FY2017 employees: 303,887 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 148th term; part-time average not included",
+    "FY2018 employees: 307,275 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 149th term; part-time average not included",
+    "FY2019 employees: 295,941 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 150th term",
+    "FY2020 employees: 301,056 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 151st term",
+    "FY2021 employees: 350,864 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 152nd term",
+    "FY2017 dilutedEPS: 47.88 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 4 — Consolidated key data, \"Earnings per share ... diluted (yen)\", 148th term (IFRS); current basis (equals pre Oct-2018 consolidation)",
+    "FY2021 dilutedEPS: 103.70 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, \"Earnings per share ... diluted (yen)\" restated for July-2024 5-for-1 split (first printed 518.51 on Oct-2018 basis in sr2020 p.4)",
+    "FY2022 dilutedEPS: 120.59 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS restated for July-2024 split (first printed 602.96 in sr2022 p.4)",
+    "FY2023 dilutedEPS: 136.78 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS restated for July-2024 split (first printed 683.89 in sr2022 p.4)",
+    "FY2024 dilutedEPS: 126.75 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS restated for July-2024 split",
+    "FY2025 dilutedEPS: 133.72 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS (post July-2024 split basis)",
+    "FY2010 dividendPerShare: 0 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Dividends per share (yen)\" for 141st term (March 2010) printed as \"－\" (nil); interim also nil",
+    "FY2010 capex: (286,259) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 96 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2010 (third column); intangibles reported separately",
+    "FY2011 capex: (254,460) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 96 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2011; intangibles reported separately",
+    "FY2012 capex: (337,502) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 96 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2012; intangibles reported separately",
+    "FY2013 capex: (381,731) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2012_4_en.pdf PDF p. 94 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2013; intangibles reported separately",
+    "FY2014 capex: (391,598) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 78 — Consolidated statement of cash flows (IFRS), \"Purchase of property, plant and equipment\", year ended March 31, 2014 (second column); intangibles reported separately",
+    "FY2015 capex: (358,141) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 78 — Consolidated statement of cash flows (IFRS), \"Purchase of property, plant and equipment\", year ended March 31, 2015 (first column); intangibles reported separately",
+    "FY2016 capex: (369,494) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 88 — Consolidated statement of cash flows (IFRS), \"Purchase of property, plant and equipment\", year ended March 31, 2016 (second column); intangibles reported separately",
+    "FY2024 employees: corrected to 268,655 — stored 282,743 was the FYE March 2025 count; five-year key data, Number of employees, 155th term (FYE March 2024) (https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4)",
+    "FY2025 employees: corrected to 282,743 — stored 287,901 was the FYE March 2026 count; five-year key data, Number of employees, 156th term (FYE March 2025) (https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4)",
+    "FY2026 employees: corrected to 287,901 — stored 0.27 was a ratio from the adjacent column of the 5-Year ESG Data table; Number of employees, Hitachi Group, FY2025 (FYE March 2026) (https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf PDF p. 43)"
   ]
 }

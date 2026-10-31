@@ -17,17 +17,33 @@
       "totalAssets": 255466000000,
       "totalEquity": 93257000000,
       "cashAndEquivalents": 12254000000,
-      "totalDebt": null,
+      "totalDebt": 100006000000,
       "operatingCashFlow": 18006000000,
       "capex": -5482000000,
       "dividendPerShare": 3.5,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 957000000,
       "employees": 164120,
       "restated": false,
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2025",
-        "page": "PDF pp.252,254\u2013256,405,407"
+        "page": "PDF pp.252,254–256,405,407",
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 66",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 314",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -42,17 +58,34 @@
       "totalAssets": 265010000000,
       "totalEquity": 92625000000,
       "cashAndEquivalents": 14511000000,
-      "totalDebt": null,
+      "totalDebt": 112798000000,
       "operatingCashFlow": 17735000000,
       "capex": -4039000000,
       "dividendPerShare": 4.3,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 963000000,
       "employees": 175264,
       "restated": false,
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2025",
-        "page": "PDF pp.252,254\u2013256,405,407"
+        "page": "PDF pp.252,254–256,405,407",
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 66",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2024-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 354",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -67,17 +100,33 @@
       "totalAssets": 263022000000,
       "totalEquity": 91773000000,
       "cashAndEquivalents": 15962000000,
-      "totalDebt": null,
+      "totalDebt": 108638000000,
       "operatingCashFlow": 14470000000,
       "capex": -3745000000,
       "dividendPerShare": 5.3,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 1041000000,
       "employees": 166056,
       "restated": false,
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2023",
-        "page": "PDF pp.195,197\u2013199,349,351"
+        "page": "PDF pp.195,197–199,349,351",
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 271",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 258",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -92,17 +141,35 @@
       "totalAssets": 260015000000,
       "totalEquity": 85415000000,
       "cashAndEquivalents": 17679000000,
-      "totalDebt": null,
+      "totalDebt": 111837000000,
       "operatingCashFlow": 16894000000,
       "capex": -3481000000,
       "dividendPerShare": 5.2,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 1070000000,
       "employees": 168815,
       "restated": false,
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2023",
-        "page": "PDF pp.195,197\u2013199,349,351"
+        "page": "PDF pp.195,197–199,349,351",
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 271",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
+          },
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 258",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -117,17 +184,33 @@
       "totalAssets": 259831000000,
       "totalEquity": 71951000000,
       "cashAndEquivalents": 23120000000,
-      "totalDebt": null,
+      "totalDebt": 125843000000,
       "operatingCashFlow": 24549000000,
       "capex": -4579000000,
       "dividendPerShare": 5.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 1070000000,
       "employees": 172425,
       "restated": false,
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2021",
-        "page": "PDF pp.185,187\u2013189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264\u2013265)"
+        "page": "PDF pp.185,187–189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264–265)",
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 80",
+            "fields": [
+              "totalDebt"
+            ]
+          },
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
+            "page": "PDF p. 253",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -142,7 +225,7 @@
       "totalAssets": 285737000000,
       "totalEquity": 60691000000,
       "cashAndEquivalents": 23048000000,
-      "totalDebt": null,
+      "totalDebt": 145842000000,
       "operatingCashFlow": 22332000000,
       "capex": -5741000000,
       "dividendPerShare": 1.35,
@@ -152,7 +235,16 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2021",
-        "page": "PDF pp.185,187\u2013189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264\u2013265)"
+        "page": "PDF pp.185,187–189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264–265)",
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+            "page": "PDF p. 66",
+            "fields": [
+              "totalDebt"
+            ]
+          }
+        ]
       }
     },
     {
@@ -167,7 +259,7 @@
       "totalAssets": 302438000000,
       "totalEquity": 61344000000,
       "cashAndEquivalents": 18883000000,
-      "totalDebt": null,
+      "totalDebt": 161780000000,
       "operatingCashFlow": 7888000000,
       "capex": -7199000000,
       "dividendPerShare": 0.9,
@@ -177,12 +269,22 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
             "document": "Daimler Annual Report 2020: parent-attributable profit and equity",
             "page": "PDF pp.155,157"
+          }
+        ],
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+            "page": "PDF p. 66",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
           }
         ]
       }
@@ -209,7 +311,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2018.pdf",
@@ -241,7 +343,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2018.pdf",
@@ -263,7 +365,7 @@
       "totalAssets": 242988000000,
       "totalEquity": 57950000000,
       "cashAndEquivalents": 10981000000,
-      "totalDebt": null,
+      "totalDebt": 117686000000,
       "operatingCashFlow": 3711000000,
       "capex": -5889000000,
       "dividendPerShare": 3.25,
@@ -273,12 +375,21 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
             "document": "Daimler Annual Report 2016: parent-attributable profit and equity",
             "page": "PDF pp.225,227"
+          }
+        ],
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+            "page": "PDF p. 124",
+            "fields": [
+              "totalDebt"
+            ]
           }
         ]
       }
@@ -295,7 +406,7 @@
       "totalAssets": 217166000000,
       "totalEquity": 53561000000,
       "cashAndEquivalents": 9936000000,
-      "totalDebt": null,
+      "totalDebt": 101142000000,
       "operatingCashFlow": 222000000,
       "capex": -5075000000,
       "dividendPerShare": 3.25,
@@ -305,12 +416,22 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
             "document": "Daimler Annual Report 2016: parent-attributable profit and equity",
             "page": "PDF pp.225,227"
+          }
+        ],
+        "supplementalSources": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+            "page": "PDF p. 124",
+            "fields": [
+              "totalDebt"
+            ],
+            "restated": true
           }
         ]
       }
@@ -337,7 +458,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2014.pdf",
@@ -369,7 +490,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2013.pdf",
@@ -401,7 +522,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2013.pdf",
@@ -433,7 +554,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
-        "page": "PDF pp.264\u2013265",
+        "page": "PDF pp.264–265",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2012.pdf",
@@ -465,7 +586,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
-        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "page": "PDF pp.315–316 (printed pp.308–309)",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2010.pdf",
@@ -497,7 +618,7 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
-        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "page": "PDF pp.315–316 (printed pp.308–309)",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2010.pdf",
@@ -529,12 +650,12 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
-        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "page": "PDF pp.315–316 (printed pp.308–309)",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2008.pdf",
             "document": "Daimler Annual Report 2008: parent-attributable profit and equity",
-            "page": "PDF pp.148\u2013149"
+            "page": "PDF pp.148–149"
           }
         ]
       }
@@ -561,37 +682,28 @@
       "source": {
         "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
         "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
-        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "page": "PDF pp.315–316 (printed pp.308–309)",
         "additionalDocuments": [
           {
             "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2008.pdf",
             "document": "Daimler Annual Report 2008: parent-attributable profit and equity",
-            "page": "PDF pp.148\u2013149"
+            "page": "PDF pp.148–149"
           }
         ]
       }
     }
   ],
   "gaps": [
-    "FY2007 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2008 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2009 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2010 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2011 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2012 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2013 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2014 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2015 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2016 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2017 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2018 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2019 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2020 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2021 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2022 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2023 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2024 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2025 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred."
+    "FY2018 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2017 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2014 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2013 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2012 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2011 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2010 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2009 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2008 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2007 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))"
   ],
   "notes": [
     "Historical group includes Daimler Trucks and other disposed operations until their respective deconsolidation. FY2020 revenue and EBIT use the FY2021 comparative figures for continuing operations after the Daimler Truck spin-off; netIncome remains total profit attributable to parent owners, including discontinued operations. FY2021 netIncome includes the spin-off gain. These scope breaks make the full series non-comparable without the accompanying notes.",
@@ -599,6 +711,20 @@
     "All monetary statement values scaled from EUR millions. capex is purchases/additions of property, plant and equipment only, negative; separately reported intangible additions are excluded.",
     "sharesOutstanding through FY2020 is the published average basic shares outstanding, not closing share count. Employees through FY2020 are average annual employees; FY2021 onward is the published year-end active workforce. This definition change is intentional and not comparable as one constant measure.",
     "The historical ten-year table labels the cash figure Liquid assets; this matches the cash-and-cash-equivalents row in the opened consolidated balance sheets. Dividend is the dividend proposed/associated with each fiscal year.",
-    "IFRS is used throughout. New accounting standards and discontinued operations alter comparability; the annual-report footnotes retain older historical bases where no explicit restated table was found."
+    "IFRS is used throughout. New accounting standards and discontinued operations alter comparability; the annual-report footnotes retain older historical bases where no explicit restated table was found.",
+    "FY2015 totalDebt: 101,142 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf PDF p. 124 — 2016 AR Business Review balance-sheet summary, \"Financing liabilities\" 2015 column (single printed total). Later report comparative.",
+    "FY2016 totalDebt: 117,686 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf PDF p. 124 — 2016 AR Business Review balance-sheet summary, \"Financing liabilities\" 2016 column (single printed total).",
+    "FY2019 totalDebt: 161,780 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf PDF p. 66 — 2020 AR financial position table, \"Financing liabilities\" Dec 31 2019 column (total; current 13,289 + non-current 148,491 printed alongside). Later report comparative.",
+    "FY2020 totalDebt: 145,842 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf PDF p. 66 — 2020 AR financial position table, \"Financing liabilities\" 2020 column (total; current 9,168 + non-current 136,674 printed alongside).",
+    "FY2021 totalDebt: 125,843 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf PDF p. 80 — 2021 AR financial position table, \"Financing liabilities\" 2021 column (total; current 3,877 + non-current 121,966 printed alongside). The net debt table prints -125,905 with hedge adjustments; the total line is used here.",
+    "FY2022 totalDebt: 111,837 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 271 — 2023 AR Note 24 Financing liabilities, Total line, \"At 31 December 2022\" column. Later report comparative.",
+    "FY2023 totalDebt: 108,638 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 271 — 2023 AR Note 24 Financing liabilities, Total line, \"At 31 December 2023\" column (ties to Equity and liabilities summary 108,638).",
+    "FY2024 totalDebt: 112,798 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf PDF p. 66 — 2025 AR financial position table, \"Financing liabilities\" Group column, 2024 comparative (single printed total). Later report comparative.",
+    "FY2025 totalDebt: 100,006 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf PDF p. 66 — 2025 AR financial position table, \"Financing liabilities\" Group column, 2025 (single printed total).",
+    "FY2021 sharesOutstanding: 1,070 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf PDF p. 253 — 2021 AR Shares section: \"The number at 31 December 2021 is 1,070 million, unchanged from 31 December 2020.\" Printed rounded to million.",
+    "FY2022 sharesOutstanding: 1,070 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 258 — 2023 AR Shares section: number of shares outstanding \"1,070 million\" at 31 December 2022. Printed rounded to million. Later report comparative.",
+    "FY2023 sharesOutstanding: 1,041 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 258 — 2023 AR Shares section: \"number of shares outstanding ... to 1,041 million shares as at 31 December 2023\". Printed rounded to million.",
+    "FY2024 sharesOutstanding: 963 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2024-incl-combined-management-report-mbg-ag.pdf PDF p. 354 — 2024 AR Shares section: \"the number of shares in circulation, at 963 million\" as of 31 December 2024. Printed rounded to million.",
+    "FY2025 sharesOutstanding: 957 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf PDF p. 314 — 2025 AR Shares section: \"The number of shares in circulation decreased ... to 957 million as of 31 December 2025.\" Printed rounded to million."
   ]
 }

@@ -17,7 +17,7 @@
       "operatingCashFlow": 430680000000,
       "capex": -28371000000,
       "dividendPerShare": 550.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 242525136,
       "employees": 12784,
       "fiscalYear": 2026,
       "periodEnd": "2026-03-20",
@@ -27,7 +27,16 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
         "document": "Annual Report 2026, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 12, 16; company profile for employees"
+        "page": "PDF pp.3, 12, 16; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
+            "page": "PDF p. 15",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -42,8 +51,8 @@
       "operatingCashFlow": 409522000000,
       "capex": -14342000000,
       "dividendPerShare": 350.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 242525334,
+      "employees": 12261,
       "fiscalYear": 2025,
       "periodEnd": "2025-03-20",
       "standard": "J-GAAP",
@@ -52,7 +61,23 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
         "document": "Annual Report 2026, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 12, 16; company profile for employees"
+        "page": "PDF pp.3, 12, 16; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
+            "page": "PDF p. 15",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf",
+            "page": "PDF p. 25",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -67,7 +92,7 @@
       "operatingCashFlow": 387916000000,
       "capex": -12492000000,
       "dividendPerShare": 300.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 242525621,
       "employees": 12286,
       "fiscalYear": 2024,
       "periodEnd": "2024-03-20",
@@ -77,7 +102,16 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf",
         "document": "Annual Report 2024, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 12, 16; company profile for employees"
+        "page": "PDF pp.3, 12, 16; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
+            "page": "PDF p. 15",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -92,8 +126,8 @@
       "operatingCashFlow": 302628000000,
       "capex": -39345000000,
       "dividendPerShare": 300.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 242525977,
+      "employees": 10580,
       "fiscalYear": 2023,
       "periodEnd": "2023-03-20",
       "standard": "J-GAAP",
@@ -102,7 +136,23 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf",
         "document": "Annual Report 2024, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 12, 16; company profile for employees"
+        "page": "PDF pp.3, 12, 16; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf",
+            "page": "PDF p. 15",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf",
+            "page": "PDF p. 25",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -117,7 +167,7 @@
       "operatingCashFlow": 271476000000,
       "capex": -6162000000,
       "dividendPerShare": 200.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 242526173,
       "employees": 8961,
       "fiscalYear": 2022,
       "periodEnd": "2022-03-20",
@@ -127,7 +177,16 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf",
         "document": "Annual Report 2022, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 12, 16; company profile for employees"
+        "page": "PDF pp.3, 12, 16; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf",
+            "page": "PDF p. 15",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -142,8 +201,8 @@
       "operatingCashFlow": 192652000000,
       "capex": -4358000000,
       "dividendPerShare": 200.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 242526537,
+      "employees": 8380,
       "fiscalYear": 2021,
       "periodEnd": "2021-03-20",
       "standard": "J-GAAP",
@@ -152,7 +211,23 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf",
         "document": "Annual Report 2022, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 12, 16; company profile for employees"
+        "page": "PDF pp.3, 12, 16; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf",
+            "page": "PDF p. 15",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf",
+            "page": "PDF p. 22",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -167,7 +242,7 @@
       "operatingCashFlow": 203434000000,
       "capex": -8243000000,
       "dividendPerShare": 150.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 242527053,
       "employees": 8419,
       "fiscalYear": 2020,
       "periodEnd": "2020-03-20",
@@ -177,7 +252,16 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf",
         "document": "Annual Report 2020, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13, 15; company profile for employees"
+        "page": "PDF pp.3, 9, 13, 15; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf",
+            "page": "PDF p. 15",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -192,8 +276,8 @@
       "operatingCashFlow": 209380000000,
       "capex": -7361000000,
       "dividendPerShare": 100.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 242528252,
+      "employees": 7941,
       "fiscalYear": 2019,
       "periodEnd": "2019-03-20",
       "standard": "J-GAAP",
@@ -202,7 +286,23 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf",
         "document": "Annual Report 2020, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13, 15; company profile for employees"
+        "page": "PDF pp.3, 9, 13, 15; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf",
+            "page": "PDF p. 13",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf",
+            "page": "PDF p. 21",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -217,7 +317,7 @@
       "operatingCashFlow": 202934000000,
       "capex": -6770000000,
       "dividendPerShare": 100.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 242529278,
       "employees": 6602,
       "fiscalYear": 2018,
       "periodEnd": "2018-03-20",
@@ -227,7 +327,17 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2018_en.pdf",
         "document": "Annual Report 2018, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13; company profile for employees"
+        "page": "PDF pp.3, 9, 13; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -242,8 +352,8 @@
       "operatingCashFlow": 142866000000,
       "capex": -4345000000,
       "dividendPerShare": 100.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 121265467,
+      "employees": 5673,
       "fiscalYear": 2017,
       "periodEnd": "2017-03-20",
       "standard": "J-GAAP",
@@ -252,7 +362,23 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2018_en.pdf",
         "document": "Annual Report 2018, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13; company profile for employees"
+        "page": "PDF pp.3, 9, 13; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf",
+            "page": "PDF p. 21",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -267,7 +393,7 @@
       "operatingCashFlow": 106483000000,
       "capex": -3361000000,
       "dividendPerShare": 200.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 121276518,
       "employees": 5003,
       "fiscalYear": 2016,
       "periodEnd": "2016-03-20",
@@ -277,7 +403,17 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf",
         "document": "Annual Report 2016, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13; company profile for employees"
+        "page": "PDF pp.3, 9, 13; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ],
+            "restated": true
+          }
+        ]
       }
     },
     {
@@ -292,8 +428,8 @@
       "operatingCashFlow": 114310000000,
       "capex": -3011000000,
       "dividendPerShare": 200.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 60639478,
+      "employees": 4444,
       "fiscalYear": 2015,
       "periodEnd": "2015-03-20",
       "standard": "J-GAAP",
@@ -302,7 +438,23 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf",
         "document": "Annual Report 2016, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13; company profile for employees"
+        "page": "PDF pp.3, 9, 13; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf",
+            "page": "PDF p. 21",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -317,7 +469,7 @@
       "operatingCashFlow": 93162000000,
       "capex": -3348000000,
       "dividendPerShare": 60.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 60641743,
       "employees": 3989,
       "fiscalYear": 2014,
       "periodEnd": "2014-03-20",
@@ -327,7 +479,16 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf",
         "document": "Annual Report 2014, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13; company profile for employees"
+        "page": "PDF pp.3, 9, 13; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -342,8 +503,8 @@
       "operatingCashFlow": 63876000000,
       "capex": -2789000000,
       "dividendPerShare": 60.0,
-      "sharesOutstanding": null,
-      "employees": null,
+      "sharesOutstanding": 60644722,
+      "employees": 3803,
       "fiscalYear": 2013,
       "periodEnd": "2013-03-20",
       "standard": "J-GAAP",
@@ -352,7 +513,23 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf",
         "document": "Annual Report 2014, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9, 13; company profile for employees"
+        "page": "PDF pp.3, 9, 13; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          },
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf",
+            "page": "PDF p. 22",
+            "fields": [
+              "employees"
+            ]
+          }
+        ]
       }
     },
     {
@@ -367,7 +544,7 @@
       "operatingCashFlow": 50020000000,
       "capex": -3544000000,
       "dividendPerShare": 60.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 55155706,
       "employees": 3420,
       "fiscalYear": 2012,
       "periodEnd": "2012-03-20",
@@ -377,7 +554,16 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf",
         "document": "Annual Report 2012, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9; company profile for employees"
+        "page": "PDF pp.3, 9; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     },
     {
@@ -392,7 +578,7 @@
       "operatingCashFlow": 52502000000,
       "capex": -2507000000,
       "dividendPerShare": 60.0,
-      "sharesOutstanding": null,
+      "sharesOutstanding": 55157246,
       "employees": null,
       "fiscalYear": 2011,
       "periodEnd": "2011-03-20",
@@ -402,33 +588,81 @@
       "source": {
         "url": "https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf",
         "document": "Annual Report 2012, audited comparative statements and financial highlights",
-        "page": "PDF pp.3, 9; company profile for employees"
+        "page": "PDF pp.3, 9; company profile for employees",
+        "supplementalSources": [
+          {
+            "url": "https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf",
+            "page": "PDF p. 12",
+            "fields": [
+              "sharesOutstanding"
+            ]
+          }
+        ]
       }
     }
   ],
   "gaps": [
-    "FY2008\u2013FY2010: official source documents not obtained; old AnnualReport_2008_en.pdf and AnnualReport_2010_en.pdf URLs returned404; no placeholder years or aggregator values inserted.",
-    "FY2012: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2011: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2014: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2013: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2016: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2015: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2018: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2017: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2020: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2019: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2022: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2021: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2024: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2023: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2026: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2025: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived."
+    "FY2026 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2026 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2025 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2025 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2024 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2024 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2023 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2023 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2022 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2022 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2021 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2021 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2020 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2020 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2019 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2019 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2018 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2018 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2017 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2017 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2016 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2016 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2015 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2015 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2014 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2014 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2013 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2013 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2012 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2012 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2011 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2011 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2011 employees: not found in the company's reports (AnnualReport_2011_en.pdf returned HTTP 404 (keyence.co.jp/pdf/). AR2012 company profile prints Number of Employees for FY2012 only (3,420); no FY2011 headcount found.)"
   ],
   "notes": [
     "J-GAAP throughout; fiscal years end20March, not31March. Financial statement yen millions scaled to full yen; capex is the explicitly published negative Capital expenditures cash-flow line.",
     "Total equity is reported directly without noncontrolling interest in the inspected balance sheets. Net income uses the highlighted net income, identical to owners in the audited statements.",
     "Reports disclose basic EPS; no invented diluted figure. Treasury and issued share counts are not subtracted. No aggregate total debt is published in these extracts; not inferred from the lack of a borrowing line.",
-    "Each paired prior year uses the comparative in the next annual report. No restatement claim is made unless explicitly identified. Dividends are on each report's published share basis; stock splits mean per-share amounts across reports require care."
+    "Each paired prior year uses the comparative in the next annual report. No restatement claim is made unless explicitly identified. Dividends are on each report's published share basis; stock splits mean per-share amounts across reports require care.",
+    "FY2011 sharesOutstanding: 55,157,246 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); only printed in AR2012; pre-2017 and pre-2019 split basis",
+    "FY2012 sharesOutstanding: 55,155,706 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); latest printed in AR2013 comparative",
+    "FY2013 sharesOutstanding: 60,644,722 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2014",
+    "FY2014 sharesOutstanding: 60,641,743 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2015",
+    "FY2015 sharesOutstanding: 60,639,478 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2016",
+    "FY2016 sharesOutstanding: 121,276,518 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2017, restated for the FY2017 2-for-1 split (first printed 60,638,259 in AR2016)",
+    "FY2017 sharesOutstanding: 121,265,467 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2019 (pre-2019 split basis)",
+    "FY2018 sharesOutstanding: 242,529,278 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2020, restated for the FY2019 2-for-1 split (first printed 121,264,639 in AR2019)",
+    "FY2019 sharesOutstanding: 242,528,252 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf PDF p. 13 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2021",
+    "FY2020 sharesOutstanding: 242,527,053 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2022",
+    "FY2021 sharesOutstanding: 242,526,537 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2023",
+    "FY2022 sharesOutstanding: 242,526,173 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2024",
+    "FY2023 sharesOutstanding: 242,525,977 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2025",
+    "FY2024 sharesOutstanding: 242,525,621 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2026",
+    "FY2025 sharesOutstanding: 242,525,334 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2026",
+    "FY2026 sharesOutstanding: 242,525,136 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); current year in AR2026",
+    "FY2013 employees: 3,803 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf PDF p. 22 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2015 employees: 4,444 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf PDF p. 21 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2017 employees: 5,673 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf PDF p. 21 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2019 employees: 7,941 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf PDF p. 21 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2021 employees: 8,380 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf PDF p. 22 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2023 employees: 10,580 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf PDF p. 25 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2025 employees: 12,261 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf PDF p. 25 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)"
   ]
 }

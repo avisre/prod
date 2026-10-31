@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-31T01:14:01.119Z",
+ "generatedAt": "2026-10-31T01:22:31.712Z",
  "basis": "Company annual reports, converted to USD at Yahoo historical FX (balance sheet: period-end rate; flows and per-share: 12-month average)",
  "companies": [
   {
@@ -7503,25 +7503,27 @@
    "fiscalYearEnd": "03-31",
    "irUrl": "https://www.hitachi.com/en/ir/",
    "gaps": [
-    "FY2008: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2009: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2010: cashAndEquivalents, capex, dividendPerShare, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2011: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2012: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2013: cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2014: operatingIncome, cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2015: operatingIncome, cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2016: operatingIncome, cashAndEquivalents, capex, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2017: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2018: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2019: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2020: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2021: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding, employees not extracted with the required definition from the opened tables; not inferred.",
-    "FY2022: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2023: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2024: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2025: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred.",
-    "FY2026: operatingIncome, dilutedEPS, cashAndEquivalents, sharesOutstanding not extracted with the required definition from the opened tables; not inferred."
+    "FY2026 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2026 dilutedEPS: not found in the company's reports (FYE2026 Annual Securities Report (label 2025) not located; earlier probes of hit_sr_fy2025_*_en.pdf failed. Integrated Report 2026 (2026.pdf) 10-year table has no line for this item. Integrated Report 2026 10-year table prints only basic EPS.)",
+    "FY2026 cashAndEquivalents: not found in the company's reports (FYE2026 Annual Securities Report (label 2025) not located; earlier probes of hit_sr_fy2025_*_en.pdf failed. Integrated Report 2026 (2026.pdf) 10-year table has no line for this item. Integrated 2026 10-year table has no cash line.)",
+    "FY2026 sharesOutstanding: not found in the company's reports (FYE2026 Annual Securities Report (label 2025) not located; earlier probes of hit_sr_fy2025_*_en.pdf failed. Integrated Report 2026 (2026.pdf) 10-year table has no line for this item. No issued/treasury count for FYE2026 in the Integrated Report 2026 10-year table.)",
+    "FY2025 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2024 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2023 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2022 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2021 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2020 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2020 dilutedEPS: not found in the company's reports (sr2022 p.4 prints FYE2020 diluted EPS 90.60 only on the post-Oct-2018-consolidation basis; no current-basis figure printed. Not filled (same reason as FYE2018).)",
+    "FY2019 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2019 dilutedEPS: not found in the company's reports (sr2022 p.4 (ASR FYE2023) prints FYE2019 diluted EPS 230.25 only on the post-Oct-2018-consolidation basis; no current-basis figure printed. Not filled (same reason as FYE2018).)",
+    "FY2018 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2018 dilutedEPS: not found in the company's reports (sr2020 p.4 (ASR FYE2021) prints FYE2018 diluted EPS 375.60 only on the basis after the Oct-2018 1-for-5 consolidation; no current-basis (post-July-2024 split) figure is printed. Dividing it would be a computation the brief prohibits, so not filled. Printed value on that basis is recorded in note only.)",
+    "FY2017 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2016 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2015 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2014 operatingIncome: cannot exist: IFRS consolidated statements print no operating profit line (the income statement runs to income before income taxes). The integrated report prints only \"Adjusted operating income\" and EBIT (non-IFRS), which the existing history also excludes rather than substituting.",
+    "FY2009 capex: not found in the company's reports (FYE2009 cash-flow statement is in an ASR for FYE2009 (label 2008) or FYE2010 (label 2009); sr2011 CF covers FYE2010-2012 only. Probes hit_sr_fy2007/2008/2009_{1,4}_en.pdf returned 404. Not located.)",
+    "FY2008 capex: not found in the company's reports (FYE2008 cash-flow statement is in an ASR for FYE2008 (label 2007) or FYE2009/2010 reports; sr2011 CF covers FYE2010-2012 only. Probes hit_sr_fy2007/2008/2009_{1,4}_en.pdf returned 404. Not located.)"
    ],
    "notes": [
     "Company financial-year label names the year beginning1April; this file uses the following March calendar year. Full yen values scaled from published yen millions.",
@@ -7530,7 +7532,65 @@
     "Under USGAAP the company explicitly labels operating income on its Japanese-comparison presentation (revenues less cost of sales and SG&A); this excludes some charges classified in operating income under standardUSGAAP. IFRS table only gives Adjusted operating income and EBIT; neither is silently substituted for unadjusted operatingIncome.",
     "Capex2017–2026 is the directly published Capital expenditures (CF basis) negative-normalized;2016andearlier property/plant/equipment investment summary lacks required cash-basis designation, retained null.",
     "Recent dividends/per-share data reflect stock-consolidation/split adjustments in2026report; older data retain2016reportbasis. Current report notes ongoingportfolio changes; most recent table used for2017–2026.",
-    "Cash equivalents and shares outstanding are not derived from other lines. Recent basicEPS is not used for dilutedEPS; dilutedEPS only populated from directly labeled2016data."
+    "Cash equivalents and shares outstanding are not derived from other lines. Recent basicEPS is not used for dilutedEPS; dilutedEPS only populated from directly labeled2016data.",
+    "FY2008 cashAndEquivalents: 560,960 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated balance sheet key data, cash and cash equivalents at end of year (US GAAP), 139th term",
+    "FY2009 cashAndEquivalents: 807,926 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 140th term",
+    "FY2010 cashAndEquivalents: 577,584 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 141st term",
+    "FY2011 cashAndEquivalents: 554,810 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 142nd term",
+    "FY2012 cashAndEquivalents: 619,577 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (US GAAP), 143rd term",
+    "FY2013 cashAndEquivalents: 523,357 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 4 — Consolidated key data, IFRS transition column \"Year end April 1, 2013\" (IFRS restated; first printed US GAAP 527,632 in sr2012 p.4)",
+    "FY2014 cashAndEquivalents: 560,657 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 145th term",
+    "FY2015 cashAndEquivalents: 701,703 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 146th term",
+    "FY2016 cashAndEquivalents: 699,315 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 147th term",
+    "FY2017 cashAndEquivalents: 765,242 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 148th term",
+    "FY2018 cashAndEquivalents: 697,964 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 149th term",
+    "FY2019 cashAndEquivalents: 807,593 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 150th term",
+    "FY2020 cashAndEquivalents: 812,331 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 151st term",
+    "FY2021 cashAndEquivalents: 1,015,886 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 152nd term",
+    "FY2022 cashAndEquivalents: 968,827 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 153rd term",
+    "FY2023 cashAndEquivalents: 833,283 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 154th term",
+    "FY2024 cashAndEquivalents: 705,367 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 155th term",
+    "FY2025 cashAndEquivalents: 866,242 (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, cash and cash equivalents at end of year (IFRS), 156th term",
+    "FY2008 sharesOutstanding: 3,368,126 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\" at year end; issued count, treasury not netted (no outstanding count printed)",
+    "FY2009 sharesOutstanding: 3,368,126 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2010 sharesOutstanding: 4,518,132 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2011 sharesOutstanding: 4,520,144 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2012 sharesOutstanding: 4,637,785 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2013 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2014 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2015 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2016 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 6 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted",
+    "FY2017 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; pre Oct-2018 consolidation basis",
+    "FY2018 sharesOutstanding: 4,833,463 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; pre Oct-2018 consolidation basis",
+    "FY2019 sharesOutstanding: 966,692 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; after Oct-2018 1-for-5 consolidation, before July-2024 split",
+    "FY2020 sharesOutstanding: 967,280 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2021 sharesOutstanding: 967,885 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2022 sharesOutstanding: 968,234 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2023 sharesOutstanding: 938,083 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis",
+    "FY2024 sharesOutstanding: 927,167 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; post-2018 consolidation basis, before July-2024 split",
+    "FY2025 sharesOutstanding: 4,580,341 (thousand) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 5 — Five-year key data, \"Number of issued shares (thousands of shares)\"; issued count, treasury not netted; after July-2024 5-for-1 split",
+    "FY2017 employees: 303,887 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 148th term; part-time average not included",
+    "FY2018 employees: 307,275 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 149th term; part-time average not included",
+    "FY2019 employees: 295,941 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 150th term",
+    "FY2020 employees: 301,056 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 151st term",
+    "FY2021 employees: 350,864 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf PDF p. 4 — Consolidated key data, \"Number of employees\" at year end (IFRS), 152nd term",
+    "FY2017 dilutedEPS: 47.88 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 4 — Consolidated key data, \"Earnings per share ... diluted (yen)\", 148th term (IFRS); current basis (equals pre Oct-2018 consolidation)",
+    "FY2021 dilutedEPS: 103.70 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, \"Earnings per share ... diluted (yen)\" restated for July-2024 5-for-1 split (first printed 518.51 on Oct-2018 basis in sr2020 p.4)",
+    "FY2022 dilutedEPS: 120.59 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS restated for July-2024 split (first printed 602.96 in sr2022 p.4)",
+    "FY2023 dilutedEPS: 136.78 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS restated for July-2024 split (first printed 683.89 in sr2022 p.4)",
+    "FY2024 dilutedEPS: 126.75 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS restated for July-2024 split",
+    "FY2025 dilutedEPS: 133.72 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4 — Consolidated key data, diluted EPS (post July-2024 split basis)",
+    "FY2010 dividendPerShare: 0 (units) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 6 — Five-year key data, \"Dividends per share (yen)\" for 141st term (March 2010) printed as \"－\" (nil); interim also nil",
+    "FY2010 capex: (286,259) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 96 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2010 (third column); intangibles reported separately",
+    "FY2011 capex: (254,460) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 96 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2011; intangibles reported separately",
+    "FY2012 capex: (337,502) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf PDF p. 96 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2012; intangibles reported separately",
+    "FY2013 capex: (381,731) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2012_4_en.pdf PDF p. 94 — Consolidated statement of cash flows (US GAAP), \"Capital expenditures\" investing line, year ended March 31, 2013; intangibles reported separately",
+    "FY2014 capex: (391,598) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 78 — Consolidated statement of cash flows (IFRS), \"Purchase of property, plant and equipment\", year ended March 31, 2014 (second column); intangibles reported separately",
+    "FY2015 capex: (358,141) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf PDF p. 78 — Consolidated statement of cash flows (IFRS), \"Purchase of property, plant and equipment\", year ended March 31, 2015 (first column); intangibles reported separately",
+    "FY2016 capex: (369,494) (million) from https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf PDF p. 88 — Consolidated statement of cash flows (IFRS), \"Purchase of property, plant and equipment\", year ended March 31, 2016 (second column); intangibles reported separately",
+    "FY2024 employees: corrected to 268,655 — stored 282,743 was the FYE March 2025 count; five-year key data, Number of employees, 155th term (FYE March 2024) (https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4)",
+    "FY2025 employees: corrected to 282,743 — stored 287,901 was the FYE March 2026 count; five-year key data, Number of employees, 156th term (FYE March 2025) (https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf PDF p. 4)",
+    "FY2026 employees: corrected to 287,901 — stored 0.27 was a ratio from the adjacent column of the 5-Year ESG Data table; Number of employees, Hitachi Group, FY2025 (FYE March 2026) (https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf PDF p. 43)"
    ],
    "years": [
     {
@@ -7542,7 +7602,16 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
+        "page": "PDF p. 43",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.006256217136979103,
      "fxAverage": 0.006636379015011092,
@@ -7558,7 +7627,7 @@
      "cashAndEquivalents": null,
      "totalDebt": 6312754571.245983,
      "sharesOutstanding": null,
-     "employees": 0.27,
+     "employees": 287901,
      "freeCashFlow": 7766103087.49446
     },
     {
@@ -7570,7 +7639,37 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "dilutedEPS"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.006683732382953167,
      "fxAverage": 0.006566545421568056,
@@ -7579,14 +7678,14 @@
      "netIncome": 4043179613.1495695,
      "operatingCashFlow": 7697567204.978937,
      "capex": -2571774381.266286,
-     "dilutedEPS": null,
+     "dilutedEPS": 0.8780784537720804,
      "dividendPerShare": 0.2823614531274264,
      "totalAssets": 88792134849.57721,
      "totalEquity": 39080391462.77402,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 5789729706.874117,
      "totalDebt": 8061356566.797942,
-     "sharesOutstanding": null,
-     "employees": 287901,
+     "sharesOutstanding": 4580341000,
+     "employees": 282743,
      "freeCashFlow": 5125792823.712651
     },
     {
@@ -7598,7 +7697,39 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "dilutedEPS"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.0066032749600708485,
      "fxAverage": 0.006898678528765838,
@@ -7607,14 +7738,14 @@
      "netIncome": 4069502869.4048524,
      "operatingCashFlow": 6599358664.759746,
      "capex": -2656991541.961519,
-     "dilutedEPS": null,
+     "dilutedEPS": 0.8744075035210699,
      "dividendPerShare": 0.24835242703557014,
      "totalAssets": 80700498617.1145,
      "totalEquity": 37663132406.1309,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 4657732248.760294,
      "totalDebt": 7792009724.932723,
-     "sharesOutstanding": null,
-     "employees": 282743,
+     "sharesOutstanding": 927167000,
+     "employees": 268655,
      "freeCashFlow": 3942367122.798227
     },
     {
@@ -7626,7 +7757,32 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "dilutedEPS"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 0.007507450878620148,
      "fxAverage": 0.00736397384510686,
@@ -7635,13 +7791,13 @@
      "netIncome": 4780132158.231145,
      "operatingCashFlow": 6090337748.726403,
      "capex": -3023537201.1932,
-     "dilutedEPS": null,
+     "dilutedEPS": 1.0072443425337163,
      "dividendPerShare": 0.21355524150809893,
      "totalAssets": 93853751518.29422,
      "totalEquity": 37108233605.19111,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 6255831190.489233,
      "totalDebt": 16616601387.292147,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 938083000,
      "employees": 322525,
      "freeCashFlow": 3066800547.533203
     },
@@ -7654,7 +7810,32 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "dilutedEPS"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 0.008195310831069946,
      "fxAverage": 0.008858290423328677,
@@ -7663,13 +7844,13 @@
      "netIncome": 5168546713.299583,
      "operatingCashFlow": 6466047086.475804,
      "capex": -3896416483.8957753,
-     "dilutedEPS": null,
+     "dilutedEPS": 1.0682212421492052,
      "dividendPerShare": 0.22145726058321694,
      "totalAssets": 113812395557.10555,
      "totalEquity": 35582695597.52941,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 7939838406.533003,
      "totalDebt": 25624376719.236374,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 968234000,
      "employees": 368247,
      "freeCashFlow": 2569630602.580029
     },
@@ -7682,7 +7863,39 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "employees"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2024_2_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "dilutedEPS"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 0.009065772406756878,
      "fxAverage": 0.009448408770064512,
@@ -7691,14 +7904,14 @@
      "netIncome": 4739444668.37837,
      "operatingCashFlow": 7493797550.9837265,
      "capex": -3523736808.7517095,
-     "dilutedEPS": null,
+     "dilutedEPS": 0.9797999894556899,
      "dividendPerShare": 0.19841658417135477,
      "totalAssets": 107455267668.74548,
      "totalEquity": 31961398751.566185,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 9209791267.210617,
      "totalDebt": 21733883873.97304,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 967885000,
+     "employees": 350864,
      "freeCashFlow": 3970060742.232017
     },
     {
@@ -7710,7 +7923,30 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.00925625953823328,
      "fxAverage": 0.009193238181372484,
@@ -7723,10 +7959,10 @@
      "dividendPerShare": 0.1746715254460772,
      "totalAssets": 91915406971.67906,
      "totalEquity": 29249650553.18363,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 7519146566.952579,
      "totalDebt": 13745934177.177027,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 967280000,
+     "employees": 301056,
      "freeCashFlow": 1283780552.5995789
     },
     {
@@ -7738,7 +7974,30 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2022_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009038567543029785,
      "fxAverage": 0.00901810615323484,
@@ -7751,10 +8010,10 @@
      "dividendPerShare": 0.1623259107582271,
      "totalAssets": 87010602001.19019,
      "totalEquity": 29489257581.591606,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 7299483877.778053,
      "totalDebt": 9081690548.77758,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 966692000,
+     "employees": 295941,
      "freeCashFlow": 1242478593.368083
     },
     {
@@ -7766,7 +8025,30 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009391523897647858,
      "fxAverage": 0.009039081322650114,
@@ -7779,10 +8061,10 @@
      "dividendPerShare": 0.13558621983975172,
      "totalAssets": 94916403598.53954,
      "totalEquity": 30785640733.06322,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 6554945585.697889,
      "totalDebt": 9863861200.55616,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 4833463000,
+     "employees": 307275,
      "freeCashFlow": 2592914711.890121
     },
     {
@@ -7794,7 +8076,37 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2026/ar2026e.pdf",
       "document": "Hitachi Integrated Report2026",
-      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees"
+      "page": "PDF p.42 (printed41),10-Year Financial Data; PDF p.43 (printed42),employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+        "page": "PDF p. 5",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2020_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "employees"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "dilutedEPS"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008946464397013187,
      "fxAverage": 0.009235388676946362,
@@ -7803,14 +8115,14 @@
      "netIncome": 2135785220.8192928,
      "operatingCashFlow": 5814434474.009245,
      "capex": -3852542386.5881753,
-     "dilutedEPS": null,
+     "dilutedEPS": 0.4421904098521919,
      "dividendPerShare": 0.12006005280030271,
      "totalAssets": 86457889376.19049,
      "totalEquity": 26544920315.411873,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 6846210308.099166,
      "totalDebt": 10526436848.918907,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 4833463000,
+     "employees": 303887,
      "freeCashFlow": 1961892087.4210696
     },
     {
@@ -7822,7 +8134,30 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.59, printed p.57"
+      "page": "PDF p.59, printed p.57",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2016_4_en.pdf",
+        "page": "PDF p. 88",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008899489417672157,
      "fxAverage": 0.008341281131530801,
@@ -7830,16 +8165,16 @@
      "operatingIncome": null,
      "netIncome": 1435993253.198685,
      "operatingCashFlow": 6775005408.338737,
-     "capex": null,
+     "capex": -3082053330.4138417,
      "dilutedEPS": 0.2971164339051271,
      "dividendPerShare": 0.10009537357836962,
      "totalAssets": 111697536178.65033,
      "totalEquity": 24340797717.507927,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 6223546442.119405,
      "totalDebt": 32077809128.975494,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 4833463000,
      "employees": 335244,
-     "freeCashFlow": null
+     "freeCashFlow": 3692952077.924895
     },
     {
      "fiscalYear": 2015,
@@ -7850,7 +8185,30 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.59, printed p.57"
+      "page": "PDF p.59, printed p.57",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 78",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008332430385053158,
      "fxAverage": 0.009093949183200797,
@@ -7858,16 +8216,16 @@
      "operatingIncome": null,
      "netIncome": 1977770256.2608757,
      "operatingCashFlow": 4108873589.6997,
-     "capex": null,
+     "capex": -3256916054.420717,
      "dilutedEPS": 0.40922771324403584,
      "dividendPerShare": 0.10912739019840956,
      "totalAssets": 103603164654.25584,
      "totalEquity": 24516351605.76459,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 5846891398.482956,
      "totalDebt": 29641421224.851162,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 4833463000,
      "employees": 336670,
-     "freeCashFlow": null
+     "freeCashFlow": 851957535.2789831
     },
     {
      "fiscalYear": 2014,
@@ -7878,7 +8236,30 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.59, printed p.57"
+      "page": "PDF p.59, printed p.57",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 78",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009719211608171463,
      "fxAverage": 0.009963666709760824,
@@ -7886,16 +8267,16 @@
      "operatingIncome": null,
      "netIncome": 4123732486.8356805,
      "operatingCashFlow": 3056623782.2202964,
-     "capex": null,
+     "capex": -3901751956.208919,
      "dilutedEPS": 0.8534876903581122,
      "dividendPerShare": 0.10461850045248866,
      "totalAssets": 107865666796.90405,
      "totalEquity": 25937242092.628033,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 5449144022.602588,
      "totalDebt": 29487942231.018097,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 4833463000,
      "employees": 323919,
-     "freeCashFlow": null
+     "freeCashFlow": -845128173.9886227
     },
     {
      "fiscalYear": 2013,
@@ -7906,7 +8287,31 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.58, printed p.56"
+      "page": "PDF p.58, printed p.56",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2012_4_en.pdf",
+        "page": "PDF p. 94",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.010616838000714779,
      "fxAverage": 0.012077548929179708,
@@ -7914,16 +8319,16 @@
      "operatingIncome": 5097063819.483853,
      "netIncome": 2117508343.5573614,
      "operatingCashFlow": 7047346420.567793,
-     "capex": null,
+     "capex": -4610374830.2846985,
      "dilutedEPS": 0.4382942506399316,
      "dividendPerShare": 0.12077548929179707,
      "totalAssets": 104143005821.75143,
      "totalEquity": 22110202146.76857,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 5556396485.540085,
      "totalDebt": 25162744791.896084,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 4833463000,
      "employees": 326240,
-     "freeCashFlow": null
+     "freeCashFlow": 2436971590.2830944
     },
     {
      "fiscalYear": 2012,
@@ -7934,7 +8339,31 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.58, printed p.56"
+      "page": "PDF p.58, printed p.56",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 96",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.012154655531048775,
      "fxAverage": 0.012710986736540994,
@@ -7942,16 +8371,16 @@
      "operatingIncome": 5240485611.741121,
      "netIncome": 4412987664.205565,
      "operatingCashFlow": 5683781274.177988,
-     "capex": null,
+     "capex": -4289983445.5560584,
      "dilutedEPS": 0.9134115068878358,
      "dividendPerShare": 0.10168789389232795,
      "totalAssets": 114478939140.22668,
      "totalEquity": 21535399886.11266,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 7530745009.960607,
      "totalDebt": 29128072866.00396,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 4637785000,
      "employees": 323540,
-     "freeCashFlow": null
+     "freeCashFlow": 1393797828.6219296
     },
     {
      "fiscalYear": 2011,
@@ -7962,7 +8391,31 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.58, printed p.56"
+      "page": "PDF p.58, printed p.56",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2014_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 96",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.01202645804733038,
      "fxAverage": 0.011759455936650435,
@@ -7970,16 +8423,16 @@
      "operatingIncome": 5227172239.488611,
      "netIncome": 2808969480.1317525,
      "operatingCashFlow": 9896217181.31192,
-     "capex": null,
+     "capex": -2992311157.6400695,
      "dilutedEPS": 0.5806819341517985,
      "dividendPerShare": 0.09407564749320348,
      "totalAssets": 110470581806.84131,
      "totalEquity": 17316476016.319355,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 6672399189.2393675,
      "totalDebt": 30325327315.703964,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 4520144000,
      "employees": 361745,
-     "freeCashFlow": null
+     "freeCashFlow": 6903906023.67185
     },
     {
      "fiscalYear": 2010,
@@ -7990,7 +8443,37 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.58, printed p.56"
+      "page": "PDF p.58, printed p.56",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "dividendPerShare"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 96",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.0106929000467062,
      "fxAverage": 0.010827317678680023,
@@ -7998,16 +8481,16 @@
      "operatingIncome": 2188839714.6042747,
      "netIncome": -1158100726.229294,
      "operatingCashFlow": 8643436875.572584,
-     "capex": null,
+     "capex": -3099417131.3812647,
      "dilutedEPS": -0.31615767621745666,
-     "dividendPerShare": null,
+     "dividendPerShare": 0,
      "totalAssets": 95856117524.29605,
      "totalEquity": 13736719588.201492,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 6176047980.576754,
      "totalDebt": 25311623495.260254,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 4518132000,
      "employees": 359746,
-     "freeCashFlow": null
+     "freeCashFlow": 5544019744.191319
     },
     {
      "fiscalYear": 2009,
@@ -8018,7 +8501,23 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.58, printed p.56"
+      "page": "PDF p.58, printed p.56",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.010104072280228138,
      "fxAverage": 0.009962535075222453,
@@ -8031,9 +8530,9 @@
      "dividendPerShare": 0.029887605225667357,
      "totalAssets": 95015755438.23186,
      "totalEquity": 10608780794.697813,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 8163342701.075599,
      "totalDebt": 28494585174.121895,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 3368126000,
      "employees": 361796,
      "freeCashFlow": null
     },
@@ -8046,7 +8545,23 @@
      "source": {
       "url": "https://www.hitachi.com/content/dam/hitachi/global/en/ir/media/library/integrated/2016/ar2016e.pdf",
       "document": "Hitachi Integrated Report2016,10-Year Financial Data",
-      "page": "PDF p.58, printed p.56"
+      "page": "PDF p.58, printed p.56",
+      "supplementalSources": [
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 4",
+        "fields": [
+         "cashAndEquivalents"
+        ]
+       },
+       {
+        "url": "https://www.hitachi.com/IR-e/library/stock/hit_sr_fy2011_4_en.pdf",
+        "page": "PDF p. 6",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.010015022940933704,
      "fxAverage": 0.008845228624219695,
@@ -8059,9 +8574,9 @@
      "dividendPerShare": 0.053071371745318174,
      "totalAssets": 105466674292.46288,
      "totalEquity": 21738728975.86599,
-     "cashAndEquivalents": null,
+     "cashAndEquivalents": 5618027268.946171,
      "totalDebt": 25353090665.111317,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 3368126000,
      "employees": 347810,
      "freeCashFlow": null
     }
@@ -8074,29 +8589,68 @@
    "fiscalYearEnd": "03-20",
    "irUrl": "https://www.keyence.co.jp/investor/",
    "gaps": [
-    "FY2008–FY2010: official source documents not obtained; old AnnualReport_2008_en.pdf and AnnualReport_2010_en.pdf URLs returned404; no placeholder years or aggregator values inserted.",
-    "FY2012: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2011: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2014: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2013: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2016: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2015: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2018: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2017: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2020: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2019: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2022: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2021: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2024: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2023: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2026: dilutedEPS, totalDebt, sharesOutstanding not published as the required aggregate/definition in the opened extracts; not derived.",
-    "FY2025: dilutedEPS, totalDebt, sharesOutstanding, employees not published as the required aggregate/definition in the opened extracts; not derived."
+    "FY2026 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2026 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2025 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2025 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2024 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2024 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2023 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2023 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2022 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2022 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2021 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2021 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2020 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2020 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2019 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2019 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2018 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2018 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2017 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2017 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2016 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2016 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2015 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2015 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2014 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2014 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2013 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2013 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2012 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2012 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2011 dilutedEPS: cannot exist: No diluted figure is printed: each report states the company \"did not have securities or contingent stock agreements that could potentially dilute net income per common share\" (AR2013 p.15 for FY2012-2013; AR2012 p.15 for FY2011; AR2015-AR2026 for later years). Basic EPS only.",
+    "FY2011 totalDebt: cannot exist: Balance sheet prints no borrowings, bonds or loans line and no aggregate debt total; text search for borrowings, long-term debt, loans payable, bonds payable and interest-bearing terms returns no hits in AR2012-AR2026.",
+    "FY2011 employees: not found in the company's reports (AnnualReport_2011_en.pdf returned HTTP 404 (keyence.co.jp/pdf/). AR2012 company profile prints Number of Employees for FY2012 only (3,420); no FY2011 headcount found.)"
    ],
    "notes": [
     "J-GAAP throughout; fiscal years end20March, not31March. Financial statement yen millions scaled to full yen; capex is the explicitly published negative Capital expenditures cash-flow line.",
     "Total equity is reported directly without noncontrolling interest in the inspected balance sheets. Net income uses the highlighted net income, identical to owners in the audited statements.",
     "Reports disclose basic EPS; no invented diluted figure. Treasury and issued share counts are not subtracted. No aggregate total debt is published in these extracts; not inferred from the lack of a borrowing line.",
-    "Each paired prior year uses the comparative in the next annual report. No restatement claim is made unless explicitly identified. Dividends are on each report's published share basis; stock splits mean per-share amounts across reports require care."
+    "Each paired prior year uses the comparative in the next annual report. No restatement claim is made unless explicitly identified. Dividends are on each report's published share basis; stock splits mean per-share amounts across reports require care.",
+    "FY2011 sharesOutstanding: 55,157,246 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); only printed in AR2012; pre-2017 and pre-2019 split basis",
+    "FY2012 sharesOutstanding: 55,155,706 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); latest printed in AR2013 comparative",
+    "FY2013 sharesOutstanding: 60,644,722 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2014",
+    "FY2014 sharesOutstanding: 60,641,743 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2015",
+    "FY2015 sharesOutstanding: 60,639,478 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2016",
+    "FY2016 sharesOutstanding: 121,276,518 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2017, restated for the FY2017 2-for-1 split (first printed 60,638,259 in AR2016)",
+    "FY2017 sharesOutstanding: 121,265,467 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2019 (pre-2019 split basis)",
+    "FY2018 sharesOutstanding: 242,529,278 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf PDF p. 12 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2020, restated for the FY2019 2-for-1 split (first printed 121,264,639 in AR2019)",
+    "FY2019 sharesOutstanding: 242,528,252 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf PDF p. 13 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2021",
+    "FY2020 sharesOutstanding: 242,527,053 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2022",
+    "FY2021 sharesOutstanding: 242,526,537 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2023",
+    "FY2022 sharesOutstanding: 242,526,173 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2024",
+    "FY2023 sharesOutstanding: 242,525,977 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2025",
+    "FY2024 sharesOutstanding: 242,525,621 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2026",
+    "FY2025 sharesOutstanding: 242,525,334 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); comparative in AR2026",
+    "FY2026 sharesOutstanding: 242,525,136 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf PDF p. 15 — Outstanding number of shares of common stock at BALANCE, MARCH 20 in the consolidated statement of changes in net assets, as printed in the report named in the URL (comparative for the prior year); current year in AR2026",
+    "FY2013 employees: 3,803 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf PDF p. 22 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2015 employees: 4,444 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf PDF p. 21 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2017 employees: 5,673 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf PDF p. 21 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2019 employees: 7,941 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf PDF p. 21 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2021 employees: 8,380 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf PDF p. 22 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2023 employees: 10,580 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf PDF p. 25 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)",
+    "FY2025 employees: 12,261 (units) from https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf PDF p. 25 — Number of Employees (consolidated) on the company profile page of the same year report (consolidated)"
    ],
    "years": [
     {
@@ -8108,7 +8662,16 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
       "document": "Annual Report 2026, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 12, 16; company profile for employees"
+      "page": "PDF pp.3, 12, 16; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
+        "page": "PDF p. 15",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.006256217136979103,
      "fxAverage": 0.006636379015011092,
@@ -8123,7 +8686,7 @@
      "totalEquity": 21718282616.943123,
      "cashAndEquivalents": 2823236851.1874228,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 242525136,
      "employees": 12784,
      "freeCashFlow": 2669875005.1500974
     },
@@ -8136,7 +8699,23 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
       "document": "Annual Report 2026, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 12, 16; company profile for employees"
+      "page": "PDF pp.3, 12, 16; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
+        "page": "PDF p. 15",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf",
+        "page": "PDF p. 25",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.006683732382953167,
      "fxAverage": 0.006566545421568056,
@@ -8151,8 +8730,8 @@
      "totalEquity": 20776729666.49383,
      "cashAndEquivalents": 3019142173.3656898,
      "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 242525334,
+     "employees": 12261,
      "freeCashFlow": 2594967419.6952643
     },
     {
@@ -8164,7 +8743,16 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf",
       "document": "Annual Report 2024, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 12, 16; company profile for employees"
+      "page": "PDF pp.3, 12, 16; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2026_en.pdf",
+        "page": "PDF p. 15",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.0066032749600708485,
      "fxAverage": 0.006898678528765838,
@@ -8179,7 +8767,7 @@
      "totalEquity": 18530063970.026096,
      "cashAndEquivalents": 2681358846.661169,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 242525621,
      "employees": 12286,
      "freeCashFlow": 2589929487.983386
     },
@@ -8192,7 +8780,23 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf",
       "document": "Annual Report 2024, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 12, 16; company profile for employees"
+      "page": "PDF pp.3, 12, 16; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf",
+        "page": "PDF p. 15",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf",
+        "page": "PDF p. 25",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.007507450878620148,
      "fxAverage": 0.00736397384510686,
@@ -8207,8 +8811,8 @@
      "totalEquity": 18705819862.499832,
      "cashAndEquivalents": 2582578117.147088,
      "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 242525977,
+     "employees": 10580,
      "freeCashFlow": 1938809125.8612695
     },
     {
@@ -8220,7 +8824,16 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf",
       "document": "Annual Report 2022, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 12, 16; company profile for employees"
+      "page": "PDF pp.3, 12, 16; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2024_en.pdf",
+        "page": "PDF p. 15",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008195310831069946,
      "fxAverage": 0.008858290423328677,
@@ -8235,7 +8848,7 @@
      "totalEquity": 17813188302.12951,
      "cashAndEquivalents": 3246695315.3908253,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 242526173,
      "employees": 8961,
      "freeCashFlow": 2350228465.3750243
     },
@@ -8248,7 +8861,23 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf",
       "document": "Annual Report 2022, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 12, 16; company profile for employees"
+      "page": "PDF pp.3, 12, 16; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2023_en.pdf",
+        "page": "PDF p. 15",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf",
+        "page": "PDF p. 22",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009065772406756878,
      "fxAverage": 0.009448408770064512,
@@ -8263,8 +8892,8 @@
      "totalEquity": 17341408353.630455,
      "cashAndEquivalents": 1721363535.7329621,
      "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 242526537,
+     "employees": 8380,
      "freeCashFlow": 1779078680.9505272
     },
     {
@@ -8276,7 +8905,16 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf",
       "document": "Annual Report 2020, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13, 15; company profile for employees"
+      "page": "PDF pp.3, 9, 13, 15; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2022_en.pdf",
+        "page": "PDF p. 15",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.00925625953823328,
      "fxAverage": 0.009193238181372484,
@@ -8291,7 +8929,7 @@
      "totalEquity": 16273272537.75578,
      "cashAndEquivalents": 2063248019.850813,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 242527053,
      "employees": 8419,
      "freeCashFlow": 1794437353.8602765
     },
@@ -8304,7 +8942,23 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf",
       "document": "Annual Report 2020, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13, 15; company profile for employees"
+      "page": "PDF pp.3, 9, 13, 15; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2021_en.pdf",
+        "page": "PDF p. 13",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf",
+        "page": "PDF p. 21",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009038567543029785,
      "fxAverage": 0.00901810615323484,
@@ -8319,8 +8973,8 @@
      "totalEquity": 14356038175.702095,
      "cashAndEquivalents": 2403300878.2863617,
      "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 242528252,
+     "employees": 7941,
      "freeCashFlow": 1821828786.970349
     },
     {
@@ -8332,7 +8986,17 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2018_en.pdf",
       "document": "Annual Report 2018, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13; company profile for employees"
+      "page": "PDF pp.3, 9, 13; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2020_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 0.009391523897647858,
      "fxAverage": 0.009039081322650114,
@@ -8347,7 +9011,7 @@
      "totalEquity": 12970229819.513857,
      "cashAndEquivalents": 2632068487.5547886,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 242529278,
      "employees": 6602,
      "freeCashFlow": 1773142348.5763369
     },
@@ -8360,7 +9024,23 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2018_en.pdf",
       "document": "Annual Report 2018, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13; company profile for employees"
+      "page": "PDF pp.3, 9, 13; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2019_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf",
+        "page": "PDF p. 21",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008946464397013187,
      "fxAverage": 0.009235388676946362,
@@ -8375,8 +9055,8 @@
      "totalEquity": 10597552294.410765,
      "cashAndEquivalents": 3333586831.293069,
      "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 121265467,
+     "employees": 5673,
      "freeCashFlow": 1279295274.919287
     },
     {
@@ -8388,7 +9068,17 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf",
       "document": "Annual Report 2016, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13; company profile for employees"
+      "page": "PDF pp.3, 9, 13; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2017_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 0.008899489417672157,
      "fxAverage": 0.008341281131530801,
@@ -8403,7 +9093,7 @@
      "totalEquity": 9282550140.67702,
      "cashAndEquivalents": 1031566516.8706328,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 121276518,
      "employees": 5003,
      "freeCashFlow": 860169592.8457192
     },
@@ -8416,7 +9106,23 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf",
       "document": "Annual Report 2016, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13; company profile for employees"
+      "page": "PDF pp.3, 9, 13; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2016_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf",
+        "page": "PDF p. 21",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008332430385053158,
      "fxAverage": 0.009093949183200797,
@@ -8431,8 +9137,8 @@
      "totalEquity": 7693957906.79846,
      "cashAndEquivalents": 247314866.25876278,
      "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 60639478,
+     "employees": 4444,
      "freeCashFlow": 1012147450.1410655
     },
     {
@@ -8444,7 +9150,16 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf",
       "document": "Annual Report 2014, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13; company profile for employees"
+      "page": "PDF pp.3, 9, 13; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2015_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009719211608171463,
      "fxAverage": 0.009963666709760824,
@@ -8459,7 +9174,7 @@
      "totalEquity": 7816228852.137923,
      "cashAndEquivalents": 257850683.9647889,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 60641743,
      "employees": 3989,
      "freeCashFlow": 894876761.8704587
     },
@@ -8472,7 +9187,23 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf",
       "document": "Annual Report 2014, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9, 13; company profile for employees"
+      "page": "PDF pp.3, 9, 13; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2014_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       },
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf",
+        "page": "PDF p. 22",
+        "fields": [
+         "employees"
+        ]
+       }
+      ]
      },
      "fxClose": 0.010616838000714779,
      "fxAverage": 0.012077548929179708,
@@ -8487,8 +9218,8 @@
      "totalEquity": 7625607595.041394,
      "cashAndEquivalents": 220724062.03486025,
      "totalDebt": null,
-     "sharesOutstanding": null,
-     "employees": null,
+     "sharesOutstanding": 60644722,
+     "employees": 3803,
      "freeCashFlow": 737781231.4368007
     },
     {
@@ -8500,7 +9231,16 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf",
       "document": "Annual Report 2012, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9; company profile for employees"
+      "page": "PDF pp.3, 9; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2013_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.012154655531048775,
      "fxAverage": 0.012710986736540994,
@@ -8515,7 +9255,7 @@
      "totalEquity": 7881479749.96455,
      "cashAndEquivalents": 203237995.13466656,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 55155706,
      "employees": 3420,
      "freeCashFlow": 590755819.5674791
     },
@@ -8528,7 +9268,16 @@
      "source": {
       "url": "https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf",
       "document": "Annual Report 2012, audited comparative statements and financial highlights",
-      "page": "PDF pp.3, 9; company profile for employees"
+      "page": "PDF pp.3, 9; company profile for employees",
+      "supplementalSources": [
+       {
+        "url": "https://www.keyence.co.jp/pdf/AnnualReport_2012_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 0.01202645804733038,
      "fxAverage": 0.011759455936650435,
@@ -8543,7 +9292,7 @@
      "totalEquity": 7126325821.777805,
      "cashAndEquivalents": 190114248.81219864,
      "totalDebt": null,
-     "sharesOutstanding": null,
+     "sharesOutstanding": 55157246,
      "employees": null,
      "freeCashFlow": 587913999.5528384
     }
@@ -10766,25 +11515,12 @@
    "fiscalYearEnd": "03-31",
    "irUrl": "https://group.softbank/en/ir/financials/highlights",
    "gaps": [
-    "FY2008: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2009: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2010: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2011: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2012: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2013: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2014: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2015: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2016: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2017: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2018: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2019: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2020: capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2021: operatingIncome, capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2022: operatingIncome, capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2023: operatingIncome, capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2024: operatingIncome, capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2025: operatingIncome, capex not presented in the opened eleven-year tables; not calculated.",
-    "FY2026: operatingIncome, capex not presented in the opened eleven-year tables; not calculated."
+    "FY2026 operatingIncome: cannot exist: IFRS consolidated statement of income prints no operating profit line (Gross profit is absent; income before income tax follows the investment, finance and other gain lines). Checked in fr_fy2022 p.5 (FYE2021 and FYE2022 columns), fr_fy2023 p.5, fr_fy2025 p.5 and fr_fy2026 p.5. Investment gains are not substituted (existing history convention).",
+    "FY2025 operatingIncome: cannot exist: IFRS consolidated statement of income prints no operating profit line (Gross profit is absent; income before income tax follows the investment, finance and other gain lines). Checked in fr_fy2022 p.5 (FYE2021 and FYE2022 columns), fr_fy2023 p.5, fr_fy2025 p.5 and fr_fy2026 p.5. Investment gains are not substituted (existing history convention).",
+    "FY2024 operatingIncome: cannot exist: IFRS consolidated statement of income prints no operating profit line (Gross profit is absent; income before income tax follows the investment, finance and other gain lines). Checked in fr_fy2022 p.5 (FYE2021 and FYE2022 columns), fr_fy2023 p.5, fr_fy2025 p.5 and fr_fy2026 p.5. Investment gains are not substituted (existing history convention).",
+    "FY2023 operatingIncome: cannot exist: IFRS consolidated statement of income prints no operating profit line (Gross profit is absent; income before income tax follows the investment, finance and other gain lines). Checked in fr_fy2022 p.5 (FYE2021 and FYE2022 columns), fr_fy2023 p.5, fr_fy2025 p.5 and fr_fy2026 p.5. Investment gains are not substituted (existing history convention).",
+    "FY2022 operatingIncome: cannot exist: IFRS consolidated statement of income prints no operating profit line (Gross profit is absent; income before income tax follows the investment, finance and other gain lines). Checked in fr_fy2022 p.5 (FYE2021 and FYE2022 columns), fr_fy2023 p.5, fr_fy2025 p.5 and fr_fy2026 p.5. Investment gains are not substituted (existing history convention).",
+    "FY2021 operatingIncome: cannot exist: IFRS consolidated statement of income prints no operating profit line (Gross profit is absent; income before income tax follows the investment, finance and other gain lines). Checked in fr_fy2022 p.5 (FYE2021 and FYE2022 columns), fr_fy2023 p.5, fr_fy2025 p.5 and fr_fy2026 p.5. Investment gains are not substituted (existing history convention)."
    ],
    "notes": [
     "Fiscal year labels in company sources refer to the year starting1April; this file records the calendar year of the following31March (e.g.companyFY2025 means fiscalYear2026).",
@@ -10793,7 +11529,26 @@
     "Operating income is no longer presented from companyFY2020 (calendarFY2021); retained null. The previously reported calendarFY2020 operating income is retained as explicitly provided in the workbook; investment gains are not substituted for operating income.",
     "Current workbook reflects discontinued businesses: Sprint excluded from companyFY2018 and Brightstar fromcompanyFY2019; Supercell companyFY2015 revised. Old IFRS companyFY2013 reflects IFRIC21 andcompanyFY2014 GungHo classification.",
     "Per-share figures in the newest workbook reflect2019two-for-one andJanuary2026four-for-one stock splits; older2008–2015 per-share values are on the2018summary published basis. Share counts exclude treasury and use the published period count (not retrospectively derived).",
-    "Capital purchases are not in either eleven-year table. Investing cash flow includes acquisitions/investments and is not substituted for capex."
+    "Capital purchases are not in either eleven-year table. Investing cash flow includes acquisitions/investments and is not substituted for capex. Capex is filled instead from the consolidated cash-flow statement line 'Purchase of property, plant and equipment, and intangible assets' (per-year notes below).",
+    "FY2008 capex: (345,677) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2009_01_en.pdf PDF p. 100 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2009 report; same value as current year in ar2008_01 p.106. Latest printed value used.",
+    "FY2009 capex: (240,638) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2010_01_en.pdf PDF p. 104 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2010 report; same value as current year in ar2009_01 p.100. Latest printed value used.",
+    "FY2010 capex: (223,819) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2011_01_en.pdf PDF p. 111 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2011 report; same value as current year in ar2010_01 p.104. Latest printed value used.",
+    "FY2011 capex: (208,553) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2012_01_en.pdf PDF p. 106 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2012 report; same value as current year in ar2011_01 p.111. Latest printed value used.",
+    "FY2012 capex: (455,024) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2013_01_en.pdf PDF p. 107 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2013 report; same value as current year in ar2012_01 p.106. Latest printed value used.",
+    "FY2013 capex: (589,321) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2014_01_en.pdf PDF p. 120 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2014 report (IFRS basis); the FY2013 report (ar2013_01 p.107) printed (548,602) on the earlier basis. Latest printed value used.",
+    "FY2014 capex: (1,371,400) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2015_01_en.pdf PDF p. 99 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2015 report; same value as current year in ar2014_01 p.120. Latest printed value used.",
+    "FY2015 capex: (1,397,856) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2016_01_en.pdf PDF p. 80 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2016 report; same value as current year in ar2015_01 p.99. Latest printed value used.",
+    "FY2016 capex: (1,360,960) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2017_01_en.pdf PDF p. 88 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2017 report; same value as current year in ar2016_01 p.80. Latest printed value used.",
+    "FY2017 capex: (923,502) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_01_en.pdf PDF p. 9 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2018 report; same value as current year in ar2017_01 p.88. Latest printed value used.",
+    "FY2018 capex: (1,064,835) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2019_01_en.pdf PDF p. 91 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2019 report; same value as current year in ar2018_01 p.9. Latest printed value used.",
+    "FY2019 capex: (1,364,954) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2020_01_en.pdf PDF p. 112 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2020 report; same value as current year in ar2019_01 p.91. Latest printed value used.",
+    "FY2020 capex: (1,232,551) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2021_01_en.pdf PDF p. 126 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2021 report; same value as current year in ar2020_01 p.112. Latest printed value used.",
+    "FY2021 capex: (646,888) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2022_en.pdf PDF p. 12 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2022 financial report; same value as current year in ar2021_01 p.126. Latest printed value used.",
+    "FY2022 capex: (835,073) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2023_en.pdf PDF p. 11 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2023 financial report; same value as current year in fr_fy2022 p.12. Latest printed value used.",
+    "FY2023 capex: (633,765) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2024_en.pdf PDF p. 11 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2024 financial report; same value as current year in fr_fy2023 p.11. Latest printed value used.",
+    "FY2024 capex: (622,612) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2025_en.pdf PDF p. 11 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2025 financial report; same value as current year in fr_fy2024 p.11. Latest printed value used.",
+    "FY2025 capex: (854,173) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2026_en.pdf PDF p. 11 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). comparative in the FY2026 financial report; same value as current year in fr_fy2025 p.11. Latest printed value used.",
+    "FY2026 capex: (1,733,830) (million) from https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2026_en.pdf PDF p. 11 — Consolidated statement of cash flows, combined line 'Purchase of property (plant) and equipment, and intangible (assets)' (yen millions, stored negative). current year in the FY2026 financial report (fiscal year ended March 31, 2026). Latest printed value used."
    ],
    "years": [
     {
@@ -10805,7 +11560,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnN; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnN; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2026_en.pdf",
+        "page": "PDF p. 11",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.006256217136979103,
      "fxAverage": 0.006636379015011092,
@@ -10813,7 +11577,7 @@
      "operatingIncome": null,
      "netIncome": 33196966291.79855,
      "operatingCashFlow": -2845891685.7652364,
-     "capex": null,
+     "capex": -11506353027.596682,
      "dilutedEPS": 5.790041599226727,
      "dividendPerShare": 0.073000169165122,
      "totalAssets": 380062357005.11743,
@@ -10822,7 +11586,7 @@
      "totalDebt": 160556841405.19424,
      "sharesOutstanding": 5698924000,
      "employees": 73677,
-     "freeCashFlow": null
+     "freeCashFlow": -14352244713.361917
     },
     {
      "fiscalYear": 2025,
@@ -10833,7 +11597,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnM; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnM; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2026_en.pdf",
+        "page": "PDF p. 11",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.006683732382953167,
      "fxAverage": 0.006566545421568056,
@@ -10841,7 +11614,7 @@
      "operatingIncome": null,
      "netIncome": 7573406964.147929,
      "operatingCashFlow": 1336817316.9228249,
-     "capex": null,
+     "capex": -5608965802.37705,
      "dilutedEPS": 1.2794913753925357,
      "dividendPerShare": 0.0722319996372486,
      "totalAssets": 300859898655.5524,
@@ -10850,7 +11623,7 @@
      "totalDebt": 126411769865.12727,
      "sharesOutstanding": 1437596000,
      "employees": 67229,
-     "freeCashFlow": null
+     "freeCashFlow": -4272148485.4542255
     },
     {
      "fiscalYear": 2024,
@@ -10861,7 +11634,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnL; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnL; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2025_en.pdf",
+        "page": "PDF p. 11",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.0066032749600708485,
      "fxAverage": 0.006898678528765838,
@@ -10869,7 +11651,7 @@
      "operatingIncome": null,
      "netIncome": -1570456572.359428,
      "operatingCashFlow": 1728443209.3466942,
-     "capex": null,
+     "capex": -4295200036.151956,
      "dilutedEPS": -0.30043744992775223,
      "dividendPerShare": 0.07588546381642422,
      "totalAssets": 308533023830.16565,
@@ -10878,7 +11660,7 @@
      "totalDebt": 141059364398.55722,
      "sharesOutstanding": 1465925000,
      "employees": 65352,
-     "freeCashFlow": null
+     "freeCashFlow": -2566756826.8052616
     },
     {
      "fiscalYear": 2023,
@@ -10889,7 +11671,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnK; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnK; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2024_en.pdf",
+        "page": "PDF p. 11",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.007507450878620148,
      "fxAverage": 0.00736397384510686,
@@ -10897,7 +11688,7 @@
      "operatingIncome": null,
      "netIncome": -7144115041.9873495,
      "operatingCashFlow": 5458854899.586954,
-     "capex": null,
+     "capex": -4667028883.944149,
      "dilutedEPS": -1.2194740687496959,
      "dividendPerShare": 0.08100371229617545,
      "totalAssets": 329850124544.97815,
@@ -10906,7 +11697,7 @@
      "totalDebt": 152515298522.2861,
      "sharesOutstanding": 1463048000,
      "employees": 63339,
-     "freeCashFlow": null
+     "freeCashFlow": 791826015.6428051
     },
     {
      "fiscalYear": 2022,
@@ -10917,7 +11708,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnJ; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnJ; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2023_en.pdf",
+        "page": "PDF p. 11",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008195310831069946,
      "fxAverage": 0.008858290423328677,
@@ -10925,7 +11725,7 @@
      "operatingIncome": null,
      "netIncome": -15130216933.467657,
      "operatingCashFlow": 24142827634.261143,
-     "capex": null,
+     "capex": -7397319158.680348,
      "dilutedEPS": -2.2714428303499394,
      "dividendPerShare": 0.09744119465661545,
      "totalAssets": 389643349010.64636,
@@ -10934,7 +11734,7 @@
      "totalDebt": 182948676962.25644,
      "sharesOutstanding": 1646790000,
      "employees": 59721,
-     "freeCashFlow": null
+     "freeCashFlow": 16745508475.580795
     },
     {
      "fiscalYear": 2021,
@@ -10945,7 +11745,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnI; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnI; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/financial-report_fy2022_en.pdf",
+        "page": "PDF p. 12",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009065772406756878,
      "fxAverage": 0.009448408770064512,
@@ -10953,7 +11762,7 @@
      "operatingIncome": null,
      "netIncome": 47128303905.54852,
      "operatingCashFlow": 5265125787.118449,
-     "capex": null,
+     "capex": -6112062252.449492,
      "dilutedEPS": 5.757104431775709,
      "dividendPerShare": 0.10393249647070964,
      "totalAssets": 414763194404.0274,
@@ -10962,7 +11771,7 @@
      "totalDebt": 177217501428.7457,
      "sharesOutstanding": 1738517000,
      "employees": 58786,
-     "freeCashFlow": null
+     "freeCashFlow": -846936465.3310432
     },
     {
      "fiscalYear": 2020,
@@ -10973,7 +11782,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnH; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnH; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2021_01_en.pdf",
+        "page": "PDF p. 126",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.00925625953823328,
      "fxAverage": 0.009193238181372484,
@@ -10981,7 +11799,7 @@
      "operatingIncome": -12545396199.160877,
      "netIncome": -8839997197.491428,
      "operatingCashFlow": 10276927904.95449,
-     "capex": null,
+     "capex": -11331134913.688837,
      "dilutedEPS": -1.1154155885459234,
      "dividendPerShare": 0.10112561999509732,
      "totalAssets": 344863164443.7425,
@@ -10990,7 +11808,7 @@
      "totalDebt": 132107261431.64932,
      "sharesOutstanding": 2067996000,
      "employees": 80909,
-     "freeCashFlow": null
+     "freeCashFlow": -1054207008.7343464
     },
     {
      "fiscalYear": 2019,
@@ -11001,7 +11819,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnG; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnG; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2020_01_en.pdf",
+        "page": "PDF p. 112",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009038567543029785,
      "fxAverage": 0.00901810615323484,
@@ -11009,7 +11836,7 @@
      "operatingIncome": 18700269571.16928,
      "netIncome": 12726342385.338852,
      "operatingCashFlow": 10567993949.154392,
-     "capex": null,
+     "capex": -12309300066.282507,
      "dilutedEPS": 1.416473933488596,
      "dividendPerShare": 0.04959958384279162,
      "totalAssets": 326260436391.35364,
@@ -11018,7 +11845,7 @@
      "totalDebt": 141770890000.58173,
      "sharesOutstanding": 1053833000,
      "employees": 76866,
-     "freeCashFlow": null
+     "freeCashFlow": -1741306117.1281147
     },
     {
      "fiscalYear": 2018,
@@ -11029,7 +11856,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnF; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnF; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2019_01_en.pdf",
+        "page": "PDF p. 91",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009391523897647858,
      "fxAverage": 0.009039081322650114,
@@ -11037,7 +11873,7 @@
      "operatingIncome": 11785163267.552542,
      "netIncome": 9391397595.363049,
      "operatingCashFlow": 9840151826.707335,
-     "capex": null,
+     "capex": -9625130160.204134,
      "dilutedEPS": 1.0263876841869204,
      "dividendPerShare": 0.04971494727457563,
      "totalAssets": 292832091578.7965,
@@ -11046,7 +11882,7 @@
      "totalDebt": 160052115870.20755,
      "sharesOutstanding": 1089498000,
      "employees": 74952,
-     "freeCashFlow": null
+     "freeCashFlow": 215021666.50320053
     },
     {
      "fiscalYear": 2017,
@@ -11057,7 +11893,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnE; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnE; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_01_en.pdf",
+        "page": "PDF p. 9",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008946464397013187,
      "fxAverage": 0.009235388676946362,
@@ -11065,7 +11910,7 @@
      "operatingIncome": 9475499547.15829,
      "netIncome": 13172508753.038012,
      "operatingCashFlow": 13859806378.37636,
-     "capex": null,
+     "capex": -8528899913.93732,
      "dilutedEPS": 1.4725827245390974,
      "dividendPerShare": 0.05079463772320499,
      "totalAssets": 220389100606.47504,
@@ -11074,7 +11919,7 @@
      "totalDebt": 132929878202.64883,
      "sharesOutstanding": 1089282000,
      "employees": 68402,
-     "freeCashFlow": null
+     "freeCashFlow": 5330906464.43904
     },
     {
      "fiscalYear": 2016,
@@ -11085,7 +11930,16 @@
      "source": {
       "url": "https://d2w.stockweather.co.jp/user/download/9984/Premium_FinancialData_en.xlsx",
       "document": "SoftBank Group official IR embedded financial data workbook (linked from group.softbank/en/ir/financials/highlights)",
-      "page": "11-Year Key Financial Data, columnD; rows6–39; footnotes41–43"
+      "page": "11-Year Key Financial Data, columnD; rows6–39; footnotes41–43",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2017_01_en.pdf",
+        "page": "PDF p. 88",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008899489417672157,
      "fxAverage": 0.008341281131530801,
@@ -11093,7 +11947,7 @@
      "operatingIncome": 7581448809.4162655,
      "netIncome": 3955201956.700223,
      "operatingCashFlow": 7842355741.929418,
-     "capex": null,
+     "capex": -11352149968.768158,
      "dilutedEPS": 0.40488578612450504,
      "dividendPerShare": 0.0427073593934377,
      "totalAssets": 184283436073.70557,
@@ -11102,7 +11956,7 @@
      "totalDebt": 106103548517.42648,
      "sharesOutstanding": 1146900000,
      "employees": 63591,
-     "freeCashFlow": null
+     "freeCashFlow": -3509794226.8387403
     },
     {
      "fiscalYear": 2015,
@@ -11113,7 +11967,16 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.5; definitions/restatements p.6"
+      "page": "PDF p.5; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2016_01_en.pdf",
+        "page": "PDF p. 80",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.008332430385053158,
      "fxAverage": 0.009093949183200797,
@@ -11121,7 +11984,7 @@
      "operatingIncome": 8354792993.590237,
      "netIncome": 6078040970.033268,
      "operatingCashFlow": 10505093653.754797,
-     "capex": null,
+     "capex": -12712031429.432333,
      "dilutedEPS": 5.081244106113445,
      "dividendPerShare": 0.3637579673280319,
      "totalAssets": 175265748899.9432,
@@ -11130,7 +11993,7 @@
      "totalDebt": 96716552592.32596,
      "sharesOutstanding": 1189197000,
      "employees": 66154,
-     "freeCashFlow": null
+     "freeCashFlow": -2206937775.677536
     },
     {
      "fiscalYear": 2014,
@@ -11141,7 +12004,16 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.5; definitions/restatements p.6"
+      "page": "PDF p.5; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2015_01_en.pdf",
+        "page": "PDF p. 99",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.009719211608171463,
      "fxAverage": 0.009963666709760824,
@@ -11149,7 +12021,7 @@
      "operatingIncome": 10731307447.747637,
      "netIncome": 5183597605.753069,
      "operatingCashFlow": 8571194468.7382,
-     "capex": null,
+     "capex": -13664172525.765995,
      "dilutedEPS": 4.331006645398835,
      "dividendPerShare": 0.39854666839043296,
      "totalAssets": 162214876080.25595,
@@ -11158,7 +12030,7 @@
      "totalDebt": 89125685565.14755,
      "sharesOutstanding": 1188456000,
      "employees": 70336,
-     "freeCashFlow": null
+     "freeCashFlow": -5092978057.027795
     },
     {
      "fiscalYear": 2013,
@@ -11169,7 +12041,17 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.5; definitions/restatements p.6"
+      "page": "PDF p.5; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2014_01_en.pdf",
+        "page": "PDF p. 120",
+        "fields": [
+         "capex"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 0.010616838000714779,
      "fxAverage": 0.012077548929179708,
@@ -11177,7 +12059,7 @@
      "operatingIncome": 9654780536.437328,
      "netIncome": 4498657502.689787,
      "operatingCashFlow": 9819349218.146332,
-     "capex": null,
+     "capex": -7117553212.493114,
      "dilutedEPS": 3.9624022526852785,
      "dividendPerShare": 0.4831019571671883,
      "totalAssets": 76634162785.2954,
@@ -11186,7 +12068,7 @@
      "totalDebt": 39365674631.464294,
      "sharesOutstanding": 1191500000,
      "employees": 25891,
-     "freeCashFlow": null
+     "freeCashFlow": 2701796005.6532173
     },
     {
      "fiscalYear": 2012,
@@ -11197,7 +12079,16 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.4; definitions/restatements p.6"
+      "page": "PDF p.4; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2013_01_en.pdf",
+        "page": "PDF p. 107",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.012154655531048775,
      "fxAverage": 0.012710986736540994,
@@ -11205,7 +12096,7 @@
      "operatingIncome": 8583513256.411612,
      "netIncome": 3988110221.5499463,
      "operatingCashFlow": 9409015579.02953,
-     "capex": null,
+     "capex": -5783804028.807829,
      "dilutedEPS": 3.543187552810802,
      "dividendPerShare": 0.5084394694616398,
      "totalAssets": 59554226478.75734,
@@ -11214,7 +12105,7 @@
      "totalDebt": 19060031359.28139,
      "sharesOutstanding": 1098515000,
      "employees": 22710,
-     "freeCashFlow": null
+     "freeCashFlow": 3625211550.2217007
     },
     {
      "fiscalYear": 2011,
@@ -11225,7 +12116,16 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.4; definitions/restatements p.6"
+      "page": "PDF p.4; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2012_01_en.pdf",
+        "page": "PDF p. 106",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.01202645804733038,
      "fxAverage": 0.011759455936650435,
@@ -11233,7 +12133,7 @@
      "operatingIncome": 7398614575.470798,
      "netIncome": 2230921664.109764,
      "operatingCashFlow": 9711393812.355585,
-     "capex": null,
+     "capex": -2452469813.9562583,
      "dilutedEPS": 1.9822914872411637,
      "dividendPerShare": 0.05879727968325217,
      "totalAssets": 55991881392.407234,
@@ -11242,7 +12142,7 @@
      "totalDebt": 24964533641.10645,
      "sharesOutstanding": 1082350000,
      "employees": 21799,
-     "freeCashFlow": null
+     "freeCashFlow": 7258923998.399326
     },
     {
      "fiscalYear": 2010,
@@ -11253,7 +12153,16 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.4; definitions/restatements p.6"
+      "page": "PDF p.4; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2011_01_en.pdf",
+        "page": "PDF p. 111",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.0106929000467062,
      "fxAverage": 0.010827317678680023,
@@ -11261,7 +12170,7 @@
      "operatingIncome": 5044133314.284341,
      "netIncome": 1047174856.6112171,
      "operatingCashFlow": 7233189575.242189,
-     "capex": null,
+     "capex": -2423359415.524484,
      "dilutedEPS": 0.9353719742611672,
      "dividendPerShare": 0.05413658839340012,
      "totalAssets": 47721076295.94393,
@@ -11270,7 +12179,7 @@
      "totalDebt": 23475951958.44211,
      "sharesOutstanding": 1082329000,
      "employees": 21885,
-     "freeCashFlow": null
+     "freeCashFlow": 4809830159.717705
     },
     {
      "fiscalYear": 2009,
@@ -11281,7 +12190,16 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.4; definitions/restatements p.6"
+      "page": "PDF p.4; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2010_01_en.pdf",
+        "page": "PDF p. 104",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.010104072280228138,
      "fxAverage": 0.009962535075222453,
@@ -11289,7 +12207,7 @@
      "operatingIncome": 3577755558.7489624,
      "netIncome": 430102564.26750374,
      "operatingCashFlow": 4461801033.718977,
-     "capex": null,
+     "capex": -2397364515.4313807,
      "dilutedEPS": 0.3849523553065956,
      "dividendPerShare": 0.024906337688056134,
      "totalAssets": 44323250957.65292,
@@ -11298,7 +12216,7 @@
      "totalDebt": 24253724164.8091,
      "sharesOutstanding": 1080855000,
      "employees": 21048,
-     "freeCashFlow": null
+     "freeCashFlow": 2064436518.2875962
     },
     {
      "fiscalYear": 2008,
@@ -11309,7 +12227,16 @@
      "source": {
       "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2018_03_en.pdf",
       "document": "SoftBank Group Annual Report2018 Eleven-year Summary",
-      "page": "PDF p.4; definitions/restatements p.6"
+      "page": "PDF p.4; definitions/restatements p.6",
+      "supplementalSources": [
+       {
+        "url": "https://group.softbank/media/Project/sbg/sbg/pdf/ir/financials/annual_reports/annual-report_fy2009_01_en.pdf",
+        "page": "PDF p. 100",
+        "fields": [
+         "capex"
+        ]
+       }
+      ]
      },
      "fxClose": 0.010015022940933704,
      "fxAverage": 0.008845228624219695,
@@ -11317,7 +12244,7 @@
      "operatingIncome": 2868392654.8623323,
      "netIncome": 960812959.3058643,
      "operatingCashFlow": 1399828191.6117606,
-     "capex": null,
+     "capex": -3057592095.134392,
      "dilutedEPS": 0.8482574250626688,
      "dividendPerShare": 0.022113071560549237,
      "totalAssets": 45657508115.468544,
@@ -11326,7 +12253,7 @@
      "totalDebt": 25367742643.673904,
      "sharesOutstanding": 1080501000,
      "employees": 19040,
-     "freeCashFlow": null
+     "freeCashFlow": -1657763903.5226312
     }
    ]
   },
@@ -26710,25 +27637,16 @@
    "fiscalYearEnd": "12-31",
    "irUrl": "https://group.mercedes-benz.com/investors/",
    "gaps": [
-    "FY2007 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2008 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2009 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2010 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2011 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2012 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2013 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2014 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2015 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2016 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2017 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2018 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2019 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2020 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2021 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2022 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2023 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2024 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
-    "FY2025 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred."
+    "FY2018 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2017 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2014 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2013 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2012 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2011 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2010 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2009 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2008 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))",
+    "FY2007 totalDebt: not found in the company's reports (2016, 2020, 2021, 2023, 2024 and 2025 reports checked; the report set has no year-end financing liabilities total for this year (the 2015/2018 reports and older were not in the set))"
    ],
    "notes": [
     "Historical group includes Daimler Trucks and other disposed operations until their respective deconsolidation. FY2020 revenue and EBIT use the FY2021 comparative figures for continuing operations after the Daimler Truck spin-off; netIncome remains total profit attributable to parent owners, including discontinued operations. FY2021 netIncome includes the spin-off gain. These scope breaks make the full series non-comparable without the accompanying notes.",
@@ -26736,7 +27654,21 @@
     "All monetary statement values scaled from EUR millions. capex is purchases/additions of property, plant and equipment only, negative; separately reported intangible additions are excluded.",
     "sharesOutstanding through FY2020 is the published average basic shares outstanding, not closing share count. Employees through FY2020 are average annual employees; FY2021 onward is the published year-end active workforce. This definition change is intentional and not comparable as one constant measure.",
     "The historical ten-year table labels the cash figure Liquid assets; this matches the cash-and-cash-equivalents row in the opened consolidated balance sheets. Dividend is the dividend proposed/associated with each fiscal year.",
-    "IFRS is used throughout. New accounting standards and discontinued operations alter comparability; the annual-report footnotes retain older historical bases where no explicit restated table was found."
+    "IFRS is used throughout. New accounting standards and discontinued operations alter comparability; the annual-report footnotes retain older historical bases where no explicit restated table was found.",
+    "FY2015 totalDebt: 101,142 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf PDF p. 124 — 2016 AR Business Review balance-sheet summary, \"Financing liabilities\" 2015 column (single printed total). Later report comparative.",
+    "FY2016 totalDebt: 117,686 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf PDF p. 124 — 2016 AR Business Review balance-sheet summary, \"Financing liabilities\" 2016 column (single printed total).",
+    "FY2019 totalDebt: 161,780 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf PDF p. 66 — 2020 AR financial position table, \"Financing liabilities\" Dec 31 2019 column (total; current 13,289 + non-current 148,491 printed alongside). Later report comparative.",
+    "FY2020 totalDebt: 145,842 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf PDF p. 66 — 2020 AR financial position table, \"Financing liabilities\" 2020 column (total; current 9,168 + non-current 136,674 printed alongside).",
+    "FY2021 totalDebt: 125,843 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf PDF p. 80 — 2021 AR financial position table, \"Financing liabilities\" 2021 column (total; current 3,877 + non-current 121,966 printed alongside). The net debt table prints -125,905 with hedge adjustments; the total line is used here.",
+    "FY2022 totalDebt: 111,837 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 271 — 2023 AR Note 24 Financing liabilities, Total line, \"At 31 December 2022\" column. Later report comparative.",
+    "FY2023 totalDebt: 108,638 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 271 — 2023 AR Note 24 Financing liabilities, Total line, \"At 31 December 2023\" column (ties to Equity and liabilities summary 108,638).",
+    "FY2024 totalDebt: 112,798 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf PDF p. 66 — 2025 AR financial position table, \"Financing liabilities\" Group column, 2024 comparative (single printed total). Later report comparative.",
+    "FY2025 totalDebt: 100,006 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf PDF p. 66 — 2025 AR financial position table, \"Financing liabilities\" Group column, 2025 (single printed total).",
+    "FY2021 sharesOutstanding: 1,070 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf PDF p. 253 — 2021 AR Shares section: \"The number at 31 December 2021 is 1,070 million, unchanged from 31 December 2020.\" Printed rounded to million.",
+    "FY2022 sharesOutstanding: 1,070 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 258 — 2023 AR Shares section: number of shares outstanding \"1,070 million\" at 31 December 2022. Printed rounded to million. Later report comparative.",
+    "FY2023 sharesOutstanding: 1,041 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf PDF p. 258 — 2023 AR Shares section: \"number of shares outstanding ... to 1,041 million shares as at 31 December 2023\". Printed rounded to million.",
+    "FY2024 sharesOutstanding: 963 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2024-incl-combined-management-report-mbg-ag.pdf PDF p. 354 — 2024 AR Shares section: \"the number of shares in circulation, at 963 million\" as of 31 December 2024. Printed rounded to million.",
+    "FY2025 sharesOutstanding: 957 (million) from https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf PDF p. 314 — 2025 AR Shares section: \"The number of shares in circulation decreased ... to 957 million as of 31 December 2025.\" Printed rounded to million."
    ],
    "years": [
     {
@@ -26748,7 +27680,23 @@
      "source": {
       "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
       "document": "Mercedes-Benz Group / Daimler Annual Report 2025",
-      "page": "PDF pp.252,254–256,405,407"
+      "page": "PDF pp.252,254–256,405,407",
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 66",
+        "fields": [
+         "totalDebt"
+        ]
+       },
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 314",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1747292280197144,
      "fxAverage": 1.132278134425481,
@@ -26762,8 +27710,8 @@
      "totalAssets": 300103376965.28436,
      "totalEquity": 109551723617.43451,
      "cashAndEquivalents": 14395131960.15358,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 117479971177.33955,
+     "sharesOutstanding": 957000000,
      "employees": 164120,
      "freeCashFlow": 14180651355.544727
     },
@@ -26776,7 +27724,24 @@
      "source": {
       "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
       "document": "Mercedes-Benz Group / Daimler Annual Report 2025",
-      "page": "PDF pp.252,254–256,405,407"
+      "page": "PDF pp.252,254–256,405,407",
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 66",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2024-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 354",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.040615200996399,
      "fxAverage": 1.0802579522132874,
@@ -26790,8 +27755,8 @@
      "totalAssets": 275773434416.05566,
      "totalEquity": 96386982992.29144,
      "cashAndEquivalents": 15100367181.658745,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 117379313441.9918,
+     "sharesOutstanding": 963000000,
      "employees": 175264,
      "freeCashFlow": 14795212913.513184
     },
@@ -26804,7 +27769,23 @@
      "source": {
       "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
       "document": "Mercedes-Benz Group / Daimler Annual Report 2023",
-      "page": "PDF pp.195,197–199,349,351"
+      "page": "PDF pp.195,197–199,349,351",
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 271",
+        "fields": [
+         "totalDebt"
+        ]
+       },
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 258",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.1068191528320312,
      "fxAverage": 1.0847990016142528,
@@ -26818,8 +27799,8 @@
      "totalAssets": 291117787216.1865,
      "totalEquity": 101576114112.854,
      "cashAndEquivalents": 17667047317.504883,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 120242619125.36621,
+     "sharesOutstanding": 1041000000,
      "employees": 166056,
      "freeCashFlow": 11634469292.312862
     },
@@ -26832,7 +27813,25 @@
      "source": {
       "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
       "document": "Mercedes-Benz Group / Daimler Annual Report 2023",
-      "page": "PDF pp.195,197–199,349,351"
+      "page": "PDF pp.195,197–199,349,351",
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 271",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       },
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 258",
+        "fields": [
+         "sharesOutstanding"
+        ],
+        "restated": true
+       }
+      ]
      },
      "fxClose": 1.066075325012207,
      "fxAverage": 1.0517233262459438,
@@ -26846,8 +27845,8 @@
      "totalAssets": 277195575633.049,
      "totalEquity": 91058823885.91766,
      "cashAndEquivalents": 18847145670.89081,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 119226666123.3902,
+     "sharesOutstanding": 1070000000,
      "employees": 168815,
      "freeCashFlow": 14106764974.936842
     },
@@ -26860,7 +27859,23 @@
      "source": {
       "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
       "document": "Mercedes-Benz Group / Daimler Annual Report 2021",
-      "page": "PDF pp.185,187–189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264–265)"
+      "page": "PDF pp.185,187–189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264–265)",
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 80",
+        "fields": [
+         "totalDebt"
+        ]
+       },
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
+        "page": "PDF p. 253",
+        "fields": [
+         "sharesOutstanding"
+        ]
+       }
+      ]
      },
      "fxClose": 1.132502794265747,
      "fxAverage": 1.181806057691574,
@@ -26874,8 +27889,8 @@
      "totalAssets": 294259333536.86334,
      "totalEquity": 81484708550.21477,
      "cashAndEquivalents": 26183464603.424072,
-     "totalDebt": null,
-     "sharesOutstanding": null,
+     "totalDebt": 142517549138.78442,
+     "sharesOutstanding": 1070000000,
      "employees": 172425,
      "freeCashFlow": 23600666972.10074
     },
@@ -26888,7 +27903,16 @@
      "source": {
       "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
       "document": "Mercedes-Benz Group / Daimler Annual Report 2021",
-      "page": "PDF pp.185,187–189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264–265)"
+      "page": "PDF pp.185,187–189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264–265)",
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "page": "PDF p. 66",
+        "fields": [
+         "totalDebt"
+        ]
+       }
+      ]
      },
      "fxClose": 1.2299896478652954,
      "fxAverage": 1.147858162720998,
@@ -26902,7 +27926,7 @@
      "totalAssets": 351453552012.08594,
      "totalEquity": 74649301718.59265,
      "cashAndEquivalents": 28348801403.99933,
-     "totalDebt": null,
+     "totalDebt": 179384150223.9704,
      "sharesOutstanding": 1069800000,
      "employees": 293138,
      "freeCashFlow": 19044114777.70408
@@ -26923,6 +27947,16 @@
         "document": "Daimler Annual Report 2020: parent-attributable profit and equity",
         "page": "PDF pp.155,157"
        }
+      ],
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "page": "PDF p. 66",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
       ]
      },
      "fxClose": 1.120229721069336,
@@ -26937,7 +27971,7 @@
      "totalAssets": 338800036380.7678,
      "totalEquity": 68719372009.27734,
      "cashAndEquivalents": 21153297822.95227,
-     "totalDebt": null,
+     "totalDebt": 181230764274.59717,
      "sharesOutstanding": 1069800000,
      "employees": 301839,
      "freeCashFlow": 771211018.1351509
@@ -27028,6 +28062,15 @@
         "document": "Daimler Annual Report 2016: parent-attributable profit and equity",
         "page": "PDF pp.225,227"
        }
+      ],
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+        "page": "PDF p. 124",
+        "fields": [
+         "totalDebt"
+        ]
+       }
       ]
      },
      "fxClose": 1.0575296878814697,
@@ -27042,7 +28085,7 @@
      "totalAssets": 256967023798.94257,
      "totalEquity": 61283845412.73117,
      "cashAndEquivalents": 11612733502.62642,
-     "totalDebt": null,
+     "totalDebt": 124456438848.01865,
      "sharesOutstanding": 1069800000,
      "employees": 284957,
      "freeCashFlow": -2404758206.2482834
@@ -27063,6 +28106,16 @@
         "document": "Daimler Annual Report 2016: parent-attributable profit and equity",
         "page": "PDF pp.225,227"
        }
+      ],
+      "supplementalSources": [
+       {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+        "page": "PDF p. 124",
+        "fields": [
+         "totalDebt"
+        ],
+        "restated": true
+       }
       ]
      },
      "fxClose": 1.093398094177246,
@@ -27077,7 +28130,7 @@
      "totalAssets": 237448890520.09583,
      "totalEquity": 58563495322.22748,
      "cashAndEquivalents": 10864003463.745117,
-     "totalDebt": null,
+     "totalDebt": 110588470041.27502,
      "sharesOutstanding": 1069800000,
      "employees": 284562,
      "freeCashFlow": -5362114134.132862
