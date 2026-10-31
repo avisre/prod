@@ -17,17 +17,26 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 ## As-filed statements on the company page — 2026-10-31 (local commit, NOT pushed)
 - Owner ask: every covered stock's income / balance / cash-flow statement filled as filed with the SEC, every row.
   The standardized rows map a fixed tag list, so company-specific lines had no row. Now the page defaults to an
-  **As filed | Standardized** toggle (annual basis only; Per share and Quarterly stay standardized).
+  **OFF (owner, 10/31 evening): every company shows the standardized rows only** — `AS_FILED_ON = false` in company.js skips the
+  fetch, so the toggle and Expand all never show; the code below stays for the per-industry filed layout the owner will design.
+  Before that: **Standardized | As filed** toggle for **banks and insurers only** (`layoutOf(...) !== 'generic'`), **Standardized is the default**
+  (owner, 10/31); every other company has the standardized rows alone. Annual basis only. As filed folds lines under their total
+  (sum of the lines above in ≥60% of years incl. latest, else a "Total …" label; cash supplementals fold under ending cash),
+  income shows at most 6 rows and balance at most 5 (owner, 10/31): one line per role picked by `FILED_ROLES` patterns
+  (bank: NII, provision, noninterest income, noninterest expense, pre-tax, net income | loans, total assets, deposits, total
+  liabilities, equity; insurer: premiums, total revenues, losses/benefits, total expenses, pre-tax, net income | investments,
+  total assets, reserves, total liabilities, equity), every other line folds under the next one below. Across all filed
+  issuers: banks 243/275 show all 6 income rows, none over the cap, none with zero. Totals and results get `row-rule`, **Expand all** button (`#stmt-expand`) shows every row. Nothing removed or computed for display.
 - Data: `scripts/build-as-filed.js` reads the FSDS quarterly zips (`~/.cache/stockportfolio/fsds/2022q1..2026q3`,
   ~40 s, `--keep DIR` reuses intermediates) → `frontend/data/sec-as-filed/<cik>.json` (5,264 issuers, ~106 MB).
   Stitching in `backend/as-filed.js` (newest report wins, older years matched by tag → equal figure → label;
   cash beginning/end lines are instants, opening chosen by label then position; LegalEntity-only filers such as
   Deutsche Bank / REIT+OP read via their main entity). Route `GET /api/company/:symbol/as-filed` (public).
-  Tests: `test/as-filed.test.js`. Stamp `20261031-ui45`.
+  Tests: `test/as-filed.test.js`. Stamp `20261031-ui51`.
 - Measured fill, last 3 years: income 96.2%, balance 94.7%, cash 91.3%; the rest is the filing showing no amount
   (1.9/1.8/5.2%) or the line not being in that year's report (1.9/3.5/3.5%) — a dash, with a tooltip saying which.
-- Limits: FSDS ends 2026q3, so a 10-K filed after 9/30/2026 appears only after SEC's next quarterly set (the page
-  falls back to standardized when as-filed is behind); 10-KT transition periods skipped; per-class EPS
+- Limits: FSDS ends 2026q3, so a 10-K filed after 9/30/2026 appears only after SEC's next quarterly set;
+  10-KT transition periods skipped; per-class EPS
   (dimension-only) not read. Rebuild each quarter: download the new zip into the cache, rerun the script.
 
 ## Google Ads conversion tracking — include in the next push (owner instruction, 2026-10-24)

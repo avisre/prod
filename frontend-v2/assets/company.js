@@ -22,7 +22,10 @@
     // for the asset profile before even sending this, the slowest request it makes.
     const earlyFundamentals = FUND_TYPES.includes(assetTypeHint) ? null : fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`).catch(() => null);
     // the statements as the company files them, every line under its own label (backend/as-filed.js)
-    const earlyAsFiled = FUND_TYPES.includes(assetTypeHint) ? null : fetch(`/api/company/${encodeURIComponent(symbol)}/as-filed`).then((r) => r.ok ? r.json() : null).catch(() => null);
+    // The as-filed view is off: every company shows the standardized rows (owner decision 2026-10-31, until
+    // a filed layout per industry is designed). With no document the toggle and Expand all stay hidden.
+    const AS_FILED_ON = false;
+    const earlyAsFiled = !AS_FILED_ON || FUND_TYPES.includes(assetTypeHint) ? null : fetch(`/api/company/${encodeURIComponent(symbol)}/as-filed`).then((r) => r.ok ? r.json() : null).catch(() => null);
     nav('company');
     footer();
     try { // recently-viewed trail for the Markets sidebar
@@ -718,9 +721,8 @@
     let sharesBasis = 'period-end'; // which filed count sharesByPeriod holds (buildSharesMap)
     let lastRender = { rows: [], periods: [] };
     let asFiled = null;
-    // 'filed' or 'standard' once the reader picks; until then the as-filed lines are shown
-    // whenever they reach the latest year the standardized rows have
-    let linesState = null;
+    // 'standard' (the default, owner decision 2026-10-31) or 'filed', the reader's pick
+    let linesState = 'standard';
 
     function quoteCurrency(data = payload) {
         return currencyCode(data?.marketData?.currency || (data && data.overview && data.overview.Currency) || 'USD');
@@ -2033,16 +2035,14 @@
     }
     // The row set for this company's industry (bank, P&C, life or health insurer), from
     // the same classification as the industry panel; every other company is generic.
-    // The as-filed statement when it is the one shown: annual figures, reported or as growth.
+    // The as-filed statement when it is the one shown: annual figures, reported or as growth, for a bank
+    // or an insurer only (owner decision 2026-10-31: every other company has the standardized rows alone).
     const nearDay = (a, b) => Math.abs(Date.parse(a) - Date.parse(b)) <= 20 * 86400000;
+    const filedKind = () => layoutOf(window.IndustryMetrics && payload ? window.IndustryMetrics.classify(payload) : null);
+    const filedLayout = () => filedKind() !== 'generic';
     function filedStatement() {
-        const s = asFiled?.statements?.[stState];
-        if (!s || basisState !== 'annual' || viewState === 'ps' || linesState === 'standard') return null;
-        if (linesState === null) {
-            const std = reports(stState, 'annual'), latest = std.length ? String(std[std.length - 1].fiscalDateEnding || '') : '';
-            // a report filed after SEC's latest quarterly data set is in the standardized rows only
-            if (latest && s.ends[s.ends.length - 1] < latest && !nearDay(s.ends[s.ends.length - 1], latest)) return null;
-        }
+        const s = filedLayout() && asFiled?.statements?.[stState];
+        if (!s || basisState !== 'annual' || viewState === 'ps' || linesState !== 'filed') return null;
         return s;
     }
     // SEC's data sets give each date as the nearest month end; the standardized row's own date is used where one is that close
@@ -2050,18 +2050,112 @@
         const std = reports(stState, 'annual');
         return s.ends.map((end, i) => ({ fiscalDateEnding: std.find((r) => nearDay(r.fiscalDateEnding, end))?.fiscalDateEnding || end, _i: i, _src: asFiled.filings[s.src[i]] ? { a: s.src[i], ...asFiled.filings[s.src[i]] } : null }));
     }
+    // The lines that stay in view: totals and results, and balances at the start and end of the year.
+    const FILED_MAIN = /^total\b|net (income|loss|earnings|interest income|revenue|premiums)|gross (profit|margin)|operating (income|loss)|before (income )?tax|^net cash\b.*\bactivities\b|^net (increase|decrease|change)\b.*\bcash\b|\b(beginning|end of|ending)\b|attributable/i;
+    const FILED_CLOSING = /\bcash\b.*\b(end of|ending|end)\b/i;
+    const FILED_GID = 10000; // group ids apart from the standardized rows' (expandedGroups is shared)
+    // A total is a line equal to the sum of the lines just above it, in most of the years it has a figure
+    // for and in the latest, or failing that a line the filing labels "Total ..." (its lines run back to the
+    // previous total or main line). Those lines fold under it (the standardized rows' convention); a total
+    // among them stays in view with its own group. On the cash-flow statement the supplemental lines after
+    // cash at the end of the year fold under that line. Nothing is computed for display: this only decides folding.
+    function filedGroups(lines, stmt) {
+        const total = lines.map(() => false), parent = lines.map(() => -1), runs = [], items = [];
+        const close = (a, b) => Math.abs(a - b) <= Math.max(1, Math.abs(b) * 0.0005);
+        lines.forEach((l, i) => {
+            const cols = l.k === 'money' ? l.v.map((v, c) => v === null ? -1 : c).filter((c) => c >= 0) : [];
+            for (let k = 2; cols.length && k <= Math.min(items.length, 40); k++) {
+                const run = items.slice(-k);
+                if (run.some((j) => lines[j].k !== 'money')) break;
+                const ok = cols.filter((c) => close(run.reduce((sum, j) => sum + (lines[j].v[c] ?? 0), 0), l.v[c]));
+                if (!ok.includes(cols[cols.length - 1]) || ok.length < cols.length * 0.6) continue;
+                total[i] = true; runs[i] = run;
+                for (const j of run) if (!total[j] && !FILED_MAIN.test(lines[j].l)) parent[j] = i;
+                items.splice(items.length - k, k);
+                break;
+            }
+            if (!total[i] && /^total\b/i.test(l.l)) {
+                let k = 0;
+                while (k < Math.min(items.length, 40) && !total[items[items.length - 1 - k]] && !FILED_MAIN.test(lines[items[items.length - 1 - k]].l)) k++;
+                if (k >= 2) { total[i] = true; runs[i] = items.splice(items.length - k, k); for (const j of runs[i]) parent[j] = i; }
+            }
+            items.push(i);
+        });
+        const end = stmt === 'cash' ? lines.map((l) => FILED_CLOSING.test(l.l)).lastIndexOf(true) : -1;
+        if (end >= 0) for (let j = end + 1; j < lines.length; j++) { parent[j] = end; total[j] = false; }
+        return { total, parent, runs };
+    }
+    // The rows in view on a bank's or an insurer's filed income statement (at most six) and balance sheet
+    // (at most five), owner decision 2026-10-31: one line per role, the first that matches, by the role's
+    // patterns in order. Every other line folds under the next of them below it, except a line that adds up
+    // the one above (net revenue, a line "after" provision) and the lines after the last, which fold under
+    // the one above.
+    const FILED_NI = /^net (income|earnings|loss)\b(?!.*(noncontrolling|per |available|applicable|attributable|comprehensive))/i;
+    const FILED_NIS = [FILED_NI, /^net (income|earnings)\b(?!.*(per |available|applicable|comprehensive|from noncontrolling|attributable to noncontrolling))/i, /^(net )?profit for the (year|period)$/i, /^net (\(loss\) income|profit)\b/i];
+    const FILED_TAX = /before (income )?tax|before provision for income tax|^profit before/i;
+    const FILED_EQUITY = /^total\b(?!.*(liabilities|securities)).*\bequity\b/i;
+    const FILED_ROLES = {
+        bank: {
+            income: [[/^net interest income$/i, /^net interest (income|revenue)\b(?!.*after)/i], [/provision for (credit|loan)/i], [/^total non-?interest (income|revenue)/i, /^non-?interest (income|revenue)/i, /^total other (operating )?income/i],
+                [/^total non-?interest expense/i, /^non-?interest expense/i, /^total (other )?operating expense/i, /^total other expense/i], [FILED_TAX], FILED_NIS],
+            balance: [[/^net loans/i, /^loans\b.*\bnet\b/i, /^total loans/i, /^loans\b/i], [/^total assets\b/i, /^assets$/i], [/^total deposits/i, /^deposits\b(?! with)/i], [/^total liabilities\b(?!.*(and|&))/i, /^liabilities$/i], [FILED_EQUITY, /^(total )?equity$/i]]
+        },
+        insurer: {
+            income: [[/^(net )?premiums earned/i, /^total (net )?premiums earned/i, /^(net )?premiums\b/i, /\bpremiums\b(?!.*(written|unearned|ceded))/i], [/^total revenues?\b/i, /^revenues?,? total/i],
+                [/^total benefits and claims/i, /loss(es)? and loss adjustment|losses and (lae|loss expenses)|claims? and claims? (adjustment )?expense|policyholder benefits|benefits and claims|policy benefits|medical (costs|care)|^benefits\b/i],
+                [/^total (benefits,? )?(losses,? )?(and )?(operating )?(costs and )?expenses/i, /^total benefits and expenses/i, /^total claims and expenses/i, /^total operating costs/i, /^total\b.*\bexpenses$/i], [FILED_TAX], FILED_NIS],
+            balance: [[/^total investments/i], [/^total assets\b/i, /^assets$/i], [/^(loss|claims?)\b.*\breserves?\b|^reserves? for (losses|claims|property|unpaid)|unpaid (losses|claims)|^future policy benefits|^reserves? for future policy|medical costs payable|^policyholder (account balances|benefits)/i],
+                [/^total liabilities\b(?!.*(and|&))/i, /^liabilities$/i], [FILED_EQUITY, /^(total )?equity$/i]]
+        }
+    };
+    function filedAnchors(lines) {
+        const roles = FILED_ROLES[filedKind() === 'bank' ? 'bank' : 'insurer'][stState];
+        if (!roles) return null;
+        // on the balance sheet the roles after total assets are liabilities, so they are looked for below it
+        const picked = [];
+        let assets = -1;
+        roles.forEach((role, k) => {
+            const from = stState === 'balance' && k > 1 ? assets : -1;
+            for (const re of role) {
+                const i = lines.findIndex((l, j) => j > from && l.k === 'money' && re.test(l.l) && !/held for sale/i.test(l.l) && !picked.includes(j));
+                if (i >= 0) { picked.push(i); if (stState === 'balance' && k === 1) assets = i; break; }
+            }
+        });
+        return picked.length >= 2 ? picked.sort((a, b) => a - b) : null;
+    }
     function filedDefs(s) {
         const fmtOf = (k) => k === 'money' || k === 'shares' ? (v) => v === 0 ? '0' : money(v) : (v) => fixed(v, 2);
-        return s.lines.map((l) => ({
+        const groups = filedGroups(s.lines, stState), { total } = groups, anchors = filedAnchors(s.lines);
+        let parent = groups.parent;
+        if (anchors) parent = s.lines.map((l, i) => {
+            if (anchors.includes(i)) return -1;
+            const up = anchors.filter((a) => a < i).pop(), down = anchors.find((a) => a > i);
+            if (down === undefined) return up;
+            if (up === undefined) return down;
+            return /\bafter\b/i.test(l.l) || groups.runs[i]?.includes(up) ? up : down;
+        });
+        const folds = new Set(parent.filter((p) => p >= 0));
+        return s.lines.map((l, i) => ({
             label: l.l, kind: l.k, fmt: fmtOf(l.k), neutral: true, get: (r) => l.v[r._i] ?? null,
+            ...(folds.has(i) ? { parentOf: FILED_GID + i } : (total[i] || (FILED_MAIN.test(l.l) && parent[i] < 0) || anchors?.includes(i)) ? { rule: true } : {}),
+            ...(parent[i] >= 0 ? { gid: FILED_GID + parent[i], sub: true } : {}),
             blank: (r) => (l.x || []).includes(r._i) ? 'Not a line in this year’s report' : 'The report shows no amount for this line'
         }));
+    }
+    function syncExpandAll(defs) {
+        const btn = $('stmt-expand'), ids = defs ? defs.filter((d) => d.parentOf >= FILED_GID).map((d) => d.parentOf) : [];
+        if (!btn) return;
+        btn.hidden = !ids.length;
+        const open = ids.length && ids.every((g) => expandedGroups[stState].has(g));
+        btn.textContent = open ? 'Collapse all' : 'Expand all';
+        btn.setAttribute('aria-expanded', String(!!open));
+        btn.onclick = () => { for (const g of ids) open ? expandedGroups[stState].delete(g) : expandedGroups[stState].add(g); renderStatements(); };
     }
     const filingUrl = (a) => `https://www.sec.gov/Archives/edgar/data/${Number(asFiled.cik)}/${a.replace(/-/g, '')}/${a}-index.htm`;
     function syncLinesControl() {
         const seg = $('seg-lines');
         if (!seg) return;
-        seg.hidden = !asFiled?.statements?.[stState] || basisState !== 'annual';
+        seg.hidden = !filedLayout() || !asFiled?.statements?.[stState] || basisState !== 'annual';
         const on = !!filedStatement();
         seg.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String((x.dataset.lines === 'filed') === on)));
     }
@@ -2236,6 +2330,7 @@
         html += '</tr></thead><tbody>';
         let ri = 0;
         const defs = filed ? filedDefs(filed) : groupDefs(statementDefs(converted), stState);
+        syncExpandAll(filed ? defs : null);
         // Shown open the first time: with no cost of revenue they are the only
         // costs on the statement.
         if (!filedCostsOpened && defs.some((d) => d.parentOf === FILED_GROUP)) { expanded.add(FILED_GROUP); filedCostsOpened = true; }
