@@ -1,0 +1,753 @@
+{
+  "symbol": "1211.HK",
+  "name": "BYD Company Limited",
+  "reportingCurrency": "CNY",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.bydglobal.com/cn/investor-relations",
+  "years": [
+    {
+      "revenue": 803964958000,
+      "operatingIncome": 40184709000,
+      "netIncome": 32619022000,
+      "dilutedEPS": 3.58,
+      "totalAssets": 883729883000,
+      "totalEquity": 246274606000,
+      "cashAndEquivalents": null,
+      "totalDebt": null,
+      "operatingCashFlow": 59135544000,
+      "capex": null,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "currency": "CNY",
+      "standard": "PRC ASBEs",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032703008.pdf",
+        "document": "BYD Annual Report 2025, five-year financial highlights",
+        "page": "PDF p. 5"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032703008.pdf",
+          "document": "BYD Annual Report 2025, consolidated statements",
+          "page": "operatingIncome: PDF p.144, dilutedEPS: PDF p.144, operatingCashFlow: PDF p.148",
+          "fields": [
+            "operatingIncome",
+            "dilutedEPS",
+            "operatingCashFlow"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 777102455000,
+      "operatingIncome": 50486047000,
+      "netIncome": 40254346000,
+      "dilutedEPS": 4.61,
+      "totalAssets": 783355855000,
+      "totalEquity": 185251104000,
+      "cashAndEquivalents": null,
+      "totalDebt": null,
+      "operatingCashFlow": 133453873000,
+      "capex": null,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "currency": "CNY",
+      "standard": "PRC ASBEs",
+      "restated": true,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032703008.pdf",
+        "document": "BYD Annual Report 2025, five-year financial highlights",
+        "page": "PDF p. 5"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032703008.pdf",
+          "document": "BYD Annual Report 2025, consolidated statements",
+          "page": "operatingIncome: PDF p.144, dilutedEPS: PDF p.144, operatingCashFlow: PDF p.148",
+          "fields": [
+            "operatingIncome",
+            "dilutedEPS",
+            "operatingCashFlow"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 602315354000,
+      "operatingIncome": 38103095000,
+      "netIncome": 30040811000,
+      "dilutedEPS": 10.32,
+      "totalAssets": 679547670000,
+      "totalEquity": 138810065000,
+      "cashAndEquivalents": null,
+      "totalDebt": null,
+      "operatingCashFlow": 169725025000,
+      "capex": null,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "currency": "CNY",
+      "standard": "PRC ASBEs",
+      "restated": true,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032703008.pdf",
+        "document": "BYD Annual Report 2025, five-year financial highlights",
+        "page": "PDF p. 5"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0426/2024042601400.pdf",
+          "document": "BYD Annual Report 2023, consolidated statements",
+          "page": "operatingIncome: PDF p.117, dilutedEPS: PDF p.118, operatingCashFlow: PDF p.121",
+          "fields": [
+            "operatingIncome",
+            "dilutedEPS",
+            "operatingCashFlow"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 424060635000,
+      "operatingIncome": 21541819000,
+      "netIncome": 16622448000,
+      "dilutedEPS": 5.71,
+      "totalAssets": 493860646000,
+      "totalEquity": 111029299000,
+      "cashAndEquivalents": null,
+      "totalDebt": null,
+      "operatingCashFlow": 140837657000,
+      "capex": null,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "currency": "CNY",
+      "standard": "PRC ASBEs",
+      "restated": true,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032703008.pdf",
+        "document": "BYD Annual Report 2025, five-year financial highlights",
+        "page": "PDF p. 5"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0426/2024042601400.pdf",
+          "document": "BYD Annual Report 2023, consolidated statements",
+          "page": "operatingIncome: PDF p.117, dilutedEPS: PDF p.118, operatingCashFlow: PDF p.121",
+          "fields": [
+            "operatingIncome",
+            "dilutedEPS",
+            "operatingCashFlow"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 216142395000,
+      "operatingIncome": null,
+      "netIncome": 3045188000,
+      "dilutedEPS": 1.06,
+      "totalAssets": 295780147000,
+      "totalEquity": 95069671000,
+      "cashAndEquivalents": 49819860000,
+      "totalDebt": null,
+      "operatingCashFlow": 65466682000,
+      "capex": -9861601000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "currency": "CNY",
+      "standard": "PRC ASBEs",
+      "restated": true,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032703008.pdf",
+        "document": "BYD Annual Report 2025, five-year financial highlights",
+        "page": "PDF p. 5"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0414/2022041400866.pdf",
+          "document": "BYD Annual Report 2021, consolidated statements",
+          "page": "dilutedEPS: PDF p.103, cashAndEquivalents: PDF p.105, operatingCashFlow: PDF p.111, capex: PDF p.112",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 156597691000,
+      "operatingIncome": null,
+      "netIncome": 4234267000,
+      "dilutedEPS": 1.47,
+      "totalAssets": 201017321000,
+      "totalEquity": 56874274000,
+      "cashAndEquivalents": 13738498000,
+      "totalDebt": null,
+      "operatingCashFlow": 45392668000,
+      "capex": -5964464000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "currency": "CNY",
+      "standard": "PRC ASBEs",
+      "restated": true,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0426/2024042601400.pdf",
+        "document": "BYD Annual Report 2023, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0414/2022041400866.pdf",
+          "document": "BYD Annual Report 2021, consolidated statements",
+          "page": "dilutedEPS: PDF p.103, cashAndEquivalents: PDF p.105, operatingCashFlow: PDF p.111, capex: PDF p.112",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 127738523000,
+      "operatingIncome": null,
+      "netIncome": 1614450000,
+      "dilutedEPS": 0.5,
+      "totalAssets": 195641593000,
+      "totalEquity": 56762289000,
+      "cashAndEquivalents": 11674297000,
+      "totalDebt": null,
+      "operatingCashFlow": 14741007000,
+      "capex": -9528245000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "currency": "CNY",
+      "standard": "PRC ASBEs",
+      "restated": true,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2024/0426/2024042601400.pdf",
+        "document": "BYD Annual Report 2023, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2020/0421/2020042101468.pdf",
+          "document": "BYD Annual Report 2019, consolidated statements",
+          "page": "dilutedEPS: PDF p.51, cashAndEquivalents: PDF p.53, operatingCashFlow: PDF p.58, capex: PDF p.58",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 121790925000,
+      "operatingIncome": null,
+      "netIncome": 2780194000,
+      "dilutedEPS": 0.93,
+      "totalAssets": 194571077000,
+      "totalEquity": 55198289000,
+      "cashAndEquivalents": 11151057000,
+      "totalDebt": null,
+      "operatingCashFlow": 12522909000,
+      "capex": -10631294000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0414/2022041400866.pdf",
+        "document": "BYD Annual Report 2021, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2020/0421/2020042101468.pdf",
+          "document": "BYD Annual Report 2019, consolidated statements",
+          "page": "dilutedEPS: PDF p.51, cashAndEquivalents: PDF p.53, operatingCashFlow: PDF p.58, capex: PDF p.58",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 102650614000,
+      "operatingIncome": null,
+      "netIncome": 4066478000,
+      "dilutedEPS": 1.4,
+      "totalAssets": 178099430000,
+      "totalEquity": 55004194000,
+      "cashAndEquivalents": 8935954000,
+      "totalDebt": null,
+      "operatingCashFlow": 6367887000,
+      "capex": -7436202000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0414/2022041400866.pdf",
+        "document": "BYD Annual Report 2021, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0419/ltn20180419405.pdf",
+          "document": "BYD Annual Report 2017, consolidated statements",
+          "page": "dilutedEPS: PDF p.49, cashAndEquivalents: PDF p.51, operatingCashFlow: PDF p.55, capex: PDF p.56",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 100207703000,
+      "operatingIncome": null,
+      "netIncome": 5052154000,
+      "dilutedEPS": 1.88,
+      "totalAssets": 145070778000,
+      "totalEquity": 51255929000,
+      "cashAndEquivalents": 7111234000,
+      "totalDebt": null,
+      "operatingCashFlow": -1845571000,
+      "capex": -4839296000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2020/0421/2020042101468.pdf",
+        "document": "BYD Annual Report 2019, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0419/ltn20180419405.pdf",
+          "document": "BYD Annual Report 2017, consolidated statements",
+          "page": "dilutedEPS: PDF p.49, cashAndEquivalents: PDF p.51, operatingCashFlow: PDF p.55, capex: PDF p.56",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 77611985000,
+      "operatingIncome": null,
+      "netIncome": 2823441000,
+      "dilutedEPS": 1.12,
+      "totalAssets": 115485755000,
+      "totalEquity": 32294404000,
+      "cashAndEquivalents": 6010931000,
+      "totalDebt": null,
+      "operatingCashFlow": 3842094000,
+      "capex": -4091011000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2020/0421/2020042101468.pdf",
+        "document": "BYD Annual Report 2019, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2016/0420/ltn20160420415.pdf",
+          "document": "BYD Annual Report 2015, consolidated statements",
+          "page": "dilutedEPS: PDF p.42, cashAndEquivalents: PDF p.44, operatingCashFlow: PDF p.48, capex: PDF p.49",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 55366384000,
+      "operatingIncome": null,
+      "netIncome": 433525000,
+      "dilutedEPS": 0.18,
+      "totalAssets": 94008855000,
+      "totalEquity": 25365597000,
+      "cashAndEquivalents": 3950415000,
+      "totalDebt": null,
+      "operatingCashFlow": 38069000,
+      "capex": -2136767000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0419/ltn20180419405.pdf",
+        "document": "BYD Annual Report 2017, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2016/0420/ltn20160420415.pdf",
+          "document": "BYD Annual Report 2015, consolidated statements",
+          "page": "dilutedEPS: PDF p.42, cashAndEquivalents: PDF p.44, operatingCashFlow: PDF p.48, capex: PDF p.49",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 49767887000,
+      "operatingIncome": null,
+      "netIncome": 553059000,
+      "dilutedEPS": 0.23,
+      "totalAssets": 78014834000,
+      "totalEquity": 21709764000,
+      "cashAndEquivalents": 4510942000,
+      "totalDebt": null,
+      "operatingCashFlow": 2436169000,
+      "capex": -3806088000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2018/0419/ltn20180419405.pdf",
+        "document": "BYD Annual Report 2017, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2014/0429/ltn20140429005.pdf",
+          "document": "BYD Annual Report 2013, consolidated statements",
+          "page": "dilutedEPS: PDF p.41, cashAndEquivalents: PDF p.43, operatingCashFlow: PDF p.46, capex: PDF p.47",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 44380858000,
+      "operatingIncome": null,
+      "netIncome": 81377000,
+      "dilutedEPS": 0.03,
+      "totalAssets": 70007807000,
+      "totalEquity": 21196984000,
+      "cashAndEquivalents": 3486561000,
+      "totalDebt": null,
+      "operatingCashFlow": 5555331000,
+      "capex": -5629022000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2016/0420/ltn20160420415.pdf",
+        "document": "BYD Annual Report 2015, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2014/0429/ltn20140429005.pdf",
+          "document": "BYD Annual Report 2013, consolidated statements",
+          "page": "dilutedEPS: PDF p.41, cashAndEquivalents: PDF p.43, operatingCashFlow: PDF p.46, capex: PDF p.47",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 46312282000,
+      "operatingIncome": null,
+      "netIncome": 1384625000,
+      "dilutedEPS": 0.6,
+      "totalAssets": 66881036000,
+      "totalEquity": 21124517000,
+      "cashAndEquivalents": 3737386000,
+      "totalDebt": null,
+      "operatingCashFlow": 5984526000,
+      "capex": -7245107000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2016/0420/ltn20160420415.pdf",
+        "document": "BYD Annual Report 2015, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2012/0423/ltn20120423056.pdf",
+          "document": "BYD Annual Report 2011, consolidated statements",
+          "page": "dilutedEPS: PDF p.34, cashAndEquivalents: PDF p.36, operatingCashFlow: PDF p.39, capex: PDF p.40",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 46685349000,
+      "operatingIncome": null,
+      "netIncome": 2523414000,
+      "dilutedEPS": 1.11,
+      "totalAssets": 53874663000,
+      "totalEquity": 18460319000,
+      "cashAndEquivalents": 1978735000,
+      "totalDebt": null,
+      "operatingCashFlow": 3138938000,
+      "capex": -8113939000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2014/0429/ltn20140429005.pdf",
+        "document": "BYD Annual Report 2013, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2012/0423/ltn20120423056.pdf",
+          "document": "BYD Annual Report 2011, consolidated statements",
+          "page": "dilutedEPS: PDF p.34, cashAndEquivalents: PDF p.36, operatingCashFlow: PDF p.39, capex: PDF p.40",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 39469454000,
+      "operatingIncome": null,
+      "netIncome": 3793576000,
+      "dilutedEPS": 1.77,
+      "totalAssets": 40735597000,
+      "totalEquity": 16682357000,
+      "cashAndEquivalents": 2316826000,
+      "totalDebt": null,
+      "operatingCashFlow": 12016205000,
+      "capex": -5796720000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2014/0429/ltn20140429005.pdf",
+        "document": "BYD Annual Report 2013, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2010/0419/ltn20100419860.pdf",
+          "document": "BYD Annual Report 2009, consolidated statements",
+          "page": "dilutedEPS: PDF p.32, cashAndEquivalents: PDF p.34, operatingCashFlow: PDF p.37, capex: PDF p.38",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 26788253000,
+      "operatingIncome": null,
+      "netIncome": 1021249000,
+      "dilutedEPS": 0.5,
+      "totalAssets": 32891145000,
+      "totalEquity": 11285568000,
+      "cashAndEquivalents": 1701397000,
+      "totalDebt": null,
+      "operatingCashFlow": 1816362000,
+      "capex": -5639640000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2012/0423/ltn20120423056.pdf",
+        "document": "BYD Annual Report 2011, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2010/0419/ltn20100419860.pdf",
+          "document": "BYD Annual Report 2009, consolidated statements",
+          "page": "dilutedEPS: PDF p.32, cashAndEquivalents: PDF p.34, operatingCashFlow: PDF p.37, capex: PDF p.38",
+          "fields": [
+            "dilutedEPS",
+            "cashAndEquivalents",
+            "operatingCashFlow",
+            "capex"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 21211213000,
+      "operatingIncome": null,
+      "netIncome": 1611711000,
+      "dilutedEPS": null,
+      "totalAssets": 29288491000,
+      "totalEquity": 10708118000,
+      "cashAndEquivalents": 5539501000,
+      "totalDebt": null,
+      "operatingCashFlow": null,
+      "capex": -4060598000,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "currency": "CNY",
+      "standard": "IFRS",
+      "restated": false,
+      "source": {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2012/0423/ltn20120423056.pdf",
+        "document": "BYD Annual Report 2011, five-year financial highlights",
+        "page": "PDF p. 4"
+      },
+      "additionalSources": [
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2008/0424/ltn20080424190.pdf",
+          "document": "BYD Annual Report 2007, consolidated statements",
+          "page": "cashAndEquivalents: PDF p.36, capex: PDF p.40",
+          "fields": [
+            "cashAndEquivalents",
+            "capex"
+          ]
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    "FY2007: operatingIncome, dilutedEPS, totalDebt, operatingCashFlow, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2008: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2009: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2010: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2011: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2012: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2013: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2014: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2015: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2016: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2017: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2018: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2019: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2020: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2021: operatingIncome, totalDebt, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2022: cashAndEquivalents, totalDebt, capex, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2023: cashAndEquivalents, totalDebt, capex, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2024: cashAndEquivalents, totalDebt, capex, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution.",
+    "FY2025: cashAndEquivalents, totalDebt, capex, dividendPerShare, sharesOutstanding, employees not located as directly published compatible values in the opened summaries/statements; no inferred totals or basic-EPS substitution."
+  ],
+  "notes": [
+    "Monetary figures scaled from published RMB thousands to full CNY units. revenue and parent-attributable net income/equity come from the most recent opened five-year financial summary covering each year.",
+    "The Hong Kong annual reports through2021 use IFRS. The2023/2025 reports use PRC Accounting Standards for Business Enterprises; the later five-year summaries restate revenue and certain other comparatives on that basis. This is a genuine series basis change and is not a conversion error.2021 revenue216,142,395 thousand from the2025 summary replaces the earlier IFRS211,299,918 thousand.",
+    "operatingIncome is the explicitly published PRC Operating profit line where available; no pre-tax profit/finance-cost reconstruction for IFRS years. capex includes only directly reported purchases of PP&E where that individual line was found; separate intangibles are not summed. Missing totals remain null.",
+    "dilutedEPS is taken only where an explicit diluted or basic-and-diluted value is published. Earlier reports explicitly say no diluted EPS is presented when no diluting events exist, and basic EPS is not silently substituted.",
+    "Shares, total debt, dividends and employees remain null where no directly compatible annual values were extracted. Period-end issued share capital, weighted-average EPS shares, component debt sums and chart-only rounded cash flow metrics are not substituted. All missing fields are listed in gaps."
+  ]
+}

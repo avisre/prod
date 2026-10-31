@@ -1,0 +1,585 @@
+{
+  "symbol": "OR.PA",
+  "name": "L'Oréal S.A.",
+  "reportingCurrency": "EUR",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.loreal-finance.com/eng/universal-registration-document",
+  "years": [
+    {
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 44052000000,
+      "operatingIncome": 8891900000,
+      "netIncome": 6127200000,
+      "dilutedEPS": 11.44,
+      "totalAssets": 61821200000,
+      "totalEquity": 34953200000,
+      "cashAndEquivalents": 9865000000,
+      "totalDebt": 11916000000,
+      "operatingCashFlow": 8656900000,
+      "capex": -1495300000,
+      "dividendPerShare": 7.2,
+      "sharesOutstanding": 533783028,
+      "employees": 94610,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/2026-03/LOREAL_DEU_2025_EN.pdf",
+        "document": "2025 Universal Registration Document (English), filed with the AMF 18 March 2026",
+        "page": "PDF p. 292 (compared consolidated income statement), p. 294 (balance sheet), p. 297 (cash flow statement), p. 310 (note 5.1 number of employees), p. 20 (current and non-current debt / net debt), p. 386 (parent company five-year financial summary: dividend per share, number of shares)"
+      }
+    },
+    {
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 43486800000,
+      "operatingIncome": 8687500000,
+      "netIncome": 6408700000,
+      "dilutedEPS": 11.95,
+      "totalAssets": 56353400000,
+      "totalEquity": 33133300000,
+      "cashAndEquivalents": 4052300000,
+      "totalDebt": 8495000000,
+      "operatingCashFlow": 8286000000,
+      "capex": -1641700000,
+      "dividendPerShare": 7.0,
+      "sharesOutstanding": 534312021,
+      "employees": 94397,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/2026-03/LOREAL_DEU_2025_EN.pdf",
+        "document": "2025 Universal Registration Document (English), filed with the AMF 18 March 2026",
+        "page": "PDF p. 292 (2024 comparative), p. 294 (balance sheet), p. 297 (cash flow), p. 310 (note 5.1), p. 20 (debt), p. 386 (five-year summary: dividend per share, shares)"
+      }
+    },
+    {
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 41182500000,
+      "operatingIncome": 8143300000,
+      "netIncome": 6184000000,
+      "dilutedEPS": 11.52,
+      "totalAssets": 51855100000,
+      "totalEquity": 29074300000,
+      "cashAndEquivalents": 4288100000,
+      "totalDebt": 8692200000,
+      "operatingCashFlow": 7604600000,
+      "capex": -1488700000,
+      "dividendPerShare": 6.6,
+      "sharesOutstanding": 534725475,
+      "employees": 94605,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/2026-03/LOREAL_DEU_2025_EN.pdf",
+        "document": "2025 Universal Registration Document (English), filed with the AMF 18 March 2026",
+        "page": "PDF p. 292 (2023 comparative), p. 294 (balance sheet), p. 297 (cash flow), p. 310 (note 5.1), p. 20 (debt), p. 386 (five-year summary: dividend per share, shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document_Enregistrement_Universel_2023_en.pdf",
+            "document": "2023 Universal Registration Document (English)",
+            "page": "PDF p. 292, 294, 297, 311 - identical figures, 2023 was not restated in the 2025 URD"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 38260600000,
+      "operatingIncome": 7456900000,
+      "netIncome": 5706600000,
+      "dilutedEPS": 10.61,
+      "totalAssets": 46844200000,
+      "totalEquity": 27178500000,
+      "cashAndEquivalents": 2617700000,
+      "totalDebt": 5650900000,
+      "operatingCashFlow": 6278300000,
+      "capex": -1343200000,
+      "dividendPerShare": 6.0,
+      "sharesOutstanding": 535186562,
+      "employees": 87369,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document_Enregistrement_Universel_2023_en.pdf",
+        "document": "2023 Universal Registration Document (English)",
+        "page": "PDF p. 292 (2022 comparative), p. 294 (balance sheet), p. 297 (cash flow), p. 311 (note 5.1 number of employees)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/2026-03/LOREAL_DEU_2025_EN.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 386 (five-year financial summary: dividend per share 6.00, 535,186,562 shares)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 32287600000,
+      "operatingIncome": 6160300000,
+      "netIncome": 4597100000,
+      "dilutedEPS": 8.21,
+      "totalAssets": 43013400000,
+      "totalEquity": 23585700000,
+      "cashAndEquivalents": 2713800000,
+      "totalDebt": 6300400000,
+      "operatingCashFlow": 6728400000,
+      "capex": -1075200000,
+      "dividendPerShare": 4.8,
+      "sharesOutstanding": 535412360,
+      "employees": 85412,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document_Enregistrement_Universel_2023_en.pdf",
+        "document": "2023 Universal Registration Document (English)",
+        "page": "PDF p. 292 (2021 comparative), p. 294 (balance sheet), p. 297 (cash flow), p. 311 (note 5.1), and p. 294 statement of changes in equity for 535,412,360 shares outstanding at 31.12.2021",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/2026-03/LOREAL_DEU_2025_EN.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 386 (five-year financial summary: dividend per share 4.80)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 27992100000,
+      "operatingIncome": 5209000000,
+      "netIncome": 3563400000,
+      "dilutedEPS": 6.34,
+      "totalAssets": 43606900000,
+      "totalEquity": 28993000000,
+      "cashAndEquivalents": 6405900000,
+      "totalDebt": 2546500000,
+      "operatingCashFlow": 6453300000,
+      "capex": -972400000,
+      "dividendPerShare": 4.0,
+      "sharesOutstanding": 559871580,
+      "employees": 85392,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_2021_Universal_Registration_Document_en.pdf",
+        "document": "2021 Universal Registration Document (English)",
+        "page": "PDF p. 287 (2020 comparative), p. 289 (balance sheet), p. 292 (cash flow), p. 304 (note 5.1 number of employees), p. 289 (changes in equity: 559,871,580 shares), p. 45 (L'Oreal 2015-2021 table: dividend per share 4.00, dividend 2,268)"
+      }
+    },
+    {
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 29873600000,
+      "operatingIncome": 5547500000,
+      "netIncome": 3750000000,
+      "dilutedEPS": 6.66,
+      "totalAssets": 43809800000,
+      "totalEquity": 29419300000,
+      "cashAndEquivalents": 5286000000,
+      "totalDebt": 2886700000,
+      "operatingCashFlow": 6262800000,
+      "capex": -1231000000,
+      "dividendPerShare": 3.85,
+      "sharesOutstanding": 558117205,
+      "employees": 87974,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_2021_Universal_Registration_Document_en.pdf",
+        "document": "2021 Universal Registration Document (English)",
+        "page": "PDF p. 287 (2019 comparative), p. 289 (balance sheet), p. 292 (cash flow), p. 304 (note 5.1), p. 289 (changes in equity: 558,117,205 shares), p. 45 (L'Oreal 2015-2021 table: dividend per share 3.85)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_2019_Universal_Registration_Document_1.pdf",
+            "document": "2019 Universal Registration Document (English)",
+            "page": "PDF p. 239, 241, 244, 259 - identical figures"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 26937400000,
+      "operatingIncome": 4922000000,
+      "netIncome": 3895400000,
+      "dilutedEPS": 6.92,
+      "totalAssets": 38457500000,
+      "totalEquity": 26928400000,
+      "cashAndEquivalents": 3992000000,
+      "totalDebt": 1241300000,
+      "operatingCashFlow": 5291900000,
+      "capex": -1416100000,
+      "dividendPerShare": 3.85,
+      "sharesOutstanding": 559625527,
+      "employees": 86030,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_2019_Universal_Registration_Document_1.pdf",
+        "document": "2019 Universal Registration Document (English)",
+        "page": "PDF p. 239 (income statement), p. 241 (balance sheet), p. 244 (cash flow statement), p. 259 (note 5.1 number of employees), p. 241 (changes in equity: 559,625,527 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_2021_Universal_Registration_Document_en.pdf",
+            "document": "2021 Universal Registration Document",
+            "page": "PDF p. 45 (L'Oreal 2015-2021 table: dividend per share 3.85)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 26023700000,
+      "operatingIncome": 4676300000,
+      "netIncome": 3581400000,
+      "dilutedEPS": 6.36,
+      "totalAssets": 35339100000,
+      "totalEquity": 24815700000,
+      "cashAndEquivalents": 3046600000,
+      "totalDebt": 1174400000,
+      "operatingCashFlow": 5196600000,
+      "capex": -1263500000,
+      "dividendPerShare": 3.55,
+      "sharesOutstanding": 559747963,
+      "employees": 82606,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_2019_Universal_Registration_Document_1.pdf",
+        "document": "2019 Universal Registration Document (English)",
+        "page": "PDF p. 239 (2017 comparative), p. 241 (balance sheet), p. 244 (cash flow), p. 259 (note 5.1), p. 241 (changes in equity: 559,747,963 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/system/files/migrate-files/LOreal_2017_Registration_Document.pdf",
+            "document": "2017 Registration Document (English)",
+            "page": "PDF p. 35 (L'Oreal 2011-2017 table: dividend per share 3.55)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 24916300000,
+      "operatingIncome": 4506100000,
+      "netIncome": 3105800000,
+      "dilutedEPS": 5.5,
+      "totalAssets": 35630200000,
+      "totalEquity": 24501900000,
+      "cashAndEquivalents": 1746000000,
+      "totalDebt": 1264600000,
+      "operatingCashFlow": 4704700000,
+      "capex": -1334900000,
+      "dividendPerShare": 3.3,
+      "sharesOutstanding": 560098396,
+      "employees": 79741,
+      "restated": true,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOreal_2018_Registration_Document_0.pdf",
+        "document": "2018 Registration Document (English)",
+        "page": "PDF p. 239 (2016 comparative, restated for IFRS 5 discontinued operations and IFRS 9), p. 241 (balance sheet), p. 244 (cash flow), p. 259 (note 5.1), p. 241 (changes in equity: 560,098,396 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/system/files/migrate-files/LOreal_2017_Registration_Document.pdf",
+            "document": "2017 Registration Document",
+            "page": "PDF p. 225-230 (restated 2016 statements and 'Reported 2016' reminder columns), p. 35 (dividend per share 3.30)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 24290200000,
+      "operatingIncome": 4332900000,
+      "netIncome": 3297400000,
+      "dilutedEPS": 5.84,
+      "totalAssets": 33711300000,
+      "totalEquity": 23613900000,
+      "cashAndEquivalents": 1399800000,
+      "totalDebt": 781800000,
+      "operatingCashFlow": 4203100000,
+      "capex": -1132100000,
+      "dividendPerShare": 3.1,
+      "sharesOutstanding": 559988178,
+      "employees": 73269,
+      "restated": true,
+      "source": {
+        "url": "https://www.loreal-finance.com/system/files/migrate-files/LOreal_2017_Registration_Document.pdf",
+        "document": "2017 Registration Document (English)",
+        "page": "PDF p. 225 (2015 comparative, restated for IFRS 5 discontinued operations; 'Reported 2015' reminder column gives 25,257.4 net sales and 4,387.7 operating profit), p. 227 (balance sheet), p. 230 (cash flow), p. 242 (note 5.1 - employees excluding The Body Shop), p. 227 (changes in equity: 559,988,178 shares), p. 35 (dividend per share 3.10)"
+      }
+    },
+    {
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 22532000000,
+      "operatingIncome": 3890700000,
+      "netIncome": 4910200000,
+      "dilutedEPS": 8.39,
+      "totalAssets": 32058800000,
+      "totalEquity": 20193300000,
+      "cashAndEquivalents": 1917000000,
+      "totalDebt": 2588300000,
+      "operatingCashFlow": 3864100000,
+      "capex": -1008200000,
+      "dividendPerShare": 2.7,
+      "sharesOutstanding": 554241878,
+      "employees": 78611,
+      "restated": true,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOreal_2015_Registration_Document.pdf",
+        "document": "2015 Registration Document (English)",
+        "page": "PDF p. 197 (income statement), p. 199 (balance sheet, 2014 restated for IFRIC 21), p. 202 (cash flow), p. 215 (note 5.1 number of employees), p. 199 (changes in equity: 554,241,878 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/system/files/migrate-files/LOreal_2017_Registration_Document.pdf",
+            "document": "2017 Registration Document",
+            "page": "PDF p. 35 (L'Oreal 2011-2017 table: dividend per share 2.70)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 22124200000,
+      "operatingIncome": 3760400000,
+      "netIncome": 2958200000,
+      "dilutedEPS": 4.87,
+      "totalAssets": 30874700000,
+      "totalEquity": 22645200000,
+      "cashAndEquivalents": 2659300000,
+      "totalDebt": 339200000,
+      "operatingCashFlow": 3690300000,
+      "capex": -1018800000,
+      "dividendPerShare": 2.5,
+      "sharesOutstanding": 599794030,
+      "employees": 74978,
+      "restated": true,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOreal_2015_Registration_Document.pdf",
+        "document": "2015 Registration Document (English)",
+        "page": "PDF p. 197 (2013 comparative, restated for IFRS 5/IFRS 11 and IFRIC 21), p. 199 (balance sheet), p. 202 (cash flow), p. 215 (note 5.1), p. 199 (changes in equity: 599,794,030 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document-de-Reference-2013_GB.pdf",
+            "document": "2013 Registration Document",
+            "page": "PDF p. 104 (L'Oreal 2007-2013 table: dividend per share 2.50); p. 108 shows the as-originally-reported 2013 net sales of 22,976.6"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 21638400000,
+      "operatingIncome": 3558400000,
+      "netIncome": 2867700000,
+      "dilutedEPS": 4.74,
+      "totalAssets": 29234100000,
+      "totalEquity": 20920700000,
+      "cashAndEquivalents": 2235200000,
+      "totalDebt": 287200000,
+      "operatingCashFlow": 3398700000,
+      "capex": -923300000,
+      "dividendPerShare": 2.3,
+      "sharesOutstanding": 598356662,
+      "employees": 70394,
+      "restated": true,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Registration_Document_2014_ENG.pdf",
+        "document": "2014 Registration Document (English)",
+        "page": "PDF p. 121 (2012 comparative, restated for IFRS 5 discontinued operations and IFRS 11), p. 123 (balance sheet), p. 125 (cash flow), p. 138 (note 5.1 number of employees), p. 123 (changes in equity: 598,356,662 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document-de-Reference-2013_GB.pdf",
+            "document": "2013 Registration Document",
+            "page": "PDF p. 104 (L'Oreal 2007-2013 table: dividend per share 2.30); p. 108 shows the as-originally-reported 2012 net sales of 22,462.7"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 20343100000,
+      "operatingIncome": 3292600000,
+      "netIncome": 2438400000,
+      "dilutedEPS": 4.08,
+      "totalAssets": 26857600000,
+      "totalEquity": 17634400000,
+      "cashAndEquivalents": 1652200000,
+      "totalDebt": 1148300000,
+      "operatingCashFlow": 2904200000,
+      "capex": -865700000,
+      "dividendPerShare": 2.0,
+      "sharesOutstanding": 594386423,
+      "employees": 68886,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document-de-Reference-2012_GB.pdf",
+        "document": "2012 Registration Document (English)",
+        "page": "PDF p. 98 (2011 comparative), p. 100 (balance sheet), p. 102 (cash flow statement), p. 115 (note 4.1 number of employees), p. 100 (changes in equity: 594,386,423 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document-de-Reference-2013_GB.pdf",
+            "document": "2013 Registration Document",
+            "page": "PDF p. 104 (L'Oreal 2007-2013 table: dividend per share 2.00; 2011 net sales 20,343, unchanged from the 2012 RD)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 19495800000,
+      "operatingIncome": 3056900000,
+      "netIncome": 2239700000,
+      "dilutedEPS": 3.79,
+      "totalAssets": 24044500000,
+      "totalEquity": 14862900000,
+      "cashAndEquivalents": 1550400000,
+      "totalDebt": 1591300000,
+      "operatingCashFlow": 3303600000,
+      "capex": -677900000,
+      "dividendPerShare": 1.8,
+      "sharesOutstanding": 589655903,
+      "employees": 66619,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document-de-Reference-2012_GB.pdf",
+        "document": "2012 Registration Document (English)",
+        "page": "PDF p. 98 (2010 comparative), p. 100 (balance sheet), p. 102 (cash flow statement), p. 115 (note 4.1 number of employees), p. 100 (changes in equity: 589,655,903 shares)",
+        "additional": [
+          {
+            "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOREAL_Document-de-Reference-2013_GB.pdf",
+            "document": "2013 Registration Document",
+            "page": "PDF p. 104 (L'Oreal 2007-2013 table: dividend per share 1.80)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 17472600000,
+      "operatingIncome": 2577600000,
+      "netIncome": 1792200000,
+      "dilutedEPS": 3.07,
+      "totalAssets": 23291500000,
+      "totalEquity": 13595200000,
+      "cashAndEquivalents": 1173100000,
+      "totalDebt": 3131300000,
+      "operatingCashFlow": 3224500000,
+      "capex": -628000000,
+      "dividendPerShare": 1.5,
+      "sharesOutstanding": 584735660,
+      "employees": 64643,
+      "restated": false,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOreal_Rapport_Annuel-Tome_2_va.pdf",
+        "document": "2009 Annual Report, Volume 2 - Consolidated Financial Statements, Management Report, Additional Information",
+        "page": "PDF p. 6 (compared consolidated profit and loss accounts), p. 8 (compared consolidated balance sheets), p. 10 (compared consolidated statements of cash flows), p. 25 (note 4.1 number of employees), p. 106 (parent company five-year financial summary: dividend per share 1.50, 598,972,410 shares less 14,236,750 treasury = 584,735,660)"
+      }
+    },
+    {
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 17541800000,
+      "operatingIncome": 2724600000,
+      "netIncome": 1948300000,
+      "dilutedEPS": 3.3,
+      "totalAssets": 22906900000,
+      "totalEquity": 11559600000,
+      "cashAndEquivalents": 1077100000,
+      "totalDebt": 4777200000,
+      "operatingCashFlow": 2597100000,
+      "capex": -745900000,
+      "dividendPerShare": 1.44,
+      "sharesOutstanding": 583140468,
+      "employees": 67662,
+      "restated": true,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOreal_Rapport_Annuel-Tome_2_va.pdf",
+        "document": "2009 Annual Report, Volume 2 - Consolidated Financial Statements",
+        "page": "PDF p. 6 (2008 comparative, restated in the 2009 report for sample/POS costs, customer loyalty programmes and actuarial gains and losses), p. 8 (balance sheet), p. 10 (cash flow), p. 25 (note 4.1), p. 106 (five-year summary: dividend per share 1.44; 602,415,810 shares less 19,275,342 treasury = 583,140,468)"
+      }
+    },
+    {
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 17062600000,
+      "operatingIncome": 2827200000,
+      "netIncome": 2656000000,
+      "dilutedEPS": 4.38,
+      "totalAssets": 23131700000,
+      "totalEquity": 13460300000,
+      "cashAndEquivalents": 1086700000,
+      "totalDebt": 3459800000,
+      "operatingCashFlow": 2644000000,
+      "capex": -776000000,
+      "dividendPerShare": 1.38,
+      "sharesOutstanding": 595310673,
+      "employees": 63358,
+      "restated": true,
+      "source": {
+        "url": "https://www.loreal-finance.com/sites/default/files/migrate-files/LOreal_Rapport_Annuel-Tome_2_va.pdf",
+        "document": "2009 Annual Report, Volume 2 - Consolidated Financial Statements",
+        "page": "PDF p. 6 (2007 comparative, restated in the 2009 report for sample/POS costs, customer loyalty programmes and actuarial gains and losses), p. 8 (balance sheet), p. 10 (cash flow), p. 25 (note 4.1), p. 106 (five-year summary: dividend per share 1.38; 617,975,610 shares less 22,664,937 treasury = 595,310,673)"
+      }
+    }
+  ],
+  "gaps": [],
+  "notes": [
+    "All 19 years are IFRS as adopted in the European Union; L'Oréal moved to IFRS in 2005, so no accounting-standard switch occurs inside the FY2007-FY2025 window.",
+    "operatingIncome is L'Oréal's published 'Operating profit' line (after cost of sales, R&D, advertising and promotion and SG&A; before 'other income and expenses'). It reconciles exactly with the snapshot's operatingIncome after FX conversion.",
+    "totalDebt is L'Oréal's 'current and non-current debt'. For FY2023-FY2025 the company publishes the total directly (8,692.2 / 8,495.0 / 11,916.0 EUR m). For the other years it is the sum of the balance-sheet lines 'non-current borrowings and debt' + 'current borrowings and debt' (+ 'non-current lease debt' + 'current lease debt' from FY2019, when IFRS 16 took effect). Every one of those sums reproduces the net debt L'Oréal itself publishes to within EUR 0.4m (e.g. FY2007 3,459.8 - 1,086.7 cash = 2,373.1 vs published net debt 2,373).",
+    "IFRS 16 (leases) adopted 1 January 2019: lease liabilities of EUR 1,628.0m (non-current) and 407.9m (current) enter totalDebt for the first time in FY2019, which is why totalDebt jumps from EUR 1,241m in FY2018 to EUR 2,887m in FY2019 with no change in borrowing policy.",
+    "Scope breaks - IFRS 5 discontinued operations: the 2014 Registration Document restated FY2012 (and FY2013) after the announced disposal of 50% of Galderma; FY2012 net sales moved from the 22,462.7 EUR m originally reported in the 2012 Registration Document to 21,638.4 EUR m. FY2007-FY2011 therefore still include Galderma and other proportionally consolidated businesses that FY2012 onwards exclude.",
+    "Scope breaks - The Body Shop: the 2017 and 2018 Registration Documents restate FY2015 and FY2016 for IFRS 5. FY2015 net sales 25,257.4 -> 24,290.2 EUR m and operating profit 4,387.7 -> 4,332.9 EUR m; FY2016 25,837.1 -> 24,916.3 and 4,539.9 -> 4,506.1. The restated figures are used here and flagged restated: true. Note that L'Oréal's own later 'L'Oréal 2015-2021' summary table (2021 URD, PDF p. 45) republishes the un-restated 25,257 / 25,837 instead; that table is internally inconsistent with its own 2017 column (26,023), so the primary-statement figures were preferred.",
+    "FY2015 and FY2016 balance sheets still include The Body Shop (L'Oréal's own footnote: '2016 and 2015 balance sheets as reported including The Body Shop'), while their income statements exclude it. totalAssets / totalEquity for those two years are therefore on a slightly wider scope than revenue.",
+    "Other restatements: FY2013 and FY2014 balance sheets were restated for IFRIC 21 (FY2014 total assets 32,063.0 -> 32,058.8); FY2016 and FY2017 balance sheets were restated for IFRS 9 in the 2018 Registration Document (FY2016 total assets 35,630.2, cash 1,746.0); FY2007 and FY2008 were restated in the 2009 Annual Report for sample/POS costs, customer loyalty programmes and immediate recognition of actuarial gains and losses.",
+    "netIncome is 'attributable to owners of the Company' (group share), totalEquity is 'equity attributable to owners of the Company'. Two years carry large one-off items: FY2007 includes a EUR 642.8m pre-tax capital gain on the Sanofi-Aventis shares sold (net profit 2,656.0m vs 2,039m excluding non-recurring items), and FY2014 includes EUR 2,142.7m of net profit from discontinued operations on the Galderma disposal (net profit 4,910.2m, hence the spike in diluted EPS to 8.39).",
+    "dividendPerShare is the dividend declared for that financial year (paid the following year). FY2025's 7.20 EUR was proposed to the AGM of 24 April 2026 and was not yet paid when the 2025 URD was filed. Historical path: 1.38 (2007), 1.44, 1.50, 1.80, 2.00, 2.30, 2.50, 2.70, 3.10, 3.30, 3.55, 3.85 (2018), 3.85, 4.00, 4.80, 6.00, 6.60, 7.00, 7.20 (2025).",
+    "sharesOutstanding is common shares outstanding net of treasury shares, from each year's consolidated statement of changes in equity. The 2025 URD's parent-company five-year summary prints 557,672,360 for 31.12.2021, but the consolidated statement of changes in equity in the same document prints 535,412,360; the consolidated figure is used (557,672,360 appears to be a typo, since 2022 in the same table correctly reads 535,186,562).",
+    "employees is the consolidated headcount in note 5.1 ('excluding employees of equity-accounted companies'). From FY2012 the count excludes equity-accounted businesses (FY2012 70,394 vs 72,637 as published on a proportionally-consolidated basis in the 2012 Registration Document), and FY2015-FY2016 exclude The Body Shop (9,612 and 9,590 staff), so the series carries small definitional breaks at 2012 and 2015. L'Oréal's CSRD sustainability statement reports a wider 'workforce' figure (97,583 for 2025 against 94,610 here).",
+    "capex is 'purchases of property, plant and equipment and intangible assets' from the consolidated cash flow statement, sign-normalised to negative. It includes intangibles because L'Oréal reports the two together.",
+    "Cross-check against docs/global-companies/snapshot-2026-10-26.json (Yahoo, USD): using the average EUR/USD rate implied by each year, FY2022-FY2025 revenue, operating income, net income, diluted EPS, operating cash flow and capex all reconcile to within 0.1%. Balance-sheet items reconcile once converted at the year-end rate (e.g. FY2025 total assets 61,821.2m x 1.1745 = USD 72,623m vs snapshot 72,623m). No line or scope mismatch found."
+  ]
+}

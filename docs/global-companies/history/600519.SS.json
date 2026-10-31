@@ -1,0 +1,873 @@
+{
+  "symbol": "600519.SS",
+  "name": "Kweichow Moutai Co., Ltd.",
+  "reportingCurrency": "CNY",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.moutai.com.cn/mtgf/tzzgx/cwbg/index.html",
+  "years": [
+    {
+      "revenue": 168838102514.79,
+      "operatingIncome": 114808950164.24,
+      "netIncome": 82320067101.68,
+      "dilutedEPS": 65.66,
+      "totalAssets": 303834844021.44,
+      "totalEquity": 244637811032.18,
+      "cashAndEquivalents": 126425609447.72,
+      "totalDebt": null,
+      "operatingCashFlow": 61522204989.35,
+      "capex": -3127594916.41,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+        "document": "Kweichow Moutai Annual Report 2025",
+        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+          "document": "Annual Report2025, consolidated financial statements",
+          "page": "operatingIncome: PDF p.81, capex: PDF p.85",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+          "page": "PDF pp.85\u201386, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 170899152276.34,
+      "operatingIncome": 119688579453.23,
+      "netIncome": 86228146421.62,
+      "dilutedEPS": 68.64,
+      "totalAssets": 298944579918.7,
+      "totalEquity": 233105984399.47,
+      "cashAndEquivalents": 169970089257.83,
+      "totalDebt": null,
+      "operatingCashFlow": 92463692168.43,
+      "capex": -4678712053.56,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+        "document": "Kweichow Moutai Annual Report 2025",
+        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+          "document": "Annual Report2025, consolidated financial statements",
+          "page": "operatingIncome: PDF p.81, capex: PDF p.85",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2026-04-17/1225114733.PDF",
+          "page": "PDF pp.85\u201386, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 147693604994.14,
+      "operatingIncome": 103708655208.38,
+      "netIncome": 74734071550.75,
+      "dilutedEPS": 59.49,
+      "totalAssets": 272699660092.25,
+      "totalEquity": 215668571607.43,
+      "cashAndEquivalents": 150360188952.47,
+      "totalDebt": null,
+      "operatingCashFlow": 66593247721.09,
+      "capex": -2619755888.79,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+        "document": "Kweichow Moutai Annual Report 2023",
+        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+          "document": "Annual Report2023, consolidated financial statements",
+          "page": "operatingIncome: PDF p.81, capex: PDF p.141",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+          "page": "PDF pp.84\u201385, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 124099843771.99,
+      "operatingIncome": 87879521782.39,
+      "netIncome": 62717467870.12,
+      "dilutedEPS": 49.93,
+      "totalAssets": 254500826096.02,
+      "totalEquity": 197480041239.46,
+      "cashAndEquivalents": 152378738982.83,
+      "totalDebt": null,
+      "operatingCashFlow": 36698595830.03,
+      "capex": -5306546416.54,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": true,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+        "document": "Kweichow Moutai Annual Report 2023",
+        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+          "document": "Annual Report2023, consolidated financial statements",
+          "page": "operatingIncome: PDF p.81, capex: PDF p.141",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+          "page": "PDF pp.84\u201385, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 106190154843.76,
+      "operatingIncome": 74750880777.52,
+      "netIncome": 52435506622.16,
+      "dilutedEPS": 41.74,
+      "totalAssets": 255315103017.82,
+      "totalEquity": 189511713508.9,
+      "cashAndEquivalents": 178640587379.52,
+      "totalDebt": null,
+      "operatingCashFlow": 64028676147.37,
+      "capex": -3408784532.01,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": true,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+        "document": "Kweichow Moutai Annual Report 2021",
+        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2024-04-03/1219506497.PDF",
+          "page": "PDF pp.6\u20137, FY2021 after-adjustment columns",
+          "fields": [
+            "netIncome",
+            "totalEquity",
+            "totalAssets",
+            "dilutedEPS"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+          "document": "Annual Report2021, consolidated financial statements",
+          "page": "operatingIncome: PDF p.69",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+          "page": "PDF pp.72\u201373, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 94915380916.72,
+      "operatingIncome": 66635079882.38,
+      "netIncome": 46697285429.81,
+      "dilutedEPS": 37.17,
+      "totalAssets": 213395810527.46,
+      "totalEquity": 161322735087.56,
+      "cashAndEquivalents": 146740524868.05,
+      "totalDebt": null,
+      "operatingCashFlow": 51669068693.03,
+      "capex": -2089769498.78,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+        "document": "Kweichow Moutai Annual Report 2021",
+        "page": "PDF pp.6\u20137, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+          "document": "Annual Report2021, consolidated financial statements",
+          "page": "operatingIncome: PDF p.69",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-03-31/1212755838.PDF",
+          "page": "PDF pp.72\u201373, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 85429573467.25,
+      "operatingIncome": 59041489276.14,
+      "netIncome": 41206471014.43,
+      "dilutedEPS": 32.8,
+      "totalAssets": 183042372042.5,
+      "totalEquity": 136010349875.11,
+      "cashAndEquivalents": 121003839599.64,
+      "totalDebt": null,
+      "operatingCashFlow": 45210612632.56,
+      "capex": -3148864661.38,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+        "document": "Kweichow Moutai Annual Report 2019",
+        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+          "document": "Annual Report2019, consolidated financial statements",
+          "page": "operatingIncome: PDF p.57, capex: PDF p.60",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+          "page": "PDF pp.59\u201360, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 73638872388.03,
+      "operatingIncome": 51342987681.18,
+      "netIncome": 35203625263.22,
+      "dilutedEPS": 28.02,
+      "totalAssets": 159846674736.01,
+      "totalEquity": 112838564332.05,
+      "cashAndEquivalents": 98243288299.54,
+      "totalDebt": null,
+      "operatingCashFlow": 41385234406.72,
+      "capex": -1606750226.28,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+        "document": "Kweichow Moutai Annual Report 2019",
+        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+          "document": "Annual Report2019, consolidated financial statements",
+          "page": "operatingIncome: PDF p.57, capex: PDF p.60",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2020-04-22/1207552562.PDF",
+          "page": "PDF pp.59\u201360, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 58217861314.17,
+      "operatingIncome": 38940007533.45,
+      "netIncome": 27079360255.74,
+      "dilutedEPS": 21.56,
+      "totalAssets": 134610116875.08,
+      "totalEquity": 91451522828.96,
+      "cashAndEquivalents": 74928080750.58,
+      "totalDebt": null,
+      "operatingCashFlow": 22153036084.13,
+      "capex": -1125017192.45,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+        "document": "Kweichow Moutai Annual Report 2017",
+        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+          "document": "Annual Report2017, consolidated financial statements",
+          "page": "totalEquity: PDF p.46, operatingIncome: PDF p.49, capex: PDF p.52",
+          "fields": [
+            "totalEquity",
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+          "page": "PDF pp.52\u201352, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 38862189993.84,
+      "operatingIncome": 24265625169.42,
+      "netIncome": 16718362734.16,
+      "dilutedEPS": 13.31,
+      "totalAssets": 112934538280.41,
+      "totalEquity": 72894137783.25,
+      "cashAndEquivalents": 62794794812.99,
+      "totalDebt": null,
+      "operatingCashFlow": 37451249647.05,
+      "capex": -1019178136.92,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+        "document": "Kweichow Moutai Annual Report 2017",
+        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+          "document": "Annual Report2017, consolidated financial statements",
+          "page": "totalEquity: PDF p.46, operatingIncome: PDF p.49, capex: PDF p.52",
+          "fields": [
+            "totalEquity",
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2018-03-28/1204526780.PDF",
+          "page": "PDF pp.52\u201352, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 32659583725.28,
+      "operatingIncome": 22158991962.87,
+      "netIncome": 15503090276.38,
+      "dilutedEPS": 12.34,
+      "totalAssets": 86301463422.77,
+      "totalEquity": 63925978438.99,
+      "cashAndEquivalents": 34780485904.57,
+      "totalDebt": null,
+      "operatingCashFlow": 17436340141.72,
+      "capex": -2061470481.32,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+        "document": "Kweichow Moutai Annual Report 2015",
+        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+          "document": "Annual Report2015, consolidated financial statements",
+          "page": "totalEquity: PDF p.39, operatingIncome: PDF p.41, capex: PDF p.44",
+          "fields": [
+            "totalEquity",
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+          "page": "PDF pp.44\u201345, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 31573928530.94,
+      "operatingIncome": 22102973250.9,
+      "netIncome": 15349804322.27,
+      "dilutedEPS": 12.22,
+      "totalAssets": 65873165224.63,
+      "totalEquity": 53430402446.09,
+      "cashAndEquivalents": 24997229197.76,
+      "totalDebt": null,
+      "operatingCashFlow": 12632522436.6,
+      "capex": -4431065066.05,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+        "document": "Kweichow Moutai Annual Report 2015",
+        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+          "document": "Annual Report2015, consolidated financial statements",
+          "page": "totalEquity: PDF p.39, operatingIncome: PDF p.41, capex: PDF p.44",
+          "fields": [
+            "totalEquity",
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2016-03-24/1202072290.PDF",
+          "page": "PDF pp.44\u201345, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 30921801316.6,
+      "operatingIncome": 21791544952.0,
+      "netIncome": 15136639784.35,
+      "dilutedEPS": 14.58,
+      "totalAssets": 55454150677.05,
+      "totalEquity": 42622216487.81,
+      "cashAndEquivalents": 21991742237.67,
+      "totalDebt": null,
+      "operatingCashFlow": 12655024861.92,
+      "capex": -5405740026.23,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+        "document": "Kweichow Moutai Annual Report 2013",
+        "page": "PDF pp.7\u20138, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+          "document": "Annual Report2013, consolidated financial statements",
+          "page": "operatingIncome: PDF p.48, capex: PDF p.51, totalEquity: PDF p.99",
+          "fields": [
+            "operatingIncome",
+            "totalEquity"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+          "page": "PDF pp.50\u201352, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 26455335152.99,
+      "operatingIncome": 18830739817.65,
+      "netIncome": 13308079612.88,
+      "dilutedEPS": 12.82,
+      "totalAssets": 44998208953.46,
+      "totalEquity": 34149654123.68,
+      "cashAndEquivalents": 22061999850.17,
+      "totalDebt": null,
+      "operatingCashFlow": 11921310609.25,
+      "capex": -4211900807.91,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+        "document": "Kweichow Moutai Annual Report 2013",
+        "page": "PDF pp.7\u20138, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+          "document": "Annual Report2013, consolidated financial statements",
+          "page": "operatingIncome: PDF p.48, capex: PDF p.51, totalEquity: PDF p.99",
+          "fields": [
+            "operatingIncome",
+            "totalEquity"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2014-03-25/63720184.PDF",
+          "page": "PDF pp.50\u201352, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 18402355207.3,
+      "operatingIncome": 12336164425.08,
+      "netIncome": 8763145910.23,
+      "dilutedEPS": 8.44,
+      "totalAssets": 34900868975.41,
+      "totalEquity": null,
+      "cashAndEquivalents": 18254690162.04,
+      "totalDebt": null,
+      "operatingCashFlow": 10148564689.53,
+      "capex": -2184528163.11,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+        "document": "Kweichow Moutai Annual Report 2011",
+        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+          "document": "Annual Report2011, consolidated financial statements",
+          "page": "operatingIncome: PDF p.44, capex: PDF p.48, cashAndEquivalents: PDF p.100",
+          "fields": [
+            "operatingIncome",
+            "cashAndEquivalents"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+          "page": "PDF pp.47\u201349, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 11633283740.18,
+      "operatingIncome": 7160906229.5,
+      "netIncome": 5051194218.26,
+      "dilutedEPS": 4.87,
+      "totalAssets": 25587579940.69,
+      "totalEquity": null,
+      "cashAndEquivalents": 12888393889.29,
+      "totalDebt": null,
+      "operatingCashFlow": 6201476519.57,
+      "capex": -1731913788.52,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+        "document": "Kweichow Moutai Annual Report 2011",
+        "page": "PDF pp.5\u20136, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+          "document": "Annual Report2011, consolidated financial statements",
+          "page": "operatingIncome: PDF p.44, capex: PDF p.48, cashAndEquivalents: PDF p.100",
+          "fields": [
+            "operatingIncome",
+            "cashAndEquivalents"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2012-04-11/60811608.PDF",
+          "page": "PDF pp.47\u201349, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 9669999065.39,
+      "operatingIncome": 6075520510.72,
+      "netIncome": 4312446124.73,
+      "dilutedEPS": 4.57,
+      "totalAssets": 19769623147.72,
+      "totalEquity": null,
+      "cashAndEquivalents": 9743152155.24,
+      "totalDebt": null,
+      "operatingCashFlow": 4223937144.19,
+      "capex": -1356601530.09,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+        "document": "Kweichow Moutai Annual Report 2009",
+        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+          "document": "Annual Report2009, consolidated financial statements",
+          "page": "operatingIncome: PDF p.34, capex: PDF p.37",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+          "page": "PDF pp.36\u201338, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 8241685564.11,
+      "operatingIncome": 5390384855.03,
+      "netIncome": 3799480558.51,
+      "dilutedEPS": 4.03,
+      "totalAssets": 15754187836.35,
+      "totalEquity": null,
+      "cashAndEquivalents": 8093721891.16,
+      "totalDebt": null,
+      "operatingCashFlow": 5247488535.74,
+      "capex": -1010735786.04,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+        "document": "Kweichow Moutai Annual Report 2009",
+        "page": "PDF pp.4\u20135, three-year accounting data and indicators"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+          "document": "Annual Report2009, consolidated financial statements",
+          "page": "operatingIncome: PDF p.34, capex: PDF p.37",
+          "fields": [
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+          "page": "PDF pp.36\u201338, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    },
+    {
+      "revenue": 7237430747.12,
+      "operatingIncome": 4525341001.8,
+      "netIncome": 2830831594.36,
+      "dilutedEPS": 3.0,
+      "totalAssets": 10481471840.45,
+      "totalEquity": 8234105755.93,
+      "cashAndEquivalents": 4722706300.02,
+      "totalDebt": null,
+      "operatingCashFlow": 1743303211.38,
+      "capex": -772456652.49,
+      "dividendPerShare": null,
+      "sharesOutstanding": null,
+      "employees": null,
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "standard": "PRC ASBEs",
+      "currency": "CNY",
+      "restated": false,
+      "source": {
+        "url": "https://static.cninfo.com.cn/finalpage/2010-04-02/57765239.PDF",
+        "document": "Kweichow Moutai Annual Report2009",
+        "page": "PDF pp.4\u20135, FY2007 column"
+      },
+      "additionalSources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF",
+          "document": "Annual Report2007, consolidated financial statements",
+          "page": "totalEquity: PDF p.31, operatingIncome: PDF p.34, capex: PDF p.36",
+          "fields": [
+            "totalEquity",
+            "operatingIncome"
+          ]
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2008-03-18/38051837.PDF",
+          "page": "PDF pp.36\u201336, consolidated cash-flow statement",
+          "fields": [
+            "capex",
+            "cashAndEquivalents"
+          ]
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    "FY2007: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2008: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2009: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2010: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2011: totalEquity, totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2012: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2013: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2014: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2015: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2016: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2017: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2018: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2019: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2020: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2021: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2022: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2023: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2024: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents.",
+    "FY2025: totalDebt, dividendPerShare, sharesOutstanding, employees not extracted as a compatible directly published value from the cited documents."
+  ],
+  "notes": [
+    "All financial statement amounts are original full CNY units; no aggregation, estimation or interpolation. Accounting standard is the PRC Accounting Standards for Business Enterprises, first adopted2007; earlier comparative reclassifications do not change the year dates.",
+    "revenue is Operating revenue(\u8425\u4e1a\u6536\u5165) from the issuer three-year key-data table. It excludes separately reported interest and other income of the finance subsidiary; providers using total operating income may differ. operatingIncome is the consolidated PRC operating profit line, not an adjusted EBITDA measure.",
+    "netIncome is attributable to listed-company shareholders. totalEquity uses the explicitly published parent-equity aggregate; ambiguous early total-equity summary rows are not substituted.2021 and2022 use the2023 report explicitly restated deferred-tax comparatives under Accounting Standards Interpretation16.",
+    "capex is the company-published combined purchase of fixed assets, intangible assets and other long-term assets, stored negative. Cash and equivalents is from the consolidated cash-flow statement, not the broader monetary-funds balance. Finance subsidiary deposit flows can materially affect operating cash flow.",
+    "Dividends, total debt, shares outstanding and employees are null where compatible direct annual values were not extracted; no issued-minus-treasury calculation, debt component sum or inferred zero is used. EPS retains the published split/bonus-share basis of the cited report rather than applying an unsourced adjustment."
+  ]
+}

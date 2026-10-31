@@ -1,0 +1,196 @@
+{
+  "symbol": "KER.PA",
+  "name": "Kering SA (Pinault-Printemps-Redoute, PPR, until 2013)",
+  "reportingCurrency": "EUR",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.kering.com/en/finance/",
+  "years": [
+    {
+      "fiscalYear": 2025, "periodEnd": "2025-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 14675000000, "operatingIncome": 1047000000, "netIncome": 72000000, "dilutedEPS": 0.59,
+      "totalAssets": 41182000000, "totalEquity": 14706000000, "cashAndEquivalents": 4313000000,
+      "totalDebt": 12352000000, "operatingCashFlow": 3100000000, "capex": -830000000,
+      "dividendPerShare": 3.00, "sharesOutstanding": 122620351, "employees": 43731,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=02_Universal_Registration_Document_2025_EN_216d1c494b.pdf", "document": "2025 Universal Registration Document", "page": "PDF p. 364 (income statement), p. 366-367 (balance sheet), p. 370 (cash flow statement), p. 375 (note 5.3 headcount), p. 14 (key figures, dividend)" }
+    },
+    {
+      "fiscalYear": 2024, "periodEnd": "2024-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 16874000000, "operatingIncome": 2198000000, "netIncome": 1133000000, "dilutedEPS": 9.24,
+      "totalAssets": 43346000000, "totalEquity": 14904000000, "cashAndEquivalents": 3518000000,
+      "totalDebt": 14035000000, "operatingCashFlow": 4709000000, "capex": -3309000000,
+      "dividendPerShare": 6.00, "sharesOutstanding": 122601693, "employees": 46930,
+      "restated": true,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=02_Universal_Registration_Document_2025_EN_216d1c494b.pdf", "document": "2025 Universal Registration Document (2024 comparative, restated to exclude Kering Beaute)", "page": "PDF p. 364 (income statement), p. 366-367 (balance sheet), p. 370 (cash flow statement), p. 375 (note 5.3 headcount), p. 14 (key figures, dividend)" }
+    },
+    {
+      "fiscalYear": 2023, "periodEnd": "2023-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 19566000000, "operatingIncome": 4643000000, "netIncome": 2983000000, "dilutedEPS": 24.37,
+      "totalAssets": 41367000000, "totalEquity": 15212000000, "cashAndEquivalents": 3922000000,
+      "totalDebt": 12426000000, "operatingCashFlow": 4459000000, "capex": -2611000000,
+      "dividendPerShare": 14.00, "sharesOutstanding": 122580181, "employees": 48964,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=DEU_EN_2024_interactif_26c8d4882e.pdf", "document": "2024 Universal Registration Document (2023 comparative)", "page": "PDF p. 319 (income statement), p. 321 (balance sheet), p. 323 (cash flow statement), p. 328 (note 5.3 headcount), p. 14 (key figures, dividend)" }
+    },
+    {
+      "fiscalYear": 2022, "periodEnd": "2022-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 20351000000, "operatingIncome": 5395000000, "netIncome": 3614000000, "dilutedEPS": 29.31,
+      "totalAssets": 33941000000, "totalEquity": 13998000000, "cashAndEquivalents": 4336000000,
+      "totalDebt": 6642000000, "operatingCashFlow": 4278000000, "capex": -1071000000,
+      "dividendPerShare": 14.00, "sharesOutstanding": 122220370, "employees": 47227,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=KERING_2023_URD_EN_01eada3a94.pdf", "document": "2023 Universal Registration Document (2022 comparative)", "page": "PDF p. 330 (income statement), p. 332 (balance sheet), p. 334 (cash flow statement), p. 339 (note 5.3 headcount), p. 14 (key figures, dividend)" }
+    },
+    {
+      "fiscalYear": 2021, "periodEnd": "2021-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 17645000000, "operatingIncome": 4797000000, "netIncome": 3176000000, "dilutedEPS": 25.49,
+      "totalAssets": 31068000000, "totalEquity": 13347000000, "cashAndEquivalents": 5249000000,
+      "totalDebt": 5418000000, "operatingCashFlow": 4876000000, "capex": -934000000,
+      "dividendPerShare": 12.00, "sharesOutstanding": 124068705, "employees": 42811,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=KERING_DEU_2022_US_ea8526ec48.pdf", "document": "2022 Universal Registration Document (2021 comparative)", "page": "PDF p. 340 (income statement), p. 342 (balance sheet), p. 344 (cash flow statement), p. 348 (note 4.3 headcount), p. 14 (key figures, dividend)" }
+    },
+    {
+      "fiscalYear": 2020, "periodEnd": "2020-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 13100200000, "operatingIncome": 3298200000, "netIncome": 2150400000, "dilutedEPS": 17.20,
+      "totalAssets": 28005400000, "totalEquity": 11820900000, "cashAndEquivalents": 3442800000,
+      "totalDebt": 5591500000, "operatingCashFlow": 2888600000, "capex": -786900000,
+      "dividendPerShare": 8.00, "sharesOutstanding": 124922916, "employees": 38553,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/assets/front/documents/Kering_2021_Universal_Registration_Document.pdf", "document": "2021 Universal Registration Document (2020 comparative)", "page": "PDF p. 336 (income statement), p. 338 (balance sheet), p. 340 (cash flow statement), p. 346 (note 6.3 headcount), p. 14 (key figures, dividend)" }
+    },
+    {
+      "fiscalYear": 2019, "periodEnd": "2019-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 15883500000, "operatingIncome": 4609800000, "netIncome": 2308600000, "dilutedEPS": 18.40,
+      "totalAssets": 27148200000, "totalEquity": 10278100000, "cashAndEquivalents": 2285900000,
+      "totalDebt": 5098100000, "operatingCashFlow": 2475300000, "capex": -955800000,
+      "dividendPerShare": 8.00, "sharesOutstanding": 125017916, "employees": 38068,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=KERING_Document_Financier_2020_Production_UK_2c2a921cad.pdf", "document": "2020 Financial Document (2019 comparative)", "page": "PDF p. 100 (income statement), p. 102 (balance sheet), p. 104 (cash flow statement), p. 112 (note 7.3 headcount), p. 32 (key figures, dividend)" }
+    },
+    {
+      "fiscalYear": 2018, "periodEnd": "2018-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 13665200000, "operatingIncome": 3721400000, "netIncome": 3714900000, "dilutedEPS": 29.49,
+      "totalAssets": 21367500000, "totalEquity": 9905900000, "cashAndEquivalents": 2216600000,
+      "totalDebt": 3928000000, "operatingCashFlow": 3778000000, "capex": -828000000,
+      "dividendPerShare": 10.50, "sharesOutstanding": 125850305, "employees": 34795,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=2019_Universal_Registration_Document_5f1b599756.pdf", "document": "2019 Universal Registration Document (2018 comparative)", "page": "PDF p. 297 (income statement), p. 299 (balance sheet), p. 300 (cash flow statement), p. 324 (note 7.3 headcount), p. 24 (key figures)" }
+    },
+    {
+      "fiscalYear": 2017, "periodEnd": "2017-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 10815900000, "operatingIncome": 2526500000, "netIncome": 1785600000, "dilutedEPS": 14.17,
+      "totalAssets": 25577400000, "totalEquity": 11948200000, "cashAndEquivalents": 2136600000,
+      "totalDebt": 5185200000, "operatingCashFlow": 2773100000, "capex": -605200000,
+      "dividendPerShare": 6.00, "sharesOutstanding": 126279322, "employees": 28897,
+      "restated": true,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=2018_Financial_Document_d86d5c5f91.pdf", "document": "2018 Financial Document (2017 comparative, restated for PUMA, Stella McCartney, Volcom and Christopher Kane under IFRS 5)", "page": "PDF p. 75 (income statement), p. 77 (balance sheet), p. 78 (cash flow statement), p. 101 (note 7.3 headcount), p. 71 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2016, "periodEnd": "2016-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 12384900000, "operatingIncome": 1380200000, "netIncome": 813500000, "dilutedEPS": 6.46,
+      "totalAssets": 24139000000, "totalEquity": 11269700000, "cashAndEquivalents": 1049600000,
+      "totalDebt": 5420300000, "operatingCashFlow": 1791900000, "capex": -611000000,
+      "dividendPerShare": 4.60, "sharesOutstanding": 126279322, "employees": 40052,
+      "restated": false,
+      "source": { "url": "https://web.archive.org/web/20180712141757id_/http://www.kering.com/sites/default/files/document/kering_2017financialdocument_13feb2018_0.pdf", "document": "2017 Financial Document (2016 comparative)", "page": "PDF p. 89 (income statement), p. 91 (balance sheet), p. 92 (cash flow statement), p. 112 (note 6.3 headcount), p. 8 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2015, "periodEnd": "2015-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 11584200000, "operatingIncome": 1253200000, "netIncome": 696000000, "dilutedEPS": 5.52,
+      "totalAssets": 23850800000, "totalEquity": 10948300000, "cashAndEquivalents": 1146400000,
+      "totalDebt": 5825800000, "operatingCashFlow": 1295600000, "capex": -672100000,
+      "dividendPerShare": 4.00, "sharesOutstanding": 126279322, "employees": 38801,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=2016_Reference_Document_fd1c0cf847.pdf", "document": "2016 Reference Document (2015 comparative)", "page": "PDF p. 263 (income statement), p. 265 (balance sheet), p. 266 (cash flow statement), p. 286 (note 6.3 headcount), p. 364 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2014, "periodEnd": "2014-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 10037500000, "operatingIncome": 1551900000, "netIncome": 528900000, "dilutedEPS": 4.20,
+      "totalAssets": 23253900000, "totalEquity": 10634100000, "cashAndEquivalents": 1089900000,
+      "totalDebt": 5480600000, "operatingCashFlow": 1261300000, "capex": -551400000,
+      "dividendPerShare": 4.00, "sharesOutstanding": 126266490, "employees": 37441,
+      "restated": false,
+      "source": { "url": "https://www.kering.com/api/download-file/?path=2015_Reference_Document_1c484948ee.pdf", "document": "2015 Reference Document (2014 comparative)", "page": "PDF p. 217 (income statement), p. 219 (balance sheet), p. 220 (cash flow statement), p. 67 (workforce at December 31), p. 322 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2013, "periodEnd": "2013-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 9655700000, "operatingIncome": 1310500000, "netIncome": 49600000, "dilutedEPS": 0.39,
+      "totalAssets": 22810800000, "totalEquity": 10586600000, "cashAndEquivalents": 1419200000,
+      "totalDebt": 4869800000, "operatingCashFlow": 1521200000, "capex": -674900000,
+      "dividendPerShare": 3.75, "sharesOutstanding": 126226761, "employees": 35786,
+      "restated": true,
+      "source": { "url": "https://web.archive.org/web/20160412143737id_/http://www.kering.com/sites/default/files/document/kering_ddr_2014_va.pdf", "document": "2014 Reference Document (2013 comparative, restated after the Fnac and Redcats disposals)", "page": "PDF p. 209 (income statement), p. 211 (balance sheet), p. 212 (cash flow statement), p. 68 (workforce at December 31), p. 318 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2012, "periodEnd": "2012-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 9736300000, "operatingIncome": 1766300000, "netIncome": 1048200000, "dilutedEPS": 8.31,
+      "totalAssets": 25256500000, "totalEquity": 11413800000, "cashAndEquivalents": 2081000000,
+      "totalDebt": 4584000000, "operatingCashFlow": 1366000000, "capex": -441900000,
+      "dividendPerShare": 3.75, "sharesOutstanding": 126116702, "employees": 33439,
+      "restated": false,
+      "source": { "url": "https://web.archive.org/web/20160412165240id_/http://www.kering.com/sites/default/files/document/kering_ddr_va_2013.pdf", "document": "2013 Reference Document (2012 comparative)", "page": "PDF p. 197 (income statement), p. 199 (balance sheet), p. 200 (cash flow statement), p. 65 (workforce at December 31), p. 304 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2011, "periodEnd": "2011-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 8062300000, "operatingIncome": 1477900000, "netIncome": 986300000, "dilutedEPS": 7.81,
+      "totalAssets": 24953800000, "totalEquity": 10925000000, "cashAndEquivalents": 1270700000,
+      "totalDebt": 4677600000, "operatingCashFlow": 1179300000, "capex": -252300000,
+      "dividendPerShare": 3.50, "sharesOutstanding": 127000889, "employees": 28957,
+      "restated": true,
+      "source": { "url": "https://web.archive.org/web/20160412165154id_/http://www.kering.com/sites/default/files/document/ppr_ddr_2012_va.pdf", "document": "2012 Reference Document - PPR (2011 comparative, restated for the Redcats disposal)", "page": "PDF p. 171 (income statement), p. 173 (balance sheet), p. 174 (cash flow statement), p. 51 (workforce at December 31), p. 284 (net dividend per share)" }
+    },
+    {
+      "fiscalYear": 2010, "periodEnd": "2010-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 11007800000, "operatingIncome": 1229200000, "netIncome": 964500000, "dilutedEPS": 7.61,
+      "totalAssets": 24694500000, "totalEquity": 10599200000, "cashAndEquivalents": 1398200000,
+      "totalDebt": 5218700000, "operatingCashFlow": 1192500000, "capex": -305100000,
+      "dividendPerShare": 3.50, "sharesOutstanding": 126829184, "employees": 42357,
+      "restated": true,
+      "source": { "url": "https://web.archive.org/web/2020id_/http://www.kering.com/sites/default/files/sites/default/files/publications/PPR_DDR2011.pdf", "document": "2011 Reference Document - PPR (2010 comparative, restated for the Conforama disposal)", "page": "PDF p. 181 (income statement), p. 183 (balance sheet), p. 184 (cash flow statement), p. 67 (registered workforce at December 31), p. 8 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2009, "periodEnd": "2009-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 13584300000, "operatingIncome": 866000000, "netIncome": 950900000, "dilutedEPS": 7.52,
+      "totalAssets": 24374600000, "totalEquity": 9880600000, "cashAndEquivalents": 944500000,
+      "totalDebt": 5364000000, "operatingCashFlow": 1452600000, "capex": -279700000,
+      "dividendPerShare": 3.30, "sharesOutstanding": 126578588, "employees": 59821,
+      "restated": true,
+      "source": { "url": "https://web.archive.org/web/2020id_/http://www.kering.com/sites/default/files/sites/default/files/publications/DDR2010.pdf", "document": "2010 Reference Document - PPR (2009 restated column)", "page": "PDF p. 173 (income statement), p. 175 (balance sheet), p. 176 (cash flow statement), p. 202 (registered workforce at December 31), p. 8 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2008, "periodEnd": "2008-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 17207000000, "operatingIncome": 1072900000, "netIncome": 921100000, "dilutedEPS": 7.31,
+      "totalAssets": 26977200000, "totalEquity": 9341900000, "cashAndEquivalents": 1116600000,
+      "totalDebt": 6683400000, "operatingCashFlow": 1310400000, "capex": -508000000,
+      "dividendPerShare": 3.30, "sharesOutstanding": 126555377, "employees": 76864,
+      "restated": true,
+      "source": { "url": "https://web.archive.org/web/20100508104313id_/http://www.ppr.com/DataUploadFiles/publications/7314/DdR_VDEF_FR_2009.pdf", "document": "2009 Reference Document - PPR (2008 restated column)", "page": "PDF p. 173 (income statement), p. 175 (balance sheet), p. 176 (cash flow statement), p. 204 (registered workforce at December 31), p. 8 (dividend per share)" }
+    },
+    {
+      "fiscalYear": 2007, "periodEnd": "2007-12-31", "standard": "IFRS", "currency": "EUR",
+      "revenue": 19098200000, "operatingIncome": 1736400000, "netIncome": 922300000, "dilutedEPS": 7.17,
+      "totalAssets": 28212100000, "totalEquity": 9218200000, "cashAndEquivalents": 1713200000,
+      "totalDebt": 7855100000, "operatingCashFlow": 1872200000, "capex": -573100000,
+      "dividendPerShare": 3.45, "sharesOutstanding": 128081939, "employees": 88915,
+      "restated": true,
+      "source": { "url": "https://web.archive.org/web/20090621073133id_/http://www.ppr.com/DataUploadFiles/publications/7762/PPR2008_DDR_FR_AMF.pdf", "document": "2008 Reference Document - PPR (2007 comparative)", "page": "PDF p. 167 (income statement), p. 168 (balance sheet), p. 169 (cash flow statement), p. 192 (registered workforce at December 31), p. 8 (dividend per share)" }
+    }
+  ],
+  "gaps": [],
+  "notes": [
+    "All 19 years are IFRS as published by the company; there is no standard change over the period. IFRS 16 was adopted from 2019 and the 2019-2025 figures are on that basis; the primary statements for 2008-2018 were not restated for IFRS 16. Lease liabilities are excluded from totalDebt in every year, so the debt series is comparable across the change.",
+    "Convention: each year is taken from the following year's report (comparative column) so it carries the latest restatement published by the company; FY2025 comes from the 2025 Universal Registration Document. restated=true marks the years whose comparative column differs from what the year's own report showed.",
+    "totalDebt = non-current borrowings + current borrowings as printed on the balance sheet (house convention). Lease liabilities and other non-current/current financial liabilities are excluded. Sums were not published as a single 'gross debt' line in the earlier Documents de Reference.",
+    "operatingIncome = 'Operating income' (resultat operationnel), i.e. after other non-recurring operating income and expenses, not 'recurring operating income'.",
+    "netIncome and totalEquity are attributable to owners of the parent (resultat net part du Groupe / equity attributable to the Group).",
+    "Large scope breaks from IFRS 5 reclassifications, all visible in the restated columns: Conforama held for sale in 2011 (2010 revenue was first published as EUR 14,605.1m, restated to 11,007.8m); Fnac and Redcats in 2012-13 (2011 revenue was first published as EUR 12,227.2m, restated to 8,062.3m; 2013 revenue first published as 9,748.4m, restated to 9,655.7m; 2012 needed no further restatement, the 2013 and 2012 reports agree at 9,736.3m); PUMA, Stella McCartney, Volcom and Christopher Kane in 2018 (2017 revenue first published as EUR 15,477.7m, restated to 10,815.9m); Kering Beaute in 2025 (2024 revenue first published as EUR 17,194m, restated to 16,874m and operating income from 2,312m to 2,198m).",
+    "2007-2009 also carry earlier restatements: 2009 revenue was first published as EUR 16,524.6m and restated to 13,584.3m; 2008 revenue was first published as EUR 20,201.2m and restated to 17,207.0m; 2007 revenue was first published as EUR 19,745.8m and restated to 19,098.2m. 2013 net income of EUR 49.6m is after EUR 822.9m of losses on discontinued operations (Redcats and Fnac). FY2007's balance sheet is the one printed in the 2008 Reference Document (total assets 28,212.1m, group equity 9,218.2m); the 2009 Reference Document's opening column restates those two to 28,156.9m and 9,128.0m when it splits out assets held for sale, a difference of 0.2% and 1.0% that does not affect any P&L line.",
+    "employees = headcount on the payroll at year-end as published (note 'Headcount on the payroll at year-end' from 2015, 'registered workforce at December 31' in the PPR-era sustainability chapter). It is not average FTE, which the company also publishes and which is lower (2025: 43,228 average FTE vs 43,731 at December 31). For 2007-2012 the published tables give four manager/non-manager category totals but no grand total, so those six figures are the sum of the four printed category totals in the year-end workforce table (e.g. 2012: 2,638 + 2,780 + 16,813 + 11,208).",
+    "The employee series is not comparable across scope breaks: 2008 76,864 and 2009 59,821 include the retail businesses later sold; 2010 42,357 and 2011 28,957 are the restated columns after the Conforama and Redcats disposals; 2017 28,897 is restated for PUMA; 2024-2025 include Kering Beaute, which is otherwise presented as a discontinued operation.",
+    "dividendPerShare = net dividend declared for the year, subject to AGM approval in the year it was proposed. FY2019 was proposed at EUR 11.50 and cut to EUR 8.00 in April 2020; the 8.00 actually paid is shown. FY2025 shows the ordinary EUR 3.00 per share only; an exceptional EUR 1.00 per share was also proposed for FY2025 and is not included in the field.",
+    "sharesOutstanding is the number of shares outstanding at December 31 as published (par value EUR 4). 2025 = 122,620,351 'issued and outstanding'; 2018-2024 are taken from the statements of changes in equity; 2007-2017 from the share capital / EPS notes of the relevant report.",
+    "Cross-check against docs/global-companies/snapshot-2026-10-26.json using period-average EUR/USD rates: 2025 revenue 14,675m x 1.13 = 16,583m vs 16,616m and net income 72m vs 81.5m USD; 2024 16,874m x 1.082 = 18,258m vs 18,228m and 1,133m vs 1,224m; 2023 19,566m x 1.0824 = 21,178m vs 21,225m and 2,983m vs 3,236m; 2022 20,351m x 1.0535 = 21,440m vs 21,403m and 3,614m vs 3,801m. All within 0.5%, so the lines and units are right (Yahoo's annual figures use each year's average rate, not the snapshot's current fxToUsd of 1.1199; the implied EUR/USD rate is identical for revenue and net income in each of the four years: 1.1323, 1.0803, 1.0848, 1.0517). Yahoo's 2024 revenue matches the restated 16,874, not the 17,194 first published. Yahoo's balance-sheet block does not reconcile (2025 totalAssets and equity are ~3.7% above the filed statements, 2024 ~3.7% below, and its totalDebt includes lease liabilities), so those fields were taken from the company statements only.",
+    "Kering's Documents de Reference for 2008-2012 and the 2007-2014 files are no longer served from kering.com; they were read from the Internet Archive copies of the original ppr.com/kering.com PDFs (the URLs in source.url). The 2016-2024 files are the live kering.com documents."
+  ]
+}

@@ -1,0 +1,604 @@
+{
+  "symbol": "AIR.PA",
+  "name": "Airbus SE (European Aeronautic Defence and Space Company, EADS N.V., until 2014)",
+  "reportingCurrency": "EUR",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.airbus.com/en/investors",
+  "years": [
+    {
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 73420000000,
+      "operatingIncome": 6082000000,
+      "netIncome": 5221000000,
+      "dilutedEPS": 6.6,
+      "totalAssets": 134939000000,
+      "totalEquity": 26104000000,
+      "cashAndEquivalents": 14128000000,
+      "totalDebt": 14249000000,
+      "operatingCashFlow": 7995000000,
+      "capex": -3964000000,
+      "dividendPerShare": 3.2,
+      "sharesOutstanding": 787227745,
+      "employees": 165294,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2026-02/airbus_fy_2025_financial_statements.pdf",
+        "document": "Airbus SE Financial Statements 2025 (IFRS consolidated financial statements)",
+        "page": "PDF p. 4 (income statement), pp. 6-7 (statement of financial position), p. 8 (cash flows); Note 34.1 p. 53 (shares outstanding, dividend), Note 28 p. 41 (employees)"
+      }
+    },
+    {
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 69230000000,
+      "operatingIncome": 5304000000,
+      "netIncome": 4232000000,
+      "dilutedEPS": 5.35,
+      "totalAssets": 129213000000,
+      "totalEquity": 19606000000,
+      "cashAndEquivalents": 15003000000,
+      "totalDebt": 14279000000,
+      "operatingCashFlow": 7402000000,
+      "capex": -3669000000,
+      "dividendPerShare": 3,
+      "sharesOutstanding": 787956251,
+      "employees": 156921,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2025-04/Airbus%20Financial%20Statements%202024%20%281%29.pdf",
+        "document": "Airbus SE Financial Statements 2024",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows); Note 34 p. 64 (shares outstanding, dividend), Note 28 p. 51 (employees)"
+      }
+    },
+    {
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 65446000000,
+      "operatingIncome": 4603000000,
+      "netIncome": 3789000000,
+      "dilutedEPS": 4.8,
+      "totalAssets": 118871000000,
+      "totalEquity": 17695000000,
+      "cashAndEquivalents": 16469000000,
+      "totalDebt": 13591000000,
+      "operatingCashFlow": 6255000000,
+      "capex": -3051000000,
+      "dividendPerShare": 2.8,
+      "sharesOutstanding": 787421967,
+      "employees": 147893,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2025-04/Airbus%20Financial%20Statements%202024%20%281%29.pdf",
+        "document": "Airbus SE Financial Statements 2024 (2023 comparatives; dividend including the EUR 1.00 special decided at the 10 April 2024 AGM)",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows), Note 34 p. 64 (shares, dividends)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2024-06/Airbus_2023_FinancialStatements.pdf",
+            "document": "Airbus Financial Statements 2023",
+            "page": "PDF p. 9 (income statement), pp. 11-12 (statement of financial position), p. 13 (cash flows), Note 28 p. 53 (employees)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 58763000000,
+      "operatingIncome": 5325000000,
+      "netIncome": 4247000000,
+      "dilutedEPS": 5.39,
+      "totalAssets": 115944000000,
+      "totalEquity": 12950000000,
+      "cashAndEquivalents": 15823000000,
+      "totalDebt": 12773000000,
+      "operatingCashFlow": 6288000000,
+      "capex": -2464000000,
+      "dividendPerShare": 1.8,
+      "sharesOutstanding": 787557508,
+      "employees": 134267,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2024-06/Airbus_2023_FinancialStatements.pdf",
+        "document": "Airbus Financial Statements 2023 (2022 comparatives)",
+        "page": "PDF p. 9 (income statement), pp. 11-12 (statement of financial position), p. 13 (cash flows); Note 34 p. 69 (shares outstanding, dividend), Note 28 p. 53 (employees)"
+      }
+    },
+    {
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 52149000000,
+      "operatingIncome": 5342000000,
+      "netIncome": 4213000000,
+      "dilutedEPS": 5.36,
+      "totalAssets": 107047000000,
+      "totalEquity": 9466000000,
+      "cashAndEquivalents": 14572000000,
+      "totalDebt": 15040000000,
+      "operatingCashFlow": 4639000000,
+      "capex": -1928000000,
+      "dividendPerShare": 1.5,
+      "sharesOutstanding": 785628955,
+      "employees": 126495,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2022-03/AIRBUS%20FY2021%20FINANCIAL%20STATEMENTS%20DS.pdf",
+        "document": "Airbus Financial Statements 2021",
+        "page": "PDF p. 9 (income statement), pp. 11-12 (statement of financial position), p. 13 (cash flows); Note 34 p. 58 (shares outstanding, dividend), Note 28 p. 46 (employees)"
+      }
+    },
+    {
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 49912000000,
+      "operatingIncome": -510000000,
+      "netIncome": -1133000000,
+      "dilutedEPS": -1.45,
+      "totalAssets": 110095000000,
+      "totalEquity": 6445000000,
+      "cashAndEquivalents": 14439000000,
+      "totalDebt": 17095000000,
+      "operatingCashFlow": -5420000000,
+      "capex": -1759000000,
+      "dividendPerShare": 0,
+      "sharesOutstanding": 783716395,
+      "employees": 131349,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2022-03/AIRBUS%20FY2021%20FINANCIAL%20STATEMENTS%20DS.pdf",
+        "document": "Airbus Financial Statements 2021 (2020 comparatives)",
+        "page": "PDF p. 9 (income statement), pp. 11-12 (statement of financial position), p. 13 (cash flows); Note 34 p. 58 (shares outstanding), Note 28 p. 46 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/AIRBUS_FINANCIAL_STATEMENTS_2020.pdf",
+            "document": "Airbus Financial Statements 2020",
+            "page": "PDF p. 8-10 (consolidated statements)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 70478000000,
+      "operatingIncome": 1339000000,
+      "netIncome": -1362000000,
+      "dilutedEPS": -1.75,
+      "totalAssets": 114409000000,
+      "totalEquity": 5975000000,
+      "cashAndEquivalents": 9314000000,
+      "totalDebt": 10148000000,
+      "operatingCashFlow": 3753000000,
+      "capex": -2340000000,
+      "dividendPerShare": 0,
+      "sharesOutstanding": 782310505,
+      "employees": 134931,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/AIRBUS_FINANCIAL_STATEMENTS_2019.pdf",
+        "document": "Airbus Financial Statements 2019",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows); Note 34 p. 60 (shares outstanding, dividend - the EUR 1.80 proposed for FY2019 was withdrawn in March 2020), Note 28 p. 47 (employees)"
+      }
+    },
+    {
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 63707000000,
+      "operatingIncome": 5048000000,
+      "netIncome": 3054000000,
+      "dilutedEPS": 3.92,
+      "totalAssets": 115198000000,
+      "totalEquity": 9724000000,
+      "cashAndEquivalents": 9413000000,
+      "totalDebt": 8926000000,
+      "operatingCashFlow": 2318000000,
+      "capex": -2285000000,
+      "dividendPerShare": 1.65,
+      "sharesOutstanding": 775730957,
+      "employees": 133671,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/AIRBUS_FINANCIAL_STATEMENTS_2019.pdf",
+        "document": "Airbus Financial Statements 2019 (2018 comparatives)",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows); Note 34 p. 60 (shares outstanding), Note 28 p. 47 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Airbus-SE-Financial-Statements-2018.pdf",
+            "document": "Airbus SE Financial Statements 2018",
+            "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows), Note 32 p. 66 (dividend EUR 1.65 proposed for FY2018)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 59022000000,
+      "operatingIncome": 2665000000,
+      "netIncome": 2361000000,
+      "dilutedEPS": 3.04,
+      "totalAssets": 109449000000,
+      "totalEquity": 10740000000,
+      "cashAndEquivalents": 12016000000,
+      "totalDebt": 11196000000,
+      "operatingCashFlow": 4444000000,
+      "capex": -2558000000,
+      "dividendPerShare": 1.5,
+      "sharesOutstanding": 774426537,
+      "employees": 129442,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Airbus-SE-Financial-Statements-2018.pdf",
+        "document": "Airbus SE Financial Statements 2018 (FY2017 restated for IFRS 15)",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows); Note 32 p. 66 (shares outstanding, dividend), Note 26 p. 53 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Airbus-SE-Financial-Statements-2017.pdf",
+            "document": "Airbus SE Financial Statements 2017 (original, pre-IFRS 15: revenue EUR 66,767m, EBIT EUR 3,421m, net income EUR 2,873m, diluted EPS EUR 3.70)",
+            "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 66581000000,
+      "operatingIncome": 2258000000,
+      "netIncome": 995000000,
+      "dilutedEPS": 1.29,
+      "totalAssets": 107667000000,
+      "totalEquity": 1561000000,
+      "cashAndEquivalents": 10143000000,
+      "totalDebt": 10478000000,
+      "operatingCashFlow": 4369000000,
+      "capex": -3060000000,
+      "dividendPerShare": 1.35,
+      "sharesOutstanding": 772728699,
+      "employees": 133782,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Airbus-SE-Financial-Statements-2017.pdf",
+        "document": "Airbus SE Financial Statements 2017 (2016 comparatives); balance sheet taken from the 'Opening 2017, restated' column of the Financial Statements 2018 (31 December 2016 on an IFRS 15 basis)",
+        "page": "PDF p. 6 (income statement), p. 10 (cash flows), Note 32 p. 61 (shares outstanding, dividend), Note 26 p. 48 (employees) - 2017 FS; PDF pp. 8-9 (31 December 2016 restated for IFRS 15) - 2018 FS",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Airbus-SE-Financial-Statements-2018.pdf",
+            "document": "Airbus SE Financial Statements 2018 (Opening 2017, restated: total assets EUR 107,667m, equity attributable EUR 1,561m)",
+            "page": "PDF pp. 8-9"
+          },
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/airbus-financial-statements-2016.pdf",
+            "document": "Airbus Group SE Financial Statements 2016 (original: total assets EUR 111,133m, equity attributable EUR 3,657m)",
+            "page": "PDF pp. 8-9, Note 32 p. 61, Note 26 p. 48"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 64450000000,
+      "operatingIncome": 4062000000,
+      "netIncome": 2696000000,
+      "dilutedEPS": 3.42,
+      "totalAssets": 105782000000,
+      "totalEquity": 5966000000,
+      "cashAndEquivalents": 6590000000,
+      "totalDebt": 9125000000,
+      "operatingCashFlow": 2891000000,
+      "capex": -2924000000,
+      "dividendPerShare": 1.3,
+      "sharesOutstanding": 783870727,
+      "employees": 136574,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/airbus-financial-statements-2016.pdf",
+        "document": "Airbus Group SE Financial Statements 2016 (FY2015 restated for the securities/trade-liability reclassification)",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows); Note 32 p. 61 (shares outstanding, dividend), Note 26 p. 48 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Airbus-Financial-Statements-2015.pdf",
+            "document": "Airbus Group Financial Statements 2015 (original: cash EUR 7,489m, total assets EUR 106,681m, operating cash flow EUR 3,600m)",
+            "page": "PDF p. 6, pp. 8-9, p. 10"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 60713000000,
+      "operatingIncome": 3991000000,
+      "netIncome": 2343000000,
+      "dilutedEPS": 2.99,
+      "totalAssets": 96102000000,
+      "totalEquity": 7061000000,
+      "cashAndEquivalents": 7271000000,
+      "totalDebt": 7351000000,
+      "operatingCashFlow": 2560000000,
+      "capex": -2548000000,
+      "dividendPerShare": 1.2,
+      "sharesOutstanding": 784348753,
+      "employees": 138622,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Airbus-Financial-Statements-2015.pdf",
+        "document": "Airbus Group Financial Statements 2015 (2014 comparatives)",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 10 (cash flows); Note 32 p. 59 (shares outstanding, dividend), Note 26 p. 46 (employees)"
+      }
+    },
+    {
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 57567000000,
+      "operatingIncome": 2570000000,
+      "netIncome": 1473000000,
+      "dilutedEPS": 1.85,
+      "totalAssets": 93311000000,
+      "totalEquity": 11011000000,
+      "cashAndEquivalents": 7765000000,
+      "totalDebt": 5601000000,
+      "operatingCashFlow": 1931000000,
+      "capex": -2949000000,
+      "dividendPerShare": 0.75,
+      "sharesOutstanding": 780322514,
+      "employees": 144061,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Registration-Document-2014.pdf",
+        "document": "Airbus Group Registration Document 2014 (FY2013 restated for IFRS 10/IFRS 11: revenue, EBIT, net income, EPS); balance sheet, cash flow and share data from the 2013 Financial Statements",
+        "page": "PDF p. 69 (three-year consolidated income statements)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/eads-financial-statements-2013.pdf",
+            "document": "EADS N.V. Financial Statements 2013",
+            "page": "PDF pp. 8-9 (statement of financial position), p. 9 (cash flows), Note 23 p. 56 (shares outstanding, dividend), Note 39 p. 101 (employees)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 56480000000,
+      "operatingIncome": 2089000000,
+      "netIncome": 1197000000,
+      "dilutedEPS": 1.46,
+      "totalAssets": 92121000000,
+      "totalEquity": 10403000000,
+      "cashAndEquivalents": 8756000000,
+      "totalDebt": 4779000000,
+      "operatingCashFlow": 3840000000,
+      "capex": -3270000000,
+      "dividendPerShare": 0.6,
+      "sharesOutstanding": 822141640,
+      "employees": 140405,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/eads-financial-statements-2013.pdf",
+        "document": "EADS N.V. Financial Statements 2013 (2012 restated for revised IAS 19)",
+        "page": "PDF p. 6 (income statement), pp. 8-9 (statement of financial position), p. 9 (cash flows); Note 23 p. 56 (shares outstanding, dividend), Note 39 p. 101 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/Registration-Document-2014.pdf",
+            "document": "Airbus Group Registration Document 2014 (2012 three-year summary; 2012 not adjusted for IFRS 10/11)",
+            "page": "PDF p. 69"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 49128000000,
+      "operatingIncome": 1541000000,
+      "netIncome": 980000000,
+      "dilutedEPS": 1.2,
+      "totalAssets": 88476000000,
+      "totalEquity": 8850000000,
+      "cashAndEquivalents": 5284000000,
+      "totalDebt": 5104000000,
+      "operatingCashFlow": 4289000000,
+      "capex": -2197000000,
+      "dividendPerShare": 0.45,
+      "sharesOutstanding": 814896511,
+      "employees": 133115,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/eads-financial-statements-2013.pdf",
+        "document": "EADS N.V. Financial Statements 2013 (2011 income statement restated for revised IAS 19); balance sheet, cash flow and share data from the 2011 Financial Statements",
+        "page": "PDF p. 6 (income statement, 2011 column)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/eads-financial-statements-2011.pdf",
+            "document": "EADS N.V. Financial Statements 2011 (original: EBIT EUR 1,613m, net income EUR 1,033m, diluted EPS EUR 1.27)",
+            "page": "PDF p. 8 (income statement), pp. 10-11 (statement of financial position), p. 11 (cash flows), Note 23 p. 60 (shares outstanding, dividend), Note 39 p. 96 (employees)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 45752000000,
+      "operatingIncome": 1187000000,
+      "netIncome": 553000000,
+      "dilutedEPS": 0.68,
+      "totalAssets": 83187000000,
+      "totalEquity": 8841000000,
+      "cashAndEquivalents": 5030000000,
+      "totalDebt": 4278000000,
+      "operatingCashFlow": 4443000000,
+      "capex": -2250000000,
+      "dividendPerShare": 0.22,
+      "sharesOutstanding": 811061638,
+      "employees": 121691,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/eads-financial-statements-2011.pdf",
+        "document": "EADS N.V. Financial Statements 2011 (2010 comparatives; operating cash flow restated from EUR 4,996m for the pension-contribution reclassification)",
+        "page": "PDF p. 8 (income statement), pp. 10-11 (statement of financial position), p. 11 (cash flows); Note 23 p. 60 (shares outstanding, dividend), Note 39 p. 96 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/financial-statements-2010.pdf",
+            "document": "EADS N.V. Financial Statements 2010 (original)",
+            "page": "PDF p. 8, p. 10, p. 11, Note 23 p. 58"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": true,
+      "revenue": 42822000000,
+      "operatingIncome": -380000000,
+      "netIncome": -763000000,
+      "dilutedEPS": -0.94,
+      "totalAssets": 80304000000,
+      "totalEquity": 10535000000,
+      "cashAndEquivalents": 7038000000,
+      "totalDebt": 5296000000,
+      "operatingCashFlow": 2265000000,
+      "capex": -1957000000,
+      "dividendPerShare": 0,
+      "sharesOutstanding": 810908611,
+      "employees": 119506,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/financial-statements-2010.pdf",
+        "document": "EADS N.V. Financial Statements 2010 (2009 comparatives)",
+        "page": "PDF p. 8 (income statement), p. 10 (statement of financial position), p. 11 (cash flows); Note 23 p. 58 (shares outstanding, no dividend for FY2009), Note 39 p. 96 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-06/eads-financial-statements-2011.pdf",
+            "document": "EADS N.V. Financial Statements 2011 (2009 operating cash flow restated to EUR 2,265m)",
+            "page": "PDF p. 11"
+          },
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/financial-statements-2009-en.pdf",
+            "document": "EADS N.V. Financial Statements 2009 (original: operating cash flow EUR 2,438m)",
+            "page": "PDF p. 8, p. 10, p. 11"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 43265000000,
+      "operatingIncome": 2772000000,
+      "netIncome": 1572000000,
+      "dilutedEPS": 1.95,
+      "totalAssets": 76153000000,
+      "totalEquity": 11022000000,
+      "cashAndEquivalents": 6745000000,
+      "totalDebt": 4504000000,
+      "operatingCashFlow": 4399000000,
+      "capex": -1837000000,
+      "dividendPerShare": 0.2,
+      "sharesOutstanding": 809509147,
+      "employees": 118349,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/financial-statements-2009-en.pdf",
+        "document": "EADS N.V. Financial Statements 2009 (2008 comparatives)",
+        "page": "PDF p. 8 (income statement), p. 10 (statement of financial position), p. 11 (cash flows); Note 24 p. 62 (shares outstanding, dividend EUR 0.20 paid 2009), Note 40 p. 98 (employees)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/annual-report08-financial-statements-2008-en_0.pdf",
+            "document": "EADS N.V. Financial Statements 2008",
+            "page": "PDF p. 7 (income statement), p. 8 (balance sheet), p. 9 (cash flows)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "restated": false,
+      "revenue": 39123000000,
+      "operatingIncome": -33000000,
+      "netIncome": -446000000,
+      "dilutedEPS": -0.55,
+      "totalAssets": 75456000000,
+      "totalEquity": 13090000000,
+      "cashAndEquivalents": 7549000000,
+      "totalDebt": 4814000000,
+      "operatingCashFlow": 5098000000,
+      "capex": -2028000000,
+      "dividendPerShare": 0.12,
+      "sharesOutstanding": 804209475,
+      "employees": 116493,
+      "source": {
+        "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/annual-report08-financial-statements-2008-en_0.pdf",
+        "document": "EADS N.V. Financial Statements 2008 (2007 comparatives)",
+        "page": "PDF p. 7 (income statement), p. 8 (balance sheet), p. 9 (cash flows)",
+        "additional": [
+          {
+            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/financial-statements-and-corporate-governance-2007.pdf",
+            "document": "EADS Financial Statements and Corporate Governance 2007",
+            "page": "PDF p. 99 (shares outstanding, dividend EUR 0.12), p. 133 (employees 116,493)"
+          }
+        ]
+      }
+    }
+  ],
+  "gaps": [],
+  "notes": [
+    "IFRS (EU-endorsed) for all 19 years; no change of accounting framework. The issuer is EADS N.V. for 2007-2013, Airbus Group N.V./SE for 2014-2016 and Airbus SE from the 2017 Dutch conversion; the 2013-2014 documents are filed under both names.",
+    "operatingIncome = the IFRS income-statement line \"Profit (loss) before financial result and income taxes\" (EADS/Airbus call this EBIT). It is the reported figure and contains one-offs: FY2019 includes the EUR 3.6bn bribery settlement inside administrative expenses, FY2020 the COVID charges. Airbus's headline \"EBIT Adjusted\" is a non-IFRS measure and is higher (FY2025: EUR 7,128m vs EUR 6,082m reported).",
+    "totalEquity = equity attributable to owners of the parent (non-controlling interests excluded). totalAssets as per the statement of financial position.",
+    "totalDebt = non-current + current \"financing liabilities\" (bonds, bank borrowings, finance-lease and, from 2019, IFRS 16 lease liabilities). IFRS 16 was adopted on 1 January 2019 without restating 2018 comparatives, so 2007-2018 debt excludes lease liabilities while 2019-2025 includes them (EUR 2,380m of lease liabilities at 31 December 2025 of the EUR 14,249m total).",
+    "cashAndEquivalents = the balance-sheet line \"Cash and cash equivalents\" only; Airbus also holds current and non-current \"securities\", which are not included (about EUR 13bn at end-2025).",
+    "capex = \"Purchases of intangible assets, property, plant and equipment, investment property\" (Airbus reports the three together), stored negative. It is not the same basis as Airbus's free-cash-flow measure, which also nets customer financing and other items.",
+    "dividendPerShare = dividend declared/proposed for the fiscal year (paid the following spring), including special dividends. FY2009 and FY2020 are nil (no distribution); the EUR 1.80 proposed for FY2019 was withdrawn in March 2020 because of COVID-19, so FY2019 is nil; FY2023 = EUR 1.80 + EUR 1.00 special and FY2024 = EUR 2.00 + EUR 1.00 special; FY2025 = EUR 3.20 proposed to the AGM of 15 April 2026 (not yet paid).",
+    "sharesOutstanding = shares outstanding at 31 December (issued less treasury shares) from the Total Equity note; it is not the weighted average used for EPS.",
+    "IFRS 15 (adopted 1 January 2018, full retrospective) restated FY2017: originally revenue EUR 66,767m, EBIT EUR 3,421m, net income EUR 2,873m, diluted EPS EUR 3.70; the FY2017 row is the restated version from the 2018 Financial Statements. The same transition cut equity attributable at 31 December 2016 from EUR 3,657m to EUR 1,561m and total assets from EUR 111,133m to EUR 107,667m; no document republished the FY2016 income statement on an IFRS 15 basis, so the FY2016 row combines the pre-IFRS 15 P&L with the restated (opening 2017) balance sheet - see the source entries for both figures.",
+    "IAS 19 revised (applied 2013) restated 2011 and 2012: FY2011 revenue unchanged but EBIT EUR 1,613m -> EUR 1,541m, net income EUR 1,033m -> EUR 980m, diluted EPS EUR 1.27 -> EUR 1.20; FY2012 EBIT EUR 2,089m and net income EUR 1,197m are the restated figures. The FY2011 balance sheet is the one published in the 2011 Financial Statements (pre-restatement) because no later document republished it.",
+    "IFRS 10/IFRS 11 (applied 2014) restated FY2013: revenue EUR 59,256m -> EUR 57,567m, EBIT EUR 2,607m -> EUR 2,570m, net income EUR 1,465m -> EUR 1,473m, diluted EPS EUR 1.84 -> EUR 1.85 (Registration Document 2014, PDF p. 69). The FY2013 balance sheet, cash flow and share count are from the 2013 Financial Statements, i.e. on the pre-IFRS 11 basis.",
+    "The 2016 Financial Statements reclassified certain securities and trade liabilities and restated FY2015: cash and cash equivalents EUR 7,489m -> EUR 6,590m, total assets EUR 106,681m -> EUR 105,782m, operating cash flow EUR 3,600m -> EUR 2,891m. FY2014 keeps the figures published in 2015 (a later EUR 190m cash reclassification is disclosed but no restated FY2014 statements were issued).",
+    "The 2011 Financial Statements changed the presentation of pension contributions inside operating cash flow, restating FY2009 operating cash flow from EUR 2,438m to EUR 2,265m and FY2010 from EUR 4,996m to EUR 4,443m; the latest figures are used.",
+    "Revenue is the income-statement line \"Revenue(s)\" for an industrial group (no bank/insurer top line involved). Airbus reports in euros, unchanged over the period.",
+    "employees = consolidated headcount at 31 December from the \"Number of Employees\" note (EADS/Airbus report year-end, not average, headcount).",
+    "Cross-check against the Yahoo snapshot (docs/global-companies/snapshot-2026-10-26.json, USD): the implied EUR/USD rates back out at 1.0517 (2022), 1.0848 (2023), 1.0803 (2024) and 1.1323 (2025) and reproduce revenue and net income for 2022-2025 to within 0.3%, confirming the line, unit and scope choices. Yahoo totalDebt and cash use wider definitions (leases/ securities) and are not comparable."
+  ]
+}

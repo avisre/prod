@@ -1,0 +1,777 @@
+{
+  "symbol": "RMS.PA",
+  "name": "Hermès International Société en commandite par actions",
+  "reportingCurrency": "EUR",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://finance.hermes.com/en/",
+  "years": [
+    {
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 16002000000,
+      "operatingIncome": 6569000000,
+      "netIncome": 4524000000,
+      "dilutedEPS": 43.07,
+      "totalAssets": 24322000000,
+      "totalEquity": 18840000000,
+      "cashAndEquivalents": 12239000000,
+      "totalDebt": 2346000000,
+      "operatingCashFlow": 5374000000,
+      "capex": -1161000000,
+      "dividendPerShare": 18.0,
+      "sharesOutstanding": 105569412,
+      "employees": 26494,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2026-04/1777391712/260320_hermes_urd2025_en.pdf",
+        "document": "2025 Universal Registration Document including the annual financial report",
+        "page": "PDF p. 357 (consolidated income statement), p. 358 (consolidated balance sheet), p. 360 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2026-04/1777391712/260320_hermes_urd2025_en.pdf",
+            "document": "2025 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (key consolidated financial data 2021-2025, incl. headcount)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2026-04/1777391712/260320_hermes_urd2025_en.pdf",
+            "document": "2025 Universal Registration Document including the annual financial report",
+            "page": "p. 436 (table of results over the last five years: net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 15170000000,
+      "operatingIncome": 6150000000,
+      "netIncome": 4603000000,
+      "dilutedEPS": 43.87,
+      "totalAssets": 23084000000,
+      "totalEquity": 17327000000,
+      "cashAndEquivalents": 11642000000,
+      "totalDebt": 2174000000,
+      "operatingCashFlow": 5139000000,
+      "capex": -1067000000,
+      "dividendPerShare": 26.0,
+      "sharesOutstanding": 105569412,
+      "employees": 25185,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2026-04/1777391712/260320_hermes_urd2025_en.pdf",
+        "document": "2025 Universal Registration Document including the annual financial report",
+        "page": "PDF p. 357-358, p. 360 (2024 comparative columns of the consolidated statements)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2026-04/1777391712/260320_hermes_urd2025_en.pdf",
+            "document": "2025 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (key consolidated financial data)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2026-04/1777391712/260320_hermes_urd2025_en.pdf",
+            "document": "2025 Universal Registration Document including the annual financial report",
+            "page": "p. 436 (net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 13427000000,
+      "operatingIncome": 5650000000,
+      "netIncome": 4311000000,
+      "dilutedEPS": 41.12,
+      "totalAssets": 20447000000,
+      "totalEquity": 15201000000,
+      "cashAndEquivalents": 10625000000,
+      "totalDebt": 2060000000,
+      "operatingCashFlow": 4328000000,
+      "capex": -859000000,
+      "dividendPerShare": 25.0,
+      "sharesOutstanding": 105569412,
+      "employees": 22879,
+      "restated": true,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2025-03/1743171288/250328_hermes_urd2024_en.pdf",
+        "document": "2024 Universal Registration Document including the annual financial report",
+        "page": "PDF p. 372 (consolidated income statement), p. 373 (consolidated balance sheet), p. 375 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2025-03/1743171288/250328_hermes_urd2024_en.pdf",
+            "document": "2024 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (key consolidated financial data 2020-2024, incl. headcount proforma)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2025-03/1743171288/250328_hermes_urd2024_en.pdf",
+            "document": "2024 Universal Registration Document including the annual financial report",
+            "page": "p. 444 (net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 11602000000,
+      "operatingIncome": 4697000000,
+      "netIncome": 3367000000,
+      "dilutedEPS": 32.09,
+      "totalAssets": 17459000000,
+      "totalEquity": 12440000000,
+      "cashAndEquivalents": 9225000000,
+      "totalDebt": 1934000000,
+      "operatingCashFlow": 4184000000,
+      "capex": -518000000,
+      "dividendPerShare": 13.0,
+      "sharesOutstanding": 105569412,
+      "employees": 20296,
+      "restated": true,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+        "document": "2022 Universal Registration Document including the annual financial report",
+        "page": "PDF p. 400 (consolidated income statement), p. 401 (consolidated balance sheet), p. 403 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+            "document": "2022 Universal Registration Document including the annual financial report",
+            "page": "p. 25 (key consolidated financial data 2018-2022)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+            "document": "2022 Universal Registration Document including the annual financial report",
+            "page": "p. 470 (net dividend per share)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2025-03/1743171288/250328_hermes_urd2024_en.pdf",
+            "document": "2024 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (headcount proforma under CSRD definition)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 8982000000,
+      "operatingIncome": 3530000000,
+      "netIncome": 2445000000,
+      "dilutedEPS": 23.3,
+      "totalAssets": 13847000000,
+      "totalEquity": 9400000000,
+      "cashAndEquivalents": 6696000000,
+      "totalDebt": 1802000000,
+      "operatingCashFlow": 3405000000,
+      "capex": -532000000,
+      "dividendPerShare": 8.0,
+      "sharesOutstanding": 105569412,
+      "employees": 18137,
+      "restated": true,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+        "document": "2022 Universal Registration Document including the annual financial report",
+        "page": "PDF p. 400-401, p. 403 (2021 comparative columns of the consolidated statements)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+            "document": "2022 Universal Registration Document including the annual financial report",
+            "page": "p. 25 (key consolidated financial data)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+            "document": "2022 Universal Registration Document including the annual financial report",
+            "page": "p. 470 (net dividend per share)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2025-03/1743171288/250328_hermes_urd2024_en.pdf",
+            "document": "2024 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (headcount proforma under CSRD definition)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 6389400000,
+      "operatingIncome": 2072500000,
+      "netIncome": 1385400000,
+      "dilutedEPS": 13.21,
+      "totalAssets": 11050500000,
+      "totalEquity": 7380100000,
+      "cashAndEquivalents": 4732700000,
+      "totalDebt": 1686000000,
+      "operatingCashFlow": 1642400000,
+      "capex": -448400000,
+      "dividendPerShare": 4.55,
+      "sharesOutstanding": 105569412,
+      "employees": 16956,
+      "restated": true,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2021-04/1619702282/hermes-urd2020-en.pdf",
+        "document": "2020 Universal Registration Document including the annual financial report",
+        "page": "PDF p. 356 (consolidated income statement), p. 357 (consolidated balance sheet), p. 359 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2021-04/1619702282/hermes-urd2020-en.pdf",
+            "document": "2020 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (key consolidated data 2016-2020)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+            "document": "2022 Universal Registration Document including the annual financial report",
+            "page": "p. 470 (net dividend per share)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2025-03/1743171288/250328_hermes_urd2024_en.pdf",
+            "document": "2024 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (headcount proforma under CSRD definition)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 6883400000,
+      "operatingIncome": 2338900000,
+      "netIncome": 1528200000,
+      "dilutedEPS": 14.55,
+      "totalAssets": 9881100000,
+      "totalEquity": 6568100000,
+      "cashAndEquivalents": 4384200000,
+      "totalDebt": 1141700000,
+      "operatingCashFlow": 2087300000,
+      "capex": -478000000,
+      "dividendPerShare": 4.55,
+      "sharesOutstanding": 105569412,
+      "employees": 15417,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-07/1595280621/hermesinternational-urd-2019-en.pdf",
+        "document": "2019 Universal Registration Document (Registration Document) including the annual financial report",
+        "page": "PDF p. 300 (consolidated statement of income), p. 301 (consolidated balance sheet), p. 303 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-07/1595280621/hermesinternational-urd-2019-en.pdf",
+            "document": "2019 Universal Registration Document (Registration Document) including the annual financial report",
+            "page": "p. 18 (key consolidated data 2015-2019)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2021-04/1619702282/hermes-urd2020-en.pdf",
+            "document": "2020 Universal Registration Document including the annual financial report",
+            "page": "p. 26 (2019 comparative)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2023-05/1684143348/hermes-urd-2022-en_01.pdf",
+            "document": "2022 Universal Registration Document including the annual financial report",
+            "page": "p. 470 (net dividend per share, €4.55 as finally paid)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 5966100000,
+      "operatingIncome": 2128000000,
+      "netIncome": 1405500000,
+      "dilutedEPS": 13.4,
+      "totalAssets": 8451900000,
+      "totalEquity": 5469800000,
+      "cashAndEquivalents": 3479100000,
+      "totalDebt": 1166000000,
+      "operatingCashFlow": 1940100000,
+      "capex": -312300000,
+      "dividendPerShare": 4.55,
+      "sharesOutstanding": 105569412,
+      "employees": 14284,
+      "restated": true,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-07/1595280621/hermesinternational-urd-2019-en.pdf",
+        "document": "2019 Universal Registration Document (Registration Document) including the annual financial report",
+        "page": "PDF p. 300-301, p. 303 (2018 comparative columns, restated for IFRS 16)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-07/1595280621/hermesinternational-urd-2019-en.pdf",
+            "document": "2019 Universal Registration Document (Registration Document) including the annual financial report",
+            "page": "p. 18 (key consolidated data, 2018 restated)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2018_rapportannuel_en.pdf",
+            "document": "2018 Registration Document including the annual financial report",
+            "page": "p. 239 (income statement as originally published), p. 242 (balance sheet), p. 246 (cash flow)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-07/1595280621/hermesinternational-urd-2019-en.pdf",
+            "document": "2019 Universal Registration Document (Registration Document) including the annual financial report",
+            "page": "p. 369 (net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 5549200000,
+      "operatingIncome": 1922000000,
+      "netIncome": 1221500000,
+      "dilutedEPS": 11.62,
+      "totalAssets": 6768200000,
+      "totalEquity": 5038900000,
+      "cashAndEquivalents": 2931900000,
+      "totalDebt": 53600000,
+      "operatingCashFlow": 1605600000,
+      "capex": -265300000,
+      "dividendPerShare": 9.1,
+      "sharesOutstanding": 105569412,
+      "employees": 13483,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2018_rapportannuel_en.pdf",
+        "document": "2018 Registration Document including the annual financial report",
+        "page": "PDF p. 239 (consolidated statement of profit or loss), p. 242-243 (consolidated statement of financial position), p. 246 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2018_rapportannuel_en.pdf",
+            "document": "2018 Registration Document including the annual financial report",
+            "page": "p. 18 (key consolidated data 2014-2018)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2018_rapportannuel_en.pdf",
+            "document": "2018 Registration Document including the annual financial report",
+            "page": "p. 317 (net dividend per share, incl. €5.00 extraordinary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 5202200000,
+      "operatingIncome": 1696500000,
+      "netIncome": 1100300000,
+      "dilutedEPS": 10.47,
+      "totalAssets": 5998700000,
+      "totalEquity": 4382600000,
+      "cashAndEquivalents": 2328900000,
+      "totalDebt": 41000000,
+      "operatingCashFlow": 1473900000,
+      "capex": -262100000,
+      "dividendPerShare": 3.75,
+      "sharesOutstanding": 105569412,
+      "employees": 12834,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2016_rapportannuel_en.pdf",
+        "document": "2016 Registration Document (annual report)",
+        "page": "PDF p. 162 (consolidated statement of profit or loss), p. 164-165 (consolidated statement of financial position), p. 168 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2016_rapportannuel_en.pdf",
+            "document": "2016 Registration Document (annual report)",
+            "page": "p. 15 (key consolidated data 2012-2016)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2016_rapportannuel_en.pdf",
+            "document": "2016 Registration Document (annual report)",
+            "page": "p. 240 (net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 4841000000,
+      "operatingIncome": 1540700000,
+      "netIncome": 972600000,
+      "dilutedEPS": 9.26,
+      "totalAssets": 5187600000,
+      "totalEquity": 3742000000,
+      "cashAndEquivalents": 1589200000,
+      "totalDebt": 41600000,
+      "operatingCashFlow": 1185700000,
+      "capex": -252400000,
+      "dividendPerShare": 3.35,
+      "sharesOutstanding": 105569412,
+      "employees": 12244,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2016_rapportannuel_en.pdf",
+        "document": "2016 Registration Document (annual report)",
+        "page": "PDF p. 162-168 (2015 comparative columns of the consolidated statements)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2016_rapportannuel_en.pdf",
+            "document": "2016 Registration Document (annual report)",
+            "page": "p. 15 (key consolidated data)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2016_rapportannuel_en.pdf",
+            "document": "2016 Registration Document (annual report)",
+            "page": "p. 240 (net dividend per share)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2014_rapportannuel_en.pdf",
+            "document": "2014 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data 2010-2014)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 4118600000,
+      "operatingIncome": 1299300000,
+      "netIncome": 858800000,
+      "dilutedEPS": 8.19,
+      "totalAssets": 4768200000,
+      "totalEquity": 3449000000,
+      "cashAndEquivalents": 1441600000,
+      "totalDebt": 41300000,
+      "operatingCashFlow": 966800000,
+      "capex": -278900000,
+      "dividendPerShare": 7.95,
+      "sharesOutstanding": 105569412,
+      "employees": 11718,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2014_rapportannuel_en.pdf",
+        "document": "2014 Annual Report / Registration Document",
+        "page": "PDF p. 103 (consolidated statement of income), p. 104-105 (consolidated statement of financial position), p. 106 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2014_rapportannuel_en.pdf",
+            "document": "2014 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data 2010-2014)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2014_rapportannuel_en.pdf",
+            "document": "2014 Annual Report / Registration Document",
+            "page": "p. 362 (net dividend per share, incl. €5.00 extraordinary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 3754800000,
+      "operatingIncome": 1218000000,
+      "netIncome": 790300000,
+      "dilutedEPS": 7.54,
+      "totalAssets": 3937600000,
+      "totalEquity": 2825600000,
+      "cashAndEquivalents": 1053700000,
+      "totalDebt": 56600000,
+      "operatingCashFlow": 896900000,
+      "capex": -211200000,
+      "dividendPerShare": 2.7,
+      "sharesOutstanding": 105569412,
+      "employees": 11037,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2014_rapportannuel_en.pdf",
+        "document": "2014 Annual Report / Registration Document",
+        "page": "PDF p. 103-106 (2013 comparative columns of the consolidated statements)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2014_rapportannuel_en.pdf",
+            "document": "2014 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2014_rapportannuel_en.pdf",
+            "document": "2014 Annual Report / Registration Document",
+            "page": "p. 362 (net dividend per share)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2016_rapportannuel_en.pdf",
+            "document": "2016 Registration Document (annual report)",
+            "page": "p. 15 (2013 comparative key data)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 3484100000,
+      "operatingIncome": 1118600000,
+      "netIncome": 739900000,
+      "dilutedEPS": 7.07,
+      "totalAssets": 3405800000,
+      "totalEquity": 2344400000,
+      "cashAndEquivalents": 697000000,
+      "totalDebt": 38400000,
+      "operatingCashFlow": 771200000,
+      "capex": -263000000,
+      "dividendPerShare": 2.5,
+      "sharesOutstanding": 105569412,
+      "employees": 10118,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2012_rapportannuel_en.pdf",
+        "document": "2012 Annual Report / Registration Document",
+        "page": "PDF p. 103 (consolidated statement of income), p. 104-105 (consolidated statement of financial position), p. 106 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2012_rapportannuel_en.pdf",
+            "document": "2012 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data 2008-2012)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2012_rapportannuel_en.pdf",
+            "document": "2012 Annual Report / Registration Document",
+            "page": "p. 355 (net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 2841200000,
+      "operatingIncome": 885200000,
+      "netIncome": 594300000,
+      "dilutedEPS": 5.66,
+      "totalAssets": 3248400000,
+      "totalEquity": 2312800000,
+      "cashAndEquivalents": 1048200000,
+      "totalDebt": 38900000,
+      "operatingCashFlow": 735900000,
+      "capex": -185200000,
+      "dividendPerShare": 7.0,
+      "sharesOutstanding": 105569412,
+      "employees": 9081,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2012_rapportannuel_en.pdf",
+        "document": "2012 Annual Report / Registration Document",
+        "page": "PDF p. 103-106 (2011 comparative columns of the consolidated statements)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2012_rapportannuel_en.pdf",
+            "document": "2012 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2012_rapportannuel_en.pdf",
+            "document": "2012 Annual Report / Registration Document",
+            "page": "p. 355 (net dividend per share, incl. €5.00 extraordinary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 2400800000,
+      "operatingIncome": 668200000,
+      "netIncome": 421700000,
+      "dilutedEPS": 4.0,
+      "totalAssets": 2918600000,
+      "totalEquity": 2150300000,
+      "cashAndEquivalents": 843800000,
+      "totalDebt": 43900000,
+      "operatingCashFlow": 663800000,
+      "capex": -138300000,
+      "dividendPerShare": 1.5,
+      "sharesOutstanding": 105569412,
+      "employees": 8366,
+      "restated": false,
+      "source": {
+        "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+        "document": "2010 Annual Report / Registration Document",
+        "page": "PDF p. 103 (consolidated statement of income), p. 104-105 (consolidated statement of financial position), p. 106 (consolidated statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data 2006-2010)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 325 (net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 1914300000,
+      "operatingIncome": 462900000,
+      "netIncome": 288800000,
+      "dilutedEPS": 2.74,
+      "totalAssets": 2440500000,
+      "totalEquity": 1789900000,
+      "cashAndEquivalents": 529500000,
+      "totalDebt": 64800000,
+      "operatingCashFlow": 457500000,
+      "capex": -197700000,
+      "dividendPerShare": 1.05,
+      "sharesOutstanding": 105569412,
+      "employees": 8057,
+      "restated": false,
+      "source": {
+        "url": "https://echanges.dila.gouv.fr/OPENDATA/AMF/CNS/8888/01/FCCNS028296_20100618.pdf",
+        "document": "2009 Annual Report (Document de reference, English translation), AMF filing archive",
+        "page": "PDF p. 98 (summary consolidated income statement), p. 99-100 (statement of financial position), p. 101 (statement of cash flows)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data, employees)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 325 (net dividend per share)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 103-106 (2009 comparative columns)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 1764600000,
+      "operatingIncome": 449200000,
+      "netIncome": 290200000,
+      "dilutedEPS": 2.76,
+      "totalAssets": 2325500000,
+      "totalEquity": 1588500000,
+      "cashAndEquivalents": 485800000,
+      "totalDebt": 95500000,
+      "operatingCashFlow": 302600000,
+      "capex": -155500000,
+      "dividendPerShare": 1.03,
+      "sharesOutstanding": 105550012,
+      "employees": 7894,
+      "restated": true,
+      "source": {
+        "url": "https://echanges.dila.gouv.fr/OPENDATA/AMF/CNS/8888/01/FCCNS028296_20100618.pdf",
+        "document": "2009 Annual Report (Document de reference, English translation), AMF filing archive",
+        "page": "PDF p. 98-101 (2008 comparative columns, restated for the IAS 38 amendment on samples and advertising)",
+        "additional": [
+          {
+            "url": "https://www.bnains.org/archives/communiques/Hermes_International/20090409_Document_de_reference_2008_Hermes_International.pdf",
+            "document": "Document de reference 2008 (annual report), filed with the AMF on 9 April 2009",
+            "page": "p. 220 (income statement as originally published), p. 221-222 (balance sheet), p. 225 (cash flow)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data, restated equity, employees)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 325 (net dividend per share)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 1625100000,
+      "operatingIncome": 423700000,
+      "netIncome": 288000000,
+      "dilutedEPS": 2.71,
+      "totalAssets": 2062500000,
+      "totalEquity": 1459800000,
+      "cashAndEquivalents": 529900000,
+      "totalDebt": 86000000,
+      "operatingCashFlow": 318500000,
+      "capex": -119900000,
+      "dividendPerShare": 1.0,
+      "sharesOutstanding": 106089214,
+      "employees": 7455,
+      "restated": true,
+      "source": {
+        "url": "https://www.bnains.org/archives/communiques/Hermes_International/20090409_Document_de_reference_2008_Hermes_International.pdf",
+        "document": "Document de reference 2008 (annual report), filed with the AMF on 9 April 2009",
+        "page": "PDF p. 220 (consolidated income statement), p. 221-222 (consolidated balance sheet), p. 225 (consolidated cash flow statement)",
+        "additional": [
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 22 (key consolidated data: equity €1,459.8m restated, employees)"
+          },
+          {
+            "url": "https://echanges.dila.gouv.fr/OPENDATA/AMF/CNS/8888/01/FCCNS028296_20100618.pdf",
+            "document": "2009 Annual Report (Document de reference, English translation), AMF filing archive",
+            "page": "p. 99 (1 January 2008 restated balance sheet: total assets)"
+          },
+          {
+            "url": "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_2010_rapportannuel_en.pdf",
+            "document": "2010 Annual Report / Registration Document",
+            "page": "p. 325 (net dividend per share, number of shares)"
+          }
+        ]
+      }
+    }
+  ],
+  "gaps": [],
+  "notes": [
+    "IFRS throughout: Hermès prepares its consolidated accounts under IFRS as adopted in the EU for every year from 2007 to 2025 (IFRS adopted from 2005); no other standard is involved, so 'standard' is IFRS for all 19 years.",
+    "operatingIncome is 'operating income' (résultat opérationnel), which equals recurring operating income in most years; 2007 (+€9.2m), 2018 (+€52.7m) and 2020 (+€91.1m) include non-recurring items.",
+    "netIncome and totalEquity are attributable to owners of the parent (excluding non-controlling interests).",
+    "operatingCashFlow is 'net cash from operating activities' / 'cash flows related to operating activities (A)', i.e. after interest and income tax paid. Hermès also publishes an 'operating cash flows' subtotal (French CAFG) before working-capital changes, which is higher (2025: €5,607m vs €5,374m) — that subtotal is NOT used here.",
+    "capex = purchases of intangible assets + purchases of property, plant and equipment (Hermès' 'operating investments'), stored negative. The 'investments (excluding financial investments)' line in the older five-year summaries also includes investments in associates, so it is larger than capex (e.g. 2009: €207.3m vs €197.7m; 2012: €370.0m vs €263.0m).",
+    "totalDebt = borrowings and financial liabilities (current + non-current) + lease liabilities (current + non-current). IFRS 16 was adopted on 1 January 2019 with full retrospective restatement of 2018, so 2018 and later include lease liabilities while 2007-2017 are borrowings only; the increase in totalDebt in 2018 (€53.6m -> €1,166.0m) is almost entirely IFRS 16, not new borrowing.",
+    "FY2007 and FY2008 were restated in later reports for the IAS 38 amendment on samples, advertising and promotional expenditure; the restated figures are used (2007 total assets €2,062.5m and equity €1,459.8m, 2008 total assets €2,325.5m and equity €1,588.5m) and both years are flagged restated.",
+    "sharesOutstanding is the number of shares comprising the share capital at 31 December (105,569,412 from 2009 onward), which includes treasury shares (about 0.7%); data providers such as the Yahoo snapshot in docs/global-companies/snapshot-2026-10-26.json show the net-of-treasury count (about 104.8m).",
+    "employees is the group headcount from the key-data table ('workforce: number of employees' in 2007-2019, 'headcount' from 2020). From 2021 the figure follows the CSRD definition of own workers (permanent + fixed-term contracts with no length-of-service condition), pro forma for 2021-2023 per footnote 6 of the 2025 URD: the 2024/2025 URDs show 26,494 / 25,185 / 22,879 / 20,296 / 18,137 where the 2022 URD had reported 19,686 (2022) and 17,595 (2021) and the 2020 URD 16,600 (2020). The 2020 figure used here (16,956) is the one shown in the 2024/2025 URDs, which differs from the 16,600 reported in the 2020 URD; that difference is not explained in the documents, so 2020-2023 are flagged restated.",
+    "dividendPerShare is the net dividend declared in respect of each fiscal year, not the cash paid during it. 2011 (€7.00), 2014 (€7.95) and 2017 (€9.10) include an extraordinary dividend of €5.00 per share; 2023 (€25.00 = €15.00 ordinary + €10.00 exceptional) and 2024 (€26.00 = €16.00 ordinary + €10.00 exceptional) include an exceptional dividend of €10.00 per share (URD 2024 note 13.4, URD 2025 note 12.4). For FY2019 a dividend of €5.00 was proposed in the 2019 URD but €4.55 was actually paid after the June 2020 AGM; the later figure (URD 2022 five-year table) is used. FY2025 is a proposed ordinary dividend of €18.00 (including the €5.00 interim paid in February 2026), subject to the Ordinary General Meeting of 17 April 2026.",
+    "The FY2008 document de référence is no longer served from Hermès' own CDN (the 2007-2010 annual reports there start at 2010); the FY2007/FY2008 statements were read from the company's filed 2008 Document de référence as archived at bnains.org, a copy of the AMF-filed document. Every other year comes from a PDF on hermes.com or from the AMF/DILA filing archive (2009).",
+    "Cross-check against docs/global-companies/snapshot-2026-10-26.json (USD): revenue and net income for 2022-2025 agree to within 0.01% at the implied average EUR/USD rates (1.0516 / 1.0848 / 1.0803 / 1.1322), and total assets, equity, cash and total debt for those years agree to within 0.05% at the implied year-end rates (1.0661 / 1.1068 / 1.0407 / 1.1747)."
+  ]
+}

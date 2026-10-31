@@ -1,0 +1,604 @@
+{
+  "symbol": "MBG.DE",
+  "name": "Mercedes-Benz Group AG",
+  "reportingCurrency": "EUR",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://group.mercedes-benz.com/investors/",
+  "years": [
+    {
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 132214000000,
+      "operatingIncome": 5820000000,
+      "netIncome": 5141000000,
+      "dilutedEPS": 5.34,
+      "totalAssets": 255466000000,
+      "totalEquity": 93257000000,
+      "cashAndEquivalents": 12254000000,
+      "totalDebt": null,
+      "operatingCashFlow": 18006000000,
+      "capex": -5482000000,
+      "dividendPerShare": 3.5,
+      "sharesOutstanding": null,
+      "employees": 164120,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2025",
+        "page": "PDF pp.252,254\u2013256,405,407"
+      }
+    },
+    {
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 145594000000,
+      "operatingIncome": 13599000000,
+      "netIncome": 10207000000,
+      "dilutedEPS": 10.19,
+      "totalAssets": 265010000000,
+      "totalEquity": 92625000000,
+      "cashAndEquivalents": 14511000000,
+      "totalDebt": null,
+      "operatingCashFlow": 17735000000,
+      "capex": -4039000000,
+      "dividendPerShare": 4.3,
+      "sharesOutstanding": null,
+      "employees": 175264,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2025-incl-combined-management-report-mbg-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2025",
+        "page": "PDF pp.252,254\u2013256,405,407"
+      }
+    },
+    {
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 153218000000,
+      "operatingIncome": 19660000000,
+      "netIncome": 14261000000,
+      "dilutedEPS": 13.46,
+      "totalAssets": 263022000000,
+      "totalEquity": 91773000000,
+      "cashAndEquivalents": 15962000000,
+      "totalDebt": null,
+      "operatingCashFlow": 14470000000,
+      "capex": -3745000000,
+      "dividendPerShare": 5.3,
+      "sharesOutstanding": null,
+      "employees": 166056,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2023",
+        "page": "PDF pp.195,197\u2013199,349,351"
+      }
+    },
+    {
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 150017000000,
+      "operatingIncome": 20458000000,
+      "netIncome": 14501000000,
+      "dilutedEPS": 13.55,
+      "totalAssets": 260015000000,
+      "totalEquity": 85415000000,
+      "cashAndEquivalents": 17679000000,
+      "totalDebt": null,
+      "operatingCashFlow": 16894000000,
+      "capex": -3481000000,
+      "dividendPerShare": 5.2,
+      "sharesOutstanding": null,
+      "employees": 168815,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-annual-report-2023-incl-combined-management-report-mbg-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2023",
+        "page": "PDF pp.195,197\u2013199,349,351"
+      }
+    },
+    {
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 133893000000,
+      "operatingIncome": 16028000000,
+      "netIncome": 23006000000,
+      "dilutedEPS": 21.5,
+      "totalAssets": 259831000000,
+      "totalEquity": 71951000000,
+      "cashAndEquivalents": 23120000000,
+      "totalDebt": null,
+      "operatingCashFlow": 24549000000,
+      "capex": -4579000000,
+      "dividendPerShare": 5.0,
+      "sharesOutstanding": null,
+      "employees": 172425,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2021",
+        "page": "PDF pp.185,187\u2013189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264\u2013265)"
+      }
+    },
+    {
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 121778000000,
+      "operatingIncome": 6091000000,
+      "netIncome": 3627000000,
+      "dilutedEPS": 3.39,
+      "totalAssets": 285737000000,
+      "totalEquity": 60691000000,
+      "cashAndEquivalents": 23048000000,
+      "totalDebt": null,
+      "operatingCashFlow": 22332000000,
+      "capex": -5741000000,
+      "dividendPerShare": 1.35,
+      "sharesOutstanding": 1069800000,
+      "employees": 293138.0,
+      "restated": true,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/mercedes-benz/mercedes-benz-ir-annual-report-2021-incl-combined-management-report-mbg-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2021",
+        "page": "PDF pp.185,187\u2013189,345 (2020 average shares/employees also 2020 ten-year summary PDF pp.264\u2013265)"
+      }
+    },
+    {
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 172745000000,
+      "operatingIncome": 4313000000,
+      "netIncome": 2377000000,
+      "dilutedEPS": 2.22,
+      "totalAssets": 302438000000,
+      "totalEquity": 61344000000,
+      "cashAndEquivalents": 18883000000,
+      "totalDebt": null,
+      "operatingCashFlow": 7888000000,
+      "capex": -7199000000,
+      "dividendPerShare": 0.9,
+      "sharesOutstanding": 1069800000,
+      "employees": 301839.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+            "document": "Daimler Annual Report 2020: parent-attributable profit and equity",
+            "page": "PDF pp.155,157"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 167362000000,
+      "operatingIncome": 11132000000,
+      "netIncome": 7249000000,
+      "dilutedEPS": 6.78,
+      "totalAssets": 281619000000,
+      "totalEquity": 64667000000,
+      "cashAndEquivalents": 15853000000,
+      "totalDebt": null,
+      "operatingCashFlow": 343000000,
+      "capex": -7534000000,
+      "dividendPerShare": 3.25,
+      "sharesOutstanding": 1069800000,
+      "employees": 298465.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2018.pdf",
+            "document": "Daimler Annual Report 2018: parent-attributable profit and equity",
+            "page": "PDF pp.233,235"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 164154000000,
+      "operatingIncome": 14348000000,
+      "netIncome": 10278000000,
+      "dilutedEPS": 9.61,
+      "totalAssets": 255345000000,
+      "totalEquity": 63869000000,
+      "cashAndEquivalents": 12072000000,
+      "totalDebt": null,
+      "operatingCashFlow": -1652000000,
+      "capex": -6744000000,
+      "dividendPerShare": 3.65,
+      "sharesOutstanding": 1069800000,
+      "employees": 289530.0,
+      "restated": true,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2018.pdf",
+            "document": "Daimler Annual Report 2018: parent-attributable profit and equity",
+            "page": "PDF pp.233,235"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 153261000000,
+      "operatingIncome": 12902000000,
+      "netIncome": 8526000000,
+      "dilutedEPS": 7.97,
+      "totalAssets": 242988000000,
+      "totalEquity": 57950000000,
+      "cashAndEquivalents": 10981000000,
+      "totalDebt": null,
+      "operatingCashFlow": 3711000000,
+      "capex": -5889000000,
+      "dividendPerShare": 3.25,
+      "sharesOutstanding": 1069800000,
+      "employees": 284957.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+            "document": "Daimler Annual Report 2016: parent-attributable profit and equity",
+            "page": "PDF pp.225,227"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 149467000000,
+      "operatingIncome": 13186000000,
+      "netIncome": 8424000000,
+      "dilutedEPS": 7.87,
+      "totalAssets": 217166000000,
+      "totalEquity": 53561000000,
+      "cashAndEquivalents": 9936000000,
+      "totalDebt": null,
+      "operatingCashFlow": 222000000,
+      "capex": -5075000000,
+      "dividendPerShare": 3.25,
+      "sharesOutstanding": 1069800000,
+      "employees": 284562.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+            "document": "Daimler Annual Report 2016: parent-attributable profit and equity",
+            "page": "PDF pp.225,227"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 129872000000,
+      "operatingIncome": 10752000000,
+      "netIncome": 6962000000,
+      "dilutedEPS": 6.51,
+      "totalAssets": 189635000000,
+      "totalEquity": 43665000000,
+      "cashAndEquivalents": 9667000000,
+      "totalDebt": null,
+      "operatingCashFlow": -1274000000,
+      "capex": -4844000000,
+      "dividendPerShare": 2.45,
+      "sharesOutstanding": 1069800000,
+      "employees": 279857.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2014.pdf",
+            "document": "Daimler Annual Report 2014: parent-attributable profit and equity",
+            "page": "PDF pp.188,190"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 117982000000,
+      "operatingIncome": 10815000000,
+      "netIncome": 6842000000,
+      "dilutedEPS": 6.4,
+      "totalAssets": 168518000000,
+      "totalEquity": 42680000000,
+      "cashAndEquivalents": 11053000000,
+      "totalDebt": null,
+      "operatingCashFlow": 3285000000,
+      "capex": -4975000000,
+      "dividendPerShare": 2.25,
+      "sharesOutstanding": 1068800000,
+      "employees": 275384.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2013.pdf",
+            "document": "Daimler Annual Report 2013: parent-attributable profit and equity",
+            "page": "PDF pp.182,184"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 114297000000,
+      "operatingIncome": 8820000000,
+      "netIncome": 6428000000,
+      "dilutedEPS": 6.02,
+      "totalAssets": 163062000000,
+      "totalEquity": 37905000000,
+      "cashAndEquivalents": 10996000000,
+      "totalDebt": null,
+      "operatingCashFlow": -1100000000,
+      "capex": -4827000000,
+      "dividendPerShare": 2.2,
+      "sharesOutstanding": 1066800000,
+      "employees": 274605.0,
+      "restated": true,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2013.pdf",
+            "document": "Daimler Annual Report 2013: parent-attributable profit and equity",
+            "page": "PDF pp.182,184"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 106540000000,
+      "operatingIncome": 8755000000,
+      "netIncome": 5667000000,
+      "dilutedEPS": 5.31,
+      "totalAssets": 148132000000,
+      "totalEquity": 35676000000,
+      "cashAndEquivalents": 9576000000,
+      "totalDebt": null,
+      "operatingCashFlow": -696000000,
+      "capex": -4158000000,
+      "dividendPerShare": 2.2,
+      "sharesOutstanding": 1066000000,
+      "employees": 267274.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annual-report-2020-incl-combined-management-report-daimler-ag.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2020",
+        "page": "PDF pp.264\u2013265",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2012.pdf",
+            "document": "Daimler Annual Report 2012: parent-attributable profit and equity",
+            "page": "PDF pp.183,185; 2011 restated opening equity also 2013 report PDF p.184"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 97761000000,
+      "operatingIncome": 7274000000,
+      "netIncome": 4498000000,
+      "dilutedEPS": 4.28,
+      "totalAssets": 135830000000,
+      "totalEquity": 36373000000,
+      "cashAndEquivalents": 10903000000,
+      "totalDebt": null,
+      "operatingCashFlow": 8544000000,
+      "capex": -3653000000,
+      "dividendPerShare": 1.85,
+      "sharesOutstanding": 1050800000,
+      "employees": 258120.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
+        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2010.pdf",
+            "document": "Daimler Annual Report 2010: parent-attributable profit and equity",
+            "page": "PDF pp.176,178"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 78924000000,
+      "operatingIncome": -1513000000,
+      "netIncome": -2640000000,
+      "dilutedEPS": -2.63,
+      "totalAssets": 128821000000,
+      "totalEquity": 30261000000,
+      "cashAndEquivalents": 9800000000,
+      "totalDebt": null,
+      "operatingCashFlow": 10961000000,
+      "capex": -2423000000,
+      "dividendPerShare": 0.0,
+      "sharesOutstanding": 1003800000,
+      "employees": 258628.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
+        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/berichte/geschaeftsberichte/daimler/daimler-ir-annualreport-2010.pdf",
+            "document": "Daimler Annual Report 2010: parent-attributable profit and equity",
+            "page": "PDF pp.176,178"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 98469000000,
+      "operatingIncome": 2730000000,
+      "netIncome": 1348000000,
+      "dilutedEPS": 1.4,
+      "totalAssets": 132225000000,
+      "totalEquity": 31216000000,
+      "cashAndEquivalents": 6912000000,
+      "totalDebt": null,
+      "operatingCashFlow": -786000000,
+      "capex": -3559000000,
+      "dividendPerShare": 0.6,
+      "sharesOutstanding": 957700000,
+      "employees": 274330.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
+        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2008.pdf",
+            "document": "Daimler Annual Report 2008: parent-attributable profit and equity",
+            "page": "PDF pp.148\u2013149"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 101569000000,
+      "operatingIncome": 8710000000,
+      "netIncome": 3979000000,
+      "dilutedEPS": 3.8,
+      "totalAssets": 135094000000,
+      "totalEquity": 36718000000,
+      "cashAndEquivalents": 15631000000,
+      "totalDebt": null,
+      "operatingCashFlow": 7146000000,
+      "capex": -4247000000,
+      "dividendPerShare": 2.0,
+      "sharesOutstanding": 1037800000,
+      "employees": 271704.0,
+      "restated": false,
+      "source": {
+        "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2016.pdf",
+        "document": "Mercedes-Benz Group / Daimler Annual Report 2016",
+        "page": "PDF pp.315\u2013316 (printed pp.308\u2013309)",
+        "additionalDocuments": [
+          {
+            "url": "https://group.mercedes-benz.com/documents/investors/reports/annual-report/daimler/daimler-ir-annualreport-2008.pdf",
+            "document": "Daimler Annual Report 2008: parent-attributable profit and equity",
+            "page": "PDF pp.148\u2013149"
+          }
+        ]
+      }
+    }
+  ],
+  "gaps": [
+    "FY2007 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2008 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2009 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2010 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2011 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2012 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2013 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2014 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2015 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2016 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2017 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2018 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2019 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2020 totalDebt: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2021 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2022 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2023 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2024 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred.",
+    "FY2025 totalDebt, sharesOutstanding: not separately extracted as a directly published total from the opened documents; no components summed or values inferred."
+  ],
+  "notes": [
+    "Historical group includes Daimler Trucks and other disposed operations until their respective deconsolidation. FY2020 revenue and EBIT use the FY2021 comparative figures for continuing operations after the Daimler Truck spin-off; netIncome remains total profit attributable to parent owners, including discontinued operations. FY2021 netIncome includes the spin-off gain. These scope breaks make the full series non-comparable without the accompanying notes.",
+    "netIncome and totalEquity are directly published attributable-to-Daimler/Mercedes-Benz-shareholders values, not group net profit or equity including non-controlling interests. FY2012 and opening FY2011 equity use the revised IAS19 figures published in 2013; FY2017 was restated with IFRS9/15 adoption in 2018.",
+    "All monetary statement values scaled from EUR millions. capex is purchases/additions of property, plant and equipment only, negative; separately reported intangible additions are excluded.",
+    "sharesOutstanding through FY2020 is the published average basic shares outstanding, not closing share count. Employees through FY2020 are average annual employees; FY2021 onward is the published year-end active workforce. This definition change is intentional and not comparable as one constant measure.",
+    "The historical ten-year table labels the cash figure Liquid assets; this matches the cash-and-cash-equivalents row in the opened consolidated balance sheets. Dividend is the dividend proposed/associated with each fiscal year.",
+    "IFRS is used throughout. New accounting standards and discontinued operations alter comparability; the annual-report footnotes retain older historical bases where no explicit restated table was found."
+  ]
+}

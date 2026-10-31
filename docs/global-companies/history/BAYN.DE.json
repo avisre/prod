@@ -1,0 +1,581 @@
+{
+  "symbol": "BAYN.DE",
+  "name": "Bayer Aktiengesellschaft",
+  "reportingCurrency": "EUR",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.bayer.com/en/investors",
+  "years": [
+    {
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 45575000000,
+      "operatingIncome": -1077000000,
+      "netIncome": -3620000000,
+      "dilutedEPS": -3.68,
+      "totalAssets": 104541000000,
+      "totalEquity": 25947000000,
+      "cashAndEquivalents": 6671000000,
+      "totalDebt": null,
+      "operatingCashFlow": 5930000000,
+      "capex": -2487000000,
+      "dividendPerShare": 0.11,
+      "sharesOutstanding": 982420000,
+      "employees": 88078,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2026-03/bayer-annual-report-2025.pdf",
+        "document": "Bayer Annual Report 2025, five-year summary and consolidated statements",
+        "page": "PDF pp.2,24,266,268,304"
+      }
+    },
+    {
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 46606000000,
+      "operatingIncome": -71000000,
+      "netIncome": -2552000000,
+      "dilutedEPS": -2.6,
+      "totalAssets": 110850000000,
+      "totalEquity": 31908000000,
+      "cashAndEquivalents": 6191000000,
+      "totalDebt": null,
+      "operatingCashFlow": 7368000000,
+      "capex": -2778000000,
+      "dividendPerShare": 0.11,
+      "sharesOutstanding": 982420000,
+      "employees": 92815,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2026-03/bayer-annual-report-2025.pdf",
+        "document": "Bayer Annual Report 2025, five-year summary and consolidated statements",
+        "page": "PDF pp.2,24,266,268,304"
+      }
+    },
+    {
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 47637000000,
+      "operatingIncome": 612000000,
+      "netIncome": -2941000000,
+      "dilutedEPS": -2.99,
+      "totalAssets": 116259000000,
+      "totalEquity": 32927000000,
+      "cashAndEquivalents": 5907000000,
+      "totalDebt": null,
+      "operatingCashFlow": 5117000000,
+      "capex": -2751000000,
+      "dividendPerShare": 0.11,
+      "sharesOutstanding": 982420000,
+      "employees": 99723,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2026-03/bayer-annual-report-2025.pdf",
+        "document": "Bayer Annual Report 2025, five-year summary and consolidated statements",
+        "page": "PDF pp.2,24,266,268,304",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2024-03/Bayer-Annual-Report-2023.pdf",
+            "document": "Bayer Annual Report 2023, direct statement and per-share supplements",
+            "page": "PDF pp.21,136,138,171"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 50739000000,
+      "operatingIncome": 7012000000,
+      "netIncome": 4150000000,
+      "dilutedEPS": 4.22,
+      "totalAssets": 124877000000,
+      "totalEquity": 38773000000,
+      "cashAndEquivalents": 5171000000,
+      "totalDebt": null,
+      "operatingCashFlow": 7093000000,
+      "capex": -2949000000,
+      "dividendPerShare": 2.4,
+      "sharesOutstanding": 982420000,
+      "employees": 101369,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2026-03/bayer-annual-report-2025.pdf",
+        "document": "Bayer Annual Report 2025, five-year summary and consolidated statements",
+        "page": "PDF pp.2,24,266,268,304",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2023-02/Bayer-Annual-Report-2022.pdf",
+            "document": "Bayer Annual Report 2022, direct statement and per-share supplements",
+            "page": "PDF pp.24,148,150,182"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 44081000000,
+      "operatingIncome": 3353000000,
+      "netIncome": 1000000000,
+      "dilutedEPS": 1.02,
+      "totalAssets": 120241000000,
+      "totalEquity": 33020000000,
+      "cashAndEquivalents": 4564000000,
+      "totalDebt": null,
+      "operatingCashFlow": 5089000000,
+      "capex": -2611000000,
+      "dividendPerShare": 2.0,
+      "sharesOutstanding": 982420000,
+      "employees": 99637,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2026-03/bayer-annual-report-2025.pdf",
+        "document": "Bayer Annual Report 2025, five-year summary and consolidated statements",
+        "page": "PDF pp.2,24,266,268,304",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2023-02/Bayer-Annual-Report-2022.pdf",
+            "document": "Bayer Annual Report 2022, direct statement and per-share supplements",
+            "page": "PDF pp.24,148,150,182"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 41400000000,
+      "operatingIncome": -16169000000,
+      "netIncome": -10495000000,
+      "dilutedEPS": -10.68,
+      "totalAssets": 117046000000,
+      "totalEquity": 30524000000,
+      "cashAndEquivalents": 4191000000,
+      "totalDebt": null,
+      "operatingCashFlow": 4903000000,
+      "capex": -2418000000,
+      "dividendPerShare": 2.0,
+      "sharesOutstanding": 982420000,
+      "employees": 99538,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2021-02/Bayer-Annual-Report-2020.pdf",
+        "document": "Bayer Annual Report 2020, five-year summary and consolidated statements",
+        "page": "PDF pp.2,22,156,158,160,195"
+      }
+    },
+    {
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 43545000000,
+      "operatingIncome": 4162000000,
+      "netIncome": 4091000000,
+      "dilutedEPS": 4.17,
+      "totalAssets": 126174000000,
+      "totalEquity": 47253000000,
+      "cashAndEquivalents": 3185000000,
+      "totalDebt": null,
+      "operatingCashFlow": 8207000000,
+      "capex": -2650000000,
+      "dividendPerShare": 2.8,
+      "sharesOutstanding": 982420000,
+      "employees": 103824,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2021-02/Bayer-Annual-Report-2020.pdf",
+        "document": "Bayer Annual Report 2020, five-year summary and consolidated statements",
+        "page": "PDF pp.2,22,156,158,160,195"
+      }
+    },
+    {
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 36742000000,
+      "operatingIncome": 3454000000,
+      "netIncome": 1695000000,
+      "dilutedEPS": 1.8,
+      "totalAssets": 126285000000,
+      "totalEquity": 45977000000,
+      "cashAndEquivalents": 4052000000,
+      "totalDebt": null,
+      "operatingCashFlow": 7917000000,
+      "capex": -2593000000,
+      "dividendPerShare": 2.8,
+      "sharesOutstanding": 932550000,
+      "employees": 107894,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2021-02/Bayer-Annual-Report-2020.pdf",
+        "document": "Bayer Annual Report 2020, five-year summary and consolidated statements",
+        "page": "PDF pp.2,22,156,158,160,195",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2020-04/bayer_ar18_entire.pdf",
+            "document": "Bayer Annual Report 2018, direct statement and per-share supplements",
+            "page": "PDF pp.2,18,172,175,213"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 35015000000,
+      "operatingIncome": 5903000000,
+      "netIncome": 7336000000,
+      "dilutedEPS": 8.29,
+      "totalAssets": 75087000000,
+      "totalEquity": 36801000000,
+      "cashAndEquivalents": 7581000000,
+      "totalDebt": null,
+      "operatingCashFlow": 8134000000,
+      "capex": -2366000000,
+      "dividendPerShare": 2.8,
+      "sharesOutstanding": 826950000,
+      "employees": 99820,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2021-02/Bayer-Annual-Report-2020.pdf",
+        "document": "Bayer Annual Report 2020, five-year summary and consolidated statements",
+        "page": "PDF pp.2,22,156,158,160,195",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2020-04/bayer_ar18_entire.pdf",
+            "document": "Bayer Annual Report 2018, direct statement and per-share supplements",
+            "page": "PDF pp.2,18,172,175,213"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 34943000000,
+      "operatingIncome": 5738000000,
+      "netIncome": 4531000000,
+      "dilutedEPS": 5.44,
+      "totalAssets": 82238000000,
+      "totalEquity": 30333000000,
+      "cashAndEquivalents": 1899000000,
+      "totalDebt": null,
+      "operatingCashFlow": 9089000000,
+      "capex": -2578000000,
+      "dividendPerShare": 2.7,
+      "sharesOutstanding": null,
+      "employees": 99592,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2021-02/Bayer-Annual-Report-2020.pdf",
+        "document": "Bayer Annual Report 2020, five-year summary and consolidated statements",
+        "page": "PDF pp.2,22,156,158,160,195",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/ar-2016.pdf",
+            "document": "Bayer Annual Report 2016, direct statement and per-share supplements",
+            "page": "PDF pp.209,211,213,253"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 46085000000,
+      "operatingIncome": 6241000000,
+      "netIncome": 4110000000,
+      "dilutedEPS": 4.97,
+      "totalAssets": 73917000000,
+      "totalEquity": 24265000000,
+      "cashAndEquivalents": 1859000000,
+      "totalDebt": null,
+      "operatingCashFlow": 6890000000,
+      "capex": -2517000000,
+      "dividendPerShare": 2.5,
+      "sharesOutstanding": 826950000,
+      "employees": 116600,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2023-12/gb-2015-en.pdf",
+        "document": "Bayer Annual Report 2015, five-year summary and consolidated statements",
+        "page": "PDF pp.3,44,230,232\u2013233,277",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2020-04/bayer_ar18_entire.pdf",
+            "document": "Bayer Annual Report 2018, direct statement and per-share supplements",
+            "page": "PDF pp.2,18,172,175,213"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 41339000000,
+      "operatingIncome": 5395000000,
+      "netIncome": 3426000000,
+      "dilutedEPS": 4.14,
+      "totalAssets": 70234000000,
+      "totalEquity": 20106000000,
+      "cashAndEquivalents": 1853000000,
+      "totalDebt": null,
+      "operatingCashFlow": 5810000000,
+      "capex": -2371000000,
+      "dividendPerShare": 2.25,
+      "sharesOutstanding": 826950000,
+      "employees": 117400,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2023-12/gb-2015-en.pdf",
+        "document": "Bayer Annual Report 2015, five-year summary and consolidated statements",
+        "page": "PDF pp.3,44,230,232\u2013233,277"
+      }
+    },
+    {
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 40157000000,
+      "operatingIncome": 4934000000,
+      "netIncome": 3189000000,
+      "dilutedEPS": 3.86,
+      "totalAssets": 51317000000,
+      "totalEquity": 20718000000,
+      "cashAndEquivalents": 1662000000,
+      "totalDebt": null,
+      "operatingCashFlow": 5171000000,
+      "capex": -2157000000,
+      "dividendPerShare": 2.1,
+      "sharesOutstanding": 826950000,
+      "employees": 112400,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2023-12/gb-2015-en.pdf",
+        "document": "Bayer Annual Report 2015, five-year summary and consolidated statements",
+        "page": "PDF pp.3,44,230,232\u2013233,277",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2023-12/ar-2013.pdf",
+            "document": "Bayer Annual Report 2013, direct statement and per-share supplements",
+            "page": "PDF pp.35,223\u2013224,268 (2011 opening balance sheet restated at 1 Jan 2012)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 39741000000,
+      "operatingIncome": 3928000000,
+      "netIncome": 2403000000,
+      "dilutedEPS": 2.91,
+      "totalAssets": 51318000000,
+      "totalEquity": 18451000000,
+      "cashAndEquivalents": 1698000000,
+      "totalDebt": null,
+      "operatingCashFlow": 4530000000,
+      "capex": -1929000000,
+      "dividendPerShare": 1.9,
+      "sharesOutstanding": 826950000,
+      "employees": 110000,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2023-12/gb-2015-en.pdf",
+        "document": "Bayer Annual Report 2015, five-year summary and consolidated statements",
+        "page": "PDF pp.3,44,230,232\u2013233,277",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2023-12/ar-2013.pdf",
+            "document": "Bayer Annual Report 2013, direct statement and per-share supplements",
+            "page": "PDF pp.35,223\u2013224,268 (2011 opening balance sheet restated at 1 Jan 2012)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 36528000000,
+      "operatingIncome": 4149000000,
+      "netIncome": 2470000000,
+      "dilutedEPS": null,
+      "totalAssets": 52746000000,
+      "totalEquity": 19196000000,
+      "cashAndEquivalents": 1771000000,
+      "totalDebt": null,
+      "operatingCashFlow": 5060000000,
+      "capex": null,
+      "dividendPerShare": 1.65,
+      "sharesOutstanding": null,
+      "employees": 111800,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2023-12/gb-2015-en.pdf",
+        "document": "Bayer Annual Report 2015, five-year summary and consolidated statements",
+        "page": "PDF pp.3,44,230,232\u2013233,277",
+        "additionalDocuments": [
+          {
+            "url": "https://www.bayer.com/sites/default/files/2023-12/ar-2013.pdf",
+            "document": "Bayer Annual Report 2013, direct statement and per-share supplements",
+            "page": "PDF pp.35,223\u2013224,268 (2011 opening balance sheet restated at 1 Jan 2012)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 35088000000,
+      "operatingIncome": 2730000000,
+      "netIncome": 1301000000,
+      "dilutedEPS": 1.57,
+      "totalAssets": 51506000000,
+      "totalEquity": 18833000000,
+      "cashAndEquivalents": 2840000000,
+      "totalDebt": 11833000000,
+      "operatingCashFlow": 5773000000,
+      "capex": -1514000000,
+      "dividendPerShare": 1.5,
+      "sharesOutstanding": 826950000,
+      "employees": 111400,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2020-05/gb-2010-en.pdf",
+        "document": "Bayer Annual Report 2010, five-year summary and consolidated statements",
+        "page": "PDF pp.21,147\u2013148,198; five-year financial summary PDF p.272"
+      }
+    },
+    {
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 31168000000,
+      "operatingIncome": 3006000000,
+      "netIncome": 1359000000,
+      "dilutedEPS": 1.7,
+      "totalAssets": 51042000000,
+      "totalEquity": 18897000000,
+      "cashAndEquivalents": 2725000000,
+      "totalDebt": 12949000000,
+      "operatingCashFlow": 5375000000,
+      "capex": -1575000000,
+      "dividendPerShare": 1.4,
+      "sharesOutstanding": 826950000,
+      "employees": 111000,
+      "restated": true,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2020-05/gb-2010-en.pdf",
+        "document": "Bayer Annual Report 2010, five-year summary and consolidated statements",
+        "page": "PDF pp.21,147\u2013148,198; five-year financial summary PDF p.272"
+      }
+    },
+    {
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 32918000000,
+      "operatingIncome": 3544000000,
+      "netIncome": 1719000000,
+      "dilutedEPS": null,
+      "totalAssets": 52511000000,
+      "totalEquity": null,
+      "cashAndEquivalents": 2094000000,
+      "totalDebt": 16870000000,
+      "operatingCashFlow": null,
+      "capex": null,
+      "dividendPerShare": 1.4,
+      "sharesOutstanding": null,
+      "employees": 108600,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2020-05/gb-2010-en.pdf",
+        "document": "Bayer Annual Report 2010, five-year summary and consolidated statements",
+        "page": "PDF pp.21,147\u2013148,198; five-year financial summary PDF p.272"
+      }
+    },
+    {
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 32385000000,
+      "operatingIncome": 3154000000,
+      "netIncome": 4711000000,
+      "dilutedEPS": null,
+      "totalAssets": 51378000000,
+      "totalEquity": null,
+      "cashAndEquivalents": 2531000000,
+      "totalDebt": 14417000000,
+      "operatingCashFlow": null,
+      "capex": null,
+      "dividendPerShare": 1.35,
+      "sharesOutstanding": null,
+      "employees": 106200,
+      "restated": false,
+      "source": {
+        "url": "https://www.bayer.com/sites/default/files/2020-05/gb-2010-en.pdf",
+        "document": "Bayer Annual Report 2010, five-year summary and consolidated statements",
+        "page": "PDF pp.21,147\u2013148,198; five-year financial summary PDF p.272"
+      }
+    }
+  ],
+  "gaps": [
+    "FY2007 dilutedEPS, totalEquity, operatingCashFlow, capex, sharesOutstanding: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2008 dilutedEPS, totalEquity, operatingCashFlow, capex, sharesOutstanding: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2011 dilutedEPS, totalDebt, capex, sharesOutstanding: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2012 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2013 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2014 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2015 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2016 totalDebt, sharesOutstanding: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2017 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2018 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2019 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2020 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2021 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2022 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2023 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2024 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy.",
+    "FY2025 totalDebt: not separately extracted as a directly published value in the opened reports; no estimate, component sum or proxy."
+  ],
+  "notes": [
+    "All currency figures are in full EUR, scaled from EUR millions. netIncome means the consolidated profit attributable to Bayer AG stockholders (the report distinguishes income after taxes including non-controlling interests). totalEquity is the directly published parent-attributable equity, with no subtraction performed.",
+    "revenue and operatingIncome follow the continuing-operations scope published in each selected annual report. netIncome includes continuing and discontinued operations. Material divestments include Covestro, Animal Health and Currenta; the historical series has scope breaks. The five-year 2020 summary uses its restated FY2019 and last-reported FY2016\u20132018 history; the 2025 summary is used for FY2021\u20132025. FY2015 sales/EBIT/employees are the subsequently adjusted figures in the 2018 summary.",
+    "operatingCashFlow is cash provided by operating activities including the separately published discontinued-operations contributions where applicable; gross cash flow/free cash flow are not substitutes. capex is actual cash outflows for property, plant, equipment and intangible assets, normalized negative; newly capitalized additions in the segment table are not substituted for cash purchases.",
+    "totalDebt is Financial liabilities from the old published five-year summary for FY2007\u20132010. Later years are null where only separate maturity components or net debt were extracted; no net-debt substitution or summation was made. Financial-liability maturity tables include future interest and were not used as debt balances.",
+    "dilutedEPS uses directly reported diluted figures or explicit report statements that diluted equals basic; FY2007\u20132008 and FY2011 remain null rather than assuming basic equals diluted. Historic per-share figures retain the split/rights-issue bases published in their source; they are not manually adjusted.",
+    "sharesOutstanding is the published number of shares entitled to dividend at year end, rounded by the issuer to 0.01 million shares. employees is year-end full-time equivalent employees. FY2011 balance sheet is the restated opening 1 Jan 2012 balance published in the 2013 report."
+  ]
+}

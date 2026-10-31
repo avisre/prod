@@ -1,0 +1,645 @@
+{
+  "symbol": "AI.PA",
+  "name": "L'Air Liquide S.A.",
+  "reportingCurrency": "EUR",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.airliquide.com/investors",
+  "years": [
+    {
+      "fiscalYear": 2025,
+      "periodEnd": "2025-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 26940200000,
+      "operatingIncome": 5278700000,
+      "netIncome": 3517900000,
+      "dilutedEPS": 6.08,
+      "totalAssets": 51913400000,
+      "totalEquity": 26213900000,
+      "cashAndEquivalents": 3962000000,
+      "totalDebt": 12377500000,
+      "operatingCashFlow": 6518400000,
+      "capex": -3843400000,
+      "dividendPerShare": 3.7,
+      "sharesOutstanding": 579384423,
+      "employees": 65168,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+        "document": "2025 Universal Registration Document",
+        "page": "PDF p. 199-202 (consolidated statements), p. 241 (note 24 gross debt), p. 428-429 (ten-year summary); employees from sustainability statement"
+      }
+    },
+    {
+      "fiscalYear": 2024,
+      "periodEnd": "2024-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 27057800000,
+      "operatingIncome": 4945600000,
+      "netIncome": 3306100000,
+      "dilutedEPS": 5.72,
+      "totalAssets": 51867500000,
+      "totalEquity": 26860000000,
+      "cashAndEquivalents": 1915300000,
+      "totalDebt": 11074500000,
+      "operatingCashFlow": 6322200000,
+      "capex": -3525100000,
+      "dividendPerShare": 3.3,
+      "sharesOutstanding": 578259263,
+      "employees": 66657,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+        "document": "2025 Universal Registration Document",
+        "page": "PDF p. 199-202, 241, 428-429; employees from sustainability statement (Total Group Employees)"
+      }
+    },
+    {
+      "fiscalYear": 2023,
+      "periodEnd": "2023-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 27607600000,
+      "operatingIncome": 4571500000,
+      "netIncome": 3078000000,
+      "dilutedEPS": 5.33,
+      "totalAssets": 48332400000,
+      "totalEquity": 24321500000,
+      "cashAndEquivalents": 1624900000,
+      "totalDebt": 10845800000,
+      "operatingCashFlow": 6263000000,
+      "capex": -3393400000,
+      "dividendPerShare": 3.2,
+      "sharesOutstanding": 524516778,
+      "employees": 67778,
+      "restated": true,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2025-03/air-liquide-2024-universal-registration-document.pdf",
+        "document": "2024 Universal Registration Document",
+        "page": "PDF p. 193-196 (consolidated statements, 2023 comparatives), p. 235 (gross debt)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          },
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2024-03/air-liquide-2023-universal-registration-document-interactif.pdf",
+            "document": "2023 Universal Registration Document",
+            "page": "Human resources indicators table (Group employees 2019-2023)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2022,
+      "periodEnd": "2022-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 29934000000,
+      "operatingIncome": 4291100000,
+      "netIncome": 2758800000,
+      "dilutedEPS": 5.27,
+      "totalAssets": 49518000000,
+      "totalEquity": 23736400000,
+      "cashAndEquivalents": 1911400000,
+      "totalDebt": 12172700000,
+      "operatingCashFlow": 5810100000,
+      "capex": -3273000000,
+      "dividendPerShare": 2.95,
+      "sharesOutstanding": 523450271,
+      "employees": 67109,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2024-03/air-liquide-2023-universal-registration-document-interactif.pdf",
+        "document": "2023 Universal Registration Document",
+        "page": "PDF p. 227-230 (consolidated statements, 2022 comparatives), p. 269 (gross debt)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2021,
+      "periodEnd": "2021-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 23334800000,
+      "operatingIncome": 4009600000,
+      "netIncome": 2572200000,
+      "dilutedEPS": 5.42,
+      "totalAssets": 46783100000,
+      "totalEquity": 21462300000,
+      "cashAndEquivalents": 2246600000,
+      "totalDebt": 12694900000,
+      "operatingCashFlow": 5570700000,
+      "capex": -2916800000,
+      "dividendPerShare": 2.9,
+      "sharesOutstanding": 475291037,
+      "employees": 66436,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2022-03/air-liquide-2021-universal-registration-document.pdf",
+        "document": "2021 Universal Registration Document",
+        "page": "PDF p. 229-232 (consolidated statements), p. 274 (gross debt)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          },
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2024-03/air-liquide-2023-universal-registration-document-interactif.pdf",
+            "document": "2023 Universal Registration Document",
+            "page": "Human resources indicators table"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2020,
+      "periodEnd": "2020-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 20485200000,
+      "operatingIncome": 3650100000,
+      "netIncome": 2435100000,
+      "dilutedEPS": 5.14,
+      "totalAssets": 41977100000,
+      "totalEquity": 18542300000,
+      "cashAndEquivalents": 1791400000,
+      "totalDebt": 12400700000,
+      "operatingCashFlow": 5205700000,
+      "capex": -2630200000,
+      "dividendPerShare": 2.75,
+      "sharesOutstanding": 473660724,
+      "employees": 64445,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2022-03/air-liquide-2021-universal-registration-document.pdf",
+        "document": "2021 Universal Registration Document",
+        "page": "PDF p. 229-232 (2020 comparatives), p. 274",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          },
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2024-03/air-liquide-2023-universal-registration-document-interactif.pdf",
+            "document": "2023 Universal Registration Document",
+            "page": "Human resources indicators table"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2019,
+      "periodEnd": "2019-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 21920100000,
+      "operatingIncome": 3606300000,
+      "netIncome": 2241500000,
+      "dilutedEPS": 4.73,
+      "totalAssets": 43666500000,
+      "totalEquity": 18870400000,
+      "cashAndEquivalents": 1025700000,
+      "totalDebt": 13399000000,
+      "operatingCashFlow": 4712200000,
+      "capex": -2636400000,
+      "dividendPerShare": 2.7,
+      "sharesOutstanding": 473105514,
+      "employees": 67200,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2020/06/08/air-liquide-2019-universal-registration-document.pdf",
+        "document": "2019 Universal Registration Document",
+        "page": "PDF p. 203-206 (consolidated statements), p. 247 (gross debt)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          },
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2024-03/air-liquide-2023-universal-registration-document-interactif.pdf",
+            "document": "2023 Universal Registration Document",
+            "page": "Human resources indicators table"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2018,
+      "periodEnd": "2018-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 21011100000,
+      "operatingIncome": 3286700000,
+      "netIncome": 2113400000,
+      "dilutedEPS": 4.47,
+      "totalAssets": 41980600000,
+      "totalEquity": 17783100000,
+      "cashAndEquivalents": 1725600000,
+      "totalDebt": 14260500000,
+      "operatingCashFlow": 4716400000,
+      "capex": -2249200000,
+      "dividendPerShare": 2.65,
+      "sharesOutstanding": 429423434,
+      "employees": 66000,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2020/06/08/air-liquide-2019-universal-registration-document.pdf",
+        "document": "2019 Universal Registration Document",
+        "page": "PDF p. 203-206 (2018 comparatives), p. 247",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          },
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2022-03/air-liquide-2021-universal-registration-document.pdf",
+            "document": "2021 Universal Registration Document",
+            "page": "Human resources indicators table (Group employees 2017-2021)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2017,
+      "periodEnd": "2017-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 20349300000,
+      "operatingIncome": 3020300000,
+      "netIncome": 2199600000,
+      "dilutedEPS": 5.14,
+      "totalAssets": 41027300000,
+      "totalEquity": 16317900000,
+      "cashAndEquivalents": 1656100000,
+      "totalDebt": 15027000000,
+      "operatingCashFlow": 4254000000,
+      "capex": -2182500000,
+      "dividendPerShare": 2.65,
+      "sharesOutstanding": 428397550,
+      "employees": 65200,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2018/03/16/2017-air-liquide-reference-document.pdf",
+        "document": "2017 Reference Document",
+        "page": "PDF p. 225-228 (consolidated statements), p. 273 (gross indebtedness)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2016,
+      "periodEnd": "2016-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 18134800000,
+      "operatingIncome": 3059500000,
+      "netIncome": 1844000000,
+      "dilutedEPS": 4.62,
+      "totalAssets": 44117800000,
+      "totalEquity": 16741800000,
+      "cashAndEquivalents": 1523000000,
+      "totalDebt": 16891100000,
+      "operatingCashFlow": 3696500000,
+      "capex": -2258600000,
+      "dividendPerShare": 2.6,
+      "sharesOutstanding": 388875761,
+      "employees": 66700,
+      "restated": true,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2018/03/16/2017-air-liquide-reference-document.pdf",
+        "document": "2017 Reference Document",
+        "page": "PDF p. 225-228 (2016 comparatives, EPS restated for 2017 free share allocation), p. 273",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2026-03/air-liquide-2025-universal-registration-document-interactive.pdf",
+            "document": "2025 Universal Registration Document",
+            "page": "PDF p. 428-429 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2015,
+      "periodEnd": "2015-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 15818500000,
+      "operatingIncome": 2732900000,
+      "netIncome": 1756400000,
+      "dilutedEPS": 4.97,
+      "totalAssets": 28941400000,
+      "totalEquity": 12405700000,
+      "cashAndEquivalents": 965500000,
+      "totalDebt": 8203400000,
+      "operatingCashFlow": 2832400000,
+      "capex": -2027700000,
+      "dividendPerShare": 2.6,
+      "sharesOutstanding": 344163001,
+      "employees": 51500,
+      "restated": true,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+        "document": "2016 Reference Document",
+        "page": "PDF p. 239-243 (2015 restated for IFRS 5 / free shares)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2014,
+      "periodEnd": "2014-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 15358300000,
+      "operatingIncome": 2649800000,
+      "netIncome": 1665000000,
+      "dilutedEPS": 4.83,
+      "totalAssets": 26724900000,
+      "totalEquity": 11536500000,
+      "cashAndEquivalents": 910100000,
+      "totalDebt": 7216400000,
+      "operatingCashFlow": 2829600000,
+      "capex": -1901700000,
+      "dividendPerShare": 2.55,
+      "sharesOutstanding": 344872883,
+      "employees": 50300,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2016/03/02/air-liquide_2015-reference-document.pdf",
+        "document": "2015 Reference Document",
+        "page": "PDF p. 203-207 (2014 comparatives)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2013,
+      "periodEnd": "2013-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 15225200000,
+      "operatingIncome": 2606500000,
+      "netIncome": 1640300000,
+      "dilutedEPS": 5.26,
+      "totalAssets": 25094600000,
+      "totalEquity": 10625100000,
+      "cashAndEquivalents": 940100000,
+      "totalDebt": 7006300000,
+      "operatingCashFlow": 2802700000,
+      "capex": -2156100000,
+      "dividendPerShare": 2.55,
+      "sharesOutstanding": 312831676,
+      "employees": 50250,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2015/02/23/air-liquide_2013-reference-document_en.pdf",
+        "document": "2013 Reference Document",
+        "page": "PDF p. 195-199 (consolidated statements); employees from HR indicators table",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2012,
+      "periodEnd": "2012-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 15326300000,
+      "operatingIncome": 2525900000,
+      "netIncome": 1591100000,
+      "dilutedEPS": 5.09,
+      "totalAssets": 25011300000,
+      "totalEquity": 10190400000,
+      "cashAndEquivalents": 1154200000,
+      "totalDebt": 7273700000,
+      "operatingCashFlow": 2708500000,
+      "capex": -2007900000,
+      "dividendPerShare": 2.5,
+      "sharesOutstanding": 312281159,
+      "employees": 49500,
+      "restated": true,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2015/02/23/air-liquide_2013-reference-document_en.pdf",
+        "document": "2013 Reference Document",
+        "page": "PDF p. 195-199 (2012 restated for revised IAS 19)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2011,
+      "periodEnd": "2011-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 14456900000,
+      "operatingIncome": 2436500000,
+      "netIncome": 1534900000,
+      "dilutedEPS": 5.41,
+      "totalAssets": 24123400000,
+      "totalEquity": 9758600000,
+      "cashAndEquivalents": 1761100000,
+      "totalDebt": 7036000000,
+      "operatingCashFlow": 2425800000,
+      "capex": -1755000000,
+      "dividendPerShare": 2.5,
+      "sharesOutstanding": 283812941,
+      "employees": 46200,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2015/02/23/air-liquide_2011-reference-document_en.pdf",
+        "document": "2011 Reference Document",
+        "page": "PDF p. 159-163 (consolidated statements); employees from HR indicators table",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2010,
+      "periodEnd": "2010-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 13488000000,
+      "operatingIncome": 2254200000,
+      "netIncome": 1403600000,
+      "dilutedEPS": 4.97,
+      "totalAssets": 22537600000,
+      "totalEquity": 8903500000,
+      "cashAndEquivalents": 1523100000,
+      "totalDebt": 6602000000,
+      "operatingCashFlow": 2419900000,
+      "capex": -1449800000,
+      "dividendPerShare": 2.35,
+      "sharesOutstanding": 284095093,
+      "employees": 43600,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2015/02/23/air-liquide_2011-reference-document_en.pdf",
+        "document": "2011 Reference Document",
+        "page": "PDF p. 159-163 (2010 comparatives)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2009,
+      "periodEnd": "2009-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 11976100000,
+      "operatingIncome": 1959100000,
+      "netIncome": 1230000000,
+      "dilutedEPS": 4.7,
+      "totalAssets": 20625600000,
+      "totalEquity": 7583700000,
+      "cashAndEquivalents": 1385300000,
+      "totalDebt": 6355300000,
+      "operatingCashFlow": 2451800000,
+      "capex": -1411000000,
+      "dividendPerShare": 2.25,
+      "sharesOutstanding": 264254354,
+      "employees": 42300,
+      "restated": false,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2015/02/23/air-liquide_2009-reference-document_en.pdf",
+        "document": "2009 Reference Document",
+        "page": "PDF p. 135-139 (consolidated statements); employees from HR indicators table",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2008,
+      "periodEnd": "2008-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 13103100000,
+      "operatingIncome": 1918800000,
+      "netIncome": 1220000000,
+      "dilutedEPS": 4.67,
+      "totalAssets": 20618800000,
+      "totalEquity": 6757400000,
+      "cashAndEquivalents": 1262900000,
+      "totalDebt": 6816600000,
+      "operatingCashFlow": 2292900000,
+      "capex": -1908300000,
+      "dividendPerShare": 2.25,
+      "sharesOutstanding": 260922348,
+      "employees": 43000,
+      "restated": true,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2015/02/23/air-liquide_2009-reference-document_en.pdf",
+        "document": "2009 Reference Document",
+        "page": "PDF p. 135-139 (2008 comparatives; balance sheet restated)",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          }
+        ]
+      }
+    },
+    {
+      "fiscalYear": 2007,
+      "periodEnd": "2007-12-31",
+      "standard": "IFRS",
+      "currency": "EUR",
+      "revenue": 11801200000,
+      "operatingIncome": 1788800000,
+      "netIncome": 1123100000,
+      "dilutedEPS": 4.22,
+      "totalAssets": 18299800000,
+      "totalEquity": 6369500000,
+      "cashAndEquivalents": 726900000,
+      "totalDebt": 5364200000,
+      "operatingCashFlow": 2102100000,
+      "capex": -1359300000,
+      "dividendPerShare": 2.25,
+      "sharesOutstanding": 238844710,
+      "employees": 40300,
+      "restated": true,
+      "source": {
+        "url": "https://www.airliquide.com/sites/airliquide.com/files/2016/06/03/air-liquide_2008-reference-document_en.pdf",
+        "document": "2008 Reference Document",
+        "page": "PDF p. 121-125 (consolidated statements); employees from HR indicators table",
+        "additional": [
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2017/03/08/2016-reference-document.pdf",
+            "document": "2016 Reference Document",
+            "page": "PDF p. 396-397 (Ten-year consolidated financial summary)"
+          },
+          {
+            "url": "https://www.airliquide.com/sites/airliquide.com/files/2015/02/23/air-liquide_2009-reference-document_en.pdf",
+            "document": "2009 Reference Document",
+            "page": "PDF p. 137 (31 Dec 2007 balance sheet restated: total assets)"
+          }
+        ]
+      }
+    }
+  ],
+  "gaps": [],
+  "notes": [
+    "IFRS (EU) throughout 2007-2025.",
+    "operatingIncome = \"Operating income\" line of the consolidated income statement (after other non-recurring operating income and expenses); the group headlines \"Operating income recurring\", which is higher (e.g. 2025: 5,581.6 MEUR).",
+    "revenue, netIncome, totalEquity, capex, dividendPerShare and sharesOutstanding agree with the latest Ten-year consolidated financial summary (2025 URD for 2016-2025, 2016 Reference Document for 2007-2015); 2015 revenue restated for IFRS 5 (originally 16,379.8 MEUR); 2012 restated for revised IAS 19; 2007-2008 equity restated for IAS 19 option.",
+    "capex = \"Purchase of property, plant and equipment and intangible assets\" (reported as one line).",
+    "totalDebt = \"Total gross debt/indebtedness\" (non-current + current borrowings) as published in the net debt note; lease liabilities are excluded from 2019.",
+    "dilutedEPS is taken from the statements of the document used for the year (usually the following year comparative), so it reflects free-share allocations up to that document only; it is not re-adjusted for later bonus issues (Air Liquide gives free shares every two years).",
+    "dividendPerShare = ordinary dividend per share for the fiscal year (paid the following year), before the 10% loyalty premium, not adjusted for later free-share allocations. 2025 is the amount proposed to the AGM.",
+    "sharesOutstanding = number of shares issued and outstanding at year end (ten-year summary). 2007 reflects the 2-for-1 split of June 2007.",
+    "employees = Group employees under contract at 31 December (excludes temporary staff) from the HR indicators tables; Airgas included from 2016."
+  ]
+}
