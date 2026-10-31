@@ -14,6 +14,31 @@ peers by industry label, long-term asset lines, the 10/10 site-audit fixes, cape
 core statement extraction), `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Page data gaps fixed — 2026-10-31 (local commits `0c0cb52a3..`, NOT pushed)
+- Audit: `node scripts/audit-page-gaps.js [--explain]` (run from `backend/`, no server needed) → `docs/data-gaps/`
+  (stocks.csv, funds.csv, summary.md, causes read from each filing). Nil inline-XBRL facts are `filed_blank`, not zero.
+- Fixed: quarterly operating cash flow derived from the previous 10-Q when SEC's facts feed lacks it
+  (`sec-reporting.js` `previousPeriodic`, `refresh-sec-coverage.js` reads that 10-Q's own document; 39 of 58 filled, the
+  rest not derivable from what was filed); closed-end funds' net assets + top 15 holdings from Form N-PORT
+  (`asset-profile.js`, `fund-holdings.js` `netAssets`); description/sector/industry fall back to the stored profile.
+- **Trap: a manual coverage refresh (`refresh-sec-coverage.js --symbols`) strips the industry stage's fields**
+  (segment/industry/operating-expense observations + annual-report facts) — by design, `run-financial-stage.js` runs
+  `industry` after it. Always follow with `refresh-sec-industry.js --symbols <same> --jobs 4`, then rebuild the four
+  indexes. The 10/31 September-quarter fill skipped it: 12 of 63 golden breakdowns (AMZN, MSFT, BA…) vanished; restored
+  for 647 issuers in `8cfb3225b`. Big 10-Ks (KIM, PFG) need `SEC_ORIGINAL_MAX_MB=40`. The predeploy gate caught it
+  (`revenue-breakdown.test.js` golden).
+- **Trap: merging a data branch with origin's weekly reconciliation.** Merge `4dd8d563c` kept this side's newer
+  re-extraction for ~2,600 issuers but dropped origin's 10-31 check stamp, so `validate-stock-coverage.js --bootstrap`
+  failed for all of them (the gate prints only the first few). Fixed by carrying origin's `lastReconciledCycle` /
+  `lastAttemptAt` / `lastSuccessfulCheckAt` where both sides name the same latest filings (2,468), and re-checking the 148
+  where origin had found a newer filing. Next merge: take the stamp along with the entry.
+- Fixed bug: `--symbols` used to rewrite an issuer's symbols to only those named (GOOG refresh dropped GOOGL); it now
+  selects whole issuers. 9 unlisted issuers (Elme, 8 STRATS/CorTS trusts) still lack industry fields — not in the
+  directory, no page shows them.
+- Not fixable from an official source: closed-end fund expense ratio/yield/returns/category, mutual-fund category;
+  N-PORT allocation deliberately not shown (the bars clamp at 100% with no "% of net assets" label). USIO (SIC 6099)
+  revenue dropped by the bank partial-revenue rule — judgement call, left alone.
+
 ## As-filed statements on the company page — 2026-10-31 (local commit, NOT pushed)
 - Owner ask: every covered stock's income / balance / cash-flow statement filled as filed with the SEC, every row.
   The standardized rows map a fixed tag list, so company-specific lines had no row. Now the page defaults to an
