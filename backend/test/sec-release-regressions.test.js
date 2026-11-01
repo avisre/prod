@@ -110,10 +110,19 @@ test('recent annual reporting is stated separately from missing current financia
  assert.match(coverageMessage('unavailable','recent_annual'),/Recent annual SEC report verified/);
 });
 test('narrow or broader taxonomy concepts do not substitute for displayed financial fields',()=>isolated(`
- const mixed=structuredClone(doc),base=mixed.facts['us-gaap'].NetIncomeLoss.units.USD;
- for(const concept of ['GeneralAndAdministrativeExpense','InterestExpenseDebt','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'])mixed.facts['us-gaap'][concept]={units:{USD:base}};
+ const base=mixed=>mixed.facts['us-gaap'].NetIncomeLoss.units.USD;
+ // 2026-11-01 guarded near-equivalents: G&A alone is the SG&A line, plain depreciation alone the
+ // D&A line; beside the filing's selling or amortization lines they stay parts.
+ const plain=structuredClone(doc);plain.facts['us-gaap'].GeneralAndAdministrativeExpense={units:{USD:base(plain)}};plain.facts['us-gaap'].Depreciation={units:{USD:base(plain)}};
+ const e1=require(root+'/backend/sec-facts').extract(plain,evidence,{asOf:'2026-10-03'});
+ assert.equal(e1.income.annualReports[0].sellingGeneralAndAdministrative,100);assert.equal(e1.income.annualReports[0].depreciationAndAmortization,100);
+ const withParts=structuredClone(plain);withParts.facts['us-gaap'].SellingAndMarketingExpense={units:{USD:base(withParts)}};withParts.facts['us-gaap'].AmortizationOfIntangibleAssets={units:{USD:base(withParts)}};
+ const e2=require(root+'/backend/sec-facts').extract(withParts,evidence,{asOf:'2026-10-03'});
+ assert.equal(e2.income.annualReports[0].sellingGeneralAndAdministrative,null);assert.equal(e2.income.annualReports[0].depreciationAndAmortization,null);
+ assert.equal(e2.cash.annualReports[0].depreciationDepletionAndAmortization,null);
+ const mixed=structuredClone(doc);for(const concept of ['InterestExpenseDebt','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'])mixed.facts['us-gaap'][concept]={units:{USD:base(mixed)}};
  const extracted=require(root+'/backend/sec-facts').extract(mixed,evidence,{asOf:'2026-10-03'});
- assert.equal(extracted.income.annualReports[0].sellingGeneralAndAdministrative,null);assert.equal(extracted.income.annualReports[0].interestExpense,null);assert.equal(extracted.cash.annualReports[0].depreciationDepletionAndAmortization,null);
+ assert.equal(extracted.income.annualReports[0].interestExpense,null);assert.equal(extracted.cash.annualReports[0].depreciationDepletionAndAmortization,null);
  `));
 test('profitability windows do not skip missing years or mix reporting scopes',()=>{
  const {annualWindow}=require('../financial-metrics');

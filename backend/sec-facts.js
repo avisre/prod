@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261101-seg1';
+const EXTRACTION_VERSION = '20261101-alt4';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -15,21 +15,31 @@ const MAPS = {
   // left every broker-dealer that reports net revenues (Morgan Stanley, Goldman
   // Sachs) with no revenue at all. Regulated utilities report operating revenue;
   // a business development company's top line is its total investment income.
-  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenuesNetOfInterestExpense','RegulatedAndUnregulatedOperatingRevenue','GrossInvestmentIncomeOperating'],['RevenueFromContractsWithCustomers','Revenue']),
+  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenuesNetOfInterestExpense','RegulatedAndUnregulatedOperatingRevenue','GrossInvestmentIncomeOperating',
+   // 2026-11-01 alt tags, tried only after every original (InterestAndDividendIncomeOperating is
+   // financial firms' own filed total; RealEstateRevenueNet an equity REIT's top line).
+   'InterestAndDividendIncomeOperating','RealEstateRevenueNet'],['RevenueFromContractsWithCustomers','Revenue']),
   // IFRS filers such as Novartis and Sanofi report net sales and other revenues
   // as two lines with no total; the two are added below when, and only when,
   // the filing's own gross profit plus cost of sales confirms the sum.
   netIncome:mapping(['NetIncomeLoss','ProfitLoss','NetIncomeLossAvailableToCommonStockholdersBasic'],['ProfitLossAttributableToOwnersOfParent','ProfitLoss']),
-  operatingIncome:mapping(['OperatingIncomeLoss'],['ProfitLossFromOperatingActivities']),
+  operatingIncome:mapping(['OperatingIncomeLoss','IncomeLossFromContinuingOperationsBeforeInterestExpenseInterestIncomeIncomeTaxesExtraordinaryItemsNoncontrollingInterestsNet'],['ProfitLossFromOperatingActivities']),
   grossProfit:mapping(['GrossProfit'],['GrossProfit']),
-  costOfRevenue:mapping(['CostOfRevenue','CostOfGoodsAndServicesSold','CostOfGoodsSold'],['CostOfSales']),
-  sellingGeneralAndAdministrative:mapping(['SellingGeneralAndAdministrativeExpense'],['SellingGeneralAndAdministrativeExpense']),
+  costOfRevenue:mapping(['CostOfRevenue','CostOfGoodsAndServicesSold','CostOfGoodsSold','CostOfServices'],['CostOfSales']),
+  sellingGeneralAndAdministrative:mapping(['SellingGeneralAndAdministrativeExpense',
+   // G&A alone is the company's SG&A when its filing reports no separate selling or marketing line
+   // (FIELD_GUARDS); with one it stays a part and the row stays unread.
+   'GeneralAndAdministrativeExpense'],['SellingGeneralAndAdministrativeExpense']),
   researchAndDevelopment:mapping(['ResearchAndDevelopmentExpense','ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost','ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost'],['ResearchAndDevelopmentExpense']),
-  operatingExpenses:mapping(['OperatingExpenses'],['OperatingExpense']),
+  operatingExpenses:mapping(['OperatingExpenses',
+   // A bank's operating expenses are its noninterest expense, and many filers' own total is named
+   // "operating costs and expenses". (An insurer's BenefitsLossesAndExpenses stays on its own
+   // industry row, totalBenefitsAndExpenses, per the industry-tag ownership rule.)
+   'OperatingCostsAndExpenses','NoninterestExpense'],['OperatingExpense']),
   interestExpense:mapping(['InterestExpense','InterestExpenseNonoperating','InterestAndDebtExpense','InterestExpenseOperating'],['InterestExpense']),
   premiums:mapping(['PremiumsEarnedNet'],['InsuranceRevenue']),
   investmentIncome:mapping(['InvestmentIncomeNet'],[]),
-  interestIncome:mapping(['InvestmentIncomeInterest','InterestIncomeOperating','InterestAndDividendIncomeOperating'],['InterestIncome','RevenueFromInterest','InterestRevenueCalculatedUsingEffectiveInterestMethod']),
+  interestIncome:mapping(['InvestmentIncomeInterest','InterestIncomeOperating','InterestAndDividendIncomeOperating','InvestmentIncomeInterestAndDividend','InterestIncomeOther'],['InterestIncome','RevenueFromInterest','InterestRevenueCalculatedUsingEffectiveInterestMethod']),
   netInterestIncome:mapping(['InterestIncomeExpenseNet'],['InterestRevenueExpense']),
   nonInterestIncome:mapping(['NoninterestIncome'],[]),
   // Bank and insurer lines read for the industry panels. Each is a filed face
@@ -46,8 +56,8 @@ const MAPS = {
   // expense is the underwriting expense total where a P&C filer tags both.
   policyAcquisitionExpense:mapping(['DeferredPolicyAcquisitionCostAmortizationExpense'],[]),
   otherUnderwritingExpense:mapping(['OtherUnderwritingExpense'],[]),
-  incomeTaxExpense:mapping(['IncomeTaxExpenseBenefit'],['IncomeTaxExpenseContinuingOperations']),
-  incomeBeforeTax:mapping(['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'],['ProfitLossBeforeTax']),
+  incomeTaxExpense:mapping(['IncomeTaxExpenseBenefit','CurrentIncomeTaxExpenseBenefit'],['IncomeTaxExpenseContinuingOperations']),
+  incomeBeforeTax:mapping(['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments','IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic','IncomeLossFromContinuingOperationsBeforeIncomeTaxesForeign'],['ProfitLossBeforeTax']),
   // A partnership reports earnings per unit, not per share (AllianceBernstein Holding, Natural Resource Partners).
   eps:mapping(['EarningsPerShareBasic','NetIncomeLossPerOutstandingLimitedPartnershipUnitBasicNetOfTax','EarningsPerShareBasicAndDiluted','NetIncomeLossPerOutstandingLimitedPartnershipAndGeneralPartnershipUnitBasicAndDiluted','IncomeLossFromContinuingOperationsPerBasicShare','IncomeLossFromContinuingOperationsPerBasicAndDilutedShare'],['BasicEarningsLossPerShare','BasicAndDilutedEarningsLossPerShare'],'parent'),
   weightedAverageSharesOutstanding:mapping(['WeightedAverageNumberOfSharesOutstandingBasic','WeightedAverageNumberOfShareOutstandingBasicAndDiluted'],['WeightedAverageNumberOfSharesOutstandingBasic','WeightedAverageShares'],'parent'),
@@ -65,7 +75,9 @@ const MAPS = {
   // Rows the company page always showed but nothing read (2026-10-17 audit:
   // blank for every stock although SEC has them). Last, so they never set a
   // row's period. Plain "Depreciation" is not D&A and is not read.
-  depreciationAndAmortization:mapping(['DepreciationDepletionAndAmortization','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet'],['DepreciationAndAmortisationExpense','AdjustmentsForDepreciationAndAmortisationExpense']),
+  depreciationAndAmortization:mapping(['DepreciationDepletionAndAmortization','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet',
+   // Plain depreciation fills D&A only when the filing reports no separate amortization (FIELD_GUARDS).
+   'Depreciation'],['DepreciationAndAmortisationExpense','AdjustmentsForDepreciationAndAmortisationExpense']),
   otherNonOperatingIncome:mapping(['OtherNonoperatingIncomeExpense','NonoperatingIncomeExpense'],[]),
   // Profit or loss of a business being sold, after tax. Read so that a year whose revenue is
   // restated to continuing operations is not divided into cash flows that still include the
@@ -103,17 +115,28 @@ const MAPS = {
   totalLiabilitiesAndEquity:mapping(['LiabilitiesAndStockholdersEquity'],['EquityAndLiabilities']),
   totalCurrentAssets:mapping(['AssetsCurrent'],['CurrentAssets']),
   totalCurrentLiabilities:mapping(['LiabilitiesCurrent'],['CurrentLiabilities']),
-  cashAndCashEquivalentsAtCarryingValue:mapping(['CashAndCashEquivalentsAtCarryingValue','Cash'],['CashAndCashEquivalents']),
+  cashAndCashEquivalentsAtCarryingValue:mapping(['CashAndCashEquivalentsAtCarryingValue','Cash',
+   // Cash with restricted cash is the cash line only when the filing reports no separate restricted
+   // cash (FIELD_GUARDS); otherwise the row would overstate cash.
+   'CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents'],['CashAndCashEquivalents']),
   // The first tag is filed by no current filer (0 of 4,120 on 2026-10-17); banks use the second.
   loans:mapping(['FinancingReceivableRecordedInvestmentExcludingAccruedInterestAfterAllowanceForCreditLoss','FinancingReceivableExcludingAccruedInterestAfterAllowanceForCreditLoss','LoansAndLeasesReceivableNetReportedAmount'],['LoansAndAdvancesToCustomers']),
   deposits:mapping(['Deposits','DepositsDomestic'],['DepositsFromCustomers']),
   inventory:mapping(['InventoryNet'],['Inventories']),
-  currentNetReceivables:mapping(['AccountsReceivableNetCurrent','ReceivablesNetCurrent','AccountsReceivableNet'],['TradeAndOtherCurrentReceivables','CurrentTradeReceivables']),
+  currentNetReceivables:mapping(['AccountsReceivableNetCurrent','ReceivablesNetCurrent','AccountsReceivableNet','AccountsNotesAndLoansReceivableNetCurrent'],['TradeAndOtherCurrentReceivables','CurrentTradeReceivables']),
   goodwill:mapping(['Goodwill'],['Goodwill']),
-  longTermDebt:mapping(['LongTermDebtNoncurrent'],['NoncurrentBorrowings']),
-  shortTermDebt:mapping(['DebtCurrent'],['CurrentBorrowings','CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings']),
+  longTermDebt:mapping(['LongTermDebtNoncurrent',
+   // The whole-debt tags fill the noncurrent line only when the same filing reports no current part
+   // (FIELD_GUARDS); otherwise the noncurrent part is the whole minus current, which the page does
+   // not invent. Senior notes, credit lines and convertible notes are noncurrent borrowings.
+   'LongTermDebt','LongTermDebtAndCapitalLeaseObligations','SeniorNotes','ConvertibleNotesPayable','LongTermLineOfCredit','NotesPayable'],['NoncurrentBorrowings']),
+  shortTermDebt:mapping(['DebtCurrent',
+   // The page's short-term debt is borrowings plus current maturities. A filing that reports both
+   // parts gets their sum (combine below); a filing that reports only one of them reported that
+   // borrowing, and the FIELD_GUARDS keep a part from standing for a filed total.
+   'ShortTermBorrowings','LongTermDebtCurrent','CommercialPaper'],['CurrentBorrowings','CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings']),
   shortTermBorrowings:mapping(['ShortTermBorrowings'],['ShorttermBorrowings']),
-  currentLongTermDebt:mapping(['LongTermDebtCurrent'],['CurrentPortionOfLongtermBorrowings','CurrentPortionOfNoncurrentBorrowings']),
+  currentLongTermDebt:mapping(['LongTermDebtCurrent','LongTermDebtAndCapitalLeaseObligationsCurrent'],['CurrentPortionOfLongtermBorrowings','CurrentPortionOfNoncurrentBorrowings']),
   shortLongTermDebtTotal:mapping(['DebtLongtermAndShorttermCombinedAmount','LongTermDebtAndShortTermBorrowings'],['Borrowings']),
   commonStockSharesOutstanding:mapping(['CommonStockSharesOutstanding'],['NumberOfSharesOutstanding']),
   retainedEarnings:mapping(['RetainedEarningsAccumulatedDeficit'],['RetainedEarnings']),
@@ -122,15 +145,24 @@ const MAPS = {
   // (Fair Isaac files six of these). Balance facts are instants and cannot add
   // a reporting period. No remainder is computed for a line that is not filed.
   totalNonCurrentAssets:mapping(['AssetsNoncurrent','NoncurrentAssets'],['NoncurrentAssets']),
-  propertyPlantEquipment:mapping(['PropertyPlantAndEquipmentNet','PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization'],['PropertyPlantAndEquipment']),
+  propertyPlantEquipment:mapping(['PropertyPlantAndEquipmentNet','PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization','RealEstateInvestmentPropertyNet'],['PropertyPlantAndEquipment']),
   operatingLeaseRightOfUseAsset:mapping(['OperatingLeaseRightOfUseAsset'],['RightofuseAssets']),
-  intangibleAssetsExcludingGoodwill:mapping(['IntangibleAssetsNetExcludingGoodwill'],['IntangibleAssetsOtherThanGoodwill']),
-  longTermInvestments:mapping(['LongTermInvestments','MarketableSecuritiesNoncurrent'],[]),
+  intangibleAssetsExcludingGoodwill:mapping(['IntangibleAssetsNetExcludingGoodwill',
+   // The two lives of intangible assets fill the row when the filing reports only one of them
+   // (mutual FIELD_GUARDS); when both are filed the row needs their total, which the page does not invent.
+   'FiniteLivedIntangibleAssetsNet','IndefiniteLivedIntangibleAssetsExcludingGoodwill'],['IntangibleAssetsOtherThanGoodwill']),
+  longTermInvestments:mapping(['LongTermInvestments','MarketableSecuritiesNoncurrent','EquityMethodInvestments','AvailableForSaleSecuritiesDebtSecuritiesNoncurrent'],[]),
   deferredTaxAssets:mapping(['DeferredIncomeTaxAssetsNet','DeferredTaxAssetsNetNoncurrent'],['DeferredTaxAssets']),
-  otherNonCurrentAssets:mapping(['OtherAssetsNoncurrent'],['OtherNoncurrentAssets']),
+  otherNonCurrentAssets:mapping(['OtherAssetsNoncurrent',
+   // An unclassified balance sheet's only "other assets" line (guarded: not when the filing also
+   // splits off other current assets).
+   'OtherAssets'],['OtherNoncurrentAssets']),
   // Page rows with no reading until 2026-10-17. The combined "payables and
   // accrued liabilities" line is broader than accounts payable and is not read.
-  currentAccountsPayable:mapping(['AccountsPayableCurrent','AccountsPayableTradeCurrent'],['TradeAndOtherCurrentPayablesToTradeSuppliers']),
+  currentAccountsPayable:mapping(['AccountsPayableCurrent','AccountsPayableTradeCurrent',
+   // Payables and accrued liabilities together are accounts payable only when the filing reports no
+   // separate accrued-liabilities line (FIELD_GUARDS).
+   'AccountsPayableAndAccruedLiabilitiesCurrent'],['TradeAndOtherCurrentPayablesToTradeSuppliers']),
   otherCurrentAssets:mapping(['OtherAssetsCurrent','PrepaidExpenseAndOtherAssetsCurrent'],['OtherCurrentAssets']),
   cashAndShortTermInvestments:mapping(['CashCashEquivalentsAndShortTermInvestments'],[]),
   shortTermInvestments:mapping(['ShortTermInvestments','MarketableSecuritiesCurrent','AvailableForSaleSecuritiesDebtSecuritiesCurrent'],['CurrentInvestments']),
@@ -192,7 +224,7 @@ const MAPS = {
   // listed first never matched a foreign filer.
   // ADP (FY2008 on), FLEX LNG and Brookfield Asset Management file their only capital spending line as
   // "other" property (2026-10-26: 560 annual years blank at 261 issuers tagging it); it fills only (FILL_GUARDS).
-  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets','PaymentsForCapitalImprovements','PaymentsToAcquireOilAndGasPropertyAndEquipment','PaymentsToAcquireOtherPropertyPlantAndEquipment'],['PurchaseOfPropertyPlantAndEquipment','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities','PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets']),
+  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets','PaymentsForCapitalImprovements','PaymentsToAcquireOilAndGasPropertyAndEquipment','PaymentsToAcquireOtherPropertyPlantAndEquipment','PaymentsToDevelopRealEstateAssets'],['PurchaseOfPropertyPlantAndEquipment','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities','PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets']),
   cashflowFromInvestment:mapping(['NetCashProvidedByUsedInInvestingActivities','NetCashProvidedByUsedInInvestingActivitiesContinuingOperations'],['CashFlowsFromUsedInInvestingActivities']),
   cashflowFromFinancing:mapping(['NetCashProvidedByUsedInFinancingActivities','NetCashProvidedByUsedInFinancingActivitiesContinuingOperations'],['CashFlowsFromUsedInFinancingActivities']),
   dividendPayout:mapping(['PaymentsOfDividends','PaymentsOfOrdinaryDividends','PaymentsOfDividendsCommonStock','PaymentsOfCapitalDistribution'],['DividendsPaid','DividendsPaidClassifiedAsFinancingActivities']),
@@ -200,8 +232,10 @@ const MAPS = {
   paymentsForRepurchaseOfCommonStock:mapping(['PaymentsForRepurchaseOfCommonStock','PaymentsForRepurchaseOfEquity'],['PaymentsToAcquireOrRedeemEntitysShares']),
   // Sony, Barclays and 48 more IFRS filers tag the note's expense and no cash-flow add-back (2026-10-26); where
   // both are filed the two agree exactly in 61% of 3,169 years, so like the US GAAP note line it only fills.
-  shareBasedCompensation:mapping(['ShareBasedCompensation','AllocatedShareBasedCompensationExpense'],['AdjustmentsForSharebasedPayments','ExpenseFromSharebasedPaymentTransactionsWithEmployees']),
-  depreciationDepletionAndAmortization:mapping(['DepreciationDepletionAndAmortization','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet'],['AdjustmentsForDepreciationAndAmortisationExpense','DepreciationAndAmortisationExpense']),
+  shareBasedCompensation:mapping(['ShareBasedCompensation','AllocatedShareBasedCompensationExpense','ShareBasedCompensationArrangementByShareBasedPaymentAwardCompensationCost'],['AdjustmentsForSharebasedPayments','ExpenseFromSharebasedPaymentTransactionsWithEmployees']),
+  depreciationDepletionAndAmortization:mapping(['DepreciationDepletionAndAmortization','DepreciationAndAmortization','DepreciationAmortizationAndAccretionNet',
+   // As on the income statement: plain depreciation fills the add-back only without a separate amortization.
+   'Depreciation'],['AdjustmentsForDepreciationAndAmortisationExpense','DepreciationAndAmortisationExpense']),
   operatingCashflowContinuing:mapping(['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
   operatingCashflowDiscontinued:mapping(['CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations']),
   // A disposal splits investing and financing the same way it splits operating, and no total is
@@ -219,15 +253,15 @@ const MAPS = {
   cashFlowNetIncome:mapping(['ProfitLoss','NetIncomeLoss'],[]),
   changeInReceivables:mapping(['IncreaseDecreaseInAccountsReceivable','IncreaseDecreaseInReceivables','IncreaseDecreaseInAccountsAndNotesReceivable'],[]),
   changeInInventory:mapping(['IncreaseDecreaseInInventories','IncreaseDecreaseInRetailRelatedInventories'],[]),
-  changeInOperatingAssets:mapping(['IncreaseDecreaseInOtherOperatingAssets','IncreaseDecreaseInPrepaidDeferredExpenseAndOtherAssets'],[]),
+  changeInOperatingAssets:mapping(['IncreaseDecreaseInOtherOperatingAssets','IncreaseDecreaseInPrepaidDeferredExpenseAndOtherAssets','IncreaseDecreaseInOperatingAssets'],[]),
   changeInAccountsPayable:mapping(['IncreaseDecreaseInAccountsPayable','IncreaseDecreaseInAccountsPayableTrade','IncreaseDecreaseInAccountsPayableAndAccruedLiabilities'],[]),
-  changeInOperatingLiabilities:mapping(['IncreaseDecreaseInOtherOperatingLiabilities'],[]),
+  changeInOperatingLiabilities:mapping(['IncreaseDecreaseInOtherOperatingLiabilities','IncreaseDecreaseInOperatingLiabilities'],[]),
   // Issued, repaid and net short-term borrowing are separate filed lines; no
   // net figure is computed from them.
   proceedsFromIssuanceOfLongTermDebt:mapping(['ProceedsFromIssuanceOfLongTermDebt'],['ProceedsFromNoncurrentBorrowings']),
   repaymentsOfLongTermDebt:mapping(['RepaymentsOfLongTermDebt'],['RepaymentsOfNoncurrentBorrowings']),
   proceedsFromRepaymentsOfShortTermDebt:mapping(['ProceedsFromRepaymentsOfShortTermDebt','ProceedsFromRepaymentsOfCommercialPaper'],[]),
-  proceedsFromIssuanceOfCommonStock:mapping(['ProceedsFromIssuanceOfCommonStock'],['ProceedsFromIssueOfOrdinaryShares','ProceedsFromIssuingShares']),
+  proceedsFromIssuanceOfCommonStock:mapping(['ProceedsFromIssuanceOfCommonStock','ProceedsFromStockOptionsExercised','ProceedsFromIssuanceOrSaleOfEquity'],['ProceedsFromIssueOfOrdinaryShares','ProceedsFromIssuingShares']),
   changeInCashAndCashEquivalents:mapping(['CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect','CashAndCashEquivalentsPeriodIncreaseDecrease'],['IncreaseDecreaseInCashAndCashEquivalents','IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges']),
   // A bank's financing line for the net change in deposits (JPM, BAC, WFC, FITB, ZION, USB). Fill-only.
   changeInDeposits:mapping(['IncreaseDecreaseInDeposits'],[])
@@ -322,7 +356,41 @@ const FILL_GUARDS = {'us-gaap:Cash':['us-gaap:CashEquivalentsAtCarryingValue'],'
 // income; either total counts (2026-10-31).
 const TOTAL_INTEREST=['us-gaap:InterestAndDividendIncomeOperating','us-gaap:InterestIncomeOperating'];
 const TOTAL_FLOORS = {'us-gaap:InvestmentIncomeInterest':['us-gaap:InterestIncomeExpenseNet','us-gaap:InterestAndFeeIncomeLoansAndLeases'],
+ 'us-gaap:InvestmentIncomeInterestAndDividend':['us-gaap:InterestIncomeExpenseNet','us-gaap:InterestAndFeeIncomeLoansAndLeases'],
  'us-gaap:InterestIncomeOperating':['us-gaap:InterestIncomeExpenseNet','us-gaap:InterestAndFeeIncomeLoansAndLeases']};
+// Field-scoped FILL_GUARDS: a whole-of-debt or combined tag is the row only when the same filing
+// does not also report another part of the row (unlike FILL_GUARDS, whose part test applies to
+// every field that reads the tag).
+const CURRENT_DEBT_PARTS=['us-gaap:LongTermDebtCurrent','us-gaap:LongTermDebtAndCapitalLeaseObligationsCurrent','us-gaap:DebtCurrent','us-gaap:ShortTermBorrowings','us-gaap:CommercialPaper','us-gaap:NotesPayableCurrent','us-gaap:LoansPayableCurrent','us-gaap:ConvertibleDebtCurrent','us-gaap:SecuredDebtCurrent','us-gaap:UnsecuredDebtCurrent','us-gaap:OtherShortTermBorrowings','us-gaap:BankOverdrafts','us-gaap:ShortTermBankLoansAndNotesPayable','us-gaap:ConvertibleNotesPayableCurrent','us-gaap:SeniorNotesCurrent','us-gaap:LinesOfCreditCurrent'];
+const FIELD_GUARDS={
+ 'balance|shortTermDebt|us-gaap:LongTermDebtCurrent':CURRENT_DEBT_PARTS.filter(c=>c!=='us-gaap:LongTermDebtCurrent'),
+ 'balance|shortTermDebt|us-gaap:ShortTermBorrowings':['us-gaap:LongTermDebtCurrent','us-gaap:LongTermDebtAndCapitalLeaseObligationsCurrent','us-gaap:DebtCurrent','us-gaap:CommercialPaper'],
+ 'balance|shortTermDebt|us-gaap:CommercialPaper':['us-gaap:LongTermDebtCurrent','us-gaap:LongTermDebtAndCapitalLeaseObligationsCurrent','us-gaap:DebtCurrent','us-gaap:ShortTermBorrowings'],
+ // Not LongTermDebtAndCapitalLeaseObligations: that tag IS the noncurrent line (in 900 of 938 sampled filings
+ // it sits below the same filing's ...IncludingCurrentMaturities, and the current tag that accompanies it is
+ // the part taken out), so it needs no guard — Ampco-Pittsburgh's presented "Long-term debt" is it.
+ 'balance|longTermDebt|us-gaap:LongTermDebt':['us-gaap:LongTermDebtCurrent','us-gaap:LongTermDebtAndCapitalLeaseObligationsCurrent'],
+ 'balance|longTermDebt|us-gaap:SeniorNotes':['us-gaap:SeniorNotesCurrent'],
+ 'balance|longTermDebt|us-gaap:ConvertibleNotesPayable':['us-gaap:ConvertibleNotesPayableCurrent'],
+ 'balance|longTermDebt|us-gaap:NotesPayable':['us-gaap:NotesPayableCurrent','us-gaap:ShortTermBankLoansAndNotesPayable'],
+ 'balance|otherNonCurrentAssets|us-gaap:OtherAssets':['us-gaap:OtherAssetsCurrent','us-gaap:PrepaidExpenseAndOtherAssetsCurrent'],
+ 'income|totalRevenue|us-gaap:InterestAndDividendIncomeOperating':['us-gaap:NoninterestIncome'],
+ 'income|sellingGeneralAndAdministrative|us-gaap:GeneralAndAdministrativeExpense':['us-gaap:SellingAndMarketingExpense','us-gaap:SellingExpense','us-gaap:MarketingExpense','us-gaap:SellingGeneralAndAdministrativeExpenseExcludingOtherExpense'],
+ 'income|depreciationAndAmortization|us-gaap:Depreciation':['us-gaap:AmortizationOfIntangibleAssets','us-gaap:AmortizationOfFinancingCosts','us-gaap:AmortizationOfDeferredCharges'],
+ 'cash|depreciationDepletionAndAmortization|us-gaap:Depreciation':['us-gaap:AmortizationOfIntangibleAssets','us-gaap:AmortizationOfFinancingCosts','us-gaap:AmortizationOfDeferredCharges'],
+ 'balance|intangibleAssetsExcludingGoodwill|us-gaap:FiniteLivedIntangibleAssetsNet':['us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill'],
+ 'balance|intangibleAssetsExcludingGoodwill|us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill':['us-gaap:FiniteLivedIntangibleAssetsNet'],
+ 'balance|cashAndCashEquivalentsAtCarryingValue|us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents':['us-gaap:RestrictedCashAndCashEquivalentsAtCarryingValue','us-gaap:RestrictedCashAndCashEquivalentsNoncurrent','us-gaap:RestrictedCashNoncurrent','us-gaap:RestrictedCashCurrent','us-gaap:RestrictedCash'],
+ 'balance|currentAccountsPayable|us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent':['us-gaap:AccruedLiabilitiesCurrent','us-gaap:OtherAccruedLiabilitiesCurrent'],
+ 'income|incomeBeforeTax|us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic':['us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesForeign'],
+ 'income|incomeBeforeTax|us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesForeign':['us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic'],
+ 'income|incomeTaxExpense|us-gaap:CurrentIncomeTaxExpenseBenefit':['us-gaap:DeferredIncomeTaxExpenseBenefit'],
+ 'income|costOfRevenue|us-gaap:CostOfServices':['us-gaap:CostOfRevenue','us-gaap:CostOfGoodsAndServicesSold','us-gaap:CostOfGoodsSold'],
+ 'cash|proceedsFromIssuanceOfCommonStock|us-gaap:ProceedsFromStockOptionsExercised':['us-gaap:ProceedsFromIssuanceOfCommonStock','us-gaap:ProceedsFromIssuanceOrSaleOfEquity'],
+ 'cash|proceedsFromIssuanceOfCommonStock|us-gaap:ProceedsFromIssuanceOrSaleOfEquity':['us-gaap:ProceedsFromIssuanceOfCommonStock'],
+ 'cash|changeInOperatingAssets|us-gaap:IncreaseDecreaseInOperatingAssets':['us-gaap:IncreaseDecreaseInOtherOperatingAssets','us-gaap:IncreaseDecreaseInPrepaidDeferredExpenseAndOtherAssets','us-gaap:IncreaseDecreaseInAccountsReceivable','us-gaap:IncreaseDecreaseInInventories'],
+ 'cash|changeInOperatingLiabilities|us-gaap:IncreaseDecreaseInOperatingLiabilities':['us-gaap:IncreaseDecreaseInOtherOperatingLiabilities','us-gaap:IncreaseDecreaseInAccountsPayable','us-gaap:IncreaseDecreaseInAccountsPayableAndAccruedLiabilities','us-gaap:IncreaseDecreaseInAccruedLiabilities']
+};
 const FILLS_ADDED = ['us-gaap:ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost','us-gaap:ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost','us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted','us-gaap:PaymentsOfDividendsCommonStock','us-gaap:PaymentsForRepurchaseOfEquity','us-gaap:AllocatedShareBasedCompensationExpense',
  'ifrs-full:SellingGeneralAndAdministrativeExpense','ifrs-full:InterestExpense','ifrs-full:BasicAndDilutedEarningsLossPerShare','ifrs-full:DepreciationAndAmortisationExpense','ifrs-full:AdjustmentsForDepreciationAndAmortisationExpense','ifrs-full:NumberOfSharesOutstanding','ifrs-full:PaymentsToAcquireOrRedeemEntitysShares','ifrs-full:AdjustmentsForSharebasedPayments',
  'ifrs-full:ExpenseFromSharebasedPaymentTransactionsWithEmployees','us-gaap:PaymentsToAcquireOtherPropertyPlantAndEquipment',
@@ -331,7 +399,18 @@ const FILLS_ADDED = ['us-gaap:ResearchAndDevelopmentExpenseExcludingAcquiredInPr
 // is not the cash-flow add-back of $588k), and a quarter does not follow its year onto one of them.
 // Fill-only like FILLS_ADDED, so a presented total line still takes its place (sec-facts extract, equity REITs).
 const LEASE_REVENUE='OperatingLeaseLeaseIncome',OTHER_PPE='PaymentsToAcquireOtherPropertyPlantAndEquipment';
-const FILLS=new Set([...FILLS_ADDED,'us-gaap:'+LEASE_REVENUE]);
+// The 2026-11-01 audit's ALT tags that ARE the row, added to MAPS above as fill-only (they join
+// FILLS and `added`, so they never displace a figure and never add a period). Tags the audit also
+// found but that are NOT the row stay unread, as documented on 2026-10-17: GeneralAndAdministrative
+// and SellingAndMarketingExpense for SG&A, plain Depreciation for D&A, CostsAndExpenses for
+// operating expenses, DeferredTaxAssetsLiabilitiesNet for deferred tax assets, finite-lived
+// intangibles alone, cash with restricted cash for cash, LiabilitiesAndStockholdersEquity for total
+// liabilities, payables-and-accrued-liabilities for accounts payable, CostDirectMaterial and
+// inventory parts, gross property for net property.
+const ALTS_ADDED = ['us-gaap:RealEstateRevenueNet','us-gaap:IncomeLossFromContinuingOperationsBeforeInterestExpenseInterestIncomeIncomeTaxesExtraordinaryItemsNoncontrollingInterestsNet','us-gaap:CostOfServices','us-gaap:OperatingCostsAndExpenses','us-gaap:InvestmentIncomeInterestAndDividend','us-gaap:InterestIncomeOther','us-gaap:CurrentIncomeTaxExpenseBenefit','us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic','us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesForeign','us-gaap:CommercialPaper','us-gaap:LongTermDebtAndCapitalLeaseObligations','us-gaap:SeniorNotes','us-gaap:ConvertibleNotesPayable','us-gaap:LongTermLineOfCredit','us-gaap:NotesPayable','us-gaap:LongTermDebtAndCapitalLeaseObligationsCurrent','us-gaap:EquityMethodInvestments','us-gaap:AvailableForSaleSecuritiesDebtSecuritiesNoncurrent','us-gaap:RealEstateInvestmentPropertyNet','us-gaap:AccountsNotesAndLoansReceivableNetCurrent','us-gaap:ProceedsFromStockOptionsExercised','us-gaap:ProceedsFromIssuanceOrSaleOfEquity','us-gaap:ShareBasedCompensationArrangementByShareBasedPaymentAwardCompensationCost','us-gaap:IncreaseDecreaseInOperatingAssets','us-gaap:IncreaseDecreaseInOperatingLiabilities','us-gaap:PaymentsToDevelopRealEstateAssets',
+ // Guarded near-equivalents (FIELD_GUARDS): each fills only when the same filing reports no other part of the row.
+ 'us-gaap:GeneralAndAdministrativeExpense','us-gaap:Depreciation','us-gaap:FiniteLivedIntangibleAssetsNet','us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill','us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents','us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent'];
+const FILLS=new Set([...FILLS_ADDED,'us-gaap:'+LEASE_REVENUE,...ALTS_ADDED]);
 const BORROWED = {income:['depreciationAndAmortization'],cash:['cashFlowNetIncome']};
 const FORM = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
 function scope(concept, fallback) {
@@ -346,30 +425,37 @@ function scope(concept, fallback) {
 // the face). It fills only when the face and the row agree both ways: every presented debt
 // line is a figure the row holds, and every debt figure the row holds is presented. Amazon
 // files its current debt in a note, inside "accrued expenses" on the face, so its total stays.
-function presentedDebt(out,row,presented,document) {
+function presentedDebt(out,row,presented,document,basis) {
  const T='shortLongTermDebtTotal',source=f=>out.sources[row._sources[f][0]];
  const anchor=out.sources[(row._sources.totalAssets || [])[0]]?.accessionNumber,tags=anchor && presented.get(anchor);
  if(!tags?.length)return;
+ // A total combined from the parts before the face was known is only as good as the face: any
+ // disagreement (a presented line the row does not hold, a held figure off the face) removes it,
+ // exactly as if the parts had never been combined. Recorded as a deliberate refusal, so the weekly
+ // guard does not treat the removed total as a lost verified figure.
+ const weakTotal=()=>{if(row._derivations?.[T]?.formula==='sum_fields'){row[T]=null;delete row._sources[T];delete row._scopes[T];delete row._derivations[T];out.issues.push({code:'PRESENTED_TOTAL_REFUSED',statement:'balance',basis:basis,field:T,periodEnd:row.fiscalDateEnding});}};
  const direct=f=>row[f]!==null && !row._derivations?.[f] && row._sources[f]?.length===1 && source(f).accessionNumber===anchor && p.verifiedField(out,row,f);
  const parts=[];
  for(const tag of tags) {
   const f=[...p.DEBT_PARTS,T].find(f=>direct(f) && source(f).concept===tag);
-  if(!f)return presentedFacts(out,row,anchor,tags,document);
-  if(f===T || parts.includes(f))return;
+  if(!f){weakTotal();return presentedFacts(out,row,anchor,tags,document);}
+  if(f===T || parts.includes(f)){weakTotal();return;}
   parts.push(f);
  }
- if(parts.includes('shortTermDebt') && parts.some(f=>f==='currentLongTermDebt' || f==='shortTermBorrowings'))return;
- if(new Set(parts.map(f=>row._scopes[f])).size!==1)return;
+ if(parts.includes('shortTermDebt') && parts.some(f=>f==='currentLongTermDebt' || f==='shortTermBorrowings')){weakTotal();return;}
+ if(new Set(parts.map(f=>row._scopes[f])).size!==1){weakTotal();return;}
  // A held figure off the face is a part of some other line, unless it is a presented current line filed again under the other tag.
  const pair=['shortTermBorrowings','currentLongTermDebt'],twin=f=>pair.includes(f) && parts.includes(pair[1-pair.indexOf(f)]) && row[f]===row[pair[1-pair.indexOf(f)]];
  // From any filing: a figure another filing gives for this date is still a debt line of the row.
- const off=p.DEBT_PARTS.filter(f=>!parts.includes(f) && row[f]!==null);
+ // A zero is no line at all: META's 10-Qs tag LongTermDebtCurrent = 0 beside the 10-K's face of one
+ // line, and summing it changes nothing.
+ const off=p.DEBT_PARTS.filter(f=>!parts.includes(f) && row[f]!==null && row[f]!==0);
  // DebtCurrent on the face includes both current parts by definition (Ball 2025: $2m current portion of a $21m line).
  // A current-debt total from another filing that equals the presented current lines is those lines (DoubleDown 2023:
  // $38.8m current portion on the 6-K face, the same $38.8m as the 20-F's current borrowings).
  const current=parts.filter(f=>pair.includes(f));
  const twins=off.filter(f=>twin(f) || pair.includes(f) && parts.includes('shortTermDebt') && Math.abs(row[f])<=Math.abs(row.shortTermDebt) || f==='shortTermDebt' && current.length && row[f]===current.reduce((sum,c)=>sum+row[c],0));
- if(off.some(f=>!twins.includes(f) && !(f==='shortTermDebt' && row._derivations?.shortTermDebt?.formula==='sum_fields' && row._derivations.shortTermDebt.inputs.every(i=>parts.includes(i) || twins.includes(i)))))return;
+ if(off.some(f=>!twins.includes(f) && !(f==='shortTermDebt' && row._derivations?.shortTermDebt?.formula==='sum_fields' && row._derivations.shortTermDebt.inputs.every(i=>parts.includes(i) || twins.includes(i))))){weakTotal();return;}
  parts.sort((x,y)=>p.DEBT_PARTS.indexOf(x)-p.DEBT_PARTS.indexOf(y));
  const value=parts.reduce((sum,f)=>sum+row[f],0);
  // A current-debt sum of one line filed under both tags counts it twice.
@@ -458,14 +544,14 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  const wanted = new Map();
  for(const fields of Object.values(MAPS)) for(const def of Object.values(fields)) for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) wanted.set(taxonomy + ':' + concept,true);
  for(const guards of Object.values(STAND_INS)) for(const concept of guards) wanted.set(concept,true);
- const fillGuards=[...new Set([...Object.values(FILL_GUARDS),...Object.values(TOTAL_FLOORS)].flat())].filter(concept=>!wanted.has(concept));for(const concept of fillGuards)wanted.set(concept,true);
+ const fillGuards=[...new Set([...Object.values(FILL_GUARDS),...Object.values(TOTAL_FLOORS),...Object.values(FIELD_GUARDS)].flat())].filter(concept=>!wanted.has(concept));for(const concept of fillGuards)wanted.set(concept,true);
  wanted.set('us-gaap:CostsAndExpenses',true);wanted.set('us-gaap:'+LEASE_REVENUE,true);
  // Tags introduced on 2026-10-06 may fill a figure but never add a reporting
  // period of their own, so the set of years and quarters is what it was.
  // A figure a guard turned down is recorded, so neither a presented line under the same tag nor the same-filing
  // last-good rule (sec-last-good.js) puts it back: FBS Global 2025 cash of S$4.0m beside S$5.3m of equivalents was.
  const rejected=new Map(),reject=(st,basis,end,field,tag)=>{const k=st+'|'+basis+'|'+end+'|'+field;if(!rejected.has(k))rejected.set(k,new Set());rejected.get(k).add(tag);};
- const added=new Set(['us-gaap:'+LEASE_REVENUE,...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInInvestingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInFinancingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...INDUSTRY_ADDED,...FILLS_ADDED,...fillGuards]);
+ const added=new Set(['us-gaap:'+LEASE_REVENUE,...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInInvestingActivitiesDiscontinuedOperations','us-gaap:CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInFinancingActivitiesDiscontinuedOperations',...DISCONTINUED_ADDED,...ROWS_ADDED,...INDUSTRY_ADDED,...FILLS_ADDED,...ALTS_ADDED,...fillGuards]);
  for(const [taxonomy, concepts] of Object.entries(document.facts)) for(const [concept, def] of Object.entries(concepts)) {
   if(!wanted.has(taxonomy + ':' + concept)) continue;
   for(const [unit, facts] of Object.entries(def.units || {})) for(const f of facts) {
@@ -719,7 +805,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    row._derivations[field]={formula:'sum_member_columns',axis:l.x,members:[...l.g],inputValues:[...l.v],memberAssets:[...l.ta],presentedConcept:l.c};
   }
  }
- function resolve(st,field,end,cur,basis) {
+ function resolve(st,field,end,cur,basis,rowStart) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
   const restrict=basis==='annual' && a?.reportDate===end;
   const asReportedQuarter=basis==='quarterly' && st!=='balance' && !!a && end<=a.reportDate && Date.parse(a.reportDate)-Date.parse(end)<330*DAY;
@@ -822,13 +908,16 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   // below and the quarter rules after it share one definition.
   const differsIn=(taxonomy,concept)=>{
    const guards=['netIncome','operatingCashflow','cashflowFromInvestment','cashflowFromFinancing','eps','dilutedEPS'].includes(field) && STAND_INS[taxonomy+':'+concept];
-   const parts=FILL_GUARDS[taxonomy+':'+concept],floors=TOTAL_FLOORS[taxonomy+':'+concept];
+   const parts=FIELD_GUARDS[st+'|'+field+'|'+taxonomy+':'+concept] || FILL_GUARDS[taxonomy+':'+concept],floors=TOTAL_FLOORS[taxonomy+':'+concept];
    return f=>guards && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val!==0)
     || parts && rows.some(r=>parts.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.val!==0)
     || floors && [floors,TOTAL_INTEREST].every(tags=>rows.some(r=>tags.includes(r.taxonomy+':'+r.concept) && r.end===f.end && r.accn===f.accn && r.start===f.start && r.val>f.val));
   };
   for(const [taxonomy,concept] of ordered) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept) || concept===OTHER_PPE && otherPpePart)continue;
+   // Interest and dividend income is a financial firm's top line only (a bank's, a lender's, a
+   // REIT's, a blank-check company's); a manufacturer's interest income is not its revenue.
+   if(field==='totalRevenue' && concept==='InterestAndDividendIncomeOperating' && !/^(60|61|62|67)/.test(String(out.reportingSic || '')))continue;
    let all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
    // The newest year's annual figures are as reported in its own annual report.
    // Its quarters must be too: next year's 10-Qs restate them as comparatives
@@ -836,11 +925,22 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    // as-reported year no longer adds up to it.
    if(asReportedQuarter && quartersAsFiled){const filed=all.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))all=filed;}
    const candidates=all.filter(r=>r.end===end && (st==='balance'?r.days===null:basis==='annual'?r.days>=340&&r.days<=380 && annualForm(r):r.days>=75&&r.days<=QUARTER_MAX_DAYS));
+   // An annual row describes the span its first line set; a fact for the same end whose start differs
+   // (a restated merger stub, ZURA's FY2022: the 2024 10-K restates it to start 2022-01-18) belongs to
+   // another period view and must not displace the fact that shares the row's own start.
+   if(basis==='annual' && st!=='balance' && rowStart){const matching=candidates.filter(r=>r.start===rowStart);if(matching.length){candidates.length=0;candidates.push(...matching);}}
    // A full-year figure mis-dated as the fourth quarter (NiSource, in SEC's
    // feed) is not a quarter: the same filing gives the same amount for the year.
    if(basis==='quarterly' && st!=='balance')for(let i=candidates.length-1;i>=0;i--){const c=candidates[i];if(c.val!==0 && all.some(r=>r.accn===c.accn && r.end===c.end && r.days>=340 && r.val===c.val))candidates.splice(i,1);}
+   // The latest annual period's facts are the annual report's own, even where a later 10-Q repeats the
+   // same figure (ATEN's LongTermDebt tagged in the 10-K and repeated in the 10-Qs): presentedDebt and
+   // the row's anchor read the annual filing's figures.
+   if(restrict){const own=candidates.filter(r=>annualAccessions.has(r.accn));if(own.length){candidates.length=0;candidates.push(...own);}}
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
+   // A concept whose only fact spans a different period than the row's own start (ZURA's FY2022,
+   // restated to a 17-days-later start) must not block the next concept that shares the row's span.
+   if(selected && basis==='annual' && st!=='balance' && rowStart && selected.start!==rowStart && Math.abs(Date.parse(selected.start)-Date.parse(rowStart))>4*DAY)continue;
    const differs=differsIn(taxonomy,concept);
    if(selected && differs(selected)){reject(st,basis,end,field,taxonomy+':'+concept);continue;}
    if(selected){if(basis==='annual'){if(field==='totalRevenue')yearRevenueLine.set(end,taxonomy+':'+concept);else if(ordered.length>1){if(!yearLines.has(field))yearLines.set(field,new Map());yearLines.get(field).set(end,taxonomy+':'+concept);}}return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};}
@@ -857,6 +957,22 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     }
    }
   }
+  // The latest annual report's own XBRL can leave a face line untagged (AIB, HSCS, INFQ: their
+  // 10-Ks tag nothing for the balance sheet while the following 10-Qs tag the year-end
+  // comparative). After every concept above has failed, a blank is filled from those later filings
+  // only when every fact at that end agrees on one value, and the figure never sets the row's span
+  // (it runs after the loop, so a mapped tag of the annual filing itself always wins — INFQ's 10-K
+  // tags plain Cash beside the 10-Qs' restated cash-and-equivalents).
+  if(basis==='annual' && restrict) for(const [taxonomy,concept] of ordered) {
+   if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept) || concept===OTHER_PPE && otherPpePart)continue;
+   if(field==='totalRevenue' && concept==='InterestAndDividendIncomeOperating' && !/^(60|61|62|67)/.test(String(out.reportingSic || '')))continue;
+   // A later filing's comparative can carry the year; like the rest of the pipeline, a duration fact
+   // for an annual row must come from an annual form (a 10-Q's comparative is not read as the year).
+   const open=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>r.end===end && r.filed>a.filingDate && (st==='balance'?r.days===null:r.days>=340&&r.days<=380 && annualForm(r)) && (!revenueStart || Math.abs(Date.parse(r.start)-Date.parse(revenueStart))<=4*DAY));
+   if(open.length && new Set(open.map(r=>r.val)).size===1 && (st==='balance' || rowStart===null || Math.abs(Date.parse(open[0].start)-Date.parse(rowStart))<=4*DAY) && !differsIn(taxonomy,concept)(open[0])){
+    return {value:open[0].val,refs:[source(open[0])],start:open[0].start,scope:scope(concept,def.scope),restrictedFill:true};
+   }
+  }
   // The amended and later-comparative quarter rules fill only after every concept has failed the
   // logic above: fired inside the loop they displaced the figure a later concept gave (SBA's SBC
   // 2.7m from the allocated-expense tag displaced by its add-back's later comparative — 349 changed
@@ -871,6 +987,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   // and verifiedField drops a span the row disproves.
   if(basis==='quarterly' && st!=='balance' && unit===cur) for(const [taxonomy,concept] of ordered) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept) || concept===OTHER_PPE && otherPpePart)continue;
+   if(field==='totalRevenue' && concept==='InterestAndDividendIncomeOperating' && !/^(60|61|62|67)/.test(String(out.reportingSic || '')))continue;
    let all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
    if(asReportedQuarter && quartersAsFiled){const filed=all.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))all=filed;}
    const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);
@@ -921,7 +1038,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    // statement's, and the row's start decides which of its other figures are kept.
    let fillStart=null;
    for(const field of Object.keys(MAPS[st])) {
-    const found=resolve(st,field,end,cur,basis);row[field]=null;if(!found)continue;
+    const found=resolve(st,field,end,cur,basis,row.periodStart);row[field]=null;if(!found)continue;
     const negate=OUTFLOWS.has(field);
     row[field]=negate?-Math.abs(found.value):found.value;
     row._sources[field]=found.refs;row._scopes[field]=found.scope;
@@ -931,12 +1048,16 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     // Q4 starting 2016-02-29 against the 2016-03-01 its income lines file), so like a fill-only tag
     // it never sets the period ahead of a filed line: verifiedField drops it if the row disagrees.
     if(found.lateFill)late.add(field);
-    if(found.lateFill || found.refs.every(id=>FILLS.has(out.sources[id].taxonomy+':'+out.sources[id].concept))){if(found.start && !fillStart)fillStart=found.start;}
+    if(found.lateFill || found.restrictedFill || found.refs.every(id=>FILLS.has(out.sources[id].taxonomy+':'+out.sources[id].concept))){if(found.start && !fillStart)fillStart=found.start;}
     else if(found.start && !row.periodStart)row.periodStart=found.start;
    }
    if(!row.periodStart)row.periodStart=fillStart;
    function combine(field, left, right, operation) {
-    if((row[field]!==null && !late.has(field)) || row[left]===null || row[right]===null || !p.verifiedField(out,row,left) || !p.verifiedField(out,row,right))return;
+    // Short-term debt resolved from one of its parts (a filing that tags only current maturities, or
+    // only borrowings) is that part; when the same filing tags both, their sum is the row.
+    const partFill=field==='shortTermDebt' && row[field]!==null && !row._derivations?.[field] && (row._sources[field] || []).length===1
+     && [left,right].some(f=>(row._sources[field] || []).every(id=>(row._sources[f] || []).includes(id)));
+    if((row[field]!==null && !late.has(field) && !partFill) || row[left]===null || row[right]===null || !p.verifiedField(out,row,left) || !p.verifiedField(out,row,right))return;
     const refs=[...row._sources[left],...row._sources[right]];
     const scopes=[row._scopes[left],row._scopes[right]];
     if(scopes[0]!==scopes[1])return;
@@ -1002,7 +1123,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     combine('cashflowFromInvestment','investingCashflowContinuing','investingCashflowDiscontinued','sum_fields');
     combine('cashflowFromFinancing','financingCashflowContinuing','financingCashflowDiscontinued','sum_fields');
    }
-   if(st==='balance' && presented.size)presentedDebt(out,row,presented,document);
+   if(st==='balance' && presented.size)presentedDebt(out,row,presented,document,basis);
    if(st==='balance')liabilitiesAndEquity(out,row,document);
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}
    for(const [k,tags] of rejected){const [s0,b0,e0,field]=k.split('|');if(s0===st && b0===basis && e0===end && row[field]===null)out.issues.push({code:'REJECTED_PART',statement:st,basis,field,periodEnd:end,concepts:[...tags]});}

@@ -129,7 +129,8 @@ const ALT = {
     totalNonCurrentLiabilities: ['LiabilitiesNoncurrent'],
     otherNonCurrentLiabilities: ['OtherLiabilitiesNoncurrent'],
     totalCurrentAssets: [], totalCurrentLiabilities: [], totalNonCurrentAssets: ['NoncurrentAssets'],
-    totalLiabilities: ['LiabilitiesAndStockholdersEquity'],
+    // LiabilitiesAndStockholdersEquity is total assets, never total liabilities (2026-11-01).
+    totalLiabilities: [],
     commonStock: ['CommonStockValue', 'CommonStocksIncludingAdditionalPaidInCapital', 'CommonStockValueOutstanding'],
     retainedEarnings: [], treasuryStock: ['TreasuryStockValue', 'TreasuryStockCommonValue'],
     operatingLeaseRightOfUseAsset: [], goodwill: [], loans: ['LoansAndLeasesReceivableNetReportedAmount', 'FinancingReceivableExcludingAccruedInterestAfterAllowanceForCreditLoss'],
@@ -154,20 +155,27 @@ const ALT = {
 };
 
 function secMatcher(facts) {
-    const day = 864e5;
     const forms = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
-    return function has(tag, st, basis, end) {
+    // Exact period matching: a fact belongs to a blank period only when its end equals the row's
+    // end (and, for duration statements, its start equals the row's period start). A ±4-day window
+    // on the end date matched the sibling column of a 52/53-week filer's near-duplicate period end
+    // (EML's FY2023 filed as 2023-12-31 and restated as 2023-12-30) and labelled its blanks
+    // "sec_has_mapped_tag" although no fact of that period exists — extraction had not dropped them.
+    return function has(tag, st, basis, end, start) {
         const [tax, name] = tag.includes(':') ? tag.split(':') : ['us-gaap', tag];
         const units = facts && facts[tax] && facts[tax][name] && facts[tax][name].units;
         if (!units) return false;
-        const target = Date.parse(end);
         for (const list of Object.values(units)) {
             for (const f of list) {
                 if (!forms.test(f.form || '') || f.val === null || f.val === undefined) continue;
-                if (Math.abs(Date.parse(f.end) - target) > 4 * day) continue;
+                // An annual row's fact must come from an annual form: a later 10-Q's comparative column
+                // (INFQ's restated revenue, tagged only in its 2026 10-Qs) is not the annual filing's figure.
+                if (basis === 'annual' && /^10-Q(\/A)?$/.test(f.form || '')) continue;
+                if (f.end !== end) continue;
                 if (st === 'balance') { if (!f.start) return true; continue; }
                 if (!f.start) continue;
-                const len = (Date.parse(f.end) - Date.parse(f.start)) / day;
+                if (start && f.start !== start) continue;
+                const len = (Date.parse(f.end) - Date.parse(f.start)) / 864e5;
                 if (basis === 'annual' ? (len >= 340 && len <= 390) : (st === 'cash' ? len >= 80 && len <= 290 : len >= 80 && len <= 100)) return true;
             }
         }
@@ -243,10 +251,12 @@ async function main() {
                         else {
                             const blank = rows.filter((r, i) => vals[i] === null);
                             const present = (v) => v !== null && v !== undefined && v !== '';
-                            // extracted, then nulled by safeRows / conflicting evidence
+                            // extracted, then nulled by safeRows / conflicting evidence, or a fact the
+                            // extractor's part-guard turned down (sec-facts REJECTED_PART)
                             const rejected = def.fields.some((f) => blank.some((r) => {
                                 const rr = rawRows.find((x) => x.fiscalDateEnding === r.fiscalDateEnding);
-                                return rr && !present(r[f]) && (present(rr[f]) || (rr._states && rr._states[f] === 'conflicting_evidence'));
+                                return rr && !present(r[f]) && (present(rr[f]) || (rr._states && rr._states[f] === 'conflicting_evidence')
+                                    || (raw && raw.issues && raw.issues.some((i) => i.code === 'REJECTED_PART' && i.basis === 'annual' && i.periodEnd === r.fiscalDateEnding && i.field === f)));
                             }));
                             // every input is there; the page's formula yields nothing (a nil
                             // remainder, a tax rate on a pre-tax loss)
@@ -255,7 +265,7 @@ async function main() {
                             const missing = def.fields.filter((f) => blank.some((r) => !present(r[f])));
                             const unmapped = missing.every((f) => !mappedTags[st][f]);
                             // an input explains a period only where that input itself is blank
-                            const inSec = (f) => (t) => blank.some((r) => !present(r[f]) && secHas(t, st, basis, r.fiscalDateEnding));
+                            const inSec = (f) => (t) => blank.some((r) => !present(r[f]) && secHas(t, st, basis, r.fiscalDateEnding, r.periodStart));
                             if (byDesign) reason = 'formula_blank_by_design';
                             else if (rejected) reason = 'rejected_by_validation';
                             else if (secHas) {

@@ -89,9 +89,24 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
     for(const st of ['income','balance','cash'])for(const row of d[st]?.annualReports || [])if(row.fiscalDateEnding===annual.reportDate)for(const field of Object.keys(row._sources || {}))if(p.verifiedField(d,row,field,accessions))found.add(st+'.'+field);
     return found;
    };
-   // A figure the extractor turned down (a part of the line, sec-facts.js REJECTED_PART) was wrong before; it is not lost.
-   const rejected=new Set(data.issues.filter(i=>i.code==='REJECTED_PART' && i.basis==='annual' && i.periodEnd===merged.latestAnnual.reportDate).map(i=>i.statement+'.'+i.field));
-   const before=fields(old,{...previous,reportingSic:merged.sic}),after=fields(merged,data),lost=[...before].filter(field=>!after.has(field) && !rejected.has(field));
+   // A figure the extractor turned down (a part of the line, sec-facts.js REJECTED_PART, or a
+   // presented-debt total the face refused) was wrong before; it is not lost.
+   const rejected=new Set(data.issues.filter(i=>['REJECTED_PART','PRESENTED_TOTAL_REFUSED'].includes(i.code) && i.basis==='annual' && i.periodEnd===merged.latestAnnual.reportDate).map(i=>i.statement+'.'+i.field));
+   const before=fields(old,{...previous,reportingSic:merged.sic}),after=fields(merged,data);
+   // A field the new extraction reads from a later filing's comparative (sec-facts restrictedFallback:
+   // the annual report itself left the line untagged, T's inventory and CMI's cash are in the 10-Qs
+   // only) is not a loss when the figure itself is unchanged: only its provenance moved.
+   const retainedSameValue=new Set();
+   for(const st of ['income','balance','cash']){
+    const orow=previous[st]?.annualReports?.find(r=>r.fiscalDateEnding===merged.latestAnnual.reportDate);
+    const nrow=data[st]?.annualReports?.find(r=>r.fiscalDateEnding===merged.latestAnnual.reportDate);
+    if(!orow || !nrow)continue;
+    for(const field of Object.keys(orow._sources || {})){
+     if(orow[field]===null || nrow[field]===null || orow[field]!==nrow[field] || !p.verifiedField({...previous,reportingSic:merged.sic},orow,field) || !p.verifiedField(data,nrow,field))continue;
+     retainedSameValue.add(st+'.'+field);
+    }
+   }
+   const lost=[...before].filter(field=>!after.has(field) && !rejected.has(field) && !retainedSameValue.has(field));
    if(lost.length)throw new Error('EXTRACTION_DISCARDED_VALID_PERIOD: '+lost.join(','));
    if(p.classify(old,previous,asOf).financialCoverage==='ready' && validation.financialCoverage!=='ready')throw new Error('EXTRACTION_DISCARDED_READY_COVERAGE');
   }

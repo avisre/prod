@@ -13,7 +13,9 @@ test('real bank net revenue uses compatible reported net interest and noninteres
 test('debt components sum only when current maturities and noncurrent borrowing are separately supplied',()=>{
  const {doc,evidence}=fixture();const gaap=doc.facts['us-gaap'];for(const [tag,val]of [['ShortTermBorrowings',10],['LongTermDebtCurrent',20],['LongTermDebtNoncurrent',100]])gaap[tag]={units:{USD:[{val,end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}};
  let d=extract(doc,evidence,{asOf:'2026-10-04'}),row=d.balance.annualReports[0];assert.equal(row.shortTermDebt,30);assert.equal(row.longTermDebt,100);assert.equal(row.shortLongTermDebtTotal,130);assert.ok(p.verifiedField(d,row,'shortLongTermDebtTotal'));
- delete gaap.LongTermDebtCurrent;d=extract(doc,evidence,{asOf:'2026-10-04'});assert.equal(d.balance.annualReports[0].shortLongTermDebtTotal,null);
+ // A lone part is the row (2026-11-01: short-term borrowings filed with no current maturities is the
+ // filing's short-term debt), and the total is then that part plus the long-term line.
+ delete gaap.LongTermDebtCurrent;d=extract(doc,evidence,{asOf:'2026-10-04'});assert.equal(d.balance.annualReports[0].shortTermDebt,10);assert.equal(d.balance.annualReports[0].shortLongTermDebtTotal,110);
 });
 test('quarter derivation rejects mismatched fiscal starts and annual-only amendments',()=>{
  const {doc,evidence}=fixture();const r=doc.facts['us-gaap'].Revenues.units.USD[0];r.val=100;doc.facts['us-gaap'].Revenues.units.USD.push({...r,start:'2025-01-02',end:'2025-09-30',val:70,form:'10-Q',filed:'2025-11-01',accn:'0000000123-25-000001'});

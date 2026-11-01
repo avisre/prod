@@ -88,7 +88,7 @@ function presentedCapexFacts(concepts, values) {
     return true;
 }
 // These narrower/broader concepts are not equivalent to the displayed field.
-const INCOMPATIBLE={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
+const INCOMPATIBLE={longTermDebt:['LongTermBorrowings'],shortTermDebt:[],sellingGeneralAndAdministrative:['AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
 function verifiedField(data, row, field, accessions) {
     if (number(row?.[field]) === null) return false;
     const ids = row._sources?.[field];
@@ -134,7 +134,10 @@ function verifiedField(data, row, field, accessions) {
     }
     if (!sources.every(s => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && (s.periodEnd === row.fiscalDateEnding || derived?.formula === 'ytd_difference') && s.unit === (/(?:EPS|^eps$)/.test(field) ? row.reportedCurrency + '/shares' : /Shares/.test(field) ? 'shares' : row.reportedCurrency))) return false;
     if (row.periodType==='instant' && sources.some(s=>s.periodStart!==null)) return false;
-    if (row.periodType!=='instant' && !derived && sources.some(s=>s.periodStart!==row.periodStart)) return false;
+    // Annual rows tolerate a start a few days off the row's own: a 52/53-week filer's comparative
+    // facts often carry a start one day off the revenue line's (EML FY2022 net income), and the
+    // same filing reports both. A genuinely restated span (a merger stub) stays dropped.
+    if (row.periodType!=='instant' && !derived && sources.some(s=>s.periodStart!==row.periodStart && !(row.periodType==='annual' && Math.abs(Date.parse(s.periodStart)-Date.parse(row.periodStart))<=4*DAY))) return false;
     // A 6-K counts only as the annual statements of the 20-F or 40-F filed that same day.
     const annualSource=s=>/^(10-K|20-F|40-F)(\/A)?$/.test(s.form) || (s.form==='6-K' && /^(20-F|40-F)$/.test(s.annualFiling?.form || '') && /^\d{10}-\d{2}-\d{6}$/.test(s.annualFiling.accessionNumber || '') && s.annualFiling.filingDate===s.filingDate);
     if (row.periodType==='annual' && sources.some(s=>!annualSource(s) ||(Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1<340 || (Date.parse(s.periodEnd)-Date.parse(s.periodStart))/DAY+1>380)) return false;

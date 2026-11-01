@@ -90,9 +90,13 @@ test('SEC matcher only counts a filed fact for the same period and duration', ()
         }
     });
     assert.equal(has('AccountsPayableCurrent', 'balance', 'annual', '2024-09-28'), true);
-    assert.equal(has('us-gaap:AccountsPayableCurrent', 'balance', 'annual', '2024-09-30'), true, 'within 4 days');
+    // Exact period matching: a 52/53-week filer's near-duplicate year end (EML's FY2023 as
+    // 2023-12-31 and restated as 2023-12-30) is a different period, not the same fact.
+    assert.equal(has('us-gaap:AccountsPayableCurrent', 'balance', 'annual', '2024-09-30'), false, 'a one-day-off end is another period');
     assert.equal(has('AccountsPayableCurrent', 'balance', 'annual', '2023-09-30'), false, 'other year');
     assert.equal(has('Revenues', 'income', 'annual', '2024-09-28'), true);
+    assert.equal(has('Revenues', 'income', 'annual', '2024-06-29', '2024-01-01'), false, 'a 10-Q fact is not the annual filing');
+    assert.equal(has('Revenues', 'income', 'annual', '2024-09-28', '2023-09-30'), false, 'a different start is a different period');
     assert.equal(has('Revenues', 'income', 'quarterly', '2024-06-29'), true);
     assert.equal(has('Revenues', 'income', 'quarterly', '2024-09-28'), false, 'a 12-month fact is not a quarter');
     assert.equal(has('NetCashProvidedByUsedInOperatingActivities', 'cash', 'quarterly', '2024-06-29'), true, 'year-to-date cash flow');

@@ -1,4 +1,4 @@
-TIER 1 (regular US reporters): 4185 stocks, 0 with every applicable annual row filled for 5 years
-  annual blank rows by reason: not_reported 87981, not_applicable 21015, sec_has_alt_tag 19946, no_statement_rows 6185, formula_blank_by_design 1849, sec_has_mapped_tag 1255, per_share_withheld 138
-TIER 2 (other stocks): 1423 stocks, 0 with every applicable annual row filled for 5 years
-  annual blank rows by reason: not_reported 20669, no_statement_rows 19045, missing_unchecked 14480, not_applicable 6082, sec_has_alt_tag 3143, per_share_withheld 1746, no_sec_file 1296, formula_blank_by_design 579, sec_has_mapped_tag 134
+TIER 1 (regular US reporters): 4149 stocks, 0 with every applicable annual row filled for 5 years
+  annual blank rows by reason: not_reported 89656, not_applicable 16121, no_statement_rows 5504, rejected_by_validation 3657, sec_has_alt_tag 3029, formula_blank_by_design 2520, sec_has_mapped_tag 150, per_share_withheld 120
+TIER 2 (other stocks): 1411 stocks, 0 with every applicable annual row filled for 5 years
+  annual blank rows by reason: not_reported 21474, no_statement_rows 18880, missing_unchecked 13880, not_applicable 5382, per_share_withheld 1716, no_sec_file 1280, rejected_by_validation 1258, formula_blank_by_design 619, sec_has_alt_tag 256, sec_has_mapped_tag 68

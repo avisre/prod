@@ -38,13 +38,14 @@ test('a standard EPS tag is the filed EPS whatever its printed label says',()=>{
 });
 
 test('an allowance or accumulated depreciation clause reads as ", net", and nothing else after it does',()=>{
- // ReceivablesNetCurrent has been read from the facts since 2026-10-17, so it no longer comes from the face.
+ // ReceivablesNetCurrent has been read from the facts since 2026-10-17, and
+ // AccountsNotesAndLoansReceivableNetCurrent joined it on 2026-11-01, so neither comes from the face.
  const bs=(l,tag='AccountsNotesAndLoansReceivableNetCurrent')=>lines.fieldsFor('BS',l,tag,{crdr:'D',mapped});
  assert.deepEqual(bs('Receivables, net','ReceivablesNetCurrent'),[]);
- assert.deepEqual(bs('Receivables, net of allowance for doubtful accounts of $1 at December 31, 2025 and 2024'),['currentNetReceivables']);
- assert.deepEqual(bs('Accounts receivable, net of allowance for credit losses of $2.1 million and $1.8 million as of December 31, 2025 and December 31, 2024, respectively'),['currentNetReceivables']);
- assert.deepEqual(bs('Accounts and notes receivable (less allowances of $4 in 2025 and $5 in 2024)','AccountsNotesAndLoansReceivableNetCurrent'),['currentNetReceivables']);
- assert.deepEqual(bs('Accounts receivable - net'),['currentNetReceivables']);
+ assert.deepEqual(bs('Receivables, net of allowance for doubtful accounts of $1 at December 31, 2025 and 2024'),[]);
+ assert.deepEqual(bs('Accounts receivable, net of allowance for credit losses of $2.1 million and $1.8 million as of December 31, 2025 and December 31, 2024, respectively'),[]);
+ assert.deepEqual(bs('Accounts and notes receivable (less allowances of $4 in 2025 and $5 in 2024)','AccountsNotesAndLoansReceivableNetCurrent'),[]);
+ assert.deepEqual(bs('Accounts receivable - net'),[]);
  assert.deepEqual(bs('Property and equipment, net of accumulated depreciation of $10,512 and $9,870','PropertyPlantAndEquipmentNetCustom'),['propertyPlantEquipment']);
  assert.deepEqual(bs('Accounts receivable, net of allowance, and unbilled receivables'),[]);
  assert.deepEqual(bs('Accounts receivable, net of allowance of $3 (including related party receivables of $9)'),[]);
@@ -52,12 +53,16 @@ test('an allowance or accumulated depreciation clause reads as ", net", and noth
 
 test('a bare "long-term debt" needs a noncurrent tag, and intangibles a tag without goodwill in it',()=>{
  const bs=(l,tag,custom=false)=>lines.fieldsFor('BS',l,tag,{custom,crdr:tag==='FiniteLivedIntangibleAssetsNet' || /Intangible/.test(tag)?'D':'C',mapped});
- assert.deepEqual(bs('Long-term debt','LongTermDebtAndCapitalLeaseObligations'),['longTermDebt']);
+ // FiniteLivedIntangibleAssetsNet has been read from the facts since 2026-11-01 (guarded to a filing
+ // with no indefinite-lived intangibles), so the face line no longer maps.
+ assert.deepEqual(bs('Long-term debt','LongTermDebtAndCapitalLeaseObligations'),[]);
  assert.deepEqual(bs('Long-term debt, net','SeniorNotesNoncurrent'),['longTermDebt']);
  // Without a noncurrent tag the words are the whole debt, a bank's or insurer's row only (sec-facts).
  assert.deepEqual(bs('Long-term debt','LongTermDebtCustom',true),['longTermDebtTotal']);
  assert.deepEqual(bs('Long-term debt, net of current portion','LongTermDebtCustom',true),['longTermDebt']);
- assert.deepEqual(bs('Intangibles, net','FiniteLivedIntangibleAssetsNet'),['intangibleAssetsExcludingGoodwill']);
+ // FiniteLivedIntangibleAssetsNet is read from the facts (guarded to a filing with no indefinite-lived
+ // intangibles), so the face line no longer maps.
+ assert.deepEqual(bs('Intangibles, net','FiniteLivedIntangibleAssetsNet'),[]);
  assert.deepEqual(bs('Intangible assets','IntangibleAssetsAndGoodwill'),[]);
  assert.deepEqual(bs('Other intangible assets, net','OtherIntangibleAssetsNet'),[]);
  assert.deepEqual(lines.fieldsFor('BS','Inventories - net','InventoryNoncurrent',{crdr:'D',mapped}),[]);
@@ -146,18 +151,20 @@ test('a balance-sheet line is a debt line by its tag or label; leases, interest 
 
 test('total debt is the sum of the debt lines the balance sheet presents, and only when the face and the row agree',()=>{
  const {d,row}=debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[face('LongTermDebtCurrent','LongTermDebtNoncurrent')]);
+ // The current part fills short-term debt from the facts (2026-11-01), so the two parts sum without the face;
+ // the face then confirms the same total from its own lines.
  assert.equal(row.shortLongTermDebtTotal,320);
- assert.deepEqual(row._derivations.shortLongTermDebtTotal.inputs,['longTermDebt','currentLongTermDebt']);
+ assert.deepEqual(row._derivations.shortLongTermDebtTotal.inputs,['shortTermDebt','longTermDebt']);
  assert.equal(p.verifiedField(d,row,'shortLongTermDebtTotal'),true);
  assert.deepEqual(p.validateFinancial(d,d.cik,'2026-10-03'),[]);
- // No presentation: the parts alone do not make a total.
- assert.equal(debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[]).row.shortLongTermDebtTotal,null);
- // A presented debt line the row does not hold.
+ // No presentation: the held parts still make the total.
+ assert.equal(debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[]).row.shortLongTermDebtTotal,320);
+ // A presented debt line the row does not hold keeps the total unread.
  assert.equal(debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[face('LongTermDebtCurrent','LongTermDebtNoncurrent','NotesPayableCurrent')]).row.shortLongTermDebtTotal,null);
  // A held figure off the face is inside some other line (Amazon's current debt, in accrued expenses).
  assert.equal(debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[face('LongTermDebtNoncurrent')]).row.shortLongTermDebtTotal,null);
- // A presentation of another filing says nothing about this one.
- assert.equal(debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[{...face('LongTermDebtCurrent','LongTermDebtNoncurrent'),a:'0000000123-26-000009'}]).row.shortLongTermDebtTotal,null);
+ // A presentation of another filing says nothing about this one; the same-filing parts stand.
+ assert.equal(debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[{...face('LongTermDebtCurrent','LongTermDebtNoncurrent'),a:'0000000123-26-000009'}]).row.shortLongTermDebtTotal,320);
 });
 
 test('one current line filed under two tags is counted once, and a filed total stays unless it is smaller than a line',()=>{
@@ -174,10 +181,10 @@ test('one current line filed under two tags is counted once, and a filed total s
  assert.equal(filed.row.shortLongTermDebtTotal,325);assert.equal(filed.row._derivations.shortLongTermDebtTotal,undefined);
 });
 
-test('the validator re-checks a presented-lines total against its parts',()=>{
+test('the validator re-checks a combined debt total against its parts',()=>{
  const {d,row}=debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[face('LongTermDebtCurrent','LongTermDebtNoncurrent')]);
- for(const tamper of [r=>{r.shortLongTermDebtTotal=321;},r=>{r._derivations.shortLongTermDebtTotal.presentedConcepts=['LongTermDebtNoncurrent'];},
-  r=>{r._derivations.shortLongTermDebtTotal.inputs=['longTermDebt'];},r=>{r._sources.shortLongTermDebtTotal=[r._sources.longTermDebt[0]];}]){
+ for(const tamper of [r=>{r.shortLongTermDebtTotal=321;},r=>{r._derivations.shortLongTermDebtTotal.inputs=['longTermDebt'];},
+  r=>{r._scopes.shortTermDebt='consolidated';},r=>{r._sources.shortLongTermDebtTotal=[r._sources.longTermDebt[0]];},r=>{r._derivations.shortLongTermDebtTotal.formula='sum_presented_lines';}]){
   const copy=structuredClone(d),r=copy.balance.annualReports[0];tamper(r);assert.equal(p.verifiedField(copy,r,'shortLongTermDebtTotal'),false);
  }
 });
@@ -185,7 +192,7 @@ test('the validator re-checks a presented-lines total against its parts',()=>{
 test('a debt figure another filing gives for the date keeps the total unread',()=>{
  const {presentedDebt}=require('../sec-facts');
  const {d,row}=debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[]);
- assert.equal(row.shortLongTermDebtTotal,null);
+ assert.equal(row.shortLongTermDebtTotal,320);
  d.sources.other={...d.sources[row._sources.currentLongTermDebt[0]],concept:'DebtCurrent',rawValue:54,accessionNumber:'0000000123-25-000004'};
  row.shortTermDebt=54;row._sources.shortTermDebt=['other'];row._scopes.shortTermDebt=row._scopes.currentLongTermDebt;
  presentedDebt(d,row,new Map([[ACC,['LongTermDebtCurrent','LongTermDebtNoncurrent']]]));
@@ -193,19 +200,23 @@ test('a debt figure another filing gives for the date keeps the total unread',()
  delete row._sources.shortTermDebt;row.shortTermDebt=null;
  presentedDebt(d,row,new Map([[ACC,['LongTermDebtCurrent','LongTermDebtNoncurrent']]]));
  assert.equal(row.shortLongTermDebtTotal,320);
- // The same current figure from the other filing (DoubleDown 2023: 6-K face, 20-F current borrowings) is that line, not another.
+ // The same current figure from the other filing (DoubleDown 2023: 6-K face, 20-F current borrowings) is that line, not
+ // another: the combined total stays, and the validator drops it because the parts came from two filings (the extraction's
+ // drop loop removes it before the page reads it).
  const same=debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[]);
  same.d.sources.other={...same.d.sources[same.row._sources.currentLongTermDebt[0]],concept:'DebtCurrent',rawValue:20,accessionNumber:'0000000123-25-000004'};
  same.row.shortTermDebt=20;same.row._sources.shortTermDebt=['other'];same.row._scopes.shortTermDebt=same.row._scopes.currentLongTermDebt;
  presentedDebt(same.d,same.row,new Map([[ACC,['LongTermDebtCurrent','LongTermDebtNoncurrent']]]));
- assert.equal(same.row.shortLongTermDebtTotal,320);assert.equal(p.verifiedField(same.d,same.row,'shortLongTermDebtTotal'),true);
+ assert.equal(same.row.shortLongTermDebtTotal,320);assert.equal(p.verifiedField(same.d,same.row,'shortLongTermDebtTotal'),false);
 });
 
-test('a presented debt line the row holds no figure for is read as that filing\'s own fact (Agilent 2025: LongTermDebt on the face)',()=>{
+test('a whole-debt tag fills the noncurrent line when the filing reports no current part (Agilent 2025: LongTermDebt on the face)',()=>{
  const {d,row}=debtRow({LongTermDebt:60,ShortTermBorrowings:4},[face('LongTermDebt','ShortTermBorrowings')]);
- assert.equal(row.longTermDebt,null);assert.equal(row.shortLongTermDebtTotal,64);
- assert.equal(row._derivations.shortLongTermDebtTotal.formula,'sum_presented_facts');
- assert.deepEqual(row._derivations.shortLongTermDebtTotal.presentedConcepts,['LongTermDebt','ShortTermBorrowings']);
+ // The whole LongTermDebt tag fills the noncurrent line (2026-11-01: guarded to a filing with no current part),
+ // and short-term borrowings fill short-term debt the same way, so the two parts sum to the total.
+ assert.equal(row.longTermDebt,60);assert.equal(row.shortTermDebt,4);assert.equal(row.shortLongTermDebtTotal,64);
+ assert.equal(row._derivations.shortLongTermDebtTotal.formula,'sum_fields');
+ assert.deepEqual(row._derivations.shortLongTermDebtTotal.inputs,['shortTermDebt','longTermDebt']);
  assert.equal(p.verifiedField(d,row,'shortLongTermDebtTotal'),true);
  assert.deepEqual(p.validateFinancial(d,d.cik,'2026-10-03'),[]);
  // Preferred stock or a commitments caption beside the debt is not debt, and is left out of the total.
@@ -223,11 +234,12 @@ test('a presented debt line the row holds no figure for is read as that filing\'
 });
 
 test('the validator re-checks a presented-facts total against the filed facts',()=>{
- const {d,row}=debtRow({LongTermDebt:60,ShortTermBorrowings:4},[face('LongTermDebt','ShortTermBorrowings')]);
+ const {d,row}=debtRow({LongTermDebt:60,PreferredStockValue:9},[face('LongTermDebt','PreferredStockValue')]);
+ assert.equal(row._derivations.shortLongTermDebtTotal.formula,'sum_presented_facts');
  const first=r=>r._sources.shortLongTermDebtTotal[0];
  for(const tamper of [(r)=>{r.shortLongTermDebtTotal=65;},(r)=>{r._derivations.shortLongTermDebtTotal.presentedConcepts=['ShortTermBorrowings','LongTermDebt'];},
   (r,c)=>{c.sources[first(r)].accessionNumber='0000000123-26-000009';},(r,c)=>{c.sources[first(r)].periodStart='2025-01-01';},
-  (r,c)=>{c.sources[first(r)].unit='EUR';},(r)=>{r._sources.shortLongTermDebtTotal=r._sources.shortLongTermDebtTotal.slice(0,1);}]){
+  (r,c)=>{c.sources[first(r)].unit='EUR';},(r)=>{r._sources.shortLongTermDebtTotal.push('extra');}]){
   const copy=structuredClone(d),r=copy.balance.annualReports[0];tamper(r,copy);assert.equal(p.verifiedField(copy,r,'shortLongTermDebtTotal'),false);
  }
 });

@@ -12,6 +12,58 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Alt-tag fills and debt guards — 2026-11-01/02
+- Source: `docs/statement-audit/missing-financial-cells-2026-11-01.csv` — SEC tags a blank page row under a second
+  name. `EXTRACTION_VERSION` **20261101-alt4**. All fills are fill-only (`ALTS_ADDED` join `FILLS`), so they never
+  displace a filed figure and never add a period.
+- `sec-facts.js` MAPS gained: revenue (`InterestAndDividendIncomeOperating` — financial SIC 60/61/62/67 only,
+  `RealEstateRevenueNet`), operating income (`…IncomeLossFromContinuingOperationsBeforeInterestExpense…`), SG&A
+  (`GeneralAndAdministrativeExpense` alone, guarded), cost of revenue (`CostOfServices`), operating expenses
+  (`OperatingCostsAndExpenses`, `NoninterestExpense`), interest income (`InvestmentIncomeInterestAndDividend`,
+  `InterestIncomeOther`), tax (`CurrentIncomeTaxExpenseBenefit`), pre-tax (Domestic/Foreign, mutually guarded), D&A
+  (plain `Depreciation`, guarded on both statements), cash with restricted cash (guarded), receivables
+  (`AccountsNotesAndLoansReceivableNetCurrent`), debt (`LongTermDebt`, `LongTermDebtAndCapitalLeaseObligations`,
+  `SeniorNotes`, `ConvertibleNotesPayable`, `LongTermLineOfCredit`, `NotesPayable`, and for short-term debt
+  `ShortTermBorrowings`/`LongTermDebtCurrent`/`CommercialPaper`), intangibles (finite/indefinite halves, guarded),
+  investments (`EquityMethodInvestments`, AFS noncurrent), PP&E (`RealEstateInvestmentPropertyNet`), other assets
+  (`OtherAssets`, guarded), payables-and-accrued (guarded), SBC (`…ShareBasedPaymentAwardCompensationCost`),
+  working-capital changes (`IncreaseDecreaseInOperatingAssets`/`…Liabilities`, guarded), equity proceeds (stock
+  options, equity sale), REIT capex (`PaymentsToDevelopRealEstateAssets`).
+- `FIELD_GUARDS` (new): field-scoped witnesses — a whole-of-debt or combined tag is the row only when the same filing
+  reports no other part of it (a guard, not `FILL_GUARDS`, which applies to every field reading the tag).
+  **`LongTermDebtAndCapitalLeaseObligations` is deliberately unguarded**: it IS the noncurrent line (900 of 938
+  sampled filings sit below the same filing's `…IncludingCurrentMaturities`); guarding it blanked 3,089 rows,
+  Ampco-Pittsburgh's presented "Long-term debt" among them.
+- `shortTermDebt` reads its parts as well as `DebtCurrent`. When both parts are filed the row is their **sum**: a new
+  `combine()` rule lets the sum replace a value that resolved from one of the two parts first (10,328 rows were one
+  part instead of the sum). A lone part is the row when the filing reports nothing else of it — total debt then sums
+  that part with the long-term line (`financial-foundation.test.js` updated to this by design).
+- `restrictedFallback`: when the latest annual report's own XBRL leaves a face line untagged, a later filing's
+  comparative fills it (annual forms only, all facts at that end agreeing); it never sets the row's span.
+- Annual rows keep the fact that shares the row's own start (ZURA's restated merger stub no longer displaces it) and
+  the latest annual period's figures come from the annual filing's own accession (ATEN). `presentedDebt` now records
+  `PRESENTED_TOTAL_REFUSED` when a total it built from parts fails the face check, and treats a zero current-debt
+  figure as no line (META).
+- `refresh-sec-coverage.js` treats `REJECTED_PART` **and** `PRESENTED_TOTAL_REFUSED` as prior losses (not new ones)
+  and keeps a field whose figure is unchanged when only its provenance moved to a later filing. `verifiedField`
+  tolerates ±4 days on an annual row's start (a 52/53-week comparative). `audit-statement-rows.js` matches facts
+  exactly (same end, same start, annual only from 10-K/20-F/40-F), reports `rejected_by_validation`, and no longer
+  accepts `LiabilitiesAndStockholdersEquity` for total liabilities.
+- Run: 5,507 issuers re-extracted in 12 shards, then `refresh-sec-industry.js --jobs 12` (5,201 merged — a
+  re-extraction strips the original-document stage) and the four index builders; audit regenerated from 8 shards.
+  Diff vs HEAD over the 5,454 changed files: **438,450 cells filled**, 1,105 values changed, 236 new periods, 10 lost.
+  3,266 cells went blank: 2,380 total debt and 691 long-term debt are deliberate refusals, 630 have **no refusal
+  record yet** (AgEagle's whole Q4 2022 income column, `shortLongTermDebtTotal`) — review next session.
+- 39 issuers (ECL, MOD, NSC, PM …) keep their earlier files: the guard still reports `shortLongTermDebtTotal` lost, and
+  their alt2 files already lost long-term debt. They need a decision, not another re-run.
+- Statement audit after: tier 1 `sec_has_alt_tag` 19,946 → 3,029, `rejected_by_validation` 0 → 3,657,
+  `not_reported` 87,981 → 89,656, `sec_has_mapped_tag` 1,255 → 150 — mostly the exact matcher (a one-day-off year
+  end or a 10-Q comparative no longer counts as "SEC has it"), not lost extraction.
+- In the tree and **not** part of this batch: `backend/following.js`, `scripts/global-companies-*.js`,
+  `job-search-sprint/`, `docs/global-companies/history/ANT.json`, `docs/statement-audit/ir-page-feasibility-*`,
+  `docs/statement-audit/by-stock.csv` (untracked, as before), `.appsumo-watch-state.json`,
+  `backend/discovered-compares.json`.
+
 ## Quarter lines tagged only in the segment note — 2026-11-01
 - Owner: Innodata's March/June 2026 quarters showed no gross profit or operating income though Yahoo had them.
   Innodata reports one operating segment (ASU 2023-07 segment disclosure, interim periods from FY2025) and tags those
@@ -41,6 +93,9 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - Render runtime pinned to Node 22.23.4 (`09671381d`, security release; production had been on the 22.16.0 default).
 
 ## Open
+- **Alt-tag batch follow-ups (2026-11-02):** 630 blanked cells have no refusal record (AgEagle's whole Q4 2022
+  income column, `shortLongTermDebtTotal` in older quarters); 39 issuers keep their alt2 files because the guard still
+  reports `shortLongTermDebtTotal` lost (ECL, MOD, NSC, PM, …). Neither is pushed.
 - **Stale-cache fix (2026-11-01, committed, unpushed):** a failed re-extract keeps old statements but stores the new
   check time, so a cache outranked a newer committed file (MCY 10-25 rev1 → losses+LAE null). `getCompanyEvidence` now
   keeps whichever statements have the later `fetchedAt`. MCY's runtime re-extract will keep failing

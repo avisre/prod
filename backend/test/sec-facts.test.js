@@ -495,8 +495,12 @@ test('bank and insurer face lines are read as filed, never add a period and neve
  // every tag the new fields read is fill-only, and none was already read by another field
  const owners=new Map();for(const [st,m] of Object.entries(MAPS))for(const [f,x] of Object.entries(m))for(const t of x['us-gaap'] || [])owners.set(t,[...(owners.get(t) || []),st+'.'+f]);
  const fields=Object.entries(INDUSTRY_FIELDS).flatMap(([st,fs])=>fs.map(f=>st+'.'+f));
+ // 2026-11-01: three whole-of-debt/other-assets tags also fill the ordinary rows, but only when the
+ // same filing reports no other part (FIELD_GUARDS); the industry row still reads them first.
+ const SHARED_WITH_GUARD=new Set(['us-gaap:LongTermDebt','us-gaap:ShortTermBorrowings','us-gaap:OtherAssets']);
  for(const [st,fs] of Object.entries(INDUSTRY_FIELDS))for(const f of fs)for(const t of MAPS[st][f]['us-gaap']){
   assert.ok(INDUSTRY_ADDED.includes('us-gaap:'+t),t+' is fill-only');
+  if(SHARED_WITH_GUARD.has('us-gaap:'+t))continue;
   assert.deepEqual(owners.get(t).filter(o=>!fields.includes(o)),[],t+' is read only by '+st+'.'+f);
  }
 });
