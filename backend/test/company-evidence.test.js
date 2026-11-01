@@ -26,6 +26,14 @@ test('missing stored history can return separately attributed Yahoo observations
  const x=setup({baseline:()=>({financial:null,reporting:fixture().evidence}),client:{fetchReporting:async()=>{throw new Error('SEC unavailable');}},yahoo:async()=>({fetchedAt:new Date().toISOString(),statements:{income:{annualReports:[{fiscalDateEnding:'2025-12-31',reportedCurrency:'TWD',totalRevenue:123}],quarterlyReports:[]}}})});
  const a=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:0});assert.equal(a.observations.length,0);assert.equal(a.supplementalObservations[0].value,123);assert.equal(a.supplementalObservations[0].currency,'TWD');assert.equal(a.supplementalObservations[0].accountingBasis,'provider-reported');assert.equal(a.data.income.annualReports.length,0);assert.equal(a.remainingGaps.length,0);
 });
+test('a cached check that kept older statements does not outrank statements the committed file extracted later',async()=>{
+ // MCY: the background re-extract failed and kept the 10-25 statements, but stored the newer check time.
+ const {doc,evidence}=fixture(),committed={...extract(doc,evidence),fetchedAt:'2026-10-31T00:00:00Z'};
+ const cached={reporting:{...evidence,lastSuccessfulCheckAt:'2026-11-01T00:00:00Z'},financial:{...extract(doc,evidence),fetchedAt:'2026-10-25T00:00:00Z'},supplemental:[]};
+ const resolve=(saved)=>createResolver({lookup:()=>company,baseline:()=>({financial:committed,reporting:{...evidence,lastSuccessfulCheckAt:'2026-10-31T00:00:00Z'},supplemental:[]}),cache:{get:async()=>saved,set:async()=>({persisted:true})}}).getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:0},false);
+ const a=await resolve(cached);assert.equal(a.statements.fetchedAt,'2026-10-31T00:00:00Z');assert.equal(a.freshness.lastSuccessfulCheckAt,'2026-11-01T00:00:00Z');
+ const b=await resolve({...cached,financial:{...cached.financial,fetchedAt:'2026-11-01T00:00:00Z'}});assert.equal(b.statements.fetchedAt,'2026-11-01T00:00:00Z');
+});
 test('recent annual check does not suppress retrieval for missing interim periods',async()=>{
  const x=setup();x.evidence.lastSuccessfulCheckAt=new Date().toISOString();const a=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:4});assert.equal(x.calls(),1);assert.ok(a.remainingGaps.some(g=>g.basis==='quarterly'));assert.ok(a.coverage.sourceAttempts.some(s=>s.source==='Yahoo Finance'));
 });

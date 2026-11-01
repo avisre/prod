@@ -115,7 +115,9 @@ function createResolver(deps={}) {
   let state=baseline(company);
   if(!requiredFields){let overview={Sector:company.sector};try{overview={...overview,...require('./fundamentals-cache').loadRawFundamentals(company.symbol)?.overview};}catch(_){}const requirements=require('./financial-requirements').requirements(overview,state.reporting?.sic);requiredFields=[...new Set([...requirements.core,...requirements.industry])];}
   const saved=await cache.get(identity(company));
-  if(saved && Date.parse(saved.reporting?.lastSuccessfulCheckAt || saved.providerLastSuccessfulCheckAt || 0)>=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || 0) && (!saved.financial || !p.validateFinancial(saved.financial,company.cik).length))state={...state,...saved};
+  // A check whose re-extraction failed stores the newer check time beside the statements it already had, so the
+  // statements are compared on their own: the ones extracted later win (MCY kept a 10-25 cache over the 10-31 file).
+  if(saved && Date.parse(saved.reporting?.lastSuccessfulCheckAt || saved.providerLastSuccessfulCheckAt || 0)>=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || 0) && (!saved.financial || !p.validateFinancial(saved.financial,company.cik).length)){const later=state.financial && saved.financial && Date.parse(state.financial.fetchedAt || 0)>Date.parse(saved.financial.fetchedAt || 0)?state.financial:null;state={...state,...saved};if(later)state.financial=later;}
   let result=projection(company,state,requiredFields,requestedPeriods);
   const now=Date.now(),last=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || ''),failed=now-Date.parse(state.lastAttemptAt || '')<FAILURE_COOLDOWN && requiredFields.every(f=>(state.attemptedFields || []).includes(f));
   const seen=checked.get(identity(company)),current=seen && now-seen.at<SIX_HOURS && requiredFields.every(f=>seen.fields.includes(f)) && ['annual','quarterly'].every(b=>(seen.periods[b] || 0)>=(requestedPeriods[b] || 0));

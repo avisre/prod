@@ -41,9 +41,11 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - Render runtime pinned to Node 22.23.4 (`09671381d`, security release; production had been on the 22.16.0 default).
 
 ## Open
-- **MCY stuck on a 10-25 `rev1` production cache.** Its background re-extract fails `EXTRACTION_HISTORY_REGRESSION`
-  (`company-evidence.js:72`: the old cache has an observation ind3 lacks) yet still advances `lastSuccessfulCheckAt`, so the
-  cache keeps beating the committed file (line 118). Live MCY 2024/2025 annual losses+LAE show null; committed file has them.
+- **Stale-cache fix (2026-11-01, committed, unpushed):** a failed re-extract keeps old statements but stores the new
+  check time, so a cache outranked a newer committed file (MCY 10-25 rev1 → losses+LAE null). `getCompanyEvidence` now
+  keeps whichever statements have the later `fetchedAt`. MCY's runtime re-extract will keep failing
+  `EXTRACTION_HISTORY_REGRESSION` by design: runtime `extract` has no statement data sets, so it lacks the 2024/2025
+  `statement_line` losses+LAE and 26 `shortLongTermDebtTotal` sums. Live MCY was already right on 11-01 (cache rolled to ind3).
 - Phase D of the 10/25 audit: 380 issuers with no statements, 30 stale (10-KT, 40-F switchers, NT filers), stored gaps
   into refresh jobs. Phase 4 auto-follow and Phase 5 checklist grid (10/24 plan) not started.
 - As-filed statements are built but **off** (`AS_FILED_ON = false` in company.js) until the owner designs per-industry
