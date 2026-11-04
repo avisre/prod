@@ -5,7 +5,10 @@
 const { number: num, day } = require('./sec-coverage');
 const DAY = 86400000;
 const MAX_RESULT_BYTES = 64 * 1024;
-const MAX_CONTEXT_BYTES = 192 * 1024;
+// A single 10-K/10-Q is ~175,000 characters of readable text; at 192 KB of tool JSON
+// the fifth passage was refused with TOOL_CONTEXT_LIMIT, so "read the whole filing"
+// stopped at 64% of the document. 320 KB holds the full filing and its metadata.
+const MAX_CONTEXT_BYTES = 320 * 1024;
 // A credit-metered run is charged by the tokens it uses, so its evidence can
 // fill more of the model's window. A seven-company checklist (2026-10-24) needs
 // about 7 x 20 KB, and at 192 KB, a third of it system prompt, it was refused
@@ -13,7 +16,7 @@ const MAX_CONTEXT_BYTES = 192 * 1024;
 // same day on the chat model: 448 KB of tool JSON is 171k prompt tokens (2.69
 // bytes a token) and 640 KB (257k) was still read correctly, so 448 KB leaves
 // room for the tool schemas and the answer.
-const METERED_CONTEXT_BYTES = 448 * 1024;
+const METERED_CONTEXT_BYTES = 640 * 1024;
 
 function observation(row, field) {
     const value = num(row?.[field]);
