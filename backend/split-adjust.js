@@ -141,11 +141,50 @@ function adjustEpsSeries(reports, splits, sharesByPeriod, stats) {
 }
 
 /**
- * Mutates payload in place. Returns { changed, shares, eps }.
+ * Weighted-average share counts (income statement) onto the current basis.
+ *
+ * These are the inputs to earnings per share, so they carry the same basis
+ * problem as EPS and are needed for any dilution measure: NVDA's stored series
+ * reads 2,535M for FY2022 and 25,070M for FY2023 (its 10:1 split), which as a
+ * share-count change is a fabricated +889%. The filing's own two numbers are
+ * the reference — net income is split-invariant, so netIncome / dilutedEPS is
+ * the adjusted share count, and the factor that lands nearest it wins. The
+ * newer adjusted value of the same field is the fallback for a year whose EPS
+ * or net income is missing (or a loss, where the sign carries no information).
+ */
+function adjustWeightedShareSeries(reports, splits, stats) {
+  for (const field of ['weightedAverageSharesDiluted', 'weightedAverageSharesOutstanding']) {
+    let ref = null;
+    for (const report of newestFirst(reports)) {
+      const v = parseNum(report[field]);
+      if (!(v > 0)) continue;
+      const cands = candidateFactors(splits, report.fiscalDateEnding);
+      const netIncome = parseNum(report.netIncome);
+      const perShare = parseNum(field === 'weightedAverageSharesDiluted' ? report.dilutedEPS : report.eps);
+      const implied = netIncome !== null && perShare !== null && perShare !== 0 && netIncome > 0 && perShare > 0
+        ? netIncome / perShare
+        : null;
+      let factor;
+      if (cands.length === 1) factor = cands[0];
+      else if (implied !== null && implied > 0) factor = closest(cands, (m) => logDist(v * m, implied));
+      else if (ref) factor = closest(cands, (m) => logDist(v * m, ref));
+      else factor = cands[0]; // as-filed assumption
+      const out = Math.round(v * factor);
+      if (factor !== 1) {
+        report[field] = typeof report[field] === 'string' ? String(out) : out;
+        stats.weightedShares++;
+      }
+      ref = out;
+    }
+  }
+}
+
+/**
+ * Mutates payload in place. Returns { changed, shares, eps, weightedShares }.
  * splits: raw Yahoo chart events.splits array (or []).
  */
 function adjustPayloadForSplits(payload, splits) {
-  const stats = { shares: 0, eps: 0 };
+  const stats = { shares: 0, eps: 0, weightedShares: 0 };
   const timeline = normalizeSplits(splits);
   if (!timeline.length || !payload) return { changed: false, ...stats };
 
@@ -154,8 +193,11 @@ function adjustPayloadForSplits(payload, splits) {
   const quarterlyShares = adjustShareSeries(payload.balance?.quarterlyReports, timeline, anchor, stats);
   adjustEpsSeries(payload.income?.annualReports, timeline, annualShares, stats);
   adjustEpsSeries(payload.income?.quarterlyReports, timeline, quarterlyShares, stats);
+  // after EPS: the adjusted per-share figures are this series' reference
+  adjustWeightedShareSeries(payload.income?.annualReports, timeline, stats);
+  adjustWeightedShareSeries(payload.income?.quarterlyReports, timeline, stats);
 
-  return { changed: stats.shares + stats.eps > 0, ...stats };
+  return { changed: stats.shares + stats.eps + stats.weightedShares > 0, ...stats };
 }
 
 // ---- Self-contained per-symbol entry point (lazy Yahoo client + 24h splits

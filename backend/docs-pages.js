@@ -27,7 +27,7 @@ const DEEP = credits.DEEP_THINKING_FACTOR;
 // instead of a typed number (they once said "two" while the default was
 // three). The keyless allowance has been closed by default since 2026-10-26.
 const TRIAL = require('./mcp-trial').config();
-const STAMP = '20261101-ui52';
+const STAMP = '20261104-fcf1';
 const UPDATED = '18 October 2026';
 
 function esc(value) {
@@ -403,9 +403,9 @@ const DOC_PAGES = Object.freeze({
     'api-mcp': {
         slug: 'api-mcp', topic: 'Developers',
         title: 'API and MCP server — StockPortfolio.pro documentation',
-        description: 'Connect Claude, ChatGPT or your own code to the filing data: setup for each MCP client and the REST API, with authentication, costs and rate limits.',
+        description: 'Connect Claude, ChatGPT, Cursor, Grok or your own code to filing data: setup for MCP clients and the REST API, with authentication, costs and rate limits.',
         heading: 'API and MCP server',
-        intro: 'Using Claude or ChatGPT rather than writing code? <a class="prose-link" href="/connect">Start here</a>: add StockPortfolio from the directory and create a free account on its sign-in screen to start a free trial (' + TRIAL.lookups + ' data lookups and ' + TRIAL.asks + ' AI answers over ' + TRIAL.days + ' days, once per account, no renewal); the Monthly plan ($79.99 a month) covers it after that. The rest of this page is the setup reference. One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT or any other MCP-capable assistant. This page is the setup guide for each of them.',
+        intro: 'Using Claude or ChatGPT rather than writing code? <a class="prose-link" href="/connect">Start here</a>: add StockPortfolio from the directory and create a free account on its sign-in screen to start a free trial (' + TRIAL.lookups + ' data lookups and ' + TRIAL.asks + ' AI answers over ' + TRIAL.days + ' days, once per account, no renewal); the Monthly plan ($79.99 a month) covers it after that. The rest of this page is the setup reference. One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT, Cursor, Grok and other MCP-capable assistants. This page is the setup guide for each of them.',
         tier: 'Dev, Monthly, Annual, Pro, Power, Desk and Investor/Pro lifetime tiers',
         costTable: [
             ['REST data lookup', 'api_lookup'],
@@ -416,7 +416,7 @@ const DOC_PAGES = Object.freeze({
         steps: [
             'Create a key on your <a rel="nofollow" class="prose-link" href="/profile.html">profile</a>. Keys start with <code>sp_live_</code> and are shown once — store it immediately, because it is hashed and cannot be shown again.',
             'Decide which surface you need. An assistant takes the MCP server; your own code can use either the MCP server or the REST API — same data, same wallet, whichever your client speaks.',
-            'Follow the setup for your client below. Claude and ChatGPT add the server by URL and sign in, because neither can send a key — they authenticate over OAuth instead, and you paste nothing.',
+            'Follow the setup for your client below. Claude, ChatGPT, Cursor and Grok can sign in through OAuth when connecting to the hosted server; other MCP clients can send your API key as a bearer token.',
             'Everywhere else, authenticate with <code>Authorization: Bearer sp_live_...</code> on every request.'
         ],
         setup: [
@@ -453,6 +453,24 @@ const DOC_PAGES = Object.freeze({
                 body: 'StockPortfolio is listed in the ChatGPT app directory, so the short path is to add it from there: open the directory, search for <b>StockPortfolio</b> and connect it — <a class="prose-link" href="/connect#chatgpt">details</a>. No Developer mode is needed for the listed app. ChatGPT uses OAuth 2.1 and does not accept a bearer token, so — exactly as with Claude — you approve a sign-in instead of pasting a key. To add it by hand as a custom connector instead, use this URL:',
                 code: 'https://www.stockportfolio.pro/mcp',
                 note: 'Manual setup only: ChatGPT gates <em>custom</em> connectors behind <b>Developer mode</b> — turn it on under <b>Settings → Security and login</b>, then go to <b>chatgpt.com/plugins → Add → Create MCP App</b>, paste the URL, set <b>Authentication</b> to <b>OAuth</b> and press <b>Create</b>. Whether Developer mode is offered at all can depend on account and workspace policy, and a managed workspace may not offer it. Where neither is open to you, the API routes below reach the same filings at the same prices.'
+            },
+            {
+                title: 'Cursor',
+                body: 'Cursor can connect to the hosted server over remote MCP. Add the URL in Cursor’s MCP settings or put it in the project’s <code>.cursor/mcp.json</code>. Cursor discovers the OAuth server and opens a sign-in flow; no API key needs to be pasted into the project file.',
+                code: `{
+  "mcpServers": {
+    "stockportfolio": {
+      "url": "https://www.stockportfolio.pro/mcp"
+    }
+  }
+}`,
+                note: 'You can also install the StockPortfolio plugin from Cursor Marketplace when its review is complete.'
+            },
+            {
+                title: 'Grok',
+                body: 'In Grok, open <b>grok.com/connectors</b>, choose to add a custom MCP connector, and enter the hosted server URL. Grok can use the server’s OAuth sign-in flow; if your account asks for a token instead, use an active StockPortfolio API key as a bearer token.',
+                code: 'https://www.stockportfolio.pro/mcp',
+                note: 'Custom MCP connectors are configured for your account or workspace. This does not add StockPortfolio to Grok’s shared connector catalog.'
             },
             {
                 title: 'OpenAI API — the Responses API',

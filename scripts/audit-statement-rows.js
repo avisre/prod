@@ -69,6 +69,9 @@ function pageRows(layout = 'generic') {
             const fields = new Set([...body.matchAll(/\br\.(\w+)/g)].map((m) => m[1]));
             if (/derive\(r\)/.test(body)) ['totalRevenue', 'grossProfit', 'costOfRevenue'].forEach((f) => fields.add(f));
             if (/fcfOf\(r\)/.test(body)) ['operatingCashflow', 'capitalExpenditures'].forEach((f) => fields.add(f));
+            // The headcount rows read the period they belong to, then look the reading up in
+            // the employee dataset; they name no income field by design.
+            if (/empCount\(r\)|empChangePct\(r\)/.test(body)) fields.add('fiscalDateEnding');
             fields.delete('_sources');
             const role = d.parentOf !== undefined ? 'dropdown' : d.gid !== undefined ? 'in-dropdown' : 'row';
             return { label: d.label, get: d.get, fields: [...fields], role, gid: d.gid, parentOf: d.parentOf, kind: d.kind, fallback: !!d.fallback, fcf: !!d.fcf };

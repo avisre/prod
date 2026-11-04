@@ -56,16 +56,34 @@ function groupDefinitions(definitions) {
 test('revenue, cost of revenue and gross profit are always-visible rows in statement order', () => {
   const grouped = groupDefinitions(incomeDefinitions());
   const byLabel = Object.fromEntries(grouped.map((definition) => [definition.label, definition]));
+  const order = grouped.map((definition) => definition.label);
 
-  assert.deepEqual(
-    grouped.slice(0, 4).map((definition) => definition.label),
-    ['Revenue', 'Cost of revenue', 'Gross profit', 'Gross margin']
-  );
-  for (const label of ['Revenue', 'Cost of revenue', 'Gross profit']) {
+  // The subtraction chain keeps its order; Employees sits under gross profit and
+  // above operating income (2026-11-04, owner-approved) so the workforce is read
+  // against the gross profit it produces. It unfolds its own year-on-year change,
+  // so it is a parent row and never part of the revenue -> gross-profit chain.
+  for (let i = 1; i < order.length; i += 1) {
+    if (['Revenue', 'Cost of revenue', 'Gross profit'].includes(order[i])) {
+      const previous = ['Revenue', 'Cost of revenue', 'Gross profit'].filter((l) => order.indexOf(l) < i);
+      assert.ok(previous.length === ['Revenue', 'Cost of revenue', 'Gross profit'].indexOf(order[i]),
+        `${order[i]} must follow the chain rows that precede it`);
+    }
+  }
+  // Position: after the gross-profit chain, before operating income.
+  const grossIndex = order.indexOf('Gross profit');
+  const opIndex = order.indexOf('Operating income');
+  const empIndex = order.indexOf('Employees');
+  assert.ok(empIndex > grossIndex, 'Employees comes after Gross profit');
+  assert.ok(empIndex < opIndex, 'Employees comes before Operating income');
+  assert.equal(order[empIndex + 1], 'Employees change %', 'its change unfolds under it');
+  assert.ok(!order.slice(0, grossIndex).includes('Employees'), 'it is no longer under Revenue');
+  for (const label of ['Revenue', 'Cost of revenue', 'Gross profit', 'Employees']) {
     assert.equal(byLabel[label].gid, undefined, `${label} is never hidden`);
   }
-  assert.equal(byLabel.Revenue.parentOf, undefined);
+  assert.equal(byLabel.Revenue.parentOf, undefined, 'Revenue never folds anything under itself');
   assert.equal(byLabel['Cost of revenue'].parentOf, undefined);
+  assert.ok(byLabel.Employees.parentOf !== undefined, 'Employees is the parent of its change row');
+  assert.equal(byLabel['Employees change %'].gid, byLabel.Employees.parentOf);
 });
 
 test('gross margin unfolds under gross profit', () => {
@@ -100,8 +118,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261101-ui52/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261101-ui52/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261104-fcf1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261104-fcf1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -305,13 +323,15 @@ test('a company that files no cost of revenue shows its filed cost lines under i
   const CASH = { cash: [{ label: 'Operating cash flow' }, { label: 'Free cash flow', fcf: true }] };
   assert.deepEqual(make({}, 'cash', 'annual', () => 'USD', String, CASH, () => true).statementDefs(false).map((d) => d.label), ['Operating cash flow']);
   assert.equal(make({}, 'cash', 'annual', () => 'USD', String, CASH).statementDefs(false), CASH.cash);
-  // a bank or insurer shows its own industry's rows, without the generic cost lines
+  // A bank shows the same income statement as everyone else (owner, 2026-11-05): its
+  // industry rows stay in the Bank metrics panel, not in place of the common layout.
   const BANK = { income: [{ label: 'Interest income' }, { label: 'Net interest income' }], cash: CASH.cash };
-  assert.equal(make(payload, 'income', 'annual', () => 'USD', String, ROWS, () => false, { generic: ROWS, bank: BANK }, 'bank').statementDefs(false), BANK.income);
+  assert.equal(make(payload, 'income', 'annual', () => 'USD', String, ROWS, () => false, { generic: ROWS, bank: BANK }, 'bank').statementDefs(false)[0].label, 'Revenue');
   assert.deepEqual(make({}, 'cash', 'annual', () => 'USD', String, CASH, () => true, { generic: CASH, bank: BANK }, 'bank').statementDefs(false).map((d) => d.label), ['Operating cash flow']);
 });
 
-test('the statement layout follows the industry classification', () => {
+test('the layout still selects the bank balance sheet and cash flow, but never the income rows', () => {
+  assert.match(companySource, /const set = \{ income: ROWS\.income, balance: specialised\.balance, cash: specialised\.cash \};/);
   const layoutOf = pageFunction('    const layoutOf = ', '\n', [], '\nreturn layoutOf;')();
   assert.equal(layoutOf({ kind: 'bank' }), 'bank');
   assert.equal(layoutOf({ kind: 'insurer', insurerType: 'life' }), 'life');

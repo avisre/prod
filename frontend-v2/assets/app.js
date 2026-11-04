@@ -2286,8 +2286,13 @@
         });
     }
 
-    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool, onEdit, onRegenerate, onBranch } = {}) {
+    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool, onEdit, onRegenerate, onBranch, symbol } = {}) {
         const history = [];
+        // The page's own subject (a company, dossier or monitor page): sent with
+        // every question so the answer is about the instrument in front of the
+        // reader, and the server can keep this bar's chat out of the account's
+        // other Ask sessions.
+        const pageSymbol = /^[A-Z][A-Z0-9.\-]{0,9}$/.test(String(symbol || '').toUpperCase()) ? String(symbol).toUpperCase() : '';
         let busy = false;
         let aborter = null;
         wireExchangeTools(exchange);
@@ -2497,7 +2502,7 @@
                             headers: _askHeaders,
                             // the server owns per-thread context when a threadId
                             // is present; callers without one behave exactly as before
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(['high', 'max'].includes(localStorage.getItem('sp_ask_think_v1')) ? { thinking: localStorage.getItem('sp_ask_think_v1') } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.threadId && opts.editFrom ? { editFrom: opts.editFrom, ...(opts.regenerate ? { regenerate: true } : {}) } : {}), ...(opts && opts.temporary ? { temporary: true } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(pageSymbol ? { pageSymbol } : {}), ...(['high', 'max'].includes(localStorage.getItem('sp_ask_think_v1')) ? { thinking: localStorage.getItem('sp_ask_think_v1') } : {}), ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.threadId && opts.editFrom ? { editFrom: opts.editFrom, ...(opts.regenerate ? { regenerate: true } : {}) } : {}), ...(opts && opts.temporary ? { temporary: true } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -2730,7 +2735,7 @@
     }
 
     // In-flow shell: bar + panel inside a page section.
-    function mountAsk(el, { placeholder, suggestions = [], onPaperEvent } = {}) {
+    function mountAsk(el, { placeholder, suggestions = [], onPaperEvent, symbol } = {}) {
         el.innerHTML = `
           <form class="ask-bar">
             <input class="input" type="text" maxlength="60000" placeholder="${esc(placeholder || 'Ask about any company, ETF or mutual fund…')}" aria-label="Ask a question" />
@@ -2741,7 +2746,7 @@
         const form = el.querySelector('form');
         const input = el.querySelector('input');
         const panel = el.querySelector('.ask-panel');
-        const engine = askEngine(el.querySelector('.ask-exchange'), { onActivity: () => { panel.hidden = false; }, ...(onPaperEvent ? { onPaperEvent } : {}) });
+        const engine = askEngine(el.querySelector('.ask-exchange'), { onActivity: () => { panel.hidden = false; }, ...(onPaperEvent ? { onPaperEvent } : {}), ...(symbol ? { symbol } : {}) });
         el.querySelectorAll('.ask-suggest').forEach((b) =>
             b.addEventListener('click', () => { input.value = b.textContent; form.requestSubmit(); }));
         form.addEventListener('submit', (e) => {
@@ -2757,7 +2762,7 @@
     // Floor shell: a quiet bar pinned to the bottom of the viewport — the
     // page's voice, always one keystroke away (⌘K / Ctrl-K). Answers unfold
     // in a sheet above the bar; Esc puts it away without losing the thread.
-    function mountAskFloor({ placeholder, onTool, onComplete } = {}) {
+    function mountAskFloor({ placeholder, onTool, onComplete, symbol } = {}) {
         document.body.classList.add('has-ask-floor');
         const sheet = document.createElement('div');
         sheet.className = 'ask-sheet';
@@ -2776,7 +2781,7 @@
         const input = bar.querySelector('input');
         const exchange = sheet.querySelector('.ask-exchange');
         sheet.querySelector('.ask-sheet-close').addEventListener('click', () => { sheet.hidden = true; });
-        const engine = askEngine(exchange, { onActivity: () => { sheet.hidden = false; }, ...(onTool ? { onTool } : {}), ...(onComplete ? { onComplete } : {}) });
+        const engine = askEngine(exchange, { onActivity: () => { sheet.hidden = false; }, ...(onTool ? { onTool } : {}), ...(onComplete ? { onComplete } : {}), ...(symbol ? { symbol } : {}) });
         bar.querySelector('form').addEventListener('submit', (e) => {
             e.preventDefault();
             const q = input.value.trim();

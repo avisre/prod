@@ -240,7 +240,7 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
     if (!data || (!stockUniverse.hasStatements(data) && !data.supplementalObservations?.length)) return NO_DATA(symbol, data);
     const annual = basis !== 'quarterly';
     if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
-    const reports = (((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || []).filter(r => !before || r.fiscalDateEnding < before);
+    const reports = (((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || []).filter(r => !r._supplemental && (!before || r.fiscalDateEnding < before));
     const cap = Math.min(Math.max(num(limit) || (annual ? 3 : 4), 1), annual ? 20 : 48);
     if (!reports.length) {
         // Same period window as SEC rows: FDIC call reports carry every year, which ran a 3-year ask to 44KB.
@@ -2456,6 +2456,23 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty', quality: { terminalReason: 'empty_question' } };
     let policy = reportPolicy.select(q, mode);
+    // The Ask bar on a company page names its subject. A question that names no
+    // ticker is about the instrument in front of the reader, so the engine resolves
+    // it here instead of letting the answer open by asking which company was meant
+    // (or, worse, answering about whichever listing a lowercase word happened to
+    // match). A ticker or company the reader does name still wins.
+    if (ctx && ctx.pageSymbol && !policy.unknownTicker) {
+        const page = String(ctx.pageSymbol).toUpperCase();
+        const pageCompany = stockUniverse.lookup(page);
+        if (pageCompany && policy.company?.symbol !== page) {
+            const named = new Set();
+            for (const m of q.matchAll(/\$([A-Za-z][A-Za-z0-9.\-]{0,9})\b/g)) named.add(m[1].toUpperCase());
+            for (const m of q.matchAll(/(^|[^A-Za-z0-9$])([A-Z][A-Z0-9]{0,4}(?:\.[A-Z])?)(?=$|[^A-Za-z0-9])/g)) if (m[2] === m[2].toUpperCase() && stockUniverse.lookup(m[2])) named.add(m[2]);
+            const nameWords = String(policy.company?.name || '').toLowerCase().match(/[a-z]{3,}/g) || [];
+            const namesCompany = nameWords.length > 0 && new RegExp('\\b' + nameWords.sort((a, b) => b.length - a.length)[0] + '\\b').test(q.toLowerCase());
+            if (!namesCompany && ![...named].some((t) => t !== page && stockUniverse.lookup(t))) policy = reportPolicy.select(q, mode, { company: pageCompany });
+        }
+    }
     // Kept from the first selection: attaching a company later clears it.
     const typedUnknown = policy.unknownTicker;
     if (policy.kind === 'listing_choice') return { answer: 'Which listing would you like: ' + policy.choices.map(c => `${c.symbol} (${c.name})`).join(' or ') + '?', source: 'disambiguation', toolsUsed: [], totalTokens: 0, quality: { policyVersion: reportPolicy.VERSION, checked: true, policy, listingChoice: true, terminalReason: 'listing_choice' } };
@@ -3218,8 +3235,10 @@ async function hasEverUsed(userId) {
         return Boolean(doc);
     } catch (_) { return false; }
 }
-// Cross-session memory: the last few exchanges per user, so a fresh page
-// (empty client history) can pick the thread back up. Capped at 8 turns.
+// The rolling log of the last few exchanges per user, capped at 8 turns.
+// No longer read back as chat context (a new chat starts empty, owner
+// 2026-11-02) — kept as the account's own quick log; recentHistory stays
+// exported for anything that asks for the log explicitly.
 async function saveExchange(userId, question, answer) {
     try {
         const col = mongoose.connection.collection('ai_chat_log');

@@ -46,12 +46,33 @@ test('the five measures are the filed numbers and plain arithmetic on them', () 
     assert.equal(round(m.dilutionFive), -14.4);
     assert.deepEqual(m.check, { pass: true, buybacks: 438583e6, sbc: 52328e6 });
     assert.equal(m.trend.length, 6);
-    assert.deepEqual(m.trend[0], { fy: 'FY2020', tick: '2020', sbc: 6829e6, pctRevenue: (100 * 6829e6) / 274515e6 });
+    // Each trend point also carries the filed diluted share count: the chart draws
+    // it beside the stock pay on its own scale (2026-11-04).
+    // The fixture files no balance-sheet share count, so the diluted weighted average
+    // is what is drawn, and the point says so.
+    assert.deepEqual(m.trend[0], { fy: 'FY2020', tick: '2020', sbc: 6829e6, shares: 17528214e3, sharesBasis: 'diluted', pctRevenue: (100 * 6829e6) / 274515e6 });
     assert.equal(m.fiveAgoEnd, '2020-09-26');
     // Capex filed as a positive amount gives the same free cash flow.
     const positive = model.build(APPLE.map((y) => ({ ...y, capex: Math.abs(y.capex), buy: Math.abs(y.buy) })));
     assert.equal(positive.fcf, m.fcf);
     assert.equal(positive.buybacks, m.buybacks);
+});
+
+test('the total share count is the filed year-end count, and a jump is not measured across', () => {
+    const withCounts = APPLE.map((y, i) => ({ ...y, out: [16000000e3, 15700000e3, 15500000e3, 15300000e3, 15100000e3, 14900000e3][i] }));
+    const m = model.build(withCounts);
+    assert.equal(m.totalShares, 14900000e3, 'the year-end count, not the weighted average');
+    assert.equal(m.totalSharesBasis, 'outstanding');
+    assert.equal(m.totalSharesFrom, 16000000e3, 'five years back');
+    assert.equal(m.totalSharesSpan, 5);
+    assert.equal(round(m.totalSharesFive === undefined ? m.totalSharesChange : m.totalSharesFive, 2), round((14900000 / 16000000 - 1) * 100, 2));
+    // AppLovin's shape: a share-class conversion in the IPO year is not dilution, so the
+    // comparison starts after it instead of spanning it.
+    const jump = model.build(APPLE.map((y, i) => ({ ...y, out: [212e6, 226e6, 375e6, 374e6, 340e6, 338e6][i] })));
+    assert.equal(jump.totalShares, 338e6);
+    assert.equal(jump.totalSharesFromFy, 'FY2022');
+    assert.equal(jump.totalSharesSpan, 3);
+    assert.equal(round(jump.totalSharesChange, 1), -9.9);
 });
 
 test('no SBC line in any year is said plainly, not drawn as zero', () => {
@@ -301,8 +322,15 @@ test('the page draws from the model, and the server ranks with it and never retu
     assert.match(js, /\{ label: 'FCF after SBC, % of revenue',/);
     assert.match(js, /add\('Buybacks exceed stock paid to staff, five years', sbcCheck\.pass,/);
     // The reason strings come from the model and are escaped on the way out.
-    assert.match(js, /row\('Free cash flow', '—', esc\(m\.fcfWhy\)\)/);
     assert.match(js, /row\('Diluted shares', '—', esc\(m\.dilutionWhy\)\)/);
+    // The panel is stock pay, the buybacks that offset it and the share count that
+    // results. Free cash flow and its "Not available: operating cash flow …" excuse
+    // were removed from both the panel and the per-year table (owner, 2026-11-04).
+    assert.ok(!/row\('Free cash flow'/.test(js), 'no free cash flow row');
+    assert.ok(!/<th>FCF/.test(js) && !/<th>Verdict/.test(js), 'no FCF or verdict column');
+    assert.ok(!/Not available: operating cash flow/.test(js), 'no missing-cash-flow excuse on the page');
+    // Diluted shares are drawn beside the SBC bars.
+    assert.match(js, /class="\$\{last \? 'sbc-shares sbc-shares-now' : 'sbc-shares'\}"/);
 
     const app = read('backend', 'app.js');
     const route = app.slice(app.indexOf("app.get('/api/sbc/sector-rank'"));

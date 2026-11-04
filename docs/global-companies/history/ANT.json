@@ -1,0 +1,48 @@
+{
+  "symbol": "ANT",
+  "name": "Anthropic, PBC",
+  "reportingCurrency": "USD",
+  "fiscalYearEnd": "12-31",
+  "irUrl": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=2130357&type=S-1",
+  "years": [
+    {
+      "fiscalYear": 2025, "periodEnd": "2025-12-31", "standard": "US GAAP", "currency": "USD",
+      "revenue": 4585000000, "operatingIncome": -8060000000, "netIncome": -41965000000, "dilutedEPS": -23.04,
+      "totalAssets": 24661000000, "totalEquity": -50505000000, "cashAndEquivalents": 17388000000, "totalDebt": 41677000000,
+      "operatingCashFlow": -2637000000, "capex": -131000000, "dividendPerShare": 0, "sharesOutstanding": 1901267000, "employees": null,
+      "restated": false,
+      "source": { "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm", "document": "Form S-1 filed 2026-10-26, audited consolidated financial statements", "page": "balance sheets F-6/F-7; statements of operations F-8; statements of cash flows F-13/F-14" }
+    },
+    {
+      "fiscalYear": 2024, "periodEnd": "2024-12-31", "standard": "US GAAP", "currency": "USD",
+      "revenue": 386000000, "operatingIncome": -2980000000, "netIncome": -8309000000, "dilutedEPS": -5.43,
+      "totalAssets": 7752000000, "totalEquity": -9801000000, "cashAndEquivalents": 3141000000, "totalDebt": 14116000000,
+      "operatingCashFlow": -5692000000, "capex": -15000000, "dividendPerShare": 0, "sharesOutstanding": 1779060000, "employees": null,
+      "restated": false,
+      "source": { "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm", "document": "Form S-1 filed 2026-10-26, audited consolidated financial statements", "page": "balance sheets F-6/F-7; statements of operations F-8; statements of cash flows F-13/F-14" }
+    },
+    {
+      "fiscalYear": 2023, "periodEnd": "2023-12-31", "standard": "US GAAP", "currency": "USD",
+      "revenue": 41000000, "operatingIncome": -551000000, "netIncome": -1531000000, "dilutedEPS": -1.42,
+      "totalAssets": null, "totalEquity": null, "cashAndEquivalents": null, "totalDebt": null,
+      "operatingCashFlow": -1627000000, "capex": -2000000, "dividendPerShare": 0, "sharesOutstanding": null, "employees": null,
+      "restated": false,
+      "source": { "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm", "document": "Form S-1 filed 2026-10-26, audited consolidated financial statements", "page": "statements of operations F-8; statements of cash flows F-13/F-14" }
+    }
+  ],
+  "gaps": [
+    "FY2007-FY2022: no published financials (company founded 2021, private until the 2026 S-1; the S-1 presents audited results only for FY2023-FY2025)",
+    "FY2023 totalAssets, totalEquity, cashAndEquivalents, totalDebt, sharesOutstanding: the S-1 balance sheets are dated 2024-12-31, 2025-12-31 and 2026-06-30 only",
+    "FY2023-FY2025 employees: the S-1 gives headcount only as of 2026-09-30 (approximately 5,300)"
+  ],
+  "notes": [
+    "Pre-IPO: S-1 filed on SEC EDGAR 2026-10-26 (CIK 2130357, accession 0001628280-26-067168), proposed Nasdaq symbol ANT; no market price yet, so no Yahoo cross-check",
+    "Net loss is dominated by non-cash fair-value changes on convertible notes, derivatives and SAFEs: -1,045M (2023), -5,434M (2024), -34,308M (2025); operating loss is the cleaner operating measure",
+    "FY2025 operating expenses include a 1,500M Bartz copyright settlement",
+    "totalDebt = convertible notes payable carried at fair value (no other borrowings on the balance sheet; operating lease liabilities excluded)",
+    "totalEquity = total stockholders' deficit; redeemable convertible preferred stock (2,874M at 2024, 29,769M at 2025) sits in mezzanine and is excluded",
+    "sharesOutstanding = Class A common issued and outstanding; no Class N or Class T shares were outstanding at either year-end; dilutedEPS equals basic (loss years)",
+    "Never declared or paid a dividend (S-1 dividend policy), so dividendPerShare = 0",
+    "Six months ended 2026-06-30 (unaudited, F-8/F-13): revenue 16,286M, operating loss -693M, net loss -80,748M, operating cash flow +3,929M, capex -482M; balance sheet at 2026-06-30: total assets 147,358M, cash 112,389M, convertible notes 108,566M, stockholders' deficit -127,619M"
+  ]
+}

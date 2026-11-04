@@ -68,6 +68,10 @@
           fcf: ocf !== null && capex !== null ? ocf - Math.abs(capex) : null,
           buy: buy === null ? null : Math.abs(buy),
           dil: num(r.dil),
+          // Shares outstanding at the fiscal year end, from the balance sheet: the
+          // count buybacks actually shrink (the diluted figure is a weighted average
+          // and moves for other reasons).
+          out: num(r.out),
           sourceId: r.sourceId || null
         };
       })
@@ -84,6 +88,14 @@
   }
 
   const pctOfRevenue = (y) => (y && y.sbc !== null && y.rev !== null && y.rev > 0 ? (100 * y.sbc) / y.rev : null);
+
+  // The share count shown beside the stock pay: the filed period-end count when the
+  // balance sheet carries one, otherwise the diluted weighted average.
+  const shareCount = (y) => {
+    if (!y) return null;
+    if (y.out !== null && y.out !== undefined) return y.out;
+    return y.dil;
+  };
 
   // The row that ends `n` years before `from`, give or take a few weeks. A
   // company with a missing year must not have "five years ago" quietly mean
@@ -217,7 +229,9 @@
       pctRevenueFiveAgo: fiveAgo && fiveAgo.sbc !== null && fiveAgo.sbc >= 0 ? pctOfRevenue(fiveAgo) : null,
       fiveAgoFy: fiveAgo ? fiveAgo.fy : null,
       fiveAgoEnd: fiveAgo ? fiveAgo.end : null,
-      trend: ticks(reported.slice(-TREND_YEARS)).map(({ y, tick }) => ({ fy: y.fy, tick, sbc: y.sbc, pctRevenue: y.sbc < 0 ? null : pctOfRevenue(y) })),
+      // `shares` is the year-end count drawn beside the stock pay: the amount handed
+      // to staff, and what the total number of shares did about it.
+      trend: ticks(reported.slice(-TREND_YEARS)).map(({ y, tick }) => ({ fy: y.fy, tick, sbc: y.sbc, shares: shareCount(y), sharesBasis: y.out !== null && y.out !== undefined ? 'outstanding' : 'diluted', pctRevenue: y.sbc < 0 ? null : pctOfRevenue(y) })),
       fcf: latest.fcf, fcfAfter: null, pctOfFcf: null, fcfWhy: null,
       buybacks: latest.buy, buybackOffsetPct: null,
       dilutionYoY: null, dilutionFive: null, dilutionWhy: null,
@@ -253,6 +267,28 @@
       let clean = true;
       for (let k = 1; k < window.length; k += 1) { const c = shareChange(window[k - 1], window[k]); if (c === null || Math.abs(c) > SHARE_JUMP) clean = false; }
       if (clean) out.dilutionFive = 100 * shareChange(window[0], latest);
+    }
+
+    // The total share count, and what it did. The comparison runs back as far as the
+    // filings allow without stepping over a jump: a company that converted share
+    // classes in its IPO year (AppLovin: 226M → 375M) has a real discontinuity there,
+    // so the change is measured from the year after it rather than hidden or averaged
+    // across it.
+    out.totalShares = shareCount(latest);
+    out.totalSharesBasis = latest.out !== null && latest.out !== undefined ? 'outstanding' : 'diluted';
+    if (out.totalShares !== null) {
+      let from = reported.length - 1;
+      while (from > 0 && reported.length - 1 - from < CHECK_YEARS) {
+        const a = shareCount(reported[from - 1]); const b = shareCount(reported[from]);
+        if (a === null || b === null || a <= 0 || Math.abs(b / a - 1) > SHARE_JUMP) break;
+        from -= 1;
+      }
+      if (from < reported.length - 1) {
+        out.totalSharesFrom = shareCount(reported[from]);
+        out.totalSharesFromFy = reported[from].fy;
+        out.totalSharesSpan = reported.length - 1 - from;
+        out.totalSharesChange = out.totalSharesFrom > 0 ? 100 * (out.totalShares / out.totalSharesFrom - 1) : null;
+      }
     }
 
     // Buybacks against stock pay over five filed years. Only when SBC was filed

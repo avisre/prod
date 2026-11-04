@@ -224,7 +224,14 @@ const MAPS = {
   // listed first never matched a foreign filer.
   // ADP (FY2008 on), FLEX LNG and Brookfield Asset Management file their only capital spending line as
   // "other" property (2026-10-26: 560 annual years blank at 261 issuers tagging it); it fills only (FILL_GUARDS).
-  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets','PaymentsForCapitalImprovements','PaymentsToAcquireOilAndGasPropertyAndEquipment','PaymentsToAcquireOtherPropertyPlantAndEquipment','PaymentsToDevelopRealEstateAssets'],['PurchaseOfPropertyPlantAndEquipment','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities','PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets']),
+  // The line a capital-intensive filer presents instead of plain PP&E purchases: development of oil and gas
+  // properties (FANG, APA, CRGY), construction in progress (utilities), machinery and equipment. They are tried
+  // only after the ordinary purchases line, so a filer that presents both is not double counted.
+  capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets','PaymentsForCapitalImprovements','PaymentsToAcquireOilAndGasPropertyAndEquipment','PaymentsToAcquireOtherPropertyPlantAndEquipment','PaymentsToDevelopRealEstateAssets','PaymentsToExploreAndDevelopOilAndGasProperties','PaymentsForConstructionInProcess','PaymentsToAcquireMachineryAndEquipment'],['PurchaseOfPropertyPlantAndEquipment','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities','PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwillInvestmentPropertyAndOtherNoncurrentAssets']),
+  // Software and intangible purchases, kept apart from capitalExpenditures: for a company that files no
+  // property-and-equipment line this is where its capital spending sits (AppLovin FY2025 $28.3m against $0.5m
+  // of PP&E). Only the software projection uses it, and only when the PP&E line is absent.
+  softwarePurchases:mapping(['PaymentsToDevelopSoftware','PaymentsToAcquireSoftware','PaymentsForSoftware','PaymentsToAcquireIntangibleAssets'],['PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities','PaymentsToDevelopSoftwareIntangibleAssets']),
   cashflowFromInvestment:mapping(['NetCashProvidedByUsedInInvestingActivities','NetCashProvidedByUsedInInvestingActivitiesContinuingOperations'],['CashFlowsFromUsedInInvestingActivities']),
   cashflowFromFinancing:mapping(['NetCashProvidedByUsedInFinancingActivities','NetCashProvidedByUsedInFinancingActivitiesContinuingOperations'],['CashFlowsFromUsedInFinancingActivities']),
   dividendPayout:mapping(['PaymentsOfDividends','PaymentsOfOrdinaryDividends','PaymentsOfDividendsCommonStock','PaymentsOfCapitalDistribution'],['DividendsPaid','DividendsPaidClassifiedAsFinancingActivities']),
@@ -303,7 +310,7 @@ const INDUSTRY_FIELDS = {income:['netInterestIncomeAfterProvision','investmentGa
 const INDUSTRY_ADDED = Object.entries(INDUSTRY_FIELDS).flatMap(([st,fields])=>fields.flatMap(f=>MAPS[st][f]['us-gaap'].map(t=>'us-gaap:'+t)));
 const INDUSTRY_TAGS = new Set(INDUSTRY_ADDED);
 const DISCONTINUED_ADDED = [...MAPS.income.discontinuedOperations['us-gaap'].map(t=>'us-gaap:'+t),...MAPS.income.discontinuedOperations['ifrs-full'].map(t=>'ifrs-full:'+t)];
-const OUTFLOWS = new Set(['capitalExpenditures','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock','repaymentsOfLongTermDebt','treasuryStock']);
+const OUTFLOWS = new Set(['capitalExpenditures','softwarePurchases','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock','repaymentsOfLongTermDebt','treasuryStock']);
 // Tags first read on 2026-10-17. Like the 2026-10-06 additions they fill a
 // figure but never add a year or quarter of their own. Tags that were already
 // read for another field (NetIncomeLoss, ProfitLoss, DepreciationDepletionAndAmortization)

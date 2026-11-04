@@ -38,6 +38,24 @@ test('the chat route uses server-side thread history when a threadId is present'
     assert.match(chatSource, /findOne\(\{ _id: tid, userId: uid \}, \{ projection: \{ messages: \{ \$slice: -n \} \} \}\)/);
 });
 
+test('a chat with no threadId starts empty — and a left chat cannot adopt its thread back', () => {
+    // Owner 2026-11-02: "New chat" must not open on the account's former
+    // chats. The route never reads the rolling log as context; without a
+    // threadId the only history is this bar's own turns this session.
+    assert.match(appSource, /: clientHistory;/);
+    assert.doesNotMatch(appSource, /aiChat\.recentHistory\(/);
+    // Leaving a chat stops its in-flight answer: its done event would
+    // otherwise adopt its thread into the chat the user moved to (the shared
+    // handleComplete listens for it), and the next question would quietly
+    // continue a former conversation.
+    const newChat = askHtml.match(/function newChat\(\) \{[\s\S]*?\n      \}/)[0];
+    assert.ok(/engine\.stop\(\);/.test(newChat) && newChat.indexOf('engine.stop();') < newChat.indexOf('engine = makeEngine();'),
+        'New chat kills the abandoned answer before remaking the engine');
+    const openThread = askHtml.match(/async function openThread\(id\) \{[\s\S]*?\n      \}/)[0];
+    assert.ok(/engine\.stop\(\);/.test(openThread) && /engine\.truncate\(0\);/.test(openThread),
+        'opening a chat stops the answer still streaming in the one being left');
+});
+
 test('both /api/ai/chat success branches save the thread and return its id', () => {
     const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface, edit \? edit\.index : null, regenerate, result\.checkedFigures\)/g) || [];
     assert.equal(hooks.length, 2, 'streaming and non-streaming branches both save');
@@ -309,8 +327,8 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20261101-ui52/);
-    assert.match(askHtml, /assets\/system\.css\?v=20261101-ui52/);
+    assert.match(askHtml, /assets\/app\.js\?v=20261104-fcf1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20261104-fcf1/);
     assert.match(profileHtml, /assets\/profile\.js\?v=20261011-ask1/);   // the AI Paper credit row
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

@@ -348,10 +348,10 @@ function asDate(iso) {
 function secCompanyUrl(symbol, form = '10-K') {
     return `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(symbol)}&type=${encodeURIComponent(form)}&owner=exclude&count=40`;
 }
-function metricCsv(ticker, slug) {
+function metricCsv(ticker, slug, supplied=null) {
     const index=require('./public-stock-index');
     const entry=index.get(ticker);if(!entry?.indexable || !entry.metricSlugs.includes(slug))return null;
-    const data=loadFundamentals(entry.symbol);if(!data)return null;
+    const data=supplied || loadFundamentals(entry.symbol);if(!data)return null;
     const rows=require('./financial-metrics').history(data,slug).filter(r=>r.value!==null);
     const cell=v=>JSON.stringify(String(v ?? ''));
     return 'period_end,value,currency,basis,sec_source_urls\n'+rows.map(r=>[r.period,r.value,r.currency,r.derived?'calculated':'reported',r.sourceIds.map(id=>data.provenance.sources[id]?.filingUrl).filter(Boolean).join(' ')].map(cell).join(',')).join('\n')+'\n';
@@ -422,7 +422,7 @@ function compareDataNote(a, b) {
 }
 
 function renderMetricPage(ticker, slug, options = {}) {
-    return require('./verified-seo').metric(ticker,slug,require('./seo-pages'), {action:renderPilotAction(pilotAction(ticker,slug,options.req),ticker,loadCompanies().find(c=>c.symbol===ticker)?.name || ticker)});
+    return require('./verified-seo').metric(ticker,slug,require('./seo-pages'), {action:renderPilotAction(pilotAction(ticker,slug,options.req),ticker,loadCompanies().find(c=>c.symbol===ticker)?.name || ticker), data: options.data});
 }
 
 function renderPriceHistoryPage(ticker, options = {}) {
@@ -1804,22 +1804,29 @@ function canonicalMetricPath(req, symbol, slug) {
     const pathName = `/stocks/${encodeURIComponent(symbol)}/${encodeURIComponent(slug)}`;
     return query ? `${pathName}?${query}` : pathName;
 }
-router.get('/stocks/:ticker/:metric.csv', (req, res, next) => {
+router.get('/stocks/:ticker/:metric.csv', async (req, res, next) => {
     const slug = String(req.params.metric || '').toLowerCase();
     if (!METRICS[slug]) return next();
     const canonical = resolveCanonicalSymbol(req.params.ticker);
     if (canonical && String(req.params.ticker) !== canonical) return res.redirect(301, canonicalMetricPath(req, canonical, `${slug}.csv`));
-    const csv = metricCsv(canonical || req.params.ticker, slug);
+    let csvData = null;
+    try { csvData = await require('./adjusted-fundamentals').adjusted(canonical || req.params.ticker); } catch (_) { /* fail-open */ }
+    const csv = metricCsv(canonical || req.params.ticker, slug, csvData);
     if (!csv) return res.status(404).type('text/plain').send('Metric history not found.');
     const sym = canonical || normalizeTicker(req.params.ticker);
     res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': `attachment; filename="${sym}-${slug}.csv"`, 'Cache-Control': 'public, max-age=3600' }).send(csv);
 });
-router.get('/stocks/:ticker/:metric', (req, res, next) => {
+router.get('/stocks/:ticker/:metric', async (req, res, next) => {
     const slug = String(req.params.metric || '').toLowerCase();
     if (!METRICS[slug]) return next();
     const canonical = resolveCanonicalSymbol(req.params.ticker);
     if (canonical && String(req.params.ticker) !== canonical) return res.redirect(301, canonicalMetricPath(req, canonical, slug));
-    const html = renderMetricPage(canonical || req.params.ticker, slug, { req });
+    // Split-normalized payload: this page states that EPS and share counts are on the
+    // cache's split-adjusted basis, and an unadjusted payload printed Apple's FY2011
+    // EPS as $28 next to FY2012's $6. Fail-open, memoized per symbol.
+    let data = null;
+    try { data = await require('./adjusted-fundamentals').adjusted(canonical || req.params.ticker); } catch (_) { /* fail-open */ }
+    const html = renderMetricPage(canonical || req.params.ticker, slug, { req, data });
     if (!html) return res.redirect(302, `/stocks/${encodeURIComponent(canonical || normalizeTicker(req.params.ticker))}`);
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });

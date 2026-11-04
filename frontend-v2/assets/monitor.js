@@ -209,7 +209,7 @@
     // mutual funds belong in Ask, so that state needs the bar most of all.
     if (!askMounted && mountAskFloor && rep && rep.symbol) {
       askMounted = true;
-      mountAskFloor({ placeholder: rep.isFund
+      mountAskFloor({ symbol: rep.symbol, placeholder: rep.isFund
         ? `Ask about ${rep.symbol} — fees, holdings, allocation, performance and risk…  (⌘K)`
         : `Ask about what changed in ${rep.symbol}'s latest filing…  (⌘K)` });
     }

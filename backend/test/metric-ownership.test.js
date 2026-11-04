@@ -15,21 +15,30 @@ test('WAB metric pages have distinct answer-first content and no malformed histo
   const titles = pages.map((html) => html.match(/<title>([\s\S]*?)<\/title>/i)[1]);
   assert.equal(new Set(titles).size, 3);
   assert.ok(titles.every((title) => !/History History/i.test(title)));
-  assert.match(pages[0], /Earnings per Share \(EPS\)/);
-  assert.match(pages[0], /reported diluted EPS|reported EPS fallback/);
-  assert.match(pages[1], /reported [^<]+ shares outstanding/);
-  assert.match(pages[2], /cash dividends paid[\s\S]*derived and approximate/);
-  assert.match(pages[2], /Per share \(approx\., derived\)/);
+  // Answer-first (the redesign's shape): the latest filed value leads, with its
+  // period and SEC source, before the fiscal-year history table.
+  for (const html of pages) {
+    const opening = html.indexOf('Latest filed value');
+    const table = html.indexOf('history by fiscal year');
+    assert.ok(opening !== -1 && table !== -1 && opening < table, 'the filed value leads and the history table follows');
+  }
+  assert.match(pages[0], /period end \d{4}-\d{2}-\d{2}[\s\S]*SEC EDGAR/);
+  // Each history row names its own basis; a derived figure can never hide
+  // behind the same label as a filed one.
+  for (const html of pages) assert.match(html, /<td>(Reported|Calculated)<\/td>/);
+  assert.match(pages[0], /Wabtec: Earnings per share/);
+  assert.match(pages[1], /Wabtec: Shares outstanding/);
+  assert.match(pages[2], /Wabtec: Dividend payouts/);
   assert.match(pages[0], /history by fiscal year/);
   assert.doesNotMatch(pages[2], /Dividend History history/i);
-  assert.match(pages[0], /Earnings per Share \(EPS\) methodology and context/);
 });
 
 test('metric navigation uses exact destination labels', () => {
   const html = seo.renderStockPage('WAB');
-  assert.match(html, /href="\/stocks\/WAB\/eps">Earnings per Share \(EPS\)<\/a>/);
-  assert.match(html, /href="\/stocks\/WAB\/shares-outstanding">Shares Outstanding<\/a>/);
-  assert.doesNotMatch(html, /href="\/stocks\/WAB\/eps">WAB .*eps/i);
+  assert.match(html, /href="\/stocks\/WAB\/eps">Earnings per share<\/a>/);
+  assert.match(html, /href="\/stocks\/WAB\/shares-outstanding">Shares outstanding<\/a>/);
+  assert.match(html, /href="\/stocks\/WAB\/dividend-history">Dividend payouts<\/a>/);
+  assert.doesNotMatch(html, /href="\/stocks\/WAB\/eps">WAB .*eps<\/a>/i);
 });
 
 test('existing symbol resolver canonicalizes class shares to one stored symbol', () => {

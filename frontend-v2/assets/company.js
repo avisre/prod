@@ -453,6 +453,20 @@
         if (rev !== null) {
             if (gp === null && cor !== null) gp = rev - cor;
             if (cor === null && gp !== null) cor = rev - gp;
+            // A bank or an insurer files no "cost of revenue" line — its operating cost is
+            // the expense side of the business. The same rows are shown for every company
+            // (owner, 2026-11-05), so the cost is taken from the line the filing does carry:
+            // operating expenses (or noninterest expense) for a bank, claims and policy
+            // costs for an insurer. Where neither is filed the row stays empty rather than
+            // guessing.
+            if (cor === null && gp === null) {
+                const bankCost = (num(r.netInterestIncome) !== null || num(r.nonInterestExpense) !== null)
+                    ? (num(r.operatingExpenses) ?? num(r.nonInterestExpense)) : null;
+                const insurerCost = num(r.premiums) !== null
+                    ? ((num(r.lossesAndLossAdjustmentExpense) ?? 0) + (num(r.policyAcquisitionExpense) ?? 0) || null) : null;
+                const cost = bankCost ?? insurerCost;
+                if (cost !== null) { cor = cost; gp = rev - cor; }
+            }
         }
         return { rev, gp, cor };
     };
@@ -496,12 +510,25 @@
             { label: 'Cost of revenue', get: (r) => derive(r).cor, fmt: money, kind: 'money', solo: true, neutral: true },
             { label: 'Gross profit', get: (r) => derive(r).gp, fmt: money, kind: 'money', rule: true },
             { label: 'Gross margin', get: (r) => ratio(derive(r).gp, derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
-            { label: 'Operating expenses', get: (r) => num(r.operatingExpenses), fmt: money, kind: 'money', neutral: true },
+            // Headcount is not an income-statement line — it is stated once a year in
+            // the annual report's human-capital section (Reg S-K Item 101(c)(2)). It
+            // sits under gross profit so the operating cost of the workforce is read
+            // against the gross profit it produces, and above operating income.
+            { label: 'Employees', get: (r) => empCount(r), fmt: (v) => v === null ? '—' : Math.round(v).toLocaleString('en-US'), kind: 'count', neutral: true,
+              title: 'Persons employed, as stated in the annual report (Reg S-K Item 101(c)(2) human capital; Form 20-F Item 6.D for foreign filers). Annual only — no quarterly count is filed. Not an XBRL fact.' },
+            { label: 'Employees change %', get: (r) => empChangePct(r), fmt: signedPct, kind: 'pct', neutral: true, sub: true,
+              title: 'Year-on-year change in the headcount stated in the annual report.' },
+            // A bank's operating expenses *are* its cost of revenue, so the line would repeat
+            // the figure directly above it; it is shown once.
+            { label: 'Operating expenses', get: (r) => { const ox = num(r.operatingExpenses); const c = derive(r).cor; return (ox !== null && c !== null && Math.abs(ox - c) < 1) ? null : ox; }, fmt: money, kind: 'money', neutral: true },
             { label: 'R&D', get: (r) => num(r.researchAndDevelopment), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'SG&A', get: (r) => num(r.sellingGeneralAndAdministrative), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other operating expenses', get: (r) => { const t = num(r.operatingExpenses); const rd = num(r.researchAndDevelopment); const sg = num(r.sellingGeneralAndAdministrative); if (t === null || rd === null || sg === null) return null; const rest = t - (rd || 0) - (sg || 0); return Math.abs(rest) < 1 ? null : rest; }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Operating income', get: (r) => num(r.operatingIncome), fmt: money, kind: 'money', rule: true },
             { label: 'Operating margin', get: (r) => ratio(num(r.operatingIncome), derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
+            // A bank's credit provision is the step between operating profit and pre-tax income;
+            // without it the chain from gross profit to pre-tax has an unexplained gap.
+            { label: 'Provision for credit losses', get: (r) => num(r.provisionForCreditLosses), fmt: money, kind: 'money', neutral: true },
             { label: 'Net interest income', get: (r) => num(r.netInterestIncome), fmt: money, kind: 'money', solo: true },
             { label: 'Noninterest income', get: (r) => num(r.nonInterestIncome), fmt: money, kind: 'money', solo: true },
             { label: 'Pre-tax income', get: (r) => num(r.incomeBeforeTax), fmt: money, kind: 'money' },
@@ -838,6 +865,116 @@
         if (now) sharesByPeriod.set('9999-12-31', now);
         sharesBasis = 'current';
     }
+
+    // ---------- headcount (annual reports, not XBRL) ----------
+    // backend/employee-profiles.js joins frontend/data/employee-counts.json onto the
+    // payload: counts per FISCAL YEAR, because a 10-K states headcount once a year
+    // ("As of December 31, 2025, we had approximately 166,000 full-time equivalent
+    // employees"). Keyed by year, so quarterly columns simply have no count.
+    let empByYear = new Map();
+    function buildEmployeeMap() {
+        empByYear = new Map();
+        const e = payload.employees;
+        for (const [y, rec] of Object.entries((e && e.years) || {})) {
+            // 0 is a real reading, not a missing one: an externally managed REIT
+            // files "we have no employees". Only null/undefined is absent.
+            if (rec && Number.isFinite(rec.value) && rec.value >= 0) empByYear.set(String(y), rec);
+        }
+        // A full-time-equivalent count is not a headcount (Apple files FTE, Walmart
+        // headcount), so the row says which measure this company filed rather than
+        // letting two different measures look comparable.
+        const def = ROWS.income.find((d) => d.label === 'Employees');
+        if (def) {
+            const bs = (e && e.latest && e.latest.basis) || 'headcount';
+            const basis = bs === 'fte' ? 'full-time equivalents as the company reports them'
+                : bs === 'none' ? 'no employees — the company is managed externally, as its annual report states'
+                : 'persons employed';
+            def.title = `${basis[0].toUpperCase()}${basis.slice(1)} — as stated in the annual report (Reg S-K Item 101(c)(2) human capital; Form 20-F Item 6.D for foreign filers). Annual only: no quarterly count is filed. Not an XBRL fact.`;
+        }
+    }
+    const empYear = (r) => String((r || {}).fiscalDateEnding || '').slice(0, 4);
+    const empFor = (r) => empByYear.get(empYear(r)) || null;
+    // The count is stated once a year, so a quarterly column must not pick up the
+    // annual figure: a Q4 period end IS the fiscal year end, so a year-keyed lookup
+    // would otherwise print 166,000 against a three-month column.
+    const empCount = (r) => { if (basisState !== 'annual') return null; const e = empFor(r); return e ? e.value : null; };
+    function empChangePct(r) {
+        if (basisState !== 'annual') return null;
+        const y = Number(empYear(r));
+        if (!Number.isFinite(y)) return null;
+        const cur = empByYear.get(String(y));
+        const prev = empByYear.get(String(y - 1));
+        return cur && prev && prev.value > 0 && cur.value > 0 ? (cur.value / prev.value - 1) * 100 : null;
+    }
+    // Which measure the number is: an FTE count is not a headcount and the row says
+    // so rather than blending the two across years.
+    const empBasisLabel = () => {
+        const bases = new Set([...empByYear.values()].map((e) => e.basis || 'headcount'));
+        if (bases.size === 1 && bases.has('none')) return 'no employees';
+        return bases.size ? (bases.size === 1 && bases.has('headcount') ? 'employees' : [...bases].join(' / ')) : 'employees';
+    };
+
+    // ---------- dilution ----------
+    // Cost of stock dilution = (diluted shares this year − last year) × diluted EPS,
+    // i.e. the profit that now accrues to newly issued shares. Positive = dilution,
+    // negative = buybacks returned profit to the shares that remained. Both inputs
+    // are filed. split-adjust.js puts the share series on one basis; the 3x test is
+    // the backstop for when it fails open, because a split break would otherwise
+    // read as an 800% share issue (NVDA 2022: 2,535M → 2023: 25,070M as stored).
+    let dilutionByEnd = new Map();
+    function buildDilutionMap() {
+        dilutionByEnd = new Map();
+        const rows = (((payload.income || {}).annualReports) || [])
+            .slice()
+            .sort((a, b) => String(a.fiscalDateEnding).localeCompare(String(b.fiscalDateEnding)));
+        let prevShares = null;
+        const ordered = [];
+        for (const r of rows) {
+            const shares = num(r.weightedAverageSharesDiluted) ?? num(r.weightedAverageSharesOutstanding);
+            const eps = num(r.dilutedEPS) ?? num(r.eps);
+            const netIncome = num(r.netIncome);
+            const rec = { shares, eps, netIncome, changePct: null, cost: null, adjusted: null, costPct: null, split: false };
+            if (shares && prevShares) {
+                const step = shares / prevShares;
+                if (step > 3 || step < 1 / 3) {
+                    rec.split = true;
+                } else {
+                    rec.changePct = (step - 1) * 100;
+                    if (eps !== null) {
+                        rec.cost = (shares - prevShares) * eps;
+                        if (netIncome !== null) {
+                            rec.adjusted = netIncome - rec.cost;
+                            rec.costPct = netIncome !== 0 ? (rec.cost / Math.abs(netIncome)) * 100 : null;
+                        }
+                    }
+                }
+            }
+            if (shares) prevShares = shares;
+            rec.end = String(r.fiscalDateEnding);
+            dilutionByEnd.set(rec.end, rec);
+            ordered.push(rec);
+        }
+        // A break means the years before it are on a different split basis, so their
+        // counts are not comparable with today's and a growth figure across the break
+        // would be invented. Everything older than the LAST break is blanked — the row
+        // either shows comparable counts or nothing, never two bases side by side.
+        const lastBreak = ordered.reduce((at, rec, i) => (rec.split ? i : at), -1);
+        if (lastBreak > 0) {
+            for (let i = 0; i < lastBreak; i += 1) {
+                ordered[i].shares = null;
+                ordered[i].changePct = null;
+                ordered[i].cost = null;
+                ordered[i].adjusted = null;
+                ordered[i].costPct = null;
+            }
+        }
+    }
+    // Same reason: the dilution pair is a fiscal-year computation, never a quarter's.
+    const dilutionFor = (r) => (basisState === 'annual' ? (dilutionByEnd.get(String((r || {}).fiscalDateEnding || '')) || null) : null);
+    // The ratios table has no currency header, so a money row names its currency
+    // only when that currency is the dollar; a foreign filer's figure stays bare
+    // rather than being labelled as USD.
+    const moneyCell = (v) => v === null ? '—' : (reportingCurrency() === 'USD' ? '$' : '') + money(v, 2);
     // step function: shares as of a given month (latest fiscal period ≤ month)
     let _shareSteps = null;
     function sharesAt(month) {
@@ -941,6 +1078,66 @@
         renderStaleNotice();
     }
 
+    // ---------- earnings per share, one calculation for the chart and the KPI row ----------
+    // The chart draws a multiple for every month and the P/E row under the masthead names
+    // one number; they must agree. Both read this. A trailing figure is the sum of four
+    // consecutive quarters; four quarters that are not consecutive do not make a year, so a
+    // gap in the filings falls back to the annual figure. It is only used while it is fresh:
+    // a 2020 window applied to 2026 prices is what produced NVIDIA's 1,154× and its empty
+    // 6M and 1Y charts.
+    const TTM_MAX_AGE = 130 * 86400000;
+    let _earningsCache = { for: null, value: null };
+    function earningsSeries() {
+        const key = payload;
+        if (_earningsCache.for === key) return _earningsCache.value;
+        // A quarter whose EPS field is empty still filed its net income and its share
+        // count: dividing one by the other restores the quarter and keeps the following
+        // twelve-month sums whole. NVIDIA's January quarters arrive without an EPS field,
+        // which is why its trailing figure collapsed to the annual 4.90 and the page showed
+        // 41.8× where the true trailing multiple was 25.9×.
+        const sharePoints = [...((payload.balance || {}).quarterlyReports || []), ...((payload.balance || {}).annualReports || [])]
+            .map((r) => ({ t: Date.parse(r.fiscalDateEnding), sh: num(r.commonStockSharesOutstanding) }))
+            .filter((r) => Number.isFinite(r.t) && r.sh > 0)
+            .sort((a, b) => a.t - b.t);
+        const sharesNear = (t) => {
+            let best = null;
+            for (const p of sharePoints) if (p.t <= t && (!best || p.t > best.t)) best = p;
+            return best || sharePoints[0] || null;
+        };
+        const quarters = ((payload.income || {}).quarterlyReports || [])
+            .map((r) => {
+                const t = Date.parse(r.fiscalDateEnding);
+                const filed = num(r.dilutedEPS);
+                if (filed !== null) return { t, eps: filed };
+                const ni = num(r.netIncome); const sh = sharesNear(t);
+                return { t, eps: ni !== null && sh ? ni / sh.sh : null };
+            })
+            .filter((r) => Number.isFinite(r.t) && r.eps !== null)
+            .sort((a, b) => a.t - b.t);
+        const ttm = [];
+        for (let i = 3; i < quarters.length; i += 1) {
+            const w = quarters.slice(i - 3, i + 1);
+            const contiguous = w.every((r, j) => j === 0 || (r.t - w[j - 1].t) / 86400000 < 120);
+            if (contiguous) ttm.push({ t: w[3].t, eps: w.reduce((a, r) => a + r.eps, 0) });
+        }
+        const annual = ((payload.income || {}).annualReports || [])
+            .map((r) => ({ t: Date.parse(r.fiscalDateEnding), eps: num(r.dilutedEPS), fy: 'FY' + new Date(r.fiscalDateEnding).getUTCFullYear() }))
+            .filter((r) => Number.isFinite(r.t) && r.eps !== null)
+            .sort((a, b) => a.t - b.t);
+        _earningsCache = { for: key, value: { ttm, annual } };
+        return _earningsCache.value;
+    }
+    // Trailing earnings per share as of a date, with the base it came from.
+    function trailingEpsAt(at) {
+        const { ttm, annual } = earningsSeries();
+        let lastTtm = null;
+        for (let k = ttm.length - 1; k >= 0; k -= 1) if (ttm[k].t <= at) { lastTtm = ttm[k]; break; }
+        if (lastTtm && at - lastTtm.t <= TTM_MAX_AGE) return { eps: lastTtm.eps, basis: 'ttm' };
+        for (let k = annual.length - 1; k >= 0; k -= 1) if (annual[k].t <= at) return { eps: annual[k].eps, basis: 'annual', fy: annual[k].fy };
+        if (lastTtm) return { eps: lastTtm.eps, basis: 'ttm' };
+        return null;
+    }
+
     // ---------- the dual-axis chart (price right, market cap left) ----------
     // A 1280-wide drawing shrunk onto a phone was 82px tall with 3px labels. A
     // phone gets its own, squarer drawing with larger type and no left axis.
@@ -951,7 +1148,7 @@
     // capAxisMult: when no separate cap line is drawn, the left axis still
     // reads in market-cap terms — price tick × current share count.
     // capMultiple: text for the badge under the market-cap value, e.g. "33× P/E".
-    function dualChart(price, cap, labels, fmtPrimary, capAxisMult, capMultiple) {
+    function dualChart(price, cap, labels, fmtPrimary, capAxisMult, capMultiple, peak) {
         const { W, H, padL, padR, padT, padB, fs } = GEOM;
         const fmtP = fmtPrimary || ((v) => currencyAmount(v, quoteCurrency(), {
             compact: false,
@@ -1053,18 +1250,18 @@
                 g += '<path d="M' + pts[0][0].toFixed(1) + ' ' + base + ' ' + pts.map((p) => 'L' + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ') + ' L' + pts[pts.length - 1][0].toFixed(1) + ' ' + base + ' Z" fill="url(#pc-fill)" stroke="none"/>';
             }
         }
-        // a not-meaningful P/E year is marked where it falls, so the gap reads as NM
-        // rather than missing data; the last year already gets its NM badge below
-        if (fmtPrimary) {
-            price.forEach((v, i) => {
-                if ((v !== null && Number.isFinite(v)) || i === n - 1) return;
-                const xx = x(i, n).toFixed(1);
-                g += `<line x1="${xx}" y1="${padT}" x2="${xx}" y2="${H - padB}" stroke="var(--chart-2)" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="3 4"/>`;
-                g += `<rect x="${(x(i, n) - 17).toFixed(1)}" y="${(H - padB - 26).toFixed(1)}" width="34" height="18" rx="5" fill="var(--surface, #fff)" stroke="var(--chart-2)"/>`;
-                g += `<text x="${xx}" y="${(H - padB - 13).toFixed(1)}" text-anchor="middle" font-size="${fs - 1}" font-weight="650" fill="var(--chart-2)">NM</text>`;
-            });
-        }
+        // No NM badges and no dashed markers: with a monthly line a stretch without a
+        // multiple is read as a gap in the line, and the caption says why the line
+        // breaks. (The per-year chart needed a badge per missing year, which is what
+        // turned AMD's chart into a wall of the letters N and M.)
         g += path(price, yP, mainCol, 2.2);
+        // The tallest point is labelled where it happens: a single spike otherwise has
+        // no readable value at all, and the last-value badge belongs to the latest month.
+        if (peak && peak.index > 0 && price[peak.index] !== null && Number.isFinite(price[peak.index])) {
+            const px = x(peak.index, n); const py = yP(price[peak.index]);
+            const above = py - 8 >= padT + 10;
+            g += `<text x="${px.toFixed(1)}" y="${(above ? py - 8 : py + 14).toFixed(1)}" text-anchor="middle" font-size="${fs + 1}" font-weight="650" fill="${mainCol}" style="font-variant-numeric:tabular-nums">${esc(peak.text)}</text>`;
+        }
         // last value: dot on the line + a clear badge ON the right axis, where
         // the line can never hide it
         if (sc) {
@@ -1155,8 +1352,10 @@
         const series = monthlySeries(payload);
         const mixedCurrencies = hasCurrencyMismatch();
         const peButton = document.querySelector('#seg-chart button[data-cm="pe"]');
+        const fpeButton = document.querySelector('#seg-chart button[data-cm="fpe"]');
         if (peButton) peButton.hidden = mixedCurrencies;
-        if (mixedCurrencies && chartMode === 'pe') {
+        if (fpeButton) fpeButton.hidden = mixedCurrencies;
+        if (mixedCurrencies && (chartMode === 'pe' || chartMode === 'fpe')) {
             chartMode = 'price';
             document.querySelectorAll('#seg-chart button').forEach((button) =>
                 button.setAttribute('aria-pressed', String(button.dataset.cm === 'price')));
@@ -1233,36 +1432,68 @@
                 ? `Price (right axis): split-adjusted — ink. Market cap (left axis): price × that ${sharesBasis === 'weighted' ? 'period’s filed weighted-average share count (the balance sheet files no period-end count)' : 'fiscal year’s filed share count'} — orange. Where the lines drift apart, buybacks or dilution is why.`
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count${sharesBasis === 'weighted' ? ' (the latest filed weighted-average count)' : sharesBasis === 'current' ? ' (the count on the latest filing’s cover)' : ''}.`;
         } else {
-            // P/E by fiscal year: avg monthly close within the FY ÷ diluted EPS.
-            // A loss year, or a multiple above NM_PE (Cisco FY2018: a one-off tax charge
-            // left $0.02 of EPS and a 1,600× P/E that flattened every other year), is
-            // "not meaningful": it stays on the axis as a gap, off the scale.
-            const NM_PE = 100;
-            const inc = ((payload.income || {}).annualReports || []).slice().reverse();
-            const vals = []; const labels = []; const notes = [];
-            for (const r of inc) {
-                const eps = num(r.dilutedEPS);
-                const end = String(r.fiscalDateEnding || '');
-                if (eps === null || !end) continue;
-                const endIdx = series.findIndex((p) => p.month >= end);
-                const idx = endIdx === -1 ? series.length - 1 : endIdx;
-                const windowMonths = series.slice(Math.max(0, idx - 11), idx + 1);
-                if (!windowMonths.length) continue;
-                const avg = windowMonths.reduce((a, p) => a + p.close, 0) / windowMonths.length;
-                const pe = eps > 0 ? avg / eps : null;
-                vals.push(pe !== null && pe <= NM_PE ? pe : null);
-                notes.push(pe === null ? 'NM: loss year' : pe > NM_PE ? `NM: ${Math.round(pe).toLocaleString('en-US')}× on $${eps} diluted EPS` : Math.round(pe * 10) / 10 + '× earnings');
-                labels.push('FY' + new Date(r.fiscalDateEnding).getFullYear());
+            // P/E over time from trailing-twelve-month earnings.
+            //
+            // The old chart put one point on each fiscal year (average close ÷ that
+            // year's EPS). For any company with loss years that collapsed into a wall
+            // of "NM" badges and two stray dots — AMD showed eight NM years and a single
+            // disconnected segment. A multiple exists every month; the earnings it is
+            // set against are the four quarters filed up to that month, so the line is
+            // continuous and a loss period is a gap rather than a label.
+            // A loss has no multiple, and the owner's rule is that such a month sits on
+            // the zero line rather than breaking the drawing: the line drops to the axis
+            // and climbs back when earnings return.
+            const { ttm, annual } = earningsSeries();
+            // Forward earnings: the diluted EPS the fiscal year *after* that month went on
+            // to report. It is what the year ahead turned out to be, not the estimate that
+            // was on the table at the time — we hold no consensus history, and inventing one
+            // would be worse than saying so. For the months past the last filed year the
+            // multiple uses the forward estimate the quote provider carries today.
+            const priceNow = num((payload.marketData || {}).price);
+            const fwdPe = num((payload.overview || {}).ForwardPE);
+            const epsForwardAt = (at) => {
+                for (let k = 0; k < annual.length; k += 1) if (annual[k].t > at) return { eps: annual[k].eps, ttm: false, next: true };
+                if (priceNow && fwdPe > 0) return { eps: priceNow / fwdPe, ttm: false, est: true };
+                return null;
+            };
+            const epsAt = (at) => {
+                const e = trailingEpsAt(at);
+                return e ? { eps: e.eps, ttm: e.basis === 'ttm' } : null;
+            };
+            const forwardMode = chartMode === 'fpe';
+            const srcPts = series.slice(rangeYears >= 99 ? 0 : Math.max(0, series.length - rangeYears * 12));
+            const peVals = []; const peNotes = []; const peRaw = [];
+            for (const p of srcPts) {
+                const at = Date.parse(p.month + '-28');
+                const e = forwardMode ? epsForwardAt(at) : epsAt(at);
+                const loss = !!(e && e.eps !== null && e.eps <= 0);
+                const pe = e === null ? null : loss ? 0 : p.close / e.eps;
+                peRaw.push(pe);
+                peVals.push(pe);
+                peNotes.push(e === null
+                    ? 'NM: no filed earnings before this month'
+                    : loss
+                        ? `0× — ${e.ttm ? 'trailing' : 'that year’s'} earnings were a loss`
+                        : `${Math.round(pe * 10) / 10}× ${e.est ? 'the forward estimate' : e.next ? 'the next year’s filed' : e.ttm ? 'trailing' : 'annual'} earnings ($${e.eps.toFixed(2)} a share${e.ttm ? ', four quarters' : ''})`);
             }
-            const keep = rangeYears >= 99 ? vals.length : Math.min(vals.length, Math.max(3, rangeYears));
-            const v = vals.slice(-keep); const l = labels.slice(-keep); const nt = notes.slice(-keep);
-            if (!v.some((pe) => pe !== null)) {
-                $('main-chart').innerHTML = `<p class="small muted" style="padding:40px 0; text-align:center;">P/E is not meaningful for ${v.length ? 'these years' : 'this company'}: ${v.length ? 'every year shown is a loss or above ' + NM_PE + '×' : 'no fiscal year has diluted EPS and prices to divide'}.</p>`;
+            let seenY = '';
+            const peLabels = srcPts.map((p) => { const y = p.month.slice(0, 4); if (y === seenY) return ''; seenY = y; return y; });
+            if (!peVals.some((v) => v !== null && v > 0)) {
+                $('main-chart').innerHTML = `<p class="small muted" style="padding:40px 0; text-align:center;">${forwardMode ? 'Forward P/E' : 'P/E'} is not meaningful over this window: every month shown had a loss or no filed earnings to divide by.</p>`;
             } else {
-                $('main-chart').innerHTML = dualChart(v, null, l, (x2) => Math.round(x2) + '×');
-                wireChartHover(v.map((pe, i) => ({ label: l[i], lines: [nt[i]] })));
+                // The scale runs to the tallest multiple instead of clipping at 200×, and
+                // that peak is labelled where it occurs, so a spike is read as a number.
+                const top = peVals.reduce((best, v, i) => (v !== null && (best === -1 || v > peVals[best]) ? i : best), -1);
+                const peak = top > 0 && peVals[top] > 0 ? { index: top, text: Math.round(peVals[top]).toLocaleString('en-US') + '×' } : null;
+                $('main-chart').innerHTML = dualChart(peVals, null, peLabels, (x2) => Math.round(x2) + '×', null, null, peak);
+                wireChartHover(srcPts.map((p, i) => ({
+                    label: new Date(p.month + '-15').toLocaleString('en-US', { month: 'short', year: 'numeric' }),
+                    lines: [currencyAmount(p.close, quoteCurrency(), { compact: false }), peNotes[i]]
+                })));
             }
-            $('chart-prov').textContent = `P/E by fiscal year: average monthly close across the year ÷ that year’s diluted EPS, both split-adjusted. Loss years and multiples above ${NM_PE}× are not meaningful (NM) and left off the scale.`;
+            $('chart-prov').textContent = forwardMode
+                ? `Forward P/E at each month: that month’s close ÷ the diluted earnings the fiscal year that followed reported (split-adjusted, as later filed) — what the year ahead turned out to be, not the estimate on the table at the time; we hold no consensus history and do not invent one. Months past the last filed year use the forward estimate the quote provider carries today. A month whose forward earnings were a loss sits on the zero line.`
+                : `P/E at each month: that month’s close ÷ the diluted earnings filed up to it (split-adjusted) — the four quarters where they are filed close together, otherwise the latest annual figure. A month whose earnings were a loss sits on the zero line: there is no multiple to compute, and the line is drawn to zero rather than broken.`;
         }
         $('cap-toggle').hidden = chartMode !== 'price' || !toListed || !sharesByPeriod.size || sharesBasis === 'current';
         $('chart-block').hidden = false;
@@ -1317,7 +1548,14 @@
         const filed = payload.filedPerShare;
         // A filer with only basic EPS (no dilutive securities) is divided by that, and says so.
         const peEps = eps ?? num(inc.eps), peBasis = eps !== null ? 'diluted' : 'basic';
-        const pe = num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
+        // The chart ends on price ÷ trailing EPS, so this row uses that arithmetic too.
+        // The provider's own PERatio is a stored ratio and can lag the quote: NVIDIA's said
+        // 25.9 against a $204.64 price and $4.90 of filed EPS, which is 41.8× — two different
+        // answers to one question on one page.
+        const trail = (price > 0 && quoteCur === reportCur && !hasCurrencyMismatch()) ? trailingEpsAt(Date.now() + 86400000) : null;
+        const trailPe = trail && trail.eps > 0 ? price / trail.eps : null;
+        const pe = trailPe !== null ? [fixed(trailPe, 1), trail.basis === 'ttm' ? 'price ÷ the last four filed quarters' : `price ÷ ${trail.fy || fy} diluted EPS`]
+            : num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
             : contNi !== null ? (contNi <= 0 ? ['Loss', `${fy} continuing operations`]
                 : cap > 0 ? [fixed(cap / contNi, 1), `market cap ÷ ${fy} net income from continuing operations`] : ['—'])
             : (ni !== null && ni <= 0) || (peEps !== null && peEps <= 0) ? ['Loss']
@@ -1350,7 +1588,9 @@
             ['52-week range', currencyRange(ov['52WeekLow'], ov['52WeekHigh'], quoteCur)],
             ['Price / book', ...pb],
             ['Fiscal year end', ov.FiscalYearEnd || (last.end ? new Date(last.end).toLocaleString('en-US', { month: 'short' }) : '—')]
-        ].filter(([l]) => !(l === 'Free cash flow' && noFcf()));
+        // A free cash flow cell that only announces a missing cash-flow line is noise
+        // in a KPI grid: the row is dropped rather than shown empty with an excuse.
+        ].filter(([l]) => !(l === 'Free cash flow' && (noFcf() || fcf === null)));
         $('kv-grid').innerHTML = items.map(([l, v, basis]) =>
             `<div class="kv-row"><span${basis ? ` title="${esc(basis)}"` : ''}>${l}${basis ? `<small>${esc(basis)}</small>` : ''}</span><b>${v}</b></div>`).join('');
     }
@@ -1372,9 +1612,12 @@
                 return;
             }
             if (!r.ok) {
-                body.innerHTML = generate
-                    ? '<p class="small muted">Key points unavailable for this company.</p>'
-                    : '<p class="small muted">Open Insights · Pro to generate filing key points.</p>';
+                // Key points are no longer tied to Insights Pro (owner, 2026-11-04). A
+                // signed-in reader gets them generated on the spot; only a visitor without
+                // an account is asked to create one, because generation needs a session.
+                body.innerHTML = token()
+                    ? '<p class="small muted">Key points unavailable for this company right now.</p>'
+                    : `<p class="kp-locked"><a class="kp-unlock" href="/register.html?plan=monthly">Create an account</a> to see this company’s key points from its 10-K.</p>`;
                 return;
             }
             const d = await r.json();
@@ -1384,8 +1627,38 @@
                 <p class="kp-head">${esc(s.heading)}</p>
                 <ul class="kp-points">${s.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
               </div>`;
-            body.innerHTML = d.sections.map(sec).join('') +
+            // What the reader came for first: what the company sells, who buys it and
+            // what is making that revenue grow. Those three are shown; competition,
+            // workforce, litigation, leverage, governance and the rest sit behind one
+            // "See more" (owner, 2026-11-04). A section the filing did not produce is
+            // simply absent, and the heading match is on the section name, never on
+            // its position in the list.
+            // "Customer concentration" is a risk heading, not a description of who buys the
+            // product: it stays behind See more with the other sections.
+            const LEAD = [/^\s*products?\b/i, /^\s*customers?\b(?![\s&]*(concentration|dependency))/i, /^\s*revenue growth\b/i];
+            const leadRank = (s) => LEAD.findIndex((re) => re.test(String(s.heading || '')));
+            // Nothing is shown until the reader asks: the key points are the AI's reading of
+            // the filing, and the card keeps them folded behind one button (owner, 2026-11-05).
+            // The count is in the button so the reader knows what the click buys.
+            const lead = [];
+            const rest = d.sections.slice();
+            const more = rest.length
+                ? `<div id="kp-more" hidden>${rest.map(sec).join('')}</div>
+                   <button type="button" id="kp-more-btn" class="btn btn-ghost btn-sm kp-more" aria-expanded="false" aria-controls="kp-more">See more — ${rest.length} section${rest.length === 1 ? '' : 's'} from the 10-K</button>`
+                : '';
+            body.innerHTML = lead.map(sec).join('') + more +
                 `<p class="provenance" style="break-inside:avoid;">AI-extracted from the <a href="${esc((d.filing || {}).url || '#')}" target="_blank" rel="noopener">10-K filed ${esc((d.filing || {}).date || '')}</a> — verify against the filing.</p>`;
+            const moreBtn = $('kp-more-btn');
+            if (moreBtn) {
+                moreBtn.addEventListener('click', () => {
+                    const open = moreBtn.getAttribute('aria-expanded') === 'true';
+                    $('kp-more').hidden = open;
+                    moreBtn.setAttribute('aria-expanded', open ? 'false' : 'true');
+                    moreBtn.textContent = open
+                        ? `See more — ${rest.length} section${rest.length === 1 ? '' : 's'} from the 10-K`
+                        : 'See less';
+                });
+            }
         } catch (_) {
             body.innerHTML = '<p class="small muted">Key points unavailable right now.</p>';
         }
@@ -1475,6 +1748,7 @@
                 end: y.end, start: c.periodStart || i.periodStart || null, sbc: num(c.shareBasedCompensation), rev: derive(i).rev,
                 ocf: num(c.operatingCashflow), capex: num(c.capitalExpenditures),
                 buy: num(c.paymentsForRepurchaseOfCommonStock), dil: num(i.weightedAverageSharesDiluted),
+                out: num((y.balance || {}).commonStockSharesOutstanding),
                 sourceId: ((c._sources || {}).shareBasedCompensation || [])[0] || null
             };
         });
@@ -1482,20 +1756,40 @@
     }
     function sbcChart(trend, cur) {
         const W = 760, H = 160, padL = 8, padB = 22, padT = 18;
+        // A phone gets every other year on the axis: ten labels squeezed into 390px
+        // printed on top of each other.
+        const narrowChart = !!(window.matchMedia && window.matchMedia('(max-width: 640px)').matches);
         const bw = (W - padL * 2) / trend.length;
         const maxS = Math.max(...trend.map((t) => t.sbc), 0) || 1;
+        // The share count goes beside the stock pay, on its own scale: what the
+        // company handed to staff in stock, and what the total number of shares
+        // did in the same year. Both are filed numbers; the axes are separate, so
+        // the pair is read year by year, not bar against bar.
+        // A count reads in billions above a billion and in millions below: 4.06B, 372M.
+        const shareText = (v) => (v >= 1e9
+            ? (v / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B'
+            : Math.round(v / 1e6) + 'M');
+        const shareVals = trend.map((t) => (t.shares === null || t.shares === undefined ? null : t.shares));
+        const maxSh = Math.max(...shareVals.filter((v) => v !== null), 0) || 1;
         const pcts = trend.map((t) => t.pctRevenue);
         const maxP = (Math.max(...pcts.filter((v) => v !== null), 0) || 1) * 1.25;
         const cx = (i) => padL + i * bw + bw / 2;
         const py = (v) => H - padB - ((H - padB - padT) * v) / maxP;
         const bars = trend.map((t, i) => {
             const h = Math.max(0, ((H - padB - padT) * t.sbc) / maxS);
-            const x = padL + i * bw + bw * 0.2; const w = bw * 0.6; const top = H - padB - h;
+            const x = padL + i * bw + bw * 0.12; const w = bw * 0.36; const top = H - padB - h;
             const last = i === trend.length - 1;
             const tip = `${t.fy}: ${currencyAmount(t.sbc, cur)}${t.pctRevenue === null ? '' : (t.pctRevenue > 100 ? `, ${(t.pctRevenue / 100).toFixed(1)}× revenue` : `, ${pct(t.pctRevenue)} of revenue`)}`;
+            const sh = shareVals[i];
+            const shH = sh === null ? 0 : Math.max(0, ((H - padB - padT) * sh) / maxSh);
+            const shX = padL + i * bw + bw * 0.52; const shW = bw * 0.36; const shTop = H - padB - shH;
+            const shareTip = sh === null
+                ? `${t.fy}: share count not in our filings data`
+                : `${t.fy}: ${shareText(sh)} ${t.sharesBasis === 'diluted' ? 'diluted shares' : 'shares outstanding'}`;
             return `<rect class="${last ? 'sbc-bar sbc-bar-now' : 'sbc-bar'}" x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="3"><title>${esc(tip)}</title></rect>`
-                + `<text class="sbc-axis" x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${esc(t.tick)}</text>`
-                + ((last || i === 0) ? `<text class="sbc-val" x="${(x + w / 2).toFixed(1)}" y="${(top - 5).toFixed(1)}" text-anchor="middle">${esc(currencyAmount(t.sbc, cur))}</text>` : '');
+                + (sh === null ? '' : `<rect class="${last ? 'sbc-shares sbc-shares-now' : 'sbc-shares'}" x="${shX.toFixed(1)}" y="${shTop.toFixed(1)}" width="${shW.toFixed(1)}" height="${shH.toFixed(1)}" rx="3"><title>${esc(shareTip)}</title></rect>`)
+                + ((narrowChart && !last && i % 2 === 1) ? '' : `<text class="sbc-axis" x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${esc(t.tick)}</text>`)
+                + (last ? `<text class="sbc-val" x="${(x + w / 2).toFixed(1)}" y="${(top - 5).toFixed(1)}" text-anchor="middle">${esc(currencyAmount(t.sbc, cur))}</text>` : '');
         }).join('');
         // The line breaks across a year with no filed revenue rather than
         // bridging it.
@@ -1504,7 +1798,41 @@
         trend.forEach((t, i) => { if (t.pctRevenue === null) flush(); else run.push(`${cx(i).toFixed(1)},${py(t.pctRevenue).toFixed(1)}`); });
         flush();
         const dots = trend.map((t, i) => (t.pctRevenue === null ? '' : `<circle class="sbc-dot" cx="${cx(i).toFixed(1)}" cy="${py(t.pctRevenue).toFixed(1)}" r="2.6"/>`)).join('');
-        return `<svg class="sbc-chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Stock-based compensation by fiscal year">${bars}${line}${dots}</svg>`;
+        // No "shares: N M" note in the corner: it printed on top of the latest SBC value.
+        // The legend says the share series is on its own scale, and the row under the
+        // chart gives the count itself.
+        return `<svg class="sbc-chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Stock-based compensation and total shares by fiscal year">${bars}${line}${dots}</svg>`;
+    }
+    // Hovering a year shows every figure for it in one line. The browser's own <title>
+    // tooltip was the only thing there before and it did not appear reliably over the
+    // bars, so the reader had no way to see the share count or the stock pay by year.
+    function wireSbcHover(trend, cur, amt, ofRevenue) {
+        const body = $('sbc-body');
+        const svg = body && body.querySelector('.sbc-chart');
+        if (!svg || !trend.length) return;
+        body.classList.add('sbc-has-tip');
+        let tip = body.querySelector('.chart-tip');
+        if (!tip) { tip = document.createElement('div'); tip.className = 'chart-tip'; tip.hidden = true; body.appendChild(tip); }
+        const shareText = (v) => (v >= 1e9 ? (v / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B' : Math.round(v / 1e6) + 'M');
+        const at = (ev) => {
+            const r = svg.getBoundingClientRect();
+            const rel = (ev.clientX - r.left) / r.width;
+            return Math.max(0, Math.min(trend.length - 1, Math.floor(rel * trend.length)));
+        };
+        const show = (ev) => {
+            const i = at(ev); const t = trend[i];
+            const lines = [`Stock pay ${amt(t.sbc)}`];
+            if (t.pctRevenue !== null && t.pctRevenue !== undefined) lines.push(ofRevenue(t.pctRevenue));
+            if (t.shares !== null && t.shares !== undefined) lines.push(`${shareText(t.shares)} ${t.sharesBasis === 'diluted' ? 'diluted shares' : 'shares outstanding'}`);
+            tip.innerHTML = `<div class="label"><strong>${esc(t.fy)}</strong></div>` + lines.map((l) => `<div>${esc(l)}</div>`).join('');
+            tip.hidden = false;
+            const box = body.getBoundingClientRect();
+            const xRel = ((i + 0.5) / trend.length) * svg.getBoundingClientRect().width + (svg.getBoundingClientRect().left - box.left);
+            tip.style.left = Math.min(Math.max(0, xRel - tip.offsetWidth / 2), box.width - tip.offsetWidth) + 'px';
+            tip.style.top = '0px';
+        };
+        svg.onmousemove = show;
+        svg.onmouseleave = () => { tip.hidden = true; };
     }
     function renderSbc() {
         const m = sbcBuilt();
@@ -1535,20 +1863,10 @@
 
         const rows = [];
         const row = (k, v, d, sub) => rows.push(`<tr><td class="k${sub ? ' sub' : ''}">${k}</td><td class="v">${v}</td><td class="d">${d}</td></tr>`);
-        if (m.noFcf) { /* a bank or life insurer: no free cash flow row */ }
-        else if (m.fcf === null) row('Free cash flow', '—', esc(m.fcfWhy));
-        else {
-            row('Free cash flow', esc(amt(m.fcf)), 'as reported: operating cash flow less capital expenditure');
-            // Not drawn against a net reversal: there is no stock cost to take off.
-            if (m.fcfAfter !== null) {
-                row('after paying staff in stock', esc(amt(m.fcfAfter)),
-                    m.pctOfFcf !== null
-                        ? (m.pctOfFcf > 100
-                            ? `stock-based compensation is <strong>${esc((m.pctOfFcf / 100).toFixed(1))}×</strong> free cash flow`
-                            : `stock-based compensation is <strong>${esc(pct(m.pctOfFcf, 0))}</strong> of free cash flow`)
-                        : 'free cash flow is negative before stock pay is counted', true);
-            }
-        }
+        // Free cash flow is not part of this panel. The stock pay figure, the
+        // buybacks that offset it and the resulting change in the share count are
+        // the subject. When a year's cash flow was missing the row said nothing but
+        // The removed row only ever announced a missing cash-flow line.
         // Buybacks appear only when the company filed some: no row is better than
         // a dash that reads as "bought back nothing".
         if (m.buybacks !== null && m.buybacks > 0) {
@@ -1558,31 +1876,32 @@
                     ? `less than the <strong>${esc(amt(m.sbc))}</strong> of stock issued to staff`
                     : `of which <strong>${esc(amt(m.sbc))}</strong> (${esc(pct(m.buybackOffsetPct, 0))}) offset stock issued to staff`);
         }
+        // The count itself, between the buybacks that reduce it and the dilution that
+        // measures the change: 1,637M is the number a reader can check on the cover page.
+        if (m.totalShares !== null && m.totalShares !== undefined) {
+            const asMil = (v) => (v >= 1e9
+                ? (v / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B'
+                : (v / 1e6).toLocaleString('en-US', { maximumFractionDigits: 0 }) + 'M');
+            const parts = [];
+            // The count, then what it did: "−9.8% over 4 years (375M in FY2021)".
+            // Never a change measured across a share-class conversion or a split.
+            if (m.totalSharesChange !== null && m.totalSharesChange !== undefined) {
+                const yrs = m.totalSharesSpan === 1 ? '1 year' : `${m.totalSharesSpan} years`;
+                parts.push(`<strong>${esc(signed(m.totalSharesChange))}</strong> over ${yrs}`
+                    + ` (${esc(asMil(m.totalSharesFrom))} in ${esc(m.totalSharesFromFy)})`);
+            }
+            parts.push(m.totalSharesBasis === 'outstanding' ? 'shares outstanding at the year end' : 'diluted weighted-average count');
+            row('Total shares', esc(asMil(m.totalShares)), parts.join(' · '));
+        }
         if (m.dilutionYoY === null) row('Diluted shares', '—', esc(m.dilutionWhy));
         else row('Diluted shares', esc(signed(m.dilutionYoY)), 'this year' + (m.dilutionFive === null ? '' : ` · <strong>${esc(signed(m.dilutionFive))}</strong> over five years`));
 
         const first = m.trend[0]; const firstPct = first ? first.pctRevenue : null;
         // One row per filed year: can free cash flow pay for stock pay and still
         // leave the share count lower? The verdict strings come from the model.
-        const flowRows = (m.years || []).slice().reverse();
-        const flowDash = (why) => `<span class="ind-dash" title="${esc(why || '')}">—</span>`;
-        const withFcf = !m.noFcf;
-        const flow = flowRows.length ? `<div class="sbc-flow">
-          <p class="sbc-flow-summary">${esc(m.verdict)}</p>
-          ${withFcf ? '' : `<p class="small muted" style="margin:0 0 8px;">${esc(window.IndustryMetrics.noFcfReason(payload))}</p>`}
-          <table class="sbc-years">
-            <thead><tr><th>Fiscal year</th>${withFcf ? '<th>FCF</th>' : ''}<th>SBC</th>${withFcf ? '<th>FCF after SBC</th>' : ''}<th>Buybacks</th><th>Diluted shares</th><th>Verdict</th></tr></thead>
-            <tbody>${flowRows.map((y) => `<tr>
-              <td data-label="Fiscal year"><strong>${esc(y.fy)}</strong></td>
-              ${withFcf ? `<td data-label="FCF">${y.fcf === null ? flowDash(y.verdict) : esc(amt(y.fcf))}</td>` : ''}
-              <td data-label="SBC">${y.sbc === null ? flowDash(y.verdict) : esc(amt(y.sbc))}</td>
-              ${withFcf ? `<td data-label="FCF after SBC">${y.fcfAfter === null ? '—' : esc(amt(y.fcfAfter))}</td>` : ''}
-              <td data-label="Buybacks">${y.buybacks === null ? flowDash(`Not available: share buybacks for ${y.fy} are not in our filings data.`) : esc(amt(y.buybacks))}</td>
-              <td data-label="Diluted shares">${y.dilutionPct === null ? flowDash(y.dilutionWhy) : esc(signed(y.dilutionPct))}</td>
-              <td data-label="Verdict" class="sbc-verdict">${esc(y.verdict)}</td>
-            </tr>`).join('')}</tbody>
-          </table>
-        </div>` : '';
+        // No per-year table: the four rows below and the chart carry the same figures,
+        // and a year-by-year grid of SBC and buybacks made the reader do the comparing
+        // (owner, 2026-11-04).
         $('sbc-body').innerHTML = `
           ${m.stale ? `<p class="small muted" style="margin:0 0 10px;">${esc(m.stale)}</p>` : ''}
           <div class="sbc-top">
@@ -1592,11 +1911,11 @@
                 : `<div class="sbc-mid">${esc(ofRevenue(m.pctRevenue))}</div><div class="sbc-sub">${m.pctRevenueFiveAgo === null ? '&nbsp;' : `${esc(ofRevenue(m.pctRevenueFiveAgo))} in ${esc(m.fiveAgoFy)}`}</div>`}</div>
             <div class="sbc-rank" id="sbc-rank"></div>
           </div>
-          ${m.trend.length > 1 ? sbcChart(m.trend, cur) + `<div class="sbc-legend"><span><i></i>Stock-based compensation</span>${firstPct === null || m.pctRevenue === null ? '' : `<span><i class="l"></i>As a share of revenue (${esc(share(firstPct))} → ${esc(share(m.pctRevenue))})</span>`}</div>` : ''}
+          ${m.trend.length > 1 ? sbcChart(m.trend, cur) + `<div class="sbc-legend"><span><i></i>Stock-based compensation</span>${firstPct === null || m.pctRevenue === null ? '' : `<span><i class="l"></i>As a share of revenue (${esc(share(firstPct))} → ${esc(share(m.pctRevenue))})</span>`}<span><i class="s"></i>Total shares (own scale)</span></div>` : ''}
           <table class="sbc-rows">${rows.join('')}</table>
-          ${flow}
-          <p class="provenance">Every figure is the company's own filed number or arithmetic on filed numbers.${withFcf ? ` Free cash flow after stock-based compensation is our calculation, not a figure ${esc(name)} reports.` : ''}</p>`;
+          <p class="provenance">Every figure is the company's own filed number or arithmetic on filed numbers.</p>`;
         show();
+        wireSbcHover(m.trend, cur, amt, ofRevenue);
 
         // Sector position: one small request, and the line is simply absent if
         // the sector is unknown or too small to rank against.
@@ -1963,7 +2282,7 @@
             : `${d.toLocaleString('en-US', { month: 'short' })} ’${String(d.getFullYear()).slice(2)}`;
     }
     function viewVals(def, raw, rows) {
-        if (viewState === 'yoy' && (def.kind === 'money' || def.kind === 'ps' || def.kind === 'shares')) {
+        if (viewState === 'yoy' && (def.kind === 'money' || def.kind === 'ps' || def.kind === 'shares' || def.kind === 'count')) {
             return {
                 vals: raw.map((v, i) => {
                     if (i === 0 || v === null || raw[i - 1] === null || raw[i - 1] === 0) return null;
@@ -2135,7 +2454,12 @@
         seg.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String((x.dataset.lines === 'filed') === on)));
     }
     function statementRows() {
-        const set = ROWSETS[layoutOf(window.IndustryMetrics && payload ? window.IndustryMetrics.classify(payload) : null)];
+        // One income statement for every company. Banks and insurers used to get their own
+        // row set, so the same figures sat under different labels page to page; their
+        // industry-specific measures stay in the Bank / Insurance metrics panel below.
+        const layout = layoutOf(window.IndustryMetrics && payload ? window.IndustryMetrics.classify(payload) : null);
+        const specialised = ROWSETS[layout] || ROWS;
+        const set = { income: ROWS.income, balance: specialised.balance, cash: specialised.cash };
         return set[stState];
     }
     function statementDefs(converted) {
@@ -2270,6 +2594,9 @@
         const facts=[...(payload?.supplementalObservations || []),...(payload?.industryObservations || [])].filter(f=>(!f.statement || f.statement===stState) && (f.historyBasis || f.basis)===basis).slice(0,40);
         const fresh=payload?.freshness || {};const gaps=payload?.coverage?.remainingGaps || [];
         const notes=[fresh.lastSuccessfulCheckAt?'Filings last checked '+(Number.isNaN(Date.parse(fresh.lastSuccessfulCheckAt))?fresh.lastSuccessfulCheckAt:new Date(fresh.lastSuccessfulCheckAt).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})):null,fresh.backgroundStatus==='running'?'Additional source retrieval is in progress.':null,fresh.backgroundStatus==='capacity_limited'?'Source retrieval is temporarily busy; stored observations and their dates are shown.':null,fresh.lastAttemptResult==='retrieval_failed'?'The freshness check failed; previous dated observations are retained.':fresh.lastAttemptResult==='partial_failure'?'Some source checks failed; last-good observations and remaining gaps are shown.':null].filter(Boolean);
+        // A software business that files no property-and-equipment line carries its capital spending as a
+        // software/intangible purchase; the row shows it and this names the line, so nobody reads it as PP&E.
+        if((payload?.cash?.annualReports || []).some(r=>r._softwareCapex))notes.push('Capital expenditure here is the software and intangible-asset purchase the company files; it reports no property-and-equipment line for that year, so free cash flow uses that line as its capital spending.');
         panel.innerHTML=notes.map(n=>'<p class="small faint">'+esc(n)+'</p>').join('')+(facts.length?'<details><summary>Additional attributed financial observations ('+facts.length+')</summary><p class="small faint">Provider observations and issuer-defined measures are separate from the verified GAAP/IFRS statements.</p><div class="table-wrap"><table class="table-data"><thead><tr><th>Field</th><th>Period end</th><th>Value and unit</th><th>Source and date</th></tr></thead><tbody>'+facts.map(f=>'<tr><td>'+esc(f.definition)+'</td><td>'+esc(f.periodEnd)+'</td><td>'+esc(f.value.toLocaleString('en-US'))+' '+esc(f.unit)+(f.presentation?'<br><span class="small faint">converted from '+esc(f.presentation.originalValue.toLocaleString('en-US'))+' '+esc(f.presentation.originalCurrency)+'</span>':'')+'</td><td><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">'+esc(f.sourceName)+'</a> '+esc(f.publicationDate || f.sourceDataDate)+' '+esc(f.sourceDateKind==='retrieval'?'retrieved':'published')+' · '+esc(f.accountingBasis)+'</td></tr>').join('')+'</tbody></table></div></details>':'')+(gaps.length?'<details><summary>Remaining data gaps ('+gaps.length+')</summary><ul>'+gaps.slice(0,20).map(g=>'<li>'+esc([g.field,g.basis,g.reason].filter(Boolean).join(' · '))+'</li>').join('')+'</ul></details>':'');
     }
     function renderStatements() {
@@ -2623,17 +2950,40 @@
         // Stock pay against revenue, and what free cash flow comes to once it is
         // counted as the cost it is. Both from filed lines only.
         { label: 'SBC % of revenue', get: (y) => { const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (s !== null && r) ? s / r : null; }, fmt: pctFmt },
-        { label: 'FCF after SBC, % of revenue', fcf: true, get: (y) => { const f = fcfOf(y.cash || {}); const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (f !== null && s !== null && r) ? (f - s) / r : null; }, fmt: pctFmt }
+        { label: 'FCF after SBC, % of revenue', fcf: true, get: (y) => { const f = fcfOf(y.cash || {}); const s = num((y.cash || {}).shareBasedCompensation); const r = derive(y.income || {}).rev; return (f !== null && s !== null && r) ? (f - s) / r : null; }, fmt: pctFmt },
+        // Per employee. The count is annual, so a quarterly column has no value —
+        // it reads '—' rather than borrowing the last annual figure.
+        { label: 'Revenue per employee', emp: true, get: (y) => { const e = y.__emp; const r = derive(y.income || {}).rev; return (e && r !== null) ? r / e.value : null; }, fmt: (v) => v === null ? '—' : '$' + money(v, 2) },
+        { label: 'Profit per employee', emp: true, get: (y) => { const e = y.__emp; const n = num((y.income || {}).netIncome); return (e && n !== null) ? n / e.value : null; }, fmt: (v) => v === null ? '—' : '$' + money(v, 2) },
+        // One share-count row, in millions: the filed diluted count, then what it did.
+        // (It was listed twice for a while — once as a raw number, once in millions.)
+        { label: 'Diluted shares', get: (y) => (y.__dil ? y.__dil.shares : null), fmt: (v) => v === null ? '—' : (v / 1e6).toLocaleString('en-US', { maximumFractionDigits: 2 }) + 'M' },
+        { label: 'Share count change %', get: (y) => (y.__dil ? y.__dil.changePct : null), fmt: signedPct }
     ];
     // Follows the statements' Annual | Quarterly option (owner, 2026-10-19).
     function renderRatios() {
         const quarterly = basisState === 'quarterly';
         const years = quarterly ? quarterlyJoined().slice(-20) : annualJoined().slice(-19);
+        // The headcount is a fiscal-year figure and the dilution pair a filed one, so
+        // both are attached to the joined years once here instead of per row.
+        for (const y of years) {
+            const fy = String(y.end || '').slice(0, 4);
+            y.__emp = quarterly ? null : (empByYear.get(fy) || null);
+            y.__dil = quarterly ? null : dilutionByEnd.get(String(y.end)) || null;
+        }
         const table = $('ratio-table');
         $('ratio-title').textContent = quarterly ? `Ratios, ${years.length} quarters` : 'Ratios, 19 years';
+        const splitYears = years.filter((y) => y.__dil && y.__dil.split).map((y) => 'FY' + new Date(y.end).getFullYear());
+        const hasEmp = years.some((y) => y.__emp);
         $('ratio-prov').textContent = quarterly
             ? 'Computed deterministically from filed quarterly statements — no estimates, no AI. Margins use each quarter’s own figures; return on equity and on assets use the trailing four quarters’ net income against the quarter-end balance. Click any row for its chart.'
-            : 'Computed deterministically from filed annual statements — no estimates, no AI. Click any row for its chart.';
+            : 'Computed deterministically from filed annual statements — no estimates, no AI. Click any row for its chart.'
+              + (hasEmp ? ` Headcount is read from each annual report’s human-capital section (Reg S-K Item 101(c)(2); Form 20-F Item 6.D for foreign filers) and is stated once a year, so the per-employee rows are annual only.` : '')
+              // No dilution sentence: the dilution-cost and dilution-adjusted rows were
+              // removed from this table (2026-11-04), so explaining the arithmetic here
+              // described a measure the reader can no longer see.
+              + (payload.employees?.builtOn ? ` Headcount readings built ${payload.employees.builtOn}.` : '')
+              + (splitYears.length ? ` Share-count change is withheld for ${splitYears.join(', ')}: a stock split falls between those years, so the counts are on two bases.` : '');
         if (years.length < 2) { table.innerHTML = ''; return; }
         const periods = years.map((y) => quarterly ? periodLabel({ fiscalDateEnding: y.end }, 'quarterly') : 'FY' + new Date(y.end).getFullYear());
         const render = { rows: [], periods };
@@ -3086,19 +3436,23 @@
                     if (histRes && histRes.ok) assetData = await histRes.json();
                 }
                 renderFundProfile(assetData);
-                mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
+                mountAskFloor({ symbol, placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
                 return;
             }
             if (['unit','right','unresolved'].includes(assetData?.profile?.assetType)) { $('co-name').textContent=assetData.profile.name || symbol; $('co-crumb').textContent=assetData.profile.assetTypeLabel+' · Company financial analysis is unavailable for this instrument.'; $('stmt-table').innerHTML='<tbody><tr><td>No company financial analysis is available for this instrument.</td></tr></tbody>'; $('seg-statement').parentElement.style.display='none'; for (const id of ['kp-section','duo-section','stmt-prov']) $(id).hidden = true; return; }
-            mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
+            mountAskFloor({ symbol, placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
             const r = (await earlyFundamentals) || await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`);
             if (!r.ok) throw new Error('load failed');
             payload = await r.json();
             buildSharesMap();
+            buildEmployeeMap();
+            buildDilutionMap();
             renderMasthead();
             renderMainChart();
             renderKv();
-            renderDossier();
+            // Generated on load for a signed-in reader: the dossier is part of the company
+            // page now, not a Pro feature behind a button.
+            renderDossier(!!token());
             renderAbout();
             renderChecks();
             renderSbc();

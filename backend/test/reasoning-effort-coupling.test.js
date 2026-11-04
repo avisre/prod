@@ -3,7 +3,8 @@
 // two independent env vars, which made the documented rollout unsafe.
 //
 // Measured on Ollama Cloud, 2026-09-21, on the filing-diff prompt:
-//   glm-5.1 + 'none'  -> clean JSON               (what production runs)
+//   glm-5.1 + 'none'  -> clean JSON               (retired 2026-09-25;
+//                        cfg() now migrates that config to the glm-5.3 fallback)
 //   glm-5.3 + 'none'  -> reasons in the VISIBLE channel, overruns max_tokens,
 //                        finish_reason 'length', NO JSON AT ALL (0/10 filings)
 //   glm-5.3 + default -> reasons in the hidden channel, overruns it, content ''
@@ -42,14 +43,18 @@ async function sentBody(env, opts) {
     return captured;
 }
 
-test('glm-5.1 keeps exactly the effort production sends today', async () => {
-    // The whole change must be a no-op until a model actually moves.
+test('a retired glm-5.1 config migrates and carries the new model\'s effort', async () => {
+    // Production no longer sends glm-5.1 at all: the direct-service model was
+    // retired on 2026-09-25, so cfg() rewrites that one retired value to the
+    // fallback, and the effort follows the RESOLVED model. An old config can
+    // therefore never resurrect the dangerous 5.3+'none' pair by accident.
     const summary = await sentBody({ AI_MODEL_SUMMARY: 'glm-5.1' }, { purpose: 'summary' });
-    assert.equal(summary.model, 'glm-5.1');
-    assert.equal(summary.reasoning_effort, 'none', 'glm-5.1 summary must stay on none');
+    assert.equal(summary.model, 'glm-5.3');
+    assert.equal(summary.reasoning_effort, 'low', 'migration must not drag along 5.1\'s none');
 
     const chat = await sentBody({ AI_MODEL_CHAT: 'glm-5.1' }, { purpose: 'chat' });
-    assert.equal(chat.reasoning_effort, undefined, 'glm-5.1 chat must stay on provider default');
+    assert.equal(chat.model, 'glm-5.3');
+    assert.equal(chat.reasoning_effort, 'low');
 });
 
 test('flipping the model alone carries its own effort — the silent-failure case', async () => {

@@ -24,13 +24,15 @@ test('public analyst take returns deterministic prose without background generat
   assert.match(result.take, /Example Corp/);
 });
 
-test('key-point AI generation requires the explicit authenticated Insights Pro request', () => {
+test('key-point generation needs a session, not an Insights Pro plan', () => {
+  // The dossier is part of the company page (owner, 2026-11-04), so generation is no
+  // longer tied to Pro — only to being signed in, which keeps the AI call attributable.
   const app = backend('app.js');
   const company = frontend('company.js');
   assert.match(app, /const generate = String\(req\.query\.generate \|\| ''\) === '1'/);
   assert.match(app, /generate && !req\.user/);
-  assert.match(app, /generate && !isProUser\(req\)/);
-  assert.match(app, /allowAi: generate && isProUser\(req\)/);
+  assert.doesNotMatch(app, /generate && !isProUser\(req\)/, 'no Pro gate on generation');
+  assert.match(app, /allowAi: generate,/);
   assert.match(company, /renderDossier\(true\)/);
   assert.match(company, /\?generate=1/);
   assert.match(company, /const open = \(\) => \{ drawer\.classList\.add\('open'\); dim\.hidden = false; loadInsights\(\); \}/);

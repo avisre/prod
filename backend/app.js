@@ -2734,7 +2734,15 @@ app.get('/stocks/:ticker', async (req, res) => {
         allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
     });
     let evidenceData=null;
-    if(!quoteStore.isLikelyCrawler(req.get('user-agent')) && require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType==='stock')try{evidenceData=(await require('./verified-fundamentals').getCompanyEvidence(canonicalSymbol || req.params.ticker,undefined,undefined,true,{waitMs:0})).data;}catch(_){}
+    // A crawler used to be served the stored payload untouched (the live-price
+    // top-up is reader-only), which meant the indexable page could disagree with
+    // the company page about the same figures after a split. Both now take the
+    // split-normalized payload; the adjuster is fail-open and memoized per symbol.
+    const seoSymbol = canonicalSymbol || req.params.ticker;
+    if(require('./stock-universe').lookup(seoSymbol)?.securityType==='stock'){
+        if(quoteStore.isLikelyCrawler(req.get('user-agent')))try{evidenceData=await require('./adjusted-fundamentals').adjusted(seoSymbol);}catch(_){}
+        else try{evidenceData=await require('./adjusted-fundamentals').adjustClone(seoSymbol,(await require('./verified-fundamentals').getCompanyEvidence(seoSymbol,undefined,undefined,true,{waitMs:0})).data);}catch(_){}
+    }
     const html = seoPages.renderStockPage(req.params.ticker, { quote,evidenceData });
     if(!html && !quoteStore.isLikelyCrawler(req.get('user-agent')) && ['stock','closed_end_fund'].includes(require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType))return res.redirect(302,'/company?symbol='+encodeURIComponent(canonicalSymbol || req.params.ticker));
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
@@ -3114,7 +3122,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261101-ui52" />
+<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3143,7 +3151,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261101-ui52"></script>
+<script src="/assets/app.js?v=20261104-fcf1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3235,7 +3243,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261101-ui52" />
+<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3263,7 +3271,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261101-ui52"></script>
+<script src="/assets/app.js?v=20261104-fcf1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3371,7 +3379,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261101-ui52" />
+<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3404,7 +3412,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261101-ui52"></script>
+<script src="/assets/app.js?v=20261104-fcf1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3847,9 +3855,10 @@ function saveAskReport(userId, question, answer, mode, toolsUsed) {
 // Ask conversation threads — ChatGPT-style saved chats, Ask only. A thread
 // owns its own message transcript: when the frontend passes a threadId the
 // server rebuilds context from THAT thread's messages, so a follow-up never
-// has to re-explain and topics from other chats never bleed in (the old
-// one-global ai_chat_log feed stays as the non-thread fallback). Reading a
-// thread is free — credits are only ever spent on generating a new answer.
+// has to re-explain and topics from other chats never bleed in — and a chat
+// with no threadId starts from nothing (the one-global ai_chat_log feed is
+// still written as a rolling log, but no longer read back as context).
+// Reading a thread is free — credits are only ever spent on generating a new answer.
 const THREAD_ID_RE = /^[0-9a-fA-F]{24}$/;
 const ASK_THREAD_KEEP = 50; // threads per user (ChatGPT-parity cap; oldest pruned)
 const ASK_THREAD_MSG_KEEP = 80; // messages per thread
@@ -9735,6 +9744,23 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         if (payload && payload.coverage?.securityType === 'stock' && !quoteStore.isLikelyCrawler(req.get('user-agent'))) payload = await require('./price-history').topUp(symbol, payload);
         if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
         if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
+        // Share counts and per-share figures on this path were never normalized to the
+        // current split basis (sec-source did it when IT built a payload; this route
+        // reads the stored evidence directly), so Apple's FY2011 read 936M shares at
+        // $27.68 against FY2012's 6.6B at $6.31 — seven-fold, i.e. its 7:1 split, which
+        // the statement's per-share view and the dilution rows both inherit. The shared
+        // loader clones before adjusting, so a cached row is never normalized twice.
+        try {
+            if (payload?.income) {
+                const norm = await require('./adjusted-fundamentals').adjusted(symbol);
+                if (norm) payload = norm;
+            }
+        } catch (_) { /* fail-open */ }
+        // Headcount per fiscal year, read from the annual reports (not an XBRL fact).
+        // Attached AFTER the split-normalized payload replaces the evidence one — it
+        // was attached before, and the swap silently dropped it, which emptied the
+        // Employees row on the page.
+        try { if (!payload.employees) payload.employees = require('./employee-profiles').forSymbol(symbol); } catch (_) { /* optional */ }
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
         // Tier meter v2 — history depth. Inert unless ENABLE_TIER_V2_LIMITS=true
@@ -10284,6 +10310,10 @@ async function anonAskHandler(req, res) {
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     const askWall = freeTierWallReason(req);
     if (askWall) return freeTierWallResponse(res, askWall);
+    // Same page subject as a signed-in bar: the visitor is looking at one
+    // instrument. Parsed after the wall — no per-request work before the verdict.
+    const pageSymbol = /^[A-Z][A-Z0-9.\-]{0,9}$/.test(String((req.body && req.body.pageSymbol) || '').trim().toUpperCase())
+        ? String(req.body.pageSymbol).trim().toUpperCase() : '';
     if (ANON_ASK_LIMIT <= 0) {
         return res.status(401).json({ message: 'Ask needs an account', code: 'ASK_AUTH' });
     }
@@ -10332,7 +10362,7 @@ async function anonAskHandler(req, res) {
             };
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
-                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode, onEvent: (e) => send(e.type, e) });
+                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial', ...(pageSymbol ? { pageSymbol } : {}) }, mode, onEvent: (e) => send(e.type, e) });
                 console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, true, 'web_trial')));
                 send('done', { answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     trial: true, quota: { used: newVisitor, limit, remaining } });
@@ -10346,7 +10376,7 @@ async function anonAskHandler(req, res) {
             }
             return;
         }
-        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode });
+        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial', ...(pageSymbol ? { pageSymbol } : {}) }, mode });
         console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, false, 'web_trial')));
         res.setHeader('Set-Cookie', _anonAskCookie(newVisitor));
         res.json({ answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
@@ -10449,6 +10479,13 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
     // 📎 attachments survive the request only — images for the vision relay,
     // documents as client-extracted text. Never written to disk or the DB.
     const attachments = normalizeAskAttachments(req.body && req.body.attachments);
+    // The Ask bar on a company, dossier or monitor page names its subject. That
+    // question is about the instrument in front of the reader: the server answers
+    // it from this bar's own turns only — never another Ask session's history, a
+    // saved memory or the "what you researched lately" nudge — and never saves it
+    // as a thread, so an AAPL chat can no longer surface on MSFT's page.
+    const pageSymbol = /^[A-Z][A-Z0-9.\-]{0,9}$/.test(String((req.body && req.body.pageSymbol) || '').trim().toUpperCase())
+        ? String(req.body.pageSymbol).trim().toUpperCase() : '';
     try {
         const userId = portfolioOwnerId(req);
         const limit = effectiveAskLimit(req);
@@ -10543,7 +10580,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         // Temporary chat: answered and charged as usual, but nothing is kept: no
         // saved chat, no Ask report, no memory read or written, and no context
         // pulled in from the account's other chats.
-        const temporary = (req.body && req.body.temporary) === true && !aiPaperCtx;
+        const temporary = ((req.body && req.body.temporary) === true || !!pageSymbol) && !aiPaperCtx;
         const hasThread = !temporary && typeof threadIdRaw === 'string' && THREAD_ID_RE.test(threadIdRaw)
             && Boolean(await AskThread.exists({ _id: threadIdRaw, userId, ...surfaceMatch(chatSurface) }).catch(() => null));
         const memoryConsent = !temporary && !!(req.user && req.user.askMemoryEnabled);
@@ -10554,11 +10591,16 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const customInstructions = String((req.user && req.user.askInstructions) || '').trim();
         // The answer's "> Next:" question leans toward what this reader researches.
         const nextHint = temporary || chatSurface === 'paper' ? '' : require('./ask-suggestions').nextHint(await recentAskQuestions(userId));
-        // a fresh page sends no history — pick the thread back up from the
-        // user's last few stored exchanges (cross-session memory)
+        // A NEW CHAT STARTS EMPTY (owner 2026-11-02). Context comes only from
+        // this chat's own saved thread (threadId → threadHistory) or this bar's
+        // own turns this session (clientHistory — the ⌘K floor, the portfolio
+        // widget, a follow-up sent before the first answer's threadId arrives).
+        // The old fallback to the account's last few stored exchanges made
+        // "New chat" open on whichever conversation came before; the sidebar is
+        // the way back into a saved chat now.
         const history = edit ? edit.history : hasThread
             ? await aiChat.threadHistory(userId, threadIdRaw)
-            : (clientHistory.length ? clientHistory : (temporary || chatSurface === 'paper' ? [] : await aiChat.recentHistory(userId)));
+            : clientHistory;
         // Set on whichever success branch runs; returned to the client so the
         // frontend can adopt the (possibly newly created) thread id.
         let threadIdSaved = null;
@@ -10613,6 +10655,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                     question, history,
                     ctx: {
                         holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', siteRequest: askSiteRequest(req),
+                        ...(pageSymbol ? { pageSymbol } : {}),
                         ...(customInstructions ? { customInstructions } : {}),
                         ...(nextHint ? { nextHint } : {}),
                         ...(askBudget ? { budget: askBudget } : {}),
@@ -11650,7 +11693,9 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
     try {
         const generate = String(req.query.generate || '') === '1';
         if (generate && !req.user) return res.status(401).json({ message: 'Authentication required' });
-        if (generate && !isProUser(req)) return res.status(402).json({ message: 'Key-point generation is available on Pro.' });
+        // Generation is no longer tied to Insights Pro (owner, 2026-11-04): the dossier
+        // is the company page's own reading of the 10-K, not a Pro-only synthesis. The
+        // free-tier monthly stock cap below still applies, so cost stays bounded.
         const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
             return res.status(422).json({
@@ -11678,7 +11723,7 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
         // three times a standard build, so it is opt-in per request.
         const depth = String(req.query.depth || '') === 'deep' ? 'deep' : 'standard';
         const result = await keypoints.extractKeyPoints(symbol, {
-            allowAi: generate && isProUser(req),
+            allowAi: generate,
             depth
         });
         if (result.error) return res.status(404).json({ message: result.error });
@@ -13572,6 +13617,23 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         lap('topup');
         if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
         if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
+        // Share counts and per-share figures on this path were never normalized to the
+        // current split basis (sec-source did it when IT built a payload; this route
+        // reads the stored evidence directly), so Apple's FY2011 read 936M shares at
+        // $27.68 against FY2012's 6.6B at $6.31 — seven-fold, i.e. its 7:1 split, which
+        // the statement's per-share view and the dilution rows both inherit. The shared
+        // loader clones before adjusting, so a cached row is never normalized twice.
+        try {
+            if (payload?.income) {
+                const norm = await require('./adjusted-fundamentals').adjusted(symbol);
+                if (norm) payload = norm;
+            }
+        } catch (_) { /* fail-open */ }
+        // Headcount per fiscal year, read from the annual reports (not an XBRL fact).
+        // Attached AFTER the split-normalized payload replaces the evidence one — it
+        // was attached before, and the swap silently dropped it, which emptied the
+        // Employees row on the page.
+        try { if (!payload.employees) payload.employees = require('./employee-profiles').forSymbol(symbol); } catch (_) { /* optional */ }
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
         const body = await presentFundamentalsCurrency(payload, req.query.presentationCurrency);

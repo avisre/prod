@@ -9,15 +9,17 @@ const read = (name) => fs.readFileSync(path.join(__dirname, '..', name), 'utf8')
 
 test('background health surfaces use the synchronous bounded cache', () => {
     const watchdog = read('watchdog.js');
-    const seo = read('seo-pages.js');
     const xray = read('xray.js');
 
     assert.match(watchdog, /healthChecksFromData\(aiChat\.loadFund\(symbol\), symbol\)/);
     assert.doesNotMatch(watchdog, /runTool\(['"]get_health_checks['"]\)/);
-    assert.match(seo, /healthChecksFromData\(data, sym\)/);
-    assert.doesNotMatch(seo, /runTool\(['"]get_health_checks['"]\)/);
     assert.match(xray, /healthChecksFromData\(aiChat\.loadFund\(p\.symbol\), p\.symbol\)/);
     assert.doesNotMatch(xray, /runTool\(['"]get_health_checks['"]\)/);
+    // The public stock pages were dropped from this guard by the SEC-coverage
+    // redesign (2026-10-03): they no longer render a health-check section at
+    // all, so there is no async-tool temptation to pin there.
+    assert.doesNotMatch(read('seo-pages.js'), /healthChecksFromData|get_health_checks/);
+    assert.doesNotMatch(read('verified-seo.js'), /healthChecksFromData|get_health_checks/);
 });
 
 test('AI chat exports preserve identity across watchdog circular loading', () => {

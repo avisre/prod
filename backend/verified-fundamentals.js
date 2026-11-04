@@ -69,6 +69,27 @@ function listingClassData(data,quote) {
  const on=r=>{let copy=null;for(const f of ['eps','dilutedEPS'])if(r._classes?.[f]?.[member]){(copy ??= {...r,_sources:{...r._sources}})[f]=r._classes[f][member].v;copy._sources[f]=[r._classes[f][member].id];}return copy || r;};
  return {...data,income:{...data.income,annualReports:data.income.annualReports.map(on),quarterlyReports:(data.income.quarterlyReports || []).map(on)}};
 }
+// Filed annual statements for an issuer whose XBRL carries no annual report yet: a company that
+// listed this year files a prospectus (424B4/S-1), not a 10-K, so SEC's facts feed has only the
+// quarters. The statements are extracted from that filing's own HTML tables and kept in
+// supplemental-financials (extract-html-statements.js); they are shown here with the filing they
+// came from, and marked _supplemental so Ask and the API keep their separate attribution.
+function filedAnnualRows(company,st,existing,supplements) {
+ const list=supplements || require('./committed-supplements').forIssuer(p.cik(company.cik) || 'listing:'+company.symbol.replace(/\./g,'-'));
+ const filed=list.filter(f=>f.sourceType==='issuer_release' && f.historyBasis==='annual' && f.statement===st && (st==='balance'?f.basis==='instant':f.basis==='annual') && f.state==='available' && f.scope==='entity');
+ if(!filed.length)return {rows:[],sources:{}};
+ const have=new Set((existing || []).map(r=>r.fiscalDateEnding)),periods=new Map(),sources={};
+ for(const f of filed){
+  const value=p.number(f.value);
+  if(!p.day(f.periodEnd) || have.has(f.periodEnd) || !/^[A-Z]{3}$/.test(f.currency || '') || value===null || !Array.isArray(f.sourceIds) || !f.sourceIds.length)continue;
+  let row=periods.get(f.periodEnd);
+  if(!row)periods.set(f.periodEnd,row={fiscalDateEnding:f.periodEnd,periodStart:f.periodStart || null,reportedCurrency:f.currency,periodType:st==='balance'?'instant':'annual',_sources:{},_supplemental:{form:f.filingForm || null,filingDate:f.publicationDate || null,filingUrl:f.sourceUrl || null,sourceType:f.sourceType,verificationMethod:f.verificationMethod || null}});
+  if(row.reportedCurrency!==f.currency || row[f.field]!=null)continue;
+  row[f.field]=value;row._sources[f.field]=[...f.sourceIds];
+  for(const id of f.sourceIds)sources[id]={type:'sec_html_statement',cik:p.cik(company.cik),concept:f.field,label:f.definition || f.field,unit:f.unit || f.currency,rawValue:value,periodStart:f.periodStart || null,periodEnd:f.periodEnd,form:f.filingForm || null,filingDate:f.publicationDate || null,accessionNumber:(f.sourceVersions || [])[0] || null,filingUrl:f.sourceUrl,linkage:'filed_html_statement',verificationMethod:f.verificationMethod || null,accountingBasis:f.accountingBasis || null,scope:f.scope,retrievedAt:f.retrievedAt || null,extractionVersion:f.extractionVersion || null,supplemental:true};
+ }
+ return {rows:[...periods.values()].filter(r=>Object.keys(r._sources).length).sort((a,b)=>b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)),sources};
+}
 function adapt(company,raw,data,entry,issuer) {
  const type=company.securityType || 'stock';
  // Sector is rebuilt rather than copied: us-companies carries GICS names and the
@@ -92,7 +113,51 @@ function adapt(company,raw,data,entry,issuer) {
  if(marketData && !perShareAllowed){marketData.trailingPE=null;marketData.forwardPE=null;marketData.sharesOutstanding=null;}
  if(marketData){overview.MarketCapitalization=p.number(marketData.marketCap);overview.PERatio=p.number(marketData.trailingPE);overview.ForwardPE=p.number(marketData.forwardPE);overview.DividendYield=p.number(marketData.dividendYield);overview['52WeekHigh']=p.number(marketData.fiftyTwoWeekHigh);overview['52WeekLow']=p.number(marketData.fiftyTwoWeekLow);if(perShareAllowed)overview.SharesOutstanding=p.number(marketData.sharesOutstanding);}
  const out={overview,daily:raw?.daily || {},monthly:raw?.monthly || {},marketData,coverage:{annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:rowsData?(entry?.financialCoverage || 'unavailable'):'unavailable',securityType:type,latestAnnual:issuer?.evidence?.latestAnnual || null,lastSuccessfulCheckAt:issuer?.evidence?.lastSuccessfulCheckAt || null,sic:issuer?.evidence?.sic || null,investmentCompany:!!rowsData?.investmentCompany,perShareAllowed,perShareReason,missingReason:!rowsData?'No verified SEC financial observations are available.':null},provenance:{sources:rowsData?.sources || {},financialDigest:issuer?.financialDigest || issuer?.evidence?.financialDigest || null},fetchedAt:rowsData?.fetchedAt || null};
- for(const st of ['income','balance','cash'])out[st]={annualReports:type==='stock'?safeRows(rowsData,st,'annualReports',perShareAllowed):[],quarterlyReports:type==='stock'?safeRows(rowsData,st,'quarterlyReports',perShareAllowed):[]};
+ // Software and internet companies that report no property-and-equipment line carry their capital spending
+ // as a software/intangible purchase (AppLovin FY2025: $28.3m of intangibles against $0.5m of PP&E). For those
+ // businesses alone that filed line stands in as the capital-expenditure input of free cash flow, and the row
+ // is marked so the page can name the line it used. Everything else keeps the strict PP&E rule.
+ const softwareSic=/^737\d$/.test(String(out.coverage.sic || ''));
+ for(const st of ['income','balance','cash']){
+  let annual=type==='stock'?safeRows(rowsData,st,'annualReports',perShareAllowed):[];
+  if(st==='cash' && type==='stock' && softwareSic){
+   annual=annual.map(row=>{
+    if(row.capitalExpenditures!==null || row.softwarePurchases==null || !row._sources?.softwarePurchases?.length)return row;
+    const copy={...row,_sources:{...row._sources},_derivations:{...row._derivations},_scopes:{...row._scopes}};
+    copy.capitalExpenditures=copy.softwarePurchases;
+    copy._sources.capitalExpenditures=[...copy._sources.softwarePurchases];
+    copy._scopes.capitalExpenditures=copy._scopes.softwarePurchases;
+    copy._derivations.capitalExpenditures={formula:'software_capitalisation',inputs:['softwarePurchases'],inputValues:[copy.softwarePurchases]};
+    copy._softwareCapex=true;
+    return copy;
+   });
+  }
+  // A capital-expenditure line the XBRL feed does not carry but the printed cash-flow statement does
+  // (fill-printed-capex.js): taken for the row's own period, cited to the filing it was read from.
+  let printedSources={};
+  const financialIssuer=/^(?:60|61|62|63)\d?/.test(String(out.coverage.sic || ''));
+  if(st==='cash' && type==='stock' && annual.length && !financialIssuer){
+   const filed=require('./committed-supplements').forIssuer(p.cik(company.cik) || 'listing:'+company.symbol.replace(/\./g,'-'))
+    .filter(f=>f.sourceType==='issuer_release' && f.field==='capitalExpenditures' && f.historyBasis==='annual' && f.state==='available' && String(f.sourceIds?.[0] || '').startsWith('sec-print:'));
+   if(filed.length)annual=annual.map(row=>{
+    if(row.capitalExpenditures!==null)return row;
+    const near=filed.find(f=>Math.abs(Date.parse(f.periodEnd)-Date.parse(row.fiscalDateEnding))<=10*864e5 && f.currency===(row.reportedCurrency || f.currency));
+    if(!near)return row;
+    const copy={...row,_sources:{...row._sources},_derivations:{...row._derivations},_scopes:{...row._scopes}};
+    copy.capitalExpenditures=p.number(near.value);
+    copy._sources.capitalExpenditures=[...near.sourceIds];
+    copy._scopes.capitalExpenditures=near.scope || 'entity';
+    copy._derivations.capitalExpenditures={formula:'printed_statement_line',inputs:[],inputValues:[p.number(near.value)]};
+    copy._printedCapex={label:near.definition,receipt:near.receipt || null};
+    for(const id of near.sourceIds)printedSources[id]={type:'sec_printed_statement',cik:p.cik(company.cik),concept:'capitalExpenditures',label:near.definition,unit:near.currency,rawValue:p.number(near.value),periodStart:near.periodStart || null,periodEnd:near.periodEnd,form:near.receipt?.document || null,filingDate:near.publicationDate || null,accessionNumber:(near.sourceVersions || [])[0] || null,filingUrl:near.sourceUrl,linkage:'filed_html_statement',verificationMethod:near.verificationMethod || null,accountingBasis:near.accountingBasis || null,scope:near.scope,retrievedAt:near.retrievedAt || null,extractionVersion:near.extractionVersion || null,supplemental:true};
+    return copy;
+   });
+  }
+  const filedAnnual=type==='stock' && !annual.length?filedAnnualRows(company,st,annual):{rows:[],sources:{}};
+  out[st]={annualReports:[...annual,...filedAnnual.rows].sort((a,b)=>b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)),quarterlyReports:type==='stock'?safeRows(rowsData,st,'quarterlyReports',perShareAllowed):[]};
+  if(filedAnnual.rows.length)out.provenance.sources={...out.provenance.sources,...filedAnnual.sources};
+  if(Object.keys(printedSources).length)out.provenance.sources={...out.provenance.sources,...printedSources};
+ }
  const inc=out.income.annualReports[0];overview.Currency=inc?.reportedCurrency || out.balance.annualReports[0]?.reportedCurrency || 'USD';
  overview.EPS=inc?.dilutedEPS ?? inc?.eps ?? null;
  // An ADR's or foreign filer's EPS stays out of the statement rows, where readers pair it
@@ -118,4 +183,4 @@ function load(symbol,raw) {
 }
 function sourcesFor(data,row,field){return (row?._sources?.[field] || []).map(id=>data?.provenance?.sources?.[id]).filter(Boolean);}
 function getCompanyEvidence(...args){return require('./company-evidence').getCompanyEvidence(...args);}
-module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,sourcesFor,invalidate};
+module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,filedAnnualRows,sourcesFor,invalidate};

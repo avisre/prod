@@ -765,7 +765,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     // company.js.
     if (!askMounted && mountAskFloor) {
       askMounted = true;
-      mountAskFloor({ placeholder: d && d.isFund
+      mountAskFloor({ symbol: sym, placeholder: d && d.isFund
         ? `Ask about ${sym} — fees, holdings, allocation, performance and risk…  (⌘K)`
         : `Ask about ${sym} — answers come from its SEC filings…  (⌘K)` });
     }

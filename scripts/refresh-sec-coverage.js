@@ -9,6 +9,39 @@ const DATA=p.DATA_DIR,REPORT=path.join(DATA,'sec-reporting.json');
 function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
 function args(argv){const o={};for(let i=0;i<argv.length;i++){const name=argv[i];if(['--symbols','--as-of','--max-issuers','--concurrency'].includes(name)){if(!argv[i+1] || argv[i+1].startsWith('--'))throw new Error('Missing value for '+name);o[name]=argv[++i];}else if(['--bootstrap','--weekly','--daily','--audit','--dry-run'].includes(name))o[name]=true;else throw new Error('Unknown option '+name);}return o;}
 function matchingFinancialFile(evidence,file){try{return !!evidence?.financialDigest && p.digest(fs.readFileSync(file,'utf8'))===evidence.financialDigest;}catch(err){if(err.code==='ENOENT')return false;throw err;}}
+// A later filing's comparative balance sheet can present the year's debt without one of the lines the annual face showed
+// (Eaton's Q3 2026 balance sheet no longer shows separate short-term borrowings; Charles River's presents one long-term line),
+// so the presented-lines total cannot be rebuilt and the guard below would refuse the whole quarter. When the parts the row
+// still holds add up to the figure the file already carried, that total is restored from those filed facts, under the one
+// derivation verifiedField accepts for it. Nothing is estimated: every input is a filed figure for the same period, and a
+// construction the verifier refuses is undone.
+function rebuildDebtTotal(data,previous,reportDate){
+ const row=data.balance?.annualReports?.find(r=>r.fiscalDateEnding===reportDate);
+ const old=previous?.balance?.annualReports?.find(r=>r.fiscalDateEnding===reportDate);
+ if(!row || !old || row.shortLongTermDebtTotal!==null)return false;
+ const total=p.number(old.shortLongTermDebtTotal);if(total===null)return false;
+ const held=f=>Array.isArray(row._sources?.[f]) && row._sources[f].length>0 && p.number(row[f])!==null && p.verifiedField(data,row,f);
+ const restore=(inputs,formula,presentedConcepts)=>{
+  const saved={value:row.shortLongTermDebtTotal,sources:row._sources.shortLongTermDebtTotal,scopes:row._scopes?.shortLongTermDebtTotal,derivation:row._derivations?.shortLongTermDebtTotal};
+  row.shortLongTermDebtTotal=total;
+  row._sources.shortLongTermDebtTotal=inputs.flatMap(f=>row._sources[f]);
+  (row._scopes ||= {}).shortLongTermDebtTotal=row._scopes?.[inputs[0]];
+  (row._derivations ||= {}).shortLongTermDebtTotal={formula,inputs,inputValues:inputs.map(f=>row[f]),...(presentedConcepts?{presentedConcepts}:{})};
+  if(p.verifiedField(data,row,'shortLongTermDebtTotal')){data.issues.push({code:'TOTAL_REBUILT_FROM_FILED_PARTS',statement:'balance',basis:'annual',field:'shortLongTermDebtTotal',periodEnd:reportDate});return true;}
+  row.shortLongTermDebtTotal=saved.value;
+  for(const [map,key] of [[row._sources,'sources'],[row._scopes,'scopes'],[row._derivations,'derivation']]){
+   const value=key==='sources'?saved.sources:key==='scopes'?saved.scopes:saved.derivation;
+   if(value===undefined)delete map.shortLongTermDebtTotal;else map.shortLongTermDebtTotal=value;
+  }
+  return false;
+ };
+ if(held('shortTermDebt') && held('longTermDebt') && p.number(row.shortTermDebt)+p.number(row.longTermDebt)===total)return restore(['shortTermDebt','longTermDebt'],'sum_fields');
+ for(const field of ['longTermDebt','shortTermDebt','currentLongTermDebt','shortTermBorrowings']){
+  if(!held(field) || p.number(row[field])!==total || row._sources[field].length!==1)continue;
+  if(restore([field],'sum_presented_lines',[data.sources[row._sources[field][0]].concept]))return true;
+ }
+ return false;
+}
 function universe(){return read(path.join(DATA,'us-companies.json'),{companies:[]}).companies;}
 function issuersFor(list){const issuers=new Map();for(const c of list){if(c.securityType && c.securityType!=='stock')continue;const id=p.cik(c.cik);if(!id)continue;const item=issuers.get(id)||{cik:id,symbols:[],securities:[]};item.symbols.push(c.symbol);item.securities.push(c);issuers.set(id,item);}return [...issuers.values()];}
 function audit(list,report,asOf){
@@ -82,7 +115,7 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
   const previous=read(file,null);
   data=require('../backend/sec-last-good').preserveSameFiling(data,previous,merged);
   const errors=p.validateFinancial(data,issuer.cik,asOf);if(errors.length)throw new Error('INVALID_EXTRACTION: '+errors[0]);
-  const validation=p.classify(merged,data,asOf);
+  let validation=p.classify(merged,data,asOf);
   if(previous && old.latestAnnual && merged.latestAnnual && old.latestAnnual.reportDate===merged.latestAnnual?.reportDate && old.latestAnnual?.form===merged.latestAnnual?.form) {
    const fields=(e,d)=>{
     const annual=e.latestAnnual,accessions=new Set([annual.accessionNumber,...(annual.amendments || []).map(a=>a.accessionNumber)]),found=new Set();
@@ -106,7 +139,8 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
      retainedSameValue.add(st+'.'+field);
     }
    }
-   const lost=[...before].filter(field=>!after.has(field) && !rejected.has(field) && !retainedSameValue.has(field));
+   let lost=[...before].filter(field=>!after.has(field) && !rejected.has(field) && !retainedSameValue.has(field));
+   if(lost.length && lost.length===1 && lost[0]==='balance.shortLongTermDebtTotal' && rebuildDebtTotal(data,previous,merged.latestAnnual.reportDate)){lost=[];validation=p.classify(merged,data,asOf);}
    if(lost.length)throw new Error('EXTRACTION_DISCARDED_VALID_PERIOD: '+lost.join(','));
    if(p.classify(old,previous,asOf).financialCoverage==='ready' && validation.financialCoverage!=='ready')throw new Error('EXTRACTION_DISCARDED_READY_COVERAGE');
   }
@@ -162,4 +196,4 @@ async function main(argv=process.argv.slice(2)) {
  const summary=audit(universe(),report,asOf);console.log(JSON.stringify(summary,null,2));if(summary.networkFailures && summary.successfulSubmissions===0)process.exitCode=1;
 }
 if(require.main===module)main().catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={main,args,audit,issuersFor,refreshIssuer,matchingFinancialFile};
+module.exports={main,args,audit,issuersFor,refreshIssuer,matchingFinancialFile,rebuildDebtTotal};

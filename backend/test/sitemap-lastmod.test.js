@@ -36,8 +36,13 @@ test('lastmod is derived from the data manifest, not from file mtimes', () => {
     assert.match(manifestDay, /^\d{4}-\d{2}-\d{2}$/, 'the manifest must carry a usable generatedAt');
 
     const symbols = manifest.symbols || {};
-    // Per-symbol date when one is recorded, else the manifest-wide refresh date.
-    assert.equal(seo.dataDateFor('AAPL'),require('../public-stock-index').get('AAPL').lastmod);
+    // Per-symbol date when one is recorded, else the manifest-wide refresh date — and a
+    // stock page that gained the headcount section on a later day says so: the headcount
+    // dataset is built separately from the fundamentals manifest (2026-11-04).
+    const headcount = require('../employee-profiles').builtOn();
+    const expected = headcount && headcount > require('../public-stock-index').get('AAPL').lastmod
+        ? headcount : require('../public-stock-index').get('AAPL').lastmod;
+    assert.equal(seo.dataDateFor('AAPL'), expected);
 
     // The load-bearing part: this must NOT be the frozen fallback. On a git
     // checkout the fundamentals file's mtime is "now", so an mtime-derived answer

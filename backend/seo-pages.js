@@ -194,7 +194,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261101-ui52" />
+<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -257,7 +257,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261101-ui52"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261104-fcf1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -361,9 +361,20 @@ function loadDataDates() {
 // The date a symbol's fundamentals actually last changed: its own manifest
 // entry, else the cache-wide refresh date, else the bundled snapshot date.
 function dataDateFor(symbol) {
-    try {const entry=require('./public-stock-index').get(symbol);if(entry?.lastmod)return entry.lastmod;} catch (_) {}
-    const { generatedAt, symbols } = loadDataDates();
-    return symbols[String(symbol || '').toUpperCase()] || generatedAt;
+    // The headcount data is not part of the fundamentals manifest: it is built
+    // separately from the annual reports (scripts/build-employee-counts.js), and a
+    // stock page that gained a workforce section on that date should say so to a
+    // crawler instead of advertising an older lastmod.
+    const headcountBuilt = (() => {
+        try { return require('./employee-profiles').builtOn(); } catch (_) { return null; }
+    })();
+    let filed = null;
+    try {const entry=require('./public-stock-index').get(symbol);if(entry?.lastmod)filed=entry.lastmod;} catch (_) {}
+    if (!filed) {
+        const { generatedAt, symbols } = loadDataDates();
+        filed = symbols[String(symbol || '').toUpperCase()] || generatedAt;
+    }
+    return headcountBuilt && headcountBuilt > filed ? headcountBuilt : filed;
 }
 function maxDate(...dates) { return dates.filter(Boolean).sort().pop() || '2026-07-19'; }
 function staticPageMtime(route) {

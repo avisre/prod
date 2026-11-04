@@ -67,11 +67,14 @@ test('a saved edit replaces that question and everything after it with the new t
 });
 
 test('the chat route: an edit cuts the context, a temporary chat keeps nothing', () => {
-    assert.match(app, /const temporary = \(req\.body && req\.body\.temporary\) === true && !aiPaperCtx;/);
+    // A page-scoped bar (pageSymbol) is temporary too: the Ask floor on a company page must
+    // not inherit another session's history, memory or thread (see ask-page-scope.test.js).
+    assert.match(app, /const temporary = \(\(req\.body && req\.body\.temporary\) === true \|\| !!pageSymbol\) && !aiPaperCtx;/);
     assert.match(app, /const memoryConsent = !temporary && !!\(req\.user && req\.user\.askMemoryEnabled\);/);
     assert.match(app, /const edit = hasThread \? await threadEdit\(userId, threadIdRaw, req\.body && req\.body\.editFrom\) : null;/);
-    // no other chats pulled in as context
-    assert.match(app, /temporary \|\| chatSurface === 'paper' \? \[\] : await aiChat\.recentHistory\(userId\)/);
+    // no other chats pulled in as context — a new chat starts from its own turns only
+    assert.doesNotMatch(app, /aiChat\.recentHistory\(/);
+    assert.match(app, /: clientHistory;/);
     // nothing written: not the rolling history, not the reports, not the thread
     assert.equal((app.match(/result\.source === 'ai' && !temporary && chatSurface !== 'paper'\) aiChat\.saveExchange\(/g) || []).length, 2);
     assert.equal((app.match(/result\.source === 'ai' && !temporary\) saveAskReport\(/g) || []).length, 2);

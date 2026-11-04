@@ -66,8 +66,9 @@ test('Key Points route gates the free tier at KEYPOINTS_FREE_STOCKS, bypasses co
     assert.match(src, /req\.tier === 'free' && KEYPOINTS_FREE_STOCKS > 0/);
     assert.match(src, /code: 'KEYPOINTS_QUOTA'/);
     assert.match(src, /keypointFreeUsage\.claim\(KeypointFreeUsage, keypointFreeContext\(req\), symbol, KEYPOINTS_FREE_STOCKS\)/);
-    // Generation stays Pro-gated and independent of the free-tier quota.
-    assert.match(src, /if \(generate && !isProUser\(req\)\) return res\.status\(402\)/);
+    // Generation is independent of the free-tier quota, and since 2026-11-04 it is no
+    // longer Pro-gated either: a signed-in reader gets the dossier generated on load.
+    assert.doesNotMatch(src, /if \(generate && !isProUser\(req\)\) return res\.status\(402\)/);
     // dossier.js and insights.js call keypoints.extractKeyPoints directly, not
     // through this HTTP route — the quota must never reach them.
     const dossierJs = fs.readFileSync(path.join(__dirname, '..', 'dossier.js'), 'utf8');

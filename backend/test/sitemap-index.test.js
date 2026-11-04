@@ -55,7 +55,11 @@ test('sitemap root is a small index with valid, bounded child shards', () => {
   assert.ok(fs.existsSync(MANIFEST),
     `${MANIFEST} is missing. refresh-fundamentals.js writes it and seo-pages.js reads it for ` +
     `<lastmod>; without it every data-driven URL falls back to ${FROZEN_SNAPSHOT}.`);
-  const manifestDay = require('../public-stock-index').get('AAPL').lastmod;
+  // A stock page carries the later of the fundamentals manifest date and the day the
+  // headcount dataset was built, so the expected date comes from the page's own rule.
+  const lastmodBase = require('../public-stock-index').get('AAPL').lastmod;
+  const headcountDay = require('../employee-profiles').builtOn();
+  const manifestDay = headcountDay && headcountDay > lastmodBase ? headcountDay : lastmodBase;
   assert.match(manifestDay, /^\d{4}-\d{2}-\d{2}$/, 'the manifest must carry a usable generatedAt');
   assert.ok(dates.has(manifestDay),
     `the inventory must be dated from the data manifest (${manifestDay}); got ` +

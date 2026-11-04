@@ -53,8 +53,8 @@ test('a chat belongs to one page: saved, continued, listed, opened and pruned by
 test('the chat route never carries one page\'s conversation into the other', () => {
     assert.match(app, /const chatSurface = aiPaperCtx \? 'paper' : 'ask';/);
     assert.match(app, /AskThread\.exists\(\{ _id: threadIdRaw, userId, \.\.\.surfaceMatch\(chatSurface\) \}\)/);
-    // no fallback to Ask's rolling history, and nothing written into it
-    assert.match(app, /chatSurface === 'paper' \? \[\] : await aiChat\.recentHistory\(userId\)/);
+    // no fallback to Ask's rolling history (a new chat starts empty), and nothing written into it
+    assert.doesNotMatch(app, /aiChat\.recentHistory\(/);
     assert.equal((app.match(/result\.source === 'ai' && !temporary && chatSurface !== 'paper'\) aiChat\.saveExchange\(/g) || []).length, 2);
     assert.doesNotMatch(app, /if \(result\.source === 'ai'\) aiChat\.saveExchange\(/);
     assert.equal((app.match(/saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed, chatSurface, edit \? edit\.index : null, regenerate, result\.checkedFigures\)/g) || []).length, 2);

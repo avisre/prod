@@ -3,7 +3,7 @@
 // Pins the headline-vs-filing money formatter.
 //
 // Why this file exists: three copies of the same formatter (verify.html, the
-// ledger in app.js, and the public verify pages in seo-pages.js) all chose their
+// ledger in app.js, and the public verify pages in verified-seo.js) all chose their
 // decimal from `abs` — the whole dollar amount — instead of from the scaled
 // value. `abs >= 100` is true for every real financial figure, so the decimal
 // branch was dead code and every number printed as a whole unit at its scale:
@@ -25,7 +25,9 @@ const FRONTEND = path.join(__dirname, '../../frontend-v2');
 const sources = {
     'verify.html': fs.readFileSync(path.join(FRONTEND, 'verify.html'), 'utf8'),
     'app.js': fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8'),
-    'seo-pages.js': fs.readFileSync(path.join(__dirname, '..', 'seo-pages.js'), 'utf8')
+    // The public verify pages moved to verified-seo.js in the coverage redesign
+    // (third copy of the same formatter, still inside a template literal).
+    'verified-seo.js': fs.readFileSync(path.join(__dirname, '..', 'verified-seo.js'), 'utf8')
 };
 
 // Lifted verbatim out of verify.html and evaluated, so this asserts real
@@ -81,12 +83,12 @@ test('the two sides of a mismatch can no longer render as the same string', () =
 });
 
 test('all three copies pick the decimal from the scaled value, not the raw amount', () => {
-    // seo-pages.js carries the formatter inside a template literal, where the
+    // verified-seo.js carries the formatter inside a template literal, where the
     // regex is written \\.0$ — so it cannot be evaluated as source and is
     // pinned structurally instead, on the exact expression that was wrong.
     const fixed = 'const one = (v) => { const x = v.toFixed(Math.abs(v) >= 1000 ? 0 : 1);';
     for (const [name, src] of Object.entries(sources)) {
-        const line = name === 'seo-pages.js' ? fixed.replace('\\', '\\\\') : fixed;
+        const line = name === 'verified-seo.js' ? fixed.replace('\\', '\\\\') : fixed;
         assert.ok(src.includes(line), `${name} still chooses its decimal from the raw amount`);
         assert.doesNotMatch(src, /v\.toFixed\(abs >= 100 \? 0 : 1\)/,
             `${name} still carries the dead-code condition`);
