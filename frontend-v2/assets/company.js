@@ -1128,12 +1128,19 @@
         return _earningsCache.value;
     }
     // Trailing earnings per share as of a date, with the base it came from.
+    // Which earnings base is in force: whichever of the trailing twelve months and the
+    // last annual figure was filed later. The old rule preferred the trailing figure only
+    // while it was under 130 days old and otherwise fell back to the annual one, which
+    // meant AMD — whose latest quarter in our data ended 130 days ago — was priced against
+    // a stale full-year EPS: the page printed 190.5× while its own chart ended at 129.5×.
+    // Freshest wins, and the age never silently downgrades to older data.
     function trailingEpsAt(at) {
         const { ttm, annual } = earningsSeries();
-        let lastTtm = null;
+        let lastTtm = null; let lastAnnual = null;
         for (let k = ttm.length - 1; k >= 0; k -= 1) if (ttm[k].t <= at) { lastTtm = ttm[k]; break; }
-        if (lastTtm && at - lastTtm.t <= TTM_MAX_AGE) return { eps: lastTtm.eps, basis: 'ttm' };
-        for (let k = annual.length - 1; k >= 0; k -= 1) if (annual[k].t <= at) return { eps: annual[k].eps, basis: 'annual', fy: annual[k].fy };
+        for (let k = annual.length - 1; k >= 0; k -= 1) if (annual[k].t <= at) { lastAnnual = annual[k]; break; }
+        if (lastTtm && (!lastAnnual || lastTtm.t >= lastAnnual.t)) return { eps: lastTtm.eps, basis: 'ttm' };
+        if (lastAnnual) return { eps: lastAnnual.eps, basis: 'annual', fy: lastAnnual.fy };
         if (lastTtm) return { eps: lastTtm.eps, basis: 'ttm' };
         return null;
     }
@@ -1554,7 +1561,9 @@
         // answers to one question on one page.
         const trail = (price > 0 && quoteCur === reportCur && !hasCurrencyMismatch()) ? trailingEpsAt(Date.now() + 86400000) : null;
         const trailPe = trail && trail.eps > 0 ? price / trail.eps : null;
-        const pe = trailPe !== null ? [fixed(trailPe, 1), trail.basis === 'ttm' ? 'price ÷ the last four filed quarters' : `price ÷ ${trail.fy || fy} diluted EPS`]
+        const pe = trailPe !== null ? [fixed(trailPe, 1),
+            `${currencyAmount(price, quoteCur, { compact: false, decimals: 2 })} ÷ ${fixed(trail.eps, 2)} EPS`
+            + (trail.basis === 'ttm' ? ' (four quarters)' : ` (${trail.fy || fy})`)]
             : num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
             : contNi !== null ? (contNi <= 0 ? ['Loss', `${fy} continuing operations`]
                 : cap > 0 ? [fixed(cap / contNi, 1), `market cap ÷ ${fy} net income from continuing operations`] : ['—'])

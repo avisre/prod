@@ -2717,6 +2717,16 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     // shortened to their opening rows (the harness keeps the full results for
     // the numerical review) and may then be run again.
     const seenCalls = new Map();
+    // url -> Map(offset -> nextOffset). A page fetch is deterministic, so a repeated
+    // offset means the model lost its place: the next passage is served instead of a
+    // refusal, which is what let a 175k-character filing stall at 112k.
+    const fetchedOffsets = new Map();
+    const noteFetch = (url, start, next) => {
+        const k = String(url || '');
+        if (!k) return;
+        if (!fetchedOffsets.has(k)) fetchedOffsets.set(k, new Map());
+        fetchedOffsets.get(k).set(Math.max(0, Math.floor(Number(start) || 0)), next);
+    };
     const compact = () => {
         if (contextBytes < contextLimit * 0.6) return;
         for (let i = 0; i < messages.length - 14; i++) {
@@ -2979,6 +2989,17 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                     let result;
                     const t0 = Date.now();
                     const reused = report ? preparedEvidenceFor(tc.function.name, args) : null;
+                    // Re-asking for a passage already fetched is a paging slip, not a duplicate
+                    // lookup: advance the offset instead of refusing, so a document still gets
+                    // read to the end (the model otherwise loops on the same start offset).
+                    if (tc.function.name === 'fetch_page' && args && args.url) {
+                        const seen = fetchedOffsets.get(String(args.url));
+                        const want = Math.max(0, Math.floor(Number(args.start) || 0));
+                        if (seen && seen.has(want)) {
+                            const after = seen.get(want);
+                            if (after !== null && after !== undefined) { args = { ...args, start: after }; }
+                        }
+                    }
                     // An unbounded run must not pay for the same lookup twice.
                     const spinKey = budget && !/^(?:calculator|remember|manage_|save_|model_trade)/.test(tc.function.name) ? tc.function.name + ':' + JSON.stringify(args) : null;
                     if (spinKey && seenCalls.has(spinKey)) {
@@ -2996,6 +3017,7 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
                         catch (error) { result = evidence.toolError(error); }
                     }
                     if (!result || typeof result !== 'object') result = { error: 'The data tool returned no result.' };
+                    if (tc.function.name === 'fetch_page' && !result.error) noteFetch(args.url, args.start, result.nextStart);
                     return { tc, args, result, ms: Date.now() - t0, reused: Boolean(reused) };
                 };
                 const roundResults = [];
