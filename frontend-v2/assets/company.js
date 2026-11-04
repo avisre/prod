@@ -1561,9 +1561,10 @@
         // answers to one question on one page.
         const trail = (price > 0 && quoteCur === reportCur && !hasCurrencyMismatch()) ? trailingEpsAt(Date.now() + 86400000) : null;
         const trailPe = trail && trail.eps > 0 ? price / trail.eps : null;
-        const pe = trailPe !== null ? [fixed(trailPe, 1),
-            `${currencyAmount(price, quoteCur, { compact: false, decimals: 2 })} ÷ ${fixed(trail.eps, 2)} EPS`
-            + (trail.basis === 'ttm' ? ' (four quarters)' : ` (${trail.fy || fy})`)]
+        // Just the multiple: the price ÷ EPS working was shown here for a while and the
+        // reader asked for it to go (owner, 2026-11-05). The inputs are still the filed
+        // ones, and the tooltip on the row names the base.
+        const pe = trailPe !== null ? [fixed(trailPe, 1)]
             : num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
             : contNi !== null ? (contNi <= 0 ? ['Loss', `${fy} continuing operations`]
                 : cap > 0 ? [fixed(cap / contNi, 1), `market cap ÷ ${fy} net income from continuing operations`] : ['—'])
