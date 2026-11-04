@@ -1707,12 +1707,13 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'fetch_page',
-            description: 'Fetch one https page and return its readable text (capped). Use to read an article from search_web\'s readableArticles, a filing document from search_filings, or a URL the user gave you. For LONG documents (10-Ks, proxies) ALWAYS pass "find" — you get excerpts around each match instead of just the first pages.',
+            description: 'Fetch one https page and return its readable text. Use to read an article from search_web\'s readableArticles, a filing document from search_filings, or a URL the user gave you. A long document is returned in passages: when the reply says more remains it gives nextStart — call again with that value to read on, until you have the whole document. Pass "find" to jump to a keyword instead of reading front to back.',
             parameters: {
                 type: 'object',
                 properties: {
                     url: { type: 'string' },
-                    find: { type: 'string', description: 'Keyword or phrase to locate, e.g. "artificial intelligence". Returns up to 6 excerpts around matches anywhere in the document.' }
+                    find: { type: 'string', description: 'Keyword or phrase to locate, e.g. "artificial intelligence". Returns up to 6 excerpts around matches anywhere in the document. Leave it out to read the document as consecutive passages instead.' },
+                    start: { type: 'integer', description: 'Character offset to continue from, taken from the previous reply\'s nextStart. Omit to read from the beginning.' }
                 },
                 required: ['url']
             }
@@ -2018,6 +2019,14 @@ function pageToText(html) {
 }
 // With a `find` keyword, return windows of text around each match anywhere in
 // the document — the only way to reach page 47 of a 10-K within a char cap.
+const countMatches = (text, find) => {
+    const needle = String(find || '').toLowerCase().trim();
+    if (!needle) return 0;
+    const hay = text.toLowerCase();
+    let n = 0; let i = 0;
+    while ((i = hay.indexOf(needle, i)) !== -1) { n += 1; i += needle.length; }
+    return n;
+};
 function keywordWindows(text, find, cap) {
     const hay = text.toLowerCase();
     const needle = String(find).toLowerCase().trim();
@@ -2036,8 +2045,13 @@ function keywordWindows(text, find, cap) {
     if (!windows.length) return null;
     return windows.join('\n\n').slice(0, cap);
 }
-async function toolFetchPage({ url, find }, depth = 0) {
+async function toolFetchPage({ url, find, start }, depth = 0) {
     const u = String(url || '').trim();
+    // A 10-K runs to ~175k characters of text; the passage cap is 28k for an SEC
+    // document, so the whole filing needs about seven passes. Without an offset the
+    // model could only ever see the front of the document plus keyword excerpts, and
+    // answers to "read the whole thing" were structurally partial.
+    const offset = Math.max(0, Math.min(2_000_000, Math.floor(Number(start) || 0)));
     if (!/^https:\/\//i.test(u)) return { error: 'Only https:// URLs can be fetched.' };
     if (/localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\./.test(u)) {
         return { error: 'That address cannot be fetched.' };
@@ -2056,7 +2070,10 @@ async function toolFetchPage({ url, find }, depth = 0) {
         const html = String(r.data);
         const cap = isSec ? 28000 : 12000;
         const full = pageToText(html);
-        const text = full.slice(0, cap);
+        const from = Math.min(offset, Math.max(0, full.length - 1));
+        const text = full.slice(from, from + cap);
+        const nextStart = from + cap < full.length ? from + cap : null;
+        const span = `${from.toLocaleString('en-US')}–${Math.min(full.length, from + cap).toLocaleString('en-US')} of ${full.length.toLocaleString('en-US')} characters`;
         const currency = isSec ? (require('./ask-filing-currency').declaration(full) || require('./ask-filing-currency').inlineCurrency(html)) : null;
         const currencyReceipt = currency ? { currencyEvidence: { ...currency, sourceUrl: u } } : {};
         // aggregator shells (yahoo /m/ links, consent walls) carry the real
@@ -2071,11 +2088,17 @@ async function toolFetchPage({ url, find }, depth = 0) {
         if (text.length < 200) return { error: 'Page had no readable text (may need JavaScript). Use the headline and source from search_web instead — do not retry.' };
         if (find) {
             const windowed = keywordWindows(full, find, cap);
-            if (windowed) return { url: u, ...currencyReceipt, find: String(find), text: windowed, note: isSec ? 'Text excerpt extracted directly from the linked SEC filing. Attribute filing claims to this document.' : 'Excerpts around each match of your keyword, in document order. Web content — attribute claims to this source.' };
-            return { url: u, find: String(find), text: text.slice(0, 3000), note: `Keyword "${find}" not found in the document (${full.length} chars). Start of the document shown — try a different keyword.` };
+            const hits = countMatches(full, find);
+            if (windowed) {
+                const firstHit = Math.max(0, full.toLowerCase().indexOf(String(find).toLowerCase()) - 600);
+                return { url: u, ...currencyReceipt, find: String(find), matches: hits, text: windowed, start: firstHit,
+                    note: `${isSec ? 'Excerpts extracted directly from the linked SEC filing. Attribute filing claims to this document.' : 'Excerpts around each match of your keyword, in document order. Web content — attribute claims to this source.'} ${Math.min(hits, 6)} excerpt(s) around ${hits} match(es); the document is ${full.length.toLocaleString('en-US')} characters. For the sections around the first match in full, call again with start=${firstHit} and no find.` };
+            }
+            return { url: u, find: String(find), matches: 0, text: text.slice(0, 3000), note: `Keyword "${find}" not found in the document (${full.length} chars). Start of the document shown — try a different keyword.` };
         }
         if (full.length > cap) {
-            return { url: u, ...currencyReceipt, text, note: `${isSec ? 'Text extracted directly from an SEC filing. Attribute filing claims to this document.' : 'Web content — not filed data. Attribute claims to this source.'} TRUNCATED: showing the first ${cap} of ${full.length} chars — for a long document, call fetch_page again with a "find" keyword to jump to the relevant section.` };
+            return { url: u, ...currencyReceipt, text, nextStart,
+                note: `${isSec ? 'Text extracted directly from an SEC filing. Attribute filing claims to this document.' : 'Web content — not filed data. Attribute claims to this source.'} Passage ${span}.${nextStart ? ` More remains — call fetch_page again with start=${nextStart} to read on. Do not restart at 0: the passages already returned are above.` : ' This is the end of the document.'}` };
         }
         return { url: u, ...currencyReceipt, text, note: isSec ? 'Text extracted directly from an SEC filing. Attribute filing claims to this document.' : 'Web content — not filed data. Attribute claims to this source.' };
     } catch (e) {
@@ -2231,6 +2254,7 @@ const ASK_SYSTEM = [
     'CASH DISTRIBUTIONS: use capitalReturns for dividend-plus-buyback coverage. Compare FCF with the SUM of the magnitudes of both cash outflows for the same period. coveredByFreeCashflow=false means distributions exceeded FCF; name the shortfall if relevant. Null means coverage cannot be established. A company may use other financing or existing cash, but do not infer that from this calculation alone.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_technicals gives RSI(14), the 50/200-day averages, the last golden or death cross, volume against its 20-day average and the distance from the 52-week high for one stock; use it for any RSI, moving-average, cross, volume or trend question and state the as-of date. These describe past prices; never present them as a buy, sell or timing signal. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
+    'READING A FILING IN FULL: fetch_page returns one passage at a time and names the offset of the next one in its note. When the reader asks for the whole document (or the answer needs a section you have not seen), keep calling fetch_page with that nextStart until the reply says it reached the end — never restart at 0, never claim the document was read end-to-end while the note still says more remains, and quote the offsets you covered when you summarise.',
     'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "what are the margins, returns, leverage and reinvestment over time" → get_ratios_history (11 ratios, each carrying its own formula and inputs — prefer it over computing them yourself). "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context, whose industryProfile names the metric set and the omissions that matter for this company\'s industry — lead the table with those rows. "companies like X" / "peers of X" / "similar to X" → screen_universe with similar_to=X: it ranks the universe by each company\'s own filed factors resembling X\'s and excludes X itself; add sector only if the user explicitly asks for same-sector companies. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
     'COVERAGE: US exchange-listed companies, including ADRs and foreign reporters, plus US-listed ETFs and ticker-addressable US mutual funds. Honor the returned reporting currency and conversion provenance; missing filings or unsupported metrics must be disclosed. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens currently listed stocks with available fundamentals and returns the actual coverage count. With similar_to it ranks the surviving rows by resemblance to that company\'s own filed factors and excludes the company itself — resemblance, not an industry-peer classification. Do not reject a US-listed ADR solely because its issuer is foreign.',
@@ -2737,6 +2761,13 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
     const PER_COMPANY = ['get_supplemental_context', 'get_unit_economics', 'get_key_points', 'get_governance', 'get_esg', 'get_filing_diff'];
     const overAllowance = (tool, args) => {
         if (WEB_BUDGET[tool] === undefined) return false;
+        // Reading one filing to the end is a single act of research, not four page
+        // views: a 10-K is ~175k characters of text and a 28k passage means seven
+        // passes. Capping SEC reads at the ordinary page allowance is what left
+        // answers quoting the front third of a document (owner-reported, 2026-11-05).
+        if (tool === 'fetch_page' && /^https:\/\/([a-z0-9-]+\.)*sec\.gov\//i.test(String((args && args.url) || ''))) {
+            return ++webUsed[tool] > (budget ? 40 : 12);
+        }
         if (!budget) return ++webUsed[tool] > WEB_BUDGET[tool];
         if (PER_COMPANY.includes(tool)) {
             const key = tool + ':' + String((args && args.symbol) || '').toUpperCase();
