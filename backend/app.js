@@ -2771,20 +2771,32 @@ app.use(seoExtra.router);
 // signals consolidate there. Registered before static so it wins the path.
 const COMPANY_TPL_PATH = path.join(__dirname, '../frontend-v2/company.html');
 let _companyTpl = null;
+let _companyTplMtime = 0;
+// The template carries the asset stamps (?v=...). Cached for ever, an edited stamp
+// never reached the browser — the page kept loading the previous company.js and the
+// fix looked unshipped. Re-read when the file changes; one stat per request.
+function companyTemplate() {
+    try {
+        const st = fs.statSync(COMPANY_TPL_PATH);
+        if (_companyTpl === null || st.mtimeMs !== _companyTplMtime) {
+            _companyTpl = fs.readFileSync(COMPANY_TPL_PATH, 'utf8');
+            _companyTplMtime = st.mtimeMs;
+        }
+    } catch (_) { if (_companyTpl === null) _companyTpl = ''; }
+    return _companyTpl;
+}
 app.get(['/company.html', '/company'], (req, res) => {
-    if (_companyTpl === null) {
-        try { _companyTpl = fs.readFileSync(COMPANY_TPL_PATH, 'utf8'); } catch (_) { _companyTpl = ''; }
-    }
+    if (!companyTemplate()) return res.sendFile(COMPANY_TPL_PATH);
     res.set('Content-Type', 'text/html; charset=utf-8');
-    if (!_companyTpl) return res.sendFile(COMPANY_TPL_PATH);
     const sym = String(req.query.symbol || '').toUpperCase().replace(/[^A-Z0-9.\-]/g, '').slice(0, 10);
     // Tells the page which requests it needs before it sends any: a company only
     // its fundamentals, a fund only its profile. Without it the page waited on the
     // profile (a live quote) just to learn the type. Unknown symbols get no tag.
     const assetType = sym && (require('./stock-universe').lookup(sym)?.securityType || topFunds.find((f) => f.symbol === sym)?.assetType);
+    const base = companyTemplate();
     const tpl = ['stock', 'etf', 'mutual_fund', 'closed_end_fund'].includes(assetType)
-        ? _companyTpl.replace('</head>', () => `  <meta name="sp-asset-type" content="${assetType}" />\n</head>`)
-        : _companyTpl;
+        ? base.replace('</head>', () => `  <meta name="sp-asset-type" content="${assetType}" />\n</head>`)
+        : base;
     const name = sym && seoPages.companyName(sym);
     if (!sym || !name) return res.send(tpl);
     const escAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -3122,7 +3134,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf5" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3151,7 +3163,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261104-fcf1"></script>
+<script src="/assets/app.js?v=20261104-fcf5"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3243,7 +3255,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf5" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3271,7 +3283,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261104-fcf1"></script>
+<script src="/assets/app.js?v=20261104-fcf5"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3379,7 +3391,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261104-fcf5" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3412,7 +3424,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261104-fcf1"></script>
+<script src="/assets/app.js?v=20261104-fcf5"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
