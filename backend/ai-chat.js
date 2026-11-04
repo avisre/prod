@@ -2497,6 +2497,28 @@ async function askFresh({ question, history, ctx, mode, thinking, onEvent }) {
             if (!namesCompany && ![...named].some((t) => t !== page && stockUniverse.lookup(t))) policy = reportPolicy.select(q, mode, { company: pageCompany });
         }
     }
+    // A follow-up in a saved thread names no company but is still about the one the
+    // conversation is about: "what is the bottleneck for dcai revenue growth?" after an
+    // Intel exchange answered "I could not obtain verified data" and called no tool at
+    // all, because the question carried no subject. The most recent company named in the
+    // thread is adopted when the question itself names none.
+    if (!policy.company && !policy.unknownTicker && Array.isArray(history) && history.length) {
+        const pick = (list) => {
+            for (let i = list.length - 1; i >= 0 && i >= list.length - 4; i -= 1) {
+                const text = String((list[i] && list[i].content) || '');
+                const found = new Set();
+                for (const m of text.matchAll(/\$([A-Za-z][A-Za-z0-9.\-]{0,9})\b/g)) found.add(m[1].toUpperCase());
+                for (const m of text.matchAll(/(?:^|[^A-Za-z0-9$])([A-Z][A-Z0-9]{1,4}(?:\.[A-Z])?)(?=$|[^A-Za-z0-9])/g)) found.add(m[2]);
+                const hit = [...found].find((t) => stockUniverse.lookup(t));
+                if (hit) return stockUniverse.lookup(hit);
+            }
+            return null;
+        };
+        // the reader's own words first; the assistant's summary only as a fallback
+        const fromReader = pick(history.filter((m) => m.role === 'user'));
+        const fromThread = fromReader || pick(history);
+        if (fromThread) policy = reportPolicy.select(q, mode, { company: fromThread });
+    }
     // Kept from the first selection: attaching a company later clears it.
     const typedUnknown = policy.unknownTicker;
     if (policy.kind === 'listing_choice') return { answer: 'Which listing would you like: ' + policy.choices.map(c => `${c.symbol} (${c.name})`).join(' or ') + '?', source: 'disambiguation', toolsUsed: [], totalTokens: 0, quality: { policyVersion: reportPolicy.VERSION, checked: true, policy, listingChoice: true, terminalReason: 'listing_choice' } };
