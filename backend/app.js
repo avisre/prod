@@ -14,8 +14,6 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const Stripe = require('stripe');
 const { OAuth2Client } = require('google-auth-library');
-const YahooFinance = require('yahoo-finance2').default;
-const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 const yahooSource = require('./yahoo-source');
 const { buildMarketStripQuote } = require('./market-strip');
 const { tidyQuote } = require('./html-text');
@@ -1268,6 +1266,8 @@ async function connectMongoWithFallback(uri) {
         { event: 1, userId: 1, activationJob: 1 },
         { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
       ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
+      await mongoose.connection.collection('stocks').createIndex({ user: 1, portfolioId: 1 }, { name: 'user_portfolio' })
+        .catch((indexError) => console.warn('[portfolio] holdings index unavailable:', indexError && indexError.message));
       await ensureMeteringIndexes();
       // 🧪 AI Paper Portfolio beta collections — only when the beta env is
       // armed (unset = feature fully off, no collections touched).
@@ -2090,12 +2090,13 @@ const alphaClient = {
     }
 };
 
-// Process-wide gate keeping outbound Alpha calls under their 5-req/sec
-// burst limit. We chain a 220ms wait after each acquired slot so calls
-// start ~4.5/sec, in flight simultaneously. Cache hits skip this entirely
-// because they don't go through fetchAlpha.
+// Process-wide gate spacing outbound history/statement calls. Yahoo has no
+// 5-req/sec cap like Alpha did; 400ms made a ten-holding performance chart wait
+// four seconds just in this queue. 150ms (~6.6 starts/sec) still stops flood
+// loops, and yahoo-finance2's own queue caps concurrency at 4. Cache hits skip
+// this entirely because they don't go through fetchAlpha.
 let _alphaGate = Promise.resolve();
-const ALPHA_MIN_INTERVAL_MS = 400;
+const ALPHA_MIN_INTERVAL_MS = 150;
 async function acquireAlphaSlot() {
     const ready = _alphaGate;
     _alphaGate = _alphaGate.then(() => new Promise((r) => setTimeout(r, ALPHA_MIN_INTERVAL_MS)));
@@ -5772,7 +5773,21 @@ const StockSchema = new mongoose.Schema({
     portfolioId: { type: mongoose.Schema.Types.ObjectId, ref: 'Portfolio', default: null },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
+// Every holdings read filters by user (and portfolio). Production had only _id
+// here (2026-11-05): schema-declared indexes were not being built there, so the
+// connect step also creates this one explicitly.
+StockSchema.index({ user: 1, portfolioId: 1 }, { name: 'user_portfolio' });
 const Stock = mongoose.model('Stock', StockSchema);
+// Holdings read with .lean() skip document hydration; lean skips schema
+// defaults too, so restore the two that callers rely on.
+function holdingRow(doc) {
+    return { assetType: 'stock', portfolioId: null, ...doc };
+}
+// One greppable line per portfolio read, so "the portfolio is slow" can be
+// answered from the Render logs instead of guessed at.
+function logRouteTiming(route, startedAt, extra = '') {
+    console.log(`[timing] route=${route} ms=${Date.now() - startedAt}${extra ? ` ${extra}` : ''}`);
+}
 
 // User-created portfolios. "Main" is implicit (Stock.portfolioId null) and
 // never gets a document here. Names are unique per user, case-insensitive;
@@ -5818,7 +5833,7 @@ async function getCryptoPrice(ticker) {
     const cached = cacheGet(priceCache, yahooSymbol, ALPHA_CACHE_TTL_MS.quote);
     if (typeof cached === 'number' && Number.isFinite(cached)) return cached;
     try {
-        const q = await yahooFinance.quote(yahooSymbol);
+        const q = await yahooSource.liveQuote(yahooSymbol);
         const price = Number(q?.regularMarketPrice);
         if (Number.isFinite(price)) {
             cacheSet(priceCache, yahooSymbol, price);
@@ -5872,7 +5887,7 @@ async function getCompanyProfile(symbol, client = alphaClient) {
     // Crypto: Yahoo carries shortName / longName / typeDisp on its quote.
     if (isCryptoSymbol(ticker)) {
         try {
-            const q = await yahooFinance.quote(toCryptoYahooSymbol(ticker));
+            const q = await yahooSource.liveQuote(toCryptoYahooSymbol(ticker));
             const profile = {
                 name: q?.longName || q?.shortName || ticker,
                 sector: 'Cryptocurrency',
@@ -9937,15 +9952,16 @@ function invalidatePortfolioCaches(userId) {
 }
 
 app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
+    const startedAt = Date.now();
     try {
         const ownerId = portfolioOwnerId(req);
         const storedOnly = String(req.query.prices || '').toLowerCase() === 'stored';
         const scopeFilter = portfolioScopeFilter(req.query.portfolioId);
         if (scopeFilter === false) return res.status(400).json({ message: 'Unknown portfolio.' });
-        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) });
+        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) }).lean();
         const enriched = await Promise.all(portfolio.map(async (stock) => {
             const ticker = safeUpper(stock.symbol);
-            const payload = stock.toObject();
+            const payload = holdingRow(stock);
             payload.symbol = ticker;
             payload.assetType = payload.assetType || 'stock';
             if (!storedOnly) {
@@ -9957,6 +9973,7 @@ app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             }
             return payload;
         }));
+        logRouteTiming('portfolio', startedAt, `holdings=${enriched.length} prices=${storedOnly ? 'stored' : 'live'}`);
         res.json(enriched);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -9970,18 +9987,23 @@ app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
 // "Main" is implicit (holdings with portfolioId null) and is synthesized
 // here with the sentinel id 'main'; user-created portfolios follow.
 app.get('/api/portfolios', authMiddleware, coreGate, async (req, res) => {
+    const startedAt = Date.now();
     try {
         const ownerId = portfolioOwnerId(req);
-        const [mainCount, list] = await Promise.all([
-            Stock.countDocuments({ user: ownerId, portfolioId: null }),
+        // One grouped count instead of one countDocuments per portfolio.
+        const [grouped, list] = await Promise.all([
+            Stock.aggregate([
+                { $match: { user: new mongoose.Types.ObjectId(String(ownerId)) } },
+                { $group: { _id: '$portfolioId', n: { $sum: 1 } } }
+            ]),
             Portfolio.find({ user: ownerId }).sort({ name: 1 }).lean()
         ]);
-        const counts = await Promise.all(list.map((p) =>
-            Stock.countDocuments({ user: ownerId, portfolioId: p._id })));
+        const countFor = new Map(grouped.map((g) => [g._id ? String(g._id) : 'main', g.n]));
         const portfolios = [
-            { id: 'main', name: 'Main', holdingsCount: mainCount },
-            ...list.map((p, i) => ({ id: String(p._id), name: p.name, holdingsCount: counts[i] }))
+            { id: 'main', name: 'Main', holdingsCount: countFor.get('main') || 0 },
+            ...list.map((p) => ({ id: String(p._id), name: p.name, holdingsCount: countFor.get(String(p._id)) || 0 }))
         ];
+        logRouteTiming('portfolios', startedAt, `count=${portfolios.length}`);
         res.json({ portfolios });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
@@ -10045,10 +10067,10 @@ app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) =>
             return res.json({ ...cached.payload, cached: true });
         }
 
-        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) });
+        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) }).lean();
         const enriched = await Promise.all(portfolio.map(async (stock) => {
             const ticker = safeUpper(stock.symbol);
-            const obj = stock.toObject();
+            const obj = holdingRow(stock);
             obj.symbol = ticker;
             try { obj.currentPrice = await getStockPrice(ticker); } catch (_) { /* keep stored price */ }
             return obj;
@@ -11018,6 +11040,7 @@ const _xrayCache = new Map(); // userId -> { at, payload }
 const XRAY_TTL_MS = 60 * 60 * 1000;
 const LOOK_THROUGH_BUDGET_MS = 9000;
 app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
+    const startedAt = Date.now();
     try {
         const ownerId = portfolioOwnerId(req);
         const scope = portfolioScopeKey(req.query.portfolioId);
@@ -11029,9 +11052,9 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
         if (!force && cached && Date.now() - cached.at < (cached.ttl || XRAY_TTL_MS)) {
             return res.json({ ...cached.payload, cached: true });
         }
-        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) });
+        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) }).lean();
         const enriched = await Promise.all(portfolio.map(async (stock) => {
-            const obj = stock.toObject();
+            const obj = holdingRow(stock);
             obj.symbol = safeUpper(stock.symbol);
             try { obj.currentPrice = await getStockPrice(obj.symbol); } catch (_) { /* stored price */ }
             return obj;
@@ -11058,6 +11081,7 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
             ttl: (payload.reveal || !hasFunds) ? XRAY_TTL_MS : 4 * 60 * 1000
         });
         if (_xrayCache.size > 500) _xrayCache.delete(_xrayCache.keys().next().value);
+        logRouteTiming('xray', startedAt, `holdings=${enriched.length}`);
         res.json({ ...payload, cached: false });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
@@ -11116,6 +11140,7 @@ const attribution = require('./attribution');
 const _attribCache = new Map(); // userId -> { at, payload }
 const ATTRIB_TTL_MS = 20 * 60 * 1000;
 app.get('/api/portfolio/attribution', authMiddleware, proGate, async (req, res) => {
+    const startedAt = Date.now();
     try {
         const userId = String(portfolioOwnerId(req));
         const scope = portfolioScopeKey(req.query.portfolioId);
@@ -11124,10 +11149,11 @@ app.get('/api/portfolio/attribution', authMiddleware, proGate, async (req, res) 
         const cacheKey = `${userId}|${scope}`;
         const hit = _attribCache.get(cacheKey);
         if (hit && Date.now() - hit.at < ATTRIB_TTL_MS) return res.json(hit.payload);
-        const holdings = (await Stock.find({ user: userId, ...(scopeFilter || {}) })).map((s) => s.toObject());
+        const holdings = (await Stock.find({ user: userId, ...(scopeFilter || {}) }).lean()).map(holdingRow);
         const payload = await attribution.computeAttribution(holdings);
         _attribCache.set(cacheKey, { at: Date.now(), payload });
         if (_attribCache.size > 500) _attribCache.delete(_attribCache.keys().next().value);
+        logRouteTiming('attribution', startedAt, `holdings=${holdings.length}`);
         res.json(payload);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
@@ -12096,7 +12122,9 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         try {
             profile = await assetProfile.fetchAssetProfile(ticker, { fundDetails: false });
             const quotedPrice = Number(profile.price);
-            if (Number.isFinite(quotedPrice) && quotedPrice > 0) {
+            // a stale profile carries the stored close, not a live price: never let
+            // it into priceCache or the saved holding
+            if (Number.isFinite(quotedPrice) && quotedPrice > 0 && !profile.stale) {
                 livePrice = quotedPrice;
                 cacheSet(priceCache, ticker, livePrice);
             }
@@ -12297,7 +12325,7 @@ app.post('/api/portfolio/import/commit', authMiddleware, coreGate, async (req, r
             try {
                 profile = await assetProfile.fetchAssetProfile(row.symbol, { fundDetails: false }) || {};
                 const quoted = Number(profile.price);
-                if (Number.isFinite(quoted) && quoted > 0) { livePrice = quoted; cacheSet(priceCache, row.symbol, livePrice); }
+                if (Number.isFinite(quoted) && quoted > 0 && !profile.stale) { livePrice = quoted; cacheSet(priceCache, row.symbol, livePrice); }
             } catch (_) { /* unknown ticker or quote outage — reported below */ }
             if (!livePrice) {
                 try { livePrice = await getStockPrice(row.symbol); } catch (_) { /* price fills in later */ }
@@ -13664,6 +13692,12 @@ app.get('/api/sbc/sector-rank', optionalAuth, paidOnlyDataGate, (req, res) => {
 // kept entries.
 const _fundamentalsResponses = new Map();
 const FUNDAMENTALS_RESPONSE_TTL_MS = 10 * 60 * 1000;
+// The live price is baked into that answer, so ten minutes is only safe when the
+// price cannot move: a live quote taken after the close. While the market is open,
+// or when the live quote failed and the overnight close stood in, the answer lives
+// as long as the quote cache (60 s); before 2026-11-06 a fallback close was pinned
+// for the full ten minutes on every page.
+const FUNDAMENTALS_PRICE_TTL_MS = 60 * 1000;
 // A company page is the heaviest thing served, and each entry now keeps up to two
 // compressed copies of it. 60 entries bounds this near 14 MB; at 200 it held ~50 MB
 // on a 512 MiB instance that Render was killing for memory about twice a day.
@@ -13785,7 +13819,7 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         // a crawler's answer skips the live price top-up, so it is kept apart from a reader's
         const responseKey = [symbol, historyDepth, String(req.query.presentationCurrency || '').toUpperCase(), quoteStore.isLikelyCrawler(req.get('user-agent')) ? 'crawler' : 'reader'].join('|');
         const kept = _fundamentalsResponses.get(responseKey);
-        if (kept && Date.now() - kept.at < FUNDAMENTALS_RESPONSE_TTL_MS) return sendFundamentals(req, res, kept, encoding, 'hit');
+        if (kept && Date.now() - kept.at < (kept.ttl || FUNDAMENTALS_RESPONSE_TTL_MS)) return sendFundamentals(req, res, kept, encoding, 'hit');
         // Server-Timing names where a slow miss spent its time (evidence, price top-up, FX, gzip)
         const timing = [];let mark = Date.now();
         const lap = (name) => { const now = Date.now(); timing.push(`${name};dur=${now - mark}`); mark = now; };
@@ -13820,14 +13854,17 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         const body = browserFundamentals(presented);
         lap('fx');
         const plain = JSON.stringify(body);
+        const priceSettled = presented?.marketData?.freshness === 'market_closed';
         const entry = {
             at: Date.now(),
+            ttl: responseKey.endsWith('|crawler') || priceSettled ? FUNDAMENTALS_RESPONSE_TTL_MS : FUNDAMENTALS_PRICE_TTL_MS,
             etag: `W/"${require('crypto').createHash('sha1').update(plain).digest('base64url')}"`
         };
         if (encoding) entry[encoding] = await encodeFundamentals(Buffer.from(plain), encoding);
         else entry.plain = plain;
         lap('compress');
         res.set('Server-Timing', timing.join(', '));
+        if (responseKey.endsWith('|reader')) console.log(`[timing] route=fundamentals symbol=${symbol} ${timing.join(' ')} price=${presented?.marketData?.freshness || 'none'}`);
         if (_fundamentalsResponses.size >= FUNDAMENTALS_RESPONSE_MAX) _fundamentalsResponses.delete(_fundamentalsResponses.keys().next().value);
         _fundamentalsResponses.delete(responseKey);
         // an answer given while a fresh read of the filings is under way is about to

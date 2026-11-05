@@ -210,7 +210,8 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
     };
 
     let quote;
-    try { quote = await yahoo.quote(key); }
+    // chart-first live quote (yahoo-source.liveQuote): quote() alone 429s on the crumb from production
+    try { quote = await require('./yahoo-source').liveQuote(key); }
     catch (error) {
         logYahooError(`quote(${key})`, error);
         const fallback = serveStored(error);

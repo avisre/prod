@@ -12,6 +12,31 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Live prices, faster portfolio, Mongo backup — 2026-11-06 (owner order; committed locally, NOT pushed)
+- **Root cause (Render logs):** Yahoo answers `quote()`'s crumb handshake `429 Too Many Requests` from the Render IP
+  (AMD 2026-11-05T20:09Z, AAPL/INTC/BAC…, ~1 call/hour → IP block, not volume). `quote-store.fetchLive` swallowed it, so
+  every page showed the `quotes.json` overnight close (AMD $488.78 vs live ~$414) and the fundamentals route cached that
+  10 min. `chart()` needs no crumb and works from Render.
+- **Fix:** `yahoo-source.liveQuote` = chart meta first (`quoteFromChartMeta`), `quote()` only if the chart fails, and a
+  crumb failure turns `quote()` off process-wide 15 min; per-symbol in-flight dedupe. `fetchQuote`/`fetchQuoteExtras`,
+  `asset-profile`, crypto price/profile all go through it. `quote-store`: chart lacks P/E, yield, shares, cap → re-priced
+  from the snapshot (`fillFromSnapshot`, ratio live/snap); `[quote] fallback SYM reason=…` logged once/symbol/10 min; a
+  request that outlasts the 2.5 s timeout still fills the cache. Fundamentals response cache 60 s unless the price is
+  `market_closed` (or crawler). Add/import no longer stores a `profile.stale` price.
+- **Portfolio speed:** `stocks` had only `_id` in prod → `{user,portfolioId}` index (schema + explicit `createIndex` at
+  connect); `.lean()` reads (`holdingRow` restores `assetType`/`portfolioId` defaults); `/api/portfolios` one `$group`;
+  outbound gate 400→150 ms. `[timing] route=portfolio|portfolios|xray|attribution|fundamentals` lines in Render logs —
+  read them after the push to get real before/after numbers.
+- Measured locally: AMD live $414.04, P/E 104.44→88.47, cap $798B→$676B; 15 holdings priced 2.1 s cold / 0.85 s warm.
+  Tests `live-quote-chart.test.js`.
+- **Backup:** `scripts/mongo-backup.js` (EJSON gz per collection + indexes + manifest, verify pass) →
+  `~/Downloads/stockportfolio-backups/mongo-20261105T202224Z/` (mode 700). `scripts/mongo-restore.js` refuses non-local
+  targets without `--target-is-production`. `scripts/mongo-storage-report.js` → `storage-report-20261105.md`: 377 MB /
+  512 MB; funnel_events 144 MB (no TTL), insider_form4 85 MB, public_financial_requests 64 MB capped, company_dossiers
+  34 MB, filing_text 28 MB (TTL ok). **Nothing deleted — owner picks from the report.**
+- **Prod is missing schema indexes** (stocks, `pendingsignups` TTL, `*_free_usage`, `users.resetPasswordToken`); cause
+  not found, no errors logged. Not fixed beyond the stocks index.
+
 ## Every income cell filled, no wrong numbers — 2026-11-05 (owner order)
 - Measured with scratch `cell-audit.js` (5 annual / 8 quarterly columns, rows the page shows): visible blank cells
   65,605 → 55,368 (step 1 identities) → 34,654. Remaining: 20,482 never filed for that period (page shows **n/r**),

@@ -535,11 +535,95 @@ function buildNewsItem(item) {
     };
 }
 
+// ---- Live quote: chart first, quote() only as a fallback ----
+//
+// Yahoo's quote endpoint needs a cookie "crumb". From the production host the
+// crumb request is answered 429 Too Many Requests (Render logs, 2026-11-05:
+// AMD, AAPL, INTC, BAC... at ~1 call/hour, so an IP block, not our volume),
+// and every live price silently fell back to the overnight snapshot. The chart
+// endpoint needs no crumb and kept working, and its meta block carries the
+// regular-market price, time, change and 52-week range. So live prices come
+// from chart meta; quote() is tried only when the chart fails, and a crumb
+// failure switches it off process-wide for CRUMB_COOLDOWN_MS instead of
+// paying the failing handshake on every symbol.
+const CRUMB_COOLDOWN_MS = 15 * 60 * 1000;
+let crumbBlockedUntil = 0;
+const liveInflight = new Map(); // yahoo symbol -> Promise
+
+function isCrumbFailure(error) {
+    return /crumb|\b429\b|too many requests/i.test(String((error && error.message) || error || ''));
+}
+
+// Shape chart().meta like a quote() result so every consumer keeps its field
+// names. Fields the chart does not carry (market cap, P/E, shares) stay absent.
+function quoteFromChartMeta(meta, now = Date.now()) {
+    const price = meta && Number(meta.regularMarketPrice);
+    if (!Number.isFinite(price) || price <= 0) return null;
+    const fin = (v) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) ? undefined : Number(v));
+    const pct = fin(meta.regularMarketChangePercent);
+    const dayChange = fin(meta.fulldayChange);
+    const prev = dayChange !== undefined ? price - dayChange
+        : pct !== undefined && pct !== -100 ? price / (1 + pct / 100) : undefined;
+    const reg = meta.currentTradingPeriod && meta.currentTradingPeriod.regular;
+    const start = reg && new Date(reg.start).getTime(), end = reg && new Date(reg.end).getTime();
+    const marketState = Number.isFinite(start) && Number.isFinite(end) ? (now >= start && now < end ? 'REGULAR' : 'CLOSED') : undefined;
+    return {
+        symbol: meta.symbol,
+        regularMarketPrice: price,
+        regularMarketPreviousClose: prev,
+        regularMarketChangePercent: pct !== undefined ? pct : (prev ? (price / prev - 1) * 100 : undefined),
+        regularMarketTime: meta.regularMarketTime,
+        regularMarketDayHigh: fin(meta.regularMarketDayHigh),
+        regularMarketDayLow: fin(meta.regularMarketDayLow),
+        regularMarketVolume: fin(meta.regularMarketVolume),
+        fiftyTwoWeekHigh: fin(meta.fiftyTwoWeekHigh),
+        fiftyTwoWeekLow: fin(meta.fiftyTwoWeekLow),
+        currency: meta.currency,
+        exchange: meta.exchangeName,
+        fullExchangeName: meta.fullExchangeName,
+        longName: meta.longName,
+        shortName: meta.shortName,
+        quoteType: meta.instrumentType,
+        marketState,
+        liveSource: 'chart'
+    };
+}
+
+async function liveQuoteUncached(ys) {
+    let chartError;
+    try {
+        const chart = await yf.chart(ys, { period1: new Date(Date.now() - 7 * 86400000), interval: '1d' });
+        const q = quoteFromChartMeta(chart && chart.meta);
+        if (q) return q;
+        chartError = new Error('chart meta has no price');
+    } catch (error) {
+        chartError = error;
+    }
+    if (Date.now() < crumbBlockedUntil) throw chartError;
+    try {
+        const q = await yf.quote(ys);
+        if (q) q.liveSource = 'quote';
+        return q;
+    } catch (error) {
+        if (isCrumbFailure(error)) crumbBlockedUntil = Date.now() + CRUMB_COOLDOWN_MS;
+        throw chartError;
+    }
+}
+
+// One request per symbol at a time: concurrent callers (portfolio, xray,
+// briefing, attribution on the same page load) share the same Yahoo call.
+function liveQuote(symbol) {
+    const ys = toYahooSymbol(symbol);
+    if (liveInflight.has(ys)) return liveInflight.get(ys);
+    const request = liveQuoteUncached(ys).finally(() => liveInflight.delete(ys));
+    liveInflight.set(ys, request);
+    return request;
+}
+
 // ---- Fetchers ----
 
 async function fetchQuote(symbol) {
-    const ys = toYahooSymbol(symbol);
-    const q = await yf.quote(ys);
+    const q = await liveQuote(symbol);
     return buildGlobalQuote(symbol, q);
 }
 
@@ -548,8 +632,7 @@ async function fetchQuote(symbol) {
 // stale out of the weekly fundamentals blob (market cap, P/E, 52-week range).
 // fetchQuote stays Alpha-Vantage shaped for the legacy consumers.
 async function fetchQuoteExtras(symbol) {
-    const ys = toYahooSymbol(symbol);
-    const q = await yf.quote(ys);
+    const q = await liveQuote(symbol);
     const num = require('./sec-coverage').number;
     return {
         symbol: String(symbol || '').toUpperCase(),
@@ -567,7 +650,8 @@ async function fetchQuoteExtras(symbol) {
         trailingEps: num(q && q.epsTrailingTwelveMonths),
         currency: (q && q.currency) || null,
         asOf: q?.regularMarketTime && Number.isFinite(new Date(q.regularMarketTime).getTime()) ? new Date(q.regularMarketTime).toISOString() : null,
-        marketState:q?.marketState || null
+        marketState:q?.marketState || null,
+        liveSource: q?.liveSource || null
     };
 }
 
@@ -1103,6 +1187,10 @@ module.exports = {
     fetchNewsSearch,
     fetchQuote,
     fetchQuoteExtras,
+    liveQuote,
+    quoteFromChartMeta,
+    _crumbState: { get blockedUntil() { return crumbBlockedUntil; }, reset() { crumbBlockedUntil = 0; liveInflight.clear(); } },
+    _yf: yf,
     fetchOverview,
     fetchIncomeStatement,
     fetchBalanceSheet,

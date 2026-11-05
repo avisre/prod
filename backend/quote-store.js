@@ -141,44 +141,92 @@ function withTimeout(promise, ms) {
     });
 }
 
+// A live price that came from Yahoo's chart endpoint has no market cap, P/E,
+// yield or share count. Keep the snapshot's earnings, dividend and shares and
+// re-price them at the live price, so the ratios move with the price instead
+// of showing the previous session's multiples beside today's price.
+function fillFromSnapshot(quote) {
+    const snap = getDailyQuote(quote.symbol, { useLegacySecShares: false });
+    if (!snap || !(snap.price > 0)) return quote;
+    const r = quote.price / snap.price;
+    const out = { ...quote };
+    if (out.trailingPE === null && snap.trailingPE !== null) out.trailingPE = snap.trailingPE * r;
+    if (out.forwardPE === null && snap.forwardPE !== null) out.forwardPE = snap.forwardPE * r;
+    if (out.dividendYield === null && snap.dividendYield !== null) out.dividendYield = snap.dividendYield / r;
+    if (out.sharesOutstanding === null && snap.sharesOutstanding > 0) out.sharesOutstanding = snap.sharesOutstanding;
+    if (out.marketCap === null) {
+        if (out.sharesOutstanding > 0) out.marketCap = Math.round(out.price * out.sharesOutstanding);
+        else if (snap.marketCap > 0) out.marketCap = Math.round(snap.marketCap * r);
+    }
+    if (out.fiftyTwoWeekHigh === null) out.fiftyTwoWeekHigh = snap.fiftyTwoWeekHigh;
+    if (out.fiftyTwoWeekLow === null) out.fiftyTwoWeekLow = snap.fiftyTwoWeekLow;
+    return out;
+}
+
+// Live failures used to be swallowed, which is how every page sat on the
+// overnight snapshot for days without a trace. One line per symbol per 10 min.
+const failureLogged = new Map();
+function logFallback(key, reason) {
+    const now = Date.now();
+    if (now - (failureLogged.get(key) || 0) < 10 * 60 * 1000) return;
+    failureLogged.set(key, now);
+    if (failureLogged.size > 5000) failureLogged.delete(failureLogged.keys().next().value);
+    console.warn(`[quote] fallback ${key} reason=${String(reason || 'unknown').slice(0, 160)}`);
+}
+
+function liveQuoteFrom(key, data) {
+    const price = data ? num(data.price) : null;
+    if (price === null || price <= 0 || !data.asOf || !Number.isFinite(Date.parse(data.asOf))) return null;
+    return fillFromSnapshot({
+        symbol: key,
+        price,
+        previousClose: num(data.previousClose),
+        changePercent: num(data.changePercent),
+        marketCap: num(data.marketCap),
+        trailingPE: num(data.trailingPE),
+        forwardPE: num(data.forwardPE),
+        dividendYield: num(data.dividendYield),
+        fiftyTwoWeekHigh: num(data.fiftyTwoWeekHigh),
+        fiftyTwoWeekLow: num(data.fiftyTwoWeekLow),
+        sharesOutstanding: num(data.sharesOutstanding),
+        asOf:data.asOf,marketState:data.marketState || null,freshness:data.marketState==='REGULAR'?'delayed':data.marketState?'market_closed':'dated_quote',
+        fetchedAt: new Date().toISOString(),
+        currency: data.currency || null,
+        source: 'live'
+    });
+}
+
 async function fetchLive(symbol) {
     const key = normalize(symbol);
     const hit = liveCache.get(key);
     if (hit && Date.now() - hit.at < TTL_MS) return hit.quote;
     if (inflight.has(key)) return inflight.get(key);
-    if (!takeLiveSlot()) return null;
+    if (!takeLiveSlot()) { logFallback('*', `live budget ${LIVE_PER_MIN}/min exhausted`); return null; }
 
-    const request = (async () => {
-        try {
-            const data = await withTimeout(yahooSource.fetchQuoteExtras(key), TIMEOUT_MS);
-            const price = data ? num(data.price) : null;
-            if (price === null || price <= 0 || !data.asOf || !Number.isFinite(Date.parse(data.asOf))) return null;
-            const quote = {
-                symbol: key,
-                price,
-                previousClose: num(data.previousClose),
-                changePercent: num(data.changePercent),
-                marketCap: num(data.marketCap),
-                trailingPE: num(data.trailingPE),
-                forwardPE: num(data.forwardPE),
-                dividendYield: num(data.dividendYield),
-                fiftyTwoWeekHigh: num(data.fiftyTwoWeekHigh),
-                fiftyTwoWeekLow: num(data.fiftyTwoWeekLow),
-                sharesOutstanding: num(data.sharesOutstanding),
-                asOf:data.asOf,marketState:data.marketState || null,freshness:data.marketState==='REGULAR'?'delayed':data.marketState?'market_closed':'dated_quote',
-                fetchedAt: new Date().toISOString(),
-                currency: data.currency || null,
-                source: 'live'
-            };
+    // A cold Yahoo connection can take longer than the timeout. The caller gets
+    // the snapshot then, but the request is left to finish and fill the cache,
+    // so the next reader of that symbol gets the live price.
+    const live = yahooSource.fetchQuoteExtras(key).then((data) => {
+        const quote = liveQuoteFrom(key, data);
+        if (quote) {
             liveCache.set(key, { at: Date.now(), quote });
             if (liveCache.size > 2000) liveCache.delete(liveCache.keys().next().value);
+        }
+        return quote;
+    });
+    const request = (async () => {
+        try {
+            const quote = await withTimeout(live, TIMEOUT_MS);
+            if (!quote) logFallback(key, 'no price or timestamp in live quote');
             return quote;
-        } catch (_) {
+        } catch (error) {
+            logFallback(key, error && error.message);
             return null;
         } finally {
             inflight.delete(key);
         }
     })();
+    live.catch(() => {}); // a failure landing after the timeout must not become an unhandled rejection
 
     inflight.set(key, request);
     return request;
