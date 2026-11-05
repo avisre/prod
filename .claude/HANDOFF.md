@@ -122,11 +122,15 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - The deploy-skip marker matches anywhere in a commit message; `frontend/data/fundamentals/**` and
   `frontend/data/sec-financials/**` commits must never carry it.
 
-## Unpushed local work from earlier sessions (details in the 10/17 snapshot)
-- Branches `ask-conditions-20261011`, `ask-comparison-fallback-20261011`, and the Ask/AI-Portfolio split, Ask
-  customer-question fixes, account actions, AI Portfolio accounting and controls — all committed locally, NOT pushed.
+## Earlier-session work — now all on origin/main (verified 2026-11-05)
+- The 10/17-snapshot list (`ask-conditions-20261011`, `ask-comparison-fallback-20261011`, the Ask/AI-Portfolio
+  split, Ask customer-question fixes, account actions, AI Portfolio accounting) landed with the October
+  merges; `751f3aaea` (peers tab) and `1bba0cf27` (Ads conversions) are ancestors of origin/main too.
 - `frontend/data/index-members.json` (Nasdaq 100, S&P 100) has no refresh job; redo it at reconstitution.
 - AppSumo listing itself is still live and selling; ending it is the owner's step with AppSumo.
+- Still unpushed: the three WIP stashes (two mcp-server sessions, one 10/16 pre-merge page-copy set) and the
+  untracked `mcp-server/server.json` / `mcp.json` / `.cursor-plugin/` / `assets/` (Cursor-plugin session,
+  never committed) — see `git stash list`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. This Ubuntu checkout has no `mongod` (run the server with a dead
