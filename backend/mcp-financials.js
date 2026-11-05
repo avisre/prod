@@ -305,7 +305,8 @@ const DERIVED = {
         derived_from: ['operating_cash_flow', 'capital_expenditure'],
         compute: (r) => {
             const ocf = num((r.cash || {}).operatingCashflow);
-            const capex = num((r.cash || {}).capitalExpenditures);
+            // a software issuer with no capital-spending line filed that year (verified-fundamentals.js)
+            const capex = (r.cash || {})._noCapexLine ? 0 : num((r.cash || {}).capitalExpenditures);
             return ocf !== null && capex !== null ? ocf - Math.abs(capex) : null;
         }
     },

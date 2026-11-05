@@ -158,7 +158,7 @@
     return String(d.executiveSummaryPlain || d.executiveSummary || '').trim() || deterministicBrief(d);
   }
   function briefParagraphs(text) {
-    const sentences = String(text || '').trim().split(/(?<=[.!?])\s+(?=[A-Z])/).filter(Boolean);
+    const sentences = String(text || '').trim().replace(/([.!?])\s+(?=[A-Z])/g, '$1\u0000').split('\u0000').filter(Boolean);
     return (sentences.length ? sentences : [String(text || '')]).map((sentence) => `<p>${esc(sentence)}</p>`).join('');
   }
   const finCagr = (fin) => {

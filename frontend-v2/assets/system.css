@@ -1570,12 +1570,20 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 /* The desktop nav with search + auth buttons genuinely needs ~1350px; below
    that the links used to wrap onto two lines, so switch to the hamburger
    drawer a little earlier instead. */
+/* Mac laptops render at 1280–1512 CSS px: the core destinations (Screener, Stocks
+   & funds, AI, Portfolio) stay in the bar down to 1024px and the rest fold into
+   "More"; only below 1024px does the bar give way to the hamburger alone. */
+.nav-more { display: none; }
 @media (max-width: 1360px) {
-  .nav-links { display: none; }
-  .nav-search { flex: 1; max-width: 280px; }
+  .nav-links .nav-secondary { display: none; }
+  .nav-links .nav-more { display: inline-flex; }
+  .nav-search { flex: 1; min-width: 150px; max-width: 280px; }
   .nav-inner { gap: 10px; }
   .nav .btn-quiet { display: none; }
   .nav .btn-sm { display: none; }
+}
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
 }
 @media (max-width: 760px) {
   .display { font-size: clamp(30px, 9vw, 40px); }

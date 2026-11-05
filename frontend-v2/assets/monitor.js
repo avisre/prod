@@ -169,7 +169,7 @@
     const raw = String(text || '').trim();
     if (!raw) return '';
     if (/\n|^[-*#]/m.test(raw)) return markdown(raw);
-    const sentences = raw.split(/(?<=[.!?])\s+(?=[A-Z])/).filter(Boolean);
+    const sentences = raw.replace(/([.!?])\s+(?=[A-Z])/g, '$1\u0000').split('\u0000').filter(Boolean);
     return sentences.map((sentence) => `<p>${esc(sentence)}</p>`).join('');
   }
 

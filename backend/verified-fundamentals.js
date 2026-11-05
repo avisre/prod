@@ -90,6 +90,44 @@ function filedAnnualRows(company,st,existing,supplements) {
  }
  return {rows:[...periods.values()].filter(r=>Object.keys(r._sources).length).sort((a,b)=>b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)),sources};
 }
+// Software and internet issuers (SIC 737x) only. Two cases, for annual and quarterly rows alike:
+// - a filed software/intangible purchase and no PP&E line: that purchase stands in as capital
+//   expenditure (Yahoo's method; AppLovin FY2025 $28.3m), marked _softwareCapex;
+// - neither line filed for the whole fiscal year: capital expenditure stays null (shown as a dash,
+//   never a made-up 0) and the row is marked _noCapexLine, so free cash flow equals operating cash
+//   flow (StockAnalysis's method; AppLovin Q2 2026 $869.0m).
+// A row whose neighbours in the same year do file capex is a derivation gap, not a missing line,
+// and keeps no free cash flow.
+const DAY=864e5;
+function softwareCapex(annual,quarters) {
+ const copyOf=row=>({...row,_sources:{...row._sources},_derivations:{...row._derivations},_scopes:{...row._scopes}});
+ const swap=row=>{
+  if(row.capitalExpenditures!==null || row.softwarePurchases==null || !row._sources?.softwarePurchases?.length)return row;
+  const copy=copyOf(row);
+  copy.capitalExpenditures=copy.softwarePurchases;
+  copy._sources.capitalExpenditures=[...copy._sources.softwarePurchases];
+  copy._scopes.capitalExpenditures=copy._scopes.softwarePurchases;
+  copy._derivations.capitalExpenditures={formula:'software_capitalisation',inputs:['softwarePurchases'],inputValues:[copy.softwarePurchases]};
+  copy._softwareCapex=true;
+  return copy;
+ };
+ annual=annual.map(swap);quarters=quarters.map(swap);
+ const end=r=>Date.parse(r.fiscalDateEnding);
+ const hasCapex=r=>r.capitalExpenditures!==null && r.capitalExpenditures!==undefined;
+ const noLine=r=>!hasCapex(r) && p.number(r.operatingCashflow)!==null;
+ const mark=r=>({...copyOf(r),_noCapexLine:true});
+ // annual row: no quarter inside its fiscal year files capex either
+ annual=annual.map(r=>noLine(r) && !quarters.some(q=>end(q)<=end(r) && end(q)>end(r)-360*DAY && hasCapex(q))?mark(r):r);
+ // quarter: the covering annual row (if filed) and every quarter of the same fiscal year have none
+ quarters=quarters.map(q=>{
+  if(!noLine(q))return q;
+  const fy=annual.find(a=>end(a)>=end(q) && end(a)-end(q)<360*DAY);
+  if(fy && hasCapex(fy))return q;
+  const lo=fy?end(fy)-360*DAY:end(q)-280*DAY,hi=fy?end(fy):end(q)+280*DAY;
+  return quarters.some(o=>o!==q && end(o)>lo && end(o)<=hi && hasCapex(o))?q:mark(q);
+ });
+ return {annual,quarters};
+}
 function adapt(company,raw,data,entry,issuer) {
  const type=company.securityType || 'stock';
  // Sector is rebuilt rather than copied: us-companies carries GICS names and the
@@ -112,25 +150,18 @@ function adapt(company,raw,data,entry,issuer) {
  const perShareReason=perShareBasis(company,rowsData,marketData,marketData?.currency || raw?.overview?.Currency || 'USD'),perShareAllowed=!perShareReason;
  if(marketData && !perShareAllowed){marketData.trailingPE=null;marketData.forwardPE=null;marketData.sharesOutstanding=null;}
  if(marketData){overview.MarketCapitalization=p.number(marketData.marketCap);overview.PERatio=p.number(marketData.trailingPE);overview.ForwardPE=p.number(marketData.forwardPE);overview.DividendYield=p.number(marketData.dividendYield);overview['52WeekHigh']=p.number(marketData.fiftyTwoWeekHigh);overview['52WeekLow']=p.number(marketData.fiftyTwoWeekLow);if(perShareAllowed)overview.SharesOutstanding=p.number(marketData.sharesOutstanding);}
- const out={overview,daily:raw?.daily || {},monthly:raw?.monthly || {},marketData,coverage:{annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:rowsData?(entry?.financialCoverage || 'unavailable'):'unavailable',securityType:type,latestAnnual:issuer?.evidence?.latestAnnual || null,lastSuccessfulCheckAt:issuer?.evidence?.lastSuccessfulCheckAt || null,sic:issuer?.evidence?.sic || null,investmentCompany:!!rowsData?.investmentCompany,perShareAllowed,perShareReason,missingReason:!rowsData?'No verified SEC financial observations are available.':null},provenance:{sources:rowsData?.sources || {},financialDigest:issuer?.financialDigest || issuer?.evidence?.financialDigest || null},fetchedAt:rowsData?.fetchedAt || null};
+ const out={overview,daily:raw?.daily || {},monthly:raw?.monthly || {},marketData,coverage:{annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:rowsData?(entry?.financialCoverage || 'unavailable'):'unavailable',securityType:type,latestAnnual:issuer?.evidence?.latestAnnual || null,latestPeriodic:issuer?.evidence?.latestPeriodic || null,latestEarningsRelease:issuer?.evidence?.latestEarningsRelease || null,lastSuccessfulCheckAt:issuer?.evidence?.lastSuccessfulCheckAt || null,sic:issuer?.evidence?.sic || null,investmentCompany:!!rowsData?.investmentCompany,perShareAllowed,perShareReason,missingReason:!rowsData?'No verified SEC financial observations are available.':null},provenance:{sources:rowsData?.sources || {},financialDigest:issuer?.financialDigest || issuer?.evidence?.financialDigest || null},fetchedAt:rowsData?.fetchedAt || null};
  // Software and internet companies that report no property-and-equipment line carry their capital spending
  // as a software/intangible purchase (AppLovin FY2025: $28.3m of intangibles against $0.5m of PP&E). For those
  // businesses alone that filed line stands in as the capital-expenditure input of free cash flow, and the row
  // is marked so the page can name the line it used. Everything else keeps the strict PP&E rule.
  const softwareSic=/^737\d$/.test(String(out.coverage.sic || ''));
+ let softwareQuarters=null;
  for(const st of ['income','balance','cash']){
   let annual=type==='stock'?safeRows(rowsData,st,'annualReports',perShareAllowed):[];
   if(st==='cash' && type==='stock' && softwareSic){
-   annual=annual.map(row=>{
-    if(row.capitalExpenditures!==null || row.softwarePurchases==null || !row._sources?.softwarePurchases?.length)return row;
-    const copy={...row,_sources:{...row._sources},_derivations:{...row._derivations},_scopes:{...row._scopes}};
-    copy.capitalExpenditures=copy.softwarePurchases;
-    copy._sources.capitalExpenditures=[...copy._sources.softwarePurchases];
-    copy._scopes.capitalExpenditures=copy._scopes.softwarePurchases;
-    copy._derivations.capitalExpenditures={formula:'software_capitalisation',inputs:['softwarePurchases'],inputValues:[copy.softwarePurchases]};
-    copy._softwareCapex=true;
-    return copy;
-   });
+   const quarters=safeRows(rowsData,'cash','quarterlyReports',perShareAllowed);
+   ({annual,quarters:softwareQuarters}=softwareCapex(annual,quarters));
   }
   // A capital-expenditure line the XBRL feed does not carry but the printed cash-flow statement does
   // (fill-printed-capex.js): taken for the row's own period, cited to the filing it was read from.
@@ -154,7 +185,7 @@ function adapt(company,raw,data,entry,issuer) {
    });
   }
   const filedAnnual=type==='stock' && !annual.length?filedAnnualRows(company,st,annual):{rows:[],sources:{}};
-  out[st]={annualReports:[...annual,...filedAnnual.rows].sort((a,b)=>b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)),quarterlyReports:type==='stock'?safeRows(rowsData,st,'quarterlyReports',perShareAllowed):[]};
+  out[st]={annualReports:[...annual,...filedAnnual.rows].sort((a,b)=>b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)),quarterlyReports:type==='stock'?(st==='cash' && softwareQuarters) || safeRows(rowsData,st,'quarterlyReports',perShareAllowed):[]};
   if(filedAnnual.rows.length)out.provenance.sources={...out.provenance.sources,...filedAnnual.sources};
   if(Object.keys(printedSources).length)out.provenance.sources={...out.provenance.sources,...printedSources};
  }
@@ -183,4 +214,4 @@ function load(symbol,raw) {
 }
 function sourcesFor(data,row,field){return (row?._sources?.[field] || []).map(id=>data?.provenance?.sources?.[id]).filter(Boolean);}
 function getCompanyEvidence(...args){return require('./company-evidence').getCompanyEvidence(...args);}
-module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,filedAnnualRows,sourcesFor,invalidate};
+module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,softwareCapex,filedAnnualRows,sourcesFor,invalidate};

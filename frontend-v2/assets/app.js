@@ -1425,12 +1425,12 @@
             </a>
             <nav class="nav-links" aria-label="Primary">
               <a href="/screener.html" ${cur('screener')}>Screener</a>
-              <a href="/tools" ${cur('tools')}>Tools</a>
-              <a href="/compare" ${cur('compare')}>Compare</a>
+              <a class="nav-secondary" href="/tools" ${cur('tools')}>Tools</a>
+              <a class="nav-secondary" href="/compare" ${cur('compare')}>Compare</a>
               <a href="/company.html?symbol=AAPL" ${cur('company')}>Stocks &amp; funds</a>
-              <a href="/news.html" ${cur('news')}>Markets</a>
+              <a class="nav-secondary" href="/news.html" ${cur('news')}>Markets</a>
               <div class="nav-dd">
-                <a href="/dossier.html" class="nav-dd-trigger" ${cur('ask') || cur('dossier') || cur('monitor')} aria-haspopup="true">Research <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
+                <a href="/ask.html" class="nav-dd-trigger" ${cur('ask') || cur('dossier') || cur('monitor')} aria-haspopup="true">AI <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
                 <div class="nav-dd-menu" role="menu">
                   <a href="/dossier.html" role="menuitem" ${cur('dossier')}><strong>Research Dossier</strong><span>Full auto-generated report</span></a>
                   <a href="/monitor.html" role="menuitem" ${cur('monitor')}><strong>Filing Monitor</strong><span>What changed in the latest filing</span></a>
@@ -1438,8 +1438,18 @@
                 </div>
               </div>
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
-              <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
-              <a href="/#pricing" ${cur('pricing')}>Pricing</a>
+              <a class="nav-secondary" href="/gurus.html" ${cur('gurus')}>Gurus</a>
+              <a class="nav-secondary" href="/#pricing" ${cur('pricing')}>Pricing</a>
+              <div class="nav-dd nav-more">
+                <a href="/tools" class="nav-dd-trigger" ${cur('tools') || cur('compare') || cur('news') || cur('gurus') || cur('pricing')} aria-haspopup="true">More <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
+                <div class="nav-dd-menu" role="menu">
+                  <a href="/tools" role="menuitem" ${cur('tools')}><strong>Tools</strong><span>Free calculators and screens</span></a>
+                  <a href="/compare" role="menuitem" ${cur('compare')}><strong>Compare</strong><span>Two companies side by side</span></a>
+                  <a href="/news.html" role="menuitem" ${cur('news')}><strong>Markets</strong><span>Indexes and market news</span></a>
+                  <a href="/gurus.html" role="menuitem" ${cur('gurus')}><strong>Gurus</strong><span>Famous investors' portfolios</span></a>
+                  <a href="/#pricing" role="menuitem" ${cur('pricing')}><strong>Pricing</strong><span>Plans</span></a>
+                </div>
+              </div>
             </nav>
             <div class="nav-spacer"></div>
             <div class="nav-search">

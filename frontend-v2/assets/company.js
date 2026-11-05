@@ -477,7 +477,9 @@
         return current!==null && noncurrent!==null ? current+noncurrent : null;
     };
     const fcfOf = (r) => {
-        const ocf = num(r.operatingCashflow); const capex = num(r.capitalExpenditures);
+        // _noCapexLine: a software issuer that files no capital-spending line for the year
+        // (verified-fundamentals.js); free cash flow is its operating cash flow.
+        const ocf = num(r.operatingCashflow); const capex = r._noCapexLine ? 0 : num(r.capitalExpenditures);
         return (ocf !== null && capex !== null) ? ocf + capex : null;
     };
     // Banks and life insurers have no free cash flow (assets/industry-metrics.js):
@@ -489,7 +491,7 @@
     // cash flow where filed and otherwise has no FCF margin.
     const fcfForRevenue = (inc, c) => {
         if (!num(inc.discontinuedOperations)) return fcfOf(c);
-        return fcfOf({ operatingCashflow: c.operatingCashflowContinuing, capitalExpenditures: c.capitalExpenditures });
+        return fcfOf({ operatingCashflow: c.operatingCashflowContinuing, capitalExpenditures: c.capitalExpenditures, _noCapexLine: c._noCapexLine });
     };
     // Capital expenditure set against revenue follows the same rule: a year with a
     // discontinued business and no continuing-operations cash flow has no ratio.
@@ -1090,26 +1092,35 @@
     function earningsSeries() {
         const key = payload;
         if (_earningsCache.for === key) return _earningsCache.value;
-        // A quarter whose EPS field is empty still filed its net income and its share
-        // count: dividing one by the other restores the quarter and keeps the following
-        // twelve-month sums whole. NVIDIA's January quarters arrive without an EPS field,
-        // which is why its trailing figure collapsed to the annual 4.90 and the page showed
-        // 41.8× where the true trailing multiple was 25.9×.
-        const sharePoints = [...((payload.balance || {}).quarterlyReports || []), ...((payload.balance || {}).annualReports || [])]
-            .map((r) => ({ t: Date.parse(r.fiscalDateEnding), sh: num(r.commonStockSharesOutstanding) }))
-            .filter((r) => Number.isFinite(r.t) && r.sh > 0)
-            .sort((a, b) => a.t - b.t);
-        const sharesNear = (t) => {
+        // A quarter whose EPS field is empty (a fourth quarter: the 10-K files only the year)
+        // is restored so the twelve-month sums stay whole. NVIDIA's January quarters arrive
+        // without an EPS field, which is why its trailing figure once collapsed to the annual
+        // 4.90 (41.8× where the true multiple was 25.9×).
+        // 1) full-year diluted EPS minus the three filed quarters of that year, exact by construction;
+        // 2) otherwise net income ÷ the diluted weighted shares of the nearest quarter.
+        // Never the balance-sheet share count: the nearest one could predate a split (Walmart read
+        // a 2012 count and showed 37× against 46.8×).
+        const DAY = 86400000;
+        const qRows = ((payload.income || {}).quarterlyReports || []).map((r) => ({ r, t: Date.parse(r.fiscalDateEnding) })).filter((q) => Number.isFinite(q.t));
+        const yearRows = ((payload.income || {}).annualReports || []).map((r) => ({ t: Date.parse(r.fiscalDateEnding), eps: num(r.dilutedEPS) })).filter((a) => Number.isFinite(a.t) && a.eps !== null);
+        const weightedNear = (t) => {
             let best = null;
-            for (const p of sharePoints) if (p.t <= t && (!best || p.t > best.t)) best = p;
-            return best || sharePoints[0] || null;
+            for (const q of qRows) {
+                const sh = num(q.r.weightedAverageSharesDiluted) ?? num(q.r.weightedAverageSharesOutstanding);
+                if (sh > 0 && Math.abs(q.t - t) < 200 * DAY && (!best || Math.abs(q.t - t) < Math.abs(best.t - t))) best = { t: q.t, sh };
+            }
+            return best;
         };
-        const quarters = ((payload.income || {}).quarterlyReports || [])
-            .map((r) => {
-                const t = Date.parse(r.fiscalDateEnding);
+        const quarters = qRows
+            .map(({ r, t }) => {
                 const filed = num(r.dilutedEPS);
                 if (filed !== null) return { t, eps: filed };
-                const ni = num(r.netIncome); const sh = sharesNear(t);
+                const fy = yearRows.find((a) => Math.abs(a.t - t) <= 10 * DAY);
+                if (fy) {
+                    const earlier = qRows.filter((q) => q.t < t && q.t > t - 340 * DAY && num(q.r.dilutedEPS) !== null);
+                    if (earlier.length === 3) return { t, eps: fy.eps - earlier.reduce((a, q) => a + num(q.r.dilutedEPS), 0) };
+                }
+                const ni = num(r.netIncome); const sh = weightedNear(t);
                 return { t, eps: ni !== null && sh ? ni / sh.sh : null };
             })
             .filter((r) => Number.isFinite(r.t) && r.eps !== null)
@@ -1564,7 +1575,16 @@
         // Just the multiple: the price ÷ EPS working was shown here for a while and the
         // reader asked for it to go (owner, 2026-11-05). The inputs are still the filed
         // ones, and the tooltip on the row names the base.
-        const pe = trailPe !== null ? [fixed(trailPe, 1), 'trailing 12 months']
+        // An earnings release (8-K item 2.02) filed after the newest 10-Q/10-K means the latest
+        // quarter is public but not yet in the filed statements, so the filed trailing figure is a
+        // quarter behind (AMD read 125× against 104×). Until the 10-Q lands, the provider's trailing
+        // multiple, which already includes the release, is shown and labelled as such.
+        const cov = payload.coverage || {};
+        const filedAt = [cov.latestPeriodic?.filingDate, cov.latestAnnual?.filingDate].filter(Boolean).sort().pop() || '';
+        const releaseAhead = !!(cov.latestEarningsRelease?.filingDate && filedAt && cov.latestEarningsRelease.filingDate > filedAt);
+        const providerPe = num((payload.marketData || {}).trailingPE);
+        const pe = releaseAhead && providerPe > 0 ? [fixed(providerPe, 1), `trailing 12 months, provider figure: results released ${cov.latestEarningsRelease.filingDate}, not yet in a filed 10-Q`]
+            : trailPe !== null ? [fixed(trailPe, 1), 'trailing 12 months']
             : num(ov.PERatio) > 0 ? [fixed(ov.PERatio, 1), 'trailing 12 months']
             : contNi !== null ? (contNi <= 0 ? ['Loss', `${fy} continuing operations`]
                 : cap > 0 ? [fixed(cap / contNi, 1), `market cap ÷ ${fy} net income from continuing operations`] : ['—'])
@@ -1756,7 +1776,7 @@
             const c = y.cash || {}; const i = y.income || {};
             return {
                 end: y.end, start: c.periodStart || i.periodStart || null, sbc: num(c.shareBasedCompensation), rev: derive(i).rev,
-                ocf: num(c.operatingCashflow), capex: num(c.capitalExpenditures),
+                ocf: num(c.operatingCashflow), capex: c._noCapexLine ? 0 : num(c.capitalExpenditures),
                 buy: num(c.paymentsForRepurchaseOfCommonStock), dil: num(i.weightedAverageSharesDiluted),
                 out: num((y.balance || {}).commonStockSharesOutstanding),
                 sourceId: ((c._sources || {}).shareBasedCompensation || [])[0] || null
@@ -2606,7 +2626,9 @@
         const notes=[fresh.lastSuccessfulCheckAt?'Filings last checked '+(Number.isNaN(Date.parse(fresh.lastSuccessfulCheckAt))?fresh.lastSuccessfulCheckAt:new Date(fresh.lastSuccessfulCheckAt).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})):null,fresh.backgroundStatus==='running'?'Additional source retrieval is in progress.':null,fresh.backgroundStatus==='capacity_limited'?'Source retrieval is temporarily busy; stored observations and their dates are shown.':null,fresh.lastAttemptResult==='retrieval_failed'?'The freshness check failed; previous dated observations are retained.':fresh.lastAttemptResult==='partial_failure'?'Some source checks failed; last-good observations and remaining gaps are shown.':null].filter(Boolean);
         // A software business that files no property-and-equipment line carries its capital spending as a
         // software/intangible purchase; the row shows it and this names the line, so nobody reads it as PP&E.
-        if((payload?.cash?.annualReports || []).some(r=>r._softwareCapex))notes.push('Capital expenditure here is the software and intangible-asset purchase the company files; it reports no property-and-equipment line for that year, so free cash flow uses that line as its capital spending.');
+        const cashRows=[...(payload?.cash?.annualReports || []),...(payload?.cash?.quarterlyReports || [])];
+        if(cashRows.some(r=>r._softwareCapex))notes.push('Capital expenditure here is the software and intangible-asset purchase the company files; it reports no property-and-equipment line for that year, so free cash flow uses that line as its capital spending.');
+        if(cashRows.some(r=>r._noCapexLine))notes.push('Some periods show no capital expenditure because the company files no capital-spending line for that year (it sits inside other investing activities). For those periods free cash flow equals operating cash flow, the same method StockAnalysis uses.');
         panel.innerHTML=notes.map(n=>'<p class="small faint">'+esc(n)+'</p>').join('')+(facts.length?'<details><summary>Additional attributed financial observations ('+facts.length+')</summary><p class="small faint">Provider observations and issuer-defined measures are separate from the verified GAAP/IFRS statements.</p><div class="table-wrap"><table class="table-data"><thead><tr><th>Field</th><th>Period end</th><th>Value and unit</th><th>Source and date</th></tr></thead><tbody>'+facts.map(f=>'<tr><td>'+esc(f.definition)+'</td><td>'+esc(f.periodEnd)+'</td><td>'+esc(f.value.toLocaleString('en-US'))+' '+esc(f.unit)+(f.presentation?'<br><span class="small faint">converted from '+esc(f.presentation.originalValue.toLocaleString('en-US'))+' '+esc(f.presentation.originalCurrency)+'</span>':'')+'</td><td><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">'+esc(f.sourceName)+'</a> '+esc(f.publicationDate || f.sourceDataDate)+' '+esc(f.sourceDateKind==='retrieval'?'retrieved':'published')+' · '+esc(f.accountingBasis)+'</td></tr>').join('')+'</tbody></table></div></details>':'')+(gaps.length?'<details><summary>Remaining data gaps ('+gaps.length+')</summary><ul>'+gaps.slice(0,20).map(g=>'<li>'+esc([g.field,g.basis,g.reason].filter(Boolean).join(' · '))+'</li>').join('')+'</ul></details>':'');
     }
     function renderStatements() {
@@ -2697,7 +2719,7 @@
             // Airbnb's 10-Ks since FY2023 present no capital-spending line on the cash-flow statement
             // (it sits inside "other investing activities, net"), so those years have no free cash flow.
             const untagged = stState === 'cash' && !noFcf()
-                ? rows.filter((r) => num(r.operatingCashflow) !== null && num(r.capitalExpenditures) === null).map((r) => periodLabel(r, basisState))
+                ? rows.filter((r) => num(r.operatingCashflow) !== null && num(r.capitalExpenditures) === null && !r._noCapexLine).map((r) => periodLabel(r, basisState))
                 : [];
             // A drug developer before its first sale files no revenue line at all (its statement opens with
             // research and development), so revenue and the margins are blank, not zero.

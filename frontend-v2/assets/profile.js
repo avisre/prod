@@ -604,7 +604,7 @@
                 const strings = [];
                 digestExport(parsed, strings, 0);
                 strings.forEach((s) => {
-                    String(s).split(/(?<=[.!?])\s+|\n+/).forEach((piece) => facts.add(piece.replace(/\s+/g, ' ').trim()));
+                    String(s).replace(/([.!?])\s+/g, '$1\n').split(/\n+/).forEach((piece) => facts.add(piece.replace(/\s+/g, ' ').trim()));
                 });
             }
         } catch (_) {

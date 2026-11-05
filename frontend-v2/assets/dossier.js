@@ -679,7 +679,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
   }
 
   function briefParagraphs(text, perParagraph = 1) {
-    const sentences = String(text || '').trim().split(/(?<=[.!?])\s+(?=[A-Z])/).filter(Boolean);
+    const sentences = String(text || '').trim().replace(/([.!?])\s+(?=[A-Z])/g, '$1\u0000').split('\u0000').filter(Boolean);
     const list = sentences.length ? sentences : [String(text || '')];
     const groups = [];
     for (let i = 0; i < list.length; i += perParagraph) groups.push(list.slice(i, i + perParagraph).join(' '));
@@ -1159,7 +1159,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     const last = history[history.length - 1] || {};
     const prev = history[history.length - 2] || {};
     const briefText = String(d.executiveSummaryPlain || d.executiveSummary || '').trim() || deterministicBrief(d);
-    const firstSentence = (briefText.split(/(?<=[.!?])\s+/)[0] || briefText).trim();
+    const firstSentence = (briefText.replace(/([.!?])\s+/, '$1\u0000').split('\u0000')[0] || briefText).trim();
 
     // Verdict score: revenue direction + margin move + FCF-positive years + risk mix.
     let score = 2.5;

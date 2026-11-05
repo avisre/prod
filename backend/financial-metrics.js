@@ -14,7 +14,7 @@ function history(data,slug) {
  return (data[section]?.annualReports || []).map(r=>{
   let value=null,sourceFields=[];
   if(fields[slug]){const field=slug==='eps' && n(r.dilutedEPS)===null?'eps':fields[slug];value=n(r[field]);sourceFields=[field];}
-  if(slug==='free-cash-flow'){value=n(r.operatingCashflow)!==null && n(r.capitalExpenditures)!==null?n(r.operatingCashflow)-Math.abs(n(r.capitalExpenditures)):null;sourceFields=['operatingCashflow','capitalExpenditures'];}
+  if(slug==='free-cash-flow'){const capex=r._noCapexLine?0:n(r.capitalExpenditures);value=n(r.operatingCashflow)!==null && capex!==null?n(r.operatingCashflow)-Math.abs(capex):null;sourceFields=r._noCapexLine?['operatingCashflow']:['operatingCashflow','capitalExpenditures'];}
   if(slug==='total-debt'){value=debt(r);sourceFields=n(r.shortLongTermDebtTotal)!==null?['shortLongTermDebtTotal']:['longTermDebt','shortTermDebt'];}
   if(slug==='dividend-history'){const f=n(r.dividendPayoutCommonStock)!==null?'dividendPayoutCommonStock':'dividendPayout';value=n(r[f])===null?null:Math.abs(n(r[f]));sourceFields=[f];}
   return {period:r.fiscalDateEnding,year:r.fiscalDateEnding.slice(0,4),currency:r.reportedCurrency,value,sourceIds:[...new Set(sourceFields.flatMap(f=>r._sources?.[f] || []))],derived:sourceFields.length>1 || sourceFields.some(f=>r._derivations?.[f]),sourceFields,row:r};
@@ -26,7 +26,7 @@ function screenRow(company,data,usdData=data) {
  const annual=data.coverage.latestAnnual?.reportDate;
  const find=st=>(data[st]?.annualReports || []).find(r=>r.fiscalDateEnding===annual) || {};
  const i=find('income'),b=find('balance'),c=find('cash'),quote=data.marketData;
- const rev=n(i.totalRevenue),ni=n(i.netIncome),ocf=n(c.operatingCashflow),capex=n(c.capitalExpenditures),fcf=ocf!==null && capex!==null?ocf-Math.abs(capex):null;
+ const rev=n(i.totalRevenue),ni=n(i.netIncome),ocf=n(c.operatingCashflow),capex=c._noCapexLine?0:n(c.capitalExpenditures),fcf=ocf!==null && capex!==null?ocf-Math.abs(capex):null;
  const currency=i.reportedCurrency || b.reportedCurrency;
  const dollars=currency==='USD';
  const usdRow=st=>(usdData[st]?.annualReports || []).find(r=>r.fiscalDateEnding===annual) || {};
