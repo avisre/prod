@@ -13595,29 +13595,137 @@ app.get('/api/sbc/sector-rank', (req, res) => {
     res.set('Cache-Control', 'public, max-age=3600').json({ sector, asOf: (sbcSectorTable && sbcSectorTable.asOf) || null, rank });
 });
 
-// The finished answer for a company page is about 2 MB of JSON assembled from
-// its stored statements. Building it took 3-4.5 s on the production CPU, on
-// every visit (measured 2026-10-10: AAPL 2.9 s, NVDA 4.4 s, and still 1.6 s on
-// an immediate repeat). The compressed result is kept for ten minutes, so a
-// second visitor or a reload is served from memory. About 120 KB an entry;
-// 200 entries is ~25 MB.
+// The finished answer for a company page is assembled from its stored statements.
+// Building it took 3-4.5 s on the production CPU, on every visit (measured
+// 2026-10-10: AAPL 2.9 s, NVDA 4.4 s, and still 1.6 s on an immediate repeat). The
+// compressed result is kept for ten minutes, so a second visitor or a reload is
+// served from memory. Since 2026-11-05 the browser copy drops the per-fact source
+// map: 2.9 MB of JSON became 880 KB, ~110 KB brotli on the wire, ~10 MB for the 60
+// kept entries.
 const _fundamentalsResponses = new Map();
 const FUNDAMENTALS_RESPONSE_TTL_MS = 10 * 60 * 1000;
-const FUNDAMENTALS_RESPONSE_MAX = 200;
-function sendFundamentalsGzip(res, gz, state) {
-    res.set({ 'Content-Type': 'application/json; charset=utf-8', 'Content-Encoding': 'gzip', Vary: 'Accept-Encoding', 'X-Fundamentals-Cache': state });
-    res.end(gz);
+// A company page is the heaviest thing served, and each entry now keeps up to two
+// compressed copies of it. 60 entries bounds this near 14 MB; at 200 it held ~50 MB
+// on a 512 MiB instance that Render was killing for memory about twice a day.
+const FUNDAMENTALS_RESPONSE_MAX = 60;
+
+// The browser payload drops the per-fact source map (see fundamentals-payload.js):
+// it is 2.0 MB of a 2.9 MB answer and the page reads one id out of it.
+const { browserFundamentals } = require('./fundamentals-payload');
+
+// A reader revisits the same company all session, and every one of those visits
+// re-downloaded the whole answer because the response carried no validator at all.
+// The tag is a digest of the encoded content, so a data change invalidates it; the
+// browser's next request is a conditional one and gets a 304 of a few hundred bytes.
+const FUNDAMENTALS_CACHE_CONTROL = 'public, max-age=60, stale-while-revalidate=300';
+function fundamentalsEncoding(req) {
+    const accept = String(req.get('accept-encoding') || '');
+    if (/\bbr\b/.test(accept)) return 'br';
+    if (/\bgzip\b/.test(accept)) return 'gzip';
+    return null;
 }
+function encodeFundamentals(buffer, encoding) {
+    const zlib = require('zlib');
+    if (encoding === 'br') return new Promise((resolve, reject) => zlib.brotliCompress(buffer, {
+        params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 5,
+            [zlib.constants.BROTLI_PARAM_SIZE_HINT]: buffer.length
+        }
+    }, (err, out) => (err ? reject(err) : resolve(out))));
+    return new Promise((resolve, reject) => zlib.gzip(buffer, (err, out) => (err ? reject(err) : resolve(out))));
+}
+// The entry keeps compressed copies only. Holding the 900 KB clear-text answer for
+// every company would put ~50 MB back on a 512 MiB instance — the memory the trim was
+// meant to give back — while a compressed copy is a tenth of that. A client that asks
+// for an encoding the entry does not hold yet is served by transcoding the one it has.
+function fundamentalsPlain(kept) {
+    if (kept.plain) return kept.plain;
+    const zlib = require('zlib');
+    if (kept.br) return zlib.brotliDecompressSync(kept.br).toString();
+    if (kept.gzip) return zlib.gunzipSync(kept.gzip).toString();
+    return null;
+}
+async function fundamentalsVariant(kept, encoding) {
+    if (!encoding) return Buffer.from(fundamentalsPlain(kept) || '');
+    if (kept[encoding]) return kept[encoding];
+    const plain = fundamentalsPlain(kept);
+    if (plain === null) return null;
+    kept[encoding] = await encodeFundamentals(Buffer.from(plain), encoding);
+    return kept[encoding];
+}
+async function sendFundamentals(req, res, kept, encoding, state) {
+    res.set({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': FUNDAMENTALS_CACHE_CONTROL,
+        ETag: kept.etag,
+        Vary: 'Accept-Encoding',
+        'X-Fundamentals-Cache': state
+    });
+    if (req.headers['if-none-match'] === kept.etag) { res.status(304).end(); return; }
+    const variant = await fundamentalsVariant(kept, encoding);
+    if (variant === null) { res.status(500).json({ message: 'Fundamentals payload unavailable.' }); return; }
+    if (encoding) res.set('Content-Encoding', encoding);
+    res.end(variant);
+}
+
+// The landing card prints six numbers off AAPL's annual statements, and it used to
+// fetch the entire fundamentals answer to do it: 250 KB on the wire, 2.9 MB decoded,
+// on every homepage view. This answers with those six numbers instead.
+const _heroResponses = new Map();
+const HERO_RESPONSE_TTL_MS = 5 * 60 * 1000;
+const heroNumber = (v) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
+app.get('/api/demo/alpha/hero/:symbol', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol is required' });
+    const kept = _heroResponses.get(symbol);
+    if (kept && Date.now() - kept.at < HERO_RESPONSE_TTL_MS) return res.set('Cache-Control', FUNDAMENTALS_CACHE_CONTROL).json(kept.body);
+    try {
+        let payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol, undefined, undefined, true, { waitMs: 0 })).data;
+        if (!payload) return res.status(404).json({ code: 'VERIFIED_FINANCIALS_UNAVAILABLE', message: 'No covered company was found.' });
+        try {
+            if (payload.income) {
+                const norm = await require('./adjusted-fundamentals').adjusted(symbol);
+                if (norm) payload = norm;
+            }
+        } catch (_) { /* fail-open, same as the page route */ }
+        const inc = (payload.income && payload.income.annualReports) || [];
+        const cash = (payload.cash && payload.cash.annualReports) || [];
+        const bal = (payload.balance && payload.balance.annualReports) || [];
+        const oldest = inc[inc.length - 1] || {};
+        const latest = inc[0] || {};
+        const rev0 = heroNumber(oldest.totalRevenue);
+        const revN = heroNumber(latest.totalRevenue);
+        const years = inc.length - 1;
+        const ni = heroNumber(latest.netIncome);
+        const ocf = heroNumber((cash[0] || {}).operatingCashflow);
+        const capex = heroNumber((cash[0] || {}).capitalExpenditures);
+        const body = {
+            symbol,
+            name: (payload.overview && payload.overview.Name) || symbol,
+            years,
+            revenue: revN,
+            cagrPct: (years > 1 && rev0 > 0 && revN > 0) ? (Math.pow(revN / rev0, 1 / years) - 1) * 100 : null,
+            netMarginPct: ni !== null && revN ? (ni / revN) * 100 : null,
+            fcf: ocf !== null && capex !== null ? ocf + capex : null,
+            shares: heroNumber((bal[0] || {}).commonStockSharesOutstanding)
+        };
+        if (_heroResponses.size >= 200) _heroResponses.delete(_heroResponses.keys().next().value);
+        _heroResponses.set(symbol, { at: Date.now(), body });
+        res.set('Cache-Control', FUNDAMENTALS_CACHE_CONTROL).json(body);
+    } catch (error) {
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Hero data load failed') });
+    }
+});
 app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
-        const acceptsGzip = /\bgzip\b/.test(String(req.get('accept-encoding') || ''));
+        const encoding = fundamentalsEncoding(req);
         // a crawler's answer skips the live price top-up, so it is kept apart from a reader's
         const responseKey = [symbol, historyDepth, String(req.query.presentationCurrency || '').toUpperCase(), quoteStore.isLikelyCrawler(req.get('user-agent')) ? 'crawler' : 'reader'].join('|');
         const kept = _fundamentalsResponses.get(responseKey);
-        if (kept && acceptsGzip && Date.now() - kept.at < FUNDAMENTALS_RESPONSE_TTL_MS) return sendFundamentalsGzip(res, kept.gz, 'hit');
+        if (kept && Date.now() - kept.at < FUNDAMENTALS_RESPONSE_TTL_MS) return sendFundamentals(req, res, kept, encoding, 'hit');
         // Server-Timing names where a slow miss spent its time (evidence, price top-up, FX, gzip)
         const timing = [];let mark = Date.now();
         const lap = (name) => { const now = Date.now(); timing.push(`${name};dur=${now - mark}`); mark = now; };
@@ -13648,18 +13756,24 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         try { if (!payload.employees) payload.employees = require('./employee-profiles').forSymbol(symbol); } catch (_) { /* optional */ }
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
-        const body = await presentFundamentalsCurrency(payload, req.query.presentationCurrency);
+        const presented = await presentFundamentalsCurrency(payload, req.query.presentationCurrency);
+        const body = browserFundamentals(presented);
         lap('fx');
-        if (!acceptsGzip) return res.set('Server-Timing', timing.join(', ')).json(body);
-        const gz = await new Promise((resolve, reject) => require('zlib').gzip(Buffer.from(JSON.stringify(body)), (err, out) => (err ? reject(err) : resolve(out))));
-        lap('gzip');
+        const plain = JSON.stringify(body);
+        const entry = {
+            at: Date.now(),
+            etag: `W/"${require('crypto').createHash('sha1').update(plain).digest('base64url')}"`
+        };
+        if (encoding) entry[encoding] = await encodeFundamentals(Buffer.from(plain), encoding);
+        else entry.plain = plain;
+        lap('compress');
         res.set('Server-Timing', timing.join(', '));
         if (_fundamentalsResponses.size >= FUNDAMENTALS_RESPONSE_MAX) _fundamentalsResponses.delete(_fundamentalsResponses.keys().next().value);
         _fundamentalsResponses.delete(responseKey);
         // an answer given while a fresh read of the filings is under way is about to
         // be replaced, so it is not kept
-        if (body?.freshness?.backgroundStatus !== 'running') _fundamentalsResponses.set(responseKey, { at: Date.now(), gz });
-        sendFundamentalsGzip(res, gz, 'miss');
+        if (presented?.freshness?.backgroundStatus !== 'running') _fundamentalsResponses.set(responseKey, entry);
+        await sendFundamentals(req, res, entry, encoding, 'miss');
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Fundamentals load failed') });
     }

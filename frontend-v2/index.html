@@ -825,21 +825,19 @@
     // The hero card is the real product: live AAPL story strip from the API.
     (async () => {
       try {
-        const r = await fetch('/api/demo/alpha/fundamentals/AAPL');
+        // Six numbers off AAPL's annual statements. This used to fetch the whole
+        // fundamentals answer — 2.9 MB decoded, 250 KB on the wire — to read them,
+        // on every homepage view. /hero is the same data, already reduced.
+        const r = await fetch('/api/demo/alpha/hero/AAPL');
         const p = await r.json();
-        const num = V2.num, money = V2.money, pct = V2.pct;
-        const inc = (p.income || {}).annualReports || [];
-        const cf = (p.cash || {}).annualReports || [];
-        const bal = (p.balance || {}).annualReports || [];
-        const oldest = inc[inc.length - 1] || {};
-        const latest = inc[0] || {};
-        const yrs = inc.length - 1;
-        const rev0 = num(oldest.totalRevenue), revN = num(latest.totalRevenue);
-        const cagr = (rev0 > 0 && revN > 0 && yrs > 1) ? (Math.pow(revN / rev0, 1 / yrs) - 1) * 100 : null;
-        const nm = num(latest.netIncome) !== null && revN ? num(latest.netIncome) / revN * 100 : null;
-        const ocf = num((cf[0] || {}).operatingCashflow), capex = num((cf[0] || {}).capitalExpenditures);
-        const fcf = (ocf !== null && capex !== null) ? ocf + capex : null;
-        const sh = num((bal[0] || {}).commonStockSharesOutstanding);
+        const money = V2.money, pct = V2.pct;
+        const num = (v) => (v === null || v === undefined || !Number.isFinite(Number(v)) ? null : Number(v));
+        const yrs = num(p.years) || 0;
+        const revN = num(p.revenue);
+        const cagr = num(p.cagrPct);
+        const nm = num(p.netMarginPct);
+        const fcf = num(p.fcf);
+        const sh = num(p.shares);
         const cells = [
           ['Revenue', money(revN), cagr === null ? '' : `+${cagr.toFixed(1)}%/yr over ${yrs} yrs`],
           ['Net margin', nm === null ? '—' : pct(nm), 'latest fiscal year'],
@@ -849,7 +847,7 @@
         document.getElementById('live-strip').innerHTML = cells.map(([l, v, s]) =>
           `<div class="kpi"><span class="label">${l}</span><span class="kpi-value" style="font-size:24px;">${v}</span><span class="kpi-sub">${s}</span></div>`).join('');
         document.getElementById('live-prov').textContent =
-          `${inc.length} fiscal years on record — pulled live from the same SEC-filed data you'd be using. Not a mock-up.`;
+          `${yrs + 1} fiscal years on record — pulled live from the same SEC-filed data you'd be using. Not a mock-up.`;
       } catch (_) {
         document.getElementById('live-prov').textContent = 'Live data unavailable right now.';
       }
