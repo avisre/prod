@@ -3105,8 +3105,8 @@ async function handleVerify(req, res) {
         res.status(Number(error.status) || 500).json({ error: error.message || 'Verify failed' });
     }
 }
-app.post('/api/verify', freeToolLimiter, handleVerify);
-app.post('/api/lie', freeToolLimiter, handleVerify); // alias for older links
+app.post('/api/verify', freeToolLimiter, optionalAuth, paidOnlyDataGate, handleVerify);
+app.post('/api/lie', freeToolLimiter, optionalAuth, paidOnlyDataGate, handleVerify); // alias for older links
 
 // Public claim ledger: the last checks run through /api/verify, newest first.
 // A live proof artifact — real headlines checked against real filings, with
@@ -9510,7 +9510,7 @@ app.get('/api/search/:query', authMiddleware, async (req, res) => {
 // Public asset directory for the navigation and add-holding autocomplete.
 // Results are additive: the established stock directory stays first, while
 // Yahoo supplies ETFs and mutual funds that are not SEC operating companies.
-app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
+app.get('/api/assets/search', assetSearchLimiter, optionalAuth, paidOnlyDataGate, async (req, res) => {
     const query = String(req.query.q || req.query.query || '').trim();
     const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 20);
     if (!query) return res.json([]);
@@ -9706,7 +9706,7 @@ app.get('/api/alpha/time-series/daily', authMiddleware, coreGate, async (req, re
 // series (~270KB). Shared 10-min cache across all users.
 const _stripCache = new Map(); // symbols-key -> { at, payload }
 const STRIP_TTL_MS = 10 * 60 * 1000;
-app.get('/api/market/strip', optionalAuth, async (req, res) => {
+app.get('/api/market/strip', optionalAuth, paidOnlyDataGate, async (req, res) => {
     const symbols = String(req.query.symbols || 'SPY,QQQ,DIA,IWM')
         .split(',').map((s) => safeUpper(s.trim())).filter(Boolean).slice(0, 12);
     // The payload is built once and cached for everyone; what a caller may see is
@@ -9851,7 +9851,7 @@ app.get('/api/alpha/news', authMiddleware, coreGate, async (req, res) => {
     }
 });
 
-app.get('/api/news-image', async (req, res) => {
+app.get('/api/news-image', optionalAuth, paidOnlyDataGate, async (req, res) => {
     const targetUrl = String(req.query.url || '').trim();
     if (!(await isSafeNewsImageUrl(targetUrl))) {
         return res.status(400).send('Invalid image URL');
@@ -10076,7 +10076,7 @@ app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) =>
 // Sample briefing for free/logged-out users — demonstrates the feature pre-payment.
 // Uses the demo portfolio with indicative prices; deterministic template (no LLM call).
 let _sampleBriefingCache = null;
-app.get('/api/portfolio/briefing/sample', async (req, res) => {
+app.get('/api/portfolio/briefing/sample', optionalAuth, paidOnlyDataGate, async (req, res) => {
     try {
         if (!_sampleBriefingCache) {
             const demoHoldings = [
@@ -10427,7 +10427,7 @@ const ASK_TRIAL_DISPOSABLE_DOMAINS = new Set(['mailinator.com', 'guerrillamail.c
 function askTrialVerifyToken(email) {
     return jwt.sign({ k: 'ask_email_verify', e: email }, JWT_SECRET, { expiresIn: '3d' });
 }
-app.post('/api/ask-trial/email', askTrialEmailLimiter, async (req, res) => {
+app.post('/api/ask-trial/email', askTrialEmailLimiter, optionalAuth, paidOnlyDataGate, async (req, res) => {
     const email = String((req.body && req.body.email) || '').trim().toLowerCase().slice(0, 254);
     if (!ASK_TRIAL_EMAIL_RE.test(email)) return res.status(400).json({ message: 'Enter a valid email address.' });
     if (ASK_TRIAL_DISPOSABLE_DOMAINS.has(email.split('@')[1] || '')) {
@@ -11222,12 +11222,12 @@ function screenerCriteria(q) {
     return { ...fromClient, ...page, maxLimit: 100 };
 }
 
-app.get('/api/stock-coverage', (req, res) => {
+app.get('/api/stock-coverage', optionalAuth, paidOnlyDataGate, (req, res) => {
     try { const {counts,asOf,generatedAt,policyVersion,datasetId}=require('./public-stock-index').view(); const financialCoverage=require('./financial-coverage').summary(datasetId);res.json({counts,asOf,generatedAt,policyVersion,datasetId,financialCoverage,definition:'Validated issuer with an original 10-K, 20-F or 40-F filed within 15 calendar months, a report period ending within 18 calendar months, and submissions checked within 35 days. That annual report or its verified amendment supplies annual net income, assets, shareholders’ equity, operating cash flow, and revenue or basic/diluted EPS, with exact SEC provenance.'}); }
     catch(error) { res.status(503).json({code:'STOCK_COVERAGE_UNAVAILABLE',message:'Verified coverage is temporarily unavailable.'}); }
 });
 
-app.get('/api/screener', (req, res) => {
+app.get('/api/screener', optionalAuth, paidOnlyDataGate, (req, res) => {
     try {
         const result = aiChat.screenRows(screenerCriteria(req.query || {}));
         res.json({ ...result, sectors: aiChat.sectorList() });
@@ -11237,8 +11237,9 @@ app.get('/api/screener', (req, res) => {
 });
 
 // Peers for the Stocks & funds page: same industry, closest in market value
-// (backend/company-peers.js). Public like the screener it replaces there.
-app.get('/api/company/:symbol/peers', (req, res) => {
+// (backend/company-peers.js). Paid-only like the screener it replaces there
+// (owner decision 2026-11-05).
+app.get('/api/company/:symbol/peers', optionalAuth, paidOnlyDataGate, (req, res) => {
     try {
         const result = require('./company-peers').peersFor(safeUpper(req.params.symbol), aiChat.buildScreenIndex(), { sicFor: require('./ask-industry-profile').sicFor });
         if (!result) return res.status(404).json({ code: 'PEERS_UNAVAILABLE', message: 'No comparable companies are available for this company.' });
@@ -11249,8 +11250,9 @@ app.get('/api/company/:symbol/peers', (req, res) => {
 });
 
 // The income statement, balance sheet and cash-flow statement as the company files them,
-// every line under its own label (backend/as-filed.js). Public like the standardized rows.
-app.get('/api/company/:symbol/as-filed', (req, res) => {
+// every line under its own label (backend/as-filed.js). Paid-only like the
+// standardized rows (owner decision 2026-11-05).
+app.get('/api/company/:symbol/as-filed', optionalAuth, paidOnlyDataGate, (req, res) => {
     const company = require('./stock-universe').lookup(safeUpper(req.params.symbol));
     const doc = company && require('./as-filed').forCik(company.cik);
     if (!doc) return res.status(404).json({ code: 'AS_FILED_UNAVAILABLE', message: 'No filed statements are available for this company.' });
@@ -11260,7 +11262,7 @@ app.get('/api/company/:symbol/as-filed', (req, res) => {
 // Price-trend band under the company chart. The daily universe snapshot
 // answers without an outside call; a symbol it lacks is fetched once and kept
 // six hours, for people only, so a crawl of every page fetches nothing.
-app.get('/api/company/:symbol/technicals', async (req, res) => {
+app.get('/api/company/:symbol/technicals', optionalAuth, paidOnlyDataGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!/^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(symbol)) return res.status(400).json({ code: 'BAD_SYMBOL', message: 'A ticker symbol is required.' });
     const universe = require('./technicals-universe'), row = universe.get(symbol);
@@ -11523,6 +11525,26 @@ function anonCompanyGate(req, res, next) {
     });
 }
 
+// Paid-platform data gate (owner decision 2026-11-05): every product-data
+// route whose pages are behind the wall — the screener index, company
+// statement/peer/insight surfaces, the search box, the market tape, the news
+// image proxy, the briefing sample and the claim-checker — answers only a
+// signed-in paying customer (or an entitled keyed caller) while WALL_PAID_ONLY
+// is on. Unset restores the previous open behaviour with no redeploy, exactly
+// like the other gates. The routes that keep their own looser anonymous
+// allowance in non-paid-only mode (keypoints, insights, segments, the tape)
+// are gated AHEAD of that allowance, so it stays the rollback behaviour and
+// never coexists with paid-only mode.
+function paidOnlyDataGate(req, res, next) {
+    if (!WALL_PAID_ONLY) return next();
+    if (req.apiKeyId) return next();
+    const sub = req.subscription || (req.user && req.user.subscription) || {};
+    if (!subscriptionIsPaid(sub)) {
+        return res.status(402).json({ message: 'A subscription is required. Choose a plan to unlock it.', code: 'SUBSCRIPTION_REQUIRED' });
+    }
+    next();
+}
+
 // Bulk routes charge a day's allowance after the fact. A symbol-scoped route
 // knows its company before the work starts; a tape or a screener only learns its
 // set from the result, so it counts what it is about to disclose. Symbols already
@@ -11691,7 +11713,7 @@ async function insightsGate(req, res, next) {
     }
 }
 
-app.get('/api/company/:symbol/insights', optionalAuth, insightsGate, async (req, res) => {
+app.get('/api/company/:symbol/insights', optionalAuth, paidOnlyDataGate, insightsGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
@@ -11727,7 +11749,7 @@ function keypointFreeContext(req, now = new Date()) {
     return { clientKey, monthKey, expiresAt };
 }
 
-app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
+app.get('/api/company/:symbol/keypoints', optionalAuth, paidOnlyDataGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
@@ -11805,7 +11827,7 @@ app.get('/api/company/:symbol/ownership', optionalAuth, anonCompanyGate, async (
 // Business segments, AI-extracted from the latest 10-K (Pro — the synthesized
 // intelligence is metered; the raw numbers everywhere else stay open).
 const segments = require('./segments');
-app.get('/api/company/:symbol/segments', optionalAuth, insightsGate, async (req, res) => {
+app.get('/api/company/:symbol/segments', optionalAuth, paidOnlyDataGate, insightsGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
@@ -13624,7 +13646,7 @@ app.get('/api/demo/alpha/time-series/daily', async (req, res) => {
 // or the table is missing, so the page simply omits the line.
 const sbcModel = require('../frontend-v2/assets/sbc-model.js');
 const sbcSectorTable = (() => { try { return require('./sbc-sector.json'); } catch (_) { return null; } })();
-app.get('/api/sbc/sector-rank', (req, res) => {
+app.get('/api/sbc/sector-rank', optionalAuth, paidOnlyDataGate, (req, res) => {
     const sector = String(req.query.sector || '').slice(0, 80);
     const pct = Number(req.query.pct);
     const list = sbcSectorTable && sbcSectorTable.sectors && Object.prototype.hasOwnProperty.call(sbcSectorTable.sectors, sector)

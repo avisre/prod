@@ -188,8 +188,11 @@ test('the signed-out Insights allowance keeps its own count, apart from Key Poin
 test('insights and segments let a signed-out visitor through the allowance and keep the Pro gate for accounts', () => {
     const src = appSource();
     assert.match(src, /process\.env\.INSIGHTS_ANON_STOCKS \|\| '20'/);
-    assert.match(src, /app\.get\('\/api\/company\/:symbol\/insights', optionalAuth, insightsGate,/);
-    assert.match(src, /app\.get\('\/api\/company\/:symbol\/segments', optionalAuth, insightsGate,/);
+    // Paid-only mode (owner decision 2026-11-05) closes the anonymous branch
+    // with the shared gate AHEAD of insightsGate, so this allowance survives
+    // only as the rollback behaviour.
+    assert.match(src, /app\.get\('\/api\/company\/:symbol\/insights', optionalAuth, paidOnlyDataGate, insightsGate,/);
+    assert.match(src, /app\.get\('\/api\/company\/:symbol\/segments', optionalAuth, paidOnlyDataGate, insightsGate,/);
     const gate = src.slice(src.indexOf('async function insightsGate('), src.indexOf("app.get('/api/company/:symbol/insights'"));
     assert.match(gate, /if \(req\.user\) return proGate\(req, res, next\);/);
     assert.match(gate, /keypointFreeUsage\.claim\(InsightsAnonUsage, keypointFreeContext\(req\), symbol, INSIGHTS_ANON_STOCKS\)/);

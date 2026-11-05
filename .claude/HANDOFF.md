@@ -178,13 +178,20 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from
-  `backend/data/hosting-ranges.bin`. Hard paywall `WALL_ALL_PAGES` off; `/docs` is the only product surface
-  readable signed out.
-- **Load-bearing:** the visitor IP comes from `marketingAttribution.requestIp()` (CF-Connecting-IP), **never
+  `backend/data/hosting-ranges.bin`. **Paid-platform mode (2026-11-05): `WALL_ALL_PAGES` + `WALL_PAID_ONLY`
+  are ON in production** (set on Render; `backend/prod.env` is the local mirror, loaded by app.js:230).
+  Commit `cbd39434d` closed the page wall to trials, /api/demo, /api/free-tools, the anonymous company
+  allowance and the MCP trial; the follow-up (same day) closed every remaining keyless product-data route
+  via `paidOnlyDataGate` — screener, stock-coverage, company peers/as-filed/technicals/keypoints,
+  insights/segments, assets search, market strip, news-image proxy, briefing sample, sbc sector-rank,
+  POST /api/verify|/api/lie and /api/ask-trial/email. Deliberately public: /api/health(+data), campaign
+  config, checkout/auth config, /api/verify-ledger (public proof artifact), /api/ask-trial/verify.
+  Unset `WALL_PAID_ONLY` restores the open behaviour with no redeploy.
+- **`GEO_WALL` load-bearing:** the visitor IP comes from `marketingAttribution.requestIp()` (CF-Connecting-IP), **never
   `req.ip`**; the crawler exemption is required (Googlebot/Bingbot crawl from hosting ranges).
 - **The MCP transport is the one surface the walls do not decide**; entitlement resolves at `tools/call` as tool
   errors.
-- **Unclosed:** ~25 keyless `/api/*` endpoints serve product data with no auth and no country check.
+- Anonymous Ask stays off in production (`ALLOW_ANON_AI` unset → `ANON_ASK_LIMIT=0`).
 
 ## SEO / discovery — measured; do not re-derive
 - **The bottleneck is indexing and site-level trust**: Google ~340 human impressions/month, ~0 clicks, median

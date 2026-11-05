@@ -230,3 +230,54 @@ test('the connector trial is fully retired when MCP_TRIAL_DAYS=0', () => {
     const guarded = source.split('\n').filter((line) => /mcpTrial\.config\(\)\.days (<=|>) 0/.test(line));
     assert.ok(guarded.length >= 4, `trial routing guards config days (found ${guarded.length}, need >= 4: consent, connectorUsable, /mcp, /mcp/apps)`);
 });
+
+test('the remaining keyless product-data routes close with the platform', () => {
+    // Owner decision 2026-11-05 (continued): WALL_ALL_PAGES walls every page,
+    // so no public page legitimately calls these any more — the only remaining
+    // anonymous callers are machines. One shared gate refuses them while the
+    // switch is on and restores the previous open behaviour when it is off.
+    const source = appSource();
+    assert.match(source, /function paidOnlyDataGate\(req, res, next\) \{\s*if \(!WALL_PAID_ONLY\) return next\(\);\s*if \(req\.apiKeyId\) return next\(\);/,
+        'the gate is flag-gated and keyed callers pass');
+    const gate = source.slice(source.indexOf('function paidOnlyDataGate'), source.indexOf('function paidOnlyDataGate') + 900);
+    assert.match(gate, /subscriptionIsPaid\(sub\)/);
+    assert.match(gate, /code: 'SUBSCRIPTION_REQUIRED'/);
+    // Every route must resolve the session (optionalAuth) BEFORE the gate, or
+    // a signed-in paying customer would be refused like a machine.
+    for (const route of [
+        "app.get('/api/assets/search', assetSearchLimiter, optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/market/strip', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/news-image', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/portfolio/briefing/sample', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/stock-coverage', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/screener', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/company/:symbol/peers', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/company/:symbol/as-filed', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/company/:symbol/technicals', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/company/:symbol/keypoints', optionalAuth, paidOnlyDataGate,",
+        "app.get('/api/company/:symbol/insights', optionalAuth, paidOnlyDataGate, insightsGate,",
+        "app.get('/api/company/:symbol/segments', optionalAuth, paidOnlyDataGate, insightsGate,",
+        "app.get('/api/sbc/sector-rank', optionalAuth, paidOnlyDataGate,",
+        "app.post('/api/verify', freeToolLimiter, optionalAuth, paidOnlyDataGate,",
+        "app.post('/api/lie', freeToolLimiter, optionalAuth, paidOnlyDataGate,",
+        "app.post('/api/ask-trial/email', askTrialEmailLimiter, optionalAuth, paidOnlyDataGate,"
+    ]) {
+        assert.ok(source.includes(route), `gated: ${route.slice(0, 52)}`);
+    }
+});
+
+test('the public surfaces that stay public are deliberate', () => {
+    // Health (uptime monitors), the campaign config (public marketing pages),
+    // the checkout/config routes, the claim ledger (a live public proof
+    // artifact, read-only, marketing) and the ask-trial verify link (a cookie
+    // set by an emailed link) are not product data and stay open in paid-only
+    // mode. Pinned so a future sweep cannot wall the uptime monitor by mistake.
+    const source = appSource();
+    assert.match(source, /app\.get\('\/api\/health', \(req, res\)/);
+    assert.match(source, /app\.get\('\/api\/health\/data', \(req, res\)/);
+    assert.match(source, /app\.get\('\/api\/campaign\/config', \(req, res\)/);
+    assert.match(source, /app\.get\('\/api\/verify-ledger', async \(req, res\)/);
+    assert.match(source, /app\.get\('\/api\/ask-trial\/verify', async \(req, res\)/);
+    // None of the gated routes accidentally lost its own gate to a copy-paste.
+    assert.doesNotMatch(source, /app\.get\('\/api\/stock-coverage', optionalAuth, optionalAuth/);
+});

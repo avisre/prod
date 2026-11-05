@@ -18,12 +18,12 @@
 // 12 symbols per request, so one visitor could reach the whole 3,840-company
 // universe in ~320 requests.
 //
-// Not covered here, deliberately: /api/screener. It is advertised as free and
-// unmetered in the docs page, the landing page's structured data and the AppSumo
-// listing, it reads a local precomputed index with no provider call, and it
-// returns filed fundamentals that the SEC publishes. Clipping it would contradict
-// published copy to protect data we already give away; the measurement is in
-// .claude/HANDOFF.md for the owner to decide on, not a call to make silently.
+// Not covered here, deliberately: /api/screener. It reads a local precomputed
+// index with no provider call and returns filed fundamentals the SEC publishes.
+// Since the owner's paid-platform decision (2026-11-05) it is closed to
+// anonymous callers by the shared WALL_PAID_ONLY gate (hard-paywall.test.js),
+// so its remaining risk is index-serving bandwidth only, and this file's
+// tape tests no longer need to argue about it.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -79,9 +79,10 @@ test('the tape has its own budget, not a share of the research allowance', () =>
 
 test('the tape clips the shared payload instead of refusing the page', () => {
     const body = routeBody("app.get('/api/market/strip'");
-    // optionalAuth first: without it req.user is always undefined here and a
-    // signed-in customer would be clipped like an anonymous visitor.
-    assert.match(body.slice(0, 60), /^app\.get\('\/api\/market\/strip', optionalAuth, async/);
+    // optionalAuth first, then the paid-only gate (2026-11-05): without optionalAuth
+    // req.user is always undefined here and a signed-in customer would be clipped
+    // like an anonymous visitor.
+    assert.match(body.slice(0, 80), /^app\.get\('\/api\/market\/strip', optionalAuth, paidOnlyDataGate, async/);
     assert.match(body, /anonStripAllowance\.keep\(req, symbols\)/);
     assert.match(body, /limited: true, limit: anonStripAllowance\.perDay/);
     assert.match(body, /Cache-Control', 'no-store'/, 'a clipped answer is not cacheable');
@@ -107,7 +108,7 @@ test('the symbol lookup is cached and separately rate limited', () => {
     // real traffic.
     assert.match(source, /await fetchAlphaCached\('SYMBOL_SEARCH', \{ keywords: query \}, ALPHA_CACHE_TTL_MS\.search\)/);
     assert.match(source, /search: 5 \* 60 \* 1000/);
-    assert.match(source, /app\.get\('\/api\/assets\/search', assetSearchLimiter, async/);
+    assert.match(source, /app\.get\('\/api\/assets\/search', assetSearchLimiter, optionalAuth, paidOnlyDataGate, async/);
     assert.match(source, /const assetSearchLimiter = rateLimit\(\{/);
     // The client falls back to its bundled company list when this refuses, so
     // the refusal degrades an honest visitor's autocomplete rather than breaking it.

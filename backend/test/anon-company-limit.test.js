@@ -146,10 +146,12 @@ test('the route that does live SEC work resolves the session before counting', (
     const filings = source.slice(source.indexOf("app.get('/api/company/:symbol/filings'"));
     assert.match(filings.slice(0, 120), /optionalAuth, anonCompanyGate, async/);
     // The two allowances that already gate themselves are deliberately left
-    // alone: keypoints (5 stocks a month) is tighter than this, and the filing
-    // monitor report has MONITOR_FREE_STOCKS with its own polling rules.
+    // alone: the filing monitor report has MONITOR_FREE_STOCKS with its own
+    // polling rules. Keypoints keeps its own allowance, but since the owner's
+    // paid-platform decision (2026-11-05) it is closed to anonymous callers
+    // by the shared WALL_PAID_ONLY gate ahead of that allowance.
     const keypoints = source.slice(source.indexOf("app.get('/api/company/:symbol/keypoints'"));
-    assert.match(keypoints.slice(0, 90), /optionalAuth, async/, 'keypoints keeps its own allowance');
+    assert.match(keypoints.slice(0, 90), /optionalAuth, paidOnlyDataGate, async/, 'keypoints carries the paid-only gate ahead of its own allowance');
 });
 
 test('the admin route exposes the limit and how often it bites', () => {
