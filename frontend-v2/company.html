@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261105-fill1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261106-scr1" />
 </head>
 <body>
   <main>
@@ -135,9 +135,11 @@
               <button aria-pressed="false" data-st="balance">Balance</button>
               <button aria-pressed="false" data-st="cash">Cash flow</button>
             </div>
-            <div class="seg" id="seg-lines" role="group" aria-label="Line items" hidden>
-              <button aria-pressed="true" data-lines="standard" title="The same rows for every company">Standardized</button>
+            <div class="seg" id="seg-lines" role="group" aria-label="Statement layout" hidden>
+              <button aria-pressed="true" data-lines="standard" title="The same rows for every company">Standard</button>
+              <button aria-pressed="false" data-lines="industry" title="The lines this industry files, with the ratios it is judged by">Industry</button>
               <button aria-pressed="false" data-lines="filed" title="Every line as the company files it, under its own labels">As filed</button>
+              <button aria-pressed="false" data-lines="analyst" title="The filed figures regrouped by how the business earns and funds itself">Analyst</button>
             </div>
             <button class="btn btn-ghost btn-sm" id="stmt-expand" type="button" aria-expanded="false" aria-controls="stmt-table" hidden>Expand all</button>
             <button class="btn btn-ghost btn-sm stmt-trend-toggle" id="stmt-trend-toggle" type="button" aria-expanded="true" aria-controls="stmt-table" aria-label="Show 5-year trend" hidden>Show 5Y trend</button>
@@ -321,9 +323,9 @@
     <div id="seg-body"></div>
   </aside>
 
-  <script src="assets/app.js?v=20261105-fill1"></script>
-  <script src="assets/sbc-model.js?v=20261105-fill1"></script>
-  <script src="assets/industry-metrics.js?v=20261105-fill1"></script>
-  <script src="assets/company.js?v=20261105-fill1"></script>
+  <script src="assets/app.js?v=20261106-scr1"></script>
+  <script src="assets/sbc-model.js?v=20261106-scr1"></script>
+  <script src="assets/industry-metrics.js?v=20261106-scr1"></script>
+  <script src="assets/company.js?v=20261106-scr1"></script>
 </body>
 </html>

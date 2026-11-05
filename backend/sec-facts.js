@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261105-parts1';
+const EXTRACTION_VERSION = '20261106-scr1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -100,7 +100,13 @@ const MAPS = {
   interestCreditedToPolicyholders:mapping(['InterestCreditedToPolicyholdersAccountBalances'],[]),
   policyholderDividends:mapping(['PolicyholderDividends'],[]),
   // The insurer's own total of benefits, losses and expenses (all eight insurers above file it).
-  totalBenefitsAndExpenses:mapping(['BenefitsLossesAndExpenses'],[])
+  totalBenefitsAndExpenses:mapping(['BenefitsLossesAndExpenses'],[]),
+  // The lines under Screener's Expenses + and Net Profit + (2026-11-06): staff cost, the minority's share of profit
+  // and profit from associates. Fill-only, like the industry lines above. Staff cost reads the all-in labor line
+  // first; salaries alone (without benefits) only when nothing wider is filed.
+  employeeCost:mapping(['LaborAndRelatedExpense','EmployeeBenefitsAndShareBasedCompensation','SalariesWagesAndOfficersCompensation','SalariesAndWages'],[]),
+  minorityShare:mapping(['NetIncomeLossAttributableToNoncontrollingInterest'],[]),
+  associatesProfit:mapping(['IncomeLossFromEquityMethodInvestments'],[])
  },
  balance: {
   // Total liabilities and equity equals total assets on every balance sheet; a
@@ -207,7 +213,13 @@ const MAPS = {
   unearnedPremiums:mapping(['UnearnedPremiums'],[]),
   futurePolicyBenefits:mapping(['LiabilityForFuturePolicyBenefits'],[]),
   policyholderAccountBalances:mapping(['PolicyholderContractDeposits'],[]),
-  separateAccountLiabilities:mapping(['SeparateAccountsLiability'],[])
+  separateAccountLiabilities:mapping(['SeparateAccountsLiability'],[]),
+  // Screener's Other Liabilities + (non-controlling interest), Fixed Assets + (gross block, accumulated
+  // depreciation) and CWIP. Fill-only.
+  minorityInterest:mapping(['MinorityInterest'],[]),
+  ppeGross:mapping(['PropertyPlantAndEquipmentGross'],[]),
+  accumulatedDepreciation:mapping(['AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment'],[]),
+  constructionInProgress:mapping(['ConstructionInProgressGross'],[])
  },
  cash: {
   operatingCashflow:mapping(['NetCashProvidedByUsedInOperatingActivities','NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivities','CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
@@ -271,7 +283,20 @@ const MAPS = {
   proceedsFromIssuanceOfCommonStock:mapping(['ProceedsFromIssuanceOfCommonStock','ProceedsFromStockOptionsExercised','ProceedsFromIssuanceOrSaleOfEquity'],['ProceedsFromIssueOfOrdinaryShares','ProceedsFromIssuingShares']),
   changeInCashAndCashEquivalents:mapping(['CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect','CashAndCashEquivalentsPeriodIncreaseDecrease'],['IncreaseDecreaseInCashAndCashEquivalents','IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges']),
   // A bank's financing line for the net change in deposits (JPM, BAC, WFC, FITB, ZION, USB). Fill-only.
-  changeInDeposits:mapping(['IncreaseDecreaseInDeposits'],[])
+  changeInDeposits:mapping(['IncreaseDecreaseInDeposits'],[]),
+  // The lines under Screener's operating and investing + (2026-11-06). Each is one filed line, never a sum:
+  // banks and insurers split securities flows across tags that overlap (MetLife files both a sale line and a
+  // sale-and-maturity line), so purchases, sales and maturities each read their own tag. Fill-only.
+  incomeTaxesPaid:mapping(['IncomeTaxesPaidNet','IncomeTaxesPaid'],[]),
+  afsPurchased:mapping(['PaymentsToAcquireAvailableForSaleSecuritiesDebt'],[]),
+  afsSold:mapping(['ProceedsFromSaleOfAvailableForSaleSecuritiesDebt'],[]),
+  afsMatured:mapping(['ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities'],[]),
+  htmPurchased:mapping(['PaymentsToAcquireHeldToMaturitySecurities'],[]),
+  htmMatured:mapping(['ProceedsFromMaturitiesPrepaymentsAndCallsOfHeldToMaturitySecurities'],[]),
+  investmentsPurchased:mapping(['PaymentsToAcquireInvestments'],[]),
+  investmentsSold:mapping(['ProceedsFromSaleMaturityAndCollectionsOfInvestments'],[]),
+  acquisitions:mapping(['PaymentsToAcquireBusinessesNetOfCashAcquired'],[]),
+  fixedAssetsSold:mapping(['ProceedsFromSaleOfPropertyPlantAndEquipment'],[])
  }
 };
 // A narrower tag stands in for the full figure only when the filing shows the
@@ -303,14 +328,14 @@ const LAST_RESORT = new Set(['us-gaap:EarningsPerShareBasicAndDiluted','us-gaap:
  'us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted','ifrs-full:BasicAndDilutedEarningsLossPerShare']);
 // The industry layouts' lines (MAPS above, from netInterestIncomeAfterProvision, cashAndDueFromBanks and
 // changeInDeposits on): first read on 2026-10-31, they fill a figure and never add a year or quarter.
-const INDUSTRY_FIELDS = {income:['netInterestIncomeAfterProvision','investmentGains','policyFees','insuranceOtherIncome','interestCreditedToPolicyholders','policyholderDividends','totalBenefitsAndExpenses'],
+const INDUSTRY_FIELDS = {income:['netInterestIncomeAfterProvision','investmentGains','policyFees','insuranceOtherIncome','interestCreditedToPolicyholders','policyholderDividends','totalBenefitsAndExpenses','employeeCost','minorityShare','associatesProfit'],
  balance:['cashAndDueFromBanks','interestBearingDepositsInBanks','fedFundsSoldAndResale','tradingAssets','availableForSaleSecurities','heldToMaturitySecurities','loansGross','allowanceForCreditLosses','otherAssets','noninterestBearingDeposits','interestBearingDeposits','fedFundsPurchasedAndRepo','fhlbAdvances','longTermDebtTotal','otherLiabilities',
-  'totalInvestments','equitySecurities','mortgageLoans','policyLoans','premiumsReceivable','reinsuranceRecoverables','deferredAcquisitionCosts','separateAccountAssets','lossReserves','unearnedPremiums','futurePolicyBenefits','policyholderAccountBalances','separateAccountLiabilities'],
- cash:['changeInDeposits']};
+  'totalInvestments','equitySecurities','mortgageLoans','policyLoans','premiumsReceivable','reinsuranceRecoverables','deferredAcquisitionCosts','separateAccountAssets','lossReserves','unearnedPremiums','futurePolicyBenefits','policyholderAccountBalances','separateAccountLiabilities','minorityInterest','ppeGross','accumulatedDepreciation','constructionInProgress'],
+ cash:['changeInDeposits','incomeTaxesPaid','afsPurchased','afsSold','afsMatured','htmPurchased','htmMatured','investmentsPurchased','investmentsSold','acquisitions','fixedAssetsSold']};
 const INDUSTRY_ADDED = Object.entries(INDUSTRY_FIELDS).flatMap(([st,fields])=>fields.flatMap(f=>MAPS[st][f]['us-gaap'].map(t=>'us-gaap:'+t)));
 const INDUSTRY_TAGS = new Set(INDUSTRY_ADDED);
 const DISCONTINUED_ADDED = [...MAPS.income.discontinuedOperations['us-gaap'].map(t=>'us-gaap:'+t),...MAPS.income.discontinuedOperations['ifrs-full'].map(t=>'ifrs-full:'+t)];
-const OUTFLOWS = new Set(['capitalExpenditures','softwarePurchases','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock','repaymentsOfLongTermDebt','treasuryStock']);
+const OUTFLOWS = new Set(['capitalExpenditures','softwarePurchases','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock','repaymentsOfLongTermDebt','treasuryStock','afsPurchased','htmPurchased','investmentsPurchased','acquisitions']);
 // Tags first read on 2026-10-17. Like the 2026-10-06 additions they fill a
 // figure but never add a year or quarter of their own. Tags that were already
 // read for another field (NetIncomeLoss, ProfitLoss, DepreciationDepletionAndAmortization)

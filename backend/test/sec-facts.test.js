@@ -478,11 +478,17 @@ test('bank and insurer face lines are read as filed, never add a period and neve
  // JPMorgan's FY2025 10-K; the 2019 figures are on a year this filing has no other line for.
  Object.assign(doc.facts['us-gaap'],{CashAndDueFromBanks:{units:{USD:[inst(21742),inst(20000,2019)]}},DebtSecuritiesHeldToMaturityExcludingAccruedInterestAfterAllowanceForCreditLoss:{units:{USD:[inst(270134)]}},
   FinancingReceivableExcludingAccruedInterestBeforeAllowanceForCreditLoss:{units:{USD:[inst(1408905)]}},InterestIncomeExpenseAfterProvisionForLoanLoss:{units:{USD:[flow(81231),flow(70000,2019)]}},
-  IncreaseDecreaseInDeposits:{units:{USD:[flow(153168)]}},LiabilityForClaimsAndClaimsAdjustmentExpense:{units:{USD:[inst(43310)]}}});
+  IncreaseDecreaseInDeposits:{units:{USD:[flow(153168)]}},LiabilityForClaimsAndClaimsAdjustmentExpense:{units:{USD:[inst(43310)]}},
+  // The lines under Screener's + rows (2026-11-06). Payments are stored as outflows; a tax refund keeps its own sign.
+  LaborAndRelatedExpense:{units:{USD:[flow(55000),flow(40000,2019)]}},NetIncomeLossAttributableToNoncontrollingInterest:{units:{USD:[flow(12)]}},MinorityInterest:{units:{USD:[inst(300)]}},
+  PropertyPlantAndEquipmentGross:{units:{USD:[inst(9000)]}},ConstructionInProgressGross:{units:{USD:[inst(150)]}},IncomeTaxesPaidNet:{units:{USD:[flow(-45)]}},
+  PaymentsToAcquireAvailableForSaleSecuritiesDebt:{units:{USD:[flow(80000)]}},ProceedsFromSaleOfAvailableForSaleSecuritiesDebt:{units:{USD:[flow(30000)]}},PaymentsToAcquireBusinessesNetOfCashAcquired:{units:{USD:[flow(700)]}}});
  const d=extract(doc,evidence,{asOf:'2026-10-03'});
  const b=d.balance.annualReports[0],i=d.income.annualReports[0],c=d.cash.annualReports[0];
  assert.equal(b.cashAndDueFromBanks,21742);assert.equal(b.heldToMaturitySecurities,270134);assert.equal(b.loansGross,1408905);assert.equal(b.lossReserves,43310);
  assert.equal(i.netInterestIncomeAfterProvision,81231);assert.equal(c.changeInDeposits,153168);
+ assert.equal(i.employeeCost,55000);assert.equal(i.minorityShare,12);assert.equal(b.minorityInterest,300);assert.equal(b.ppeGross,9000);assert.equal(b.constructionInProgress,150);
+ assert.equal(c.incomeTaxesPaid,-45);assert.equal(c.afsPurchased,-80000);assert.equal(c.afsSold,30000);assert.equal(c.acquisitions,-700);
  for(const st of ['income','balance','cash'])assert.deepEqual(d[st].annualReports.map(r=>r.fiscalDateEnding),before[st].annualReports.map(r=>r.fiscalDateEnding));
  assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
  // a quarter the income statement files does not get a balance sheet made of a bank line alone

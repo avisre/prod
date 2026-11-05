@@ -737,6 +737,373 @@
     // The statement layout for an IndustryMetrics.classify() result.
     const layoutOf = (cls) => (cls && cls.kind === 'bank') ? 'bank' : (cls && cls.kind === 'insurer') ? (cls.insurerType || 'pc') : 'generic';
 
+    // Three more ways to read a bank's or an insurer's statements (owner, 2026-11-06), next to the
+    // standard rows: "Industry" (the face lines its industry files, plus the ratios that industry is
+    // judged by), "As filed" (the company's own statement, backend/as-filed.js) and "Analyst" (the filed
+    // figures regrouped by how the business earns and funds itself). A calculated row or ratio carries
+    // `calc`, the note shown on hover with the dotted underline; its inputs are filed figures and a period
+    // missing one is left blank. Sums are only of lines that never overlap: adding a bank's funding lines
+    // counts the same borrowing twice for 38 of 440 banks (FHLB advances inside long-term debt, repo
+    // repeated as short-term borrowings; FY2025 10-Ks, measured 2026-11-06), so funding is shown as total
+    // liabilities less deposits instead.
+    const VIEW_KINDS = ['bank', 'pc', 'life'];
+    const head = (label) => ({ label, get: () => null, fmt: () => '', kind: 'heading', heading: true, section: true, solo: true });
+    const calcRow = (label, get, calc, over) => ({ label, get, calc, fmt: money, kind: 'money', solo: true, ...over });
+    const pctRow = (label, get, calc, over) => ({ label, get, calc, fmt: pctFmt, kind: 'pct', neutral: true, sub: true, ...over });
+    const diff = (a, ...b) => (a === null || b.some((x) => x === null)) ? null : b.reduce((s, x) => s - x, a);
+    // the balance sheet at the same period end, for ratios that set a flow against a stock
+    const balAt = (r) => (payload?.balance?.[basisState === 'annual' ? 'annualReports' : 'quarterlyReports'] || []).find((b) => b.fiscalDateEnding === r.fiscalDateEnding) || null;
+    // a quarter's income set against a year-end balance is not a yearly return, so returns are annual only
+    const yearly = (f) => (r) => basisState === 'annual' ? f(r) : null;
+    const roe = pctRow('Return on equity', yearly((r) => ratio(num(r.netIncome), num(balAt(r)?.totalShareholderEquity))), 'Calculated: net income for the year ÷ shareholder equity at year end, both as filed (annual periods only)');
+    const roa = pctRow('Return on assets', yearly((r) => ratio(num(r.netIncome), num(balAt(r)?.totalAssets))), 'Calculated: net income for the year ÷ total assets at year end, both as filed (annual periods only)');
+    const eqPerShare = { label: 'Equity per share', get: (r) => ratio(num(r.totalShareholderEquity), num(r.commonStockSharesOutstanding)), fmt: (v) => v === null ? '—' : fixed(v, 2), kind: 'ps', neutral: true, solo: true,
+        calc: 'Calculated: shareholder equity ÷ shares outstanding, both as filed. Equity includes any preferred stock, so this can be above the book value per common share the company reports' };
+    // Loans before the allowance, from the net loans and the allowance the balance sheet shows. The served
+    // "gross loans" field is not used here: for JPM FY2025 it reads $1,408.9bn against the $1,493.4bn the
+    // 10-K shows (net $1,467.7bn plus the $25.8bn allowance).
+    const allowanceOf = (r) => { const a = num(r.allowanceForCreditLosses); return a === null ? null : Math.abs(a); };
+    const loansBeforeAllowance = (r) => diff(num(r.loans), allowanceOf(r) === null ? null : -allowanceOf(r));
+    const BANK_RATIOS = {
+        efficiency: pctRow('Efficiency ratio', (r) => ratio(num(r.nonInterestExpense), derive(r).rev), 'Calculated: noninterest expense ÷ total net revenue, both as filed. Lower is better'),
+        niiShare: pctRow('Net interest income share of revenue', (r) => ratio(num(r.netInterestIncome), derive(r).rev), 'Calculated: net interest income ÷ total net revenue, both as filed'),
+        loansToDeposits: pctRow('Loans ÷ deposits', (r) => ratio(num(r.loans), num(r.deposits)), 'Calculated: net loans ÷ total deposits, both as filed'),
+        equityToAssets: pctRow('Equity ÷ assets', (r) => ratio(num(r.totalShareholderEquity), num(r.totalAssets)), 'Calculated: shareholder equity ÷ total assets, both as filed'),
+        allowance: pctRow('Allowance ÷ loans', (r) => ratio(allowanceOf(r), loansBeforeAllowance(r)), 'Calculated: allowance for credit losses ÷ loans before the allowance (net loans plus the allowance), all as filed')
+    };
+    const premiumsOf = (r) => num(r.premiums);
+    const otherUwOf = (r) => num(r.otherUnderwritingExpense) ?? num(r.sellingGeneralAndAdministrative);
+    const pcExpense = (r) => { const a = num(r.policyAcquisitionExpense), o = otherUwOf(r); return a === null || o === null ? null : a + o; };
+    const PC_RATIOS = {
+        loss: pctRow('Loss ratio', (r) => ratio(num(r.lossesAndLossAdjustmentExpense), premiumsOf(r)), 'Calculated: losses and loss adjustment expenses ÷ net premiums earned, both as filed. The company’s own reported ratio can differ (it may exclude items such as fee income)'),
+        expense: pctRow('Expense ratio', (r) => ratio(pcExpense(r), premiumsOf(r)), 'Calculated: acquisition-cost amortization plus other underwriting (or general and administrative) expenses ÷ net premiums earned, all as filed. The company’s own reported ratio can differ'),
+        combined: pctRow('Combined ratio', (r) => { const e = pcExpense(r), l = num(r.lossesAndLossAdjustmentExpense); return e === null || l === null ? null : ratio(l + e, premiumsOf(r)); }, 'Calculated: loss ratio plus expense ratio, from filed figures. Below 100% means the policies themselves made money')
+    };
+    const lifeBenefitRatio = pctRow('Benefits ÷ premiums and fees', (r) => { const p = premiumsOf(r); return p === null ? null : ratio(num(r.lossesAndLossAdjustmentExpense), p + (num(r.policyFees) ?? 0)); }, 'Calculated: policyholder benefits and claims ÷ premiums plus policy charges and fees, all as filed');
+    const investShare = pctRow('Investment income share of revenue', (r) => ratio(num(r.netInvestmentIncome) ?? num(r.investmentIncome), derive(r).rev), 'Calculated: net investment income ÷ total revenues, both as filed');
+    const ratiosHead = head('Ratios');
+    const withRatios = (set, income, balance) => ({ income: [...set.income, ratiosHead, ...income], balance: [...set.balance, ratiosHead, ...balance], cash: set.cash });
+    const INDUSTRY_VIEW = {
+        bank: withRatios(BANK_ROWS, [BANK_RATIOS.efficiency, BANK_RATIOS.niiShare, roe, roa], [BANK_RATIOS.loansToDeposits, BANK_RATIOS.equityToAssets, BANK_RATIOS.allowance, eqPerShare]),
+        pc: withRatios(ROWSETS.pc, [PC_RATIOS.loss, PC_RATIOS.expense, PC_RATIOS.combined, roe], [eqPerShare]),
+        life: withRatios(ROWSETS.life, [lifeBenefitRatio, investShare, roe], [eqPerShare])
+    };
+    const asIs = (label, field, over) => line(label, (r) => num(r[field]), { solo: true, ...over });
+    const NET_TO_EPS = [pick('income', 'Pre-tax income', { solo: true, rule: true }), pick('income', 'Income tax', { solo: true }), pick('income', 'Net income', { solo: true, rule: true }), pick('income', 'EPS, diluted', { solo: true })];
+    // dividends and buybacks are separate cash lines (both filed as outflows), so they can be added
+    const returned = (r) => { const d = num(r.dividendPayout) ?? num(r.dividendPayoutCommonStock), b = num(r.paymentsForRepurchaseOfCommonStock); return d === null && b === null ? null : (d ?? 0) + (b ?? 0); };
+    const capitalRows = (bank) => [
+        head('Earnings and what was paid out'),
+        asIs('Net income', 'cashFlowNetIncome', { rule: true }),
+        ...(bank ? [asIs('Net change in deposits', 'changeInDeposits', { neutral: true })] : [pick('cash', 'Cash flow from operations', { solo: true })]),
+        pick('cash', 'Dividends paid', { solo: true }), pick('cash', 'Share buybacks', { solo: true }),
+        calcRow('Returned to shareholders', returned, 'Calculated: dividends paid plus share buybacks, as filed on the cash-flow statement', { rule: true, neutral: true }),
+        pctRow('Payout ratio', (r) => { const x = returned(r); return x === null ? null : ratio(-x, num(r.cashFlowNetIncome)); }, 'Calculated: dividends and buybacks ÷ net income, all as filed')
+    ];
+    const ANALYST_VIEW = {
+        bank: {
+            income: [
+                head('How it earns'),
+                asIs('Net interest income', 'netInterestIncome'), asIs('Noninterest income', 'nonInterestIncome'),
+                line('Total net revenue', (r) => derive(r).rev, { rule: true, solo: true }),
+                asIs('Noninterest expense', 'nonInterestExpense', { neutral: true }),
+                calcRow('Pre-provision profit', (r) => diff(derive(r).rev, num(r.nonInterestExpense)), 'Calculated: total net revenue less noninterest expense, both as filed: what the bank earns before setting money aside for bad loans', { rule: true }),
+                asIs('Provision for credit losses', 'provisionForCreditLosses', { neutral: true }),
+                ...NET_TO_EPS,
+                ratiosHead, BANK_RATIOS.efficiency,
+                pctRow('Provision ÷ pre-provision profit', (r) => ratio(num(r.provisionForCreditLosses), diff(derive(r).rev, num(r.nonInterestExpense))), 'Calculated: provision for credit losses ÷ pre-provision profit, from filed figures: how much of the year’s earning power went to credit losses'),
+                roe, roa
+            ],
+            balance: [
+                head('What it holds'),
+                line('Loans, net', (r) => num(r.loans), { rule: true }),
+                line('Allowance for credit losses', (r) => num(r.allowanceForCreditLosses), { sub: true, neutral: true }),
+                calcRow('Cash, securities and other assets', (r) => diff(num(r.totalAssets), num(r.loans)), 'Calculated: total assets less net loans, both as filed. Its filed lines are listed below it', { rule: false, solo: false }),
+                ...[['Cash and due from banks', 'cashAndDueFromBanks'], ['Interest-bearing deposits in banks', 'interestBearingDepositsInBanks'], ['Fed funds sold & resale agreements', 'fedFundsSoldAndResale'], ['Trading assets', 'tradingAssets'],
+                    ['Securities available for sale', 'availableForSaleSecurities'], ['Securities held to maturity', 'heldToMaturitySecurities'], ['Goodwill', 'goodwill'], ['Premises and equipment', 'propertyPlantEquipment'], ['Other assets', 'otherAssets']].map(([l, f]) => line(l, (r) => num(r[f]), { sub: true, neutral: true })),
+                pick('balance', 'Total assets', { solo: true }),
+                head('How it is funded'),
+                line('Deposits', (r) => num(r.deposits)),
+                line('Noninterest-bearing deposits', (r) => num(r.noninterestBearingDeposits), { sub: true }),
+                line('Interest-bearing deposits', (r) => num(r.interestBearingDeposits), { sub: true }),
+                calcRow('Borrowings and other liabilities', (r) => diff(num(r.totalLiabilities), num(r.deposits)), 'Calculated: total liabilities less deposits, both as filed. Its filed lines are listed below it', { solo: false, neutral: true }),
+                ...[['Fed funds purchased & repurchase agreements', 'fedFundsPurchasedAndRepo'], ['Short-term borrowings', 'shortTermBorrowings'], ['Federal Home Loan Bank advances', 'fhlbAdvances'], ['Long-term debt', 'longTermDebtTotal'], ['Other liabilities', 'otherLiabilities']]
+                    .map(([l, f]) => line(l, (r) => num(r[f]), { sub: true, neutral: true })),
+                pick('balance', 'Shareholder equity', { solo: true, rule: true }),
+                ratiosHead, BANK_RATIOS.loansToDeposits,
+                pctRow('Deposits ÷ total funding', (r) => ratio(num(r.deposits), num(r.totalAssets)), 'Calculated: deposits ÷ total assets (all funding: liabilities plus equity), both as filed'),
+                BANK_RATIOS.equityToAssets, BANK_RATIOS.allowance, eqPerShare
+            ],
+            cash: capitalRows(true)
+        }
+    };
+    // An insurer earns twice: on the policies (premiums less claims and costs) and on the money it holds
+    // until claims are paid. A result is only shown when every line it needs is filed for that period.
+    const investResult = (r) => { const n = num(r.netInvestmentIncome) ?? num(r.investmentIncome) ?? num(r.interestIncome); return n === null ? null : n + (num(r.investmentGains) ?? 0); };
+    const pcUw = (r) => diff(premiumsOf(r), num(r.lossesAndLossAdjustmentExpense), num(r.policyAcquisitionExpense), otherUwOf(r));
+    const lifeIns = (r) => diff(premiumsOf(r), num(r.lossesAndLossAdjustmentExpense)) === null ? null : premiumsOf(r) + (num(r.policyFees) ?? 0) - num(r.lossesAndLossAdjustmentExpense) - (num(r.policyholderDividends) ?? 0);
+    const lifeSpread = (r) => diff(num(r.netInvestmentIncome) ?? num(r.investmentIncome), num(r.interestCreditedToPolicyholders) ?? 0);
+    // policy liabilities never overlap one another (86 insurers' FY2025 balance sheets, measured
+    // 2026-11-06); a sum above total liabilities, or two equal parts, would mean one line read twice
+    const POLICY = [['loss reserves', 'lossReserves'], ['unearned premiums', 'unearnedPremiums'], ['future policy benefits', 'futurePolicyBenefits'], ['policyholder account balances', 'policyholderAccountBalances']];
+    const policyParts = (r) => POLICY.map(([l, f]) => [l, num(r[f])]).filter(([, v]) => v !== null);
+    const policyTotal = (r) => {
+        const v = policyParts(r).map(([, x]) => x), s = v.reduce((a, x) => a + x, 0), tl = num(r.totalLiabilities);
+        return !v.length || new Set(v).size < v.length || (tl !== null && s > tl) ? null : s;
+    };
+    const listOf = (xs) => xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1];
+    const debtOrLt = (r) => num(r.shortLongTermDebtTotal) ?? num(r.longTermDebtTotal) ?? num(r.longTermDebt);
+    const insurerAnalyst = (life) => ({
+        income: [
+            ...(life ? [
+                head('Insurance result'),
+                asIs('Premiums', 'premiums'), asIs('Policy charges and fee income', 'policyFees'),
+                asIs('Policyholder benefits and claims', 'lossesAndLossAdjustmentExpense', { neutral: true }), asIs('Policyholder dividends', 'policyholderDividends', { neutral: true }),
+                calcRow('Insurance result', lifeIns, 'Calculated: premiums plus policy charges and fees, less policyholder benefits, claims and dividends, all as filed', { rule: true }),
+                head('Investment spread'),
+                line('Net investment income', (r) => num(r.netInvestmentIncome) ?? num(r.investmentIncome), { solo: true }),
+                asIs('Interest credited to policyholder accounts', 'interestCreditedToPolicyholders', { neutral: true }),
+                calcRow('Spread result', lifeSpread, 'Calculated: net investment income less interest credited to policyholder accounts, both as filed: what the company keeps from investing its policyholders’ money', { rule: true })
+            ] : [
+                head('Underwriting'),
+                asIs('Net premiums earned', 'premiums'),
+                asIs('Losses and loss adjustment expenses', 'lossesAndLossAdjustmentExpense', { neutral: true }),
+                asIs('Acquisition costs', 'policyAcquisitionExpense', { neutral: true }),
+                line('Other underwriting and general expenses', otherUwOf, { solo: true, neutral: true }),
+                calcRow('Underwriting result', pcUw, 'Calculated: net premiums earned less losses, loss adjustment, acquisition and other underwriting (or general and administrative) expenses, all as filed. The company’s own underwriting result may leave out holding-company costs', { rule: true }),
+                head('Investments'),
+                line('Net investment income', (r) => num(r.netInvestmentIncome) ?? num(r.investmentIncome) ?? num(r.interestIncome), { solo: true }),
+                asIs('Investment gains (losses)', 'investmentGains'),
+                calcRow('Investment result', investResult, 'Calculated: net investment income plus investment gains or losses, as filed', { rule: true })
+            ]),
+            head('Earnings'),
+            calcRow(life ? 'Gains, other income and expenses, net' : 'Other income and expenses, net', (r) => diff(num(r.incomeBeforeTax), life ? lifeIns(r) : pcUw(r), life ? lifeSpread(r) : investResult(r)),
+                life ? 'Calculated: pre-tax income less the insurance and spread results, all from filed figures. It holds investment gains and losses, fee and other income, acquisition-cost amortization and operating and interest expenses'
+                    : 'Calculated: pre-tax income less the underwriting and investment results, all from filed figures. It holds fee and other income and interest expense', { neutral: true }),
+            ...NET_TO_EPS,
+            ratiosHead,
+            ...(life ? [lifeBenefitRatio, pctRow('Spread ÷ net investment income', (r) => ratio(lifeSpread(r), num(r.netInvestmentIncome) ?? num(r.investmentIncome)), 'Calculated: spread result ÷ net investment income, from filed figures')]
+                : [PC_RATIOS.loss, PC_RATIOS.expense, PC_RATIOS.combined]),
+            roe
+        ],
+        balance: [
+            head('What it invests'),
+            pick('balance', 'Cash and cash equivalents', { solo: true }),
+            line('Total investments', (r) => num(r.totalInvestments), { solo: true, rule: true }),
+            ...(life ? [asIs('Separate account assets', 'separateAccountAssets', { neutral: true })] : []),
+            pick('balance', 'Total assets', { solo: true }),
+            head('What it owes policyholders'),
+            ...POLICY.map(([l, f]) => line(l[0].toUpperCase() + l.slice(1), (r) => num(r[f]), { solo: true, neutral: true })),
+            calcRow('Policy liabilities', policyTotal, (r) => `Calculated: the sum of ${listOf(policyParts(r).map(([l]) => l))}, as filed: money held for policyholders until claims and benefits are paid`, { rule: true, neutral: true }),
+            ...(life ? [asIs('Separate account liabilities', 'separateAccountLiabilities', { neutral: true })] : []),
+            head('Capital'),
+            asIs('Short-term debt', 'shortTermBorrowings', { neutral: true }),
+            line('Long-term debt', (r) => num(r.longTermDebtTotal) ?? num(r.longTermDebt), { solo: true, neutral: true }),
+            asIs('Total debt', 'shortLongTermDebtTotal', { neutral: true }),
+            pick('balance', 'Shareholder equity', { solo: true, rule: true }),
+            ratiosHead,
+            pctRow('Policy liabilities ÷ equity', (r) => ratio(policyTotal(r), num(r.totalShareholderEquity)), 'Calculated: policy liabilities ÷ shareholder equity, from filed figures: how many dollars of policyholder money each dollar of equity stands behind'),
+            pctRow('Investments ÷ equity', (r) => ratio(num(r.totalInvestments), num(r.totalShareholderEquity)), 'Calculated: total investments ÷ shareholder equity, both as filed'),
+            pctRow('Debt ÷ capital', (r) => { const d = debtOrLt(r), e = num(r.totalShareholderEquity); return d === null || e === null ? null : ratio(d, d + e); },
+                (r) => `Calculated: ${num(r.shortLongTermDebtTotal) !== null ? 'total debt' : 'long-term debt (no total debt line is filed)'} ÷ that debt plus shareholder equity, as filed`),
+            eqPerShare
+        ],
+        cash: capitalRows(false)
+    });
+    ANALYST_VIEW.pc = insurerAnalyst(false);
+    ANALYST_VIEW.life = insurerAnalyst(true);
+
+    // Screener.in's statement rows for banks and insurers, exactly (owner, 2026-11-06; labels checked
+    // against screener.in's HDFC Bank and HDFC Life pages): the same rows in the same order, the same
+    // + groups, rendered in our design. US filings fold depreciation into expenses, so Depreciation is
+    // the cash-flow statement's figure and is taken back out of Expenses; every row still adds up to
+    // the filed pre-tax income. US filers report no CWIP, so that row stays blank.
+    const periodRows = (st) => payload?.[st]?.[basisState === 'annual' ? 'annualReports' : 'quarterlyReports'] || [];
+    const cashAt = (r) => periodRows('cash').find((c) => c.fiscalDateEnding === r.fiscalDateEnding) || null;
+    const incomeAt = (r) => periodRows('income').find((c) => c.fiscalDateEnding === r.fiscalDateEnding) || null;
+    const yearAgo = (r, st) => { const t = Date.parse(r.fiscalDateEnding); return periodRows(st).find((c) => { const d = (t - Date.parse(c.fiscalDateEnding)) / 864e5; return d > 340 && d < 390; }) || null; };
+    const growth = (label, valOf) => pctRow(label, (r) => { const p = yearAgo(r, 'income'); const a = valOf(r), b = p ? valOf(p) : null; return a === null || b === null || b === 0 ? null : (a - b) / Math.abs(b); }, `Calculated: change from the same period a year earlier`);
+    const keep = (row) => ({ ...row, sub: false, solo: true });
+    const sumOf = (...v) => v.some((x) => x === null) ? null : v.reduce((a, x) => a + x, 0);
+    const sumPresent = (...v) => v.every((x) => x === null) ? null : v.reduce((a, x) => a + (x ?? 0), 0);
+    const taxPct = keep(pctRow('Tax %', (r) => { const t = num(r.incomeTaxExpense), p = num(r.incomeBeforeTax); return t !== null && p !== null && p > 0 ? t / p : null; }, 'Calculated: income tax ÷ pre-tax income, both as filed'));
+    const payoutPct = keep(pctRow('Dividend Payout %', (r) => { const c = cashAt(r), d = num(c?.dividendPayout) ?? num(c?.dividendPayoutCommonStock); return d === null ? null : ratio(Math.abs(d), num(r.netIncome)); }, 'Calculated: dividends paid (cash-flow statement) ÷ net income, both as filed'));
+    const epsRow = pick('income', 'EPS, diluted', { label: 'EPS in $', solo: true });
+    const pbtRow = pick('income', 'Pre-tax income', { label: 'Profit before tax', solo: true, rule: true });
+    const sub = (label, field, over) => line(label, (r) => num(r[field]), { sub: true, neutral: true, ...over });
+    const netRow = pick('income', 'Net income', { label: 'Net Profit', solo: false, rule: true });
+    // Screener's Net Profit +: profit from associates, the minority's share, and profit growth
+    const netKids = [sub('Profit from associates', 'associatesProfit', { neutral: false }),
+        line('Minority share', (r) => cashEffect(r.minorityShare), { sub: true, neutral: true }),
+        growth('Profit growth %', (r) => num(r.netIncome))];
+    // Screener's Expenses +: employee cost and the rest, each as a share of revenue
+    const expensePcts = (revOf, expOf) => [
+        pctRow('Employee Cost %', (r) => ratio(num(r.employeeCost), revOf(r)), 'Calculated: staff cost (as filed) ÷ revenue'),
+        pctRow('Other Expenses %', (r) => { const e = expOf(r), s = num(r.employeeCost); return e === null || s === null ? null : ratio(e - s, revOf(r)); }, 'Calculated: expenses less staff cost ÷ revenue, from filed figures')];
+    // depreciation and amortization from the cash-flow statement; a negative figure is accretion, not depreciation
+    const depOf = (r) => { const d = num(cashAt(r)?.depreciationDepletionAndAmortization); return d !== null && d >= 0 ? d : null; };
+    const depRow = line('Depreciation', depOf, { solo: true, neutral: true, keepEmpty: true,
+        calc: (r) => depOf(r) === null ? '' : 'Depreciation and amortization from the cash-flow statement. A US filer includes it in its expenses, so it is taken out of Expenses above' });
+    // Screener's balance sheet: Equity Capital, Reserves, ... Total Liabilities (which includes equity) ... Total Assets
+    const equityCapital = line('Equity Capital', (r) => num(r.commonStock), { solo: true });
+    const reserves = calcRow('Reserves', (r) => { const e = num(r.totalShareholderEquity); return e === null ? null : e - (num(r.commonStock) ?? 0); },
+        'Calculated: shareholder equity less common stock, both as filed: paid-in capital, retained earnings, preferred stock, treasury stock and other comprehensive income');
+    const totalLiab = pick('balance', 'Total liabilities & equity', { label: 'Total Liabilities', solo: true, rule: true, calc: 'Liabilities plus shareholder equity, as Screener shows it: equals total assets' });
+    // US net property and equipment includes construction in progress; Screener shows CWIP on its own line
+    const fixedAssets = [calcRow('Fixed Assets', (r) => diff(num(r.propertyPlantEquipment), num(r.constructionInProgress) ?? 0),
+            (r) => num(r.constructionInProgress) !== null ? 'Calculated: property and equipment, net, less construction in progress, as filed' : '', { solo: false }),
+        // Gross block when it is filed; otherwise net property and equipment plus filed accumulated depreciation.
+        calcRow('Gross Block', (r) => num(r.ppeGross) ?? (num(r.propertyPlantEquipment) === null || num(r.accumulatedDepreciation) === null ? null
+            : num(r.propertyPlantEquipment) + Math.abs(num(r.accumulatedDepreciation))),
+            (r) => num(r.ppeGross) !== null ? '' : 'Calculated: property and equipment, net, plus accumulated depreciation, as filed', { sub: true, solo: false }),
+        line('Accumulated Depreciation', (r) => cashEffect(r.accumulatedDepreciation), { sub: true, neutral: true })];
+    const cwip = line('CWIP', (r) => num(r.constructionInProgress), { solo: true, keepEmpty: true });
+    const totalAssets = pick('balance', 'Total assets', { label: 'Total Assets', solo: true, rule: true });
+    const CASH_LABELS = { 'Cash flow from operations': 'Cash from Operating Activity', 'Cash flow from investing': 'Cash from Investing Activity', 'Cash flow from financing': 'Cash from Financing Activity', 'Net change in cash': 'Net Cash Flow', 'Free cash flow': 'Free Cash Flow' };
+    const flowSum = (r) => sumOf(num(r.operatingCashflow), num(r.cashflowFromInvestment), num(r.cashflowFromFinancing));
+    // Screener's cash-flow rows and the lines under each +. Every line is one filed figure (or a sum of filed lines
+    // that never overlap); "Other ... items" is the filed total less the lines shown, so each group adds up.
+    const firstOf = (...v) => v.find((x) => x !== null) ?? null;
+    const invBought = (r) => { const s = sumPresent(num(r.afsPurchased), num(r.htmPurchased)); return s !== null ? s : num(r.investmentsPurchased); };
+    const invSold = (r) => { const s = sumPresent(num(r.afsSold), num(r.afsMatured), num(r.htmMatured)); return s !== null ? s : num(r.investmentsSold); };
+    const invParts = (r) => [num(r.capitalExpenditures), num(r.fixedAssetsSold), invBought(r), invSold(r), num(r.acquisitions)];
+    const finIssued = (r) => num(r.proceedsFromIssuanceOfCommonStock);
+    const finDividends = (r) => firstOf(num(r.dividendPayout), num(r.dividendPayoutCommonStock));
+    const finParts = (r) => [finIssued(r), num(r.proceedsFromIssuanceOfLongTermDebt), num(r.repaymentsOfLongTermDebt), num(r.proceedsFromRepaymentsOfShortTermDebt), num(r.changeInDeposits), num(r.paymentsForRepurchaseOfCommonStock), finDividends(r)];
+    const otherItems = (total, parts) => (r) => { const t = num(r[total]), p = sumPresent(...parts(r)); return t === null || p === null ? null : t - p; };
+    const sc = (label, get, calc) => (calc ? calcRow(label, get, calc, { sub: true, solo: false, neutral: true }) : line(label, get, { sub: true, neutral: true }));
+    const screenerCash = (life, extra = []) => {
+        const cfo = ROWS.cash.slice(ROWS.cash.findIndex((d) => d.label === 'Cash flow from operations') + 1, ROWS.cash.findIndex((d) => d.label === 'Cash flow from investing'))
+            .filter((d) => !['Change in inventory'].includes(d.label));
+        return [
+            pick('cash', 'Cash flow from operations', { label: 'Cash from Operating Activity', solo: false }),
+            ...cfo.map((d) => d.label === 'Net income' ? { ...d, label: 'Profit from operations' } : d),
+            sc('Direct taxes', (r) => cashEffect(r.incomeTaxesPaid), 'Income taxes paid in cash, as filed. A US cash-flow statement starts from profit after tax, so this is already inside the operating total'),
+            pick('cash', 'Cash flow from investing', { label: 'Cash from Investing Activity', solo: false }),
+            sc('Fixed assets purchased', (r) => num(r.capitalExpenditures)),
+            sc('Fixed assets sold', (r) => num(r.fixedAssetsSold)),
+            sc('Investments purchased', invBought, (r) => sumPresent(num(r.afsPurchased), num(r.htmPurchased)) !== null ? 'Calculated: purchases of securities available for sale and held to maturity, as filed' : 'Purchases of investments, as filed'),
+            sc('Investments sold', invSold, (r) => sumPresent(num(r.afsSold), num(r.afsMatured), num(r.htmMatured)) !== null ? 'Calculated: sales and maturities of securities available for sale and held to maturity, as filed' : 'Sales and maturities of investments, as filed'),
+            sc('Acquisition of companies', (r) => num(r.acquisitions)),
+            sc('Other investing items', otherItems('cashflowFromInvestment', invParts), 'Calculated: cash from investing activity less the lines above, as filed (loans made and repaid, and other investing lines)'),
+            pick('cash', 'Cash flow from financing', { label: 'Cash from Financing Activity', solo: false }),
+            sc('Proceeds from shares', finIssued),
+            sc('Proceeds from borrowings', (r) => num(r.proceedsFromIssuanceOfLongTermDebt)),
+            sc('Repayment of borrowings', (r) => num(r.repaymentsOfLongTermDebt)),
+            sc('Short-term borrowing, net', (r) => num(r.proceedsFromRepaymentsOfShortTermDebt)),
+            sc('Net change in deposits', (r) => num(r.changeInDeposits)),
+            sc('Share buybacks', (r) => num(r.paymentsForRepurchaseOfCommonStock)),
+            sc('Dividends paid', finDividends),
+            sc('Other financing items', otherItems('cashflowFromFinancing', finParts), 'Calculated: cash from financing activity less the lines above, as filed'),
+            calcRow('Net Cash Flow', (r) => num(r.changeInCashAndCashEquivalents) ?? flowSum(r),
+                (r) => num(r.changeInCashAndCashEquivalents) === null && flowSum(r) !== null ? 'Calculated: operating plus investing plus financing cash flow, as filed' : '', { neutral: true }),
+            // Screener shows free cash flow for banks and insurers too. Most US insurers (and some banks) file no
+            // capital-spending line, so there it is operating cash flow, the StockAnalysis method, and the note says so.
+            calcRow('Free Cash Flow', (r) => { const f = fcfOf(r); return f !== null ? f : (num(r.capitalExpenditures) === null ? num(r.operatingCashflow) : null); },
+                (r) => num(r.capitalExpenditures) === null && num(r.operatingCashflow) !== null ? 'No capital-spending line is filed, so free cash flow here equals operating cash flow.' : 'Calculated: operating cash flow less fixed assets purchased.', { rule: true }),
+            ...extra
+        ];
+    };
+
+    const bankNii = (r) => diff(num(r.interestIncome), num(r.interestExpense)) ?? num(r.netInterestIncome);
+    const bankExpenses = (r) => { const n = num(r.nonInterestExpense); return n === null ? null : n - (depOf(r) ?? 0) + (num(r.provisionForCreditLosses) ?? 0); };
+    const bankFinProfit = (r) => diff(bankNii(r), bankExpenses(r));
+    const bankInvest = (r) => sumPresent(num(r.availableForSaleSecurities), num(r.heldToMaturitySecurities), num(r.tradingAssets), num(r.equitySecurities));
+    const SCREENER = {
+        bank: {
+            income: [
+                line('Revenue', (r) => num(r.interestIncome), { calc: 'Interest income, as filed' }),
+                growth('Revenue growth', (r) => num(r.interestIncome)),
+                line('Interest', (r) => num(r.interestExpense), { solo: true, neutral: true }),
+                calcRow('Expenses', bankExpenses, (r) => `Calculated: noninterest expense${depOf(r) !== null ? ' less depreciation' : ''} plus provision for credit losses, as filed`, { solo: false, neutral: true }),
+                calcRow('Operating expenses', (r) => diff(num(r.nonInterestExpense), depOf(r) ?? 0), (r) => depOf(r) !== null ? 'Calculated: noninterest expense less depreciation, as filed' : 'Noninterest expense, as filed', { sub: true, solo: false, neutral: true }),
+                sub('Provision for credit losses', 'provisionForCreditLosses'),
+                ...expensePcts((r) => num(r.interestIncome), bankExpenses),
+                calcRow('Financing Profit', bankFinProfit, 'Calculated: revenue less interest and expenses, from filed figures', { rule: true }),
+                keep(pctRow('Financing Margin %', (r) => ratio(bankFinProfit(r), num(r.interestIncome)), 'Calculated: financing profit ÷ revenue, from filed figures')),
+                line('Other Income', (r) => num(r.nonInterestIncome), { solo: true, calc: 'Noninterest income, as filed' }),
+                depRow, pbtRow, taxPct, netRow, ...netKids, epsRow, payoutPct
+            ],
+            balance: [
+                equityCapital, reserves,
+                line('Deposits', (r) => num(r.deposits), { solo: true, neutral: true }),
+                calcRow('Borrowing', (r) => diff(num(r.totalLiabilities), num(r.deposits), num(r.otherLiabilities) ?? 0),
+                    (r) => `Calculated: total liabilities less deposits${num(r.otherLiabilities) !== null ? ' and other liabilities' : ''}, as filed. Banks report some borrowings under two lines, so the filed lines are not added up`, { neutral: true }),
+                calcRow('Other Liabilities', (r) => sumPresent(num(r.otherLiabilities), num(r.minorityInterest)), (r) => num(r.minorityInterest) !== null ? 'Calculated: other liabilities plus non-controlling interest, as filed' : '', { solo: false, neutral: true }),
+                sub('Non controlling int', 'minorityInterest'), sub('Other liability items', 'otherLiabilities'),
+                totalLiab, ...fixedAssets, cwip,
+                calcRow('Investments', bankInvest, 'Calculated: securities available for sale, held to maturity, trading assets and equity securities, as filed'),
+                calcRow('Other Assets', (r) => diff(num(r.totalAssets), num(r.propertyPlantEquipment) ?? 0, bankInvest(r) ?? 0), 'Calculated: total assets less fixed assets and investments, as filed. Its filed lines are listed below it', { solo: false }),
+                ...[['Loans, net', 'loans'], ['Cash and due from banks', 'cashAndDueFromBanks'], ['Interest-bearing deposits in banks', 'interestBearingDepositsInBanks'], ['Fed funds sold & resale agreements', 'fedFundsSoldAndResale'],
+                    ['Goodwill', 'goodwill'], ['Other assets', 'otherAssets']].map(([l, f]) => sub(l, f, { neutral: false })),
+                totalAssets
+            ],
+            cash: screenerCash(false)
+        }
+    };
+    const insurerScreener = (life) => {
+        const otherInc = (r) => num(r.insuranceOtherIncome);
+        const sales = (r) => diff(derive(r).rev, otherInc(r) ?? 0);
+        const totalExp = (r) => num(r.totalBenefitsAndExpenses) ?? diff(derive(r).rev, num(r.incomeBeforeTax));
+        const expenses = (r) => diff(totalExp(r), num(r.interestExpense) ?? 0, depOf(r) ?? 0);
+        const opProfit = (r) => diff(sales(r), expenses(r));
+        const stDebt = (r) => num(r.shortTermBorrowings) ?? num(r.shortTermDebt);
+        const ltDebt = (r) => num(r.longTermDebtTotal) ?? num(r.longTermDebt);
+        const borrowings = (r) => num(r.shortLongTermDebtTotal) ?? sumPresent(stDebt(r), ltDebt(r));
+        return {
+            income: [
+                calcRow('Sales', sales, (r) => `Calculated: total revenues${otherInc(r) !== null ? ' less other income' : ''}, as filed`, { solo: false }),
+                growth('Sales growth', sales),
+                sub('Premiums earned', 'premiums', { neutral: false }),
+                ...(life ? [sub('Policy charges and fee income', 'policyFees', { neutral: false })] : []),
+                line('Net investment income', (r) => num(r.netInvestmentIncome) ?? num(r.investmentIncome), { sub: true }),
+                sub('Investment gains (losses)', 'investmentGains', { neutral: false }),
+                calcRow('Expenses', expenses, (r) => `Calculated: ${num(r.totalBenefitsAndExpenses) !== null ? 'total benefits and expenses' : 'total revenues less pre-tax income'} less interest${depOf(r) !== null ? ' and depreciation' : ''}, as filed`, { solo: false, neutral: true }),
+                sub(life ? 'Policyholder benefits and claims' : 'Losses and loss adjustment expenses', 'lossesAndLossAdjustmentExpense'),
+                ...(life ? [sub('Interest credited to policyholders', 'interestCreditedToPolicyholders'), sub('Policyholder dividends', 'policyholderDividends')] : []),
+                sub('Acquisition costs', 'policyAcquisitionExpense'),
+                line('Other underwriting expenses', otherUwOf, { sub: true, neutral: true }),
+                ...expensePcts(sales, expenses),
+                calcRow('Operating Profit', opProfit, 'Calculated: sales less expenses, from filed figures', { rule: true }),
+                keep(pctRow('OPM %', (r) => ratio(opProfit(r), sales(r)), 'Calculated: operating profit ÷ sales, from filed figures')),
+                line('Other Income', otherInc, { solo: true }),
+                line('Interest', (r) => num(r.interestExpense), { solo: true, neutral: true }),
+                depRow, pbtRow, taxPct, netRow, ...netKids, epsRow, payoutPct
+            ],
+            balance: [
+                equityCapital, reserves,
+                calcRow('Borrowings', borrowings, (r) => num(r.shortLongTermDebtTotal) !== null ? '' : 'Calculated: short-term plus long-term debt, as filed (no total debt line is filed)', { solo: false, neutral: true }),
+                line('Short-term debt', stDebt, { sub: true, neutral: true }),
+                // Some insurers file total debt and a short-term line but no long-term line: the rest is long-term.
+                calcRow('Long-term debt', (r) => ltDebt(r) ?? (num(r.shortLongTermDebtTotal) === null ? null : diff(num(r.shortLongTermDebtTotal), stDebt(r) ?? 0)),
+                    (r) => ltDebt(r) !== null ? '' : `Calculated: total debt${stDebt(r) !== null ? ' less short-term debt' : ''}, as filed (no long-term debt line is filed)`, { sub: true, solo: false, neutral: true }),
+                calcRow('Other Liabilities', (r) => { const v = diff(num(r.totalLiabilities), borrowings(r) ?? 0); return v === null ? null : v + (num(r.minorityInterest) ?? 0); },
+                    (r) => `Calculated: total liabilities less borrowings${num(r.minorityInterest) !== null ? ', plus non-controlling interest' : ''}, as filed. Its filed lines are listed below it`, { solo: false, neutral: true }),
+                sub('Non controlling int', 'minorityInterest'),
+                ...POLICY.map(([l, f]) => sub(l[0].toUpperCase() + l.slice(1), f)),
+                ...(life ? [sub('Separate account liabilities', 'separateAccountLiabilities')] : []),
+                sub('Other liabilities', 'otherLiabilities'),
+                totalLiab, ...fixedAssets, cwip,
+                line('Investments', (r) => num(r.totalInvestments), { solo: true }),
+                calcRow('Other Assets', (r) => diff(num(r.totalAssets), num(r.propertyPlantEquipment) ?? 0, num(r.totalInvestments)), 'Calculated: total assets less fixed assets and investments, as filed. Its filed lines are listed below it', { solo: false }),
+                line('Cash and cash equivalents', (r) => num(r.cashAndCashEquivalentsAtCarryingValue), { sub: true }),
+                ...(life ? [sub('Separate account assets', 'separateAccountAssets', { neutral: false })] : [sub('Premiums receivable', 'premiumsReceivable', { neutral: false })]),
+                ...[['Reinsurance recoverables', 'reinsuranceRecoverables'], ['Deferred acquisition costs', 'deferredAcquisitionCosts'], ['Goodwill', 'goodwill'], ['Other assets', 'otherAssets']].map(([l, f]) => sub(l, f, { neutral: false })),
+                totalAssets
+            ],
+            cash: screenerCash(life, [keep(pctRow('CFO/EBITDA', (r) => { const i = incomeAt(r); return i ? ratio(num(r.operatingCashflow), opProfit(i)) : null; }, 'Calculated: cash from operating activity ÷ operating profit: the share of operating profit that turned into cash'))])
+        };
+    };
+    SCREENER.pc = insurerScreener(false);
+    SCREENER.life = insurerScreener(true);
+    // every main row stays in place, blank when not filed, so the rows line up exactly with Screener's
+    for (const set of Object.values(SCREENER)) for (const st of ['income', 'balance']) set[st] = set[st].map((d) => d.sub ? d : { ...d, keepEmpty: true });
+    // Owner's order: assets first, then liabilities and equity (each group keeps its sub-lines under it).
+    for (const set of Object.values(SCREENER)) {
+        const at = set.balance.findIndex((d) => d.label === 'Total Liabilities') + 1;
+        set.balance = set.balance.slice(at).concat(set.balance.slice(0, at));
+    }
+
     let payload = null;
     let stState = 'income';
     let basisState = 'annual';
@@ -2317,6 +2684,7 @@
     // the company's filing for that period carries no such figure. Nothing is estimated.
     function blankWhy(def, r) {
         const NM = 'n/m';
+        if (def.calc) return { text: 'n/a', title: 'Not calculated for this period: a figure it needs is not filed for it' };
         if (def.label === 'Effective tax rate' && num(r.incomeTaxExpense) !== null && num(r.incomeBeforeTax) !== null)
             return { text: NM, title: 'Not meaningful: a pre-tax loss (or none), so there is no tax rate to show' };
         if (/margin$/i.test(def.label) && derive(r).rev === 0)
@@ -2337,6 +2705,7 @@
         sum_of_parts_ytd_difference: 'Calculated: the year-to-date sum of the parts the filing reports separately, less the previous year-to-date sum'
     };
     function calcNote(def, r) {
+        if (def.calc) return typeof def.calc === 'function' ? def.calc(r) : def.calc;
         const d = def.src && r._derivations && r._derivations[def.src];
         return d && CALC[d.formula] || null;
     }
@@ -2505,25 +2874,47 @@
         btn.onclick = () => { for (const g of ids) open ? expandedGroups[stState].delete(g) : expandedGroups[stState].add(g); renderStatements(); };
     }
     const filingUrl = (a) => `https://www.sec.gov/Archives/edgar/data/${Number(asFiled.cik)}/${a.replace(/-/g, '')}/${a}-index.htm`;
+    // The view on screen: "As filed" falls back to the standard rows while there is no filed statement to
+    // show (quarters, per-share units, or not loaded), and the views exist for banks and insurers only.
+    let asFiledStatus = 'none';
+    function shownLines() {
+        if (!VIEW_KINDS.includes(filedKind())) return 'standard';
+        if (linesState === 'filed' && !filedStatement()) return 'standard';
+        return linesState;
+    }
     function syncLinesControl() {
         const seg = $('seg-lines');
         if (!seg) return;
-        seg.hidden = !filedLayout() || !asFiled?.statements?.[stState] || basisState !== 'annual';
-        const on = !!filedStatement();
-        seg.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String((x.dataset.lines === 'filed') === on)));
+        seg.hidden = true; // one layout for banks and insurers now (Screener structure); the view switch is off
+        const btn = seg.querySelector('[data-lines="filed"]');
+        if (btn) {
+            const why = asFiledStatus === 'loading' ? 'Loading the filed statement…' : asFiledStatus === 'paid' ? 'The statement as filed is part of the paid plans'
+                : !asFiled?.statements?.[stState] ? 'No filed statement is available for this company'
+                    : basisState !== 'annual' ? 'As filed shows annual reports only' : viewState === 'ps' ? 'As filed is shown in reported amounts, not per share' : '';
+            btn.disabled = !!why && linesState !== 'filed';
+            btn.title = why || 'Every line as the company files it, under its own labels';
+        }
+        const shown = shownLines();
+        seg.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.lines === shown)));
     }
     function statementRows() {
         // One income statement for every company. Banks and insurers used to get their own
         // row set, so the same figures sat under different labels page to page; their
         // industry-specific measures stay in the Bank / Insurance metrics panel below.
         const layout = layoutOf(window.IndustryMetrics && payload ? window.IndustryMetrics.classify(payload) : null);
+        const shown = shownLines();
+        if (shown === 'industry') return INDUSTRY_VIEW[layout][stState];
+        if (shown === 'analyst') return ANALYST_VIEW[layout][stState];
+        if (SCREENER[layout]) return SCREENER[layout][stState];
         const specialised = ROWSETS[layout] || ROWS;
         const set = { income: ROWS.income, balance: specialised.balance, cash: specialised.cash };
         return set[stState];
     }
     function statementDefs(converted) {
         const filed = filedCostDefs(converted);
-        if (!filed.length || statementRows() !== ROWS[stState]) return noFcf() ? statementRows().filter((d) => !d.fcf) : statementRows();
+        // The Screener layout keeps free cash flow for banks and insurers, as Screener does.
+        const screener = Object.values(SCREENER).some((s) => s[stState] === statementRows());
+        if (!filed.length || statementRows() !== ROWS[stState]) return noFcf() && !screener ? statementRows().filter((d) => !d.fcf) : statementRows();
         const at = ROWS.income.findIndex((d) => d.label === 'Cost of revenue') + 1;
         return ROWS.income.slice(0, at).concat(filed, ROWS.income.slice(at));
     }
@@ -2707,9 +3098,9 @@
         for (const def of defs) {
             if (viewState === 'ps' && def.kind === 'shares') continue;
             const raw = rows.map((r) => def.get(r));
-            if (raw.every((v) => v === null) && !def.heading) continue;
+            if (raw.every((v) => v === null) && !def.heading && !def.keepEmpty) continue;
             const { vals, fmt, colored } = viewVals(def, raw, rows);
-            if (vals.every((v) => v === null) && !def.heading) continue;
+            if (vals.every((v) => v === null) && !def.heading && !def.keepEmpty) continue;
             lastRender.rows.push({ label: def.label, vals, fmt, neutral: !!def.neutral });
             const isParent = def.parentOf !== undefined && liveGroups.has(def.parentOf);
             const inGroup = def.gid !== undefined;
@@ -2717,12 +3108,12 @@
             const caret = isParent
                 ? `<button class="grp-caret" data-g="${def.parentOf}" aria-label="Expand components" title="Show the components">${expanded.has(def.parentOf) ? '▾' : '▸'}</button>`
                 : '';
-            html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${inGroup ? ' grp-' + def.gid : ''}${isParent ? ' grp-parent' : ''}"${isParent ? ` data-g="${def.parentOf}"` : ''} data-i="${ri}"${hide ? ' hidden' : ''}>
+            html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${def.section ? ' row-section' : ''}${inGroup ? ' grp-' + def.gid : ''}${isParent ? ' grp-parent' : ''}"${isParent ? ` data-g="${def.parentOf}"` : ''} data-i="${ri}"${hide ? ' hidden' : ''}>
               <td class="row-head"${def.depth ? ` style="padding-left:${36 + def.depth * 16}px"` : ''}${def.title ? ` title="${esc(def.title)}"` : ''}>${caret}${esc(def.label)}</td>`;
             if (showStatementTrend) html += `<td>${def.heading && vals.every((v) => v === null) ? '' : statementMiniBars(vals, lastRender.periods, fmt)}</td>`;
             const plainView = !filed && viewState !== 'yoy' && !(viewState === 'ps' && def.kind === 'money');
             vals.forEach((v, i) => {
-                const why = v === null && plainView && stState === 'income' ? blankWhy(def, rows[i]) : null;
+                const why = v === null && plainView && stState === 'income' && !def.heading ? blankWhy(def, rows[i]) : null;
                 const calc = v !== null && plainView ? calcNote(def, rows[i]) : null;
                 const colCls = [
                     i === vals.length - 1 ? 'col-now' : '',
@@ -2769,7 +3160,9 @@
                 (noRevenue.length ? `No revenue is reported for ${noRevenue.length === rows.length ? 'any period shown' : noRevenue.length > 3 ? `${noRevenue.length} periods (latest ${noRevenue[noRevenue.length - 1]})` : noRevenue.join(', ')}: the income statement presents no revenue line that could be read, so revenue and margins are left blank rather than shown as zero. ` : '') +
                 (defs.some((d) => d.filed) ? `The company files no cost of revenue; its cost lines are shown as filed in its ${payload.filedCosts.filing.form}s, with the filing’s own labels and headings. ` : '') +
                 'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Reported per-share values retain their filed basis. Calculated figures require available verified inputs; missing inputs stay missing. ' +
-                (stState === 'income' ? 'A dotted underline marks a figure calculated from other filed figures (hover for how); n/r means the filing reports no such figure for that period, n/m that the figure is not meaningful. ' : '') +
+                (shownLines() === 'industry' ? 'Industry layout: the lines this industry files, in the order it presents them, with the ratios it is judged by underneath. ' : '') +
+                (shownLines() === 'analyst' ? 'Analyst view: the same filed figures regrouped by how the business earns and funds itself. Its subtotals and ratios are calculated from filed figures; a ratio the company reports itself can differ. ' : '') +
+                (stState === 'income' || shownLines() !== 'standard' ? 'A dotted underline marks a figure calculated from other filed figures (hover for how)' + (stState === 'income' ? '; n/r means the filing reports no such figure for that period, n/m that the figure is not meaningful' : '') + '. ' : '') +
                 '▸ unfolds a total into its components.';
         }
         // Tapping anywhere on a parent row toggles its component group. The ▸
@@ -3533,7 +3926,13 @@
                 syncStatementTrendControls();
             }
             renderStatements();
-            earlyAsFiled?.then((doc) => { if (doc) { asFiled = doc; renderStatements(); } });
+            // a bank or an insurer has the as-filed view whatever AS_FILED_ON says (owner, 2026-11-06)
+            const asFiledReq = earlyAsFiled || (VIEW_KINDS.includes(filedKind()) ? fetch(`/api/company/${encodeURIComponent(symbol)}/as-filed`).then((r) => {
+                if (r.status === 401 || r.status === 402 || r.status === 403) asFiledStatus = 'paid';
+                return r.ok ? r.json() : null;
+            }).catch(() => null) : null);
+            if (asFiledReq) { asFiledStatus = 'loading'; syncLinesControl(); }
+            asFiledReq?.then((doc) => { if (asFiledStatus === 'loading') asFiledStatus = 'none'; if (doc) asFiled = doc; renderStatements(); });
             renderCagrCards();
             renderRatios();
             renderPeers();

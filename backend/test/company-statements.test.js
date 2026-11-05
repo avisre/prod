@@ -118,8 +118,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261105-fill1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261105-fill1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261106-scr1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261106-scr1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -292,8 +292,8 @@ test('the per-share view divides by the share count filed for that same period e
 });
 
 test('a company that files no cost of revenue shows its filed cost lines under its own headings, annual only', () => {
-  const build = pageFunction('    const FILED_GROUP = 900;', '    function groupDefs(', ['payload', 'stState', 'basisState', 'reportingCurrency', 'money', 'ROWS', 'noFcf', 'ROWSETS', 'layoutOf', 'window'], '\nreturn { filedCostDefs, statementDefs, FILED_GROUP };');
-  const make = (p, st, basis, cur, money, rows, noFcf = () => false, sets = { generic: rows }, layout = 'generic') => build(p, st, basis, cur, money, rows, noFcf, sets, () => layout, { IndustryMetrics: { classify: () => ({}) } });
+  const build = pageFunction('    const FILED_GROUP = 900;', '    function groupDefs(', ['payload', 'stState', 'basisState', 'reportingCurrency', 'money', 'ROWS', 'noFcf', 'ROWSETS', 'layoutOf', 'window', 'SCREENER', 'VIEW_KINDS', 'linesState', 'INDUSTRY_VIEW', 'ANALYST_VIEW', 'asFiled', 'viewState'], '\nreturn { filedCostDefs, statementDefs, FILED_GROUP };');
+  const make = (p, st, basis, cur, money, rows, noFcf = () => false, sets = { generic: rows }, layout = 'generic') => build(p, st, basis, cur, money, rows, noFcf, sets, () => layout, { IndustryMetrics: { classify: () => ({}) } }, {}, [], 'standard', {}, {}, null, 'reported');
   const ROWS = { income: [{ label: 'Revenue', solo: true }, { label: 'Cost of revenue', solo: true }, { label: 'Gross profit' }] };
   const payload = { filedCosts: { currency: 'USD', heading: 'Costs and expenses', filing: { form: '10-K', accession: '0001104659-26-021292' }, lines: [
     { heading: true, label: 'Restaurant operating costs', depth: 0 },
