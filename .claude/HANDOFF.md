@@ -52,7 +52,8 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   (company-prefix) tags, foreign half-year columns, SPAC annual statements, InterestExpenseDebt / CostsAndExpenses opex.
 
 ## FCF for software issuers, trailing P/E, Mac nav, Q3 data — 2026-11-05
-- Commits (local, **unpushed** unless `git log origin/main..` says otherwise): `b164a249d` live price (routes
+- **Pushed and live 2026-11-06 01:19 IST** (Render dep-dbmdnt8u01pc73a8n1q0, `f9f3ef7d0`; gate passed on push).
+  Commits: `b164a249d` live price (routes
   normalize the reader payload with `adjustClone`, not the 6h snapshot), `8bceae045` code (below), then the data commit.
 - **Software FCF** (`verified-fundamentals.js` `softwareCapex`, SIC 737x only, annual AND quarterly): a filed
   `softwarePurchases` stands in as capex (Yahoo's method; APP FY2025 FCF $3,942.8M); a row with no capex line where its
