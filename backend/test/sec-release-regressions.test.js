@@ -112,14 +112,15 @@ test('recent annual reporting is stated separately from missing current financia
 test('narrow or broader taxonomy concepts do not substitute for displayed financial fields',()=>isolated(`
  const base=mixed=>mixed.facts['us-gaap'].NetIncomeLoss.units.USD;
  // 2026-11-01 guarded near-equivalents: G&A alone is the SG&A line, plain depreciation alone the
- // D&A line; beside the filing's selling or amortization lines they stay parts.
+ // D&A line; beside the filing's selling or amortization lines they stay parts — never the total on
+ // their own. 2026-11-05: with no total line filed, the total is their sum, marked (sec-facts PART_SUMS).
  const plain=structuredClone(doc);plain.facts['us-gaap'].GeneralAndAdministrativeExpense={units:{USD:base(plain)}};plain.facts['us-gaap'].Depreciation={units:{USD:base(plain)}};
  const e1=require(root+'/backend/sec-facts').extract(plain,evidence,{asOf:'2026-10-03'});
  assert.equal(e1.income.annualReports[0].sellingGeneralAndAdministrative,100);assert.equal(e1.income.annualReports[0].depreciationAndAmortization,100);
  const withParts=structuredClone(plain);withParts.facts['us-gaap'].SellingAndMarketingExpense={units:{USD:base(withParts)}};withParts.facts['us-gaap'].AmortizationOfIntangibleAssets={units:{USD:base(withParts)}};
  const e2=require(root+'/backend/sec-facts').extract(withParts,evidence,{asOf:'2026-10-03'});
- assert.equal(e2.income.annualReports[0].sellingGeneralAndAdministrative,null);assert.equal(e2.income.annualReports[0].depreciationAndAmortization,null);
- assert.equal(e2.cash.annualReports[0].depreciationDepletionAndAmortization,null);
+ const r2=e2.income.annualReports[0];assert.equal(r2.sellingGeneralAndAdministrative,200);assert.equal(r2._derivations.sellingGeneralAndAdministrative.formula,'sum_of_parts');assert.equal(r2.depreciationAndAmortization,200);assert.equal(r2._derivations.depreciationAndAmortization.formula,'sum_of_parts');
+ assert.equal(e2.cash.annualReports[0].depreciationDepletionAndAmortization,200);assert.equal(e2.cash.annualReports[0]._derivations.depreciationDepletionAndAmortization.formula,'sum_of_parts');
  const mixed=structuredClone(doc);for(const concept of ['InterestExpenseDebt','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'])mixed.facts['us-gaap'][concept]={units:{USD:base(mixed)}};
  const extracted=require(root+'/backend/sec-facts').extract(mixed,evidence,{asOf:'2026-10-03'});
  assert.equal(extracted.income.annualReports[0].interestExpense,null);assert.equal(extracted.cash.annualReports[0].depreciationDepletionAndAmortization,null);

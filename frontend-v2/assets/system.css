@@ -740,6 +740,9 @@ tr:hover .sym-newtab { color: var(--ink); border-color: var(--ink-3); }
 }
 #stmt-table th:last-child,
 #stmt-table td:last-child { border-right: 0; }
+/* calculated from other filed figures (hover says how); n/r and n/m explain an empty cell */
+#stmt-table td.calc { text-decoration: underline dotted #9a958a; text-underline-offset: 4px; }
+#stmt-table td.nr { color: #9a958a; font-size: 12px; }
 #stmt-table thead th {
   height: 54px;
   background: #f3f1ec;

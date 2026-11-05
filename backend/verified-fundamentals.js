@@ -128,6 +128,82 @@ function softwareCapex(annual,quarters) {
  });
  return {annual,quarters};
 }
+// Income-statement cells that other filed figures fix exactly (owner, 2026-11-05: every income
+// cell filled, nothing estimated). Each is marked in _derivations with its inputs and cites their
+// filings, so the page and the connectors label it as calculated:
+// - fourth-quarter flows (revenue, costs, profit lines): the year less the three quarters, for a year
+//   whose quarters provably add up to it (see the guard in the loop);
+// - fourth-quarter EPS: a 10-K files the year, not its fourth quarter, so Q4 = the year's EPS less
+//   the three quarters' filed EPS (StockAnalysis's figure: Apple Q4 FY2025 1.84 = 7.46 − 2.40 −
+//   1.65 − 1.57). Taken only when it agrees with Q4 net income at the year's share count, which
+//   rules out a split or a share-count change between the quarters and the year;
+// - pre-tax income or income tax from the other two and net income, only for an issuer whose every
+//   filed period satisfies pre-tax − tax = net income (no equity-method or minority line between);
+// - depreciation and amortization from the same period's cash-flow statement.
+const Q4_FLOWS=['totalRevenue','costOfRevenue','grossProfit','operatingExpenses','sellingGeneralAndAdministrative','researchAndDevelopment','operatingIncome','interestExpense','interestIncome','netInterestIncome','nonInterestIncome','nonInterestExpense','provisionForCreditLosses','premiums','netInvestmentIncome','otherNonOperatingIncome','depreciationAndAmortization','incomeBeforeTax','incomeTaxExpense','netIncome'];
+const NON_NEGATIVE=new Set(['totalRevenue','costOfRevenue','operatingExpenses','sellingGeneralAndAdministrative','researchAndDevelopment','interestExpense','interestIncome','premiums','depreciationAndAmortization']);
+function incomeIdentities(income,cash) {
+ const num=p.number,end=r=>Date.parse(r.fiscalDateEnding);
+ const copyOf=row=>({...row,_sources:{...row._sources},_derivations:{...row._derivations},_scopes:{...row._scopes}});
+ const annual=income.annualReports.map(copyOf),quarters=income.quarterlyReports.map(copyOf);
+ const put=(row,field,value,formula,inputs,from)=>{
+  const sources=[...new Set(from.flatMap(([r,f])=>r._sources?.[f] || []))];
+  if(!sources.length || !Number.isFinite(value))return;
+  row[field]=value;row._sources[field]=sources;
+  row._derivations[field]={formula,inputs,inputValues:from.map(([r,f])=>num(r[f]))};
+ };
+ for(const a of annual){
+  const start=a.periodStart && Date.parse(a.periodStart);if(!start)continue;
+  const year=quarters.filter(q=>end(q)>start && end(q)<=end(a)+7*DAY).sort((x,y)=>end(x)-end(y));
+  if(year.length!==4 || Math.abs(end(year[3])-end(a))>7*DAY || !year[0].periodStart || Math.abs(Date.parse(year[0].periodStart)-start)>7*DAY)continue;
+  if(year.some(q=>(q.reportedCurrency || a.reportedCurrency)!==a.reportedCurrency))continue;
+  const q4=year[3];
+  // Q4 flows (StockAnalysis's method): the year less the three quarters, all as filed. Only for a year
+  // whose quarters provably add up to it — every line filed for all four quarters sums to the year —
+  // so a 10-K that recast the year (discontinued operations, a restatement) never lands in Q4.
+  if(![a,...year].some(r=>num(r.discontinuedOperations))){
+   // evidence only from a Q4 figure filed as such: a Q4 the extractor already took as year less YTD adds up by construction
+   const filedAll=Q4_FLOWS.filter(f=>[a,...year].every(r=>num(r[f])!==null) && !q4._derivations?.[f]);
+   const adds=filedAll.length>0 && filedAll.every(f=>Math.abs(year.reduce((n,q)=>n+num(q[f]),0)-num(a[f]))<=Math.max(0.005*Math.abs(num(a[f])),1000));
+   if(adds)for(const f of Q4_FLOWS){
+    const fy=num(a[f]),parts=year.slice(0,3).map(q=>num(q[f]));
+    if(num(q4[f])!==null || fy===null || parts.some(v=>v===null))continue;
+    const v=fy-parts[0]-parts[1]-parts[2];
+    if(NON_NEGATIVE.has(f) && (v<0 || v>Math.abs(fy)))continue;
+    put(q4,f,v,'fy_less_three_quarters',['annual '+f,'Q1 '+f,'Q2 '+f,'Q3 '+f],[[a,f],...year.slice(0,3).map(q=>[q,f])]);
+   }
+  }
+  const ni=num(q4.netIncome),fyNi=num(a.netIncome);
+  for(const f of ['eps','dilutedEPS']){
+   const fy=num(a[f]),parts=year.slice(0,3).map(q=>num(q[f]));
+   if(num(q4[f])!==null || fy===null || fy===0 || parts.some(v=>v===null) || ni===null || fyNi===null)continue;
+   const shares=fyNi/fy;if(!(shares>0))continue;
+   const v=Math.round((fy-parts[0]-parts[1]-parts[2])*100)/100;
+   // each quarter on the year's share basis (a split, a reverse split or a mis-scaled filing moves
+   // its implied count by far more than buybacks or preferred dividends do); cents round tiny EPS
+   const sameBasis=(eps,income)=>Math.abs(eps)<0.1 || !income || (income/eps/shares>0.6 && income/eps/shares<1.67);
+   if(!year.slice(0,3).every(q=>sameBasis(num(q[f]),num(q.netIncome) ?? 0)) || !sameBasis(v,ni))continue;
+   if(Math.abs(v)>0.02 && ni && Math.sign(v)!==Math.sign(ni))continue;
+   put(q4,f,v,'fy_less_three_quarters',['annual '+f,'Q1 '+f,'Q2 '+f,'Q3 '+f],[[a,f],...year.slice(0,3).map(q=>[q,f])]);
+  }
+ }
+ const rows=[...annual,...quarters];
+ const filedAll=rows.filter(r=>!num(r.discontinuedOperations) && [r.incomeBeforeTax,r.incomeTaxExpense,r.netIncome].every(v=>num(v)!==null));
+ const holds=r=>Math.abs(num(r.incomeBeforeTax)-num(r.incomeTaxExpense)-num(r.netIncome))<=Math.max(0.005*Math.abs(num(r.incomeBeforeTax)),1000);
+ const identity=filedAll.length>=3 && filedAll.every(holds);
+ const cashRows=[...(cash?.annualReports || []),...(cash?.quarterlyReports || [])];
+ for(const r of rows){
+  if(identity && !num(r.discontinuedOperations) && num(r.netIncome)!==null){
+   if(num(r.incomeBeforeTax)===null && num(r.incomeTaxExpense)!==null)put(r,'incomeBeforeTax',num(r.netIncome)+num(r.incomeTaxExpense),'net_income_plus_tax',['netIncome','incomeTaxExpense'],[[r,'netIncome'],[r,'incomeTaxExpense']]);
+   else if(num(r.incomeTaxExpense)===null && num(r.incomeBeforeTax)!==null)put(r,'incomeTaxExpense',num(r.incomeBeforeTax)-num(r.netIncome),'pretax_less_net_income',['incomeBeforeTax','netIncome'],[[r,'incomeBeforeTax'],[r,'netIncome']]);
+  }
+  if(num(r.depreciationAndAmortization)===null){
+   const c=cashRows.find(x=>x.fiscalDateEnding===r.fiscalDateEnding && x.periodStart===r.periodStart && num(x.depreciationDepletionAndAmortization)!==null);
+   if(c)put(r,'depreciationAndAmortization',num(c.depreciationDepletionAndAmortization),'cash_flow_statement',['depreciationDepletionAndAmortization'],[[c,'depreciationDepletionAndAmortization']]);
+  }
+ }
+ return {annualReports:annual,quarterlyReports:quarters};
+}
 function adapt(company,raw,data,entry,issuer) {
  const type=company.securityType || 'stock';
  // Sector is rebuilt rather than copied: us-companies carries GICS names and the
@@ -189,6 +265,7 @@ function adapt(company,raw,data,entry,issuer) {
   if(filedAnnual.rows.length)out.provenance.sources={...out.provenance.sources,...filedAnnual.sources};
   if(Object.keys(printedSources).length)out.provenance.sources={...out.provenance.sources,...printedSources};
  }
+ if(type==='stock')out.income=incomeIdentities(out.income,out.cash);
  const inc=out.income.annualReports[0];overview.Currency=inc?.reportedCurrency || out.balance.annualReports[0]?.reportedCurrency || 'USD';
  overview.EPS=inc?.dilutedEPS ?? inc?.eps ?? null;
  // An ADR's or foreign filer's EPS stays out of the statement rows, where readers pair it
@@ -214,4 +291,4 @@ function load(symbol,raw) {
 }
 function sourcesFor(data,row,field){return (row?._sources?.[field] || []).map(id=>data?.provenance?.sources?.[id]).filter(Boolean);}
 function getCompanyEvidence(...args){return require('./company-evidence').getCompanyEvidence(...args);}
-module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,softwareCapex,filedAnnualRows,sourcesFor,invalidate};
+module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,softwareCapex,incomeIdentities,filedAnnualRows,sourcesFor,invalidate};

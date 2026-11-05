@@ -533,11 +533,11 @@
             { label: 'Provision for credit losses', get: (r) => num(r.provisionForCreditLosses), fmt: money, kind: 'money', neutral: true },
             { label: 'Net interest income', get: (r) => num(r.netInterestIncome), fmt: money, kind: 'money', solo: true },
             { label: 'Noninterest income', get: (r) => num(r.nonInterestIncome), fmt: money, kind: 'money', solo: true },
-            { label: 'Pre-tax income', get: (r) => num(r.incomeBeforeTax), fmt: money, kind: 'money' },
+            { label: 'Pre-tax income', get: (r) => num(r.incomeBeforeTax), fmt: money, kind: 'money', src: 'incomeBeforeTax' },
             { label: 'Interest income', get: (r) => num(r.interestIncome), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Interest expense', get: (r) => num(r.interestExpense), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other non-operating income', get: (r) => num(r.otherNonOperatingIncome), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Income tax', get: (r) => num(r.incomeTaxExpense), fmt: money, kind: 'money', neutral: true },
+            { label: 'Income tax', get: (r) => num(r.incomeTaxExpense), fmt: money, kind: 'money', neutral: true, src: 'incomeTaxExpense' },
             { label: 'Effective tax rate', get: (r) => { const t = num(r.incomeTaxExpense); const p = num(r.incomeBeforeTax); return (t !== null && p !== null && p > 0) ? t / p : null; }, fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
             { label: 'Net income', get: (r) => num(r.netIncome), fmt: money, kind: 'money', rule: true },
             { label: 'Net margin', get: (r) => ratio(num(r.netIncome), derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
@@ -545,9 +545,9 @@
             // amortization. Neither is shown without both filed figures.
             { label: 'EBITDA', get: (r) => { const o = num(r.operatingIncome); const d = num(r.depreciationAndAmortization); return o === null || d === null ? null : o + d; }, fmt: money, kind: 'money' },
             { label: 'EBIT', get: (r) => num(r.operatingIncome), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Depreciation & amortization', get: (r) => num(r.depreciationAndAmortization), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'EPS, basic', get: (r) => num(r.eps), fmt: (v) => fixed(v, 2), kind: 'ps', solo: true },
-            { label: 'EPS, diluted', get: (r) => num(r.dilutedEPS), fmt: (v) => fixed(v, 2), kind: 'ps', solo: true }
+            { label: 'Depreciation & amortization', get: (r) => num(r.depreciationAndAmortization), fmt: money, kind: 'money', sub: true, neutral: true, src: 'depreciationAndAmortization' },
+            { label: 'EPS, basic', get: (r) => num(r.eps), fmt: (v) => fixed(v, 2), kind: 'ps', solo: true, src: 'eps' },
+            { label: 'EPS, diluted', get: (r) => num(r.dilutedEPS), fmt: (v) => fixed(v, 2), kind: 'ps', solo: true, src: 'dilutedEPS' }
         ],
         // Macrotrends content, accordion order: each subtotal is the parent
         // row and its components unfold DIRECTLY BELOW it when expanded.
@@ -2311,6 +2311,35 @@
             ? `FY${d.getFullYear()}`
             : `${d.toLocaleString('en-US', { month: 'short' })} ’${String(d.getFullYear()).slice(2)}`;
     }
+    // An income-statement cell left empty says why (owner, 2026-11-05: no unexplained blanks):
+    // n/m where the inputs are filed but the figure means nothing (a tax rate on a pre-tax loss,
+    // a margin on no revenue), 0 where operating expenses are exactly R&D plus SG&A, and n/r where
+    // the company's filing for that period carries no such figure. Nothing is estimated.
+    function blankWhy(def, r) {
+        const NM = 'n/m';
+        if (def.label === 'Effective tax rate' && num(r.incomeTaxExpense) !== null && num(r.incomeBeforeTax) !== null)
+            return { text: NM, title: 'Not meaningful: a pre-tax loss (or none), so there is no tax rate to show' };
+        if (/margin$/i.test(def.label) && derive(r).rev === 0)
+            return { text: NM, title: 'Not meaningful: no revenue in this period' };
+        if (def.label === 'Other operating expenses' && [r.operatingExpenses, r.researchAndDevelopment, r.sellingGeneralAndAdministrative].every((v) => num(v) !== null))
+            return { text: '0', title: 'Operating expenses are exactly R&D plus SG&A, so nothing else remains' };
+        return { text: 'n/r', title: 'Not reported: the company’s SEC filing for this period has no figure for this line' };
+    }
+    // A filled cell that is calculated from other filed figures says how (backend/verified-fundamentals.js
+    // incomeIdentities; sec-facts.js ytd_difference).
+    const CALC = {
+        fy_less_three_quarters: 'Calculated: the full-year figure less the first three quarters as filed (the annual report files no separate fourth quarter)',
+        ytd_difference: 'Calculated: the year-to-date figure less the previous year-to-date figure, both as filed',
+        net_income_plus_tax: 'Calculated: net income plus income tax, both as filed',
+        pretax_less_net_income: 'Calculated: pre-tax income less net income, both as filed',
+        cash_flow_statement: 'From the cash-flow statement of the same filing (no separate income-statement line)',
+        sum_of_parts: 'Calculated: the sum of the parts the filing reports separately (it files no total line)',
+        sum_of_parts_ytd_difference: 'Calculated: the year-to-date sum of the parts the filing reports separately, less the previous year-to-date sum'
+    };
+    function calcNote(def, r) {
+        const d = def.src && r._derivations && r._derivations[def.src];
+        return d && CALC[d.formula] || null;
+    }
     function viewVals(def, raw, rows) {
         if (viewState === 'yoy' && (def.kind === 'money' || def.kind === 'ps' || def.kind === 'shares' || def.kind === 'count')) {
             return {
@@ -2691,12 +2720,17 @@
             html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${inGroup ? ' grp-' + def.gid : ''}${isParent ? ' grp-parent' : ''}"${isParent ? ` data-g="${def.parentOf}"` : ''} data-i="${ri}"${hide ? ' hidden' : ''}>
               <td class="row-head"${def.depth ? ` style="padding-left:${36 + def.depth * 16}px"` : ''}${def.title ? ` title="${esc(def.title)}"` : ''}>${caret}${esc(def.label)}</td>`;
             if (showStatementTrend) html += `<td>${def.heading && vals.every((v) => v === null) ? '' : statementMiniBars(vals, lastRender.periods, fmt)}</td>`;
+            const plainView = !filed && viewState !== 'yoy' && !(viewState === 'ps' && def.kind === 'money');
             vals.forEach((v, i) => {
+                const why = v === null && plainView && stState === 'income' ? blankWhy(def, rows[i]) : null;
+                const calc = v !== null && plainView ? calcNote(def, rows[i]) : null;
                 const colCls = [
                     i === vals.length - 1 ? 'col-now' : '',
-                    (colored && v !== null) ? (v >= 0 ? 'delta-pos' : 'delta-neg') : (v !== null && v < 0 ? 'delta-neg' : '')
+                    (colored && v !== null) ? (v >= 0 ? 'delta-pos' : 'delta-neg') : (v !== null && v < 0 ? 'delta-neg' : ''),
+                    calc ? 'calc' : '', why && why.text !== '0' ? 'nr' : ''
                 ].join(' ');
-                html += `<td class="${colCls}"${v === null && def.blank ? ` title="${esc(def.blank(rows[i]))}"` : ''}>${fmt(v)}</td>`;
+                const title = v === null && def.blank ? def.blank(rows[i]) : why ? why.title : calc;
+                html += `<td class="${colCls}"${title ? ` title="${esc(title)}"` : ''}>${why ? why.text : fmt(v)}</td>`;
             });
             html += '</tr>';
             ri++;
@@ -2734,7 +2768,9 @@
                 (untagged.length ? `Capital spending is not tagged in the filing for ${untagged.length > 3 ? `${untagged.length} periods (latest ${untagged[untagged.length - 1]})` : untagged.join(', ')}: no capital-spending line on its cash-flow statement could be read, so capital expenditure and free cash flow are left blank there rather than estimated. ` : '') +
                 (noRevenue.length ? `No revenue is reported for ${noRevenue.length === rows.length ? 'any period shown' : noRevenue.length > 3 ? `${noRevenue.length} periods (latest ${noRevenue[noRevenue.length - 1]})` : noRevenue.join(', ')}: the income statement presents no revenue line that could be read, so revenue and margins are left blank rather than shown as zero. ` : '') +
                 (defs.some((d) => d.filed) ? `The company files no cost of revenue; its cost lines are shown as filed in its ${payload.filedCosts.filing.form}s, with the filing’s own labels and headings. ` : '') +
-                'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Reported per-share values retain their filed basis. Calculated figures require available verified inputs; missing inputs stay missing. ▸ unfolds a total into its components.';
+                'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Reported per-share values retain their filed basis. Calculated figures require available verified inputs; missing inputs stay missing. ' +
+                (stState === 'income' ? 'A dotted underline marks a figure calculated from other filed figures (hover for how); n/r means the filing reports no such figure for that period, n/m that the figure is not meaningful. ' : '') +
+                '▸ unfolds a total into its components.';
         }
         // Tapping anywhere on a parent row toggles its component group. The ▸
         // glyph alone is only ~12×18px — far too small to hit on a phone, which

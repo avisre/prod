@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261101-alt4';
+const EXTRACTION_VERSION = '20261105-parts1';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -418,6 +418,24 @@ const ALTS_ADDED = ['us-gaap:RealEstateRevenueNet','us-gaap:IncomeLossFromContin
  // Guarded near-equivalents (FIELD_GUARDS): each fills only when the same filing reports no other part of the row.
  'us-gaap:GeneralAndAdministrativeExpense','us-gaap:Depreciation','us-gaap:FiniteLivedIntangibleAssetsNet','us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill','us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents','us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent'];
 const FILLS=new Set([...FILLS_ADDED,'us-gaap:'+LEASE_REVENUE,...ALTS_ADDED]);
+// A row the filing reports only in parts (owner 2026-11-05: every income-statement cell filled, never
+// with a wrong number). FIELD_GUARDS keep a part from standing in for the row; when the same filing and
+// span carry the base part and exactly one of these sets of other parts — and nothing else that could
+// be part of the row — their sum is the row, cited to each part and marked as calculated
+// (Collegium 2025: depreciation $4.2m + amortization of intangibles; Fennec: G&A + selling and marketing).
+// Lines that are not the depreciation and amortization of the business's assets: financing costs, debt discounts,
+// tax and pension items, accumulated balances, impairments (Collegium's debt-discount amortization is separate).
+const DA_RIVAL={match:/Depreciation|Amortization/,ignore:/FinancingCost|DebtDiscount|DebtIssuance|DebtPremium|Premium|Discount|OtherComprehensive|Accumulated|IncomeTax|DeferredTax|Impairment|Pension|Postretirement|Unamortized|Liabilit|PerShare|Reconciliation|Narrative|Policy|UsefulLife|Percent|Rate|Excluding/};
+const PART_SUMS={
+ 'income|sellingGeneralAndAdministrative':{base:'us-gaap:GeneralAndAdministrativeExpense',sets:[['us-gaap:SellingAndMarketingExpense'],['us-gaap:SellingExpense','us-gaap:MarketingExpense'],['us-gaap:SellingExpense'],['us-gaap:MarketingExpense']],others:['us-gaap:SellingGeneralAndAdministrativeExpenseExcludingOtherExpense','us-gaap:OtherSellingGeneralAndAdministrativeExpense']},
+ // Any other depreciation or amortization line of the same filing and span refuses the sum: Fiserv 2025 files
+ // depreciation $669m and intangible amortization $2,300m beside "other depreciation and amortization" $1,857m
+ // and finance-lease amortization $278m; its statement's D&A is $3,161m, not their $2,969m.
+ 'income|depreciationAndAmortization':{base:'us-gaap:Depreciation',sets:[['us-gaap:AmortizationOfIntangibleAssets']],rival:DA_RIVAL},
+ 'cash|depreciationDepletionAndAmortization':{base:'us-gaap:Depreciation',sets:[['us-gaap:AmortizationOfIntangibleAssets']],rival:DA_RIVAL},
+ 'income|incomeBeforeTax':{base:'us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic',sets:[['us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesForeign']]},
+ 'income|incomeTaxExpense':{base:'us-gaap:CurrentIncomeTaxExpenseBenefit',sets:[['us-gaap:DeferredIncomeTaxExpenseBenefit']]}
+};
 const BORROWED = {income:['depreciationAndAmortization'],cash:['cashFlowNetIncome']};
 const FORM = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
 function scope(concept, fallback) {
@@ -1031,7 +1049,55 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     if(confirming && confirming.val===ytd.val){const start=new Date(Date.parse(prev.end)+DAY).toISOString().slice(0,10);return {value:ytd.val-prev.val,refs:[source(confirming),source(prev)],start,scope:scope(concept,def.scope),derivation:{formula:'ytd_difference',inputValues:[ytd.val,prev.val],confirmedBy:confirming.accn},lateFill:true};}
    }
   }
+  // Last: the row as the sum of the parts one filing reports (PART_SUMS). Fill-only, like the late rules.
+  const spec=PART_SUMS[st+'|'+field];
+  if(spec && unit===cur && st!=='balance') {
+   const sumOf=parts=>parts.reduce((n,r)=>n+r.val,0),named=parts=>parts.map(r=>r.taxonomy+':'+r.concept);
+   const baseScope=scope(spec.base.split(':')[1],def.scope);
+   let pool=(byConceptUnit.get(spec.base+'|'+unit) || []).filter(r=>!restrict || annualAccessions.has(r.accn));
+   if(asReportedQuarter && quartersAsFiled){const filed=pool.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))pool=filed;}
+   if(basis==='annual'){
+    const parts=partSum(spec,unit,pool.filter(r=>r.end===end && r.days>=340 && r.days<=380 && annualForm(r) && (!rowStart || Math.abs(Date.parse(r.start)-Date.parse(rowStart))<=4*DAY)));
+    if(parts)return {value:sumOf(parts),refs:parts.map(source),start:parts[0].start,scope:baseScope,derivation:{formula:'sum_of_parts',parts:named(parts),inputValues:parts.map(r=>r.val)},lateFill:true};
+   } else {
+    const direct=partSum(spec,unit,pool.filter(r=>r.end===end && r.days>=75 && r.days<=QUARTER_MAX_DAYS && !pool.some(y=>y.accn===r.accn && y.end===r.end && y.days>=340 && y.val===r.val)));
+    if(direct)return {value:sumOf(direct),refs:direct.map(source),start:direct[0].start,scope:baseScope,derivation:{formula:'sum_of_parts',parts:named(direct),inputValues:direct.map(r=>r.val)},lateFill:true};
+    const ytd=partSum(spec,unit,pool.filter(r=>r.end===end && r.days>=160 && r.days<=380));
+    if(ytd){
+     const y=ytd[0],prev=partSum(spec,unit,pool.filter(r=>r.start===y.start && r.end<end && r.days>=y.days-QUARTER_MAX_DAYS && r.days<=y.days-75 && r.filed<=y.filed && (!/\/A$/.test(y.form) || r.accn===y.accn)));
+     if(prev && JSON.stringify(named(prev))===JSON.stringify(named(ytd))){
+      const start=new Date(Date.parse(prev[0].end)+DAY).toISOString().slice(0,10);
+      return {value:sumOf(ytd)-sumOf(prev),refs:[...ytd,...prev].map(source),start,scope:baseScope,derivation:{formula:'sum_of_parts_ytd_difference',parts:named(ytd),inputValues:[...ytd,...prev].map(r=>r.val)},lateFill:true};
+     }
+    }
+   }
+  }
   return null;
+ }
+ // The newest filing among `bases` (facts of PART_SUMS base tag for one span kind): its base fact and the one
+ // set of other parts the same filing reports for the same span, each with a single value, or null.
+ function partSum(spec,unit,bases) {
+  const b=bases.filter(r=>r.val!==0).sort((x,y)=>y.filed.localeCompare(x.filed)||y.accn.localeCompare(x.accn))[0];
+  if(!b)return null;
+  const held=[];
+  for(const t of [spec.base,...new Set(spec.sets.flat()),...(spec.others || [])]){
+   const fs=(byConceptUnit.get(t+'|'+unit) || []).filter(r=>r.accn===b.accn && r.start===b.start && r.end===b.end);
+   if(!fs.length)continue;
+   if(new Set(fs.map(r=>r.val)).size>1)return null;
+   if(fs[0].val!==0)held.push(t===spec.base?b:fs[0]);
+  }
+  // Tags read straight from the filing's facts, so a line the extractor never loads still counts.
+  const parts=new Set([spec.base,...spec.sets.flat()]);
+  for(const t of spec.others || []){const [tax,c]=t.split(':');if(Object.values(document.facts[tax]?.[c]?.units || {}).flat().some(f=>f.accn===b.accn && p.day(f.end)===b.end && (f.start?p.day(f.start):null)===b.start && p.number(f.val)))return null;}
+  if(spec.rival)for(const [c,def] of Object.entries(document.facts['us-gaap'] || {})){
+   if(parts.has('us-gaap:'+c) || !spec.rival.match.test(c) || spec.rival.ignore.test(c))continue;
+   // The same amount shown on another line (Collegium's intangible amortization inside cost of sales) is not another part.
+   const same=new Set([...held.map(r=>r.val),held.reduce((n,r)=>n+r.val,0)]);
+   if(Object.values(def?.units || {}).flat().some(f=>f.accn===b.accn && p.day(f.end)===b.end && (f.start?p.day(f.start):null)===b.start && p.number(f.val) && !same.has(p.number(f.val))))return null;
+  }
+  const extra=held.slice(1).map(r=>r.taxonomy+':'+r.concept);
+  const set=spec.sets.find(s=>s.length===extra.length && s.every(t=>extra.includes(t)));
+  return set?[b,...set.map(t=>held.find(r=>r.taxonomy+':'+r.concept===t))]:null;
  }
  const build=basis=>{ for(const end of [...(basis==='annual'?annualEnds:quarterEnds)].filter(p.day).sort().reverse().slice(0,basis==='annual'?25:48)) {
   const cur=currency(end,basis==='annual');if(!cur)continue;
@@ -1165,4 +1231,4 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  if(document.industryTables?.length)out.industryObservations=require('./sec-industry-tables').extractTables(document.industryTables,document.industryFiling,issuer,out);
  return out;
 }
-module.exports={extract,presentedDebt,MAPS,OUTFLOWS,ROWS_ADDED,INDUSTRY_FIELDS,INDUSTRY_ADDED,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept,scope,dataSetDate};
+module.exports={extract,presentedDebt,MAPS,OUTFLOWS,PART_SUMS,ROWS_ADDED,INDUSTRY_FIELDS,INDUSTRY_ADDED,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept,scope,dataSetDate};

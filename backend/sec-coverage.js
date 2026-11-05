@@ -132,6 +132,63 @@ function verifiedField(data, row, field, accessions) {
         const value=operation==='sum_fields'?row[inputs[0]]+row[inputs[1]]:row[inputs[0]]-row[inputs[1]];
         return derived.formula===operation && number(row[field])===value && JSON.stringify(ids)===JSON.stringify(expectedRefs);
     }
+    // A row as the sum of the parts one filing reports (sec-facts PART_SUMS): the base part and exactly one
+    // allowed set, each a filed fact of one filing for the row's span — or, for a quarter, the year-to-date
+    // parts of one filing less the previous year-to-date parts of one filing, as ytd_difference.
+    if (derived?.formula === 'sum_of_parts' || derived?.formula === 'sum_of_parts_ytd_difference') {
+        const spec = Object.entries(require('./sec-facts').PART_SUMS).find(([k]) => k.split('|')[1] === field)?.[1];
+        const parts = derived.parts, ytdForm = derived.formula === 'sum_of_parts_ytd_difference';
+        if (!spec || row.periodType === 'instant' || !Array.isArray(parts) || parts[0] !== spec.base || !spec.sets.some(s => s.length === parts.length - 1 && s.every(t => parts.slice(1).includes(t)))) return false;
+        const n = parts.length;
+        if (sources.length !== (ytdForm ? 2 * n : n)) return false;
+        const fact = (s, i) => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && s.unit === row.reportedCurrency && s.taxonomy + ':' + s.concept === parts[i % n];
+        const oneSpan = g => g.every(s => s.accessionNumber === g[0].accessionNumber && s.periodStart === g[0].periodStart && s.periodEnd === g[0].periodEnd);
+        const sum = g => g.reduce((t, s) => t + number(s.rawValue), 0);
+        const len = (a, b) => (Date.parse(b) - Date.parse(a)) / DAY + 1;
+        if (!sources.every(fact)) return false;
+        let value;
+        if (!ytdForm) {
+            const s0 = sources[0];
+            if (!oneSpan(sources) || s0.periodEnd !== row.fiscalDateEnding) return false;
+            if (row.periodType === 'annual') {
+                const annualForm = s => /^(10-K|20-F|40-F)(\/A)?$/.test(s.form) || (s.form === '6-K' && /^(20-F|40-F)$/.test(s.annualFiling?.form || '') && s.annualFiling.filingDate === s.filingDate);
+                if (!annualForm(s0) || len(s0.periodStart, s0.periodEnd) < 340 || len(s0.periodStart, s0.periodEnd) > 380 || Math.abs(Date.parse(s0.periodStart) - Date.parse(row.periodStart)) > 4 * DAY) return false;
+            } else if (s0.periodStart !== row.periodStart || len(s0.periodStart, s0.periodEnd) < 75 || len(s0.periodStart, s0.periodEnd) > 119) return false;
+            value = sum(sources);
+        } else {
+            const ytd = sources.slice(0, n), prev = sources.slice(n);
+            if (row.periodType !== 'quarterly' || !oneSpan(ytd) || !oneSpan(prev) || ytd[0].periodEnd !== row.fiscalDateEnding || prev[0].periodStart !== ytd[0].periodStart || prev[0].periodEnd >= row.fiscalDateEnding || prev[0].filingDate > ytd[0].filingDate) return false;
+            if (row.periodStart !== new Date(Date.parse(prev[0].periodEnd) + DAY).toISOString().slice(0, 10) || len(row.periodStart, row.fiscalDateEnding) < 75 || len(row.periodStart, row.fiscalDateEnding) > 119) return false;
+            value = sum(ytd) - sum(prev);
+        }
+        return number(row[field]) === (row._signs?.[field] === -1 ? -Math.abs(value) : value);
+    }
+    // A fourth quarter as the year less its three quarters (verified-fundamentals incomeIdentities, serve
+    // time, on rows already verified): every source a filed fact of this unit ending no later than this
+    // quarter, one a 10-K/20-F/40-F span of about a year ending with it, and the inputs reproduce the value.
+    // EPS is never derived upstream, so its four sources must be the four filed figures themselves.
+    if (derived?.formula === 'fy_less_three_quarters') {
+        const iv = derived.inputValues, eps = /(?:EPS|^eps$)/.test(field);
+        if (row.periodType !== 'quarterly' || !Array.isArray(iv) || iv.length !== 4 || !iv.every(v => number(v) !== null) || JSON.stringify(derived.inputs) !== JSON.stringify(['annual ', 'Q1 ', 'Q2 ', 'Q3 '].map(x => x + field))) return false;
+        if (!sources.every(s => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && s.unit === (eps ? row.reportedCurrency + '/shares' : row.reportedCurrency) && s.periodEnd <= row.fiscalDateEnding)) return false;
+        const yearOf = s => /^(10-K|20-F|40-F)(\/A)?$/.test(s.form) && Math.abs(Date.parse(s.periodEnd) - Date.parse(row.fiscalDateEnding)) <= 7 * DAY && (Date.parse(s.periodEnd) - Date.parse(s.periodStart)) / DAY + 1 >= 340 && (Date.parse(s.periodEnd) - Date.parse(s.periodStart)) / DAY + 1 <= 380 && (!eps || Math.abs(number(s.rawValue)) === Math.abs(number(iv[0])));
+        if (!sources.some(yearOf)) return false;
+        if (eps && (sources.length !== 4 || !sources.slice(1).every((s, i) => Math.abs(number(s.rawValue)) === Math.abs(number(iv[i + 1]))))) return false;
+        const value = iv[0] - iv[1] - iv[2] - iv[3];
+        return number(row[field]) === (eps ? Math.round(value * 100) / 100 : value);
+    }
+    // Pre-tax income or tax from the same row's filed net income and the other one, and D&A as the same
+    // period's cash-flow line (incomeIdentities): proved from this row's own verified fields.
+    if (derived?.formula === 'net_income_plus_tax' || derived?.formula === 'pretax_less_net_income') {
+        const ins = derived.formula === 'net_income_plus_tax' ? ['netIncome', 'incomeTaxExpense'] : ['incomeBeforeTax', 'netIncome'];
+        if (field !== (derived.formula === 'net_income_plus_tax' ? 'incomeBeforeTax' : 'incomeTaxExpense') || JSON.stringify(derived.inputs) !== JSON.stringify(ins) || !ins.every(f => verifiedField(data, row, f, accessions))) return false;
+        const a = number(row[ins[0]]), b = number(row[ins[1]]);
+        return number(row[field]) === (derived.formula === 'net_income_plus_tax' ? a + b : a - b) && JSON.stringify(ids) === JSON.stringify([...new Set(ins.flatMap(f => row._sources[f]))]);
+    }
+    if (derived?.formula === 'cash_flow_statement') {
+        // the cash-flow line itself may be a sum of parts or a year-to-date difference, each re-proved on its own row
+        return field === 'depreciationAndAmortization' && sources.every(s => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && s.unit === row.reportedCurrency && s.periodEnd <= row.fiscalDateEnding) && sources.some(s => s.periodEnd === row.fiscalDateEnding) && (sources.length > 1 || (sources[0].periodStart === row.periodStart && Math.abs(number(sources[0].rawValue)) === Math.abs(number(row[field]))));
+    }
     if (!sources.every(s => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && (s.periodEnd === row.fiscalDateEnding || derived?.formula === 'ytd_difference') && s.unit === (/(?:EPS|^eps$)/.test(field) ? row.reportedCurrency + '/shares' : /Shares/.test(field) ? 'shares' : row.reportedCurrency))) return false;
     if (row.periodType==='instant' && sources.some(s=>s.periodStart!==null)) return false;
     // Annual rows tolerate a start a few days off the row's own: a 52/53-week filer's comparative

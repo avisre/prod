@@ -12,6 +12,65 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Every income cell filled, no wrong numbers — 2026-11-05 (owner order)
+- Measured with scratch `cell-audit.js` (5 annual / 8 quarterly columns, rows the page shows): visible blank cells
+  65,605 → 55,368 (step 1 identities) → 34,654. Remaining: 20,482 never filed for that period (page shows **n/r**),
+  7,118 ratios with no meaning (loss tax rate; page shows **n/m**), 1,588 no companyfacts, ~1,430 Q4 EPS and ~1,400 Q4
+  flows blocked by the guards below, ~1,100 tax/pretax where the issuer's periods don't satisfy pretax − tax = NI.
+  Audit outputs: `~/Downloads/sec-bulk/cell-1105{,b,c,e}`.
+- **Step 1 (`verified-fundamentals.js` `incomeIdentities`, serve-time, marked calculated):** Q4 EPS = FY − 3 filed
+  quarters (share-basis guard), pretax/tax from NI where every period satisfies the identity, D&A from the cash-flow
+  statement, and **Q4 flows = FY − Q1 − Q2 − Q3** only when a Q4 figure *filed as such* proves the four quarters add up
+  to the year (a Q4 the extractor took as year − YTD is no evidence: IMSR de-SPAC). Loosening that guard adds ~500
+  cells and puts SPAC-vs-opco arithmetic in Q4 — don't. Tests `income-identities.test.js`.
+- **Step 2 (`sec-facts.js` `PART_SUMS`, `EXTRACTION_VERSION 20261105-parts1`):** a row the filing reports only in parts =
+  their sum, fill-only, cited to each part, formula `sum_of_parts` / `sum_of_parts_ytd_difference` re-proved by
+  `sec-coverage.verifiedField`. SG&A = G&A + selling/marketing; D&A = Depreciation + AmortizationOfIntangibleAssets unless
+  any other D&A-like fact sits on the same accn+span (Fiserv files three more → refused; a same-value duplicate inside
+  cost of sales is fine, Collegium); pretax = domestic + foreign; tax = current + deferred. Tests `part-sums.test.js`.
+  Written by scratch `parts-merge.js` straight from the 11-05 bulk companyfacts into the stored files (blank cells only,
+  each re-verified, validateFinancial must not gain an error): **52,481 cells, 1,763 issuers**; file and issuer
+  `extractionVersion` left as they were (only this rule was applied). Pre-write backup:
+  `~/Downloads/sec-bulk/backup-20261105-preparts/sec-financials.tgz`.
+- Checked against StockAnalysis 11-05: ORCL SG&A ×3 + D&A, POWI, COLL, FENC exact. MTCH 2025, MBUU, ONTO 2025 differ
+  because SA moves one-off items out of SG&A; ours equals the filed G&A + S&M lines.
+- **Dataset `asOf` = 2026-11-05** (`sec-reporting.json`; every `lastReconciledCycle` 2026-11-01 relabelled 11-05,
+  `lastSuccessfulCheckAt` untouched). The 11-05 refresh took every filer in EDGAR's form indexes 10-30..11-05 plus
+  `current.atom`, so an issuer it skipped filed nothing new. Labelling the cycle 11-01 instead (done earlier this
+  session) makes validate fail with ~52k "future source" errors, because the data holds 10-Qs filed 11-02..11-05.
+  NAVI's new holding-company CIK 0002152623 added (no 10-K under it yet).
+- `sec-coverage.verifiedField` re-proves the serve-time identities (`fy_less_three_quarters`, `net_income_plus_tax`,
+  `pretax_less_net_income`, `cash_flow_statement`); before, Apple's Q4 EPS failed `sec-financial-consumers.test.js`.
+  Sweep of every served cell on 756 issuers (1-in-8): all of them pass; the only failures left are older —
+  prospectus-sourced rows (424B4/S-1 HTML, CLBK, ALMR; ~690 cells) and the serve-time capex rules
+  (`software_capitalisation` KC, `printed_statement_line` GPK). `sec-release-regressions` now expects the sum of parts.
+- Index rebuild 23:24–23:54 IST on this data: validate `--bootstrap` ok, 0 errors; verify-pages errors []; perf ok;
+  screenable listings 5,063. The index builders and validate have no per-symbol mode, so any data change costs a
+  full ~30 min rebuild (an incremental builder would cut that; not built).
+- **Open:** extractor `ytd_difference` at a de-SPAC Q4 subtracts the SPAC's 9M from the opco's year (IMSR Q4 2025 NI
+  −31.2m stored) — pre-existing, needs a guard on a change of reporting entity. Not yet done from the plan: custom
+  (company-prefix) tags, foreign half-year columns, SPAC annual statements, InterestExpenseDebt / CostsAndExpenses opex.
+
+## FCF for software issuers, trailing P/E, Mac nav, Q3 data — 2026-11-05
+- Commits (local, **unpushed** unless `git log origin/main..` says otherwise): `b164a249d` live price (routes
+  normalize the reader payload with `adjustClone`, not the 6h snapshot), `8bceae045` code (below), then the data commit.
+- **Software FCF** (`verified-fundamentals.js` `softwareCapex`, SIC 737x only, annual AND quarterly): a filed
+  `softwarePurchases` stands in as capex (Yahoo's method; APP FY2025 FCF $3,942.8M); a row with no capex line where its
+  fiscal year files none either gets `_noCapexLine` and FCF = OCF with capex left a dash (StockAnalysis's method; APP Q2
+  2026 $869.0M). A quarter whose year files capex is a derivation gap and keeps no FCF. Readers: `company.js`
+  `fcfOf`, `mcp-financials.js`, `financial-metrics.js`. Test `software-fcf.test.js`.
+- **Trailing P/E** (`company.js` `earningsSeries`): an unfiled Q4 EPS = FY EPS − three filed quarters, else NI ÷ the
+  adjacent quarter's weighted diluted shares — never a balance-sheet count (WMT showed 37× from a pre-split count).
+  When `coverage.latestEarningsRelease` is newer than the last 10-Q/10-K the provider's `trailingPE` shows, labelled.
+- **Nav**: 1024–1360px keeps Screener / Stocks & funds / AI ▾ / Portfolio and folds Tools, Compare, Markets, Gurus,
+  Pricing into "More ▾"; hamburger only ≤1023px. Lookbehind regexes removed from profile/monitor/dossier/
+  compare-dossiers (Safari < 16.4). Stamp `20261105-fcf8`.
+- **Trap hit:** killing a `refresh-sec-industry.js --jobs` run loses the shards' results (they live in
+  `/tmp/sec-industry-*`) while the enriched files stay on disk, so the next run dies at once on
+  `FINANCIAL_DIGEST_MISMATCH`. Recovery = adopt a file's digest only when it carries the current industry `VERSION` for
+  the issuer's current 10-K accession (scratch script did this for 240), then resume with the same `--symbols`.
+- Cron left weekly: runs take 150–187 min, daily Mon–Sat ≈ 4,400 Actions min/month on a private repo — owner's call.
+
 ## Alt-tag fills and debt guards — 2026-11-01/02
 - Source: `docs/statement-audit/missing-financial-cells-2026-11-01.csv` — SEC tags a blank page row under a second
   name. `EXTRACTION_VERSION` **20261101-alt4**. All fills are fill-only (`ALTS_ADDED` join `FILLS`), so they never
