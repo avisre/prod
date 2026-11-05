@@ -142,7 +142,11 @@ test('app.js: the route is mounted behind the signup limiter, and website signup
 test('app.js: only an eligible account without access runs on the trial, on both MCP surfaces', () => {
     const lines = appSource.match(/const trialCaller = .*;/g) || [];
     assert.equal(lines.length, 2);
-    for (const line of lines) assert.equal(line, 'const trialCaller = !hasApiAccess(req) && mcpTrial.eligible(req.user);');
+    // The config guard (owner decision 2026-11-05) is part of the wiring:
+    // MCP_TRIAL_DAYS=0 must leave no caller on the trial limiter on either
+    // surface — without the guard a trial-eligible account would get exactly
+    // one free call from the upsert before the cutoff filter refuses.
+    for (const line of lines) assert.equal(line, 'const trialCaller = !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);');
     // Not a trial caller and no access: the live check refuses (ENTITLEMENT_REQUIRED).
     assert.equal((appSource.match(/entitled: \(\) => \(trialCaller \? true : hasApiAccess\(req\)\)/g) || []).length, 2);
     assert.match(appSource, /hasAccess: await connectorUsable\(user\)/, '/oauth/session counts a live trial as access');

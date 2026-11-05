@@ -1090,7 +1090,9 @@ function toolDescription(def) {
     const windowDays = ANON_MCP_CONFIG.windowDays;
     return limit > 0
         ? `${def.description} Without an account this tool allows ${limit} questions per caller in each rolling ${windowDays}-day window; a successful answer reports the remaining count.`
-        : `${def.description} Needs a signed-in StockPortfolio.pro account; a free account created on this connector's sign-in screen includes a one-time ${mcpTrial.config().days}-day trial that does not renew.`;
+        : mcpTrial.config().days > 0
+            ? `${def.description} Needs a signed-in StockPortfolio.pro account; a free account created on this connector's sign-in screen includes a one-time ${mcpTrial.config().days}-day trial that does not renew.`
+            : `${def.description} Needs a StockPortfolio.pro account on a plan with API/MCP access.`;
 }
 
 // One-shot handler for the stateless POST /mcp route: a fresh Server and

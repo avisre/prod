@@ -174,3 +174,59 @@ test('the page wall serves a crawler the page, not the 302', () => {
     assert.doesNotMatch(code, /googlebot|bingbot|headless|curl|wget/i, 'no UA string matching in the page wall');
     assert.doesNotMatch(code, /ALLOWED_UA_RE|DENY_PATTERNS/);
 });
+// ---- Paid-platform mode (owner decision 2026-11-05) ----
+// WALL_PAID_ONLY: a 'trialing' subscription no longer opens anything — the
+// page wall, the tier ladder, Monitor, API/MCP entitlement and the anonymous
+// company allowance all require a paid plan. These pins hold the wiring the
+// same way the WALL_ALL_PAGES pins above do.
+
+test('WALL_PAID_ONLY flag exists, opt-in, and defaults off when unset', () => {
+    assert.match(appSource(), /const WALL_PAID_ONLY = process\.env\.WALL_PAID_ONLY === 'true';/);
+});
+
+test('paid-only mode drops trialing from every status check via one shared list', () => {
+    const source = appSource();
+    assert.match(source, /const SUB_ACTIVE_STATUSES = WALL_PAID_ONLY \? \['active', 'cancel_at_period_end'\] : \['active', 'trialing', 'cancel_at_period_end'\];/);
+    // The three gates that read it: the tier ladder, Monitor, API/MCP access.
+    const readers = source.split('\n').filter((line) => /SUB_ACTIVE_STATUSES\.includes\(sub\.status\)/.test(line));
+    assert.equal(readers.length, 3, 'userTier, hasMonitor and hasApiAccess all read the shared list');
+});
+
+test('the page wall redirects a live trial to upgrade in paid-only mode', () => {
+    const section = wallSection();
+    const wall = section.slice(section.indexOf('async function wallAllPagesMiddleware'));
+    assert.match(wall, /if \(WALL_PAID_ONLY && !subscriptionIsPaid\(normalized\)\) return wallRedirect\(res, '\/upgrade\.html'\);/);
+    // The paid-only redirect sits between the active check and the geo-wall
+    // paid check, so it cannot reorder those two.
+    const activeAt = wall.indexOf('if (!subscriptionIsActive(normalized))');
+    const paidAt = wall.indexOf("if (WALL_PAID_ONLY && !subscriptionIsPaid(normalized))");
+    const geoAt = wall.indexOf('if (walled && !subscriptionIsPaid(normalized))');
+    assert.ok(activeAt > -1 && paidAt > activeAt && geoAt > paidAt, 'paid-only check is between active and geo-wall checks');
+});
+
+test('the /api/demo data surface is behind session and subscription', () => {
+    // The wall covers pages; this closes the direct XHR path. It must sit
+    // AFTER authMiddleware (so anonymous is 401, not 402) and keep the
+    // read-only demo guard below it.
+    const source = appSource();
+    const gateAt = source.indexOf("app.use('/api/demo', authMiddleware");
+    const roAt = source.indexOf("app.use('/api/demo', (req, res, next) => {");
+    assert.ok(gateAt > -1 && roAt > gateAt, 'paid gate mounts ahead of the read-only demo guard');
+    const gate = source.slice(gateAt, roAt);
+    assert.match(gate, /WALL_PAID_ONLY \? subscriptionIsPaid\(sub\) : subscriptionIsActive\(sub\)/);
+});
+
+test('free tools and the anonymous company allowance close with the platform', () => {
+    const source = appSource();
+    assert.match(source, /app\.get\('\/api\/free-tools\/:tool', freeToolLimiter, authMiddleware,/, 'free tools API requires a session');
+    const gate = source.slice(source.indexOf('function anonCompanyGate'), source.indexOf('function anonCompanyGate') + 900);
+    assert.match(gate, /if \(WALL_PAID_ONLY\) \{\s*if \(req\.apiKeyId\) return next\(\);/, 'paid-only mode has no anonymous company allowance');
+});
+
+test('the connector trial is fully retired when MCP_TRIAL_DAYS=0', () => {
+    const source = appSource();
+    // Every surface that routes a caller onto the per-account trial reads the
+    // config first, so days=0 leaves no one on the trial limiter.
+    const guarded = source.split('\n').filter((line) => /mcpTrial\.config\(\)\.days (<=|>) 0/.test(line));
+    assert.ok(guarded.length >= 4, `trial routing guards config days (found ${guarded.length}, need >= 4: consent, connectorUsable, /mcp, /mcp/apps)`);
+});

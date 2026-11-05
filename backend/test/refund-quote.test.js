@@ -71,7 +71,7 @@ test('customers see the refund terms before paying and the exact figure before c
     assert.match(dash, /policy\.deductsUsage/);
     assert.match(dash, /so you would get back/);
     const register = page('register.html');
-    assert.match(register, /7-day refund, minus credits used/);
+    assert.match(register, /3-day refund, minus credits used/);
     assert.match(register, /name: 'Monthly', amount: '\$79\.99', cadence: 'per month', fullRefund: true/);
     assert.match(page('index.html'), /full on Monthly, minus credits used on yearly plans/);
     assert.match(page('upgrade.html'), /Monthly is refunded in full; Annual, Pro and Desk are refunded minus the credits used/);

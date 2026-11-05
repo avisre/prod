@@ -106,9 +106,9 @@ test('a refund request must carry a reason, which is stored and sent to the owne
 
 test('signup surfaces describe payment and refund terms instead of a no-card trial', () => {
   assert.match(registerSource, /Continue to secure checkout/);
-  assert.match(registerSource, /refund within 7 days/);
+  assert.match(registerSource, /refund within 3 days/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
-  assert.match(termsSource, /initial payment is refundable within 7 days/);
+  assert.match(termsSource, /initial payment is refundable within 3 days/);
   assert.match(registerSource, /amount: '\$79\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
   // No plan card advertises a trial or a no-card option.

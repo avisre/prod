@@ -76,7 +76,7 @@ test('page wall applies to walled visitors even with WALL_ALL_PAGES off, and req
 
 test('free API surfaces refuse walled visitors: free tools, anonymous Ask, keyless MCP', () => {
     const source = appSource();
-    assert.match(source, /app\.get\('\/api\/free-tools\/:tool'[\s\S]{0,200}const wall = freeTierWallReason\(req\);\s*if \(wall && !\(await requestUserIsPaid\(req\)\)\) return freeTierWallResponse\(res, wall\);/);
+    assert.match(source, /app\.get\('\/api\/free-tools\/:tool'[\s\S]{0,700}const wall = freeTierWallReason\(req\);\s*if \(wall && !\(await requestUserIsPaid\(req\)\)\) return freeTierWallResponse\(res, wall\);/);
     const anon = source.slice(source.indexOf('async function anonAskHandler'));
     assert.match(anon.slice(0, 600), /if \(askWall\) return freeTierWallResponse\(res, askWall\);/);
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Pay by Stripe: Monthly $79.99, Annual $649.99, Pro $799.99/yr, Desk $1,999.99/yr; refund within 7 days: full on Monthly, minus credits used on yearly plans." />
+  <meta name="description" content="Pay by Stripe: Monthly $79.99, Annual $649.99, Pro $799.99/yr, Desk $1,999.99/yr; refund within 3 days: full on Monthly, minus credits used on yearly plans." />
   <link rel="canonical" href="https://www.stockportfolio.pro/register" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -112,7 +112,7 @@
           </details>
 
           <div class="guarantee">
-            <strong id="sum-refund-title">7-day money-back guarantee</strong>
+            <strong id="sum-refund-title">3-day money-back guarantee</strong>
             <span id="sum-refund-copy">Not right for you? Request a full refund from your dashboard — no email needed, just tell us why.</span>
           </div>
         </aside>
@@ -273,11 +273,11 @@
       // Plans above Monthly refund the payment minus the credits used
       // (backend/refund-quote.js); say so before the customer pays.
       document.getElementById('sum-refund-title').textContent = meta.fullRefund
-        ? '7-day money-back guarantee'
-        : '7-day refund, minus credits used';
+        ? '3-day money-back guarantee'
+        : '3-day refund, minus credits used';
       document.getElementById('sum-refund-copy').textContent = meta.fullRefund
         ? 'Not right for you? Request a full refund from your dashboard — no email needed, just tell us why.'
-        : 'Within 7 days you can request a refund of this payment minus the credits you have used, at $14.99 per 150 credits (about $0.10 each). Your dashboard shows the exact amount before you confirm. Only the Monthly plan has a full refund.';
+        : 'Within 3 days you can request a refund of this payment minus the credits you have used, at $14.99 per 150 credits (about $0.10 each). Your dashboard shows the exact amount before you confirm. Only the Monthly plan has a full refund.';
       document.getElementById('sum-features').replaceChildren(...meta.features.map((f) => {
         const li = document.createElement('li'); li.textContent = f; return li;
       }));

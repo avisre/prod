@@ -55,7 +55,7 @@ const COMPETITORS = {
         theirPrice: 'Free up to 10 holdings; paid tiers roughly $7–$23/month (billed annually).',
         rows: [
             ['Monthly price', '$79.99/mo or $649.99/yr ($54.17/mo)', '$7–$23/mo (annual billing)'],
-            ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free up to 10 holdings'],
+            ['Free / trial', 'Paid at signup, refundable within 3 days', 'Free up to 10 holdings'],
             ['Company fundamentals', 'Income, balance sheet & cash flow built in', 'Limited; focus is performance & tax'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes — strong tax & dividend reporting'],
             ['Market news', 'Built-in news feed', 'Limited'],
@@ -70,7 +70,7 @@ const COMPETITORS = {
         theirPrice: 'Free plan available; paid tiers roughly $7–$28/month.',
         rows: [
             ['Monthly price', '$79.99/mo or $649.99/yr ($54.17/mo)', '$7–$28/mo'],
-            ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free plan + paid trials'],
+            ['Free / trial', 'Paid at signup, refundable within 3 days', 'Free plan + paid trials'],
             ['Learning curve', 'Simple, calm, opinionated UI', 'Powerful but dense — lots of screens'],
             ['Company fundamentals', 'Clean income, balance sheet & cash flow', 'Extensive data & screeners'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes'],
@@ -114,7 +114,7 @@ const COMPETITORS = {
         theirPrice: 'Free plan; Plus ~$39/month and Premium ~$79/month (annual billing); advisor tiers from $209/month.',
         rows: [
             ['Monthly price', '$79.99/mo; Pro with AI analyst + Filing Monitor $799.99/yr', 'Plus ~$39/mo, Premium ~$79/mo (annual)'],
-            ['Free / trial', 'Free screener & stock pages; paid app starts at signup, refundable within 7 days', 'Free plan with limits'],
+            ['Free / trial', 'Free screener & stock pages; paid app starts at signup, refundable within 3 days', 'Free plan with limits'],
             ['Fundamentals depth', 'Up to 19 years, SEC-filed, with health checks', 'Deep, multi-asset, customizable dashboards'],
             ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'Limited'],
             ['Learning curve', 'Calm, opinionated, one workspace', 'Powerful but dashboard-heavy'],
@@ -156,7 +156,7 @@ const COMPETITORS = {
         theirPrice: 'Free plan available; paid roughly $10/month (annual billing).',
         rows: [
             ['Monthly price', '$79.99/mo or $649.99/yr ($54.17/mo)', '~$10/mo (annual billing)'],
-            ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free plan + paid annual'],
+            ['Free / trial', 'Paid at signup, refundable within 3 days', 'Free plan + paid annual'],
             ['Fundamentals format', 'Real statements: income, balance, cash flow', 'Visual infographics & summaries'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes'],
             ['Market news', 'Built-in news feed', 'Yes'],
@@ -170,7 +170,7 @@ const COMPETITORS = {
         blurb: "WallStreetZen is a stock research platform built around a 115-factor quantitative rating system (Zen Ratings) and transparent analyst performance rankings, aimed at part-time investors who want screeners and due diligence tools.",
         theirPrice: "Free tier (limited screener); Premium $19.50/month when billed yearly ($234/year) or $59/month if paid monthly; 14-day trial for $1.",
         rows: [
-            ["Monthly price (annual plan)","$79.99/mo or $649.99/yr; paid at signup, refundable within 7 days","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
+            ["Monthly price (annual plan)","$79.99/mo or $649.99/yr; paid at signup, refundable within 3 days","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
             ["Fundamentals depth","Up to 19 years annual + 48 quarters, from SEC filings; health checks included","Historical fundamentals + 115-factor Zen Ratings; no explicit statement of years back"],
             ["AI research assistant","Yes — Ask answers from SEC filings, sources shown; refuses when unsure","No AI assistant; offers analyst rankings and due diligence checks instead"],
             ["Analyst ratings & consensus","No analyst consensus or call transcripts included","Ranks 130+ top analysts by historical accuracy, win rate, and returns; shows analyst consensus — a genuine strength"],

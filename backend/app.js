@@ -103,7 +103,7 @@ const AI_PRO_FOR_ALL = process.env.AI_PRO_FOR_ALL === 'true';
 function userTier(user, subscription) {
     const sub = subscription || (user && user.subscription) || {};
     const planId = sub.planId || '';
-    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    const active = SUB_ACTIVE_STATUSES.includes(sub.status);
     // Dev is checked FIRST and returns 'free' on purpose: the plan sells
     // API/MCP credits and nothing else. Without this line it would fall through
     // to the `planId !== 'free'` branch below and hand a Dev subscriber the
@@ -155,7 +155,7 @@ const trialExpiryCheck = require('../jobs/trial-expiry-check');
 // still doesn't disturb the free<core<pro ladder every other gate relies on.
 function hasMonitor(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
-    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    const active = SUB_ACTIVE_STATUSES.includes(sub.status);
     if (active && ['power', 'power-monthly', 'desk', 'enterprise', 'pro-annual'].includes(sub.planId)) return true;
     if (tierLimits.isLifetimeBuyer(req.user)) return true;
     return hasActiveTrialGrant(req.user, 'monitor');
@@ -199,7 +199,7 @@ function monitorGate(req, res, next) {
 // bypass the tier floor below.
 function hasApiAccess(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
-    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    const active = SUB_ACTIVE_STATUSES.includes(sub.status);
     if (active && ['monthly', 'annual', 'pro-annual', 'power', 'power-monthly', 'desk', 'dev'].includes(sub.planId)) return true;
     const user = req.user;
     // A lifetime AppSumo/DealMirror grant has no billing cycle, so it isn't
@@ -1062,6 +1062,15 @@ const REQUIRE_ACTIVE_SUBSCRIPTION = process.env.REQUIRE_ACTIVE_SUBSCRIPTION === 
 // homepage included) requires an active subscription, a live trial, or an
 // AppSumo/lifetime grant. Unset = today's open pages, exactly as before.
 const WALL_ALL_PAGES = process.env.WALL_ALL_PAGES === 'true';
+// Paid-platform switch (owner decision 2026-11-05): when on, a 'trialing'
+// subscription is no longer enough anywhere the product checks for a paying
+// customer — the page wall, the tier ladder, Monitor, API/MCP entitlement and
+// the anonymous company allowance all want a paid plan. Website signup
+// already pays at checkout; this closes the remaining free cohorts (legacy
+// no-card trials and the connector's mcp-trial) in one switch, and unsetting
+// it restores the previous behaviour with no redeploy.
+const WALL_PAID_ONLY = process.env.WALL_PAID_ONLY === 'true';
+const SUB_ACTIVE_STATUSES = WALL_PAID_ONLY ? ['active', 'cancel_at_period_end'] : ['active', 'trialing', 'cancel_at_period_end'];
 const stripeAccountPreflight = {
   checkedAt: 0,
   accountId: '',
@@ -2650,6 +2659,9 @@ async function wallAllPagesMiddleware(req, res, next) {
         const normalized = ensureSubscriptionShape(user);
         if (user.isModified('subscription')) await user.save().catch(() => {});
         if (!subscriptionIsActive(normalized)) return wallRedirect(res, '/upgrade.html');
+        // WALL_PAID_ONLY: a live trial no longer opens the wall either — only
+        // a paid plan does (same predicate the geo/hosting walls use).
+        if (WALL_PAID_ONLY && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
         if (walled && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
         if (walled === 'region') return geoWallPass(req, next, 'paid-account');
         next();
@@ -3039,8 +3051,13 @@ for (const definition of Object.values(freeTools.TOOL_DEFINITIONS)) {
 // it is what a reader clicks.
 embedWidgets.mountEmbedRoutes(app, { limiter: embedLimiter });
 
-app.get('/api/free-tools/:tool', freeToolLimiter, async (req, res) => {
+app.get('/api/free-tools/:tool', freeToolLimiter, authMiddleware, async (req, res) => {
     const tool = String(req.params.tool || '').trim().toLowerCase();
+    // Same paid-platform gate as /api/demo: the calculator pages are behind
+    // the wall, so the API behind them is too.
+    if (!(WALL_PAID_ONLY ? subscriptionIsPaid(req.subscription) : subscriptionIsActive(req.subscription))) {
+        return res.status(402).json({ message: 'A subscription is required. Choose a plan to unlock it.', code: 'SUBSCRIPTION_REQUIRED' });
+    }
     const wall = freeTierWallReason(req);
     if (wall && !(await requestUserIsPaid(req))) return freeTierWallResponse(res, wall);
     try {
@@ -6690,7 +6707,7 @@ ${OAUTH_SIGNIN_SCRIPT}`);
     // picks a new plan up on the next call. A connector-made account sees its
     // trial instead: what is left, or that it is over.
     const hasAccess = hasApiAccess({ user, subscription: user.subscription });
-    const trial = !hasAccess && mcpTrial.eligible(user) ? await mcpTrial.status(user._id) : null;
+    const trial = !hasAccess && mcpTrial.config().days > 0 && mcpTrial.eligible(user) ? await mcpTrial.status(user._id) : null;
     const trialLive = Boolean(trial) && trialIsLive(trial);
     const notice = hasAccess ? ''
         : chatgpt ? (trialLive ? oauthOffer.neutralAllowanceNoticeHtml(trial) : oauthOffer.neutralNoAccessNoticeHtml({ ended: Boolean(trial) }))
@@ -6744,7 +6761,7 @@ function trialIsLive(trial) {
 async function connectorUsable(user) {
     if (!user) return false;
     if (hasApiAccess({ user, subscription: user.subscription })) return true;
-    if (!mcpTrial.eligible(user)) return false;
+    if (mcpTrial.config().days <= 0 || !mcpTrial.eligible(user)) return false;
     return trialIsLive(await mcpTrial.status(user._id));
 }
 
@@ -7259,7 +7276,7 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
         // hasApiAccess itself is UNCHANGED — it still gates the REST API and
         // the OAuth consent screen — this branch only decides which limiter
         // serves the tool calls.
-        const trialCaller = !hasApiAccess(req) && mcpTrial.eligible(req.user);
+        const trialCaller = !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);
         const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller ? { trial: true } : {}) };
         const deps = {
             limiter: trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
@@ -7353,7 +7370,7 @@ app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, 
         // Same trial split as /mcp above: a signed-in account without
         // API/MCP access runs on the per-account trial here too, with this
         // surface's commerce-neutral copy (mcp-apps.js).
-        const trialCaller = !hasApiAccess(req) && mcpTrial.eligible(req.user);
+        const trialCaller = !hasApiAccess(req) && mcpTrial.config().days > 0 && mcpTrial.eligible(req.user);
         const ctx = { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId, client, ...(trialCaller ? { trial: true } : {}) };
         const deps = {
             limiter: trialCaller ? mcpTrial.creditsFor(req.userId) : credits,
@@ -7403,7 +7420,7 @@ app.post('/api/subscribe', async (req, res) => {
     if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
         return sendApiError(
             res,
-            createHttpError(402, 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.', 'PAID_PLAN_REQUIRED')
+            createHttpError(402, `Please choose a paid plan to create an account. You can request a refund within ${INITIAL_REFUND_DAYS} days if the service is not right for you.`, 'PAID_PLAN_REQUIRED')
         );
     }
     const trimmedName = String(name || '').trim();
@@ -7936,7 +7953,7 @@ app.post('/api/auth/social', async (req, res) => {
         const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
         if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
             return res.status(402).json({
-                message: 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.',
+                message: `Please choose a paid plan to create an account. You can request a refund within ${INITIAL_REFUND_DAYS} days if the service is not right for you.`,
                 code: 'PAID_PLAN_REQUIRED'
             });
         }
@@ -10442,7 +10459,7 @@ app.post('/api/ask-trial/email', askTrialEmailLimiter, async (req, res) => {
                 to: email,
                 subject: 'Your 2 more Ask questions — verify in one click',
                 text: `Confirm this address and ${ASK_TRIAL_BONUS} more free Ask questions unlock in your browser, grounded in the actual SEC filings:\n\n${verifyUrl}\n\nThis link works for 3 days. No account is created; you can start the full paid plan anytime at ${PUBLIC_APP_URL}/register.html.\n\nStockPortfolio.pro — support@stockportfolio.pro`,
-                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#726e65;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $79.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
+                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#726e65;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $79.99/month with 50 questions a month and a ${INITIAL_REFUND_DAYS}-day refund on the initial payment. — StockPortfolio.pro</p>`
             });
         }
         trackFunnel('anon_email_captured', null, null, { leadId: lead ? String(lead._id) : null, hadClaim: Boolean(visitorUsed), mailer: isMailerConfigured() ? 'smtp' : 'skipped' });
@@ -11479,6 +11496,17 @@ function anonCompanyKey(req) {
         .update(visitorIp(req)).digest('hex').slice(0, 24);
 }
 function anonCompanyGate(req, res, next) {
+    // Paid-platform mode: no anonymous or free-plan allowance at all — the
+    // pages these routes serve are behind the wall, so a direct API call must
+    // not be a free side door either. Key callers are entitled accounts.
+    if (WALL_PAID_ONLY) {
+        if (req.apiKeyId) return next();
+        const sub = req.subscription || (req.user && req.user.subscription) || {};
+        if (!subscriptionIsPaid(sub)) {
+            return res.status(402).json({ message: 'A subscription is required. Choose a plan to unlock it.', code: 'SUBSCRIPTION_REQUIRED' });
+        }
+        return next();
+    }
     if (ANON_COMPANY_DAY <= 0) return next();
     if (req.user || req.userId || req.apiKeyId) return next();
     const symbol = safeUpper(req.params.symbol);
@@ -13538,6 +13566,16 @@ const DEMO_PORTFOLIO = [
 ];
 
 // Block any state-changing verb anywhere under /api/demo
+// Paid-platform gate (owner decision 2026-11-05): with WALL_ALL_PAGES on, the
+// pages these XHRs serve are already behind the wall; this closes the direct
+// API path so the data answers only signed-in paying customers. /api/health
+// and the checkout/config routes are not under /api/demo and stay public.
+app.use('/api/demo', authMiddleware, (req, res, next) => {
+    const sub = req.subscription || {};
+    const ok = WALL_PAID_ONLY ? subscriptionIsPaid(sub) : subscriptionIsActive(sub);
+    if (!ok) return res.status(402).json({ message: 'A subscription is required. Choose a plan to unlock it.', code: 'SUBSCRIPTION_REQUIRED' });
+    next();
+});
 app.use('/api/demo', (req, res, next) => {
     const method = String(req.method || '').toUpperCase();
     if (method === 'POST' || method === 'PUT' || method === 'PATCH' || method === 'DELETE') {

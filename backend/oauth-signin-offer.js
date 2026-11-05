@@ -103,9 +103,16 @@ function trialTerms({ lookups, asks, days }) {
 // form proves the connector request by sending back the client_id and
 // redirect_uri this page was opened with.
 function trialSignupHtml({ clientId, redirectUri, trial, price, credits = 200 } = {}) {
+    // MCP_TRIAL_DAYS=0 (paid-platform mode) retires the free connector trial;
+    // the form stays — it still creates the account the visitor then has to
+    // subscribe before the connector answers.
+    const trialOn = Number(trial && trial.days) > 0;
+    const offerCopy = trialOn
+        ? `Create a free account here and use this connector with ${escapeHtml(trialTerms(trial))} After that it needs the Monthly plan (${escapeHtml(money(price))}/month, ${Number(credits)} credits a month).`
+        : `Create an account here, then subscribe to the Monthly plan (${escapeHtml(money(price))}/month, ${Number(credits)} credits a month) to use this connector.`;
     return `<div class="offer" id="trial">
-  <h2>No account yet? Start a free connector trial</h2>
-  <p>Create a free account here and use this connector with ${escapeHtml(trialTerms(trial || {}))} After that it needs the Monthly plan (${escapeHtml(money(price))}/month, ${Number(credits)} credits a month).</p>
+  <h2>${trialOn ? 'No account yet? Start a free connector trial' : 'No account yet? Subscribe to use this connector'}</h2>
+  <p>${offerCopy}</p>
   <form id="ts">
     <input type="hidden" id="ts-client" value="${escapeHtml(clientId)}">
     <input type="hidden" id="ts-redirect" value="${escapeHtml(redirectUri)}">
