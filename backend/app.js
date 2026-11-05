@@ -9781,7 +9781,7 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         // loader clones before adjusting, so a cached row is never normalized twice.
         try {
             if (payload?.income) {
-                const norm = await require('./adjusted-fundamentals').adjusted(symbol);
+                const norm = await require('./adjusted-fundamentals').adjustClone(symbol, payload);
                 if (norm) payload = norm;
             }
         } catch (_) { /* fail-open */ }
@@ -13744,7 +13744,7 @@ app.get('/api/demo/alpha/hero/:symbol', async (req, res) => {
         if (!payload) return res.status(404).json({ code: 'VERIFIED_FINANCIALS_UNAVAILABLE', message: 'No covered company was found.' });
         try {
             if (payload.income) {
-                const norm = await require('./adjusted-fundamentals').adjusted(symbol);
+                const norm = await require('./adjusted-fundamentals').adjustClone(symbol, payload);
                 if (norm) payload = norm;
             }
         } catch (_) { /* fail-open, same as the page route */ }
@@ -13805,7 +13805,7 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         // loader clones before adjusting, so a cached row is never normalized twice.
         try {
             if (payload?.income) {
-                const norm = await require('./adjusted-fundamentals').adjusted(symbol);
+                const norm = await require('./adjusted-fundamentals').adjustClone(symbol, payload);
                 if (norm) payload = norm;
             }
         } catch (_) { /* fail-open */ }
