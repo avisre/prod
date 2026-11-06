@@ -143,23 +143,46 @@ const byPeriod = (filing) => {
   for (const f of filing.facts) if (!seg.segmentMetric(...f[0].split(':'))) { const k = f[3] + '|' + f[4]; (m.get(k) || m.set(k, []).get(k)).push(f); }
   periodIndex.set(filing, m); return m;
 };
-function columnCandidates(filing, axis, start, end) {
+// A revenue measure with no consolidated total of its own in the filing is checked against the income
+// statement's revenue, as extract() checks the latest 10-K's table: Wendy's files its sales by product under
+// RevenueFromContractWithCustomerExcludingAssessedTax and its total only as Revenues. The first revenue total
+// filed for the period, in the order the statements choose one (sec-facts). Used only for an issuer whose
+// history the filing's own totals build nothing for (buildHistory): elsewhere it let concepts with no total of
+// their own compete with the table's measure and redrew 125 complete tables.
+const STATEMENT_TOTALS = (() => { const m = require('./sec-facts').MAPS.income.totalRevenue; return Object.keys(m).filter((t) => Array.isArray(m[t])).flatMap((t) => m[t].map((c) => t + ':' + c)); })();
+const statementTotal = (totals, name, unit) => {
+  if (!/^(?:RevenueFromContract|SalesRevenue|Revenues?$)/.test(name.split(':')[1] || '')) return null;
+  for (const c of STATEMENT_TOTALS) if (totals.has(c + '|' + unit)) return totals.get(c + '|' + unit);
+  return null;
+};
+// statement: the income statement's own revenue (lead.totals, as filed) for issuers whose instances file no total
+// beside the segments: the statement's total line is itself a dimensioned fact (Meritage's "Total closing revenue" is
+// its Real estate member, Tanger's is filed on the legal-entity axis), which the filing's facts here do not keep.
+// In that mode facts and totals are also grouped by unit: a foreign filer that files its latest year again as a
+// convenience translation (U Power: CNY and USD) tags every member twice, which read as one group is a conflict and
+// built nothing. Not elsewhere: grouped by unit everywhere, 108 complete tables were redrawn. Its tables are also
+// scored with the members' filed labels, as extract() scores the latest 10-K's: Lamar files its billboard segment as
+// the generic ReportableSegmentAggregationBeforeOtherOperatingSegmentMember, labelled "Billboard".
+function columnCandidates(filing, axis, start, end, statement = false, statementTotals = null, units = false) {
   const facts = byPeriod(filing).get(start + '|' + end) || [];
-  const totals = new Map(); for (const f of facts) if (!f[1]) totals.set(f[0], f);
+  const u = (f) => statement || units ? f[8] : '';
+  const totals = new Map(); for (const f of facts) if (!f[1]) totals.set(f[0] + '|' + u(f), f);
   const groups = new Map();
   const use = axisIn(facts, axis);
-  for (const f of facts) if (f[1] === use) { const key = f[0] + '|' + (f[7] ? 'operating' : 'reported'); (groups.get(key) || groups.set(key, []).get(key)).push(f); }
+  for (const f of facts) if (f[1] === use) { const key = f[0] + '|' + (f[7] ? 'operating' : 'reported') + '|' + u(f); (groups.get(key) || groups.set(key, []).get(key)).push(f); }
   const byMember = (list) => { const m = new Map(); for (const f of list) { const old = m.get(f[2]); if (old && old[5] !== f[5]) return null; m.set(f[2], f); } return m; };
   const out = [];
   for (const [key, list] of groups) {
-    const [name, view] = key.split('|'); if (isBankPair(name)) continue;
+    const [name, view, unitKey] = key.split('|'); if (isBankPair(name)) continue;
     const custom = CUSTOM_REVENUE.test(name.split(':')[1] || '') && !STANDARD.includes(name.split(':')[0]);
-    const members = byMember(list), total = totals.get(name) || (custom ? totals.get('us-gaap:Revenues') || totals.get('us-gaap:RevenuesNetOfInterestExpense') : null); if (!members || !total) continue;
+    const members = byMember(list), filed = statement && statementTotals?.[start + '|' + end + '|' + unitKey], t = (c) => totals.get(c + '|' + unitKey);
+    const total = t(name) || (custom ? t('us-gaap:Revenues') || t('us-gaap:RevenuesNetOfInterestExpense') : statement ? statementTotal(totals, name, unitKey) || (filed != null ? ['statement:totalRevenue', '', '', start, end, filed, 'statement', 0, unitKey] : null) : null); if (!members || !total) continue;
     out.push({ concept: name, axis: use, view, total: total[5], totalConcept: total[0], totalContext: total[6], unit: total[8], rows: [...members.values()].map((f) => ({ member: f[2], value: f[5], contexts: [f[6]] })) });
   }
-  for (const view of ['reported', 'operating']) {
-    const a = groups.get('us-gaap:' + BANK_PAIR[0] + '|' + view), b = groups.get('us-gaap:' + BANK_PAIR[1] + '|' + view);
-    const ta = totals.get('us-gaap:' + BANK_PAIR[0]), tb = totals.get('us-gaap:' + BANK_PAIR[1]);
+  const unitKeys = new Set(facts.map(u));
+  for (const view of ['reported', 'operating']) for (const unit of unitKeys) {
+    const a = groups.get('us-gaap:' + BANK_PAIR[0] + '|' + view + '|' + unit), b = groups.get('us-gaap:' + BANK_PAIR[1] + '|' + view + '|' + unit);
+    const ta = totals.get('us-gaap:' + BANK_PAIR[0] + '|' + unit), tb = totals.get('us-gaap:' + BANK_PAIR[1] + '|' + unit);
     const ma = a && byMember(a), mb = b && byMember(b); if (!ma || !mb || !ta || !tb) continue;
     out.push({ concept: BANK_PAIR.map((c) => 'us-gaap:' + c).join('+'), axis: use, view, total: ta[5] + tb[5], totalContext: ta[6] + '+' + tb[6], unit: ta[8],
       rows: [...new Set([...ma.keys(), ...mb.keys()])].map((m) => ({ member: m, value: (ma.get(m)?.[5] || 0) + (mb.get(m)?.[5] || 0), contexts: [ma.get(m)?.[6], mb.get(m)?.[6]].filter(Boolean) })) });
@@ -168,10 +191,10 @@ function columnCandidates(filing, axis, start, end) {
 }
 // Every candidate that makes a table (two rows or more), scored as extract() scores them: how far the
 // rows fall from the filing's own total, a table that does not reconcile after one that does.
-function scored(cands, currency, axis, single = false) {
+function scored(cands, currency, axis, single = false, labels = null) {
   const out = [];
   for (const c of cands.filter((x) => x.unit === currency)) {
-    const g = { axis, entries: c.rows.map((r) => ({ member: r.member, value: r.value, filedLabel: r.filedLabel })), totalRevenue: c.total, roundingTolerance: 0 };
+    const g = { axis, entries: c.rows.map((r) => ({ member: r.member, value: r.value, filedLabel: r.filedLabel || labels?.[r.member] })), totalRevenue: c.total, roundingTolerance: 0 };
     const v = seg.shown(g), sum = v.rows.reduce((n, r) => n + r.value, 0);
     // A single-segment company's table has one row (its lead table says so); any other table needs two.
     const miss = (v.rows.length < (single ? 1 : 2) ? 2 : 0) + (v.usable ? 0 : 1) + Math.abs(c.total - sum) / Math.max(1, Math.abs(c.total)) + (c.view === 'reported' ? 0 : 0.0005);
@@ -198,7 +221,7 @@ const measureClass = (concept, nonFinancial = false) => {
 const measureName = (concept) => concept.includes('+') ? seg.BANK_MEASURE : seg.measureOf(...concept.split(':')) || 'revenue';
 
 // filings: records from readFiling, any order. lead: the latest 10-K's table (statementTable) and its axis.
-function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic, single = false }) {
+function build(filings, { axis, currency, preferConcept, quarterFrom, sic, single = false, totals: statementTotals = null }, { statement = false, edges = false, units = false } = {}) {
   const nonFinancial = /^[0-57-9]\d{3}$/.test(String(sic || '')), cls = (c) => measureClass(c, nonFinancial);
   const byNewest = filings.slice().sort((a, b) => b.filed.localeCompare(a.filed) || b.accession.localeCompare(a.accession));
   // A report read only to fill a gap (fillOnly: it repeats a period another report already gives) is a source for the
@@ -211,7 +234,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
   const periodsOf = (kind) => {
     const periods = new Map();
     for (const f of base) for (const x of f.facts) if (onAxis(x[1], axis) && kindOf(x[3], x[4]) === kind) periods.set(x[3] + '|' + x[4], null);
-    return [...periods.keys()].map((k) => { const [start, end] = k.split('|'); return { start, end, offers: base.map((f) => ({ f, cands: scored(columnCandidates(f, axis, start, end), currency, axis, single) })).filter((o) => o.cands.length) }; }).filter((p) => p.offers.length);
+    return [...periods.keys()].map((k) => { const [start, end] = k.split('|'); return { start, end, offers: base.map((f) => ({ f, cands: scored(columnCandidates(f, axis, start, end, statement, statementTotals, units), currency, axis, single, statement ? labels : null) })).filter((o) => o.cands.length) }; }).filter((p) => p.offers.length);
   };
   const annualP = periodsOf('annual'), quarterP = periodsOf('quarter').filter((q) => !quarterFrom || q.end >= quarterFrom);
   // One measure for the whole table, so the years compare: the concept most years are filed under (the
@@ -292,8 +315,8 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
   //     breakdown and is not mixed into the column (Skyworks' FY2018 10-K redrew FY2017 without "United States").
   //     A report that files the period in the other view (operating segments, or as reported) counts only when
   //     every segment the column shows is in it with the same figure (Avery Dennison's RBIS, FY2016).
-  // Cells outside a row's span (a segment before it existed, after it ended) are never filled, so a table with
-  // no gap is exactly what it was.
+  // With edges, the same rules also run on the cells outside a row's span (before its first figure, after its last);
+  // buildHistory takes from that build only cells the in-span build leaves empty.
   const shownValues = (col) => rows.map((row) => value(col, row)?.value).filter((x) => x !== undefined && x !== null);
   const sumOf = (col) => shownValues(col).reduce((n, x) => n + x, 0);
   const partOf = (col, v) => { const xs = shownValues(col).filter((x) => x > 0 && x < v);
@@ -331,7 +354,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
     const ref = new Map(col.c.rows.filter((x) => col.c.kept.has(x.member)).map((x) => [x.member, x.value]));
     for (const f of byNewest) {
       if (f === col.filing) continue;
-      for (const c of columnCandidates(f, axis, col.start, col.end)) {
+      for (const c of columnCandidates(f, axis, col.start, col.end, statement, statementTotals, units)) {
         if (cls(c.concept) !== cls(col.c.concept) || c.unit !== currency) continue;
         const r = c.rows.find((x) => row.members.includes(x.member)); if (!r || !sameBasis(c, col.c.total, ref, c.view !== col.c.view)) continue;
         if (r.value > 0 && (partOf(col, r.value) || sumOf(col) + r.value > col.c.total * 1.005)) return;
@@ -339,8 +362,9 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
       }
     }
   };
-  const spanGaps = (cols) => { for (const row of rows) { const has = cols.map((col) => !!value(col, row)), a = has.indexOf(true), b = has.lastIndexOf(true);
-    for (let i = a + 1; i < b; i++) if (!has[i]) fillCell(cols[i], row); } };
+  const span = (has) => { const a = has.indexOf(true), b = has.lastIndexOf(true); return a < 0 ? [0, 0] : edges ? [0, has.length] : [a + 1, b]; };
+  const spanGaps = (cols) => { for (const row of rows) { const has = cols.map((col) => !!value(col, row)), [lo, hi] = span(has);
+    for (let i = lo; i < hi; i++) if (!has[i]) fillCell(cols[i], row); } };
   spanGaps(annual);
   const colMeta = (col) => ({ periodStart: col.start, periodEnd: col.end, totalRevenue: col.c.total, measure: measureName(col.c.concept), concept: col.c.concept, form: col.filing.form, accession: col.filing.accession, sourceUrl: col.filing.url, instanceUrl: col.filing.instanceUrl, publicationDate: col.filing.filed });
   // The fourth quarter: the year as filed less its nine months to date as filed, when both are on the same
@@ -348,7 +372,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
   const ytd = (fy) => {
     const ends = quarters.filter((q) => q.end > fy.start && q.end < fy.end).map((q) => q.end).sort();
     const q3end = ends[2]; if (!q3end) return null;
-    for (const f of filings.filter((f) => !f.fillOnly).sort((a, b) => b.filed.localeCompare(a.filed))) { const c = columnCandidates(f, axis, fy.start, q3end).find((x) => x.concept === fy.c.concept && x.view === fy.c.view && x.unit === currency); if (c) return { c, filing: f, end: q3end }; }
+    for (const f of filings.filter((f) => !f.fillOnly).sort((a, b) => b.filed.localeCompare(a.filed))) { const c = columnCandidates(f, axis, fy.start, q3end, statement, statementTotals, units).find((x) => x.concept === fy.c.concept && x.view === fy.c.view && x.unit === currency); if (c) return { c, filing: f, end: q3end }; }
     return null;
   };
   const derivedQ = [];
@@ -396,7 +420,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
     const members = new Set(d.nine.c.rows.map((x) => x.member));
     for (const f of byNewest) {
       if (f === d.fy.filing) continue;
-      for (const c of columnCandidates(f, axis, d.fy.start, d.fy.end)) {
+      for (const c of columnCandidates(f, axis, d.fy.start, d.fy.end, statement, statementTotals, units)) {
         if (cls(c.concept) !== cls(d.nine.c.concept) || c.view !== d.nine.c.view || c.unit !== currency || !near(c.total, d.fy.c.total)) continue;
         if (c.rows.length !== members.size || !c.rows.every((x) => members.has(x.member))) continue;
         const r = c.rows.find((x) => row.members.includes(x.member)); if (!r) continue;
@@ -411,7 +435,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
     const ref = new Map(d.nine.c.rows.map((x) => [x.member, x.value]));
     for (const f of byNewest) {
       if (f === d.nine.filing) continue;
-      for (const c of columnCandidates(f, axis, d.fy.start, d.nine.end)) {
+      for (const c of columnCandidates(f, axis, d.fy.start, d.nine.end, statement, statementTotals, units)) {
         if (c.concept !== d.nine.c.concept || c.view !== d.nine.c.view || c.unit !== currency) continue;
         const r = c.rows.find((x) => row.members.includes(x.member)); if (!r || !sameBasis(c, d.nine.c.total, ref)) continue;
         // The quarter it makes meets the same test as any other cell: no subtotal or repeat of a quarter shown, and
@@ -425,8 +449,8 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
   };
   const qHas = (x, row) => x.col ? !!value(x.col, row) : !!(fyOf(x.derived, row) && nineOf(x.derived, row));
   for (const row of rows) {
-    const has = qcols.map((x) => qHas(x, row)), a = has.indexOf(true), b = has.lastIndexOf(true);
-    for (let i = a + 1; i < b; i++) if (!has[i]) { const x = qcols[i]; if (x.col) { fillCell(x.col, row); continue; }
+    const has = qcols.map((x) => qHas(x, row)), [lo, hi] = span(has);
+    for (let i = lo; i < hi; i++) if (!has[i]) { const x = qcols[i]; if (x.col) { fillCell(x.col, row); continue; }
       if (!fyOf(x.derived, row)) fillYear(x.derived, row); else if (!nineOf(x.derived, row)) fillNine(x.derived, row); }
   }
   // Where a cell is read from a report other than its column's: that report, per row, only on rows that have one.
@@ -467,6 +491,58 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
   return table;
 }
 
+// The table: built on the filings' own totals, or, where those build nothing, on the statement's revenue (above).
+// Grouped by unit (above) where that only adds to it: a foreign filer that files its latest year again in dollars had
+// that year dropped as a conflict (93 tables on 11-07, most of them filers in CNY), but for six issuers the year read
+// redrew earlier columns, so a table read by unit is taken only when every column, row and figure of the other is in
+// it unchanged and no column passes its total.
+// Then the cells outside each row's span, filled by the same rules (a segment's zero in the year it was sold, a year
+// another report files on the same breakdown), taken only where the table is empty, so no figure it shows changes
+// (2026-11-07). Two checks the in-span cells do not need, from the trial that let edges change the build itself
+// (23 filed cells changed): a column that the new cells carry past its total takes none of them, and a fourth quarter
+// below zero for a year at or above zero is the year and nine months on different footings, left out.
+const key = (r) => r.members.join('|');
+const overTotal = (V) => new Set(V.years.map((y, j) => y.totalRevenue > 0 && V.rows.reduce((n, r) => n + (r.sales[j] ?? 0), 0) > y.totalRevenue * 1.005 ? y.periodEnd + '|' + y.periodStart : null).filter(Boolean));
+function keeps(a, b) {
+  for (const [A, B] of [[a, b], [a.quarterly, b.quarterly]]) {
+    const jb = new Map(B.years.map((y, j) => [y.periodEnd + '|' + y.periodStart, j])), rb = new Map(B.rows.map((r) => [key(r), r]));
+    if (A.years.some((y) => !jb.has(y.periodEnd + '|' + y.periodStart))) return false;
+    for (const r of A.rows) { const o = rb.get(key(r)); if (!o) return false;
+      for (const [i, y] of A.years.entries()) { const j = jb.get(y.periodEnd + '|' + y.periodStart); for (const m of ['sales', 'profit', 'assets']) if (r[m][i] !== null && r[m][i] !== o[m][j]) return false; } }
+    const was = overTotal(A); for (const e of overTotal(B)) if (!was.has(e)) return false;
+  }
+  return true;
+}
+function buildHistory(filings, lead) {
+  let base = build(filings, lead), mode = {};
+  if (!(base.rows.length && base.years.length)) { mode = { statement: true }; base = build(filings, lead, mode); }
+  else { const byUnit = build(filings, lead, { units: true }); if (JSON.stringify(byUnit) !== JSON.stringify(base) && byUnit.rows.length && keeps(base, byUnit)) { mode = { units: true }; base = byUnit; } }
+  if (!base.rows.length || !base.years.length) return base;
+  const wide = build(filings, lead, { ...mode, edges: true });
+  for (const [B, W, annual] of [[base, wide, true], [base.quarterly, wide.quarterly, false]]) {
+    const wj = new Map(W.years.map((y, j) => [y.periodEnd + '|' + y.periodStart, j])), wr = new Map(W.rows.map((r) => [key(r), r]));
+    B.years.forEach((y, i) => {
+      const j = wj.get(y.periodEnd + '|' + y.periodStart); if (j === undefined) return;
+      const adds = [];
+      for (const r of B.rows) {
+        const w = wr.get(key(r)); if (!w || r.sales[i] !== null || w.sales[j] === null) continue;
+        if (y.derived && w.sales[j] < 0) { const fyRow = wide.rows.find((x) => key(x) === key(r)), k = wide.years.findIndex((x) => x.periodEnd === y.periodEnd), fy = fyRow && k >= 0 ? fyRow.sales[k] : null; if (fy === null || fy >= 0) continue; }
+        adds.push([r, w]);
+      }
+      if (!adds.length) return;
+      const sum = B.rows.reduce((n, r) => n + (r.sales[i] ?? 0), 0) + adds.reduce((n, [, w]) => n + w.sales[j], 0);
+      if (y.totalRevenue > 0 && sum > y.totalRevenue * 1.005) return;
+      for (const [r, w] of adds) {
+        r.sales[i] = w.sales[j];
+        for (const m of ['profit', 'assets']) if (r[m][i] === null && w[m][j] !== null) r[m][i] = w[m][j];
+        if (annual && r.contexts && w.contexts) r.contexts[i] = w.contexts[j];
+        if (w.filedIn?.[j]) { r.filedIn = r.filedIn || B.years.map(() => null); r.filedIn[i] = w.filedIn[j]; }
+      }
+    });
+  }
+  return base;
+}
+
 // Which filings to read: newest first, a filing only when its own period is not yet reported by a newer
 // one on the table's axis (each annual report repeats two or three years, each 10-Q the year-ago quarter).
 // A foreign issuer's annual report is a 20-F or 40-F; its interim 6-Ks carry no tagged statements, so it
@@ -501,10 +577,10 @@ async function collect(cik, filings, { axis, annualFrom = '2008-01-01', quarterF
 // served through the API. VERSION changes when the builder's rules do, and a file of another version is
 // rebuilt rather than read.
 const path = require('path'), fs = require('fs');
-const VERSION = '20261107-history4';
-// history4 only fills empty cells inside a row's span, so a history3 table with none is exactly what history4
-// builds from the same filings: it is served as it is and not rebuilt (2,221 of 3,733 issuers on 11-07).
-const COMPATIBLE = ['20261106-history3'];
+const VERSION = '20261107-history5';
+// Every stored table was rebuilt as history5 from its filing cache on 11-07 (cells outside a row's span, and the
+// issuers whose totals are filed only on the statement), so no older version is served as it is.
+const COMPATIBLE = [];
 const DIR = process.env.SEGMENT_HISTORY_DIR || path.join(__dirname, 'data', 'segment-history');
 function load(cik) {
   try { const doc = JSON.parse(fs.readFileSync(path.join(DIR, p.cik(cik) + '.json'), 'utf8')); return (doc.version === VERSION || COMPATIBLE.includes(doc.version)) && doc.table?.rows?.length >= 1 && doc.table.years?.length ? doc : null; }
@@ -523,4 +599,4 @@ function gaps(table) {
 // Current: built by this version, or by a compatible one with no gap to fill.
 const current = (doc) => doc?.version === VERSION || COMPATIBLE.includes(doc?.version) && !!doc.table && !gaps(doc.table).length;
 
-module.exports = { VERSION, COMPATIBLE, DIR, load, gaps, current, measureClass, parseInstance, filingFacts, instanceName, readFiling, buildHistory, collect, columnCandidates, kindOf };
+module.exports = { VERSION, COMPATIBLE, DIR, load, gaps, current, measureClass, parseInstance, filingFacts, instanceName, readFiling, buildHistory, keeps, collect, columnCandidates, kindOf };

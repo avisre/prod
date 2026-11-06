@@ -30,7 +30,11 @@ function lead(cik) {
   const sf = g.entries[0].sourceFact;
   const preferConcept = sf.concept.includes('+') ? sf.concept.split('+').map((c) => 'us-gaap:' + c).join('+') : sf.taxonomy + ':' + sf.concept;
   const quarterFrom = (d.income?.quarterlyReports || []).map((r) => r.fiscalDateEnding).filter(Boolean).sort()[0] || null;
-  return { axis: g.axis, currency: g.currency, preferConcept, quarterFrom, sic: d.reportingSic, single: seg.shown(g).rows.length === 1 };
+  // The statement's revenue for each period, as filed (never a derived quarter): the total a table is checked against
+  // where the filing files none beside its segments (buildHistory).
+  const totals = {};
+  for (const r of (d.income?.annualReports || []).concat(d.income?.quarterlyReports || [])) if (r.periodStart && p.verifiedField(d, r, 'totalRevenue') && !r._derivations?.totalRevenue) totals[r.periodStart + '|' + r.fiscalDateEnding + '|' + r.reportedCurrency] = r.totalRevenue;
+  return { axis: g.axis, currency: g.currency, preferConcept, quarterFrom, sic: d.reportingSic, single: seg.shown(g).rows.length === 1, totals };
 }
 
 async function filingsOf(cik) {
