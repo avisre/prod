@@ -918,7 +918,7 @@
     // + groups, rendered in our design. US filings fold depreciation into expenses, so Depreciation is
     // the cash-flow statement's figure and is taken back out of Expenses; every row still adds up to
     // the filed pre-tax income. US filers report no CWIP, so that row stays blank.
-    const periodRows = (st) => payload?.[st]?.[basisState === 'annual' ? 'annualReports' : 'quarterlyReports'] || [];
+    const periodRows = (st) => periodReports(st, basisState === 'annual' ? 'annual' : 'quarterly');
     const cashAt = (r) => periodRows('cash').find((c) => c.fiscalDateEnding === r.fiscalDateEnding) || null;
     const incomeAt = (r) => periodRows('income').find((c) => c.fiscalDateEnding === r.fiscalDateEnding) || null;
     const yearAgo = (r, st) => { const t = Date.parse(r.fiscalDateEnding); return periodRows(st).find((c) => { const d = (t - Date.parse(c.fiscalDateEnding)) / 864e5; return d > 340 && d < 390; }) || null; };
@@ -2666,15 +2666,52 @@
     })();
 
     // ---------- ⑤ statements + growth cards ----------
+    // A bank with no holding company files its 10-K and 10-Qs with its bank regulator, not the SEC (TowneBank,
+    // Hingham, Northeast Bank...), so it has no SEC statements. Its FDIC Call Report lines
+    // (scripts/fetch-fdic-financials.js, already in the payload as attributed observations) are its statements
+    // here, each row carrying the FDIC record it came from. SEC statements always win when there are any.
+    const fdicCache = new WeakMap(); // per payload: a refreshed payload builds its own rows
+    function fdicReports(st, basis) {
+        if (!payload) return [];
+        const key = st + basis;
+        if (!fdicCache.has(payload)) fdicCache.set(payload, new Map());
+        const cache = fdicCache.get(payload);
+        if (cache.has(key)) return cache.get(key);
+        const facts = (payload?.supplementalObservations || []).filter((f) => /^FDIC/.test(f.sourceName || '') && f.statement === st && f.state === 'available');
+        const quarterEnds = new Set(facts.filter((f) => f.basis === 'quarterly').map((f) => f.periodEnd));
+        const allQuarterEnds = new Set((payload?.supplementalObservations || []).filter((f) => /^FDIC/.test(f.sourceName || '') && f.basis === 'quarterly').map((f) => f.periodEnd));
+        const wanted = (f) => st === 'balance'
+            ? f.basis === 'instant' && (basis === 'annual' ? f.historyBasis === 'annual' : allQuarterEnds.has(f.periodEnd))
+            : f.basis === basis && (basis === 'annual' || quarterEnds.has(f.periodEnd));
+        // A bank whose fiscal year is not the calendar year: every annual column (balance sheet included) is a calendar year
+        const calendarYear = basis === 'annual' && (payload?.supplementalObservations || []).some((f) => /^FDIC/.test(f.sourceName || '') && /not its fiscal year/.test(f.periodDefinition || ''));
+        const byEnd = new Map();
+        for (const f of facts.filter(wanted)) {
+            let r = byEnd.get(f.periodEnd);
+            if (!r) byEnd.set(f.periodEnd, r = { fiscalDateEnding: f.periodEnd, periodStart: f.periodStart || null, reportedCurrency: f.currency || 'USD',
+                _fdic: { url: f.sourceUrl, form: f.callReportForm || 'Call Report', cert: f.fdicCert, calendarYear, subsidiary: /^bank_subsidiary:/.test(f.scope || '') } });
+            if (r[f.field] === undefined) r[f.field] = f.value;
+        }
+        const rows = [...byEnd.values()].sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding));
+        cache.set(key, rows);
+        return rows;
+    }
+    function periodReports(st, basis) {
+        const node = (payload?.[st] || {});
+        if ((node.annualReports || []).length || (node.quarterlyReports || []).length) return basis === 'annual' ? (node.annualReports || []) : (node.quarterlyReports || []);
+        return ['income', 'balance', 'cash'].some((s) => (payload?.[s]?.annualReports || []).length || (payload?.[s]?.quarterlyReports || []).length) ? [] : fdicReports(st, basis);
+    }
+    const fdicFiler = () => !!payload && !['income', 'balance', 'cash'].some((s) => (payload[s]?.annualReports || []).length || (payload[s]?.quarterlyReports || []).length) && fdicReports('income', 'quarterly').length > 0;
     function reports(st, basis) {
-        const node = (payload[st] || {});
-        const arr = basis === 'annual' ? (node.annualReports || []) : (node.quarterlyReports || []);
+        const arr = periodReports(st, basis);
         const cap = basis === 'annual' ? 19 : 12;
         return arr.slice(0, cap).slice().reverse();
     }
     function periodLabel(r, basis) {
         const d = new Date(r.fiscalDateEnding);
         if (Number.isNaN(+d)) return r.fiscalDateEnding;
+        // A Call Report year is the calendar year; for a bank whose fiscal year ends in June it is not FY.
+        if (basis === 'annual' && r._fdic?.calendarYear) return `CY${d.getFullYear()}`;
         return basis === 'annual'
             ? `FY${d.getFullYear()}`
             : `${d.toLocaleString('en-US', { month: 'short' })} ’${String(d.getFullYear()).slice(2)}`;
@@ -2692,7 +2729,7 @@
             return { text: NM, title: 'Not meaningful: no revenue in this period' };
         if (def.label === 'Other operating expenses' && [r.operatingExpenses, r.researchAndDevelopment, r.sellingGeneralAndAdministrative].every((v) => num(v) !== null))
             return { text: '0', title: 'Operating expenses are exactly R&D plus SG&A, so nothing else remains' };
-        return { text: 'n/r', title: 'Not reported: the company’s SEC filing for this period has no figure for this line' };
+        return { text: 'n/r', title: r._fdic ? 'Not reported: the bank’s Call Report has no figure for this line' : 'Not reported: the company’s SEC filing for this period has no figure for this line' };
     }
     // A filled cell that is calculated from other filed figures says how (backend/verified-fundamentals.js
     // incomeIdentities; sec-facts.js ytd_difference).
@@ -3154,7 +3191,9 @@
         if (!rows.length) {
             table.innerHTML = '<tbody><tr><td style="text-align:left">No data filed for this view.</td></tr></tbody>';
             // the currency note is written with the table, so with no table it stayed at "loading…"
-            if ($('stmt-prov')) $('stmt-prov').textContent = 'No financial statements filed with the SEC are available for this view.';
+            if ($('stmt-prov')) $('stmt-prov').textContent = fdicFiler()
+                ? (stState === 'cash' ? 'This bank files its reports with its bank regulator, not the SEC, and the FDIC Call Report its statements here come from has no cash-flow statement.' : 'The FDIC Call Report has no figures for this view.')
+                : 'No financial statements filed with the SEC are available for this view.';
             return;
         }
         lastRender = { rows: [], periods: rows.map((r) => periodLabel(r, basisState)), cur: filed ? asFiled.currency : null };
@@ -3172,7 +3211,8 @@
             // Keep the period header unambiguous: the fiscal year already
             // identifies the latest column, so do not duplicate it with a
             // second "Latest" label.
-            html += `<th${latest ? " class='col-now'" : ''}${r._src ? ` title="${esc(`From the ${r._src.form} filed ${r._src.filed}`)}"` : ''}>${periodLabel(r, basisState)}</th>`;
+            const head = r._src ? `From the ${r._src.form} filed ${r._src.filed}` : r._fdic ? `From the bank's ${r._fdic.form} Call Report for ${r.fiscalDateEnding}, published by the FDIC (CERT ${r._fdic.cert})${r._fdic.calendarYear ? '; a calendar year, not the bank’s fiscal year' : ''}` : '';
+            html += `<th${latest ? " class='col-now'" : ''}${head ? ` title="${esc(head)}"` : ''}>${periodLabel(r, basisState)}</th>`;
         });
         html += '</tr></thead><tbody>';
         let ri = 0;
@@ -3232,6 +3272,10 @@
             const used = [...new Set(rows.map((r) => r._src?.a).filter(Boolean))].reverse();
             provenance.innerHTML = esc(`Every line as the company presents it in its annual reports, under its own labels, in ${asFiled.currency || reportCur} as reported (no FX conversion). Each year's figures come from the latest report that presents that year, so a restated figure replaces the original. A dash is a line the report shows no amount for, or one that year's report does not have; hover over it to see which. From SEC's Financial Statement Data Sets: `) +
                 used.map((a) => { const f = asFiled.filings[a]; const yrs = rows.filter((r) => r._src?.a === a).map((r) => periodLabel(r, 'annual')); return `<a href="${esc(filingUrl(a))}" target="_blank" rel="noopener">${esc(f.form)} filed ${esc(f.filed)}</a> (${esc(yrs.join(', '))})`; }).join(', ') + '.';
+        } else if (provenance && rows[0]?._fdic) {
+            const last = rows[rows.length - 1];
+            provenance.innerHTML = esc(`${last._fdic.subsidiary ? `The company has no SEC financial statements on file here, so these figures are the quarterly Call Report (${last._fdic.form}) of its only bank subsidiary, as published by the FDIC` : `This bank has no holding company and files its 10-K and 10-Qs with its bank regulator, not the SEC, so these figures are its quarterly Call Report (${last._fdic.form}), as published by the FDIC`}, in US dollars as filed (the FDIC publishes thousands). ${last._fdic.subsidiary ? 'They exclude anything held by the holding company itself. ' : ''}Call Report figures are on the regulatory reporting basis and can differ from the bank's annual report. ${basisState === 'annual' ? (last._fdic.calendarYear ? 'Annual columns are calendar years (CY), not the bank’s fiscal year. ' : 'Annual columns are the December year-to-date Call Report. ') : 'Quarterly columns are the quarter as the FDIC publishes it. '}A dotted underline marks a figure calculated from these lines (hover for how). Latest record: `) +
+                `<a href="${esc(last._fdic.url)}" target="_blank" rel="nofollow noopener">FDIC BankFind, CERT ${esc(String(last._fdic.cert))}, ${esc(last.fiscalDateEnding)} ↗</a>.`;
         } else if (provenance) {
             const mismatch = hasCurrencyMismatch();
             // Airbnb's 10-Ks since FY2023 present no capital-spending line on the cash-flow statement

@@ -118,8 +118,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261106-seg2/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261106-seg2/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261106-fdic1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261106-fdic1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -352,4 +352,35 @@ test('an ADR chart still reads market cap on its left axis, from today\'s market
   assert.match(companySource, /const filed = payload\.filedShareCounts;/);
   assert.match(companySource, /sharesBasis === 'current' \|\| payload\.filedShareCounts \? null : sharesByPeriod\.get/);
   assert.match(companySource, /capToday = num\(\(payload\.overview \|\| \{\}\)\.MarketCapitalization\), priceToday = num\(\(payload\.marketData \|\| \{\}\)\.price\)/);
+});
+
+test('a bank that files only with its regulator gets its statements from the FDIC Call Report rows', () => {
+  const fdic = require('../../scripts/fetch-fdic-financials');
+  const make = pageFunction('    const fdicCache = new WeakMap();', '    function reports(st, basis) {', ['payload'], '\nreturn { fdicReports, periodReports, fdicFiler };');
+  // a minimal record that meets every FDIC identity the fetcher checks ($ thousands)
+  const rec = (repdte, ni) => ({ CERT: 0, REPDTE: repdte, CALLFORM: 51, ASSET: 100, LIAB: 90, EQ: 10, EQTOT: 10, EQCONSUB: 0, DEP: 80, ALLOTHL: 10, FREPP: 0, TRADEL: 0, OTHBRF: 0, SUBND: 0,
+    EQCS: 1, EQPP: 0, EQSUR: 4, EQUPTOT: 5, CHBAL: 3, CHBALI: 2, CHBALNI: 1, INTINC: 10, EINTEXP: 4, NIM: 6, IBEFTAX: 3, ITAX: 1, EXTRA: 0, NETIMIN: 0, NETINC: ni, INTINQ: 3, NETINCQ: 1 });
+  const facts = (symbol) => { const bank = fdic.BANKS.find((b) => b.symbol === symbol); return fdic.observationsFor(bank, ['20251231', '20250930'].map((d) => ({ ...rec(d, d.endsWith('1231') ? 2 : 1), CERT: bank.cert })), '2026-11-06T00:00:00.000Z').observations; };
+  const nbn = make({ supplementalObservations: facts('NBN') });
+  const annual = nbn.periodReports('income', 'annual');
+  assert.deepEqual(annual.map((r) => [r.fiscalDateEnding, r.netIncome, r.interestIncome]), [['2025-12-31', 2000, 10000]]);
+  assert.equal(annual[0]._fdic.cert, 19690);
+  assert.match(annual[0]._fdic.url, /^https:\/\/api\.fdic\.gov\/banks\/financials\?/);
+  // a June fiscal year: every annual column, the balance sheet included, is a calendar year; a quarter is not
+  assert.equal(annual[0]._fdic.calendarYear, true);
+  assert.equal(nbn.periodReports('balance', 'annual')[0]._fdic.calendarYear, true);
+  assert.equal(nbn.periodReports('income', 'quarterly')[0]._fdic.calendarYear, false);
+  // quarterly balances only at the quarter ends that have a quarter's flows; the December balance is also the year's
+  assert.deepEqual(nbn.periodReports('balance', 'quarterly').map((r) => r.fiscalDateEnding), ['2025-12-31', '2025-09-30']);
+  assert.deepEqual(nbn.periodReports('balance', 'annual').map((r) => [r.fiscalDateEnding, r.commonStock, r.otherLiabilities]), [['2025-12-31', 1000, 10000]]);
+  assert.equal(nbn.periodReports('cash', 'annual').length, 0);
+  assert.equal(nbn.fdicFiler(), true);
+  assert.equal(make({ supplementalObservations: facts('TOWN') }).periodReports('income', 'annual')[0]._fdic.calendarYear, false);
+  assert.equal(make({ supplementalObservations: facts('WCCB') }).periodReports('income', 'annual')[0]._fdic.subsidiary, true);
+  // SEC statements always win: FDIC rows never mix into a company that files with the SEC
+  const sec = make({ income: { annualReports: [{ fiscalDateEnding: '2025-12-31', netIncome: '5' }] }, supplementalObservations: facts('NBN') });
+  assert.deepEqual(sec.periodReports('income', 'annual').map((r) => r.netIncome), ['5']);
+  assert.equal(sec.periodReports('balance', 'annual').length, 0);
+  assert.equal(sec.fdicFiler(), false);
+  assert.equal(make({}).fdicFiler(), false);
 });

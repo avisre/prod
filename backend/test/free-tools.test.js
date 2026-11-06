@@ -107,11 +107,19 @@ test('all fundamentals-backed calculators return implemented deterministic resul
     }
 });
 
+// Offline: the stored files are the cache under test. Online, SEC's newest filing decides, and the test failed
+// whenever a company filed a 10-K after the weekly run (Apple's FY2026 10-K, filed 2026-11-03).
 test('cached multi-company tools return rows without invoking AI', async () => {
-    for (const tool of ['portfolio-revenue', 'portfolio-dilution', 'company-comparison', 'peer-cash-conversion']) {
-        const result = await freeTools.getToolResult(tool, 'AAPL,MSFT');
-        assert.equal(result.status, 200, `${tool}: ${JSON.stringify(result.body)}`);
-        assert.ok(result.body.rows.length > 0);
+    const before = process.env.SEC_COVERAGE_DISABLE_ON_DEMAND;
+    process.env.SEC_COVERAGE_DISABLE_ON_DEMAND = '1';
+    try {
+        for (const tool of ['portfolio-revenue', 'portfolio-dilution', 'company-comparison', 'peer-cash-conversion']) {
+            const result = await freeTools.getToolResult(tool, 'AAPL,MSFT');
+            assert.equal(result.status, 200, `${tool}: ${JSON.stringify(result.body)}`);
+            assert.ok(result.body.rows.length > 0);
+        }
+    } finally {
+        if (before === undefined) delete process.env.SEC_COVERAGE_DISABLE_ON_DEMAND; else process.env.SEC_COVERAGE_DISABLE_ON_DEMAND = before;
     }
 });
 
@@ -144,5 +152,5 @@ test('shared tools navbar renders the StockPortfolio emblem', () => {
     assert.match(app, /class="wordmark-emblem" src="\/Media\/icon\.png"/);
     assert.match(app, /aria-label="StockPortfolio\.pro home"/);
     assert.match(css, /\.wordmark-emblem\s*\{/);
-    assert.match(freeTools.renderToolIndex(), /app\.js\?v=20261106-seg2/);
+    assert.match(freeTools.renderToolIndex(), /app\.js\?v=20261106-fdic1/);
 });

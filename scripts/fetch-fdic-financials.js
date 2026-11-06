@@ -25,7 +25,7 @@ const fs=require('node:fs'),path=require('node:path');
 const p=require('../backend/sec-coverage'),obs=require('../backend/company-observations');
 const API='https://api.fdic.gov/banks';
 const SOURCE_NAME='FDIC Call Report (FFIEC 031/041/051) via FDIC BankFind';
-const EXTRACTION_VERSION='fdic-20261017';
+const EXTRACTION_VERSION='fdic-20261106';
 const ANNUAL_YEARS=10,QUARTERS=20;
 // holdingCompany: '' means the listed issuer IS the bank. A named holding
 // company is accepted only when the FDIC bank is its sole bank subsidiary,
@@ -52,13 +52,29 @@ const FIELDS=[
  ['incomeBeforeTax','income','IBEFTAX','IBEFTXQ','Income before income taxes and discontinued operations','entity'],
  ['incomeTaxExpense','income','ITAX','ITAXQ','Applicable income taxes','entity'],
  ['netIncome','income','NETINC','NETINCQ','Net income attributable to the bank (after noncontrolling interests)','parent'],
+ ['employeeCost','income','ESAL','ESALQ','Salaries and employee benefits','entity'],
  ['totalAssets','balance','ASSET',null,'Total assets','entity'],
  ['totalLiabilities','balance','LIAB',null,'Total liabilities','entity'],
  ['totalShareholderEquity','balance','EQ',null,'Total bank equity capital, excluding noncontrolling interests','parent'],
+ ['commonStock','balance','EQCS',null,'Common stock (par value)','parent'],
+ ['minorityInterest','balance','EQCONSUB',null,'Noncontrolling (minority) interests in consolidated subsidiaries','entity'],
  ['deposits','balance','DEP',null,'Total deposits','entity'],
- ['loans','balance','LNLSNET',null,'Loans and leases, net of unearned income and allowance','entity']
+ ['otherLiabilities','balance','ALLOTHL',null,'All other liabilities','entity'],
+ ['loans','balance','LNLSNET',null,'Loans and leases, net of unearned income and allowance','entity'],
+ ['cashAndDueFromBanks','balance','CHBALNI',null,'Noninterest-bearing cash and balances due from depository institutions','entity'],
+ ['interestBearingDepositsInBanks','balance','CHBALI',null,'Interest-bearing balances due from depository institutions','entity'],
+ ['fedFundsSoldAndResale','balance','FREPO',null,'Federal funds sold and securities purchased under agreements to resell','entity'],
+ ['availableForSaleSecurities','balance','SCAF',null,'Securities available for sale, at fair value','entity'],
+ ['heldToMaturitySecurities','balance','SCHA',null,'Securities held to maturity, at amortized cost','entity'],
+ ['tradingAssets','balance','TRADE',null,'Trading account assets','entity'],
+ ['propertyPlantEquipment','balance','BKPREM',null,'Premises and fixed assets','entity'],
+ ['goodwill','balance','INTANGW',null,'Goodwill','entity'],
+ ['otherAssets','balance','OA',null,'Other assets','entity']
 ];
-const CHECK_FIELDS=['EQTOT','EQCONSUB','NETIMIN','EXTRA','CALLFORM'];
+// The components below are fetched only to check the lines we map: equity, liabilities and
+// cash-and-due must each equal the sum of their FDIC parts (held on every record of all nine
+// banks, 2014-2026). EQCONSUB is both a check and a mapped line.
+const CHECK_FIELDS=['EQTOT','EQCONSUB','NETIMIN','EXTRA','CALLFORM','EQPP','EQSUR','EQUPTOT','FREPP','TRADEL','OTHBRF','SUBND','CHBAL'];
 const iso=d=>d.slice(0,4)+'-'+d.slice(4,6)+'-'+d.slice(6,8);
 const issuerOf=bank=>bank.cik || 'listing:'+bank.symbol;
 const recordUrl=(cert,repdte)=>`${API}/financials?filters=CERT%3A${cert}%20AND%20REPDTE%3A${repdte}`;
@@ -66,7 +82,8 @@ const recordUrl=(cert,repdte)=>`${API}/financials?filters=CERT%3A${cert}%20AND%2
 // the record the definitions describe, so none of its values are used.
 function consistent(r){
  const n=k=>Number(r[k]);
- return [n('ASSET')-n('LIAB')-n('EQTOT'),n('EQTOT')-n('EQ')-n('EQCONSUB'),n('INTINC')-n('EINTEXP')-n('NIM'),n('IBEFTAX')-n('ITAX')+n('EXTRA')-n('NETIMIN')-n('NETINC')].every(d=>Number.isFinite(d) && Math.abs(d)<=1);
+ return [n('ASSET')-n('LIAB')-n('EQTOT'),n('EQTOT')-n('EQ')-n('EQCONSUB'),n('INTINC')-n('EINTEXP')-n('NIM'),n('IBEFTAX')-n('ITAX')+n('EXTRA')-n('NETIMIN')-n('NETINC'),
+  n('EQ')-n('EQPP')-n('EQCS')-n('EQSUR')-n('EQUPTOT'),n('LIAB')-n('DEP')-n('FREPP')-n('TRADEL')-n('OTHBRF')-n('SUBND')-n('ALLOTHL'),n('CHBAL')-n('CHBALI')-n('CHBALNI')].every(d=>Number.isFinite(d) && Math.abs(d)<=1);
 }
 function observationsFor(bank,records,retrievedAt) {
  const issuer=issuerOf(bank),out=[],rejected=[];

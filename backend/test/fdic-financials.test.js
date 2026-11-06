@@ -8,10 +8,14 @@ const NOW='2026-10-17T00:00:00.000Z';
 // 2025-12-31 and 2026-03-31 as returned by api.fdic.gov/banks/financials for CERT 110 ($ thousands).
 const DEC={CERT:110,REPDTE:'20251231',CALLFORM:41,ASSET:40785840,LIAB:34655989,EQ:6129851,EQTOT:6129851,EQCONSUB:0,DEP:33384965,LNLSNET:31842064,
  INTINC:2670119,EINTEXP:1077956,NIM:1592163,NONII:135696,NONIX:621075,ELNATR:172514,IBEFTAX:934270,ITAX:218811,EXTRA:0,NETIMIN:-21,NETINC:715480,
- INTINQ:671009,EINTXQ:263960,NIMQ:407049,NONIIQ:33603,NONIXQ:161650,ELNATQ:50569,IBEFTXQ:229000,ITAXQ:52523,NETINCQ:175962};
+ INTINQ:671009,EINTXQ:263960,NIMQ:407049,NONIIQ:33603,NONIXQ:161650,ELNATQ:50569,IBEFTXQ:229000,ITAXQ:52523,NETINCQ:175962,
+ ESAL:346067,ESALQ:87689,EQCS:1104,EQPP:338980,EQSUR:1497334,EQUPTOT:4292433,ALLOTHL:807446,FREPP:537,TRADEL:0,OTHBRF:0,SUBND:463041,
+ CHBAL:2833820,CHBALNI:183318,CHBALI:2650502,FREPO:0,SCAF:2610143,SCHA:0,TRADE:0,BKPREM:921998,INTANGW:660789,OA:1862483};
 const MAR={CERT:110,REPDTE:'20260331',CALLFORM:41,ASSET:41663976,LIAB:35507766,EQ:6156210,EQTOT:6156210,EQCONSUB:0,DEP:33764925,LNLSNET:32495265,
  INTINC:629016,EINTEXP:243448,NIM:385568,NONII:32531,NONIX:164540,ELNATR:41948,IBEFTAX:211611,ITAX:48247,EXTRA:0,NETIMIN:0,NETINC:163364,
- INTINQ:629016,EINTXQ:243448,NIMQ:385568,NONIIQ:32531,NONIXQ:164540,ELNATQ:41948,IBEFTXQ:211611,ITAXQ:48247,NETINCQ:163364};
+ INTINQ:629016,EINTXQ:243448,NIMQ:385568,NONIIQ:32531,NONIXQ:164540,ELNATQ:41948,IBEFTXQ:211611,ITAXQ:48247,NETINCQ:163364,
+ ESAL:94578,ESALQ:94578,EQCS:1094,EQPP:338980,EQSUR:1438574,EQUPTOT:4377562,ALLOTHL:928963,FREPP:150636,TRADEL:0,OTHBRF:200000,SUBND:463242,
+ CHBAL:1701994,CHBALNI:115747,CHBALI:1586247,FREPO:0,SCAF:3843525,SCHA:0,TRADE:0,BKPREM:973246,INTANGW:660789,OA:1839587};
 const find=(facts,field,basis,end)=>facts.find(f=>f.field===field && f.basis===basis && f.periodEnd===end);
 
 test('annual rows are the December year-to-date figures, scaled from $ thousands to dollars',()=>{
@@ -41,8 +45,8 @@ test('every row passes the shared supplement validator for a CIK and a listing i
  for(const bank of [OZK,HIFS]) {
   const issuer=bank.cik || 'listing:'+bank.symbol;
   const {observations}=fdic.observationsFor(bank,[{...DEC,CERT:bank.cert},{...MAR,CERT:bank.cert}],NOW);
-  // December: 9 annual flows, 9 quarterly flows, 5 balances; March: 9 quarterly flows, 5 balances.
-  assert.equal(observations.length,9+9+5+9+5,bank.symbol);
+  // December: 10 annual flows, 10 quarterly flows, 17 balances; March: 10 quarterly flows, 17 balances.
+  assert.equal(observations.length,10+10+17+10+17,bank.symbol);
   for(const f of observations){assert.ok(obs.validSupplement(f,issuer),bank.symbol+' '+f.field);assert.equal(f.sourceType,'provider');assert.equal(f.sourceDateKind,'retrieval');assert.equal(f.sourceDataDate,'2026-10-17');assert.match(f.sourceUrl,/^https:\/\/api\.fdic\.gov\/banks\/financials\?filters=CERT%3A\d+%20AND%20REPDTE%3A\d{8}$/);}
  }
  // A listing issuer may only carry provider evidence.
@@ -50,8 +54,24 @@ test('every row passes the shared supplement validator for a CIK and a listing i
  assert.equal(obs.validSupplement({...observations[0],sourceType:'issuer_release'},'listing:HIFS'),false);
 });
 
+test('the balance-sheet lines add up to the FDIC totals the page shows',()=>{
+ const {observations}=fdic.observationsFor(OZK,[DEC,MAR],NOW);
+ for(const end of ['2025-12-31','2026-03-31']) {
+  const v=k=>find(observations,k,'instant',end).value;
+  // Screener's columns: equity + deposits + borrowing + other liabilities + minority = total assets
+  const borrowing=v('totalLiabilities')-v('deposits')-v('otherLiabilities');
+  assert.equal(v('totalShareholderEquity')+v('deposits')+borrowing+v('otherLiabilities')+v('minorityInterest'),v('totalAssets'),end);
+  assert.ok(v('commonStock')<v('totalShareholderEquity'));
+ }
+ assert.equal(find(observations,'employeeCost','quarterly','2025-12-31').value,87689000);
+ assert.equal(find(observations,'employeeCost','annual','2025-12-31').fdicField,'ESAL');
+ assert.equal(find(observations,'propertyPlantEquipment','instant','2026-03-31').value,973246000);
+});
+
 test('a record that breaks the FDIC identities is dropped whole',()=>{
  assert.equal(fdic.consistent(DEC),true);
+ // A mapped line that no longer sums to its total means its definition moved
+ for(const k of ['EQCS','ALLOTHL','CHBALNI'])assert.equal(fdic.consistent({...DEC,[k]:DEC[k]+5000}),false,k);
  const broken={...DEC,LIAB:DEC.LIAB+5000};
  const {observations,rejected}=fdic.observationsFor(OZK,[broken,MAR],NOW);
  assert.deepEqual(rejected,['20251231']);assert.equal(observations.some(f=>f.periodEnd==='2025-12-31'),false);
