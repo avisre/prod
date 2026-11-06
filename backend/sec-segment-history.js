@@ -20,6 +20,12 @@ const NAMESPACES = [[/fasb\.org\/us-gaap\//, 'us-gaap'], [/fasb\.org\/srt\//, 's
 // jpm:SegmentReportingInformationNetRevenue, FY2008-2010); it is read here only, checked against the filing's revenue.
 const CUSTOM_REVENUE = /^SegmentReportingInformation(?:Net)?Revenues?$/;
 const STANDARD = ['us-gaap', 'srt', 'ifrs-full', 'dei'];
+// The 2018 taxonomy moved two axes from us-gaap to srt; filings before it tag the same table under the old
+// name (Apple's product lines FY2013-15). A filing is read on the table's own axis, and on the old name only
+// when it has nothing on the new one, since filings of the changeover year can tag both.
+const AXIS_ALIAS = { 'srt:ProductOrServiceAxis': 'us-gaap:ProductOrServiceAxis', 'srt:StatementGeographicalAxis': 'us-gaap:StatementGeographicalAxis' };
+const onAxis = (name, axis) => name === axis || (!!AXIS_ALIAS[axis] && name === AXIS_ALIAS[axis]);
+const axisIn = (facts, axis) => !AXIS_ALIAS[axis] || facts.some((f) => f[1] === axis) || !facts.some((f) => f[1] === AXIS_ALIAS[axis]) ? axis : AXIS_ALIAS[axis];
 const days = (start, end) => (Date.parse(end) - Date.parse(start)) / 86400000 + 1;
 const kindOf = (start, end) => { if (!start) return 'instant'; const d = days(start, end); return d >= 340 && d <= 380 ? 'annual' : d >= 80 && d <= 100 ? 'quarter' : d >= 260 && d <= 290 ? 'ytd9' : null; };
 
@@ -127,20 +133,21 @@ function columnCandidates(filing, axis, start, end) {
   const facts = byPeriod(filing).get(start + '|' + end) || [];
   const totals = new Map(); for (const f of facts) if (!f[1]) totals.set(f[0], f);
   const groups = new Map();
-  for (const f of facts) if (f[1] === axis) { const key = f[0] + '|' + (f[7] ? 'operating' : 'reported'); (groups.get(key) || groups.set(key, []).get(key)).push(f); }
+  const use = axisIn(facts, axis);
+  for (const f of facts) if (f[1] === use) { const key = f[0] + '|' + (f[7] ? 'operating' : 'reported'); (groups.get(key) || groups.set(key, []).get(key)).push(f); }
   const byMember = (list) => { const m = new Map(); for (const f of list) { const old = m.get(f[2]); if (old && old[5] !== f[5]) return null; m.set(f[2], f); } return m; };
   const out = [];
   for (const [key, list] of groups) {
     const [name, view] = key.split('|'); if (isBankPair(name)) continue;
     const custom = CUSTOM_REVENUE.test(name.split(':')[1] || '') && !STANDARD.includes(name.split(':')[0]);
     const members = byMember(list), total = totals.get(name) || (custom ? totals.get('us-gaap:Revenues') || totals.get('us-gaap:RevenuesNetOfInterestExpense') : null); if (!members || !total) continue;
-    out.push({ concept: name, view, total: total[5], totalConcept: total[0], totalContext: total[6], unit: total[8], rows: [...members.values()].map((f) => ({ member: f[2], value: f[5], contexts: [f[6]] })) });
+    out.push({ concept: name, axis: use, view, total: total[5], totalConcept: total[0], totalContext: total[6], unit: total[8], rows: [...members.values()].map((f) => ({ member: f[2], value: f[5], contexts: [f[6]] })) });
   }
   for (const view of ['reported', 'operating']) {
     const a = groups.get('us-gaap:' + BANK_PAIR[0] + '|' + view), b = groups.get('us-gaap:' + BANK_PAIR[1] + '|' + view);
     const ta = totals.get('us-gaap:' + BANK_PAIR[0]), tb = totals.get('us-gaap:' + BANK_PAIR[1]);
     const ma = a && byMember(a), mb = b && byMember(b); if (!ma || !mb || !ta || !tb) continue;
-    out.push({ concept: BANK_PAIR.map((c) => 'us-gaap:' + c).join('+'), view, total: ta[5] + tb[5], totalContext: ta[6] + '+' + tb[6], unit: ta[8],
+    out.push({ concept: BANK_PAIR.map((c) => 'us-gaap:' + c).join('+'), axis: use, view, total: ta[5] + tb[5], totalContext: ta[6] + '+' + tb[6], unit: ta[8],
       rows: [...new Set([...ma.keys(), ...mb.keys()])].map((m) => ({ member: m, value: (ma.get(m)?.[5] || 0) + (mb.get(m)?.[5] || 0), contexts: [ma.get(m)?.[6], mb.get(m)?.[6]].filter(Boolean) })) });
   }
   return out;
@@ -159,13 +166,16 @@ function scored(cands, currency, axis) {
 }
 // Which measures may stand in for one another from year to year: the same quantity filed under a renamed
 // concept (JPMorgan's own net-revenue concept, then Revenues, then RevenuesNetOfInterestExpense). Premiums
-// never stand in for revenue, nor a bank's fee revenue (ASC 606) for its net revenue.
-const measureClass = (concept) => {
+// never stand in for revenue, nor a bank's fee revenue (ASC 606) for its net revenue. Outside finance
+// (SIC 6xxx) Revenues is the company's sales under its generic name: 3M recast FY2016-17 as Revenues and
+// filed the years before as SalesRevenueNet, one measure throughout.
+const measureClass = (concept, nonFinancial = false) => {
   const [t, n = ''] = concept.split(':');
   if (concept.includes('+')) return 'net';
   if (/TaxEquivalent/.test(n)) return 'fte';
   if (/Premium/.test(n) || n === 'InsuranceRevenue') return 'premiums';
   if (/^(?:RevenueFromContract|SalesRevenue)/.test(n) || n === 'Revenue') return 'sales';
+  if (n === 'Revenues' && nonFinancial) return 'sales';
   if (n === 'Revenues' || n === 'RevenuesNetOfInterestExpense' || !STANDARD.includes(t)) return 'net';
   return concept;
 };
@@ -173,26 +183,36 @@ const measureClass = (concept) => {
 const measureName = (concept) => concept.includes('+') ? seg.BANK_MEASURE : seg.measureOf(...concept.split(':')) || 'revenue';
 
 // filings: records from readFiling, any order. lead: the latest 10-K's table (statementTable) and its axis.
-function buildHistory(filings, { axis, currency, preferConcept, quarterFrom }) {
+function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic }) {
+  const nonFinancial = /^[0-57-9]\d{3}$/.test(String(sic || '')), cls = (c) => measureClass(c, nonFinancial);
   const byNewest = filings.slice().sort((a, b) => b.filed.localeCompare(a.filed) || b.accession.localeCompare(a.accession));
   const labels = {}; for (const f of byNewest) for (const [m, l] of Object.entries(f.labels || {})) if (!labels[m]) labels[m] = l;
   // Every period the filings tag on the table's axis, with each filing's tables for it, newest filing first.
   const periodsOf = (kind) => {
     const periods = new Map();
-    for (const f of byNewest) for (const x of f.facts) if (x[1] === axis && kindOf(x[3], x[4]) === kind) periods.set(x[3] + '|' + x[4], null);
+    for (const f of byNewest) for (const x of f.facts) if (onAxis(x[1], axis) && kindOf(x[3], x[4]) === kind) periods.set(x[3] + '|' + x[4], null);
     return [...periods.keys()].map((k) => { const [start, end] = k.split('|'); return { start, end, offers: byNewest.map((f) => ({ f, cands: scored(columnCandidates(f, axis, start, end), currency, axis) })).filter((o) => o.cands.length) }; }).filter((p) => p.offers.length);
   };
   const annualP = periodsOf('annual'), quarterP = periodsOf('quarter').filter((q) => !quarterFrom || q.end >= quarterFrom);
   // One measure for the whole table, so the years compare: the concept most years are filed under (the
   // latest table's on a tie). A year without it takes a renamed concept of the same measure, or is left out.
-  const count = new Map();
-  for (const p of annualP.length ? annualP : quarterP) for (const c of new Set(p.offers.flatMap((o) => o.cands.map((x) => x.concept)))) count.set(c, (count.get(c) || 0) + 1);
-  const series = [...count].sort((a, b) => b[1] - a[1] || (b[0] === preferConcept) - (a[0] === preferConcept) || a[0].localeCompare(b[0]))[0]?.[0];
+  // Years are counted per measure class first, so a renamed concept adds to its measure: 3M filed segment sales as
+  // SalesRevenueNet (FY2008-17), Revenues (FY2016-25) and the ASC 606 concept (FY2018-25). By concept, Revenues won
+  // the tie and every year before FY2016 was refused as another measure; by class, sales has all eighteen.
+  const count = new Map(), classYears = new Map();
+  for (const p of annualP.length ? annualP : quarterP) {
+    const concepts = new Set(p.offers.flatMap((o) => o.cands.map((x) => x.concept)));
+    for (const c of concepts) count.set(c, (count.get(c) || 0) + 1);
+    for (const k of new Set([...concepts].map(cls))) classYears.set(k, (classYears.get(k) || 0) + 1);
+  }
+  const preferClass = preferConcept && cls(preferConcept);
+  const measure = [...classYears].sort((a, b) => b[1] - a[1] || (b[0] === preferClass) - (a[0] === preferClass) || a[0].localeCompare(b[0]))[0]?.[0];
+  const series = [...count].filter(([c]) => cls(c) === measure).sort((a, b) => b[1] - a[1] || (b[0] === preferConcept) - (a[0] === preferConcept) || a[0].localeCompare(b[0]))[0]?.[0];
   const columns = (periods) => {
     const out = [];
     for (const p of periods) {
       const pick = (ok) => { for (const o of p.offers) { const c = o.cands.find(ok); if (c) return { start: p.start, end: p.end, filing: o.f, c }; } return null; };
-      const col = pick((c) => c.concept === series) || pick((c) => measureClass(c.concept) === measureClass(series));
+      const col = pick((c) => c.concept === series) || pick((c) => cls(c.concept) === cls(series));
       if (col) out.push(col);
     }
     // One column per period end: a 52/53-week year can tag two starts for the same end.
@@ -204,7 +224,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom }) {
   const metric = (cols, kind, instant) => {
     const concepts = kind === 'profit' ? seg.PROFIT_CONCEPTS : ['us-gaap:Assets', 'ifrs-full:Assets'];
     const cell = (col, concept) => {
-      const xs = col.filing.facts.filter((x) => x[0] === concept && x[1] === axis && x[4] === col.end && (instant ? !x[3] : x[3] === col.start)).sort((a, b) => a[7] - b[7]);
+      const xs = col.filing.facts.filter((x) => x[0] === concept && x[1] === col.c.axis && x[4] === col.end && (instant ? !x[3] : x[3] === col.start)).sort((a, b) => a[7] - b[7]);
       const m = new Map(), bad = new Set();
       for (const x of xs) { const old = m.get(x[2]); if (!old) m.set(x[2], x); else if (old[5] !== x[5] && old[7] === x[7]) bad.add(x[2]); }
       for (const b of bad) m.delete(b); return m;
@@ -241,7 +261,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom }) {
     if (quarterFrom && fy.end < quarterFrom) continue;
     if (quarters.some((q) => q.end === fy.end)) continue;
     const nine = ytd(fy); if (!nine) continue;
-    const nineProfit = profit ? (() => { const m = new Map(); for (const x of nine.filing.facts) if (x[0] === profit.concept && x[1] === axis && x[3] === fy.start && x[4] === nine.end && !m.has(x[2])) m.set(x[2], x); return m; })() : new Map();
+    const nineProfit = profit ? (() => { const m = new Map(); for (const x of nine.filing.facts) if (x[0] === profit.concept && x[1] === nine.c.axis && x[3] === fy.start && x[4] === nine.end && !m.has(x[2])) m.set(x[2], x); return m; })() : new Map();
     derivedQ.push({ fy, nine, nineProfit });
   }
   const cellOut = (r) => r ? r.value : null;
@@ -276,7 +296,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom }) {
 // has annual history only (IFRS filers tag from fiscal years ending on or after 2017-12-15).
 async function collect(cik, filings, { axis, annualFrom = '2008-01-01', quarterFrom, have = [], onRead = () => {} }) {
   const records = have.slice(), done = new Set(records.map((r) => r.accession));
-  const covered = (kind) => new Set(records.flatMap((r) => r.facts.filter((x) => x[1] === axis && kindOf(x[3], x[4]) === kind).map((x) => x[4])));
+  const covered = (kind) => new Set(records.flatMap((r) => r.facts.filter((x) => onAxis(x[1], axis) && kindOf(x[3], x[4]) === kind).map((x) => x[4])));
   const near = (set, d) => [...set].some((e) => Math.abs(Date.parse(e) - Date.parse(d)) <= 10 * 86400000);
   for (const [forms, kind, from] of [[['10-K', '20-F', '40-F'], 'annual', annualFrom], [['10-Q'], 'quarter', quarterFrom || annualFrom]]) {
     const list = filings.filter((f) => forms.includes(f.form) && f.reportDate >= from).sort((a, b) => b.reportDate.localeCompare(a.reportDate) || b.filingDate.localeCompare(a.filingDate));
@@ -301,7 +321,7 @@ async function collect(cik, filings, { axis, annualFrom = '2008-01-01', quarterF
 // served through the API. VERSION changes when the builder's rules do, and a file of another version is
 // rebuilt rather than read.
 const path = require('path'), fs = require('fs');
-const VERSION = '20261106-history1';
+const VERSION = '20261106-history2';
 const DIR = process.env.SEGMENT_HISTORY_DIR || path.join(__dirname, 'data', 'segment-history');
 function load(cik) {
   try { const doc = JSON.parse(fs.readFileSync(path.join(DIR, p.cik(cik) + '.json'), 'utf8')); return doc.version === VERSION && doc.table?.rows?.length >= 2 && doc.table.years?.length ? doc : null; }

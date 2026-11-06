@@ -30,7 +30,7 @@ function lead(cik) {
   const sf = g.entries[0].sourceFact;
   const preferConcept = sf.concept.includes('+') ? sf.concept.split('+').map((c) => 'us-gaap:' + c).join('+') : sf.taxonomy + ':' + sf.concept;
   const quarterFrom = (d.income?.quarterlyReports || []).map((r) => r.fiscalDateEnding).filter(Boolean).sort()[0] || null;
-  return { axis: g.axis, currency: g.currency, preferConcept, quarterFrom };
+  return { axis: g.axis, currency: g.currency, preferConcept, quarterFrom, sic: d.reportingSic };
 }
 
 async function filingsOf(cik) {

@@ -79,6 +79,24 @@ test('premiums never stand in for revenue: a year filed only under another measu
   assert.notEqual(H.measureClass('us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax'), H.measureClass('us-gaap:Revenues'), 'a bank\'s fee revenue is not its net revenue');
 });
 
+test('outside finance Revenues is sales under its generic name, and a pre-2018 filing is read on the old axis name', () => {
+  // 3M: SalesRevenueNet to FY2017, Revenues in the recasts, the ASC 606 concept from FY2018 — one measure.
+  const k10 = filing('k10', '10-K', '2011-02-01', '2010-12-31', twoSegments('us-gaap:SalesRevenueNet', year(2010), 7, 3));
+  const k25 = filing('k25', '10-K', '2026-02-01', '2025-12-31', [...twoSegments('us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax', year(2025), 9, 4), ...twoSegments('us-gaap:Revenues', year(2024), 8, 4), ...twoSegments('us-gaap:Revenues', year(2023), 8, 3)]);
+  const lead = { axis: AX, currency: 'USD', preferConcept: 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax' };
+  assert.deepEqual(H.buildHistory([k10, k25], { ...lead, sic: '3841' }).years.map((y) => y.periodEnd.slice(0, 4)), ['2010', '2023', '2024', '2025']);
+  // A bank keeps the rule: its fee revenue never stands in for net revenue, so the measures stay apart.
+  assert.notDeepEqual(H.buildHistory([k10, k25], { ...lead, sic: '6022' }).years.map((y) => y.periodEnd.slice(0, 4)), ['2010', '2023', '2024', '2025']);
+  // Apple's product lines: us-gaap:ProductOrServiceAxis to FY2015, srt: from FY2016.
+  const P = 'srt:ProductOrServiceAxis', old = (f) => f[1] ? [f[0], 'us-gaap:ProductOrServiceAxis', ...f.slice(2)] : f, now = (f) => f[1] ? [f[0], P, ...f.slice(2)] : f;
+  const k15 = filing('k15', '10-K', '2015-10-28', '2015-09-26', twoSegments('us-gaap:SalesRevenueNet', year(2015), 6, 2).map(old));
+  // The changeover year tags both names; the table's own axis is read and the duplicate is not added to it.
+  const k16 = filing('k16', '10-K', '2016-10-26', '2016-09-24', [...twoSegments('us-gaap:SalesRevenueNet', year(2016), 5, 2).map(now), ...twoSegments('us-gaap:SalesRevenueNet', year(2016), 5, 2).map(old).filter((f) => f[1])]);
+  const t = H.buildHistory([k15, k16], { axis: P, currency: 'USD', preferConcept: 'us-gaap:SalesRevenueNet', sic: '3571' });
+  assert.deepEqual(t.years.map((y) => y.periodEnd.slice(0, 4)), ['2015', '2016']);
+  assert.deepEqual(t.rows.map((r) => r.sales), [[6, 5], [2, 2]]);
+});
+
 test('the fourth quarter is the year less its nine months as filed, and is marked calculated', () => {
   const q = (y, m1, m2) => [`${y}-${m1}`, `${y}-${m2}`];
   const k = filing('k25', '10-K', '2026-02-01', '2025-12-31', twoSegments('us-gaap:Revenues', year(2025), 70, 30));
