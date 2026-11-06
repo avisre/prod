@@ -4,7 +4,9 @@ Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
 `backend/test/handoff-size.test.js`, which the pre-push gate runs whenever this file changes. Current state and open actions only, never a transcript. At ~400 lines,
 snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite it fresh; **delete superseded items to
 the snapshot rather than compressing them here**.
-Earlier snapshots: `handoff-archive/2026-11-01.md` (verbatim, 402 lines — bank/insurer fill, 10/31 page-gap fixes and
+Earlier snapshots: `handoff-archive/2026-11-07.md` (verbatim, 408 lines — the shipped 11-01..11-05 write-ups: every
+income cell filled (identities, PART_SUMS), software FCF / trailing P/E / Mac nav, alt-tag fills and debt guards,
+segment-note quarter lines; all on origin/main since `f9f3ef7d0`), `handoff-archive/2026-11-01.md` (verbatim, 402 lines — bank/insurer fill, 10/31 page-gap fixes and
 traps, as-filed statements (off), the 10/25 push, latency + price-trend + Ask quality work of 10/24, Ask chat parity,
 the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly made incremental, FX/IAS 29)),
 `2026-10-17.md` (10/10–10/11 write-ups), `2026-10-11.md` (10/08 owner decisions, live and settled), `2026-10-10.md`,
@@ -64,9 +66,21 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   cache, `builtAt` kept). Group 3 (139 with observations but no table): 135 built from SEC (12,940 cells, every
   non-derived one present as a filed fact; Wendy's/Lamar totals = SEC companyconcept), 4 no history. Not built: 36
   with no usable/partial lead table, 3 banks (fee-only table vs a composite total), Elevra (stale AUD lead).
-  **Open, pre-existing (not touched):** 75 of 16,411 derived Q4 columns have a total on mixed footings — a restated
-  year minus the nine months as first filed (3M Q4 2022 total $11M vs segments $6,034M; XPLR $24M). Segment cells are
-  fine; the column's `totalRevenue` is wrong. Fix = derive the Q4 total from the year as first filed, or null it.
+- **Builder `20261107-history6` (11-07, local, NOT pushed): derived Q4 on one footing.** A Q4 is year − nine months;
+  when a later report recast one of them the pair mixed footings (Targa Q4 2025 Logistics $14,170M / Gathering
+  −$1,130M; 3M Q4 2022 total $11M; Harmonic SaaS −$72.7M). `onFooting()` redraws a pair only when it is plainly broken
+  (Q4 segments > 2× its total, total ≤ 0 under positive segments, or a segment the year files positive going below
+  −2% of the quarter) and only onto a pair that fits (`footing()`: every segment the year shows is in the nine months,
+  segments within the year's own segment/total ratio ×1.02; recast-year segments taken through `scored()` so subtotals
+  drop). Else the next nine months filed, else another annual report's year (named per cell, `part: 'year'`), else
+  left as filed. `q4Total()` refuses a total it cannot be on (another 10-K's year total, recorded as `from.yearTotal`,
+  or null). Against history5: broken Q4 columns 149 → 0, negative-segment Q4 columns 375 → 189 (rest have no fitting
+  pair; an insurer's investment line can be negative), 647 Q4 cells corrected, 217 new, 0 changes outside derived Q4,
+  0 lost, 0 new over-total columns. Tests: segment-history (25). Tried and dropped: a SEC pass reading repeat reports
+  for cells just outside a row's span — pilot 60 issuers, 52 reports → 4 cells; the edges are real absences.
+  Also fixed: the flaky suite tests — `mcp-usage-log` polled for one of two indexes; `ai-paper-portfolio` feed writes
+  were fire-and-forget so a research line could land after "Paused" (also a prod feed-order bug; now queued, the pause
+  awaits them). direct-ltd-affiliate / Stripe-reversal flakes did not reproduce in 3 predeploy-style runs.
 - **FDIC banks (TOWN, HIFS, NBN, FRBA, SSBI, RCBC, ASBH, + WCCB sole-subsidiary):** no SEC statements (they file with
   their bank regulator under §12(i)), so `company.js` `fdicReports()` builds income + balance from the FDIC Call Report
   rows in `supplemental-financials/` when a payload has no SEC rows at all (SEC always wins). No cash-flow statement
@@ -103,147 +117,11 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - **Prod is missing schema indexes** (stocks, `pendingsignups` TTL, `*_free_usage`, `users.resetPasswordToken`); cause
   not found, no errors logged. Not fixed beyond the stocks index.
 
-## Every income cell filled, no wrong numbers — 2026-11-05 (owner order)
-- Measured with scratch `cell-audit.js` (5 annual / 8 quarterly columns, rows the page shows): visible blank cells
-  65,605 → 55,368 (step 1 identities) → 34,654. Remaining: 20,482 never filed for that period (page shows **n/r**),
-  7,118 ratios with no meaning (loss tax rate; page shows **n/m**), 1,588 no companyfacts, ~1,430 Q4 EPS and ~1,400 Q4
-  flows blocked by the guards below, ~1,100 tax/pretax where the issuer's periods don't satisfy pretax − tax = NI.
-  Audit outputs: `~/Downloads/sec-bulk/cell-1105{,b,c,e}`.
-- **Step 1 (`verified-fundamentals.js` `incomeIdentities`, serve-time, marked calculated):** Q4 EPS = FY − 3 filed
-  quarters (share-basis guard), pretax/tax from NI where every period satisfies the identity, D&A from the cash-flow
-  statement, and **Q4 flows = FY − Q1 − Q2 − Q3** only when a Q4 figure *filed as such* proves the four quarters add up
-  to the year (a Q4 the extractor took as year − YTD is no evidence: IMSR de-SPAC). Loosening that guard adds ~500
-  cells and puts SPAC-vs-opco arithmetic in Q4 — don't. Tests `income-identities.test.js`.
-- **Step 2 (`sec-facts.js` `PART_SUMS`, `EXTRACTION_VERSION 20261105-parts1`):** a row the filing reports only in parts =
-  their sum, fill-only, cited to each part, formula `sum_of_parts` / `sum_of_parts_ytd_difference` re-proved by
-  `sec-coverage.verifiedField`. SG&A = G&A + selling/marketing; D&A = Depreciation + AmortizationOfIntangibleAssets unless
-  any other D&A-like fact sits on the same accn+span (Fiserv files three more → refused; a same-value duplicate inside
-  cost of sales is fine, Collegium); pretax = domestic + foreign; tax = current + deferred. Tests `part-sums.test.js`.
-  Written by scratch `parts-merge.js` straight from the 11-05 bulk companyfacts into the stored files (blank cells only,
-  each re-verified, validateFinancial must not gain an error): **52,481 cells, 1,763 issuers**; file and issuer
-  `extractionVersion` left as they were (only this rule was applied). Pre-write backup:
-  `~/Downloads/sec-bulk/backup-20261105-preparts/sec-financials.tgz`.
-- Checked against StockAnalysis 11-05: ORCL SG&A ×3 + D&A, POWI, COLL, FENC exact. MTCH 2025, MBUU, ONTO 2025 differ
-  because SA moves one-off items out of SG&A; ours equals the filed G&A + S&M lines.
-- **Dataset `asOf` = 2026-11-05** (`sec-reporting.json`; every `lastReconciledCycle` 2026-11-01 relabelled 11-05,
-  `lastSuccessfulCheckAt` untouched). The 11-05 refresh took every filer in EDGAR's form indexes 10-30..11-05 plus
-  `current.atom`, so an issuer it skipped filed nothing new. Labelling the cycle 11-01 instead (done earlier this
-  session) makes validate fail with ~52k "future source" errors, because the data holds 10-Qs filed 11-02..11-05.
-  NAVI's new holding-company CIK 0002152623 added (no 10-K under it yet).
-- `sec-coverage.verifiedField` re-proves the serve-time identities (`fy_less_three_quarters`, `net_income_plus_tax`,
-  `pretax_less_net_income`, `cash_flow_statement`); before, Apple's Q4 EPS failed `sec-financial-consumers.test.js`.
-  Sweep of every served cell on 756 issuers (1-in-8): all of them pass; the only failures left are older —
-  prospectus-sourced rows (424B4/S-1 HTML, CLBK, ALMR; ~690 cells) and the serve-time capex rules
-  (`software_capitalisation` KC, `printed_statement_line` GPK). `sec-release-regressions` now expects the sum of parts.
-- Index rebuild 23:24–23:54 IST on this data: validate `--bootstrap` ok, 0 errors; verify-pages errors []; perf ok;
-  screenable listings 5,063. The index builders and validate have no per-symbol mode, so any data change costs a
-  full ~30 min rebuild (an incremental builder would cut that; not built).
-- **Open:** extractor `ytd_difference` at a de-SPAC Q4 subtracts the SPAC's 9M from the opco's year (IMSR Q4 2025 NI
-  −31.2m stored) — pre-existing, needs a guard on a change of reporting entity. Not yet done from the plan: custom
-  (company-prefix) tags, foreign half-year columns, SPAC annual statements, InterestExpenseDebt / CostsAndExpenses opex.
-
-## FCF for software issuers, trailing P/E, Mac nav, Q3 data — 2026-11-05
-- **Pushed and live 2026-11-06 01:19 IST** (Render dep-dbmdnt8u01pc73a8n1q0, `f9f3ef7d0`; gate passed on push).
-  Commits: `b164a249d` live price (routes
-  normalize the reader payload with `adjustClone`, not the 6h snapshot), `8bceae045` code (below), then the data commit.
-- **Software FCF** (`verified-fundamentals.js` `softwareCapex`, SIC 737x only, annual AND quarterly): a filed
-  `softwarePurchases` stands in as capex (Yahoo's method; APP FY2025 FCF $3,942.8M); a row with no capex line where its
-  fiscal year files none either gets `_noCapexLine` and FCF = OCF with capex left a dash (StockAnalysis's method; APP Q2
-  2026 $869.0M). A quarter whose year files capex is a derivation gap and keeps no FCF. Readers: `company.js`
-  `fcfOf`, `mcp-financials.js`, `financial-metrics.js`. Test `software-fcf.test.js`.
-- **Trailing P/E** (`company.js` `earningsSeries`): an unfiled Q4 EPS = FY EPS − three filed quarters, else NI ÷ the
-  adjacent quarter's weighted diluted shares — never a balance-sheet count (WMT showed 37× from a pre-split count).
-  When `coverage.latestEarningsRelease` is newer than the last 10-Q/10-K the provider's `trailingPE` shows, labelled.
-- **Nav**: 1024–1360px keeps Screener / Stocks & funds / AI ▾ / Portfolio and folds Tools, Compare, Markets, Gurus,
-  Pricing into "More ▾"; hamburger only ≤1023px. Lookbehind regexes removed from profile/monitor/dossier/
-  compare-dossiers (Safari < 16.4). Stamp `20261105-fcf8`.
-- **Trap hit:** killing a `refresh-sec-industry.js --jobs` run loses the shards' results (they live in
-  `/tmp/sec-industry-*`) while the enriched files stay on disk, so the next run dies at once on
-  `FINANCIAL_DIGEST_MISMATCH`. Recovery = adopt a file's digest only when it carries the current industry `VERSION` for
-  the issuer's current 10-K accession (scratch script did this for 240), then resume with the same `--symbols`.
-- Cron left weekly: runs take 150–187 min, daily Mon–Sat ≈ 4,400 Actions min/month on a private repo — owner's call.
-
-## Alt-tag fills and debt guards — 2026-11-01/02
-- Source: `docs/statement-audit/missing-financial-cells-2026-11-01.csv` — SEC tags a blank page row under a second
-  name. `EXTRACTION_VERSION` **20261101-alt4**. All fills are fill-only (`ALTS_ADDED` join `FILLS`), so they never
-  displace a filed figure and never add a period.
-- `sec-facts.js` MAPS gained: revenue (`InterestAndDividendIncomeOperating` — financial SIC 60/61/62/67 only,
-  `RealEstateRevenueNet`), operating income (`…IncomeLossFromContinuingOperationsBeforeInterestExpense…`), SG&A
-  (`GeneralAndAdministrativeExpense` alone, guarded), cost of revenue (`CostOfServices`), operating expenses
-  (`OperatingCostsAndExpenses`, `NoninterestExpense`), interest income (`InvestmentIncomeInterestAndDividend`,
-  `InterestIncomeOther`), tax (`CurrentIncomeTaxExpenseBenefit`), pre-tax (Domestic/Foreign, mutually guarded), D&A
-  (plain `Depreciation`, guarded on both statements), cash with restricted cash (guarded), receivables
-  (`AccountsNotesAndLoansReceivableNetCurrent`), debt (`LongTermDebt`, `LongTermDebtAndCapitalLeaseObligations`,
-  `SeniorNotes`, `ConvertibleNotesPayable`, `LongTermLineOfCredit`, `NotesPayable`, and for short-term debt
-  `ShortTermBorrowings`/`LongTermDebtCurrent`/`CommercialPaper`), intangibles (finite/indefinite halves, guarded),
-  investments (`EquityMethodInvestments`, AFS noncurrent), PP&E (`RealEstateInvestmentPropertyNet`), other assets
-  (`OtherAssets`, guarded), payables-and-accrued (guarded), SBC (`…ShareBasedPaymentAwardCompensationCost`),
-  working-capital changes (`IncreaseDecreaseInOperatingAssets`/`…Liabilities`, guarded), equity proceeds (stock
-  options, equity sale), REIT capex (`PaymentsToDevelopRealEstateAssets`).
-- `FIELD_GUARDS` (new): field-scoped witnesses — a whole-of-debt or combined tag is the row only when the same filing
-  reports no other part of it (a guard, not `FILL_GUARDS`, which applies to every field reading the tag).
-  **`LongTermDebtAndCapitalLeaseObligations` is deliberately unguarded**: it IS the noncurrent line (900 of 938
-  sampled filings sit below the same filing's `…IncludingCurrentMaturities`); guarding it blanked 3,089 rows,
-  Ampco-Pittsburgh's presented "Long-term debt" among them.
-- `shortTermDebt` reads its parts as well as `DebtCurrent`. When both parts are filed the row is their **sum**: a new
-  `combine()` rule lets the sum replace a value that resolved from one of the two parts first (10,328 rows were one
-  part instead of the sum). A lone part is the row when the filing reports nothing else of it — total debt then sums
-  that part with the long-term line (`financial-foundation.test.js` updated to this by design).
-- `restrictedFallback`: when the latest annual report's own XBRL leaves a face line untagged, a later filing's
-  comparative fills it (annual forms only, all facts at that end agreeing); it never sets the row's span.
-- Annual rows keep the fact that shares the row's own start (ZURA's restated merger stub no longer displaces it) and
-  the latest annual period's figures come from the annual filing's own accession (ATEN). `presentedDebt` now records
-  `PRESENTED_TOTAL_REFUSED` when a total it built from parts fails the face check, and treats a zero current-debt
-  figure as no line (META).
-- `refresh-sec-coverage.js` treats `REJECTED_PART` **and** `PRESENTED_TOTAL_REFUSED` as prior losses (not new ones)
-  and keeps a field whose figure is unchanged when only its provenance moved to a later filing. `verifiedField`
-  tolerates ±4 days on an annual row's start (a 52/53-week comparative). `audit-statement-rows.js` matches facts
-  exactly (same end, same start, annual only from 10-K/20-F/40-F), reports `rejected_by_validation`, and no longer
-  accepts `LiabilitiesAndStockholdersEquity` for total liabilities.
-- Run: 5,507 issuers re-extracted in 12 shards, then `refresh-sec-industry.js --jobs 12` (5,201 merged — a
-  re-extraction strips the original-document stage) and the four index builders; audit regenerated from 8 shards.
-  Diff vs HEAD over the 5,454 changed files: **438,450 cells filled**, 1,105 values changed, 236 new periods, 10 lost.
-  3,266 cells went blank: 2,380 total debt and 691 long-term debt are deliberate refusals, 630 have **no refusal
-  record yet** (AgEagle's whole Q4 2022 income column, `shortLongTermDebtTotal`) — review next session.
-- 39 issuers (ECL, MOD, NSC, PM …) keep their earlier files: the guard still reports `shortLongTermDebtTotal` lost, and
-  their alt2 files already lost long-term debt. They need a decision, not another re-run.
-- Statement audit after: tier 1 `sec_has_alt_tag` 19,946 → 3,029, `rejected_by_validation` 0 → 3,657,
-  `not_reported` 87,981 → 89,656, `sec_has_mapped_tag` 1,255 → 150 — mostly the exact matcher (a one-day-off year
-  end or a 10-Q comparative no longer counts as "SEC has it"), not lost extraction.
-- In the tree and **not** part of this batch: `backend/following.js`, `scripts/global-companies-*.js`,
-  `job-search-sprint/`, `docs/global-companies/history/ANT.json`, `docs/statement-audit/ir-page-feasibility-*`,
-  `docs/statement-audit/by-stock.csv` (untracked, as before), `.appsumo-watch-state.json`,
-  `backend/discovered-compares.json`.
-
-## Quarter lines tagged only in the segment note — 2026-11-01
-- Owner: Innodata's March/June 2026 quarters showed no gross profit or operating income though Yahoo had them.
-  Innodata reports one operating segment (ASU 2023-07 segment disclosure, interim periods from FY2025) and tags those
-  two lines only on `srt:ConsolidationItemsAxis=us-gaap:OperatingSegmentsMember`; SEC's companyfacts drops every
-  dimensional fact, so the feed never had them.
-- `sec-original.js`: a single-segment filing's (no `…SegmentsAxis` anywhere) consolidation-total fact stands for an
-  income line the statements leave untagged, once every note figure that the statements also tag for the same period
-  equals them (abs value: the note shows tax as a deduction). Income-statement lines only (a cash-flow figure there
-  is a quarter beside a year-to-date statement); an expense line only when positive and no anchor was sign-flipped.
-- `refresh-sec-coverage.js`: a 10-Q of the current fiscal year (`sec-reporting.js` `yearPeriodics`, not stored) whose
-  quarter lacks a line its year-earlier quarter carried is read from its own document, and the result is **kept only
-  if it adds lines** — any filed value changed or lost → `lineGapExtraction` status `rejected_changes_filed_values`
-  (ImageneBio June 2026). Only facts ending on the report date are merged: comparatives replaced other periods
-  (Alnylam). `EXTRACTION_VERSION` `20261101-seg1`. Tests in `sec-original` and `sec-release-regressions`.
-- Final run (556 issuers + industry stage, diff vs HEAD): 0 values lost; changed only FE/AEP below. Filled: Innodata
-  Mar/Jun 2026 gross profit + operating income, CBIZ Q1 2026, Alnylam's whole Q1 2026 (revenue $1,167,175K = its 8-K).
-  Rejected (data unchanged): GHC Q1, CIK 1818201 Q1, CIK 1835579 Q2. Retrieval failed: CIKs 765880, 1655050, 1633336.
-  Side effect: ~340 issuers last extracted at `rev3` gained the bank/insurer-era fields from the current extractor
-  (e.g. Salesforce long-term debt $14,439M, matches companyconcept).
-- Scan of 1,203 empty income cells over 561 issuers: segment-only 27 cells/16 issuers, filed plainly but missing 230,
-  other dimensions only 98, not tagged at all 841, no filing 7. Most segment-only cells are expense lines the note shows
-  as deductions (left out by design); a "plain" fact with empty text is a filed blank.
-- Waters (Q4 2024/2025 net income came from an earlier 10-K read that no longer triggers) and OneMain kept at their
-  pre-batch files; FirstEnergy/AEP June 2026 net income and equity now parent-attributable (FE $288M = its release).
-- Removed from the company page (owner): the price-trend band (trend, RSI, 50/200-day, cross, volume, 52-week high).
-  The `/api/company/:symbol/technicals` route, the snapshot and Ask's `get_technicals` stay. Stamp `20261101-ui52`.
-- Render runtime pinned to Node 22.23.4 (`09671381d`, security release; production had been on the 22.16.0 default).
-
 ## Open
+- **From the shipped 11-05 work:** extractor `ytd_difference` at a de-SPAC Q4 subtracts the SPAC's 9M from the opco's
+  year (IMSR Q4 2025 NI −31.2m stored) — needs a guard on a change of reporting entity. Not done from that plan: custom
+  (company-prefix) tags, foreign half-year columns, SPAC annual statements, InterestExpenseDebt / CostsAndExpenses opex.
+  Refresh cron is still weekly (runs 150–187 min; daily Mon–Sat ≈ 4,400 Actions min/month) — owner's call.
 - **Alt-tag batch follow-ups (2026-11-02):** 630 blanked cells have no refusal record (AgEagle's whole Q4 2022
   income column, `shortLongTermDebtTotal` in older quarters); 39 issuers keep their alt2 files because the guard still
   reports `shortLongTermDebtTotal` lost (ECL, MOD, NSC, PM, …). Neither is pushed.
