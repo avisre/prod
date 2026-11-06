@@ -2,12 +2,12 @@
  "AAPL": {
   "grade": "complete",
   "kind": "product and service lines",
-  "fiscalYear": "FY2025",
+  "fiscalYear": "FY2026",
   "rows": [
    "iPhone",
    "Services",
-   "Wearables, Home and Accessories",
    "Mac",
+   "Wearables, Home and Accessories",
    "iPad"
   ],
   "remainder": false
@@ -292,14 +292,15 @@
   "remainder": false
  },
  "AIG": {
-  "grade": "complete",
-  "kind": "regions",
+  "grade": "partial",
+  "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "International",
-   "North America"
+   "North America Commercial",
+   "International Commercial",
+   "Global Personal"
   ],
-  "remainder": false
+  "remainder": true
  },
  "PGR": {
   "grade": "none",

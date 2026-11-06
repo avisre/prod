@@ -225,11 +225,11 @@ test('get_company_financials returns filed values with the filing that reports e
     assert.equal(revenue.units, 'USD');
     assert.equal(revenue.observations.length, 3);
     const latest = revenue.observations[0];
-    // The real FY2025 figure from frontend/data/fundamentals/AAPL.json.
-    assert.equal(latest.value, 416161000000);
-    assert.equal(latest.period_end, '2025-09-27');
+    // The real FY2026 figure (10-K filed 2026-11-03) from the stored SEC financials.
+    assert.equal(latest.value, 478834000000);
+    assert.equal(latest.period_end, '2026-09-26');
     assert.match(latest.source.url, /^https:\/\/www\.sec\.gov\/Archives\//);
-    assert.equal(latest.source.accession_number, '0000320193-25-000079');
+    assert.equal(latest.source.accession_number, '0000320193-26-000026');
     assert.equal(latest.source.form, '10-K');
     assert.equal(latest.source.linkage,'xbrl_fact');assert.equal(latest.source.rawValue,latest.value);
 });

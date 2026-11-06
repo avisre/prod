@@ -4,8 +4,10 @@ test('UTC day changes expire reporting without reading financial files',()=>{
  const fs=require('node:fs'),index=require('../public-stock-index');index.view('2026-10-03');let reads=0;const original=fs.readFileSync;
  fs.readFileSync=function(file,...args){if(String(file).includes('sec-financials'))reads++;return original.call(this,file,...args);};
  // Reporting expires more than 35 days after its last check; date the probe
- // from the snapshot so a rebuild on any day keeps this test meaningful.
- const later=new Date(Date.parse(index.load().asOf)+36*86400000).toISOString().slice(0,10);
+ // from the snapshot's newest check (a run with --as-of can check after its asOf)
+ // so a rebuild on any day keeps this test meaningful.
+ const snapshot=index.load(),newest=Math.max(Date.parse(snapshot.asOf),...Object.values(snapshot.issuers).map(i=>Date.parse(String(i.evidence?.lastSuccessfulCheckAt||'').slice(0,10))||0));
+ const later=new Date(newest+36*86400000).toISOString().slice(0,10);
  try{const expired=index.view(later);assert.equal(expired.counts.financialReadyIssuers,0);assert.equal(expired.counts.screenableIssuers,0);assert.equal(index.get('AAPL',later).indexable,false);assert.equal(reads,0);}finally{fs.readFileSync=original;index.view('2026-10-03');}
 });
 test('snapshot generations are matched and directories fingerprinted',()=>{
