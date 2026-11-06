@@ -53,12 +53,26 @@ async function refresh(cik, { rebuild = false } = {}) {
   // this machine holds the filing cache (the weekly job's cache only covers the issuers it has built there).
   if (!rebuild) {
     let stored = null; try { stored = JSON.parse(fs.readFileSync(path.join(H.DIR, cik + '.json'), 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw e; }
-    if (stored?.version === H.VERSION && stored.builtAt && !filings.some((f) => PERIODIC.test(f.form) && f.filingDate >= stored.builtAt.slice(0, 10))) return { cik, status: 'unchanged' };
+    if (H.current(stored) && stored.builtAt && !filings.some((f) => PERIODIC.test(f.form) && f.filingDate >= stored.builtAt.slice(0, 10))) return { cik, status: 'unchanged' };
   }
   const records = await H.collect(cik, filings, { axis: L.axis, quarterFrom: L.quarterFrom, have });
   fs.mkdirSync(CACHE, { recursive: true });
   p.atomicWrite(cacheFile, records);
-  const table = H.buildHistory(records, L);
+  let table = H.buildHistory(records, L);
+  // A table with gaps: read every report that repeats a gap's period and is not read yet (collect() reads one
+  // per period), since an older or newer report may file the missing figure on the same breakdown. Annual
+  // reports repeat two or three years, 10-Qs the year-ago quarter and nine months. They are kept as fillOnly: a
+  // source for a gap's figure, never for a column (buildHistory), so no filed cell changes.
+  const missing = H.gaps(table);
+  if (missing.length) {
+    const done = new Set(records.map((r) => r.accession)), day = 86400000;
+    const repeats = (f, end, forms, years) => forms.includes(f.form) && Date.parse(f.reportDate) >= Date.parse(end) - 10 * day && Date.parse(f.reportDate) <= Date.parse(end) + years * 380 * day;
+    const want = filings.filter((f) => !done.has(f.accessionNumber) && missing.some((g) => g.kind === 'annual' ? repeats(f, g.end, ['10-K', '20-F', '40-F'], 2)
+      : repeats(f, g.end, ['10-Q'], 1) || g.kind === 'nine' && repeats(f, g.yearEnd, ['10-K', '20-F', '40-F'], 2)));
+    const known = new Set(records.flatMap((r) => Object.keys(r.labels || {})));
+    for (const f of want) records.push({ ...await H.readFiling(cik, f, { wantLabels: (m) => !known.has(m) }), fillOnly: true });
+    if (want.length) { p.atomicWrite(cacheFile, records); table = H.buildHistory(records, L); }
+  }
   const read = records.length - have.length, seconds = Math.round((Date.now() - t0) / 1000);
   if (!table.rows.length || !table.years.length) return { cik, status: 'no_history', read, seconds };
   p.atomicWrite(path.join(H.DIR, cik + '.json'), { version: H.VERSION, cik, builtAt: new Date().toISOString(), filingsRead: records.length, table });

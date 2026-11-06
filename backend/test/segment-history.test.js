@@ -185,3 +185,153 @@ test('the data directory is not served, however the path is spelled, except the 
   for (const p of ['/data/us-companies.json', '/data/sp1500-companies.json', '/assets/app.js', '/database.html'])
     assert.equal(blocked(p), false, p);
 });
+
+// Gaps (2026-11-07): an empty cell inside a row's span is filled only with a figure as filed.
+const three = (concept, period, a, b, c, total = a + b + c) => [seg(concept, 'x:AMember', period, a), seg(concept, 'x:BMember', period, b), seg(concept, 'x:CMember', period, c), tot(concept, period, total)];
+const LEAD = { axis: AX, currency: 'USD', preferConcept: 'us-gaap:Revenues' };
+const rowOf = (t, m) => t.rows.find((r) => r.members.includes(m));
+
+test('a gap the column\'s own report files as a loss is filled as filed; a complete table carries no source marks', () => {
+  // Cincinnati Financial's Investments: -$686M in 2022, between positive years.
+  const k = filing('k25', '10-K', '2026-02-01', '2025-12-31', [...three('us-gaap:Revenues', year(2025), 60, 30, 10), ...three('us-gaap:Revenues', year(2024), 60, 30, -5), ...three('us-gaap:Revenues', year(2023), 50, 30, 8)]);
+  const t = H.buildHistory([k], LEAD);
+  assert.deepEqual(rowOf(t, 'x:CMember').sales, [8, -5, 10]);
+  assert.equal(rowOf(t, 'x:CMember').filedIn, undefined, 'its own report: no other source to name');
+  assert.deepEqual(H.gaps(t), []);
+  const whole = H.buildHistory([filing('k', '10-K', '2026-02-01', '2025-12-31', [...three('us-gaap:Revenues', year(2025), 60, 30, 10), ...three('us-gaap:Revenues', year(2024), 50, 30, 9)])], LEAD);
+  assert.ok(whole.rows.every((r) => !('filedIn' in r)) && whole.quarterly.rows.every((r) => !('filedIn' in r)));
+});
+
+test('a positive figure the table dropped as a subtotal of other rows stays empty', () => {
+  const k = filing('k25', '10-K', '2026-02-01', '2025-12-31', [...three('us-gaap:Revenues', year(2025), 60, 30, 10), ...three('us-gaap:Revenues', year(2024), 60, 30, 90, 90), ...three('us-gaap:Revenues', year(2023), 50, 30, 8)]);
+  const c = rowOf(H.buildHistory([k], LEAD), 'x:CMember');
+  assert.equal(c.sales[1], null);
+});
+
+test('a positive figure that is exactly the column\'s shortfall to its filed total goes in, though it equals two rows shown', () => {
+  // Skyworks' FY2011 10-K: Taiwan $93.8M is also Other Americas $38.8M + EMEA $55.0M, so the region table's
+  // closest fit dropped it, and the regions shown fell exactly $93.8M short of the filed total.
+  const GX = 'us-gaap:StatementGeographicalAxis', g = (m, p, v) => ['us-gaap:SalesRevenueNet', GX, m, p[0], p[1], v, m + p[1], 0, 'USD'];
+  const sky = (p, tw) => { const cn = 914700000, kr = 148400000, oap = 91500000, us = 76700000, oam = 38800000, emea = 55000000;
+    return [g('swks:OtherAmericasForeignLocationMember', p, oam), g('us-gaap:SegmentGeographicalGroupsOfCountriesGroupTwoMember', p, cn + kr + oap + tw), g('swks:ForeignMemberOtherAsiapacificMember', p, oap), g('country:CN', p, cn), g('country:KR', p, kr),
+      g('swks:SegmentGeographicalGroupsOfCountriesGroupThreeMember', p, emea), g('country:TW', p, tw), g('us-gaap:SegmentGeographicalGroupsOfCountriesGroupOneMember', p, us + oam), g('country:US', p, us),
+      ['us-gaap:SalesRevenueNet', '', '', p[0], p[1], cn + kr + oap + tw + us + oam + emea, 't' + p[1], 0, 'USD']]; };
+  const k11 = filing('k11', '10-K', '2011-11-20', '2011-12-31', [...sky(year(2011), 93800000), ...sky(year(2010), 51353000)]);
+  const k12 = filing('k12', '10-K', '2012-11-20', '2012-12-31', sky(year(2012), 311700000));
+  const t = H.buildHistory([k11, k12], { axis: GX, currency: 'USD', preferConcept: 'us-gaap:SalesRevenueNet' });
+  assert.deepEqual(rowOf(t, 'country:TW').sales, [51353000, 93800000, 311700000]);
+  assert.equal(rowOf(t, 'country:TW').filedIn, undefined, 'its column\'s own report');
+});
+
+test('a segment the column\'s report leaves out is read from another report on the same breakdown, and named', () => {
+  // The FY2025 10-K redraws FY2024 without C (its total still includes C); the FY2024 10-K files C on the same totals.
+  const k25 = (b24) => filing('k25', '10-K', '2026-02-01', '2025-12-31', [...three('us-gaap:Revenues', year(2025), 60, 30, 10), seg('us-gaap:Revenues', 'x:AMember', year(2024), 55), seg('us-gaap:Revenues', 'x:BMember', year(2024), b24), tot('us-gaap:Revenues', year(2024), 95)]);
+  const k24 = (c24) => filing('k24', '10-K', '2025-02-01', '2024-12-31', [...three('us-gaap:Revenues', year(2024), 55, 30, c24), ...three('us-gaap:Revenues', year(2023), 50, 30, 8)]);
+  const t = H.buildHistory([k24(10), k25(30)], LEAD);
+  assert.deepEqual(t.years.map((y) => y.accession), ['k24', 'k25', 'k25']);
+  const c = rowOf(t, 'x:CMember');
+  assert.deepEqual(c.sales, [8, 10, 10]);
+  assert.deepEqual(c.filedIn.map((x) => x?.accession || null), [null, 'k24', null]);
+  assert.equal(c.filedIn[1].form, '10-K');
+  // The other report restated a sibling: another breakdown, not mixed in.
+  assert.equal(rowOf(H.buildHistory([filing('k24', '10-K', '2025-02-01', '2024-12-31', [...three('us-gaap:Revenues', year(2024), 50, 35, 10), ...three('us-gaap:Revenues', year(2023), 50, 30, 8)]), k25(30)], LEAD), 'x:CMember').sales[1], null);
+  // The figure would carry the column past its filed total.
+  const over = filing('k24', '10-K', '2025-02-01', '2024-12-31', [...three('us-gaap:Revenues', year(2024), 55, 30, 50, 95), ...three('us-gaap:Revenues', year(2023), 50, 30, 8)]);
+  assert.equal(rowOf(H.buildHistory([over, k25(30)], LEAD), 'x:CMember').sales[1], null);
+  // Another measure never stands in.
+  const other = filing('k24', '10-K', '2025-02-01', '2024-12-31', [...three('us-gaap:PremiumsEarnedNet', year(2024), 55, 30, 10), ...three('us-gaap:Revenues', year(2023), 50, 30, 8)]);
+  assert.equal(rowOf(H.buildHistory([other, k25(30)], LEAD), 'x:CMember').sales[1], null);
+});
+
+test('a report read only to fill a gap fills it, and never takes a column over from the report collect() read', () => {
+  // k26 (fillOnly) is newer and restates FY2025; as a column source it would replace k25's FY2025 figures.
+  const k23 = filing('k23', '10-K', '2024-02-01', '2023-12-31', three('us-gaap:Revenues', year(2023), 50, 30, 8));
+  const k24 = filing('k24', '10-K', '2025-02-01', '2024-12-31', [seg('us-gaap:Revenues', 'x:AMember', year(2024), 55), seg('us-gaap:Revenues', 'x:BMember', year(2024), 30), tot('us-gaap:Revenues', year(2024), 95)]);
+  const k25 = filing('k25', '10-K', '2026-02-01', '2025-12-31', three('us-gaap:Revenues', year(2025), 60, 30, 10));
+  const k26 = { ...filing('k26', '10-K', '2027-02-01', '2026-12-31', [...three('us-gaap:Revenues', year(2025), 70, 20, 10), ...three('us-gaap:Revenues', year(2024), 55, 30, 10)]), fillOnly: true };
+  const t = H.buildHistory([k23, k24, k25, k26], LEAD);
+  assert.deepEqual(t.years.map((y) => y.accession), ['k23', 'k24', 'k25']);
+  assert.deepEqual(rowOf(t, 'x:AMember').sales, [50, 55, 60]);
+  const c = rowOf(t, 'x:CMember');
+  assert.deepEqual(c.sales, [8, 10, 10]);
+  assert.equal(c.filedIn[1].accession, 'k26');
+  // The same report read as an ordinary record is a column source, as before.
+  assert.deepEqual(H.buildHistory([k23, k24, k25, { ...k26, fillOnly: undefined }], LEAD).years.map((y) => y.accession), ['k23', 'k26', 'k26']);
+});
+
+test('a fourth quarter whose nine-month report leaves a segment out takes the nine months from a report on the same breakdown', () => {
+  const q = (y, m1, m2) => [`${y}-${m1}`, `${y}-${m2}`];
+  const k = filing('k25', '10-K', '2026-02-01', '2025-12-31', three('us-gaap:Revenues', year(2025), 70, 30, 20));
+  const q1 = filing('q1', '10-Q', '2025-05-01', '2025-03-31', three('us-gaap:Revenues', q(2025, '01-01', '03-31'), 16, 7, 5));
+  const q2 = filing('q2', '10-Q', '2025-08-01', '2025-06-30', three('us-gaap:Revenues', q(2025, '04-01', '06-30'), 18, 7, 5));
+  const nine = (c) => c == null ? [seg('us-gaap:Revenues', 'x:AMember', q(2025, '01-01', '09-30'), 52), seg('us-gaap:Revenues', 'x:BMember', q(2025, '01-01', '09-30'), 22), tot('us-gaap:Revenues', q(2025, '01-01', '09-30'), 89)] : three('us-gaap:Revenues', q(2025, '01-01', '09-30'), 52, 22, c);
+  const q3 = filing('q3', '10-Q', '2025-11-01', '2025-09-30', [...three('us-gaap:Revenues', q(2025, '07-01', '09-30'), 18, 8, 5), ...nine(15)]);
+  const q3a = filing('q3a', '10-Q', '2025-11-20', '2025-09-30', [...three('us-gaap:Revenues', q(2025, '07-01', '09-30'), 18, 8, 5), ...nine(null)]);
+  const q1n = filing('q1n', '10-Q', '2026-05-01', '2026-03-31', three('us-gaap:Revenues', q(2026, '01-01', '03-31'), 17, 8, 6));
+  const t = H.buildHistory([k, q1, q2, q3, q3a, q1n], { ...LEAD, quarterFrom: '2025-01-01' });
+  const Q = t.quarterly, c = Q.rows.find((r) => r.members.includes('x:CMember'));
+  assert.deepEqual(Q.years.map((y) => y.derived), [false, false, false, true, false]);
+  assert.equal(Q.years[3].from.nineMonths, 'q3a', 'the column is still the newest report\'s');
+  assert.deepEqual(c.sales, [5, 5, 5, 5, 6]);
+  assert.deepEqual(c.filedIn[3], { accession: 'q3', form: '10-Q', sourceUrl: 'https://www.sec.gov/q3', publicationDate: '2025-11-01', part: 'nineMonths' });
+  // Nine months that would leave the quarter past its total are not used.
+  const t2 = H.buildHistory([k, q1, q2, filing('q3', '10-Q', '2025-11-01', '2025-09-30', [...three('us-gaap:Revenues', q(2025, '07-01', '09-30'), 18, 8, 5), ...nine(15).map((f) => f[2] === 'x:CMember' ? [...f.slice(0, 5), 1, ...f.slice(6)] : f)]), q3a, q1n], { ...LEAD, quarterFrom: '2025-01-01' });
+  assert.equal(t2.quarterly.rows.find((r) => r.members.includes('x:CMember')).sales[3], null);
+});
+
+test('a segment its column\'s report tags under another revenue concept goes in only as the exact shortfall', () => {
+  // Cheniere: LNG and Other tagged Revenues, Regasification only as contract revenue, in the same report.
+  const PX = 'srt:ProductOrServiceAxis', R = 'us-gaap:Revenues', K = 'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax';
+  const f = (c, m, p, v) => [c, PX, m, p[0], p[1], v, c + m + p[1], 0, 'USD'];
+  const lng = (p, l, g, o, gTag = R) => [f(R, 'x:LngMember', p, l), f(gTag, 'x:RegasMember', p, g), f(R, 'x:OtherMember', p, o), tot(R, p, l + g + o)];
+  const build = (g) => H.buildHistory([filing('k', '10-K', '2026-02-01', '2025-12-31', [...lng(year(2025), 1500, 70, 20),
+    ...lng(year(2024), 1373, 67, 20, K).map((x) => x[2] === 'x:RegasMember' ? [...x.slice(0, 5), g, ...x.slice(6)] : x), f(K, 'x:LngMember', year(2024), 1344), tot(K, year(2024), 1411), ...lng(year(2023), 1200, 60, 18)])],
+    { axis: PX, currency: 'USD', preferConcept: R, sic: '4924' });
+  const regas = (t) => t.rows.find((r) => r.members.includes('x:RegasMember'));
+  assert.deepEqual(regas(build(67)).sales, [60, 67, 70]);
+  assert.equal(regas(build(67)).filedIn, undefined, 'the column\'s own report');
+  assert.equal(regas(build(60)).sales[1], null, 'not the shortfall: another table\'s figure');
+});
+
+test('another report in the other view fills a segment only when every segment the column shows agrees', () => {
+  // Avery Dennison: the newest report files FY2024 as reported without RBIS; the older one in the operating view.
+  const f = (m, p, v, x) => ['us-gaap:Revenues', AX, m, p[0], p[1], v, m + p[1] + x, x, 'USD'];
+  const three = (p, a, b, c, x) => [f('x:AMember', p, a, x), f('x:BMember', p, b, x), f('x:CMember', p, c, x)];
+  const build = (b24) => H.buildHistory([
+    filing('k25', '10-K', '2026-02-01', '2025-12-31', [...three(year(2025), 60, 32, 12, 0), tot('us-gaap:Revenues', year(2025), 104), f('x:AMember', year(2024), 55, 0), f('x:BMember', year(2024), 30, 0), tot('us-gaap:Revenues', year(2024), 95)]),
+    filing('k24', '10-K', '2025-02-01', '2024-12-31', [...three(year(2024), 55, b24, 10, 1), tot('us-gaap:Revenues', year(2024), 95), ...three(year(2023), 50, 28, 9, 1), tot('us-gaap:Revenues', year(2023), 87)])], LEAD);
+  const c = rowOf(build(30), 'x:CMember');
+  assert.deepEqual(c.sales, [9, 10, 12]); assert.equal(c.filedIn[1].accession, 'k24');
+  assert.equal(rowOf(build(25), 'x:CMember').sales[1], null);
+});
+
+test('a fourth quarter takes its year from the report on the nine months\' breakdown when the newest annual report redrew the segments', () => {
+  // AAR: the FY2026 10-K redraws FY2025 as two segments; the FY2025 10-K and every 10-Q file three.
+  const R = 'us-gaap:Revenues', FY = (y) => [`${y - 1}-07-01`, `${y}-06-30`];
+  const cols = (p, o) => [...Object.entries(o).map(([m, v]) => seg(R, 'x:' + m + 'Member', p, v)), tot(R, p, Object.values(o).reduce((a, b) => a + b, 0))];
+  const t = H.buildHistory([
+    filing('k25', '10-K', '2025-08-01', '2025-06-30', [...cols(FY(2025), { A: 100, B: 60, C: 40 }), ...cols(FY(2024), { A: 90, B: 55, C: 35 })]),
+    filing('q1', '10-Q', '2024-11-01', '2024-09-30', cols(['2024-07-01', '2024-09-30'], { A: 25, B: 15, C: 10 })),
+    filing('q2', '10-Q', '2025-02-01', '2024-12-31', cols(['2024-10-01', '2024-12-31'], { A: 25, B: 15, C: 10 })),
+    filing('q3', '10-Q', '2025-05-01', '2025-03-31', [...cols(['2025-01-01', '2025-03-31'], { A: 25, B: 15, C: 10 }), ...cols(['2024-07-01', '2025-03-31'], { A: 75, B: 45, C: 30 })]),
+    filing('q1n', '10-Q', '2025-11-01', '2025-09-30', cols(['2025-07-01', '2025-09-30'], { A: 26, B: 16, C: 11 })),
+    filing('k26', '10-K', '2026-08-01', '2026-06-30', [...cols(FY(2026), { A: 110, D: 110 }), ...cols(FY(2025), { A: 100, D: 100 })])], { ...LEAD, quarterFrom: '2024-07-01' });
+  assert.deepEqual(t.rows.map((r) => [r.name, r.sales]), [['A', [90, 100, 110]], ['D', [null, 100, 110]], ['B', [55, null, null]], ['C', [35, null, null]]], 'the annual view keeps the newest breakdown');
+  const c = t.quarterly.rows.find((r) => r.name === 'C');
+  assert.deepEqual(c.sales, [10, 10, 10, 10, 11]);
+  assert.equal(c.filedIn[3].accession, 'k25'); assert.equal(c.filedIn[3].part, 'year');
+  assert.equal(t.quarterly.rows.find((r) => r.name === 'A').filedIn, undefined, 'a segment the newest report still lists keeps its year');
+});
+
+test('a table built before the gap rules stays current only where it has no gap', () => {
+  const years = [{ periodEnd: '2023-12-31' }, { periodEnd: '2024-12-31' }, { periodEnd: '2025-12-31' }];
+  const table = (mid) => ({ years, rows: [{ name: 'A', sales: [1, 2, 3] }, { name: 'C', sales: [1, mid, 3] }], quarterly: { years: [], rows: [] } });
+  assert.deepEqual(H.gaps(table(null)), [{ kind: 'annual', end: '2024-12-31', row: 'C' }]);
+  assert.equal(H.current({ version: H.COMPATIBLE[0], table: table(2) }), true);
+  assert.equal(H.current({ version: H.COMPATIBLE[0], table: table(null) }), false);
+  assert.equal(H.current({ version: H.VERSION, table: table(null) }), true, 'this version already read what could fill it');
+  assert.equal(H.current({ version: 'old', table: table(2) }), false);
+  const q = { years: [{ periodStart: '2025-09-30', periodEnd: '2025-12-31', derived: true }, { periodEnd: '2025-09-30' }, { periodEnd: '2026-03-31' }], rows: [{ name: 'C', sales: [5, null, 6] }] };
+  q.years = [q.years[1], q.years[0], q.years[2]];
+  assert.deepEqual(H.gaps({ years: [], rows: [], quarterly: { years: q.years, rows: [{ name: 'C', sales: [5, null, 6] }] } }), [{ kind: 'nine', end: '2025-09-30', yearEnd: '2025-12-31', row: 'C' }]);
+});

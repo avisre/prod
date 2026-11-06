@@ -3137,15 +3137,24 @@
         let html = `<thead><tr><th class="row-head" style="text-align:left">${esc(t.currency)} · as filed${toggle}</th>` +
             periods.map((p, i) => `<th${i === n - 1 ? " class='col-now'" : ''}>${esc(p)}</th>`).join('') + '</tr></thead><tbody>';
         const Q4 = 'Calculated: the fiscal year less the first three quarters, as filed';
-        const row = (label, vals, fmt, { cls = '', title = '', calc = false } = {}) => {
+        // A cell read from a report other than its column's (that report leaves the segment out, or files it on
+        // another line) names that report on hover.
+        const filedNote = (f, i) => {
+            if (!f) return '';
+            const one = (x) => `the ${x.form} filed ${x.publicationDate}`;
+            if (f.part === 'nineMonths') return `${Q4}; the nine months are read from ${one(f)}${f.year ? ` and the year from ${one(f.year)}` : ''}, which file this segment (the period's own report does not list it)`;
+            if (f.part === 'year') return `${Q4}; the year is read from ${one(f)}, which files this segment (the newest annual report does not list it)`;
+            return `As filed in ${one(f)}: the period's own report (${periods[i]}) does not list this segment, and this report files the period with the same total and the same figures for the other segments`;
+        };
+        const row = (label, vals, fmt, { cls = '', title = '', calc = false, filedIn = null } = {}) => {
             lastRender.rows.push({ label, vals, fmt });
             html += `<tr class="${cls}"><td class="row-head"${calc && title ? ` title="${esc(title)}"` : ''}>${esc(label)}</td>` +
-                vals.map((x, i) => { const c = x !== null && (calc || derived[i]); const why = calc ? title : derived[i] ? Q4 : '';
+                vals.map((x, i) => { const note = x !== null && filedIn ? filedNote(filedIn[i], i) : ''; const c = x !== null && (calc || derived[i] || !!note); const why = calc ? title : note || (derived[i] ? Q4 : '');
                     return `<td class="${[i === n - 1 ? 'col-now' : '', x !== null && x < 0 ? 'delta-neg' : '', c ? 'calc' : ''].join(' ')}"${c ? ` title="${esc(why)}"` : ''}>${fmt(x)}</td>`; }).join('') + '</tr>';
         };
         const heading = (label) => { html += `<tr class="row-section"><td class="row-head">${esc(label)}</td>${'<td></td>'.repeat(n)}</tr>`; };
         heading(t.measure === 'revenue' ? 'Sales' : `Sales (${t.measure})`);
-        for (const r of v.rows) row(r.name, r.sales, money, { cls: 'row-sub' });
+        for (const r of v.rows) row(r.name, r.sales, money, { cls: 'row-sub', filedIn: r.filedIn || null });
         // What the segments shown leave out of the company's revenue: intersegment sales eliminated and any
         // corporate or unallocated line. Calculated, never filed as one figure.
         const rest = v.years.map((y, i) => { const shown = v.rows.reduce((a, r) => a + (r.sales[i] ?? 0), 0); return y.totalRevenue === null || y.totalRevenue === undefined ? null : y.totalRevenue - shown; });
@@ -3182,7 +3191,7 @@
             (t.measure !== 'revenue' ? esc(`A bank or insurer reports ${t.measure} by segment in place of revenue. `) : '') +
             esc(t.profitMeasure ? `Profit % is each segment's ${t.profitMeasure} as filed divided by its sales` + (t.assetsConcept && !quarterly ? '; return on assets % is that profit divided by the segment\'s assets at year end (segments file no capital-employed figure, so ROCE cannot be shown). ' : '. ') : 'The company tags no segment profit in a standard form, so no margin is shown. ') +
             esc(t.years.length > 3 ? `Each year is read from the newest annual report that files it, so a segment the company later redrew is shown as restated (from ${periodLabel({ fiscalDateEnding: first.periodEnd }, 'annual')}, the earliest year read from the filings' tagged XBRL data). A segment renamed or reorganised appears as its own row. ` : '') +
-            esc('Figures with a dotted underline are calculated (hover for how). Latest annual source: ') +
+            esc(`Figures with a dotted underline are calculated, or read from another report where the period's own report leaves a segment out (hover for how and which report). ${v.rows.some((r) => r.filedIn) ? 'Such a figure is taken only from a report that files the same period with the same total and the same figures for every other segment. ' : ''}Latest annual source: `) +
             `<a href="${esc(latest.sourceUrl)}" target="_blank" rel="noopener">the 10-K filed ${esc(latest.publicationDate || '')}</a>.`;
     }
     function renderStatements() {
