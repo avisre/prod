@@ -16,6 +16,13 @@ const revenueConcepts=()=>require('./sec-facts').MAPS.income.totalRevenue;
 // America's tax-equivalent net revenue) still names it as net revenue.
 const CUSTOM_NET_REVENUE=/^RevenuesNetOfInterestExpense[A-Za-z]{0,40}$/;
 const measureOf=(taxonomy,concept)=>EXTRA_MEASURES[taxonomy]?.[concept] || (!['us-gaap','ifrs-full','srt','dei'].includes(taxonomy) && CUSTOM_NET_REVENUE.test(concept || '')?(/TaxEquivalent/.test(concept)?'revenue on a tax-equivalent basis':'revenue net of interest expense'):null);
+// Segment profit and assets, read only on the operating-segment axis. Profit is taken in this order
+// of preference, one measure for every row of a table: before tax, then operating, then net.
+const PROFIT=[['us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','ifrs-full:ProfitLossBeforeTax','us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments','profit before tax'],
+ ['us-gaap:OperatingIncomeLoss','ifrs-full:ProfitLossFromOperatingActivities','operating profit'],
+ ['us-gaap:NetIncomeLoss','ifrs-full:ProfitLoss','net income']];
+const ASSETS=['us-gaap:Assets','ifrs-full:Assets'];
+const segmentMetric=(taxonomy,concept)=>{const k=taxonomy+':'+concept;return ASSETS.includes(k)?'assets':PROFIT.some(t=>t.includes(k))?'profit':null;};
 const segmentMeasure=(taxonomy,concept)=>!!(revenueConcepts()[taxonomy]?.includes(concept) || measureOf(taxonomy,concept) || taxonomy==='us-gaap' && BANK_PAIR.includes(concept));
 // Total revenue may be cited to an amendment of the same annual report: the
 // amendment restates the same period, and the segment figures still have to
@@ -76,7 +83,35 @@ function extract(segments,financial,filing) {
   const miss=x=>(x.entries.length<2?2:0)+(x.reconciliationStatus==='reconciled'?0:1)+Math.abs(x.difference)/Math.max(1,Math.abs(x.totalRevenue))+(x.measure?0.02:0);
   if(!old || miss(g)<miss(old) || miss(g)===miss(old) && g.entries.length>old.entries.length)best.set(key,g);
  }
- return [...best.values()];
+ const chosen=[...best.values()];
+ attachMetrics(chosen.filter(g=>BUSINESS.test(g.axis)),segments);
+ return chosen;
+}
+// One value per member for a concept and period, as filed with its receipt. A member filed twice with
+// different figures (before and after a consolidation view) keeps the figure filed on the segment axis alone.
+function metricValues(segments,g,concept,instant) {
+ const out=new Map(),conflict=new Set();
+ const facts=(segments || []).filter(f=>f.taxonomy+':'+f.concept===concept && f.unit===g.currency && f.accn===g.sourceVersion && f._original?.dimensions?.length===1 && f._original.dimensions[0].axis===g.axis &&
+  f.end===g.periodEnd && (instant?!f.start:f.start===g.periodStart));
+ for(const f of facts.sort((a,b)=>(a._original.allDimensions || []).length-(b._original.allDimensions || []).length)) {
+  const member=f._original.dimensions[0].member,old=out.get(member);
+  if(!old){out.set(member,f);continue;}
+  if(old.val!==f.val && (old._original.allDimensions || []).length===(f._original.allDimensions || []).length)conflict.add(member);
+ }
+ for(const m of conflict)out.delete(m);
+ return out;
+}
+// One profit measure for every year and row of a company's table, so the years compare: the concept that
+// covers the most rows across the years, earlier tiers (before tax, operating, net) winning a tie.
+function attachMetrics(groups,segments) {
+ const pack=(g,concept,instant)=>{const members=new Set(g.entries.map(e=>e.member)),values={};
+  for(const [m,f] of metricValues(segments,g,concept,instant))if(members.has(m))values[m]={value:f.val,contextRef:f._original.contextRef,numericReceipt:f._original.numericReceipt};
+  return Object.keys(values).length>=2?{concept,values}:null;};
+ const pick=(concepts,instant)=>{let best=null;
+  for(const c of concepts){const packs=groups.map(g=>pack(g,c,instant)),n=packs.reduce((k,x)=>k+(x?Object.keys(x.values).length:0),0);if(n && (!best || n>best.n))best={n,packs};}
+  return best?best.packs:groups.map(()=>null);};
+ const profit=pick(PROFIT.flatMap(t=>t.slice(0,-1)),false),assets=pick(ASSETS,true);
+ groups.forEach((g,i)=>{if(profit[i])g.profit={...profit[i],measure:PROFIT.find(t=>t.includes(profit[i].concept)).slice(-1)[0]};if(assets[i])g.assets=assets[i];});
 }
 function validGroup(g,data) {
  if(!g || !data || g.issuer!==data.cik || !p.day(g.periodStart) || !p.day(g.periodEnd) || !Array.isArray(g.entries) || !g.entries.length)return false;
@@ -92,6 +127,11 @@ function validGroup(g,data) {
  if(g.entries.some(e=>e.components?!composite(e):number(e.sourceFact?.numericReceipt)!==e.value))return false;
  if(g.measure!==undefined && g.measure!==BANK_MEASURE && !g.entries.every(e=>measureOf(e.sourceFact?.taxonomy,e.sourceFact?.concept)===g.measure))return false;
  if(g.entries.some(e=>!e.contextRef || !e.sourceUrl?.startsWith(base) || e.sourceVersion!==g.sourceVersion || e.sourceFact?.rawValue!==e.value || e.sourceFact?.unit!==g.currency || e.sourceFact?.periodStart!==g.periodStart || e.sourceFact?.periodEnd!==g.periodEnd || !(e.components || segmentMeasure(e.sourceFact?.taxonomy,e.sourceFact?.concept) && !BANK_PAIR.includes(e.sourceFact.concept)) || !e.sourceIds?.length || e.label && LABELS[g.issuer]?.[e.member]!==e.label || e.filedLabel!==undefined && (typeof e.filedLabel!=='string' || !e.filedLabel || e.filedLabel.length>120)))return false;
+ for(const [key,kind] of [['profit','profit'],['assets','assets']]) {
+  const m=g[key];if(m===undefined)continue;
+  if(!m || !m.values || segmentMetric(...String(m.concept).split(':'))!==kind || !BUSINESS.test(g.axis))return false;
+  if(Object.entries(m.values).some(([member,v])=>!g.entries.some(e=>e.member===member) || !v.contextRef || number(v.numericReceipt)!==v.value))return false;
+ }
  const sum=g.entries.reduce((n,e)=>n+e.value,0);return sum===g.sum && g.difference===g.totalRevenue-sum && g.reconciliationStatus===(Math.abs(g.difference)<=g.roundingTolerance?'reconciled':'partial');
 }
 // The reviewed label where one exists; otherwise the issuer's own element name
@@ -197,6 +237,24 @@ function preferred(groups) {
  const partial=usable?null:ordered.find(g=>{const v=shown(g);return v.coverage<0.9 && (v.rows.length>=3 && v.coverage>=0.6 || v.rows.length>=2 && v.coverage>=0.75);}) || null;
  return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable,partial};
 }
+// The segment table on the company page (Screener's "Product segments"): one row per segment over the
+// years the latest 10-K reports, its sales, and where filed its profit and assets. The axis is the one
+// the page's breakdown already uses. Every figure is as filed; the remainder to the company's total and
+// the ratios are calculated and marked as such by the page.
+function statementTable(groups) {
+ const pick=preferred(groups),lead=pick.usable || pick.partial;if(!lead)return null;
+ const years=(groups || []).filter(g=>g.axis===lead.axis && g.currency===lead.currency && g.sourceVersion===lead.sourceVersion).sort((a,b)=>String(a.periodEnd).localeCompare(String(b.periodEnd)));
+ const views=years.map(g=>({g,kept:new Set(shown(g).rows.map(r=>r.member))}));
+ const members=[];
+ for(const {g,kept} of views.slice().reverse())for(const e of g.entries)if(kept.has(e.member) && !members.some(m=>m.member===e.member))members.push({member:e.member,name:displayName(e)});
+ const cell=(g,m,key)=>{const v=key?g[key]?.values?.[m]:g.entries.find(e=>e.member===m);return v?v.value:null;};
+ const rows=members.map(({member,name})=>({member,name,sales:views.map(({g,kept})=>kept.has(member)?cell(g,member):null),profit:views.map(({g,kept})=>kept.has(member)?cell(g,member,'profit'):null),assets:views.map(({g,kept})=>kept.has(member)?cell(g,member,'assets'):null)}));
+ const latest=views.length-1;rows.sort((a,b)=>(b.sales[latest] ?? -Infinity)-(a.sales[latest] ?? -Infinity));
+ const profitMeasure=years.map(g=>g.profit?.measure).find(Boolean) || null;
+ return {axis:BUSINESS.test(lead.axis)?'business':PRODUCT.test(lead.axis)?'product':REGION.test(lead.axis)?'region':'other',currency:lead.currency,measure:lead.measure || 'revenue',
+  profitMeasure,profitConcept:years.map(g=>g.profit?.concept).find(Boolean) || null,assetsConcept:years.map(g=>g.assets?.concept).find(Boolean) || null,
+  years:years.map(g=>({periodStart:g.periodStart,periodEnd:g.periodEnd,totalRevenue:g.totalRevenue,sourceUrl:g.sourceUrl,form:'10-K',publicationDate:g.publicationDate})),rows};
+}
 function toolPayload(g,data,symbol) {
  if(!validGroup(g,data))return null;
  const row=data.income.annualReports.find(r=>r.fiscalDateEnding===g.periodEnd),sources=Object.fromEntries(g.totalSourceIds.map(id=>[id,data.sources[id]]));
@@ -208,4 +266,4 @@ function toolPayload(g,data,symbol) {
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
 const kind=g=>PRODUCT.test(g?.axis || '')?'product and service lines':REGION.test(g?.axis || '')?'regions':'operating segments';
-module.exports={extract,validGroup,toolPayload,preferred,shown,kind,displayName,segmentMeasure,LABELS};
+module.exports={measureOf,BANK_MEASURE,extract,validGroup,toolPayload,preferred,shown,kind,displayName,segmentMeasure,segmentMetric,statementTable,LABELS,PROFIT_CONCEPTS:PROFIT.flatMap(t=>t.slice(0,-1)),PROFIT_MEASURE:k=>PROFIT.find(t=>t.includes(k))?.slice(-1)[0] || null};

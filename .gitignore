@@ -102,3 +102,6 @@ seo-data/indexnow-queue.json
 scripts/.sent-*.json
 scripts/.recipients-*.json
 !scripts/.recipients-*.json.example
+
+# Segment history: facts read from each filing, kept locally so a refresh reads only new filings
+backend/data/segment-history/.cache/

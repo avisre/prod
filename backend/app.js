@@ -3152,7 +3152,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261106-scr1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261106-seg2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3181,7 +3181,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261106-scr1"></script>
+<script src="/assets/app.js?v=20261106-seg2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3273,7 +3273,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261106-scr1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261106-seg2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3301,7 +3301,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261106-scr1"></script>
+<script src="/assets/app.js?v=20261106-seg2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3409,7 +3409,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261106-scr1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261106-seg2" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3442,7 +3442,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261106-scr1"></script>
+<script src="/assets/app.js?v=20261106-seg2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3466,8 +3466,21 @@ app.get(/^\/inbox(\.html)?\/?$/, (req, res) => res.redirect(301, '/profile.html'
 // exempt from the bot nav-rate-limiter (bot-blocker.js's STATIC_ASSET_RE
 // matched .json), and identical to the corpus licensed at /licensing — i.e.
 // free bulk access to the product being sold. Block both ahead of static.
+// 2026-11-06: the same held for every other directory there (sec-financials/,
+// sec-as-filed/, sec-statement-lines/, quotes.json, …: all read off disk, all
+// downloadable). Only the two symbol lists the search box fetches
+// (assets/app.js) are public now; everything else under /data is 404.
+const PUBLIC_DATA_FILES = new Set(['/data/us-companies.json', '/data/sp1500-companies.json']);
+// The path as express.static will resolve it (decoded, dot segments and
+// repeated slashes collapsed), so /%64ata/ or //data/ cannot slip past.
+function staticDataPath(raw) {
+    let decoded = raw;
+    try { decoded = decodeURIComponent(raw); } catch (_) { return '/data/'; } // undecodable: static refuses it too
+    return path.posix.normalize('/' + decoded.replace(/\\/g, '/'));
+}
 app.use((req, res, next) => {
-    if (req.path === '/data/screen-index.json' || req.path.startsWith('/data/fundamentals/')) {
+    const resolved = staticDataPath(req.path);
+    if ((resolved === '/data' || resolved.startsWith('/data/')) && !PUBLIC_DATA_FILES.has(resolved)) {
         return res.status(404).end();
     }
     next();
@@ -13808,6 +13821,30 @@ app.get('/api/demo/alpha/hero/:symbol', async (req, res) => {
         res.set('Cache-Control', FUNDAMENTALS_CACHE_CONTROL).json(body);
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Hero data load failed') });
+    }
+});
+// The company page's "Product segments" table: each segment's sales, profit and assets over every year and
+// quarter its filings tag (backend/sec-segment-history.js, built by scripts/refresh-segment-history.js),
+// or the latest 10-K's years where no history is built yet. Paid plans only (owner decision 2026-11-06),
+// whatever WALL_PAID_ONLY says for the rest of /api/demo: a trial or free account is refused here.
+app.get('/api/demo/alpha/segments/:symbol', async (req, res) => {
+    if (!subscriptionIsPaid(req.subscription)) return res.status(402).json({ code: 'PAID_PLAN_REQUIRED', message: 'Segment history is part of the paid plans. Choose a plan to unlock it.' });
+    const symbol = safeUpper(req.params.symbol);
+    const company = symbol && require('./stock-universe').lookup(symbol);
+    if (!company?.cik) return res.status(404).json({ code: 'SEGMENTS_UNAVAILABLE', message: 'No covered company was found.' });
+    try {
+        const cik = require('./sec-coverage').cik(company.cik);
+        const stored = require('./sec-segment-history').load(cik);
+        let table = stored?.table || null;
+        if (!table) {
+            const entry = require('./public-stock-index').view().issuers[cik];
+            const data = require('./verified-fundamentals').loadIssuer(cik, entry?.financialDigest || entry?.evidence?.financialDigest);
+            table = require('./sec-segment-observations').statementTable(data?.segmentObservations || []);
+        }
+        if (!table) return res.status(404).json({ code: 'SEGMENTS_UNAVAILABLE', message: 'The company files no segment table.' });
+        res.set('Cache-Control', 'private, max-age=3600').json({ symbol, cik, source: stored ? 'history' : 'latest-annual-report', builtAt: stored?.builtAt || null, table });
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Segment data load failed') });
     }
 });
 app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {

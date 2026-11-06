@@ -1113,6 +1113,7 @@
     // The 5Y-trend column is a control, and controls start off: the table
     // opens with no trend column; "Show 5Y trend" is what turns it on.
     let showStatementTrend = true;
+    let segmentsOpen = false; // the Product segments table stands in for the income statement while open
     let sharesByPeriod = new Map();
     let sharesBasis = 'period-end'; // which filed count sharesByPeriod holds (buildSharesMap)
     let lastRender = { rows: [], periods: [] };
@@ -3051,8 +3052,100 @@
         if(cashRows.some(r=>r._noCapexLine))notes.push('Some periods show no capital expenditure because the company files no capital-spending line for that year (it sits inside other investing activities). For those periods free cash flow equals operating cash flow, the same method StockAnalysis uses.');
         panel.innerHTML=notes.map(n=>'<p class="small faint">'+esc(n)+'</p>').join('')+(facts.length?'<details><summary>Additional attributed financial observations ('+facts.length+')</summary><p class="small faint">Provider observations and issuer-defined measures are separate from the verified GAAP/IFRS statements.</p><div class="table-wrap"><table class="table-data"><thead><tr><th>Field</th><th>Period end</th><th>Value and unit</th><th>Source and date</th></tr></thead><tbody>'+facts.map(f=>'<tr><td>'+esc(f.definition)+'</td><td>'+esc(f.periodEnd)+'</td><td>'+esc(f.value.toLocaleString('en-US'))+' '+esc(f.unit)+(f.presentation?'<br><span class="small faint">converted from '+esc(f.presentation.originalValue.toLocaleString('en-US'))+' '+esc(f.presentation.originalCurrency)+'</span>':'')+'</td><td><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">'+esc(f.sourceName)+'</a> '+esc(f.publicationDate || f.sourceDataDate)+' '+esc(f.sourceDateKind==='retrieval'?'retrieved':'published')+' · '+esc(f.accountingBasis)+'</td></tr>').join('')+'</tbody></table></div></details>':'')+(gaps.length?'<details><summary>Remaining data gaps ('+gaps.length+')</summary><ul>'+gaps.slice(0,20).map(g=>'<li>'+esc([g.field,g.basis,g.reason].filter(Boolean).join(' · '))+'</li>').join('')+'</ul></details>':'');
     }
+    // Screener's "Product segments": each segment's sales, profit margin and return on its assets over every
+    // year and quarter the segment notes are filed for. The payload only says a table exists
+    // (segmentSummary); the table itself comes from a paid-only endpoint when the button is first pressed.
+    let segmentData = null; // { state: 'loading' | 'ready' | 'locked' | 'error', table }
+    function segmentTableShown() { const t = payload?.segmentSummary; return !!(t && t.rows >= 2); }
+    function loadSegments() {
+        if (segmentData && segmentData.state !== 'error') return;
+        segmentData = { state: 'loading' };
+        fetch(`/api/demo/alpha/segments/${encodeURIComponent(symbol)}`).then(async (r) => {
+            const body = await r.json().catch(() => null);
+            segmentData = r.ok && body?.table ? { state: 'ready', table: body.table } : { state: r.status === 402 || r.status === 401 ? 'locked' : 'error' };
+        }).catch(() => { segmentData = { state: 'error' }; }).then(() => { if (segmentsOpen) renderStatements(); });
+    }
+    function syncSegmentsButton() {
+        const btn = $('stmt-segments');
+        if (!btn) return;
+        if (stState !== 'income') segmentsOpen = false;
+        btn.hidden = !segmentTableShown() || stState !== 'income';
+        btn.textContent = segmentsOpen ? '✕ Close segments' : (payload?.segmentSummary?.axis === 'region' ? 'Regional segments' : 'Product segments');
+        btn.setAttribute('aria-pressed', String(segmentsOpen));
+    }
+    function renderSegments() {
+        const table = $('stmt-table');
+        if (segmentData?.state !== 'ready') {
+            const say = segmentData?.state === 'locked' ? 'Segment history is part of the paid plans. <a href="/upgrade.html">Choose a plan</a> to see every segment\'s sales, profit and return year by year.'
+                : segmentData?.state === 'error' ? 'The segment table could not be loaded. Close and open it again to retry.' : 'Loading the segment history…';
+            table.innerHTML = `<tbody><tr><td class="row-head" style="text-align:left;white-space:normal;padding:18px 12px">${say}</td></tr></tbody>`;
+            $('stmt-prov').innerHTML = ''; lastRender = { rows: [], periods: [], cur: '' };
+            return;
+        }
+        const t = segmentData.table;
+        // Quarters come from the 10-Qs' segment notes; the fourth quarter is the fiscal year less the
+        // first three, calculated and marked, as the statements do it.
+        const quarterly = basisState === 'quarterly' && t.quarterly?.years?.length;
+        const v = quarterly ? t.quarterly : t, n = v.years.length;
+        const periods = v.years.map((y) => periodLabel({ fiscalDateEnding: y.periodEnd }, quarterly ? 'quarterly' : 'annual'));
+        const derived = v.years.map((y) => !!y.derived);
+        const ratio = (a, b) => a === null || b === null || !b ? null : a / b * 100;
+        const pctCell = (x) => x === null ? '—' : pct(x);
+        lastRender = { rows: [], periods, cur: t.currency };
+        table.classList.add('trend-hidden');
+        $('stmt-expand').hidden = true;
+        $('stmt-trend-toggle').hidden = true;
+        const toggle = `<span class="seg seg-sm" id="seg-segbasis" role="group" aria-label="Segment periods" style="margin-left:10px;vertical-align:middle;">` +
+            `<button type="button" data-b="annual" aria-pressed="${!quarterly}">Annual</button><button type="button" data-b="quarterly" aria-pressed="${!!quarterly}"${t.quarterly?.years?.length ? '' : ' disabled title="No quarterly segment figures are filed"'}>Quarterly</button></span>`;
+        let html = `<thead><tr><th class="row-head" style="text-align:left">${esc(t.currency)} · as filed${toggle}</th>` +
+            periods.map((p, i) => `<th${i === n - 1 ? " class='col-now'" : ''}>${esc(p)}</th>`).join('') + '</tr></thead><tbody>';
+        const Q4 = 'Calculated: the fiscal year less the first three quarters, as filed';
+        const row = (label, vals, fmt, { cls = '', title = '', calc = false } = {}) => {
+            lastRender.rows.push({ label, vals, fmt });
+            html += `<tr class="${cls}"><td class="row-head"${calc && title ? ` title="${esc(title)}"` : ''}>${esc(label)}</td>` +
+                vals.map((x, i) => { const c = x !== null && (calc || derived[i]); const why = calc ? title : derived[i] ? Q4 : '';
+                    return `<td class="${[i === n - 1 ? 'col-now' : '', x !== null && x < 0 ? 'delta-neg' : '', c ? 'calc' : ''].join(' ')}"${c ? ` title="${esc(why)}"` : ''}>${fmt(x)}</td>`; }).join('') + '</tr>';
+        };
+        const heading = (label) => { html += `<tr class="row-section"><td class="row-head">${esc(label)}</td>${'<td></td>'.repeat(n)}</tr>`; };
+        heading(t.measure === 'revenue' ? 'Sales' : `Sales (${t.measure})`);
+        for (const r of v.rows) row(r.name, r.sales, money, { cls: 'row-sub' });
+        // What the segments shown leave out of the company's revenue: intersegment sales eliminated and any
+        // corporate or unallocated line. Calculated, never filed as one figure.
+        const rest = v.years.map((y, i) => { const shown = v.rows.reduce((a, r) => a + (r.sales[i] ?? 0), 0); return y.totalRevenue === null || y.totalRevenue === undefined ? null : y.totalRevenue - shown; });
+        if (rest.some((x, i) => x !== null && Math.abs(x) > Math.abs(v.years[i].totalRevenue || 0) * 0.002))
+            row('Not in segments', rest, money, { cls: 'row-sub', calc: true, title: 'Calculated: total revenue less the segments shown. It is what the company does not assign to a segment: intersegment sales eliminated, corporate and unallocated items, and any segment it reports without a figure for this year.' });
+        row(t.measure === 'revenue' ? 'Total revenue' : `Total ${t.measure}`, v.years.map((y) => y.totalRevenue ?? null), money, { cls: 'row-rule' });
+        const profitRows = v.rows.filter((r) => r.profit.some((x) => x !== null));
+        if (t.profitMeasure && profitRows.length) {
+            heading(`Profit % (${t.profitMeasure})`);
+            for (const r of profitRows) row(r.name, r.sales.map((a, i) => ratio(r.profit[i], a)), pctCell, { cls: 'row-sub', calc: true, title: `Calculated: segment ${t.profitMeasure} ÷ segment sales, both as filed` });
+            // Assets are a year-end figure in the 10-K; a quarter's return is not shown.
+            const assetRows = quarterly ? [] : profitRows.filter((r) => r.assets.some((x, i) => x !== null && r.profit[i] !== null));
+            if (assetRows.length) {
+                heading('Return on assets %');
+                for (const r of assetRows) row(r.name, r.profit.map((x, i) => ratio(x, r.assets[i])), pctCell, { cls: 'row-sub', calc: true, title: `Calculated: segment ${t.profitMeasure} ÷ segment assets at year end, both as filed` });
+            }
+        }
+        table.innerHTML = html + '</tbody>';
+        table.querySelectorAll('#seg-segbasis button').forEach((b) => b.addEventListener('click', (e) => {
+            e.stopPropagation();
+            basisState = b.dataset.b;
+            document.querySelectorAll('#seg-basis button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.basis === basisState)));
+            syncStatementTrendControls(); renderStatements(); renderRatios();
+        }));
+        const latest = t.years[t.years.length - 1], first = t.years[0];
+        const what = { business: 'operating segment', product: 'product and service line', region: 'region', other: 'segment' }[t.axis];
+        $('stmt-prov').innerHTML = esc(`Each ${what} as the company reports it in the segment note of its ${quarterly ? 'quarterly (10-Q) and annual (10-K)' : 'annual'} reports, in ${t.currency} as filed. `) +
+            (t.measure !== 'revenue' ? esc(`A bank or insurer reports ${t.measure} by segment in place of revenue. `) : '') +
+            esc(t.profitMeasure ? `Profit % is each segment's ${t.profitMeasure} as filed divided by its sales` + (t.assetsConcept && !quarterly ? '; return on assets % is that profit divided by the segment\'s assets at year end (segments file no capital-employed figure, so ROCE cannot be shown). ' : '. ') : 'The company tags no segment profit in a standard form, so no margin is shown. ') +
+            esc(t.years.length > 3 ? `Each year is read from the newest annual report that files it, so a segment the company later redrew is shown as restated (from ${periodLabel({ fiscalDateEnding: first.periodEnd }, 'annual')}, the earliest year read from the filings' tagged XBRL data). A segment renamed or reorganised appears as its own row. ` : '') +
+            esc('Figures with a dotted underline are calculated (hover for how). Latest annual source: ') +
+            `<a href="${esc(latest.sourceUrl)}" target="_blank" rel="noopener">the 10-K filed ${esc(latest.publicationDate || '')}</a>.`;
+    }
     function renderStatements() {
         if (!payload) return; // a unit, right or fund page has no statements to switch between
+        syncSegmentsButton();
+        if (segmentsOpen) { renderSegments(); return; }
         renderFinancialSources();
         syncLinesControl();
         const filed = filedStatement();
@@ -3875,6 +3968,7 @@
             renderStatements();
         }));
     $('stmt-trend-toggle').addEventListener('click', () => setStatementTrendVisible(!showStatementTrend));
+    $('stmt-segments').addEventListener('click', () => { segmentsOpen = !segmentsOpen; if (segmentsOpen) loadSegments(); renderStatements(); });
     window.addEventListener('pageshow', () => {
         if (payload && showStatementTrend) revealStatementTrendAtLatest();
     });

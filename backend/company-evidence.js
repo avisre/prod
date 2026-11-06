@@ -30,7 +30,7 @@ function createResolver(deps={}) {
   const data=verified.adapt(company,raw,state.financial,{financialCoverage:p.classify(state.reporting,state.financial).financialCoverage,annualReportingStatus:p.reportingStatus(state.reporting)}, {evidence:state.reporting,financialDigest:state.financial?p.digest(state.financial):null});
   if(state.profile)for(const key of ['Description','Industry','Website','Country'])if(!data.overview[key] && state.profile.overview?.[key])data.overview[key]=state.profile.overview[key];
   if(!data.overview.Sector && state.profile?.overview?.Sector)data.overview.Sector=require('./sector').canonical(state.profile.overview.Sector) || '';
-  data.businessProfile=state.profile || null;data.segmentObservations=state.financial?.segmentObservations || [];
+  data.businessProfile=state.profile || null;data.segmentObservations=state.financial?.segmentObservations || [];{const t=require('./sec-segment-observations').statementTable(data.segmentObservations);data.segmentSummary=t && t.rows.length>=2 && t.years.length?{axis:t.axis,rows:t.rows.length}:null;}
   data.supplementalObservations=usable;data.industryObservations=filed.filter(f=>f.verificationMethod==='reviewed_filing_table');data.sourceAttempts=state.attempts || [];
   data.compatibleCalculations=require('./company-calculations').calculate([...filed,...usable]);
   const remaining=obs.gaps([...filed,...usable],fields,periods,state.reporting?.reportingCadence,state.reporting);

@@ -112,7 +112,10 @@ function parseOriginal(text, filing, cik, shared) {
    const segmentDims=c.dimensions.filter(d=>!(d.axis==='srt:ConsolidationItemsAxis' && d.member==='us-gaap:OperatingSegmentsMember'));
    // Operating segments, product and service lines, and regions; revenue, or the
    // measure a bank or insurer breaks out by segment in its place.
-   if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
+   // Segment profit and assets on the operating-segment axis, read beside the revenue table (Screener's Profit % and return columns).
+   const metric=require('./sec-segment-observations').segmentMetric(taxonomy,concept);
+   if(metric && segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || '') && (metric==='assets'?!c.start:c.start))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
+   else if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
    continue;
   }
   // The lines a filer breaks operating expenses into on its income statement
