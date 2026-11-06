@@ -21,7 +21,12 @@ require.cache[splitPath] = {
         }
     }
 };
-const { adjustClone } = require('../adjusted-fundamentals');
+const cachePath = require.resolve('../fundamentals-cache');
+require.cache[cachePath] = {
+    id: cachePath, filename: cachePath, loaded: true,
+    exports: { loadFundamentals: (symbol) => ({ symbol, income: { annualReports: [{ fiscalDateEnding: '2025-12-31', dilutedEPS: 8 }] } }) }
+};
+const { adjusted, adjustClone, MAX_ENTRIES, _cacheSize } = require('../adjusted-fundamentals');
 
 test('adjustClone keeps the live quote and the runtime quarter, and applies the split', async () => {
     const live = {
@@ -52,4 +57,16 @@ test('the fundamentals routes normalize the reader payload, not the snapshot', (
         assert.match(body, /adjustClone\(symbol, payload\)/, route);
         assert.doesNotMatch(body.slice(0, body.indexOf('Headcount per fiscal year')), /\.adjusted\(symbol\)/, route);
     }
+});
+
+// 11-05 16:04 and 11-06 01:51 UTC: production ran out of heap. Each cached payload is ~3.2 MB and the
+// cap was 4000, so crawlers walking /stocks/:symbol filled the ~250 MB heap within hours.
+test('adjusted() keeps only a few recently used payloads however many symbols are asked for', async () => {
+    assert.ok(MAX_ENTRIES <= 16, 'each entry is a few MB of heap');
+    for (let i = 0; i < 500; i++) await adjusted('SYM' + i);
+    assert.equal(_cacheSize(), MAX_ENTRIES);
+    // a symbol used again stays while newer ones arrive (least recently used goes first)
+    const keep = await adjusted('SYM499');
+    for (let i = 0; i < MAX_ENTRIES - 1; i++) await adjusted('NEW' + i);
+    assert.equal(await adjusted('SYM499'), keep);
 });

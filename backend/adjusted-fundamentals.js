@@ -19,7 +19,12 @@ const { loadFundamentals } = require('./fundamentals-cache');
 const splitAdjust = require('./split-adjust');
 
 const TTL_MS = 6 * 3600 * 1000;
-const cache = new Map(); // SYMBOL -> { at, payload }
+// Each entry is a full cloned payload, about 3.2 MB of heap (measured over 100 symbols, 11-06). The cap
+// was 4000: crawlers walking /stocks/:symbol filled it until the 512 MB Starter instance's ~250 MB heap
+// ran out (exit 134 on 11-05 16:04 and 11-06 01:51 UTC). Crawlers rarely repeat a symbol, so a few
+// recently used entries keep all the benefit.
+const MAX_ENTRIES = 8;
+const cache = new Map(); // SYMBOL -> { at, payload }, least recently used first
 
 function clone(value) {
     try { return structuredClone(value); } catch (_) { return JSON.parse(JSON.stringify(value)); }
@@ -34,12 +39,13 @@ async function adjusted(symbol) {
     const key = String(symbol || '').toUpperCase();
     if (!key) return null;
     const hit = cache.get(key);
-    if (hit && Date.now() - hit.at < TTL_MS) return hit.payload;
+    if (hit && Date.now() - hit.at < TTL_MS) { cache.delete(key); cache.set(key, hit); return hit.payload; }
     const raw = loadFundamentals(key);
     if (!raw) return null;
     const payload = clone(raw);
     try { await splitAdjust.adjustPayloadForSymbol(key, payload); } catch (_) { /* fail-open */ }
-    if (cache.size >= 4000) cache.delete(cache.keys().next().value);
+    cache.delete(key);
+    while (cache.size >= MAX_ENTRIES) cache.delete(cache.keys().next().value);
     cache.set(key, { at: Date.now(), payload });
     return payload;
 }
@@ -60,4 +66,4 @@ function invalidate(symbol) {
     else cache.clear();
 }
 
-module.exports = { adjusted, adjustClone, invalidate };
+module.exports = { adjusted, adjustClone, invalidate, MAX_ENTRIES, _cacheSize: () => cache.size };
