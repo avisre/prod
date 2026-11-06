@@ -33,6 +33,30 @@ test('an instance is read by namespace, whatever prefix the filer chose, and the
   assert.deepEqual(H.filingFacts(xml, '99999'), [], 'another issuer\'s facts are never read');
 });
 
+// AMD's 10-K for FY2014 files every segment as SalesRevenueGoodsNet (the pre-2018 concept), and its total
+// both as that and as SalesRevenueNet.
+test('goods sales before the 2018 taxonomy are revenue only where their total is the filing\'s revenue', () => {
+  const ctx = (id, member) => `<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000002488</xbrli:identifier>${member ? `<xbrli:segment><xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">${member}</xbrldi:explicitMember></xbrli:segment>` : ''}</xbrli:entity><xbrli:period><xbrli:startDate>2013-12-29</xbrli:startDate><xbrli:endDate>2014-12-27</xbrli:endDate></xbrli:period></xbrli:context>`;
+  const xml = (extra) => `<?xml version="1.0"?><xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:us-gaap="http://fasb.org/us-gaap/2014-01-31" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:amd="http://www.amd.com/20141227">
+  ${ctx('t', '')}${ctx('cg', 'amd:ComputingandGraphicsMember')}${ctx('ee', 'amd:EnterpriseEmbeddedandSemiCustomMember')}
+  <xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>
+  <us-gaap:SalesRevenueGoodsNet contextRef="t" unitRef="usd" decimals="-6">5506000000</us-gaap:SalesRevenueGoodsNet>
+  <us-gaap:SalesRevenueGoodsNet contextRef="cg" unitRef="usd" decimals="-6">3132000000</us-gaap:SalesRevenueGoodsNet>
+  <us-gaap:SalesRevenueGoodsNet contextRef="ee" unitRef="usd" decimals="-6">2374000000</us-gaap:SalesRevenueGoodsNet>${extra}
+  </xbrli:xbrl>`;
+  const alone = H.filingFacts(xml(''), '2488');
+  assert.equal(alone.length, 3, 'the sole total and both segments are read');
+  const cands = H.columnCandidates({ facts: alone }, 'us-gaap:StatementBusinessSegmentsAxis', '2013-12-29', '2014-12-27');
+  assert.equal(cands[0].total, 5506000000); assert.equal(cands[0].rows.length, 2);
+  assert.equal(H.measureClass('us-gaap:SalesRevenueGoodsNet'), H.measureClass('us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax'), 'one measure across the 2018 recast');
+  const net = (v) => `<us-gaap:SalesRevenueNet contextRef="t" unitRef="usd" decimals="-6">${v}</us-gaap:SalesRevenueNet>`;
+  assert.equal(H.filingFacts(xml(net(5506000000)), '2488').length, 4, 'equal to the filed revenue total (AMD): read');
+  const beside = H.filingFacts(xml(net(6000000000)), '2488');
+  assert.deepEqual(beside.map((r) => r[0]), ['us-gaap:SalesRevenueNet'], 'less than the revenue total, goods sales are a part of it');
+  const both = H.filingFacts(xml('<us-gaap:SalesRevenueServicesNet contextRef="t" unitRef="usd" decimals="-6">494000000</us-gaap:SalesRevenueServicesNet>'), '2488');
+  assert.deepEqual(both, [], 'goods beside services: neither is the whole');
+});
+
 // Progressive FY2025: every segment's net premiums earned also carries ProductOrServiceAxis "Underwriting operations".
 test('a premium table whose rows all share one product member is read on the segment axis; a product split is not', () => {
   const dim = (a, m) => `<xbrldi:explicitMember dimension="${a}">${m}</xbrldi:explicitMember>`;

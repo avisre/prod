@@ -20,6 +20,12 @@ const NAMESPACES = [[/fasb\.org\/us-gaap\//, 'us-gaap'], [/fasb\.org\/srt\//, 's
 // jpm:SegmentReportingInformationNetRevenue, FY2008-2010); it is read here only, checked against the filing's revenue.
 const CUSTOM_REVENUE = /^SegmentReportingInformation(?:Net)?Revenues?$/;
 const STANDARD = ['us-gaap', 'srt', 'ifrs-full', 'dei'];
+// Before the 2018 taxonomy some companies filed all of their revenue as goods (or services) sales: AMD's net
+// segments FY2009-2017 are SalesRevenueGoodsNet (its total is filed both as that and as SalesRevenueNet), so
+// every year before the FY2018 recast went unread. Either is revenue only where its total for the period is
+// the filing's revenue: equal to every other revenue total filed for it, or the only one. Otherwise (less than
+// the total, or goods beside services with no total to match) it is a part of revenue and is dropped.
+const LEGACY_SALES = ['us-gaap:SalesRevenueGoodsNet', 'us-gaap:SalesRevenueServicesNet'];
 // The 2018 taxonomy moved two axes from us-gaap to srt; filings before it tag the same table under the old
 // name (Apple's product lines FY2013-15). A filing is read on the table's own axis, and on the old name only
 // when it has nothing on the new one, since filings of the changeover year can tag both.
@@ -81,7 +87,7 @@ function filingFacts(text, cik) {
     const value = Number(text), [taxonomy, concept] = f.name.split(':');
     if (!concept || c.dims.some((d) => d.typed)) continue;
     const kind = kindOf(c.start, c.end); if (!kind) continue;
-    const metric = seg.segmentMetric(taxonomy, concept), measure = seg.segmentMeasure(taxonomy, concept) || (!STANDARD.includes(taxonomy) && CUSTOM_REVENUE.test(concept));
+    const metric = seg.segmentMetric(taxonomy, concept), measure = seg.segmentMeasure(taxonomy, concept) || (!STANDARD.includes(taxonomy) && CUSTOM_REVENUE.test(concept)) || LEGACY_SALES.includes(f.name);
     if (!metric && !measure) continue;
     if ((metric === 'assets') !== (kind === 'instant')) continue;
     // The consolidation axis moved from us-gaap to srt in 2018; its operating-segments member is the plain segment view.
@@ -94,7 +100,15 @@ function filingFacts(text, cik) {
     if (metric && !BUSINESS.test(dims[0].axis)) continue;
     out.push([f.name, dims[0].axis, dims[0].member, c.start || '', c.end, value, f.contextRef, c.dims.length - 1, u.measures[0]]);
   }
-  return out.concat(seg.sharedQualifier(qualified, plainSegment));
+  const all = out.concat(seg.sharedQualifier(qualified, plainSegment));
+  const period = (x) => x[3] + '|' + x[4] + '|' + x[8], totals = new Map();
+  for (const x of all) if (!x[1]) (totals.get(period(x)) || totals.set(period(x), []).get(period(x))).push(x);
+  const whole = (x) => {
+    const t = totals.get(period(x)) || [], own = t.find((y) => y[0] === x[0]); if (!own) return false;
+    const others = t.filter((y) => y[0] !== x[0]), full = others.filter((y) => !LEGACY_SALES.includes(y[0]));
+    return full.length ? full.every((y) => y[5] === own[5]) : !others.length;
+  };
+  return all.filter((x) => !LEGACY_SALES.includes(x[0]) || whole(x));
 }
 
 const transient = (e) => ['ECONNRESET', 'ECONNABORTED', 'ECONNREFUSED', 'ETIMEDOUT', 'EAI_AGAIN', 'ENOTFOUND', 'ENETUNREACH', 'EPIPE'].includes(e?.code) || e?.response?.status === 429 || e?.response?.status >= 500;
@@ -322,7 +336,7 @@ async function collect(cik, filings, { axis, annualFrom = '2008-01-01', quarterF
 // served through the API. VERSION changes when the builder's rules do, and a file of another version is
 // rebuilt rather than read.
 const path = require('path'), fs = require('fs');
-const VERSION = '20261106-history2';
+const VERSION = '20261106-history3';
 const DIR = process.env.SEGMENT_HISTORY_DIR || path.join(__dirname, 'data', 'segment-history');
 function load(cik) {
   try { const doc = JSON.parse(fs.readFileSync(path.join(DIR, p.cik(cik) + '.json'), 'utf8')); return doc.version === VERSION && doc.table?.rows?.length >= 1 && doc.table.years?.length ? doc : null; }
