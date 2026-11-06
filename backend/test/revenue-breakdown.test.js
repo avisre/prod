@@ -33,15 +33,39 @@ test('a partial table always names what it leaves out', () => {
     assert.ok(breakdown.violations({ ...c, remainder: null }).length, 'dropping the remainder is a violation');
 });
 
-test('nothing is shown without saying why', () => {
-    const single = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { Reportable: 1000 })], 'T');
-    assert.equal(single.grade, 'none');
-    assert.equal(single.reason, breakdown.REASONS.single);
-    assert.deepEqual(single.rows, []);
+test('a single-segment company shows its one segment, and a sliver is shown with the rest named (owner decision 2026-11-06)', () => {
+    const single = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { Grocery: 1000 })], 'T');
+    assert.equal(single.grade, 'complete');
+    assert.deepEqual(single.rows, [{ name: 'Grocery', value: 1000, share: 100 }]);
+    assert.equal(single.remainder, null);
+    assert.match(single.note, /single segment/);
+    assert.deepEqual(breakdown.violations(single), []);
+    // Ross Stores tags its one segment with a generic member captioned "Reportable Segment".
+    const generic = { ...group(BUSINESS, '2025-12-31', {}), entries: [{ member: 'rost:ReportableSegmentMember', filedLabel: 'Reportable Segment', label: null, value: 1000 }] };
+    const lone = breakdown.fromGroups([generic], 'T');
+    assert.equal(lone.grade, 'complete');
+    assert.deepEqual(lone.rows.map(r => r.name), ['Single reportable segment']);
     const sliver = breakdown.fromGroups([group(PRODUCT, '2025-12-31', { A: 50, B: 30 })], 'T');
-    assert.equal(sliver.reason, breakdown.REASONS.untagged);
+    assert.equal(sliver.grade, 'partial');
+    assert.deepEqual([sliver.remainder.value, sliver.remainder.share], [920, 92]);
+    assert.match(sliver.note, /cover 8% of revenue/);
+    assert.deepEqual(breakdown.violations(sliver), []);
+    const oneLine = breakdown.fromGroups([group(PRODUCT, '2025-12-31', { Printing: 30 })], 'T');
+    assert.equal(oneLine.grade, 'partial');
+    assert.deepEqual([oneLine.rows.length, oneLine.remainder.value], [1, 970]);
+    assert.match(oneLine.note, /only this line, 3% of revenue/);
+    assert.deepEqual(breakdown.violations(oneLine), []);
+    // A text read by the model keeps the stricter rule: two rows and 60%.
+    assert.equal(breakdown.fromText({ segments: [{ name: 'A', revenueUsd: 50 }, { name: 'B', revenueUsd: 30 }] }, 'T', 1000).grade, 'none');
+});
+
+test('nothing is shown without saying why', () => {
+    const over = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { A: 900, B: 950 })], 'T');
+    assert.equal(over.grade, 'none', 'rows that over-count revenue are not a breakdown');
+    assert.equal(over.reason, breakdown.REASONS.untagged);
+    assert.deepEqual(over.rows, []);
     assert.equal(breakdown.fromGroups([], 'T').reason, breakdown.REASONS.unread, 'no data is not the same claim as an untagged filing');
-    assert.ok(breakdown.violations({ ...single, reason: null }).length);
+    assert.ok(breakdown.violations({ ...over, reason: null }).length);
 });
 
 test('revenue sources lead geography; a tag-like or duplicate name is a violation', () => {

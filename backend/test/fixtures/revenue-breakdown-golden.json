@@ -116,10 +116,12 @@
   "remainder": false
  },
  "NFLX": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "product and service lines",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Streaming"
+  ],
   "remainder": false
  },
  "CRM": {

@@ -170,7 +170,11 @@ const filed=e=>{
  if(/^[A-Z0-9&]{2,6}$/.test(v) && tagName.length>v.length+3 && tagName.split(' ').length>1)return null;
  return v;};
 // Reviewed override, then the company's own printed label, then the element name in plain words.
-const displayName=e=>e.label || SPELLED[e.member] || filed(e) || require('./ask-inline-segments').label(e.member) || e.member;
+// A company with one segment often tags it with a generic member captioned "Reportable Segment"
+// (Ross Stores, Casey's, Tractor Supply). That caption names no business; the row is what it is.
+const GENERIC_SEGMENT=/(?:ReportableSegments?|ReportableSegmentAggregationBeforeOtherOperatingSegment|OperatingSegments?|Segments?Reporting)Member$/;
+const lone=e=>GENERIC_SEGMENT.test(e?.member || '') && !e.label && /^(?:(?:reportable|operating)\s*)?(?:segments?)?(?:\s*(?:reporting|operating))?(?:,?\s*aggregation\b.*)?$/i.test(String(e.filedLabel || '').replace(/\s*\[(?:Member|Domain)\]$/i,'').trim());
+const displayName=e=>e.label || SPELLED[e.member] || (lone(e)?'Single reportable segment':null) || filed(e) || require('./ask-inline-segments').label(e.member) || e.member;
 // What a reader would actually see from a group: its positive rows with filed
 // subtotals pruned, and how much of revenue they account for.
 function shown(g) {
@@ -203,6 +207,10 @@ function read(g,strict) {
  const total=g?.totalRevenue || 0,seen=new Set();
  const repeat=e=>total>0 && e.value===total || /^[a-z-]+:(?:Currency[A-Z]\w*|ConsolidatedEntit\w*|EntityWide|OperatingSegments?)Member$/.test(e.member || '') || seen.has(e.value) || !seen.add(e.value);
  const inline=require('./ask-inline-segments'),all=(g?.entries || []).filter(e=>e.value>0 && !rollup(e) && !(strict && repeat(e))).map(e=>({member:e.member,value:e.value}));
+ // One generic member holding all of revenue is a single-segment company's one segment, not a
+ // roll-up of others: there are no others. It is kept as the table's one row.
+ if(!all.length && BUSINESS.test(g?.axis || '')){const pos=(g?.entries || []).filter(e=>e.value>0);
+  if(pos.length===1 && total>0 && pos[0].value>=total*0.98 && pos[0].value<=total*1.02)all.push({member:pos[0].member,value:pos[0].value});}
  const over=list=>list.reduce((n,r)=>n+r.value,0)>(g?.totalRevenue || 0)*1.02;
  // Exact, to the filed unit: a real line that merely lands near the sum of two others stays.
  const subtotal=row=>{const rest=all.filter(r=>r!==row && r.value<row.value);
@@ -256,7 +264,24 @@ function preferred(groups) {
  // A real table that leaves part of revenue out (an insurer-conglomerate's
  // product lines exclude premiums). Shown only when nothing better exists, and
  // only with the remainder named beside it.
- const partial=usable?null:ordered.find(g=>{const v=shown(g);return v.coverage<0.9 && (v.rows.length>=3 && v.coverage>=0.6 || v.rows.length>=2 && v.coverage>=0.75);}) || null;
+ // Owner decision 2026-11-06: when nothing better exists, a table that leaves most of revenue out
+ // is still shown, and so is a single-segment company's one segment. Whatever the rows leave out is
+ // calculated and named beside them, so a fragment never reads as the whole breakdown. Rows that
+ // add to more than 110% of revenue (not gross segments) still are not shown: they over-count.
+ // A table of nothing but leftovers ("All Other", corporate, eliminations) is not a breakdown: Chevron
+ // tags only a roll-up of its segments and "All Other", 0.05% of revenue. A single segment named for
+ // its business ("Streaming") comes before the same segment under a generic member.
+ const name=(g,r)=>displayName(g.entries.find(e=>e.member===r.member) || r);
+ const real=(g,v)=>v.rows.some(r=>!/^(?:all\s+)?others?\b|,\s*other$|corporate|eliminat|unallocated|reconcil|intersegment/i.test(name(g,r)));
+ const generic=(g,v)=>v.rows.length===1 && lone(g.entries.find(e=>e.member===v.rows[0].member));
+ const whole=v=>v.coverage>=0.98 && v.coverage<=1.1;
+ const tier=[(g,v)=>v.coverage<0.9 && (v.rows.length>=3 && v.coverage>=0.6 || v.rows.length>=2 && v.coverage>=0.75),
+  (g,v)=>v.rows.length>=2 && v.coverage>0 && v.coverage<0.9 && real(g,v),
+  (g,v)=>v.rows.length===1 && whole(v) && !generic(g,v) && real(g,v),
+  (g,v)=>v.rows.length===1 && whole(v) && generic(g,v),
+  (g,v)=>v.rows.length===1 && v.coverage>0 && v.coverage<0.98 && real(g,v)];
+ let partial=null;
+ if(!usable)for(const ok of tier){partial=ordered.find(g=>ok(g,shown(g))) || null;if(partial)break;}
  return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable,partial};
 }
 // The segment table on the company page (Screener's "Product segments"): one row per segment over the

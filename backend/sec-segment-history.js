@@ -154,12 +154,13 @@ function columnCandidates(filing, axis, start, end) {
 }
 // Every candidate that makes a table (two rows or more), scored as extract() scores them: how far the
 // rows fall from the filing's own total, a table that does not reconcile after one that does.
-function scored(cands, currency, axis) {
+function scored(cands, currency, axis, single = false) {
   const out = [];
   for (const c of cands.filter((x) => x.unit === currency)) {
     const g = { axis, entries: c.rows.map((r) => ({ member: r.member, value: r.value, filedLabel: r.filedLabel })), totalRevenue: c.total, roundingTolerance: 0 };
     const v = seg.shown(g), sum = v.rows.reduce((n, r) => n + r.value, 0);
-    const miss = (v.rows.length < 2 ? 2 : 0) + (v.usable ? 0 : 1) + Math.abs(c.total - sum) / Math.max(1, Math.abs(c.total)) + (c.view === 'reported' ? 0 : 0.0005);
+    // A single-segment company's table has one row (its lead table says so); any other table needs two.
+    const miss = (v.rows.length < (single ? 1 : 2) ? 2 : 0) + (v.usable ? 0 : 1) + Math.abs(c.total - sum) / Math.max(1, Math.abs(c.total)) + (c.view === 'reported' ? 0 : 0.0005);
     if (miss < 2) out.push({ ...c, miss, kept: new Set(v.rows.map((r) => r.member)) });
   }
   return out.sort((a, b) => a.miss - b.miss);
@@ -183,7 +184,7 @@ const measureClass = (concept, nonFinancial = false) => {
 const measureName = (concept) => concept.includes('+') ? seg.BANK_MEASURE : seg.measureOf(...concept.split(':')) || 'revenue';
 
 // filings: records from readFiling, any order. lead: the latest 10-K's table (statementTable) and its axis.
-function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic }) {
+function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic, single = false }) {
   const nonFinancial = /^[0-57-9]\d{3}$/.test(String(sic || '')), cls = (c) => measureClass(c, nonFinancial);
   const byNewest = filings.slice().sort((a, b) => b.filed.localeCompare(a.filed) || b.accession.localeCompare(a.accession));
   const labels = {}; for (const f of byNewest) for (const [m, l] of Object.entries(f.labels || {})) if (!labels[m]) labels[m] = l;
@@ -191,7 +192,7 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom, sic
   const periodsOf = (kind) => {
     const periods = new Map();
     for (const f of byNewest) for (const x of f.facts) if (onAxis(x[1], axis) && kindOf(x[3], x[4]) === kind) periods.set(x[3] + '|' + x[4], null);
-    return [...periods.keys()].map((k) => { const [start, end] = k.split('|'); return { start, end, offers: byNewest.map((f) => ({ f, cands: scored(columnCandidates(f, axis, start, end), currency, axis) })).filter((o) => o.cands.length) }; }).filter((p) => p.offers.length);
+    return [...periods.keys()].map((k) => { const [start, end] = k.split('|'); return { start, end, offers: byNewest.map((f) => ({ f, cands: scored(columnCandidates(f, axis, start, end), currency, axis, single) })).filter((o) => o.cands.length) }; }).filter((p) => p.offers.length);
   };
   const annualP = periodsOf('annual'), quarterP = periodsOf('quarter').filter((q) => !quarterFrom || q.end >= quarterFrom);
   // One measure for the whole table, so the years compare: the concept most years are filed under (the
@@ -324,7 +325,7 @@ const path = require('path'), fs = require('fs');
 const VERSION = '20261106-history2';
 const DIR = process.env.SEGMENT_HISTORY_DIR || path.join(__dirname, 'data', 'segment-history');
 function load(cik) {
-  try { const doc = JSON.parse(fs.readFileSync(path.join(DIR, p.cik(cik) + '.json'), 'utf8')); return doc.version === VERSION && doc.table?.rows?.length >= 2 && doc.table.years?.length ? doc : null; }
+  try { const doc = JSON.parse(fs.readFileSync(path.join(DIR, p.cik(cik) + '.json'), 'utf8')); return doc.version === VERSION && doc.table?.rows?.length >= 1 && doc.table.years?.length ? doc : null; }
   catch (e) { if (e.code === 'ENOENT') return null; throw e; }
 }
 

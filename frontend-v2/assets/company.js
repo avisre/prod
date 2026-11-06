@@ -3093,7 +3093,7 @@
     // year and quarter the segment notes are filed for. The payload only says a table exists
     // (segmentSummary); the table itself comes from a paid-only endpoint when the button is first pressed.
     let segmentData = null; // { state: 'loading' | 'ready' | 'locked' | 'error', table }
-    function segmentTableShown() { const t = payload?.segmentSummary; return !!(t && t.rows >= 2); }
+    function segmentTableShown() { const t = payload?.segmentSummary; return !!(t && t.rows >= 1); }
     function loadSegments() {
         if (segmentData && segmentData.state !== 'error') return;
         segmentData = { state: 'loading' };
@@ -3172,7 +3172,13 @@
         }));
         const latest = t.years[t.years.length - 1], first = t.years[0];
         const what = { business: 'operating segment', product: 'product and service line', region: 'region', other: 'segment' }[t.axis];
-        $('stmt-prov').innerHTML = esc(`Each ${what} as the company reports it in the segment note of its ${quarterly ? 'quarterly (10-Q) and annual (10-K)' : 'annual'} reports, in ${t.currency} as filed. `) +
+        // A table that leaves part of revenue out, or a company's one segment, is said so first, so a
+        // fragment never reads as the whole business (shown since 2026-11-06 with the rest calculated).
+        const nowShown = t.rows.reduce((a, r) => a + (r.sales[t.years.length - 1] ?? 0), 0), nowTotal = latest.totalRevenue;
+        const cover = nowTotal > 0 ? nowShown / nowTotal : null;
+        const scope = t.rows.length === 1 && cover !== null && cover >= 0.98 ? 'The company reports a single segment; there is no further breakdown. '
+            : cover !== null && cover < 0.9 ? `Partial breakdown: ${t.rows.length === 1 ? 'this line covers' : 'these lines cover'} ${Math.round(cover * 100)}% of ${periodLabel({ fiscalDateEnding: latest.periodEnd }, 'annual')} revenue; the company does not break out the rest ("Not in segments", calculated). ` : '';
+        $('stmt-prov').innerHTML = (scope ? `<strong>${esc(scope)}</strong>` : '') + esc(`Each ${what} as the company reports it in the segment note of its ${quarterly ? 'quarterly (10-Q) and annual (10-K)' : 'annual'} reports, in ${t.currency} as filed. `) +
             (t.measure !== 'revenue' ? esc(`A bank or insurer reports ${t.measure} by segment in place of revenue. `) : '') +
             esc(t.profitMeasure ? `Profit % is each segment's ${t.profitMeasure} as filed divided by its sales` + (t.assetsConcept && !quarterly ? '; return on assets % is that profit divided by the segment\'s assets at year end (segments file no capital-employed figure, so ROCE cannot be shown). ' : '. ') : 'The company tags no segment profit in a standard form, so no margin is shown. ') +
             esc(t.years.length > 3 ? `Each year is read from the newest annual report that files it, so a segment the company later redrew is shown as restated (from ${periodLabel({ fiscalDateEnding: first.periodEnd }, 'annual')}, the earliest year read from the filings' tagged XBRL data). A segment renamed or reorganised appears as its own row. ` : '') +

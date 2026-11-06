@@ -22,7 +22,6 @@
 const store = require('./sec-segment-observations');
 
 const REASONS = {
-    single: 'The company reports as a single business, so its filing has no revenue breakdown to show.',
     untagged: 'The latest annual filing does not report a revenue breakdown that accounts for total revenue.',
     unavailable: 'No revenue breakdown could be read from the latest annual filing.',
     unread: 'A revenue breakdown has not been read from this company’s latest annual filing yet.',
@@ -32,23 +31,25 @@ const REASONS = {
 };
 const round1 = n => Math.round(n * 10) / 10;
 
-function grade(coverage, rows) {
-    if (rows < 2 || !(coverage > 0)) return 'none';
+// `floor` is the least coverage a partial table may have. The filing's own tagged rows are shown at
+// any coverage, with the rest named (owner decision 2026-11-06); a breakdown read out of the filing
+// text by a model keeps the stricter 60% and two rows, since its figures are not tagged.
+function grade(coverage, rows, { floor = 0.6, minRows = 2 } = {}) {
+    if (rows < minRows || !(coverage > 0)) return 'none';
     if (coverage >= 0.98 && coverage <= 1.1) return 'complete';
-    return coverage >= 0.6 && coverage < 0.98 ? 'partial' : 'none';
+    return coverage >= floor && coverage < 0.98 ? 'partial' : 'none';
 }
 function none(symbol, reason) {
     return { symbol, grade: 'none', reason, kind: null, fiscalYear: null, periodEnd: null, currency: null, totalRevenue: null,
         rows: [], remainder: null, coverage: null, note: null, source: null, filing: null };
 }
-// Why the filing's tagged groups yield nothing: one member holding all of
-// revenue is a single-segment company, which is a fact worth stating.
+// Why the filing's tagged groups yield nothing. A single-segment company is shown
+// with its one segment (preferred), so it never reaches here.
 function whyNone(groups, read) {
     // Nothing stored means "not read yet" only when the filing was not read;
     // a filing that was read and tags no breakdown is a different, definite fact.
     if (!(groups || []).length) return read ? REASONS.untagged : REASONS.unread;
-    const single = (groups || []).some(g => { const v = store.shown(g); return v.rows.length === 1 && v.coverage > 0.98 && v.coverage < 1.02; });
-    return single ? REASONS.single : REASONS.untagged;
+    return REASONS.untagged;
 }
 
 // A financial company's segments are stated in the measure it reports by
@@ -77,7 +78,7 @@ function fromGroups(groups, symbol = null, { read = false, revenue = null, incom
     const segmentTotal = [...byName.values()].reduce((n, v) => n + v, 0), base = view.gross ? segmentTotal : group.totalRevenue;
     const rows = [...byName].map(([name, value]) => ({ name, value, share: round1(value / base * 100) })).sort((a, b) => b.value - a.value);
     const listed = rows.reduce((n, r) => n + r.value, 0), gap = group.totalRevenue - listed;
-    const level = view.gross ? 'complete' : grade(view.coverage, rows.length);
+    const level = view.gross ? 'complete' : grade(view.coverage, rows.length, { floor: 0, minRows: 1 }), single = rows.length === 1;
     if (level === 'none') return none(symbol, whyNone(groups, read));
     return { symbol, grade: level, reason: null, kind: store.kind(group), fiscalYear: 'FY' + String(group.periodEnd).slice(0, 4), periodEnd: group.periodEnd,
         currency: group.currency, totalRevenue: group.totalRevenue, rows,
@@ -85,6 +86,8 @@ function fromGroups(groups, symbol = null, { read = false, revenue = null, incom
         coverage: view.coverage, measure: group.measure || null, basis: view.gross ? 'before eliminations' : null,
         note: view.gross ? `Segments are shown before sales between them are eliminated, so they add up to more than total revenue; shares are of the segment total.`
             : measureNote(group.measure, view.coverage) || (view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
+            : single && level === 'complete' ? (store.kind(group) === 'operating segments' ? 'The company reports a single segment, which accounts for all of its revenue; there is no further breakdown to show.' : 'The filing tags one line, which accounts for all of revenue; there is no further breakdown to show.')
+            : single ? `The filing breaks out only this line, ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out by the company.`
             : level === 'partial' ? `These lines are the filing’s own breakdown and cover ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out in this table.` : null),
         source: 'SEC inline XBRL', filing: { accessionNumber: group.sourceVersion, date: group.publicationDate, url: group.sourceUrl } };
 }
@@ -150,7 +153,7 @@ function violations(contract) {
     const names = contract.rows.map(r => r.name);
     for (const name of names) if (!name || /:|_|Member$/.test(name)) out.push(`name "${name}" is not in plain words`);
     if (new Set(names).size !== names.length) out.push('duplicate row names');
-    if (contract.rows.length < 2) out.push('fewer than two rows');
+    if (contract.rows.length < 1) out.push('no rows');
     if (contract.rows.some(r => !(r.value > 0) || !Number.isFinite(r.share))) out.push('a row without a positive value and share');
     if (!(contract.totalRevenue > 0)) out.push('no revenue to measure against');
     const shares = contract.rows.reduce((n, r) => n + r.share, 0) + (contract.remainder ? contract.remainder.share : 0);

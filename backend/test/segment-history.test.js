@@ -111,6 +111,16 @@ test('the fourth quarter is the year less its nine months as filed, and is marke
   assert.deepEqual(Q.rows.map((r) => r.sales), [[16, 18, 18, 18], [7, 7, 8, 8]]);
 });
 
+test('a single-segment company gets a one-row history; any other table still needs two rows', () => {
+  const one = (period, v) => [seg('us-gaap:Revenues', 'rost:ReportableSegmentMember', period, v), tot('us-gaap:Revenues', period, v)];
+  const k = filing('k25', '10-K', '2026-02-01', '2025-12-31', [...one(year(2025), 90), ...one(year(2024), 80)], { 'rost:ReportableSegmentMember': 'Reportable Segment' });
+  const lead = { axis: AX, currency: 'USD', preferConcept: 'us-gaap:Revenues', quarterFrom: '2025-01-01' };
+  const t = H.buildHistory([k], { ...lead, single: true });
+  assert.deepEqual(t.years.map((y) => y.periodEnd.slice(0, 4)), ['2024', '2025']);
+  assert.deepEqual(t.rows.map((r) => [r.name, r.sales]), [['Single reportable segment', [80, 90]]]);
+  assert.equal(H.buildHistory([k], lead).rows.length, 0, 'without the lead saying so, one row is not a table');
+});
+
 test('a stored history is read only at the builder\'s version', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'seg-hist-'));
   const prev = process.env.SEGMENT_HISTORY_DIR; process.env.SEGMENT_HISTORY_DIR = dir;

@@ -21,7 +21,28 @@ test('a partial table is offered only when nothing usable exists', () => {
     assert.equal(store.preferred([part]).usable, null);
     assert.equal(store.preferred([part]).partial, part);
     assert.equal(store.preferred([part, group(BUSINESS, '2024-12-31', [60, 40])]).partial, null);
-    assert.equal(store.preferred([group(PRODUCT, '2025-12-31', [5, 3, 1])]).partial, null, 'a sliver is still withheld');
+    // Owner decision 2026-11-06: a sliver is shown too, as partial with the rest named, when nothing better exists.
+    const sliver = group(PRODUCT, '2025-12-31', [5, 3, 1]);
+    assert.equal(store.preferred([sliver]).partial, sliver);
+    assert.equal(store.preferred([part, sliver]).partial, part, 'a fuller partial table still comes first');
+});
+
+test('a single-segment company is offered its one segment; leftovers and over-counts are not (2026-11-06)', () => {
+    const named = (axis, label, value, member = 'x:RetailMember') => ({ axis, periodEnd: '2025-12-31', totalRevenue: 100, entries: [{ member, filedLabel: label, value }] });
+    const generic = named(BUSINESS, 'Reportable Segment', 100, 'nflx:ReportableSegmentMember'), streaming = named(PRODUCT, 'Streaming', 100);
+    assert.equal(store.preferred([generic]).partial, generic, 'a generic member holding all of revenue is the one segment');
+    assert.deepEqual(store.shown(generic).rows.map(r => r.member), ['nflx:ReportableSegmentMember']);
+    assert.equal(store.displayName(generic.entries[0]), 'Single reportable segment');
+    assert.equal(store.preferred([generic, streaming]).partial, streaming, 'the segment named for its business comes first');
+    const line = named(PRODUCT, 'Commercial printing', 3);
+    assert.equal(store.preferred([generic, line]).partial, generic, 'the whole company before a 3% line');
+    assert.equal(store.preferred([line]).partial, line);
+    // Chevron: a roll-up of its segments and "All Other", 0.05% of revenue.
+    const cvx = { axis: BUSINESS, periodEnd: '2025-12-31', totalRevenue: 1000, entries: [
+        { member: 'us-gaap:ReportableSegmentAggregationBeforeOtherOperatingSegmentMember', filedLabel: 'Reportable Segment, Aggregation before Other Operating Segment', value: 975 },
+        { member: 'us-gaap:AllOtherSegmentsMember', filedLabel: 'All Other', value: 1 }] };
+    assert.equal(store.preferred([cvx]).partial, null, 'a table of nothing but "All Other" is not shown');
+    assert.equal(store.preferred([group(BUSINESS, '2025-12-31', [90, 95])]).partial, null, 'rows over 110% of revenue over-count');
 });
 
 test('product lines lead when they say more than the operating segments of the same year', () => {
