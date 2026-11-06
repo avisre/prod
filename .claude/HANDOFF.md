@@ -49,8 +49,24 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   reports read only to fill a gap must stay `fillOnly` in `.cache/` — as column sources a newer repeat took columns
   over and blanked/restated 134 filed cells (Masco, Quantum). The builder ignores them for columns, measure, labels and
   Q4 nine months; `collect()` promotes one it needs. **Trap:** a file written as history4 is current, so a later
-  builder change does not redo it — bump VERSION. Not filled by design: cells outside a row's first..last value.
+  builder change does not redo it — bump VERSION.
   Run dir `~/Downloads/new/segment-gaps/` (before/ snapshot of all 3,733, verify2.json).
+- **Builder `20261107-history5` (owner order 11-07: fill edge cells + the issuers with no table), local, NOT pushed.**
+  `buildHistory` is now a wrapper over `build(filings, lead, {statement, edges, units})`: (1) strict build; (2) if it
+  builds nothing, statement mode (the statement's revenue as filed: same-filing `MAPS.income.totalRevenue` concepts,
+  else `lead().totals` = verified, non-derived `totalRevenue` per period; units kept apart; generic members take their
+  filed label, e.g. Lamar "Billboard"); (3) else a units-apart rebuild taken only if `keeps()` — every strict column,
+  row and filed figure unchanged, no new over-total column (92 foreign filers gain their latest CNY/TWD year; 104 cols);
+  (4) an edges build (cells outside a row's first..last value) merged only into empty cells, refused where it carries
+  a column past total ×1.005 or makes a derived Q4 negative for a year ≥ 0. Applied globally the statement fallback
+  and units grouping each disturbed 100+ tables — hence the gating. Against HEAD: 3,733 tables, 7,483 new cells in
+  1,176 tables, 0 changed/lost cells, rows or columns, 0 new over-total columns. `COMPATIBLE = []` (all rewritten from
+  cache, `builtAt` kept). Group 3 (139 with observations but no table): 135 built from SEC (12,940 cells, every
+  non-derived one present as a filed fact; Wendy's/Lamar totals = SEC companyconcept), 4 no history. Not built: 36
+  with no usable/partial lead table, 3 banks (fee-only table vs a composite total), Elevra (stale AUD lead).
+  **Open, pre-existing (not touched):** 75 of 16,411 derived Q4 columns have a total on mixed footings — a restated
+  year minus the nine months as first filed (3M Q4 2022 total $11M vs segments $6,034M; XPLR $24M). Segment cells are
+  fine; the column's `totalRevenue` is wrong. Fix = derive the Q4 total from the year as first filed, or null it.
 - **FDIC banks (TOWN, HIFS, NBN, FRBA, SSBI, RCBC, ASBH, + WCCB sole-subsidiary):** no SEC statements (they file with
   their bank regulator under §12(i)), so `company.js` `fdicReports()` builds income + balance from the FDIC Call Report
   rows in `supplemental-financials/` when a payload has no SEC rows at all (SEC always wins). No cash-flow statement
