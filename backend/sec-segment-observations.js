@@ -28,6 +28,22 @@ const segmentMeasure=(taxonomy,concept)=>!!(revenueConcepts()[taxonomy]?.include
 // amendment restates the same period, and the segment figures still have to
 // add up to it. Any other filing is a different report and is not accepted.
 const sameReport=(source,accession)=>!!source && (source.accessionNumber===accession || /^(?:10-K|20-F|40-F)\/A$/.test(source.form || ''));
+// Progressive files each segment's net premiums earned with a second member that every row shares, "Underwriting
+// operations" on the product axis (FY2025 10-K: Personal Lines, Commercial Lines, Other indemnity). Read as two
+// dimensions, its only segment table was dropped. A product member carried by every figure of a stand-in measure for
+// one period, with nothing filed on the segment axis alone, qualifies the table and does not split it. Stand-in
+// measures only: on plain revenue a shared product member can mean the product revenue alone.
+const QUALIFIER=/:ProductOrServiceAxis$/;
+const qualifiedSplit=(taxonomy,concept,dims)=>{
+ if(!measureOf(taxonomy,concept) || dims?.length!==2)return null;
+ const segment=dims.find(d=>BUSINESS.test(String(d.axis).trim())),qualifier=dims.find(d=>QUALIFIER.test(String(d.axis).trim()));
+ return segment && qualifier?{segment,qualifier:String(qualifier.member).trim()}:null;
+};
+// qualified: [{group,qualifier,item}]; plain: the groups filed on the segment axis alone. Returns the items kept.
+function sharedQualifier(qualified,plain) {
+ const by=new Map();for(const x of qualified){if(!by.has(x.group))by.set(x.group,[]);by.get(x.group).push(x);}
+ return [...by].filter(([group,xs])=>!plain.has(group) && new Set(xs.map(x=>x.qualifier)).size===1).flatMap(([,xs])=>xs.map(x=>x.item));
+}
 function extract(segments,financial,filing) {
  const groups=new Map();
  for(const f of segments || []) {
@@ -231,6 +247,12 @@ function preferred(groups) {
  const lines=usable && !PRODUCT.test(usable.axis) && ordered.find(g=>g.periodEnd===usable.periodEnd && PRODUCT.test(g.axis) && shown(g).usable);
  const places=g=>shown(g).rows.every(r=>GEOGRAPHY.test(displayName(g.entries.find(e=>e.member===r.member))));
  if(lines && shown(lines).rows.length>=3 && (shown(lines).rows.length>shown(usable).rows.length || places(usable)))usable=lines;
+ // Travelers files net premiums earned by segment (Business, Bond & Specialty, Personal: 89.9% of FY2025 revenue, the
+ // rest investment income) and revenue by region (Domestic, International). Its segments are what it sells; the regions
+ // say less. A same-year segment table of a stand-in measure that leaves out only that remainder leads instead, shown
+ // as partial with the remainder named.
+ const measured=usable && REGION.test(usable.axis) && ordered.find(g=>g.periodEnd===usable.periodEnd && BUSINESS.test(g.axis) && g.measure && shown(g).rows.length>=2 && shown(g).coverage>=0.75 && shown(g).coverage<0.9);
+ if(measured)return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable:null,partial:measured};
  // A real table that leaves part of revenue out (an insurer-conglomerate's
  // product lines exclude premiums). Shown only when nothing better exists, and
  // only with the remainder named beside it.
@@ -266,4 +288,4 @@ function toolPayload(g,data,symbol) {
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
 const kind=g=>PRODUCT.test(g?.axis || '')?'product and service lines':REGION.test(g?.axis || '')?'regions':'operating segments';
-module.exports={measureOf,BANK_MEASURE,extract,validGroup,toolPayload,preferred,shown,kind,displayName,segmentMeasure,segmentMetric,statementTable,LABELS,PROFIT_CONCEPTS:PROFIT.flatMap(t=>t.slice(0,-1)),PROFIT_MEASURE:k=>PROFIT.find(t=>t.includes(k))?.slice(-1)[0] || null};
+module.exports={measureOf,BANK_MEASURE,extract,qualifiedSplit,sharedQualifier,validGroup,toolPayload,preferred,shown,kind,displayName,segmentMeasure,segmentMetric,statementTable,LABELS,PROFIT_CONCEPTS:PROFIT.flatMap(t=>t.slice(0,-1)),PROFIT_MEASURE:k=>PROFIT.find(t=>t.includes(k))?.slice(-1)[0] || null};

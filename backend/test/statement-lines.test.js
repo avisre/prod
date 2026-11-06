@@ -169,8 +169,14 @@ test('total debt is the sum of the debt lines the balance sheet presents, and on
 
 test('one current line filed under two tags is counted once, and a filed total stays unless it is smaller than a line',()=>{
  const twin=debtRow({LongTermDebtNoncurrent:312,LongTermDebtCurrent:40,ShortTermBorrowings:40},[face('LongTermDebtNoncurrent','ShortTermBorrowings')]);
- assert.equal(twin.row.shortTermDebt,null);assert.equal(twin.row.shortLongTermDebtTotal,352);
+ // Short-term debt is the one presented line (Howmet 2021: $5m filed under both tags), not $80.
+ assert.equal(twin.row.shortTermDebt,40);assert.equal(twin.d.sources[twin.row._sources.shortTermDebt[0]].concept,'ShortTermBorrowings');
+ assert.equal(twin.row.shortLongTermDebtTotal,352);
  assert.deepEqual(p.validateFinancial(twin.d,twin.d.cik,'2026-10-03'),[]);
+ // Voya 2025: the face also presents a line that is not the company's debt, so no total is read; the one
+ // current line is still never counted twice as short-term debt.
+ const voya=debtRow({LongTermDebtNoncurrent:312,LongTermDebtCurrent:40,ShortTermBorrowings:40},[face('CollateralizedFinancingsConsolidatedInvestmentEntities','LongTermDebtNoncurrent','ShortTermBorrowings')]);
+ assert.equal(voya.row.shortTermDebt,40);assert.notEqual(voya.row.shortLongTermDebtTotal,392);
  // Both current tags presented: two lines, both counted.
  assert.equal(debtRow({LongTermDebtNoncurrent:312,LongTermDebtCurrent:40,ShortTermBorrowings:40},[face('LongTermDebtNoncurrent','ShortTermBorrowings','LongTermDebtCurrent')]).row.shortLongTermDebtTotal,392);
  // DebtCurrent on the face holds the current portion filed in a note (Ball: $2m inside $21m), and a "total" of $2m is a fragment.
@@ -488,6 +494,15 @@ test('a bank\'s own row fills from its line only at a bank or insurer; an ordina
  assert.equal(loans('6022'),500);
  assert.equal(loans('6331'),500);
  assert.equal(loans('3571'),null);
+});
+
+test('a bank\'s row is the line its statement presents, not a narrower note figure on the mapped tag',()=>{
+ // RBB 2025: "Accrued interest and other assets" $82.6m on the face, OtherAssets $4.2m in a note.
+ const other=(statementLines)=>{const {doc,evidence}=fixture();evidence.sic='6022';put(doc,'OtherAssets',4);
+  const row=extract(doc,evidence,{asOf:'2026-10-03',statementLines}).balance.annualReports[0];return row.otherAssets ?? null;};
+ assert.equal(other([line({s:'balance',f:'otherAssets',t:'us-gaap',c:'InterestReceivableAndOtherAssets',l:'Accrued interest and other assets',v:82,q:0})]),82);
+ // No presented line: the mapped tag stands.
+ assert.equal(other([]),4);
 });
 
 test('a tag only the bank and insurer rows read still gives another row its line',()=>{

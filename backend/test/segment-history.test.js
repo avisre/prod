@@ -33,6 +33,23 @@ test('an instance is read by namespace, whatever prefix the filer chose, and the
   assert.deepEqual(H.filingFacts(xml, '99999'), [], 'another issuer\'s facts are never read');
 });
 
+// Progressive FY2025: every segment's net premiums earned also carries ProductOrServiceAxis "Underwriting operations".
+test('a premium table whose rows all share one product member is read on the segment axis; a product split is not', () => {
+  const dim = (a, m) => `<xbrldi:explicitMember dimension="${a}">${m}</xbrldi:explicitMember>`;
+  const ctx = (id, member, product) => `<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000012345</xbrli:identifier><xbrli:segment>${dim('srt:ConsolidationItemsAxis', 'us-gaap:OperatingSegmentsMember')}${dim('srt:ProductOrServiceAxis', product)}${dim('us-gaap:StatementBusinessSegmentsAxis', member)}</xbrli:segment></xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>`;
+  const xml = `<?xml version="1.0"?><xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:us-gaap="http://fasb.org/us-gaap/2025" xmlns:srt="http://fasb.org/srt/2025" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:x="http://x.example/2025">
+  ${ctx('p', 'x:PersonalMember', 'x:UnderwritingMember')}${ctx('k', 'x:CommercialMember', 'x:UnderwritingMember')}${ctx('r', 'x:PersonalMember', 'x:RetailMember')}${ctx('w', 'x:CommercialMember', 'x:WholesaleMember')}
+  <xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>
+  <us-gaap:PremiumsEarnedNet contextRef="p" unitRef="usd" decimals="-6">70000000</us-gaap:PremiumsEarnedNet>
+  <us-gaap:PremiumsEarnedNet contextRef="k" unitRef="usd" decimals="-6">20000000</us-gaap:PremiumsEarnedNet>
+  <us-gaap:Revenues contextRef="r" unitRef="usd" decimals="-6">60000000</us-gaap:Revenues>
+  <us-gaap:Revenues contextRef="w" unitRef="usd" decimals="-6">30000000</us-gaap:Revenues>
+  </xbrli:xbrl>`;
+  assert.deepEqual(H.filingFacts(xml, '12345'), [
+    ['us-gaap:PremiumsEarnedNet', AX, 'x:PersonalMember', '2025-01-01', '2025-12-31', 70000000, 'p', 2, 'USD'],
+    ['us-gaap:PremiumsEarnedNet', AX, 'x:CommercialMember', '2025-01-01', '2025-12-31', 20000000, 'k', 2, 'USD']]);
+});
+
 test('each year comes from the newest filing that reports it, under one measure, with a renamed concept standing in', () => {
   const k2025 = filing('k25', '10-K', '2026-02-01', '2025-12-31', [...twoSegments('us-gaap:Revenues', year(2025), 70, 30), ...twoSegments('us-gaap:Revenues', year(2024), 60, 25), ...twoSegments('us-gaap:Revenues', year(2023), 50, 20),
     seg('us-gaap:OperatingIncomeLoss', 'x:AMember', year(2025), 21), seg('us-gaap:OperatingIncomeLoss', 'x:BMember', year(2025), 6),

@@ -52,6 +52,13 @@ jobs:
           RESUME_RUN_ID: ${{ inputs.resume_run_id }}
         run: |
           node -e 'const fs=require("node:fs");const date=process.env.RESUME_RUN_ID?JSON.parse(fs.readFileSync("frontend/data/sec-reporting.json","utf8")).asOf:new Date().toISOString().slice(0,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||Date.now()-Date.parse(date)>7*86400000)throw new Error("Invalid or expired weekly checkpoint");fs.appendFileSync(process.env.GITHUB_ENV,"FINANCIAL_AS_OF="+date+"\n");'
+      # Banks with no holding company (TOWN, HIFS, NBN, FRBA, SSBI, RCBC, ASBH) file with their bank regulator,
+      # not the SEC; their statements are the FDIC Call Report. Run before the stages that reconcile the
+      # supplemental store and build the indexes, so both carry this week's records. A changed FDIC match or
+      # an FDIC outage keeps last week's rows and must not hold back the SEC statements.
+      - name: Refresh FDIC Call Reports for regulator-filing banks
+        continue-on-error: true
+        run: node scripts/fetch-fdic-financials.js
       - name: Reconcile authoritative listings
         run: node scripts/run-financial-stage.js listings
       - name: Reconcile every issuer; checkpoint every 20
@@ -74,6 +81,21 @@ jobs:
         run: node --max-old-space-size=1536 scripts/run-financial-stage.js industry-retry
       - name: Promote validated public request additions
         run: node scripts/run-financial-stage.js promote
+      # The per-filing facts behind the segment history (71 MB for 166 issuers, 11-06) are not committed.
+      # Cold, a full build reads ~6,900 filings (~2.8 h serial); with the cache only the new filings are read.
+      - name: Restore segment-history filing cache
+        uses: actions/cache@v4
+        with:
+          path: backend/data/segment-history/.cache
+          key: segment-history-${{ github.run_id }}
+          restore-keys: segment-history-
+      # Refreshes the issuers that already have a history table. A failure here leaves last week's tables in
+      # place and must not hold back the statements.
+      - name: Refresh product-segment history
+        continue-on-error: true
+        run: |
+          node -e 'const fs=require("fs");fs.writeFileSync("/tmp/segment-ciks.json",JSON.stringify(fs.readdirSync("backend/data/segment-history").filter(f=>/^\d{10}\.json$/.test(f)).map(f=>f.slice(0,10))))'
+          node --max-old-space-size=1536 scripts/refresh-segment-history.js --ciks-file /tmp/segment-ciks.json --jobs 4
       - name: Refresh optional currency presentation
         run: node scripts/refresh-sec-fx.js
       # test-stock-coverage.js copies frontend/data (6+ GB) into /tmp; on 2026-10-24 the
@@ -110,6 +132,7 @@ jobs:
           git config user.email bot@stockportfolio.pro
           git add frontend/data/sec-reporting.json frontend/data/sec-financials/ frontend/data/sec-fx.json frontend/data/us-companies.json frontend/data/stock-universe-manifest.json frontend/data/legacy-instruments.json frontend/data/public-stock-index.json frontend/data/financial-reporting-index.json frontend/data/screen-index.json frontend/data/screen-facts.json frontend/data/financial-coverage.json frontend/data/financial-coverage-summary.json frontend/data/industry-map.json
           if [ -d frontend/data/supplemental-financials ]; then git add frontend/data/supplemental-financials/; fi
+          git add backend/data/segment-history/
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "data: weekly complete-universe financial reconciliation"
           git push origin HEAD:main

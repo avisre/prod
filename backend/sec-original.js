@@ -93,6 +93,7 @@ function parseOriginal(text, filing, cik, shared) {
  const profitLine=incomeTags(['totalRevenue','grossProfit','operatingIncome','incomeBeforeTax','netIncome']);
  const incomeLine=incomeTags(Object.keys(MAPS.income).filter(k=>!/eps|EPS|Shares/.test(k)));
  const doc={cik:Number(cik),facts:{},originalDocument:{url:filing.documentUrl,documentUrl:filing.documentUrl,accession:filing.accessionNumber,accessionNumber:filing.accessionNumber,form:filing.form,filingDate:filing.filingDate},segments:[]};
+ const qualified=[],plainSegment=new Set();
  for(const raw of facts) {
   const c=contexts.get(raw.contextref),u=units.get(raw.unitref),name=raw.name;
   if(!c || p.cik(c.issuer?.trim())!==p.cik(cik) || !u || !name || !p.day(c.end?.trim()))continue;
@@ -113,8 +114,10 @@ function parseOriginal(text, filing, cik, shared) {
    // Operating segments, product and service lines, and regions; revenue, or the
    // measure a bank or insurer breaks out by segment in its place.
    // Segment profit and assets on the operating-segment axis, read beside the revenue table (Screener's Profit % and return columns).
-   const metric=require('./sec-segment-observations').segmentMetric(taxonomy,concept);
-   if(metric && segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || '') && (metric==='assets'?!c.start:c.start))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
+   const SO=require('./sec-segment-observations'),metric=SO.segmentMetric(taxonomy,concept),split=c.start && SO.qualifiedSplit(taxonomy,concept,segmentDims);
+   if(split){qualified.push({group:[name,c.start,c.end,measure,filing.accessionNumber].join('|'),qualifier:split.qualifier,item:{concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:[split.segment],allDimensions:c.dimensions}}});continue;}
+   if(c.start && segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || ''))plainSegment.add([name,c.start,c.end,measure,filing.accessionNumber].join('|'));
+   if(metric &&segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || '') && (metric==='assets'?!c.start:c.start))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
    else if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
    continue;
   }
@@ -126,6 +129,7 @@ function parseOriginal(text, filing, cik, shared) {
   ((doc.facts[taxonomy] ||= {})[concept] ||= {units:{}}).units[measure] ||= [];
   doc.facts[taxonomy][concept].units[measure].push(f);
  }
+ doc.segments.push(...require('./sec-segment-observations').sharedQualifier(qualified,plainSegment));
  const statementRows=(x)=>doc.facts[x.taxonomy]?.[x.concept]?.units[x.measure]?.filter(f=>!f._original.dimensions.length && f.start===x.f.start && f.end===x.f.end) || [];
  const byPeriod=new Map();for(const x of segmentTotals){const k=x.f.start+'|'+x.f.end;if(!byPeriod.has(k))byPeriod.set(k,[]);byPeriod.get(k).push(x);}
  for(const group of byPeriod.values()) {
@@ -196,20 +200,32 @@ async function fetchOriginal(cik,filing) {
  if(!filing?.primaryDocument || !/^[a-zA-Z0-9_.-]+$/.test(filing.primaryDocument))throw new Error('ORIGINAL_DOCUMENT_PATH_UNAVAILABLE');
  const documentUrl=`https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${filing.accessionNumber.replace(/-/g,'')}/${filing.primaryDocument}`;
  const response=await axios.get(documentUrl,{headers:HEADERS,timeout:20000,maxContentLength:MAX_BYTES,responseType:'text'});
- const shared={contexts:new Map(),units:new Map()};
- const primary=parseOriginal(String(response.data),{...filing,documentUrl},cik,shared);
+ const shared={contexts:new Map(),units:new Map()},base=documentUrl.replace(/[^/]*$/,''),primaryText=String(response.data);
+ let listing;
+ // An inline XBRL document set can keep every context in one document and the figures in another. Progressive's
+ // FY2025 10-K tags 2,689 figures in pgr-20251231_d2.htm and defines all 790 contexts in pgr-20251231.htm, so the
+ // primary read alone resolved nothing: no statement line from the filing and no segment table. The set's
+ // resources are read first; the figures still cite the document they are in.
+ if(/<ix:nonfraction/i.test(primaryText) && !/<(?:xbrli:)?context\b/i.test(primaryText)) {
+  try{listing=(await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;}catch(error){if(transient(error))throw error;}
+  const others=(listing?.directory?.item || []).filter(i=>/^[a-zA-Z0-9_.-]+\.html?$/.test(i.name || '') && !/^R\d+\.html?$/i.test(i.name) && i.name!==filing.primaryDocument && Number(i.size)<=MAX_BYTES).sort((a,b)=>Number(b.size)-Number(a.size)).slice(0,4);
+  for(const item of others) {
+   let text;try{text=String((await axios.get(base+item.name,{headers:HEADERS,timeout:20000,maxContentLength:MAX_BYTES,responseType:'text'})).data);}catch(error){if(transient(error))throw error;continue;}
+   if(/<ix:resources/i.test(text)){parseOriginal(text,{...filing,documentUrl:base+item.name},cik,shared);break;}
+  }
+ }
+ const primary=parseOriginal(primaryText,{...filing,documentUrl},cik,shared);
  // A cover page can still tag its share count (Gildan's 40-F), so the primary
  // counts as the statements only when it holds an amount in a currency.
  const money=Object.values(primary.facts).some(defs=>Object.values(defs).some(def=>Object.keys(def.units).some(u=>/^[A-Z]{3}$/.test(u))));
- if(money)return attachLabels(primary,documentUrl.replace(/[^/]*$/,''));
+ if(money)return attachLabels(primary,base,listing);
  // Some filers put only a cover page in the primary document and the financial
  // statements in a second tagged document of the same filing (Clorox's annual
  // report exhibit, Canadian National's 40-F exhibits). SEC's company-facts feed
  // carries nothing for those filings, so 115 issuers had no current year at
  // all on 2026-10-06. Read the filing's other documents and keep the one that
  // holds the statements; every figure still cites the document it came from.
- const base=documentUrl.replace(/[^/]*$/,'');
- let listing;try{listing=(await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;}catch(error){if(transient(error))throw error;return primary;}
+ if(!listing)try{listing=(await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;}catch(error){if(transient(error))throw error;return primary;}
  const items=(listing?.directory?.item || []).filter(i=>/^[a-zA-Z0-9_.-]+\.html?$/.test(i.name || '') && i.name!==filing.primaryDocument && Number(i.size)>50000 && Number(i.size)<=MAX_BYTES)
   .sort((a,b)=>Number(b.size)-Number(a.size)).slice(0,4);
  let best=primary,count=0;

@@ -70,14 +70,29 @@ async function main(argv = process.argv.slice(2)) {
   const ciks = targets(argv), jobs = Math.max(1, Number(argv[argv.indexOf('--jobs') + 1]) || 1), rebuild = argv.includes('--rebuild');
   if (!ciks.length) { console.error('usage: --symbols A,B | --ciks-file list.json [--jobs N] [--rebuild]'); process.exit(2); }
   fs.mkdirSync(H.DIR, { recursive: true });
-  const queue = ciks.slice(), results = [];
+  let results = [];
   // Requests to SEC are paced in one place (sec-throttle), so workers here only overlap the waiting.
-  await Promise.all(Array.from({ length: Math.min(jobs, queue.length) }, async () => {
-    for (let cik; (cik = queue.shift());) {
-      let r; try { r = await refresh(cik, { rebuild }); } catch (e) { r = { cik, status: 'failed', error: String(e.message || e).slice(0, 200) }; }
-      results.push(r); console.log(JSON.stringify(r));
-    }
-  }));
+  const pass = async (list) => {
+    const queue = list.slice(), out = [];
+    await Promise.all(Array.from({ length: Math.min(jobs, queue.length) }, async () => {
+      for (let cik; (cik = queue.shift());) {
+        let r; try { r = await refresh(cik, { rebuild }); } catch (e) { r = { cik, status: 'failed', transient: e.response ? e.response.status >= 500 || e.response.status === 429 : !/maxContentLength/.test(e.message), error: String(e.message || e).slice(0, 200) }; }
+        out.push(r); console.log(JSON.stringify(r));
+      }
+    }));
+    return out;
+  };
+  results = await pass(ciks);
+  // SEC answers 503 for minutes at a time (11-06: 38 issuers in a row); the per-request retries span
+  // seconds, so issuers that failed that way are tried again after a pause.
+  for (const waitS of [120, 600]) {
+    const again = results.filter((r) => r.status === 'failed' && r.transient).map((r) => r.cik);
+    if (!again.length) break;
+    console.error(`retrying ${again.length} after ${waitS}s`);
+    await new Promise((r) => setTimeout(r, waitS * 1000));
+    const redo = new Map((await pass(again)).map((r) => [r.cik, r]));
+    results = results.map((r) => redo.get(r.cik) || r);
+  }
   const by = (s) => results.filter((r) => r.status === s).length;
   console.log(JSON.stringify({ issuers: results.length, ok: by('ok'), noTable: by('no_segment_table'), noHistory: by('no_history'), failed: by('failed') }));
   if (by('failed')) process.exitCode = 1;

@@ -10,7 +10,8 @@ const p = require('./sec-coverage');
 const seg = require('./sec-segment-observations');
 const { HEADERS } = require('./sec-reporting');
 
-const MAX_BYTES = 64 * 1024 * 1024;
+// A business development company's 10-Q tags every holding: NewtekOne's Q3 2022 instance is 85.6 MB.
+const MAX_BYTES = 160 * 1024 * 1024;
 const BUSINESS = /(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/;
 const TABLE_AXIS = /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/;
 const BANK_PAIR = ['InterestIncomeExpenseNet', 'NoninterestIncome'];
@@ -66,7 +67,7 @@ function parseInstance(text) {
 // totals) and on one segment axis; segment profit; segment assets at a period end. Compact rows:
 // [concept, axis, member, start, end, value, contextRef, extraDims].
 function filingFacts(text, cik) {
-  const { contexts, units, facts } = parseInstance(text), out = [];
+  const { contexts, units, facts } = parseInstance(text), out = [], qualified = [], plainSegment = new Set();
   for (const f of facts) {
     const c = contexts.get(f.contextRef), u = units.get(f.unitRef);
     if (!c || f.nil || !u || u.divide || !/^[A-Z]{3}$/.test(u.measures[0] || '') || p.cik(c.issuer.trim()) !== p.cik(cik) || !p.day(c.end)) continue;
@@ -80,11 +81,14 @@ function filingFacts(text, cik) {
     // The consolidation axis moved from us-gaap to srt in 2018; its operating-segments member is the plain segment view.
     const dims = c.dims.filter((d) => !(/:ConsolidationItemsAxis$/.test(d.axis) && /:OperatingSegmentsMember$/.test(d.member)));
     if (!c.dims.length) { if (measure) out.push([f.name, '', '', c.start || '', c.end, value, f.contextRef, 0, u.measures[0]]); continue; }
+    const group = [f.name, c.start, c.end, u.measures[0]].join('|'), split = c.start && seg.qualifiedSplit(taxonomy, concept, dims);
+    if (split) { qualified.push({ group, qualifier: split.qualifier, item: [f.name, split.segment.axis, split.segment.member, c.start, c.end, value, f.contextRef, c.dims.length - 1, u.measures[0]] }); continue; }
     if (dims.length !== 1 || !TABLE_AXIS.test(dims[0].axis)) continue;
+    if (c.start && BUSINESS.test(dims[0].axis)) plainSegment.add(group);
     if (metric && !BUSINESS.test(dims[0].axis)) continue;
     out.push([f.name, dims[0].axis, dims[0].member, c.start || '', c.end, value, f.contextRef, c.dims.length - 1, u.measures[0]]);
   }
-  return out;
+  return out.concat(seg.sharedQualifier(qualified, plainSegment));
 }
 
 const transient = (e) => ['ECONNRESET', 'ECONNABORTED', 'ECONNREFUSED', 'ETIMEDOUT', 'EAI_AGAIN', 'ENOTFOUND', 'ENETUNREACH', 'EPIPE'].includes(e?.code) || e?.response?.status === 429 || e?.response?.status >= 500;
@@ -268,12 +272,14 @@ function buildHistory(filings, { axis, currency, preferConcept, quarterFrom }) {
 
 // Which filings to read: newest first, a filing only when its own period is not yet reported by a newer
 // one on the table's axis (each annual report repeats two or three years, each 10-Q the year-ago quarter).
+// A foreign issuer's annual report is a 20-F or 40-F; its interim 6-Ks carry no tagged statements, so it
+// has annual history only (IFRS filers tag from fiscal years ending on or after 2017-12-15).
 async function collect(cik, filings, { axis, annualFrom = '2008-01-01', quarterFrom, have = [], onRead = () => {} }) {
   const records = have.slice(), done = new Set(records.map((r) => r.accession));
   const covered = (kind) => new Set(records.flatMap((r) => r.facts.filter((x) => x[1] === axis && kindOf(x[3], x[4]) === kind).map((x) => x[4])));
   const near = (set, d) => [...set].some((e) => Math.abs(Date.parse(e) - Date.parse(d)) <= 10 * 86400000);
-  for (const [form, kind, from] of [['10-K', 'annual', annualFrom], ['10-Q', 'quarter', quarterFrom || annualFrom]]) {
-    const list = filings.filter((f) => f.form === form && f.reportDate >= from).sort((a, b) => b.reportDate.localeCompare(a.reportDate) || b.filingDate.localeCompare(a.filingDate));
+  for (const [forms, kind, from] of [[['10-K', '20-F', '40-F'], 'annual', annualFrom], [['10-Q'], 'quarter', quarterFrom || annualFrom]]) {
+    const list = filings.filter((f) => forms.includes(f.form) && f.reportDate >= from).sort((a, b) => b.reportDate.localeCompare(a.reportDate) || b.filingDate.localeCompare(a.filingDate));
     const seen = new Set(), windowMs = (kind === 'annual' ? 760 : 380) * 86400000;
     const read = async (f) => { const known = new Set(records.flatMap((r) => Object.keys(r.labels || {}))); const rec = await readFiling(cik, f, { wantLabels: (m) => !known.has(m) }); records.push(rec); done.add(rec.accession); onRead(rec); return rec; };
     for (const f of list) {

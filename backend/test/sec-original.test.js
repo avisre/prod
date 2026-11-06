@@ -182,3 +182,29 @@ test('a network failure reading the label file is thrown, not read as a filing w
   assert.equal(doc.segments.length,1);assert.equal(doc.segments[0]._original.memberLabel,undefined);
  } finally { axios.get=get; }
 });
+
+// Progressive's FY2025 10-K is an inline document set: 2,689 figures in pgr-20251231_d2.htm and all 790 contexts in
+// pgr-20251231.htm. Read alone the primary resolved nothing, and its premiums by segment carry a product member
+// ("Underwriting operations") that every row shares, so the one segment table it files was dropped twice over.
+test('a document set\'s contexts are read from the document that holds them, and a shared qualifier does not split a premium table',async()=>{
+ const axios=require('axios'),{fetchOriginal}=require('../sec-original'),get=axios.get;
+ const id='<xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier>';
+ const per='</xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>';
+ const dim=(a,m)=>`<xbrldi:explicitMember dimension="${a}">${m}</xbrldi:explicitMember>`;
+ const seg=(cid,member,product)=>`<xbrli:context id="${cid}">${id}<xbrli:segment>${dim('srt:ConsolidationItemsAxis','us-gaap:OperatingSegmentsMember')}${dim('srt:ProductOrServiceAxis',product)}${dim('us-gaap:StatementBusinessSegmentsAxis',member)}</xbrli:segment>${per}`;
+ const resources='<ix:header><ix:resources>'+`<xbrli:context id="c0">${id}${per}`+seg('p','x:PersonalMember','x:UnderwritingMember')+seg('k','x:CommercialMember','x:UnderwritingMember')+seg('r','x:PersonalMember','x:RetailMember')+seg('w','x:CommercialMember','x:WholesaleMember')+'<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit></ix:resources></ix:header>';
+ const nf=(name,c,v)=>`<ix:nonFraction name="us-gaap:${name}" contextRef="${c}" unitRef="usd" decimals="0">${v}</ix:nonFraction>`;
+ const pages={'a_d2.htm':'<html>'+nf('Revenues','c0','100')+nf('PremiumsEarnedNet','p','70')+nf('PremiumsEarnedNet','k','20')+nf('Revenues','r','60')+nf('Revenues','w','30')+'</html>',
+  'a.htm':'<html>'+resources+' '.repeat(60000)+'</html>',
+  'index.json':{directory:{item:[{name:'a_d2.htm',size:'2000'},{name:'a.htm',size:'60100'},{name:'R2.htm',size:'90000'}]}}};
+ const asked=[];axios.get=async url=>{const n=url.split('/').pop();asked.push(n);if(pages[n]===undefined)throw Object.assign(new Error('404'),{response:{status:404}});return {data:pages[n]};};
+ try {
+  const doc=await fetchOriginal('0000000123',{accessionNumber:'0000000123-26-000001',form:'10-K',filingDate:'2026-02-20',primaryDocument:'a_d2.htm'});
+  assert.equal(doc.facts['us-gaap'].Revenues.units.USD[0].val,100);
+  assert.match(doc.facts['us-gaap'].Revenues.units.USD[0]._original.documentUrl,/a_d2\.htm$/);
+  assert.ok(!asked.includes('R2.htm'));
+  // Premiums: one shared product member, read on the segment axis. Revenue split by two product members stays out.
+  assert.deepEqual(doc.segments.map(f=>[f.concept,f._original.dimensions.map(d=>d.member).join(),f.val]),[['PremiumsEarnedNet','x:PersonalMember',70],['PremiumsEarnedNet','x:CommercialMember',20]]);
+  assert.equal(doc.segments[0]._original.allDimensions.length,3);
+ } finally { axios.get=get; }
+});

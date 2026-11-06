@@ -746,7 +746,12 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   if(st!=='balance'){if(!start)return;const days=(Date.parse(end)-Date.parse(start))/DAY+1;if(basis==='annual'?days<340 || days>380:days<75 || days>QUARTER_MAX_DAYS)return;}
   const qtrs=st==='balance'?0:basis==='annual'?4:1,restrict=basis==='annual' && a?.reportDate===end;
   for(const field of Object.keys(MAPS[st])) {
-   const held=(row._sources[field] || []).map(id=>out.sources[id]),weak=held.length && (!row._derivations?.[field] || row._derivations[field].formula==='ytd_difference') && held.every(s=>s && FILLS.has(s.taxonomy+':'+s.concept));
+   // A bank or insurer row is the line its statement presents. The tag mapped for it can be a note's narrower
+   // figure: RBB 2025 presents "Accrued interest and other assets" $82.6m, its OtherAssets is $4.2m; First
+   // Financial (THFF) presents loans of $4.05bn, its uncategorised financing receivable is $2.71bn; Pinnacle's
+   // repurchase line is $316,447k on the face, $316.0m rounded on the combined fed-funds tag.
+   const industryRow=industryLines && INDUSTRY_FIELDS[st]?.includes(field) && !row._derivations?.[field];
+   const held=(row._sources[field] || []).map(id=>out.sources[id]),weak=held.length && (!row._derivations?.[field] || row._derivations[field].formula==='ytd_difference') && held.every(s=>s && (FILLS.has(s.taxonomy+':'+s.concept) || industryRow && s.verificationMethod!=='statement_line'));
    if(row[field]!==null && !weak)continue;
    const unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':cur;
    let candidates=(lineIndex.get(st+'|'+field+'|'+dataSetDate(end)) || []).filter(l=>l.q===qtrs && (l.u===unit || (unit===cur+'/shares' && l.u===cur)) && cited.has(l.a) && (!restrict || annualAccessions.has(l.a)) && l.d>=end && l.d<=asOf
@@ -1208,7 +1213,19 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    }
    if(st==='cash')combine('operatingCashflow','operatingCashflowContinuing','operatingCashflowDiscontinued','sum_fields');
    if(st==='balance') {
-    combine('shortTermDebt','shortTermBorrowings','currentLongTermDebt','sum_fields');
+    // One current line filed under both tags is that line, not twice it: Voya's 2025 face presents "Short-term
+    // debt" of $586m as ShortTermBorrowings, and the same $586m is tagged LongTermDebtCurrent beside it (Howmet
+    // 2021: $5m, Novo Nordisk every year). Short-term debt is the presented line, cited to the tag the face uses,
+    // never the two summed; a figure a later filing gave the row for the line is cited to this filing's tag.
+    const faceTags=presented.get(out.sources[(row._sources.totalAssets || [])[0]]?.accessionNumber) || [];
+    const accn=f=>[...new Set((row._sources[f] || []).map(id=>out.sources[id]?.accessionNumber))].join('|');
+    const twin=row.shortTermBorrowings!==null && row.shortTermBorrowings===row.currentLongTermDebt && accn('shortTermBorrowings')===accn('currentLongTermDebt')
+     && ['shortTermBorrowings','currentLongTermDebt'].filter(f=>row._sources[f]?.length===1 && faceTags.includes(out.sources[row._sources[f][0]]?.concept) && p.verifiedField(out,row,f));
+    if(twin && twin.length===1){
+     if(row.shortTermDebt===null || row.shortTermDebt===row[twin[0]] && accn('shortTermDebt')!==accn(twin[0])){
+      row.shortTermDebt=row[twin[0]];row._sources.shortTermDebt=[...row._sources[twin[0]]];row._scopes.shortTermDebt=row._scopes[twin[0]];delete row._derivations.shortTermDebt;delete row._signs.shortTermDebt;
+     }
+    } else combine('shortTermDebt','shortTermBorrowings','currentLongTermDebt','sum_fields');
     combine('shortLongTermDebtTotal','shortTermDebt','longTermDebt','sum_fields');
    }
    if(lineIndex.size)fillFromLines(st,basis,row,end,cur);

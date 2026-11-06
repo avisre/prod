@@ -199,3 +199,15 @@ test('a roll-up member is never a row; segments before eliminations are shown as
     assert.ok(!store.shown(group(PRODUCT, '2025-12-31', [48, 36, 34])).usable, 'product lines that over-count are not');
     assert.ok(!store.shown(group(BUSINESS, '2025-12-31', [90, 80])).usable, 'nor is anything past 160%');
 });
+
+// Travelers and AIG, FY2025: net premiums earned by segment covers 89.9% and 88.4% of revenue (the rest is investment
+// income); revenue by region accounts for all of it. The segments are what the insurer sells, and they lead.
+test('an insurer\'s premium segments lead its regions, shown as partial; a plain revenue segment table does not jump the regions', () => {
+  const REGION = 'srt:StatementGeographicalAxis';
+  const premiums = { ...group(BUSINESS, '2025-12-31', [45, 30, 13]), measure: 'net premiums earned' };
+  const regions = group(REGION, '2025-12-31', [95, 5]);
+  const p = store.preferred([regions, premiums]);
+  assert.equal(p.usable, null);assert.equal(p.partial, premiums);
+  assert.equal(store.preferred([regions, group(BUSINESS, '2025-12-31', [45, 30, 13])]).usable, regions, 'no stand-in measure: regions stay');
+  assert.equal(store.preferred([regions, { ...group(BUSINESS, '2025-12-31', [40, 30]), measure: 'net premiums earned' }]).usable, regions, 'under three quarters: regions stay');
+});
