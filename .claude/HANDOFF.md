@@ -23,6 +23,34 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   the window trimmed to 48. **Trap:** Saturday's weekly run will drop Citi Q1 2026 again if SEC still serves that.
 - **Segment history:** 168 issuers in `backend/data/segment-history/` (TRV, AIG, AAPL added 11-06; PGR has no segment
   table, never had one). Weekly job refreshes them from a cached filing store (`actions/cache`).
+- **Segment history for ALL covered stocks (owner ask 11-06) — DONE 11-07, committed de5d491b5 (local):** 3,733
+  issuers in `backend/data/segment-history/` (77 MB), builder `20261106-history3`; 139 have nothing to build. fe979b8d0
+  read old axis names / `Revenues` as sales; f1b7610b4 reads pre-2018 `SalesRevenueGoodsNet`/`ServicesNet` only where
+  its total equals the filed revenue total (AMD now FY2010-25, was FY2016+): 109 issuers start earlier, +530 years,
+  0 lost. The FY2016 start cluster (447 left) is genuine: 305 of 314 product-axis ones never tagged that axis before
+  ASC 606 (FY2018 10-Ks reach back to FY2016). Coverage outliers (<60%/>110% of revenue) 2.9% of 30,832 year-cells,
+  same rate in the new years: a filer's extra member on the axis (Thor "Export"), pre-existing, not fixed.
+  Local filing cache `.cache/` (749 MB, gitignored; backup of the pre-fix cache in `segment-run/cache-backup-history2`).
+  6b5af3e2f: weekly refresh skips issuers with no new periodic filing (`unchanged`, tested) and stops starting issuers
+  after `--budget-minutes 100` (tested; cached first). **CI's cache is cold for ~3,560 issuers**: the first weekly runs
+  will warm it in slices; the rest keep their committed tables. Logs/lists: `~/Downloads/new/segment-run/`.
+- **Owner order 11-06: show single-segment and <60% tables anyway** → 3551328aa (local). `preferred()` falls back:
+  2+ rows any coverage → one row ≈100% named → generic "Reportable Segment" member (kept by `read()`, shown as
+  "Single reportable segment"; NFLX shows "Streaming") → one line any coverage. Never: only "All Other"/corporate/
+  eliminations rows (CVX), or >110%. Remainder calculated + named on page/contract/Ask; segment view leads with
+  "Partial breakdown: these lines cover N%…" or "reports a single segment". Text (model) reads keep 60%/2 rows.
+  Measured on the 439 hidden: 242 complete, 161 partial, 36 still none, 0 contract violations. Golden: only NFLX moved.
+  History: `lead().single` (6b5af3e2f) lets a one-row table build; the 453 newly eligible issuers are in de5d491b5.
+- **Gap fills, builder `20261107-history4` (owner order 11-07: leave perfect stocks alone, redo only the ones with
+  gaps) — 984126110 code + e85a993e5 data, local.** Fill rules + refusals: comments in `sec-segment-history.js`, one
+  test each in `segment-history.test.js` (21). `current()`: a history3 file with no in-span gap counts as current, so
+  2,221 complete issuers are never rebuilt (verified byte-identical from cache). 1,512 gap issuers rebuilt: 2,601 cells
+  filled / 799 issuers; gaps 15,332 → 12,776; 0 filed cells changed or lost from their own report. **Trap (hit 11-07):**
+  reports read only to fill a gap must stay `fillOnly` in `.cache/` — as column sources a newer repeat took columns
+  over and blanked/restated 134 filed cells (Masco, Quantum). The builder ignores them for columns, measure, labels and
+  Q4 nine months; `collect()` promotes one it needs. **Trap:** a file written as history4 is current, so a later
+  builder change does not redo it — bump VERSION. Not filled by design: cells outside a row's first..last value.
+  Run dir `~/Downloads/new/segment-gaps/` (before/ snapshot of all 3,733, verify2.json).
 - **FDIC banks (TOWN, HIFS, NBN, FRBA, SSBI, RCBC, ASBH, + WCCB sole-subsidiary):** no SEC statements (they file with
   their bank regulator under §12(i)), so `company.js` `fdicReports()` builds income + balance from the FDIC Call Report
   rows in `supplemental-financials/` when a payload has no SEC rows at all (SEC always wins). No cash-flow statement
