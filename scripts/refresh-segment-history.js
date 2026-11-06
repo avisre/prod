@@ -5,7 +5,7 @@
 // backend/data/segment-history/. The compact facts read from each filing are kept in a local cache
 // beside it (not committed), so a later run reads only the filings that are new since.
 //
-//   node scripts/refresh-segment-history.js --symbols JPM,HBAN,AFL [--jobs 4] [--rebuild]
+//   node scripts/refresh-segment-history.js --symbols JPM,HBAN,AFL [--jobs 4] [--rebuild] [--budget-minutes 90]
 //   node scripts/refresh-segment-history.js --ciks-file list.json   (an array of CIKs or {cik} objects)
 //
 // --rebuild ignores the cache and reads every filing again.
@@ -30,7 +30,7 @@ function lead(cik) {
   const sf = g.entries[0].sourceFact;
   const preferConcept = sf.concept.includes('+') ? sf.concept.split('+').map((c) => 'us-gaap:' + c).join('+') : sf.taxonomy + ':' + sf.concept;
   const quarterFrom = (d.income?.quarterlyReports || []).map((r) => r.fiscalDateEnding).filter(Boolean).sort()[0] || null;
-  return { axis: g.axis, currency: g.currency, preferConcept, quarterFrom, sic: d.reportingSic };
+  return { axis: g.axis, currency: g.currency, preferConcept, quarterFrom, sic: d.reportingSic, single: seg.shown(g).rows.length === 1 };
 }
 
 async function filingsOf(cik) {
@@ -40,6 +40,7 @@ async function filingsOf(cik) {
   return list;
 }
 
+const PERIODIC = /^(10-K|10-Q|20-F|40-F)(\/A)?$/;
 async function refresh(cik, { rebuild = false } = {}) {
   cik = p.cik(cik);
   const L = lead(cik);
@@ -47,8 +48,14 @@ async function refresh(cik, { rebuild = false } = {}) {
   const cacheFile = path.join(CACHE, cik + '.json');
   let have = [];
   if (!rebuild) try { have = JSON.parse(fs.readFileSync(cacheFile, 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw e; }
-  const t0 = Date.now();
-  const records = await H.collect(cik, await filingsOf(cik), { axis: L.axis, quarterFrom: L.quarterFrom, have });
+  const t0 = Date.now(), filings = await filingsOf(cik);
+  // A table built by this version, with no report filed since, is already current: one request, whether or not
+  // this machine holds the filing cache (the weekly job's cache only covers the issuers it has built there).
+  if (!rebuild) {
+    let stored = null; try { stored = JSON.parse(fs.readFileSync(path.join(H.DIR, cik + '.json'), 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw e; }
+    if (stored?.version === H.VERSION && stored.builtAt && !filings.some((f) => PERIODIC.test(f.form) && f.filingDate >= stored.builtAt.slice(0, 10))) return { cik, status: 'unchanged' };
+  }
+  const records = await H.collect(cik, filings, { axis: L.axis, quarterFrom: L.quarterFrom, have });
   fs.mkdirSync(CACHE, { recursive: true });
   p.atomicWrite(cacheFile, records);
   const table = H.buildHistory(records, L);
@@ -68,6 +75,11 @@ function targets(argv) {
 
 async function main(argv = process.argv.slice(2)) {
   const ciks = targets(argv), jobs = Math.max(1, Number(argv[argv.indexOf('--jobs') + 1]) || 1), rebuild = argv.includes('--rebuild');
+  // --budget-minutes N: no issuer is started after N minutes, so a cold run (no filing cache: ~14 s an issuer)
+  // ends inside the weekly job. Issuers with a cache go first; the rest keep their stored table until a later run.
+  const budget = argv.includes('--budget-minutes') ? Number(argv[argv.indexOf('--budget-minutes') + 1]) * 60000 : Infinity, started = Date.now();
+  const cached = (cik) => fs.existsSync(path.join(CACHE, cik + '.json'));
+  ciks.sort((a, b) => cached(b) - cached(a));
   if (!ciks.length) { console.error('usage: --symbols A,B | --ciks-file list.json [--jobs N] [--rebuild]'); process.exit(2); }
   fs.mkdirSync(H.DIR, { recursive: true });
   let results = [];
@@ -76,6 +88,7 @@ async function main(argv = process.argv.slice(2)) {
     const queue = list.slice(), out = [];
     await Promise.all(Array.from({ length: Math.min(jobs, queue.length) }, async () => {
       for (let cik; (cik = queue.shift());) {
+        if (Date.now() - started > budget) { out.push({ cik, status: 'deferred' }); continue; }
         let r; try { r = await refresh(cik, { rebuild }); } catch (e) { r = { cik, status: 'failed', transient: e.response ? e.response.status >= 500 || e.response.status === 429 : !/maxContentLength/.test(e.message), error: String(e.message || e).slice(0, 200) }; }
         out.push(r); console.log(JSON.stringify(r));
       }
@@ -94,7 +107,7 @@ async function main(argv = process.argv.slice(2)) {
     results = results.map((r) => redo.get(r.cik) || r);
   }
   const by = (s) => results.filter((r) => r.status === s).length;
-  console.log(JSON.stringify({ issuers: results.length, ok: by('ok'), noTable: by('no_segment_table'), noHistory: by('no_history'), failed: by('failed') }));
+  console.log(JSON.stringify({ issuers: results.length, ok: by('ok'), unchanged: by('unchanged'), deferred: by('deferred'), noTable: by('no_segment_table'), noHistory: by('no_history'), failed: by('failed') }));
   if (by('failed')) process.exitCode = 1;
 }
 
