@@ -384,3 +384,36 @@ test('a table rebuilt with each unit apart is taken only where it adds to the st
   assert.equal(H.keeps(strict, view([col('2024-12-31', 100)], [row('A', [60])])), false, 'a row lost');
   assert.equal(H.keeps(strict, view([col('2024-12-31', 100), col('2025-12-31', 100)], [row('A', [60, 70]), row('B', [40, 50])])), false, 'a new column past its total');
 });
+
+test('a fourth quarter is not derived across footings: a recast nine months or a restated year gives way to a pair that fits', () => {
+  const R = 'us-gaap:Revenues', p = (s, e) => [s, e];
+  const cols = (per, o, total) => [...Object.entries(o).map(([m, v]) => seg(R, 'x:' + m + 'Member', per, v)), tot(R, per, total)];
+  const quarters = (y) => [
+    filing('q1-' + y, '10-Q', `${y}-05-01`, `${y}-03-31`, cols(p(`${y}-01-01`, `${y}-03-31`), { A: 25, B: 15 }, 50)),
+    filing('q2-' + y, '10-Q', `${y}-08-01`, `${y}-06-30`, cols(p(`${y}-04-01`, `${y}-06-30`), { A: 25, B: 15 }, 50)),
+    filing('q3-' + y, '10-Q', `${y}-11-01`, `${y}-09-30`, [...cols(p(`${y}-07-01`, `${y}-09-30`), { A: 25, B: 15 }, 50), ...cols(p(`${y}-01-01`, `${y}-09-30`), { A: 75, B: 45 }, 150)])];
+  const q4 = (t) => { const j = t.quarterly.years.findIndex((y) => y.derived); return { from: t.quarterly.years[j].from, total: t.quarterly.years[j].totalRevenue, cells: t.quarterly.rows.map((r) => [r.name, r.sales[j]]) }; };
+  // Targa: a later 10-Q files the nine months again on a redrawn footing; year less those gave Q4 segments of 80 and 10
+  // against a total of 10. The nine months the year fits are used instead.
+  const targa = H.buildHistory([
+    filing('k25', '10-K', '2026-02-01', '2025-12-31', cols(year(2025), { A: 100, B: 60 }, 200)), ...quarters(2025),
+    filing('q3-2026', '10-Q', '2026-11-01', '2026-09-30', [...cols(p('2026-07-01', '2026-09-30'), { A: 9, B: 30 }, 60), ...cols(p('2025-01-01', '2025-09-30'), { A: 20, B: 50 }, 190)])],
+  { ...LEAD, quarterFrom: '2025-01-01' });
+  assert.deepEqual(q4(targa), { from: { year: 'k25', nineMonths: 'q3-2025' }, total: 50, cells: [['A', 25], ['B', 15]] });
+  // 3M: the newest 10-K restates the year without a spun-off segment (total 100 against nine months of 150). The year
+  // from the report on the nine months' footing is used, and named.
+  const mmm = H.buildHistory([
+    filing('k24', '10-K', '2025-02-01', '2024-12-31', [...cols(year(2024), { A: 110 }, 110), ...cols(year(2025), { A: 100 }, 100)]),
+    filing('k25', '10-K', '2026-02-01', '2025-12-31', cols(year(2025), { A: 100, B: 60 }, 200)), ...quarters(2025)].map((f) => f.accession === 'k24' ? { ...f, filed: '2026-03-01', reportDate: '2025-12-31' } : f),
+  { ...LEAD, quarterFrom: '2025-01-01' });
+  const m = q4(mmm);
+  assert.equal(m.total, 50); assert.deepEqual(m.cells, [['A', 25], ['B', 15]]); assert.equal(m.from.nineMonths, 'q3-2025');
+  // Harmonic: the restated year moves revenue between segments; its quarter adds to the total but leaves A at -35.
+  const recut = (yearA) => H.buildHistory([
+    filing('k25', '10-K', '2026-02-01', '2025-12-31', cols(year(2025), { A: 100, B: 60 }, 200)), ...quarters(2025),
+    filing('k26', '10-K', '2027-02-01', '2026-12-31', [...cols(year(2026), { A: 50, B: 130 }, 220), ...cols(year(2025), { A: yearA, B: 160 - yearA }, 200)])],
+  { ...LEAD, quarterFrom: '2025-01-01' });
+  const h = q4(recut(40));
+  assert.deepEqual([h.from.year, h.cells.sort()], ['k25', [['A', 25], ['B', 15]]]);
+  assert.equal(q4(recut(95)).from.year, 'k26', 'a pair with no negative segment is left as it was');
+});

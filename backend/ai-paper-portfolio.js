@@ -1103,17 +1103,19 @@ async function create({ user, guruId, constraints, onEvent }) {
     // Events fired before the doc exists (guru-resolution errors) only go to
     // the SSE connection.
     let runDocId = null;
+    // Feed writes are queued so they land in the order they were emitted, and a pause waits for them: otherwise a
+    // research line still in flight could land after "Paused".
+    let feed = Promise.resolve();
     const emit = (e) => {
         if (runDocId) {
             // Research lines carry the mind label so the polled feed reads
             // "🧠 Buffett mind: screen_universe(…) → 241 rows" without context.
             const line = e.type === 'research' && e.label ? `${e.label}: ${e.text || ''}` : (e.text || '');
-            try {
-                AIPaperPortfolio().updateOne(
-                    { _id: runDocId },
-                    { $push: { buildLog: { $each: [logStamp(line)], $slice: -BUILD_LOG_CAP } }, $set: { updatedAt: new Date() } }
-                ).catch(() => {});
-            } catch (_) { /* feed is best-effort */ }
+            const id = runDocId, stamped = logStamp(line);
+            feed = feed.then(() => AIPaperPortfolio().updateOne(
+                { _id: id },
+                { $push: { buildLog: { $each: [stamped], $slice: -BUILD_LOG_CAP } }, $set: { updatedAt: new Date() } }
+            )).catch(() => { /* feed is best-effort */ });
         }
         if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep building */ } }
     };
@@ -1396,6 +1398,7 @@ async function create({ user, guruId, constraints, onEvent }) {
         // handle is the truth even when the throw came from somewhere that
         // swallowed the PauseError type.
         if (handle.aborted || (e && e.paused)) {
+            await feed;
             await pauseBuild(doc);
             // Stop (as opposed to pause) throws the run away: nothing was bought,
             // and the setup is not kept for a re-run.

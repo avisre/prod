@@ -375,11 +375,52 @@ function build(filings, { axis, currency, preferConcept, quarterFrom, sic, singl
     for (const f of filings.filter((f) => !f.fillOnly).sort((a, b) => b.filed.localeCompare(a.filed))) { const c = columnCandidates(f, axis, fy.start, q3end, statement, statementTotals, units).find((x) => x.concept === fy.c.concept && x.view === fy.c.view && x.unit === currency); if (c) return { c, filing: f, end: q3end }; }
     return null;
   };
+  // The year and its nine months must be on one footing. A later report that redrew the segments files the year or the
+  // nine months again on the new footing (Targa's 2026 10-Qs recast 2025's nine months: its FY2025 10-K's year less
+  // them gave Logistics $14,170M and Gathering -$1,130M for Q4 2025). A pair is on one footing when the quarter's
+  // segments stand to its total as the year's segments stand to the year's total. Otherwise the nine months from
+  // another report that fits the year, else the year and nine months from reports that fit each other; failing both,
+  // the pair as it was (q4Total then refuses a total it cannot be on).
+  // Only the segments the table shows count (a filing's subtotals would excuse any excess).
+  const footing = (yc, nc) => { const tq = yc.total - nc.total; if (!(tq > 0) || !(yc.total > 0)) return false;
+    const ys = yc.rows.filter((r) => rowOf.has(r.member) && (!yc.kept || yc.kept.has(r.member))); let s = 0, n = 0;
+    for (const r of nc.rows) { const y = ys.find((x) => x.member === r.member); if (y) { s += y.value - r.value; n++; } }
+    // Every segment the year shows must be in the nine months too: a pair with nothing in common fits vacuously.
+    return n > 0 && n === ys.length && s <= tq * Math.max(1.005, ys.reduce((n, r) => n + r.value, 0) / yc.total * 1.02); };
+  const filedAs = (fy, start, end, list) => list.flatMap((f) => columnCandidates(f, axis, start, end, statement, statementTotals, units)
+    .filter((x) => x.concept === fy.c.concept && x.view === fy.c.view && x.unit === currency).map((c) => ({ c, filing: f, end })));
+  // A pair is redrawn only when it is plainly off footing (the quarter's segments above twice its total, or a total at
+  // or below zero under positive segments); a pair that merely misses the tighter test is left as it was.
+  // So is a pair that leaves a segment the year files as positive revenue negative for the quarter by more than 2% of
+  // the quarter (Harmonic's Q4 2024: SaaS -$72.7M against a $31.6M quarter); such a pair is redrawn only onto one
+  // that fits and has no such cell, and otherwise left as filed (an insurer's investment line can fall below zero).
+  const broken = (yc, nc) => { const tq = yc.total - nc.total; let s = 0, neg = false;
+    for (const r of nc.rows) { const y = yc.rows.find((x) => x.member === r.member && rowOf.has(x.member) && (!yc.kept || yc.kept.has(x.member))); if (!y) continue;
+      const q = y.value - r.value; s += q; if (y.value > 0 && q < 0 && -q > 0.02 * Math.abs(tq || y.value)) neg = true; }
+    return neg || (tq > 0 ? s > tq * 2 : s > 0); };
+  const fits = (yc, nc) => footing(yc, nc) && !broken(yc, nc);
+  const onFooting = (fy, nine) => {
+    if (!broken(fy.c, nine.c)) return { fy, nine };
+    const nines = filedAs(fy, fy.start, nine.end, byNewest.filter((f) => f !== nine.filing));
+    const n = nines.find((x) => fits(fy.c, x.c)); if (n) return { fy, nine: n };
+    for (const y of filedAs(fy, fy.start, fy.end, byNewest.filter((f) => f !== fy.filing && /^(10-K|20-F|40-F)/.test(f.form)))) {
+      // The year's segments as any column takes them: its subtotals dropped (seg.shown), and only rows the table has.
+      const sc = scored([y.c], currency, axis, single, statement ? labels : null)[0]; if (!sc) continue;
+      const yc = { ...sc, kept: new Set([...sc.kept].filter((m) => rowOf.has(m))) };
+      for (const x of [nine, ...nines]) if (fits(yc, x.c)) {
+        const col = { c: yc, filing: y.filing, start: fy.start, end: fy.end, recast: true };
+        if (profit) { const m = new Map(); for (const z of y.filing.facts) if (z[0] === profit.concept && z[1] === y.c.axis && z[3] === fy.start && z[4] === fy.end && !z[7] && !m.has(z[2])) m.set(z[2], z); profitCells.set(col, m); }
+        return { fy: col, nine: x };
+      }
+    }
+    return { fy, nine };
+  };
   const derivedQ = [];
-  for (const fy of annual) {
-    if (quarterFrom && fy.end < quarterFrom) continue;
-    if (quarters.some((q) => q.end === fy.end)) continue;
-    const nine = ytd(fy); if (!nine) continue;
+  for (const col of annual) {
+    if (quarterFrom && col.end < quarterFrom) continue;
+    if (quarters.some((q) => q.end === col.end)) continue;
+    const first = ytd(col); if (!first) continue;
+    const { fy, nine } = onFooting(col, first);
     const nineProfit = profit ? (() => { const m = new Map(); for (const x of nine.filing.facts) if (x[0] === profit.concept && x[1] === nine.c.axis && x[3] === fy.start && x[4] === nine.end && !m.has(x[2])) m.set(x[2], x); return m; })() : new Map();
     derivedQ.push({ fy, nine, nineProfit });
   }
@@ -458,8 +499,30 @@ function build(filings, { axis, currency, preferConcept, quarterFrom, sic, singl
   const other = (col, row) => { const g = fills.get(col)?.get(row); return g && g.filing !== col.filing ? g : null; };
   const filedIn = (cols) => (row) => { const out = cols.map((col) => { const g = other(col, row); return g ? src(g.filing) : null; }); return out.some(Boolean) ? { filedIn: out } : {}; };
   table.rows = table.rows.map((r, i) => ({ ...r, ...filedIn(annual)(rows[i]) }));
+  // A fourth quarter's total is the year's total less the nine months'. Where a later annual report restated the year
+  // (3M's FY2022 without Health Care, 2024), that year less the nine months as first filed is on two footings: the
+  // quarter's segments came to more than twice it ($6,034M against $11M), or it came to nothing or less while they did
+  // not. No filed quarter in any table is that far from its segments: only two footings are (a few points over is
+  // intersegment sales, and stays). Then the year from another annual report that files it at a total the segments
+  // fit (the nine months' own footing), the closest; failing that, no total.
+  const q4Total = (d, sum) => {
+    const base = d.fy.c.total - d.nine.c.total, fits = (t) => t > 0 && sum <= t * 1.005;
+    if (base > 0 ? sum <= base * 2 : sum <= 0) return { total: base };
+    let best = null;
+    for (const f of filings) {
+      if (f === d.fy.filing || !/^(10-K|20-F|40-F)/.test(f.form)) continue;
+      for (const c of columnCandidates(f, axis, d.fy.start, d.fy.end, statement, statementTotals, units)) {
+        const t = c.total - d.nine.c.total;
+        if (cls(c.concept) === cls(d.fy.c.concept) && c.unit === currency && c.total !== d.fy.c.total && fits(t) && (!best || t - sum < best.total - sum)) best = { total: t, yearTotal: f.accession };
+      }
+    }
+    return best || { total: null };
+  };
+  const q4Sum = (x) => rows.reduce((n, row) => { const a = fyOf(x.derived, row), b = nineOf(x.derived, row); return n + (a && b ? a.value - b.value : 0); }, 0);
   table.quarterly = {
-    years: qcols.map((x) => x.col ? { ...colMeta(x.col), derived: false } : { periodStart: x.derived.nine.end, periodEnd: x.derived.fy.end, totalRevenue: x.derived.fy.c.total - x.derived.nine.c.total, concept: x.derived.fy.c.concept, derived: true, from: { year: x.derived.fy.filing.accession, nineMonths: x.derived.nine.filing.accession }, sourceUrl: x.derived.fy.filing.url, publicationDate: x.derived.fy.filing.filed }),
+    years: qcols.map((x) => { if (x.col) return { ...colMeta(x.col), derived: false };
+      const t = q4Total(x.derived, q4Sum(x));
+      return { periodStart: x.derived.nine.end, periodEnd: x.derived.fy.end, totalRevenue: t.total, concept: x.derived.fy.c.concept, derived: true, from: { year: x.derived.fy.filing.accession, nineMonths: x.derived.nine.filing.accession, ...(t.yearTotal ? { yearTotal: t.yearTotal } : {}) }, sourceUrl: x.derived.fy.filing.url, publicationDate: x.derived.fy.filing.filed }; }),
     rows: rows.map((row) => {
       const out = { name: row.name, members: row.members,
         sales: qcols.map((x) => { if (x.col) return cellOut(value(x.col, row)); const a = fyOf(x.derived, row), b = nineOf(x.derived, row); return a && b ? a.value - b.value : null; }),
@@ -468,7 +531,7 @@ function build(filings, { axis, currency, preferConcept, quarterFrom, sic, singl
           const b = [...x.derived.nineProfit.values()].find((r) => row.members.includes(r[2])) || n?.profit; return a && b ? a[5] - b[5] : null; }),
         assets: qcols.map(() => null) };
       const where = qcols.map((x) => { if (x.col) { const g = other(x.col, row); return g ? src(g.filing) : null; }
-        const n = nineFills.get(x.derived)?.get(row), y = other(x.derived.fy, row) || yearFills.get(x.derived)?.get(row);
+        const n = nineFills.get(x.derived)?.get(row), y = other(x.derived.fy, row) || yearFills.get(x.derived)?.get(row) || (x.derived.fy.recast && value(x.derived.fy, row) ? { filing: x.derived.fy.filing } : null);
         return n && y ? src(n.filing, { part: 'nineMonths', year: src(y.filing) }) : n ? src(n.filing, { part: 'nineMonths' }) : y ? src(y.filing, { part: 'year' }) : null; });
       return where.some(Boolean) ? { ...out, filedIn: where } : out;
     })
@@ -577,9 +640,9 @@ async function collect(cik, filings, { axis, annualFrom = '2008-01-01', quarterF
 // served through the API. VERSION changes when the builder's rules do, and a file of another version is
 // rebuilt rather than read.
 const path = require('path'), fs = require('fs');
-const VERSION = '20261107-history5';
-// Every stored table was rebuilt as history5 from its filing cache on 11-07 (cells outside a row's span, and the
-// issuers whose totals are filed only on the statement), so no older version is served as it is.
+const VERSION = '20261107-history6';
+// Every stored table was rebuilt as history6 from its filing cache on 11-07 (fourth quarters derived on one footing,
+// after history5's cells outside a row's span and statement-total issuers), so no older version is served as it is.
 const COMPATIBLE = [];
 const DIR = process.env.SEGMENT_HISTORY_DIR || path.join(__dirname, 'data', 'segment-history');
 function load(cik) {

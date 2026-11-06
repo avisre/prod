@@ -216,7 +216,8 @@ test('record writes one small row with nulls dropped, and the TTL index exists',
     });
     // The insert is fire-and-forget; poll for it rather than sleeping.
     let row = null;
-    for (let i = 0; i < 50 && !row; i++) {
+    // Generous: the whole suite runs in parallel against in-memory Mongo, so a write can take seconds.
+    for (let i = 0; i < 200 && !row; i++) {
         await new Promise((resolve) => setTimeout(resolve, 50));
         row = await col.findOne({});
     }
@@ -232,9 +233,9 @@ test('record writes one small row with nulls dropped, and the TTL index exists',
 
     // TTL index with the configured retention, plus the tool/at query index.
     let indexes = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 200; i++) {
         indexes = await col.indexes();
-        if (indexes.some((ix) => ix.name === 'at_1')) break;
+        if (indexes.some((ix) => ix.name === 'at_1') && indexes.some((ix) => ix.name === 'tool_1_at_-1')) break;
         await new Promise((resolve) => setTimeout(resolve, 50));
     }
     const ttl = indexes.find((ix) => ix.name === 'at_1');
