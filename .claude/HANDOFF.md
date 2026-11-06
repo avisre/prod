@@ -12,6 +12,28 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Banks/insurers in Screener's layout, segment history, FDIC banks — 2026-11-06 (committed locally, NOT pushed)
+- **Commits:** 604a04c0d (Screener row structure, assets first), e736523dc (431 banks/insurers re-extracted),
+  7039e34e8 (segment history to FY2008, paid plans only), 561bff47a (OOM hotfix: 8 split-adjusted payloads, not 4000;
+  push this one first if pushing separately), plus this session's sec-facts/segment fixes + a 480-issuer re-extraction.
+- **Re-extraction diff vs HEAD (475 files):** +9,983 cells, 1,139 changed (mostly the intended fixes: shortTermDebt 232,
+  loansGross 196, HTM 158, otherLiabilities 143), 1,764 lost (mostly the 2014-09-30 quarter rolling out of the 48-quarter
+  window; 39 `shortLongTermDebtTotal` = the open owner decision). **Citi (0000831001):** SEC companyfacts on 11-06 had NO
+  2026 10-Q facts (only the 10-K), so Q1 2026 dropped; the committed Q1 rows + their 65 sources were grafted back and
+  the window trimmed to 48. **Trap:** Saturday's weekly run will drop Citi Q1 2026 again if SEC still serves that.
+- **Segment history:** 168 issuers in `backend/data/segment-history/` (TRV, AIG, AAPL added 11-06; PGR has no segment
+  table, never had one). Weekly job refreshes them from a cached filing store (`actions/cache`).
+- **FDIC banks (TOWN, HIFS, NBN, FRBA, SSBI, RCBC, ASBH, + WCCB sole-subsidiary):** no SEC statements (they file with
+  their bank regulator under §12(i)), so `company.js` `fdicReports()` builds income + balance from the FDIC Call Report
+  rows in `supplemental-financials/` when a payload has no SEC rows at all (SEC always wins). No cash-flow statement
+  exists in a Call Report → message says so. NBN (June FY) annual columns read CY. `fetch-fdic-financials.js` now maps
+  27 lines (10 flows incl. ESAL staff cost, 17 balance lines) and rejects a record unless equity, liabilities and
+  cash-and-due equal their FDIC parts (held on 432/432 records). Weekly workflow runs it before the listings stage.
+  TOWN Q2 2026 Other Income $276.1M is the FDIC's own NONIIQ (Q1 $88.0M), not a bug. FDIC Q3 Call Reports not out yet.
+  Stamp `20261106-fdic1`. Tests: `fdic-financials`, `company-statements` (FDIC page test).
+- **Open for owner:** Voya total debt null; 44 issuers' doubled short-term debt now rejected (blank, not doubled);
+  whether to bump the industry VERSION.
+
 ## Live prices, faster portfolio, Mongo backup — 2026-11-06 (owner order; committed locally, NOT pushed)
 - **Root cause (Render logs):** Yahoo answers `quote()`'s crumb handshake `429 Too Many Requests` from the Render IP
   (AMD 2026-11-05T20:09Z, AAPL/INTC/BAC…, ~1 call/hour → IP block, not volume). `quote-store.fetchLive` swallowed it, so
