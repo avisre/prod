@@ -305,11 +305,15 @@
   "remainder": true
  },
  "PGR": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
-  "remainder": false
+  "grade": "partial",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Personal Lines",
+   "Commercial Lines",
+   "Other Indemnity"
+  ],
+  "remainder": true
  },
  "V": {
   "grade": "complete",
