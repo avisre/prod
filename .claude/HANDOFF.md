@@ -14,6 +14,17 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Remaining statement gaps investigated — 2026-11-07 (research only)
+- Owner asked for a solution to the remaining 826/600/704 gappy-row buckets. Findings and implementation criteria:
+  `docs/statement-audit/remaining-gap-solution-2026-11-07.md`. No extractor/data fix or corpus rebuild performed.
+- Verified original SEC filings: CME Q3 2026 missing face layout (quarterly FSDS lag); ALG rental depreciation is
+  `EquipmentExpense`, stored as `~da`; CRSR amortization is a custom tag, also a blocker. Need richer face receipts
+  and original-filing layouts, with evidence-based component resolution and independent source verification.
+- In-memory ALG experiment recovered FY2025 $55.371m and FY2024 $53.084m; do NOT globally map EquipmentExpense.
+  ALSO found filled FY2023 partial sum $39.184m omits $8.789m rental depreciation in its SAME cited filing:
+  full components sum $47.973m. `faceFill` skips nonnull values, so null-only repair misses this. No stored values changed.
+- No claim all remaining rows are fixable; counts are rows, not cells; D&A/EBITDA overlap. No push/deploy authorized.
+
 ## Statement cells refused by validation, filled from face lines (face4) — 2026-11-07 (committed locally, NOT pushed)
 - **Commits:** 580c3115e (code: `sec-facts.js`, `sec-coverage.js`, `statement-lines.js`, `build-statement-lines.js`,
   `test/statement-face.test.js`; `EXTRACTION_VERSION` `20261107-face4`), 0b7129413 (data: 5,384 issuers, indexes,
