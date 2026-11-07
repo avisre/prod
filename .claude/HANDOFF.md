@@ -14,6 +14,29 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Statement cells refused by validation, filled from face lines (face4) — 2026-11-07 (committed locally, NOT pushed)
+- **Commits:** 580c3115e (code: `sec-facts.js`, `sec-coverage.js`, `statement-lines.js`, `build-statement-lines.js`,
+  `test/statement-face.test.js`; `EXTRACTION_VERSION` `20261107-face4`), 0b7129413 (data: 5,384 issuers, indexes,
+  PGR revenue-breakdown golden). Full `predeploy.js --all` passed (2307/2308, 1 known failure). A push deploys both.
+- **Tier-1 gappy rows/stocks (`~/Downloads/sec-bulk/stmtgaps.js`, before → after):** rejected by validation
+  1,771/759 → 826/417; SEC has the exact tag but dropped 670/369 → 600/342; near-match tag 697/472 → 704/473
+  (unchanged BY DESIGN — near-match tags such as CostsAndExpenses are never used). not_reported rose 49,143 → 49,591
+  because formerly refused rows now show their genuinely unfiled cells.
+- **Remaining rejected by item:** D&A 385, short-term debt 193, EBITDA 180, long-term debt 163, other LT assets 102,
+  intangibles 49, EPS 31, AP 31. Mapped-but-dropped: D&A 85, ST debt 83, LT debt 70, EBITDA 53, net income 30.
+- **Decisions:** bank overdrafts count as debt (`~debt` token; Werner 8-K Ex 99.1); Clorox-style zero current maturity
+  is a filed zero; debt totals now include current debt (TransDigm 1260221, UNFI 1020859, 1069394); bank revenue =
+  NII + noninterest income (39311, 712771, 721994, 792966).
+- **Vs HEAD:** 0 cells lost, 68 changed (all corrections above), 90 pre-2020 quarters rolled off the 48-quarter window.
+  439 cells the re-extraction dropped were restored from HEAD (118 files, digests re-recorded, input provenance
+  restored; Cipher's double-counted shortTermDebt removed). 86 issuers keep HEAD files (`~/Downloads/sec-bulk/
+  keep-head-ciks.txt`): 69 guard/fetch cases, 16 whose industry stage fails with ERR_BAD_RESPONSE (segments would be
+  lost), QCOM (FY2024 segment group lost). Re-try those 17 when SEC serves them.
+- **Traps:** compare against `SEC_BULK_DIR=~/Downloads/sec-bulk-audit-1105snap` (fresh-mtime copy of the 11-05 zip).
+  `/tmp` has a user quota — predeploy failed with EDQUOT (dozens of unrelated test failures) until scratch was
+  cleared; keep big outputs under `~/Downloads`. Grafting HEAD segment observations breaks provenance (they must
+  cite current revenue source ids) — don't.
+
 ## Banks/insurers in Screener's layout, segment history, FDIC banks — 2026-11-06 (committed locally, NOT pushed)
 - **Commits:** 604a04c0d (Screener row structure, assets first), e736523dc (431 banks/insurers re-extracted),
   7039e34e8 (segment history to FY2008, paid plans only), 561bff47a (OOM hotfix: 8 split-adjusted payloads, not 4000;
