@@ -5,7 +5,7 @@ const DAY = 86400000;
 // A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
 // with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
 const QUARTER_MAX_DAYS = 119;
-const EXTRACTION_VERSION = '20261106-scr1';
+const EXTRACTION_VERSION = '20261107-face4';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -475,24 +475,33 @@ function scope(concept, fallback) {
 // the face). It fills only when the face and the row agree both ways: every presented debt
 // line is a figure the row holds, and every debt figure the row holds is presented. Amazon
 // files its current debt in a note, inside "accrued expenses" on the face, so its total stays.
-function presentedDebt(out,row,presented,document,basis) {
+function presentedDebt(out,row,presented,document,basis,faced) {
  const T='shortLongTermDebtTotal',source=f=>out.sources[row._sources[f][0]];
- const anchor=out.sources[(row._sources.totalAssets || [])[0]]?.accessionNumber,tags=anchor && presented.get(anchor);
- if(!tags?.length)return;
+ const anchor=out.sources[(row._sources.totalAssets || [])[0]]?.accessionNumber,all=anchor && presented.get(anchor);
+ if(!all?.length)return;
+ let tags=all;
  // A total combined from the parts before the face was known is only as good as the face: any
  // disagreement (a presented line the row does not hold, a held figure off the face) removes it,
  // exactly as if the parts had never been combined. Recorded as a deliberate refusal, so the weekly
  // guard does not treat the removed total as a lost verified figure.
  const weakTotal=()=>{if(row._derivations?.[T]?.formula==='sum_fields'){row[T]=null;delete row._sources[T];delete row._scopes[T];delete row._derivations[T];out.issues.push({code:'PRESENTED_TOTAL_REFUSED',statement:'balance',basis:basis,field:T,periodEnd:row.fiscalDateEnding});}};
- const direct=f=>row[f]!==null && !row._derivations?.[f] && row._sources[f]?.length===1 && source(f).accessionNumber===anchor && p.verifiedField(out,row,f);
+ // A part read from the face's own line (faceFill) is not a held figure: the face's debt lines are read as presentedFacts reads them.
+ const direct=f=>row[f]!==null && !faced?.has(f) && !row._derivations?.[f] && row._sources[f]?.length===1 && source(f).accessionNumber===anchor && p.verifiedField(out,row,f);
  const parts=[];
+ // Short-term debt read from the face's own current debt lines stands for the presented lines it sums
+ // (TransDigm 2025: the face's current portion and its $724m securitization borrowings, the debt record only the first).
+ // BWX 2020: its bank overdrafts line, which the debt record leaves out.
+ const lines=faced?.has('shortTermDebt') && row.shortTermDebt!==null && row._sources.shortTermDebt.map(id=>out.sources[id].concept);
+ const cover=lines && lines.some(t=>!all.includes(t));
+ if(cover){parts.push('shortTermDebt');tags=tags.filter(t=>!lines.includes(t));}
  for(const tag of tags) {
   const f=[...p.DEBT_PARTS,T].find(f=>direct(f) && source(f).concept===tag);
-  if(!f){weakTotal();return presentedFacts(out,row,anchor,tags,document);}
+  if(!f){weakTotal();return presentedFacts(out,row,anchor,all,document);}
   if(f===T || parts.includes(f)){weakTotal();return;}
   parts.push(f);
  }
- if(parts.includes('shortTermDebt') && parts.some(f=>f==='currentLongTermDebt' || f==='shortTermBorrowings')){weakTotal();return;}
+ // A zero current line cannot count twice (Clorox 2025: commercial paper $4m, current maturities $0, long-term $2,484m).
+ if(parts.includes('shortTermDebt') && parts.some(f=>(f==='currentLongTermDebt' || f==='shortTermBorrowings') && row[f]!==0)){weakTotal();return;}
  if(new Set(parts.map(f=>row._scopes[f])).size!==1){weakTotal();return;}
  // A held figure off the face is a part of some other line, unless it is a presented current line filed again under the other tag.
  const pair=['shortTermBorrowings','currentLongTermDebt'],twin=f=>pair.includes(f) && parts.includes(pair[1-pair.indexOf(f)]) && row[f]===row[pair[1-pair.indexOf(f)]];
@@ -517,6 +526,8 @@ function presentedDebt(out,row,presented,document,basis) {
  // A filed total is kept, often principal where the face shows carrying amounts, unless it is
  // smaller than one of its own lines and so cannot be the total.
  if(row[T]!==null && !row._derivations?.[T] && row[T]>=Math.max(...parts.map(f=>row[f])))return;
+ // A face-read short-term debt is a sum, not one filed line: the total stands only as the parts' own sum above.
+ if(cover){weakTotal();return;}
  row[T]=value;row._sources[T]=parts.map(f=>row._sources[f][0]);row._scopes[T]=row._scopes[parts[0]];delete row._signs[T];
  row._derivations[T]={formula:'sum_presented_lines',inputs:parts,inputValues:parts.map(f=>row[f]),presentedConcepts:parts.map(f=>source(f).concept)};
 }
@@ -711,12 +722,13 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
  // A line fills an empty figure in a period built above, from a filing the period's
  // row already cites, and never adds a year, a quarter or a derived figure.
  const lineIndex=new Map(),startsAt=new Map();
- const presented=new Map(),capexIndex=new Map(),columnIndex=new Map();
+ const presented=new Map(),capexIndex=new Map(),columnIndex=new Map(),faceIndex=new Map();
  // A bank's or insurer's own rows (loans, deposits, policy reserves) are read from its lines only; an ordinary
  // company's "other liabilities" or "short-term borrowings" line stays out of its statements.
  const industryLines=/^(602|603|609|63)/.test(out.reportingSic),industryOnly=require('./statement-lines').INDUSTRY_FIELDS;
  for(const l of Array.isArray(statementLines)?statementLines:[]){
   if(l?.k==='debt'){if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && Array.isArray(l.c))presented.set(l.a,l.c);continue;}
+  if(l?.k==='face'){if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && ['balance','income','cash'].includes(l.s) && Array.isArray(l.c) && l.c.every(t=>typeof t==='string')){if(!faceIndex.has(l.a))faceIndex.set(l.a,new Map());faceIndex.get(l.a).set(l.s,l.c);}continue;}
   if(l?.k==='capex'){
    if(/^\d{10}-\d{2}-\d{6}$/.test(l.a || '') && FORM.test(l.m || '') && p.day(l.e) && p.day(l.d) && (l.q===1 || l.q===4) && /^[A-Z]{3}$/.test(l.u || '') && Array.isArray(l.c) && l.c.length && [l.t,l.l,l.v].every(x=>Array.isArray(x) && x.length===l.c.length) && l.v.every(Number.isFinite)){if(!capexIndex.has(l.e))capexIndex.set(l.e,[]);capexIndex.get(l.e).push(l);}
    continue;
@@ -1129,6 +1141,85 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
   const set=spec.sets.find(s=>s.length===extra.length && s.every(t=>extra.includes(t)));
   return set?[b,...set.map(t=>held.find(r=>r.taxonomy+':'+r.concept===t))]:null;
  }
+ // A row whose guarded tag was turned down (FIELD_GUARDS: the filing tags a part of the row somewhere, notes
+ // included), read from the lines the statement of the row's own filing presents (statement-lines faceParts):
+ // the filing that gives the row its total assets, net income or operating cash flow, each line that filing's
+ // own fact for the row's date or span, in the row's currency, one value each. One line is that line as filed;
+ // several are their sum, marked as the sum of the parts presented. A quarter a filing gives only year to date
+ // (a 10-Q's cash-flow statement) is its year-to-date lines less the previous filing's, which must present the
+ // same lines. Quanta 2025: depreciation $411.5m + amortization of intangibles $498.8m on its cash-flow statement.
+ const faceRules=require('./statement-lines'),FACE_ANCHOR={balance:'totalAssets',income:'netIncome',cash:'operatingCashflow'};
+ function faceFacts(concept,accn,cur){
+  const got=[];
+  for(const f of document.facts['us-gaap']?.[concept]?.units?.[cur] || []){
+   const end=p.day(f.end),start=f.start?p.day(f.start):null,filed=p.day(f.filed),val=p.number(f.val);
+   if(f.accn!==accn || val===null || !end || !filed || end>asOf || filed>asOf || !FORM.test(f.form || '') || f.start && !start)continue;
+   got.push({taxonomy:'us-gaap',concept,unit:cur,val,start,end,days:start?(Date.parse(end)-Date.parse(start))/DAY+1:null,filed,form:f.form,accn:f.accn,original:f._original || null});
+  }
+  return got;
+ }
+ // Each line's one fact passing `test`, or null. `blank` lets a line the filing files for other columns but not
+ // this one count as an empty cell of the statement (a balance sheet's or a 10-K's comparative years).
+ function faceRead(accn,parts,cur,test,blank){
+  const got=[];
+  for(const c of parts){
+   const all=faceFacts(c,accn,cur);if(!all.length)return null;
+   const at=all.filter(test);
+   if(!at.length){if(blank)continue;return null;}
+   if(new Set(at.map(f=>f.val)).size!==1)return null;
+   got.push(at[0]);
+  }
+  return got.length && got.every(f=>f.start===got[0].start) && faceRules.noSubtotal(got.map(f=>f.val))?got:null;
+ }
+ const faced=new WeakMap();
+ function faceFill(st,basis,row,end,cur){
+  const anchorSource=out.sources[(row._sources[FACE_ANCHOR[st]] || [])[0]];
+  if(!anchorSource?.accessionNumber)return;
+  // The statement is the cited filing's, or — when that filing is newer than the data sets that carry statement
+  // layouts (a 10-Q's comparative year-end column) — the newest filing reporting the same figure for this column.
+  let anchor=anchorSource.accessionNumber;
+  if(!faceIndex.get(anchor)?.has(st)){
+   const same=(document.facts[anchorSource.taxonomy]?.[anchorSource.concept]?.units?.[cur] || []).filter(f=>f.accn!==anchor && faceIndex.get(f.accn)?.has(st) && p.day(f.end)===end && (f.start?p.day(f.start):null)===anchorSource.periodStart && p.number(f.val)===p.number(anchorSource.rawValue) && FORM.test(f.form || '') && p.day(f.filed) && p.day(f.filed)<=asOf).sort((x,z)=>String(z.filed).localeCompare(String(x.filed)) || String(z.accn).localeCompare(String(x.accn)));
+   if(!same.length)return;
+   anchor=same[0].accn;
+  }
+  for(const key of Object.keys(faceRules.FACE_FAMILY)){
+   const field=key.split('|')[1];
+   if(!key.startsWith(st+'|') || row[field]!==null || !rejected.has(st+'|'+basis+'|'+end+'|'+field))continue;
+   const parts=faceRules.faceParts(key,faceIndex.get(anchor).get(st));
+   if(!parts)continue;
+   const rowStart=row.periodStart || anchorSource.periodStart;
+   let got=null,prev=null;
+   if(st==='balance')got=faceRead(anchor,parts,cur,f=>f.end===end && f.start===null,true);
+   else if(basis==='annual')got=faceRead(anchor,parts,cur,f=>f.end===end && f.days>=340 && f.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(f.form) && rowStart && Math.abs(Date.parse(f.start)-Date.parse(rowStart))<=4*DAY,true);
+   else {
+    got=faceRead(anchor,parts,cur,f=>f.end===end && f.days>=75 && f.days<=QUARTER_MAX_DAYS && (!row.periodStart || f.start===row.periodStart),false);
+    if(!got){
+     const ytd=faceRead(anchor,parts,cur,f=>f.end===end && f.days>=160 && f.days<=380,false);
+     if(!ytd)continue;
+     const y=ytd[0],window=f=>f.start===y.start && f.end<end && f.days>=y.days-QUARTER_MAX_DAYS && f.days<=y.days-75 && f.filed<=y.filed;
+     // The previous year-to-date of the newest earlier filing that presents the same lines.
+     const earlier=[...new Set(parts.flatMap(c=>(document.facts['us-gaap']?.[c]?.units?.[cur] || []).filter(f=>f.accn!==anchor && p.day(f.end)<end && p.day(f.start)===y.start).map(f=>f.accn)))];
+     const candidates=earlier.map(a=>({a,rows:faceRead(a,parts,cur,window,false)})).filter(x=>x.rows && faceIndex.has(x.a) && JSON.stringify([...(faceRules.faceParts(key,faceIndex.get(x.a).get(st)) || [])].sort())===JSON.stringify([...parts].sort())).sort((x,z)=>z.rows[0].filed.localeCompare(x.rows[0].filed)||z.a.localeCompare(x.a));
+     if(!candidates.length)continue;
+     prev=candidates[0].rows;
+     const start=new Date(Date.parse(prev[0].end)+DAY).toISOString().slice(0,10);
+     if(row.periodStart && row.periodStart!==start || ytd.length!==prev.length)continue;
+     got=ytd;
+    }
+   }
+   if(!got)continue;
+   const sum=list=>list.reduce((n,f)=>n+f.val,0),value=prev?sum(got)-sum(prev):sum(got),negate=OUTFLOWS.has(field);
+   const cited=prev?[...got,...prev]:got,named=got.map(f=>'us-gaap:'+f.concept);
+   row[field]=negate?-Math.abs(value):value;row._sources[field]=cited.map(source);row._scopes[field]=scope(got[0].concept,MAPS[st][field].scope);
+   if(negate)row._signs[field]=-1;else delete row._signs[field];
+   if(got.length>1)row._derivations[field]={formula:prev?'sum_of_parts_ytd_difference':'sum_of_parts',parts:named,inputValues:cited.map(f=>f.val),presented:true,...(anchor!==anchorSource.accessionNumber?{statement:anchor}:{})};
+   else if(prev)row._derivations[field]={formula:'ytd_difference',inputValues:[got[0].val,prev[0].val]};
+   else delete row._derivations[field];
+   if(!p.verifiedField(out,row,field)){row[field]=null;for(const m of [row._sources,row._scopes,row._derivations,row._signs])delete m[field];}
+   else (faced.get(row) || faced.set(row,new Set()).get(row)).add(field);
+  }
+ }
  const build=basis=>{ for(const end of [...(basis==='annual'?annualEnds:quarterEnds)].filter(p.day).sort().reverse().slice(0,basis==='annual'?25:48)) {
   const cur=currency(end,basis==='annual');if(!cur)continue;
   for(const st of ['income','balance','cash']) {
@@ -1160,12 +1251,21 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     // only borrowings) is that part; when the same filing tags both, their sum is the row.
     const partFill=field==='shortTermDebt' && row[field]!==null && !row._derivations?.[field] && (row._sources[field] || []).length===1
      && [left,right].some(f=>(row._sources[field] || []).every(id=>(row._sources[f] || []).includes(id)));
-    if((row[field]!==null && !late.has(field) && !partFill) || row[left]===null || row[right]===null || !p.verifiedField(out,row,left) || !p.verifiedField(out,row,right))return;
+    // A sum of these same parts whose parts a later line fill re-cited (Corteva 2024: long-term debt read again
+    // from its statement line) is summed again from the parts as they now stand.
+    const stale=row._derivations?.[field]?.formula===operation && String(row._derivations[field].inputs)===String([left,right])
+     && String(row._sources[field])!==String([...(row._sources[left] || []),...(row._sources[right] || [])]);
+    if((row[field]!==null && !late.has(field) && !partFill && !stale) || row[left]===null || row[right]===null || !p.verifiedField(out,row,left) || !p.verifiedField(out,row,right))return;
     const refs=[...row._sources[left],...row._sources[right]];
     const scopes=[row._scopes[left],row._scopes[right]];
     if(scopes[0]!==scopes[1])return;
-    const versions=field=>[...new Set(row._sources[field].map(id=>out.sources[id].accessionNumber))].sort().join('|');
-    if(versions(left)!==versions(right))return;
+    // Both parts as of the same newest filing; one may be that filing's quarter and the other its year-to-date
+    // less an earlier filing's (United Bankshares Q4 2025: net interest income filed, noninterest income derived).
+    const newest=p.newestFiling(out,row._sources[left]);
+    if(newest===null || newest!==p.newestFiling(out,row._sources[right]))return;
+    // ...and on at most one earlier filing between them: an original and an amended Q2 are two bases (CIK 1705402 2020).
+    const versions=f=>[...new Set(row._sources[f].map(id=>out.sources[id].accessionNumber))].sort().join('|');
+    if(versions(left)!==versions(right) && new Set([...refs].map(id=>out.sources[id].accessionNumber).filter(a=>a!==newest)).size>1)return;
     row[field]=operation==='sum_fields'?row[left]+row[right]:row[left]-row[right];
     row._sources[field]=refs;row._scopes[field]=scopes[0];row._derivations[field]={formula:operation,inputs:[left,right],inputValues:[row[left],row[right]]};
    }
@@ -1231,6 +1331,10 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
    if(lineIndex.size)fillFromLines(st,basis,row,end,cur);
    if(st==='balance' && columnIndex.size)presentedColumns(basis,row,end,cur);
    if(st==='cash' && capexIndex.size)presentedCapex(basis,row,end,cur);
+   // Last of the line fills, so a figure another rule cites to its own statement line is never re-cited under it.
+   if(faceIndex.size)faceFill(st,basis,row,end,cur);
+   // Again after the line fills: a part they re-cited leaves the earlier sum citing the old part.
+   if(st==='balance')combine('shortLongTermDebtTotal','shortTermDebt','longTermDebt','sum_fields');
    // The investing and financing sums run after the statement lines: a line can present the
    // company's own total under a continuing-operations element (CIK 1061736's financing total),
    // and the filed total wins over the sum exactly as a filed total tag does.
@@ -1238,7 +1342,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString()), st
     combine('cashflowFromInvestment','investingCashflowContinuing','investingCashflowDiscontinued','sum_fields');
     combine('cashflowFromFinancing','financingCashflowContinuing','financingCashflowDiscontinued','sum_fields');
    }
-   if(st==='balance' && presented.size)presentedDebt(out,row,presented,document,basis);
+   if(st==='balance' && presented.size)presentedDebt(out,row,presented,document,basis,faced.get(row));
    if(st==='balance')liabilitiesAndEquity(out,row,document);
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}
    for(const [k,tags] of rejected){const [s0,b0,e0,field]=k.split('|');if(s0===st && b0===basis && e0===end && row[field]===null)out.issues.push({code:'REJECTED_PART',statement:st,basis,field,periodEnd:end,concepts:[...tags]});}

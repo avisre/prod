@@ -34,12 +34,14 @@ async function child(file,out,covered){
  await table(zip,'sub.txt',(c,h)=>{const cik=p.cik(c[h.cik]);if(covered.has(cik) && FORM.test(c[h.form]))subs.set(c[h.adsh],{cik,form:c[h.form],filed:day(c[h.filed]),period:day(c[h.period]),industry:/^(602|603|609|63)/.test(c[h.sic] || '')});});
  // Statement lines first, the noncontrolling-interest flag of each statement with them:
  // the flag can come after the line it qualifies, so fields are settled once it is known.
- const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),capex=new Map(),face=new Map(),columns=new Map();
+ const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),capex=new Map(),face=new Map(),columns=new Map(),faces=new Map();
  await table(zip,'pre.txt',(c,h)=>{
   const adsh=c[h.adsh],stmt=c[h.stmt];if(!subs.has(adsh) || !lines.STATEMENT[stmt] || c[h.inpth]!=='0')return;
   const tag=c[h.tag],version=c[h.version],plabel=c[h.plabel];
   if(stmt==='BS' && (tag==='Assets' || BALANCE_TAG.get(tag)?.size===1))face.set(adsh+'|'+tag+'|'+version,plabel);
   if(stmt==='BS' && lines.debtLine(tag,plabel)){if(!debt.has(adsh))debt.set(adsh,new Map());debt.get(adsh).set(tag+'|'+version,tag);}
+  const token=lines.faceToken(stmt,tag,plabel,version===adsh);
+  if(token){const k=adsh+'|'+lines.STATEMENT[stmt];if(!faces.has(k))faces.set(k,[]);faces.get(k).push([c[h.report],Number(c[h.line]),token]);}
   if(stmt==='CF' && lines.capexLine(tag,plabel,version===adsh)){const k=adsh+'|'+tag+'|'+version;if(!capex.has(k))capex.set(k,{tag,custom:version===adsh,version,plabel});}
   if(/noncontrolling|minority/i.test(tag+' '+plabel))nci.add(adsh+'|'+stmt);
   if(!lines.fieldsFor(stmt,plabel,tag,{custom:version===adsh,mapped,memberTotal:true}).length)return;
@@ -64,6 +66,14 @@ async function child(file,out,covered){
  for(const [adsh,tags] of debt){
   const sub=subs.get(adsh),kept=[...tags].filter(([k])=>crdr.get(k)!=='D').map(([,tag])=>tag);
   if(sub.period && kept.length){w.write(JSON.stringify([sub.cik,{s:'balance',k:'debt',f:'',e:sub.period,c:[...new Set(kept)].sort(),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;}
+ }
+ // The family lines each statement presents, in order (statement-lines faceToken). A filing with two
+ // statements of one kind (a co-registrant's, a parent-only one) says nothing about which is the row's.
+ for(const [k,list] of faces){
+  const [adsh,st]=k.split('|'),sub=subs.get(adsh);
+  if(!sub.period || new Set(list.map(x=>x[0])).size!==1)continue;
+  const c=list.sort((x,y)=>x[1]-y[1]).map(x=>x[2]);
+  if(c.some(t=>Object.entries(lines.FACE_FAMILY).some(([key,tags])=>key.startsWith(st+'|') && tags.includes(t)))){w.write(JSON.stringify([sub.cik,{s:st,k:'face',f:'',e:sub.period,c,a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;}
  }
  // The capital-spending lines each cash-flow statement presents, with their figures per period
  // (statement-lines capexLine): one record per filing, period and currency, summed in sec-facts.

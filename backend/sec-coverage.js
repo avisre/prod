@@ -125,12 +125,52 @@ function verifiedField(data, row, field, accessions) {
         const inputs=JSON.stringify(derived.inputs)===JSON.stringify(alternate[field])?alternate[field]:permitted[field];
         if(!inputs || JSON.stringify(derived.inputs)!==JSON.stringify(inputs) || !inputs.every(f=>verifiedField(data,row,f,accessions)))return false;
         if(row._scopes?.[inputs[0]]!==row._scopes?.[inputs[1]])return false;
-        const versions=field=>[...new Set((row._sources[field] || []).map(id=>data.sources[id]?.accessionNumber))].sort().join('|');
-        if(versions(inputs[0])!==versions(inputs[1]))return false;
+        if(newestFiling(data,row._sources[inputs[0]])!==newestFiling(data,row._sources[inputs[1]]))return false;
         const expectedRefs=inputs.flatMap(f=>row._sources[f]);
         const operation=field==='grossProfit'?'difference_fields':'sum_fields';
         const value=operation==='sum_fields'?row[inputs[0]]+row[inputs[1]]:row[inputs[0]]-row[inputs[1]];
         return derived.formula===operation && number(row[field])===value && JSON.stringify(ids)===JSON.stringify(expectedRefs);
+    }
+    // A row as the sum of the lines its own statement presents (sec-facts faceFill): every part a distinct member of
+    // the field's family (statement-lines FACE_FAMILY), a filed fact of the filing the row's statement cites (total
+    // assets, net income or operating cash flow), for the row's own date or span, and no part the sum of others. A
+    // quarter may be the year-to-date lines of that filing less the same lines of one earlier filing.
+    if ((derived?.formula === 'sum_of_parts' || derived?.formula === 'sum_of_parts_ytd_difference') && derived.presented === true) {
+        const entry = Object.entries(require('./statement-lines').FACE_FAMILY).find(([k]) => k.split('|')[1] === field);
+        const parts = derived.parts, ytdForm = derived.formula === 'sum_of_parts_ytd_difference', n = Array.isArray(parts) ? parts.length : 0;
+        if (!entry || n < 2 || new Set(parts).size !== n || !parts.every(t => typeof t === 'string' && t.startsWith('us-gaap:') && entry[1].includes(t.slice(8))) || sources.length !== (ytdForm ? 2 * n : n)) return false;
+        const st = entry[0].split('|')[0];
+        if ((st === 'balance') !== (row.periodType === 'instant') || (ytdForm && row.periodType !== 'quarterly')) return false;
+        const anchorField = { balance: 'totalAssets', income: 'netIncome', cash: 'operatingCashflow' }[st];
+        const anchor = data.sources?.[(row._sources[anchorField] || [])[0]]?.accessionNumber;
+        const fact = (s, i) => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && s.unit === row.reportedCurrency && s.taxonomy + ':' + s.concept === parts[i % n];
+        const oneSpan = g => g.every(s => s.accessionNumber === g[0].accessionNumber && s.periodStart === g[0].periodStart && s.periodEnd === g[0].periodEnd);
+        const values = g => g.map(s => number(s.rawValue));
+        const sum = g => values(g).reduce((t, v) => t + v, 0);
+        const len = (a, b) => (Date.parse(b) - Date.parse(a)) / DAY + 1;
+        const lines = require('./statement-lines');
+        const head = sources.slice(0, n);
+        // derived.statement: the filing whose statement presents the lines, when the row cites a later one for the same figure
+        if (!anchor || !sources.every(fact) || !oneSpan(head) || head[0].accessionNumber !== (derived.statement === undefined ? anchor : derived.statement) || derived.statement === anchor || head[0].periodEnd !== row.fiscalDateEnding || !lines.noSubtotal(values(head))) return false;
+        let value;
+        if (row.periodType === 'instant') {
+            if (head[0].periodStart !== null) return false;
+            value = sum(head);
+        } else if (!ytdForm) {
+            const s0 = head[0];
+            if (!s0.periodStart) return false;
+            if (row.periodType === 'annual') {
+                const annualForm = s => /^(10-K|20-F|40-F)(\/A)?$/.test(s.form) || (s.form === '6-K' && /^(20-F|40-F)$/.test(s.annualFiling?.form || '') && s.annualFiling.filingDate === s.filingDate);
+                if (!annualForm(s0) || len(s0.periodStart, s0.periodEnd) < 340 || len(s0.periodStart, s0.periodEnd) > 380 || Math.abs(Date.parse(s0.periodStart) - Date.parse(row.periodStart)) > 4 * DAY) return false;
+            } else if (s0.periodStart !== row.periodStart || len(s0.periodStart, s0.periodEnd) < 75 || len(s0.periodStart, s0.periodEnd) > 119) return false;
+            value = sum(head);
+        } else {
+            const prev = sources.slice(n);
+            if (!head[0].periodStart || !oneSpan(prev) || !lines.noSubtotal(values(prev)) || prev[0].periodStart !== head[0].periodStart || prev[0].periodEnd >= row.fiscalDateEnding || prev[0].filingDate > head[0].filingDate) return false;
+            if (row.periodStart !== new Date(Date.parse(prev[0].periodEnd) + DAY).toISOString().slice(0, 10) || len(row.periodStart, row.fiscalDateEnding) < 75 || len(row.periodStart, row.fiscalDateEnding) > 119) return false;
+            value = sum(head) - sum(prev);
+        }
+        return number(row[field]) === (row._signs?.[field] === -1 ? -Math.abs(value) : value);
     }
     // A row as the sum of the parts one filing reports (sec-facts PART_SUMS): the base part and exactly one
     // allowed set, each a filed fact of one filing for the row's span — or, for a quarter, the year-to-date
@@ -282,4 +322,11 @@ function validateFinancial(data, expectedCik, asOf=day(new Date().toISOString())
     for(const g of data.segmentObservations || [])if(!require('./sec-segment-observations').validGroup(g,data))errors.push('Invalid segment disclosure provenance '+g.periodEnd);
     return errors;
 }
-module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS, presentedDebtFacts, presentedCapexFacts };
+// The newest filing a field's sources cite (latest filing date, then accession): two fields combined into one
+// row are as of the same filing when this agrees, even if one is a year-to-date difference against an earlier one.
+function newestFiling(data, ids) {
+    const list = (ids || []).map(id => data.sources?.[id]).filter(Boolean);
+    if (!list.length || list.length !== (ids || []).length) return null;
+    return list.reduce((a, b) => (String(b.filingDate) > String(a.filingDate) || String(b.filingDate) === String(a.filingDate) && String(b.accessionNumber) > String(a.accessionNumber)) ? b : a).accessionNumber || null;
+}
+module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS, presentedDebtFacts, presentedCapexFacts, newestFiling };

@@ -264,6 +264,115 @@ function capexLine(tag,plabel,custom=false){
 // land purchases, "acquisition of new communities" and "purchases of other assets" (2026q1 annual reports),
 // and under the productive-assets tag businesses bought ("cash paid for asset acquisitions").
 const CAPEX_TAGS=new Set(['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsForSoftware','PaymentsToAcquireSoftware','PaymentsToDevelopSoftware','PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']);
+// The lines a statement presents, for a row the company-facts feed gives only under a guarded tag (sec-facts
+// FIELD_GUARDS turn a whole tag down when the same filing tags a part of the row anywhere, notes included).
+// The face of the filing settles it: Quanta's 2025 cash-flow statement presents depreciation ($411.5m) and
+// amortization of intangible assets ($498.8m) as its two lines, so its D&A is their sum; Bio-Rad's balance
+// sheet presents "other assets" below its current assets beside "other current assets", so the former is the
+// noncurrent line. One record per filing and statement (k:'face'): the statement's family lines in order,
+// with a few section totals, and a company-defined line that could belong to a family as '~' + family.
+const FACE_DA=['Depreciation','DepreciationAndAmortization','DepreciationDepletionAndAmortization','DepreciationAmortizationAndAccretionNet','AmortizationOfIntangibleAssets','AdjustmentForAmortization','Depletion','DepreciationNonproduction','DepletionOfOilAndGasProperties','OtherDepreciationAndAmortization','CapitalizedComputerSoftwareAmortization1','FinanceLeaseRightOfUseAssetAmortization'];
+// Amortization that is not of the business's own long-lived assets: financing costs, discounts, leases under
+// ASC 842's operating model, contract costs, share-based pay, tax and pension items.
+const FACE_DA_OUT=/FinancingCost|DebtDiscount|DebtIssuance|DebtPremium|Premium|Discount|OtherComprehensive|Accumulated|IncomeTax|DeferredTax|Impairment|Pension|Postretirement|Unamortized|Liabilit|OperatingLease|CapitalizedContractCost|ShareBased|InvestmentIncome|AvailableForSale|Accretion(?!Net)/;
+const FACE_CURRENT_DEBT=['LongTermDebtCurrent','LongTermDebtAndCapitalLeaseObligationsCurrent','DebtCurrent','ShortTermBorrowings','CommercialPaper','NotesPayableCurrent','LoansPayableCurrent','ConvertibleDebtCurrent','SecuredDebtCurrent','UnsecuredDebtCurrent','OtherShortTermBorrowings','ShortTermBankLoansAndNotesPayable','ConvertibleNotesPayableCurrent','SeniorNotesCurrent','LinesOfCreditCurrent'];
+const FACE_NONCURRENT_DEBT=['LongTermDebtNoncurrent','LongTermDebt','LongTermDebtAndCapitalLeaseObligations','SeniorNotes','SeniorLongTermNotes','ConvertibleNotesPayable','ConvertibleLongTermNotesPayable','ConvertibleDebtNoncurrent','LongTermLineOfCredit','NotesPayable','LongTermNotesPayable','LongTermLoansPayable','SecuredLongTermDebt','UnsecuredLongTermDebt','OtherLongTermDebtNoncurrent'];
+const FACE_FAMILY={
+ 'cash|depreciationDepletionAndAmortization':FACE_DA,
+ 'income|sellingGeneralAndAdministrative':['GeneralAndAdministrativeExpense','SellingAndMarketingExpense','SellingExpense','MarketingExpense','OtherSellingGeneralAndAdministrativeExpense'],
+ 'balance|shortTermDebt':FACE_CURRENT_DEBT,
+ 'balance|longTermDebt':FACE_NONCURRENT_DEBT,
+ 'balance|otherNonCurrentAssets':['OtherAssetsNoncurrent','OtherAssets'],
+ 'balance|intangibleAssetsExcludingGoodwill':['IntangibleAssetsNetExcludingGoodwill','FiniteLivedIntangibleAssetsNet','IndefiniteLivedIntangibleAssetsExcludingGoodwill'],
+ 'balance|cashAndCashEquivalentsAtCarryingValue':['CashAndCashEquivalentsAtCarryingValue','Cash','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents','RestrictedCashAndCashEquivalentsAtCarryingValue','RestrictedCashAndCashEquivalentsNoncurrent','RestrictedCashNoncurrent','RestrictedCashCurrent','RestrictedCash','RestrictedCashAndCashEquivalents'],
+ 'balance|currentAccountsPayable':['AccountsPayableCurrent','AccountsPayableTradeCurrent','AccountsPayableAndAccruedLiabilitiesCurrent','AccruedLiabilitiesCurrent','OtherAccruedLiabilitiesCurrent','EmployeeRelatedLiabilitiesCurrent']
+};
+const FACE_MARKS=['AssetsCurrent','Assets','LiabilitiesCurrent','Liabilities','StockholdersEquity','StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest','LiabilitiesAndStockholdersEquity'];
+const FACE_TAGS={balance:new Set([...FACE_MARKS,...['shortTermDebt','longTermDebt','otherNonCurrentAssets','intangibleAssetsExcludingGoodwill','cashAndCashEquivalentsAtCarryingValue','currentAccountsPayable'].flatMap(f=>FACE_FAMILY['balance|'+f])]),income:new Set([...FACE_FAMILY['income|sellingGeneralAndAdministrative'],'SellingGeneralAndAdministrativeExpense','SellingGeneralAndAdministrativeExpenseExcludingOtherExpense'])};
+// The token a presented line stands for, or null when it belongs to no family.
+function faceToken(stmt,tag,plabel,custom){
+ const st=STATEMENT[stmt],text=label(plabel);
+ // A line whose label names the family but whose tag is outside it (a custom tag, or a standard one such as
+ // Alamo's "Depreciation - Rental Equipment" tagged EquipmentExpense) blocks the sum: summing the lines that
+ // are members would understate the row.
+ if(st==='cash'){
+  // A line that is other amortization (debt costs, an operating lease) is no part; one that mixes it with
+  // depreciation or intangibles (Broadcom's "Amortization of intangible and right-of-use assets") blocks.
+  if(!custom && FACE_DA.includes(tag))return tag;
+  const named=/depreciation|amortization|amortisation|depletion/.test(text) || !custom && /Depreciation|Amortization|Depletion/.test(tag);
+  const other=/financ|debt|discount|premium|lease|contract|investment|stock|share|deferred (?:charges|costs)|right[- ]of[- ]use/.test(text);
+  const core=/depreciation|depletion|intangible|property|equipment|software/.test(text);
+  if(!custom && /Depreciation|Amortization|Depletion/.test(tag) && !FACE_DA_OUT.test(tag) && !other)return tag;
+  if(!custom && FACE_DA_OUT.test(tag) && !core)return null;
+  return named && (!other || core)?'~da':null;
+ }
+ if(st==='income'){
+  if(!custom && FACE_TAGS.income.has(tag))return tag;
+  return /general|administrative|selling|marketing/.test(text)?'~sga':null;
+ }
+ if(st!=='balance')return null;
+ // A bank overdraft is often checks issued beyond the bank balance, which the company's own total debt leaves out
+ // (Werner 2023: $690m total debt beside a $14.7m overdraft line): it is no part of short-term debt, and it blocks one.
+ if(!custom && tag==='BankOverdrafts')return '~debt';
+ if(!custom && FACE_TAGS.balance.has(tag))return tag;
+ if(debtLine(tag,plabel))return '~debt';
+ if(/intangible/.test(text))return '~intangible';
+ if(/^cash\b/.test(text))return '~cash';
+ if(/\bother\b.*\bassets?\b/.test(text))return '~otherassets';
+ if(!custom)return null;
+ if(/payable|accrued/.test(text) && !/tax|interest|lease|dividend|related|affiliat/.test(text))return '~payable';
+ return null;
+}
+// The presented lines that are the row (sec-facts faceFill), or null. A line equal to a sum of the
+// others (a subtotal, or one figure presented twice) is refused where the values are read.
+function faceParts(key,tokens){
+ const family=FACE_FAMILY[key];
+ if(!family || !Array.isArray(tokens))return null;
+ const members=tokens.filter(t=>family.includes(t)),one=list=>list.length===1?list:null;
+ if(!members.length || new Set(members).size!==members.length)return null;
+ const at=t=>tokens.indexOf(t);
+ switch(key){
+  case 'cash|depreciationDepletionAndAmortization':
+   return tokens.some(t=>t==='~da' || !family.includes(t))?null:members;
+  case 'income|sellingGeneralAndAdministrative':
+   return tokens.some(t=>t==='~sga' || !family.includes(t))?null:members;
+  case 'balance|shortTermDebt': {
+   // The current-liabilities block: after the last section total above "total current liabilities".
+   const lc=at('LiabilitiesCurrent');if(lc<0)return null;
+   const from=Math.max(-1,...tokens.slice(0,lc).map((t,i)=>FACE_MARKS.includes(t)?i:-1));
+   const block=tokens.slice(from+1,lc);
+   if(block.some(t=>t==='~debt' || t==='BankOverdrafts' || FACE_NONCURRENT_DEBT.includes(t)) || members.some(t=>!block.includes(t)))return null;
+   return members;
+  }
+  case 'balance|longTermDebt': {
+   // The noncurrent-liabilities block: from "total current liabilities" to the next section total. A current
+   // line in it is a "less current portion" layout, and a noncurrent line above it a utility's capitalization.
+   const lc=at('LiabilitiesCurrent');if(lc<0)return null;
+   let to=tokens.findIndex((t,i)=>i>lc && FACE_MARKS.includes(t));if(to<0)to=tokens.length;
+   const block=tokens.slice(lc+1,to);
+   if(block.some(t=>t==='~debt' || FACE_CURRENT_DEBT.includes(t)) || members.some(t=>!block.includes(t)))return null;
+   return members;
+  }
+  case 'balance|otherNonCurrentAssets': {
+   const ac=at('AssetsCurrent'),total=at('Assets');
+   if(ac<0 || total<ac)return null;
+   const block=tokens.slice(ac+1,total);
+   return block.includes('~otherassets') || members.some(t=>!block.includes(t))?null:one(members);
+  }
+  case 'balance|intangibleAssetsExcludingGoodwill':
+   return tokens.includes('~intangible') || members.includes('IntangibleAssetsNetExcludingGoodwill') && members.length>1?null:members;
+  case 'balance|cashAndCashEquivalentsAtCarryingValue':
+   return tokens.includes('~cash') || members.length!==1 || members[0]!=='CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents'?null:members;
+  case 'balance|currentAccountsPayable':
+   return tokens.includes('~payable') || members.length!==1 || members[0]!=='AccountsPayableAndAccruedLiabilitiesCurrent'?null:members;
+ }
+ return null;
+}
+// True when no figure equals the sum of some of the others (a subtotal, or one line presented twice).
+function noSubtotal(values){
+ for(let j=0;j<values.length;j++){const others=values.filter((_,k)=>k!==j);if(values[j]!==0 && others.length && others.length<=12)for(let m=1;m<(1<<others.length);m++){let s=0;for(let b=0;b<others.length;b++)if(m>>b&1)s+=others[b];if(s===values[j])return false;}}
+ return true;
+}
 const DIR=()=>path.join(p.DATA_DIR,'sec-statement-lines');
 function forCik(cik){const id=p.cik(cik);if(!id)return [];try{const doc=JSON.parse(fs.readFileSync(path.join(DIR(),id+'.json'),'utf8'));return doc.cik===id && Array.isArray(doc.lines)?doc.lines:[];}catch(e){if(e.code==='ENOENT')return [];throw e;}}
-module.exports={RULES,BALANCE,INDUSTRY_FIELDS,debtLine,capexLine,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};
+module.exports={RULES,BALANCE,INDUSTRY_FIELDS,debtLine,capexLine,faceToken,faceParts,noSubtotal,FACE_FAMILY,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};
