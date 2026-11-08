@@ -248,6 +248,7 @@ async function presentFundamentalsCurrency(payload, requestedCurrency) {
 }
 
 const mailer = require('./mailer');
+const storageWatch = require('./storage-watch');
 const { sendNewUserEmails, escapeHtml } = mailer;
 
 const app = express();
@@ -17383,6 +17384,8 @@ if (String(process.env.DISABLE_BACKGROUND_JOBS || '') === '1') {
     startScheduledEmails();
     startAppSumoJobs();
     startTrialLifecycleJobs();
+    // Atlas free-tier quota early warning (the 2026-11-08 outage went unseen for 17h).
+    storageWatch.start({ send: (m) => mailer.sendMail(m) });
     // 🧪 AI Paper Portfolio daily sweep (no-ops when the experiment is switched off).
     aiPaper.start();
     require('./technicals-universe').start();
