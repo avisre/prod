@@ -14101,6 +14101,10 @@ app.post('/api/track/page_view', (req, res) => {
     const viewPath = String((req.body && req.body.path) || '').slice(0, 200);
     const pageContentId = shareCopy.normalizeAcquisitionContentId(req.body && req.body.contentId);
     const requestFields = trackingRequestFields(req, res);
+    // Crawler page views are never reported (reportable excludes them) and on
+    // 2026-11-06..08 one bot's 39k /register views filled the 512 MB Atlas
+    // quota, which blocked every write on the site. Drop them like /track/event.
+    if (requestFields.isBot) return res.status(204).end();
     const utm = requestUtm(req);
     const acquisition = ensureTrackingAcquisition(req, res, requestFields, pageContentId);
     trackFunnel('page_view', null, null, {

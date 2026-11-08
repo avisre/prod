@@ -185,3 +185,15 @@ test('dossier mode selections are validated and sent through the consent-gated b
     assert.doesNotMatch(frontendSource, /trackGrowthEvent\(['"]ask/, 'no Ask mode-toggle events were added');
     assert.match(appSource, /dossier-mode-\(normal\|analyst\)/, 'the browser-event endpoint validates the mode server-side too');
 });
+
+test('crawler page views are dropped before they are stored (they filled the Atlas quota on 2026-11-08)', () => {
+    const start = appSource.indexOf("app.post('/api/track/page_view'");
+    assert.ok(start !== -1, 'the page_view beacon route must exist');
+    const route = appSource.slice(start, appSource.indexOf('\napp.', start + 1));
+    const drop = route.indexOf('if (requestFields.isBot) return res.status(204).end();');
+    assert.ok(drop !== -1, 'bot page views must be refused');
+    assert.ok(drop < route.indexOf("trackFunnel('page_view'"), 'the bot check must run before the funnel write');
+    assert.ok(drop < route.indexOf('ensureTrackingAcquisition('), 'a bot must not get an acquisition cookie either');
+    const attribution = require('../marketing-attribution');
+    assert.equal(attribution.classifyUserAgent('ShapBot/0.1.0').isBot, true, 'the bot that filled the quota is classified as one');
+});
