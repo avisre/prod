@@ -9634,7 +9634,7 @@ app.get('/api/assets/search', assetSearchLimiter, optionalAuth, paidOnlyDataGate
 
 // A normalized, non-company-specific research payload. Fund consumers use
 // this route; legacy stock pages retain the existing SEC fundamentals route.
-app.get('/api/assets/:symbol/profile', anonCompanyGate, async (req, res) => {
+app.get('/api/assets/:symbol/profile', optionalAuth, anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
@@ -9656,7 +9656,7 @@ app.get('/api/assets/:symbol/profile', anonCompanyGate, async (req, res) => {
 // topHoldings module is capped at ten rows for every fund on earth, so it can
 // only ever answer "the top ten"; N-PORT answers "all 508". Paged, because the
 // long tail is real — VTSAX files 3,546 positions and BND files 17,409.
-app.get('/api/assets/:symbol/holdings', anonCompanyGate, async (req, res) => {
+app.get('/api/assets/:symbol/holdings', optionalAuth, anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     const limit = Math.min(Math.max(Number(req.query.limit) || 100, 1), 1000);
@@ -9695,7 +9695,7 @@ app.get('/api/assets/:symbol/holdings', anonCompanyGate, async (req, res) => {
 // against a 2.5s budget: the page calls this afterwards so a fund whose filing
 // had not been fetched yet still shows the filed figure on this visit rather
 // than waiting out the 30-minute profile cache.
-app.get('/api/assets/:symbol/fees', anonCompanyGate, async (req, res) => {
+app.get('/api/assets/:symbol/fees', optionalAuth, anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {

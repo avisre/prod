@@ -266,6 +266,19 @@ test('the remaining keyless product-data routes close with the platform', () => 
     }
 });
 
+test('every route behind a paid gate resolves the session first', () => {
+    // 2026-11-09: /api/assets/:symbol/{profile,holdings,fees} ran anonCompanyGate
+    // with no optionalAuth, so req.user was never set and paid-only mode answered
+    // 402 to every paying customer: no fund or ETF page loaded for four days.
+    const routes = appSource().split('\n').filter((line) => /^app\.(get|post|put|delete)\(/.test(line) && /\b(anonCompanyGate|paidOnlyDataGate)\b/.test(line));
+    assert.ok(routes.length >= 20, `found ${routes.length} gated routes`);
+    for (const line of routes) {
+        const gateAt = line.search(/\b(anonCompanyGate|paidOnlyDataGate)\b/);
+        const authAt = line.search(/\b(optionalAuth|authMiddleware)\b/);
+        assert.ok(authAt !== -1 && authAt < gateAt, `session resolved before the gate: ${line.slice(0, 90)}`);
+    }
+});
+
 test('the public surfaces that stay public are deliberate', () => {
     // Health (uptime monitors), the campaign config (public marketing pages),
     // the checkout/config routes, the claim ledger (a live public proof

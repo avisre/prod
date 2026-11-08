@@ -130,9 +130,9 @@ test('every symbol-scoped keyless data route carries the gate', () => {
         "app.get('/api/company/:symbol/filings', optionalAuth, anonCompanyGate,",
         "app.get('/api/company/:symbol/insider-history', optionalAuth, anonCompanyGate,",
         "app.get('/api/company/:symbol/ownership', optionalAuth, anonCompanyGate,",
-        "app.get('/api/assets/:symbol/profile', anonCompanyGate,",
-        "app.get('/api/assets/:symbol/holdings', anonCompanyGate,",
-        "app.get('/api/assets/:symbol/fees', anonCompanyGate,"
+        "app.get('/api/assets/:symbol/profile', optionalAuth, anonCompanyGate,",
+        "app.get('/api/assets/:symbol/holdings', optionalAuth, anonCompanyGate,",
+        "app.get('/api/assets/:symbol/fees', optionalAuth, anonCompanyGate,"
     ]) {
         assert.ok(source.includes(route), `gated: ${route.slice(0, 52)}`);
     }
