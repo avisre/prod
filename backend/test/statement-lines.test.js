@@ -109,6 +109,20 @@ test('a line never replaces a figure, adds a period, or comes from a filing the 
  assert.equal(extract(blank.doc,blank.evidence,{asOf:'2026-10-03',statementLines:[line(),line({v:901})]}).income.annualReports[0].totalRevenue,null);
 });
 
+test('a later filing that gives two figures for an old column leaves the earlier cited filing\'s one figure to fill it (2026-11-08)',()=>{
+ // AA Mission EPS and First Hawaiian's allowance: the newest 10-Q's comparative column carries two figures for the
+ // date, the filing the row also cites carries one. The one figure fills; two figures in every cited filing stay blank.
+ const AMD='0000000123-26-000005';
+ const {doc,evidence}=blankRevenue();
+ evidence.latestAnnual.amendments=[{accessionNumber:AMD,form:'10-K/A',filingDate:'2026-06-01'}];
+ doc.facts['us-gaap'].OperatingIncomeLoss={units:{USD:[{val:50,start:'2025-01-01',end:'2025-12-31',accn:AMD,form:'10-K/A',filed:'2026-06-01'}]}};
+ const amd=o=>line({a:AMD,m:'10-K/A',d:'2026-06-01',...o});
+ const revenue=L=>extract(doc,evidence,{asOf:'2026-10-03',statementLines:L}).income.annualReports[0].totalRevenue;
+ assert.equal(revenue([line(),amd(),amd({v:901})]),900);
+ assert.equal(revenue([line(),amd({v:905})]),905,'one figure in the newest filing still wins');
+ assert.equal(revenue([line(),line({v:1}),amd(),amd({v:901})]),null,'no cited filing gives one figure');
+});
+
 test('a data-set line on a standard tag takes the filed figure of the same filing and period',()=>{
  // Smucker FY2026: the data set listed cash 0 where the 10-K tags $58.6M.
  const {doc,evidence}=blankRevenue();
@@ -216,6 +230,80 @@ test('a debt figure another filing gives for the date keeps the total unread',()
  assert.equal(same.row.shortLongTermDebtTotal,320);assert.equal(p.verifiedField(same.d,same.row,'shortLongTermDebtTotal'),false);
 });
 
+test('a face is read for its own date: an earlier column whose debt lines all come from other filings keeps its total',()=>{
+ // American Express 2025-09-30: total assets repeated in the 2026 Q3 10-Q, whose face is 2026-09-30; the debt lines
+ // are the 2025 Q3 10-Q's, so the later face says nothing about that column.
+ const {presentedDebt}=require('../sec-facts');
+ const run=(end,form)=>{const {d,row}=debtRow({LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},[]);
+  const moved=id=>{d.sources['o'+id]={...d.sources[id],accessionNumber:'0000000123-25-000004'};return 'o'+id;};
+  for(const f of ['longTermDebt','currentLongTermDebt','shortTermDebt','shortLongTermDebtTotal'])if(row._sources[f])row._sources[f]=row._sources[f].map(moved);
+  if(form)d.sources[row._sources.totalAssets[0]].form=form;
+  presentedDebt(d,row,new Map([[ACC,['LongTermDebtNoncurrent','NotesPayableCurrent']]]),null,'annual',null,new Map([[ACC,end]]));
+  return row.shortLongTermDebtTotal;};
+ assert.equal(run('2027-03-31'),320);
+ // A quarterly face's columns are its own date and the prior fiscal year end; a date that is no year end is not on it.
+ assert.equal(run('2026-09-30','10-Q'),320);
+ // Its own column, and the comparative a year back on an annual face (U-Haul FY2025 from the FY2026 10-K):
+ // the face's extra line leaves the total unread, as before.
+ assert.equal(run('2025-12-31'),null);
+ assert.equal(run('2026-12-31'),null);
+ // Off the face, an empty total is still read from the filing's own facts for the row's date (Bank of Nova Scotia
+ // 2025-04-30: subordinated debt in the 2025-07-31 6-K), and the facts must cover every presented line.
+ const off=lines=>{const {d,row}=debtRow({SubordinatedLiabilities:50},[]);const doc={facts:{'us-gaap':{SubordinatedLiabilities:{units:{USD:[{val:50,end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}}}}};
+  presentedDebt(d,row,new Map([[ACC,lines]]),doc,'annual',null,new Map([[ACC,'2027-03-31']]));return row.shortLongTermDebtTotal;};
+ assert.equal(off(['SubordinatedLiabilities']),50);
+ assert.equal(off(['SubordinatedLiabilities','NotesPayableCurrent']),null);
+ // Equity beside the debt is not a debt line (Vishay: "Class B convertible common stock").
+ assert.equal(off(['SubordinatedLiabilities','CommonStockOtherValueOutstanding']),50);
+ // Off the face, debt figures that all come from one filing whose face is this column are read against that face
+ // (Packaging Corp 2025-09-30: long-term debt the 2025 Q3 10-Q's own line, total assets repeated in the 2026 Q3 10-Q).
+ const LATER='0000000123-27-000002';
+ const own=(lines,tags={LongTermDebtNoncurrent:300},end='2025-12-31')=>{const {d,row}=debtRow(tags,[]);
+  const id=row._sources.totalAssets[0];d.sources['later']={...d.sources[id],accessionNumber:LATER};row._sources.totalAssets=['later'];
+  presentedDebt(d,row,new Map([[LATER,['LongTermDebtNoncurrent','NotesPayableCurrent']],...(lines?[[ACC,lines]]:[])]),null,'annual',null,new Map([[LATER,'2027-03-31'],[ACC,end]]));
+  return row.shortLongTermDebtTotal;};
+ assert.equal(own(['LongTermDebtNoncurrent']),300);
+ assert.equal(own(null),null);
+ assert.equal(own(['LongTermDebtNoncurrent','LongTermDebtCurrent','NotesPayableCurrent'],{LongTermDebtNoncurrent:300,LongTermDebtCurrent:20}),null);
+ assert.equal(own(['LongTermDebtNoncurrent','LongTermDebtCurrent'],{LongTermDebtNoncurrent:300,LongTermDebtCurrent:20}),320);
+ // Not when that filing's face is a year later and this row only its comparative column: its debt lines are of its
+ // own date, so a line the row lacks refuses nothing (ADP 2024-06-30, from the FY2025 10-K with commercial paper).
+ assert.equal(own(['LongTermDebtNoncurrent','LongTermDebtCurrent','NotesPayableCurrent'],{LongTermDebtNoncurrent:300,LongTermDebtCurrent:20},'2026-12-31'),320);
+});
+
+test('debt lines printed directly above a "Total" debt line are its parts (AEP 2026-09-30)',()=>{
+ // [report, line, key, debt line?, "Total" label?]
+ const aep=[[7,39,'AccountsPayableCurrent',false,false],[7,41,'Securitized',false,false],[7,42,'ShortTermBankLoansAndNotesPayable',true,false],
+  [7,43,'ShortTermBorrowings',true,true],[7,44,'LongTermDebtCurrent',true,false],[7,51,'LiabilitiesCurrent',false,true],[7,53,'LongTermDebtNoncurrent',true,false]];
+ assert.deepEqual([...lines.debtSubtotalParts(aep)],['ShortTermBankLoansAndNotesPayable']);
+ // The run ends at any other line, and a line shown on its own in another presentation is not a part.
+ assert.deepEqual([...lines.debtSubtotalParts([[1,1,'A',true,false],[1,2,'X',false,false],[1,3,'B',true,false],[1,4,'T',true,true],[2,1,'B',true,false]])],[]);
+ assert.deepEqual([...lines.debtSubtotalParts([[1,1,'A',true,false],[1,2,'B',true,false],[1,3,'T',true,true]])].sort(),['A','B']);
+ // With the figures, the block above the total must add up to it: AEP's securitized debt and other short-term debt do.
+ const v=o=>new Map(Object.entries(o).map(([k,x])=>[k,new Map(Object.entries(x))]));
+ const aepValues=v({Securitized:{'20260930|USD':900,'20251231|USD':850},ShortTermBankLoansAndNotesPayable:{'20260930|USD':4000,'20251231|USD':3000},ShortTermBorrowings:{'20260930|USD':4900,'20251231|USD':3850}});
+ assert.deepEqual([...lines.debtSubtotalParts(aep,aepValues)],['ShortTermBankLoansAndNotesPayable']);
+ // Gap 2024 Q1: "Long-term Line of Credit" above a "Total long-term debt" that is the notes alone stays a debt line.
+ const gap=[[2,22,'LiabilitiesCurrent',false,true],[2,24,'LineOfCredit',true,false],[2,25,'LongTermDebtNoncurrent',true,true]];
+ assert.deepEqual([...lines.debtSubtotalParts(gap,v({LineOfCredit:{'20240430|USD':0,'20230430|USD':350},LongTermDebtNoncurrent:{'20240430|USD':1489,'20230430|USD':1487}}))],[]);
+ // A column that does not add up, two figures for one column, or no figures at all: not a part.
+ assert.deepEqual([...lines.debtSubtotalParts(aep,v({...Object.fromEntries([...aepValues].map(([k,m])=>[k,Object.fromEntries(m)])),Securitized:{'20260930|USD':900,'20251231|USD':851}}))],[]);
+ assert.deepEqual([...lines.debtSubtotalParts(aep,v({Securitized:{'20260930|USD':NaN},ShortTermBankLoansAndNotesPayable:{'20260930|USD':4000},ShortTermBorrowings:{'20260930|USD':4900}}))],[]);
+ assert.deepEqual([...lines.debtSubtotalParts(aep,new Map())],[]);
+});
+
+test('a gross receivable presented above its allowance is never the net receivable (Verizon 2026)',()=>{
+ const run=(label,allowance)=>{const {doc,evidence}=fixture();if(allowance!==undefined)put(doc,'AccountsReceivableAllowanceForCreditLossCurrent',allowance);
+  const gross=line({s:'balance',f:'currentNetReceivables',c:'AccountsAndFinancingReceivableBeforeAllowanceForCreditLossCurrent',l:label,v:27564,q:0});
+  return extract(doc,evidence,{asOf:'2026-10-03',statementLines:[gross]}).balance.annualReports[0].currentNetReceivables;};
+ assert.equal(run('Accounts receivable',1199),null);
+ // No allowance in the filing (Kinder Morgan's gross-tagged "Accounts receivable"), a zero one, or a label that says
+ // net (National Presto's "Accounts receivable, net" under AccountsReceivableGross): the presented figure is the net receivable.
+ assert.equal(run('Accounts receivable'),27564);
+ assert.equal(run('Accounts receivable',0),27564);
+ assert.equal(run('Accounts receivable, net',1199),27564);
+});
+
 test('a whole-debt tag fills the noncurrent line when the filing reports no current part (Agilent 2025: LongTermDebt on the face)',()=>{
  const {d,row}=debtRow({LongTermDebt:60,ShortTermBorrowings:4},[face('LongTermDebt','ShortTermBorrowings')]);
  // The whole LongTermDebt tag fills the noncurrent line (2026-11-01: guarded to a filing with no current part),
@@ -248,6 +336,16 @@ test('the validator re-checks a presented-facts total against the filed facts',(
   (r,c)=>{c.sources[first(r)].unit='EUR';},(r)=>{r._sources.shortLongTermDebtTotal.push('extra');}]){
   const copy=structuredClone(d),r=copy.balance.annualReports[0];tamper(r,copy);assert.equal(p.verifiedField(copy,r,'shortLongTermDebtTotal'),false);
  }
+ // Facts of another filing than the total assets' stand only when every held debt figure of the row is from that
+ // filing (EQT 2025-09-30: total assets repeated in the 2026 Q3 10-Q, its debt the 2025 Q3 10-Q's own lines).
+ const moved=(held)=>{const copy=structuredClone(d),r=copy.balance.annualReports[0];
+  copy.sources.later={...copy.sources[r._sources.totalAssets[0]],accessionNumber:'0000000123-27-000002'};r._sources.totalAssets=['later'];
+  for(const f of p.DEBT_PARTS){r[f]=null;delete r._sources[f];}
+  if(held){copy.sources.held={...copy.sources[first(r)],concept:'LongTermDebtCurrent',rawValue:5,accessionNumber:held};r.currentLongTermDebt=5;r._sources.currentLongTermDebt=['held'];}
+  return p.verifiedField(copy,r,'shortLongTermDebtTotal');};
+ assert.equal(moved(null),false);
+ assert.equal(moved(d.sources[first(row)].accessionNumber),true);
+ assert.equal(moved('0000000123-26-000009'),false);
 });
 
 // Measured on the 2026-10-17 re-extraction: 217 presented lines were displaced by a newly read note tag
@@ -512,4 +610,28 @@ test('a tag only the bank and insurer rows read still gives another row its line
  // The row the facts fill from the tag is not read from the line again.
  assert.deepEqual(lines.fieldsFor('BS','Interest-bearing deposits in banks','InterestBearingDepositsInBanks',{crdr:'D',mapped}),[]);
  assert.deepEqual(lines.fieldsFor('IS','Total operating expenses','CostsAndExpenses',{crdr:'D',mapped}),[]);
+});
+
+test('a fallback tag fills another field only for a bank or insurer row or a named pair',()=>{
+ // CIK 771999's "Cost of revenue" filed as OperatingCostsAndExpenses (FY2024 $23.539m), which the maps read only as
+ // operating expenses; CIK 101538's "Loss before income taxes" under the before-interest-and-taxes element.
+ assert.deepEqual(lines.fieldsFor('IS','Cost of revenue','OperatingCostsAndExpenses',{crdr:'D',mapped}),['costOfRevenue']);
+ assert.deepEqual(lines.fieldsFor('IS','Loss before income taxes','IncomeLossFromContinuingOperationsBeforeInterestExpenseInterestIncomeIncomeTaxesExtraordinaryItemsNoncontrollingInterestsNet',{mapped}),['incomeBeforeTax']);
+ // A bank's "Cash and due from banks" filed as restricted-cash-inclusive cash (CIK 35527: $3.014bn at 2024-12-31).
+ assert.deepEqual(lines.fieldsFor('BS','Cash and due from banks','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents',{crdr:'D',mapped}),['cashAndDueFromBanks']);
+ // The field the maps read the tag for is the facts' already.
+ assert.deepEqual(lines.fieldsFor('IS','Total operating expenses','OperatingCostsAndExpenses',{crdr:'D',mapped}),[]);
+ // Label and tag disagree, so the cell stays empty: a field's primary tag, or a fallback outside those rows.
+ assert.deepEqual(lines.fieldsFor('IS','Gross profit','GrossProfit',{mapped}),[]);
+ assert.deepEqual(lines.fieldsFor('IS','Total revenues','GrossProfit',{mapped}),[]);
+ assert.equal(lines.ownTag(mapped,'Revenues',['grossProfit']),true);
+ assert.equal(lines.ownTag(mapped,'MarketableSecuritiesCurrent',['currentNetReceivables']),true);
+});
+
+test('senior notes and other named note instruments are debt lines on the face (EQT 2025-09-30)',()=>{
+ const {presentedDebtFacts}=require('../sec-coverage');
+ const row={totalLiabilities:14404987000,totalAssets:41195290000};
+ assert.equal(presentedDebtFacts(['LongTermDebtCurrent','LongTermLineOfCredit','SeniorNotes'],[506690000,278000000,7433132000],row),true);
+ assert.equal(presentedDebtFacts(['JuniorSubordinatedDebentureOwedToUnconsolidatedSubsidiaryTrust','FederalHomeLoanBankAdvances'],[50,100],row),true);
+ for(const c of ['PreferredStockValue','OtherLiabilitiesCurrent','DueToRelatedPartiesCurrent','AccountsPayableCurrent'])assert.equal(presentedDebtFacts(['SeniorNotes',c],[10,20],row),false,c);
 });

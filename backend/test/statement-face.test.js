@@ -20,9 +20,9 @@ test('a face line is a family member by its standard tag; a line named for the f
  assert.equal(t('CF','Depreciation','Depreciation'),'Depreciation');
  assert.equal(t('CF','FinanceLeaseRightOfUseAssetAmortization','Amortization of finance lease right-of-use assets'),'FinanceLeaseRightOfUseAssetAmortization');
  // Alamo: rental-equipment depreciation tagged EquipmentExpense. Summing the other lines would understate D&A.
- assert.equal(t('CF','EquipmentExpense','Depreciation - Rental Equipment'),'~da');
+ assert.equal(t('CF','EquipmentExpense','Depreciation - Rental Equipment'),'~da:us-gaap:EquipmentExpense');
  // Broadcom: one custom line mixing intangible and right-of-use amortization.
- assert.equal(t('CF','AvgoAmortization','Amortization of intangible and right-of-use assets',true),'~da');
+ assert.equal(t('CF','AvgoAmortization','Amortization of intangible and right-of-use assets',true),'~da:custom:AvgoAmortization');
  // Lines that are not depreciation or amortization of the business's assets are neither members nor blocks.
  for(const [tag,label] of [['AmortizationOfFinancingCosts','Amortization of deferred financing costs'],['OperatingLeaseRightOfUseAssetAmortizationExpense','Amortization of operating lease right-of-use assets'],['ShareBasedCompensation','Stock-based compensation']])
   assert.equal(t('CF',tag,label),null,label);
@@ -48,7 +48,7 @@ test('a rejected D&A cell is the sum of the D&A lines the cash-flow statement pr
  assert.deepEqual(row._derivations.depreciationDepletionAndAmortization,{formula:'sum_of_parts',parts:['us-gaap:Depreciation','us-gaap:AmortizationOfIntangibleAssets','us-gaap:CapitalizedComputerSoftwareAmortization1'],inputValues:[40,10,5],presented:true});
  assert.equal(p.verifiedField(d,row,'depreciationDepletionAndAmortization'),true);
  // A D&A line the face presents under another tag leaves the cell blank.
- assert.equal(run(facts,[face('cash',['Depreciation','AmortizationOfIntangibleAssets','CapitalizedComputerSoftwareAmortization1','~da'])],cash).row.depreciationDepletionAndAmortization,null);
+ assert.equal(run(facts,[face('cash',['Depreciation','AmortizationOfIntangibleAssets','CapitalizedComputerSoftwareAmortization1','~da:custom:Other'])],cash).row.depreciationDepletionAndAmortization,null);
 });
 
 test('short-term debt is the current debt lines on the face; any other debt line in the block refuses it',()=>{
@@ -135,4 +135,104 @@ test('newestFiling names the latest filing among a field\'s sources, and nothing
  assert.equal(p.newestFiling(data,['a','c']),'0000000123-26-000002');
  assert.equal(p.newestFiling(data,['a','missing']),null);
  assert.equal(p.newestFiling(data,[]),null);
+});
+
+const DA='depreciationDepletionAndAmortization',ALAMO={Depreciation:27,EquipmentExpense:12,AmortizationOfIntangibleAssets:16};
+const daFace=(c,l)=>face('cash',c,{l});
+test('a D&A line under a non-D&A standard tag counts only when its printed label names depreciation of the business\'s assets',()=>{
+ assert.equal(lines.labelPart('EquipmentExpense','Depreciation - Rental Equipment'),true);
+ assert.equal(lines.labelPart('EquipmentExpense','Equipment expense'),false);
+ assert.equal(lines.labelPart('Custom','Amortization'),false,'a bare "amortization" could be anything');
+ assert.equal(lines.labelPart('AmortizationOfFinancingCosts','Amortization of debt issuance costs'),false,'financing amortization is excluded');
+ assert.equal(lines.labelPart('OtherNoncashExpense','Amortization of debt discount'),false);
+ assert.equal(lines.labelPart('OtherNoncashExpense','Depreciation on operating lease equipment'),false);
+ assert.equal(lines.labelPart('OtherNoncashExpense','Amortization of capitalized software'),true);
+});
+
+test('Alamo: rental-equipment depreciation on EquipmentExpense joins the face sum; the partial sum of parts is corrected and the income row follows',()=>{
+ const c=['Depreciation','~da:us-gaap:EquipmentExpense','AmortizationOfIntangibleAssets'],l=['Depreciation','Depreciation - Rental Equipment','Amortization of intangibles'];
+ const {doc,evidence}=fixture();for(const [t,v] of Object.entries(ALAMO))put(doc,t,v,{start:'2025-01-01'});
+ // Without the face, the sum of the two standard parts understates D&A by the rental-equipment line.
+ const before=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[]});
+ assert.equal(before.cash.annualReports[0][DA],43);assert.equal(before.income.annualReports[0].depreciationAndAmortization,43);
+ const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[daFace(c,l)]}),cash=d.cash.annualReports[0],inc=d.income.annualReports[0];
+ assert.equal(cash[DA],55);
+ assert.deepEqual(cash._derivations[DA].parts,['us-gaap:Depreciation','us-gaap:EquipmentExpense','us-gaap:AmortizationOfIntangibleAssets']);
+ assert.equal(cash._derivations[DA].labels['us-gaap:EquipmentExpense'],'Depreciation - Rental Equipment');
+ assert.deepEqual(cash._derivations[DA].corrects,{value:43,parts:['us-gaap:Depreciation','us-gaap:AmortizationOfIntangibleAssets']});
+ assert.equal(p.verifiedField(d,cash,DA),true);
+ assert.ok(d.issues.some(i=>i.code==='DERIVED_SUM_CORRECTED' && i.statement==='cash' && i.previous===43 && i.value===55));
+ // EBITDA reads the income row: it carries the cash-flow statement's figure, with the same receipts.
+ assert.equal(inc.depreciationAndAmortization,55);
+ assert.equal(p.verifiedField(d,inc,'depreciationAndAmortization'),true);
+ assert.ok(d.issues.some(i=>i.code==='DERIVED_SUM_CORRECTED' && i.statement==='income' && i.previous===43));
+ // The verifier holds the label to the rule: a line labelled anything else is not a part.
+ const x=JSON.parse(JSON.stringify(d));x.cash.annualReports[0]._derivations[DA].labels['us-gaap:EquipmentExpense']='Equipment expense';
+ assert.equal(p.verifiedField(x,x.cash.annualReports[0],DA),false);
+ // The same tag with a label that is not depreciation leaves the line unresolved: no face sum, the old figure stands.
+ const odd=extract(doc,evidence,{asOf:'2026-10-03',statementLines:[daFace(c,['Depreciation','Equipment expense','Amortization of intangibles'])]});
+ assert.equal(odd.cash.annualReports[0][DA],43);assert.equal(odd.cash.annualReports[0]._derivations[DA].presented,undefined);
+});
+
+test('a company-defined D&A line is the family concept it equals in the same filing, and stays unresolved when nothing corroborates it',()=>{
+ const tag='CrsrAmortizationIncludingAcceleratedAmortization',part=v=>({s:'cash',k:'part',f:'',c:tag,t:'custom',l:'Amortization',u:'USD',v,e:'2025-12-31',q:4,a:ACC,m:'10-K',d:'2026-02-01'});
+ const c=['Depreciation','~da:custom:'+tag,'CapitalizedComputerSoftwareAmortization1'],l=['Depreciation','Amortization','Amortization of capitalized software'];
+ const F={Depreciation:27,AmortizationOfIntangibleAssets:16,CapitalizedComputerSoftwareAmortization1:5},cash={st:'cash',start:'2025-01-01'};
+ const {d,row}=run(F,[daFace(c,l),part(16)],cash);
+ assert.equal(row[DA],48);
+ assert.deepEqual(row._derivations[DA].presentedLines,{'us-gaap:AmortizationOfIntangibleAssets':{concept:tag,label:'Amortization'}});
+ assert.equal(p.verifiedField(d,row,DA),true);
+ // The line's value differs from every family fact: nothing says what it is, so the face gives no sum.
+ assert.equal(run(F,[daFace(c,l),part(17)],cash).row[DA],null);
+ // No family fact filed beside it (Corsair's quarters): blank.
+ const {AmortizationOfIntangibleAssets,...rest}=F;
+ assert.equal(run(rest,[daFace(c,l),part(16)],cash).row._derivations?.[DA]?.presentedLines,undefined);
+});
+
+test('"Costs and expenses" on the income statement never becomes operating expenses',()=>{
+ const {row}=run({CostsAndExpenses:80},[face('income',['Revenues','CostsAndExpenses','OperatingIncomeLoss','NetIncomeLoss'])],{st:'income',start:'2025-01-01'});
+ assert.equal(row.operatingExpenses ?? null,null);
+});
+
+test('a blank cell no mapped tag fills is read from the face; SG&A only where validation refused it',()=>{
+ // Dillard's: current debt filed only as UnsecuredDebtCurrent.
+ const {d,row}=run({UnsecuredDebtCurrent:96,LongTermDebtNoncurrent:300},[face('balance',BALANCE('UnsecuredDebtCurrent'))]);
+ assert.equal(row.shortTermDebt,96);assert.equal(p.verifiedField(d,row,'shortTermDebt'),true);
+ assert.equal(run({UnsecuredDebtCurrent:96,LongTermDebtNoncurrent:300},[]).row.shortTermDebt,null);
+ // A face two years after the column is not its statement (Commercial Metals FY2024: its 2026 filing repeats the old total).
+ assert.equal(run({UnsecuredDebtCurrent:96,LongTermDebtNoncurrent:300},[face('balance',BALANCE('UnsecuredDebtCurrent'),{e:'2027-12-31'})]).row.shortTermDebt,null);
+ // CVB Financial: a bank's one marketing line is not SG&A.
+ const bank=run({MarketingExpense:7},[face('income',['Revenues','LaborAndRelatedExpense','OccupancyNet','MarketingExpense','NoninterestExpense','NetIncomeLoss'])],{st:'income',start:'2025-01-01'});
+ assert.equal(bank.row.sellingGeneralAndAdministrative,null);
+});
+
+test('a newer 10-Q that repeats an older figure is not that column\'s statement: the filing whose face shows the date is read (2026-11-08)',()=>{
+ // Kosmos 2025-09-30: its 2026-09-30 10-Q repeats total assets for the same quarter a year back, which a balance sheet
+ // never shows. The current debt is read from the 2025-09-30 10-Q's own face.
+ {const {doc,evidence}=fixture();const Q='0000000123-25-000030',N='0000000123-26-000030';
+  for(const [accn,filed] of [[Q,'2025-11-01'],[N,'2026-11-01']]){
+   const at={end:'2025-09-30',accn,form:'10-Q',filed},span={start:'2025-07-01',...at};
+   doc.facts['us-gaap'].Assets.units.USD.push({val:500,...at});doc.facts['us-gaap'].Revenues.units.USD.push({val:30,...span});doc.facts['us-gaap'].NetIncomeLoss.units.USD.push({val:5,...span});
+  }
+  for(const [t,v] of [['UnsecuredDebtCurrent',96],['LongTermDebtNoncurrent',300]])(doc.facts['us-gaap'][t] ??= {units:{USD:[]}}).units.USD.push({val:v,end:'2025-09-30',accn:Q,form:'10-Q',filed:'2025-11-01'});
+  const faces=[face('balance',BALANCE('UnsecuredDebtCurrent'),{e:'2025-09-30',a:Q,m:'10-Q',d:'2025-11-01'}),face('balance',BALANCE('UnsecuredDebtCurrent'),{e:'2026-09-30',a:N,m:'10-Q',d:'2026-11-01'})];
+  const d=extract(doc,evidence,{asOf:'2026-11-07',statementLines:faces}),row=d.balance.quarterlyReports.find(r=>r.fiscalDateEnding==='2025-09-30');
+  assert.equal(d.sources[row._sources.totalAssets[0]].accessionNumber,N,'the newest filing reporting the figure is cited');
+  assert.equal(row.shortTermDebt,96);assert.equal(d.sources[row._sources.shortTermDebt[0]].accessionNumber,Q,'read from the filing whose face shows the date');
+  assert.equal(p.verifiedField(d,row,'shortTermDebt'),true);}
+ // CoStar Q2 2026: a 10-Q's cash and income faces show its own period and the same period a year back, never the
+ // quarter before. The Q1 cash-flow D&A is read from the Q1 10-Q's face, not the Q2 10-Q that repeats Q1 cash flow.
+ {const {doc,evidence}=fixture();const Q1='0000000123-26-000011',Q2='0000000123-26-000021';
+  const add=(t,f)=>(doc.facts['us-gaap'][t] ??= {units:{USD:[]}}).units.USD.push(f);
+  const q1={start:'2026-01-01',end:'2026-03-31',accn:Q1,form:'10-Q',filed:'2026-05-01'},q2={...q1,accn:Q2,filed:'2026-08-01'};
+  for(const f of [q1,q2]){add('NetCashProvidedByUsedInOperatingActivities',{val:40,...f});add('Revenues',{val:300,...f});add('NetIncomeLoss',{val:20,...f});}
+  for(const [t,v] of Object.entries(ALAMO))add(t,{val:v/4,...q1});
+  const c=['Depreciation','~da:us-gaap:EquipmentExpense','AmortizationOfIntangibleAssets'],l=['Depreciation','Depreciation - Rental Equipment','Amortization of intangibles'];
+  const faces=[daFace(c,l),daFace(c,l)].map((f,i)=>({...f,a:[Q1,Q2][i],m:'10-Q',e:['2026-03-31','2026-06-30'][i],d:['2026-05-01','2026-08-01'][i]}));
+  const at=L=>{const d=extract(doc,evidence,{asOf:'2026-10-03',statementLines:L});return {d,row:d.cash.quarterlyReports.find(r=>r.fiscalDateEnding==='2026-03-31')};};
+  assert.equal(at([]).row[DA],(ALAMO.Depreciation+ALAMO.AmortizationOfIntangibleAssets)/4);
+  const {d,row}=at(faces);
+  assert.equal(d.sources[row._sources.operatingCashflow[0]].accessionNumber,Q2);
+  assert.equal(row[DA],(ALAMO.Depreciation+ALAMO.EquipmentExpense+ALAMO.AmortizationOfIntangibleAssets)/4);
+  assert.equal(row._derivations[DA].statement,Q1);assert.equal(p.verifiedField(d,row,DA),true);}
 });

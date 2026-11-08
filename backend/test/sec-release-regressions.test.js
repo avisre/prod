@@ -247,6 +247,24 @@ test('a quarter lacking a line its year-earlier quarter carried is read from its
  assert.equal(changed.row.totalRevenue,50);assert.equal(changed.row.operatingIncome ?? null,null);
  assert.equal(changed.r.lineGapExtraction[0].status,'rejected_changes_filed_values');
  `));
+// NNN and Molson Coors on 2026-11-07: the feed holds no March 2026 quarter at all. It came from the
+// March 10-Q while that was the previous report; once the September 10-Q arrived it must still be read.
+test('a quarter the feed lacks whole is read from its own 10-Q of the year',()=>isolated(`
+ const {refreshIssuer}=require(root+'/scripts/refresh-sec-coverage');
+ const filing=(n,report,filed)=>({form:'10-Q',accessionNumber:'0000000123-26-00000'+n,reportDate:report,filingDate:filed,primaryDocument:'q'+n+'.htm'});
+ const q1=filing(2,'2026-03-31','2026-05-01'),q2=filing(3,'2026-06-30','2026-08-01'),q3=filing(4,'2026-09-30','2026-10-01');
+ const fact=(accn,filed,start,end,val)=>({val,start,end,accn,form:'10-Q',filed});
+ const facts=structuredClone(doc),g=facts.facts['us-gaap'];
+ g.Revenues.units.USD.push(fact(q2.accessionNumber,q2.filingDate,'2026-04-01','2026-06-30',60),fact(q3.accessionNumber,q3.filingDate,'2026-07-01','2026-09-30',70));
+ const reads=[];
+ const r=await refreshIssuer({cik:CIK,symbols:['AAPL']},evidence,{asOf:'2026-10-03',force:true,clientImpl:{fetchReporting:async()=>({...evidence,latestPeriodic:q3,previousPeriodic:q2,yearPeriodics:[q3,q2,q1]}),fetchFacts:async()=>structuredClone(facts),
+  fetchOriginal:async(cik,f)=>{reads.push(f.accessionNumber);return {cik:123,facts:{'us-gaap':f===q1?{Revenues:{units:{USD:[fact(q1.accessionNumber,q1.filingDate,'2026-01-01','2026-03-31',50)]}}}:{}},segments:[],originalDocument:{form:'10-Q',accessionNumber:f.accessionNumber}};}}});
+ assert.ok(reads.includes(q1.accessionNumber));
+ const rows=JSON.parse(fs.readFileSync(file,'utf8')).income.quarterlyReports;
+ assert.equal(rows.find(x=>x.fiscalDateEnding==='2026-03-31')?.totalRevenue,50);
+ assert.equal(rows.find(x=>x.fiscalDateEnding==='2026-06-30').totalRevenue,60);
+ assert.ok(!(r.lineGapExtraction || []).some(x=>x.status==='rejected_changes_filed_values'));
+ `));
 test('the industry stage reads an annual report once per filing and VERSION',()=>isolated(`
  const original=require(root+'/backend/sec-original'),industry=require(root+'/backend/sec-industry');
  let fetched=0;original.fetchOriginal=async()=>{fetched++;throw new Error('offline');};

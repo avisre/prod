@@ -201,7 +201,7 @@
  "QCOM": {
   "grade": "complete",
   "kind": "operating segments",
-  "fiscalYear": "FY2025",
+  "fiscalYear": "FY2026",
   "rows": [
    "QCT",
    "QTL"
@@ -318,7 +318,7 @@
  "V": {
   "grade": "complete",
   "kind": "product and service lines",
-  "fiscalYear": "FY2025",
+  "fiscalYear": "FY2026",
   "rows": [
    "Service revenue",
    "International transaction revenue",

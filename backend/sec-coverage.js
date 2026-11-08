@@ -56,8 +56,10 @@ const DEBT_PARTS=['longTermDebt','currentLongTermDebt','shortTermBorrowings','sh
 // Presented debt lines the row does not hold as figures (sec-facts presentedDebt): which tags are debt, which
 // are presented beside debt but are not (dropped), and which are a whole of other debt tags. A whole beside one
 // of its own pieces would count the piece twice, so that face is left unread.
-const NOT_DEBT_LINE=/^(PreferredStock|ConvertiblePreferredStock|CommonStockValue|CommitmentsAndContingencies|Allowance)/;
-const DEBT_LINE=/Debt|Borrowing|NotesPayable|NotePayable|LoansPayable|LoanPayable|LoansReceived|LoansFrom|LoanFrom|BankLoans|ConstructionLoan|BridgeLoan|LineOfCredit|LinesOfCredit|CommercialPaper|Bonds|Debentures|Mortgage|FederalHomeLoanBank|SubordinatedLiabilities|SecuredFinancings/;
+// Equity beside the debt is not debt (Vishay: "Class B convertible common stock", CommonStockOtherValueOutstanding).
+const NOT_DEBT_LINE=/^(PreferredStock|ConvertiblePreferredStock|CommonStock|TemporaryEquity|CommitmentsAndContingencies|Allowance)/;
+// Notes and debentures by instrument name too (EQT 2025: "Senior notes" and "Credit facility borrowings" on the face).
+const DEBT_LINE=/Debt|Borrowing|NotesPayable|NotePayable|LoansPayable|LoanPayable|LoansReceived|LoansFrom|LoanFrom|BankLoans|ConstructionLoan|BridgeLoan|LineOfCredit|LinesOfCredit|CommercialPaper|Bond|Debenture|Mortgage|FederalHomeLoanBank|SubordinatedLiabilities|SecuredFinancings|SeniorNotes|SeniorLongTermNotes|SubordinatedNotes|MediumTermNotes|LongTermNotesAndLoans|ConvertibleNotes|PromissoryNote|SurplusNotes/;
 const NOT_DEBT_PART=/Deferred|Derivative|Interest|Receivable|Warrant|Lease(?!Obligation)|Investment|Securities|Asset|Issuance|Fees/;
 const DEBT_WHOLE={LongTermDebt:['LongTermDebtCurrent','LongTermDebtNoncurrent'],LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities:['LongTermDebtAndCapitalLeaseObligationsCurrent','LongTermDebtAndCapitalLeaseObligations','LongTermDebtCurrent','LongTermDebtNoncurrent'],
  LongTermDebtAndCapitalLeaseObligations:['LongTermDebtNoncurrent'],LongTermDebtAndCapitalLeaseObligationsCurrent:['LongTermDebtCurrent'],NotesPayable:['NotesPayableCurrent','LongTermNotesPayable'],LoansPayable:['LoansPayableCurrent','LongTermLoansPayable'],
@@ -110,9 +112,12 @@ function verifiedField(data, row, field, accessions) {
         return number(row[field])===inputs.reduce((sum,f)=>sum+row[f],0) && JSON.stringify(ids)===JSON.stringify(inputs.map(f=>row._sources[f][0]));
     }
     // The same total when the row holds none of the presented lines as figures: each line is a filed instant
-    // fact of the filing the row's total assets cite, in the row's currency.
+    // fact of the filing the row's total assets cite, in the row's currency, or of the one filing every held debt
+    // figure of the row comes from (sec-facts presentedDebt: EQT 2025-09-30, total assets repeated in the 2026 Q3
+    // 10-Q, its debt the 2025 Q3 10-Q's own face lines).
     if(derived?.formula==='sum_presented_facts') {
-        const anchor=data.sources?.[(row._sources.totalAssets || [])[0]]?.accessionNumber;
+        const own=new Set(DEBT_PARTS.filter(f=>number(row[f])!==null).flatMap(f=>(row._sources?.[f] || []).map(id=>data.sources?.[id]?.accessionNumber)));
+        const anchor=sources[0]?.accessionNumber===data.sources?.[(row._sources.totalAssets || [])[0]]?.accessionNumber || own.size===1 && own.has(sources[0]?.accessionNumber)?sources[0].accessionNumber:null;
         if(field!=='shortLongTermDebtTotal' || row.periodType!=='instant' || !anchor || !Array.isArray(derived.presentedConcepts) || sources.length!==derived.presentedConcepts.length)return false;
         if(!sources.every((s,i)=>validSource(s,data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && s.accessionNumber===anchor && s.periodEnd===row.fiscalDateEnding && s.periodStart===null && s.unit===row.reportedCurrency && s.concept===derived.presentedConcepts[i]))return false;
         const values=sources.map(s=>number(s.rawValue));
@@ -136,13 +141,20 @@ function verifiedField(data, row, field, accessions) {
     // assets, net income or operating cash flow), for the row's own date or span, and no part the sum of others. A
     // quarter may be the year-to-date lines of that filing less the same lines of one earlier filing.
     if ((derived?.formula === 'sum_of_parts' || derived?.formula === 'sum_of_parts_ytd_difference') && derived.presented === true) {
-        const entry = Object.entries(require('./statement-lines').FACE_FAMILY).find(([k]) => k.split('|')[1] === field);
+        // Income-statement D&A read from the cash-flow statement's lines (sec-facts mirrorFaceDa): the cash row of the
+        // same span supplies the anchor.
+        const mirrored = field === 'depreciationAndAmortization', family = mirrored ? 'depreciationDepletionAndAmortization' : field;
+        const entry = Object.entries(require('./statement-lines').FACE_FAMILY).find(([k]) => k.split('|')[1] === family);
         const parts = derived.parts, ytdForm = derived.formula === 'sum_of_parts_ytd_difference', n = Array.isArray(parts) ? parts.length : 0;
-        if (!entry || n < 2 || new Set(parts).size !== n || !parts.every(t => typeof t === 'string' && t.startsWith('us-gaap:') && entry[1].includes(t.slice(8))) || sources.length !== (ytdForm ? 2 * n : n)) return false;
+        // A D&A part outside the family carries the printed label that makes it one (statement-lines labelPart).
+        const member = t => entry[1].includes(t.slice(8)) || family === 'depreciationDepletionAndAmortization' && require('./statement-lines').labelPart(t.slice(8), derived.labels?.[t]);
+        if (!entry || n < 2 || new Set(parts).size !== n || !parts.every(t => typeof t === 'string' && t.startsWith('us-gaap:') && member(t)) || sources.length !== (ytdForm ? 2 * n : n)) return false;
         const st = entry[0].split('|')[0];
         if ((st === 'balance') !== (row.periodType === 'instant') || (ytdForm && row.periodType !== 'quarterly')) return false;
         const anchorField = { balance: 'totalAssets', income: 'netIncome', cash: 'operatingCashflow' }[st];
-        const anchor = data.sources?.[(row._sources[anchorField] || [])[0]]?.accessionNumber;
+        const anchorRow = mirrored ? (data.cash?.[row.periodType + 'Reports'] || []).find(r => r.fiscalDateEnding === row.fiscalDateEnding && r.periodStart === row.periodStart) : row;
+        if (mirrored && (!anchorRow || anchorRow.reportedCurrency !== row.reportedCurrency)) return false;
+        const anchor = data.sources?.[(anchorRow._sources?.[anchorField] || [])[0]]?.accessionNumber;
         const fact = (s, i) => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && s.unit === row.reportedCurrency && s.taxonomy + ':' + s.concept === parts[i % n];
         const oneSpan = g => g.every(s => s.accessionNumber === g[0].accessionNumber && s.periodStart === g[0].periodStart && s.periodEnd === g[0].periodEnd);
         const values = g => g.map(s => number(s.rawValue));
@@ -329,4 +341,4 @@ function newestFiling(data, ids) {
     if (!list.length || list.length !== (ids || []).length) return null;
     return list.reduce((a, b) => (String(b.filingDate) > String(a.filingDate) || String(b.filingDate) === String(a.filingDate) && String(b.accessionNumber) > String(a.accessionNumber)) ? b : a).accessionNumber || null;
 }
-module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS, presentedDebtFacts, presentedCapexFacts, newestFiling };
+module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial, INCOMPATIBLE, DEBT_PARTS, presentedDebtFacts, presentedCapexFacts, newestFiling, NOT_DEBT_LINE };

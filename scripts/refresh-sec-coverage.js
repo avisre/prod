@@ -96,8 +96,10 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
   }
   // A quarter can be in the feed and still lack a line the same quarter a year earlier carried: a
   // single-segment filer that tags it only in its segment note (Innodata's gross profit and operating
-  // income, March and June 2026). The report itself holds it.
-  const lacking=filing=>{const rows=data.income.quarterlyReports,row=rows.find(r=>r.fiscalDateEnding===filing?.reportDate);if(!row)return false;
+  // income, March and June 2026). The report itself holds it. So does a quarter the feed lacks whole:
+  // NNN and Molson Coors March 2026 were read from their own 10-Q while it was the previous report,
+  // and dropped once a newer 10-Q pushed it out of the newest two (2026-11-07).
+  const lacking=filing=>{const rows=data.income.quarterlyReports,row=rows.find(r=>r.fiscalDateEnding===filing?.reportDate);if(!row)return true;
    const prior=rows.find(r=>Math.abs(Date.parse(r.fiscalDateEnding)+365.25*864e5-Date.parse(row.fiscalDateEnding))<10*864e5);
    return !!prior && Object.keys(prior).some(k=>typeof prior[k]==='number' && row[k]==null);};
   for(const filing of [periodic,earlier,...yearPeriodics].filter((f,i,all)=>f && all.findIndex(g=>g?.accessionNumber===f.accessionNumber)===i)) {
@@ -107,7 +109,8 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
    try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,filing);
     const own={...original,facts:Object.fromEntries(Object.entries(original.facts || {}).map(([tax,concepts])=>[tax,Object.fromEntries(Object.entries(concepts).map(([concept,fact])=>[concept,{...fact,units:Object.fromEntries(Object.entries(fact.units).map(([measure,rows])=>[measure,rows.filter(f=>f.end===filing.reportDate)]))}]))]))};
     const nextRaw=require('../backend/sec-original').mergeFacts(raw,own),next=extract(nextRaw,merged,{asOf,statementLines});
-    const lost=['income','balance','cash'].flatMap(st=>['annualReports','quarterlyReports'].flatMap(kind=>data[st][kind].flatMap(r=>{const n=next[st][kind].find(x=>x.fiscalDateEnding===r.fiscalDateEnding);return Object.keys(r).filter(k=>typeof r[k]==='number' && n?.[k]!==r[k]).map(k=>st+':'+r.fiscalDateEnding+':'+k);})));
+    // A row older than every kept one has rolled out of the history window (a new quarter pushes the oldest out); that is not a changed value.
+    const lost=['income','balance','cash'].flatMap(st=>['annualReports','quarterlyReports'].flatMap(kind=>data[st][kind].flatMap(r=>{const n=next[st][kind].find(x=>x.fiscalDateEnding===r.fiscalDateEnding);if(!n && next[st][kind].length && next[st][kind].every(x=>x.fiscalDateEnding>r.fiscalDateEnding))return [];return Object.keys(r).filter(k=>typeof r[k]==='number' && n?.[k]!==r[k]).map(k=>st+':'+r.fiscalDateEnding+':'+k);})));
     if(lost.length){(merged.lineGapExtraction ||= []).push({reportDate:filing.reportDate,status:'rejected_changes_filed_values',changed:lost.slice(0,5),source:original.originalDocument});continue;}
     raw=nextRaw;data=next;(merged.lineGapExtraction ||= []).push({reportDate:filing.reportDate,status:lacking(filing)?'lines_not_found':'success',source:original.originalDocument});}
    catch(error){(merged.lineGapExtraction ||= []).push({reportDate:filing.reportDate,status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)});}

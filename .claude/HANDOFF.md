@@ -14,6 +14,30 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Filing-backed statement repair (face16) + Q3 weekly — 2026-11-08 (owner authorized deploy after tests + predeploy)
+- `EXTRACTION_VERSION` `20261107-face16`. Rules: Alamo-type partial D&A sums corrected from the same filing's face
+  lines (`DERIVED_SUM_CORRECTED`), labelled D&A lines on non-D&A tags (`labelPart`), income D&A mirrored from the
+  cash face (`mirrorFaceDa`), blank face-family cells read from the face (SG&A only when validation refused it),
+  `DEBT_LINE` gained `Bond` and instrument names, `NOT_DEBT_LINE` covers `CommonStock`/`TemporaryEquity`, the
+  presentedDebt anchor follows the debt lines' own filing (±7 days), and gross receivables before an allowance are not net.
+- 11-08 fixes to the face16 rules themselves: (1) `shows()`: a quarterly income/cash face shows its own quarter or the
+  same quarter a year back, and a balance face shows its own date or an earlier fiscal year end. Before this, a newer
+  10-Q that repeats a figure was taken as its face (CoStar Q2 SG&A, Kosmos 2025-09-30). (2) Line fill: when the newest
+  filing gives two figures for one line, the next filing that gives one is used (AA Mission EPS, First Hawaiian allowance).
+  Pinned by two tests dated 2026-11-08 in `statement-face.test.js` and `statement-lines.test.js`. Both were run against the
+  pre-fix code (the copy in `~/Downloads/sec-bulk/bisect`): both FAIL there and pass on the fix. The revenue-breakdown golden
+  refresh changed only QCOM and V `fiscalYear`, FY2025 to FY2026 (new 10-Ks); rows unchanged.
+- Measured vs `99d4daaf5`: about 85.7k cells filled. 488 emptied, mostly corrections: gross receivables, cash including
+  restricted cash, OtherAssets as current assets, op-costs as R&D, and notes read as faces (Plug 2019).
+  `refresh-sec-coverage.js` now re-reads a quarter the feed lacks whole (NNN/TAP Q1 2026) and ignores rows that rolled
+  out of the 48-quarter window.
+- Traps: `--as-of` is the **UTC** date (IST date breaks public-index). An offline re-extract has no yearPeriodics and
+  loses line-gap fills, so re-extract those live (ALNY). `companyfacts-bulk` ignores a zip older than 36h. The fixture
+  check date is now today, because the old fixed date made two tests fail after 35 days.
+- Open: KOYN Q1/Q2 2026 cash rows missing; 39 industry `retrieval_failed ERR_BAD_RESPONSE`, so rerun
+  `refresh-sec-industry.js --retry`; the next weekly run applies the 11-08 fixes to every issuer (only CSGP, FHB, LOAR,
+  KOS, YCY and AUC were re-extracted with them).
+
 ## Remaining statement gaps investigated — 2026-11-07 (research only)
 - Owner asked for a solution to the remaining 826/600/704 gappy-row buckets. Findings and implementation criteria:
   `docs/statement-audit/remaining-gap-solution-2026-11-07.md`. No extractor/data fix or corpus rebuild performed.

@@ -21,27 +21,57 @@ const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i>0?proces
 const day=s=>/^\d{8}$/.test(s || '')?`${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`:null;
 
 function openZip(file){const yauzl=req('yauzl');return new Promise((res,rej)=>yauzl.open(file,{lazyEntries:true,autoClose:false},(e,zf)=>{if(e)return rej(e);const entries=new Map();zf.on('entry',en=>{entries.set(en.fileName,en);zf.readEntry();});zf.on('end',()=>res({zf,entries}));zf.on('error',rej);zf.readEntry();}));}
-// Each table is tab-separated with a header row (FSDS readme, section 2).
+// Each table is tab-separated with a header row (FSDS readme, section 2). A monthly Financial Statement and Notes
+// data set (2026_10_notes.zip: https://www.sec.gov/data-research/sec-markets-data/financial-statement-notes-data-sets)
+// holds the same tables as .tsv, every fact of the filing rather than the statements' alone, and a fact's
+// dimensions as a hash into dim.tsv: read as `segments`, it is the quarterly set's num.txt. The quarterly set for
+// 2026q4 is published only in January; the monthly set reaches CME's 10-Q of 2026-10-23, whose cash-flow statement
+// was otherwise unread.
 async function table(zip,name,fn){
+ if(zip.notes)return notesTable(zip,name,fn);
  const entry=zip.entries.get(name);if(!entry)throw new Error(`${name} missing`);
  const stream=await new Promise((res,rej)=>zip.zf.openReadStream(entry,(e,rs)=>e?rej(e):res(rs)));
  const rl=readline.createInterface({input:stream,crlfDelay:Infinity});let head=null;
  for await(const text of rl){const c=text.split('\t');if(!head){head=Object.fromEntries(c.map((h,i)=>[h,i]));continue;}fn(c,head);}
 }
 
+async function rows(zip,name,fn){
+ const entry=zip.entries.get(name);if(!entry)throw new Error(`${name} missing`);
+ const stream=await new Promise((res,rej)=>zip.zf.openReadStream(entry,(e,rs)=>e?rej(e):res(rs)));
+ const rl=readline.createInterface({input:stream,crlfDelay:Infinity});let head=null;
+ for await(const text of rl){const c=text.split('\t');if(!head){head=Object.fromEntries(c.map((h,i)=>[h,i]));continue;}fn(c,head);}
+}
+async function notesTable(zip,name,fn){
+ const tsv=name.replace(/\.txt$/,'.tsv');
+ // The notes data set's presentation also lists a statement's dimension rows (AmEx's 10-Q balance sheet: OtherLoansMember,
+ // RestrictedCashAndCashEquivalentsCashAndCashEquivalentsAxis); the quarterly data sets carry line items only.
+ if(tsv==='pre.tsv')return rows(zip,tsv,(c,h)=>{if(!/(?:Member|Axis|Domain|Table|LineItems|Abstract)$/.test(c[h.tag] || ''))fn(c,h);});
+ if(tsv!=='num.tsv')return rows(zip,tsv,fn);
+ if(!zip.dims){zip.dims=new Map();await rows(zip,'dim.tsv',(c,h)=>{if(c[h.segments])zip.dims.set(c[h.dimhash],c[h.segments]);});}
+ let head=null;
+ return rows(zip,tsv,(c,h)=>{
+  if(!head)head={...h,segments:Object.keys(h).length};
+  c.push(zip.dims.get(c[h.dimh]) || '');fn(c,head);
+ });
+}
+
 async function child(file,out,covered){
- const zip=await openZip(file),subs=new Map();
+ const zip=await openZip(file),subs=new Map();zip.notes=/_(?:notes|edgar)\.zip$/.test(file);
  await table(zip,'sub.txt',(c,h)=>{const cik=p.cik(c[h.cik]);if(covered.has(cik) && FORM.test(c[h.form]))subs.set(c[h.adsh],{cik,form:c[h.form],filed:day(c[h.filed]),period:day(c[h.period]),industry:/^(602|603|609|63)/.test(c[h.sic] || '')});});
  // Statement lines first, the noncontrolling-interest flag of each statement with them:
  // the flag can come after the line it qualifies, so fields are settled once it is known.
- const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),capex=new Map(),face=new Map(),columns=new Map(),faces=new Map();
+ const raw=new Map(),nci=new Set(),mapped=lines.mappedTags(),debt=new Map(),bsLines=new Map(),capex=new Map(),face=new Map(),columns=new Map(),faces=new Map(),partLines=new Map(),partValues=new Map();
  await table(zip,'pre.txt',(c,h)=>{
   const adsh=c[h.adsh],stmt=c[h.stmt];if(!subs.has(adsh) || !lines.STATEMENT[stmt] || c[h.inpth]!=='0')return;
   const tag=c[h.tag],version=c[h.version],plabel=c[h.plabel];
   if(stmt==='BS' && (tag==='Assets' || BALANCE_TAG.get(tag)?.size===1))face.set(adsh+'|'+tag+'|'+version,plabel);
   if(stmt==='BS' && lines.debtLine(tag,plabel)){if(!debt.has(adsh))debt.set(adsh,new Map());debt.get(adsh).set(tag+'|'+version,tag);}
-  const token=lines.faceToken(stmt,tag,plabel,version===adsh);
-  if(token){const k=adsh+'|'+lines.STATEMENT[stmt];if(!faces.has(k))faces.set(k,[]);faces.get(k).push([c[h.report],Number(c[h.line]),token]);}
+  if(stmt==='BS'){if(!bsLines.has(adsh))bsLines.set(adsh,[]);bsLines.get(adsh).push([c[h.report],Number(c[h.line]),tag+'|'+version,lines.debtLine(tag,plabel),/^total\b/i.test(plabel || '')]);}
+  const token=lines.faceToken(stmt,tag,plabel,version===adsh,String(version).split('/')[0]);
+  if(token){const k=adsh+'|'+lines.STATEMENT[stmt];if(!faces.has(k))faces.set(k,[]);faces.get(k).push([c[h.report],Number(c[h.line]),token,plabel]);}
+  // A company-defined D&A line's own figures (k:'part'): the company-facts feed has none, and sec-facts reads the
+  // line as a part only where the same filing files the same figure under a family tag (faceTokens).
+  if(token && token.startsWith('~da:custom:'))partLines.set(adsh+'|'+tag+'|'+version,plabel);
   if(stmt==='CF' && lines.capexLine(tag,plabel,version===adsh)){const k=adsh+'|'+tag+'|'+version;if(!capex.has(k))capex.set(k,{tag,custom:version===adsh,version,plabel});}
   if(/noncontrolling|minority/i.test(tag+' '+plabel))nci.add(adsh+'|'+stmt);
   if(!lines.fieldsFor(stmt,plabel,tag,{custom:version===adsh,mapped,memberTotal:true}).length)return;
@@ -62,26 +92,33 @@ async function child(file,out,covered){
   if(kept.length)wanted.set(key,{custom,tag,kept});
  }
  const w=fs.createWriteStream(out);let n=0;
- // The debt lines each balance sheet presents, credit lines only (a debit "debt securities" line is an asset).
- for(const [adsh,tags] of debt){
-  const sub=subs.get(adsh),kept=[...tags].filter(([k])=>crdr.get(k)!=='D').map(([,tag])=>tag);
-  if(sub.period && kept.length){w.write(JSON.stringify([sub.cik,{s:'balance',k:'debt',f:'',e:sub.period,c:[...new Set(kept)].sort(),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;}
- }
  // The family lines each statement presents, in order (statement-lines faceToken). A filing with two
  // statements of one kind (a co-registrant's, a parent-only one) says nothing about which is the row's.
  for(const [k,list] of faces){
   const [adsh,st]=k.split('|'),sub=subs.get(adsh);
   if(!sub.period || new Set(list.map(x=>x[0])).size!==1)continue;
-  const c=list.sort((x,y)=>x[1]-y[1]).map(x=>x[2]);
-  if(c.some(t=>Object.entries(lines.FACE_FAMILY).some(([key,tags])=>key.startsWith(st+'|') && tags.includes(t)))){w.write(JSON.stringify([sub.cik,{s:st,k:'face',f:'',e:sub.period,c,a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;}
+  list.sort((x,y)=>x[1]-y[1]);const c=list.map(x=>x[2]),l=list.map(x=>x[2].startsWith('~da:')?x[3]:'');
+  if(c.some(t=>t.startsWith('~da:') || Object.entries(lines.FACE_FAMILY).some(([key,tags])=>key.startsWith(st+'|') && tags.includes(t)))){w.write(JSON.stringify([sub.cik,{s:st,k:'face',f:'',e:sub.period,c,...(l.some(Boolean)?{l}:{}),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;}
  }
  // The capital-spending lines each cash-flow statement presents, with their figures per period
  // (statement-lines capexLine): one record per filing, period and currency, summed in sec-facts.
+ // The balance-sheet figures of each filing that presents a "Total ..." debt line, to check its block adds up.
+ const bsValues=new Map();
+ for(const [adsh,rows] of bsLines)if(debt.has(adsh) && rows.some(r=>r[3] && r[4]))for(const r of rows)bsValues.set(adsh+'|'+r[2],new Map());
  const spent=new Map(),revenue=new Map(),plainRevenue=new Set(),revenueTags=new Set(Object.values(require('../backend/sec-facts').MAPS.income.totalRevenue).filter(Array.isArray).flat());
  await table(zip,'num.txt',(c,h)=>{
   const adsh=c[h.adsh],key=adsh+'|'+c[h.tag]+'|'+c[h.version],want=wanted.get(key),line=capex.get(key),column=face.has(key);
+  if(partLines.has(key) && !c[h.segments] && !c[h.coreg] && /^[1-4]$/.test(c[h.qtrs]) && /^[A-Z]{3}$/.test(c[h.uom]) && c[h.value]!=='' && Number.isFinite(Number(c[h.value]))){
+   const k=key+'|'+c[h.ddate]+'|'+c[h.qtrs]+'|'+c[h.uom];if(!partValues.has(k))partValues.set(k,new Set());partValues.get(k).add(Number(c[h.value]));
+  }
+  if(bsValues.has(key) && !c[h.segments] && !c[h.coreg] && c[h.qtrs]==='0' && /^[A-Z]{3}$/.test(c[h.uom]) && c[h.value]!=='' && Number.isFinite(Number(c[h.value]))){
+   const by=bsValues.get(key),k=c[h.ddate]+'|'+c[h.uom];by.set(k,by.has(k) && by.get(k)!==Number(c[h.value])?NaN:Number(c[h.value]));
+  }
   if(!c[h.segments] && !c[h.coreg] && revenueTags.has(c[h.tag]) && c[h.value]!=='')plainRevenue.add([adsh,day(c[h.ddate]),c[h.qtrs],c[h.uom]].join('|'));
   if(!want && !line && !column || c[h.coreg])return;
+  // A monthly set's num.tsv holds the notes' facts too: a dimensional fact there may be a note's breakdown, not a
+  // column of the statement, so a revenue member total and a balance-sheet column are read from quarterly sets only.
+  if(zip.notes && c[h.segments] && !/^ClassOfStock=[^;=]+;?$/.test(c[h.segments]))return;
   const value=Number(c[h.value]),end=day(c[h.ddate]),qtrs=c[h.qtrs],uom=c[h.uom],segments=c[h.segments] || '',sub=subs.get(adsh);
   if(!Number.isFinite(value) || c[h.value]==='' || !end || end>sub.filed || !/^[A-Z]{3}(\/shares)?$/.test(uom))return;
   // A balance sheet presented in segment columns (statement-lines columnSum): plain value and
@@ -107,13 +144,28 @@ async function child(file,out,covered){
    }
    if(!lines.acceptedDimension(segments,field))continue;
    // A standard EPS tag is in the company-facts feed already, unless it is filed per class.
-   // A tag only the bank and insurer rows read is not ours for another row (statement-lines mappedTags).
-   if(!want.custom && mapped.has(want.tag) && !segments && !(mapped.industry.has(want.tag) && !mapped.industry.get(want.tag).has(field)))continue;
+   // A tag the maps read for other fields only is not ours for this one (statement-lines mappedTags).
+   if(!want.custom && mapped.has(want.tag) && !segments && lines.ownTag(mapped,want.tag,[field]))continue;
    const rec={s:lines.STATEMENT[stmt],f:field,t:want.custom?'custom':String(c[h.version]).split('/')[0],c:want.tag,l:plabel,u:uom,v:value,e:end,q:Number(qtrs),a:adsh,m:sub.form,d:sub.filed};
    if(segments)rec.g=segments.replace(/;$/,'');
    w.write(JSON.stringify([sub.cik,rec])+'\n');n++;
   }
  });
+ // The debt lines each balance sheet presents, credit lines only (a debit "debt securities" line is an asset).
+ for(const [adsh,tags] of debt){
+  // A debt line printed directly above a "Total ..." debt line is a part of that total, not a line of its own, when the
+  // block above the total adds up to it (AEP 2026-09-30: "Other Short-term Debt", ShortTermBankLoansAndNotesPayable,
+  // beside its securitized debt, above "Total Short-term Debt"; not Gap's line of credit above its notes).
+  const values=new Map();for(const r of bsLines.get(adsh) || [])if(bsValues.has(adsh+'|'+r[2]))values.set(r[2],bsValues.get(adsh+'|'+r[2]));
+  const parts=lines.debtSubtotalParts(bsLines.get(adsh) || [],values);
+  const sub=subs.get(adsh),kept=[...tags].filter(([k])=>crdr.get(k)!=='D' && !parts.has(k)).map(([,tag])=>tag);
+  if(sub.period && kept.length){w.write(JSON.stringify([sub.cik,{s:'balance',k:'debt',f:'',e:sub.period,c:[...new Set(kept)].sort(),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;}
+ }
+ for(const [k,values] of partValues){
+  const [adsh,tag,,ddate,qtrs,uom]=k.split('|'),sub=subs.get(adsh),end=day(ddate);
+  if(values.size!==1 || !end || end>sub.filed)continue;
+  w.write(JSON.stringify([sub.cik,{s:'cash',k:'part',f:'',c:tag,t:'custom',l:partLines.get(adsh+'|'+tag+'|'+adsh),u:uom,v:[...values][0],e:end,q:Number(qtrs),a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;
+ }
  for(const [k,by] of spent){
   const [adsh,end,qtrs,uom]=k.split('|'),sub=subs.get(adsh),parts=[...by.values()].sort((x,y)=>x.line.tag.localeCompare(y.line.tag));
   // A line with two figures for one period is not read, and neither is that period's capital spending.
@@ -156,7 +208,7 @@ async function main(){
  const covered=new Set(fs.readdirSync(path.join(p.DATA_DIR,'sec-financials')).map(f=>f.replace(/\.json$/,'')).filter(f=>/^\d{10}$/.test(f)));
  if(process.argv[2]==='--child'){const n=await child(process.argv[3],process.argv[4],covered);console.log(path.basename(process.argv[3]),n,'lines');return;}
  const dir=arg('--dir',path.join(os.homedir(),'.cache/stockportfolio/fsds')),jobs=Number(arg('--jobs',os.cpus().length));
- const zips=fs.readdirSync(dir).filter(f=>/^\d{4}q[1-4]\.zip$/.test(f)).sort();
+ const zips=fs.readdirSync(dir).filter(f=>/^\d{4}q[1-4]\.zip$|^\d{4}_\d{2}_(?:notes|edgar)\.zip$/.test(f)).sort();
  if(!zips.length)throw new Error(`no quarterly zips in ${dir}`);
  const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'statement-lines-'));
  const queue=[...zips];let failed=0;

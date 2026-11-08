@@ -19,7 +19,8 @@
 //   c concept   l printed label        u unit           v value as filed
 //   e period end (YYYY-MM-DD)          q quarters (0 instant, 1 quarter, 4 year)
 //   a accession m form  d filing date  g dimension ("ClassOfStock=CommonStock"), or the column members
-//   k record kind (debt|capex|columns); a columns record also carries x axis and ta member Assets values
+//   k record kind (debt|capex|columns|face|part); a columns record also carries x axis and ta member Assets
+//   values, a face record l (the printed label of each '~' line), a part record one company-defined D&A line
 const fs=require('node:fs'),path=require('node:path'),p=require('./sec-coverage');
 const STATEMENT={IS:'income',BS:'balance',CF:'cash'};
 const ANY='(?:income|loss|\\(loss\\) income|income \\(loss\\)|earnings|\\(loss\\) earnings|earnings \\(loss\\)|profit|\\(loss\\) profit|profit \\(loss\\))';
@@ -152,22 +153,39 @@ function netLabel(text){return text.replace(NET_OF,', net').replace(/ [-–—] 
 // it uses only as arithmetic checks and those the validator refuses for a field.
 function mappedTags(){
  const {MAPS}=require('./sec-facts'),out=new Set(['CostsAndExpenses','PreferredStockDividendsIncomeStatementImpact','DividendsPreferredStock','NetIncomeLossAttributableToNoncontrollingInterest',...Object.values(p.INCOMPATIBLE).flat()]);
- const own=new Set(out);
- for(const fields of Object.values(MAPS))for(const def of Object.values(fields))for(const t of ['us-gaap','ifrs-full'])for(const c of def[t])out.add(c);
+ // The tags above are refused for every field, and so is a field's first (primary) tag: its meaning is settled, and a
+ // label naming another field contradicts it. A tag the maps read only as a fallback is ours for those fields; a line
+ // whose label names another field fills it only where the filing's line items are the industry's own (sec-facts
+ // INDUSTRY_FIELDS: a bank's "Cash and due from banks" filed as CashCashEquivalentsRestrictedCashAndRestrictedCash-
+ // Equivalents, "FHLB advances" as LongTermDebt), or for a pair in OTHER_FIELD. Elsewhere label and tag disagree
+ // and the cell stays empty: "Gross profit" filed as Revenues, "Interest expense" as DepreciationAndAmortization.
+ // So a tag only the bank and insurer rows read is ours for those rows alone: Humana's "Total operating expenses"
+ // is BenefitsLossesAndExpenses, Bank of Hawaii's "Cash and Cash Equivalents" InterestBearingDepositsInBanks.
+ const {INDUSTRY_FIELDS}=require('./sec-facts');out.blocked=new Set(out);const fieldsOf=new Map();
+ for(const [st,fields] of Object.entries(MAPS))for(const [f,def] of Object.entries(fields))for(const t of ['us-gaap','ifrs-full'])for(const [i,c] of def[t].entries()){out.add(c);if(i===0 && !INDUSTRY_FIELDS[st]?.includes(f))out.blocked.add(c);if(!fieldsOf.has(c))fieldsOf.set(c,new Set());fieldsOf.get(c).add(f);}
+ out.fieldsOf=fieldsOf;out.industryFields=new Set(Object.values(INDUSTRY_FIELDS).flat());
  // FEMSA and Prudential file their whole investing and financing totals under the IFRS continuing-operations
  // elements, which the extraction reads only as one part of a sum; the line is what reaches the total.
  for(const f of ['investingCashflowContinuing','financingCashflowContinuing'])for(const c of MAPS.cash[f]['ifrs-full'])out.delete(c);
  // The IFRS employee share-based expense only fills, like the add-back beside it; where the cash-flow statement
  // presents it (Pembina 2022: C$126m, the add-back tag holding -C$45m of another line) the line still wins.
  out.delete('ExpenseFromSharebasedPaymentTransactionsWithEmployees');
- // A tag only the bank and insurer rows read (sec-facts INDUSTRY_FIELDS) is ours for those rows alone: Humana's
- // "Total operating expenses" is BenefitsLossesAndExpenses, Bank of Hawaii's "Cash and Cash Equivalents"
- // InterestBearingDepositsInBanks, and the facts fill only the industry row from them.
- const {INDUSTRY_FIELDS}=require('./sec-facts'),industry=new Map();
- for(const [st,fields] of Object.entries(MAPS))for(const [f,def] of Object.entries(fields))if(!INDUSTRY_FIELDS[st]?.includes(f))for(const t of ['us-gaap','ifrs-full'])for(const c of def[t])own.add(c);
- for(const [st,fields] of Object.entries(INDUSTRY_FIELDS))for(const f of fields)for(const t of ['us-gaap','ifrs-full'])for(const c of MAPS[st][f][t] || [])if(!own.has(c) && out.has(c)){if(!industry.has(c))industry.set(c,new Set());industry.get(c).add(f);}
- out.industry=industry;
  return out;
+}
+// Fallback tags whose printed line names another field (mappedTags): CIK 771999's "Cost of revenue" filed as
+// OperatingCostsAndExpenses (read as operating expenses), CIK 101538's "Loss before income taxes" filed under the
+// before-interest-and-taxes element (read as operating income).
+const OTHER_FIELD={
+ OperatingCostsAndExpenses:['costOfRevenue'],
+ IncomeLossFromContinuingOperationsBeforeInterestExpenseInterestIncomeIncomeTaxesExtraordinaryItemsNoncontrollingInterestsNet:['incomeBeforeTax'],
+};
+// True when a standard tag's line is ours already, for every field it maps to (`fields`), so the line is not read:
+// the maps read the tag for one of those fields, or the tag is refused (mappedTags), or label and tag disagree.
+function ownTag(mapped,tag,fields){
+ const ours=mapped.fieldsOf?.get(tag);
+ if(!ours || mapped.blocked?.has(tag) || fields.some(f=>ours.has(f)))return true;
+ if([...ours].every(f=>mapped.industryFields.has(f)))return false;
+ return !fields.every(f=>mapped.industryFields.has(f) || OTHER_FIELD[tag]?.includes(f));
 }
 // Fields a filing line maps to, or []. `mapped` holds every tag our own maps read; a
 // line on one of them is ours already. `noncontrolling` is true when the same
@@ -197,7 +215,8 @@ function fieldsFor(stmt,plabel,tag,{custom=false,mapped=new Set(),noncontrolling
  // A standard tag of ours reaches the cell already, except a per-class EPS figure,
  // which the company-facts feed drops with every other dimensional fact, and, for the
  // builder (memberTotal), a total revenue filed only under one product member.
- if(!custom && mapped.has(tag) && !out.every(f=>f==='eps' || f==='dilutedEPS' || memberTotal && f==='totalRevenue') && !(mapped.industry?.has(tag) && !out.some(f=>mapped.industry.get(tag).has(f))))return [];
+ // A tag the maps read for other fields only is not ours for this one (mappedTags fieldsOf).
+ if(!custom && mapped.has(tag) && !out.every(f=>f==='eps' || f==='dilutedEPS' || memberTotal && f==='totalRevenue') && ownTag(mapped,tag,out))return [];
  return [...new Set(out)];
 }
 // The one member of a product breakdown that is the whole (build-statement-lines): [member, value] of the largest
@@ -240,6 +259,31 @@ function debtLine(tag,plabel){
  // "net of deferred financing costs" describes a debt line; it is not what the line is.
  if(/operating lease|lease liabilit|interest payable|accrued interest|securities|issuance cost|warrant|derivative|deferred|tax|receivable|other than|equity|guarantee/.test(text.replace(/,? *(?:net of|less|including|excluding)\b[^|]*$/,'')))return false;
  return /debt|borrowing|\bnotes?\b|commercial paper|\bloans?\b|credit facilit|lines? of credit|debentures?|revolv|mortgages?\b|\bbonds?\b|federal home loan|fhlb|convertible/.test(text);
+}
+// The debt lines a balance sheet prints directly above a "Total ..." debt line, which are that total's parts
+// (AEP 2026-09-30: "Other Short-term Debt" above "Total Short-term Debt"). rows: [report, line, key, debt line?,
+// "Total" label?]. A run of debt lines ends at any other line; a key counts as a part only where every
+// presentation of it is one.
+// With the face's figures (values: key -> Map of date -> value), the label is not taken on its word: every line of
+// the block above the "Total" line, back to its heading, must add up to it in each column that has them all (Gap
+// 2024 Q1: "Long-term Line of Credit", $350m, above a "Total long-term debt" of $1,487m that is the notes alone;
+// AEP's block is its securitized debt and "Other Short-term Debt", together the total).
+function debtSubtotalParts(rows,values){
+ const byReport=new Map();for(const r of rows){if(!byReport.has(r[0]))byReport.set(r[0],[]);byReport.get(r[0]).push(r);}
+ const part=new Set(),alone=new Set();
+ const adds=(total,block)=>{
+  const t=values.get(total[2]);if(!t || !block.length)return false;let seen=0;
+  for(const [date,v] of t){const vs=block.map(x=>values.get(x[2])?.get(date));if(vs.some(x=>x===undefined))continue;if(!Number.isFinite(v) || vs.some(x=>!Number.isFinite(x)))return false;seen++;if(Math.abs(vs.reduce((a,b)=>a+b,0)-v)>0.5)return false;}
+  return seen>0;
+ };
+ for(const list of byReport.values()){
+  list.sort((x,y)=>x[1]-y[1]);const here=new Set();
+  list.forEach((r,i)=>{if(!r[3] || !r[4])return;const run=[];for(let j=i-1;j>=0 && list[j][3] && !list[j][4];j--)run.push(list[j][2]);
+   if(values){const block=[];for(let j=i-1;j>=0 && list[j][1]===list[j+1][1]-1 && !list[j][4] && !/Abstract\|/.test(list[j][2]);j--)block.push(list[j]);if(!adds(r,block))return;}
+   for(const k of run)here.add(k);});
+  for(const r of list)if(r[3])(here.has(r[2])?part:alone).add(r[2]);
+ }
+ return new Set([...part].filter(k=>!alone.has(k)));
 }
 // A cash-flow line that is money spent on the company's own long-lived assets: property and equipment,
 // software it builds or buys, tooling. Capital spending is often split over several lines, one of them on a
@@ -290,11 +334,12 @@ const FACE_FAMILY={
 const FACE_MARKS=['AssetsCurrent','Assets','LiabilitiesCurrent','Liabilities','StockholdersEquity','StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest','LiabilitiesAndStockholdersEquity'];
 const FACE_TAGS={balance:new Set([...FACE_MARKS,...['shortTermDebt','longTermDebt','otherNonCurrentAssets','intangibleAssetsExcludingGoodwill','cashAndCashEquivalentsAtCarryingValue','currentAccountsPayable'].flatMap(f=>FACE_FAMILY['balance|'+f])]),income:new Set([...FACE_FAMILY['income|sellingGeneralAndAdministrative'],'SellingGeneralAndAdministrativeExpense','SellingGeneralAndAdministrativeExpenseExcludingOtherExpense'])};
 // The token a presented line stands for, or null when it belongs to no family.
-function faceToken(stmt,tag,plabel,custom){
+function faceToken(stmt,tag,plabel,custom,taxonomy='us-gaap'){
  const st=STATEMENT[stmt],text=label(plabel);
  // A line whose label names the family but whose tag is outside it (a custom tag, or a standard one such as
  // Alamo's "Depreciation - Rental Equipment" tagged EquipmentExpense) blocks the sum: summing the lines that
- // are members would understate the row.
+ // are members would understate the row. Its token keeps the tag ('~da:us-gaap:EquipmentExpense',
+ // '~da:custom:<tag>'), so sec-facts can resolve it from the filing's own evidence (labelPart, faceTokens).
  if(st==='cash'){
   // A line that is other amortization (debt costs, an operating lease) is no part; one that mixes it with
   // depreciation or intangibles (Broadcom's "Amortization of intangible and right-of-use assets") blocks.
@@ -304,7 +349,7 @@ function faceToken(stmt,tag,plabel,custom){
   const core=/depreciation|depletion|intangible|property|equipment|software/.test(text);
   if(!custom && /Depreciation|Amortization|Depletion/.test(tag) && !FACE_DA_OUT.test(tag) && !other)return tag;
   if(!custom && FACE_DA_OUT.test(tag) && !core)return null;
-  return named && (!other || core)?'~da':null;
+  return named && (!other || core)?'~da:'+(custom?'custom':taxonomy)+':'+tag:null;
  }
  if(st==='income'){
   if(!custom && FACE_TAGS.income.has(tag))return tag;
@@ -323,17 +368,29 @@ function faceToken(stmt,tag,plabel,custom){
  if(/payable|accrued/.test(text) && !/tax|interest|lease|dividend|related|affiliat/.test(text))return '~payable';
  return null;
 }
+// A standard-tag cash-flow line outside the D&A family that its printed label establishes as depreciation or
+// depletion of the company's own assets, or amortization of its intangibles or software: Alamo's
+// "Depreciation - Rental Equipment" (EquipmentExpense, $16.547m in FY2025 beside depreciation of property, plant
+// and equipment and amortization of intangibles). Never the tag's name alone: EquipmentExpense is not depreciation
+// elsewhere. A label that also names financing, leases, contracts, content, impairment or "other" is not one.
+function labelPart(tag,plabel){
+ const text=label(plabel);
+ if(!tag || FACE_DA_OUT.test(tag) || /financ|debt|discount|premium|lease|contract|investment|stock|share|deferred|right[- ]of[- ]use|impair|accretion|cloud|implementation|commission|film|content|program|loan|servic|other|including|net of|write|loss|gain/.test(text))return false;
+ return /^(?:depreciation|depletion)(?:,? (?:depletion )?and (?:amorti[sz]ation|depletion))?(?:\s*(?:[-–—:]|of|on)\s*(?:the )?(?:rental|revenue|lease fleet|fleet|property|plant|equipment|buildings|vehicles|aircraft|vessels|rigs|towers|fixed|tangible|long-lived|capital|assets|machinery)[a-z ,&]*)?$/.test(text)
+  || /^amorti[sz]ation(?: expense)?(?: of| on|\s*[-–—:])\s*(?:acquired |purchased |finite-lived |definite-lived |identifiable )?(?:intangible assets?|intangibles|capitali[sz]ed software(?: (?:development )?costs)?|software(?: development costs)?|internal-use software)$/.test(text);
+}
 // The presented lines that are the row (sec-facts faceFill), or null. A line equal to a sum of the
 // others (a subtotal, or one figure presented twice) is refused where the values are read.
-function faceParts(key,tokens){
+// `allowed` (D&A only): tags outside the family that the filing establishes as parts (sec-facts faceTokens).
+function faceParts(key,tokens,allowed){
  const family=FACE_FAMILY[key];
  if(!family || !Array.isArray(tokens))return null;
- const members=tokens.filter(t=>family.includes(t)),one=list=>list.length===1?list:null;
+ const members=tokens.filter(t=>family.includes(t) || key==='cash|depreciationDepletionAndAmortization' && allowed?.has(t)),one=list=>list.length===1?list:null;
  if(!members.length || new Set(members).size!==members.length)return null;
  const at=t=>tokens.indexOf(t);
  switch(key){
   case 'cash|depreciationDepletionAndAmortization':
-   return tokens.some(t=>t==='~da' || !family.includes(t))?null:members;
+   return tokens.some(t=>!family.includes(t) && !allowed?.has(t))?null:members;
   case 'income|sellingGeneralAndAdministrative':
    return tokens.some(t=>t==='~sga' || !family.includes(t))?null:members;
   case 'balance|shortTermDebt': {
@@ -375,4 +432,4 @@ function noSubtotal(values){
 }
 const DIR=()=>path.join(p.DATA_DIR,'sec-statement-lines');
 function forCik(cik){const id=p.cik(cik);if(!id)return [];try{const doc=JSON.parse(fs.readFileSync(path.join(DIR(),id+'.json'),'utf8'));return doc.cik===id && Array.isArray(doc.lines)?doc.lines:[];}catch(e){if(e.code==='ENOENT')return [];throw e;}}
-module.exports={RULES,BALANCE,INDUSTRY_FIELDS,debtLine,capexLine,faceToken,faceParts,noSubtotal,FACE_FAMILY,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};
+module.exports={RULES,BALANCE,INDUSTRY_FIELDS,debtLine,debtSubtotalParts,capexLine,faceToken,faceParts,labelPart,noSubtotal,FACE_FAMILY,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,ownTag,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};
