@@ -2738,11 +2738,24 @@ app.get('/connect', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderConnect());
 });
 
+// Rendered /stocks/:ticker pages, kept per ticker for a few minutes. The page
+// depends only on the ticker, the quote and the filed data, never on who asks,
+// but building it loads the company's evidence payload: measured 1.4-4.4 s of
+// server time per view on production (2026-11-09), most of it synchronous, so
+// one view held up every other request. Crawlers get their own entries because
+// they are served the stored price, not a live one.
+const STOCK_PAGE_TTL_MS = 3 * 60 * 1000;
+const _stockPageCache = new Map();
 app.get('/stocks/:ticker', async (req, res) => {
     let canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
     if(!canonicalSymbol && !quoteStore.isLikelyCrawler(req.get('user-agent'))){const listing=await require('./stock-universe').resolveListing(req.params.ticker);canonicalSymbol=listing?.symbol || null;}
     if (canonicalSymbol && String(req.params.ticker) !== canonicalSymbol) {
         return res.redirect(301, `/stocks/${encodeURIComponent(canonicalSymbol)}`);
+    }
+    const pageKey = `${quoteStore.isLikelyCrawler(req.get('user-agent')) ? 'crawler' : 'reader'}|${req.params.ticker}`;
+    const kept = _stockPageCache.get(pageKey);
+    if (kept && Date.now() - kept.at < STOCK_PAGE_TTL_MS) {
+        return res.set('Content-Type', 'text/html; charset=utf-8').set('X-Page-Cache', 'hit').send(kept.html);
     }
     const quote = await quoteStore.getQuote(canonicalSymbol || req.params.ticker, {
         allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
@@ -2760,7 +2773,10 @@ app.get('/stocks/:ticker', async (req, res) => {
     const html = seoPages.renderStockPage(req.params.ticker, { quote,evidenceData });
     if(!html && !quoteStore.isLikelyCrawler(req.get('user-agent')) && ['stock','closed_end_fund'].includes(require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType))return res.redirect(302,'/company?symbol='+encodeURIComponent(canonicalSymbol || req.params.ticker));
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
-    res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+    _stockPageCache.delete(pageKey);
+    _stockPageCache.set(pageKey, { at: Date.now(), html });
+    while (_stockPageCache.size > 400) _stockPageCache.delete(_stockPageCache.keys().next().value);
+    res.set('Content-Type', 'text/html; charset=utf-8').set('X-Page-Cache', 'miss').send(html);
 });
 app.get('/vs/:competitor', (req, res) => {
     const html = comparisonPages.renderComparison(req.params.competitor);
@@ -11972,9 +11988,9 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
         // read of the ledger.
         const activityLimit = Math.min(200, Math.max(1, Math.floor(Number(req.query.activityLimit)) || 20));
         const [bal, recent, breakdown] = await Promise.all([
-            credits.balance(req.userId, effectiveAskLimit(req), planId, req.user),
-            credits.recentActivity(req.userId, activityLimit),
-            credits.monthBreakdown(req.userId)
+            credits.balance(req.userId, effectiveAskLimit(req), planId, req.user, { cached: true }),
+            credits.recentActivity(req.userId, activityLimit, { cached: true }),
+            credits.monthBreakdown(req.userId, { cached: true })
         ]);
         // breakdown is the COMPLETE per-feature split for the month; `recent` is
         // only the newest page of rows. Sending both is what lets the page show

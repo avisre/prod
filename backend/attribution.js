@@ -110,9 +110,12 @@ async function computeAttribution(holdings) {
     // Search/RSS feeds can return the same generic item for multiple tickers.
     // Keep each sourced headline on one driver only so a headline is not
     // presented as evidence for unrelated holdings.
+    // Fetched together (they were one after another, adding up to three
+    // round trips to a cold load), then de-duplicated in mover order.
     const seenHeadlineKeys = new Set();
-    for (const p of drivers) {
-        const headlines = await headlinesFor(p.symbol, p.tradingDay);
+    const fetched = await Promise.all(drivers.map((p) => headlinesFor(p.symbol, p.tradingDay)));
+    for (const [i, p] of drivers.entries()) {
+        const headlines = fetched[i];
         p.headlines = headlines.filter((headline) => {
             const key = String(headline.url || headline.title || '').split('?')[0].trim().toLowerCase();
             if (!key || seenHeadlineKeys.has(key)) return false;

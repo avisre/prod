@@ -89,7 +89,7 @@ function makePage({ loggedIn = true, deferTrendingQuotes = false } = {}) {
         if (url.includes('/alpha/movers')) return Promise.resolve({ ok: true, json: async () => ({ top_gainers: [], top_losers: [{ ticker: 'LOSE', price: '4.5', change_percentage: '-2%' }], most_actively_traded: [{ ticker: 'ACT', price: '10', change_percentage: '1%' }] }) });
         return Promise.resolve({ ok: true, json: async () => [] });
     };
-    const doc = { getElementById: element, cookie: 'sp_logged_in=1' };
+    const doc = { getElementById: element, cookie: 'sp_logged_in=1', addEventListener() {} };
     const box = { window: { V2, location: { origin: 'https://example.test' } }, document: doc, localStorage: { getItem: () => null }, URLSearchParams, fetch, console };
     let source = fs.readFileSync(require.resolve('../../frontend-v2/assets/news.js'), 'utf8');
     source = source.replace('    loadNews();\n})();', '    loadNews();\n})();');
@@ -367,7 +367,7 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20260930-markets-topic-queries1/);
+    assert.match(html, /assets\/news\.js\?v=20261109-news-thumbs1/);
     assert.match(html, /<h1 class="visually-hidden">Markets<\/h1>/);
     assert.doesNotMatch(html, /Market headlines, daily closing prices, and the companies behind each story\./);
     assert.match(html, /<details class="asset-filter-menu" id="asset-filter-menu">/);

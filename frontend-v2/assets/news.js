@@ -300,12 +300,34 @@
         return `${count} ${count === 1 ? 'story' : 'stories'}${detail} · latest first`;
     }
 
+    // Feed images are the publishers' originals: 1,000-3,840 px and up to 8 MB
+    // each (measured 2026-11-09), shown at 200-700 px. Cloudflare resizes them at
+    // the edge (/cdn-cgi/image, Image Transformations on the zone). One width for
+    // the small cards keeps the count of distinct resizes low; past the monthly
+    // free allowance, or with transformations off, the resize fails and the
+    // image falls back to the original once, then to no image.
+    function feedImg(cls, url, width) {
+        const resized = /^https?:\/\//i.test(url) ? `/cdn-cgi/image/width=${width},quality=75,format=auto,fit=scale-down/${url}` : url;
+        return `<img class="${cls}" src="${esc(resized)}" data-feed-img data-original="${esc(url)}" alt="" loading="lazy">`;
+    }
+    // A listener, not an onerror attribute: the site's CSP sends
+    // script-src-attr 'none', so the inline onerror="this.remove()" these
+    // images used to carry never ran and a dead image stayed on the page.
+    // Image errors do not bubble, hence the capture phase.
+    document.addEventListener('error', (e) => {
+        const img = e.target;
+        if (!(img instanceof HTMLImageElement) || !img.hasAttribute('data-feed-img')) return;
+        const original = img.dataset.original;
+        if (original && img.src.includes('/cdn-cgi/image/')) { img.dataset.original = ''; img.src = original; }
+        else img.remove();
+    }, true);
+
     function renderFeatured(it) {
         const card = $('news-feature');
         if (!it) { card.hidden = true; return; }
         card.innerHTML =
             `<a href="${esc(it.url)}" target="_blank" rel="noopener">
-               ${it.banner_image ? `<img class="feature-img" src="${esc(it.banner_image)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+               ${it.banner_image ? feedImg('feature-img', it.banner_image, 960) : ''}
                <h2 class="feature-title">${esc(it.title)}</h2>
              </a>
              <p class="stream-sum">${esc((it.summary || '').slice(0, 260))}${(it.summary || '').length > 260 ? '…' : ''}</p>` +
@@ -316,7 +338,7 @@
         $('news-secondary').innerHTML = items.map((it) => `
           <article class="sec-card">
             <a href="${esc(it.url)}" target="_blank" rel="noopener">
-              ${it.banner_image ? `<img class="sec-img" src="${esc(it.banner_image)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+              ${it.banner_image ? feedImg('sec-img', it.banner_image, 480) : ''}
               <h3 class="sec-title">${esc(it.title)}</h3>
             </a>
             ${meta(it, 2)}
@@ -334,7 +356,7 @@
         $('news-stream').innerHTML = items.map((it) => `
           <article class="stream-item">
             ${it.banner_image
-                ? `<img class="stream-img" src="${esc(it.banner_image)}" alt="" loading="lazy" onerror="this.remove()">`
+                ? feedImg('stream-img', it.banner_image, 480)
                 : '<span></span>'}
             <div>
               <h3><a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a></h3>

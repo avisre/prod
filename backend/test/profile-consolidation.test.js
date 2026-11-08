@@ -264,11 +264,11 @@ test('the per-feature split comes from the server and survives a heavy month', (
     assert.match(profileSource, /credits && credits\.breakdown/,
         'profile.js must prefer the server-side breakdown');
     const creditsSource = fs.readFileSync(path.join(__dirname, '..', 'credits.js'), 'utf8');
-    assert.match(creditsSource, /async function monthBreakdown\(userId\)/);
+    assert.match(creditsSource, /async function monthBreakdown\(userId(, \{ cached = false \} = \{\})?\)/);
     assert.doesNotMatch(creditsSource.slice(creditsSource.indexOf('async function monthBreakdown')), /\.limit\(/,
         'the breakdown aggregate must not be capped — that cap is the bug');
     const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-    assert.match(appSource, /credits\.monthBreakdown\(req\.userId\)/, '/api/credits must send it');
+    assert.match(appSource, /credits\.monthBreakdown\(req\.userId(, \{ cached: true \})?\)/, '/api/credits must send it');
 });
 
 test('the bar is one stacked meter drawn against the whole wallet', () => {

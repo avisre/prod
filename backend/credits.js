@@ -160,6 +160,30 @@ function resetsAt() {
 
 function ledgerCol() { return mongoose.connection.collection('credit_ledger'); }
 
+// Display reads (the nav tray and profile page via GET /api/credits) are kept
+// for 30 seconds per user. The tray asks on every page load, and each answer
+// was three ledger queries, one of them over the account's whole history
+// (median ~790 ms measured 2026-11-09). Every ledger write below bumps the
+// user's generation once it lands, so an entry read before a spend, grant or
+// refund is never served after it. Billing decisions (check, spend, the
+// refund quote) never read through this cache.
+const READ_TTL_MS = 30 * 1000;
+const _readGen = new Map();   // userId -> writes seen
+const _reads = new Map();     // `${userId}|${key}` -> { at, gen, promise }
+function cachedRead(userId, key, fn) {
+    const u = String(userId), gen = _readGen.get(u) || 0, k = `${u}|${key}`, hit = _reads.get(k);
+    if (hit && hit.gen === gen && Date.now() - hit.at < READ_TTL_MS) return hit.promise;
+    const promise = Promise.resolve().then(fn);
+    _reads.set(k, { at: Date.now(), gen, promise });
+    promise.catch(() => _reads.delete(k));
+    while (_reads.size > 2000) _reads.delete(_reads.keys().next().value);
+    return promise;
+}
+function ledgerWritten(userId) {
+    const u = String(userId);
+    _readGen.set(u, (_readGen.get(u) || 0) + 1);
+}
+
 // A used amount of 0 on any error, matching aiChat.getUsage's fail-open
 // convention: a metering blip must never block the underlying feature.
 async function used(userId) {
@@ -280,6 +304,7 @@ async function grant(userId, amount, reason, refId) {
         });
         return true;
     } catch (error) { console.error('[credits] grant failed:', error && error.message); return false; }
+    finally { ledgerWritten(userId); }
 }
 
 // One wallet shared with Ask, Monitor and Dossier, sized off the Ask limit the
@@ -447,7 +472,7 @@ function allowance(effectiveAskLimit, planId, appsumoTierOrUser) {
     return floor ? Math.max(floor, base) : base;
 }
 
-async function balance(userId, effectiveAskLimit, planId, appsumoTierOrUser) {
+async function balance(userId, effectiveAskLimit, planId, appsumoTierOrUser, { cached = false } = {}) {
     // Plan allowance plus top-up credits still available (carried from earlier
     // months or bought this one) plus any month-scoped credits. The halves are
     // returned as well as their sum: a recharge silently inflating `allowance`
@@ -455,7 +480,9 @@ async function balance(userId, effectiveAskLimit, planId, appsumoTierOrUser) {
     // rather than granted by the plan, so a $14.99 purchase had no visible
     // receipt anywhere in the product.
     const plan = allowance(effectiveAskLimit, planId, appsumoTierOrUser);
-    const s = await walletState(userId, plan);
+    const s = cached
+        ? await cachedRead(userId, `wallet|${monthKey()}|${plan}`, () => walletState(userId, plan))
+        : await walletState(userId, plan);
     const purchased = s.topupAvailable + s.monthCredits;
     const limit = plan + purchased;
     // What survives the reset: top-up credits not yet drawn this month. The
@@ -480,6 +507,7 @@ async function spend(userId, cost, reason, refId, client) {
             ...(client ? { client: String(client).slice(0, 60) } : {})
         });
     } catch (error) { console.error('[credits] spend failed:', error && error.message); }
+    finally { ledgerWritten(userId); }
 }
 
 // Credits spent since a moment, per month — what a priced refund deducts
@@ -501,6 +529,7 @@ async function spendAskStep(userId, amount, refId) {
     if (!Number.isFinite(n) || n <= 0) return;
     try { await ledgerCol().insertOne({ userId: String(userId), month: monthKey(), delta: -n, reason: 'ask', refId: String(refId), step: true, at: new Date() }); }
     catch (error) { console.error('[credits] spend failed:', error && error.message); }
+    finally { ledgerWritten(userId); }
 }
 
 // The steps charged while one long Ask ran, taken back when that run produced
@@ -509,6 +538,7 @@ async function refundRun(userId, refId) {
     if (!refId) return 0;
     try { return (await ledgerCol().deleteMany({ userId: String(userId), refId: String(refId), step: true })).deletedCount || 0; }
     catch (error) { console.error('[credits] refund failed:', error && error.message); return 0; }
+    finally { ledgerWritten(userId); }
 }
 
 // Read-only check a route can act on BEFORE doing expensive work — does not
@@ -526,7 +556,8 @@ async function check(userId, cost, effectiveAskLimit, planId, appsumoTierOrUser)
 // three-feature (Ask/Monitor/Dossier) breakdown more often has enough rows to
 // account for the full month's spend — see the `covered >= used` guard in
 // profile.js, which hides the breakdown rather than show a partial one.
-async function recentActivity(userId, limit = 12) {
+async function recentActivity(userId, limit = 12, { cached = false } = {}) {
+    if (cached) return cachedRead(userId, `recent|${monthKey()}|${limit}`, () => recentActivity(userId, limit));
     try {
         return await ledgerCol()
             .find({ userId: String(userId), month: monthKey() })
@@ -545,7 +576,8 @@ async function recentActivity(userId, limit = 12) {
 //
 // Positive rows (top-ups) are included rather than filtered: the caller renders
 // those as credits added, and a reason whose delta is > 0 is never usage.
-async function monthBreakdown(userId) {
+async function monthBreakdown(userId, { cached = false } = {}) {
+    if (cached) return cachedRead(userId, `breakdown|${monthKey()}`, () => monthBreakdown(userId));
     try {
         const rows = await ledgerCol().aggregate([
             { $match: { userId: String(userId), month: monthKey() } },

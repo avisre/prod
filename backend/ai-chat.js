@@ -805,12 +805,29 @@ function revCagrFromData(data) {
     return cagr(rev(b5), rev(0), (Date.parse(inc[0].fiscalDateEnding)-Date.parse(inc[b5].fiscalDateEnding))/86400000/365.2425);
 }
 
+// The merged rows are rebuilt only when the snapshot view changes (a new day,
+// a new dataset or a runtime issuer override all produce a new view object).
+// Every call used to rebuild them: one /api/screener request built them five
+// times (46-62 ms locally, ~1.5 s of synchronous CPU on the 0.5-CPU production
+// instance, 2026-11-09) and an X-Ray once per holding, stalling every request
+// queued behind it. Now 2-4 ms locally after the first build. The
+// array is shared and frozen; callers filter or slice it, never sort it in place.
+let _built = null;
 function buildScreenIndex() {
     const index=require('./public-stock-index'),snapshot=index.view();
     if (!_screenIndex || _screenIndex.datasetId !== snapshot.datasetId) _screenIndex=loadScreenIndex();
+    if (_built && _built.view === snapshot && _built.source === _screenIndex) return _built.rows;
     const eligible=new Map(snapshot.securities.filter(s=>s.screenable).map(s=>[s.symbol,s]));
     const changed=require('./sec-on-demand').screenOverrides();
-    return [..._screenIndex.rows.filter(r=>!changed.has(r.symbol)),...changed.values()].filter(r=>eligible.has(r.symbol) && r.financialDigest === eligible.get(r.symbol).financialDigest).map(withDividendYield);
+    const rows=Object.freeze([..._screenIndex.rows.filter(r=>!changed.has(r.symbol)),...changed.values()].filter(r=>eligible.has(r.symbol) && r.financialDigest === eligible.get(r.symbol).financialDigest).map(withDividendYield));
+    _built={ view: snapshot, source: _screenIndex, rows, bySymbol: null, sectors: null };
+    return rows;
+}
+function builtExtras() {
+    buildScreenIndex();
+    if (!_built.bySymbol) { _built.bySymbol = new Map(); for (const r of _built.rows) if (!_built.bySymbol.has(r.symbol)) _built.bySymbol.set(r.symbol, r); }
+    if (!_built.sectors) _built.sectors = [...new Set(_built.rows.map((r) => r.sector).filter(Boolean))].sort();
+    return _built;
 }
 // The SEC rebuild writes divYieldPct as null on every row, which left the
 // "Dividend payers" screen — and any dividend filter — matching nothing across
@@ -1002,8 +1019,10 @@ function screenRows(args) {
     if (indexes.unknown) return { universe, matched: 0, rows: [], error: `Unknown index "${indexes.unknown}". Supported: ${Object.keys(INDEX_NAMES).join(', ')}.` };
     if (indexes.sets) rows = rows.filter((r) => indexes.sets.some((set) => set.has(r.symbol)));
     const limit = Math.min(Math.max(num(a.limit) || (wanted.length || 10), 1), a.maxLimit || 25);
-    const listedUniverse = buildScreenIndex().length;
-    const issuerUniverse = new Set(buildScreenIndex().map((r) => r.cik)).size;
+    const all = builtExtras();
+    const listedUniverse = all.rows.length;
+    if (all.issuerCount === undefined) all.issuerCount = new Set(all.rows.map((r) => r.cik)).size;
+    const issuerUniverse = all.issuerCount;
     const datasetId = require('./public-stock-index').view().datasetId;
 
     if (a.similar_to) {
@@ -1112,13 +1131,13 @@ function screenArgsFromClient(raw) {
 }
 
 function sectorList() {
-    return [...new Set(buildScreenIndex().map((r) => r.sector).filter(Boolean))].sort();
+    return builtExtras().sectors.slice();
 }
 
 // Per-symbol metrics straight from the screen index (used by Portfolio X-Ray).
 function metricsFor(symbol) {
     const key = String(symbol || '').toUpperCase();
-    return buildScreenIndex().find((r) => r.symbol === key) || null;
+    return builtExtras().bySymbol.get(key) || null;
 }
 
 // ---- Red-flag scanner: conservative, deterministic flags from the filed
