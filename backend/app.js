@@ -7224,7 +7224,6 @@ async function filingDiffFor(symbol) {
 function mcpToolDeps() {
     return {
         recentFilings: (args) => require('./mcp-recent-filings').recentFilings(args),
-        screenUniverse: (criteria) => aiChat.screenRows(criteria),
         filingDiff: filingDiffFor,
         redFlags: (symbol) => aiChat.redFlagsFor(symbol)
     };

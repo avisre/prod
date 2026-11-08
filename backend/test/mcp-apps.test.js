@@ -33,11 +33,10 @@ const OPEN_WORLD = {
     get_filing_content: true,
     compare_company_metrics: true,
     get_financial_change_drivers: true,
-    // The new tools: recent filings and the screener read bundled data files;
+    // The new tools: recent filings read bundled data files;
     // red flags read the filed fundamentals cache — all closed-world. Only the
     // filing comparison reaches SEC EDGAR (and the model), so only it is true.
     get_recent_filings: false,
-    screen_companies: false,
     get_filing_changes: true,
     get_red_flags: false
 };
@@ -162,7 +161,7 @@ test('tools/list advertises the OpenAI-ready contract: names, titles, both schem
     const { tools } = await client.listTools();
     assert.deepEqual(
         tools.map((tl) => tl.name).sort(),
-        ['compare_company_metrics', 'get_company_financials', 'get_filing_changes', 'get_filing_content', 'get_financial_change_drivers', 'get_metric_history', 'get_recent_filings', 'get_red_flags', 'screen_companies', 'search_companies', 'search_filings'].sort()
+        ['compare_company_metrics', 'get_company_financials', 'get_filing_changes', 'get_filing_content', 'get_financial_change_drivers', 'get_metric_history', 'get_recent_filings', 'get_red_flags', 'search_companies', 'search_filings'].sort()
     );
     for (const tl of tools) {
         assert.ok(tl.title, `${tl.name} needs a human-readable title`);
@@ -231,7 +230,12 @@ test('get_company_financials returns filed values with the filing that reports e
     assert.match(latest.source.url, /^https:\/\/www\.sec\.gov\/Archives\//);
     assert.equal(latest.source.accession_number, '0000320193-26-000026');
     assert.equal(latest.source.form, '10-K');
-    assert.equal(latest.source.linkage,'xbrl_fact');assert.equal(latest.source.rawValue,latest.value);
+    // Citation fields only: how the value was read stays server-side.
+    for (const k of ['linkage', 'rawValue', 'concept', 'taxonomy', 'verificationMethod', 'extractionVersion', 'retrievedAt', 'cik', 'scope', 'accountingBasis']) {
+        assert.equal(k in latest.source, false, `source.${k} is not exposed`);
+    }
+    assert.equal(latest.source.filing_date, '2026-11-03');
+    assert.equal(latest.source.period_end, '2026-09-26');
 });
 
 test('get_metric_history returns a single metric oldest-first, including SEC-derived share counts', async (t) => {
@@ -256,7 +260,7 @@ test('get_metric_history returns a single metric oldest-first, including SEC-der
         assert.match(o.source.accession_number, /^\d{10}-\d{2}-\d{6}$/);
         assert.match(o.source.url, /^https:\/\/www\.sec\.gov\/Archives\//);
     }
-    assert.ok(filed.every(o=>o.source?.periodEnd===o.period_end));
+    assert.ok(filed.every(o=>o.source?.period_end===o.period_end));
     assert.ok(!filed.some(o=>o.period_end==='2025-09-27'),'the annual weighted average is never substituted for Q4; its absent quarterly value remains null');
 });
 
@@ -563,11 +567,10 @@ test('tools/list declares a per-tool security scheme naming the scope that unloc
         ['get_recent_filings', 'filings:read'],
         ['compare_company_metrics', 'research:read'],
         ['get_financial_change_drivers', 'research:read'],
-        ['screen_companies', 'research:read'],
         ['get_filing_changes', 'filings:read'],
         ['get_red_flags', 'research:read']
     ]) {
-        const expected = ['screen_companies', 'get_filing_changes'].includes(name)
+        const expected = name === 'get_filing_changes'
             // Account-only tools have no keyless tier to declare.
             ? [{ type: 'oauth2', scopes: [scope] }]
             : [{ type: 'noauth' }, { type: 'oauth2', scopes: [scope] }];
@@ -617,9 +620,9 @@ test('account-only tools refuse a keyless connection with the challenge before a
         ctx: { anonymous: true, user: null, subscription: null, tier: 'free' },
         limiter: { check: async () => { checks += 1; return { ok: true }; }, spend: async () => {} },
         resourceMetadataUrl: 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource/mcp/apps',
-        deps: { screenUniverse: async () => ({ universe: 1, matched: 0, rows: [] }), filingDiff: async () => ({ symbol: 'AAPL' }) }
+        deps: { filingDiff: async () => ({ symbol: 'AAPL' }) }
     });
-    for (const [name, args] of [['screen_companies', { sector: 'TECHNOLOGY' }], ['get_filing_changes', { company: 'AAPL' }]]) {
+    for (const [name, args] of [['get_filing_changes', { company: 'AAPL' }]]) {
         const result = await client.callTool({ name, arguments: args });
         assert.equal(result.isError, true, `${name} refuses a keyless connection`);
         const payload = parse(result);
@@ -640,7 +643,6 @@ test('the filing comparison is charged as an ask; the other new tools as lookups
         },
         deps: {
             recentFilings: () => ({ since: '2026-10-18', kinds: ['annual'], match_count: 0, filings: [] }),
-            screenUniverse: async () => ({ universe: 5, matched: 0, rows: [] }),
             filingDiff: async (s) => ({ symbol: s, headline: 'x', changes: [] }),
             redFlags: (s) => ({ symbol: s, flags: [], flagCount: 0, asOf: null, source: 'x' })
         }
@@ -648,14 +650,13 @@ test('the filing comparison is charged as an ask; the other new tools as lookups
     for (const [name, args] of [
         ['get_filing_changes', { company: 'AAPL' }],
         ['get_recent_filings', {}],
-        ['screen_companies', {}],
         ['get_red_flags', { company: 'AAPL' }]
     ]) {
         const result = await client.callTool({ name, arguments: args });
         assert.equal(result.isError, undefined, `${name} succeeds for a connected account`);
     }
-    assert.deepEqual(checked, ['mcp_ask', 'mcp_lookup', 'mcp_lookup', 'mcp_lookup']);
-    assert.deepEqual(spent, ['mcp_ask', 'mcp_lookup', 'mcp_lookup', 'mcp_lookup']);
+    assert.deepEqual(checked, ['mcp_ask', 'mcp_lookup', 'mcp_lookup']);
+    assert.deepEqual(spent, ['mcp_ask', 'mcp_lookup', 'mcp_lookup']);
 });
 
 test('get_red_flags and get_filing_changes resolve a company name, and refuse an unknown one', async (t) => {
@@ -696,7 +697,7 @@ test('no description, title, instruction or new-tool refusal on this surface nam
         resourceMetadataUrl: 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource/mcp/apps'
     });
     const refusals = [
-        await anon.client.callTool({ name: 'screen_companies', arguments: {} }),
+        await anon.client.callTool({ name: 'get_filing_changes', arguments: { company: 'AAPL' } }),
         await anon.client.callTool({ name: 'get_recent_filings', arguments: {} })
     ];
     for (const result of refusals) {

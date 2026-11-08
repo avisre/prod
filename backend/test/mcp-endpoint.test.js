@@ -48,7 +48,6 @@ const EXPECTED_TOOLS = [
     'get_company_fundamentals',
     'get_filing',
     'get_recent_filings',
-    'screen_companies',
     'get_filing_changes',
     'get_red_flags',
     'search_companies',
@@ -588,6 +587,24 @@ test('ask_filings answers with citations and, keyless, reports the remaining all
     assert.equal(jsonOf(noTicker).code, 'COMPANY_REQUIRED');
 });
 
+test('ask_filings returns the filings it drew on, never its internal research steps', { timeout: 60000 }, async (t) => {
+    stubFinancials();
+    t.after(restoreFinancials);
+    aiChat.ask = async () => ({
+        answer: 'Revenue was $391.0B (https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm).',
+        toolsUsed: [{ tool: 'get_financials', args: { symbol: 'AAPL', statement: 'income', fields: ['totalRevenue'] } }],
+        source: 'ai'
+    });
+    const client = await connect(t, await mount(t, keyedShape({
+        limiter: { check: async () => ({ ok: true, used: 0, allowance: 20, resetsAt: null }), spend: async () => {} }
+    })));
+    const res = await client.callTool({ name: 'ask_filings', arguments: { ticker: 'AAPL', question: 'What was revenue?' } });
+    const payload = jsonOf(res);
+    assert.equal('supporting_pulls' in payload, false);
+    assert.doesNotMatch(res.content[0].text, /get_financials|totalRevenue/, 'internal tool and field names stay server-side');
+    assert.deepEqual(payload.citations, ['https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm'], 'a filing linked in the answer is cited, without trailing punctuation');
+});
+
 // ---------------------------------------------------------------------------
 // get_filing — identified by accession number alone
 // ---------------------------------------------------------------------------
@@ -816,7 +833,7 @@ test('tools/list declares per-tool security schemes that survive to the wire', {
     }
     // The account-only tools have no keyless tier to advertise: only the
     // OAuth grant, which is what makes the client offer sign-in.
-    for (const name of ['screen_companies', 'get_filing_changes']) {
+    for (const name of ['get_filing_changes']) {
         assert.deepEqual(
             byName.get(name).securitySchemes,
             [{ type: 'oauth2', scopes: ['financials:read', 'filings:read', 'research:read'] }],
@@ -934,7 +951,7 @@ test('deps.usage is invoked once per tool call, including for a refusal', { time
 });
 
 // ---------------------------------------------------------------------------
-// The new tools — get_recent_filings, screen_companies, get_filing_changes,
+// The new tools — get_recent_filings, get_filing_changes,
 // get_red_flags
 // ---------------------------------------------------------------------------
 
@@ -1054,11 +1071,10 @@ test('account-only tools refuse a keyless caller with the sign-in challenge and 
         limiter: mcpAnon.creditsFor(ip, process.env, null, { pool: 'visitor' })
     });
     shape.deps.resourceMetadataUrl = 'https://www.stockportfolio.pro/.well-known/oauth-protected-resource';
-    shape.deps.screenUniverse = async () => ({ universe: 10, matched: 1, rows: [{ symbol: 'AAPL' }] });
     shape.deps.filingDiff = async () => ({ headline: 'x' });
     const client = await connect(t, await mount(t, shape));
 
-    for (const [tool, args] of [['screen_companies', { sector: 'TECHNOLOGY' }], ['get_filing_changes', { ticker: 'AAPL' }]]) {
+    for (const [tool, args] of [['get_filing_changes', { ticker: 'AAPL' }]]) {
         const res = await client.callTool({ name: tool, arguments: args });
         assert.equal(res.isError, true, `${tool} refuses a keyless caller`);
         const payload = jsonOf(res);
@@ -1082,22 +1098,22 @@ test('keyed calls to the new tools succeed and charge the right cost key', { tim
         }
     });
     shape.deps.recentFilings = writeRecentFilingsFixture(t);
-    shape.deps.screenUniverse = async () => ({ universe: 5870, matched: 2, rows: [{ symbol: 'AAPL' }, { symbol: 'MSFT' }] });
     shape.deps.filingDiff = async () => ({
-        symbol: 'AAPL', headline: 'Services grew', changes: [],
+        symbol: 'AAPL', headline: 'Services grew',
+        changes: [
+            { area: 'Outlook', what: 'Guidance raised for services.', priorQuote: 'a', newQuote: 'b', evidenceVerified: true },
+            { area: 'Risks', what: 'A new supplier risk was added.', priorQuote: null, newQuote: 'c', evidenceVerified: false }
+        ],
         latest: { form: '10-K', date: '2025-10-31', url: 'https://www.sec.gov/a' },
         prev: { form: '10-K', date: '2024-11-01', url: 'https://www.sec.gov/b' }
     });
     shape.deps.redFlags = () => ({ symbol: 'AAPL', flags: [], flagCount: 0, asOf: '2025-09-27', source: 'computed' });
     const client = await connect(t, await mount(t, shape));
 
-    const screen = jsonOf(await client.callTool({ name: 'screen_companies', arguments: { sector: 'TECHNOLOGY', limit: 5 } }));
-    assert.equal(screen.universe, 5870, 'the universe size travels with the rows');
-    assert.equal(screen.rows.length, 2);
-
     const diff = jsonOf(await client.callTool({ name: 'get_filing_changes', arguments: { ticker: 'AAPL' } }));
     assert.equal(diff.symbol, 'AAPL');
     assert.equal(diff.latest.form, '10-K', 'both filings travel with form, date and URL');
+    assert.deepEqual(diff.changes.map((c) => c.area), ['Outlook'], 'a change whose quotes were not found in both filings is not returned');
 
     const flags = jsonOf(await client.callTool({ name: 'get_red_flags', arguments: { ticker: 'AAPL' } }));
     assert.equal(flags.symbol, 'AAPL');
@@ -1107,29 +1123,26 @@ test('keyed calls to the new tools succeed and charge the right cost key', { tim
 
     // Lookup cost for the read tools; the filing comparison runs the model, so
     // it is charged as an ask exactly like ask_filings.
-    assert.deepEqual(checked.sort(), ['mcp_ask', 'mcp_lookup', 'mcp_lookup', 'mcp_lookup']);
+    assert.deepEqual(checked.sort(), ['mcp_ask', 'mcp_lookup', 'mcp_lookup']);
     assert.deepEqual(spent.sort(), [
         'mcp_ask|mcp:get_filing_changes',
         'mcp_lookup|mcp:get_recent_filings',
-        'mcp_lookup|mcp:get_red_flags',
-        'mcp_lookup|mcp:screen_companies'
+        'mcp_lookup|mcp:get_red_flags'
     ]);
 });
 
-test('the breadth cap ignores get_recent_filings and screen_companies', { timeout: 60000 }, async (t) => {
+test('the breadth cap ignores get_recent_filings', { timeout: 60000 }, async (t) => {
     const checked = [];
     const shape = keyedShape({
         limiter: { check: async () => ({ ok: true }), spend: async () => {} }
     });
     shape.deps.recentFilings = writeRecentFilingsFixture(t);
-    shape.deps.screenUniverse = async () => ({ universe: 10, matched: 3, rows: [] });
     shape.deps.breadth = {
         check: async (c) => { checked.push(['check', ...c]); return { ok: true }; },
         record: async (c) => { checked.push(['record', ...c]); }
     };
     const client = await connect(t, await mount(t, shape));
     await client.callTool({ name: 'get_recent_filings', arguments: { tickers: ['T00', 'T01', 'T02'] } });
-    await client.callTool({ name: 'screen_companies', arguments: { symbols: ['AAPL', 'MSFT'] } });
     assert.equal(checked.length, 0, 'a multi-company list is not per-company breadth');
     // A single-company tool still counts, as today.
     shape.deps.redFlags = () => ({ symbol: 'AAPL', flags: [], flagCount: 0, asOf: null, source: 'x' });
@@ -1154,28 +1167,15 @@ test('a fund asking for filing changes gets the same refusal copy as the website
     assert.match(payload.error, /do not have comparable company 10-K\/10-Q filing changes/);
 });
 
-test('screen_companies passes a named ticker list and established-first ranking to the screener', { timeout: 60000 }, async (t) => {
-    const seen = [];
-    const shape = keyedShape({
+test('the screener is not a connector tool', { timeout: 60000 }, async (t) => {
+    const client = await connect(t, await mount(t, keyedShape({
         limiter: { check: async () => ({ ok: true, used: 0, allowance: 20, resetsAt: null }), spend: async () => {} }
-    });
-    shape.deps.screenUniverse = async (criteria) => {
-        seen.push(criteria);
-        return { universe: 100, matched: 1, rows: [{ symbol: 'MSFT' }], notInUniverse: ['ZZZQ'], technicalsAsOf: '2026-10-24', similarTo: { symbol: 'ORCL' } };
-    };
-    const client = await connect(t, await mount(t, shape));
-    const result = jsonOf(await client.callTool({
-        name: 'screen_companies',
-        arguments: { symbols: ['MSFT', 'ZZZQ'], sort_by: 'netIncomeCagr5Pct', min_net_margin_pct: 10, limit: 70 }
-    }));
-    assert.deepEqual(seen[0].symbols, ['MSFT', 'ZZZQ'], 'the ticker list reaches the screener');
-    assert.equal(seen[0].established_first, true);
-    assert.equal(seen[0].sort_by, 'netIncomeCagr5Pct', 'every website sort key is accepted');
-    assert.equal(seen[0].min_net_margin_pct, 10);
-    assert.equal(seen[0].limit, 50, 'limit is capped at 50');
-    assert.deepEqual(result.not_in_universe, ['ZZZQ']);
-    assert.equal(result.technicals_as_of, '2026-10-24', 'the price-data date travels with the rows');
-    assert.deepEqual(result.similar_to, { symbol: 'ORCL' });
+    })));
+    const { tools } = await client.listTools();
+    assert.ok(!tools.some((tl) => tl.name === 'screen_companies'), 'a whole-universe screen is not offered to AI clients');
+    assert.doesNotMatch(mcpEndpoint.SERVER_INSTRUCTIONS, /screen_companies/);
+    const res = await client.callTool({ name: 'screen_companies', arguments: {} });
+    assert.equal(res.isError, true);
 });
 
 test('get_recent_filings reads a statements file only for the rows it returns', (t) => {

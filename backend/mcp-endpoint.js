@@ -44,6 +44,7 @@ const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/ser
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
 const fin = require('./mcp-financials');
 const aiChat = require('./ai-chat');
+const { redact } = require('./mcp-redact');
 const recentFilings = require('./mcp-recent-filings');
 const filingDiff = require('./filing-diff');
 const { quotaError } = require('./api-response');
@@ -83,7 +84,7 @@ const SERVER_INSTRUCTIONS = [
     'StockPortfolio.pro returns SEC filing data for US-listed public companies.',
     'If a company name is ambiguous, call search_companies first and use the exact ticker it returns.',
     'get_company_fundamentals returns financial statements by fiscal period, each value carrying the SEC filing that reports it.',
-    'get_recent_filings lists each covered company\u2019s most recent report and earnings release, screen_companies screens the covered universe, get_filing_changes compares a company\u2019s two most recent filings of the same form, and get_red_flags returns warning signs computed from filed statements.',
+    'get_recent_filings lists each covered company\u2019s most recent report and earnings release, get_filing_changes compares a company\u2019s two most recent filings of the same form, and get_red_flags returns warning signs computed from filed statements.',
     'A value that was not reported is null and is never estimated; never fill a null with your own number.',
     'Cite the SEC source URL that accompanies a figure when you state it.',
     'sp_health is free. Every other tool, search_companies included, spends from the caller\u2019s allowance.',
@@ -96,14 +97,17 @@ const SERVER_INSTRUCTIONS = [
 
 const SOURCE_SCHEMA = {
     type: ['object', 'null'],
-    description: 'The SEC filing behind a value. linkage "xbrl_fact" means the value was read from an SEC XBRL fact with that accession; "filing_period" means it comes from the normalized cache and this is the filing reporting that fiscal period.',
+    description: 'The filing behind a value. type "calculated" marks a figure computed from filed values, listed in inputs; type "supplemental" marks a non-SEC provider figure, named in source_name, that must not be described as SEC-verified.',
     properties: {
+        type: { type: ['string', 'null'] },
         form: { type: ['string', 'null'], description: 'Filing type, e.g. 10-K or 10-Q.' },
         filing_date: { type: ['string', 'null'] },
         report_date: { type: ['string', 'null'] },
         accession_number: { type: ['string', 'null'] },
         url: { type: ['string', 'null'], description: 'SEC source URL. Cite this.' },
-        linkage: { type: ['string', 'null'] }
+        period_start: { type: ['string', 'null'] },
+        period_end: { type: ['string', 'null'] },
+        inputs: { type: 'array', items: { type: 'object', additionalProperties: true } }
     },
     additionalProperties: true
 };
@@ -168,10 +172,6 @@ const DEFAULT_FUNDAMENTAL_METRICS = [
 ];
 
 const ALL_METRIC_IDS = new Set([...Object.keys(fin.METRICS), ...Object.keys(fin.DERIVED)]);
-
-// Shared with the website screener so the two never drift (this list once
-// lacked netIncomeCagr5Pct).
-const { SCREEN_SORT_KEYS } = aiChat;
 
 // An account-only tool: a keyless caller is refused before the allowance is
 // reserved. The copy names the feature, the fix, and nothing else.
@@ -397,7 +397,7 @@ const TOOL_DEFS = [
     {
         name: 'ask_filings',
         title: 'Ask about a company’s filings',
-        description: 'Ask a question about one US-listed company and get an answer researched from its SEC filings, plus the tools and figures it used. Use this when the question needs reasoning over filing content — what management said about margins, why a segment declined, what the risk factors are — rather than a single reported number, for which get_company_fundamentals is faster and exact. The answer states what it could not source rather than estimating, and the supporting pulls are returned so the figures can be checked. Metered: consumes the account’s allowance. Not investment advice.',
+        description: 'Ask a question about one US-listed company and get an answer researched from its SEC filings, with the SEC filing URLs it drew on. Use this when the question needs reasoning over filing content — what management said about margins, why a segment declined, what the risk factors are — rather than a single reported number, for which get_company_fundamentals is faster and exact. The answer states what it could not source rather than estimating, and its figures can be checked against the cited filings. Metered: consumes the account’s allowance. Not investment advice.',
         inputSchema: {
             type: 'object',
             properties: {
@@ -413,8 +413,7 @@ const TOOL_DEFS = [
                 ticker: { type: 'string' },
                 question: { type: 'string' },
                 answer: { type: 'string' },
-                supporting_pulls: { type: 'array', items: { type: 'object', additionalProperties: true }, description: 'The data the answer was researched from, so its figures can be checked against the cited filings.' },
-                citations: { type: 'array', items: { type: 'string' } },
+                citations: { type: 'array', items: { type: 'string' }, description: 'SEC filing URLs the answer drew on. Cite these.' },
                 source: { type: 'string' },
                 usage: { type: ['object', 'null'] },
                 notice: { type: ['string', 'null'] }
@@ -439,8 +438,9 @@ const TOOL_DEFS = [
                 ticker: company.ticker,
                 question,
                 answer: String(result.answer || '').trim() || 'No answer was produced for that question.',
-                supporting_pulls: Array.isArray(result.toolsUsed) ? result.toolsUsed : [],
-                citations: citationsFrom(result.toolsUsed),
+                // The research steps behind the answer stay internal; only the
+                // filings they read are returned.
+                citations: citationsFrom(result.toolsUsed, result.answer),
                 source: result.source || 'ai'
             };
         }
@@ -504,84 +504,6 @@ const TOOL_DEFS = [
         }
     },
     {
-        name: 'screen_companies',
-        title: 'Screen companies',
-        description: 'Screen the covered universe of US-listed companies with filed fundamentals: growth, margins, returns, valuation, index membership, price trend, or a named ticker list, with every threshold optional and freely combined. Returns the rows that pass and the size of the screenable universe; companies without usable statements are not included. Needs a signed-in StockPortfolio.pro account. Costs one data lookup.',
-        inputSchema: {
-            type: 'object',
-            properties: {
-                similar_to: { type: 'string', description: 'Ticker of the company to model the screen on — e.g. "APP" for "companies like AppLovin".' },
-                sector: { type: 'string', description: 'Sector substring filter, e.g. TECHNOLOGY, ENERGY' },
-                min_revenue_cagr_5y_pct: { type: 'number' },
-                max_revenue_cagr_5y_pct: { type: 'number' },
-                min_net_margin_pct: { type: 'number' },
-                min_roe_pct: { type: 'number' },
-                max_roe_pct: { type: 'number', description: 'Ceiling that excludes negative/negligible-equity ROE distortions' },
-                min_dividend_yield_pct: { type: 'number' },
-                max_pe: { type: 'number' },
-                max_peg: { type: 'number' },
-                min_price_to_book: { type: 'number' },
-                max_price_to_book: { type: 'number' },
-                min_market_cap_billions: { type: 'number' },
-                max_market_cap_billions: { type: 'number' },
-                min_profitable_years_of_last_10: { type: 'integer' },
-                min_latest_qtr_earnings_growth_yoy_pct: { type: 'number', description: 'Latest quarter net income growth vs same quarter a year ago, in %' },
-                symbols: { type: 'array', items: { type: 'string' }, description: 'Restrict to these tickers (up to 25).' },
-                index: { type: 'string', description: 'Index membership from stored, dated member lists: "sp500", "sp100", "nasdaq100", or several joined with "or".' },
-                min_price: { type: 'number', description: 'Minimum share price in USD' },
-                max_price: { type: 'number', description: 'Maximum share price in USD' },
-                min_net_income_cagr_5y_pct: { type: 'number', description: '5-year compound growth in net income, in %' },
-                min_price_vs_10_month_avg_pct: { type: 'number', description: 'Price relative to its 10-month average, in %. 0 means "trading above its 10-month average".' },
-                min_rsi14: { type: 'number' },
-                max_rsi14: { type: 'number' },
-                sma200_position: { type: 'string', enum: ['above', 'below'] },
-                golden_cross_within_days: { type: 'number' },
-                min_volume_ratio_20: { type: 'number' },
-                require_positive_fcf: { type: 'boolean' },
-                exclude_secondary_listings: { type: 'boolean' },
-                sort_by: { type: 'string', enum: SCREEN_SORT_KEYS },
-                limit: { type: 'integer', minimum: 1, maximum: 50, default: 20, description: 'Maximum rows to return.' }
-            },
-            additionalProperties: false
-        },
-        outputSchema: {
-            type: 'object',
-            properties: {
-                universe: { type: 'integer' },
-                matched: { type: 'integer' },
-                rows: { type: 'array', items: { type: 'object', additionalProperties: true } },
-                not_in_universe: { type: ['array', 'null'], items: { type: 'string' } }
-            },
-            additionalProperties: true
-        },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
-        // Account-only (requiresAccount): the screener is a whole-universe
-        // pull, and a multi-company result must not count as breadth either.
-        requiresAccount: true,
-        breadth: false,
-        handler: async (args, deps) => {
-            const a = args && typeof args === 'object' ? args : {};
-            const limit = Math.min(Math.max(Number(a.limit) || 20, 1), 50);
-            // screenArgsFromClient drops symbols (a website screen never names
-            // tickers), so the named list is passed through here. established_first
-            // ranks unproven growers below established ones, as ask_filings does.
-            const symbols = Array.isArray(a.symbols) ? a.symbols.filter((x) => typeof x === 'string').slice(0, 25) : [];
-            const criteria = { ...aiChat.screenArgsFromClient(a), ...(symbols.length ? { symbols } : {}), established_first: true, limit, maxLimit: 50 };
-            if (SCREEN_SORT_KEYS.includes(a.sort_by)) criteria.sort_by = a.sort_by;
-            const run = deps && typeof deps.screenUniverse === 'function' ? deps.screenUniverse : aiChat.screenRows;
-            const result = await run(criteria);
-            if (!result || result.error) throw fin.mcpError('SCREEN_FAILED', String((result && result.error) || 'The screen could not be run.'));
-            return {
-                universe: result.universe,
-                matched: result.matched,
-                rows: result.rows,
-                ...(result.similarTo ? { similar_to: result.similarTo } : {}),
-                ...(result.technicalsAsOf ? { technicals_as_of: result.technicalsAsOf } : {}),
-                ...(Array.isArray(result.notInUniverse) && result.notInUniverse.length ? { not_in_universe: result.notInUniverse } : {})
-            };
-        }
-    },
-    {
         name: 'get_filing_changes',
         title: 'Filing changes',
         description: 'What changed between a company\u2019s newest 10-K/10-Q/20-F/40-F and its previous filing of the same form: guidance and outlook language, risk factors, demand and margin commentary, quoted from both documents and checked against them. The first comparison for a filing pair can take 30\u201360 seconds; later calls are served from the cache. Needs a signed-in StockPortfolio.pro account. Metered like ask_filings: consumes the account\u2019s allowance.',
@@ -619,7 +541,9 @@ const TOOL_DEFS = [
             if (!result || result.error) {
                 throw fin.mcpError('FILING_NOT_FOUND', String((result && result.error) || 'No comparable filing pair was found for that company.'));
             }
-            return result;
+            // Only changes whose quotes were found in both filings go out; an
+            // unverified one is the model's reading, not the filing's words.
+            return { ...result, changes: (result.changes || []).filter((c) => c && c.evidenceVerified === true) };
         }
     },
     {
@@ -737,10 +661,9 @@ async function companyForFiling(args) {
     });
 }
 
-// The AI answer's backing pulls are the only citation material available: each
-// carries the SEC filing it read. Surface any source URL they contain so the
-// caller can cite the filing rather than the answer.
-function citationsFrom(toolsUsed) {
+// The SEC filings the answer drew on: every sec.gov URL in its backing pulls
+// (each carries the filing it read) and in the answer text itself.
+function citationsFrom(toolsUsed, answer) {
     const urls = new Set();
     const walk = (node, depth) => {
         if (!node || depth > 4) return;
@@ -752,6 +675,7 @@ function citationsFrom(toolsUsed) {
         }
     };
     walk(toolsUsed, 0);
+    for (const m of String(answer || '').matchAll(/https?:\/\/(?:www\.)?sec\.gov\/[^\s)\]>"'`]+/gi)) urls.add(m[0].replace(/[.,;:]+$/, ''));
     return [...urls].slice(0, 20);
 }
 
@@ -764,10 +688,11 @@ const KNOWN_CODES = new Set([
     'QUESTION_REQUIRED', 'FILING_NOT_FOUND', 'UNSUPPORTED_SECTION', 'TOO_MANY_COMPANIES',
     'TOO_FEW_COMPANIES', 'INVALID_PERIOD', 'AUTHENTICATION_REQUIRED', 'ENTITLEMENT_REQUIRED',
     'QUOTA_EXCEEDED', 'TRIAL_ENDED', 'RATE_LIMITED', 'UNKNOWN_TOOL', 'UPSTREAM_DATA_ERROR',
-    'SCREEN_FAILED', 'ASSET_FEATURE_UNAVAILABLE'
+    'ASSET_FEATURE_UNAVAILABLE'
 ]);
 
 function textResult(payload) {
+    payload = redact(payload);
     return {
         structuredContent: payload,
         content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }]
