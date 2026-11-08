@@ -19,6 +19,7 @@
  */
 
 const mongoose = require('mongoose');
+const crypto = require('crypto');
 
 const WINDOW_DAYS = 30; // §1091: 30 days before and after the loss sale
 const MS_DAY = 24 * 3600 * 1000;
@@ -32,7 +33,8 @@ const TradeSchema = new mongoose.Schema({
     date: { type: String, required: true },      // YYYY-MM-DD
     shares: { type: Number, required: true },
     price: { type: Number, required: true },     // per share, USD
-    importedAt: { type: Date, default: Date.now }
+    importedAt: { type: Date, default: Date.now },
+    importId: { type: String }                   // which import wrote this row (see importCsv)
 });
 TradeSchema.index({ user: 1, symbol: 1, date: 1 });
 const Trade = mongoose.models.Trade || mongoose.model('Trade', TradeSchema);
@@ -129,8 +131,16 @@ async function importCsv(userId, { account, accountType, csv }) {
     const parsed = parseCsv(csv);
     if (parsed.error) throw Object.assign(new Error(parsed.error), { status: 400 });
     // Re-import replaces the account wholesale — idempotent, no dedup puzzles.
-    await Trade.deleteMany({ user: userId, account: label });
-    await Trade.insertMany(parsed.trades.map((t) => ({ ...t, user: userId, account: label, accountType: type })));
+    // New rows go in first and the old ones go only after they are stored, so a
+    // failed insert (bad row, full database) never wipes the account's history.
+    const importId = crypto.randomUUID();
+    try {
+        await Trade.insertMany(parsed.trades.map((t) => ({ ...t, user: userId, account: label, accountType: type, importId })));
+    } catch (error) {
+        await Trade.deleteMany({ user: userId, account: label, importId }).catch(() => {});
+        throw error;
+    }
+    await Trade.deleteMany({ user: userId, account: label, importId: { $ne: importId } });
     return { account: label, accountType: type, imported: parsed.trades.length, skipped: parsed.skippedCount || 0 };
 }
 

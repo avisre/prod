@@ -612,6 +612,20 @@ async function recordStripeCheckout({ payload, user } = {}) {
     } catch (_) { return { recorded: false, reason: 'storage_error' }; }
 }
 
+// The ProcessedWebhookEvent row claims a Stripe event so a redelivery is not
+// counted twice. If the work after the claim fails, the claim must go too, or
+// Stripe's retry is taken for a duplicate and the commission is never written.
+// Every write after a claim is an upsert or a max/cumulative update, so a
+// retry after a partial write is safe.
+async function releaseClaimOnFailure(eventId, work) {
+    try {
+        return await work();
+    } catch (error) {
+        await models().ProcessedWebhookEvent.deleteOne({ provider: 'stripe', eventId }).catch(() => {});
+        throw error;
+    }
+}
+
 async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
     if (!isEnabled() || !payload || mongoose.connection.readyState !== 1) return { recorded: false, reason: 'disabled' };
     const { ProcessedWebhookEvent, ReferralOrder, Commission, ReferralClick } = models();
@@ -634,8 +648,11 @@ async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
         await ProcessedWebhookEvent.create({ provider: 'stripe', eventId: id, eventType: 'invoice.paid' });
     } catch (error) {
         if (error?.code === 11000) return { recorded: false, duplicate: true };
-        return { recorded: false, reason: 'ledger_error' };
+        // Throw so the webhook answers 500 and Stripe redelivers. Returning
+        // here answered 200 and the commission was never recorded.
+        throw error;
     }
+    return releaseClaimOnFailure(id, async () => {
     // New accounts are necessarily created before their first Checkout, so a
     // `createdAt < order.createdAt` comparison cannot identify an existing
     // customer. Existing-customer upgrades never receive affiliate metadata
@@ -676,6 +693,7 @@ async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
     await order.save();
     await ReferralClick.updateOne({ clickId: order.referralClickId }, { $set: { convertedAt: order.purchasedAt } });
     return { recorded: true, commissionId: commission._id, amountMinor: calculation.amountMinor, sequence };
+    });
 }
 
 // One-time (mode: 'payment') Checkout purchases — the direct lifetime deal.
@@ -695,8 +713,9 @@ async function recordStripeOneTimePaid({ payload, eventId, holdDays = 30 } = {})
         await ProcessedWebhookEvent.create({ provider: 'stripe', eventId: id, eventType: 'checkout.session.completed' });
     } catch (error) {
         if (error?.code === 11000) return { recorded: false, duplicate: true };
-        return { recorded: false, reason: 'ledger_error' };
+        throw error;
     }
+    return releaseClaimOnFailure(id, async () => {
     const metadata = stripeMetadataFromObject(payload);
     // Subtotal, not total: tax collected on our behalf is not partner-earned
     // revenue, mirroring the invoice path's preference for total_excluding_tax.
@@ -729,6 +748,7 @@ async function recordStripeOneTimePaid({ payload, eventId, holdDays = 30 } = {})
     await order.save();
     await ReferralClick.updateOne({ clickId: order.referralClickId }, { $set: { convertedAt: order.purchasedAt } });
     return { recorded: true, commissionId: commission._id, amountMinor: calculation.amountMinor, sequence: 1 };
+    });
 }
 async function reverseStripeCommission({ payload, reason = 'refund', eventId, eventType } = {}) {
     if (!isEnabled() || !payload || mongoose.connection.readyState !== 1) return { reversed: false, reason: 'disabled' };
@@ -748,7 +768,7 @@ async function reverseStripeCommission({ payload, reason = 'refund', eventId, ev
         ledger = await ProcessedWebhookEvent.create({ provider: 'stripe', eventId: id, eventType: type });
     } catch (error) {
         if (error?.code === 11000) return { reversed: false, duplicate: true };
-        return { reversed: false, reason: 'ledger_error' };
+        throw error; // 500 → Stripe redelivers; a 200 here dropped the reversal
     }
 
     try {

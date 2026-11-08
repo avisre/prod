@@ -151,6 +151,34 @@ test('a refresh token rotates, and the consumed one stops working', { timeout: 6
     assert.ok(await oauth.resolveAccessToken(second.access_token), 'the new access token works');
 });
 
+test('a refresh whose new tokens cannot be stored leaves the old refresh token working (2026-11-08 quota outage)', { timeout: 60000 }, async (t) => {
+    // A real server-side write failure, not a stub: failCommand makes mongod
+    // itself refuse the next insert, the way Atlas refused them while over quota.
+    const server = await MongoMemoryServer.create({ instance: { args: ['--setParameter', 'enableTestCommands=1'] } });
+    await mongoose.connect(server.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await server.stop(); });
+    const client = await oauth.registerClient({ clientName: 'c', redirectUris: ['https://a.example/cb'] });
+    const first = await oauth.issueTokens({ userId: 'u9', clientId: client._id, scope: 'mcp' });
+
+    const admin = mongoose.connection.db.admin();
+    await admin.command({ configureFailPoint: 'failCommand', mode: { times: 1 }, data: { failCommands: ['insert'], errorCode: 8000, errmsg: 'you are over your space quota' } });
+    await assert.rejects(() => oauth.refresh({ refreshToken: first.refresh_token, clientId: client._id }), /failCommand|space quota/);
+
+    const retried = await oauth.refresh({ refreshToken: first.refresh_token, clientId: client._id });
+    assert.ok(retried, 'the client’s retry succeeds: the user is not logged out');
+    assert.ok(await oauth.resolveAccessToken(retried.access_token), 'the retried access token works');
+    assert.equal(await oauth.refresh({ refreshToken: first.refresh_token, clientId: client._id }), null, 'and after a successful rotation the old token is dead');
+    assert.equal(await mongoose.connection.collection('oauth_tokens').countDocuments({ consumedAt: { $exists: true } }), 0, 'the consumed token is removed once its replacement is stored');
+});
+
+test('two concurrent refreshes of one token: exactly one wins', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    const client = await oauth.registerClient({ clientName: 'c', redirectUris: ['https://a.example/cb'] });
+    const first = await oauth.issueTokens({ userId: 'u9', clientId: client._id, scope: 'mcp' });
+    const results = await Promise.all([1, 2, 3].map(() => oauth.refresh({ refreshToken: first.refresh_token, clientId: client._id })));
+    assert.equal(results.filter(Boolean).length, 1, 'rotation stays single-use under a race');
+});
+
 test('a refresh token is not accepted as a bearer credential', { timeout: 60000 }, async (t) => {
     await withMongo(t);
     const issued = await oauth.issueTokens({ userId: 'u1', clientId: 'mcpc_x', scope: 'mcp' });

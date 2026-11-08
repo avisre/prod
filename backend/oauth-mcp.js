@@ -326,7 +326,15 @@ async function resolveAccessToken(raw) {
 async function refresh({ refreshToken, clientId }) {
     const value = String(refreshToken || '');
     if (!value.startsWith(REFRESH_PREFIX)) return null;
-    const result = await tokens().findOneAndDelete({ _id: hash(value), type: 'refresh' });
+    // Claim, don't delete. The claim is still atomic (two concurrent refreshes
+    // of one token cannot both win), but the old token is only removed once its
+    // replacement is stored. On 2026-11-08 Atlas blocked inserts while deletes
+    // still ran, so a delete-first refresh destroyed a paying customer's login.
+    const id = hash(value);
+    const result = await tokens().findOneAndUpdate(
+        { _id: id, type: 'refresh', consumedAt: { $exists: false } },
+        { $set: { consumedAt: new Date() } }
+    );
     const doc = result && (result.value !== undefined ? result.value : result);
     if (!doc || !doc._id) return null;
     if (doc.revokedAt) return null;
@@ -336,7 +344,17 @@ async function refresh({ refreshToken, clientId }) {
     // that names no client was never authenticated, so it cannot refresh a
     // confidential client's token by leaving the client out.
     if (!clientId && await clientIsConfidential(doc.clientId)) return null;
-    return issueTokens({ userId: doc.userId, clientId: doc.clientId, scope: doc.scope, resource: doc.resource });
+    let issued;
+    try {
+        issued = await issueTokens({ userId: doc.userId, clientId: doc.clientId, scope: doc.scope, resource: doc.resource });
+    } catch (error) {
+        // The new pair was not stored: hand the old token back so the client's
+        // retry works instead of forcing the user to reconnect.
+        await tokens().updateOne({ _id: id }, { $unset: { consumedAt: '' } }).catch(() => {});
+        throw error;
+    }
+    await tokens().deleteOne({ _id: id }).catch(() => {}); // already dead via consumedAt
+    return issued;
 }
 
 /** Revokes every token held by one user — used when they sign out everywhere. */

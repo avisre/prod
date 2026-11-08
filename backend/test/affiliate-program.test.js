@@ -80,6 +80,52 @@ test('partner pricing click survives signup and a paid monthly invoice', { timeo
   assert.equal(await Commission.countDocuments({ invoiceId: 'in_partner_flow', status: 'pending', rateBps: 3000 }), 1);
 });
 
+test('a commission write that fails after the event is claimed is recorded on Stripe’s retry', { timeout: 120000 }, async (t) => {
+  // It used to keep the claim, so the redelivery was taken for a duplicate and
+  // the partner's commission was never written.
+  const originalFlag = process.env.AFFILIATE_PROGRAM_ENABLED;
+  const originalSecret = process.env.AFFILIATE_COOKIE_SECRET;
+  process.env.AFFILIATE_PROGRAM_ENABLED = 'true';
+  process.env.AFFILIATE_COOKIE_SECRET = SECRET;
+  const server = await MongoMemoryServer.create({ instance: { args: ['--setParameter', 'enableTestCommands=1'] } });
+  await mongoose.connect(server.getUri());
+  t.after(async () => {
+    if (originalFlag == null) delete process.env.AFFILIATE_PROGRAM_ENABLED;
+    else process.env.AFFILIATE_PROGRAM_ENABLED = originalFlag;
+    if (originalSecret == null) delete process.env.AFFILIATE_COOKIE_SECRET;
+    else process.env.AFFILIATE_COOKIE_SECRET = originalSecret;
+    await mongoose.disconnect().catch(() => {});
+    await server.stop();
+  });
+  const { AffiliateProfile, Commission, ProcessedWebhookEvent } = affiliate.models();
+  const partner = await AffiliateProfile.create({
+    userId: new mongoose.Types.ObjectId(), slug: 'amb-partner-retry', kind: 'partner',
+    status: 'active', invitedAt: new Date(), termsAcceptedAt: new Date(), termsVersion: affiliate.PARTNER_TERMS_VERSION
+  });
+  const clickId = affiliate.randomId(16);
+  await affiliate.recordReferralClick({ profile: partner, clickId, destination: affiliate.defaultDestinationForProfile(partner) });
+  const cookie = affiliate.createReferralCookieValue({ slug: partner.slug, clickId, secret: SECRET });
+  const metadata = await affiliate.buildCheckoutMetadata({ req: { headers: { cookie: `sp_aff_ref=${encodeURIComponent(cookie)}` } }, newAccount: true });
+  await affiliate.recordStripeCheckout({
+    payload: { id: 'cs_retry', customer: 'cus_retry', subscription: 'sub_retry', metadata: { ...metadata, planId: 'monthly', billingInterval: 'month' } },
+    user: { _id: new mongoose.Types.ObjectId() }
+  });
+  const invoice = { eventId: 'evt_retry', payload: { id: 'in_retry', subscription: 'sub_retry', amount_paid: 2499, currency: 'usd' } };
+
+  await mongoose.connection.db.admin().command({ configureFailPoint: 'failCommand', mode: { times: 1 }, data: { failCommands: ['findAndModify'], errorCode: 8000 } });
+  await assert.rejects(() => affiliate.recordStripeInvoicePaid(invoice), 'the failure reaches the webhook, which answers 500');
+  assert.equal(await ProcessedWebhookEvent.countDocuments({ eventId: 'evt_retry' }), 0, 'the claim is released');
+
+  const retried = await affiliate.recordStripeInvoicePaid(invoice);
+  assert.equal(retried.recorded, true, 'Stripe’s redelivery records the commission');
+  assert.equal(await Commission.countDocuments({ invoiceId: 'in_retry' }), 1);
+  assert.equal((await affiliate.recordStripeInvoicePaid(invoice)).duplicate, true, 'a later redelivery is still a duplicate');
+
+  await mongoose.connection.db.admin().command({ configureFailPoint: 'failCommand', mode: { times: 1 }, data: { failCommands: ['insert'], errorCode: 8000 } });
+  await assert.rejects(() => affiliate.recordStripeInvoicePaid({ ...invoice, eventId: 'evt_claim_fails' }),
+    'a claim that cannot be stored throws (500, so Stripe redelivers) instead of answering 200');
+});
+
 test('commission rates use integer minor units and the approved plan bands', () => {
   assert.deepEqual(affiliate.calculateCommission({ eligibleBasisMinor: 25000, planId: 'pro-annual' }), { basisMinor: 25000, rateBps: 3000, amountMinor: 7500 });
   assert.deepEqual(affiliate.calculateCommission({ eligibleBasisMinor: 196100, planId: 'desk' }), { basisMinor: 196100, rateBps: 2000, amountMinor: 39220 });
