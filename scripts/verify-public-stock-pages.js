@@ -15,7 +15,9 @@ function verify({shard=0,of=1}={}){
  }
  const mine=(_,i)=>i%of===shard;
  for(const s of snapshot.securities.filter(mine)){try{inspect(seo.renderStockPage(s.symbol),'/stocks/'+s.symbol,s.indexable);profiles++;for(const slug of s.metricSlugs){inspect(extra.renderMetricPage(s.symbol,slug),`/stocks/${s.symbol}/${slug}`,true);metrics++;}if(s.priceHistory){inspect(extra.renderPriceHistoryPage(s.symbol),`/stocks/${s.symbol}/price-history`,s.indexable);metrics++;}}catch(e){errors.push(s.symbol+': '+e.message);}}
- for(const pair of snapshot.comparisonPairs.filter(mine)){try{const rendered=extra.renderComparePage(pair);assert.ok(rendered?.html && !rendered.redirect);inspect(rendered.html,'/compare/'+pair,true);comparisons++;}catch(e){errors.push(pair+': '+e.message);}}
+ // The pairs the site publishes (sitemap, hub): a pair whose stock stopped being screenable after the snapshot's
+ // cycle date (Lifecore, last 10-K FY 2025-05-25, aged out on 2026-11-08) is neither listed nor linked, and redirects.
+ for(const pair of extra.comparePairs().filter(mine)){try{const rendered=extra.renderComparePage(pair);assert.ok(rendered?.html && !rendered.redirect);inspect(rendered.html,'/compare/'+pair,true);comparisons++;}catch(e){errors.push(pair+': '+e.message);}}
  if(shard===0){const root=seo.buildSitemap();for(const match of root.matchAll(/<loc>[^<]*\/sitemaps\/([^<]+)\.xml<\/loc>/g)){const xml=seo.buildSitemapShard(match[1]);shards++;assert.ok((xml.match(/<url>/g)||[]).length<=5000);for(const m of xml.matchAll(/<loc>[^<]*\/stocks\/([^<]+)<\/loc>/g)){const [symbol,slug]=m[1].split('/'),s=securities.get(symbol);assert.ok(s?.indexable && (!slug || slug==='price-history' && s.priceHistory || s.metricSlugs.includes(slug)),'ineligible sitemap URL '+m[1]);}}}
  return {ok:!errors.length,profiles,metrics,comparisons,shards,errors};
 }

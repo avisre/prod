@@ -195,6 +195,11 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - Not yet done: cleanup of `~/Downloads/new/checkpoint-parts` + the `prod-weekly-20261024` worktree (awaiting owner OK).
 
 ## Data refresh traps (read before re-extracting)
+- **Index date = the reconciliation cycle date, never today** (2026-11-08). `build-screen-index.js` re-runs the
+  public-index `build()` with no date, so both files take `financial-coverage`'s asOf. Dating them a day after the
+  cycle makes validate fail every issuer ("not checked in the current reconciliation cycle"). An issuer whose last
+  annual ages out between the cycle and the gate (Lifecore, 11-08) leaves stored compare pairs that the site
+  drops; `verify-public-stock-pages.js` now checks `comparePairs()`, what the site publishes, instead of the stored list.
 - **After ANY local re-extraction rebuild the indexes** — the server loads a file only when its digest matches
   `public-stock-index.json`: `build-financial-coverage.js`, `build-public-stock-index.js` (`--max-old-space-size=1536`),
   `build-screen-index.js`, `build-industry-map.js`, then `validate-stock-coverage.js --bootstrap`.
