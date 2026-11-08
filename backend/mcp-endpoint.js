@@ -434,13 +434,15 @@ const TOOL_DEFS = [
             const focused = `About ${company.name} (${company.ticker}${company.cik ? `, SEC CIK ${company.cik}` : ''}): ${question}`;
             const result = await aiChat.ask({ question: focused, history: [], ctx: { holdings: [] } });
             if (result && result.error) throw fin.mcpError('UPSTREAM_DATA_ERROR', String(result.error));
+            let citations = citationsFrom(result.toolsUsed, result.answer);
+            if (!citations.length) citations = await filingCitations(company.ticker, result.answer).catch(() => []);
             return {
                 ticker: company.ticker,
                 question,
                 answer: String(result.answer || '').trim() || 'No answer was produced for that question.',
                 // The research steps behind the answer stay internal; only the
                 // filings they read are returned.
-                citations: citationsFrom(result.toolsUsed, result.answer),
+                citations,
                 source: result.source || 'ai'
             };
         }
@@ -659,6 +661,24 @@ async function companyForFiling(args) {
     throw fin.mcpError('COMPANY_REQUIRED', 'Provide an accession_number, or a ticker to identify the company.', {
         hint: 'Call search_filings first to get an accession number.'
     });
+}
+
+// Ask reports which research steps it ran, not the filings they read, so an
+// answer without a filing link is cited here from the company's own reports:
+// the annual filing behind each fiscal year the answer names, otherwise the
+// latest periodic report its figures are drawn from.
+async function filingCitations(ticker, answer) {
+    const text = String(answer || '');
+    const data = await fin.companyFinancials({ company: ticker, metrics: ['revenue'], periodType: 'annual', periods: 10 });
+    const urls = new Set();
+    for (const obs of (data && data.metrics && data.metrics[0] && data.metrics[0].observations) || []) {
+        const year = String(obs.period_end || '').slice(0, 4);
+        const url = obs.source && (obs.source.url || (obs.source.inputs && obs.source.inputs[0] && obs.source.inputs[0].url));
+        if (/^\d{4}$/.test(year) && url && new RegExp(`\\b(?:FY ?|fiscal (?:year )?)${year}\\b`, 'i').test(text)) urls.add(url);
+    }
+    const latest = data && data.coverage && data.coverage.latestPeriodic && data.coverage.latestPeriodic.filingUrl;
+    if (!urls.size && latest) urls.add(latest);
+    return [...urls].slice(0, 20);
 }
 
 // The SEC filings the answer drew on: every sec.gov URL in its backing pulls

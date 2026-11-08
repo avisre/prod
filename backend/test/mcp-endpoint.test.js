@@ -587,6 +587,21 @@ test('ask_filings answers with citations and, keyless, reports the remaining all
     assert.equal(jsonOf(noTicker).code, 'COMPANY_REQUIRED');
 });
 
+test('ask_filings cites the filing behind each fiscal year an unlinked answer names', { timeout: 60000 }, async (t) => {
+    stubFinancials();
+    t.after(restoreFinancials);
+    aiChat.ask = async () => ({
+        answer: 'Revenue was $391.0B in fiscal 2024.',
+        toolsUsed: [{ tool: 'get_financials', args: { symbol: 'AAPL', statement: 'income' }, ok: true }],
+        source: 'ai'
+    });
+    const client = await connect(t, await mount(t, keyedShape({
+        limiter: { check: async () => ({ ok: true, used: 0, allowance: 20, resetsAt: null }), spend: async () => {} }
+    })));
+    const payload = jsonOf(await client.callTool({ name: 'ask_filings', arguments: { ticker: 'AAPL', question: 'What was revenue?' } }));
+    assert.deepEqual(payload.citations, ['https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/'], 'the 10-K for fiscal 2024 is cited');
+});
+
 test('ask_filings returns the filings it drew on, never its internal research steps', { timeout: 60000 }, async (t) => {
     stubFinancials();
     t.after(restoreFinancials);
