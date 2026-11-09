@@ -3,6 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const dns = require('dns').promises;
 const net = require('net');
+const outboundByteUsage = require('./outbound-byte-usage');
+// One-day audit; destination/byte totals only, with no request payloads.
+outboundByteUsage.start({ log: (stats) => console.log('[outbound-bytes]', JSON.stringify(stats)) });
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -16218,6 +16221,10 @@ app.get('/api/admin/byte-usage/stats', authMiddleware, marketingDashboardOnly, (
         .sort((a, b) => b.bytes - a.bytes);
     const totalBytes = rows.reduce((sum, r) => sum + r.bytes, 0);
     res.set('Cache-Control', 'no-store').json({ since: byteUsageSince, totalBytes, rows });
+});
+
+app.get('/api/admin/outbound-byte-usage/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').json(outboundByteUsage.snapshot());
 });
 
 app.post('/api/admin/growth/gmv', authMiddleware, marketingDashboardOnly, async (req, res) => {
