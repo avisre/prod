@@ -133,6 +133,10 @@ jobs:
         run: |
           git config user.name stockportfolio-bot
           git config user.email bot@stockportfolio.pro
+          # Publish the portfolio alert scan only with this validated weekly generation.
+          # The deployed service claims the week once, so restarts do not rescan it.
+          node scripts/write-weekly-watchdog-cycle.js
+          git add frontend/data/weekly-watchdog.json
           git add frontend/data/sec-reporting.json frontend/data/sec-financials/ frontend/data/sec-fx.json frontend/data/us-companies.json frontend/data/stock-universe-manifest.json frontend/data/legacy-instruments.json frontend/data/public-stock-index.json frontend/data/financial-reporting-index.json frontend/data/screen-index.json frontend/data/screen-facts.json frontend/data/financial-coverage.json frontend/data/financial-coverage-summary.json frontend/data/industry-map.json
           if [ -d frontend/data/supplemental-financials ]; then git add frontend/data/supplemental-financials/; fi
           git add backend/data/segment-history/

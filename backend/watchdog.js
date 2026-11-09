@@ -3,8 +3,9 @@
 /**
  * Filing Watchdog + health-check flip alerts.
  *
- * Every WATCHDOG_INTERVAL_MS (default 6h) it scans the distinct symbols held
- * across all user portfolios:
+ * Once per published weekly financial refresh it scans the distinct symbols
+ * held across all user portfolios. A durable weekly claim prevents repeated
+ * scans after deploys and restarts:
  *   1. Filings — polls SEC EDGAR submissions for new 10-K / 10-Q / 8-K
  *      filings and alerts every holder of that symbol.
  *   2. Health flips — recomputes the plain-English health checks (same code
@@ -278,15 +279,7 @@ async function scan() {
 }
 
 function start() {
-  if (String(process.env.WATCHDOG || '1') === '0') {
-    console.log('[watchdog] disabled via WATCHDOG=0');
-    return;
-  }
-  const intervalMs = Math.max(15 * 60 * 1000, Number(process.env.WATCHDOG_INTERVAL_MS || 6 * 3600 * 1000));
-  // First sweep shortly after boot (lets Mongo connect), then on interval.
-  setTimeout(() => { scan().then((r) => console.log('[watchdog] initial sweep', JSON.stringify(r))).catch(() => {}); }, 90 * 1000);
-  setInterval(() => { scan().then((r) => console.log('[watchdog] sweep', JSON.stringify(r))).catch(() => {}); }, intervalMs);
-  console.log(`[watchdog] scheduled every ${Math.round(intervalMs / 60000)} min`);
+  return require('./watchdog-weekly').start({ connection: mongoose.connection, scan });
 }
 
 // ---- API helpers (used by app.js routes) ----
