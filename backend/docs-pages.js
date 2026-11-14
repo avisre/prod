@@ -27,7 +27,7 @@ const DEEP = credits.DEEP_THINKING_FACTOR;
 // instead of a typed number (they once said "two" while the default was
 // three). The keyless allowance has been closed by default since 2026-10-26.
 const TRIAL = require('./mcp-trial').config();
-const STAMP = '20261107-seg4';
+const STAMP = '20261114-seg5';
 const UPDATED = '18 October 2026';
 
 function esc(value) {

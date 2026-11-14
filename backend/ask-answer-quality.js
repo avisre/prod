@@ -401,7 +401,7 @@ function segmentEvidence(segmentResult, incomeResult) {
         const g=segmentResult.storedSegmentsReceipt;
         if(!require('./sec-segment-observations').validGroup(g,segmentResult.financialWitness))return {status:'unverified',reason:'Stored segment context provenance is invalid.'};
         if(g.reconciliationStatus!=='reconciled' || g.entries.some(e=>e.value<0) || g.sum>g.totalRevenue || g.totalRevenue<=0)return {status:'unverified',reason:'The original group requires signed entries or unresolved reconciliation; present its source table without a complete Sankey.'};
-        return {status:'eligible',currency:g.currency,periodEnd:g.periodEnd,filingDate:g.publicationDate,form:segmentResult.filing.form,accessionNumber:g.sourceVersion,sourceUrl:g.sourceUrl,totalRevenue:g.totalRevenue,totalSourceIds:g.totalSourceIds,segmentTotal:g.sum,difference:g.difference,unallocated:g.difference,segments:g.entries.map(e=>({name:require('./sec-segment-observations').displayName(e),value:e.value}))};
+        return {status:'eligible',currency:g.currency,periodEnd:g.periodEnd,filingDate:g.publicationDate,form:segmentResult.filing.form,accessionNumber:g.sourceVersion,sourceUrl:g.sourceUrl,totalRevenue:g.totalRevenue,totalSourceIds:g.totalSourceIds,segmentTotal:g.sum,difference:g.difference,unallocated:g.difference,segments:g.entries.map(e=>({name:require('./sec-segment-observations').displayNameIn(e,require('./sec-segment-observations').shown(g).rows.length===1),value:e.value}))};
     }
     const filing = segmentResult?.filing || {};
     const issuerCik = validCik(segmentResult.cik);

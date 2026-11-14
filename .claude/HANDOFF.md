@@ -14,6 +14,24 @@ the 10/17 statements fill (`EXTRACTION_VERSION` history, presented debt, weekly 
 `2026-10-04.md`, `2026-10-03.md`, `2026-10-01.md`, `2026-09-30.md`, `2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Segments card says what the company sells — 2026-11-14 (owner, from AppLovin showing US/non-US; local only, NOT pushed)
+- Owner's target, per company: segment(s) by name with revenue, the products in each (AppLovin: Advertising — AppLovin
+  Ads, MAX, Adjust, Wurl), how it makes money, "not broken out by product" when true, segment changes (Apps sold to
+  Tripledot 2025), filing link.
+- Pi's 11-14 attempt (`segment-notes.js`) collapsed tables to "Single reportable segment" from a hand-checked note: 30
+  companies lost what they sell (WSM brands, HD "Other", Enerpac…), 4 notes wrong (MVIS, FTLF, ETR, KULR). Removed;
+  files kept in `~/Downloads/new/segment-work/pi-segment-notes/`. Kept from pi: `preferred()` puts a named single segment
+  ahead of regions, the caption rename, `regionsFor`, the 60 histories rebuilt on the segment axis.
+- New: `scripts/build-segment-profiles.js` → `backend/data/segment-profiles/<cik>.json` (latest 10-K/20-F/40-F, site's
+  `ai-client` 'summary'; every name/product must be in the filing text, every sentence carries a verbatim quote, no
+  figures). `segment-profiles.enrich()` names a generic row and adds products; wired into `/api/company/:s/segments`,
+  `/api/demo/alpha/segments`, `revenue-breakdown.forSymbol/forPage`. Card in `company.js` (stamp `20261114-seg5`).
+- `sec-segment-history.dropRepeats`: a year over revenue where dropping one of two equal figures reconciles exactly
+  (AppLovin 2021 "Software Platform" twice, 124%) — applied to all 60 stored histories it touched.
+- **NOT RUN YET: the extraction itself** (auto mode refused the outbound EDGAR + AI calls). Until it runs no profile
+  exists and the card looks as before except named regions. Pilot: `SEGMENT_PROFILES_DIR=~/Downloads/new/segment-work/pilot-profiles
+  node scripts/build-segment-profiles.js --cik 1751008 --cik 6281 ...`; then all: `node scripts/build-segment-profiles.js --jobs 6`.
+
 ## Filing-backed statement repair (face16) + Q3 weekly — 2026-11-08 (owner authorized deploy after tests + predeploy)
 - `EXTRACTION_VERSION` `20261107-face16`. Rules: Alamo-type partial D&A sums corrected from the same filing's face
   lines (`DERIVED_SUM_CORRECTED`), labelled D&A lines on non-D&A tags (`labelPart`), income D&A mirrored from the

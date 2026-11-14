@@ -9,7 +9,7 @@ const path = require('path');
 const vm = require('vm');
 const breakdown = require('../revenue-breakdown');
 
-const BUSINESS = 'us-gaap:StatementBusinessSegmentsAxis', PRODUCT = 'srt:ProductOrServiceAxis';
+const BUSINESS = 'us-gaap:StatementBusinessSegmentsAxis', PRODUCT = 'srt:ProductOrServiceAxis', REGION = 'srt:StatementGeographicalAxis';
 const group = (axis, periodEnd, parts, totalRevenue = 1000) => ({ axis, periodEnd, totalRevenue, currency: 'USD', sourceVersion: '0000000001-26-000001', publicationDate: '2026-02-01', sourceUrl: 'https://www.sec.gov/Archives/edgar/data/1/x.htm',
     entries: Object.entries(parts).map(([member, value]) => ({ member: 'x:' + member + 'Member', label: null, value })) });
 const DATASET = path.join(require('../sec-coverage').DATA_DIR, 'sec-financials');
@@ -21,6 +21,23 @@ test('a complete breakdown carries plain names, shares of its own year and no re
     assert.equal(c.remainder, null);
     assert.equal(c.fiscalYear, 'FY2025');
     assert.deepEqual(breakdown.violations(c), []);
+});
+
+test('a single-segment company keeps its region split beside the segment, never as the segment (AppLovin, FY2025)', () => {
+    const filed = (member, name, value) => ({ member, label: null, filedLabel: name, value });
+    const segment = { axis: BUSINESS, periodEnd: '2025-12-31', totalRevenue: 5480717000, currency: 'USD', sourceVersion: '0001751008-26-000010', publicationDate: '2026-02-19',
+        sourceUrl: 'https://www.sec.gov/Archives/edgar/data/1751008/000175100826000010/app-20251231.htm',
+        entries: [filed('app:ReportableSegmentMember', 'Reportable Segment', 5480717000)] };
+    const places = { ...segment, axis: REGION, entries: [filed('country:US', 'United States', 2827248000), filed('us-gaap:NonUsMember', 'All other countries', 2653469000)] };
+    const c = breakdown.fromGroups([segment, places], 'APP');
+    assert.equal(c.kind, 'operating segments', 'the company’s one segment is the breakdown');
+    assert.deepEqual(c.rows, [{ name: 'Single reportable segment', value: 5480717000, share: 100 }]);
+    assert.match(c.note, /single segment/);
+    assert.match(c.note, /By region: United States 51.6%, All other countries 48.4%\./, 'the filed regional split is still named');
+    assert.deepEqual(breakdown.violations(c), []);
+    // A company whose one segment is called "Other" keeps its regions.
+    const other = { ...segment, entries: [filed('app:OtherSegmentMember', 'Other', 5480717000)] };
+    assert.equal(breakdown.fromGroups([other, places], 'X').kind, 'regions');
 });
 
 test('a partial table always names what it leaves out', () => {

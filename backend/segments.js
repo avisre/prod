@@ -146,17 +146,33 @@ async function storedSegments(symbol, { partial = false } = {}) {
     // The stored note is a provenance rule for the pipeline, not something to print.
     const note=coverage>1.02?'Segments are reported before eliminations between them, so they add up to slightly more than total revenue.'
         :coverage<0.9?`These lines are the filing’s own breakdown and cover ${Math.round(coverage*100)}% of revenue; the rest is not broken out in this table.`:null;
-    return {...result,note,breakdown:store.kind(group),segments:[...byName.values()].sort((a,b)=>b.value-a.value)};
+    // One segment that is all of revenue: the filing's own regional split, said beside it.
+    const regions=rows.length===1 && store.kind(group)==='operating segments' ? store.regionsFor(evidence.statements.segmentObservations,group.periodEnd) : null;
+    return {...result,note,regions,breakdown:store.kind(group),segments:[...byName.values()].sort((a,b)=>b.value-a.value)};
 }
 
 async function extractSegments(symbol) {
     const stored=await storedSegments(symbol);
-    if(stored) return stored;
+    if(stored) return withProfile(stored,symbol);
     // When the text extraction finds nothing, a partial table from the filing
     // with its remainder named is better than an empty panel.
     const extracted=await extractFromText(symbol).catch(error=>({error:error.message}));
-    if(!extracted.error && extracted.segments?.length) return extracted;
-    return await storedSegments(symbol,{partial:true}) || extracted;
+    if(!extracted.error && extracted.segments?.length) return withProfile(extracted,symbol);
+    return withProfile(await storedSegments(symbol,{partial:true}) || extracted,symbol);
+}
+
+// What the company sells, in its annual report's words (backend/segment-profiles.js): names a generic
+// "Single reportable segment" row, adds the products of each segment, and carries how it makes money
+// and its segment changes. A company with no figures to show still gets the words, never a bare
+// "reports as a single segment".
+function withProfile(result,symbol) {
+    const company=require('./stock-universe').lookup(String(symbol || '').toUpperCase());
+    const cik=result?.cik || company?.cik;
+    if(!cik) return result;
+    const {rows,profile}=require('./segment-profiles').enrich(cik,result?.segments || [],{kind:result?.breakdown || null});
+    if(!profile) return result;
+    if(result?.error) return {symbol,segments:[],profile,filing:profile.filing};
+    return {...result,segments:rows,profile};
 }
 
 async function extractFromText(symbol) {

@@ -20,6 +20,7 @@
 // ask-inline-segments.js; this file composes them and adds nothing of its own
 // to the numbers.
 const store = require('./sec-segment-observations');
+const segmentProfiles = require('./segment-profiles');
 
 const REASONS = {
     untagged: 'The latest annual filing does not report a revenue breakdown that accounts for total revenue.',
@@ -62,7 +63,7 @@ function measureNote(measure, coverage) {
 // The deterministic answer from the filing's own tagged figures. No model and
 // no network: the same input always gives the same contract, which is what the
 // audit and the golden set check.
-function fromGroups(groups, symbol = null, { read = false, revenue = null, incomeInParts = false } = {}) {
+function fromGroups(groups, symbol = null, { read = false, revenue = null, incomeInParts = false, cik = null } = {}) {
     // Zero filed revenue and a revenue figure we do not hold are different facts:
     // HSBC has revenue; a pre-revenue biotech does not. `revenue` is a number,
     // 'missing' when the statement row has no figure, or null when unknown.
@@ -72,23 +73,30 @@ function fromGroups(groups, symbol = null, { read = false, revenue = null, incom
     if (!group) return none(symbol, whyNone(groups, read));
     const view = store.shown(group), byMember = new Map(group.entries.map(e => [e.member, e])), byName = new Map();
     for (const row of view.rows) {
-        const name = store.displayName(byMember.get(row.member));
+        const name = store.displayNameIn(byMember.get(row.member), view.rows.length === 1);
         byName.set(name, (byName.get(name) || 0) + row.value);
     }
     const segmentTotal = [...byName.values()].reduce((n, v) => n + v, 0), base = view.gross ? segmentTotal : group.totalRevenue;
-    const rows = [...byName].map(([name, value]) => ({ name, value, share: round1(value / base * 100) })).sort((a, b) => b.value - a.value);
+    const rows = segmentProfiles.enrich(cik, [...byName].map(([name, value]) => ({ name, value, share: round1(value / base * 100) })).sort((a, b) => b.value - a.value),
+        { kind: store.kind(group) }).rows.map(({ products, description, ...r }) => r);
     const listed = rows.reduce((n, r) => n + r.value, 0), gap = group.totalRevenue - listed;
     const level = view.gross ? 'complete' : grade(view.coverage, rows.length, { floor: 0, minRows: 1 }), single = rows.length === 1;
     if (level === 'none') return none(symbol, whyNone(groups, read));
+    // A single segment can sit beside a regional split, which the page no longer shows as the
+    // breakdown. The regions are the filing's own figures, so they are named here rather than lost.
+    const byRegion = single && store.kind(group) === 'operating segments' ? store.regionsFor(groups, group.periodEnd) : null;
+    const note = view.gross ? `Segments are shown before sales between them are eliminated, so they add up to more than total revenue; shares are of the segment total.`
+        : measureNote(group.measure, view.coverage) || (view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
+        : single && level === 'complete' ? (store.kind(group) === 'operating segments'
+            ? `The company reports a single segment, which accounts for all of its revenue${byRegion ? '; the only further breakdown it files is by region' : '; there is no further breakdown to show'}.`
+            : 'The filing tags one line, which accounts for all of revenue; there is no further breakdown to show.')
+        : single ? `The filing breaks out only this line, ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out by the company.`
+        : level === 'partial' ? `These lines are the filing’s own breakdown and cover ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out in this table.` : null);
     return { symbol, grade: level, reason: null, kind: store.kind(group), fiscalYear: 'FY' + String(group.periodEnd).slice(0, 4), periodEnd: group.periodEnd,
         currency: group.currency, totalRevenue: group.totalRevenue, rows,
         remainder: gap > group.totalRevenue * 0.005 ? { name: 'Not broken out in the filing', value: gap, share: round1(gap / group.totalRevenue * 100) } : null,
         coverage: view.coverage, measure: group.measure || null, basis: view.gross ? 'before eliminations' : null,
-        note: view.gross ? `Segments are shown before sales between them are eliminated, so they add up to more than total revenue; shares are of the segment total.`
-            : measureNote(group.measure, view.coverage) || (view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
-            : single && level === 'complete' ? (store.kind(group) === 'operating segments' ? 'The company reports a single segment, which accounts for all of its revenue; there is no further breakdown to show.' : 'The filing tags one line, which accounts for all of revenue; there is no further breakdown to show.')
-            : single ? `The filing breaks out only this line, ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out by the company.`
-            : level === 'partial' ? `These lines are the filing’s own breakdown and cover ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out in this table.` : null),
+        note: note && byRegion ? `${note} By region: ${byRegion.map(r => `${r.name} ${r.share}%`).join(', ')}.` : note,
         source: 'SEC inline XBRL', filing: { accessionNumber: group.sourceVersion, date: group.publicationDate, url: group.sourceUrl } };
 }
 
@@ -113,7 +121,7 @@ async function storedGroups(symbol) {
     const evidence = await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(() => null);
     const latest = (evidence?.statements?.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0];
     const filed = k => latest && latest[k] !== null && latest[k] !== undefined && latest[k] !== '';
-    return { groups: evidence?.statements?.segmentObservations || null, read: evidence?.statements?.industryExtraction?.status === 'success',
+    return { groups: evidence?.statements?.segmentObservations || null, cik: evidence?.statements?.cik || null, read: evidence?.statements?.industryExtraction?.status === 'success',
         incomeInParts: ['netInterestIncome', 'interestIncome', 'nonInterestIncome', 'premiums', 'investmentIncome'].some(filed),
         revenue: !latest ? null : latest.totalRevenue === null || latest.totalRevenue === undefined || latest.totalRevenue === '' || !Number.isFinite(Number(latest.totalRevenue)) ? 'missing' : Number(latest.totalRevenue) };
 }
@@ -121,16 +129,17 @@ async function storedGroups(symbol) {
 // The answer for a symbol. `text: false` never calls the extraction model (a
 // cached page read must not), and grades whatever text result is handed in.
 async function forSymbol(symbol, { text = true, cachedText = null } = {}) {
-    const sym = String(symbol || '').toUpperCase(), { groups, read: wasRead, revenue = null, incomeInParts = false } = await storedGroups(sym);
-    const tagged = fromGroups(groups || [], sym, { read: wasRead, revenue, incomeInParts });
-    if (tagged.grade === 'complete') return tagged;
+    const sym = String(symbol || '').toUpperCase(), { groups, cik, read: wasRead, revenue = null, incomeInParts = false } = await storedGroups(sym);
+    const profiled = c => { const { profile } = segmentProfiles.enrich(cik, c.rows || [], { kind: c.kind || null }); return profile ? { ...c, profile } : c; };
+    const tagged = fromGroups(groups || [], sym, { read: wasRead, revenue, incomeInParts, cik });
+    if (tagged.grade === 'complete') return profiled(tagged);
     const segments = require('./segments');
     let extracted = cachedText;
     if (!extracted && text) extracted = await segments.extractFromText(sym).catch(() => null);
     const read = extracted && !extracted.error ? fromText(extracted, sym, segments.filedRevenue(sym)) : none(sym, tagged.reason);
     // A complete text read beats a partial tagged table; otherwise the tagged one stands.
-    if (read.grade === 'complete' || tagged.grade === 'none' && read.grade === 'partial') return read;
-    return tagged;
+    if (read.grade === 'complete' || tagged.grade === 'none' && read.grade === 'partial') return profiled(read);
+    return profiled(tagged);
 }
 
 // The shape the page and compare scripts have always read (`items`, `revenueUsd`,
@@ -142,7 +151,9 @@ function forPage(contract) {
     const pageTotal = contract.basis === 'before eliminations' ? contract.rows.reduce((n, r) => n + r.value, 0) : contract.totalRevenue;
     return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, measure: contract.measure || null, basis: contract.basis || null, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
         totalRevenue: pageTotal, currency: contract.currency || null, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
-        items: contract.rows.map(r => ({ name: r.name, revenueUsd: contract.currency === 'USD' ? r.value : null, value: r.value, revenuePct: r.share, description: '' })) };
+        profile: contract.profile || null,
+        items: contract.rows.map(r => { const seg = contract.profile?.segments.find(s => s.shown && segmentProfiles.sameSegment(s.name, r.name));
+            return { name: r.name, revenueUsd: contract.currency === 'USD' ? r.value : null, value: r.value, revenuePct: r.share, description: seg?.description || '', products: seg?.products || [] }; }) };
 }
 
 // What must be true of anything shown. Returns the list of violations.

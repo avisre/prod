@@ -175,6 +175,13 @@ const filed=e=>{
 const GENERIC_SEGMENT=/(?:ReportableSegments?|ReportableSegmentAggregationBeforeOtherOperatingSegment|OperatingSegments?|Segments?Reporting)Member$/;
 const lone=e=>GENERIC_SEGMENT.test(e?.member || '') && !e.label && /^(?:(?:reportable|operating)\s*)?(?:segments?)?(?:\s*(?:reporting|operating))?(?:,?\s*aggregation\b.*)?$/i.test(String(e.filedLabel || '').replace(/\s*\[(?:Member|Domain)\]$/i,'').trim());
 const displayName=e=>e.label || SPELLED[e.member] || (lone(e)?'Single reportable segment':null) || filed(e) || require('./ask-inline-segments').label(e.member) || e.member;
+// A one-segment company sometimes captions its segment with the type ("Business", "Reporting",
+// "Single reportable"), which names no business. In a table the company itself files one row for,
+// that caption reads as what it is: the single reportable segment.
+const CAPTION_ONLY=/^(?=.)(?:(?:single|one|total|significant|the|our|only|chief|continuing)\s*)*(?:(?:reportable|reporting|operating|business)\s*)*(?:segments?|units?|products?|services?|decision maker|codm)?$/i;
+const caption=e=>[e.filedLabel, String(e.member || '').split(':').pop()?.replace(/Member$/, '')]
+ .some(v=>{const t=String(v || '').replace(/\s*\[(?:Member|Domain)\]$/i,'').replace(/\s+Member$/i,'').replace(/[\s,.]+$/g,'').replace(/\s+/g,' ');return /information regarding|profit or loss items/i.test(t) || CAPTION_ONLY.test(t);});
+const displayNameIn=(e,single)=>single && caption(e)?'Single reportable segment':displayName(e);
 // What a reader would actually see from a group: its positive rows with filed
 // subtotals pruned, and how much of revenue they account for.
 function shown(g) {
@@ -234,6 +241,10 @@ function read(g,strict) {
  return {rows,coverage,gross,usable:rows.length>=2 && coverage>=0.9 && (coverage<=1.1 || gross)};
 }
 const GEOGRAPHY=/^(?:(?:North|South|Latin|Central|Greater|Rest of|Other|All Other|Asia|Europe|Middle East|Africa|EMEA|APAC|Americas?|International|Domestic|Foreign|US|United States|Canada|China|Japan|India|Pacific|and|of|the|,|\s)+)$/i;
+// A row name that is not a business: a leftover line, a roll-up or a consolidation view. A one-segment
+// company whose segment is called "Other" (Grupo Simec) or "Segments Net of Consolidation" (Ellomay)
+// says nothing a reader can use, so its regions stay on the page instead.
+const NOT_BUSINESS=/^(?:all[\s-]+)?others?\b|,\s*other$|corporate|eliminat|unallocated|reconcil|intersegment|consolidat|aggregat|^total\b|net of/i;
 const BUSINESS=/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/,PRODUCT=/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/,REGION=/(?:StatementGeographicalAxis|GeographicalAreasAxis|GeographicDistributionAxis)$/;
 // Newest period first. A single-member "segment" axis says nothing, so the
 // product and service lines lead when that is all the segment note holds.
@@ -247,6 +258,7 @@ function preferred(groups) {
  // it is a real breakdown for a company that reports nothing else.
  const rank=g=>BUSINESS.test(g.axis)?0:PRODUCT.test(g.axis)?1:REGION.test(g.axis)?2:3;
  const ordered=all.slice().sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)) || rank(a)-rank(b));
+ const name=(g,r)=>displayName(g.entries.find(e=>e.member===r.member) || r);
  let usable=ordered.find(g=>shown(g).usable) || null;
  // Product and service lines are what a company actually sells ("Online stores,
  // Advertising, AWS"), where its operating segments are often geography ("North
@@ -261,6 +273,14 @@ function preferred(groups) {
  // as partial with the remainder named.
  const measured=usable && REGION.test(usable.axis) && ordered.find(g=>g.periodEnd===usable.periodEnd && BUSINESS.test(g.axis) && g.measure && shown(g).rows.length>=2 && shown(g).coverage>=0.75 && shown(g).coverage<0.9);
  if(measured)return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable:null,partial:measured};
+ // A company with one reportable segment that accounts for all of its revenue leads with that segment,
+ // never with its regions: the segment is what it sells, and where it sells says less (AppLovin FY2025
+ // files one Advertising segment and a US/non-US split; the page showed the split). The row has to name
+ // a business, so a lone "Other", "Corporate" or consolidation view still leaves the regions in place.
+ const alone=g=>{const v=shown(g);return BUSINESS.test(g.axis) && v.rows.length===1 && v.coverage>=0.98 && v.coverage<=1.1;},
+  named=g=>!NOT_BUSINESS.test(name(g,shown(g).rows[0])),
+  one=usable && REGION.test(usable.axis) ? ordered.find(g=>g.periodEnd===usable.periodEnd && alone(g) && named(g)) : null;
+ if(one)usable=one;
  // A real table that leaves part of revenue out (an insurer-conglomerate's
  // product lines exclude premiums). Shown only when nothing better exists, and
  // only with the remainder named beside it.
@@ -271,7 +291,6 @@ function preferred(groups) {
  // A table of nothing but leftovers ("All Other", corporate, eliminations) is not a breakdown: Chevron
  // tags only a roll-up of its segments and "All Other", 0.05% of revenue. A single segment named for
  // its business ("Streaming") comes before the same segment under a generic member.
- const name=(g,r)=>displayName(g.entries.find(e=>e.member===r.member) || r);
  const real=(g,v)=>v.rows.some(r=>!/^(?:all\s+)?others?\b|,\s*other$|corporate|eliminat|unallocated|reconcil|intersegment/i.test(name(g,r)));
  const generic=(g,v)=>v.rows.length===1 && lone(g.entries.find(e=>e.member===v.rows[0].member));
  const whole=v=>v.coverage>=0.98 && v.coverage<=1.1;
@@ -293,7 +312,7 @@ function statementTable(groups) {
  const years=(groups || []).filter(g=>g.axis===lead.axis && g.currency===lead.currency && g.sourceVersion===lead.sourceVersion).sort((a,b)=>String(a.periodEnd).localeCompare(String(b.periodEnd)));
  const views=years.map(g=>({g,kept:new Set(shown(g).rows.map(r=>r.member))}));
  const members=[];
- for(const {g,kept} of views.slice().reverse())for(const e of g.entries)if(kept.has(e.member) && !members.some(m=>m.member===e.member))members.push({member:e.member,name:displayName(e)});
+ for(const {g,kept} of views.slice().reverse())for(const e of g.entries)if(kept.has(e.member) && !members.some(m=>m.member===e.member))members.push({member:e.member,name:displayNameIn(e,shown(lead).rows.length===1)});
  const cell=(g,m,key)=>{const v=key?g[key]?.values?.[m]:g.entries.find(e=>e.member===m);return v?v.value:null;};
  const rows=members.map(({member,name})=>({member,name,sales:views.map(({g,kept})=>kept.has(member)?cell(g,member):null),profit:views.map(({g,kept})=>kept.has(member)?cell(g,member,'profit'):null),assets:views.map(({g,kept})=>kept.has(member)?cell(g,member,'assets'):null)}));
  const latest=views.length-1;rows.sort((a,b)=>(b.sales[latest] ?? -Infinity)-(a.sales[latest] ?? -Infinity));
@@ -307,10 +326,17 @@ function toolPayload(g,data,symbol) {
  const row=data.income.annualReports.find(r=>r.fiscalDateEnding===g.periodEnd),sources=Object.fromEntries(g.totalSourceIds.map(id=>[id,data.sources[id]]));
  const witness={cik:data.cik,income:{annualReports:[{fiscalDateEnding:row.fiscalDateEnding,periodStart:row.periodStart,periodType:row.periodType,reportedCurrency:row.reportedCurrency,totalRevenue:row.totalRevenue,_sources:{totalRevenue:row._sources.totalRevenue},_derivations:{},_scopes:{totalRevenue:row._scopes.totalRevenue}}]},sources};
  return {symbol,cik:g.issuer,basis:'annual segment disclosures',periodEnd:g.periodEnd,currency:g.currency,fiscalYear:'FY'+g.periodEnd.slice(0,4),
-  segments:g.entries.map(e=>({name:displayName(e),member:e.member,value:e.value,reportedRevenue:e.value,revenueUsd:g.currency==='USD'?e.value:null,revenuePct:g.totalRevenue>0?Math.round(e.value/g.totalRevenue*1000)/10:null,description:''})),
-  observations:g.entries.map(e=>({name:displayName(e),periodEnd:g.periodEnd,currency:g.currency,fields:{segmentRevenue:{value:e.value,unit:g.currency,currency:g.currency,scope:'segment',sourceIds:e.sourceIds}}})),
+  segments:g.entries.map(e=>({name:displayNameIn(e,shown(g).rows.length===1),member:e.member,value:e.value,reportedRevenue:e.value,revenueUsd:g.currency==='USD'?e.value:null,revenuePct:g.totalRevenue>0?Math.round(e.value/g.totalRevenue*1000)/10:null,description:''})),
+  observations:g.entries.map(e=>({name:displayNameIn(e,shown(g).rows.length===1),periodEnd:g.periodEnd,currency:g.currency,fields:{segmentRevenue:{value:e.value,unit:g.currency,currency:g.currency,scope:'segment',sourceIds:e.sourceIds}}})),
   filing:{form:sources[g.totalSourceIds[0]].form,date:g.publicationDate,accessionNumber:g.sourceVersion,url:g.sourceUrl},storedSegmentsReceipt:g,financialWitness:witness,
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
 const kind=g=>PRODUCT.test(g?.axis || '')?'product and service lines':REGION.test(g?.axis || '')?'regions':'operating segments';
-module.exports={measureOf,BANK_MEASURE,extract,qualifiedSplit,sharedQualifier,validGroup,toolPayload,preferred,shown,kind,displayName,segmentMeasure,segmentMetric,statementTable,LABELS,PROFIT_CONCEPTS:PROFIT.flatMap(t=>t.slice(0,-1)),PROFIT_MEASURE:k=>PROFIT.find(t=>t.includes(k))?.slice(-1)[0] || null};
+// The filing's own revenue by region for one period, when it tags at least two rows that account for
+// revenue. Shown beside a single-segment table, which would otherwise be the only cut on the page.
+function regionsFor(groups,periodEnd) {
+ const g=(groups || []).find(x=>REGION.test(x.axis || '') && x.periodEnd===periodEnd);if(!g)return null;
+ const v=shown(g);if(v.rows.length<2 || v.coverage<0.98 || v.coverage>1.1 || !(g.totalRevenue>0))return null;
+ return v.rows.map(r=>({name:displayName(g.entries.find(e=>e.member===r.member) || r),share:Math.round(r.value/g.totalRevenue*1000)/10}));
+}
+module.exports={measureOf,BANK_MEASURE,extract,qualifiedSplit,sharedQualifier,validGroup,toolPayload,preferred,shown,kind,displayName,displayNameIn,regionsFor,segmentMeasure,segmentMetric,statementTable,LABELS,PROFIT_CONCEPTS:PROFIT.flatMap(t=>t.slice(0,-1)),PROFIT_MEASURE:k=>PROFIT.find(t=>t.includes(k))?.slice(-1)[0] || null};

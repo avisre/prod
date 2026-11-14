@@ -3932,21 +3932,45 @@
                 segBody.innerHTML = `<p class="small muted">${await locked(r, 'Business segments from the 10-K')}</p>`;
             } else if (r.ok) {
                 const d = await r.json();
-                if (Array.isArray(d.segments) && d.segments.length) {
-                    const segTotal = d.segments.reduce((a, s) => a + (s.revenueUsd || 0), 0);
-                    if (segTotal > 0) d.segments.forEach((s) => {
-                        if (s.revenuePct === null && s.revenueUsd !== null) s.revenuePct = Math.round(s.revenueUsd / segTotal * 1000) / 10;
-                    });
+                // What the company sells, in its annual report's words (d.profile, backend/segment-profiles.js), around
+                // the figures the filing tags. Rows that are product lines or regions are shown as what they are,
+                // under the company's reportable segments, never as segments themselves.
+                const p = d.profile || null, rows = Array.isArray(d.segments) ? d.segments : [];
+                const rowsAreSegments = !d.breakdown || d.breakdown === 'operating segments';
+                const segTotal = rows.reduce((a, s) => a + (s.revenueUsd || 0), 0);
+                if (segTotal > 0) rows.forEach((s) => {
+                    if (s.revenuePct === null && s.revenueUsd !== null) s.revenuePct = Math.round(s.revenueUsd / segTotal * 1000) / 10;
+                });
+                const figure = (s) => `${s.revenueUsd === null || s.revenueUsd === undefined ? '' : '$' + money(s.revenueUsd)}${s.revenuePct === null || s.revenuePct === undefined ? '' : ' · ' + pct(s.revenuePct)}`;
+                const words = (s) => `${s.products && s.products.length ? `<div class="small" style="margin-top:3px;">${esc(s.products.join(', '))}</div>` : ''}${s.description ? `<div class="small muted" style="margin-top:2px;">${esc(s.description)}</div>` : ''}`;
+                const line = (s, withFigure) => `
+                          <div style="font-size:13.5px; border-bottom:1px solid var(--line); padding-bottom:8px;">
+                            <div style="display:flex; justify-content:space-between; gap:12px;">
+                              <span style="font-weight:550;">${esc(s.name)}</span>
+                              <span class="num muted" style="white-space:nowrap;">${withFigure ? figure(s) : ''}</span>
+                            </div>${words(s)}
+                          </div>`;
+                // Reportable segments: the figure rows when they are segments, plus any segment the report names
+                // that the tagged table carries no figure for; the profile's segments alone when the rows are not segments.
+                const segs = rowsAreSegments
+                    ? rows.map((s) => line(s, true)).concat((p ? p.segments.filter((x) => !x.shown) : []).map((x) => line(x, false)))
+                    : (p ? p.segments.map((x) => line(x, false)) : []);
+                const cut = !rowsAreSegments && rows.length ? `
+                      <p class="label" style="margin:14px 0 8px;">Revenue by ${d.breakdown === 'regions' ? 'region' : 'product line'} · ${esc(d.fiscalYear || 'latest')}</p>
+                      <div style="display:grid; gap:8px;">${rows.map((s) => line(s, true)).join('')}</div>` : '';
+                const filing = (p && p.filing) || d.filing || {};
+                const extra = [
+                    p && p.revenueModel ? `<p class="small" style="margin-top:12px;"><span style="font-weight:550;">How it makes money.</span> ${esc(p.revenueModel)}</p>` : '',
+                    p && p.productRevenueBrokenOut === false ? `<p class="small muted" style="margin-top:6px;">The company does not break its revenue out by product.</p>` : '',
+                    Array.isArray(d.regions) && d.regions.length ? `<p class="small muted" style="margin-top:6px;">By region: ${esc(d.regions.map((x) => `${x.name} ${pct(x.share)}`).join(', '))}.</p>` : '',
+                    p && p.changes && p.changes.length ? `<p class="small" style="margin-top:12px; font-weight:550;">Segment changes</p><ul class="small" style="margin:4px 0 0 18px; padding:0;">${p.changes.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>` : ''
+                ].join('');
+                if (segs.length || cut) {
                     segBody.innerHTML = `
-                      <p class="label" style="margin-bottom:10px;">Segments · ${esc(d.fiscalYear || 'latest')}</p>
-                      <div style="display:grid; gap:8px;">
-                        ${d.segments.map((s) => `
-                          <div style="display:flex; justify-content:space-between; gap:12px; font-size:13.5px; border-bottom:1px solid var(--line); padding-bottom:8px;">
-                            <span style="font-weight:550;">${esc(s.name)}</span>
-                            <span class="num muted" style="white-space:nowrap;">${s.revenueUsd === null ? '' : '$' + money(s.revenueUsd)}${s.revenuePct === null ? '' : ' · ' + pct(s.revenuePct)}</span>
-                          </div>`).join('')}
-                      </div>
-                      <p class="provenance">${d.note ? esc(d.note) + ' ' : ''}AI-extracted from the <a href="${esc((d.filing || {}).url || '#')}" target="_blank" rel="noopener">10-K filed ${esc((d.filing || {}).date || '')}</a> — verify against the filing.</p>`;
+                      <p class="label" style="margin-bottom:10px;">${p && p.segments.length === 1 && rowsAreSegments ? 'One reportable segment' : 'Segments'} · ${esc(d.fiscalYear || (filing.periodEnd ? 'FY' + String(filing.periodEnd).slice(0, 4) : 'latest'))}</p>
+                      <div style="display:grid; gap:8px;">${segs.join('')}</div>${cut}${extra}
+                      <p class="provenance">${d.note ? esc(d.note) + ' ' : ''}${p ? `Revenue figures as tagged in the filing; segment names, products and descriptions read from the <a href="${esc(filing.url || '#')}" target="_blank" rel="noopener">${esc(filing.form || '10-K')}${filing.filingDate ? ' filed ' + esc(filing.filingDate) : ''}</a> and checked word for word against it.`
+                        : `AI-extracted from the <a href="${esc((d.filing || {}).url || '#')}" target="_blank" rel="noopener">10-K filed ${esc((d.filing || {}).date || '')}</a> — verify against the filing.`}</p>`;
                 } else {
                     segBody.innerHTML = '<p class="small muted">This company reports as a single segment.</p>';
                 }

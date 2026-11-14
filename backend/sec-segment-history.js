@@ -603,7 +603,29 @@ function buildHistory(filings, lead) {
       }
     });
   }
+  for (const B of [base, base.quarterly]) if (B?.rows?.length) dropRepeats(B);
   return base;
+}
+
+// One figure filed under two members in the same year counts twice: AppLovin's 2023 10-K tags its 2021
+// software revenue as "Software Platform" and again as "Software Platform Revenue", and the year added up
+// to 124% of revenue. When a year adds up to more than revenue and removing one of two equal figures makes
+// it add up exactly, the repeat (the row with fewer years, else the later one) is removed for that year.
+function dropRepeats(B) {
+  B.years.forEach((y, i) => {
+    if (!(y.totalRevenue > 0)) return;
+    const sum = B.rows.reduce((n, r) => n + (r.sales[i] ?? 0), 0);
+    if (sum <= y.totalRevenue * 1.005) return;
+    const filled = (r) => r.sales.filter((v) => v !== null).length;
+    for (let a = 0; a < B.rows.length; a++) for (let b = a + 1; b < B.rows.length; b++) {
+      const v = B.rows[a].sales[i];
+      if (v === null || v <= 0 || B.rows[b].sales[i] !== v || Math.abs(sum - v - y.totalRevenue) > y.totalRevenue * 0.005) continue;
+      const drop = filled(B.rows[b]) <= filled(B.rows[a]) ? B.rows[b] : B.rows[a];
+      for (const m of ['sales', 'profit', 'assets', 'contexts', 'filedIn']) if (drop[m]) drop[m][i] = null;
+      return;
+    }
+  });
+  B.rows = B.rows.filter((r) => r.sales.some((v) => v !== null));
 }
 
 // Which filings to read: newest first, a filing only when its own period is not yet reported by a newer
@@ -662,4 +684,4 @@ function gaps(table) {
 // Current: built by this version, or by a compatible one with no gap to fill.
 const current = (doc) => doc?.version === VERSION || COMPATIBLE.includes(doc?.version) && !!doc.table && !gaps(doc.table).length;
 
-module.exports = { VERSION, COMPATIBLE, DIR, load, gaps, current, measureClass, parseInstance, filingFacts, instanceName, readFiling, buildHistory, keeps, collect, columnCandidates, kindOf };
+module.exports = { VERSION, COMPATIBLE, DIR, load, gaps, current, measureClass, parseInstance, filingFacts, instanceName, readFiling, buildHistory, dropRepeats, keeps, collect, columnCandidates, kindOf };

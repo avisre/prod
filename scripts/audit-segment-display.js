@@ -33,7 +33,7 @@ function audit() {
         const data = load(file.replace('.json', ''));
         if (!data) continue;
         out.issuers++;
-        const contract = breakdown.fromGroups(data.segmentObservations || [], data.issuerName, { read: data.industryExtraction?.status === 'success', revenue: latestRevenue(data) });
+        const contract = breakdown.fromGroups(data.segmentObservations || [], data.issuerName, { read: data.industryExtraction?.status === 'success', revenue: latestRevenue(data), cik: data.cik || file.replace('.json', '') });
         out[contract.grade]++;
         if (contract.kind === 'product and service lines') out.productLines++; else if (contract.kind === 'regions') out.regions++; else if (contract.kind) out.operatingSegments++;
         for (const v of breakdown.violations(contract)) out.failures.push(`${data.issuerName} [${file.replace('.json', '')}]: ${v}`);

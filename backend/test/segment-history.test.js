@@ -417,3 +417,16 @@ test('a fourth quarter is not derived across footings: a recast nine months or a
   assert.deepEqual([h.from.year, h.cells.sort()], ['k25', [['A', 25], ['B', 15]]]);
   assert.equal(q4(recut(95)).from.year, 'k26', 'a pair with no negative segment is left as it was');
 });
+
+test('one figure filed under two members in a year is counted once (AppLovin FY2021, 124% of revenue)', () => {
+  const B = { years: [{ periodEnd: '2021-12-31', totalRevenue: 2793 }, { periodEnd: '2022-12-31', totalRevenue: 2817 }],
+    rows: [{ name: 'Apps', sales: [2119, 1768], profit: [null, null], assets: [null, null] },
+      { name: 'Software Platform', sales: [674, 1049], profit: [null, null], assets: [null, null] },
+      { name: 'Software Platform Revenue', sales: [674, null], profit: [null, null], assets: [null, null] }] };
+  H.dropRepeats(B);
+  assert.deepEqual(B.rows.map((r) => r.name), ['Apps', 'Software Platform'], 'the repeat with fewer years goes');
+  // Equal figures in a year that already adds up stay: two segments may report the same number.
+  const same = { years: [{ periodEnd: '2025-12-31', totalRevenue: 1000 }], rows: [{ name: 'A', sales: [500], profit: [null], assets: [null] }, { name: 'B', sales: [500], profit: [null], assets: [null] }] };
+  H.dropRepeats(same);
+  assert.equal(same.rows.length, 2);
+});

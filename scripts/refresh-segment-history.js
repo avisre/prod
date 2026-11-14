@@ -57,7 +57,10 @@ async function refresh(cik, { rebuild = false } = {}) {
   // this machine holds the filing cache (the weekly job's cache only covers the issuers it has built there).
   if (!rebuild) {
     let stored = null; try { stored = JSON.parse(fs.readFileSync(path.join(H.DIR, cik + '.json'), 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw e; }
-    if (H.current(stored) && stored.builtAt && !filings.some((f) => PERIODIC.test(f.form) && f.filingDate >= stored.builtAt.slice(0, 10))) return { cik, status: 'unchanged' };
+    // The breakdown a company leads with can change (a divested segment leaves one reportable segment; product
+    // lines come to say more than the regions). A stored table on another axis is rebuilt, not served.
+    const sameAxis = !stored?.table?.axisConcept || stored.table.axisConcept === L.axis;
+    if (H.current(stored) && stored.builtAt && sameAxis && !filings.some((f) => PERIODIC.test(f.form) && f.filingDate >= stored.builtAt.slice(0, 10))) return { cik, status: 'unchanged' };
   }
   const records = await H.collect(cik, filings, { axis: L.axis, quarterFrom: L.quarterFrom, have });
   fs.mkdirSync(CACHE, { recursive: true });

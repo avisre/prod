@@ -169,7 +169,12 @@ function groups(html, anchor, issuer) {
     const consider = (kind, concept, rows) => {
         rows = kind === 'segments' ? dropSubtotals(rows) : prune(rows, anchor.value);
         const sum = rows.reduce((n, r) => n + r.value, 0), share = sum / anchor.value;
-        if (rows.length < 2 || share < 0.5 || share > (kind === 'segments' ? 1.6 : 1.005)) return;
+        // One reportable segment that accounts for the company's revenue is the answer, not a reason to
+        // fall back to its regions (AppLovin files one Advertising segment). A lone "Other", "Corporate"
+        // or elimination view names no business and stays out.
+        const single = kind === 'segments' && rows.length === 1 && share >= 0.98 && share <= 1.02 &&
+            !/^(?:all[\s-]+)?others?\b|corporate|eliminat|unallocated|reconcil|consolidat|aggregat|^total\b|net of/i.test(rows[0].name || '');
+        if ((rows.length < 2 && !single) || share < 0.5 || share > (kind === 'segments' ? 1.6 : 1.005)) return;
         const candidate = { concept, measure: MEASURES[concept] || 'revenue', rows, sum, share, reconciled: Math.abs(1 - share) <= 0.005 };
         // Plain revenue outranks another measure; then the closest to filed revenue wins.
         const rank = g => (g.measure === 'revenue' ? 0 : 10) + Math.abs(1 - g.share);

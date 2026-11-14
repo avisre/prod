@@ -65,3 +65,15 @@ test('a subtotal tagged beside its parts is dropped; another issuer or period is
     // Rows adding up to more than filed revenue with no removable subtotal are not a breakdown.
     assert.equal(inline.groups(tagged([['A', 90], ['B', 80]]), ANCHOR, 123).segments, undefined);
 });
+test('one reportable segment is a breakdown; a lone leftover line is not (AppLovin, FY2025)', () => {
+    const f = fixture();
+    const single = f.html.replace(/<xbrli:context id="Devices">[\s\S]*?<\/xbrli:context>/, '')
+        .replace(/<ix:nonFraction[^>]*contextRef="Devices"[^>]*>35<\/ix:nonFraction>/, '');
+    const one = inline.groups(single, { ...f.anchor, value: 65e6 }, '0000000123');
+    assert.equal(one.segments?.rows.length, 1, 'the company’s one segment is the breakdown');
+    assert.equal(one.segments.rows[0].name, 'Cloud');
+    assert.ok(one.segments.share > 0.99);
+    for (const member of ['Other', 'Corporate', 'Total reportable segments'])
+        assert.equal(inline.groups(single.replace('company:CloudMember', `company:${member.replace(/\s+/g, '')}Member`),
+            { ...f.anchor, value: 65e6 }, '0000000123').segments, undefined, member);
+});

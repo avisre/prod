@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const store = require('../sec-segment-observations');
 
-const BUSINESS = 'us-gaap:StatementBusinessSegmentsAxis', PRODUCT = 'srt:ProductOrServiceAxis';
+const BUSINESS = 'us-gaap:StatementBusinessSegmentsAxis', PRODUCT = 'srt:ProductOrServiceAxis', REGION = 'srt:StatementGeographicalAxis';
 const group = (axis, periodEnd, values, totalRevenue = 100) => ({ axis, periodEnd, totalRevenue, entries: values.map((value, i) => ({ member: `x:Part${i}Member`, value })) });
 
 test('a breakdown covering a sliver of revenue is not usable', () => {
@@ -58,6 +58,20 @@ test('product lines lead when they say more than the operating segments of the s
 test('product lines are used when the segment axis holds a single member', () => {
     const lone = group(BUSINESS, '2025-12-31', [100]), lines = group(PRODUCT, '2025-12-31', [70, 30]);
     assert.equal(store.preferred([lone, lines]).usable, lines);
+});
+
+test('a one-segment company leads with its segment, never with its regions (AppLovin, FY2025)', () => {
+    const segment = (member, filedLabel) => ({ axis: BUSINESS, periodEnd: '2025-12-31', totalRevenue: 100, entries: [{ member, label: null, filedLabel, value: 100 }] });
+    const places = group(REGION, '2025-12-31', [52, 48]);
+    const app = segment('app:ReportableSegmentMember', 'Reportable Segment');
+    assert.equal(store.preferred([app, places]).usable, app, 'one Advertising segment says what the company sells; the US/non-US split says less');
+    assert.equal(store.kind(store.preferred([app, places]).usable), 'operating segments');
+    // A row that names no business leaves the regions on the page.
+    for (const [member, filedLabel] of [['x:OtherMember', 'Other'], ['x:CorporateMember', 'Corporate and other'],
+        ['x:SegmentsMember', 'Segments net of consolidation'], ['x:TotalMember', 'Total reportable segments']])
+        assert.equal(store.preferred([segment(member, filedLabel), places]).usable, places, filedLabel);
+    // Same year only: an older one-segment table never displaces this year's regions.
+    assert.equal(store.preferred([{ ...app, periodEnd: '2024-12-31' }, places]).usable, places);
 });
 
 test('an older usable period is preferred to a newer unusable one', () => {

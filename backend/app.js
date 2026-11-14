@@ -3172,7 +3172,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261107-seg4" />
+<link rel="stylesheet" href="/assets/system.css?v=20261114-seg5" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -3201,7 +3201,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261107-seg4"></script>
+<script src="/assets/app.js?v=20261114-seg5"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3293,7 +3293,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261107-seg4" />
+<link rel="stylesheet" href="/assets/system.css?v=20261114-seg5" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3321,7 +3321,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261107-seg4"></script>
+<script src="/assets/app.js?v=20261114-seg5"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3429,7 +3429,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261107-seg4" />
+<link rel="stylesheet" href="/assets/system.css?v=20261114-seg5" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3462,7 +3462,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261107-seg4"></script>
+<script src="/assets/app.js?v=20261114-seg5"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -11897,7 +11897,7 @@ app.get('/api/company/:symbol/segments', optionalAuth, paidOnlyDataGate, insight
             });
         }
         const result = await segments.extractSegments(symbol);
-        if (result.error) return res.status(404).json({ message: result.error });
+        if (result.error && !result.profile) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Segment extraction failed') });
@@ -13861,7 +13861,12 @@ app.get('/api/demo/alpha/segments/:symbol', async (req, res) => {
             table = require('./sec-segment-observations').statementTable(data?.segmentObservations || []);
         }
         if (!table) return res.status(404).json({ code: 'SEGMENTS_UNAVAILABLE', message: 'The company files no segment table.' });
-        res.set('Cache-Control', 'private, max-age=3600').json({ symbol, cik, source: stored ? 'history' : 'latest-annual-report', builtAt: stored?.builtAt || null, table });
+        // The annual report's own segment names, products and description (backend/segment-profiles.js);
+        // a generic "Single reportable segment" row takes the name the report gives it.
+        const profiles = require('./segment-profiles'), kind = table.axis === 'business' ? 'operating segments' : null;
+        const named = profiles.enrich(cik, table.rows, { kind });
+        table = { ...table, rows: profiles.mergeNamed(named.rows), ...(table.quarterly ? { quarterly: { ...table.quarterly, rows: profiles.mergeNamed(profiles.enrich(cik, table.quarterly.rows, { kind }).rows) } } : {}) };
+        res.set('Cache-Control', 'private, max-age=3600').json({ symbol, cik, source: stored ? 'history' : 'latest-annual-report', builtAt: stored?.builtAt || null, table, profile: named.profile });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Segment data load failed') });
     }
