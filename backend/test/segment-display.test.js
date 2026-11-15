@@ -88,6 +88,25 @@ test('filed subtotals are pruned before coverage is judged, and eliminations are
     assert.ok(store.shown(group(BUSINESS, '2025-12-31', [70, 32, -2])).usable, 'a signed elimination is not a slice of revenue');
 });
 
+test('one figure tagged under two elements is one row, and two labels that collide are told apart', () => {
+    // ITW files PolymersAndFluidsSegmentMember beside PolymersAndFluidsMember, $1,765M each.
+    const twice = { axis: BUSINESS, periodEnd: '2025-12-31', totalRevenue: 100,
+        entries: [{ member: 'itw:AutomotiveOemMember', value: 40, filedLabel: 'Automotive OEM' },
+            { member: 'itw:PolymersAndFluidsSegmentMember', value: 30, filedLabel: 'Polymers & Fluids' },
+            { member: 'itw:PolymersAndFluidsMember', value: 30, filedLabel: 'Polymers and Fluids' }] };
+    assert.deepEqual(store.shown(twice).rows.map(r => r.member), ['itw:AutomotiveOemMember', 'itw:PolymersAndFluidsSegmentMember'],
+        'the same figure under a second element is not a second row');
+    assert.equal(store.shown(twice).coverage, 0.7);
+    // Photronics prints two different lines as "High-end"; the element names say which is which.
+    const collide = { axis: PRODUCT, periodEnd: '2025-12-31', totalRevenue: 100,
+        entries: [{ member: 'plab:HighEndIntegratedCircuitsMember', value: 40, filedLabel: 'High-end' },
+            { member: 'plab:MainstreamIntegratedCircuitsMember', value: 35, filedLabel: 'Mainstream' },
+            { member: 'plab:HighEndFlatPanelDisplaysMember', value: 15, filedLabel: 'High-end' },
+            { member: 'plab:MainstreamFlatPanelDisplaysMember', value: 10, filedLabel: 'Mainstream' }] };
+    const rows = store.shown(collide).rows;
+    assert.equal(rows.length, 4, 'two different products filed under one label are both kept');
+});
+
 // The extractor: what is kept from a filing's tagged segment facts.
 const DATA = { cik: '0000000001', fetchedAt: '2026-02-02T00:00:00Z', sources: { rev: { accessionNumber: '0000000001-26-000001', form: '10-K' } },
     income: { annualReports: [{ fiscalDateEnding: '2025-12-31', periodStart: '2025-01-01', periodType: 'annual', reportedCurrency: 'USD', totalRevenue: 1000,

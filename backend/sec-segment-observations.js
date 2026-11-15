@@ -223,7 +223,12 @@ function read(g,strict) {
  // replacement), of which the first is kept.
  const total=g?.totalRevenue || 0,seen=new Set();
  const repeat=e=>total>0 && e.value===total || /^[a-z-]+:(?:Currency[A-Z]\w*|ConsolidatedEntit\w*|EntityWide|OperatingSegments?)Member$/.test(e.member || '') || seen.has(e.value) || !seen.add(e.value);
- const inline=require('./ask-inline-segments'),all=(g?.entries || []).filter(e=>e.value>0 && !rollup(e) && !(strict && repeat(e))).map(e=>({member:e.member,value:e.value}));
+ const inline=require('./ask-inline-segments');
+ // One figure tagged twice with two elements (ITW files PolymersAndFluidsSegmentMember beside
+ // PolymersAndFluidsMember: $1,765M each) is one row; keeping both doubles the segment.
+ const rowKey=n=>{try{return require('./segment-profiles').key(n)}catch(_){return String(n)}};
+ const unique=list=>{const kept=[];for(const r of list)if(!kept.some(k=>k.value===r.value && rowKey(k.name)===rowKey(r.name)))kept.push(r);return kept;};
+ const all=unique((g?.entries || []).filter(e=>e.value>0 && !rollup(e) && !(strict && repeat(e))).map(e=>({member:e.member,value:e.value,name:displayName(e)})));
  // One generic member holding all of revenue is a single-segment company's one segment, not a
  // roll-up of others: there are no others. It is kept as the table's one row.
  if(!all.length && BUSINESS.test(g?.axis || '')){const pos=(g?.entries || []).filter(e=>e.value>0);
@@ -338,11 +343,17 @@ function statementTable(groups) {
 }
 function toolPayload(g,data,symbol) {
  if(!validGroup(g,data))return null;
+ // Two rows that print the same name but hold different figures are different products (Photronics' two
+ // "High-end" lines: integrated circuits and flat panel displays). The element name says which is which.
+ const shownRows=shown(g),single=shownRows.rows.length===1,kept=new Set(shownRows.rows.map(r=>r.member)),dupKeys=new Map(),keyOf=n=>require('./segment-profiles').key(n);
+ for(const e of g.entries)if(kept.has(e.member)){const k=keyOf(displayName(e));dupKeys.set(k,(dupKeys.get(k)||0)+1);}
+ const rowName=e=>{const base=displayNameIn(e,single);if(dupKeys.get(keyOf(displayName(e)))<=1)return base;
+  const tag=require('./ask-inline-segments').label(e.member);return tag && tag!==base?tag:base;};
  const row=data.income.annualReports.find(r=>r.fiscalDateEnding===g.periodEnd),sources=Object.fromEntries(g.totalSourceIds.map(id=>[id,data.sources[id]]));
  const witness={cik:data.cik,income:{annualReports:[{fiscalDateEnding:row.fiscalDateEnding,periodStart:row.periodStart,periodType:row.periodType,reportedCurrency:row.reportedCurrency,totalRevenue:row.totalRevenue,_sources:{totalRevenue:row._sources.totalRevenue},_derivations:{},_scopes:{totalRevenue:row._scopes.totalRevenue}}]},sources};
  return {symbol,cik:g.issuer,basis:'annual segment disclosures',periodEnd:g.periodEnd,currency:g.currency,fiscalYear:'FY'+g.periodEnd.slice(0,4),
-  segments:g.entries.map(e=>({name:displayNameIn(e,shown(g).rows.length===1),member:e.member,value:e.value,reportedRevenue:e.value,revenueUsd:g.currency==='USD'?e.value:null,revenuePct:g.totalRevenue>0?Math.round(e.value/g.totalRevenue*1000)/10:null,description:''})),
-  observations:g.entries.map(e=>({name:displayNameIn(e,shown(g).rows.length===1),periodEnd:g.periodEnd,currency:g.currency,fields:{segmentRevenue:{value:e.value,unit:g.currency,currency:g.currency,scope:'segment',sourceIds:e.sourceIds}}})),
+  segments:g.entries.map(e=>({name:rowName(e),member:e.member,value:e.value,reportedRevenue:e.value,revenueUsd:g.currency==='USD'?e.value:null,revenuePct:g.totalRevenue>0?Math.round(e.value/g.totalRevenue*1000)/10:null,description:''})),
+  observations:g.entries.map(e=>({name:rowName(e),periodEnd:g.periodEnd,currency:g.currency,fields:{segmentRevenue:{value:e.value,unit:g.currency,currency:g.currency,scope:'segment',sourceIds:e.sourceIds}}})),
   filing:{form:sources[g.totalSourceIds[0]].form,date:g.publicationDate,accessionNumber:g.sourceVersion,url:g.sourceUrl},storedSegmentsReceipt:g,financialWitness:witness,
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
