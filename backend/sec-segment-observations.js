@@ -28,7 +28,7 @@ const segmentMetric=(taxonomy,concept)=>{const k=taxonomy+':'+concept;return ASS
 // table of such lines still has to add up to consolidated revenue, so a wider net cannot invent one.
 const REVENUE_LINE=/(?:Revenue|Sales|LeaseIncome|InterestIncome|Premiums)/;
 // Revenue is what a concept names, unless it names something else about revenue (a cost, a balance, a share).
-const NOT_REVENUE=/Deferred|Unearned|RemainingPerformance|Backlog|PerShare|Percentage|Percent|Margin|Cost/i;
+const NOT_REVENUE=/Deferred|Unearned|Liability|Recognized|Recognised|RemainingPerformance|Rollforward|Backlog|PerShare|Percentage|Percent|Margin|Cost|Change/i;
 const segmentMeasure=(taxonomy,concept)=>!!(revenueConcepts()[taxonomy]?.includes(concept) || measureOf(taxonomy,concept) || taxonomy==='us-gaap' && BANK_PAIR.includes(concept) || taxonomy!=='us-gaap' && REVENUE_LINE.test(concept || '') && !NOT_REVENUE.test(concept || ''));
 // Total revenue may be cited to an amendment of the same annual report: the
 // amendment restates the same period, and the segment figures still have to
@@ -102,7 +102,11 @@ function extract(segments,financial,filing) {
   const key=[g.periodStart,g.periodEnd,g.currency,g.axis].join('|'),old=best.get(key);
   // A lone member holding all of revenue reconciles perfectly and says nothing;
   // a real table of several rows is preferred to it even when it fits less well.
-  const miss=x=>(x.entries.length<2?2:0)+(x.reconciliationStatus==='reconciled'?0:1)+Math.abs(x.difference)/Math.max(1,Math.abs(x.totalRevenue))+(x.measure?0.02:0);
+  // What the table accounts for decides it, on the rows the card would show: a roll-up filed beside its own
+  // parts must not make a complete table look like it over-counts, and a two-line fragment of 2% of revenue
+  // must never beat the table that holds the segments (Academy's contract-liability lines).
+  const coverageOf=x=>{try{return shown(x).coverage}catch(_){return 0}};
+  const miss=x=>(x.entries.length<2?2:0)+(x.reconciliationStatus==='reconciled'?0:1)+Math.abs(1-coverageOf(x))+(x.measure?0.02:0);
   if(!old || miss(g)<miss(old) || miss(g)===miss(old) && g.entries.length>old.entries.length)best.set(key,g);
  }
  const chosen=[...best.values()];
