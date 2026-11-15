@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000875357",
+ "issuerName": "BOK FINANCIAL CORP",
+ "builtAt": "2026-11-15T06:40:46.727Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000875357-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/875357/000087535726000013/bokf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "lending",
+    "treasury and cash management services",
+    "customer risk management products",
+    "TransFund electronic funds network"
+   ],
+   "description": "Provides lending, treasury, cash management and risk management products to small businesses, middle market, and larger commercial customers.",
+   "evidence": "Commercial Banking includes lending, treasury and cash management services, and customer risk management products for small businesses, middle market, and larger commercial customers."
+  },
+  {
+   "name": "Consumer Banking",
+   "products": [
+    "retail lending",
+    "deposit services",
+    "mortgage loan origination and servicing"
+   ],
+   "description": "Provides retail and small business lending and deposit services plus mortgage origination and servicing through the consumer branch network.",
+   "evidence": "Consumer Banking includes retail lending and deposit services, lending and deposit services to small business customers served through the consumer branch network and all mortgage loan origination and servicing activities."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "brokerage and trading",
+    "fiduciary services",
+    "private bank services",
+    "investment advisory services"
+   ],
+   "description": "Provides brokerage, trading, fiduciary, private banking and investment advisory services, and underwrites state and municipal securities.",
+   "evidence": "Wealth Management also provides fiduciary services, private bank services, and investment advisory services in all markets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay interest on loans and fees for cash management, fiduciary, brokerage, trading, mortgage banking, and transaction card services.",
+  "evidence": "Products and services include loans and deposits, cash management services, fiduciary services, mortgage banking, and brokerage and trading services to middle-market businesses, financial institutions, and consumers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wealth Management): state and municipal securities underwriting"
+ ]
+}

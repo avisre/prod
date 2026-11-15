@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000821130",
  "issuerName": "ARRAY DIGITAL INFRASTRUCTURE, INC.",
- "builtAt": "2026-11-14T13:51:58.234Z",
+ "builtAt": "2026-11-15T06:37:33.908Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000821130-26-000012",
@@ -10,5 +10,25 @@
   "filingDate": "2026-02-20",
   "url": "https://www.sec.gov/Archives/edgar/data/821130/000082113026000012/ad-20251231.htm"
  },
- "status": "model-unparseable"
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tower Operations",
+   "products": [
+    "Ancillary services"
+   ],
+   "description": "Leases tower space to wireless tenants and provides ancillary services on owned towers.",
+   "evidence": "Array connects America through digital infrastructure by leasing tower space to tenants and providing ancillary services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wireless carriers and other tenants pay Array to lease space on its communication towers for installing network equipment.",
+  "evidence": "Array's tenants lease space on Array's communications infrastructure, installing network equipment on Array tower structures."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Tower Operations): Tower space leasing",
+  "change not grounded: In 2025, wireless operations and spectrum assets were sold to T-Mobile on August"
+ ]
 }

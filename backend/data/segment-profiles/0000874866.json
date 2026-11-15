@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000874866",
+ "issuerName": "CORVEL CORPORATION",
+ "builtAt": "2026-11-15T06:38:06.763Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-237024",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/874866/000119312526237024/crvl-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Managed Care",
+   "products": [
+    "Claims management",
+    "Bill review",
+    "Preferred provider networks",
+    "Utilization management",
+    "Case management",
+    "Pharmacy services",
+    "Directed care",
+    "Medicare services"
+   ],
+   "description": "Provides medical cost containment and managed care services for workers' compensation, automobile insurance, and group health insurance claims.",
+   "evidence": "The Company operates in one reportable operating segment, managed care."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insurance companies, TPAs, self-administered employers and government entities pay for patient management and network solutions services to manage medical costs.",
+  "evidence": "The Company derives its revenues from providing patient management and network solutions services to payors of workers' compensation benefits, automobile insurance claims, and group health insurance benefits."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the Company effected a three-for-one forward stock split of its common stock.",
+   "evidence": "During fiscal year 2025, the Company effected a three-for-one forward stock split of its common stock."
+  }
+ ],
+ "dropped": []
+}

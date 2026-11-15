@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000882796",
+ "issuerName": "BIOCRYST PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T06:39:13.951Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012240",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/882796/000162828026012240/bcrx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "ORLADEYO (berotralstat)",
+    "Navenibart (STAR-0215)",
+    "BCX17725",
+    "Avoralstat",
+    "STAR-0310",
+    "RAPIVAB (peramivir injection)",
+    "RAPIACTA (peramivir injection)",
+    "PERAMIFLU (peramivir injection)"
+   ],
+   "description": "Global biotechnology company developing and commercializing oral small-molecule and injectable protein therapeutics for hereditary angioedema and rare diseases.",
+   "evidence": "We are a global biotechnology company focused on developing and commercializing medicines for hereditary angioedema (\"HAE\") and other rare diseases, driven by our deep commitment to improving the lives of people living with these conditions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients and their payors purchase ORLADEYO through specialty pharmacies; peramivir sold to licensing partners and U.S. Department of Health and Human Services; license revenue from out-licensing arrangements.",
+  "evidence": "The Company's principal sources of product sales are sales of ORLADEYO and sales of peramivir (RAPIVAB/RAPIACTA/PERAMIFLU) to the Company's licensing partners and to the U.S. Department of Health and Human Services (\"HHS\")."
+ },
+ "changes": [],
+ "dropped": []
+}

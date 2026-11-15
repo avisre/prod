@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000877212",
+ "issuerName": "Zebra Technologies Corporation",
+ "builtAt": "2026-11-15T06:38:30.898Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007668",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/877212/000162828026007668/zbra-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connected Frontline",
+   "products": [
+    "Mobile Computing",
+    "Elo",
+    "Workflow optimization solutions",
+    "Services"
+   ],
+   "description": "Unifies teams, customers, and AI agents to deliver enhanced frontline experiences and empower frontline workers.",
+   "evidence": "The Connected Frontline segment is focused on unifying teams, customers, and AI agents to deliver enhanced frontline experiences."
+  },
+  {
+   "name": "Asset Visibility and Automation",
+   "products": [
+    "Barcode and Card Printing",
+    "Data Capture, Fixed Industrial Scanning, and Machine Vision",
+    "RFID and RTLS Offerings",
+    "Supplies and Sensors",
+    "Services"
+   ],
+   "description": "Provides solutions that track critical assets and automate workflows to optimize supply chains, manufacturing, and logistics.",
+   "evidence": "The Asset Visibility and Automation segment provides solutions that track critical assets and automate workflows to provide the real-time, data-driven insights necessary to optimize supply chains, manufacturing, and logistics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for mobile computers, printing and scanning products, RFID solutions, software subscriptions, and services across retail, manufacturing, logistics, and healthcare.",
+  "evidence": "End-users of our offerings include those in retail and e-commerce, manufacturing, transportation and logistics, healthcare, hospitality, public sector, and other industries."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company reorganized its reportable segments from Enterprise Visibility & Mobility and Asset Intelligence & Tracking to Connected Frontline and Asset Visibility and Automation.",
+   "evidence": "In the fourth quarter of 2025, the Company's reportable segments changed to Connected Frontline (\"CF\") and Asset Visibility and Automation (\"AVA\")."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company acquired Elo Holdings for $1,303 million in cash, expanding",
+  "change not grounded: In 2025, the company acquired Photoneo for $62 million in cash to expand machine"
+ ]
+}

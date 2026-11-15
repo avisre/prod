@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000874761",
+ "issuerName": "THE AES CORPORATION",
+ "builtAt": "2026-11-15T06:40:46.667Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000874761-26-000063",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/874761/000087476126000063/aes-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Renewables SBU",
+   "products": [
+    "Dominican Republic Renewables"
+   ],
+   "description": "Develops and operates renewable generation such as hydroelectric and solar assets across international markets.",
+   "evidence": "Dominican Republic Renewables is reported in the Renewables SBU reportable segment."
+  },
+  {
+   "name": "Utilities SBU",
+   "products": [
+    "AES Indiana",
+    "AES Ohio"
+   ],
+   "description": "Operates regulated electric utilities serving retail customers in Indiana and Ohio.",
+   "evidence": "All of the regulatory assets and liabilities as of December 31, 2025 and December 31, 2024 are related to the Utilities SBU reportable segment."
+  },
+  {
+   "name": "Energy Infrastructure SBU",
+   "products": [
+    "Amman East",
+    "IPP4",
+    "Barry",
+    "TEG",
+    "TEP"
+   ],
+   "description": "Owns and operates thermal and other generation infrastructure assets supplying power in various markets.",
+   "evidence": "Amman East and IPP4 are reported in the Energy Infrastructure SBU reportable segment."
+  },
+  {
+   "name": "New Energy Technologies SBU",
+   "products": [
+    "Uplight",
+    "AutoGrid"
+   ],
+   "description": "Invests in energy technology ventures including virtual power plant and customer energy software platforms.",
+   "evidence": "Uplight is reported in the New Energy Technologies SBU reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated utility customers pay rates covering pass-through costs such as purchased electricity, transmission and fuel, recoverable under market laws and regulations.",
+  "evidence": "These costs are recoverable or refundable as defined by the laws and regulations in our markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Renewables SBU): Alto Maipo hydroelectric plant",
+  "change not grounded: In June 2025 the Company sold 50% of its interest in Dominican Republic Renewabl",
+  "change not grounded: In March 2024 the Company sold about 26% of Amman East and IPP4, reported in the",
+  "change not grounded: In February 2024 Uplight, reported in the New Energy Technologies SBU segment, a"
+ ]
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000101984",
  "issuerName": "UNIVERSAL ELECTRONICS INC.",
- "builtAt": "2026-11-14T13:47:05.916Z",
+ "builtAt": "2026-11-15T06:37:14.057Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000101984-26-000039",
@@ -10,15 +10,26 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/101984/000010198426000039/ueic-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Universal Electronics Inc.",
+   "products": [
+    "Climate Control Solutions",
+    "Smart Home and Security",
+    "Home Entertainment Products",
+    "Software and Cloud Services",
+    "Intellectual Property and Licensing"
+   ],
+   "description": "Designs, develops and manufactures home entertainment control, climate control, smart home and audio-video products for leading global brands.",
+   "evidence": "We design, develop, manufacture, ship and support home entertainment control products, technology and software solutions, climate control solutions, wireless sensor and smart home control products and audio-video (\"AV\") accessories, that are used by the world's leading brands in the home entertainment, climate control, consumer electronics, security, home automation and home appliance markets."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "UEI is paid by OEMs, video and security service providers, distributors, dealers and retailers for control hardware, integrated circuits, AV accessories, and licensed software and cloud services.",
+  "text": "OEMs, video service providers, utilities and retailers purchase remote controls, thermostats, sensors, software licenses and accessories.",
   "evidence": "We distribute remote control devices, connected thermostats, integrated circuits (\"ICs\"), home security sensors and AV accessories directly to video and security service providers and OEMs, both domestically and internationally."
  },
  "changes": [],
- "dropped": [
-  "segment name not in text: Home Control Solutions"
- ]
+ "dropped": []
 }

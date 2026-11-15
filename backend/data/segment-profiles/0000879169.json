@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000879169",
+ "issuerName": "INCYTE CORPORATION",
+ "builtAt": "2026-11-15T06:38:40.049Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000879169-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/879169/000087916926000010/incy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "JAKAFI (ruxolitinib)",
+    "ICLUSIG (ponatinib)",
+    "MONJUVI (tafasitamab-cxix)",
+    "MINJUVI (tafasitamab)",
+    "NIKTIMVO (axatilimab-csfr)",
+    "PEMAZYRE (pemigatinib)",
+    "OPZELURA (ruxolitinib cream)",
+    "ZYNYZ (retifanlimab-dlwr)"
+   ],
+   "description": "Discovers, develops and commercializes proprietary therapeutics in hematology, oncology, and inflammation and autoimmunity.",
+   "evidence": "Incyte Corporation (including its subsidiaries, \"Incyte,\" \"we,\" \"us,\" or \"our\") is a global biopharmaceutical company engaged in the discovery, development and commercialization of proprietary therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for pharmaceutical products sold through specialty pharmacies, wholesalers, distributors and institutions, net of rebates and discounts.",
+  "evidence": "Our customers in the United States include specialty and retail pharmacies, specialty distributors and wholesalers. Our customers in the European Union and certain other jurisdictions, include retail pharmacies, hospital pharmacies and distributors."
+ },
+ "changes": [
+  {
+   "text": "In February 2024, Incyte acquired exclusive global rights for tafasitamab from MorphoSys, terminating their collaboration and license agreement.",
+   "evidence": "In February 2024, we entered into a purchase agreement with MorphoSys relating to tafasitamab. As a result, we now hold exclusive global rights for tafasitamab, and the collaboration and license agreement was terminated."
+  }
+ ],
+ "dropped": []
+}

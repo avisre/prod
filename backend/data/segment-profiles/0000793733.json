@@ -2,18 +2,49 @@
  "version": 1,
  "cik": "0000793733",
  "issuerName": "SKYWEST INC",
- "builtAt": "2026-11-14T13:51:08.905Z",
+ "builtAt": "2026-11-15T06:37:24.983Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-016358",
   "periodEnd": "2025-12-31",
   "filingDate": "2026-02-17",
-  "url": "https://www.sec.gov/Archives/edgar/data/793733/000110465926016358/skyw-20251231xex10d5.htm"
+  "url": "https://www.sec.gov/Archives/edgar/data/793733/000110465926016358/skyw-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SkyWest Airlines and SWC",
+   "products": [
+    "United Express flights",
+    "Delta Connection flights",
+    "American Eagle flights",
+    "Alaska Airlines flights",
+    "Charter flights"
+   ],
+   "description": "Operates scheduled regional passenger flights under code-share agreements with major airlines and provides on-demand charter service.",
+   "evidence": "Through SkyWest Airlines, our primary operating entity, we offer scheduled passenger service to destinations in the United States, Canada and Mexico. Substantially all of our flights are operated as United Express, Delta Connection, American Eagle or Alaska Airlines flights under code-share agreements with United, Delta, American or Alaska, respectively."
+  },
+  {
+   "name": "SkyWest Leasing",
+   "products": [],
+   "description": "Finances new aircraft through debt issuance and leases aircraft and engines to third parties.",
+   "evidence": "SkyWest Leasing is a reportable segment that includes revenue associated with our financing of new aircraft with debt under our capacity purchase agreements, currently consisting of our E175 aircraft, and the depreciation and interest expense of our E175 aircraft. The SkyWest Leasing segment additionally includes the revenue and expense from leasing aircraft and engines to third parties."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": []
+ "revenueModel": {
+  "text": "Major airline partners pay fixed rates for operating aircraft based on completed flights, flight time and aircraft under contract, with reimbursement for direct operating expenses.",
+  "evidence": "Under these fixed-fee agreements (commonly referred to as \"capacity purchase agreements\"), our major airline partners generally pay us fixed rates for operating the aircraft primarily based on the number of completed flights, flight time and the number of aircraft under contract."
+ },
+ "changes": [
+  {
+   "text": "In 2023, SkyWest Charter began operations as a new subsidiary formed in 2022 to provide on-demand charter service using regional jets.",
+   "evidence": "In 2022, we formed a new subsidiary, SWC, which began operations in 2023."
+  }
+ ],
+ "dropped": [
+  "product not in text (SkyWest Leasing): E175 aircraft financing",
+  "product not in text (SkyWest Leasing): Aircraft leasing to third parties",
+  "product not in text (SkyWest Leasing): Engine leasing to third parties"
+ ]
 }

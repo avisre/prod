@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000880631",
+ "issuerName": "WisdomTree, Inc.",
+ "builtAt": "2026-11-15T06:38:48.797Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001214659-26-002458",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/880631/000121465926002458/wti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ETP sponsor and asset manager",
+   "products": [
+    "ETPs",
+    "models and solutions",
+    "private market investments",
+    "digital asset-related products",
+    "WisdomTree Connect",
+    "WisdomTree Prime",
+    "Digital Funds",
+    "Ceres Farms"
+   ],
+   "description": "Global financial firm sponsoring ETPs and managing assets across equities, commodities, fixed income, digital assets and private farmland for investors and advisors.",
+   "evidence": "The Company conducts business as a single operating segment as an ETP sponsor and asset manager, which is based upon the Company's current organizational and management structure, as well as information used by the Company's Chief Executive Officer (the chief operating decision maker, or CODM) to allocate resources and other factors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investors in WisdomTree ETPs and managed vehicles pay advisory, management and performance fees based on assets or capital balances, plus swap-provider and transaction-based other revenues.",
+  "evidence": "We earn a significant portion of our revenues in the form of advisory fees from our ETPs and recognize this revenue over time, as the performance obligation is satisfied."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025 the Company acquired Ceres, adding private farmland asset management, wi"
+ ],
+ "escalated": "revenue model not quoted"
+}

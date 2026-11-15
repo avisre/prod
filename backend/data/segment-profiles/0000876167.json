@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000876167",
+ "issuerName": "PROGRESS SOFTWARE CORP /MA",
+ "builtAt": "2026-11-15T06:38:19.661Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000876167-26-000008",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/876167/000087616726000008/prgs-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software Products",
+   "products": [
+    "Progress Agentic RAG",
+    "Progress Automate MFT",
+    "Progress Chef",
+    "Progress Corticon",
+    "Progress DataDirect",
+    "Progress Developer Tools",
+    "Progress Flowmon",
+    "Progress Kemp LoadMaster"
+   ],
+   "description": "Software products enabling customers to develop, deploy, and manage responsible AI-powered applications and digital experiences.",
+   "evidence": "We operate as one operating segment: software products for the development, deployment, and management of responsible, AI-powered applications and digital experiences."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for perpetual licenses, term licenses, or subscription-based models for cloud offerings, sold directly or through indirect channel partners.",
+  "evidence": "Many of our products are sold as perpetual licenses, but certain products also use term licensing models, and our cloud-based offerings use a subscription-based model."
+ },
+ "changes": [
+  {
+   "text": "In June 2025, the company acquired Nuclia to expand its product portfolio.",
+   "evidence": "in June 2025, we acquired Nuclia."
+  },
+  {
+   "text": "In October 2024, the company acquired ShareFile to expand its product portfolio.",
+   "evidence": "in October 2024, we acquired ShareFile"
+  },
+  {
+   "text": "In February 2023, the company acquired MarkLogic to expand its product portfolio.",
+   "evidence": "in February 2023, we acquired MarkLogic"
+  }
+ ],
+ "dropped": []
+}

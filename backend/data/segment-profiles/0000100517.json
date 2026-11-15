@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000100517",
  "issuerName": "United Airlines Holdings, Inc.",
- "builtAt": "2026-11-14T13:46:59.630Z",
+ "builtAt": "2026-11-15T06:37:09.245Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000100517-26-000023",
@@ -10,15 +10,26 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/100517/000010051726000023/ual-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Airline",
+   "products": [
+    "Air Cargo",
+    "MileagePlus loyalty program",
+    "Kinective Media"
+   ],
+   "description": "Transports passengers and cargo throughout North America and to destinations globally across six continents through hub-and-spoke network.",
+   "evidence": "The Company transports people and cargo throughout North America and to destinations in Asia, Europe, Africa, the Pacific, the Middle East and Latin America."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Passengers pay for airline tickets and ancillary products, cargo customers pay for freight and mail transportation, and non-airline partners such as credit card issuers pay for MileagePlus participation.",
-  "evidence": "The Company generates Air Cargo revenues in domestic and international markets through the use of cargo capacity on regularly scheduled passenger flights, interline and charter flights, and ground trucking arrangements."
+  "text": "Customers pay for passenger airline tickets, cargo transportation, loyalty program benefits, and ancillary services through various distribution channels.",
+  "evidence": "The Company sells airline tickets and ancillary products through a wide range of distribution channels, including direct chan"
  },
  "changes": [],
  "dropped": [
-  "segment name not in text: Airline transportation"
+  "product not in text (Airline): Passenger air transportation"
  ]
 }

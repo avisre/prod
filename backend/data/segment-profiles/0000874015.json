@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000874015",
+ "issuerName": "Ionis Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-15T06:37:44.322Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000874015-26-000115",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/874015/000087401526000115/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ionis operations",
+   "products": [
+    "TRYNGOLZA (olezarsen)",
+    "DAWNZERA (donidalorsen)",
+    "WAINUA (eplontersen)",
+    "SPINRAZA (nusinersen)",
+    "QALSODY (tofersen)",
+    "TEGSEDI (inotersen)",
+    "WAYLIVRA (volanesorsen)"
+   ],
+   "description": "Discovers, develops and commercializes RNA-targeted medicines for patients with serious diseases across neurology and cardiometabolic areas.",
+   "evidence": "We operate as a single segment, Ionis operations, because our chief operating decision maker, or CODM, reviews operating results on an aggregate basis and manages our operations as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from product sales to customers and from collaboration arrangements, including R&D funding, license fees and royalties from partners.",
+  "evidence": "We recognize revenue from product sales when the customer obtains control of our product in the amount of the transaction price, which is the amount that reflects the consideration which we expect to receive."
+ },
+ "changes": [
+  {
+   "text": "In recent years the company terminated its TEGSEDI agreement in North America and discontinued TEGSEDI there.",
+   "evidence": "We and Sobi terminated our agreement for TEGSEDI in North America, after which we discontinued TEGSEDI in North America."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

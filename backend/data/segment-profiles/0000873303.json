@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000873303",
+ "issuerName": "SAREPTA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T06:37:40.245Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-084144",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/873303/000119312526084144/srpt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Genetic Medicines",
+   "products": [
+    "EXONDYS 51",
+    "VYONDYS 53",
+    "AMONDYS 45",
+    "ELEVIDYS",
+    "SRP-9003",
+    "SRP-1003",
+    "SRP-1001"
+   ],
+   "description": "Discovers, develops, manufactures and delivers RNA-targeted therapeutics, siRNA therapies and gene therapies for rare neuromuscular diseases.",
+   "evidence": "The Company operates in one segment: discovering, developing, manufacturing and delivering therapies to patients with rare diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients and healthcare systems purchase approved genetic medicines; collaboration partners including Roche pay for commercial supply, royalties and milestones.",
+  "evidence": "The Company's reportable segment derives its revenues from sales of its products, which include the PMO Products and ELEVIDYS, as well as through collaboration and other revenues primarily generated from its collaboration arrangement with Roche and other revenues related to the sale of commercial ELEVIDYS supply to Roche and royalty revenue from Roche."
+ },
+ "changes": [
+  {
+   "text": "In June 2024, ELEVIDYS received traditional FDA approval for ambulatory patients aged four years and older with Duchenne, expanding from initial accelerated approval.",
+   "evidence": "ELEVIDYS received traditional approval by the FDA in June 2024 for the treatment of ambulatory patients at least four years old with Duchenne with a confirmed mutation in the Duchenne gene."
+  },
+  {
+   "text": "In November 2025, ELEVIDYS labeling was updated with a boxed warning for acute liver injury and acute liver failure, with removal of the non-ambulatory population from the indication.",
+   "evidence": "In November 2025, we announced a boxed warning for acute liver injury (\"ALI\") and acute liver failure (\"ALF\") and removal of non-ambulatory population from the Indication and Usage section of the Prescribing Information."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In July 2025, the company suspended all development of LGMD programs except SRP-"
+ ]
+}

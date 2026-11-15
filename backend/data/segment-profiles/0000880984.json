@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000880984",
+ "issuerName": "ACORN ENERGY, INC.",
+ "builtAt": "2026-11-15T06:39:05.480Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008937",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/880984/000149315226008937/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power Generation",
+   "products": [
+    "OmniPro commercial monitor",
+    "Omni residential monitor",
+    "Smart Annunciator",
+    "TrueGuard"
+   ],
+   "description": "Wireless remote monitoring and control systems for commercial, industrial and residential power generation equipment.",
+   "evidence": "OmniMetrix's PG services provide wireless remote monitoring and control systems and IoT applications for commercial/industrial and residential power generation equipment."
+  },
+  {
+   "name": "Cathodic Protection",
+   "products": [
+    "Hero 2 Rectifier Monitor",
+    "Patriot Plus Test Station Monitor",
+    "RAD",
+    "RADex"
+   ],
+   "description": "Remote monitoring and control products for cathodic protection systems on gas pipelines for utilities and pipeline operators.",
+   "evidence": "OmniMetrix's CP services provide remote monitoring and control products for cathodic protection systems on gas pipelines serving the gas utilities market and pipeline operators."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OmniMetrix sells monitoring devices and subscription services to generator dealers, service providers, machine owners, and pipeline operators through product sales and recurring monitoring services.",
+  "evidence": "OmniMetrix sells devices and services built on our OCOM communications platform."
+ },
+ "changes": [
+  {
+   "text": "In 2025, OmniMetrix launched the Omni family of products including OmniPro and Omni residential monitors, which are replacing the legacy TrueGuard product line.",
+   "evidence": "In 2025, we launched the Omni family of products—the OmniPro commercial monitor and the Omni residential monitor—built on a new proprietary common communications core called the OCOM, a platform designed to enhance connectivity, reliability and performance in remote monitoring systems. These products are replacing our legacy TrueGuard product lines, offering enhanced flexibility, expandability, and improved connectivity with easier installation."
+  },
+  {
+   "text": "In 2025, OmniMetrix launched RADex, an OCOM-based expansion of the RAD product that adds cathodic protection measurements.",
+   "evidence": "In 2025, we launched the RADex, an OCOM-based expansion of our RAD™ (Remote AC Mitigation Disconnect) that adds cathodic protection measurements while retaining the ability to remotely disconnect/connect AC mitigation tools on solid-state decouplers, reducing expense and increasing employee safety."
+  }
+ ],
+ "dropped": []
+}

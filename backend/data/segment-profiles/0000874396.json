@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000874396",
+ "issuerName": "LIFETIME BRANDS, INC.",
+ "builtAt": "2026-11-15T06:37:49.306Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000874396-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/874396/000087439626000008/lcut-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "Farberware®",
+    "KitchenAid®",
+    "Mikasa®",
+    "Taylor®",
+    "Pfaltzgraff®",
+    "Dolly Parton®",
+    "S'well®",
+    "Sabatier®"
+   ],
+   "description": "Designs, markets and distributes kitchenware, tableware and home solution products to U.S. retailers, distributors and direct to consumers.",
+   "evidence": "The U.S. segment is the Company's domestic business that designs, markets and distributes its products to retailers and distributors, as well as directly to consumers through third parties and its own internet websites primarily in the U.S."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Farberware®",
+    "KitchenAid®",
+    "Mikasa®",
+    "Taylor®",
+    "Pfaltzgraff®",
+    "Dolly Parton®",
+    "S'well®",
+    "Sabatier®"
+   ],
+   "description": "Sells and distributes kitchenware, tableware and home solution products internationally in the U.K., European Union and Asia Pacific region.",
+   "evidence": "The International segment is the Company's international business that sells and distributes products to consumers primarily in the U.K., the European Union and the Asia Pacific region."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors purchase branded kitchenware, tableware and home solution products; the company also sells directly to consumers through its websites.",
+  "evidence": "The Company sells its products directly to retailers (who may resell the Company's products through their websites) and, to a lesser extent, to distributors. The Company also sells a limited selection of its products directly to consumers through its own websites."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the International segment was reorganized affecting the structure of its merchandising and sales workforce.",
+   "evidence": "During 2025, the Company's International segment incurred $0.3 million of restructuring expense related to severance associated with the reorganization of the International segment's workforce."
+  }
+ ],
+ "dropped": []
+}

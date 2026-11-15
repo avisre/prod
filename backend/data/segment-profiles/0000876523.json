@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000876523",
+ "issuerName": "EZCORP, INC.",
+ "builtAt": "2026-11-15T06:38:25.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000876523-25-000094",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/876523/000087652325000094/ezpw-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Pawn",
+   "products": [
+    "EZPAWN",
+    "Value Pawn & Jewelry"
+   ],
+   "description": "Pawn lending and merchandise sales operations in the United States through branded store locations.",
+   "evidence": "U.S. Pawn, which includes our EZPAWN, Value Pawn & Jewelry and other branded pawn operations in the United States"
+  },
+  {
+   "name": "Latin America Pawn",
+   "products": [
+    "Empeño Fácil",
+    "Cash Apoyo Efectivo",
+    "GuatePrenda",
+    "MaxiEfectivo"
+   ],
+   "description": "Pawn lending and merchandise sales operations in Mexico, Guatemala, El Salvador and Honduras.",
+   "evidence": "Latin America Pawn, which includes our Empeño Fácil, Cash Apoyo Efectivo and other branded pawn operations in Mexico, as well as our GuatePrenda and MaxiEfectivo pawn operations in Guatemala, El Salvador and Honduras (referred to as \"GPMX\")"
+  },
+  {
+   "name": "Other Investments",
+   "products": [],
+   "description": "Equity interest in Cash Converters and investment in Simple Management Group pawn operations.",
+   "evidence": "Other Investments, which primarily includes our equity interest in Cash Converters and our investment in and notes receivable from Founders"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay pawn service charges on cash loans secured by collateral, pay for merchandise sales, and the company earns jewelry scrapping revenue.",
+  "evidence": "We generate revenues primarily from pawn service charges (\"PSC\") on pawn loans outstanding (\"PLO\"), merchandise sales and jewelry scrapping."
+ },
+ "changes": [],
+ "dropped": []
+}

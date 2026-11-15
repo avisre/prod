@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000875045",
+ "issuerName": "BIOGEN INC.",
+ "builtAt": "2026-11-15T07:43:03.997Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000875045-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/875045/000087504526000013/biib-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "VUMERITY, TYSABRI, TECFIDERA, AVONEX and PLEGRIDY",
+    "SPINRAZA",
+    "SKYCLARYS",
+    "QALSODY",
+    "LEQEMBI",
+    "ZURZUVAE",
+    "BENEPALI, IMRALDI, FLIXABI"
+   ],
+   "description": "Discovers, develops, manufactures and markets therapies for MS, SMA, ALS, FA, Alzheimer's disease and other serious neurological, immunological and rare diseases.",
+   "evidence": "As described in Note 25, Segment Information, to these consolidated financial statements, we operate as one operating segment, which is our only reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025 the company completed the sale of its rights to the biosimilars TOFIDENCE and BYOOVIZ.",
+   "evidence": "In 2025 we completed the sale of our rights to TOFIDENCE and BYOOVIZ."
+  }
+ ],
+ "dropped": [
+  "product not in text (Biopharmaceutical): RITUXAN, GAZYVA, OCREVUS",
+  "revenue model not grounded",
+  "change not grounded: Effective January 1, 2025, the collaboration and license agreement for FAMPYRA g"
+ ]
+}

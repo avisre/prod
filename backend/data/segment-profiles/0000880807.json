@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000880807",
+ "issuerName": "AMERICAN SUPERCONDUCTOR CORP /DE/",
+ "builtAt": "2026-11-15T06:38:54.601Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-018542",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/880807/000143774926018542/amsc20260331_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Grid",
+   "products": [
+    "D-VAR",
+    "sag mitigation systems",
+    "voltage compensators",
+    "capacitors",
+    "harmonic filters",
+    "transformers",
+    "rectifiers",
+    "degaussing systems"
+   ],
+   "description": "Provides power control and system solutions for utilities, industrial and semiconductor manufacturers, and the military.",
+   "evidence": "Comtrafo is operated and reported as a component of our Grid business segment."
+  },
+  {
+   "name": "Wind",
+   "products": [
+    "power electronics",
+    "control systems",
+    "wind turbine designs",
+    "customer support services"
+   ],
+   "description": "Supplies power electronics, control systems and licensed turbine designs to wind turbine manufacturers.",
+   "evidence": "We supply advanced power electronics and control systems, license our highly engineered wind turbine designs, and provide extensive customer support services to wind turbine manufacturers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including utilities, industrial manufacturers, the military and renewable energy companies pay for power system products, services, spare parts and design licenses.",
+  "evidence": "We supply advanced power electronics and control systems, license our highly engineered wind turbine designs, and provide extensive customer support services to wind turbine manufacturers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Comtrafo, a Brazil-based transformer manufacturer, operated as a component of the Grid segment.",
+   "evidence": "Comtrafo is operated and reported as a component of our Grid business segment."
+  },
+  {
+   "text": "In 2024, the Company acquired NWL through Megatran Industries, operated as a component of the Grid segment.",
+   "evidence": "Megatran, together with NWL and its other wholly-owned subsidiaries and affiliates, is operated and reported as a component of our Grid business segment."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

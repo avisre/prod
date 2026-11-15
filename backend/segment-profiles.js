@@ -35,7 +35,9 @@ const usable = cik => { const r = read(cik); return r && r.status === 'ok' && r.
 const STOP = new Set(('the segment segments reportable operating operation operations business businesses division group and '
     + 'net revenue revenues sales total line lines product products corporation corp inc co company companies lp llc holding holdings partners').split(' '));
 const clean = s => String(s || '').replace(/\s*\([^)]*\)/g, ' ').replace(/["“”]/g, '').replace(/\bU\.\s?S\.?(?=\s|$)/gi, 'US')
-    .replace(/(\w)- (\w)/g, '$1$2').replace(/\s+/g, ' ').trim();
+    // "P&C Business Insurance" and "Business Insurance" name the same segment: the tagged row keeps the
+    // line of business the note leaves out.
+    .replace(/^\s*P\s*&\s*C\s+/i, '').replace(/(\w)- (\w)/g, '$1$2').replace(/\s+/g, ' ').trim();
 const stem = w => w.length > 3 && /[^s]s$/.test(w) ? w.slice(0, -1) : w;
 // Words a filing writes two ways. A list, not a distance: "Laboratory"/"Lab" is the same segment,
 // and "utilities"/"companies" name the same corporate grouping ("Transmission and Distribution
@@ -74,7 +76,9 @@ const inBrackets = s => [...String(s || '').matchAll(/\(([^)]+)\)/g)].map(m => m
 // Watercraft Recreation", "North American Towable Recreational Vehicles". Nothing else may be added,
 // except the issuer's own name ("Carlisle Construction Materials", "Verizon Consumer Group"), so
 // "Pottery Barn Kids" and "Financial Services" never match their shorter names.
-const FILL = new Set(['restaurant', 'solution', 'recreation', 'recreational', 'vehicle', 'service', 'group']);
+const FILL = new Set(['restaurant', 'solution', 'recreation', 'recreational', 'vehicle', 'service', 'group', 'banking']);
+// A filing's filler can also be a word the matcher already ignores ("ZERUST® products and services").
+const STOP_STEM = new Set([...STOP].map(stem));
 const keyWords = s => key(s).split(' ').filter(Boolean);
 // Every word, stop words included: "Business" against "Verizon Business Group" needs the business word.
 const allWords = s => rawWords(s).map(stem);
@@ -88,7 +92,7 @@ function fillerOnly(a, b, issuer) {
     const rest = [...big];
     for (const w of small) { const at = rest.indexOf(w); if (at < 0) return false; rest.splice(at, 1); }
     const own = ownerWords(issuer);
-    return rest.every(w => FILL.has(w) || own.has(w));
+    return rest.every(w => FILL.has(w) || own.has(w) || STOP_STEM.has(w));
 }
 function sameSegment(a, b, issuer = null) {
     if (sameKey(a, b)) return true;

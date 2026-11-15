@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000875582",
+ "issuerName": "NORTHERN TECHNOLOGIES INTERNATIONAL CORP",
+ "builtAt": "2026-11-15T06:40:55.022Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-25-007481",
+  "periodEnd": "2025-08-31",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/875582/000117184325007481/ntic20250831_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ZERUST® products and services",
+   "products": [
+    "plastic and paper packaging",
+    "Z-CIS® technical services"
+   ],
+   "description": "Develops, manufactures and markets rust and corrosion inhibiting products and services for automotive, industrial, mining, agricultural, retail and oil and gas markets.",
+   "evidence": "ZERUST® Corrosion Prevention Solutions . In fiscal 2025, 74.2% of NTIC's consolidated net sales were derived from developing, manufacturing and marketing ZERUST® rust and corrosion inhibiting products and services."
+  },
+  {
+   "name": "Natur-Tec® products",
+   "products": [
+    "can liners",
+    "shopping and grocery bags",
+    "lawn and leaf bags",
+    "branded apparel packaging bags",
+    "disposable cutlery",
+    "drinking straws",
+    "coated paper products"
+   ],
+   "description": "Markets bio-based and certified compostable polymer resin compounds and finished products to replace conventional petroleum-based plastics.",
+   "evidence": "Additionally, NTIC markets and sells a portfolio of proprietary bio-based and certified compostable (fully biodegradable) polymer resin compounds and finished products under the Natur-Tec® brand."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay NTIC for ZERUST® and Natur-Tec® products sold directly, through subsidiaries, or via distributors, with revenue recognized primarily upon shipment.",
+  "evidence": "NTIC recognizes revenue from the sale of its products primarily upon shipment of the products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (ZERUST® products and services): liquids and coatings (Axxatec™, Axxanol™, Z-Maxx™)",
+  "product not in text (ZERUST® products and services): rust removers and cleaners (Axxaclean™)",
+  "product not in text (ZERUST® products and services): diffusers (ZERUST® ActivPak®, ICT® Vapor Capsules, Plastabs®, Cor-Tabs®)",
+  "product not in text (ZERUST® products and services): oil and gas engineered solutions",
+  "product not in text (Natur-Tec® products): bio-based and compostable resin compounds"
+ ]
+}

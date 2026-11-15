@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000872912",
+ "issuerName": "DELCATH SYSTEMS, INC.",
+ "builtAt": "2026-11-15T06:37:39.647Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/872912/000162828026012019/dcth-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hepatic Delivery Systems",
+   "products": [
+    "HEPZATO KIT (melphalan for Injection/Hepatic Delivery System)",
+    "CHEMOSAT Hepatic Delivery System for Melphalan"
+   ],
+   "description": "Research, development, manufacture and distribution of hepatic delivery systems for treating liver cancers.",
+   "evidence": "The Company operates its business primarily in the United States and Europe on a consolidated basis in one reportable segment - the research, development, manufacture and distribution of hepatic delivery systems for the use in the treatment of specific conditions"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare providers and medical centers purchase HEPZATO and CHEMOSAT for treating liver cancer patients.",
+  "evidence": "where it has been used at major medical centers to treat a wide range of cancers in the liver"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2022, the company assumed direct responsibility for sales, marketing and dist"
+ ]
+}

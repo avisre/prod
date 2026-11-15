@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0000874238",
+ "issuerName": "STERLING INFRASTRUCTURE, INC.",
+ "builtAt": "2026-11-15T06:37:45.513Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000874238-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/874238/000087423826000024/strl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E-Infrastructure Solutions",
+   "products": [
+    "Large-scale site development services",
+    "Electrical services"
+   ],
+   "description": "Provides advanced site development and mission-critical electrical services for data centers, manufacturing, semiconductors and related sectors.",
+   "evidence": "E-Infrastructure Solutions provides advanced, large-scale site development services and mission-critical electrical services for data centers, semiconductor fabrication, manufacturing, distribution centers, warehousing, power generation and more."
+  },
+  {
+   "name": "Transportation Solutions",
+   "products": [
+    "Heavy highway projects",
+    "Rail projects",
+    "Storm drainage systems"
+   ],
+   "description": "Executes infrastructure and rehabilitation projects for highways, roads, bridges, airports, ports and rail serving state and regional authorities.",
+   "evidence": "Transportation Solutions includes infrastructure and rehabilitation projects for highways, roads, bridges, airports, ports, rail and storm drainage systems."
+  },
+  {
+   "name": "Building Solutions",
+   "products": [
+    "Commercial concrete foundations",
+    "Multi-family foundations",
+    "Parking structures",
+    "Elevated slabs",
+    "Concrete work",
+    "Plumbing services"
+   ],
+   "description": "Provides concrete foundations and related services for residential and commercial construction, including plumbing for single-family homes.",
+   "evidence": "Building Solutions includes residential and commercial concrete foundations for single-family and multi-family homes, parking structures, elevated slabs, other concrete work, plumbing services, and surveys for new single-family residential builds."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Sterling for construction services and project work on fixed-unit price, lump sum or cost-reimbursable contract bases.",
+  "evidence": "Our contracts are awarded on a competitively bid basis or negotiated bid basis using a range of contracting options, including fixed-unit price, lump sum and cost-reimbursable."
+ },
+ "changes": [
+  {
+   "text": "In early 2025, Sterling announced strategic downsizing of its Texas heavy highway business to improve margins.",
+   "evidence": "In early 2025, we announced the strategic downsizing of our Texas heavy highway business, which is expected to be complete in 2026."
+  }
+ ],
+ "dropped": [
+  "product not in text (E-Infrastructure Solutions): Mechanical services",
+  "product not in text (E-Infrastructure Solutions): Data center construction",
+  "product not in text (E-Infrastructure Solutions): Semiconductor fabrication services",
+  "product not in text (E-Infrastructure Solutions): Manufacturing facility services",
+  "product not in text (E-Infrastructure Solutions): Distribution center services",
+  "product not in text (Transportation Solutions): Aviation projects",
+  "product not in text (Transportation Solutions): Bridge infrastructure",
+  "product not in text (Transportation Solutions): Road infrastructure",
+  "product not in text (Transportation Solutions): Airport projects",
+  "product not in text (Transportation Solutions): Port projects",
+  "product not in text (Building Solutions): Residential concrete foundations",
+  "product not in text (Building Solutions): Survey services",
+  "change not grounded: In 2025, RHB was deconsolidated and moved to equity method accounting effective ",
+  "change not grounded: In 2025, CEC Facilities Group was acquired and included in E-Infrastructure Solu"
+ ]
+}

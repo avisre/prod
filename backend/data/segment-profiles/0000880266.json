@@ -1,0 +1,93 @@
+{
+ "version": 1,
+ "cik": "0000880266",
+ "issuerName": "AGCO CORP /DE",
+ "builtAt": "2026-11-15T06:38:43.347Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000880266-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/880266/000088026626000010/agco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe/Middle East",
+   "products": [
+    "Fendt",
+    "Massey Ferguson",
+    "PTx",
+    "Valtra",
+    "Tractors",
+    "Combines",
+    "Hay Tools and Forage Equipment",
+    "Replacement Parts"
+   ],
+   "description": "Distributes a full range of agricultural machinery and precision agriculture technology to customers in the Europe/Middle East region.",
+   "evidence": "The Company has four operating segments which are also its reportable segments which consist of the Europe/Middle East (\"EME\"), North America, South America and Asia/Pacific/Africa (\"APA\") regions."
+  },
+  {
+   "name": "North America",
+   "products": [
+    "Fendt",
+    "Massey Ferguson",
+    "PTx",
+    "Valtra",
+    "Tractors",
+    "Application Equipment",
+    "Hay Tools and Forage Equipment",
+    "Replacement Parts"
+   ],
+   "description": "Distributes a full range of agricultural machinery and precision agriculture technology to customers in the North America region.",
+   "evidence": "The Company's reportable segments are geography based and distribute a full range of agricultural machinery and precision agriculture technology."
+  },
+  {
+   "name": "South America",
+   "products": [
+    "Fendt",
+    "Massey Ferguson",
+    "PTx",
+    "Valtra",
+    "Tractors",
+    "Implements",
+    "Combines",
+    "Replacement Parts"
+   ],
+   "description": "Distributes a full range of agricultural machinery and precision agriculture technology to customers in the South America region.",
+   "evidence": "Net sales decreased in South America in 2025 compared to 2024, primarily due to sales volume declines, most significantly in tractors and implements."
+  },
+  {
+   "name": "Asia/Pacific/Africa",
+   "products": [
+    "Fendt",
+    "Massey Ferguson",
+    "PTx",
+    "Valtra",
+    "Tractors",
+    "Hay Tools and Forage Equipment",
+    "Application Equipment",
+    "Replacement Parts"
+   ],
+   "description": "Distributes a full range of agricultural machinery and precision agriculture technology to customers in the Asia/Pacific/Africa region.",
+   "evidence": "Net sales decreased in APA in 2025 compared to 2024, primarily due to sales volume declines, most significantly in high-horsepower tractors, hay tools and sprayers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay AGCO for agricultural machinery, precision agriculture technology and replacement parts sold primarily through independent dealers and distributors.",
+  "evidence": "We distribute most of our products through approximately 2,800 independent dealers and distributors in approximately 140 countries."
+ },
+ "changes": [
+  {
+   "text": "In 2024, AGCO divested the majority of its Grain & Protein business, whose results were previously included within the geographic segments and are now shown as \"Other\".",
+   "evidence": "\"Other\" represents the results for the year ended December 31, 2024 for the majority of the Company's G&P business which was divested on November 1, 2024."
+  },
+  {
+   "text": "In 2024, AGCO formed the PTx Trimble joint venture, fundamentally shifting its portfolio.",
+   "evidence": "In 2024, we fundamentally shifted our portfolio through the PTx Trimble joint venture and the divestiture of the majority of our Grain & Protein (\"G&P\") business."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

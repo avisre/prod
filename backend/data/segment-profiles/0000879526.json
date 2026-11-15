@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000879526",
+ "issuerName": "WABASH NATIONAL CORPORATION",
+ "builtAt": "2026-11-15T06:38:41.587Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000879526-26-000036",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/879526/000087952626000036/wnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Transportation Solutions",
+   "products": [
+    "Dry & Refrigerated Van Trailers",
+    "Platform Trailers",
+    "Tank Trailers",
+    "Truck-Mounted Dry & Refrigerated Truck Bodies",
+    "Wood Products"
+   ],
+   "description": "Designs and manufactures transportation-related equipment including trailers and truck bodies for customers moving freight.",
+   "evidence": "The TS segment comprises the design and manufacturing operations for the Company's transportation-related equipment and products. This includes dry and refrigerated van trailers, platform trailers, and the Company's wood flooring production facility. Additionally, the TS segment includes tank trailers and truck-mounted tanks. Finally, truck-mounted dry and refrigerated bodies, as well as service and stake bodies, are also included in the TS segment."
+  },
+  {
+   "name": "Parts & Services",
+   "products": [
+    "Aftermarket Parts & Services",
+    "Truck Body Upfitting Solutions",
+    "Food, Dairy, and Beverage Equipment",
+    "DuraPlate® Components & Parts",
+    "Trailers as a Service"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in transportation and logistics industries pay for equipment and products sold by the company as well as for aftermarket parts, services and recurring trailer-as-a-service offerings.",
+  "evidence": "we design, manufacture, and service a diverse range of products supporting first-to-final mile operations, including dry freight and refrigerated trailers, platform trailers, tank trailers, dry and refrigerated truck bodies, structural composite panels and products, trailer aerodynamic solutions, and specialty food grade processing equipment. In addition, through Wabash Hub, customers gain access to a nationwide parts and service network, Trailers as a Service (TaaS)℠, and advanced tools designe"
+ },
+ "changes": [
+  {
+   "text": "In 2022, the company created Wabash Parts LLC, a joint venture to operate a parts and services distribution platform unifying and expanding parts and distribution capabilities.",
+   "evidence": "during the second quarter of 2022, we unified and expanded our parts and distribution capabilities by executing an agreement with a partner to create a new legal entity (Wabash Parts LLC) to operate a parts and services distribution platform."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Parts & Services"
+ ]
+}

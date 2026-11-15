@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0000876883",
+ "issuerName": "Stagwell Inc",
+ "builtAt": "2026-11-15T06:38:25.761Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000876883-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/876883/000087688326000010/stgw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketing Services",
+   "products": [
+    "Experiential marketing",
+    "Social media solutions"
+   ],
+   "description": "Delivers creative, research, experiential, and social media solutions designed to build and elevate brands.",
+   "evidence": "The Marketing Services segment delivers a broad range of services across four closely related client needs: creative, research, experiential, and social media solutions designed to build and elevate brands."
+  },
+  {
+   "name": "Digital Transformation",
+   "products": [
+    "Website and content development",
+    "Digital campaigns",
+    "Product and platform design",
+    "Managed services",
+    "Staff augmentation"
+   ],
+   "description": "Designs, implements and activates modern digital ecosystems enabling brand and customer experiences through strategy, design, and technology.",
+   "evidence": "The Digital Transformation segment designs, implements and activates modern digital ecosystems that enable brand and customer experiences through the integration of strategy, design, and technology."
+  },
+  {
+   "name": "Media & Commerce",
+   "products": [
+    "Media buying",
+    "Owned media platforms",
+    "Commerce enablement"
+   ],
+   "description": "Delivers integrated AI-based data solutions driving audience engagement and business growth through media, commerce, and CRM strategies.",
+   "evidence": "The Media & Commerce segment delivers integrated AI-based data solutions that drive audience engagement and business growth through media buying, owned media platforms, commerce enablement, and Customer Relationship Management (\"CRM\") strategies."
+  },
+  {
+   "name": "Communications",
+   "products": [
+    "Strategic communications",
+    "Public relations",
+    "Advocacy services",
+    "Crisis management"
+   ],
+   "description": "Provides solutions helping organizations build, protect, and enhance reputation through strategic communications, PR, and advocacy services.",
+   "evidence": "The Communications segment provides a leading edge set of solutions designed to help organizations build, protect, and enhance their reputation across diverse audiences and channels."
+  },
+  {
+   "name": "The Marketing Cloud",
+   "products": [
+    "Advanced research tools",
+    "Communications technology",
+    "Media studio products",
+    "Advanced media platforms"
+   ],
+   "description": "Delivers comprehensive suite of SaaS and DaaS technology solutions for in-house marketers combining research, communications, and media capabilities.",
+   "evidence": "The Marketing Cloud segment delivers a comprehensive suite of technology solutions for in-house marketers, combining SaaS and DaaS offerings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Stagwell earns revenue from agency arrangements through fees for services performed, commissions, and performance incentives or bonuses from clients.",
+  "evidence": "The primary source of revenue is from agency arrangements in the form of fees for services performed, commissions, and from performance incentives or bonuses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Marketing Services): Creative services",
+  "product not in text (Marketing Services): Research services",
+  "product not in text (Digital Transformation): Marketing technology implementation",
+  "product not in text (Media & Commerce): Customer Relationship Management strategies"
+ ]
+}

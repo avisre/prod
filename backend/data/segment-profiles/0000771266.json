@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000771266",
  "issuerName": "KOPIN CORP",
- "builtAt": "2026-11-14T13:50:35.509Z",
+ "builtAt": "2026-11-15T07:44:34.053Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-016338",
@@ -10,21 +10,35 @@
   "filingDate": "2026-04-13",
   "url": "https://www.sec.gov/Archives/edgar/data/771266/000149315226016338/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "microdisplay technologies and optical systems",
+   "products": [
+    "AMLCDs",
+    "LCOS displays",
+    "OLED displays",
+    "MicroLED displays",
+    "NeuralDisplay™",
+    "display drivers",
+    "optical lenses"
+   ],
+   "description": "Designs and manufactures microdisplays and optical subsystems for defense, enterprise, industrial, consumer, and medical sectors.",
+   "evidence": "The Company has determined that it operates in one operating segment and one reportable segment, as the CODM reviews financial information presented on a consolidated basis for purposes of making operating decisions, allocating resources, and evaluating financial performance."
+  }
+ ],
  "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Kopin earns revenue primarily from selling displays, optical components and ASOS to defense, industrial, medical and training customers, plus customer-funded development contracts, grants, collaborations, and license royalties.",
+  "text": "Customers pay for displays, optical components, and ASOS it manufactures, plus customer-funded development contracts, licenses and royalties.",
   "evidence": "Revenue generation derives primarily from the sale of displays, optical components, and ASOS that we manufacture for defense, industrial, medical and training and simulation applications, alongside customer-funded development contracts for U.S. defense programs."
  },
  "changes": [
   {
-   "text": "In 2025, Kopin completed its ONE Kopin strategic initiative to reorganize and rebrand operations into unified market and technology groups.",
-   "evidence": "In alignment with our \"ONE Kopin\" strategic initiative, we have completed this strategic initiative to reorganize and streamline our operations."
+   "text": "In 2025 the Company deconsolidated Kopin Europe following Theon's equity investment.",
+   "evidence": "$0.4 million for the Deconsolidation of Kopin Europe."
   }
  ],
  "dropped": [
-  "segment name not in text: Microdisplays and optical systems",
-  "change not grounded: In 2025, Theon International Plc invested for 49% ownership of Kopin Europe, res"
+  "product not in text (microdisplay technologies and optical systems): Application Specific Optical Solutions (ASOS)"
  ]
 }

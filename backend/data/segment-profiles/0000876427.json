@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000876427",
+ "issuerName": "MONRO, INC.",
+ "builtAt": "2026-11-15T06:38:24.816Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000876427-26-000007",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/876427/000087642726000007/mnro-20260328x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive undercar repair and tire",
+   "products": [
+    "replacement tires",
+    "tire related services",
+    "automotive undercar repair services",
+    "routine maintenance services",
+    "brakes",
+    "mufflers and exhaust systems",
+    "steering, drive train, suspension and wheel alignment"
+   ],
+   "description": "Operates nationwide retail tire and automotive repair stores serving guests with tires, undercar repair and routine maintenance for passenger cars, light trucks and vans.",
+   "evidence": "Monro's operations are organized and managed as one single segment designed to offer our customers replacement tires and tire related services, automotive undercar repair services as well as a broad range of routine maintenance services, primarily on passenger cars, light trucks and vans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay Monro for replacement tires, tire related services, undercar repair and routine maintenance at its retail and commercial stores.",
+  "evidence": "We offer to our customers, referred to as \"guests\", replacement tires and tire related services, automotive undercar repair services, and a broad range of routine maintenance services, primarily on passenger cars, light trucks, and vans."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

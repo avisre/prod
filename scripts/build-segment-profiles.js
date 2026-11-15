@@ -78,26 +78,66 @@ function pickDocument(items, preferred) {
         || pages.sort((a, b) => Number(b.size) - Number(a.size))[0] || null;
 }
 
-async function filingText(cik, src) {
-    const file = path.join(CACHE, src.accessionNumber + '.txt.gz');
-    const wanted = primaryDocument(cik, src);
-    if (fs.existsSync(file)) {
-        const t = JSON.parse(zlib.gunzipSync(fs.readFileSync(file)).toString('utf8'));
-        // A cached copy is reused only when it is the document this filing names (older entries carry no name).
-        if (!wanted || String(t.url || '').split('/').pop() === wanted) return t;
-    }
+// A filing's business description is sometimes in an exhibit, not in the primary document: a 40-F's
+// primary page is a cover (Agnico Eagle: 65,757 characters after tags are stripped), and some banks
+// file a thin 10-K whose report is exhibit 13 (J.W. Mays: 50,623). Measured against the builder's own
+// cache, every real 10-K/20-F page is at least 131,000 characters (median 423,000), so a primary
+// document under 100,000 is a wrapper and its exhibit 13/99 is read instead.
+const THIN = 100000;
+const EXHIBIT_NO = name => { const m = String(name || '').match(/xex\s*([0-9]+)|(?:^|[-_.])ex(?:hibit)?[-_.]?([0-9]+)/i); return m ? (m[1] || m[2]) : null; };
+// Only exhibit 13 and 99 (99.1 included) may stand in for the report. A 10.1 contract or 31 certificate
+// never does.
+const businessExhibit = x => { const n = EXHIBIT_NO(x.name); return !!n && (n.startsWith('13') || n.startsWith('99')); };
+const widestExhibit = items => (items || []).filter(x => /\.htm$/i.test(x.name || '') && businessExhibit(x))
+    .sort((a, b) => Number(b.size) - Number(a.size))[0] || null;
+
+async function filingIndex(cik, src) {
     const base = `https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${src.accessionNumber.replace(/-/g, '')}`;
     const index = await sec(base + '/index.json');
     if (!index) return null;
-    let doc = null;
-    try { doc = pickDocument(JSON.parse(index.toString('utf8')).directory.item, wanted); } catch (_) { }
-    if (!doc) return null;
+    try { return { base, items: JSON.parse(index.toString('utf8')).directory.item }; } catch (_) { return null; }
+}
+async function pageText(base, doc, file, expected) {
+    // A cached copy is reused only when it is the document asked for (older entries carry no name).
+    if (fs.existsSync(file)) {
+        const t = JSON.parse(zlib.gunzipSync(fs.readFileSync(file)).toString('utf8'));
+        if (!expected || String(t.url || '').split('/').pop() === expected) return t;
+    }
     const html = await sec(base + '/' + doc.name);
     if (!html) return null;
     const t = { url: base + '/' + doc.name, text: decode(html.toString('utf8')) };
     fs.mkdirSync(CACHE, { recursive: true });
     fs.writeFileSync(file, zlib.gzipSync(JSON.stringify(t)));
     return t;
+}
+async function filingText(cik, src) {
+    const wanted = primaryDocument(cik, src);
+    const file = path.join(CACHE, src.accessionNumber + '.txt.gz');
+    if (fs.existsSync(file)) {
+        const t = JSON.parse(zlib.gunzipSync(fs.readFileSync(file)).toString('utf8'));
+        if ((!wanted || String(t.url || '').split('/').pop() === wanted) && t.text.length >= THIN) return t;
+    }
+    const idx = await filingIndex(cik, src);
+    if (!idx) return null;
+    const doc = pickDocument(idx.items, wanted);
+    if (!doc) return null;
+    const t = await pageText(idx.base, doc, file, wanted);
+    if (t && t.text.length < THIN) {
+        const wide = widestExhibit(idx.items);
+        if (wide && wide.name !== doc.name) {
+            const e = await pageText(idx.base, wide, path.join(CACHE, src.accessionNumber + '.exhibit.txt.gz'), wide.name);
+            if (e && e.text.length > t.text.length) return { ...e, exhibit: wide.name };
+        }
+    }
+    return t;
+}
+// The exhibit 13/99 of the same filing, for a report that reads to no segments from a wrapper.
+async function exhibitText(cik, src) {
+    const idx = await filingIndex(cik, src);
+    if (!idx) return null;
+    const wide = widestExhibit(idx.items);
+    if (!wide) return null;
+    return pageText(idx.base, wide, path.join(CACHE, src.accessionNumber + '.exhibit.txt.gz'), wide.name);
 }
 
 // The business section (what it sells) and the segment note (how it is organised). The table of
@@ -114,7 +154,7 @@ function windows(text) {
 const SYSTEM = [
     'You read an SEC annual report (Form 10-K, 20-F or 40-F) and describe how the company is organised and what it sells. Reply with ONLY a JSON object, no prose, no markdown fences.',
     'Schema: {"segments":[{"name":str,"products":[str],"description":str,"evidence":str}],"productRevenueBrokenOut":bool,"revenueModel":{"text":str,"evidence":str}|null,"changes":[{"text":str,"evidence":str}]}',
-    'segments: the company\'s REPORTABLE segments, named exactly as the filing names them. A company with one reportable segment gets one entry, under the name the filing gives that segment (for example "Advertising"); if the filing gives it no name, use the business it is in, in one to three words taken from the text. Product lines, brands, end markets and geographic disclosures are NOT segments unless the filing calls them reportable segments. Leave out corporate, eliminations and reconciling items. Include an "All other" or "Other" entry only when the filing reports it beside the segments; name it as the filing does.',
+    'segments: the company\'s REPORTABLE segments, named exactly as the filing names them. A company with one reportable segment gets one entry, under the name the filing gives that segment (for example "Advertising"); if the filing gives it no name, use the business it is in, in one to three words taken from the text. Product lines, brands, end markets and geographic disclosures are NOT segments unless the filing calls them reportable segments. Leave out corporate, eliminations and reconciling items. Include an "All other" or "Other" entry only when the filing reports it beside the segments; name it as the filing does. WHEN THE FILING SAYS THE COMPANY HAS ONE OPERATING OR REPORTABLE SEGMENT, REPLY WITH EXACTLY ONE SEGMENT: never split it into its product lines, brands, markets or regions, even when the filing lists them.',
     'products: the products, services, brands or platforms the filing says belong to that segment, written as the filing writes them, at most 8. An empty list when the text names none.',
     'description: one plain sentence, at most 25 words, on what the segment does and for whom.',
     'evidence: one sentence copied WORD FOR WORD from the supplied text that names the segment or its products. It is checked against the text; a paraphrase is discarded.',
@@ -192,10 +232,15 @@ function askClaude(prompt, model) {
     });
 }
 
+// A filing that says the company has one operating or reportable segment: a read that answers with the
+// product or market table behind it has mistaken what the company sells for how it is organised.
+const ONE_SEGMENT = /(?:\bwe\b|\bthe company\b|\bthe group\b|\bthe registrant\b)[^.]{0,90}\b(?:one|a single|single)\b[^.]{0,40}\b(?:operating|reportable|business)\b[^.]{0,20}\bsegment\b|\blone\s+segment\b/i;
 // What the cheap read cannot be trusted to settle: no segment survived the check, a segment it named
-// is not in the filing, or none of its segments is any segment row the filing tags.
-function hard(v, data) {
+// is not in the filing, none of its segments is any segment row the filing tags, or the filing says one
+// segment and the reply split it.
+function hard(v, data, text) {
     if (!v || !v.segments.length) return 'no segments';
+    if (v.segments.length > 1 && ONE_SEGMENT.test(String(text || ''))) return 'filing says one segment';
     if (v.dropped.some(d => d.startsWith('segment name not in text'))) return 'segment not in filing';
     if (v.dropped.includes('revenue model not grounded')) return 'revenue model not quoted';
     const latest = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0];
@@ -215,30 +260,44 @@ async function one(cik) {
     const src = latestAnnual(data);
     const head = { version: profiles.VERSION, cik, issuerName: data.issuerName || null, builtAt: new Date().toISOString() };
     if (!src) return { ...head, status: 'no-annual-report' };
-    const doc = await filingText(cik, src);
-    const filing = { form: src.form, accessionNumber: src.accessionNumber, periodEnd: src.periodEnd, filingDate: src.filingDate || null, url: doc?.url || null };
-    if (!doc || doc.text.length < 2000) return { ...head, filing, status: 'filing-unreadable' };
-    const text = windows(doc.text);
-    const user = extra => `Company: ${data.issuerName}. ${src.form} for the period ended ${src.periodEnd}.${extra}\n\n${text}`;
-    const ask = (extra, model) => CLAUDE ? askClaude(user(extra), model) : ai.chatRaw([{ role: 'system', content: SYSTEM }, { role: 'user', content: user(extra) }],
-        { purpose: 'summary', temperature: 0, maxTokens: 5000, timeoutMs: 180000 });
-    // Checked against the whole filing, not only the excerpt, so a name the model read in the excerpt
-    // and the filing repeats elsewhere is not lost to where the window was cut.
-    const read = async model => {
-        let parsed = parse(await ask('', model));
-        if (!parsed) parsed = parse(await ask(' REPLY WITH ONLY THE JSON OBJECT; your entire reply must parse as JSON.', model));
-        return parsed ? validate(parsed, doc.text) : null;
+    let doc = await filingText(cik, src);
+    const filingOf = () => ({ form: src.form, accessionNumber: src.accessionNumber, periodEnd: src.periodEnd, filingDate: src.filingDate || null,
+        url: doc?.url || null, ...(doc?.exhibit ? { exhibit: doc.exhibit } : {}) });
+    if (!doc || doc.text.length < 2000) return { ...head, filing: filingOf(), status: 'filing-unreadable' };
+    // Checked against the whole document read, not only the excerpt, so a name the model read in the
+    // excerpt and the filing repeats elsewhere is not lost to where the window was cut.
+    const reader = text => {
+        const body = windows(text);
+        const user = extra => `Company: ${data.issuerName}. ${src.form} for the period ended ${src.periodEnd}.${extra}\n\n${body}`;
+        const ask = (extra, model) => CLAUDE ? askClaude(user(extra), model) : ai.chatRaw([{ role: 'system', content: SYSTEM }, { role: 'user', content: user(extra) }],
+            { purpose: 'summary', temperature: 0, maxTokens: 5000, timeoutMs: 180000 });
+        return async model => {
+            let parsed = parse(await ask('', model));
+            if (!parsed) parsed = parse(await ask(' REPLY WITH ONLY THE JSON OBJECT; your entire reply must parse as JSON.', model));
+            return parsed ? validate(parsed, text) : null;
+        };
     };
-    let v = await read(CLAUDE_MODEL), escalated = null;
-    const why = CLAUDE && ESCALATE ? hard(v, data) : null;
+    let v = await reader(doc.text)(CLAUDE_MODEL), escalated = null;
+    const why = CLAUDE && ESCALATE ? hard(v, data, doc.text) : null;
     if (why) {
         // The stronger read replaces the first one only when it has segments of its own.
-        const w = await read(ESCALATE);
+        const w = await reader(doc.text)(ESCALATE);
         escalated = why;
         if (w && w.segments.length) v = w;
     }
-    if (!v) return { ...head, filing, status: 'model-unparseable', ...(escalated ? { escalated } : {}) };
-    return { ...head, filing, status: v.segments.length ? 'ok' : 'no-segments', ...v, ...(escalated ? { escalated } : {}) };
+    // A cover page or a wrapper 10-K reads to no segments; the report's own exhibit 13/99 is tried once.
+    if (v && !v.segments.length && !doc.exhibit) {
+        const ex = await exhibitText(cik, src);
+        if (ex && ex.text.length > 2000) {
+            const w = await reader(ex.text)(CLAUDE_MODEL);
+            if (w && w.segments.length) { v = w; doc = { ...ex, exhibit: String(ex.url).split('/').pop() }; }
+        }
+    }
+    if (!v) return { ...head, filing: filingOf(), status: 'model-unparseable', ...(escalated ? { escalated } : {}) };
+    // Still split after the stronger read: the card keeps its figures only rather than showing a
+    // product table as the segments. The read is kept in the record for review, not shown.
+    if (v.segments.length > 1 && ONE_SEGMENT.test(doc.text)) return { ...head, filing: filingOf(), status: 'one-segment-mismatch', ...v, ...(escalated ? { escalated } : {}) };
+    return { ...head, filing: filingOf(), status: v.segments.length ? 'ok' : 'no-segments', ...v, ...(escalated ? { escalated } : {}) };
 }
 
 function targets() {
@@ -250,7 +309,7 @@ function targets() {
     return LIMIT ? todo.slice(0, LIMIT) : todo;
 }
 
-module.exports = { validate, windows, latestAnnual, pickDocument, SYSTEM };
+module.exports = { validate, windows, latestAnnual, pickDocument, businessExhibit, widestExhibit, ONE_SEGMENT, THIN, SYSTEM };
 if (require.main === module) (async () => {
     if (!CLAUDE) {
         require('./lib/dev-env').loadAiEnvOnly(BACKEND);

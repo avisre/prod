@@ -2,26 +2,29 @@
  "version": 1,
  "cik": "0000054187",
  "issuerName": "MAYS J W INC",
- "builtAt": "2026-11-14T13:44:55.106Z",
+ "builtAt": "2026-11-15T06:36:43.675Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001206774-26-000572",
   "periodEnd": "2026-07-31",
   "filingDate": "2026-10-22",
-  "url": "https://www.sec.gov/Archives/edgar/data/54187/000120677426000572/mays4683021-ex13.htm"
+  "url": "https://www.sec.gov/Archives/edgar/data/54187/000120677426000572/mays4683021-ex13.htm",
+  "exhibit": "mays4683021-ex13.htm"
  },
  "status": "ok",
  "segments": [
   {
-   "name": "Commercial real estate",
-   "products": [],
-   "description": "Owns and leases commercial real estate properties in New York City, Long Island, Fishkill, New York and Circleville, Ohio, largely leased to tenants.",
-   "evidence": "The Company operates a number of commercial real estate properties located in Brooklyn and Jamaica in New York City; in Levittown and Massapequa, Long Island, New York; in Fishkill, Dutchess County, New York; and in Circleville, Ohio."
+   "name": "commercial real estate",
+   "products": [
+    "commercial real estate properties"
+   ],
+   "description": "Operates and leases commercial real estate properties to tenants in New York and Ohio.",
+   "evidence": "Based on management's assessment, the Company has determined it has one operating segment (which operates commercial real estate properties) as defined by ASC Topic 280 \"Segment Reporting\"."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Tenants pay the Company rent for leasing its commercial real estate properties.",
+  "text": "Tenants pay the Company rent to lease its commercial real estate properties.",
   "evidence": "A substantial percentage of these properties are leased to tenants while the remainder is available for lease."
  },
  "changes": [],

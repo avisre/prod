@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000882508",
+ "issuerName": "QUICKLOGIC Corp",
+ "builtAt": "2026-11-15T07:43:04.016Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010089",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/882508/000143774926010089/quicklo20251208_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "programmable logic semiconductor",
+   "products": [
+    "eFPGA IP licensing",
+    "EOS™",
+    "ArcticLink® III",
+    "PolarPro®3",
+    "PolarPro II",
+    "PolarPro®",
+    "Eclipse II",
+    "PASIC®3"
+   ],
+   "description": "Develops programmable logic semiconductor technologies, eFPGA IP, and discrete FPGA devices for aerospace, defense, industrial, and computing markets.",
+   "evidence": "We develop programmable logic semiconductor technologies, including embedded Field Programmable Gate Array (\"eFPGA\") intellectual property (\"IP\") and specialized FPGA devices used in a range of applications requiring adaptable hardware functionality."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for eFPGA IP licenses, related professional services, and sales of FPGA hardware products and royalties.",
+  "evidence": "eFPGA IP revenue is comprised primarily of eFPGA intellectual property license revenue, eFPGA-related professional services revenue, and eFPGA-related support and maintenance revenue."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -2,18 +2,60 @@
  "version": 1,
  "cik": "0000849395",
  "issuerName": "CRH PUBLIC LTD CO",
- "builtAt": "2026-11-14T13:52:46.971Z",
+ "builtAt": "2026-11-15T06:37:34.377Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-009043",
   "periodEnd": "2025-12-31",
   "filingDate": "2026-02-18",
-  "url": "https://www.sec.gov/Archives/edgar/data/849395/000162828026009043/exhibit951-disclosureofmsh.htm"
+  "url": "https://www.sec.gov/Archives/edgar/data/849395/000162828026009043/crh-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas Materials Solutions",
+   "products": [
+    "aggregates",
+    "cementitious materials",
+    "readymixed concrete",
+    "asphalt",
+    "paving and construction services"
+   ],
+   "description": "Manufactures and supplies building materials for infrastructure, commercial, industrial and residential applications in North America.",
+   "evidence": "Americas Materials Solutions manufactures and supplies building materials for the construction and maintenance of public and private infrastructure, commercial and industrial applications, and residential buildings in North America. The primary materials produced by this segment include aggregates, cementitious materials, readymixed concrete and asphalt. This segment also provides paving and construction services for customers."
+  },
+  {
+   "name": "Americas Building Solutions",
+   "products": [
+    "outdoor living solutions",
+    "hardscapes",
+    "masonry",
+    "fencing",
+    "railing"
+   ],
+   "description": "Manufactures high-quality innovative products for infrastructure construction, reindustrialization and outdoor living across North America.",
+   "evidence": "Americas Building Solutions manufactures and supplies high-quality, value-added innovative products that connect and protect critical infrastructure in communities across North America. Products in this segment are highly specified, designed and engineered thereby adding value for the customer."
+  },
+  {
+   "name": "International Solutions",
+   "products": [
+    "aggregates",
+    "cementitious materials",
+    "concrete",
+    "building materials"
+   ],
+   "description": "Integrates building materials, products and services for infrastructure, utilities, commercial, residential and outdoor living construction across Europe and Australia.",
+   "evidence": "International Solutions integrates building materials, products and services for the construction and renovation of transportation infrastructure, critical utility networks, commercial and residential buildings, and outdoor living spaces."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers including governments, contractors and construction product providers purchase building materials for construction and infrastructure projects.",
+  "evidence": "Customers typically range from national, regional and local governments to contractors and other construction product and service providers."
+ },
  "changes": [],
- "dropped": []
+ "dropped": [
+  "product not in text (Americas Building Solutions): designed and engineered infrastructure products",
+  "product not in text (International Solutions): outdoor living products and services"
+ ]
 }

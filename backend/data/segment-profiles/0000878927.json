@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000878927",
+ "issuerName": "OLD DOMINION FREIGHT LINE, INC.",
+ "builtAt": "2026-11-15T06:38:36.573Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067161",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/878927/000119312526067161/odfl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LTL Services",
+   "products": [
+    "National LTL services",
+    "Expedited transportation",
+    "Container drayage",
+    "Truckload brokerage",
+    "Supply chain consulting"
+   ],
+   "description": "Provides less-than-truckload transportation services and value-added logistics solutions throughout North America.",
+   "evidence": "We have one operating and reportable segment that provides regional, inter-regional and national LTL services through a single integrated, union-free organization."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for transportation services based on shipment completion and delivery under bill of lading contracts.",
+  "evidence": "We recognize revenue based upon when our transportation and related services have been completed in accordance with the bill of lading (\"BOL\") contract, our general tariff provisions and contractual agreements with our customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (LTL Services): Regional LTL services",
+  "product not in text (LTL Services): Inter-regional LTL services"
+ ]
+}

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000080420",
  "issuerName": "Powell Industries, Inc.",
- "builtAt": "2026-11-14T13:46:10.799Z",
+ "builtAt": "2026-11-15T06:37:09.063Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000080420-25-000152",
@@ -10,20 +10,31 @@
   "filingDate": "2025-11-19",
   "url": "https://www.sec.gov/Archives/edgar/data/80420/000008042025000152/powl-20250930.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "End users and engineering, procurement and construction firms pay the company under long-term fixed-price contracts for custom-engineered products and systems, typically awarded in competitive bids, with revenue recognized over time.",
-  "evidence": "Our revenues are primarily generated from the manufacturing of custom-engineered products and systems under long-term fixed-price contracts under which we agree to manufacture various products such as traditional and arc-resistant distribution switchgear and control gear, medium-voltage circuit breakers, monitoring and control communications systems, motor control centers, switches and bus duct systems."
- },
- "changes": [
+ "status": "ok",
+ "segments": [
   {
-   "text": "In 2025, the company acquired Remsdaq Limited, a U.K.-based manufacturer of SCADA Remote Terminal Units for electrical substation control and automation.",
-   "evidence": "On August 15, 2025, we completed the previously announced business acquisition of Remsdaq Limited (Remsdaq), a U.K.-based manufacturer of Supervisory Control and Data Acquisition (SCADA) Remote Terminal Units (RTUs) for electrical substation control and automation in generation, transmission and distribution, for a total consideration of £13.6 million Pounds Sterling, or $18.4 million, including cash acquired."
+   "name": "custom-engineered equipment and systems",
+   "products": [
+    "custom-engineered modules",
+    "electrical houses (E-Houses)",
+    "distribution switchgear and control gear",
+    "medium-voltage circuit breakers",
+    "monitoring and control communications systems",
+    "motor control centers",
+    "switches and bus duct systems"
+   ],
+   "description": "Develops, designs, manufactures and services custom-engineered equipment that distributes, controls and monitors electrical energy for oil and gas, utility and industrial customers.",
+   "evidence": "We manage our business as one reportable, operating segment and our revenues are primarily generated from the development, design, manufacturing and servicing of custom-engineered equipment and systems for the distribution, control and monitoring of electrical energy."
   }
  ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, typically end users or EPC firms, pay under long-term fixed-price contracts for custom-engineered products and systems plus field services.",
+  "evidence": "Our revenues are primarily generated from the manufacturing of custom-engineered products and systems under long-term fixed-price contracts under which we agree to manufacture various products such as traditional and arc-resistant distribution switchgear and control gear, medium-voltage circuit breakers, monitoring and control communications systems, motor control centers, switches and bus duct systems."
+ },
+ "changes": [],
  "dropped": [
-  "segment name not in text: Custom-engineered electrical equipment"
- ]
+  "product not in text (custom-engineered equipment and systems): power control room substations (PCRs®)"
+ ],
+ "escalated": "no segments"
 }

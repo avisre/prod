@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000874766",
+ "issuerName": "The Hartford Insurance Group, Inc.",
+ "builtAt": "2026-11-15T06:40:46.694Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000874766-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/874766/000087476626000012/hig-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Insurance",
+   "products": [
+    "Workers' Compensation",
+    "General Liability",
+    "Marine",
+    "Package Business",
+    "Commercial Property",
+    "Professional Liability",
+    "Bond",
+    "Commercial Automobile"
+   ],
+   "description": "Provides commercial property and casualty insurance to small, middle & large, and global specialty business customers in the U.S. and internationally.",
+   "evidence": "Through its three lines of business, small business, middle & large business, and global specialty, Business Insurance offers its products and services to businesses in the United States (\"U.S.\") and internationally."
+  },
+  {
+   "name": "Personal Insurance",
+   "products": [],
+   "description": "Provides property and casualty insurance products to individual customers.",
+   "evidence": "The Hartford conducts business principally in five reportable segments, including Business Insurance, Personal Insurance, Property & Casualty Other Operations, Employee Benefits and Hartford Funds, as well as a Corporate category."
+  },
+  {
+   "name": "Property & Casualty Other Operations",
+   "products": [
+    "asbestos and environmental claims reserves"
+   ],
+   "description": "Holds run-off property and casualty operations, including asbestos and environmental claims.",
+   "evidence": "Further discussion of The Hartford's property and casualty insurance product reserves, including run-off asbestos and environmental claims reserves within P&C Other Operations, may be found in Part II, Item 7."
+  },
+  {
+   "name": "Employee Benefits",
+   "products": [
+    "long-term disability",
+    "group life",
+    "short-term disability",
+    "supplemental health"
+   ],
+   "description": "Provides employee group benefits insurance including disability and life coverages to employers and their employees.",
+   "evidence": "Employee Benefits reserves include unpaid loss and loss adjustments expenses for LTD, group life and other lines of business as well as reserves for other policyholder funds and reserves for future policy benefits."
+  },
+  {
+   "name": "Hartford Funds",
+   "products": [
+    "mutual funds"
+   ],
+   "description": "Provides mutual funds and ETFs sold to investors through broker-dealers, advisers and retirement plans in the United States.",
+   "evidence": "Our funds and ETFs are sold through national and regional broker-dealer organizations, independent financial advisers, defined contribution plans, financial consultants, bank trust groups and registered investment advisers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay premiums for insurance coverage and investors pay fees for mutual funds and ETFs.",
+  "evidence": "Workers' compensation is provided under both guaranteed cost policies (coverage for a fixed premium) and loss sensitive policies where premiums are adjustable based on the loss experience of the employer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Hartford Funds): exchange-traded funds (ETF)"
+ ]
+}

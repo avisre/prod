@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000875320",
+ "issuerName": "VERTEX PHARMACEUTICALS INC / MA",
+ "builtAt": "2026-11-15T06:38:11.951Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000875320-26-000056",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/875320/000087532026000056/vrtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceuticals",
+   "products": [
+    "ALYFTREK",
+    "TRIKAFTA",
+    "KAFTRIO",
+    "SYMDEKO",
+    "SYMKEVI",
+    "ORKAMBI",
+    "KALYDECO",
+    "CASGEVY"
+   ],
+   "description": "Global biotechnology company developing and commercializing transformative medicines for serious diseases including cystic fibrosis, sickle cell disease, beta thalassemia, and acute pain.",
+   "evidence": "We operate in one segment, pharmaceuticals."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients and healthcare providers purchase pharmaceutical products through specialty pharmacies, distributors, wholesalers, hospitals and clinics, with revenue recognized upon delivery or infusion.",
+  "evidence": "We sell our products primarily to a limited number of specialty pharmacy and specialty distributors globally, as well as to certain major wholesalers in the U.S. and to retail pharmacies, hospitals and clinics internationally."
+ },
+ "changes": [],
+ "dropped": []
+}

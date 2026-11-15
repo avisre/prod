@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000879585",
+ "issuerName": "ATN INTERNATIONAL, INC.",
+ "builtAt": "2026-11-15T06:38:42.126Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028515",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/879585/000110465926028515/atni-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "International Telecom",
+   "products": [
+    "Fixed Services",
+    "Carrier Services",
+    "Mobility Services",
+    "Managed Services",
+    "One Communications",
+    "Logic",
+    "Brava",
+    "Essextel"
+   ],
+   "description": "Provides fixed, carrier, mobility and managed telecommunications services to customers in Bermuda, the Cayman Islands, Guyana and the US Virgin Islands.",
+   "evidence": "International Telecom . In our international markets, we offer fixed, carrier, mobility and managed services to customers in Bermuda, the Cayman Islands, Guyana and the US Virgin Islands."
+  },
+  {
+   "name": "US Telecom",
+   "products": [
+    "Fixed Services",
+    "Carrier Services",
+    "Managed Services",
+    "Alaska Communications",
+    "Commnet",
+    "Choice",
+    "Sacred Wind Communications",
+    "Ethos Broadband"
+   ],
+   "description": "Provides fixed, carrier, wholesale mobility and managed services to customers in Alaska and the western US.",
+   "evidence": "US Telecom . In the US, we offer fixed, carrier, and managed services to customers in Alaska and the western US ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential, business, government and carrier customers pay for fixed, carrier, mobility and managed telecommunications services over the company's networks.",
+  "evidence": "we primarily offer: (i) fixed and mobile telecommunications connectivity to residential, business, and government customers; and (ii) carrier communications services to large enterprise and government customers, including terrestrial and submarine fiber optic transport."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed rebranding in Guyana (GTT to One Communications) and the US Virgin Islands (Viya to One Communications).",
+   "evidence": "We completed a rebranding in Guyana, and GTT is now known as \"One Communications.\""
+  },
+  {
+   "text": "In 2022, the Sacred Wind Transaction results began being included in the US Telecom segment.",
+   "evidence": "Beginning on November 7, 2022, the results of the Sacred Wind Transaction are included in our US Telecom segment."
+  },
+  {
+   "text": "In 2026, the company agreed to sell the substantial majority of its Commnet tower portfolio to Everest under the Tower Portfolio Transaction.",
+   "evidence": "On February 11, 2026, through certain of our Commnet subsidiaries, we entered into a Purchase and Sale Agreement (the \"Transaction Agreement\") with EIP Holdings IV, LLC, an affiliate of Everest Infrastructure Partners, Inc. (\"Everest\") to sell approximately 214 tower portfolio sites"
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

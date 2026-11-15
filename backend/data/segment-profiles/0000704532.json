@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000704532",
  "issuerName": "ONTO INNOVATION INC.",
- "builtAt": "2026-11-14T13:48:44.700Z",
+ "builtAt": "2026-11-15T06:37:15.048Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-066937",
@@ -10,20 +10,29 @@
   "filingDate": "2026-02-24",
   "url": "https://www.sec.gov/Archives/edgar/data/704532/000119312526066937/onto-20260103.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": true,
- "revenueModel": {
-  "text": "The company derives revenue from selling systems and software, spare parts, and services to semiconductor device manufacturers, including maintenance contracts, system upgrades and billable service calls.",
-  "evidence": "Our revenue is derived from the sale of our systems and software, spare parts, and services."
- },
- "changes": [
+ "status": "ok",
+ "segments": [
   {
-   "text": "In 2025, the company acquired Semilab USA, adding the FAaST, CnCV and MBIR product lines.",
-   "evidence": "In the fourth quarter of 2025, the Company acquired Semilab USA, which was a subsidiary of Semilab International Zrt., which added three advanced product lines—FAaST ® , CnCV ® and MBIR—to Onto Innovation's portfolio."
+   "name": "Metrology and inspection",
+   "products": [
+    "Atlas",
+    "NovusEdge",
+    "Element",
+    "JetStep X500",
+    "FAaST",
+    "CnCV",
+    "MBIR"
+   ],
+   "description": "Designs, manufactures and supports metrology, inspection and lithography process control tools and software for semiconductor and advanced packaging device manufacturers.",
+   "evidence": "Onto Innovation ® is a worldwide leader in the design, development, manufacture and support of metrology and inspection tools for the semiconductor industry, including process control tools that perform optical metrology and inspection on patterned and unpatterned wafers"
   }
  ],
- "dropped": [
-  "segment name not in text: Semiconductor process control"
- ]
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Semiconductor and advanced packaging manufacturers pay the company for systems and software, spare parts, and services including maintenance contracts and upgrades.",
+  "evidence": "Our revenue is derived from the sale of our systems and software, spare parts, and services."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
 }

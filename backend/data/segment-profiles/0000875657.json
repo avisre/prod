@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000875657",
+ "issuerName": "ULTRALIFE CORPORATION",
+ "builtAt": "2026-11-15T06:38:17.237Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009385",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/875657/000143774926009385/ulbi20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Battery & Energy Products",
+   "products": [
+    "Cylindrical batteries",
+    "Thin cell batteries",
+    "Non-rechargeable batteries",
+    "Rechargeable batteries",
+    "Uninterruptable power supplies",
+    "Charging systems",
+    "Accessories"
+   ],
+   "description": "Manufactures and markets Lithium non-rechargeable and rechargeable batteries, power supplies, and charging systems for military, industrial, medical and commercial applications.",
+   "evidence": "The Battery & Energy Products segment includes Lithium 9-volt, cylindrical, thin cell and other non-rechargeable batteries, in addition to rechargeable batteries, uninterruptable power supplies, charging systems and accessories."
+  },
+  {
+   "name": "Communications Systems",
+   "products": [
+    "RF amplifiers",
+    "Power supplies",
+    "Cable and connector assemblies",
+    "Amplified speakers",
+    "Equipment mounts",
+    "Case equipment",
+    "Man-portable systems",
+    "Integrated communication systems"
+   ],
+   "description": "Designs and manufactures communications systems, RF amplifiers, and integrated systems for military and commercial defense applications.",
+   "evidence": "The Communications Systems segment includes RF amplifiers, power supplies, cable and connector assemblies, amplified speakers, equipment mounts, case equipment, man-portable systems, integrated communication systems for fixed or vehicle applications and communications and electronics systems design."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers include government, defense departments, OEMs, industrial and defense supply distributors purchasing products directly or through various trade channels.",
+  "evidence": "We sell our products worldwide through a variety of trade channels, including original equipment manufacturers (\"OEMs\"), industrial and defense supply distributors, and directly to U.S. and foreign defense departments."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company underwent a comprehensive rebranding initiative consolidating all sub-brands under the Ultralife master brand, resulting in a non-cash intangible asset impairment charge of twelve million one hundred eighty-one thousand dollars.",
+   "evidence": "As part of our strategic evolution, in October 2025, Ultralife decided to undergo a comprehensive rebranding initiative that consolidates all sub-brands under a singular, unified master brand – Ultralife."
+  }
+ ],
+ "dropped": [
+  "product not in text (Battery & Energy Products): Lithium 9-volt batteries"
+ ]
+}

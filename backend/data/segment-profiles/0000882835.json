@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "cik": "0000882835",
+ "issuerName": "ROPER TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T06:39:15.286Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000882835-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/882835/000088283526000009/rop-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Application Software",
+   "products": [
+    "Aderant",
+    "CentralReach",
+    "Clinisys",
+    "Data Innovations",
+    "Deltek",
+    "Frontline",
+    "IntelliTrans",
+    "PowerPlan"
+   ],
+   "description": "Vertical software solutions for professional services, healthcare, education, and insurance industries.",
+   "evidence": "Application Software —Aderant, CentralReach, Clinisys, Data Innovations, Deltek, Frontline, IntelliTrans, PowerPlan, Procare, Strata, Transact/CBORD, and Vertafore"
+  },
+  {
+   "name": "Network Software",
+   "products": [
+    "ConstructConnect",
+    "DAT",
+    "Foundry",
+    "iPipeline",
+    "iTradeNetwork",
+    "MHA",
+    "SHP",
+    "SoftWriters"
+   ],
+   "description": "Network-based software platforms and marketplaces connecting industry participants for commerce and data exchange.",
+   "evidence": "Network Software —ConstructConnect, DAT, Foundry, iPipeline, iTradeNetwork, MHA, SHP, SoftWriters, and Subsplash"
+  },
+  {
+   "name": "Technology Enabled Products",
+   "products": [
+    "CIVCO Medical Solutions",
+    "FMI",
+    "Inovonics",
+    "IPA",
+    "Neptune",
+    "Northern Digital",
+    "rf IDEAS",
+    "Verathon"
+   ],
+   "description": "Technology-enabled hardware and equipment products for healthcare, utilities, and industrial applications.",
+   "evidence": "Technology Enabled Products —CIVCO Medical Solutions, FMI, Inovonics, IPA, Neptune, Northern Digital, rf IDEAS, and Verathon"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in niche markets pay for vertical software subscriptions, platform services, and technology products serving mission-critical workflows.",
+  "evidence": "We operate market leading businesses that design and develop vertical software and technology enabled products for a variety of defensible niche markets."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Syntellis was acquired and combined with the Strata business.",
+   "evidence": "In 2023, this included approximately $1,380 for the acquisition of Syntellis, a leading provider of SaaS solutions for healthcare, financial institution, and higher education providers, which was combined with our Strata business."
+  },
+  {
+   "text": "In 2025, Loadlink was combined with DAT.",
+   "evidence": "Canadian-based Loadlink was combined with DAT in 2025."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, Transact Campus was acquired and combined with the CBORD business."
+ ]
+}

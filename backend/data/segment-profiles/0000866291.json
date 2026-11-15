@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000866291",
  "issuerName": "ALLEGRO MICROSYSTEMS, INC.",
- "builtAt": "2026-11-14T13:53:15.973Z",
+ "builtAt": "2026-11-15T06:37:35.325Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-233537",
@@ -10,13 +10,24 @@
   "filingDate": "2026-05-21",
   "url": "https://www.sec.gov/Archives/edgar/data/866291/000119312526233537/algm-20260327.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sensor and Power ICs",
+   "products": [
+    "Sensor integrated circuits",
+    "Application-specific power ICs",
+    "Magnetic sensor ICs"
+   ],
+   "description": "Designs, develops, produces and distributes sensor and power integrated circuits for automotive and industrial markets.",
+   "evidence": "the design, development, production and distribution of various ICs in various markets worldwide"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers purchase sensor and power integrated circuits for use in automotive, industrial, AI data center, robotics and energy infrastructure applications.",
+  "evidence": "We primarily serve automotive and industrial markets, including advanced industrial markets such as AI data centers, robotics, and energy infrastructure, where our solutions enable customers to sense, move, and manage power with efficiency, precision, and reliability."
+ },
  "changes": [],
- "dropped": [
-  "segment name not in text: Semiconductor ICs",
-  "revenue model not grounded"
- ]
+ "dropped": []
 }

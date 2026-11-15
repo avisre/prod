@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000872589",
+ "issuerName": "REGENERON PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T06:37:38.595Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000872589-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/872589/000087258926000008/regn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medicines for serious diseases",
+   "products": [
+    "EYLEA HD (aflibercept)",
+    "EYLEA (aflibercept)",
+    "Dupixent (dupilumab)",
+    "Libtayo (cemiplimab)",
+    "Praluent (alirocumab)",
+    "Kevzara (sarilumab)",
+    "Evkeeza (evinacumab)",
+    "Ordspono (odronextamab)"
+   ],
+   "description": "Discovers, develops, manufactures, and commercializes medicines for serious diseases including eye, allergic, inflammatory, cancer, cardiovascular, metabolic, neurological, hematologic, and infectious diseases.",
+   "evidence": "Regeneron Pharmaceuticals, Inc. is a fully integrated biotechnology company that invents, develops, manufactures, and commercializes medicines for people with serious diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients and healthcare providers purchase medicines for treating serious diseases, with reimbursement from third-party payors, insurance programs, and government healthcare programs.",
+  "evidence": "The availability and extent of reimbursement or copay assistance for Regeneron's Products from third-party payors and other third parties, including private payor healthcare and insurance programs, health maintenance organizations, pharmacy benefit management companies, and government programs such as Medicare and Medicaid"
+ },
+ "changes": [],
+ "dropped": []
+}

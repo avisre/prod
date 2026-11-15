@@ -12,7 +12,7 @@ const DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'segment-profiles-'));
 process.env.SEGMENT_PROFILES_DIR = DIR;
 const profiles = require('../segment-profiles');
 const breakdown = require('../revenue-breakdown');
-const { validate, pickDocument } = require('../../scripts/build-segment-profiles');
+const { validate, pickDocument, businessExhibit, widestExhibit, THIN } = require('../../scripts/build-segment-profiles');
 
 const APP = '0001751008';
 const FILING = { form: '10-K', accessionNumber: '0001751008-26-000010', periodEnd: '2025-12-31', filingDate: '2026-02-19',
@@ -47,6 +47,18 @@ test('only what the filing text says survives the check', () => {
         revenueModel: { text: 'Advertisers pay.', evidence: 'Advertisers pay us for advertising.' }, changes: [] }, TEXT);
     assert.equal(loose.segments[0].description, null);
     assert.equal(loose.revenueModel, null);
+});
+
+test('a wrapper filing is read from its exhibit 13 or 99, and from no other exhibit', () => {
+    // Only exhibit 13 and 99 may stand in for the report.
+    for (const name of ['aem-20251231xex99d3.htm', 'mays4683021-ex13.htm', 'exhibit991-results.htm', 'ex-99.htm'])
+        assert.ok(businessExhibit({ name }), name + ' is an exhibit 13/99');
+    for (const name of ['cxt-ex101_20251231.htm', 'mays4683021-ex311.htm', 'mux-20251231xex96.htm', 'pool-20251231.htm', 'aem-20251231x40f.htm'])
+        assert.ok(!businessExhibit({ name }), name + ' is not');
+    assert.equal(widestExhibit([{ name: 'a-9.htm', size: 9 }, { name: 'mays4683021-ex13.htm', size: 800 }, { name: 'x-xex99d1.htm', size: 300 }, { name: 'mays4683021-ex311.htm', size: 900 }]).name, 'mays4683021-ex13.htm');
+    // Measured 2026-11-15: a real 10-K/20-F page is at least 131,000 characters of text (median 423,000);
+    // Agnico Eagle's 40-F cover is 65,757 and J.W. Mays' 10-K wrapper 50,623.
+    assert.ok(THIN > 66000 && THIN < 131000);
 });
 
 test('the annual report is the filing\'s primary document, never the largest exhibit beside it', () => {
@@ -123,13 +135,20 @@ test('segment names match across the filing\'s spellings, never on a fragment', 
         ['Consumer', 'Verizon Consumer Group', 'Verizon Communications Inc.'], ['Business', 'Verizon Business Group', 'Verizon Communications Inc.'],
         // short forms spelled out once, never by distance
         ['APAC', 'Asia Pacific'], ['PSE&G', 'Public Service Electric and Gas Company'], ['SPD', 'Specialty Products'],
-        ['AEP Transmission Holdco', 'AEPTHCo'], ['Transmission and Distribution Utilities', 'Transmission and Distribution Companies']])
+        ['AEP Transmission Holdco', 'AEPTHCo'], ['Transmission and Distribution Utilities', 'Transmission and Distribution Companies'],
+        // the corporate and business words a tagged row keeps or the note drops
+        ['Utilities', 'Utilities SBU'], ['Renewables', 'Renewables SBU'], ['Commercial', 'Commercial Banking'],
+        ['Consumer', 'Consumer Banking'], ['P&C Business Insurance', 'Business Insurance'], ['P&C Personal Insurance', 'Personal Insurance'],
+        ['ZERUST', 'ZERUST® products and services'], ['Natur Tec', 'Natur-Tec® products']])
         assert.ok(profiles.sameSegment(a, b, issuer || null), `${a} = ${b}`);
     assert.ok(!profiles.sameSegment('Light Vehicle Drive Systems', 'Light Vehicle'), 'a longer name is not the same segment');
     assert.ok(!profiles.sameSegment('Pottery Barn', 'Pottery Barn Kids'), 'a brand and its sub-brand stay apart');
     assert.ok(!profiles.sameSegment('Services', 'Financial Services'), 'a business and a word in it stay apart');
     assert.ok(!profiles.sameSegment('Business', 'Consumer'));
     assert.ok(!profiles.sameSegment('Finance', 'Financial Solutions'), 'the filler list is closed');
+    assert.ok(!profiles.sameSegment('P&C Business Insurance', 'Personal Insurance'), 'the P&C prefix does not flatten a line of business');
+    assert.ok(!profiles.sameSegment('Lending', 'Originations'), 'two different words for two different segments');
+    assert.ok(!profiles.sameSegment('Specialty Property & Casualty Program', 'Specialty Property & Casualty Insurance'), 'program and insurance are two names');
     assert.ok(profiles.sameSegment('CNA Financial Corporation', 'CNA Financial'));
     assert.ok(profiles.sameSegment('Light Vehicle Drive Systems (Light Vehicle)', 'Light Vehicle'));
 });

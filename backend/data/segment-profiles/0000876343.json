@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000876343",
+ "issuerName": "Lineage Cell Therapeutics, Inc.",
+ "builtAt": "2026-11-15T06:38:20.293Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-093992",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/876343/000119312526093992/lctx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell Replacement Therapies",
+   "products": [
+    "OpRegen (RG6501)",
+    "OPC1",
+    "ReSonance (ANP1)",
+    "ILT1",
+    "RND1",
+    "PNC1",
+    "LCT-CON"
+   ],
+   "description": "Clinical-stage biotechnology company developing allogeneic cell replacement therapies for serious medical conditions including dry-AMD, spinal cord injury, hearing loss, and diabetes.",
+   "evidence": "We are a clinical-stage biotechnology company developing cell replacement therapies to treat serious medical conditions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue is generated from collaborative research and development agreements, royalties from product sales, and service agreement revenues.",
+  "evidence": "Our revenue is primarily generated from our collaborative research and development agreements as well as royalty and other service agreement revenues."
+ },
+ "changes": [],
+ "dropped": []
+}
