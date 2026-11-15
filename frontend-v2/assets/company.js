@@ -3962,6 +3962,7 @@
                 const extra = [
                     p && p.revenueModel ? `<p class="small" style="margin-top:12px;"><span style="font-weight:550;">How it makes money.</span> ${esc(p.revenueModel)}</p>` : '',
                     p && p.productRevenueBrokenOut === false ? `<p class="small muted" style="margin-top:6px;">The company does not break its revenue out by product.</p>` : '',
+                    p && !rows.length ? `<p class="small muted" style="margin-top:6px;">The filing does not tag revenue by segment, so no figures are shown here; the segments, products and model below are read from its text.</p>` : '',
                     Array.isArray(d.regions) && d.regions.length ? `<p class="small muted" style="margin-top:6px;">By region: ${esc(d.regions.map((x) => `${x.name} ${pct(x.share)}`).join(', '))}.</p>` : '',
                     p && p.changes && p.changes.length ? `<p class="small" style="margin-top:12px; font-weight:550;">Segment changes</p><ul class="small" style="margin:4px 0 0 18px; padding:0;">${p.changes.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>` : ''
                 ].join('');

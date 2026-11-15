@@ -105,8 +105,8 @@ function extract(segments,financial,filing) {
   // What the table accounts for decides it, on the rows the card would show: a roll-up filed beside its own
   // parts must not make a complete table look like it over-counts, and a two-line fragment of 2% of revenue
   // must never beat the table that holds the segments (Academy's contract-liability lines).
-  const coverageOf=x=>{try{return shown(x).coverage}catch(_){return 0}};
-  const miss=x=>(x.entries.length<2?2:0)+(x.reconciliationStatus==='reconciled'?0:1)+Math.abs(1-coverageOf(x))+(x.measure?0.02:0);
+  const viewOf=x=>{try{return shown(x)}catch(_){return {coverage:0,usable:false}}};
+  const miss=x=>{const v=viewOf(x);return (x.entries.length<2?2:0)+(x.reconciliationStatus==='reconciled'?0:1)+(v.usable?0:1)+Math.abs(1-v.coverage)+(x.measure?0.02:0)};
   if(!old || miss(g)<miss(old) || miss(g)===miss(old) && g.entries.length>old.entries.length)best.set(key,g);
  }
  const chosen=[...best.values()];

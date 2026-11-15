@@ -565,9 +565,10 @@
   "rows": [
    "Health Services",
    "Health Care Benefits",
-   "Pharmacy & Consumer Wellness"
+   "Pharmacy & Consumer Wellness",
+   "Corporate/ Other"
   ],
-  "remainder": false
+  "remainder": true
  },
  "XOM": {
   "grade": "complete",
@@ -614,11 +615,14 @@
  },
  "CAT": {
   "grade": "complete",
-  "kind": "product and service lines",
+  "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Machinery, Power & Energy",
-   "Financial Products"
+   "Power & Energy",
+   "Construction Industries",
+   "Resource Industries",
+   "Financial Products",
+   "Other Operating"
   ],
   "remainder": false
  },
