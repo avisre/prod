@@ -13,6 +13,11 @@ const MAX_BYTES = (Number(process.env.SEC_ORIGINAL_MAX_MB) || 18) * 1024 * 1024;
 // ("ifrs-full:RevenueFromRenderingOfServices") is a segment revenue figure like any other; the table
 // still has to reconcile to consolidated revenue to be shown, so a wider net cannot invent one.
 const REVENUE_CONCEPT = /Revenue|Sales|LeaseIncome|InterestIncome|Premiums/i;
+// The axes a revenue split is filed on. Geography is read too but never shown as segments. A filer can
+// also cut revenue on an axis of its own (GAP's brands on dei:LegalEntityAxis) or on its end markets
+// (CTS's transportation, industrial, medical and aerospace lines on srt:MajorCustomersAxis); those are
+// read as tagged splits, which the card labels as what they are.
+const SPLIT_AXIS=/(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution|LegalEntity|MajorCustomers|Customers|Brand|Product|Service|Channel|Platform|Market|Category|LineOfBusiness|Subsidiary)Axis$/;
 // shared: the periods and units of a multi-document filing are declared once,
 // in whichever document carries the header, and referenced from the others.
 function parseOriginal(text, filing, cik, shared) {
@@ -126,7 +131,7 @@ function parseOriginal(text, filing, cik, shared) {
    if(split){qualified.push({group:[name,c.start,c.end,measure,filing.accessionNumber].join('|'),qualifier:split.qualifier,item:{concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:[split.segment],allDimensions:c.dimensions}}});continue;}
    if(c.start && segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || ''))plainSegment.add([name,c.start,c.end,measure,filing.accessionNumber].join('|'));
    if(metric &&segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || '') && (metric==='assets'?!c.start:c.start))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
-   else if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept) || REVENUE_CONCEPT.test(concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
+   else if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept) || REVENUE_CONCEPT.test(concept)) && segmentDims.length===1 && SPLIT_AXIS.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
    continue;
   }
   // The lines a filer breaks operating expenses into on its income statement

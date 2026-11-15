@@ -23,7 +23,13 @@ const PROFIT=[['us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtra
  ['us-gaap:NetIncomeLoss','ifrs-full:ProfitLoss','net income']];
 const ASSETS=['us-gaap:Assets','ifrs-full:Assets'];
 const segmentMetric=(taxonomy,concept)=>{const k=taxonomy+':'+concept;return ASSETS.includes(k)?'assets':PROFIT.some(t=>t.includes(k))?'profit':null;};
-const segmentMeasure=(taxonomy,concept)=>!!(revenueConcepts()[taxonomy]?.includes(concept) || measureOf(taxonomy,concept) || taxonomy==='us-gaap' && BANK_PAIR.includes(concept));
+// A filer's own revenue line (KT's RevenueAndOperatingIncome, DHT's ShippingRevenue) or an IFRS revenue line
+// (ifrs-full:RevenueFromRenderingOfServices) is revenue, not a stand-in measure: it is shown as revenue. A
+// table of such lines still has to add up to consolidated revenue, so a wider net cannot invent one.
+const REVENUE_LINE=/(?:Revenue|Sales|LeaseIncome|InterestIncome|Premiums)/;
+// Revenue is what a concept names, unless it names something else about revenue (a cost, a balance, a share).
+const NOT_REVENUE=/Deferred|Unearned|RemainingPerformance|Backlog|PerShare|Percentage|Percent|Margin|Cost/i;
+const segmentMeasure=(taxonomy,concept)=>!!(revenueConcepts()[taxonomy]?.includes(concept) || measureOf(taxonomy,concept) || taxonomy==='us-gaap' && BANK_PAIR.includes(concept) || taxonomy!=='us-gaap' && REVENUE_LINE.test(concept || '') && !NOT_REVENUE.test(concept || ''));
 // Total revenue may be cited to an amendment of the same annual report: the
 // amendment restates the same period, and the segment figures still have to
 // add up to it. Any other filing is a different report and is not accepted.
@@ -257,7 +263,9 @@ function preferred(groups) {
  // Regions come last: where a company sells says less than what it sells, but
  // it is a real breakdown for a company that reports nothing else.
  const rank=g=>BUSINESS.test(g.axis)?0:PRODUCT.test(g.axis)?1:REGION.test(g.axis)?2:3;
- const ordered=all.slice().sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)) || rank(a)-rank(b));
+ // One table per axis and year; of two splits on axes the card reads alike (GAP files its brands on
+ const ordered=all.slice().sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)) || rank(a)-rank(b)
+  || shown(b).rows.length-shown(a).rows.length);
  const name=(g,r)=>displayName(g.entries.find(e=>e.member===r.member) || r);
  let usable=ordered.find(g=>shown(g).usable) || null;
  // Product and service lines are what a company actually sells ("Online stores,
@@ -299,8 +307,11 @@ function preferred(groups) {
   (g,v)=>v.rows.length===1 && whole(v) && !generic(g,v) && real(g,v),
   (g,v)=>v.rows.length===1 && whole(v) && generic(g,v),
   (g,v)=>v.rows.length===1 && v.coverage>0 && v.coverage<0.98 && real(g,v)];
+ // A split the filer tags on an axis of its own (brands, end markets) is shown only when it accounts for
+ // revenue, never as a fragment: one legal-entity row is not a breakdown of what the company sells.
+ const fragment=ordered.filter(g=>BUSINESS.test(g.axis)||PRODUCT.test(g.axis)||REGION.test(g.axis));
  let partial=null;
- if(!usable)for(const ok of tier){partial=ordered.find(g=>ok(g,shown(g))) || null;if(partial)break;}
+ if(!usable)for(const ok of tier){partial=fragment.find(g=>ok(g,shown(g))) || null;if(partial)break;}
  return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable,partial};
 }
 // The segment table on the company page (Screener's "Product segments"): one row per segment over the
@@ -331,7 +342,9 @@ function toolPayload(g,data,symbol) {
   filing:{form:sources[g.totalSourceIds[0]].form,date:g.publicationDate,accessionNumber:g.sourceVersion,url:g.sourceUrl},storedSegmentsReceipt:g,financialWitness:witness,
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
-const kind=g=>PRODUCT.test(g?.axis || '')?'product and service lines':REGION.test(g?.axis || '')?'regions':'operating segments';
+// What the rows are: the company's reportable segments, its product and service lines, where it sells, or
+// a split it tagged on an axis of its own (brands, end markets). Only the first is "segments".
+const kind=g=>PRODUCT.test(g?.axis || '')?'product and service lines':REGION.test(g?.axis || '')?'regions':BUSINESS.test(g?.axis || '')?'operating segments':'tagged revenue split';
 // The filing's own revenue by region for one period, when it tags at least two rows that account for
 // revenue. Shown beside a single-segment table, which would otherwise be the only cut on the page.
 function regionsFor(groups,periodEnd) {

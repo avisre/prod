@@ -151,9 +151,42 @@ async function storedSegments(symbol, { partial = false } = {}) {
     return {...result,note,regions,breakdown:store.kind(group),segments:[...byName.values()].sort((a,b)=>b.value-a.value)};
 }
 
+// A company that reports one segment. The filing tags one row that accounts for all of its revenue, so
+// there is nothing further to break out: the row is the company's consolidated revenue from its income
+// statement, under the segment name and products its annual report gives. Never used for a multi-segment
+// company whose table failed, which is what Part 1's partial tables are for.
+function singleSegmentRow(data,symbol) {
+    if(!data) return null;
+    const store=require('./sec-segment-observations'),groups=data.segmentObservations||[];
+    const one=groups.map(g=>({g,view:store.shown(g)}))
+        .filter(x=>x.view.rows.length===1 && x.view.coverage>=0.98 && x.view.coverage<=1.02 && store.kind(x.g)==='operating segments')
+        .sort((a,b)=>String(b.g.periodEnd).localeCompare(String(a.g.periodEnd)))[0];
+    if(!one) return null;
+    const result=store.toolPayload(one.g,data,symbol);
+    if(!result) return null;
+    const p=require('./sec-coverage');
+    const row=(data.income?.annualReports||[]).find(r=>r.fiscalDateEnding===one.g.periodEnd && r.periodStart===one.g.periodStart && r.reportedCurrency===one.g.currency);
+    if(!row || !p.verifiedField(data,row,'totalRevenue')) return null;
+    // The annual report names the segment; the tag carries a member the profile has been matched to.
+    const profile=(()=>{try{return require('./segment-profiles').read(data.cik);}catch(_){return null;}})();
+    const named=profile && profile.status==='ok' && Array.isArray(profile.segments) && profile.segments.length===1 ? profile.segments[0] : null;
+    const row0=result.segments[0];
+    const value=row.totalRevenue;
+    return {...result,basis:'annual report: one reportable segment',singleSegment:true,
+        note:'The company reports one segment, so its revenue is the consolidated figure from the income statement and the filing breaks it down no further.',
+        segments:[{name:named?named.name:row0.name,member:row0.member,value,reportedRevenue:value,revenueUsd:one.g.currency==='USD'?value:null,revenuePct:100,
+            description:named?named.description:row0.description,products:named?named.products:null}]};
+}
+async function oneSegmentCard(symbol) {
+    const evidence=await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(()=>null);
+    return singleSegmentRow(evidence?.statements,symbol);
+}
+
 async function extractSegments(symbol) {
     const stored=await storedSegments(symbol);
     if(stored) return withProfile(stored,symbol);
+    const single=await oneSegmentCard(symbol);
+    if(single) return withProfile(single,symbol);
     // When the text extraction finds nothing, a partial table from the filing
     // with its remainder named is better than an empty panel.
     const extracted=await extractFromText(symbol).catch(error=>({error:error.message}));
@@ -165,6 +198,12 @@ async function extractSegments(symbol) {
 // "Single reportable segment" row, adds the products of each segment, and carries how it makes money
 // and its segment changes. A company with no figures to show still gets the words, never a bare
 // "reports as a single segment".
+// The filing tags a revenue split of its own (brands, end markets): its revenue is broken out by what it
+// sells, so the card must not also say the company does not break its revenue out by product.
+function taggedSplitProfile(profile,breakdown) {
+    return breakdown && breakdown !== 'operating segments' ? { ...profile, productRevenueBrokenOut: true } : profile;
+}
+
 function withProfile(result,symbol) {
     const company=require('./stock-universe').lookup(String(symbol || '').toUpperCase());
     const cik=result?.cik || company?.cik;
@@ -173,7 +212,7 @@ function withProfile(result,symbol) {
     const {rows,profile}=require('./segment-profiles').enrich(cik,result?.segments || [],{kind:result?.breakdown || null,issuer:company?.name || null});
     if(!profile) return result;
     if(result?.error) return {symbol,segments:[],profile,filing:profile.filing};
-    return {...result,segments:rows,profile};
+    return {...result,segments:rows,profile:taggedSplitProfile(profile,result.breakdown)};
 }
 
 async function extractFromText(symbol) {
@@ -247,7 +286,7 @@ async function extractFromText(symbol) {
 }
 
 module.exports = {
-    extractSegments, storedSegments, extractFromText, latestTenK, htmlToText, anchorWindows, filedRevenue,
+    extractSegments, storedSegments, oneSegmentCard, singleSegmentRow, taggedSplitProfile, extractFromText, latestTenK, htmlToText, anchorWindows, filedRevenue,
     // for the model probe + A/B harnesses in scripts/ — they must send the
     // production extraction prompt, not a copy of it
     EXTRACT_SYSTEM, segmentWindows, usdRate, repairUnits

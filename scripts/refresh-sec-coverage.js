@@ -73,7 +73,12 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
   const statementLines=(clientImpl.statementLines || require('../backend/statement-lines').forCik)(issuer.cik);
   let data=extract(raw,merged,{asOf,statementLines});
   const core=st=>data[st].annualReports.find(r=>r.fiscalDateEnding===merged.latestAnnual?.reportDate);
-  if(merged.latestAnnual && (core('income')?.totalRevenue==null || core('balance')?.totalAssets==null || core('cash')?.operatingCashflow==null || data.issues.some(i=>i.code==='AMBIGUOUS_CURRENCY') || require('../backend/sec-industry-tables').REGISTRY[issuer.cik])) {
+  // The original inline XBRL carries what the company-facts feed does not: the segment tables the card
+  // reads, and the labels on them. It used to be read only when a statement was missing, so a company
+  // whose filings fed cleanly never gained a segment table and never healed. Read it whenever the latest
+  // annual report has no table either.
+  const missingSegments=!!merged.latestAnnual && !(data.segmentObservations || []).some(g=>g.periodEnd===merged.latestAnnual.reportDate);
+  if(merged.latestAnnual && (missingSegments || core('income')?.totalRevenue==null || core('balance')?.totalAssets==null || core('cash')?.operatingCashflow==null || data.issues.some(i=>i.code==='AMBIGUOUS_CURRENCY') || require('../backend/sec-industry-tables').REGISTRY[issuer.cik])) {
    try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,merged.latestAnnual);raw=require('../backend/sec-original').mergeFacts(raw,original);if(original.reportingCurrency)merged.reportingCurrency=original.reportingCurrency;data=extract(raw,merged,{asOf,statementLines});merged.originalExtraction={status:'success',source:original.originalDocument,segmentCount:original.segments.length};}
    catch(error){merged.originalExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
   }

@@ -215,7 +215,9 @@ test('a quarter with year-to-date cash flow only is derived from the previous 10
  const reads=[];
  const original={cik:123,facts:{'us-gaap':{NetCashProvidedByUsedInOperatingActivities:{units:{USD:[fact(q1.accessionNumber,'2026-01-01','2026-03-31',30)]}}}},segments:[],originalDocument:{form:'10-Q',accessionNumber:q1.accessionNumber}};
  const r=await refreshIssuer({cik:CIK,symbols:['AAPL']},evidence,{asOf:'2026-10-03',force:true,clientImpl:{fetchReporting:async()=>({...evidence,latestPeriodic:q2,previousPeriodic:q1}),fetchFacts:async()=>facts,fetchOriginal:async(cik,f)=>{reads.push(f.accessionNumber);if(f===q1)return original;throw new Error('offline');}}});
- assert.deepEqual(reads,[q1.accessionNumber]);
+ // The annual report is read first: it is what carries the segment table the card uses, so a company whose
+ // facts feed is clean still gets one. Then the previous 10-Q, once, for the missing cash-flow line.
+ assert.deepEqual(reads,[evidence.latestAnnual.accessionNumber,q1.accessionNumber]);
  assert.equal(r.previousPeriodicExtraction.status,'success');
  const row=JSON.parse(fs.readFileSync(file,'utf8')).cash.quarterlyReports.find(x=>x.fiscalDateEnding==='2026-06-30');
  assert.equal(row.operatingCashflow,40);

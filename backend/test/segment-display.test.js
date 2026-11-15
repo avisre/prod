@@ -99,6 +99,73 @@ const fact = (concept, member, val, { axis = BUSINESS, operating = false } = {})
         allDimensions: operating ? [{ axis, member: 'x:' + member + 'Member' }, { axis: 'srt:ConsolidationItemsAxis', member: 'us-gaap:OperatingSegmentsMember' }] : [{ axis, member: 'x:' + member + 'Member' }],
         numericReceipt: { rawText: String(val), scale: 0 } } });
 
+
+test('a tagged revenue split marks the profile as broken out by what it sells', () => {
+    const { taggedSplitProfile } = require('../segments');
+    const profile = { segments: [{ name: 'Apparel Retail', products: [] }], productRevenueBrokenOut: false };
+    assert.equal(taggedSplitProfile(profile, 'tagged revenue split').productRevenueBrokenOut, true);
+    assert.equal(taggedSplitProfile(profile, 'regions').productRevenueBrokenOut, true);
+    assert.equal(taggedSplitProfile(profile, 'operating segments').productRevenueBrokenOut, false);
+});
+
+test('a one-segment company shows one row at its consolidated revenue; a multi-segment one does not', () => {
+    const p = require('../sec-coverage'), original = p.verifiedField;
+    p.verifiedField = () => true;
+    try {
+        const income = (totalRevenue) => ({ annualReports: [{ ...DATA.income.annualReports[0], totalRevenue }] });
+        const one = store.extract([fact('Revenues', 'ReportableSegment', 45183000000)], { ...DATA, income: income(45183000000) }, FILING);
+        const card = require('../segments').singleSegmentRow({ ...DATA, income: income(45183000000), segmentObservations: one }, 'NFLX');
+        assert.ok(card && card.singleSegment, 'one tagged segment that is all of revenue is the one-segment card');
+        assert.equal(card.segments.length, 1);
+        assert.equal(card.segments[0].value, 45183000000, 'the figure is the income statement total, as filed');
+        assert.equal(card.segments[0].revenuePct, 100);
+        // A multi-segment company whose table failed must not be given a one-segment card.
+        const many = store.extract([fact('Revenues', 'A', 600), fact('Revenues', 'B', 400)], { ...DATA, income: income(1000) }, FILING);
+        assert.equal(require('../segments').singleSegmentRow({ ...DATA, income: income(1000), segmentObservations: many }, 'X'), null);
+        // One row that leaves revenue out is a partial table, not a one-segment company.
+        const thin = store.extract([fact('Revenues', 'Only', 340)], { ...DATA, income: income(1000) }, FILING);
+        assert.equal(require('../segments').singleSegmentRow({ ...DATA, income: income(1000), segmentObservations: thin }, 'X'), null);
+    } finally { p.verifiedField = original; }
+});
+
+test('a foreign filer’s own revenue line is read as revenue and still has to add up (KT, DHT 20-F)', () => {
+    const p = require('../sec-coverage'), original = p.verifiedField;
+    p.verifiedField = () => true;
+    try {
+        // KT files RevenueAndOperatingIncome by segment in won; DHT files ShippingRevenue by charterer.
+        const line = (concept, member, value, taxonomy, unit) => ({ ...fact('Revenues', member, value, { axis: 'ifrs-full:SegmentsAxis' }), taxonomy, concept, unit });
+        const data = { ...DATA, income: { annualReports: [{ ...DATA.income.annualReports[0], reportedCurrency: 'KRW', totalRevenue: 10000 }] } };
+        const groups = store.extract([line('RevenueAndOperatingIncome', 'Wireless', 8000, 'kt', 'KRW'), line('RevenueAndOperatingIncome', 'Media', 2000, 'kt', 'KRW')], data, FILING);
+        assert.equal(groups.length, 1);
+        assert.equal(groups[0].reconciliationStatus, 'reconciled');
+        assert.equal(groups[0].measure, undefined, 'the filer’s own revenue line is revenue, not a stand-in measure');
+        // A line that names a cost of revenue is not revenue.
+        assert.equal(store.segmentMeasure('us-gaap', 'CostOfRevenue'), false);
+        assert.equal(store.segmentMeasure('dht', 'ShippingRevenue'), true);
+    } finally { p.verifiedField = original; }
+});
+
+test('a revenue split on the filer\'s own axis is a usable breakdown, labelled as a tagged split', () => {
+    const p = require('../sec-coverage'), original = p.verifiedField;
+    p.verifiedField = () => true;
+    try {
+        // GAP, FY ended 2026-01-31: Old Navy 8,657 / Gap 3,501 / Banana Republic 1,916 / Athleta 1,219 / Other 73 ($M).
+        const brands = [['OldNavy', 8657], ['Gap', 3501], ['BananaRepublic', 1916], ['Athleta', 1219], ['Otherentities', 73]]
+            .map(([m, v]) => fact('Revenues', m, v * 1e6, { axis: 'dei:LegalEntityAxis' }));
+        const groups = store.extract(brands, { ...DATA, income: { annualReports: [{ ...DATA.income.annualReports[0], totalRevenue: 15366000000 }] }, sources: DATA.sources }, FILING);
+        assert.equal(groups.length, 1);
+        assert.equal(store.kind(groups[0]), 'tagged revenue split');
+        assert.equal(groups[0].reconciliationStatus, 'reconciled');
+        const pick = store.preferred(groups);
+        assert.equal(pick.usable, groups[0], 'the tagged split is shown when it adds to revenue');
+        assert.ok(store.shown(groups[0]).usable);
+        // A split that leaves revenue out is not usable.
+        const short = brands.slice(0, 2);
+        const partial = store.extract(short, { ...DATA, income: { annualReports: [{ ...DATA.income.annualReports[0], totalRevenue: 15366000000 }] }, sources: DATA.sources }, FILING);
+        assert.equal(store.preferred(partial).usable, null);
+    } finally { p.verifiedField = original; }
+});
+
 test('a member tagged under two revenue concepts no longer discards the breakdown', () => {
     const p = require('../sec-coverage'), original = p.verifiedField;
     p.verifiedField = () => true;

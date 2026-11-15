@@ -42,6 +42,32 @@ test('an IFRS segment row is read through its consolidation axis, never the tota
  assert.equal(doc.segments[0].val,8167803000);
 });
 
+// A filer can cut revenue on an axis of its own rather than its segment axis: GAP names its brands on
+// dei:LegalEntityAxis, CTS names its end markets on srt:MajorCustomersAxis. Both add up to consolidated
+// revenue, and neither was read at all.
+test('a revenue split tagged on the filer\'s own axis is read, and still has to add up', () => {
+ const {parseOriginal}=require('../sec-original');
+ const filing={form:'10-K',filingDate:'2026-03-20',accessionNumber:'0000000123-26-000004',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000004/gap.htm'};
+ const ctx=(id,axis,member,start,end)=>`<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="https://www.sec.gov/CIK">123</xbrli:identifier>`
+  +`<xbrli:segment><xbrldi:explicitMember dimension="${axis}">${member}</xbrldi:explicitMember></xbrli:segment></xbrli:entity>`
+  +`<xbrli:period><xbrli:startDate>${start}</xbrli:startDate><xbrli:endDate>${end}</xbrli:endDate></xbrli:period></xbrli:context>`;
+ const unit='<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>';
+ const brand=(id,member)=>ctx(id,'dei:LegalEntityAxis',member,'2025-02-02','2026-01-31')
+  +`<ix:nonFraction name="us-gaap:Revenues" contextRef="${id}" unitRef="usd" scale="6" decimals="-6" format="ixt:num-dot-decimal">${({gap:3501,old:8657,br:1916,ath:1219,oth:73})[id]}</ix:nonFraction>`;
+ const market=(id,member,val)=>ctx(id,'srt:MajorCustomersAxis',member,'2025-01-01','2025-12-31')
+  +`<ix:nonFraction name="us-gaap:Revenues" contextRef="${id}" unitRef="usd" scale="3" decimals="-3" format="ixt:num-dot-decimal">${val}</ix:nonFraction>`;
+ const gap=parseOriginal('<html>'+unit+brand('old','gap:OldNavyMember')+brand('gap','gap:GapMember')+brand('br','gap:BananaRepublicMember')+brand('ath','gap:AthletaMember')+brand('oth','gap:OtherentitiesMember')+'</html>',filing,'123');
+ assert.equal(gap.segments.length,5,'every brand row is read');
+ assert.equal(gap.segments.reduce((n,f)=>n+f.val,0),15366000000,'and adds to consolidated revenue');
+ const cts=parseOriginal('<html>'+unit+market('tr','cts:TransportationSegmentMember',233938)+market('ind','cts:IndustrialSegmentMember',140057)
+  +market('med','cts:MedicalSegmentMember',84569)+market('aer','cts:AerospaceAndDefenseSegmentMember',82754)+'</html>',filing,'123');
+ assert.equal(cts.segments.length,4);
+ assert.equal(cts.segments.reduce((n,f)=>n+f.val,0),541318000);
+ // A geography axis is still geography, and it is not read twice.
+ assert.equal(parseOriginal('<html>'+unit+ctx('us','srt:StatementGeographicalAxis','country:US','2025-01-01','2025-12-31')
+  +'<ix:nonFraction name="us-gaap:Revenues" contextRef="us" unitRef="usd" scale="6" decimals="-6">1</ix:nonFraction></html>',filing,'123').segments.length,1);
+});
+
 // JBG SMITH tags its segment revenue on its own concepts (jbgs:PropertyRevenue), not a us-gaap revenue
 // tag, so a table that adds up to consolidated revenue was dropped as if the filing had no segment note.
 test('a filer\'s own segment revenue concept is kept when the table reconciles', () => {

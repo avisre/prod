@@ -3956,7 +3956,7 @@
                     ? rows.map((s) => line(s, true)).concat((p ? p.segments.filter((x) => !x.shown) : []).map((x) => line(x, false)))
                     : (p ? p.segments.map((x) => line(x, false)) : []);
                 const cut = !rowsAreSegments && rows.length ? `
-                      <p class="label" style="margin:14px 0 8px;">${d.breakdown === 'regions' ? 'Revenue by region' : !d.breakdown || d.breakdown === 'operating segments' ? 'Revenue as tagged in the filing' : 'Revenue by product line'} · ${esc(d.fiscalYear || 'latest')}</p>
+                      <p class="label" style="margin:14px 0 8px;">${d.breakdown === 'regions' ? 'Revenue by region' : d.breakdown === 'product and service lines' ? 'Revenue by product line' : 'Revenue as tagged in the filing'} · ${esc(d.fiscalYear || 'latest')}</p>
                       <div style="display:grid; gap:8px;">${rows.map((s) => line(s, true)).join('')}</div>` : '';
                 const filing = (p && p.filing) || d.filing || {};
                 const extra = [
