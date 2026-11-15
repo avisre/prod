@@ -34,7 +34,7 @@ const usable = cik => { const r = read(cik); return r && r.status === 'ok' && r.
 // Shell Eggs" / "Conventional Shell Egg", "Wealth Manage- ment", "PaperPie" / "Paper Pie".
 const STOP = new Set(('the segment segments reportable operating operation operations business businesses division group and '
     + 'net revenue revenues sales total line lines product products corporation corp inc co company companies lp llc holding holdings partners').split(' '));
-const clean = s => String(s || '').replace(/\s*\([^)]*\)/g, ' ').replace(/["“”]/g, '').replace(/\bU\.\s?S\.?(?=\s|$)/gi, 'US')
+const clean = s => String(s || '').replace(/\s*\([^)]*\)/g, ' ').replace(/["“”]/g, '').replace(/\s*[|¦]\s*/g, ' ').replace(/\bU\.\s?S\.?(?=\s|$)/gi, 'US')
     // "P&C Business Insurance" and "Business Insurance" name the same segment: the tagged row keeps the
     // line of business the note leaves out.
     .replace(/^\s*P\s*&\s*C\s+/i, '').replace(/(\w)- (\w)/g, '$1$2').replace(/\s+/g, ' ').trim();
@@ -76,7 +76,7 @@ const inBrackets = s => [...String(s || '').matchAll(/\(([^)]+)\)/g)].map(m => m
 // Watercraft Recreation", "North American Towable Recreational Vehicles". Nothing else may be added,
 // except the issuer's own name ("Carlisle Construction Materials", "Verizon Consumer Group"), so
 // "Pottery Barn Kids" and "Financial Services" never match their shorter names.
-const FILL = new Set(['restaurant', 'solution', 'recreation', 'recreational', 'vehicle', 'service', 'group', 'banking']);
+const FILL = new Set(['restaurant', 'solution', 'recreation', 'recreational', 'vehicle', 'service', 'group', 'banking', 'platform']);
 // A filing's filler can also be a word the matcher already ignores ("ZERUST® products and services").
 const STOP_STEM = new Set([...STOP].map(stem));
 const keyWords = s => key(s).split(' ').filter(Boolean);

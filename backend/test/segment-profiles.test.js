@@ -128,6 +128,12 @@ test('segment names match across the filing\'s spellings, never on a fragment', 
     assert.ok(profiles.sameSegment('Health Care & Benefits', 'Health Care and Benefits segment'));
     assert.ok(profiles.sameSegment('AWS', 'AWS segment'));
     assert.ok(!profiles.sameSegment('Pottery Barn', 'Pottery Barn Kids'), 'two brands, not one');
+    // A profile joined its segment to the brand it owns with a pipe; the tagged row is the segment alone.
+    assert.ok(profiles.sameSegment('Luxury Mytheresa', 'Luxury | Mytheresa'));
+    assert.ok(profiles.sameSegment('Off Price', 'Off-Price | YOOX'));
+    // "Platform" is a filler: Kaspi's tagged row is Payments, its report calls it the Payments Platform.
+    assert.ok(profiles.sameSegment('Payments', 'Payments Platform'));
+    assert.ok(!profiles.sameSegment('Payments', 'Marketplace Platform'), 'a different platform is a different segment');
     assert.ok(!profiles.sameSegment('Services', 'Financial Services'));
     assert.ok(!profiles.sameSegment('Advertising', 'Apps'));
     // The annual report's spelling against the tagged member's, as filed. A third element is the
