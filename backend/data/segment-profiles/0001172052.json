@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001172052",
+ "issuerName": "SAFETY INSURANCE GROUP, INC.",
+ "builtAt": "2026-11-15T10:06:28.139Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001172052-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1172052/000117205226000005/saft-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "Private passenger automobile insurance",
+    "Commercial automobile insurance",
+    "Homeowners insurance",
+    "Business owner policies",
+    "Dwelling fire insurance",
+    "Commercial umbrella insurance"
+   ],
+   "description": "Provider of private passenger automobile, commercial automobile, and homeowners insurance and related coverages in Massachusetts, New Hampshire and Maine.",
+   "evidence": "We are a leading provider of private passenger automobile, commercial automobile, and homeowners insurance in Massachusetts. In addition to these coverages, we offer a portfolio of other insurance products, including dwelling fire, umbrella and business owner policies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase insurance policies through independent insurance agents, paying premiums for coverage.",
+  "evidence": "Operating exclusively in Massachusetts, New Hampshire and Maine through our insurance company subsidiaries, Safety Insurance Company (\"Safety Insurance\"), Safety Indemnity Insurance Company (\"Safety Indemnity\"), Safety Property and Casualty Insurance Company (\"Safety P&C\"), and Safety Northeast Insurance Company (\"Safety Northeast\") (together referred to as the \"Insurance Subsidiaries\"), we have established strong relationships with independent insurance agents, who numbered 797 in 1,063 locatio"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Insurance): Personal umbrella insurance"
+ ]
+}

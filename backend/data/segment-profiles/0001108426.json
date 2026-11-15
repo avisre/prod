@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001108426",
+ "issuerName": "TXNM Energy, Inc.",
+ "builtAt": "2026-11-15T10:05:11.782Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001108426-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1108426/000110842626000006/pnm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TNMP",
+   "products": [],
+   "description": "Regulated electric transmission and distribution utility serving Texas communities.",
+   "evidence": "TNMP provides transmission and distribution services in Texas under the provisions of TECA and the Texas Public Utility Regulatory Act."
+  },
+  {
+   "name": "PNM",
+   "products": [],
+   "description": "Regulated electric utility providing generation, transmission, and distribution service in New Mexico.",
+   "evidence": "PNM is an electric utility that provides electric generation, transmission, and distribution service to its rate-regulated customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for electric transmission, distribution and generation services; costs are recovered through general rate cases and rate riders.",
+  "evidence": "Both PNM and TNMP seek cost recovery for their investments through general rate cases, periodic cost of service filings, and various rate riders."
+ },
+ "changes": [],
+ "dropped": []
+}

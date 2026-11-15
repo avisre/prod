@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001001907",
+ "issuerName": "Astrotech Corporation",
+ "builtAt": "2026-11-15T10:03:04.285Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-031175",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1001907/000143774926031175/astc20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Astrotech Corporation",
+   "products": [
+    "TRACER 1000™",
+    "BreathTest-1000™",
+    "AGLAB 1000™",
+    "Pro-Control 1000™",
+    "Astrotech Mass Spectrometer Technology™ platform"
+   ],
+   "description": "Develops and commercializes mass spectrometry and gas chromatography analytical instruments for security, agriculture, breath analysis, industrial process control, and environmental testing applications.",
+   "evidence": "Our use of \"products\" and \"devices\" refer to the TRACER 1000™, BreathTest-1000™, AGLAB 1000™, and Pro-Control 1000™ along with related accessories and consumables."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in United States and foreign countries purchase products, services, and receive grants for technology development and deployment across security, agriculture, healthcare, and industrial sectors.",
+  "evidence": "Net sales attributed to customers in the United States and foreign countries for the years ended June 30, 2026 and 2025 were as follows:"
+ },
+ "changes": [],
+ "dropped": []
+}

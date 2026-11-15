@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000875355",
+ "issuerName": "BLOOMIA HOLDINGS, INC.",
+ "builtAt": "2026-11-15T10:01:45.671Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-109274",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/875355/000110465926109274/tulp-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tulips",
+   "products": [
+    "Fresh cut tulips"
+   ],
+   "description": "Produces and sells fresh cut tulips to retail stores in the United States and internationally.",
+   "evidence": "The Company is the majority owner of Fresh Tulips USA LLC, Bloomia B.V., and its affiliated entities, collectively referred to as \"Bloomia.\" Bloomia is a significant producer of fresh cut tulips (\"stems\") in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail stores purchase fresh cut tulip stems from Bloomia, with a small number of mass-market retailers accounting for more than seventy-five percent of annual sales.",
+  "evidence": "A small number of mass-market retailers in the U.S. have historically accounted for more than 75% of Bloomia's total annual sales."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company discontinued development of its non-bank lending business through Farmland Credit, Inc. to focus solely on agriculture.",
+   "evidence": "the Company has determined to focus solely on the ag business. Because the non-bank lending business remained in development, this change did not have a significant adverse impact on the Company's operations or financial results."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the Company acquired Bloomia for $47.5 million, financed partially by s",
+  "change not grounded: In 2025, the Company sold its legacy In-Store Marketing Business for $3.5 millio"
+ ]
+}

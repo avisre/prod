@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000885245",
+ "issuerName": "BUCKLE, INC",
+ "builtAt": "2026-11-15T10:01:58.881Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000885245-26-000012",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/885245/000088524526000012/bke-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Denims",
+    "Tops",
+    "Accessories",
+    "Footwear",
+    "Sportswear",
+    "Outerwear",
+    "Casual bottoms"
+   ],
+   "description": "Retailer of medium to better-priced casual apparel, footwear, and accessories for fashion-conscious men, women, and kids through stores and e-commerce.",
+   "evidence": "The Company is a retailer of medium to better-priced casual apparel, footwear, and accessories for fashion-conscious men, women, and kids."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase merchandise through retail stores and e-commerce platform; credit card revenue generated through Comenity Bank partnership.",
+  "evidence": "The Company sells its merchandise through its retail stores and e-Commerce platform."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the Company opened six new stores, substantially remodeled twenty stores, and closed seven stores.",
+   "evidence": "During fiscal 2025, the Company opened 6 new stores, substantially remodeled 20 stores, and closed 7 stores."
+  }
+ ],
+ "dropped": []
+}

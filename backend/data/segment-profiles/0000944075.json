@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000944075",
+ "issuerName": "SOCKET MOBILE, INC.",
+ "builtAt": "2026-11-15T10:02:52.419Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000944075-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/944075/000094407526000027/k10-2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Capture and Delivery Solutions",
+   "products": [
+    "XtremeScan family",
+    "SocketCam family",
+    "DuraScan® Family",
+    "SocketScan family",
+    "DuraSled Family",
+    "CaptureSDK"
+   ],
+   "description": "Provider of cordless data capture devices with barcode scanning or RFID/NFC technologies for mobile workforce applications.",
+   "evidence": "Our primary products are cordless data capture devices incorporating barcode scanning or RFID/Near Field Communications (NFC) technologies that connect over Bluetooth."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "App providers and resellers purchase data capture devices and software integration kits to integrate into mobile applications for their end customers.",
+  "evidence": "Our products are integrated in their application solutions and are marketed by the app providers or the resellers of their applications."
+ },
+ "changes": [],
+ "dropped": []
+}

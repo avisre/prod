@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000916365",
+ "issuerName": "TRACTOR SUPPLY CO /DE/",
+ "builtAt": "2026-11-15T10:02:31.416Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000916365-26-000014",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/916365/000091636526000014/tsco-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail sale of products that support the rural lifestyle",
+   "products": [
+    "Livestock, Equine & Agriculture",
+    "Companion Animal",
+    "Seasonal & Recreation",
+    "Truck, Tool & Hardware",
+    "Clothing, Gift & Décor"
+   ],
+   "description": "Retail sale of rural lifestyle products through Tractor Supply and Petsense stores and online for recreational farmers, ranchers, and pet owners.",
+   "evidence": "The Company has one reportable segment which is the retail sale of products that support the rural lifestyle."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for retail products purchased in stores and online across major rural lifestyle product categories.",
+  "evidence": "The Company has one reportable industry segment which is the retail sale of products that support the rural lifestyle."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: On December 30, 2024, the Company completed its acquisition of Allivet, an onlin"
+ ],
+ "escalated": "revenue model not quoted"
+}

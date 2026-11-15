@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001023549",
+ "issuerName": "XTL BIOPHARMACEUTICALS LTD.",
+ "builtAt": "2026-11-15T10:03:38.590Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-073831",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1023549/000121390026073831/ea0296095-20f_xtlbio.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "hCDR1",
+    "Edratide"
+   ],
+   "description": "Development and commercialization of pharmaceutical drugs for treatment of autoimmune diseases including systemic lupus erythematosus and Sjogren's syndrome.",
+   "evidence": "We were established as a biopharmaceutical company engaged in the acquisition and development of pharmaceutical drugs for the treatment of autoimmune diseases."
+  },
+  {
+   "name": "Psyga Bio",
+   "products": [
+    "therapeutic candidates",
+    "microdosing solutions",
+    "wellness-focused formulations",
+    "Ibogaine-based products"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Company receives milestone and commercial payments from sublicensees for exclusive sublicense rights to develop and commercialize pharmaceutical products.",
+  "evidence": "In consideration for granting the rights under this agreement the Company will be entitled to cumulative payments of up to approximately $11,500,000."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Psyga Bio): psychedelic and functional mushroom-derived products",
+  "segment evidence not verbatim: Psyga Bio",
+  "change not grounded: In 2025, The Social Proxy, an AI web data company acquired in August 2024, was d",
+  "change not grounded: In June 2026, the company completed acquisition of 83.4% of Psyga Bio Ltd., an a",
+  "change not grounded: In March 2025, the company granted an exclusive sublicense to Biossil Inc. for h"
+ ]
+}

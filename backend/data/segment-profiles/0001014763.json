@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001014763",
+ "issuerName": "AINOS, INC.",
+ "builtAt": "2026-11-15T10:03:19.271Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013579",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1014763/000149315226013579/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ainos, Inc.",
+   "products": [
+    "AI Nose platform",
+    "VELDONA® Pet supplements"
+   ],
+   "description": "Dual-platform company developing AI-based scent digitization technologies and immune therapeutics for healthcare and industrial applications.",
+   "evidence": "Ainos, Inc. (the \"Company\"), incorporated in the State of Texas in 1984, is a dual-platform company advancing artificial intelligence–based smelltech technologies and immune therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from sales of AI Nose hardware systems, recurring service-based offerings, and VELDONA® product sales.",
+  "evidence": "Our targeted revenue sources include sales of AI Nose hardware systems and recurring service-based offerings associated with our SmellTech platform."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company secured an initial commercial deployment under a multi-year subscription agreement with a leading semiconductor packaging and testing company for AI Nose within manufacturing environments.",
+   "evidence": "in 2025 we secured an initial commercial deployment under a multi-year subscription agreement with a leading semiconductor packaging and testing company involving AI Nose within manufacturing environments."
+  },
+  {
+   "text": "In 2025, the company commercialized VELDONA® Pet supplements in Taiwan to support companion animal health.",
+   "evidence": "In parallel, we commercialized VELDONA® Pet supplements in Taiwan to support companion animal health."
+  }
+ ],
+ "dropped": [
+  "product not in text (Ainos, Inc.): VELDONA® (low-dose oral interferon)",
+  "product not in text (Ainos, Inc.): Point-of-care testing (POCT) devices"
+ ]
+}

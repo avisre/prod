@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0001049659",
+ "issuerName": "NATIONAL STEEL CO",
+ "builtAt": "2026-11-15T10:03:57.528Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002714",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1049659/000129281426002714/sidform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel",
+   "products": [
+    "Slabs",
+    "Hot-rolled products",
+    "Cold-rolled products",
+    "Galvanized products",
+    "Galvalume",
+    "Pre-painted steel",
+    "Tin mill products"
+   ],
+   "description": "Produces and sells carbon steel products including flat and long steel for domestic and international markets.",
+   "evidence": "We produce carbon steel, the world's most widely used type of steel, which accounts for a substantial share of global consumption. We sell a variety of carbon steel products, both domestically and abroad, to manufacturers in several industries."
+  },
+  {
+   "name": "Mining",
+   "products": [
+    "Iron ore",
+    "Pellet feed"
+   ],
+   "description": "Mines and exports iron ore and related products through CSN Mineração, including third-party iron ore services.",
+   "evidence": "Our mining strategy is focused on strengthening our position in the iron ore market through investments in our mining and logistics assets, which includes CSN Mineração, with the objective of supporting a competitive cost position, increasing operational flexibility and creating long-term growth opportunities."
+  },
+  {
+   "name": "Cement",
+   "products": [
+    "Concrete and aggregates",
+    "Agricultural limestone"
+   ],
+   "description": "Produces and sells cement and related products as the second largest player in the Brazilian cement market.",
+   "evidence": "As a result of these acquisitions, we became the second largest player in the Brazilian cement market, with an installed capacity of 17.0 million tons as of December 31, 2025. As of that date, our operations consisted of seven integrated plants, six grinding and blending plants and 23 distribution centers throughout Brazil."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "Railway transportation",
+    "Port operations",
+    "Road transportation"
+   ],
+   "description": "Operates integrated infrastructure for railways, ports, terminals and road transportation to support internal and external logistics.",
+   "evidence": "We expect to expand our logistics capabilities, which comprise our integrated infrastructure operations of railways and ports, terminals and road transportation solutions in order to improve the transportation efficiency of both our incoming raw materials and distributed products."
+  },
+  {
+   "name": "Energy",
+   "products": [
+    "Electrical energy"
+   ],
+   "description": "Produces electrical energy through hydroelectric power plants and consortium arrangements for self-generation.",
+   "evidence": "As part of our strategy in the energy segment, in April 2023, we entered into a lease agreement with Itauba and Passo Real HPPs for a consortia formed by our companies to assure a fixed income to CEEE-G, assuring self-production surcharges relief to the members of the consortia which represents energy cost reduction."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in manufacturing industries pay for steel products; iron ore customers pay for iron ore and pellet feed exports; construction and retail customers pay for cement; shippers pay for logistics and transportation services; and energy consortium members pay for electrical energy.",
+  "evidence": "We sell a variety of carbon steel products, both domestically and abroad, to manufacturers in several industries."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cement): Cement",
+  "product not in text (Logistics): Multimodal logistics services",
+  "change not grounded: In 2025, the company acquired 70% of Estrela, the holding company of Grupo Tora,"
+ ]
+}

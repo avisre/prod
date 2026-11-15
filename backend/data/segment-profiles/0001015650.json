@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001015650",
+ "issuerName": "SK Telecom Co., Ltd.",
+ "builtAt": "2026-11-15T10:03:25.236Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-188763",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1015650/000119312526188763/d78252d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cellular Services",
+   "products": [
+    "Wireless voice and data transmission services",
+    "Wireless devices",
+    "Cellular interconnection services",
+    "IoT solutions and enterprise communications services",
+    "Cloud services",
+    "Subscription services",
+    "Advertising and curated shopping services"
+   ],
+   "description": "Wireless voice and data transmission services, device sales, and IoT and digital solutions for consumers and enterprises.",
+   "evidence": "cellular services, which include wireless voice and data transmission services, sales of wireless devices, cellular interconnection services, as well as IoT solutions and enterprise communications services, cloud services, subscription services, advertising and curated shopping services, AI B2C services and AI B2B services"
+  },
+  {
+   "name": "Fixed-line Telecommunication Services",
+   "products": [
+    "Fixed-line telephone services",
+    "Broadband Internet services",
+    "Business communications and related infrastructure services",
+    "International calling services"
+   ],
+   "description": "Fixed-line telephone, broadband Internet, IPTV, cable TV and business communications services for residential and business customers.",
+   "evidence": "fixed-line telecommunication services, which include fixed-line telephone services, broadband Internet services, advanced media platform services (including IPTV and cable TV services), and business communications and related infrastructure services"
+  },
+  {
+   "name": "Other businesses",
+   "products": [
+    "T-commerce",
+    "Portal services"
+   ],
+   "description": "T-commerce platform and various miscellaneous businesses that do not meet thresholds for separate reportable segments.",
+   "evidence": "other businesses, which include our T-commerce business and certain other miscellaneous businesses"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay monthly subscription fees, usage charges and interconnection fees for wireless and fixed-line services; device sales revenue; and third-party seller commissions from e-commerce transactions.",
+  "evidence": "we earn revenue principally from our wireless voice and data transmission services through monthly plan-based fees, usage charges for outgoing voice calls, usage charges for wireless data services and value-added service fees paid by our wireless subscribers as well as interconnection fees paid to us by other telecommunications operators"
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company agreed to sell its entire equity stake in SK Stoa and Media S to streamline its business portfolio.",
+   "evidence": "In December 2025, we entered into an agreement to sell our entire equity stake in SK Stoa and Media S, which operates two TV channels and co-produces original television entertainment contents, to Rapport Labs Inc., a Korea-based e-commerce company, as part of our ongoing strategy to streamline and optimize our overall business portfolio."
+  },
+  {
+   "text": "In November 2021, the company spun off its semiconductor and non-telecommunications businesses to SK Square and distributed SK Square shares to shareholders.",
+   "evidence": "Effective as of November 1, 2021, we conducted the Spin-off, pursuant to which we spun off our equity interests in certain subsidiaries and investees (collectively comprising the Spin-off Portfolio Companies) engaged in the semiconductor and certain other non-telecommunications businesses, including our security, e-commerce and other new ICT businesses (collectively comprising the Spin-off Businesses) to SK Square, a newly established holding company"
+  }
+ ],
+ "dropped": [
+  "product not in text (Cellular Services): AI B2C and B2B services",
+  "product not in text (Fixed-line Telecommunication Services): Advanced media platform services (IPTV and cable TV)",
+  "product not in text (Other businesses): Miscellaneous other businesses"
+ ]
+}

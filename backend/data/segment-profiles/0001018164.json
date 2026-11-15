@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001018164",
+ "issuerName": "WILLIS LEASE FINANCE CORP",
+ "builtAt": "2026-11-15T10:03:27.839Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001018164-25-000027",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1018164/000101816425000027/wlfc-20241231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Leasing and Related Operations",
+   "products": [
+    "Commercial aircraft engines",
+    "Aircraft",
+    "Maintenance reserves",
+    "Management fees"
+   ],
+   "description": "Leases commercial aircraft and engines to operators and MROs worldwide, providing lease rent and maintenance reserve revenues.",
+   "evidence": "Our strategy is to lease aircraft and aircraft engines and provide related services to a diversified group of commercial aircraft operators and maintenance, repair and overhaul organizations (\"MROs\") worldwide."
+  },
+  {
+   "name": "Spare Parts Sales",
+   "products": [
+    "Aircraft engine parts"
+   ],
+   "description": "Sells aircraft engine parts and materials acquired or consigned from third parties or leasing portfolio.",
+   "evidence": "Our wholly-owned and vertically-integrated subsidiary Willis Aero primarily engages in the sale of aircraft engine parts and materials through the acquisition or consignment of engines from third parties or from the leasing portfolio."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Commercial aircraft operators and MROs pay monthly lease rent and maintenance reserve fees for leased engines and aircraft.",
+  "evidence": "Payment terms of our leases are predominantly monthly in advance for rent and in arrears for the expenses associated with the use of the engines."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Spare Parts Sales): Aircraft materials"
+ ]
+}

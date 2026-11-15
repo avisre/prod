@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001072627",
+ "issuerName": "KINGSWAY Corp",
+ "builtAt": "2026-11-15T10:04:33.441Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007961",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1072627/000143774926007961/kfs20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kingsway Search Xcelerator",
+   "products": [
+    "CSuite",
+    "Ravix",
+    "Image Solutions",
+    "Roundhouse",
+    "Bud's Plumbing"
+   ],
+   "description": null,
+   "evidence": "Kingsway Search Xcelerator's r evenue is derived from the provision of various services and equipment sales."
+  },
+  {
+   "name": "Extended Warranty",
+   "products": [],
+   "description": "Conducts extended warranty business and distributes its products and services primarily in the United States.",
+   "evidence": "Kingsway conducts its business through two reportable segments - Kingsway Search Xcelerator and Extended Warranty - that conduct their business and distribute their products and services primarily in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay the company for various professional, IT, healthcare staffing and monitoring, software and plumbing services and equipment sales.",
+  "evidence": "Kingsway Search Xcelerator's r evenue is derived from the provision of various services and equipment sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Kingsway Search Xcelerator): Secure Nursing Service (SNS)",
+  "product not in text (Kingsway Search Xcelerator): Digital Diagnostics (DDI)",
+  "product not in text (Kingsway Search Xcelerator): Systems Products International (SPI)"
+ ],
+ "escalated": "revenue model not quoted"
+}

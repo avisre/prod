@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0001042046",
+ "issuerName": "AMERICAN FINANCIAL GROUP, INC.",
+ "builtAt": "2026-11-15T10:03:56.124Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001042046-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1042046/000104204626000010/afg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property and Transportation",
+   "products": [
+    "Transportation-related coverage",
+    "Property, Inland Marine and Ocean Marine"
+   ],
+   "description": "Provides crop, transportation and property coverages for farms, trucking, moving and storage and commercial property risks nationwide.",
+   "evidence": "The following are examples of AFG's specialty businesses grouped by sub-segment: Property and Transportation Agricultural-related Federally reinsured multi-peril crop (allied lines) insurance covering most perils as well as crop-hail, equine mortality and other coverages for full-time operating farms/ranches and agribusiness operations on a nationwide basis."
+  },
+  {
+   "name": "Specialty Casualty",
+   "products": [
+    "Excess and Surplus Liability",
+    "Executive and Professional Liability",
+    "General Liability",
+    "Targeted Markets",
+    "Umbrella and Excess Liability",
+    "Workers' Compensation"
+   ],
+   "description": "Provides liability coverages including excess and surplus, executive, professional, general liability and workers' compensation for businesses and organizations.",
+   "evidence": "Specialty Casualty Excess and Surplus Liability, umbrella and excess coverage for unique, volatile or hard-to-place risks, using rates and forms that generally do not have to be approved by state insurance regulators."
+  },
+  {
+   "name": "Specialty Financial",
+   "products": [
+    "Fidelity and Surety",
+    "Lender Services",
+    "Trade Credit"
+   ],
+   "description": "Provides fidelity, surety, lender services and trade credit insurance for government, financial institutions, contractors and global trade.",
+   "evidence": "Specialty Financial Fidelity and Surety Fidelity and crime coverage for government, mercantile and financial institutions and surety coverage for various types of contractors and public and private corporations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Policyholders and agents pay premiums for specialized commercial property and casualty insurance coverages, which the company seeks to underwrite at a profit.",
+  "evidence": "The primary objectives of AFG's property and casualty insurance operations are to achieve solid underwriting profitability and provide excellent service to its policyholders and agents."
+ },
+ "changes": [
+  {
+   "text": "Beginning in 2025, internal reinsurance results previously reported in an Other Specialty sub-segment were moved into the same sub-segments as the ceding businesses.",
+   "evidence": "Beginning in 2025, the internal reinsurance results are included within the same sub-segments as the ceding businesses to align with senior management's evolving view of the program."
+  }
+ ],
+ "dropped": [
+  "product not in text (Property and Transportation): Agricultural-related multi-peril crop insurance"
+ ],
+ "escalated": "revenue model not quoted"
+}

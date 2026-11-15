@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001070494",
+ "issuerName": "ACADIA PHARMACEUTICALS INC.",
+ "builtAt": "2026-11-15T10:04:31.379Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-072519",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1070494/000119312526072519/acad-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development and commercialization of innovative medicines",
+   "products": [
+    "NUPLAZID (pimavanserin)",
+    "DAYBUE"
+   ],
+   "description": "Develops and commercializes medicines for underserved neurological and rare disease communities, led by NUPLAZID for Parkinson's disease psychosis and DAYBUE for Rett syndrome.",
+   "evidence": "The Company has determined that it operates as a single business segment, which is the development and commercialization of innovative medicines ."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, substantially all in the U.S., pay the company for net product sales of NUPLAZID and DAYBUE dispensed through specialty pharmacies, distributors and wholesalers.",
+  "evidence": "Revenues consist of net product sales to customers, substantially all of which are sales in the U.S."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

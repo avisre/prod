@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000933972",
+ "issuerName": "374WATER INC.",
+ "builtAt": "2026-11-15T10:02:44.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-003094",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/933972/000165495426003094/scwo_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Supercritical water oxidation",
+   "products": [
+    "AirSCWO",
+    "Modular AS systems",
+    "Pre-treatment systems",
+    "Post-treatment systems",
+    "Laboratory & Testing Services",
+    "Operations & Maintenance Services"
+   ],
+   "description": "Develops and operates supercritical water oxidation systems to destroy organic and PFAS waste streams for municipal, federal, and industrial customers.",
+   "evidence": "As such, the Company has determined that it operates as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for capital sales of AirSCWO systems, service agreements, and waste destruction services where waste is received and destroyed for a fee.",
+  "evidence": "Along with select capital sales and service contracts, WDS provides our customers with a fit-to-need waste destruction service without significant capital investment."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company launched its Waste Destruction Services business.",
+   "evidence": "During 2024, we announced the launch of our WDS business."
+  }
+ ],
+ "dropped": [
+  "product not in text (Supercritical water oxidation): Mobile AS system",
+  "product not in text (Supercritical water oxidation): Waste Destruction Services (WDS)"
+ ],
+ "escalated": "no segments"
+}

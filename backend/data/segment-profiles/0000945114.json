@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000945114",
+ "issuerName": "Global Industrial Co",
+ "builtAt": "2026-11-15T10:02:55.802Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012945",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/945114/000162828026012945/gic-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial Products",
+   "products": [
+    "Global™",
+    "GlobalIndustrial.com™",
+    "Nexel™",
+    "Paramount™",
+    "Interion™",
+    "Absocold™"
+   ],
+   "description": "Value-added distributor of industrial and maintenance, repair and operation products marketed in North America through e-commerce websites and relationship marketers.",
+   "evidence": "The Company reports the results of its continuing operations in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for a broad array of industrial and MRO products sold through its branded e-commerce websites and relationship marketers.",
+  "evidence": "The Company sells a wide array of industrial and maintenance, repair and operation products, markets the Company has served since 1949."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company acquired Indoff LLC, a business-to-business direct marketer of material handling products, commercial interior products and business products.",
+   "evidence": "the Company acquired 100 % of the outstanding equity interests of Indoff LLC (\"Indoff\"), a business-to-business direct marketer of material handling products, commercial interior products and business products with operations in North America, on May 19, 2023, for approximately $ 72.6 million in cash."
+  },
+  {
+   "text": "In 2025 the Company acquired an equipment service provider to broaden its value-added offerings in key equipment categories.",
+   "evidence": "In April 2025, the Company completed the acquisition of an equipment service provider for $ 4.3 million in cash."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

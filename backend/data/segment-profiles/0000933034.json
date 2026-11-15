@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000933034",
+ "issuerName": "STRATTEC SECURITY CORP",
+ "builtAt": "2026-11-15T10:02:42.203Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-374333",
+  "periodEnd": "2026-06-28",
+  "filingDate": "2026-08-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/933034/000119312526374333/strt-20260628.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive access",
+   "products": [
+    "locks and keys",
+    "fobs",
+    "passive entry passive start systems",
+    "digital key",
+    "power sliding doors",
+    "power tailgates",
+    "lift gate systems",
+    "latches"
+   ],
+   "description": "Designs and delivers safe, secure, highly engineered access solutions for automotive and mobility OEMs and aftermarket customers.",
+   "evidence": "Strattec is a global automotive access company that designs and delivers safe, secure, and highly engineered access solutions for the automotive and mobility markets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "escalated": "revenue model not quoted"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001171486",
+ "issuerName": "NATURAL RESOURCE PARTNERS LP",
+ "builtAt": "2026-11-15T10:06:25.098Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006147",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1171486/000143774926006147/nrp20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral Rights",
+   "products": [
+    "Industrial minerals and aggregates",
+    "Carbon offset credits",
+    "Transportation and processing services"
+   ],
+   "description": null,
+   "evidence": "Mineral Rights —consists of approximately 13 million acres of mineral interests and other subsurface rights across the United States."
+  },
+  {
+   "name": "Soda Ash",
+   "products": [],
+   "description": null,
+   "evidence": "Soda Ash —consists of our 49% non-controlling equity interest in Sisecam Wyoming, one of the world's lowest-cost producers of soda ash, an essential ingredient in the manufacturing of glass, solar panels, detergents, and batteries for electric vehicles."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Mineral Rights leases mineral interests to operators for royalty payments based on a percentage of sales prices or fixed royalties per ton, plus minimum payments. Soda Ash receives distributions from its equity interest.",
+  "evidence": "The royalties we receive are generally a percentage of the gross revenue received by our lessees."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Alabama Kanu Holdings, LLC purchased Hatfield Metallurgical Holdings, LLC in August 2024.",
+   "evidence": "Alabama Kanu Holdings, LLC purchased Hatfield Metallurgical Holdings, LLC in August 2024."
+  }
+ ],
+ "dropped": [
+  "product not in text (Mineral Rights): Coal royalties",
+  "product not in text (Mineral Rights): Oil and gas royalties",
+  "product not in text (Soda Ash): Soda ash"
+ ]
+}

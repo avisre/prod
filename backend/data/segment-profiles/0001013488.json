@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001013488",
+ "issuerName": "BJ’S RESTAURANTS, INC.",
+ "builtAt": "2026-11-15T10:03:13.881Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-083331",
+  "periodEnd": "2025-12-30",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1013488/000119312526083331/bjri-20251230.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "full-service company-owned restaurants",
+   "products": [
+    "food and beverage sales",
+    "deep-dish pizza",
+    "Pizookie® dessert",
+    "EnLIGHTened Entrees®",
+    "BJ's craft beers",
+    "cocktails"
+   ],
+   "description": "Full-service restaurants offering diverse menus, craft beers, and dining experiences across the United States.",
+   "evidence": "We currently operate in one operating segment: full-service company-owned restaurants."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for food and beverage sales including restaurant dining, takeout, delivery and catering services.",
+  "evidence": "Our revenues are comprised of food and beverage sales from our restaurants, including takeout, delivery and catering sales."
+ },
+ "changes": [],
+ "dropped": []
+}

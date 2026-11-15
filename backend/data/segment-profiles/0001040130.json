@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001040130",
+ "issuerName": "PetMed Express, Inc.",
+ "builtAt": "2026-11-15T10:03:48.545Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001040130-26-000019",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1040130/000104013026000019/pets-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pet Health and Wellness",
+   "products": [
+    "Prescription medications",
+    "Generic medications",
+    "Compounded prescription medications",
+    "Prescription and non-prescription food",
+    "Vitamins and supplements",
+    "Treats",
+    "Pet supplies"
+   ],
+   "description": "Direct-to-consumer online pharmacy and retailer providing pet medications, foods, supplies, and wellness products for dogs, cats, and horses.",
+   "evidence": "PetMed Express, Inc. and subsidiaries, d/b/a PetMeds®, and as parent company of PetCareRx®, is a pioneer in pet healthcare, building a consumer-first digital platform in 1996 that transformed the way customers fulfill pet medications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers purchase pet medications, foods, supplies, and membership services directly through websites and mobile applications via credit card payment.",
+  "evidence": "The Company primarily generates revenue by selling prescription and non-prescription pet medication products, pet food, supplements, supplies, membership fees, and veterinary services."
+ },
+ "changes": [
+  {
+   "text": "In April 2023, the Company acquired PetCareRx, Inc., expanding the product catalog to include prescription and non-prescription food and supplies.",
+   "evidence": "In April 2023, we acquired PetCareRx, Inc. (\"PetCareRx\"), an online supplier of pet medications, foods, and supplies based in New York."
+  }
+ ],
+ "dropped": [
+  "product not in text (Pet Health and Wellness): Over-the-counter health and wellness products"
+ ]
+}

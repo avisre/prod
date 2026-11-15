@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001084961",
+ "issuerName": "ENCORE CAPITAL GROUP, INC.",
+ "builtAt": "2026-11-15T10:04:41.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001084961-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1084961/000108496126000009/ecpg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Debt purchasing and recovery",
+   "products": [],
+   "description": "Purchases defaulted consumer receivables and manages debt recovery and servicing for credit originators.",
+   "evidence": "The Company determined its operating segments meet the aggregation criteria, and therefore, it has one reportable segment, debt purchasing and recovery segment, based on similarities among the operating units including economic characteristics, the nature of the services, the nature of the production process, customer types for their services, the methods used to provide their services and the nature of the regulatory environment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company purchases portfolios of defaulted consumer receivables at discounts to face value and generates revenue from collections and recovery management services.",
+  "evidence": "We primarily purchase portfolios of defaulted consumer receivables at deep discounts to face value and manage them by working with individuals as they repay their obligations and work toward financial recovery."
+ },
+ "changes": [],
+ "dropped": []
+}

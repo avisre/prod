@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000887359",
+ "issuerName": "VERICEL CORPORATION",
+ "builtAt": "2026-11-15T10:02:05.103Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/887359/000162828026012013/vcel-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cellular therapies and specialty biologics",
+   "products": [
+    "MACI",
+    "MACI Arthro",
+    "MACI Arthro instruments",
+    "MACI biopsy kits",
+    "Epicel",
+    "NexoBrid"
+   ],
+   "description": "Research, product development, manufacture and distribution of cellular therapies and specialty biologics for treatment of specific conditions.",
+   "evidence": "The Company operates its business primarily in the U.S. in one reportable segment - the research, product development, manufacture and distribution of cellular therapies and specialty biologics for use in the treatment of specific conditions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for FDA-approved autologous cell therapy products and specialty biologic products used in sports medicine and severe burn care.",
+  "evidence": "We currently market two U.S. Food and Drug Administration (\"FDA\") approved autologous cell therapy products and one FDA-approved specialty biologic product in the U.S."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001131343",
+ "issuerName": "ALTERITY THERAPEUTICS LTD",
+ "builtAt": "2026-11-15T10:05:46.632Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001437749-26-029135",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1131343/000143774926029135/athe20260630_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "research and development into Parkinsonian and other neurodegenerative disorders",
+   "products": [
+    "ATH434",
+    "PBT2"
+   ],
+   "description": "Develops first-in-class drug candidates to treat Parkinsonian movement disorders and other neurodegenerative diseases for patients.",
+   "evidence": "For the current and previous reporting periods, the Group operated in one segment, being research and development into Parkinsonian and other neurodegenerative disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

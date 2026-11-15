@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001106644",
+ "issuerName": "CHINA PHARMA HOLDINGS, INC.",
+ "builtAt": "2026-11-15T10:05:04.413Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-038521",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1106644/000121390026038521/ea0283939-10k_china.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical Products",
+   "products": [
+    "dry powder injectables",
+    "liquid injectables",
+    "tablets",
+    "capsules",
+    "cephalosporin oral solutions",
+    "comprehensive healthcare products",
+    "protective products"
+   ],
+   "description": "Develops, manufactures and markets pharmaceutical products for high-incidence diseases in the People's Republic of China.",
+   "evidence": "We, through Helpson, are principally engaged in the development, manufacture and marketing of pharmaceutical products for human use in connection with a variety of high-incidence and high-mortality diseases and medical conditions prevalent in the People's Republic of China (the \"PRC\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Sells prescription pharmaceutical products directly to hospitals and OTC pharmacies through provincial and municipal pharmaceutical logistic companies.",
+  "evidence": "Helpson directly supplies products to hospital and OTC pharmacies through provincial and municipal pharmaceutical logistic companies with legal qualifications (such as the \"Drug Supply License\" and GSP certification), covering the primary healthcare institution market."
+ },
+ "changes": [],
+ "dropped": []
+}

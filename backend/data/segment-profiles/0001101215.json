@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001101215",
+ "issuerName": "BREAD FINANCIAL HOLDINGS, INC.",
+ "builtAt": "2026-11-15T10:04:58.260Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001101215-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1101215/000110121526000016/bfh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Services",
+   "products": [
+    "co-brand and private label credit card programs",
+    "Bread Pay products",
+    "Bread Savings products"
+   ],
+   "description": "Tech-forward financial services providing payment, lending, and saving solutions to U.S. consumers and brand partners.",
+   "evidence": "We operate our business through a single reportable segment, with our primary source of revenue being from Interest and fees on loans from our various credit card and other loan products, and to a lesser extent from contractual relationships with our brand partners."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest and fees on credit card and loan products; brand partners pay merchant discount fees, interchange revenue, and retailer share arrangements.",
+  "evidence": "with our primary source of revenue being from Interest and fees on loans from our various credit card and other loan products, and to a lesser extent from contractual relationships with our brand partners."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Financial Services): direct-to-consumer proprietary general purpose credit cards"
+ ]
+}

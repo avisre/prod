@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001086745",
+ "issuerName": "FABRIC.AI, INC.",
+ "builtAt": "2026-11-15T10:04:47.814Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013650",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1086745/000149315226013650/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Asset Treasury Management",
+   "products": [
+    "FLUID",
+    "INJ",
+    "LINK",
+    "AAVE",
+    "USD-Denominated Stablecoins"
+   ],
+   "description": "Acquires and holds cryptocurrency tokens related to stablecoin infrastructure and ecosystem growth for capital appreciation.",
+   "evidence": "During the year ended December 31, 2025, the Company's principal activities consisted of digital asset treasury management and the management of marketable securities and cash resources, and limited EV re-engineering activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the company transitioned from manufacturing compact electric vehicles to digital asset treasury management focused on stablecoin-related tokens.",
+   "evidence": "In July 2025, we commenced a strategic transition toward a new business model focused on digital asset initiatives, with a focus on targeting the acquisition of crypto tokens that are directly capitalizing on the rapid growth of the stablecoin industry."
+  },
+  {
+   "text": "The company changed its name from AYRO, Inc. to StableX Technologies, Inc. in August 2025.",
+   "evidence": "On August 21, 2025, the Company filed a Certificate of Amendment to the Company's Amended and Restated Certificate of Incorporation (as amended, the \"Certificate of Incorporation\") to change the name of the Company from \"AYRO, Inc.\" to \"StableX Technologies, Inc.,\" effective as of August 22, 2025."
+  }
+ ],
+ "dropped": []
+}

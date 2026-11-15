@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001119774",
+ "issuerName": "COMPUGEN LTD",
+ "builtAt": "2026-11-15T10:05:24.252Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000663",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1119774/000117891326000663/zk2634416.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutic Discovery and Development",
+   "products": [
+    "COM701",
+    "COM902",
+    "rilvegostomig",
+    "GS-0321"
+   ],
+   "description": "Clinical-stage therapeutic discovery and development company using AI/ML computational platform to identify novel drug targets and develop cancer immunotherapy therapeutics.",
+   "evidence": "We are a clinical-stage therapeutic discovery and development company utilizing Unigen™, our AI/ML powered computational discovery platform, to identify novel drug targets and to develop therapeutics in the field of cancer immunotherapy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue from licensing agreements with pharmaceutical partners such as AstraZeneca and Gilead under revenue-sharing arrangements for drug candidates.",
+  "evidence": "Our business model is to selectively enter into collaborations for our novel targets and drug product candidates at various stages of research and development under various revenue-sharing arrangements."
+ },
+ "changes": [],
+ "dropped": []
+}

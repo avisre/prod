@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000946644",
+ "issuerName": "AIM ImmunoTech Inc.",
+ "builtAt": "2026-11-15T10:02:58.724Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013301",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/946644/000149315226013301/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development of potential therapeutics",
+   "products": [
+    "Ampligen (rintatolimod)",
+    "Alferon N Injection (Interferon alfa)"
+   ],
+   "description": "Research and development of therapeutics for cancers, viral diseases and immune-deficiency disorders.",
+   "evidence": "The Company manages the business activities on a consolidated basis and operates in one reportable segment, which is the research and development of potential therapeutics for cancers, viruses and autoimmune disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

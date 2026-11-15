@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000949870",
+ "issuerName": "THE BOSTON BEER COMPANY, INC.",
+ "builtAt": "2026-11-15T10:02:59.160Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067467",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/949870/000119312526067467/sam-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alcohol Beverages",
+   "products": [
+    "Samuel Adams",
+    "Twisted Tea",
+    "Truly Hard Seltzer",
+    "Angry Orchard",
+    "Dogfish Head",
+    "Sun Cruiser",
+    "Hard Mountain Dew"
+   ],
+   "description": "Produces and sells flavored malt beverages, hard seltzer, beer, hard cider, spirits RTDs and distilled spirits throughout the United States and selected international markets.",
+   "evidence": "The Company consists of one operating segment that produces and sells alcohol beverages under various brands."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including off-premise retailers such as grocery stores, liquor stores and convenience stores purchase packaged beverages; on-premise retailers purchase kegs.",
+  "evidence": "Sleek cans, standard cans and bottles are sold primarily for off-premise retailers, which include grocery stores, club stores, convenience stores, liquor stores, and other traditional and e-commerce retail outlets. Kegs are sold primarily for on-premise retailers, which include bars, restaurants, stadiums and other venues."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the Company announced it will close its local brewery in Los Angeles, C"
+ ]
+}

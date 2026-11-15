@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001065280",
+ "issuerName": "Netflix, Inc.",
+ "builtAt": "2026-11-15T10:04:18.316Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001065280-26-000034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1065280/000106528026000034/nflx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Netflix",
+   "products": [
+    "TV series",
+    "films",
+    "games",
+    "live programming"
+   ],
+   "description": "Streaming entertainment service offering TV series, films, games and live programming across various genres and languages.",
+   "evidence": "Netflix, Inc. (\"Netflix\", the \"Company\", \"registrant\", \"we\", or \"us\") is one of the world's leading entertainment services offering TV series, films, games and live programming across a wide variety of genres and languages."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Members pay monthly subscription fees for streaming content access, with various pricing plans including ad-supported options.",
+  "evidence": "Our revenues are primarily derived from monthly membership fees for services related to streaming content to our members."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001066764",
+ "issuerName": "Bimergen Energy Corp",
+ "builtAt": "2026-11-15T10:04:24.474Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014356",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1066764/000149315226014356/form10-k.htm"
+ },
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "Battery Energy Storage System (BESS) and solar development",
+   "products": [
+    "solar development projects",
+    "energy arbitrage",
+    "ancillary services",
+    "tolling agreements"
+   ],
+   "description": "Develops, commercializes and operates a portfolio of utility-scale battery energy storage and solar energy projects across the United States.",
+   "evidence": "We are a renewable energy project developer dedicated to enabling the clean energy transition and providing critical grid stability via solutions across a range of applications through our portfolio of utility-scale Battery Energy Storage System (BESS) and solar development projects."
+  },
+  {
+   "name": "one reportable operating segment",
+   "products": [],
+   "description": "The company operates and manages its business as a single operating segment reviewed by the CODM based on net income or loss.",
+   "evidence": "The Company operates and manages its business as one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Once operational, offtakers will pay the company under tolling agreements, financial hedges or power purchase agreements for stored and dispatched energy and ancillary grid services.",
+  "evidence": "The terms of our agreements with customers will be defined by tolling agreements, financial hedges, or power purchase agreements (PPAs), which serve as financial instruments to guarantee all or a portion of future revenues."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Battery Energy Storage System (BESS) and solar development): utility-scale Battery Energy Storage System (BESS) projects"
+ ],
+ "escalated": "no segments"
+}

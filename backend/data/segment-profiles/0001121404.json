@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001121404",
+ "issuerName": "Sanofi",
+ "builtAt": "2026-11-15T10:05:24.333Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-008403",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1121404/000162828026008403/sny-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharma",
+   "products": [
+    "Dupixent",
+    "ALTUVIIIO",
+    "Tzield",
+    "Lantus",
+    "Lovenox",
+    "Plavix",
+    "Aprovel",
+    "Aubagio"
+   ],
+   "description": "Commercial, research, development and production activities for Specialty Care, General Medicines and Vaccines franchises across all geographical territories.",
+   "evidence": "The Biopharma operating segment comprises commercial operations and research, development and production activities relating to the Specialty Care, General Medicine s, and Vaccines franchises plus support and corporate functions, for all geographical territories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers worldwide pay Sanofi for medicines, vaccines and active ingredients sold directly, through alliances and by licensing arrangements.",
+  "evidence": "Net sales comprise revenue from sales of medicines, vaccines and active ingredients (1) , net of sales returns, of customer incentives and discounts, and of certain sales-based payments paid or payable to the healthcare authorities."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025 Sanofi sold a controlling stake of approximately 50% in its Consumer Hea"
+ ],
+ "escalated": "revenue model not quoted"
+}

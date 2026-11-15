@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001023512",
+ "issuerName": "DRDGOLD LIMITED",
+ "builtAt": "2026-11-15T10:03:37.182Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-064355",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1023512/000162828026064355/drd-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ergo",
+   "products": [
+    "Surface tailings retreatment",
+    "Gold extraction",
+    "Gold processing",
+    "Gold smelting"
+   ],
+   "description": "East Rand surface gold tailings retreatment operation involving extraction, processing and smelting of gold from historical tailings deposits.",
+   "evidence": "The East Rand operations are run by Ergo and the West Rand operations by FWGR."
+  },
+  {
+   "name": "FWGR",
+   "products": [
+    "Surface tailings retreatment",
+    "Gold extraction",
+    "Gold processing",
+    "Gold smelting"
+   ],
+   "description": "Far West Rand surface gold tailings retreatment operation involving extraction, processing and smelting of gold from historical tailings deposits.",
+   "evidence": "The East Rand operations are run by Ergo and the West Rand operations by FWGR."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase refined gold bullion at agreed prices and exchange rates; revenue recognized when control of refined gold transfers to customer.",
+  "evidence": "The refined gold is then sold directly to South African bullion banks at agreed gold prices and exchange rates. Revenue is recognized when control of the refined gold is transferred to the customer."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2026, DRDGOLD completed the sale of Ergo's stake in Stellar, a renewable energy company, to focus on core mining activities.",
+   "evidence": "Following a strategic review in FY2025, the Board decided to sell Ergo's stake in Stellar, a renewable energy company with a solar plant development project, to focus on the Group's core mining activities. The sale was completed in FY2026."
+  }
+ ],
+ "dropped": []
+}

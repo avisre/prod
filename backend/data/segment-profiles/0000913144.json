@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000913144",
+ "issuerName": "RENAISSANCERE HOLDINGS LTD",
+ "builtAt": "2026-11-15T10:02:26.644Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000913144-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/913144/000091314426000012/rnr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property",
+   "products": [
+    "catastrophe reinsurance",
+    "excess of loss reinsurance",
+    "excess of loss retrocessional reinsurance",
+    "proportional reinsurance",
+    "property per risk",
+    "property (re)insurance",
+    "delegated authority arrangements",
+    "regional U.S. multi-line reinsurance"
+   ],
+   "description": "Provides catastrophe and other property reinsurance and insurance protecting against natural and man-made catastrophes.",
+   "evidence": "Our Property segment includes our catastrophe class of business, principally comprised of excess of loss reinsurance and excess of loss retrocessional reinsurance, which insures insurance and reinsurance companies against natural and man-made catastrophes."
+  },
+  {
+   "name": "Casualty and Specialty",
+   "products": [
+    "specialty reinsurance"
+   ],
+   "description": "Provides casualty and specialty reinsurance and insurance across broad classes including liability, credit and other specialty lines.",
+   "evidence": "Casualty and Specialty, which is comprised of general casualty, professional liability, credit and other specialty (re)insurance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurance and reinsurance companies and other reinsurers pay premiums for reinsurance coverage and insurance products; capital partners pay management fees and performance fees.",
+  "evidence": "Fee income is the income that we earn primarily from managing third-party capital in our Capital Partners unit and is composed of management fee income and performance fee income."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Casualty and Specialty): general casualty reinsurance",
+  "product not in text (Casualty and Specialty): professional liability reinsurance",
+  "product not in text (Casualty and Specialty): credit reinsurance",
+  "product not in text (Casualty and Specialty): excess and surplus insurance",
+  "product not in text (Casualty and Specialty): general liability insurance",
+  "product not in text (Casualty and Specialty): professional liability insurance"
+ ]
+}

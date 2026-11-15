@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001084991",
+ "issuerName": "NATURAL GAS SERVICES GROUP, INC.",
+ "builtAt": "2026-11-15T10:04:44.243Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001084991-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1084991/000108499126000015/ngs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural gas compression",
+   "products": [
+    "Rental",
+    "Sales",
+    "Aftermarket Services",
+    "eComp",
+    "SMART",
+    "natural gas engine and electric motor drive compressors"
+   ],
+   "description": "Rents, designs, sells, installs, services and maintains natural gas and electric compression equipment for oil and gas producers.",
+   "evidence": "we are a premier provider of natural gas and electric compression equipment, technology and services to the energy industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "escalated": "no segments"
+}

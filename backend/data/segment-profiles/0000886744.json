@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000886744",
+ "issuerName": "GERON CORP",
+ "builtAt": "2026-11-15T10:02:04.794Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000886744-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/886744/000088674426000008/gern-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology",
+   "products": [
+    "RYTELO (imetelstat)"
+   ],
+   "description": "Development and commercialization of telomerase inhibitor therapeutic products for blood cancer treatment.",
+   "evidence": "We view our operations as a single segment, the development of therapeutic products for oncology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients and healthcare systems pay for RYTELO through U.S. product sales and Named Patient Programs outside the U.S.",
+  "evidence": "To date, our primary source of product revenue has been from the U.S. sales of RYTELO, which we began shipping to our customers in June 2024."
+ },
+ "changes": [
+  {
+   "text": "In 2024, RYTELO was FDA approved and commercial launch occurred in June 2024.",
+   "evidence": "We commercially launched RYTELO in the U.S. in June 2024 following its approval by the U.S. Food and Drug Administration, or FDA, on June 6, 2024"
+  },
+  {
+   "text": "In 2025, RYTELO received European Commission approval for treatment of adult patients with transfusion-dependent anemia due to lower-risk MDS.",
+   "evidence": "In March 2025, we received European Commission (EC) approval of RYTELO for the treatment of adults with TD anemia due to lower-risk MDS without an isolated deletion 5q cytogenetic (non-del 5q) abnormality and who had an unsatisfactory response to or are ineligible for ESAs."
+  }
+ ],
+ "dropped": []
+}

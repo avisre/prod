@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0001157557",
+ "issuerName": "ENERGY CO OF MINAS GERAIS",
+ "builtAt": "2026-11-15T10:06:04.337Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-000648",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1157557/000155485526000648/cig-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Generation",
+   "products": [
+    "Hydroelectric power plants",
+    "Wind power facilities"
+   ],
+   "description": "Produces energy from hydroelectric, wind and solar facilities for sale in regulated and free markets.",
+   "evidence": "Comprises production of energy from hydroelectric, wind and solar facilities, being characterized for the sale of the energy produced by the Company itself in the Regulated Market (ACR); under physical guarantee quotas; and to the segment of Trading."
+  },
+  {
+   "name": "Transmission",
+   "products": [],
+   "description": "Constructs, operates and maintains transmission lines and substations for electricity distribution.",
+   "evidence": "Comprises construction, operation and maintenance of transmission lines and substations."
+  },
+  {
+   "name": "Trading",
+   "products": [],
+   "description": "Sells energy to free customers and provides related services through energy purchases and intermediation.",
+   "evidence": "Comprises the sale of energy to free customers and the provision of related services."
+  },
+  {
+   "name": "Distribution",
+   "products": [],
+   "description": "Distributes and sells energy to captive customers and operates distribution infrastructure.",
+   "evidence": "comprises the distribution and sale of energy to captive customers, and the operation and maintenance of infrastructure and related services."
+  },
+  {
+   "name": "Gas",
+   "products": [],
+   "description": "Operates commercial distribution and sale of piped gas to industrial, institutional and residential customers in Minas Gerais.",
+   "evidence": "this business segment includes commercial operation of industrial, institutional and residential distribution and sale of piped gas in the State of Minas Gerais."
+  },
+  {
+   "name": "Investees",
+   "products": [],
+   "description": "Manages equity interests in jointly controlled entities and holding company activities aligned with business strategies.",
+   "evidence": "Comprises management of equity interests in jointly controlled entities, in line with the Company's business strategies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for energy consumption at rates set by ANEEL for regulated customers; free customers negotiate rates; gas customers pay for piped gas distribution services.",
+  "evidence": "We charge regulated customers for their actual energy consumption during each 30-day billing period at specified rates."
+ },
+ "changes": [
+  {
+   "text": "In 2023, CEMIG sold its equity interests in Renova Energia S.A., Madeira Energia S.A., Baguari Energia, and Retiro Baixo Energética S.A. as part of strategic divestment program.",
+   "evidence": "On May 5, 2022, CEMIG concluded the sale of its entire CEMIG equity interest held in Renova Energia S.A."
+  },
+  {
+   "text": "In 2021, CEMIG sold its remaining shares in Light S.A. to exit the investee segment.",
+   "evidence": "On January 22, 2021, the Company sold 68,621,264 shares that it held in that investee, at the price per share of R$20.00, in the total amount of R$1,372 million."
+  }
+ ],
+ "dropped": [
+  "product not in text (Generation): Solar generation facilities",
+  "product not in text (Gas): Piped gas distribution",
+  "change not grounded: In 2024, CEMIG GT disposed of its 45% stake in Aliança Energia S.A. to Vale S.A."
+ ]
+}

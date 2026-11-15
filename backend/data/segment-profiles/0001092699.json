@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001092699",
+ "issuerName": "SPS COMMERCE, INC.",
+ "builtAt": "2026-11-15T10:04:55.700Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001092699-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1092699/000109269926000012/spsc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Supply Chain Management Solutions",
+   "products": [
+    "Fulfillment",
+    "Analytics",
+    "Assortment",
+    "Relationship Management"
+   ],
+   "description": "Cloud-based supply chain network connecting retailers, brands, distributors, manufacturers, and logistics providers to transact with trading partners.",
+   "evidence": "The single operating and reporting segment we have is Supply Chain Management Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay primarily under subscription-based service arrangements for access to the cloud-based supply chain management services, generating recurring revenue.",
+  "evidence": "This segment derives revenues from customers by providing access to our cloud-based supply chain management services, primarily under subscription-based service arrangements."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company acquired Carbon6 Technologies Inc., a provider of software "
+ ],
+ "escalated": "revenue model not quoted"
+}

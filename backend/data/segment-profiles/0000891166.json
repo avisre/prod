@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000891166",
+ "issuerName": "UNIVERSAL INSURANCE HOLDINGS, INC.",
+ "builtAt": "2026-11-15T10:02:12.652Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000891166-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/891166/000089116626000010/uve-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property and Casualty Insurance",
+   "products": [
+    "Homeowners insurance",
+    "Personal articles coverage"
+   ],
+   "description": "Vertically integrated property and casualty insurer offering personal residential homeowners insurance through independent agents and digital channels.",
+   "evidence": "The Company conducts business as a single operating segment as a property and casualty insurer, which is based upon the Company's organizational and management structure, as well as information used by the Company's Chief Executive Office (the chief operating decision maker \"CODM\") to allocate the Company's resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay insurance premiums for personal residential property and casualty coverage; the company generates additional revenue from reinsurance commissions, policy fees, and investment income.",
+  "evidence": "We generate revenue primarily from the collection of insurance premiums. Other sources of revenue include: commissions paid by our reinsurers to our reinsurance intermediary subsidiary BARC on reinsurance it places for the Insurance Entities; policy fees collected from policyholders by our managing general agent subsidiary, ERA; and financing fees charged to policyholders who choose to defer premium payments reflected in other income."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Property and Casualty Insurance): Renters/tenants insurance",
+  "product not in text (Property and Casualty Insurance): Condo unit owners insurance",
+  "product not in text (Property and Casualty Insurance): Dwelling/fire insurance",
+  "product not in text (Property and Casualty Insurance): Allied lines coverage",
+  "product not in text (Property and Casualty Insurance): Personal property coverage",
+  "product not in text (Property and Casualty Insurance): Liability coverage"
+ ]
+}

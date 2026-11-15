@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001095981",
+ "issuerName": "CERENOME, INC.",
+ "builtAt": "2026-11-15T10:04:56.679Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104258",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1095981/000119312526104258/pstv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "single operating segment",
+   "products": [
+    "rhenium (186Re) obisbemeda",
+    "188 RNL-BAM",
+    "CNSide Platform"
+   ],
+   "description": "Develops, manufactures and commercializes complex, innovative treatments for patients battling cancer and other life-threatening diseases.",
+   "evidence": "The Company operates under one reportable business segment to advance the development, manufacturing and commercialization of complex and innovative treatments for patients battling cancer and other life-threatening diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

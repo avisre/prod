@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001157601",
+ "issuerName": "MADRIGAL PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T10:06:14.548Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009514",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1157601/000162828026009514/mdgl-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients with MASH or healthcare providers pay for Rezdiffra, an oral therapy for treating noncirrhotic MASH with moderate to advanced liver fibrosis.",
+  "evidence": "In March 2024, Rezdiffra became the first therapy approved by the FDA for patients with MASH and was commercially available in the United States beginning in April 2024."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company received conditional marketing authorization from the European Commission for Rezdiffra and launched it in Germany in September 2025.",
+   "evidence": "Following receipt of conditional marketing authorization (\"CMA\") from the European Commission (\"EC\"), we launched Rezdiffra in Germany in September 2025."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: MASH Therapeutics"
+ ],
+ "escalated": "no segments"
+}

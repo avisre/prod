@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "cik": "0000892450",
+ "issuerName": "KT Corporation",
+ "builtAt": "2026-11-15T10:02:15.283Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-028096",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/892450/000162828026028096/kt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ICT",
+   "products": [
+    "mobile voice and data telecommunications services",
+    "fixed-line telephone",
+    "VoIP telephone",
+    "broadband Internet access",
+    "data communication services",
+    "IPTV",
+    "satellite TV",
+    "handsets"
+   ],
+   "description": "Provides telecommunications services including mobile, fixed-line, broadband, and media services to individual, household and corporate customers.",
+   "evidence": "the ICT segment, which primarily consists of KT Corporation on a standalone basis that is primarily engaged in providing various telecommunications and platform services to individual, household and corporate customers as well as selling handsets"
+  },
+  {
+   "name": "Finance",
+   "products": [
+    "credit card services",
+    "payment gateway services"
+   ],
+   "description": "Provides financial services including credit card processing and payment gateway services.",
+   "evidence": "the finance segment, which engages in providing various financial services such as credit card services and value-added network and payment gateway services"
+  },
+  {
+   "name": "Satellite TV",
+   "products": [
+    "satellite TV services"
+   ],
+   "description": "Provides satellite television services through KT Skylife.",
+   "evidence": "the satellite TV segment, which engages in satellite TV services"
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "real property development"
+   ],
+   "description": "Engages in real property development and leasing services.",
+   "evidence": "the real estate segment, which engages in real property development and leasing services"
+  },
+  {
+   "name": "Others",
+   "products": [
+    "information technology and network services",
+    "contents and commerce services",
+    "security services",
+    "satellite service",
+    "global business services",
+    "miscellaneous services"
+   ],
+   "description": "Provides IT services, content services, security, and global network services through subsidiaries.",
+   "evidence": "the others segment, which includes (i) information technology and network services, (ii) contents and commerce services, (iii) security services, (iv) satellite service, (v) global business services that provide global network services to multinational or domestic corporate customers and telecommunications companies and (vi) miscellaneous services provided by our subsidiaries"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for telecommunications services based on subscription rates and usage volume, handset sales, and financial services fees.",
+  "evidence": "The principal factors affecting our revenue from these services have been our rates for, and the usage volume of, these services, as well as the number of subscribers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Finance): value-added network services",
+  "product not in text (Real Estate): real property leasing"
+ ]
+}

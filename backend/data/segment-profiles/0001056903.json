@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001056903",
+ "issuerName": "AMERICAN STATES WATER CO",
+ "builtAt": "2026-11-15T10:04:08.741Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009114",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1056903/000162828026009114/awr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "water",
+   "products": [
+    "wastewater collection and treatment"
+   ],
+   "description": null,
+   "evidence": "GSWC is a public water and wastewater utility engaged in the purchase, production, distribution and sale of water in 11 counties in the state of California and provides wastewater collection and treatment services in some areas."
+  },
+  {
+   "name": "electric",
+   "products": [],
+   "description": "Regulated public electric utility distributing electricity in San Bernardino County mountain communities through BVES.",
+   "evidence": "BVES is a public electric utility that distributes electricity in several San Bernardino County mountain communities in California and is also regulated by the CPUC."
+  },
+  {
+   "name": "contracted services",
+   "products": [],
+   "description": "Operates, maintains and constructs water and wastewater systems at U.S. military bases through ASUS subsidiaries.",
+   "evidence": "ASUS, through its wholly owned subsidiaries, has contracted with the U.S. government to provide water and/or wastewater services at various military installations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Regulated utility customers pay rates for water and electric service, while the U.S. government pays firm-fixed-price contracts for contracted services at military bases.",
+  "evidence": "GSWC's and BVES's revenues depend substantially on the rates and charges we are permitted to recover from our customers and the timing of that recovery as authorized by the CPUC."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (water): water",
+  "product not in text (electric): electricity distribution",
+  "product not in text (contracted services): water and wastewater services at military bases"
+ ],
+ "escalated": "revenue model not quoted"
+}

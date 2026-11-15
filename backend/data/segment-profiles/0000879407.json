@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000879407",
+ "issuerName": "ARROWHEAD PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T10:01:50.147Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000879407-25-000029",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/879407/000087940725000029/arwr-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "single segment",
+   "products": [
+    "REDEMPLO (plozasiran)",
+    "Plozasiran (ARO-APOC3)",
+    "Zodasiran (ARO-ANG3)",
+    "ARO-DIMER-PA",
+    "ARO-PNPLA3"
+   ],
+   "description": "Develops and commercializes RNA interference therapeutics that silence disease-causing genes to treat intractable diseases in patients.",
+   "evidence": "The Company operates as a single segment as the chief operating decision maker, or CODM, reviews operating results on an aggregate basis and manages the operations as a single operating segment."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from licensing and collaboration agreements with pharmaceutical partners through upfront payments, milestones and royalties, plus commercial product sales of REDEMPLO.",
+  "evidence": "The Company's primary sources of financing have been through the sale of its equity securities, credit facility, revenue from its licensing and collaboration agreements and the sale of certain future royalties."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, Horizon (acquired by Amgen) terminated the Horizon License Agreement fo"
+ ],
+ "escalated": "revenue model not quoted"
+}

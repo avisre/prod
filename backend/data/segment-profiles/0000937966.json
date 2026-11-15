@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000937966",
+ "issuerName": "ASML HOLDING NV",
+ "builtAt": "2026-11-15T10:02:45.229Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-011378",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lithography Systems",
+   "products": [
+    "NXE",
+    "EXE",
+    "ArF immersion",
+    "ArF dry",
+    "KrF",
+    "I-line",
+    "Metrology and Inspection systems"
+   ],
+   "description": "Development, production, marketing, sales, upgrading and servicing of advanced semiconductor equipment systems.",
+   "evidence": "ASML has one reportable segment, since we are a holistic lithography solution provider, for the development, production, marketing, sales, upgrading and servicing of advanced semiconductor equipment systems, consisting of lithography, metrology and inspection systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase lithography systems through sales orders and volume purchase agreements, with revenue recognized upon system delivery and installation or completion of services.",
+  "evidence": "Our customers generally commit to purchase systems, service or field options through separate sales orders and service contracts."
+ },
+ "changes": [],
+ "dropped": []
+}

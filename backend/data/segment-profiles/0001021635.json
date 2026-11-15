@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001021635",
+ "issuerName": "OGE ENERGY CORP.",
+ "builtAt": "2026-11-15T10:03:34.715Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-055414",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1021635/000119312526055414/oge-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric Company",
+   "products": [],
+   "description": "Generates, transmits, distributes and sells electric energy in Oklahoma and western Arkansas.",
+   "evidence": "OGE Energy's electric company operations are conducted through its wholly-owned subsidiary, OG&E, which generates, transmits, distributes and sells electric energy in Oklahoma and western Arkansas and are reported through OGE Energy's electric company business segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for retail electricity service through tariffs regulated by state and federal regulators.",
+  "evidence": "OG&E's retail electric tariffs are regulated by the OCC in Oklahoma and by the APSC in Arkansas."
+ },
+ "changes": [
+  {
+   "text": "In 2022, OGE Energy exited its former midstream business by selling all equity securities of Energy Transfer.",
+   "evidence": "OGE Energy exited its former midstream business in 2022 as a result of selling all equity securities of Energy Transfer that were previously held by OGE Energy."
+  }
+ ],
+ "dropped": []
+}

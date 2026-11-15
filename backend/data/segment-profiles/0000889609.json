@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000889609",
+ "issuerName": "CONSUMER PORTFOLIO SERVICES, INC.",
+ "builtAt": "2026-11-15T10:02:09.419Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-001856",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/889609/000168316826001856/cps_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automobile Contracts",
+   "products": [
+    "Vehicle purchase money loans"
+   ],
+   "description": "Purchases and services retail automobile contracts from dealers for sub-prime customers with limited credit histories or past credit problems.",
+   "evidence": "Our business is to purchase and service retail automobile contracts originated primarily by franchised automobile dealers and, to a lesser extent, by select independent dealers in the United States in the sale of new and used automobiles, light trucks and passenger vans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on automobile contracts purchased from dealers; the company earns interest income from financed contracts and acquisition fees from dealers.",
+  "evidence": "The Company's revenue primarily consists of interest income and is derived from the interest recorded on contracts the Company has purchased."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Automobile Contracts): Retail automobile installment purchase contracts",
+  "product not in text (Automobile Contracts): Direct lending platform loans",
+  "product not in text (Automobile Contracts): Automobile contract refinance loans"
+ ]
+}

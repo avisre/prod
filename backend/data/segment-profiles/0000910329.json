@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000910329",
+ "issuerName": "Medifast, Inc.",
+ "builtAt": "2026-11-15T10:02:24.191Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008656",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/910329/000162828026008656/med-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OPTA VIA",
+   "products": [
+    "Essentials line",
+    "OPTA VIA ASCEND",
+    "OPTA VIA ACTIVE",
+    "5 & 1 Plan"
+   ],
+   "description": "Sells science-backed nutrition products and metabolic health coaching through independent coaches to support weight loss and wellness.",
+   "evidence": "The Company's OPTA VIA segment derives revenues from customers through the sale of our products which are shipped directly to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase nutrition products and plans shipped directly; coaches earn commissions on product sales.",
+  "evidence": "The segment pays commissions on the sale of products to coaches."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company closed its Maryland Distribution Center as part of supply chain optimization to align distribution with demand levels.",
+   "evidence": "On June 28, 2024, the Company closed its Maryland Distribution Center located in Ridgely, Maryland."
+  }
+ ],
+ "dropped": [
+  "product not in text (OPTA VIA): Premier+ auto-ship program"
+ ]
+}

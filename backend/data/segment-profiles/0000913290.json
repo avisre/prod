@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000913290",
+ "issuerName": "Frontline plc",
+ "builtAt": "2026-11-15T10:02:30.647Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-021774",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/913290/000162828026021774/fro-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "tankers",
+   "products": [
+    "VLCCs",
+    "Suezmax tankers",
+    "Aframax tankers",
+    "LR2 tankers"
+   ],
+   "description": "Transportation of crude oil and refined petroleum products via owned and chartered tanker vessels.",
+   "evidence": "The tankers segment includes crude oil tankers and product tankers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay voyage charter rates and time charter rates for transportation of oil cargoes.",
+  "evidence": "Voyage charter revenues 974,557 908,225 1,882,782 Time charter revenues 53,181 18,985 72,166"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,84 @@
+{
+ "version": 1,
+ "cik": "0000933267",
+ "issuerName": "IRSA Investments and Representations Inc.",
+ "builtAt": "2026-11-15T10:02:43.727Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001654954-26-009071",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/933267/000165495426009071/irsa_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shopping Malls",
+   "products": [
+    "Alto Palermo",
+    "Abasto Shopping",
+    "Alto Avellaneda",
+    "Alcorta Shopping",
+    "Patio Bullrich",
+    "Dot Baires Shopping",
+    "Distrito Arcos",
+    "Soleil Premium Outlet"
+   ],
+   "description": "Acquires, develops and manages shopping malls in Argentina, earning lease and service revenue from commercial space tenants.",
+   "evidence": "\"Shopping Malls\" segment includes results principally comprised of lease and service revenues related to rental of commercial space and other spaces in the shopping malls of the Company."
+  },
+  {
+   "name": "Offices",
+   "products": [
+    "Zetta building",
+    "261 Della Paolera",
+    "Philips Building",
+    "Polo Dot"
+   ],
+   "description": "Owns, develops and manages office buildings throughout Argentina, earning lease and service revenues from office tenants.",
+   "evidence": "\"Offices\" segment includes the operating results from lease revenues of offices and other service revenues related to the office activities."
+  },
+  {
+   "name": "Sales and developments",
+   "products": [
+    "Ramblas del Plata",
+    "Distrito Diagonal",
+    "Ezpeleta Plot"
+   ],
+   "description": "Develops, maintains and sells undeveloped parcels of land and trading properties, including residential projects.",
+   "evidence": "\"Sales and Developments\" segment includes the operating results of the development, maintenance and sales of undeveloped parcels of land and/or trading properties."
+  },
+  {
+   "name": "Hotels",
+   "products": [
+    "Llao Llao Hotel",
+    "Intercontinental Hotel",
+    "Libertador"
+   ],
+   "description": "Operates hotels, earning revenues mainly from rooms, catering and restaurant services.",
+   "evidence": "\"Hotels\" segment includes the operating results mainly comprised of room, catering and restaurant revenues."
+  },
+  {
+   "name": "Others",
+   "products": [
+    "La Arena S.A.",
+    "La Rural S.A.",
+    "Centro de Convenciones Buenos Aires",
+    "Shefa",
+    "BHSA / BACS"
+   ],
+   "description": "Entertainment activities and financial activities, plus other investments in associates such as Banco Hipotecario.",
+   "evidence": "\"Others\" segment includes the entertainment activities through La Arena S.A., La Rural S.A. and Centro de Convenciones Buenos Aires (concession), Shefa and the financial activities carried out through BHSA / BACS, as well as other investments in associates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants and customers pay the company lease and service revenues for commercial and office space, hotel rooms and catering, and property sales.",
+  "evidence": "\"Shopping Malls\" segment includes results principally comprised of lease and service revenues related to rental of commercial space and other spaces in the shopping malls of the Company."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In fiscal year 2022 IRSA CP merged into IRSA, with IRSA assuming all assets and "
+ ],
+ "escalated": "revenue model not quoted"
+}

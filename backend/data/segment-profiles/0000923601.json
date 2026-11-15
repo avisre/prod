@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000923601",
+ "issuerName": "ALGORHYTHM HOLDINGS, INC.",
+ "builtAt": "2026-11-15T10:02:35.250Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014724",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/923601/000149315226014724/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SemiCab",
+   "products": [
+    "SemiCab technology platform"
+   ],
+   "description": "AI-enabled software logistics and distribution business that enables retailers, brands and transportation providers to address supply chain problems globally.",
+   "evidence": "SemiCab is an AI-enabled software logistics and distribution business that utilizes our SemiCab technology platform to enable retailers, brands and transportation providers to address common supply chain problems globally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers, brands and transportation providers pay for access to the SemiCab technology platform to solve supply chain and logistics problems.",
+  "evidence": "SemiCab is an AI-enabled software logistics and distribution business that utilizes our SemiCab technology platform to enable retailers, brands and transportation providers to address common supply chain problems globally."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the Company sold its Singing Machine business on August 1, 2025, and be",
+  "change not grounded: In 2025, the Company acquired 99.99% of SMCB on May 2, 2025, expanding its SemiC"
+ ]
+}

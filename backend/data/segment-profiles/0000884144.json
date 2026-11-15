@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000884144",
+ "issuerName": "ASURE SOFTWARE, INC.",
+ "builtAt": "2026-11-15T10:01:56.157Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012270",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/884144/000162828026012270/asur-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payroll and Human Capital Management",
+   "products": [
+    "Asure Payroll & Tax",
+    "Asure HR Compliance",
+    "Asure Time & Attendance",
+    "AsureRecruiting",
+    "Asure Insurance and Benefits Administration",
+    "AsurePay",
+    "Asure Tax Management Solutions",
+    "AsureMarketplace"
+   ],
+   "description": "Cloud-based HCM software and services for payroll processing, HR management, compliance, and workforce administration to businesses of all sizes.",
+   "evidence": "we determined that we have a single reportable segment that primarily derives its revenue in the United States by providing payroll services to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay recurring per-employee-per-month fees, transaction-based processing fees, implementation and setup fees, payment processing and funds movement fees, and hardware sales.",
+  "evidence": "Revenue is generated through a combination of recurring per-employee-per-month fees, transaction-based processing fees, implementation and setup fees, fees associated with payment processing and funds movement, and hardware sales and Hardware-as-a-Service (\"HaaS\") arrangements."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000898174",
+ "issuerName": "REINSURANCE GROUP OF AMERICA, INCORPORATED",
+ "builtAt": "2026-11-15T10:02:22.731Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000898174-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/898174/000089817426000006/rga-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. and Latin America",
+   "products": [
+    "Individual and group life and health reinsurance",
+    "Long-term care reinsurance",
+    "Asset-intensive reinsurance",
+    "Stable value products",
+    "Pension risk transfer transactions",
+    "Financial reinsurance",
+    "Capital solutions"
+   ],
+   "description": "Provides traditional life and health reinsurance and asset-intensive reinsurance solutions primarily to U.S. life insurance companies.",
+   "evidence": "The U.S. and Latin America operations includes traditional life and health reinsurance, asset-intensive transactions, financial reinsurance, a funding agreement backed note program and other capital motivated solutions, primarily to U.S. life insurance companies."
+  },
+  {
+   "name": "Canada",
+   "products": [],
+   "description": "Provides reinsurance solutions to Canadian insurance companies across life, health and asset-intensive products.",
+   "evidence": "The Company has the following geographic-based and business-based operational segments: • U.S. and Latin America; • Canada; • Europe, Middle East and Africa (\"EMEA\"); • Asia Pacific; and • Corporate and Other."
+  },
+  {
+   "name": "Europe, Middle East and Africa",
+   "products": [],
+   "description": "Provides traditional and financial solutions reinsurance across Europe, Middle East and Africa regions.",
+   "evidence": "The Company has the following geographic-based and business-based operational segments: • U.S. and Latin America; • Canada; • Europe, Middle East and Africa (\"EMEA\"); • Asia Pacific; and • Corporate and Other."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [],
+   "description": "Provides traditional life and health reinsurance and asset-intensive reinsurance solutions across Asia and Australia.",
+   "evidence": "The Company has the following geographic-based and business-based operational segments: • U.S. and Latin America; • Canada; • Europe, Middle East and Africa (\"EMEA\"); • Asia Pacific; and • Corporate and Other."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "Corporate holding company operations and other non-operating activities.",
+   "evidence": "The Company has the following geographic-based and business-based operational segments: • U.S. and Latin America; • Canada; • Europe, Middle East and Africa (\"EMEA\"); • Asia Pacific; and • Corporate and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurance companies pay premiums to RGA for assuming mortality, morbidity, lapse and investment-related risks on reinsured life and health insurance products.",
+  "evidence": "The Company obtains substantially all of its revenues through reinsurance agreements that cover a portfolio of life and health insurance products, including term life, credit life, universal life, whole life, group life and health, joint and last survivor insurance, critical illness, disability, longevity as well as asset-intensive (e.g., annuities), financial reinsurance and other capital motivated solutions."
+ },
+ "changes": [],
+ "dropped": []
+}

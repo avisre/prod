@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "cik": "0001097362",
+ "issuerName": "SUN LIFE FINANCIAL INC",
+ "builtAt": "2026-11-15T10:04:57.679Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001097362-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1097362/000109736226000010/slf-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Sun Life Canada",
+  "segment name not in text: Sun Life Financial United States",
+  "segment name not in text: Sun Life Financial Asset Management",
+  "segment name not in text: Sun Life Financial Asia",
+  "segment name not in text: Sun Life Financial Corporate"
+ ],
+ "escalated": "no segments"
+}

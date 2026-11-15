@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001166663",
+ "issuerName": "TSAKOS ENERGY NAVIGATION LIMITED",
+ "builtAt": "2026-11-15T10:06:24.117Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-144027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1166663/000119312526144027/d49235d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Worldwide maritime transportation of liquid energy-related products",
+   "products": [
+    "Petroleum product transportation"
+   ],
+   "description": "International seaborne transportation of crude oil, petroleum products, and liquefied natural gas using tanker and LNG carrier vessels.",
+   "evidence": "The Company has determined that it operates in one reportable segment, the worldwide maritime transportation of liquid energy-related products and the assets of such segment are presented under the caption total assets in the accompanying consolidated balance sheets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil companies, refiners and traders pay the company for long, medium and short-term charter services to transport liquid energy products by sea.",
+  "evidence": "we operated a fleet of 56 modern crude oil and petroleum product tankers (including three vessels chartered-in) that provide world-wide marine transportation services for national, major and other independent oil companies and refiners under long, medium and short-term charters."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Worldwide maritime transportation of liquid energy-related products): Crude oil transportation",
+  "product not in text (Worldwide maritime transportation of liquid energy-related products): Liquefied natural gas transportation",
+  "product not in text (Worldwide maritime transportation of liquid energy-related products): Offshore shuttle tanker services"
+ ]
+}

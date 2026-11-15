@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001083743",
+ "issuerName": "FLUX POWER HOLDINGS, INC.",
+ "builtAt": "2026-11-15T10:04:41.169Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-039471",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1083743/000149315226039471/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lithium-ion Energy Storage Solutions",
+   "products": [
+    "Battery management systems",
+    "SkyEMS telemetry solution",
+    "Mobile energy storage systems"
+   ],
+   "description": "Designs, develops, manufactures and sells lithium-ion energy storage solutions for material handling, airport ground support equipment and other industrial and commercial applications.",
+   "evidence": "We design, develop, manufacture, and sell a portfolio of advanced lithium-ion energy storage solutions for electrification of a range of industrial and commercial sectors which include material handling and airport ground support equipment (\"GSE\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase energy storage systems and battery management solutions as alternatives to traditional lead acid and propane-based solutions for their equipment fleets.",
+  "evidence": "We believe our mobile energy storage solutions provide our customers with a reliable, high performing, cost effective, and more environmentally friendly alternative as compared to traditional lead acid and propane-based solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Lithium-ion Energy Storage Solutions): Lithium-ion energy storage systems"
+ ]
+}

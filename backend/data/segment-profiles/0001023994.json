@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001023994",
+ "issuerName": "OLENOX INDUSTRIES INC.",
+ "builtAt": "2026-11-15T10:03:43.461Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-073749",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1023994/000121390026073749/ea0295463-10k_olenox.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction",
+   "products": [
+    "GreenSteel Modules",
+    "Pre-fabricated modular containers"
+   ],
+   "description": "Designs and manufactures modular structures using recycled shipping containers for residential, commercial and industrial applications.",
+   "evidence": "The construction segment designs and constructs modular structures in our factory using recycled shipping containers; in the past, traditional wood and steel frames were also used."
+  },
+  {
+   "name": "SaaS",
+   "products": [
+    "Industrial IoT products and services"
+   ],
+   "description": "Offers turnkey solutions to monitor oil and gas operations remotely and other similar applications through IoT technology.",
+   "evidence": "In the technology sector, we offer turnkey solutions to monitor oil and gas operations remotely and other similar applications."
+  },
+  {
+   "name": "Oil and Gas",
+   "products": [],
+   "description": "Operates oil and gas wells in multiple states and in Canada, and provides renewable energy services.",
+   "evidence": "Our oil and gas wells operate in multiple states and in Canada."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for modular construction projects, IoT remote monitoring solutions, and oil and gas production.",
+  "evidence": "The Company's remaining backlog as of December 31, 2025 represents the remaining transaction price of firm contracts for which work has not been performed."
+ },
+ "changes": [
+  {
+   "text": "In February 2025, the company executed an agreement to merge with New Asia Holdings, Inc., acquiring Olenox Corp., Machfu Inc., and Giant Containers Inc.",
+   "evidence": "On February 2, 2025, we executed a sign and close agreement to merge Olenox Industries Inc. (\"OLOX\") with New Asia Holdings, Inc. (\"NAHD\"), the parent company of Olenox Corp. and Machfu, Inc."
+  },
+  {
+   "text": "In December 2025, OLOX acquired Giant Containers Inc., a leading global manufacturer of modular structures.",
+   "evidence": "In December 2025, OLOX acquired Giant Containers Inc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Construction): Modular structures using recycled shipping containers",
+  "product not in text (Construction): Purpose-built modular units",
+  "product not in text (SaaS): Remote monitoring solutions"
+ ]
+}

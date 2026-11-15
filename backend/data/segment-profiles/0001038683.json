@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001038683",
+ "issuerName": "Ryanair Holdings plc",
+ "builtAt": "2026-11-15T10:03:47.334Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-076131",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1038683/000110465926076131/tmb-20260331x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ryanair DAC",
+   "products": [],
+   "description": "Low-fares airline operating scheduled passenger flights and ancillary services across Europe.",
+   "evidence": "The Ryanair DAC segment incorporates all of the Group's operations, except for those included within 'Other Airlines', and is reported as a separate segment as it exceeds the applicable quantitative thresholds for reporting purposes."
+  },
+  {
+   "name": "Other Airlines",
+   "products": [],
+   "description": "Low-fares airline operations of Buzz, Lauda Europe, and Malta Air, exhibiting similar economic characteristics.",
+   "evidence": "Buzz, Malta Air and Lauda do not individually exceed the quantitative thresholds and accordingly are presented on an aggregate basis as they exhibit similar economic characteristics and their services, activities and operations are sufficiently similar in nature."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Passengers pay for scheduled airline tickets and ancillary services including seat selection, baggage fees, and other add-ons.",
+  "evidence": "Ancillary revenues comprise revenues from non-flight scheduled operations, in-flight sales and internet-related services. Non-flight scheduled revenue arises from the sale of priority boarding, reserved seats, car hire, travel insurance, airport transfers, room reservations and other sources, including excess baggage charges and other fees, all directly attributable to the low-fares business."
+ },
+ "changes": [],
+ "dropped": []
+}

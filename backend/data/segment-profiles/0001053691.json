@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001053691",
+ "issuerName": "CervoMed Inc.",
+ "builtAt": "2026-11-15T10:04:05.544Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008259",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1053691/000143774926008259/crvo20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development of clinical and nonclinical product candidates for treatments for ag",
+   "products": [
+    "neflamapimod"
+   ],
+   "description": "Clinical-stage biotechnology company developing neflamapimod for age-related brain disorders including dementia with Lewy bodies, frontotemporal disorders, and other neurologic conditions.",
+   "evidence": "CervoMed Inc. has one reportable segment which consists of the development of clinical and nonclinical product candidates for treatments for age-related neurologic disorders and other medical indications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

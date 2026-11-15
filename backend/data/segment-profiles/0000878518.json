@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000878518",
+ "issuerName": "TASEKO MINES LIMITED",
+ "builtAt": "2026-11-15T10:01:45.692Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001708",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/878518/000106299326001708/exhibit99-2.htm",
+  "exhibit": "exhibit99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining Operations",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Mining Operations"
+ ]
+}

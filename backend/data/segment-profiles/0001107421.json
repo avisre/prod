@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001107421",
+ "issuerName": "ALAUNOS THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T10:05:07.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134720",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1107421/000119312526134720/tcrt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical research and development",
+   "products": [
+    "ALN1003"
+   ],
+   "description": "Develops novel, orally administered small-molecule therapeutics for obesity and related metabolic disorders.",
+   "evidence": "The Company has determined that it has a single reportable and operating segment related to biopharmaceutical research and development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company recognizes revenue from collaboration agreements through milestone achievements; it has generated minimal product revenue.",
+  "evidence": "For the years ended December 31, 2025 and 2024, the Company recognized revenue through its Collaboration Agreement with Solasia Pharma K.K. primarily due to the achievement of milestones."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company shifted from being a clinical-stage oncology-focused cell therapy company to a preclinical-stage biopharmaceutical company focused on obesity and metabolic disorders.",
+   "evidence": "We were previously a clinical-stage oncology-focused cell therapy company developing adoptive TCR-T cell therapies."
+  }
+ ],
+ "dropped": []
+}

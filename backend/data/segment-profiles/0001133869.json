@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001133869",
+ "issuerName": "CAPRICOR THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T10:05:57.321Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-029580",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1133869/000110465926029580/capr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell and Exosome-Based Therapeutics",
+   "products": [
+    "Deramiocel",
+    "StealthX"
+   ],
+   "description": "Development and commercialization of cell and exosome-based therapeutics for Duchenne muscular dystrophy and other diseases.",
+   "evidence": "Capricor Therapeutics, Inc. is a biotechnology company focused on the development and potential commercialization of cell and exosome-based therapeutics for the treatment of Duchenne muscular dystrophy (\"DMD\"), a rare genetic disorder characterized by progressive muscle degeneration and premature death, as well as other diseases with significant unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

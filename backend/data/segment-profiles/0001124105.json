@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001124105",
+ "issuerName": "Gyre Therapeutics, Inc.",
+ "builtAt": "2026-11-15T10:05:31.442Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-106251",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1124105/000119312526106251/gyre-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gyre Pharmaceuticals",
+   "products": [
+    "ETUARY® (pirfenidone)",
+    "Etorel® (nintedanib)",
+    "Contiva® (avatrombopag)"
+   ],
+   "description": "Develops and commercializes small-molecule therapies for organ fibrosis and inflammatory diseases in the PRC.",
+   "evidence": "Gyre Pharmaceuticals has three major commercial drug products, ETUARY®, Etorel®, and Contiva®—as well as several product candidates in preclinical and clinical development."
+  },
+  {
+   "name": "Gyre",
+   "products": [
+    "Hydronidone"
+   ],
+   "description": "Biopharmaceutical company focused on development and commercialization of Hydronidone for metabolic dysfunction-associated steatohepatitis liver fibrosis in the United States.",
+   "evidence": "Gyre is a biopharmaceutical company focused on the development and commercialization of Hydronidone for the treatment of metabolic dysfunction-associated steatohepatitis (\"MASH\")-associated liver fibrosis in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Gyre Pharmaceuticals sells pharmaceutical products to distributors in mainland China, who ultimately sell to hospitals, other medical institutions and pharmacies.",
+  "evidence": "Gyre Pharmaceuticals primarily sells its pharmaceutical products to distributors in mainland China, who ultimately sell the products to hospitals, other medical institutions and pharmacies."
+ },
+ "changes": [],
+ "dropped": []
+}

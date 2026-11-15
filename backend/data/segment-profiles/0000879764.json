@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000879764",
+ "issuerName": "TotalEnergies SE",
+ "builtAt": "2026-11-15T10:01:51.814Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-035876",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/879764/000110465926035876/tot-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration & Production",
+   "products": [
+    "oil",
+    "natural gas",
+    "carbon storage"
+   ],
+   "description": null,
+   "evidence": "An Exploration & Production segment that encompasses the activities of exploration and production of oil and natural gas, as well as carbon storage activities, conducted in about 50 countries;"
+  },
+  {
+   "name": "Integrated LNG",
+   "products": [
+    "LNG",
+    "biogas",
+    "gas trading"
+   ],
+   "description": "Covers the integrated gas chain including upstream and midstream LNG, biogas and gas trading activities.",
+   "evidence": "An Integrated LNG segment covering the integrated gas chain (including upstream and midstream LNG activities) as well as biogas and gas trading activities;"
+  },
+  {
+   "name": "Integrated Power",
+   "products": [
+    "electricity generation",
+    "storage",
+    "electricity trading"
+   ],
+   "description": null,
+   "evidence": "An Integrated Power segment covering generation, storage, electricity trading and B2B-B2C distribution of gas and electricity;"
+  },
+  {
+   "name": "Refining & Chemicals",
+   "products": [
+    "refining",
+    "petrochemicals",
+    "specialty chemicals",
+    "oil supply and trading",
+    "maritime transport",
+    "hydrogen"
+   ],
+   "description": "Industrial hub comprising refining, petrochemicals and specialty chemicals, plus oil trading, maritime transport and hydrogen.",
+   "evidence": "A Refining & Chemicals segment constituting a major industrial hub comprising the activities of refining, petrochemicals and specialty chemicals."
+  },
+  {
+   "name": "Marketing & Services",
+   "products": [
+    "petroleum products"
+   ],
+   "description": "Global supply and marketing of petroleum products.",
+   "evidence": "A Marketing & Services segment including the global activities of supply and marketing in the field of petroleum products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay TotalEnergies for sales of crude oil, natural gas, LNG, electricity, refined petroleum products and chemicals.",
+  "evidence": "Sales 201,196 214,550 237,128"
+ },
+ "changes": [
+  {
+   "text": "In 2025 hydrogen activities previously reported within the Integrated LNG segment were moved into the Refining & Chemicals segment.",
+   "evidence": "This segment also includes oil supply and trading activities, maritime transport, and hydrogen activities previously reported within the Integrated LNG segment;"
+  }
+ ],
+ "dropped": [
+  "product not in text (Integrated Power): gas and electricity distribution"
+ ],
+ "escalated": "revenue model not quoted"
+}

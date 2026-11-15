@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001007019",
+ "issuerName": "COFFEE HOLDING CO., INC.",
+ "builtAt": "2026-11-15T10:03:09.585Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-004052",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1007019/000149315226004052/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "coffee",
+   "products": [
+    "Wholesale Green Coffee",
+    "Private Label Coffee",
+    "Branded Coffee",
+    "Single cup coffee pods",
+    "Instant coffees",
+    "Tea",
+    "Tabletop coffee roasting equipment"
+   ],
+   "description": "Integrated wholesale coffee roaster and dealer offering green coffee, private label and branded coffee products to supermarkets, wholesalers and retail customers.",
+   "evidence": "The coffee segment derives revenue from the sale of wholesale green coffee, private label coffee and branded coffee."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including supermarkets, wholesalers, individually owned stores and specialty roasters pay for roasted, blended and packaged coffee products and wholesale green coffee beans.",
+  "evidence": "Our private label and branded coffee products are sold throughout the United States and certain countries in Asia to supermarkets, wholesalers, and individually owned and multi-unit retail customers."
+ },
+ "changes": [
+  {
+   "text": "In October 2025, the Company closed its Comfort Foods manufacturing facility in North Andover, Massachusetts acquired in 2017, consolidating production to the Port Chester facility.",
+   "evidence": "On October 7, 2025, the Company announced its plan to close its Comfort Foods manufacturing facility located in North Andover, Massachusetts (the \"Comfort Foods facility\"). The closure of the Comfort Foods facility was completed by the end of October 2025."
+  },
+  {
+   "text": "In June 2016, the Company acquired Sonofresco, doing business as Coffee Kinetics LLC, including equipment, inventory and customer lists.",
+   "evidence": "In June 2016, we acquired substantially all of the assets of Coffee Kinetics LLC (doing business as Sonofresco) through our wholly-owned subsidiary Sonofresco, LLC (\"Sonofresco\" or \"SONO\"), including equipment, inventory, customer lists, relationships and accounts payable."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In November 2024, the Company acquired substantially all assets of Empire Coffee"
+ ]
+}

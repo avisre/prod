@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001130598",
+ "issuerName": "Traws Pharma, Inc.",
+ "builtAt": "2026-11-15T10:05:38.448Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043832",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1130598/000110465926043832/traw-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company formerly known as Onconova Therapeutics merged with Trawsfynydd Therapeutics to expand focus from cancer to respiratory viral disease therapeutics.",
+   "evidence": "On April 1, 2024, the Company (then known as Onconova Therapeutics, Inc.) consummated a merger (the \"Merger\") with Trawsfynydd Therapeutics, Inc. (\"Trawsfynydd\"), a privately-held biotechnology company developing next-generation, best-in-class antivirals for influenza, COVID-19 and other infectious diseases."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Biopharmaceutical Development"
+ ],
+ "escalated": "no segments"
+}

@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000911216",
+ "issuerName": "PALATIN TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T10:02:26.583Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-044572",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/911216/000149315226044572/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [
+    "MC1R agonist peptides",
+    "PL9643",
+    "PL8177",
+    "bremelanotide"
+   ],
+   "description": "Develops first-in-class medicines based on melanocortin receptor modulators for obesity, rare diseases, and inflammatory conditions.",
+   "evidence": "The Company views its operations and manages its business in one operating segment: life science."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Receives upfront payments, research funding, milestone payments and royalties from strategic collaboration and licensing agreements with pharmaceutical partners.",
+  "evidence": "Utilizing payments received under existing and future collaboration and license agreements, including upfront payments, research funding, milestone payments and royalties, together with other available financial resources, to partially fund our product development programs"
+ },
+ "changes": [
+  {
+   "text": "In December 2023, Vyleesi, the Company's FDA-approved melanocortin receptor agonist for HSDD, was acquired by Cosette.",
+   "evidence": "Our U.S. Food and Drug Administration (\"FDA\") approved melanocortin receptor agonist, Vyleesi, an \"as needed\" therapy used in anticipation of sexual activity and self-administered in the thigh or abdomen via a single-use subcutaneous auto-injector by premenopausal women with hypoactive sexual desire disorder (\"HSDD\"), was acquired by Cosette in December 2023."
+  }
+ ],
+ "dropped": [
+  "product not in text (life science): MC4R agonist peptides",
+  "product not in text (life science): MC4R agonist small molecules",
+  "change not grounded: In August 2025, Boehringer Ingelheim acquired certain Palatin patent application",
+  "change not grounded: In January 2026, PL9643 was licensed to Altanispac Labs for development and comm"
+ ]
+}

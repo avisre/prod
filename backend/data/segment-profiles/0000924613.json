@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000924613",
+ "issuerName": "Nokia Corporation",
+ "builtAt": "2026-11-15T10:02:35.607Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-015034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/924613/000162828026015034/nok-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Network Infrastructure",
+   "products": [
+    "Optical Networks",
+    "IP Networks",
+    "Fixed Networks"
+   ],
+   "description": "Provides optical, IP and fixed network infrastructure equipment and solutions to telecom providers and enterprise customers.",
+   "evidence": "Network Infrastructure net sales in 2025 were EUR 7 986 million, an increase of EUR 1 468 million, or 23 %, compared to EUR 6 518 million in 2024 . T he acquisition of Infinera at the end of February contributed EUR 1 273 million in net sales growth."
+  },
+  {
+   "name": "Cloud and Network Services",
+   "products": [
+    "Enterprise Campus Edge"
+   ],
+   "description": "Delivers cloud and network services solutions including enterprise campus edge and managed services to customers.",
+   "evidence": "Cloud and Network Services net sales in 2025 were EUR 2 606 million, an increase of EUR 17 million, or 1 %, compared to EUR 2 589 million in 2024 ."
+  },
+  {
+   "name": "Mobile Networks",
+   "products": [],
+   "description": "Provides mobile network infrastructure, software and services to mobile network operators.",
+   "evidence": "During 2025 , Nokia had four operating and reportable segments for financial reporting purposes: (1) Network Infrastructure, (2) Cloud and Network Services, (3) Mobile Networks and (4) Nokia Technologies."
+  },
+  {
+   "name": "Nokia Technologies",
+   "products": [],
+   "description": "Manages technology licensing, patents and intellectual property monetization across Nokia's portfolio.",
+   "evidence": "During 2025 , Nokia had four operating and reportable segments for financial reporting purposes: (1) Network Infrastructure, (2) Cloud and Network Services, (3) Mobile Networks and (4) Nokia Technologies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Nokia sells infrastructure equipment, software and services to telecommunications providers, enterprises and cloud providers, generating revenue from product sales and service contracts.",
+  "evidence": "Demand increased from AI & Cloud and Mission Critical Enterprise & Defense customers while demand from telecom providers remained largely stable."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Nokia moved Managed Services business from Cloud and Network Services to Mobile Networks.",
+   "evidence": "In 2025, Nokia moved Managed Services business from Cloud and Network Services to Mobile Networks."
+  },
+  {
+   "text": "Nokia acquired Infinera in late February 2025, adding optical networking capabilities to Network Infrastructure segment.",
+   "evidence": "T he acquisition of Infinera at the end of February contributed EUR 1 273 million in net sales growth."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000928876",
+ "issuerName": "TOWER SEMICONDUCTOR LTD.",
+ "builtAt": "2026-11-15T10:02:36.087Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-002318",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/928876/000117891326002318/zk2635149.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Foundry Services",
+   "products": [
+    "CMOS image sensors",
+    "non-imaging sensors",
+    "micro-electromechanical systems (MEMS)",
+    "wireless antenna switch Silicon-on-Insulator (SOI)",
+    "silicon photonics (SiPho)",
+    "radio frequency CMOS (RFCMOS)",
+    "bipolar CMOS (BiCMOS)",
+    "power management technologies"
+   ],
+   "description": "Specialty foundry providing high-value, high-quality processed wafers to customers for diverse end markets using advanced process technologies.",
+   "evidence": "We are a pure-play independent specialty foundry, and as such we are dedicated to providing high-value, high-quality, processed wafers to our customers for their end products and end users."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for wafer foundry services based on their design specifications and process technology requirements across multiple end markets.",
+  "evidence": "Our foundry processes use chemical materials, chemical processes and other materials and equipment on silicon wafers, based on the design specifications of our customers."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, Tower discontinued operations at Fab 1 and consolidated certain flows i"
+ ]
+}

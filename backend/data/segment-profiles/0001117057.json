@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001117057",
+ "issuerName": "PLANET GREEN HOLDINGS CORP.",
+ "builtAt": "2026-11-15T10:05:17.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037637",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1117057/000121390026037637/ea0283176-10k_planet.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Products, Chemical Products and Online Advertising",
+   "products": [],
+   "description": "Diverse business activities including consumer products, chemical products and online advertising through PRC and Canadian subsidiaries.",
+   "evidence": "Planet Green is engaged in a number of diverse business activities, including consumer products, chemical products and online advertising."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Company resolved to discontinue operations of Shandong Yunchu and subsequently disposed of its equity interest.",
+   "evidence": "On April 30, 2025, the Board resolved to discontinue the operations of Shandong Yunchu. Subsequently, on September 1, 2025, the Company disposed of its 100 % equity interest in Shandong Yunchu."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, Allinyson Ltd. and its subsidiaries were completely disposed, resulting"
+ ]
+}

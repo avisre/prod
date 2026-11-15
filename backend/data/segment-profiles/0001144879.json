@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001144879",
+ "issuerName": "APPLIED DIGITAL CORPORATION",
+ "builtAt": "2026-11-15T10:06:04.313Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001144879-26-000048",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000048/apld-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HPC Hosting Business",
+   "products": [
+    "Polaris Forge 1",
+    "Polaris Forge 2",
+    "Polaris Forge 3",
+    "Delta Forge 1",
+    "Delta Forge 2",
+    "AI factories"
+   ],
+   "description": "Designs, builds, owns and operates purpose-built HPC data centers leased to hyperscalers for AI and accelerated-compute workloads.",
+   "evidence": "Our HPC Hosting Business designs, constructs, owns, and operates next-generation data centers purpose-built to host high-density GPU and other accelerated-compute infrastructure for AI, machine learning, and other HPC applications."
+  },
+  {
+   "name": "Data Center Hosting Business",
+   "products": [],
+   "description": "Provides energized infrastructure to a single legacy crypto mining customer to deploy equipment based on its power requirements.",
+   "evidence": "Our Data Center Hosting Business provides energized infrastructure allowing the customer to deploy equipment based on its power requirements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "Following the May 2026 transaction, the cloud services business (ChronoScale) is no longer an operating or reportable segment.",
+   "evidence": "As discussed further under Note 1 - Business and Basis of Presentation and Note 19 - Business Segments, our cloud services business is no longer an operating or reportable segment following the May 2026 transaction."
+  }
+ ],
+ "dropped": [
+  "product not in text (Data Center Hosting Business): Jamestown, North Dakota facility",
+  "product not in text (Data Center Hosting Business): Ellendale, North Dakota facility",
+  "revenue model not grounded",
+  "change not grounded: The Company moved from three reportable segments as of the quarter ended Februar"
+ ],
+ "escalated": "revenue model not quoted"
+}

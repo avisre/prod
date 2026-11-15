@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001158780",
+ "issuerName": "Pluri Inc.",
+ "builtAt": "2026-11-15T10:06:18.013Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-098862",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1158780/000121390026098862/ea0304639-10k_pluri.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell-based Products and Technologies",
+   "products": [
+    "PLX-PAD",
+    "PLX-R18",
+    "MAIT cells",
+    "PluriCDMO",
+    "Cellav"
+   ],
+   "description": "Development, manufacturing and commercialization of cell-based products and therapeutics across human health and foodtech applications.",
+   "evidence": "Pluri is a biotechnology company operating in one operating segment focused on the development, manufacturing and commercialization of cell-based products and technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue from licensing arrangements, strategic partnerships, collaboration agreements, contract development and manufacturing services, and wellness and longevity market commercialization.",
+  "evidence": "The Company's ability to successfully carry out its business plan is primarily dependent upon its ability to (1) obtain sufficient additional capital, (2) generate revenues through commercial activities in the wellness and longevity markets, including licensing arrangements, strategic partnerships, collaboration agreements and Contract Development and Manufacturing Organization, or CDMO, services"
+ },
+ "changes": [],
+ "dropped": []
+}

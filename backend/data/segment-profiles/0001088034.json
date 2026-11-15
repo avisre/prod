@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001088034",
+ "issuerName": "Usio, Inc.",
+ "builtAt": "2026-11-15T10:04:47.839Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008833",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1088034/000143774926008833/usio20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Merchant Services",
+   "products": [
+    "ACH processing",
+    "Credit card processing",
+    "Prepaid cards",
+    "PINless debit"
+   ],
+   "description": "Electronic payment processing services for merchants and businesses including ACH, credit card, debit card processing, and prepaid card issuance.",
+   "evidence": "We provide integrated electronic payment processing services to merchants and businesses, including credit, and debit card-based processing services and electronic funds transfer via the ACH network."
+  },
+  {
+   "name": "Output Solutions",
+   "products": [
+    "Electronic bill presentment and payment",
+    "Printing and mailing services"
+   ],
+   "description": "Outsourced document design, printing, and electronic delivery services serving utilities, financial institutions, and other industry verticals.",
+   "evidence": "Usio Output Solutions, Inc., or Output Solutions, offers a unique, and complementary payment related solution to our merchant services products of ACH, credit card, and prepaid card processing, with an opportunity for enhanced cross-selling efforts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants and businesses pay for payment acceptance services through transaction fees, interchange, card processing, ACH processing, prepaid card programs, and document composition and printing services.",
+  "evidence": "We provide payment acceptance through multiple payment methods including: payment facilitation, prepaid card and electronic billing products and services to businesses, merchants and consumers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, acquired substantially all of the assets of PostCredit, expanding into expense management and ERP system integration.",
+   "evidence": "In November of 2025, we acquired substantially all of the assets of PostCredit, allowing an entry point into the expense management space."
+  }
+ ],
+ "dropped": [
+  "product not in text (Merchant Services): Payment Facilitation (PayFac)",
+  "product not in text (Merchant Services): Remotely Created Checks (RCC)",
+  "product not in text (Merchant Services): Real Time Payments (RTP)",
+  "product not in text (Output Solutions): Document composition and decomposition"
+ ]
+}

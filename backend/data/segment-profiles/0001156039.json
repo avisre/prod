@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0001156039",
+ "issuerName": "Elevance Health, Inc.",
+ "builtAt": "2026-11-15T10:06:04.334Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001156039-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1156039/000115603926000013/elv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health Benefits",
+   "products": [
+    "Individual health plans",
+    "BlueCard",
+    "Medicare plans",
+    "Medicaid plans",
+    "Stop loss, dental, vision and supplemental health insurance"
+   ],
+   "description": "Offers comprehensive health plans and administrative managed care services to Individual, Employer Group, Medicare, Medicaid and FEP members across multiple states.",
+   "evidence": "Our Health Benefits segment offers a comprehensive suite of health plans and services to our Individual, Employer Group risk-based, Employer Group fee-based, BlueCard ® , Medicare, Medicaid and FEP ® members."
+  },
+  {
+   "name": "CarelonRx",
+   "products": [
+    "Specialty pharmacy",
+    "Claims adjudication",
+    "Formulary management",
+    "Pharmacy networks",
+    "Rebate administration",
+    "Prescription drug database",
+    "Ambulatory infusion centers"
+   ],
+   "description": "Provides comprehensive pharmacy services including home delivery, specialty pharmacy, and clinical programs to affiliated and external health plan customers.",
+   "evidence": "CarelonRx offers a comprehensive portfolio of pharmacy services, which includes all core pharmacy services, such as home delivery and specialty pharmacies, claims adjudication, formulary management, pharmacy networks, rebate administration, a prescription drug database and member services."
+  },
+  {
+   "name": "Carelon Services",
+   "products": [
+    "Carelon Health",
+    "Carelon Insights",
+    "Care management",
+    "Behavioral health services",
+    "Virtual care",
+    "Value-based networks"
+   ],
+   "description": "Integrates physical, behavioral, pharmacy and social-care capabilities to support whole-health services and manage complex healthcare areas for internal and external customers.",
+   "evidence": "Our Carelon Services segment integrates physical, behavioral, pharmacy, and social-care capabilities to support whole-health services and enhance affordability for both internal and external customers through our Carelon Health and Carelon Insights businesses."
+  },
+  {
+   "name": "Corporate & Other",
+   "products": [],
+   "description": "Includes businesses that do not meet quantitative thresholds for operating segments and unallocated corporate expenses.",
+   "evidence": "Our Corporate & Other segment includes our businesses that do not individually meet the quantitative threshold for an operating segment, as well as corporate expenses not allocated to our other reportable segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Company generates revenue through risk-based premiums from health plans, administrative fees from self-funded employers, and pharmacy and health service fees.",
+  "evidence": "Across these markets, we generate revenue through risk-based premiums, administrative fees from self-funded employers and pharmacy and health service fees through our Carelon businesses."
+ },
+ "changes": [
+  {
+   "text": "In 2024, CarelonRx acquired Paragon Healthcare, Inc. and its subsidiaries, adding ambulatory infusion centers to the portfolio in March 2024.",
+   "evidence": "In addition, CarelonRx includes ambulatory infusion centers, added to our portfolio in March 2024 through our acquisition of Paragon Healthcare, Inc. and its subsidiaries."
+  },
+  {
+   "text": "In 2024, Carelon Health completed acquisition of RSV QOZB LTSS, Inc. and certain affiliated entities (d/b/a CareBridge) at the end of 2024, providing virtual care services.",
+   "evidence": "As a part of Carelon Health, we completed our acquisition of RSV QOZB LTSS, Inc. and certain affiliated entities (d/b/a CareBridge) at the end of 2024, which provides virtual care to complex Medicaid and Medicare patients and supports plans in managing home and community-based services."
+  }
+ ],
+ "dropped": [
+  "product not in text (Health Benefits): Employer Group risk-based plans",
+  "product not in text (Health Benefits): Employer Group fee-based plans",
+  "product not in text (Health Benefits): Federal Employee Program (FEP)",
+  "product not in text (CarelonRx): Home delivery pharmacy"
+ ]
+}

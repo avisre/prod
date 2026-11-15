@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001063259",
+ "issuerName": "DENISON MINES CORP.",
+ "builtAt": "2026-11-15T10:04:11.967Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-036912",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1063259/000110465926036912/dnn-20251231xex99d3.htm",
+  "exhibit": "dnn-20251231xex99d3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining",
+   "products": [
+    "Mineral concentrates",
+    "Toll milling services"
+   ],
+   "description": "Exploration, evaluation, development, mining and milling of uranium, including toll milling services.",
+   "evidence": "The Mining segment includes activities related to exploration, evaluation and development, mining, milling (including toll milling) and the sale of mineral concentrates."
+  },
+  {
+   "name": "Corporate and Other",
+   "products": [],
+   "description": "General corporate expenses not allocated to operating segments.",
+   "evidence": "The Corporate and Other segment includes general corporate expenses not allocated to the other segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for toll milling services and mineral concentrates from mining operations.",
+  "evidence": "Toll milling services-deferred revenue"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company discontinued its environmental services business segment that previously provided mine decommissioning and other services to third parties.",
+   "evidence": "The Company also previously had a third primary segment of operations, which segment included the results of the Company's environmental services business which provided mine decommissioning and other services to third parties."
+  }
+ ],
+ "dropped": []
+}

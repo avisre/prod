@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000885550",
+ "issuerName": "CREDIT ACCEPTANCE CORP",
+ "builtAt": "2026-11-15T10:02:02.945Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000885550-26-000047",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/885550/000088555026000047/cacc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financing Solutions",
+   "products": [
+    "Portfolio Program",
+    "Purchase Program",
+    "Consumer Loans",
+    "Dealer Loans",
+    "Purchased Loans"
+   ],
+   "description": "Provides financing solutions enabling automobile dealers to sell vehicles to consumers with impaired or limited credit histories.",
+   "evidence": "We currently operate in one reportable segment which represents our core business of offering innovative financing solutions and related products and services that enable Dealers to sell vehicles to consumers regardless of their credit history."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Automobile dealers and consumers pay through finance charges on loans, reinsurance premiums on vehicle service contracts, and ancillary product fees.",
+  "evidence": "Credit Acceptance derives its revenues from the following principal sources: • finance charges, which are comprised of: (1) interest income earned on Loans; (2) administrative fees earned from ancillary products; (3) program fees charged to Dealers under the Portfolio Program; (4) Consumer Loan assignment fees charged to Dealers; and (5) direct origination costs incurred on Dealer Loans; • premiums earned on the reinsurance of vehicle service contracts; and • other income, which primarily consis"
+ },
+ "changes": [],
+ "dropped": []
+}

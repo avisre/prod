@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001119639",
+ "issuerName": "PETROBRAS - PETROLEO BRASILEIRO SA",
+ "builtAt": "2026-11-15T10:05:21.566Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002168",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1119639/000129281426002168/pbrform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and Production",
+   "products": [],
+   "description": "Explores for and produces crude oil and natural gas reserves.",
+   "evidence": "Exploration and Production Third parties (1)(2) 232 308 (24.7) Intersegment 59,305 60,208 (1.5) Sales revenues (2) 59,537 60,516 (1.6)"
+  },
+  {
+   "name": "Refining, Transportation & Marketing",
+   "products": [],
+   "description": "Refines crude oil into products and transports and markets oil and petroleum products.",
+   "evidence": "Refining, Transportation & Marketing Third parties (1)(2) 83,086 84,246 (1.4) Intersegment 1,079 1,035 4.3 Sales revenues (2) 84,165 85,281 (1.3)"
+  },
+  {
+   "name": "Gas and Low Carbon Energies",
+   "products": [
+    "natural gas",
+    "electricity",
+    "biodiesel",
+    "ethanol",
+    "biomethane",
+    "low-carbon hydrogen",
+    "renewable generation",
+    "sustainable aviation fuel"
+   ],
+   "description": "Operates gas and energy commercialization and develops low-carbon energy businesses.",
+   "evidence": "Gas and Low Carbon Energies Third parties (1)(2) 5,544 6,549 (15.3) Intersegment 3,151 2,969 6.1 Sales revenues (2) 8,695 9,518 (8.6)"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Petrobras generates revenues from selling crude oil and natural gas to third parties and related segments, refined petroleum products, electricity, and low-carbon energy products.",
+  "evidence": "Sales revenues 9 89,195 91,416 102,409"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, Petrobras signed an agreement with Lightsource bp to establish a strate"
+ ]
+}

@@ -1,0 +1,94 @@
+{
+ "version": 1,
+ "cik": "0001123452",
+ "issuerName": "SOUTHEAST AIRPORT GROUP",
+ "builtAt": "2026-11-15T10:05:30.483Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044448",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1123452/000110465926044448/asurb-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cancún",
+   "products": [
+    "Aeronautical revenue",
+    "Non-aeronautical revenue",
+    "Revenue for construction services"
+   ],
+   "description": "Operates the Cancún airport and related Mexican subsidiaries providing airport, storage, handling and retail services to airlines and passengers.",
+   "evidence": "December 31, 2023 ​ ​ ​ Cancún ​ ​ ​ Aerostar (*) ​ ​ ​ Airplan (**) ​ ​ ​ Mérida ​ ​ ​ Villahermosa ​ ​ ​ Services ​ ​ ​ Other"
+  },
+  {
+   "name": "Aerostar",
+   "products": [
+    "Aeronautical revenue",
+    "Non-aeronautical revenue",
+    "Revenue for construction services"
+   ],
+   "description": "Operates the LMM airport in Puerto Rico, providing aeronautical and non-aeronautical services to airlines and passengers.",
+   "evidence": "(*) Subsidiary located in Puerto Rico."
+  },
+  {
+   "name": "Airplan",
+   "products": [
+    "Aeronautical revenue",
+    "Non-aeronautical revenue",
+    "Revenue for construction services"
+   ],
+   "description": "Operates airports in Colombia, including Bogotá area, providing aeronautical and non-aeronautical services to airlines and passengers.",
+   "evidence": "(**) Subsidiary located in Colombia."
+  },
+  {
+   "name": "Mérida",
+   "products": [
+    "Aeronautical revenue",
+    "Non-aeronautical revenue",
+    "Revenue for construction services"
+   ],
+   "description": "Operates the Mérida airport in Mexico, providing aeronautical and non-aeronautical services to airlines and passengers.",
+   "evidence": "Aeronautical revenue ​ Ps. 8,167,803 Ps. 2,029,890 ​ Ps. 1,945,637 Ps. 1,066,368 ​ Ps. 404,370"
+  },
+  {
+   "name": "Villahermosa",
+   "products": [
+    "Aeronautical revenue",
+    "Non-aeronautical revenue",
+    "Revenue for construction services"
+   ],
+   "description": "Operates the Villahermosa airport in Mexico, providing aeronautical and non-aeronautical services to airlines and passengers.",
+   "evidence": "Mérida ​ ​ ​ Villahermosa ​ ​ ​ Services ​ ​ ​ Other"
+  },
+  {
+   "name": "Services",
+   "products": [
+    "Non-aeronautical revenue"
+   ],
+   "description": "Provides non-aeronautical services across the group's airports.",
+   "evidence": "Non-aeronautical revenue ​ ​ 6,373,826 ​ 1,729,919 ​ ​ 659,237 ​ 232,536 ​ ​ 73,876 ​ Ps. 980,145 ​ 226,521"
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Aeronautical revenue",
+    "Non-aeronautical revenue",
+    "Revenue for construction services"
+   ],
+   "description": "Groups the company's remaining airports and operations not separately reported.",
+   "evidence": "Mérida ​ ​ ​ Villahermosa ​ ​ ​ Services ​ ​ ​ Other ​ ​ ​ adjustments ​ ​ ​ Total"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Airlines and passengers pay the company aeronautical and non-aeronautical charges for use of its airport facilities and services, plus construction services revenue.",
+  "evidence": "These factors directly determine our revenues from aeronautical services and indirectly determine our revenues from non-aeronautical services."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025 the Company acquired ASUR Airports (URW Airports) with a 100% equity int"
+ ],
+ "escalated": "revenue model not quoted"
+}

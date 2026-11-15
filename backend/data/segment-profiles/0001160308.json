@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001160308",
+ "issuerName": "Savara Inc.",
+ "builtAt": "2026-11-15T10:06:18.345Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-105076",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1160308/000119312526105076/svra-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "specialty pharmaceuticals within the respiratory system",
+   "products": [],
+   "description": "Clinical stage biopharmaceutical company developing inhaled granulocyte-macrophage colony-stimulating factor for autoimmune pulmonary alveolar proteinosis.",
+   "evidence": "Therefore, the Company has only one operating segment and one reportable segment, specialty pharmaceuticals within the respiratory system."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (specialty pharmaceuticals within the respiratory system): molgramostim inhalation solution (MOLBREEVI)"
+ ]
+}

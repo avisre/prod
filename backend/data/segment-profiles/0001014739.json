@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001014739",
+ "issuerName": "OPTION CARE HEALTH, INC.",
+ "builtAt": "2026-11-15T10:03:19.249Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001014739-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1014739/000101473926000008/bios-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infusion services",
+   "products": [
+    "Anti-Infectives Infusion",
+    "Nutrition Support",
+    "Immunoglobulin Infusion",
+    "Chronic Inflammatory Disorders",
+    "Neurological Disorders",
+    "Bleeding Disorders Infusion",
+    "Naven Health",
+    "Women's Health"
+   ],
+   "description": "Provides home and alternate site infusion therapy services including clinical management, nursing support and care coordination for complex chronic conditions.",
+   "evidence": "Infusion services derives revenue through the clinical management of infusion therapy, nursing support, and care coordination in order to provide solutions to complex patient conditions in the home or other nonhospital settings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Contracts with managed care organizations, third-party payers, hospitals and physicians for infusion therapy services provided to patients in home or nonhospital settings.",
+  "evidence": "Option Care Health contracts with managed care organizations, third-party payers, hospitals, physicians and other referral sources to provide pharmaceuticals and complex compounded solutions to patients for intravenous delivery in the patients' homes or other nonhospital settings."
+ },
+ "changes": [],
+ "dropped": []
+}

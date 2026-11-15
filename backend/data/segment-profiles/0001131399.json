@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001131399",
+ "issuerName": "GSK plc",
+ "builtAt": "2026-11-15T10:05:52.280Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001131399-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1131399/000113139926000004/gsk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Operations",
+   "products": [
+    "Specialty Medicines",
+    "Vaccines",
+    "General Medicines"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Total R&D",
+   "products": [],
+   "description": "Research and development operations supporting drug discovery and development programs.",
+   "evidence": "GSK reports results under two segments namely Commercial Operations and Total R&D."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients and healthcare systems purchase company prescription medicines, vaccines and general medicines through pharmacies, wholesalers and healthcare providers.",
+  "evidence": "Sales of pharmaceutical and vaccine products in the US have complex arrangements for rebates, discounts and allowances."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Commercial Operations"
+ ]
+}

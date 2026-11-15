@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001069878",
+ "issuerName": "Trex Company, Inc.",
+ "builtAt": "2026-11-15T10:04:29.246Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-068732",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069878/000119312526068732/trex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Trex",
+   "products": [
+    "Trex Signature decking",
+    "Trex Transcend decking",
+    "Trex Select decking",
+    "Trex Enhance decking",
+    "Trex railing systems",
+    "Trex Seclusions composite fencing"
+   ],
+   "description": "Manufacturer of high-performance, low-maintenance, eco-friendly wood-alternative composite decking, railing, fencing, cladding and outdoor lighting products for residential markets.",
+   "evidence": "Trex is the world's largest manufacturer of high-performance, low-maintenance, eco-friendly wood-alternative composite decking and railing and a leader in outdoor living products, with more than 30 years of product experience."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Trex sells composite decking, railing, fencing, cladding and outdoor lighting products to distributors and home centers for resale primarily to residential homeowners.",
+  "evidence": "Trex products are sold to distributors and home centers for final resale primarily to the residential market."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Trex): Trex Transcend Lineage decking",
+  "product not in text (Trex): Trex cladding"
+ ]
+}

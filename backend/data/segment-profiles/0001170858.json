@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001170858",
+ "issuerName": "COMPANHIA DE SANEAMENTO BASICO DO ESTADO DE SAO PAULO-SABESP",
+ "builtAt": "2026-11-15T10:06:24.527Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002681",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1170858/000129281426002681/sbsform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sanitation",
+   "products": [
+    "Water supply services",
+    "Sewage collection services",
+    "Sewage treatment services",
+    "Non-domestic wastewater treatment services"
+   ],
+   "description": "Provides water supply, sewage collection and treatment services to residential, commercial, industrial consumers and public entities across municipalities in São Paulo State.",
+   "evidence": "we provided water and sewage services to numerous residential, commercial and industrial consumers, as well as various public entities, in 375 municipalities in the State of São Paulo, including the city of São Paulo, under concession agreements"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential, commercial and industrial customers pay tariffs for water supply and sewage services based on a regulatory model with annual adjustments for inflation and performance factors.",
+  "evidence": "Tariffs are our main form of remuneration for the services we provide under the Concession Agreement for URAE-1."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired remaining equity interests in Águas de Andradina S.A. and Águas de Castilho S.A. through preemptive rights exercise, with closing pending regulatory conditions.",
+   "evidence": "In May 2025, we exercised our preemptive rights to acquire the remaining 70% equity interests in Águas de Andradina S.A. and Águas de Castilho S.A., which were previously held by Iguá Saneamento S.A."
+  },
+  {
+   "text": "In 2026, the company completed acquisition of control of EMAE (Empresa Metropolitana de Águas e Energia S.A.) and became a controlling shareholder through purchase of common and preferred shares.",
+   "evidence": "On January 21, 2026, we completed the EMAE Control Acquisition at a price of R$62.00 per common share, for an aggregate purchase price of R$682.6 million, thereby becoming the controlling shareholder of EMAE."
+  },
+  {
+   "text": "In July 2024, the company was privatized when the State of São Paulo ceased to be the controlling shareholder and Equatorial S.A. became a reference shareholder.",
+   "evidence": "In July 2024, we were privatized, and the State of São Paulo ceased to be our controlling shareholder."
+  }
+ ],
+ "dropped": [
+  "product not in text (Sanitation): Industrial reclaimed water supply"
+ ]
+}

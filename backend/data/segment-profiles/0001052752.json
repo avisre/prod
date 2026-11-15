@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001052752",
+ "issuerName": "GETTY REALTY CORP.",
+ "builtAt": "2026-11-15T10:04:03.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-048965",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1052752/000119312526048965/gty-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Net Lease Real Estate Investment Trust",
+   "products": [
+    "Convenience stores",
+    "Express tunnel car washes",
+    "Automotive service centers",
+    "Drive-thru quick service restaurants",
+    "Other freestanding retail properties"
+   ],
+   "description": "Acquires, finances and develops convenience, automotive and other single tenant retail real estate leased on a triple-net basis.",
+   "evidence": "Getty Realty Corp. (\"Getty Realty,\" \"we,\" \"us,\" \"our\" and the \"Company\") (NYSE: GTY), a Maryland corporation, is a publicly traded, net lease real estate investment trust (\"REIT\") specializing in the acquisition, financing and development of convenience, automotive and other single tenant retail real estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under long-term triple-net leases where tenants pay property taxes, maintenance, repairs, insurance and operating expenses.",
+  "evidence": "Substantially all of our properties are leased on a triple-net basis to convenience store operators, petroleum distributors, express tunnel car wash operators, and other automotive-related and retail tenants."
+ },
+ "changes": [],
+ "dropped": []
+}

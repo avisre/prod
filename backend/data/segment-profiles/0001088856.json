@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001088856",
+ "issuerName": "CORCEPT THERAPEUTICS INC",
+ "builtAt": "2026-11-15T10:04:51.725Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011091",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1088856/000162828026011091/cort-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Discovery, Development and Commercialization of Pharmaceutical Products",
+   "products": [
+    "Korlym",
+    "Authorized generic version of Korlym",
+    "Relacorilant"
+   ],
+   "description": "Discovers, develops and commercializes medications modulating cortisol effects for endocrinologic, oncologic, metabolic and neurologic disorders.",
+   "evidence": "Based on the way we organize our business, make decisions, allocate resources and assess performance, we have determined that Corcept has a single reportable segment – the discovery, development and commercialization of pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells pharmaceutical products to patients through specialty pharmacy distribution channels and physician representatives in the United States.",
+  "evidence": "We sell Korlym and a generic version of Korlym in the United States (our \"Products\") using sales representatives to call on physicians caring for patients with hypercortisolism."
+ },
+ "changes": [],
+ "dropped": []
+}

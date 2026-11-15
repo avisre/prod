@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001126328",
+ "issuerName": "PRINCIPAL FINANCIAL GROUP, INC",
+ "builtAt": "2026-11-15T10:05:36.158Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1126328/000110465926017031/pfg-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retirement and Income Solutions",
+   "products": [
+    "Defined benefit plans",
+    "Nonqualified executive benefit plans",
+    "Pension risk transfer services",
+    "Individual variable annuities"
+   ],
+   "description": "Provides retirement savings, accumulation and income solutions to businesses, individuals and institutional clients through workplace plans and individual annuities.",
+   "evidence": "We offer a comprehensive portfolio of products and services for retirement savings along with select products for retirement income"
+  },
+  {
+   "name": "Principal Asset Management",
+   "products": [
+    "Equity investments",
+    "Fixed income investments",
+    "Real estate investments",
+    "Alternative investments",
+    "Fund offerings"
+   ],
+   "description": "Manages diverse investment portfolios for institutional, retirement, high net worth and retail investors worldwide.",
+   "evidence": "Our global asset management businesses serve a broad range of institutional, retirement, high net worth, and retail investors worldwide. Our focused investment teams provide diverse, long-term investment capabilities including equity, fixed income, real estate, and other alternative investments, as well as fund offerings."
+  },
+  {
+   "name": "Benefits and Protection",
+   "products": [],
+   "description": "Provides specialty benefits and insurance solutions for business owners and their employees.",
+   "evidence": "In addition, we are one of the largest providers of specialty benefits and insurance solutions for business owners and their employees."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay fees based on assets under management, account values, insurance premiums, and administrative and investment management services.",
+  "evidence": "Our major source of revenue from individual variable annuities is mortality and expense fees we charge to the customer, generally determined as a percentage of the market value of the assets held in a separate investment sub-account."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Retirement and Income Solutions): Defined contribution plans (401(k) and 403(b))",
+  "product not in text (Retirement and Income Solutions): Employee stock ownership plans (ESOPs) and equity compensation",
+  "product not in text (Retirement and Income Solutions): Guaranteed investment contracts (GICs)",
+  "product not in text (Retirement and Income Solutions): Registered index-linked annuities (RILAs)"
+ ]
+}

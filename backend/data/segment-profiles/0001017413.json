@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0001017413",
+ "issuerName": "CANADIAN NATURAL RESOURCES LIMITED",
+ "builtAt": "2026-11-15T10:03:26.439Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001017413-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1017413/000101741326000018/cnq-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Exploration and Production",
+   "products": [
+    "Crude oil and NGLs",
+    "Natural gas"
+   ],
+   "description": "Exploration, development, production, and marketing of crude oil, natural gas liquids, and natural gas in North America.",
+   "evidence": "The Company's exploration and production activities are conducted in three geographic segments: North America, North Sea and Offshore Africa."
+  },
+  {
+   "name": "Offshore Africa Exploration and Production",
+   "products": [
+    "Crude oil and NGLs",
+    "Natural gas"
+   ],
+   "description": "Exploration, development, production, and marketing of crude oil, natural gas liquids, and natural gas offshore Africa.",
+   "evidence": "The Company's exploration and production activities are conducted in three geographic segments: North America, North Sea and Offshore Africa."
+  },
+  {
+   "name": "Oil Sands Mining and Upgrading",
+   "products": [
+    "Bitumen",
+    "Synthetic crude oil"
+   ],
+   "description": "Oil sands mining and upgrading activities reported separately from exploration and production.",
+   "evidence": "The Company's Oil Sands Mining and Upgrading activities are reported in a separate segment from exploration and production activities."
+  },
+  {
+   "name": "Midstream and Refining",
+   "products": [
+    "Pipeline operations",
+    "Electricity co-generation system",
+    "NWRP"
+   ],
+   "description": "Pipeline operations, an electricity co-generation system, and North West Redwater Partnership.",
+   "evidence": "Midstream and Refining activities include the Company's pipeline operations, an electricity co-generation system, and NWRP."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the Company for crude oil, natural gas liquids and natural gas sold to external customers based on the location of the seller.",
+  "evidence": "Sales to external customers are based on the location of the seller."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company completed the AOSP asset swap, recognizing a non-cash gain on remeasurement and gain on disposition in the Oil Sands Mining and Upgrading segment.",
+   "evidence": "Includes the non-cash gain on remeasurement and gain on disposition related to the AOSP asset swap completed in 2025 (note 6)."
+  },
+  {
+   "text": "In 2025 the Company revised its presentation of transportation, blending and feedstock costs, showing the expenses on a disaggregated basis.",
+   "evidence": "During 2025, the Company revised its presentation of transportation, blending and feedstock costs, showing the expenses on a disaggregated basis."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: North Sea Exploration and Production"
+ ],
+ "escalated": "segment not in filing"
+}

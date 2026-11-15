@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000898173",
+ "issuerName": "O Reilly Automotive Inc",
+ "builtAt": "2026-11-15T10:02:20.769Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000898173-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/898173/000089817326000009/orly-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive aftermarket parts",
+   "products": [
+    "Alternators",
+    "Batteries",
+    "Brake system components",
+    "Belts",
+    "Chassis parts",
+    "Driveline parts",
+    "Engine parts",
+    "Fuel pumps"
+   ],
+   "description": "Specialty retailer of automotive aftermarket parts, tools, supplies, equipment, and accessories to DIY and professional service provider customers.",
+   "evidence": "O'Reilly is one of the largest specialty retailers of automotive aftermarket parts, tools, supplies, equipment, and accessories across North America, selling our products to both do-it-yourself (\"DIY\") and professional service provider customers, our \"dual market strategy.\""
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells automotive aftermarket parts and accessories to do-it-yourself customers and professional service provider customers through physical stores and online platforms.",
+  "evidence": "Product sales of automotive aftermarket parts are the only material source of revenue for the Company."
+ },
+ "changes": [],
+ "dropped": []
+}

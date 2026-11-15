@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001032033",
+ "issuerName": "SLM Corp",
+ "builtAt": "2026-11-15T10:03:45.781Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001032033-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1032033/000103203326000011/slm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private Education Loans",
+   "products": [
+    "Smart Option Student Loan",
+    "Sallie Mae Law School Loan",
+    "Sallie Mae MBA Loan",
+    "Sallie Mae Graduate School Loan for Health Professions",
+    "Sallie Mae Medical School Loan",
+    "Sallie Mae Dental School Loan",
+    "Sallie Mae Graduate School Loan",
+    "Airline Career Loan"
+   ],
+   "description": "Originates and services private education loans and provides deposit products to students and families.",
+   "evidence": "The Company is managed as a single line of business with a single reportable segment originating and servicing high-quality Private Education Loans and providing other education-related services to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the company announced its first private credit strategic partnership allowing it to sell loans while retaining servicing and earning fees.",
+   "evidence": "In 2025, we announced our first private credit strategic partnership. This new funding model allows us to establish a capital-light, fee-based revenue strategy that complements our core private student loan business."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "escalated": "revenue model not quoted"
+}

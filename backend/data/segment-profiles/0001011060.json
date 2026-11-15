@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001011060",
+ "issuerName": "NORDICUS PARTNERS CORPORATION",
+ "builtAt": "2026-11-15T10:03:11.836Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-033203",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1011060/000149315226033203/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotech",
+   "products": [
+    "QR-01",
+    "QR-02",
+    "QR-04"
+   ],
+   "description": "Developing breakthrough therapeutics for oral disorders and psoriasis through preclinical-stage subsidiaries.",
+   "evidence": "Nordicus Partners Corporation (\"Nordicus\" or the \"Company\"), U.S. publicly listed biotech company specializing in developing breakthrough therapeutics in diseases with unmet medical needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In October 2025, the Company formed NoviThera ApS to research and develop monoclonal antibody therapy for psoriasis.",
+   "evidence": "In October 2025, the Company formed NoviThera ApS (\"NoviThera\") to research and develop monoclonal antibody (MaB) therapy for the treatment of psoriasis."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the Company acquired 100% of Orocidin A/S and 100% of Bio-Convert A/S."
+ ]
+}

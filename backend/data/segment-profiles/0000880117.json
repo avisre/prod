@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000880117",
+ "issuerName": "SANFILIPPO JOHN B & SON INC",
+ "builtAt": "2026-11-15T10:01:53.833Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-356919",
+  "periodEnd": "2026-06-25",
+  "filingDate": "2026-08-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/880117/000119312526356919/jbss-20260625.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nut and Bar Products",
+   "products": [
+    "almonds",
+    "pecans",
+    "peanuts",
+    "walnuts",
+    "cashews",
+    "bars",
+    "peanut butter",
+    "snack mixes"
+   ],
+   "description": "Processes and distributes nuts and bars to food retailers, commercial ingredient users and contract manufacturers.",
+   "evidence": "We operate in a single reporting unit and operating segment that consists of selling various nut and nut related products and bars through three distribution channels with a similar distribution model."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in retail, foodservice and food manufacturing pay for nut and bar products sold through consumer, commercial ingredient and contract manufacturing channels.",
+  "evidence": "Our products are sold through three core distribution channels, including food retailers in the consumer channel, commercial ingredient users and contract manufacturing customers."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001130713",
+ "issuerName": "NEIGHBORHOOD INTELLIGENCE, INC.",
+ "builtAt": "2026-11-15T10:05:45.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001130713-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1130713/000113071326000018/bbby-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Bed Bath & Beyond",
+    "buybuy BABY",
+    "Overstock.com",
+    "home furnishing merchandise",
+    "home goods products"
+   ],
+   "description": "Sells home furnishing merchandise through e-commerce websites and mobile applications to customers.",
+   "evidence": "The Retail segment primarily derives revenues from e-commerce sales of home furnishing merchandise through its suite of websites and mobile applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for home furnishing merchandise sold through e-commerce channels via websites and mobile applications.",
+  "evidence": "The Retail segment primarily derives revenues from e-commerce sales of home furnishing merchandise through its suite of websites and mobile applications."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the Company acquired TBHC through a merger agreement dated November 24,"
+ ]
+}

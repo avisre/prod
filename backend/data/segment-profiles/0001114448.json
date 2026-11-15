@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001114448",
+ "issuerName": "Novartis AG",
+ "builtAt": "2026-11-15T10:05:14.857Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001114448-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1114448/000111444826000004/nvs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Innovative Medicines",
+   "products": [
+    "Entresto",
+    "Cosentyx",
+    "Kisqali",
+    "Kesimpta",
+    "Tafinlar + Mekinist",
+    "Xolair"
+   ],
+   "description": "Discovers, develops, manufactures and sells innovative patented prescription medicines to patients and healthcare customers worldwide.",
+   "evidence": "They work with customers to provide innovative medicines and services that improve treatment options and raise the quality of care for patients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023 Novartis completed the spin-off of its Sandoz business.",
+   "evidence": "Separation and Distribution Agreement by and between Novartis AG and Sandoz Group AG, dated as of September 30, 2023"
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "escalated": "revenue model not quoted"
+}

@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0000871763",
+ "issuerName": "MANPOWERGROUP INC.",
+ "builtAt": "2026-11-15T10:01:45.546Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064113",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/871763/000119312526064113/man-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Manpower staffing",
+    "Talent Solutions RPO",
+    "TAPFIN-MSP",
+    "Right Management"
+   ],
+   "description": "Provides contingent staffing, permanent recruitment, IT professional services, and outsourcing solutions across North and South America.",
+   "evidence": "We provide services as Manpower, Experis and Talent Solutions through both branch and franchise offices. The Americas segment had 415 branch and 138 franchise offices as of December 31, 2025."
+  },
+  {
+   "name": "Northern Europe",
+   "products": [
+    "Manpower staffing",
+    "Talent Solutions RPO",
+    "Right Management"
+   ],
+   "description": "Delivers workforce solutions including staffing, IT resourcing, and recruitment process outsourcing across Northern European markets.",
+   "evidence": "We experienced a revenue decrease of -4.3% in Northern Europe, primarily due to decreased demand in our Manpower staffing and Experis interim services and decreased demand in our permanent recruitment business, partially offset by the favorable impact of currency exchange rates."
+  },
+  {
+   "name": "Southern Europe",
+   "products": [
+    "Manpower staffing",
+    "Talent Solutions RPO",
+    "Right Management"
+   ],
+   "description": "Provides staffing, IT professional resourcing, and workforce outsourcing solutions throughout Southern European countries.",
+   "evidence": "We experienced a 2.7% revenue increase in Southern Europe, primarily driven by the favorable impact of currency exchange rates, partially offset by a decrease in demand for our Manpower staffing and Experis interim services and a decrease in demand for our permanent recruitment services."
+  },
+  {
+   "name": "APME",
+   "products": [
+    "Manpower staffing",
+    "Talent Solutions RPO"
+   ],
+   "description": "Offers contingent staffing, IT professional resourcing, and recruitment outsourcing across Asia Pacific and Middle East markets.",
+   "evidence": "We experienced a -5.5% revenue decrease in APME driven by the disposition of our South Korea business, partially offset by an increase in demand for our Manpower staffing services, the favorable impact of currency exchange rates, and an increase in demand for our Experis interim services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay for workforce staffing services, recruitment, IT professional resourcing, training, consulting, and outsourcing of human resources and workforce management functions.",
+  "evidence": "By offering a comprehensive range of workforce solutions and services, we help companies improve strategy, quality, and efficiency, increase productivity and reduce costs across their workforce to achieve their business goals."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Americas): Experis IT professional resourcing",
+  "product not in text (Northern Europe): Experis IT professional resourcing",
+  "product not in text (Southern Europe): Experis IT professional resourcing",
+  "product not in text (APME): Experis IT professional resourcing",
+  "change not grounded: In 2025, the company disposed of its South Korea business, reducing APME segment"
+ ]
+}

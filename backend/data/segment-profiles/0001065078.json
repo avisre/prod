@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001065078",
+ "issuerName": "NETWORK-1 TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T10:04:17.427Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001072613-26-000270",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1065078/000107261326000270/network1_10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single reporting segment",
+   "products": [],
+   "description": "The company operates as one reporting segment reviewed by its chief operating decision maker for its patent monetization business.",
+   "evidence": "The Company has a single reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by entering into licensing arrangements with and litigation settlements from third parties that utilize its patented technologies.",
+  "evidence": "Our strategy is to capitalize on our intellectual property assets by entering into licensing arrangements with third parties that utilize our intellectual property's proprietary technologies"
+ },
+ "changes": [
+  {
+   "text": "In March 2025 the company acquired the Smart Home Patent Portfolio relating to interoperability of smart home IoT devices.",
+   "evidence": "Our Smart Home Patent Portfolio, acquired in March 2025, relates to, among other things, enabling technology to support the interoperability of smart home IoT devices."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Intellectual property licensing"
+ ],
+ "escalated": "no segments"
+}

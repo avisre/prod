@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001041792",
+ "issuerName": "ENERGY CO OF PARANA",
+ "builtAt": "2026-11-15T10:03:54.162Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002070979-26-000155",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1041792/000207097926000155/elpc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Distribution",
+   "products": [
+    "Electricity sales to final customers",
+    "Electricity sales to distributors and energy traders",
+    "Use of the main distribution and transmission grid"
+   ],
+   "description": "Distributes electricity to captive customers and traders in Paraná concession area; operates distribution infrastructure.",
+   "evidence": "Our distribution business generates a large portion of its revenues by selling energy that it purchases from generation companies."
+  },
+  {
+   "name": "Generation and Transmission",
+   "products": [
+    "Hydroelectric generation",
+    "Wind generation",
+    "Transmission services"
+   ],
+   "description": "Generates and transmits electricity through hydroelectric and wind facilities serving the Brazilian electric system.",
+   "evidence": "Our distribution, transmission and generation activities are subject to comprehensive federal, state and local legislation."
+  },
+  {
+   "name": "Energy Trading",
+   "products": [],
+   "description": "Trades electricity and natural gas with free market customers across multiple states and neighboring countries.",
+   "evidence": "As of December 31, 2025, we served 1,537 free market customers through our energy trading company, across 23 states, with an average of 3.2 GW of energy traded on the CCEE."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for distributed electricity at regulated tariffs; free market customers pay for traded energy at market prices; utilities pay for transmission grid use.",
+  "evidence": "The tariffs that we charge for the sale of electricity to captive customers are determined pursuant to a concession agreement with the Brazilian government through ANEEL."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Mata de Santa Genebra transmission company was consolidated into Copel GeT through strategic business combination, changing from equity method accounting to full consolidation.",
+   "evidence": "the consolidation of the Mata de Santa Genebra transmission company at Copel GeT, as a result of the strategic business combination."
+  }
+ ],
+ "dropped": [
+  "product not in text (Energy Trading): Energy sales on the free market",
+  "product not in text (Energy Trading): Bilateral energy contracts",
+  "product not in text (Energy Trading): Energy import and export services",
+  "product not in text (Energy Trading): Natural gas commercialization"
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000895447",
+ "issuerName": "Shoe Station Group, Inc.",
+ "builtAt": "2026-11-15T10:02:18.857Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126279",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/895447/000119312526126279/scvl-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Footwear and Related Merchandise",
+   "products": [
+    "Nike",
+    "Skechers",
+    "Crocs",
+    "adidas",
+    "Puma",
+    "HEYDUDE",
+    "HOKA",
+    "Birkenstock"
+   ],
+   "description": "Omnichannel retailer of footwear and accessories for families across physical stores and e-commerce.",
+   "evidence": "Shoe Carnival, Inc. has a single operating and reportable segment that sells footwear and related merchandise for the family across our retail banners and sales channels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase branded footwear and accessories through physical retail stores and e-commerce channels.",
+  "evidence": "Our omnichannel approach provides customers easy access to our broad assortment of branded footwear for athletics, daily activities, special events and work through the customer's preferred delivery channel."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In Fiscal 2024, acquired Rogan's, a work and family footwear retailer with 28 st",
+  "change not grounded: During Fiscal 2025, rebannered 101 stores, consisting of 73 Shoe Carnival stores"
+ ]
+}

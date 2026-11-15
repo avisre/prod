@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001066119",
+ "issuerName": "TELEFONICA BRASIL S.A.",
+ "builtAt": "2026-11-15T10:04:23.637Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002070979-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1066119/000207097926000018/viv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telecommunications",
+   "products": [],
+   "description": "Provides telecommunications services to customers in Brazil including mobile, fixed-line, broadband and data services.",
+   "evidence": "Information technology is essential for conducting our business and providing our services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for telecommunications services including mobile, fixed-line, broadband, data services and international interconnection fees, with revenue generated primarily in Brazilian reais.",
+  "evidence": "99.7% of our revenue was generated in reais, except income derived from hedging transactions, international long-distance interconnection fees and services to customers outside of Brazil."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001108205",
+ "issuerName": "CURIS, INC.",
+ "builtAt": "2026-11-15T10:05:09.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001108205-26-000043",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1108205/000110820526000043/cris-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and Development of Innovative Drug Candidates",
+   "products": [
+    "Emavusertib (CA-4948)",
+    "CA-327",
+    "CA-170"
+   ],
+   "description": "Biotechnology company focused on discovery and development of innovative drug candidates for treatment of human cancers.",
+   "evidence": "We are engaged solely in the discovery and development of innovative drug candidates for the treatment of human cancers. Accordingly, we have determined that we operate in one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In January 2026, the company announced focus on combination Phase 1/2 study in r"
+ ]
+}

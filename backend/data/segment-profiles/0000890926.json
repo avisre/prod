@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000890926",
+ "issuerName": "Radian Group Inc",
+ "builtAt": "2026-11-15T10:02:11.048Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-061383",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/890926/000119312526061383/rdn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage Insurance",
+   "products": [
+    "Private mortgage insurance on residential first-lien mortgage loans",
+    "Recurring Premium Policies",
+    "Single Premium Policies"
+   ],
+   "description": "Aggregates, manages and distributes U.S. mortgage credit risk for mortgage lending institutions and investors through private mortgage insurance.",
+   "evidence": "Our Mortgage Insurance segment aggregates, manages and distributes U.S. mortgage credit risk for the benefit of mortgage lending institutions and mortgage credit investors, principally through private mortgage insurance on residential first-lien mortgage loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mortgage lenders and investors pay premiums for private mortgage insurance coverage protecting against borrower defaults on residential mortgage loans.",
+  "evidence": "Private mortgage insurance plays an important role in the U.S. housing finance system because it supports affordable homeownership, while helping to protect mortgage lenders, investors and the GSEs, who are the primary beneficiaries of our mortgage insurance, by mitigating default-related losses on residential mortgage loans."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Radian announced planned divestiture of Mortgage Conduit, Title and Real Estate Services businesses, expected to complete by end of third quarter 2026.",
+   "evidence": "Also, following this comprehensive strategic review, in September 2025 we announced the planned divestiture of our Mortgage Conduit, Title and Real Estate Services businesses, which is expected to be completed no later than the end of the third quarter of 2026."
+  }
+ ],
+ "dropped": []
+}

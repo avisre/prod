@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001003078",
+ "issuerName": "MSC INDUSTRIAL DIRECT CO., INC.",
+ "builtAt": "2026-11-15T10:03:08.078Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001003078-26-000110",
+  "periodEnd": "2026-08-29",
+  "filingDate": "2026-10-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1003078/000100307826000110/msm-20260829.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial Distribution",
+   "products": [
+    "cutting tools",
+    "abrasives",
+    "machining fluids",
+    "measuring instruments",
+    "machinery and accessories",
+    "fasteners",
+    "safety and janitorial supplies",
+    "power transmission components"
+   ],
+   "description": "North American distributor of metalworking, MRO, production fastener and hardware products and services to manufacturers and public sector customers.",
+   "evidence": "MSC is a leading North American distributor of a broad range of metalworking, maintenance, repair and operations (\"MRO\") and production fastener and hardware products and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for metalworking, MRO, fastener and hardware products and services sold through direct sales, e-commerce and inventory management solutions.",
+  "evidence": "We serve individual machine shops, Fortune 1000 companies and manufacturers of all sizes."
+ },
+ "changes": [],
+ "dropped": []
+}

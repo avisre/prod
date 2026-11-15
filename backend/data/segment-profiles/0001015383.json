@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001015383",
+ "issuerName": "Outdoor Holding Company",
+ "builtAt": "2026-11-15T10:03:19.628Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-276653",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1015383/000119312526276653/poww-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marketplace",
+   "products": [
+    "GunBroker e-commerce marketplace",
+    "Master FFL Integration",
+    "AI-Powered Listing Tool",
+    "Outdoor Analytics platform"
+   ],
+   "description": "Online marketplace facilitating lawful sales of firearms, ammunition, and hunting/shooting accessories through federally-licensed dealers.",
+   "evidence": "The Marketplace segment consists of the GunBroker e-commerce marketplace (\"Marketplace\"), which, in its role as a marketplace platform, supports the lawful sale of firearms, ammunition, and hunting/shooting accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from marketplace fees including marketplace revenue, service fees, advertising campaigns, and shipping revenue.",
+  "evidence": "We generate revenue from marketplace fees, which include marketplace revenue, marketplace service fee revenue, advertising campaign revenue and shipping revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Ammunition segment was sold to Olin Winchester, LLC for gross purchase price of seventy-five million dollars, closing April eighteen, twenty twenty-five.",
+   "evidence": "On January 20, 2025, after a competitive bidding process, we entered into an Asset Purchase Agreement (the \"Asset Purchase Agreement\") with Olin Winchester, LLC (the \"Buyer\"), pursuant to which the Buyer agreed to (i) acquire all assets of our business of designing, manufacturing, marketing, distributing and selling ammunition and ammunition components (collectively, the \"Ammunition Manufacturing Business\") along with certain assets related to the Ammunition Manufacturing Business, including the"
+  },
+  {
+   "text": "On April twenty-one, twenty twenty-five, the company changed its name from AMMO, Inc. to Outdoor Holding Company.",
+   "evidence": "On April 21, 2025, the Company changed its name from \"AMMO, Inc.\" to \"Outdoor Holding Company.\""
+  }
+ ],
+ "dropped": []
+}

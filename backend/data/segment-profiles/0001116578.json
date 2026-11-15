@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001116578",
+ "issuerName": "PRUDENTIAL PLC",
+ "builtAt": "2026-11-15T10:05:17.097Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-021178",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1116578/000162828026021178/puk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asia",
+   "products": [],
+   "description": "Life insurance operations across Asian markets including Hong Kong, Singapore, and other developing and mature markets.",
+   "evidence": "The developing markets in South-east Asia such as Indonesia, Vietnam and the Philippines also see a high level of participation by global life insurance groups."
+  },
+  {
+   "name": "Africa",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Growth markets and other",
+   "products": [],
+   "description": "Joint ventures, associates and other operations with related tax charges included.",
+   "evidence": "with related tax charges included separately within the 'Growth markets and other' segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay premiums on life insurance policies and investment contracts to generate profits for shareholders.",
+  "evidence": "APE new business sales are calculated as the aggregate of annualised regular premiums and one-tenth of single premiums on new business written during the year for all insurance products, including premiums for contracts designated as investment contracts and excluded from the scope of IFRS 17."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Africa"
+ ]
+}

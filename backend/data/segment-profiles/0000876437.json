@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000876437",
+ "issuerName": "MGIC Investment Corp",
+ "builtAt": "2026-11-15T10:01:45.686Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000876437-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/876437/000087643726000010/mtg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage Insurance",
+   "products": [],
+   "description": "Provides private mortgage insurance and reinsurance under GSE credit risk transfer programs.",
+   "evidence": "We operate as a single reportable segment, which is defined as Mortgage Insurance. This segment generates revenue through mortgage insurance and reinsurance provided under the GSEs credit risk transfer programs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lenders pay premiums for mortgage insurance coverage on low down payment residential loans, reducing losses from homeowner defaults.",
+  "evidence": "PMI covers losses from homeowner defaults on residential mortgage loans, reducing, and in some instances eliminating, the loss to the insured institution."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000890821",
+ "issuerName": "ENVERIC BIOSCIENCES, INC.",
+ "builtAt": "2026-11-15T10:02:10.016Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013294",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/890821/000149315226013294/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neuroplastogenic Therapeutics",
+   "products": [
+    "EB-003",
+    "EVM301 Series",
+    "EVM401 Series",
+    "Psybrary™"
+   ],
+   "description": "Develops novel small-molecule neuroplastogenic therapeutics for psychiatric and neurological disorders including depression, anxiety, and addiction.",
+   "evidence": "The Company operates as one operating segment with a focus on developing novel neuroplastogenic small-molecule therapeutics for the treatment of depression, anxiety, and addiction disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the company announced it was soliciting requests for proposals to license or sell its PsyAI trademark portfolio.",
+   "evidence": "On March 6, 2025, we announced that we were soliciting Requests-For Proposals (\"RFPs\") for the license or sale of its PsyAI™ trademark portfolio as a means of maximizing value for an asset which is no longer strategic given our focus on drug development."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the company out-licensed its EVM201 portfolio to MycoMedica Life Scienc"
+ ]
+}

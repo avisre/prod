@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001018979",
+ "issuerName": "AMERISAFE, INC.",
+ "builtAt": "2026-11-15T10:03:29.274Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082513",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1018979/000119312526082513/amsf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance Operations",
+   "products": [
+    "Workers' compensation insurance"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers pay premiums for workers' compensation insurance coverage that provides wage replacement, medical care and death benefits to injured employees as required by state and federal law.",
+  "evidence": "The employer, who is the policyholder, pays the premiums for coverage."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Insurance Operations"
+ ]
+}

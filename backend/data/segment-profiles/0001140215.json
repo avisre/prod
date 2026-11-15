@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001140215",
+ "issuerName": "REED’S, INC.",
+ "builtAt": "2026-11-15T10:06:04.178Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012679",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1140215/000149315226012679/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing carbonated beverages",
+   "products": [
+    "Reed's Craft Ginger Beer",
+    "Reed's Real Ginger Ale",
+    "Reed's Ready to Drink",
+    "Reed's Functional Soda",
+    "Virgil's Handcrafted Soda",
+    "Flying Cauldron Soda"
+   ],
+   "description": "Manufactures and sells branded natural, premium, and functional carbonated beverages under Reed's and Virgil's brand names.",
+   "evidence": "The Company has determined that it operates in a single reportable segment, which consists of manufacturing carbonated beverages under Reed's and Virgil's brand names and comprises the financial results of the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Sells branded beverages to retailers including natural stores, grocery chains, mass merchants, club stores, convenience stores, liquor stores, and restaurants, and directly to consumers online.",
+  "evidence": "We sell to well-known popular natural food and gourmet retailers, large grocery store chains, mass merchants, club stores, convenience and drug stores, liquor stores, industrial cafeterias (corporate feeders), and to on-premises bars and restaurants nationwide and in some international markets."
+ },
+ "changes": [
+  {
+   "text": "In 2019, the company streamlined its focus to core brands Reed's Ginger Beverages and Virgil's Craft Sodas.",
+   "evidence": "In 2019, we streamlined our focus to core brands: Reed's Ginger Beverages and Virgil's Craft Sodas."
+  },
+  {
+   "text": "In 2021, the company entered the alcohol space with the launch of RTD Classic Mule and RTD Hard Ginger Ale.",
+   "evidence": "In 2021, we entered the alcohol space with the launch of our RTD Classic Mule that is 7% alcohol by volume (\"ABV\") and our RTD Hard Ginger Ale which is 5% ABV."
+  },
+  {
+   "text": "In 2025, the company launched a new multi-functional soda line formulated with organic ingredients.",
+   "evidence": "In 2025, we launched a new multi-functional soda line that is formulated with organic ingredients."
+  }
+ ],
+ "dropped": []
+}
