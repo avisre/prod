@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001375205",
+ "issuerName": "UR-ENERGY INC.",
+ "builtAt": "2026-11-15T14:10:43.692Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-025923",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1375205/000110465926025923/urg-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single Reportable Segment",
+   "products": [
+    "Disposal fees"
+   ],
+   "description": null,
+   "evidence": "The Company operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Single Reportable Segment): U3O8 sales",
+  "revenue model not grounded"
+ ]
+}

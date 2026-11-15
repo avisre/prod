@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001493318",
+ "issuerName": "eToro Group Ltd.",
+ "builtAt": "2026-11-15T14:11:35.197Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-022034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1493318/000121390026022034/ea0278371-20f_etoro.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Trading",
+   "products": [
+    "equities",
+    "cryptoassets",
+    "commodities",
+    "currencies",
+    "options",
+    "CopyTrader",
+    "Smart Portfolios",
+    "eToro Money"
+   ],
+   "description": "A multi-asset trading and investing platform for retail investors, offering equities, cryptoassets, commodities, currencies and options as assets or derivatives.",
+   "evidence": "The Group is engaged in one operating segment of trading activity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

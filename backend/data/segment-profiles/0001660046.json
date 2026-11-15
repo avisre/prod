@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001660046",
+ "issuerName": "IMMURON LIMITED",
+ "builtAt": "2026-11-15T14:13:17.603Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-102838",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1660046/000121390026102838/ea0305398-20f_immuron.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development (R&D)",
+   "products": [],
+   "description": "Conducts the group's research and development projects on oral polyclonal antibody drug candidates in Australia and the United States.",
+   "evidence": "Research and development (R&D): income and expenses directly attributable to the group's R&D projects performed in Australia and United States."
+  },
+  {
+   "name": "Hyper-immune products",
+   "products": [
+    "Travelan",
+    "ProIBS",
+    "Protectyn"
+   ],
+   "description": "Sells over-the-counter hyperimmune colostrum-based products for digestive health in Australia, the United States, Canada and elsewhere.",
+   "evidence": "Hyper-immune products: income and expenses directly attributable to Travelan and Protectyn activities which occur in Australia, the United States, Canada and the rest of the world."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The group earns revenue from selling hyperimmune products to customers and distributors, recognized when control transfers upon delivery or on consignment sale.",
+  "evidence": "Revenue from the sale of hyperimmune products, which represents a single performance obligation, is recognized at a point in time when or as the group transfers control of the assets to the customer upon delivery of the products or in the case of consignment sales when the distributor sells the product to the customer."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Protectyn was cancelled and removed from the Australian Register for Therapeutic Goods.",
+   "evidence": "The company cancelled and removed the product from the Australian Register for Therapeutic Goods in June 2026."
+  },
+  {
+   "text": "In 2025, ProIBS was launched in Australia to expand the digestive health portfolio.",
+   "evidence": "Immuron launched ProIBS ® in Australia in October 2025."
+  },
+  {
+   "text": "The CampETEC product development was discontinued.",
+   "evidence": "We previously advised that the development of CampETEC product was discontinued."
+  }
+ ],
+ "dropped": [
+  "product not in text (Research and development (R&D)): ETEC infections and travelers' diarrhea drug candidate",
+  "product not in text (Research and development (R&D)): Clostridioides difficile infections drug candidate"
+ ]
+}

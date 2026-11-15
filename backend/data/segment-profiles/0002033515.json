@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0002033515",
+ "issuerName": "AsiaStrategy",
+ "builtAt": "2026-11-15T14:17:30.411Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2033515/000121390026050019/ea0287145-20f_asiastrategy.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Luxury watch trading",
+   "products": [
+    "luxury watches"
+   ],
+   "description": "The Group trades luxury watches in Hong Kong, where substantially all transactions are concluded and completed.",
+   "evidence": "During the years ended December 31, 2025 and 2024, the Group had one principal revenue generating activity, namely the trading of luxury watches."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

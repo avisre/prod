@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001794546",
+ "issuerName": "CARLSMED, INC.",
+ "builtAt": "2026-11-15T14:14:38.181Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071551",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1794546/000119312526071551/carl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "aprevo",
+   "products": [
+    "aprevo Technology Platform",
+    "interbody implants",
+    "single-use surgical instruments",
+    "myaprevo"
+   ],
+   "description": "Designs, manufactures and markets the aprevo technology platform for personalized spine fusion surgical procedures for hospitals and ambulatory surgical centers.",
+   "evidence": "The Company has one business activity and operates as a single operating and reportable segment: the designing, manufacturing, and marketing of aprevo, a comprehensive technology platform for spine fusion surgical procedures."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives revenue from selling the aprevo platform to hospital and ambulatory surgical center customers.",
+  "evidence": "The Company typically derives its current revenues from selling aprevo to its hospital and ambulatory surgical center customers."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001630627",
+ "issuerName": "Treace Medical Concepts, Inc.",
+ "builtAt": "2026-11-15T14:12:52.062Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-079167",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1630627/000119312526079167/tmci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "Lapiplasty® 3D Bunion Correction® System",
+    "Adductoplasty® Midfoot Correction System",
+    "Nanoplasty® 3D Minimally Invasive Bunion Correction System",
+    "Percuplasty™ Percutaneous 3D Bunion Correction® System",
+    "SpeedMTP® System",
+    "SpeedPlate® Rapid Compression Implant platform",
+    "IntelliGuide® patient specific, pre-op planning and cut guide technology"
+   ],
+   "description": "Designs, manufactures and markets medical devices for surgeons, ambulatory surgery centers and hospitals for surgical management of bunion and related midfoot deformities.",
+   "evidence": "The Company is a single reportable segment entity, which is in the business of designing, manufacturing, and marketing medical devices for surgeons, ambulatory surgery centers and hospitals related to the surgical management of bunion and related midfoot deformities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling its products to hospitals, ambulatory surgery centers, and stocking distributors.",
+  "evidence": "The Company earns revenue from the sale of its products to customers such as hospitals, ambulatory surgery centers, and stocking distributors."
+ },
+ "changes": [],
+ "dropped": []
+}

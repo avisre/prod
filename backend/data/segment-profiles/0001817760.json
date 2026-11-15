@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001817760",
+ "issuerName": "SmartKem, Inc.",
+ "builtAt": "2026-11-15T14:14:58.388Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-040562",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1817760/000110465926040562/smtk-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor materials",
+   "products": [
+    "TRUFLEX® semiconductor polymers"
+   ],
+   "description": "Develops organic semiconductor polymer inks for low-temperature printed transistors used in MicroLED, LCD and AMOLED displays and other electronics applications.",
+   "evidence": "The Company views its operations and manages its business as one operating segment: Semiconductor materials."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company's income is mostly generated from R&D grants and R&D tax credits rather than product sales.",
+  "evidence": "Our income is mostly generated from R&D grants and R&D tax credits."
+ },
+ "changes": [],
+ "dropped": []
+}

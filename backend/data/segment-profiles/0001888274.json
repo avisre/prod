@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001888274",
+ "issuerName": "DEFI TECHNOLOGIES INC.",
+ "builtAt": "2026-11-15T14:16:14.601Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001213900-26-039455",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1888274/000121390026039455/ea0281968-40f_defi.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DeFi Technologies",
+   "products": [
+    "digital assets",
+    "DeFi protocols"
+   ],
+   "description": "A Canadian company that invests in the decentralized finance industry, develops exchange traded products, and holds equity investments in digital assets.",
+   "evidence": "details and expectations regarding the Company's investments in the decentralized finance (\"DeFi\") industry and the Company's equity investments in digital assets"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (DeFi Technologies): Exchange Traded Products (ETPs)"
+ ]
+}

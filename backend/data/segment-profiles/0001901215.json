@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001901215",
+ "issuerName": "BRENX LTD",
+ "builtAt": "2026-11-15T14:16:21.911Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-034046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1901215/000121390026034046/ea0279203-20f_brenmiller.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "bGen TES",
+   "products": [
+    "bGen™ TES units",
+    "engineering services",
+    "maintenance services"
+   ],
+   "description": "Sells or leases thermal energy storage units and provides energy generated from them plus engineering and maintenance services to industrial heat customers.",
+   "evidence": "The Company operates in one operating and reportable segment, that is the sale or lease of bGen TM TES units, and/or the provision of energy generated therefrom and the provision of engineering or maintenance services for that purpose."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company to purchase or lease bGen™ TES units, for energy generated from those units, and for related engineering and maintenance services.",
+  "evidence": "The Company operates in one operating and reportable segment, that is the sale or lease of bGen TM TES units, and/or the provision of energy generated therefrom and the provision of engineering or maintenance services for that purpose."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (bGen TES): energy generated from bGen™ TES units"
+ ]
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001488917",
+ "issuerName": "Electromed, Inc.",
+ "builtAt": "2026-11-15T14:11:34.832Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-028914",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1488917/000143774926028914/elmd20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "SmartVest SQL",
+    "SmartVest Clearway",
+    "SmartVest Wrap"
+   ],
+   "description": "Develops, manufactures and sells the SmartVest airway clearance system providing HFCWO therapy to patients with compromised pulmonary function.",
+   "evidence": "We have determined that we have a single reportable and operating segment structure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid primarily by private insurers and government programs for the SmartVest System delivered directly to patients, capturing both manufacturer and distributor margins.",
+  "evidence": "We primarily employ a direct-to-patient and provider model, through which we obtain patient referrals from clinicians, manage insurance claims on behalf of our patients, and deliver the SmartVest System to patients, training them on proper use in their homes."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Medical devices): Single Patient Use SmartVest"
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001528287",
+ "issuerName": "NEUROPACE, INC.",
+ "builtAt": "2026-11-15T14:11:53.305Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001528287-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1528287/000152828726000011/npce-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "RNS System"
+   ],
+   "description": "Develops and sells the RNS System, a brain-responsive neuromodulation device that treats drug-resistant focal epilepsy in adults.",
+   "evidence": "Our novel and differentiated RNS System is the first and only commercially available, brain-responsive neuromodulation system that delivers personalized, real-time treatment at the seizure source."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells its RNS System and replacement neuromodulation devices to hospitals and clinicians, primarily in the United States, with reimbursement under established physician and hospital codes.",
+  "evidence": "The sale of replacement neuromodulation devices provides a recurring revenue stream that is additive to the market opportunity for initial implants."
+ },
+ "changes": [],
+ "dropped": []
+}

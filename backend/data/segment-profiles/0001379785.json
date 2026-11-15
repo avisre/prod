@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001379785",
+ "issuerName": "Barings BDC, Inc.",
+ "builtAt": "2026-11-15T14:10:47.782Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001379785-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1379785/000137978526000009/bbdc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lending and investment",
+   "products": [
+    "senior secured private debt investments",
+    "first and second lien senior secured loans",
+    "unitranche structures",
+    "revolvers",
+    "mezzanine debt",
+    "equity co-investment"
+   ],
+   "description": "A closed-end investment company that lends to and invests in privately-held middle-market companies to generate current income.",
+   "evidence": "The Company operates as a single operating and reporting segment: lending and investment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and other income from debt investments in, and on a limited basis equity investments in, privately-held middle-market companies.",
+  "evidence": "The segment generates revenues through debt investments, and on a limited basis, may acquire equity investments in p"
+ },
+ "changes": [
+  {
+   "text": "In 2022, the company completed its acquisition of Sierra Income Corporation.",
+   "evidence": "On February 25, 2022, we completed our acquisition of Sierra Income Corporation, a Maryland corporation (\"Sierra\")"
+  },
+  {
+   "text": "In 2020, the company completed its acquisition of MVC Capital, Inc.",
+   "evidence": "On December 23, 2020 we completed our acquisition of MVC Capital, Inc., a Delaware corporation (\"MVC\")"
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001839341",
+ "issuerName": "Core Scientific, Inc./tx",
+ "builtAt": "2026-11-15T14:15:27.153Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013305",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Colocation",
+   "products": [
+    "high-density colocation services",
+    "space, power, cooling, facilities operations, security"
+   ],
+   "description": "Provides high-density colocation services to third parties for AI and HPC workloads.",
+   "evidence": "We have three operating segments: \"Colocation,\" consisting of providing high-density colocation services to third parties for AI / HPC operations"
+  },
+  {
+   "name": "Digital Asset Self-Mining",
+   "products": [],
+   "description": "Performs digital asset mining for the company's own account, earning bitcoin rewards.",
+   "evidence": "\"Digital Asset Self-Mining,\" consisting of performing digital asset mining for our own account"
+  },
+  {
+   "name": "Digital Asset Hosted Mining",
+   "products": [
+    "digital asset mining hosting services",
+    "deployment, monitoring, troubleshooting, optimization and maintenance"
+   ],
+   "description": "Provides hosting services to third parties for digital asset mining, priced based on power usage.",
+   "evidence": "\"Digital Asset Hosted Mining,\" consisting of providing hosting services to third parties for digital asset mining."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Colocation customers pay fixed payments based on electric capacity plus variable recurring payments; self-mining earns bitcoin sold for cash; hosted mining customers pay recurring electricity-based consumption fees.",
+  "evidence": "Under these contracts, customers pay fixed payments (based on electric capacity) and variable payments on a recurring basis."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the segment previously called \"HPC Hosting\" was renamed \"Colocation.\"",
+   "evidence": "During fiscal year 2024, our \"Colocation\" segment was referred to as \"HPC Hosting.\""
+  }
+ ],
+ "dropped": [
+  "product not in text (Digital Asset Self-Mining): bitcoin self-mining",
+  "change not grounded: Beginning April 1, 2024, the company expanded from primarily Digital Asset Self-"
+ ]
+}

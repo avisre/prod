@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001946703",
+ "issuerName": "WEBUY GLOBAL LTD",
+ "builtAt": "2026-11-15T14:16:40.808Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-049395",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1946703/000121390026049395/ea0286498-20f_webuy.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Travel services",
+   "products": [
+    "WeTrip",
+    "Webuy Travel",
+    "Altitude",
+    "Packaged-tour",
+    "Food and beverage",
+    "Fresh produce"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Individual consumers and small groups pay the company on a per-booking basis for packaged tours and travel services, with packaged-tour revenue recorded gross as principal.",
+  "evidence": "The Company's revenue on the sale of packaged-tour is reported as a gross basis, that is, the amounts billed to the customer are recorded as revenues, and amounts paid to travel supplier (such as airlines, hotels, travel buses, etc.) are recorded as cost of revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company disposed of its grocery-related business, which is presented as discontinued operations.",
+   "evidence": "During the year ended December 31, 2025, the Company disposed of its grocery-related business, which included food and beverage, fresh produce, and lifestyle and other personal care items."
+  },
+  {
+   "text": "Beginning in the third quarter of 2025, the company transitioned its primary business focus from community e-commerce to travel services.",
+   "evidence": "Beginning in the third quarter of 2025, we transitioned our primary business focus from community e-commerce to travel services and related technology infrastructure."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Travel services"
+ ]
+}

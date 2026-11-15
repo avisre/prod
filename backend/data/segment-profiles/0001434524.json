@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001434524",
+ "issuerName": "CLEARSIGN TECHNOLOGIES CORPORATION",
+ "builtAt": "2026-11-15T14:11:17.389Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037699",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1434524/000110465926037699/clir-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Combustion",
+   "products": [
+    "ClearSign Core™ technology",
+    "process burner",
+    "boiler burner",
+    "ClearSign Eye"
+   ],
+   "description": "Designs, develops and sells combustion technologies that improve performance and cost-effectiveness of industrial combustion systems for industrial and commercial customers.",
+   "evidence": "The Company operates in one operating and reportable segment engaged in the design, development and sale of combustion technologies that improve the performance and cost-effectiveness of industrial combustion systems, referred to herein as the \"Combustion\" segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by delivering products and technology solutions to OEMs and end-users, incorporated into new or existing customer infrastructure or equipment, under contracts with multiple billing milestones and performance obligations.",
+  "evidence": "The Combustion segment derives revenues by delivering products and technology solutions to OEM's and end-users."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Combustion): flaring technologies",
+  "change not grounded: In 2025, the company suspended its Beijing, China operations through a dormancy "
+ ]
+}

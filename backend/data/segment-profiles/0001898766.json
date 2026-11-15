@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001898766",
+ "issuerName": "TRIO PETROLEUM CORP",
+ "builtAt": "2026-11-15T14:16:20.960Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-002848",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1898766/000149315226002848/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and Gas Exploration and Development",
+   "products": [
+    "South Salinas Project",
+    "McCool Ranch Oil Field",
+    "Asphalt Ridge Project",
+    "P.R. Spring",
+    "Carbon Capture and Storage project"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling oil produced from its wells to customers.",
+  "evidence": "We have had revenue-generating operations since the McCool Ranch Oil Field (defined hereafter) was restarted on February 22, 2024, and recognized our first revenues in our fiscal quarter ended April 30, 2024"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company terminated operations at the McCool Ranch Oil Field and abandoned all related leases.",
+   "evidence": "On May 27, 2025, we executed a termination agreement with Trio LLC to end operations at the location and abandon all related leases."
+  },
+  {
+   "text": "In 2025 the company acquired heavy oil assets in Saskatchewan from Novacor, which became its only active producing wells.",
+   "evidence": "All five of our currently active wells are in the newly acquired Novacor property."
+  },
+  {
+   "text": "In 2025 the company expanded in Canada with a second project acquired from Capital Land.",
+   "evidence": "In November 2025, we expanded our presence with the acquisition of a second Canadian project from Capital Land (defined below)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Oil and Gas Exploration and Development): Novacor heavy oil assets",
+  "segment evidence not verbatim: Oil and Gas Exploration and Development"
+ ]
+}

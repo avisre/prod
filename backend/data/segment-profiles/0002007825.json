@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0002007825",
+ "issuerName": "INFLEQTION, INC.",
+ "builtAt": "2026-11-15T14:17:12.013Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134544",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2007825/000119312526134544/d94946d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Quantum Technology",
+   "products": [
+    "quantum sensing",
+    "quantum computing",
+    "software",
+    "Sqale",
+    "Superstaq",
+    "CML software",
+    "optical atomic clocks",
+    "quantum RF sensors"
+   ],
+   "description": "Develops and commercializes neutral-atom quantum technology products, including sensing, computing and software, for national security, commercial and industrial customers.",
+   "evidence": "We operate our business as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue through product sales, quantum computing as a service, government-funded R&D contracts and software licensing.",
+  "evidence": "We generate revenue through product sales, quantum computing as a service, government-funded R&D contracts and software licensing."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company completed a business combination with ColdQuanta, Inc. and changed its name to Infleqtion, Inc.",
+   "evidence": "In connection with the closing of the Business Combination (\"the Closing\"), the Company changed its name to Infleqtion, Inc."
+  }
+ ],
+ "dropped": []
+}

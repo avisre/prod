@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001430725",
+ "issuerName": "Global Ship Lease, Inc.",
+ "builtAt": "2026-11-15T14:11:17.242Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-009637",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1430725/000114036126009637/gsl-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Liner companies pay the company charter hire for the use of its chartered containerships.",
+  "evidence": "The Company derives its revenues from chartering vessels to liner companies."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Containership chartering"
+ ]
+}

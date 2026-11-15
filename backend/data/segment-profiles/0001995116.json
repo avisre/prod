@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001995116",
+ "issuerName": "Rectitude Holdings Ltd",
+ "builtAt": "2026-11-15T14:17:04.640Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-083027",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1995116/000121390026083027/ea0299167-20f_rectitude.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Safety equipment",
+   "products": [
+    "personal protective clothing",
+    "hand gloves",
+    "safety footwear",
+    "personal fall arrest systems",
+    "portable fire extinguishers",
+    "traffic products",
+    "industrial hardware tools",
+    "power storage solutions"
+   ],
+   "description": "Provides safety equipment, industrial hardware and clean-energy solutions to customers in infrastructure, building construction, marine, oil and gas industries.",
+   "evidence": "Our business is principally involved in the provision of safety equipment, encompassing essential items such as (i) personal protective clothing, hand gloves, safety footwear, and personal fall arrest systems"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly in Singapore and Southeast Asia, pay the company for sales of safety equipment and auxiliary products, service income and equipment rental.",
+  "evidence": "For the financial year ended March 31, 2026, our 3 categories of revenue were (i) safety equipment and auxiliary product, (ii) service income and (iii) rental of equipment, which accounted for S$50.1 million, S$1.0 million and S$0.1 million respectively."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the company consolidated safety equipment and hardware products sale revenue into one group.",
+   "evidence": "For the financial year ended March 31, 2026, we consolidated the revenue for safety equipment and hardware products sale revenue as one group which is 98.0% of the total revenue."
+  }
+ ],
+ "dropped": []
+}

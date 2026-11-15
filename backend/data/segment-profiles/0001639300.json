@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001639300",
+ "issuerName": "Ollie's Bargain Outlet Holdings, Inc.",
+ "builtAt": "2026-11-15T14:12:55.908Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-010409",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1639300/000114036126010409/ef20060524_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Off-price retail",
+   "products": [
+    "Consumables",
+    "Home",
+    "Seasonal",
+    "Other"
+   ],
+   "description": "An off-price retailer of brand name household products sold at steep discounts through no-frills, warehouse-style stores across the United States.",
+   "evidence": "Ollie's Bargain Outlet Holdings, Inc. and subsidiaries (collectively referred to as the \"Company\" or \"Ollie's\") is a leading off-price retailer of brand name household products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay retail prices for brand name household products at Ollie's stores, plus revenue from the Ollie's Army loyalty program, co-branded credit card, and gift card breakage.",
+  "evidence": "Ollie's recognizes retail sales in its stores when merchandise is sold and the customer takes possession of merchandise."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, the Company reclassified certain products from the Home category into the Consumables category.",
+   "evidence": "In fiscal 2024, the Company reclassified certain products out of the Home category and into the Consumables category."
+  }
+ ],
+ "dropped": []
+}

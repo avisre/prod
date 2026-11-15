@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001679628",
+ "issuerName": "JUPITER NEUROSCIENCES, INC.",
+ "builtAt": "2026-11-15T14:13:30.246Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014687",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1679628/000149315226014687/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Premium nutritional supplements",
+   "products": [
+    "Nugevia GLO",
+    "Nugevia MND",
+    "Nugevia PWR"
+   ],
+   "description": "Sells premium nutritional supplements under the Nugevia brand for longevity and wellness, direct-to-consumer.",
+   "evidence": "The Company operates through two segments: (i) the sale of premium nutritional supplements under the Nugevia brand, and (ii) pharmaceutical operations centered on the development of drug candidates."
+  },
+  {
+   "name": "Pharmaceutical operations",
+   "products": [
+    "JOTROL™"
+   ],
+   "description": "Clinical-stage development of drug candidates for CNS disorders and rare diseases, primarily Parkinson's Disease.",
+   "evidence": "Effective October 1, 2025, the Company operates through two reportable segments: (i) its premium nutritional supplements, and (ii) pharmaceutical operations focused on drug candidates for CNS and rare orphan diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay the company for Nugevia nutritional supplements sold through a direct-to-consumer model; the pharmaceutical segment has not yet generated product revenue.",
+  "evidence": "The first products under the Nugevia brand, focusing on supporting longevity and health span are available for sale and shipments began in the fourth quarter of 2025 through a DTC model."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective October 1, 2025, the company began reporting two segments: premium nut"
+ ]
+}

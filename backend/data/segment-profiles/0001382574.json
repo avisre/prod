@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001382574",
+ "issuerName": "SCIENTURE HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:10:49.963Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013475",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1382574/000149315226013475/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from commercializing its FDA-approved products, such as ARBLI, in the U.S. market.",
+  "evidence": "ongoing and planned commercialization of ARBLI™ (SCN-102), which generated its initial revenues during the second half of 2025 and is expected to contribute increasing revenues in 2026"
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company acquired Scienture LLC, which became a wholly owned subsidiary.",
+   "evidence": "In connection with our acquisition in July 2024, Scienture LLC became a wholly owned subsidiary of the Company."
+  },
+  {
+   "text": "In 2025, the Company completed the acquisition of the commercial ready product asset REZENOPY™.",
+   "evidence": "Scienture, LLC completed the acquisition of the commercial ready product asset REZENOPY TM in the first quarter of 2025."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Specialty pharmaceuticals"
+ ]
+}

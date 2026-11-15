@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001760903",
+ "issuerName": "BONK, INC.",
+ "builtAt": "2026-11-15T14:14:19.540Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1760903/000149315226014015/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "dietary and energy beverage business",
+   "products": [
+    "Sure Shot Dietary Supplement"
+   ],
+   "description": "Sells the Sure Shot Dietary Supplement and Yerbaé plant-based energy beverages to consumers through Amazon, other e-commerce and retail channels.",
+   "evidence": "The dietary and energy beverage products generate revenue from the sale of these products through Amazon and other direct channels."
+  },
+  {
+   "name": "digital assets",
+   "products": [
+    "BONK tokens"
+   ],
+   "description": "Invests in and holds BONK tokens for appreciation and earns revenue from a revenue sharing agreement tied to Bonk's digital platform.",
+   "evidence": "The Company has two reportable segments: (i) the dietary and energy beverage business and (ii) digital assets, consisting of investing for growth in the appreciation of the asset."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay for beverage products sold through Amazon and other direct channels, and the Company earns revenue from a revenue sharing agreement tied to Bonk's digital platform.",
+  "evidence": "The dietary and energy beverage products generate revenue from the sale of these products through Amazon and other direct channels."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Yerbaé Brands Corp., adding a premium energy beverage business.",
+   "evidence": "On June 27, 2025, the Company completed the acquisition of Yerbaé, a premium energy beverage company, in a transaction accounted for as a business combination under ASC 805, Business Combinations."
+  },
+  {
+   "text": "In 2025, the Company entered the digital asset space through the Bonk transaction, creating a new digital assets segment.",
+   "evidence": "In September 2025, the Company entered into a digital asset transaction with Bonk, a Solana-based cryptocurrency project."
+  },
+  {
+   "text": "In 2024, the Company discontinued Jupiter Wellness's historical product lines, which Caring Brands agreed to commercialize.",
+   "evidence": "on September 24, 2024, the Company entered into a Separation and Exchange Agreement with its subsidiary Caring Brands, Inc. whereby Caring Brands would commercialize this product line."
+  }
+ ],
+ "dropped": [
+  "product not in text (dietary and energy beverage business): Yerbaé plant-based beverages"
+ ]
+}

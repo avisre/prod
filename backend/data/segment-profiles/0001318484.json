@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001318484",
+ "issuerName": "CITI TRENDS, INC.",
+ "builtAt": "2026-11-15T14:10:26.923Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-043813",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1318484/000110465926043813/ctrn-20260131x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Women's apparel",
+    "Men's apparel",
+    "Children's apparel",
+    "family footwear",
+    "accessories",
+    "products for the home"
+   ],
+   "description": "Off-price value retailer of trendy fashion apparel, accessories and home goods for the entire family, focused on Black customers.",
+   "evidence": "The retail operations represent a single operating segment based on the way the Company manages its business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for apparel, footwear, accessories and home products at everyday ticketed low price points in its stores.",
+  "evidence": "Our everyday ticketed low price points offer superior value, enabling our customers to purchase multiple items per visit."
+ },
+ "changes": [],
+ "dropped": []
+}

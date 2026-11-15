@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001723935",
+ "issuerName": "Sunlands Technology Group",
+ "builtAt": "2026-11-15T14:13:59.400Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-175368",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1723935/000119312526175368/stg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online education",
+   "products": [
+    "online education services"
+   ],
+   "description": "Provides online education services to students in China through its PRC subsidiaries and consolidated VIEs.",
+   "evidence": "For the years ended December 31, 2023, 2024 and 2025, the Group's CODM managed the Group's business activities as a single operating and reportable segment at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students pay the company tuition for its online education courses and related educational services.",
+  "evidence": "the Group's ability to retain and increase the Group's student enrollments"
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the Group's subsidiary terminated its contractual arrangements with the Beijing Sunlands VIE and related parties.",
+   "evidence": "In December 2025, Wuhan Zhibo terminated those contractual arrangements with Beijing Sunlands and the other relevant parties"
+  }
+ ],
+ "dropped": [
+  "product not in text (Online education): online post-secondary and professional courses"
+ ]
+}

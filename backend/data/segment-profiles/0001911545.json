@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001911545",
+ "issuerName": "Global Interactive Technologies, Inc",
+ "builtAt": "2026-11-15T14:16:23.819Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-025106",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1911545/000149315226025106/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital fan engagement services",
+   "products": [
+    "Faning platform",
+    "Vote Packages",
+    "Boosts",
+    "Targeted display advertisements",
+    "Sponsored content",
+    "Faning Points (FP)",
+    "Faning Fanshop"
+   ],
+   "description": "Operates the Faning digital fan engagement platform centered on Korean entertainment and K-pop for global fans.",
+   "evidence": "As of December 31, 2025, the Company has determined that it operates in a single reportable segment focused on digital fan engagement services ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users pay for Vote Packages, Boosts and tiered subscriptions, while advertisers pay for targeted display advertisements and sponsored content.",
+  "evidence": "Users purchase Vote Packages to participate in community activities and Boosts—paid enhancements that increase the visibility and impact of their support for specific content or artists."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company sold its subsidiaries FNS Co. Ltd, Marin Island Co. Ltd and Hanryu Bank Co. Ltd, which were classified as discontinued operations.",
+   "evidence": "Hanryu Bank Co. Ltd (\"HBC\") sold 100 % of its shares in FNS Co. Ltd for $ 733 and Marin Island Co. Ltd for $ 367 on November 5, 2024, to improve its financial structure."
+  }
+ ],
+ "dropped": [
+  "product not in text (Digital fan engagement services): Premium subscription plans"
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001730463",
+ "issuerName": "Autolus Therapeutics plc",
+ "builtAt": "2026-11-15T14:14:02.819Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001730463-26-000038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000038/autl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CAR T therapies",
+   "products": [],
+   "description": "Develops, manufactures and commercializes next-generation programmed T cell therapies for cancer and autoimmune diseases.",
+   "evidence": "The Company and the CODM view the Company's operations and manage its business as a single operating and reportable segment, which is the business of developing and commercializing CAR T therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales of AUCATZYL to treat adult relapsed or refractory B-ALL patients, distributed through Cardinal Health in the US and the NHS in the UK, plus license revenue.",
+  "evidence": "The commercial launch and first sale of AUCATZYL in the United States occurred in January 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the FDA approved AUCATZYL, and the company began commercial sales in January 2025, moving from development-stage to early commercial-stage.",
+   "evidence": "In November 2024, the United States Food and Drug Administration (the \"FDA\") approved our biologics license application (\"BLA\") for the marketing of AUCATZYL (obecabtagene autoleucel, also known as obe-cel) in the United States for the treatment of adult patients (18 years and older) with relapsed or refractory B-cell precursor acute lymphoblastic leukemia (\"r/r B-ALL\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (CAR T therapies): AUCATZYL (obecabtagene autoleucel, obe-cel)",
+  "product not in text (CAR T therapies): obe-cel for pediatric B-ALL",
+  "product not in text (CAR T therapies): obe-cel for B-NHL",
+  "product not in text (CAR T therapies): obe-cel for systemic lupus erythematosus",
+  "product not in text (CAR T therapies): obe-cel for lupus nephritis (LUMINA)",
+  "product not in text (CAR T therapies): obe-cel for progressive multiple sclerosis"
+ ]
+}

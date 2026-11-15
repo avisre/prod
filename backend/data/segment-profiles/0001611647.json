@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001611647",
+ "issuerName": "FRESHPET, INC.",
+ "builtAt": "2026-11-15T14:12:39.810Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001611647-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1611647/000161164726000006/frpt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fresh pet food",
+   "products": [
+    "fresh dog food",
+    "cat food",
+    "dog treats",
+    "Dognation",
+    "Dog Joy"
+   ],
+   "description": "Manufactures, markets and distributes fresh, refrigerated dog food, cat food and dog treats sold to pet parents through multiple retail classes.",
+   "evidence": "Freshpet's business operates in a single segment: the manufacturing, marketing and distribution of fresh dog food, cat food, and dog treats."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Freshpet earns net sales from selling its fresh pet food and treats to retailers and distributors across grocery, mass, club, pet specialty, digital and international channels.",
+  "evidence": "allowing us to penetrate multiple classes of retail, including grocery, mass, international, digital, pet specialty, and club."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Fresh pet food): Freshpet brand products"
+ ]
+}

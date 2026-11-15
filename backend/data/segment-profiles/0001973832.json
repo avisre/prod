@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0001973832",
+ "issuerName": "AngloGold Ashanti plc",
+ "builtAt": "2026-11-15T14:16:54.483Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001973832-26-000066",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1973832/000197383226000066/au-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Africa",
+   "products": [
+    "Gold",
+    "Sukari mine",
+    "Obuasi mine",
+    "Iduapriem mine",
+    "Geita mine",
+    "Siguiri mine"
+   ],
+   "description": "Managed gold mining operations in Egypt, Ghana, Guinea and Tanzania plus a non-managed joint venture in the DRC.",
+   "evidence": "Africa — managed operations in Egypt, Ghana, Guinea and Tanzania and a non-managed joint venture operation in the DRC;"
+  },
+  {
+   "name": "Australia",
+   "products": [
+    "Gold",
+    "Sunrise Dam",
+    "Tropicana (70%)",
+    "Butcher Well (70%)"
+   ],
+   "description": "Managed gold mining operations in Australia.",
+   "evidence": "Australia — managed operations in Australia;"
+  },
+  {
+   "name": "Americas",
+   "products": [
+    "Gold",
+    "Silver",
+    "Sulphuric acid",
+    "Cerro Vanguardia (92.5%)",
+    "AGA Mineração (Brazil)",
+    "Arthur Gold Project",
+    "Quebradona"
+   ],
+   "description": "Managed operations in Argentina and Brazil, with exploration and development projects in the United States and Colombia.",
+   "evidence": "Americas — managed operations in Argentina and Brazil, exploration and development projects in the United States and exploration projects in Colombia."
+  },
+  {
+   "name": "Projects",
+   "products": [],
+   "description": "Comprises all the major non-sustaining capital projects with the potential to be developed into operating entities.",
+   "evidence": "AngloGold Ashanti's operating segments are divided into geographical regions, in addition to a Projects segment, which comprises all the major non-sustaining capital projects with the potential to be developed into operating entities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells refined gold directly to bullion banks, and by-products such as silver and sulphuric acid, on world markets.",
+  "evidence": "This refined gold is then sold directly to bullion banks."
+ },
+ "changes": [
+  {
+   "text": "In 2024, AngloGold Ashanti acquired Centamin plc, adding the Sukari mine in Egypt to the Africa segment.",
+   "evidence": "In November 2024, AngloGold Ashanti completed its acquisition of Centamin plc (\"Centamin\"), a Jersey gold mining and exploration company whose primary asset is the Sukari gold mine in Egypt, for a consideration of approximately $2.2 billion comprising a combination of AGA shares and cash ."
+  },
+  {
+   "text": "In 2025, the company sold the Serra Grande mine in Brazil, removing it from the Americas segment.",
+   "evidence": "On 1 December 2025, AngloGold Ashanti completed the sale of Mineração Serra Grande S.A., which owns the Serra Grande mine (\"MSG\") in the state of Goiás, Brazil, to Aura Minerals Inc."
+  },
+  {
+   "text": "In 2025, the company sold the Doropo and ABC projects in Côte d'Ivoire to Resolute Mining Limited.",
+   "evidence": "On 1 May 2025, AngloGold Ashanti completed the sale of the Doropo project and the Archean-Birimian Contact (\"ABC\") project in Côte d'Ivoire to Resolute Mining Limited (\"Resolute\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Africa): Kibali (non-managed joint venture)"
+ ]
+}

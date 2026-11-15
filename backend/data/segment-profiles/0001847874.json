@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001847874",
+ "issuerName": "MOBILE INFRASTRUCTURE CORPORATION",
+ "builtAt": "2026-11-15T14:15:45.476Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007063",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1847874/000143774926007063/beep20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Parking",
+   "products": [
+    "parking lots",
+    "parking garages",
+    "other parking structures"
+   ],
+   "description": "Owns and operates parking facilities and related infrastructure throughout the United States for transient and contract parkers.",
+   "evidence": "Accordingly, we have presented our results as a single reportable segment: parking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Parkers and operators pay the company fees for access to parking spaces that vary with usage, through managed property revenue and rental income.",
+  "evidence": "The parking segment derives revenue from managed property revenue and rental income at our parking facilities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Parking): commercial space adjacent to parking facilities"
+ ]
+}

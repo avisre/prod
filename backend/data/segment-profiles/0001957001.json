@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001957001",
+ "issuerName": "FENBO HOLDINGS LIMITED",
+ "builtAt": "2026-11-15T14:16:45.518Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-023280",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1957001/000149315226023280/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal care electric appliances",
+   "products": [
+    "electrical hair styling products",
+    "straighteners",
+    "curlers",
+    "trimmers",
+    "toy products"
+   ],
+   "description": "Manufactures premium personal care electric appliances, principally electrical hair styling products, and toy products for overseas markets as an OEM.",
+   "evidence": "Through our Operating Subsidiaries, we have over 30 years of experience producing premium personal care electric appliances (principally electrical hair styling products such as straighteners, curlers, trimmers, etc.) and toy products to overseas markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by brand-owner customers, principally one customer, for manufacturing personal care electric appliances on an original equipment manufacturer basis.",
+  "evidence": "We currently act as an original equipment manufacturer (\"OEM\") of certain personal care electric appliances."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001994214",
+ "issuerName": "NOMADAR CORP.",
+ "builtAt": "2026-11-15T14:17:02.544Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014229",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1994214/000149315226014229/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from providing training and related services under commercial contracts and purchase orders with partner organizations and players.",
+  "evidence": "The Company engaged in limited operations until 2025 when the Company began generating revenue from providing services under commercial contracts and purchase orders entered into in the ordinary course of business."
+ },
+ "changes": [
+  {
+   "text": "Incorporated in Delaware in August 2023 as Sportech City USA, Corp, the company changed its name to Nomadar Corp. in December 2023.",
+   "evidence": "We were incorporated in the State of Delaware in August 2023 as Sportech City USA, Corp, and changed our name to Nomadar Corp. in December 2023 (\"Nomadar\" or the \"Company\")."
+  },
+  {
+   "text": "In August 2024, the company entered into the HPT License Agreement with Cádiz CF granting exclusive rights to the High Performance Training Program, commencing operations in the second half of 2024.",
+   "evidence": "In August 2024, we entered into the HPT License Agreement with Cádiz CF, granting Nomadar exclusive rights to the business, know-how, and general operations (the \"HPT Rights\") of the High Performance Training Program (the \"HPT License Agreement\")."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Sports training and development"
+ ]
+}

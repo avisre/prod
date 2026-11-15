@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001592560",
+ "issuerName": "VisionSys AI Inc",
+ "builtAt": "2026-11-15T14:12:25.857Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-054539",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1592560/000121390026054539/ea0287981-20f_visionsys.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brain-Computer Interface",
+   "products": [
+    "BCI-enabled or BCI-adjacent products and solutions",
+    "related technical services"
+   ],
+   "description": "Develops and applies core algorithms and related software and hardware systems for brain-computer interaction, selling BCI-enabled products and solutions.",
+   "evidence": "we have focused exclusively on the development of BCI technologies and related businesses as described herein."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company divested its professional education business, which was reclassified as discontinued operations.",
+   "evidence": "The Divestiture 2024 had been consummated at the end of March 2024."
+  },
+  {
+   "text": "In 2025, the company divested its STEM education business, which was accounted for as discontinued operations.",
+   "evidence": "Upon the consummation of the Divestiture on October 31, 2025, the Company lost its control over the STEM education business while the primary focus has shifted to providing specialized technology services and integrated solutions centered on Brain-Computer Interface (BCI) technology."
+  }
+ ],
+ "dropped": []
+}

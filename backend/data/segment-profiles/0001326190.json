@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001326190",
+ "issuerName": "ALTIMMUNE, INC.",
+ "builtAt": "2026-11-15T14:10:31.641Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001326190-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326190/000132619026000018/alt-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "pemvidutide (formerly known as ALT-801)"
+   ],
+   "description": "A late clinical-stage biopharmaceutical company developing novel therapies for serious liver diseases, led by pemvidutide for MASH, AUD and ALD.",
+   "evidence": "Altimmune, Inc. is a late clinical-stage biopharmaceutical company developing novel therapies for serious liver diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

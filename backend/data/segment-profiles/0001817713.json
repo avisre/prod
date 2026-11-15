@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001817713",
+ "issuerName": "Janux Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:14:58.374Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076918",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1817713/000119312526076918/janx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel immunotherapies",
+   "products": [
+    "JANX007",
+    "JANX008",
+    "PSMA x CD28 TRACIr"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing novel immunotherapies for cancer and autoimmune disease patients using its TRACTr, TRACIr and ARM platforms.",
+   "evidence": "The Company views its operations and manages its business as one operating segment, which is engaged in the research and development of a broad pipeline of novel immunotherapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Novel immunotherapies): JANX011 (CD19-ARM)",
+  "revenue model not grounded"
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001982518",
+ "issuerName": "Smith Douglas Homes Corp.",
+ "builtAt": "2026-11-15T14:16:57.490Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017245",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1982518/000162828026017245/sdhc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Southeast",
+   "products": [
+    "Single-family homes"
+   ],
+   "description": "Designs, builds and sells single-family homes to entry-level and empty-nest buyers across divisions in Atlanta, Central Georgia, Charlotte, Greenville and Raleigh.",
+   "evidence": "Our Southeast segment consists of our Atlanta, Central Georgia, Charlotte, Greenville, and Raleigh divisions."
+  },
+  {
+   "name": "Central",
+   "products": [
+    "Single-family homes"
+   ],
+   "description": "Designs, builds and sells single-family homes to entry-level and empty-nest buyers across divisions in Alabama, Dallas-Fort Worth, Houston, Nashville and the Alabama Gulf Coast.",
+   "evidence": "Our Central segment consists of our Alabama, Dallas-Fort Worth, Houston, Nashville, and Alabama Gulf Coast divisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuyers pay the company for single-family homes, with revenue recognized at home closing and proceeds generally received from the title company.",
+  "evidence": "Home closing proceeds are generally received from the title company within a few business days after closing."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company entered the Houston market through the acquisition of Devon Street Homes.",
+   "evidence": "In 2023, we entered the Houston market with our acquisition of Devon Street Homes."
+  },
+  {
+   "text": "In 2025, the company entered the Dallas-Fort Worth and Alabama Gulf Coast markets through organic expansion.",
+   "evidence": "In 2025, we entered the Dallas-Fort Worth and the Alabama Gulf Coast markets through organic expansion."
+  }
+ ],
+ "dropped": []
+}

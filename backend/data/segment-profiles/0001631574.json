@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001631574",
+ "issuerName": "WAVE LIFE SCIENCES, INC.",
+ "builtAt": "2026-11-15T14:12:52.522Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073472",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1631574/000119312526073472/wve-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RNA medicines",
+   "products": [
+    "WVE-007",
+    "WVE-006",
+    "WVE-008",
+    "WVE-N531",
+    "WVE-003",
+    "PRISM",
+    "SpiNA",
+    "AIMers"
+   ],
+   "description": "A clinical-stage biotechnology company developing RNA medicines for rare and common disorders including obesity, AATD, DMD and Huntington's disease.",
+   "evidence": "The Company operates as a single reporting segment, focused on developing its proprietary RNA medicines platform, PRISM, to develop and commercialize a broad pipeline of RNA medicines in a variety of therapeutic areas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

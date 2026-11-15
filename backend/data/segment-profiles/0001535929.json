@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0001535929",
+ "issuerName": "Voya Financial, Inc.",
+ "builtAt": "2026-11-15T14:12:00.156Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001535929-26-000043",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1535929/000153592926000043/voya-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retirement",
+   "products": [
+    "Full Service",
+    "Recordkeeping",
+    "Stable Value",
+    "Managed Account services",
+    "Wealth Management",
+    "IRA accounts",
+    "financial planning and advice"
+   ],
+   "description": "Provides retirement plan solutions, administration technology and services to U.S. employers, plus individual retirement accounts and advisory services through Wealth Management.",
+   "evidence": "Our Retirement segment provides retirement plan solutions and administration technology and services to employers through our Retirement business."
+  },
+  {
+   "name": "Investment Management",
+   "products": [
+    "public and private fixed income",
+    "equities",
+    "multi-asset solutions",
+    "alternative strategies"
+   ],
+   "description": "A leading international asset manager serving institutions, financial intermediaries and individual investors globally.",
+   "evidence": "A leading international asset manager with global distribution capabilities, managing public and private fixed income, equities, multi-asset solutions and alternative strategies for institutions, financial intermediaries and individual investors."
+  },
+  {
+   "name": "Employee Benefits",
+   "products": [
+    "stop loss",
+    "life",
+    "disability",
+    "voluntary insurance products",
+    "health savings and spending accounts",
+    "Benefitplace benefits administration platform"
+   ],
+   "description": "Provides supplemental health and other group benefits and, through Benefitfocus, benefits administration solutions to employers and health plans.",
+   "evidence": "A leading provider of supplemental health and other group benefits covering approximately 6.8 million individual lives in the U.S. providing a comprehensive portfolio of stop loss, life, disability and voluntary insurance products, along with health savings and spending accounts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Voya earns fee income from asset-based and participant-based administrative, recordkeeping and advisory fees, investment income from general account assets, insurance premiums, and market-based fees for managing assets.",
+  "evidence": "Fee income is generated from asset based and participant based administrative, recordkeeping and advisory fees."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Voya completed the acquisition of the full-service retirement plan business of OneAmerica Financial.",
+   "evidence": "On January 2, 2025, we completed the acquisition of the full-service retirement plan business of OneAmerica Financial through the purchase of legal entities and an indemnity reinsurance agreement."
+  }
+ ],
+ "dropped": []
+}

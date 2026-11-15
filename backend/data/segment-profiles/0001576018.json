@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0001576018",
+ "issuerName": "SIRIUSPOINT LTD.",
+ "builtAt": "2026-11-15T14:12:16.323Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001576018-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1576018/000157601826000032/spnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance & Services",
+   "products": [
+    "Accident & Health",
+    "Property & Casualty",
+    "Other Specialties",
+    "Aviation & Space",
+    "Credit",
+    "Surety",
+    "Marine & Energy",
+    "Mortgage"
+   ],
+   "description": "Underwrites primary insurance globally for clients and partners, including accident & health, property & casualty and specialty lines.",
+   "evidence": "In our Insurance & Services segment, we underwrite primary insurance in several sectors globally."
+  },
+  {
+   "name": "Reinsurance",
+   "products": [
+    "Casualty",
+    "Property",
+    "Other Specialties",
+    "Treaty reinsurance",
+    "Facultative reinsurance"
+   ],
+   "description": "Provides treaty and facultative reinsurance products to insurance and reinsurance companies, government entities and other risk bearing vehicles.",
+   "evidence": "In our Reinsurance segment, we provide reinsurance products to insurance and reinsurance companies, government entities, and other risk bearing vehicles."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "SiriusPoint earns underwriting premium from insurance and reinsurance clients, service fee income from consolidated MGAs, and investment results.",
+  "evidence": "Our business model remains diversified as we continue to benefit from the three sources of earnings: (i) underwriting results; (ii) services fee income from the MGAs we consolidate; and (iii) investment results."
+ },
+ "changes": [
+  {
+   "text": "In 2025, SiriusPoint sold ArmadaCorp Capital, a previously consolidated MGA.",
+   "evidence": "During 2025, we sold ArmadaCorp Capital, LLC (\"Armada\"), which was a consolidated MGA that we previously owned 100% of, and recognized a gain of $222.4 million as a result."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the MGA Arcadian was deconsolidated."
+ ]
+}

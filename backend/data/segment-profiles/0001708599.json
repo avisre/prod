@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001708599",
+ "issuerName": "Serina Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:13:46.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001708599-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1708599/000170859926000016/ser-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "POZ platform",
+   "products": [
+    "SER 252 (POZ-apomorphine)"
+   ],
+   "description": "Clinical-stage biotechnology company developing POZ-enabled drug candidates for neurological diseases, including Parkinson's disease.",
+   "evidence": "The Company has one reportable segment relating to the research and development of its POZ platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives its revenues from grant revenue while developing its drug candidates.",
+  "evidence": "The segment derived its revenues from Grant revenue ."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Legacy Serina merged with AgeX's Merger Sub in a reverse recapitalization, with Legacy Serina the accounting acquirer.",
+   "evidence": "Legacy Serina merged with Merger Sub on March 26, 2024 with Legacy Serina surviving the merger as a wholly owned subsidiary of AgeX."
+  }
+ ],
+ "dropped": [
+  "product not in text (POZ platform): SER 214 (POZ conjugate of rotigotine)",
+  "product not in text (POZ platform): POZ LNP RNA vaccines",
+  "product not in text (POZ platform): Antibody Drug Conjugates (ADCs)"
+ ]
+}

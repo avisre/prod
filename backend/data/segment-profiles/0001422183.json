@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001422183",
+ "issuerName": "FS KKR Capital Corp.",
+ "builtAt": "2026-11-15T14:11:08.685Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011734",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1422183/000162828026011734/fsk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment company",
+   "products": [
+    "Senior secured debt",
+    "First and second lien secured loans",
+    "Senior secured bonds",
+    "Subordinated loans",
+    "Asset-based financing loans",
+    "Equity interests",
+    "Corporate bonds",
+    "Structured products"
+   ],
+   "description": "An externally managed business development company that invests primarily in senior secured debt of private middle-market U.S. companies to generate current income and capital appreciation.",
+   "evidence": "Our portfolio is comprised primarily of investments in senior secured debt, which includes first and second lien secured loans and senior secured bonds, of private middle market U.S. companies and, to a lesser extent, subordinated loans and certain asset-based financing loans of private U.S. companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns interest and other investment income from debt investments in private U.S. middle-market companies and pays base management, incentive and administrative fees to its Adviser.",
+  "evidence": "During the years ended December 31, 2025, 2024 and 2023, $ 209 , $ 219 , and $ 229 , respectively, in base management fees were paid to the Adviser."
+ },
+ "changes": [],
+ "dropped": []
+}

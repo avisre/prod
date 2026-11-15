@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "cik": "0001863934",
+ "issuerName": "ADURO CLEAN TECHNOLOGIES INC.",
+ "builtAt": "2026-11-15T14:16:00.735Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-004744",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-08-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1863934/000106299326004744/exhibit99-2.htm",
+  "exhibit": "exhibit99-2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for services completed under technical evaluation and collaboration agreements for evaluating its HPU and HBU technology.",
+  "evidence": "The revenues of $ 167,206 for the year ended May 31, 2026 related to revenue earned following the completion of services pursuant to the technical evaluation and collaboration agreements for evaluation of the Company's HPU and HBU technology (Note 13)."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Clean technology development"
+ ]
+}

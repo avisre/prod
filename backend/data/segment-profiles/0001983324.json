@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001983324",
+ "issuerName": "REAL MESSENGER CORPORATION",
+ "builtAt": "2026-11-15T14:16:58.316Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-034963",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1983324/000149315226034963/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate technology",
+   "products": [
+    "proprietary social portal",
+    "digital-first real estate brokerage model",
+    "RealAI",
+    "technology and productivity tools",
+    "premium marketing",
+    "lead generation",
+    "data analytics"
+   ],
+   "description": "An early-stage holding company building a global real estate technology ecosystem combining a social portal with a digital-first brokerage model for agents, brokers and consumers.",
+   "evidence": "The Company is building a global real estate technology ecosystem that combines a proprietary social portal with a digital-first real estate brokerage model."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated only limited advisory and consultancy service revenue to date, and expects future revenue from brokerage commissions, technology licensing fees, and value-added services.",
+  "evidence": "Our monetization model will be driven by a combination of: (i) gross commission income from brokerage transactions, (ii) licensing fees for technology and productivity tools, and (iii) value-added services, such as premium marketing, lead generation, and data analytics."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company consummated the Business Combination with Nova SPAC, becoming the holding company of RMHL and its subsidiaries.",
+   "evidence": "On November 19, 2024, the parties consummated the Business Combination, and an aggregate of 200,133 Nova Shares were redeemed."
+  },
+  {
+   "text": "In 2025, the Company transitioned from a pure-play social app to a vertically integrated, technology-enabled real estate platform built through acquisitions and partnerships.",
+   "evidence": "In Q3 2025, the Company underwent a comprehensive strategic transformation in response to significant shifts in capital markets, macroeconomic conditions, and structural disruptions within the real estate brokerage ecosystem."
+  }
+ ],
+ "dropped": []
+}

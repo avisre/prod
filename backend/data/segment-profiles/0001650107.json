@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001650107",
+ "issuerName": "COCA-COLA EUROPACIFIC PARTNERS plc",
+ "builtAt": "2026-11-15T14:13:10.930Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001650107-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1650107/000165010726000029/cce-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe",
+   "products": [],
+   "description": "Makes, sells and distributes non-alcoholic ready to drink beverages across European markets.",
+   "evidence": "The Group derives its revenues through a single business activity, which is making, selling and distributing an extensive range of primarily non-alcoholic ready to drink beverages."
+  },
+  {
+   "name": "APS",
+   "products": [],
+   "description": "Makes, sells and distributes non-alcoholic ready to drink beverages across Australia, Pacific and Southeast Asia markets.",
+   "evidence": "APS Australia, Pacific and South East Asia region and renamed APS business unit following the Acquisition"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Group earns revenue from making, selling and distributing a range of primarily non-alcoholic ready to drink beverages to customers.",
+  "evidence": "The Group derives its revenues through a single business activity, which is making, selling and distributing an extensive range of primarily non-alcoholic ready to drink beverages."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Group acquired Coca-Cola Beverages Philippines, adding the Philippines to the APS segment.",
+   "evidence": "Philippines 1,890 1,652 —"
+  }
+ ],
+ "dropped": []
+}

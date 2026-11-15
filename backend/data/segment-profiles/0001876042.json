@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001876042",
+ "issuerName": "CIRCLE INTERNET GROUP, INC.",
+ "builtAt": "2026-11-15T14:16:09.305Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001876042-26-000062",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000062/crcl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Internet financial platform",
+   "products": [
+    "USDC",
+    "EURC",
+    "USYC",
+    "Arc",
+    "Circle Mint",
+    "xReserve",
+    "Circle Payments Network (CPN)",
+    "StableFX"
+   ],
+   "description": "Circle operates a full-stack internet financial platform anchored by its stablecoin network, serving institutions, developers, and end-users exchanging digital value.",
+   "evidence": "As a result, the Company in its entirety, and on a consolidated basis, is a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Circle earns revenue primarily from reserve income on the assets backing its payment stablecoins, paid through returns on the reserve portfolio rather than direct customer fees.",
+  "evidence": "our revenue is primarily driven by reserve income earned on the assets backing such stablecoins"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, Circle acquired Hashnote Holdings LLC, the fund manager of a tokenized "
+ ]
+}

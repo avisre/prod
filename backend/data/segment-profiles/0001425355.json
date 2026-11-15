@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001425355",
+ "issuerName": "SUI GROUP HOLDINGS LIMITED",
+ "builtAt": "2026-11-15T14:11:10.101Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-001672",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1425355/000165495426001672/suig_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital asset platform",
+   "products": [
+    "SUI tokens",
+    "Staking",
+    "suiUSDe"
+   ],
+   "description": "A digital asset treasury platform that acquires, stakes and lends SUI tokens to maximize SUI per share value and advance the Sui ecosystem.",
+   "evidence": "The Company has one reportable operating segment, which is a digital asset platform focused on maximizing SUI per share value and advancing the Sui ecosystem."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns staking rewards on its SUI holdings and yield from lending SUI tokens, and may periodically sell SUI for general corporate purposes.",
+  "evidence": "A significant majority of these holdings continue to be staked, generating an annualized yield of approximately 1.7% with the remaining holdings deployed toward higher yield-generating lending opportunities."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company shifted from its legacy specialty finance business to a SUI digital asset treasury strategy.",
+   "evidence": "In 2025, we undertook a strategic shift by launching the industry's first SUI treasury strategy, under which the principal holding in our treasury reserve on the balance sheet is allocated to the native cryptocurrency of the Sui blockchain (commonly referred to as \"SUI\")."
+  },
+  {
+   "text": "In 2025, the company changed its name from Mill City Ventures III, Ltd. to Sui Group Holdings Limited and its ticker from MCVT to SUIG.",
+   "evidence": "On August 26, 2025, we formally changed our name to Sui Group Holdings Limited, following an amendment to our Articles of Incorporation filed with the Officer of the Minnesota Secretary of State."
+  }
+ ],
+ "dropped": [
+  "product not in text (Digital asset platform): SUI lending"
+ ]
+}

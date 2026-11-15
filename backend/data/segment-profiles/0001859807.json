@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001859807",
+ "issuerName": "PROFUSA, INC.",
+ "builtAt": "2026-11-15T14:15:58.982Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-044046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1859807/000121390026044046/ea0282813-10k_profusa.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital health technology",
+   "products": [
+    "Lumee Oxygen",
+    "Lumee Glucose"
+   ],
+   "description": "Develops an injectable subcutaneous biosensor platform providing real-time individual biochemistry data for wound care and diabetes management patients.",
+   "evidence": "Profusa is a digital health technology company based in Berkeley, California, that has invested over the last twelve years more than $100 million from sophisticated venture investors as well as the most sophisticated research institutions in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has not yet commercialized products and has earned only government grant revenue, with future plans to sell Lumee Oxygen through a distribution partner.",
+  "evidence": "Profusa anticipates beginning commercialization of Lumee Oxygen in Europe in early 2026 and continuing its U.S. study for submission for U.S. FDA marketing authorization late 2026."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the blank check company Northview Acquisition Corp. completed its business combination with Profusa and changed its name to Profusa, Inc.",
+   "evidence": "we completed the Business Combination on July 11, 2025 and changed our name to \"Profusa, Inc.\""
+  }
+ ],
+ "dropped": [
+  "product not in text (Digital health technology): Lumee biosensor platform"
+ ]
+}

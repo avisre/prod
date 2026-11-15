@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001748137",
+ "issuerName": "NeoVolta, Inc.",
+ "builtAt": "2026-11-15T14:14:15.579Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-007333",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1748137/000168316826007333/neovolta_i10k-063026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy storage products",
+   "products": [
+    "NV14",
+    "NV24",
+    "NVPlus",
+    "NV7600 stand-alone inverter",
+    "NV16 kW AC hybrid inverter",
+    "NVWAVE modular battery platform",
+    "250 kW / 430 kWh C&I system"
+   ],
+   "description": "Develops and commercializes lithium iron phosphate energy storage systems and inverters for residential, small commercial, and utility-scale customers.",
+   "evidence": "Management has determined that the Company operates in only one reportable segment, which is the development and commercialization of energy storage products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company recognizes revenue when control of energy storage goods transfers to customers, sold primarily through certified solar installers and regional and national distributors.",
+  "evidence": "Historically, we have marketed and sold our ESS products primarily through certified solar installers and regional and national distributors, with our initial focus being on Southern California and more recently expanding to markets in other states such as Texas."
+ },
+ "changes": [
+  {
+   "text": "In January 2026, the company formed the NeoVolta Power, LLC joint venture to own and operate a utility-scale battery manufacturing facility in Georgia.",
+   "evidence": "In January 2026, we executed a series of joint venture agreements with the U.S. affiliate of a foreign entity for the formation of a new domestic limited liability company known as NeoVolta Power, LLC (\"NVP\") to jointly own and operate a utility-scale battery manufacturing facility in the State of Georgia."
+  },
+  {
+   "text": "In October 2025, the company acquired intellectual property and other assets from Neubau Energy, leading to the NVWAVE modular battery platform.",
+   "evidence": "We have developed this product as a result of our acquisition of intellectual property and other assets from Neubau Energy in October 2025."
+  }
+ ],
+ "dropped": []
+}

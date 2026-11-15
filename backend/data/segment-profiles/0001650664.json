@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001650664",
+ "issuerName": "EDITAS MEDICINE, INC.",
+ "builtAt": "2026-11-15T14:13:11.376Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001650664-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1650664/000165066426000017/edit-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gene editing technology",
+   "products": [
+    "EDIT-401",
+    "reni-cel",
+    "CRISPR/Cas9",
+    "CRISPR/Cas12a"
+   ],
+   "description": "Develops and commercializes CRISPR-based gene editing medicines, including in vivo therapies, for patients with serious diseases.",
+   "evidence": "The CEO views the Company's operations and manages the Company's business as one operating segment, which is the business of developing and commercializing gene editing technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns collaboration and other research and development revenues from license and collaboration partners, including upfront and annual license fees under agreements such as the Vertex License Agreement.",
+  "evidence": "the Vertex License Agreement further provides for the payment by Vertex of a potential additional $50.0 million contingent upfront payment and further future fixed and sales-based annual license fees, ranging from $5.0 million to $40.0 million annually, inclusive of certain sales-based annual license fee increases, through 2034."
+ },
+ "changes": [
+  {
+   "text": "In December 2024, the company decided not to pursue commercialization of reni-cel, its ex vivo gene-edited medicine for sickle cell disease and beta thalassemia.",
+   "evidence": "we determined in December 2024 not to pursue commercialization for reni-cel in order to optimize our cost structure and accelerate our intent to achieve human proof of concept of our in vivo gene editing medicines."
+  }
+ ],
+ "dropped": [
+  "product not in text (Gene editing technology): lipid nanoparticle (LNP) delivery platform"
+ ]
+}

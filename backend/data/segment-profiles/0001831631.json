@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001831631",
+ "issuerName": "loanDepot, Inc.",
+ "builtAt": "2026-11-15T14:15:16.521Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001831631-26-000028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1831631/000183163126000028/ldi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage lending",
+   "products": [
+    "Conventional Agency-conforming loans",
+    "Conventional prime jumbo loans",
+    "FHA & VA loans",
+    "Home equity lines of credit",
+    "Closed-end second liens",
+    "Servicing",
+    "mello Home Services",
+    "mello Insurance Services"
+   ],
+   "description": "Originates and services residential mortgage loans for consumers, including first-time homebuyers, through direct, retail, and joint venture channels.",
+   "evidence": "The Company's organizational structure is currently comprised of one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns gain on sale revenue from originating and selling mortgage loans into the secondary market and recurring servicing fees from investors in the underlying mortgages.",
+  "evidence": "In addition to fees we earn from servicing the loans, we also derive value from the ability to \"recapture\" the subsequent refinance or purchase mortgage business of borrowers in the servicing portfolio."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mortgage lending): Settlement services (LDSS)"
+ ]
+}

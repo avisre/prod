@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0002013807",
+ "issuerName": "FOXX DEVELOPMENT HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:17:17.160Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-104028",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/2013807/000121390026104028/ea0305072-10k_foxx.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications technology",
+   "products": [
+    "Wearables",
+    "AI smart glasses",
+    "App Service"
+   ],
+   "description": "Sells affordable Foxx-branded tablets, smartphones, wearables and IoT products to U.S. distributors, carriers and e-commerce customers, plus an App Service.",
+   "evidence": "Management has determined that the Company has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Distributors and e-commerce customers pay for Foxx-branded hardware, and App developer partners pay commission for installing applications on mobile devices.",
+  "evidence": "We also provide an App Service by installing applications from App developer partners onto its mobile devices and facilitating the distribution of these devices to end users."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company became public through a business combination with Acri Capital Acquisition Corporation and was renamed Foxx Development Holdings Inc.",
+   "evidence": "On September 26, 2024 (the \"Closing\"), Acri Capital Acquisition Corporation, a Delaware corporation (\"ACAC\") consummated a business combination pursuant to the terms of the business combination agreement"
+  }
+ ],
+ "dropped": [
+  "product not in text (Communications technology): Foxx-branded tablets",
+  "product not in text (Communications technology): Foxx-branded smartphones",
+  "product not in text (Communications technology): Smart home products"
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001784970",
+ "issuerName": "NEXT TECHNOLOGY HOLDING INC",
+ "builtAt": "2026-11-15T14:14:31.013Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037199",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1784970/000121390026037199/ea0283927-10k_next.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including property management, cryptocurrency mining and energy businesses, pay the Company for customized and entrusted AI-enabled SaaS software development projects.",
+  "evidence": "Our business operates under a \"SaaS+AI\" model, emphasizing customized and entrusted development projects designed in response to specific market demand."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company terminated all operations in the PRC and shifted software development services to overseas markets while commencing a Bitcoin acquisition strategy.",
+   "evidence": "In the third quarter of 2024, we terminated all operations in the PRC to shift our software development services to overseas markets and commenced business strategy of acquiring and holding bitcoin."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Software and Bitcoin"
+ ]
+}

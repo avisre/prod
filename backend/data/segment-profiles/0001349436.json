@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001349436",
+ "issuerName": "SANDRIDGE ENERGY, INC.",
+ "builtAt": "2026-11-15T14:10:38.172Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015318",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1349436/000162828026015318/sd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and natural gas",
+   "products": [
+    "Oil",
+    "Natural gas",
+    "NGL"
+   ],
+   "description": "Acquires, develops and produces oil, natural gas and NGL in the U.S. Mid-Continent for energy purchasers.",
+   "evidence": "The Company operates as one operating segment, which is engaged in the acquisition, development, and production of oil, natural gas, and NGL in the U.S. Mid-Continent."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from selling produced oil, natural gas and NGL volumes to purchasers.",
+  "evidence": "Revenues Oil $ 77,270 $ 68,231 $ 78,174 Natural gas 41,587 21,397 34,941 NGL 37,500 35,662 35,526 Total revenues 156,357 125,290 148,641"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001801170",
+ "issuerName": "CLOVER HEALTH INVESTMENTS, CORP. /DE",
+ "builtAt": "2026-11-15T14:14:42.276Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001801170-26-000057",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1801170/000180117026000057/clov-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "PPO plans",
+    "HMO plans",
+    "Clover Assistant",
+    "Clover Home Care"
+   ],
+   "description": "Provides Medicare Advantage PPO and HMO plans to members in several states, supported by the Clover Assistant software platform.",
+   "evidence": "Through our Insurance segment, we provide PPO and HMO plans to Medicare Advantage members in several states."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns monthly premiums from CMS under Medicare Advantage contracts, net of premiums ceded to reinsurers, plus other income such as investment income.",
+  "evidence": "We earn premiums through our plans offered under contracts with CMS. We receive premiums from CMS on a monthly basis based on our actuarial bid and the risk-adjustment model used by CMS."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company launched Counterpart Health, Inc., a new SaaS and tech-enabled services solution for external payors and providers.",
+   "evidence": "During 2024, the Company launched Counterpart Health, Inc., a new Software-as-a-Service (\"SaaS\") and Tech Enabled Services Solution to bring the power of Clover Assistant technology to external payors and providers serving the Medicare eligible population."
+  }
+ ],
+ "dropped": []
+}

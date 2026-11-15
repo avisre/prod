@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001834105",
+ "issuerName": "Impact     BioMedical, INC.",
+ "builtAt": "2026-11-15T14:15:21.586Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009711",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1834105/000149315226009711/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "Linebacker",
+    "Laetose",
+    "Equivir/Equivir G",
+    "Celios Air Purification technology"
+   ],
+   "description": "Discovers, patents and develops science and technologies for human healthcare and wellness, including drug discovery for neurological, oncologic and inflammatory diseases.",
+   "evidence": "Impact BioMedical currently operates as one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmaceutical, food and consumer packaged goods partners would commercialize IBO technologies in exchange for milestone and royalty payments, alongside potential direct sales.",
+  "evidence": "Potential licensors and development partners include pharmaceutical, consumer packaged goods companies and others, who would commercialize IBO technologies in exchange for milestone, and royalty payments."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company announced the acquisition of Celios Air Purification technology to expand its portfolio.",
+   "evidence": "The company announced the acquisition of Celios Air Purification technology company, to enhance its ability to combat pathogens."
+  },
+  {
+   "text": "In 2025, the company announced a definitive merger agreement to be acquired by Dr. Ashleys Limited in a reverse merger.",
+   "evidence": "Impact BioMedical Inc. announced a definitive merger agreement to be acquired by Dr. Ashleys Limited in a reverse merger."
+  }
+ ],
+ "dropped": [
+  "product not in text (Biotechnology): Functional Fragrance Formulation (3F)"
+ ]
+}

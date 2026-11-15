@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001714899",
+ "issuerName": "Denali Therapeutics Inc.",
+ "builtAt": "2026-11-15T14:13:51.355Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001714899-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1714899/000171489926000021/dnli-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutics",
+   "products": [
+    "tividenofusp alfa (DNL310, ETV:IDS)",
+    "DNL126 (ETV:SGSH)",
+    "DNL593 (PTV:PGRN)",
+    "DNL628 (OTV:MAPT)",
+    "DNL952 (ETV:GAA)",
+    "DNL921 (ATV:Abeta)",
+    "BIIB122/DNL151 (LRRK2 inhibitor)"
+   ],
+   "description": "Discovers, develops and seeks to commercialize blood-brain barrier-crossing biotherapeutics for patients with neurodegenerative, lysosomal storage and other serious diseases.",
+   "evidence": "The Company has one operating segment with the goal to discover, develop and commercialize therapeutics (\"Therapeutics\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no product sales revenue; all revenue to date has been collaboration and license revenue from its collaboration agreements with partners such as Biogen, Takeda and Sanofi.",
+  "evidence": "All revenue to date has been collaboration and license revenue from the Company's collaboration agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company divested its small molecule programs to Tenvie, receiving consideration and retaining rights to future royalties on net sales of certain products.",
+   "evidence": "The Company recognized a gain on divestiture of approximately $ 14.5 million in the Consolidated Statements of Operations and Comprehensive Loss during the year ended December 31, 2024 , representing the difference between the fair value of the consideration received and the carrying amount of the Divested Assets."
+  }
+ ],
+ "dropped": [
+  "product not in text (Therapeutics): SAR443122/DNL758 (RIPK1 inhibitor)"
+ ]
+}

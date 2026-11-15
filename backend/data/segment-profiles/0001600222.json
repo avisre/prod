@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001600222",
+ "issuerName": "Phoenix Education Partners, Inc.",
+ "builtAt": "2026-11-15T14:12:30.837Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-445323",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-11-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1600222/000119312526445323/pxed-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Post-secondary education",
+   "products": [
+    "Degree-granting programs",
+    "Non-degree certificate programs",
+    "Non-credit professional development courses"
+   ],
+   "description": "Operates the University of Phoenix, providing flexible degree and certificate programs primarily to working adult learners and employers.",
+   "evidence": "The University currently offers a number of degree-granting and non-degree certificate programs across a wide range of disciplines, including business and information technology (\"IT\"), health professions, social and behavioral sciences, education, nursing, doctoral studies, and general studies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students and employers pay tuition for degree and non-degree programs, with many students receiving discounted tuition benefits under employer relationship programs.",
+  "evidence": "Many of our students receive discounted tuition benefits under programs offered through our employer relationships, which are classified as B2B enrollment."
+ },
+ "changes": [],
+ "dropped": []
+}

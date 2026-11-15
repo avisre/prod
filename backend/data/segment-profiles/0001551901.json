@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001551901",
+ "issuerName": "Stellus Capital Investment Corp",
+ "builtAt": "2026-11-15T14:12:03.703Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-026432",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1551901/000110465926026432/scm-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment management",
+   "products": [
+    "unsecured debt financing",
+    "equity co-investments"
+   ],
+   "description": "An externally managed business development company originating debt and related equity investments in private U.S. lower middle-market companies.",
+   "evidence": "The Company operates under one operating segment and reporting unit, investment management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and related income from debt and equity investments in lower middle-market companies, distributing substantially all income to stockholders.",
+  "evidence": "Our investment objective is to maximize the total return to our stockholders in the form of current income and capital appreciation through debt and related equity investments in lower middle-market companies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (investment management): first lien (including unitranche) debt financing",
+  "product not in text (investment management): second lien debt financing"
+ ]
+}

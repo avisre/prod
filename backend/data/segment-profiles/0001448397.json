@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001448397",
+ "issuerName": "SEANERGY MARITIME HOLDINGS CORP.",
+ "builtAt": "2026-11-15T14:11:24.169Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-012374",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1448397/000114036126012374/ef20060628_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vessel operations",
+   "products": [
+    "Dry bulk vessels",
+    "Time charters",
+    "Spot charters"
+   ],
+   "description": "Operates a fleet of dry bulk vessels that carry cargoes such as coal for charterers trading worldwide.",
+   "evidence": "The CODM assesses performance for the vessel operations segment and decides how to allocate resources based on consolidated net income."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company charter hire for employing its dry bulk vessels under time or spot charters.",
+  "evidence": "The Company reports financial information and evaluates its operations by total charter revenues and not by the length of vessel employment, customer, type of charter or geographical area as the charterer is free to trade the vessel worldwide"
+ },
+ "changes": [],
+ "dropped": []
+}

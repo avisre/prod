@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001613780",
+ "issuerName": "DBV TECHNOLOGIES S.A.",
+ "builtAt": "2026-11-15T14:12:42.078Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021504",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1613780/000162828026021504/dbvt-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Epicutaneous immunotherapy research and development"
+ ]
+}

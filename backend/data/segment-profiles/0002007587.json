@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0002007587",
+ "issuerName": "American Integrity Insurance Group, Inc.",
+ "builtAt": "2026-11-15T14:17:10.468Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002007587-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2007587/000200758726000016/aii-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential Property Insurance",
+   "products": [
+    "coverage for vacant dwellings"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums for residential property insurance coverage, distributed through independent agents, builder agents, carrier referrals, and selective Citizens policy assumptions.",
+  "evidence": "we primarily distribute our products through the \"Voluntary Market,\" meaning we directly underwrite and sell residential property insurance coverage to single family homeowners and condominium owners."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Residential Property Insurance): personal residential property insurance for single-family homeowners",
+  "product not in text (Residential Property Insurance): condominium owners coverage",
+  "product not in text (Residential Property Insurance): coverage for investment properties",
+  "segment evidence not verbatim: Residential Property Insurance"
+ ]
+}

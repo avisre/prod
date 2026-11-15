@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001856314",
+ "issuerName": "CLEAR SECURE, INC.",
+ "builtAt": "2026-11-15T14:15:54.827Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001856314-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1856314/000185631426000006/you-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Secure identity network",
+   "products": [
+    "CLEAR+",
+    "TSA PreCheck® Enrollment Provided by CLEAR",
+    "CLEAR Concierge",
+    "CLEAR app",
+    "CLEAR ID",
+    "CLEAR1"
+   ],
+   "description": null,
+   "evidence": "The Company operates a secure identity network under the brand name CLEAR primarily in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

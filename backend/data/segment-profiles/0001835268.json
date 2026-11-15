@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001835268",
+ "issuerName": "Connect Biopharma Holdings Limited",
+ "builtAt": "2026-11-15T14:15:22.920Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001835268-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1835268/000183526826000013/cntb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "treatment of respiratory diseases",
+   "products": [
+    "rademikibart"
+   ],
+   "description": null,
+   "evidence": "The Company operates in one operating segment: treatment of respiratory diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns license and collaboration revenues, primarily from Simcere's exclusive rights to develop and commercialize rademikibart in Greater China.",
+  "evidence": "Simcere has been granted exclusive rights to develop, manufacture and commercialize rademikibart for all indications in Greater China"
+ },
+ "changes": [],
+ "dropped": []
+}

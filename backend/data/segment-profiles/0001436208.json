@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001436208",
+ "issuerName": "Legacy Housing Corporation",
+ "builtAt": "2026-11-15T14:11:17.427Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027133",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1436208/000110465926027133/legh-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufactured housing",
+   "products": [
+    "Manufactured homes",
+    "Tiny Houses",
+    "Consumer financing"
+   ],
+   "description": "Builds, sells and finances manufactured homes and Tiny Houses for affordable-housing buyers, sold through independent retailers, company-owned stores and directly to communities.",
+   "evidence": "We have one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling manufactured homes and Tiny Houses to retailers, consumers and mobile home parks, plus interest income from financing those sales.",
+  "evidence": "We generate revenues through the manufacture and sales of manufactured homes and \"Tiny Houses\" and the related interest income associated with financing these homes sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Manufactured housing): Inventory financing for retailers",
+  "product not in text (Manufactured housing): Financing for manufactured housing community owners"
+ ]
+}

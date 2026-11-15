@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001420720",
+ "issuerName": "IBIO, INC.",
+ "builtAt": "2026-11-15T14:11:07.905Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001420720-26-000020",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1420720/000142072026000020/ibio-20260731x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "IBIO-600",
+    "IBIO-610",
+    "IBIO-800",
+    "Amylin receptor antibody program"
+   ],
+   "description": "A clinical-stage biotechnology company using AI and machine learning to develop precision antibody therapeutics for obesity, cardiometabolic and cardiopulmonary diseases.",
+   "evidence": "The Company operates as one reportable segment, which is that of a biotechnology company leveraging AI and ML for the development of hard-to-drug precision antibodies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from services provided to research collaborators.",
+  "evidence": "During the fiscal year ended June 30, 2026, the Company reported revenue for services provided to one research collaborator."
+ },
+ "changes": [],
+ "dropped": []
+}

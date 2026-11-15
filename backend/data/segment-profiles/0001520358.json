@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001520358",
+ "issuerName": "Mama’s Creations, Inc.",
+ "builtAt": "2026-11-15T14:11:49.181Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-025068",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1520358/000162828026025068/mmmb-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prepared foods",
+   "products": [
+    "MamaMancini's",
+    "T&L Creative Salads",
+    "Olive Branch",
+    "meat loaf",
+    "sausage-related products",
+    "pasta and rice entrees"
+   ],
+   "description": "Manufactures and markets fresh deli-prepared foods, including all-natural specialty prepared refrigerated foods, sold to supermarkets, club chains, mass-market retailers and food distributors.",
+   "evidence": "Our primary products include chicken, beef and turkey meatballs, meat loaf, sausage-related products, and pasta and rice entrees."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by supermarkets, club chains, mass-market retailers and food distributors for its prepared food products, net of customer incentives such as discounts, slotting fees, coupons and rebates.",
+  "evidence": "Our products are principally sold to supermarkets, club chains, mass-market retailers, and food distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired substantially all of the assets of Crown I Enterprises, Inc., a manufacturer of value-added proteins and ready-to-heat meals.",
+   "evidence": "On September 2, 2025, Crown 1 Foods, Inc., a Nevada corporation and wholly owned subsidiary of the Company, acquired substantially all of the assets of Crown I Enterprises, Inc. for a cash payment of approximately $17.3 million (the \"Crown 1 Business\")."
+  },
+  {
+   "text": "In 2023, the company changed its name from MamaMancini's Holdings, Inc. to Mama's Creations, Inc.",
+   "evidence": "in 2023, the Company adopted its current name \"Mama's Creations, Inc.,\" and our common stock began trading under the ticker symbol \"MAMA.\""
+  },
+  {
+   "text": "In 2023, the company acquired the remaining interest in Chef Inspirational Foods, LLC, having acquired a minority interest in 2022.",
+   "evidence": "One year later, the Company acquired the remainder of CIF, for $3.7 million, including approximately $1.0 million in cash at closing and a $2.7 million promissory note."
+  }
+ ],
+ "dropped": [
+  "product not in text (Prepared foods): beef, chicken and turkey meatballs",
+  "product not in text (Prepared foods): olives and olive mixes"
+ ]
+}

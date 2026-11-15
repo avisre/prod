@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001321834",
+ "issuerName": "Q/C Technologies, Inc.",
+ "builtAt": "2026-11-15T14:10:31.172Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016872",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1321834/000149315226016872/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Laser-Based Computing",
+   "products": [
+    "qc-LPU100™"
+   ],
+   "description": "Develops and commercializes laser-based photonic computing systems for blockchain, AI and high-performance computing customers.",
+   "evidence": "As a result of this transaction, LPU became a wholly owned subsidiary of the Company and constitutes a reportable segment."
+  },
+  {
+   "name": "Pharmaceutical",
+   "products": [
+    "Isomyosamine",
+    "Supera-CBD"
+   ],
+   "description": "Legacy therapeutic development programs for autoimmune and inflammatory diseases and CBD-based treatments.",
+   "evidence": "The Company's legacy pharmaceutical business remains a reportable segment and consists of the Company's therapeutic development programs, which includes Isomyosamine and Supera-CBD:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired LPU Holdings LLC, which became a wholly owned subsidiary and a new reportable segment.",
+   "evidence": "On September 2, 2025, the Company entered into a Membership Interest Purchase Agreement (the \"MIPA\") with LPU Holdings LLC (\"LPU\") and the members of LPU (the \"Sellers\"), pursuant to which the Company acquired 100% of the membership interests of LPU (the \"Membership Interests\")."
+  },
+  {
+   "text": "In 2025, the Company changed its name from TNF Pharmaceuticals, Inc. to Q/C Technologies, Inc. and shifted its strategic focus to laser-based computing.",
+   "evidence": "On September 22, 2025, the Company filed a certificate of amendment to its certificate of incorporation to change the name of the Company from \"TNF Pharmaceuticals, Inc.\" to \"Q/C Technologies, Inc.\" effective as of September 22, 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Laser-Based Computing): laser processing units (LPUs)",
+  "revenue model not grounded",
+  "change not grounded: In 2021, the Company contributed its COVID-19 vaccine business assets to Oravax,"
+ ]
+}

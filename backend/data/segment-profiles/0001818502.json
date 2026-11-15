@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001818502",
+ "issuerName": "OppFi Inc.",
+ "builtAt": "2026-11-15T14:14:59.097Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001818502-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818502/000181850226000019/opfi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty finance platform",
+   "products": [
+    "OppLoans platform",
+    "OppFi TurnUp Program",
+    "OppU",
+    "Zogo"
+   ],
+   "description": "A tech-enabled specialty finance platform that partners with community banks to offer installment loans to underbanked U.S. consumers.",
+   "evidence": "The Company operates as a single reportable segment and manages the business activities on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OppFi earns revenue in the United States from offering its installment loan product facilitated through bank partners.",
+  "evidence": "The Company derives its revenue in the United States by offering its installment loan product."
+ },
+ "changes": [],
+ "dropped": []
+}

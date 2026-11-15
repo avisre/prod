@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001967822",
+ "issuerName": "CREATIVE GLOBAL TECHNOLOGY HOLDINGS LIMITED",
+ "builtAt": "2026-11-15T14:16:52.725Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-009962",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1967822/000121390026009962/ea0273323-20f_creative.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Recycled electronics",
+   "products": [
+    "Smartphones",
+    "Tablets",
+    "Laptops",
+    "Smartwatches",
+    "Wireless headphones"
+   ],
+   "description": "Sources pre-owned consumer electronic devices from developed countries and resells them to wholesalers, retailers and renters in Southeast Asia and Hong Kong.",
+   "evidence": "Based on management's assessment, the Company determined it has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wholesalers, retail consumers and rental clients in Southeast Asia and Hong Kong pay the company for pre-owned consumer electronic devices it sources from suppliers in the U.S., Japan and other developed countries.",
+  "evidence": "Wholesalers of consumer electronic devices in Southeast Asia and other areas first send their inquiries containing the number and specifications of the consumer electronic devices needed."
+ },
+ "changes": [],
+ "dropped": []
+}

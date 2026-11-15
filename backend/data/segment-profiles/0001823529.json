@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001823529",
+ "issuerName": "Enact Holdings, Inc.",
+ "builtAt": "2026-11-15T14:15:04.442Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001823529-26-000060",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823529/000182352926000060/act-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage Insurance",
+   "products": [
+    "residential mortgage guaranty insurance",
+    "mortgage and credit-related insurance and reinsurance"
+   ],
+   "description": "Writes private residential mortgage guaranty insurance covering Low Down Payment Loans for lenders and investors in the United States housing finance market.",
+   "evidence": "We operate our business in a single reportable segment, Mortgage Insurance, which is how our CODM, who is our Chief Executive Officer, reviews our financial performance and allocates resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mortgage loan originators and other customers pay premiums for private mortgage guaranty insurance covering a portion of the unpaid principal balance of Low Down Payment Loans.",
+  "evidence": "Our principal mortgage insurance customers are originators of residential mortgage loans who typically determine which mortgage insurer or insurers they will use for the placement of mortgage insurance written on loans they originate."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mortgage Insurance): credit risk transfer (CRT) program"
+ ]
+}

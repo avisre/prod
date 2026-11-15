@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001840502",
+ "issuerName": "TABOOLA.COM LTD.",
+ "builtAt": "2026-11-15T14:15:29.032Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001840502-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840502/000184050226000004/tbla-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance advertising",
+   "products": [
+    "Realize",
+    "AI engine",
+    "Max Conversions",
+    "Abby",
+    "Generative AI tools"
+   ],
+   "description": "Taboola operates an AI-powered performance advertising platform that places ads on publishers' digital properties for advertisers outside search and social media.",
+   "evidence": "The Company operates in one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers, agencies, merchants and affiliate networks pay Taboola for clicks, purchases or impressions on ads shown on digital properties, with revenue generally shared with those publishers.",
+  "evidence": "Advertisers pay Taboola for those clicks, purchases or impressions and Taboola generally shares the resulting revenue with the digital properties who display those ads."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Taboola launched Realize, a new performance advertising platform, expanding from native advertising to broader performance advertising.",
+   "evidence": "In February 2025, we announced the launch of Realize, our new performance advertising platform built to drive results at scale on digital publisher properties outside of search and social media platforms."
+  }
+ ],
+ "dropped": []
+}

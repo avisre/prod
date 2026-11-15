@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001529113",
+ "issuerName": "XTI AEROSPACE, INC.",
+ "builtAt": "2026-11-15T14:11:53.465Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-043785",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1529113/000121390026043785/ea0279149-10k_xtiaero.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "UAS",
+   "products": [
+    "enterprise drone distribution",
+    "training",
+    "compliance management support",
+    "repair and maintenance",
+    "fleet sustainment",
+    "related services"
+   ],
+   "description": "Operates Drone Nerds, an OEM-agnostic UAS solutions and services platform serving enterprise, public safety, government and defense customers.",
+   "evidence": "The UAS segment reflects the operations of Drone Nerds beginning on November 10, 2025, while the Commercial Aviation segment includes activities related to the development of the TriFan 600 aircraft program."
+  },
+  {
+   "name": "Commercial Aviation",
+   "products": [
+    "TriFan 600"
+   ],
+   "description": null,
+   "evidence": "Commercial Aviation - a development-stage VTOL aircraft program focused on the TriFan 600, a fixed-wing aircraft design concept intended to combine the vertical takeoff and landing capability of a helicopter with the speed and range of a conventional business aircraft, operated through our wholly-owned subsidiary, XTI Aircraft Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprise and public sector customers pay Drone Nerds for drone hardware distribution and lifecycle services such as training, repair, maintenance and fleet sustainment.",
+  "evidence": "Our operating model is designed to provide end-to-end UAS lifecycle capabilities across hardware distribution, operator training, compliance management support, repair and maintenance, fleet sustainment, and related support services."
+ },
+ "changes": [
+  {
+   "text": "In November 2025 the Company acquired Drone Nerds and began operating through two reportable segments, UAS and Commercial Aviation.",
+   "evidence": "Beginning in November 2025, the Company operates through two reportable segments: UAS and Commercial Aviation."
+  },
+  {
+   "text": "In December 2025 the Company committed to a plan to dispose of its Inpixon Business, which is presented as discontinued operations and was sold in February 2026.",
+   "evidence": "During December 2025, the Company committed to a plan to dispose of its historical Inpixon Business and classified the business as held for sale."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the Company redirected its former XTI Aircraft division toward unmanned "
+ ]
+}

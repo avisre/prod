@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001761312",
+ "issuerName": "Palomar Holdings, Inc.",
+ "builtAt": "2026-11-15T14:14:19.970Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067364",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1761312/000119312526067364/plmr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty insurance",
+   "products": [
+    "Earthquake",
+    "Casualty",
+    "Inland Marine and Other Property",
+    "Crop",
+    "Fronting"
+   ],
+   "description": "A specialty insurance company providing property and casualty insurance products to individuals and businesses in admitted and excess and surplus lines markets.",
+   "evidence": "We are a specialty insurance company that provides property and casualty insurance products to individuals and businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns premiums from individuals and businesses buying its specialty property and casualty insurance policies, distributed through retail agents, program administrators, wholesale brokers, and strategic partnerships.",
+  "evidence": "We distribute our products through multiple channels, including retail agents, program administrators, wholesale brokers, and strategic partnerships with other insurance companies."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company will report Surety and Credit premium as a separate line and cease reporting Fronting premium as a separate line of business.",
+   "evidence": "We will reorganize the presentation of our product offerings in 2026 and report Surety and Credit premium as a separate line, reflecting changes in strategy and market focus following the Gray Surety acquisition."
+  }
+ ],
+ "dropped": []
+}

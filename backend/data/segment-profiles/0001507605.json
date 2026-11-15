@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001507605",
+ "issuerName": "MARA HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:11:43.970Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001507605-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy and digital infrastructure",
+   "products": [
+    "Bitcoin mining",
+    "AI inference",
+    "Bitcoin lending arrangements",
+    "Structured trading strategies",
+    "Collateralized financing"
+   ],
+   "description": "Mines bitcoin and develops AI inference and HPC capabilities across data centers in North America, the Middle East, Europe, and Latin America.",
+   "evidence": "The Company operates as one operating segment and uses net income as a measure of profit or loss on a consolidated basis in making decisions regarding resource allocation and performance assessment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns newly issued bitcoin and transaction fees by validating blocks on the Bitcoin blockchain, and generates incremental income by lending and monetizing its bitcoin holdings.",
+  "evidence": "The first miner to successfully validate a block through the network's proof-of-work consensus mechanism receives a reward in the form of newly issued bitcoin (block subsidy) and transaction fees associated with the validated transactions."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company began selling bitcoin to fund operations rather than holding it solely as a long-term investment.",
+   "evidence": "In 2025, the Company began selling bitcoin to fund operations to enhance financial flexibility, and in 2026, the Company expects to continue to monetize bitcoin opportunistically to enhance our financial flexibility."
+  }
+ ],
+ "dropped": [
+  "product not in text (Energy and digital infrastructure): High-performance computing (HPC)"
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001507957",
+ "issuerName": "IDEAL POWER INC.",
+ "builtAt": "2026-11-15T14:11:44.473Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009995",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1507957/000143774926009995/ipwr20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B-TRAN technology",
+   "products": [
+    "discrete B-TRAN®",
+    "SymCool® Power Module"
+   ],
+   "description": "Develops and commercializes B-TRAN® bidirectional solid-state switch technology for power semiconductor markets including EV contactors and circuit protection.",
+   "evidence": "We are solely focused on the further development and commercialization of our Bidirectional bipolar junction TRANsistor (\"B-TRAN®\") solid-state switch technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase B-TRAN® prototypes and packaged devices in small quantities for evaluation, and the company earns grant revenue for bidirectional power switch development.",
+  "evidence": "To date, our customers have purchased prototypes in small quantities for evaluation and provided us feedback that has been incorporated into our final product designs."
+ },
+ "changes": [],
+ "dropped": []
+}

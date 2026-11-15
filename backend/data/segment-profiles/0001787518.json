@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001787518",
+ "issuerName": "T3 Defense Inc.",
+ "builtAt": "2026-11-15T14:14:33.895Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-041888",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1787518/000121390026041888/ea0282720-10k_t3defense.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Defense Software",
+   "products": [
+    "Star 26 Capital Inc.",
+    "Nimbus Drones Technologies and Marketing Ltd.",
+    "I.T.S. Industrial Tecno-logic Solutions Ltd.",
+    "Mandragola Aviation Joint Venture"
+   ],
+   "description": "Acquires and operates aerospace and defense businesses, including AI software, defense technology suppliers and unmanned systems, mainly in Israel, the U.S. and Europe.",
+   "evidence": "On December 30, 2025, the Company acquired a subsidiary operating in the Defense Software sector (see Note 4)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024 the Company agreed to sell its financial services subsidiary Digital RFQ Limited, which was presented as discontinued operations.",
+   "evidence": "As a result of the execution of the Settlement Agreement and management's commitment to a plan to dispose of the subsidiary, the financial services operating activities met the criteria to be classified as held for sale under ASC 205-20 as of November 8, 2024."
+  },
+  {
+   "text": "In 2025 the Company deconsolidated Digital RFQ Limited after Match was placed into administration and its shareholding was sold.",
+   "evidence": "As a result, the Company lost control of the subsidiary and deconsolidated the subsidiary as of July 29, 2025 in accordance with ASC 810-10-40."
+  },
+  {
+   "text": "In 2025 the Company acquired Tiltan Software Engineering Ltd., creating its Defense Software reportable segment.",
+   "evidence": "On December 30, 2025, the Company completed the acquisition of 100 % of the issued and outstanding shares of Tiltan Software Engineering Ltd. (\"Tiltan\"), an Israeli provider of AI-based software solutions for defense and aerospace applications, pursuant to a Stock Purchase Agreement (the \"Tiltan Purchase Agreement\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Defense Software): Tiltan Software Engineering Ltd. AI-based software solutions",
+  "product not in text (Defense Software): B. Rimon Agencies Ltd. generators",
+  "product not in text (Defense Software): Positech Ltd. motion control systems",
+  "product not in text (Defense Software): Blade Ranger Ltd. drone payload distribution"
+ ]
+}

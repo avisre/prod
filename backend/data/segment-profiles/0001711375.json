@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001711375",
+ "issuerName": "LOMA NEGRA COMPANIA INDUSTRIALARGENTINA SOCIEDAD ANONIMA",
+ "builtAt": "2026-11-15T14:13:49.909Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001711375-26-000030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1711375/000171137526000030/loma-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cement, masonry cement and lime",
+   "products": [],
+   "description": "Produces and sells cement, masonry cement and lime under the Loma Negra, Plasticor, Cacique Max and Loma Negra Plus brands for construction customers.",
+   "evidence": "We currently produce cement (compound cement, cement with calcareous filler, pozzolana cement, as well as other specialty type cements), masonry cement, lime and concrete."
+  },
+  {
+   "name": "Concrete",
+   "products": [
+    "Specialty concretes"
+   ],
+   "description": "Supplies ready-mix and specialty concrete under the Lomax brand, mainly in greater Buenos Aires and Rosario, with customized logistics solutions.",
+   "evidence": "We operate our concrete business under the Lomax brand, and we are the leading concrete company in the greater Buenos Aires area and Rosario, being specialists in large construction projects as this segment includes a broad product line of specialty concretes."
+  },
+  {
+   "name": "Railroad",
+   "products": [],
+   "description": "Operates railway transportation services, mainly carrying cement, aggregates, gypsum and frac sand for the company and third parties.",
+   "evidence": "While cement volumes transported remained almost flat, the significant increase in granitic aggregates more than offset the decline in gypsum and frac sand, both of which were affected by the disruption of the railway line connecting Bahía Blanca and Neuquén."
+  },
+  {
+   "name": "Aggregates",
+   "products": [
+    "Granitic aggregates"
+   ],
+   "description": "Produces and sells granitic aggregates from the La Preferida quarry in Olavarría for construction and concrete production.",
+   "evidence": "We also sell granitic aggregates through our plant La Preferida in Olavarría, which comprised approximately 51.4% of the aggregates consumed by Lomax in their concrete production operations in 2025."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Comprises the operations of subsidiary Recycomb S.A.U., reported alongside the other segments.",
+   "evidence": "Revenues from Recycomb S.A.U., without considering the eliminations between segments, increased Ps. 2,940 million, from Ps. 9,149 million in 2024 to Ps. 12,089 million in 2025."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from selling cement, masonry cement, lime, concrete and aggregates to wholesale distributors, concrete producers and industrial customers, plus railroad transport services, in bulk and in bags.",
+  "evidence": "We work with wholesale distributors, concrete producers and industrial customers, among others."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cement, masonry cement and lime): Cement (compound cement, cement with calcareous filler, pozzolana cement, specia",
+  "product not in text (Cement, masonry cement and lime): Masonry cement (Plasticor)",
+  "product not in text (Cement, masonry cement and lime): Lime (Cacique Max, Loma Negra Plus)",
+  "product not in text (Concrete): Lomax concrete",
+  "product not in text (Railroad): Railway transportation of cement",
+  "product not in text (Railroad): Railway transportation of granitic aggregates, gypsum and frac sand",
+  "product not in text (Others): Recycomb S.A.U. services"
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001649904",
+ "issuerName": "RHYTHM PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T14:13:09.503Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012399",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649904/000162828026012399/rytm-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net product revenue by selling IMCIVREE through a specialty pharmacy in the United States and to customers internationally.",
+  "evidence": "In the United States, which accounts for the largest portion of our total revenues, the Company sells its product through a specialty pharmacy."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Rare disease therapies"
+ ]
+}

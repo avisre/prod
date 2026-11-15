@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002053641",
+ "issuerName": "Elite Express Holding Inc.",
+ "builtAt": "2026-11-15T14:17:42.654Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021557",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2053641/000110465926021557/ets-20251130x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Last-mile delivery",
+   "products": [
+    "last-mile delivery services",
+    "package pickup and delivery services"
+   ],
+   "description": "Provides exclusive last-mile package pickup and delivery services to FedEx within designated service areas in California.",
+   "evidence": "The Company has determined that there is only one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded",
+  "change not grounded: In 2024, JAR Transportation Inc became a subsidiary of Elite Express Holding Inc"
+ ]
+}

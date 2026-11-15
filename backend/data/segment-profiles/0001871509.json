@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001871509",
+ "issuerName": "PORTILLO'S INC.",
+ "builtAt": "2026-11-15T14:16:03.993Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001871509-26-000012",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1871509/000187150926000012/ptlo-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Restaurants",
+   "products": [
+    "Chicago-style hot dogs",
+    "Italian beef sandwiches",
+    "char-broiled burgers",
+    "fresh chopped salads",
+    "crinkle-cut fries",
+    "homemade chocolate cake",
+    "chocolate cake shake",
+    "catering"
+   ],
+   "description": "Operates fast-casual restaurants serving Chicago street food across multiple channels including dine-in, drive-thru, delivery, and catering.",
+   "evidence": "Portillo's serves iconic Chicago street food in high-energy, multichannel restaurants designed to ignite the senses and create memorable dining experiences."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay the company for food and beverage products sold at its restaurants, through dine-in, drive-thru, delivery, and catering channels.",
+  "evidence": "Revenues from retail restaurants are presented net of discounts and recognized when food and beverage products are sold to the end customer."
+ },
+ "changes": [],
+ "dropped": []
+}

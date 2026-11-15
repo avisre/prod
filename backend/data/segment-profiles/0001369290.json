@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001369290",
+ "issuerName": "MYOMO, INC.",
+ "builtAt": "2026-11-15T14:10:41.517Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098531",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1369290/000119312526098531/myo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MyoPro",
+   "products": [
+    "MyoPro2x",
+    "MyoPro3",
+    "MyoPal",
+    "Motion W (L8701)",
+    "Motion G (L8702)"
+   ],
+   "description": "Develops and markets the MyoPro line of custom-fabricated myoelectric upper limb braces for patients with neuromuscular disorders and upper limb paralysis.",
+   "evidence": "The Company conducts its business in one operating segment, and sells products in one family, which are versions of the MyoPro."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by insurance payers (including CMS/Medicare) via direct billing for devices provided to patients, or sells devices wholesale to O&P providers.",
+  "evidence": "If we are serving the patient directly, then we bill the payer as the provider. If an O&P provider is responsible for working with and delivering the MyoPro to the patient, then we sell the custom-fabricated MyoPro device to the O&P provider at a wholesale price, to which they add their clinical services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MyoPro): MyoPro"
+ ]
+}

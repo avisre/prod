@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001331284",
+ "issuerName": "DHT HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:10:33.219Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-010407",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1331284/000114036126010407/ef20059925_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crude oil tankers",
+   "products": [
+    "VLCC vessels",
+    "technical management services"
+   ],
+   "description": "Operates a fleet of crude oil tankers for charter customers, with a secondary activity of providing technical management services.",
+   "evidence": "DHT's primary business is operating a fleet of crude oil tankers, with a secondary activity of providing technical management services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company charter hire for transporting crude oil, with some vessels operating in the spot market at fluctuating rates.",
+  "evidence": "Our ability to charter our vessels and the charter rates payable under any new charters will depend upon, among other things, the conditions in the tanker market at that time."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Crude oil tankers): crude oil transportation"
+ ]
+}

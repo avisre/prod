@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001408443",
+ "issuerName": "Milestone Pharmaceuticals Inc.",
+ "builtAt": "2026-11-15T14:11:01.244Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032415",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1408443/000110465926032415/mist-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardiovascular medicines",
+   "products": [
+    "CARDAMYST (etripamil) nasal spray"
+   ],
+   "description": "Develops and commercializes innovative cardiovascular medicines, centered on the self-administered etripamil nasal spray for PSVT patients.",
+   "evidence": "The Company manages its operations as a single operating segment for the purpose of assessing performance and making operating decisions while focusing on the development and commercialization of innovative cardiovascular medicines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales of CARDAMYST distributed through wholesalers to retail pharmacies upon prescriptions, and may receive payments under licensing and collaboration arrangements.",
+  "evidence": "which is then distributed via a third party logistics provider to wholesalers for delivery to retail pharmacies once prescriptions are received."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cardiovascular medicines): etripamil for atrial fibrillation with rapid ventricular rate (AFib-RVR)"
+ ]
+}

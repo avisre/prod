@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001739566",
+ "issuerName": "Utz Brands, Inc.",
+ "builtAt": "2026-11-15T14:14:10.603Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007757",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1739566/000162828026007757/utz-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Snack food products",
+   "products": [
+    "Utz®",
+    "On The Border®",
+    "Zapp's®",
+    "Boulder Canyon®",
+    "Golden Flake®",
+    "Miguelito's®",
+    "Hawaiian®",
+    "Bachman®"
+   ],
+   "description": "Manufactures, distributes, markets and sells branded and non-branded salty snacks to retailers and distributors across the United States.",
+   "evidence": "The Company operates in one reportable segment: the manufacturing, distribution, marketing and sale of snack food products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net sales from selling salty snack products to grocery, mass merchant, club, convenience, drug and other retailers through direct shipments, distributors and DSD routes.",
+  "evidence": "Our products are distributed nationally to grocery, mass merchant, club, convenience, drug and other retailers through direct shipments, distributors and approximately 2,500 direct-store delivery (\"DSD\") routes."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company sold the Good Health and R.W. Garcia brands and related manufacturing facilities to affiliates of Our Home.",
+   "evidence": "On February 5, 2024, the Company sold certain assets and brands to affiliates of Our Home™, an operating company of Better-for-You brands (\"Our Home\")."
+  },
+  {
+   "text": "In 2024, the Company also sold its Berlin, PA and Fitchburg, MA manufacturing facilities and certain related assets to Our Home.",
+   "evidence": "On April 22, 2024, the Company also sold to Our Home its Berlin, PA and Fitchburg, MA manufacturing facilities and certain related assets, including certain inventory (the \"Manufacturing Facilities Sale\")."
+  }
+ ],
+ "dropped": []
+}

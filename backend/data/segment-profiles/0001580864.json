@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001580864",
+ "issuerName": "VROOM, INC.",
+ "builtAt": "2026-11-15T14:12:20.490Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126253",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1580864/000119312526126253/vrm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "UACC",
+   "products": [
+    "Preferred Program",
+    "Bankruptcy Program",
+    "Commercial Program",
+    "Near-Prime Program"
+   ],
+   "description": "An indirect automotive finance company offering vehicle financing to non-prime consumers through a nationwide network of motor vehicle dealers.",
+   "evidence": "UACC is an indirect lender that offers vehicle financing under the UACC brand to consumers through a network of motor vehicle dealers, focusing primarily on the non-prime market."
+  },
+  {
+   "name": "CarStory",
+   "products": [
+    "AI-powered analytics",
+    "digital services"
+   ],
+   "description": "Sells AI-powered analytics and digital services to automotive dealers, automotive financial services companies and others in the automotive industry.",
+   "evidence": "The CarStory reportable segment represents sales of AI-powered analytics and digital services to automotive dealers, automotive financial services companies and others in the automotive industry."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "UACC earns interest and servicing income from vehicle retail installment sales contracts purchased from dealers, while CarStory earns revenue from sales of AI-powered analytics and digital services to automotive industry customers.",
+  "evidence": "UACC acquires and services finance receivables from its network of third-party dealership customers and generates interest income."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company discontinued its Ecommerce and Wholesale segments following the wind-down of its used vehicle ecommerce operations under the Value Maximization Plan.",
+   "evidence": "As a result of the Value Maximization Plan and the wind-down of our ecommerce operations, we discontinued reporting our results through our Ecommerce and Wholesale segments starting in the first quarter of 2024."
+  },
+  {
+   "text": "In 2024, the Company substantially completed the wind-down of its used vehicle dealership business, ceasing transactions through vroom.com.",
+   "evidence": "As of March 29, 2024, the Company substantially completed the wind-down of its used vehicle dealership business (the \"Ecommerce Wind-Down\") and ended all sales and marketing activities for its used vehicle operations."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company emerged from its Prepackaged Chapter 11 Case, discharging a"
+ ]
+}

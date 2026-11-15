@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001422892",
+ "issuerName": "SINGULARITY FUTURE TECHNOLOGY LTD.",
+ "builtAt": "2026-11-15T14:11:09.713Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-104650",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1422892/000121390026104650/ea0305950-10k_singularity.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Freight logistics",
+   "products": [
+    "Inland cargo collection and pre-shipment consolidation",
+    "Full-container-load (FCL) and less-than-container-load (LCL) ocean freight booki",
+    "Last-mile final delivery",
+    "Drop-shipping support for direct-to-consumer e-commerce brands",
+    "Shipping agency services"
+   ],
+   "description": "Provides end-to-end customized freight logistics services, with historical specialization in the global steel industry, to industrial and commercial clients.",
+   "evidence": "management has performed a formal, documented assessment of ASC 280 criteria and concluded that the Company operates under one single reportable operating segment, focused on providing freight logistics services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for coordinated freight logistics services, including ocean freight booking, inland transportation, and delivery, primarily in China.",
+  "evidence": "For loading/discharging agency services, we received the total payment from our customers in U.S. dollars and paid the port charges on behalf of our customers in RMB."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company disposed of its commodity trading subsidiary New Energy Tech Limited.",
+   "evidence": "On September 25, 2025, the Company entered into a share transfer agreement with a third party and disposed its subsidiary, New Energy Tech Limited, for a consideration of $2.7 million."
+  },
+  {
+   "text": "In 2025, the Company dissolved its Texas joint venture Brilliant Warehouse Service Inc.",
+   "evidence": "Brilliant Warehouse Service Inc. was dissolved on August 6, 2025."
+  },
+  {
+   "text": "In 2022, the Company changed its name from Sino-Global Shipping America, Ltd. to Singularity Future Technology Ltd.",
+   "evidence": "On January 3, 2022, the Company formally updated its corporate name to Singularity Future Technology Ltd."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001847064",
+ "issuerName": "PSQ Holdings, Inc.",
+ "builtAt": "2026-11-15T14:15:41.657Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001847064-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1847064/000184706426000005/psqh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial Technology",
+   "products": [
+    "Credova",
+    "PSQ Payments",
+    "PSQ Impact"
+   ],
+   "description": "Payments and financial infrastructure company serving merchants, political campaigns, and nonprofit organizations underserved by traditional financial institutions.",
+   "evidence": "As of December 31, 2025, PSQ Holdings, Inc. operates under one reportable segment: Financial Technology (\"Financial Technology\" or \"FinTech\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants, campaigns, and nonprofit organizations pay the company for consumer financing, payment processing, and fundraising platform services.",
+  "evidence": "Through Credova and PSQ Payments, the Company offers merchants access to both consumer financing and payment processing solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the Company wound down the Marketplace business as of December 31, 2025",
+  "change not grounded: In August 2025, the Company announced a plan to monetize the Brands segment thro"
+ ]
+}

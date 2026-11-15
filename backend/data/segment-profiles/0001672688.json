@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001672688",
+ "issuerName": "ABSCI CORP",
+ "builtAt": "2026-11-15T14:13:24.854Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001672688-26-000068",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1672688/000167268826000068/absi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "ABS-201",
+    "Origin-1",
+    "Integrated Drug Creation platform"
+   ],
+   "description": "Clinical-stage, AI-native biopharmaceutical company developing differentiated antibody therapeutics for its own and partners' pipelines.",
+   "evidence": "The Company has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from drug creation partnerships, in which partners pay for use of its Integrated Drug Creation platform to create antibody therapeutics for their pipelines.",
+  "evidence": "Our strategy is to leverage our Integrated Drug Creation platform to create differentiated antibody-based therapeutics for our own pipeline and for our partners' pipelines."
+ },
+ "changes": [],
+ "dropped": []
+}

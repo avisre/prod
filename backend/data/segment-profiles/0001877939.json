@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001877939",
+ "issuerName": "CASTELLUM, INC.",
+ "builtAt": "2026-11-15T14:16:10.084Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001877939-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1877939/000187793926000016/ctm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology Services",
+   "products": [
+    "Cybersecurity",
+    "IT services",
+    "Electronic warfare",
+    "Information warfare",
+    "System modernization",
+    "Information operations",
+    "Intelligence analysis",
+    "Software development"
+   ],
+   "description": "Delivers IT, cybersecurity, electronic warfare and information warfare products and services to governmental and commercial markets.",
+   "evidence": "The Company maintains one operating and reportable segment, which is the delivery of products and services in the areas of information technology, electronic warfare, information warfare and cybersecurity in the governmental and commercial markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Castellum is paid primarily by U.S. government agencies and departments under contracts such as time and materials, cost plus fixed fee, firm fixed price, IDIQ and GSA schedule contracts, mostly annual with renewal options.",
+  "evidence": "Our contracts and subcontracts are composed of a wide range of contract types, including firm fixed price (\"FFP\"), cost plus fixed fee (\"CPFF\"), time and materials (\"T&M\"), indefinite delivery/indefinite quantity (\"IDIQ\"), and government wide acquisition contracts (\"GWACS\") such as U.S. General Services Administration (\"GSA\") schedule contracts, substantially all of which are annual contracts, with options to renew."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company sold its subsidiary MFSI.",
+   "evidence": "Castellum, Inc. owns 100 % of GTMR, Corvus, MFSI (until its sale on September 11, 2024), Merrison (until dissolved as of December 1, 2023), and SSI."
+  },
+  {
+   "text": "In 2023, the Company dissolved its subsidiary Merrison.",
+   "evidence": "Castellum, Inc. owns 100 % of GTMR, Corvus, MFSI (until its sale on September 11, 2024), Merrison (until dissolved as of December 1, 2023), and SSI."
+  }
+ ],
+ "dropped": []
+}

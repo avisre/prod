@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001983736",
+ "issuerName": "EVA LIVE INC.",
+ "builtAt": "2026-11-15T14:16:59.194Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010305",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1983736/000149315226010305/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital advertising",
+   "products": [
+    "Eva Platform"
+   ],
+   "description": "Operates an AI-based digital marketing and media monetization platform that matches advertising campaigns to specific ad spots for brand and direct response advertisers.",
+   "evidence": "The Company operates as a single operating and reportable segment; accordingly, the adoption resulted in enhanced disclosures but did not change the Company's segment reporting structure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay the company for optimized ad campaign placements matched to ad spots via its AI-driven Eva Platform.",
+  "evidence": "We execute our business through the Eva Platform based on Artificial Intelligence, or AI, to match advertising campaigns to specific ad spots one at a time."
+ },
+ "changes": [
+  {
+   "text": "In 2021, the company merged into EvaMedia Corp., shifting from entertainment and publishing to digital marketing and media monetization.",
+   "evidence": "On September 28, 2021 (the \"Acquisition Date\"), the Company merged into EvaMedia Corp. (\"EvaMedia\")."
+  }
+ ],
+ "dropped": []
+}

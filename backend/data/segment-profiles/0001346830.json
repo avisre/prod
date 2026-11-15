@@ -1,0 +1,22 @@
+{
+ "version": 1,
+ "cik": "0001346830",
+ "issuerName": "TVARDI THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:10:37.446Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037729",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1346830/000110465926037729/tvrd-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: STAT3 Therapies",
+  "change not grounded: In 2025, Tvardi completed its merger with Cara Therapeutics, which closed on Apr"
+ ]
+}

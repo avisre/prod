@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001846715",
+ "issuerName": "ECO WAVE POWER GLOBAL AB (PUBL)",
+ "builtAt": "2026-11-15T14:15:40.246Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-026655",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1846715/000121390026026655/ea0280691-20f_ecowave.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wave energy",
+   "products": [
+    "WEC technology",
+    "power stations",
+    "feasibility studies"
+   ],
+   "description": "Develops and seeks to commercialize wave energy conversion technology and power stations for countries, states and private customers.",
+   "evidence": "The Company has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from wave energy projects and from performing feasibility studies, and expects future revenue from selling its WEC technology, power stations and electricity.",
+  "evidence": "To date, we have generated revenue from wave energy projects and from performing feasibility studies."
+ },
+ "changes": [],
+ "dropped": []
+}

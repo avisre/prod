@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001671927",
+ "issuerName": "Immunocore Holdings plc",
+ "builtAt": "2026-11-15T14:13:24.695Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001671927-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1671927/000167192726000005/imcr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunotherapies",
+   "products": [
+    "KIMMTRAK (tebentafusp)",
+    "Brenetafusp",
+    "IMC-R117C",
+    "IMC-P115C",
+    "IMC-M113V",
+    "IMC-S118AI",
+    "IMC-U120AI"
+   ],
+   "description": "Develops transformative immunomodulating medicines using the ImmTAX platform for patients with cancer, infectious diseases and autoimmune diseases.",
+   "evidence": "The Company operates in one operating segment: immunotherapies, which is focused on pioneering and delivering transformative immunomodulating medicines in the areas of cancer, infectious diseases and autoimmune diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue primarily from sales of its approved therapy KIMMTRAK to customers in the countries where it is commercially launched.",
+  "evidence": "The Company primarily generates revenue from one stream, revenue from the sale of therapies, which consists of sales of KIMMTRAK."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Collaboration revenue, historically a second revenue stream, is no longer signif"
+ ]
+}

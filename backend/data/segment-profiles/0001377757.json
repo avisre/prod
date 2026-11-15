@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001377757",
+ "issuerName": "GALIANO GOLD INC.",
+ "builtAt": "2026-11-15T14:10:44.855Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001389",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1377757/000106299326001389/exhibit99-6.htm",
+  "exhibit": "exhibit99-6.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AGM",
+   "products": [
+    "gold"
+   ],
+   "description": "Operates the Asanko Gold Mine in Ghana, producing and selling gold.",
+   "evidence": "As at December 31, 2025, the Company has one reportable segment, being the AGM, and has provided segmented information based on geographic location."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling gold produced at the AGM, with revenue directly dependent on gold prices.",
+  "evidence": "The Company's revenue is directly dependent on gold prices, which have demonstrated significant volatility and are beyond the Company's control."
+ },
+ "changes": [],
+ "dropped": []
+}

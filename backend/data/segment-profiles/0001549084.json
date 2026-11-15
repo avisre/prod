@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001549084",
+ "issuerName": "CHRONOSCALE HOLDINGS CORPORATION",
+ "builtAt": "2026-11-15T14:12:02.992Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-058018",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-08-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1549084/000162828026058018/chrn-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud Business",
+   "products": [
+    "NVIDIA H100 GPU infrastructure",
+    "GPU-as-a-Service",
+    "Token Factory"
+   ],
+   "description": "Provides GPU computing solutions for AI, machine learning, rendering and HPC workloads at third-party colocation centers in Colorado, Minnesota and Utah.",
+   "evidence": "Our Cloud Business provides graphics processing unit (\"GPU\") computing solutions that enable customers to execute critical workloads related to artificial intelligence (\"AI\"), machine learning (\"ML\"), rendering, and other High Performance Computing (\"HPC\") tasks at scale in a capacity-constrained market."
+  },
+  {
+   "name": "Legacy Ekso Business",
+   "products": [
+    "robotic exoskeleton products",
+    "enterprise health products",
+    "rehabilitation solutions"
+   ],
+   "description": "Designs, develops and markets exoskeleton and complementary products augmenting human strength, endurance and mobility, mainly for healthcare rehabilitation; now held for sale as discontinued operations.",
+   "evidence": "Our Legacy Ekso Business designs, develops, and markets exoskeleton and complementary products that augment human strength, endurance, and mobility."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2026, the company completed a business combination adding the Cloud Business and began operating two segments.",
+   "evidence": "Following the Closing, we operated in two distinct business segments: the Cloud Business, which operated through Cloud, and the Legacy Ekso Business, which operated through Legacy Ekso, which is a direct wholly-owned subsidiary of Ekso."
+  },
+  {
+   "text": "In 2026, the Board committed to divest the Legacy Ekso Business, which is presented as discontinued operations.",
+   "evidence": "On May 29, 2026, our Board of Directors (the \"Board\") committed to a plan to divest the Legacy Ekso Business and focus operations solely on our Cloud Business, which plan was publicly announced on June 4, 2026."
+  },
+  {
+   "text": "In 2026, a holding company formation transaction made ChronoScale Holdings Corporation the public parent of ChronoScale Corporation.",
+   "evidence": "As a result of the 6 Holding Company Transaction, ChronoScale Holdings became the public company parent of and successor issuer to ChronoScale Corporation, and ChronoScale Corporation subsequently converted from a Nevada corporation to a Nevada limited liability company and changed its name to \"ChronoScale Intermediate LLC.\""
+  }
+ ],
+ "dropped": [
+  "product not in text (Cloud Business): GPU computing solutions",
+  "product not in text (Cloud Business): NeoCloud Platform (NCP)",
+  "product not in text (Legacy Ekso Business): personal mobility products",
+  "product not in text (Legacy Ekso Business): industrial exoskeletons",
+  "revenue model not grounded"
+ ]
+}

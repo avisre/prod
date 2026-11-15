@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001527762",
+ "issuerName": "CHAINCE DIGITAL HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:11:53.048Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012943",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1527762/000149315226012943/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services and advisory",
+   "products": [
+    "Industry advisory and consulting services",
+    "IPO-related financial advisory and consulting services",
+    "PIPE advisory and placement-related services",
+    "Transaction execution and brokerage services",
+    "Clearing-related brokerage services",
+    "Referral services",
+    "Escrow agent services"
+   ],
+   "description": "Provides financial advisory, capital markets advisory, brokerage-related and corporate consulting services to corporate clients and institutional investors in the U.S. and Asia-Pacific.",
+   "evidence": "The Company currently provides financial advisory, capital markets advisory, and related consulting services to corporate clients and institutional investors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Corporate clients and institutional investors pay the Company for advisory, brokerage, consulting, referral and escrow services in capital markets transactions.",
+  "evidence": "Revenue generated from financial services and advisory businesses primarily includes the following categories:"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company discontinued its Filecoin mining business, which is now presented as discontinued operations.",
+   "evidence": "In December 2025, the Company's Board of Directors approved a strategic decision to discontinue the Filecoin mining business, as such operations were no longer aligned with the Company's long-term business strategy and capital allocation priorities."
+  },
+  {
+   "text": "In 2025, the Company rebranded from Mercurity Fintech Holding Inc. to Chaince Digital Holdings Inc.",
+   "evidence": "On November 12, 2025, the Company announced that it would rebrand from Mercurity Fintech Holding Inc. to Chaince Digital Holdings Inc."
+  }
+ ],
+ "dropped": []
+}

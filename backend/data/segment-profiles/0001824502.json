@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001824502",
+ "issuerName": "Archer Aviation Inc.",
+ "builtAt": "2026-11-15T14:15:06.485Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001824502-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1824502/000182450226000019/achr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "eVTOL aircraft",
+   "products": [
+    "Midnight eVTOL aircraft",
+    "dual-use autonomous cargo VTOL aircraft",
+    "electric powertrain",
+    "Launch Edition program"
+   ],
+   "description": "Develops electric vertical take-off and landing aircraft and related technologies for planned commercial air taxi and defense customers worldwide.",
+   "evidence": "The Company has determined that it operates as a single operating segment and one reportable segment, as the CODM reviews financial information presented on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

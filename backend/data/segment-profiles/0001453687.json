@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001453687",
+ "issuerName": "Cartesian Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:11:25.241Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001453687-26-000064",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1453687/000145368726000064/rnac-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns collaboration and license revenue and grant revenue from partners and grantors while its product candidates remain in clinical development.",
+  "evidence": "Revenue: Collaboration and license $ 400 $ 38,275 Grant 2,397 638 Total revenues 2,797 38,913"
+ },
+ "changes": [
+  {
+   "text": "In 2023, Selecta Biosciences merged with Cartesian Therapeutics and changed its name to Cartesian Therapeutics, Inc., shifting the business to cell therapy product candidates.",
+   "evidence": "In connection with the Merger and pursuant to the Merger Agreement, the Company (which was known as Selecta Biosciences, Inc. until immediately prior to the Merger) changed its corporate name to Cartesian Therapeutics, Inc."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Cell therapy research and development",
+  "change not grounded: In 2023, following the Merger, the Company discontinued development of its other"
+ ]
+}

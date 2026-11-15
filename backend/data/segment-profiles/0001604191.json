@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001604191",
+ "issuerName": "GridAI Technologies Corp.",
+ "builtAt": "2026-11-15T14:12:34.768Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-054106",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1604191/000110465926054106/grdx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI Segment",
+   "products": [
+    "AI data center platform",
+    "DLS (Dynamic Load Shaping)",
+    "ALICE Home Energy Management Systems (HEMS)"
+   ],
+   "description": "Develops AI-driven energy orchestration and grid optimization software for AI data centers and other large energy users.",
+   "evidence": "The AI Segment consists of operations conducted through Grid AI Corp. and its subsidiaries, including AMPX, while the GI Segment reflects the Company's retained biopharmaceutical development activities, including Adrulipase."
+  },
+  {
+   "name": "GI Segment",
+   "products": [
+    "Adrulipase"
+   ],
+   "description": "Legacy biopharmaceutical development of non-systemic gastrointestinal therapies, centered on Adrulipase for exocrine pancreatic insufficiency.",
+   "evidence": "The GI Segment reflects the Company's retained biopharmaceutical development activities, including Adrulipase."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The AI Segment plans to charge customers base platform fees for operational visibility and orchestration plus performance-based fees tied to power cost optimization; the GI Segment has generated no product revenue.",
+  "evidence": "Grid AI Corp. plans to generate revenue from its AI data center platform through: ● Base platform fees for operational visibility and orchestration ● Performance-based fees tied to power cost optimization"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company acquired Grid AI Corp., adding the AI energy technology segment.",
+   "evidence": "On September 30, 2025, the Company completed a share exchange transaction pursuant to which it acquired 100% of the outstanding equity interests of Grid AI Corp., a Nevada corporation."
+  },
+  {
+   "text": "In 2025 the Company disposed of the ImmunogenX business, including the Latiglutenase and CypCel programs, via a rescission transaction.",
+   "evidence": "The rescission transaction closed on December 31, 2025. Following the closing, ImmunogenX ceased to be a subsidiary of the Company, and the Company no longer held any ownership interest in that business."
+  },
+  {
+   "text": "In 2025 the Company discontinued its Capeserod and Niclosamide programs, terminating the Sanofi Capeserod license.",
+   "evidence": "The Company terminated its license agreement with Sanofi relating to Capeserod on February 26, 2025 and no further payments were due thereunder."
+  }
+ ],
+ "dropped": [
+  "product not in text (AI Segment): Energy orchestration, optimization, dispatch, monitoring and related services"
+ ]
+}

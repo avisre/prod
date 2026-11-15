@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001708688",
+ "issuerName": "InflaRx N.V.",
+ "builtAt": "2026-11-15T14:13:47.682Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-032065",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1708688/000121390026032065/ea0281674-20f_inflarx.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "IFX002"
+   ],
+   "description": "Discovers, develops and commercializes anti-inflammatory therapeutics targeting the complement system for patients with autoimmune and inflammatory diseases.",
+   "evidence": "We are a biopharmaceutical company pioneering anti-inflammatory therapeutics by targeting the complement system, an inherent part of the innate immune system."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns minimal product revenue from sales of GOHIBIC (vilobelimab) to U.S. hospital end customers, and otherwise finances operations through securities offerings and grants.",
+  "evidence": "Revenues reported are sales to end customers (hospitals)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Biopharmaceutical): vilobelimab (GOHIBIC)",
+  "product not in text (Biopharmaceutical): izicopan (formerly INF904)"
+ ]
+}

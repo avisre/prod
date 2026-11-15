@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002044725",
+ "issuerName": "Evommune, Inc.",
+ "builtAt": "2026-11-15T14:17:38.125Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-093932",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/2044725/000119312526093932/evmn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biotechnology",
+   "products": [
+    "EVO756",
+    "EVO301"
+   ],
+   "description": "Clinical-stage biotechnology company developing therapies targeting key drivers of chronic inflammatory diseases for patients.",
+   "evidence": "Evommune is a clinical-stage biotechnology company developing innovative therapies that target key drivers of chronic inflammatory diseases, with initial clinical development programs focusing on chronic spontaneous urticaria (\"CSU\"), atopic dermatitis (\"AD\") and ulcerative colitis (\"UC\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no product revenue and needs additional funding before it can generate any revenues from product sales.",
+  "evidence": "our need to raise additional funding before we can expect to generate any revenues from product sales"
+ },
+ "changes": [],
+ "dropped": []
+}

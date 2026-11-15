@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001403568",
+ "issuerName": "ULTA BEAUTY, INC.",
+ "builtAt": "2026-11-15T14:11:00.604Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-035243",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1403568/000110465926035243/ulta-20260131x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beauty retail",
+   "products": [
+    "cosmetics",
+    "fragrance",
+    "skin care products",
+    "wellness products",
+    "hair care products",
+    "salon services",
+    "Ulta Beauty Collection"
+   ],
+   "description": "Operates specialty retail stores, e-commerce, and salon services selling beauty and wellness products to beauty enthusiasts.",
+   "evidence": "The Company has one reportable segment, which includes retail stores, salon services, and e-commerce."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay the company for merchandise sold in stores and online, salon services, and gift cards, plus credit card program fees, loyalty deferrals, and royalties.",
+  "evidence": "We recognize merchandise revenue at the point of sale in our retail stores. E-commerce sales are recognized upon shipment or guest pickup of the merchandise based on meeting the transfer of control criteria."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001499494",
+ "issuerName": "EASON TECHNOLOGY LIMITED",
+ "builtAt": "2026-11-15T14:11:37.054Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001477932-26-002677",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1499494/000147793226002677/dxf_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital security technology",
+   "products": [
+    "digital security services",
+    "real estate management services"
+   ],
+   "description": "Provides digital security solutions and real estate management services to enterprise customers in China.",
+   "evidence": "For the year ended December 31, 2025, the Company derived revenue for rending digital security services and real estate management services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprise customers pay fixed contract prices for customized digital security systems with included warranties, and for real estate management services.",
+  "evidence": "The contracts specify fixed transaction prices with no variable consideration."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold Chutian HK and divested its microfinance lending business.",
+   "evidence": "Upon the transaction closed on June 12, 2024, we divested microfinance lending business."
+  }
+ ],
+ "dropped": []
+}

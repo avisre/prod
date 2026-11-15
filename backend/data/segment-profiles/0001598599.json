@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001598599",
+ "issuerName": "Innate Pharma SA",
+ "builtAt": "2026-11-15T14:12:29.437Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001598599-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1598599/000159859926000005/inpha-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "R&D of pharmaceutical products",
+   "products": [
+    "monalizumab",
+    "avdoralimab"
+   ],
+   "description": "Early-stage biotechnology company conducting research and development of pharmaceutical product candidates in France for future marketing.",
+   "evidence": "Following this analysis, the Company considers that it operates within a single operating segment being the R&D of pharmaceutical products in order to market them in the future."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by pharmaceutical and other companies under research, collaboration and licensing agreements, through upfront, milestone and R&D service payments.",
+  "evidence": "the revenue results primarily from payments based on several components (e.g., upfront payments, milestone payments) received in relation to research, collaboration and licensing agreements signed with pharmaceutical or other companies."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the Company decided to discontinue the development of avdoralimab in the indication of bullous pemphigoid and fully impaired the related intangible asset.",
+   "evidence": "As of December 31, 2022, given the Company's decision in December 2022 to discontinue the development of avdoralimab in the indication of bullous pemphigoid supporting the recoverable amount of the asset as of December 31, 2021 and June 30, 2022, the rights related to the intangible asset have been fully impaired for the net carrying amount of the intangible asset, of € 41,000 thousand, without using the historical assumptions described above (see note 6)."
+  },
+  {
+   "text": "In 2025, revenue related to the monalizumab agreement was fully recognized given the program's progress and completion.",
+   "evidence": "As of December 31, 2025, given the program's progress and its completion, revenue related to the monalizumab agreement was fully recognized in the income statement."
+  }
+ ],
+ "dropped": []
+}

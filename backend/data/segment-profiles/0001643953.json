@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001643953",
+ "issuerName": "PURPLE INNOVATION, INC.",
+ "builtAt": "2026-11-15T14:13:04.497Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036974",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1643953/000121390026036974/ea0274767-10k_purple.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Comfort Products",
+   "products": [
+    "mattresses",
+    "pillows",
+    "cushions",
+    "bases",
+    "sheets",
+    "mattress protectors"
+   ],
+   "description": "Designs and manufactures premium comfort products built on proprietary Hyper-Elastic Polymer technology, sold direct-to-consumer and through wholesale retail partners.",
+   "evidence": "The Company has one reportable segment that operates an omni-channel distribution strategy which allows the Company to offer a seamless shopping experience to its customers across multiple sales channels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay Purple directly through its e-commerce site, showrooms, contact center and online marketplaces, and wholesale retail partners pay for products sold to their customers.",
+  "evidence": "We market and sell our products via our direct-to-consumer channel, which includes Purple.com (our direct-to-consumer e-commerce), Purple showrooms, our customer contact center and online marketplaces (collectively \"DTC\"), and our wholesale channel through retail brick-and-mortar and online wholesale partners."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company initiated a restructuring plan to close its Grantsville and Salt Lake City, Utah manufacturing facilities and consolidate mattress production in its Georgia plant, completed in May 2025.",
+   "evidence": "The Company's Restructuring Plan includes the permanent closure of its Grantsville and Salt Lake City, Utah manufacturing facilities to consolidate mattress production in its Georgia plant, and a headcount reduction at the Company's Utah headquarters to drive additional operating efficiencies."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the Company re-launched its Rejuvenate collection (Rejuvenate 2.0) with "
+ ]
+}

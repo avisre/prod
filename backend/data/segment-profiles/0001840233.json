@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001840233",
+ "issuerName": "Xilio Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:15:27.252Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-118550",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840233/000119312526118550/xlo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consolidated Company operations",
+   "products": [
+    "masked I-O therapies"
+   ],
+   "description": "Discovers and develops masked immuno-oncology therapies for cancer patients as a single integrated business.",
+   "evidence": "The Company has one operating and reportable segment, the consolidated Company operations, reflecting the integrated nature of its business focused on discovering and developing masked I-O therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns collaboration and license revenue from partners such as AbbVie and Gilead, including milestones, option-related fees and other contingent payments.",
+  "evidence": "our expectations regarding milestones, option-related fees and other contingent payments under our collaboration agreement with AbbVie and our license agreement with Gilead"
+ },
+ "changes": [],
+ "dropped": []
+}

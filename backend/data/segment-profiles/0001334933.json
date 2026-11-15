@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001334933",
+ "issuerName": "URANIUM ENERGY CORP",
+ "builtAt": "2026-11-15T14:10:34.926Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-031414",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1334933/000143774926031414/uec20260731_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining",
+   "products": [
+    "Christensen Ranch ISR project",
+    "Burke Hollow ISR mine",
+    "Hobson CPP",
+    "Irigaray CPP",
+    "Sweetwater Mill",
+    "Roughrider Project"
+   ],
+   "description": "Engages in uranium exploration, pre-extraction, extraction and processing on projects in the United States, Canada and Paraguay, selling uranium concentrate.",
+   "evidence": "The mining segment engages in uranium mining and related activities, including exploration, pre-extraction, extraction and processing, on uranium projects located in the United States, Canada and the Republic of Paraguay."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells uranium concentrate (yellowcake) to conversion facilities and trades purchased uranium inventory, generating sales through its corporate segment.",
+  "evidence": "packed in 55-gallon metal drums and shipped out as uranium concentrate, or yellowcake, to a conversion facility for storage and sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mining): uranium concentrate (yellowcake)",
+  "change not grounded: In 2024, the company adopted ASU 2023-07 segment reporting requirements retrospe"
+ ]
+}

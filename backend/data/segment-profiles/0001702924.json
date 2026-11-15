@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001702924",
+ "issuerName": "WRAP TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T14:13:41.773Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-011401",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1702924/000114036126011401/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Public Safety Technology and Services",
+   "products": [
+    "BolaWrap 150",
+    "Wrap Reality",
+    "WrapTactics",
+    "WrapVision",
+    "body-worn cameras",
+    "digital evidence management"
+   ],
+   "description": "Provides integrated non-lethal tools, training, and digital evidence solutions for law enforcement, corrections, defense, and other public safety organizations worldwide.",
+   "evidence": "The Company operates as a single operating and reportable segment in accordance with ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Public safety agencies and other customers pay the company for non-lethal products, accessories, VR and digital training subscriptions, professional services, training, and shipping.",
+  "evidence": "Product sales include BolaWrap products and accessories. Other revenue includes VR revenues, professional service, training and shipping revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company acquired Intrensic, LLC, adding body-worn camera and digital evidence management capabilities.",
+   "evidence": "In August 2023, we acquired Intrensic, LLC, a Delaware limited liability company (\"Intrensic\"), which added body‑worn camera (\"body-worn cameras\" or \"BWC\") and digital evidence management (\"digital evidence management\" or \"DEM\") capabilities to our portfolio."
+  }
+ ],
+ "dropped": [
+  "product not in text (Public Safety Technology and Services): MERLIN counter-UAS program",
+  "change not grounded: In 2025, the company acquired W1 Global's advisory and investigative services as"
+ ]
+}

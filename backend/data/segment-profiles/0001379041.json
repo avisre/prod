@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001379041",
+ "issuerName": "EMPLOYERS HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:10:47.715Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001379041-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1379041/000137904126000011/eig-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance Operations",
+   "products": [
+    "workers' compensation insurance",
+    "excess workers' compensation product",
+    "claims management services"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Small and mid-sized business policyholders pay premiums, recognized as earned over the policy period, supplemented by premium audits and investment income.",
+  "evidence": "Premiums written are recognized as revenues, net of any applicable underlying reinsurance coverage, and recognized as premiums earned, over the period of the contract in proportion to the amount of insurance protection provided."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company consolidated its direct-to-consumer Cerity operations into mainstream operations, eliminating the former Employers and Cerity reportable segments.",
+   "evidence": "The integration plan, which allowed us to operate more efficiently and generate cost savings, resulted in a change in the composition of our reportable segments by eliminating any distinction between our former segments, which were: Employers and Cerity."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Insurance Operations"
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001840877",
+ "issuerName": "ENVOY MEDICAL, INC.",
+ "builtAt": "2026-11-15T14:15:31.224Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-032683",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840877/000121390026032683/ea0280884-10k_envoy.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hearing health",
+   "products": [
+    "Esteem FI-AMEI",
+    "Acclaim CI"
+   ],
+   "description": "A hearing health company developing fully implanted active hearing devices, including the only FDA approved fully implanted active hearing implant and an investigational fully implanted cochlear implant.",
+   "evidence": "We are a hearing health company focused on providing innovative medical technologies across the hearing loss spectrum."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

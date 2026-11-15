@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001897245",
+ "issuerName": "HWH     INTERNATIONAL INC.",
+ "builtAt": "2026-11-15T14:16:19.193Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012738",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1897245/000149315226012738/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "F&B business",
+   "products": [
+    "Hapi Café",
+    "Hapi Marketplace",
+    "Hapi Wealth Builder"
+   ],
+   "description": "Operates food and beverage cafés and related consumer offerings for customers seeking community-based social experiences.",
+   "evidence": "As of December 31, 2025, the Company only has one segment in F&B business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for food and beverage purchases at its cafés, with collections received through a credit card processor.",
+  "evidence": "Accounts receivable, net at December 31, 2025, December 31, 2024 and December 31, 2023 of $ 3,324 , $ 17,546 and $ 28,611 , respectively, represent collections received by the credit card processor in F&B business and rent receivable."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company closed cafés operated by Ketomei Pte. Ltd. and Hapi Café Korea Inc. due to unsustainable revenue.",
+   "evidence": "In August 2025 and September 2025, the Company's decision to close the café under Ketomei Pte. Ltd. (\"KPL\") and Hapi Café Korea Inc. (\"HCKI\"), respectively, both were driven by the unsustainable revenue they generated."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company sold 70% of its subsidiary Alset F&B One Pte. Ltd., which o",
+  "change not grounded: In 2025, the Company sold HWH World Inc. to AES Group Inc. in exchange for a 19."
+ ]
+}

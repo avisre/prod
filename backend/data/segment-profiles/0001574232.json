@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001574232",
+ "issuerName": "Addex Therapeutics Ltd",
+ "builtAt": "2026-11-15T14:12:15.426Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-062447",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1574232/000110465926062447/adxn-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Discovery, development and commercialization of small-molecule pharmaceutical pr",
+   "products": [
+    "dipraglurant",
+    "ADX71149",
+    "GABAB PAM for substance use disorders",
+    "GABAB PAM for chronic cough"
+   ],
+   "description": "Clinical-stage pharmaceutical company developing novel orally available small molecule drug candidates for post-stroke/TBI recovery, substance use disorders and chronic cough.",
+   "evidence": "The Group operates in one segment, which is the discovery, development and commercialization of small-molecule pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns income from collaborative research funding and research services rendered to pharmaceutical partners such as Indivior, plus grants from government and non-governmental organizations.",
+  "evidence": "Income was earned from rendering of research services to a pharmaceutical company and grants earned."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024 the company divested its allosteric modulator discovery platform and pre",
+  "change not grounded: In 2024 partner Janssen terminated development of ADX71149 and in 2025 terminate"
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001819404",
+ "issuerName": "NERDY INC.",
+ "builtAt": "2026-11-15T14:14:59.736Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001819404-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819404/000181940426000015/nrdy-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Learners pay fixed monthly rates through Learning Memberships and Institutions pay fixed rates through access-based subscriptions and prepaid high-dosage contracts for tutoring services.",
+  "evidence": "Contracts with Learners are sold through Learning Memberships, whereby Learners pay a fixed monthly rate over the contract term."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Live Tutoring Platform"
+ ]
+}

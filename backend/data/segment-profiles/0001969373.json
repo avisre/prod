@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001969373",
+ "issuerName": "Vesta Real Estate Corporation, S.A.B. de C.V.",
+ "builtAt": "2026-11-15T14:16:52.825Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001969373-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1969373/000196937326000010/vtmx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial real estate",
+   "products": [
+    "Inventory Buildings",
+    "BTS Buildings"
+   ],
+   "description": "Owns, manages, develops and leases industrial parks and industrial buildings for light-manufacturing and logistics clients in Mexico.",
+   "evidence": "Vesta manages its operations on an aggregated, single segment basis for purposes of assessing performance and making operating decisions and, accordingly, has only one reporting and operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rental income under operating leases, plus energy income and reimbursable building services recovering certain property operating expenses.",
+  "evidence": "Rental income from operating leases is recognized on a straight-line basis over the term of the relevant lease."
+ },
+ "changes": [],
+ "dropped": []
+}

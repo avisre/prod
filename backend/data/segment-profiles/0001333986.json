@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001333986",
+ "issuerName": "Equitable Holdings, Inc.",
+ "builtAt": "2026-11-15T14:10:34.871Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001333986-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1333986/000133398626000012/eqh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retirement",
+   "products": [
+    "Registered Indexed Linked Annuities (RILAs)",
+    "Traditional Variable Annuities",
+    "Investment Edge",
+    "Open Architecture Mutual Fund Platform",
+    "Group Variable Annuities",
+    "In-plan Annuities",
+    "Guaranteed Investment Contracts"
+   ],
+   "description": "Provides individual annuities, workplace retirement savings plans, institutional savings products and spread lending to individuals, institutions and small businesses.",
+   "evidence": "Our Retirement segment is a leading provider of individual annuities, workplace retirement savings plans, and institutional savings products."
+  },
+  {
+   "name": "Asset Management",
+   "products": [],
+   "description": "Global active asset management business (AllianceBernstein) providing investment services to institutional investors, individuals and private wealth clients.",
+   "evidence": "AllianceBernstein (\"AB\") — Global active asset manager providing investment services to institutional investors, individuals, and private wealth clients; and"
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "investment, protection and risk management services"
+   ],
+   "description": "Wealth management platform providing holistic financial advice and investment, protection and risk management services to clients across the United States.",
+   "evidence": "Equitable Advisors — Wealth management platform providing holistic financial advice and investment, protection and risk management services to clients across the United States."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenues predominantly from fee income, income from investments, and insurance premiums paid by individual and institutional clients.",
+  "evidence": "We earn revenues predominantly from fee income, income from investments, and insurance premiums."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold its BRS business, reducing compensation and other operating costs.",
+   "evidence": "Compensation, benefits, interest expense and other operating costs decreased by $57 million mainly due to lower base compensation and other expenses driven by the sale of BRS, lower interest expense from lower weighted average borrowings, and lower office related expenses in our Asset Management segment."
+  },
+  {
+   "text": "Prior period results were revised in connection with updates to the company's reportable segments.",
+   "evidence": "Prior period results have been revised in connection with updates to our reportable segments."
+  }
+ ],
+ "dropped": [
+  "product not in text (Retirement): Structured Capital Strategies (SCS)",
+  "product not in text (Asset Management): AllianceBernstein investment services",
+  "product not in text (Wealth Management): Equitable Advisors financial advice",
+  "change not grounded: In 2025, Equitable ceded a 75% quota share of its in-force individual life insur"
+ ]
+}

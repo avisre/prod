@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001655050",
+ "issuerName": "BAIN CAPITAL SPECIALTY FINANCE, INC.",
+ "builtAt": "2026-11-15T14:13:14.800Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077703",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1655050/000119312526077703/bcsf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "asset management",
+   "products": [
+    "senior first lien",
+    "stretch senior",
+    "senior second lien",
+    "unitranche",
+    "mezzanine debt",
+    "secondary purchases of assets or portfolios",
+    "distressed debt",
+    "debtor-in-possession loans"
+   ],
+   "description": "An externally managed business development company providing debt financing, primarily senior secured loans, to middle-market companies across North America, Europe and Australia.",
+   "evidence": "Our operations are comprised of a single operating and reportable business segment, asset management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company generates revenue primarily from interest income on its debt investments, plus loan origination and other fees, dividends on direct equity investments and capital gains on sales of investments.",
+  "evidence": "We generate revenues primarily through receipt of interest income from the investments we hold."
+ },
+ "changes": [],
+ "dropped": []
+}

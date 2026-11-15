@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001788882",
+ "issuerName": "ROOT, INC.",
+ "builtAt": "2026-11-15T14:14:35.870Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001788882-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1788882/000178888226000014/root-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct-to-consumer insurance",
+   "products": [
+    "Personal auto insurance"
+   ],
+   "description": "A technology insurance company offering personalized personal auto insurance priced on individual driving behavior to United States consumers.",
+   "evidence": "We are a technology company that provides direct-to-consumer insurance products to customers. We operate as a single reporting segment that is managed on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay premiums for personal auto insurance policies, with an increasing proportion of premiums expected to be earned from customer renewals.",
+  "evidence": "As we continue to mature, we expect an increasing proportion of our premiums to be earned from customer renewals."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Direct-to-consumer insurance): Root app (iOS and Android)"
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001826457",
+ "issuerName": "Monte Rosa Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:15:08.406Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-109360",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1826457/000119312526109360/glue-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Molecular glue degraders",
+   "products": [
+    "MRT-2359",
+    "MRT-6160",
+    "MRT-8102",
+    "CDK2 and CCNE1 MGDs"
+   ],
+   "description": "Clinical-stage biotechnology company developing a portfolio of novel molecular glue degraders that selectively degrade therapeutically-relevant proteins.",
+   "evidence": "The Company manages its operations as a single operating and reportable segment committed to developing a portfolio of novel and proprietary MGDs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns collaboration revenue from pharmaceutical partners such as Novartis and Roche under strategic collaboration agreements for its discovery programs and product candidates.",
+  "evidence": "The Company's reportable segment net revenues and loss for the years ended December 31, 2025 and 2024, consisted of the following: Year ended December 31, 2025 2024 Revenue: Collaboration revenue $ 123,672 $ 75,622"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Molecular glue degraders): QuEEN discovery engine"
+ ]
+}

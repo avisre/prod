@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001812447",
+ "issuerName": "Sky Quarry Inc.",
+ "builtAt": "2026-11-15T14:14:54.228Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001096906-26-000438",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1812447/000109690626000438/skyq-20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil refining",
+   "products": [
+    "diesel",
+    "vacuum gas oil (VGO)",
+    "naphtha",
+    "liquid paving asphalt",
+    "gasoline",
+    "kerosene"
+   ],
+   "description": "Operates a regional refinery producing refined fuel and asphalt products from crude oil, with a development-stage waste asphalt shingle recycling division.",
+   "evidence": "We operate a regional refinery (the Eagle Springs Refinery) producing diesel, vacuum gas oil (VGO), naphtha and liquid paving asphalt from crude oil suppliers in the Uintah basin near Nevada and Utah."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

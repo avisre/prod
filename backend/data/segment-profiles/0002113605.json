@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0002113605",
+ "issuerName": "Chilwa Minerals Limited",
+ "builtAt": "2026-11-15T14:17:51.513Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-112626",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2113605/000121390026112626/ea0309272-20f_chilwa.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral exploration and evaluation",
+   "products": [
+    "Ilmenite",
+    "Zircon",
+    "Rutile",
+    "Garnet",
+    "Monazite"
+   ],
+   "description": "An exploration-stage company conducting mineral exploration and evaluation for heavy mineral sands and rare earth elements around Lake Chilwa in southern Malawi.",
+   "evidence": "Management has identified that the Group operates in one operating segment, being mineral exploration and evaluation in Malawi."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Group earns no production revenue; its only income is interest on bank deposits and one-off laboratory income from third-party sample preparation and assay services in Malawi.",
+  "evidence": "Laboratory income comprises one off amounts charged for third-party sample preparation and assay services performed at the Group's Malawian laboratory."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mineral exploration and evaluation): Heavy mineral sands (HMS)",
+  "product not in text (Mineral exploration and evaluation): Carbonatite-hosted rare earth elements",
+  "product not in text (Mineral exploration and evaluation): Ionic adsorption clay rare earth elements"
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001633336",
+ "issuerName": "Crescent Capital BDC, Inc.",
+ "builtAt": "2026-11-15T14:12:53.288Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071922",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1633336/000119312526071922/ccap-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty finance",
+   "products": [
+    "related equity securities"
+   ],
+   "description": "A specialty finance company that lends to private U.S. middle-market companies through debt and related equity investments.",
+   "evidence": "Since its commencement, the Company has operated and been managed as a single reportable segment deriving returns mainly in the form of interest income, dividend income and other fees from the investments made in pursuit of its single stated investment objective."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income, dividend income and other fees from its debt and equity investments in middle-market companies.",
+  "evidence": "Since its commencement, the Company has operated and been managed as a single reportable segment deriving returns mainly in the form of interest income, dividend income and other fees from the investments made in pursuit of its single stated investment objective."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Specialty finance): secured debt (first lien, unitranche first lien, second-lien)",
+  "product not in text (Specialty finance): unsecured debt (mezzanine and subordinated debt)"
+ ]
+}

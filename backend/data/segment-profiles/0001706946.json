@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001706946",
+ "issuerName": "Virgin Galactic Holdings, Inc.",
+ "builtAt": "2026-11-15T14:13:44.631Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001706946-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1706946/000170694626000019/spce-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Spaceflight",
+   "products": [
+    "human spaceflight services",
+    "commercial research missions",
+    "autonomous research flight opportunities",
+    "human-tended research flights",
+    "engineering services",
+    "astronaut community access",
+    "sponsorships"
+   ],
+   "description": "Designs, manufactures and operates reusable spaceflight systems carrying private astronauts, researchers and government payloads to suborbital space.",
+   "evidence": "The Company has determined that it operates in one operating segment and one reportable segment, as the CODM reviews financial information presented on a consolidated basis for purposes of making operating decisions, allocating resources and evaluating financial performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including private astronauts, researchers and government agencies, pay for spaceflight services, recognized upon completion of a spaceflight, plus astronaut community access fees, engineering services and sponsorships recognized over the arrangement term.",
+  "evidence": "Spaceflight service revenue is recognized at a point in time upon successful completion of a spaceflight. The Company recognizes revenue for astronaut community access fees, engineering services and sponsorships over the term of the respective arrangement."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the company paused Unity spaceflights after the Galactic 07 flight to f"
+ ]
+}

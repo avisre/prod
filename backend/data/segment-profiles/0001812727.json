@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001812727",
+ "issuerName": "Reliance Global Group, Inc.",
+ "builtAt": "2026-11-15T14:14:54.236Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009536",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1812727/000149315226009536/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "wholesale and retail insurance agencies",
+    "RELI Exchange",
+    "5MinuteInsure.com"
+   ],
+   "description": "A holding company that acquires, owns and actively manages insurance and technology-focused businesses, generating commission-based revenues from insurance sales.",
+   "evidence": "Reliance operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns commissions from insurance carriers and members for the sale and servicing of insurance products, plus contingent commissions based on carrier targets.",
+  "evidence": "We own and operate insurance agencies and related platforms that generate commission-based revenues through the sale and servicing of insurance products."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold certain insurance brokerage assets, including the Fortman Insurance Services, Employee Benefits Solutions and US Benefits Alliance businesses.",
+   "evidence": "During 2025, the Company completed the sale of certain insurance brokerage assets, including the Fortman Insurance Services business and the Employee Benefits Solutions and US Benefits Alliance businesses."
+  },
+  {
+   "text": "In 2025, the previously announced agreement to acquire Spetner Associates, Inc. was terminated.",
+   "evidence": "In July 2025, the previously announced agreement to acquire Spetner Associates, Inc. was terminated."
+  },
+  {
+   "text": "In 2025, the Company adopted a digital asset treasury strategy allocating a portion of treasury assets to cryptocurrencies.",
+   "evidence": "In September 2025, the Company adopted a digital asset treasury strategy pursuant to which it may allocate a portion of its treasury assets to cryptocurrencies and related blockchain initiatives."
+  }
+ ],
+ "dropped": []
+}

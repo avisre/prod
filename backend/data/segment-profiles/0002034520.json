@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0002034520",
+ "issuerName": "GIBO HOLDINGS LIMITED",
+ "builtAt": "2026-11-15T14:17:38.119Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-023628",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2034520/000149315226023628/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company under fixed-price IT Service Agreements for platform customization and integration, data migration and content management, and enterprise-level data security services.",
+  "evidence": "The Company sign IT Service Agreement with the customers, to provide a series of services include (i) platform customization and integration services, helping customers to design, modify and integrate functionalities in their own systems, (ii) data migration and content management services, assisting customers in their large-scale data migration and content liability management, and (iii) enterprise-level data security services, providing customers with advanced information security technologies"
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company strategically expanded GIBO Create into the short-form video and short dramas industry.",
+   "evidence": "in December 2025, we strategically expanded the application of GIBO Create to the short-form video and short dramas industry to broaden its exposure to larger and faster-growing segments of the digital entertainment market."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: AI-powered content production and streaming platform"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001640266",
+ "issuerName": "Voyager Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:56.411Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-025197",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1640266/000110465926025197/vygr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Genetic medicine",
+   "products": [
+    "VY1706",
+    "VY7523",
+    "TRACER capsids",
+    "Voyager NeuroShuttle",
+    "GBA1 Program"
+   ],
+   "description": "Develops and commercializes genetic medicines, including gene therapies and antibodies, for neurological diseases such as Alzheimer's, Friedreich's ataxia and Parkinson's.",
+   "evidence": "The Company's CODM, the Company's Chief Executive Officer, views the Company's operations and manages its business as a single operating segment, which is the business of developing and commercializing genetic medicine."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Collaboration and licensing partners such as Neurocrine, Novartis and Alexion pay Voyager upfront fees, milestone payments, option exercise fees, license fees and research and development expense reimbursement, plus potential future royalties.",
+  "evidence": "In total, our partnerships have delivered more than $500.0 million in non-dilutive funding to us to date, including upfront fees, development milestone payments, option exercise fees, license fees, and research and development expense reimbursement."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Genetic medicine): FA Program (NBIB-'223)",
+  "product not in text (Genetic medicine): ALS small molecule program"
+ ]
+}

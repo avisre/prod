@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001439222",
+ "issuerName": "AGIOS PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T14:11:20.793Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001439222-26-000025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000025/agio-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rare diseases",
+   "products": [
+    "PYRUKYND®",
+    "AQVESME™",
+    "mitapivat",
+    "tebapivat",
+    "AG-181",
+    "AG-236"
+   ],
+   "description": "A commercial-stage biopharmaceutical company developing and delivering innovative medicines for patients with rare diseases, with a foundation in hematology.",
+   "evidence": "We are engaged solely in the discovery and development of medicines in the field of cellular metabolism. Accordingly, we have determined that we operate in one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of its approved medicines PYRUKYND and AQVESME, and may receive milestone and royalty payments from collaborators such as Alnylam and Servier.",
+  "evidence": "Our CEO views our operations and manages our business as one operating segment, which derives its revenues from the development and commercialization of therapies for patients with rare diseases."
+ },
+ "changes": [
+  {
+   "text": "In 2021, the company completed the sale of its entire oncology business, including vorasidenib, to Servier Pharmaceuticals.",
+   "evidence": "On March 31, 2021, we completed the sale of our oncology business to Servier Pharmaceuticals, LLC, or Servier."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the company sold its Vorasidenib Royalty Rights to Royalty Pharma for $"
+ ]
+}

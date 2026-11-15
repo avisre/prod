@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0002046656",
+ "issuerName": "Happy City Holdings Limited",
+ "builtAt": "2026-11-15T14:17:38.126Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-004364",
+  "periodEnd": "2025-08-31",
+  "filingDate": "2026-01-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/2046656/000121390026004364/ea0270540-20f_happy.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hotpot restaurant operations",
+   "products": [
+    "Thai Pot (泰金鍋)",
+    "Gyu! Gyu! Shabu Shabu (牛牛殿堂日式火鍋放題)"
+   ],
+   "description": "Operates three all-you-can-eat hotpot restaurants specializing in Thai and Japanese hotpot for customers in Hong Kong.",
+   "evidence": "Based on the management's assessment, the Company has determined that it has only one operating segment, which is the hotpot restaurant operations with only one revenue recognition method, i.e. at a point-in-time."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Restaurant customers pay the company for all-you-can-eat food and beverage, with revenue recognized at a point in time.",
+  "evidence": "For the years ended August 31, 2025 and 2024, our revenue is generated from providing food and beverage to customers in our restaurants located in North Point, Kwun Tong, Mong Kok and Tsuen Wan."
+ },
+ "changes": [
+  {
+   "text": "In July 2024, the Group redesignated its Gyu! Gyu! Shabu Shabu restaurant in Tsuen Wan and rebranded it to a Thai Pot restaurant.",
+   "evidence": "Building on such success, the Group redesignated its Gyu! Gyu! Shabu Shabu restaurant in Tsuen Wan and rebranded to Thai Pot restaurant in July 2024."
+  },
+  {
+   "text": "In 2025, upon expiration of the North Point restaurant lease, the Group opened a new flagship restaurant in Kwun Tong featuring both brands.",
+   "evidence": "In 2025, upon expiration of the lease agreement of our \"Gyu! Gyu! Shabu Shabu (牛牛殿堂日式火鍋放題)\" restaurant in North Point, we opened a new flagship restaurant of 11,000 square feet in Kwun Tong that features both our brands of \"Thai Pot (泰金鍋)\" and \"Gyu! Gyu! Shabu Shabu (牛牛殿堂日式火鍋放題)\" and offers Japanese and Thai all-you-can-eat hotpot."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0002026353",
+ "issuerName": "Aether Holdings, Inc.",
+ "builtAt": "2026-11-15T14:17:24.695Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-028195",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2026353/000149315225028195/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online subscription service",
+   "products": [
+    "SentimenTrader.com",
+    "21Bitcoin.xyz",
+    "WhaleTales",
+    "Altcoin Investing"
+   ],
+   "description": "Provides proprietary research analytics, data, tools and newsletters for institutional and retail equity traders through its SentimenTrader platform.",
+   "evidence": "Accordingly, management has concluded that the Company has one operating segment: the online subscription service, which consists of one reporting unit based on the financial information available and which operating results are regularly reviewed by the CODM."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users pay subscription fees for access to the company's research analytics platform and newsletters.",
+  "evidence": "The Company has determined that it operates as a single reportable segment."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company expanded its newsletter business through the incorporation of wholly-owned subsidiary Alpha Edge Media, Inc.",
+   "evidence": "Beginning in April 2025, we began a new initiative to expand our newsletter business through the incorporation of our wholly-owned subsidiary, Alpha Edge Media, Inc. (\"AEM\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Online subscription service): Alpha Edge Media newsletters",
+  "change not grounded: In 2025, the company acquired 21Bitcoin.xyz, an AI-powered digital market intell"
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001535778",
+ "issuerName": "MSC Income Fund, Inc",
+ "builtAt": "2026-11-15T14:11:59.838Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001535778-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1535778/000153577826000026/msif-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investments",
+   "products": [
+    "Private Loan investments",
+    "LMM investments",
+    "Middle Market investments",
+    "Other Portfolio investments"
+   ],
+   "description": "A business development company providing debt and equity capital to private companies owned by or being acquired by private equity funds.",
+   "evidence": "MSC Income Fund, Inc. (\"MSIF\" or, together with its consolidated subsidiaries, \"MSC Income\" or the \"Fund\") is a principal investment firm primarily focused on providing debt capital to private (\"Private Loan\") companies owned by or in the process of being acquired by a private equity fund (its \"Private Loan investment strategy\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies pay the Fund interest and principal on debt investments, and the Fund also earns income and capital appreciation from equity and equity-related investments.",
+  "evidence": "MSC Income's principal investment objective is to maximize the Investment Portfolio's total return, primarily by generating current income from debt investments and, to a lesser extent, by generating current income and capital appreciation from equity and equity-related investments, including warrants, convertible securities and other rights to acquire equity securities in a portfolio company."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective upon the MSC Income Listing on January 29, 2025, the Fund changed its "
+ ]
+}

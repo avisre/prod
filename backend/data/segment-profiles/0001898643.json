@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001898643",
+ "issuerName": "Mobilicom Limited",
+ "builtAt": "2026-11-15T14:16:20.248Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-032915",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1898643/000121390026032915/ea0281668-20f_mobilicom.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Unified business",
+   "products": [
+    "hardware products",
+    "cloud-based software",
+    "cybersecurity solutions"
+   ],
+   "description": "Designs and sells hardware products plus cloud-based software and cybersecurity solutions for drone and robotics markets globally.",
+   "evidence": "The Company concluded that its unified business is conducted globally and accordingly represents one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for goods sold, with revenue recognized when the customer obtains control of the goods, generally at delivery.",
+  "evidence": "Revenue from the sale of goods is recognised at the point in time when the customer obtains control of the goods, which is generally at the time of delivery."
+ },
+ "changes": [],
+ "dropped": []
+}

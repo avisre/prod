@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001847590",
+ "issuerName": "BOWMAN CONSULTING GROUP LTD.",
+ "builtAt": "2026-11-15T14:15:45.341Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015252",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1847590/000162828026015252/bwmn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineering and related professional services",
+   "products": [
+    "Planning",
+    "Engineering",
+    "Program management",
+    "Commissioning",
+    "Environmental consulting",
+    "Geospatial imaging",
+    "Surveying",
+    "Land procurement"
+   ],
+   "description": "A professional services firm delivering integrated engineering, technical consulting and program management services to public and private sector customers who own, develop and maintain the built environment.",
+   "evidence": "The Company operates in one segment based upon the financial information used by its chief operating decision maker in evaluating the financial performance of its business and allocating resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for professional services performed by Bowman's employees under hourly (time and materials) and lump sum (fixed fee) contracts, plus pass-through sub-consultant fees and reimbursable contract costs.",
+  "evidence": "We generate revenue from services performed by our employees, pass-through fees from sub-consultants, and reimbursable contract costs."
+ },
+ "changes": [],
+ "dropped": []
+}

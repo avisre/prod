@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001641281",
+ "issuerName": "Bolt Biotherapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:57.273Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104121",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1641281/000119312526104121/bolt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "BDC-4182",
+    "Boltbody ISAC platform",
+    "CEA ISAC",
+    "PD-L1 ISAC",
+    "BDC-3042"
+   ],
+   "description": "Clinical-stage biotechnology company developing immune-stimulating antibody conjugate cancer therapies for patients with solid tumors.",
+   "evidence": "The Company's operating segment generates revenue from its collaboration agreements as described in Note 5."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from collaboration agreements with partners for its drug development programs.",
+  "evidence": "The Company's operating segment generates revenue from its collaboration agreements as described in Note 5."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001673481",
+ "issuerName": "Sports Entertainment Gaming Global Corporation",
+ "builtAt": "2026-11-15T14:13:25.430Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-032786",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-07-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1673481/000149315226032786/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users pay at the point of sale for lottery game purchases, subscribers pay for ongoing lottery data delivery, and commercial clients pay for data analytics and affiliate marketing solutions.",
+  "evidence": "The Company also has contracts with subscribers for the continued delivery of lottery data over a defined period of time."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the Company suspended its lottery game sales operations after determining it lacked sufficient financial resources.",
+   "evidence": "In July 2022, the Company furloughed the majority of its employees and suspended its lottery game sales operations after determining that it did not have sufficient financial resources to fund operations or pay certain existing obligations, including payroll and related obligations."
+  },
+  {
+   "text": "In 2026, the Company changed its name from Lottery.com Inc. to Sports Entertainment Gaming Global Corporation.",
+   "evidence": "On January 27, 2026, the Company changed its name to Sports Entertainment Gaming Global Corporation (\"SEGG Media.\")."
+  },
+  {
+   "text": "Following the 2022 disruption, the Company expanded beyond lottery facilitation into broader sports and entertainment verticals.",
+   "evidence": "As part of the corporate reset, the Company expanded beyond lottery facilitation into broader sports and entertainment verticals, combining content creation, digital publishing, domain-based audience acquisition and interactive gaming technologies."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Sports and entertainment gaming"
+ ]
+}

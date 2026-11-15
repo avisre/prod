@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001641398",
+ "issuerName": "GD CULTURE GROUP LIMITED",
+ "builtAt": "2026-11-15T14:12:58.072Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035630",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1641398/000121390026035630/ea0281725-10k_gdculture.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Virtual Content Production",
+   "products": [],
+   "description": "Operates live-streaming e-commerce on TikTok in the United States and holds Bitcoin as a long-term digital asset reserve.",
+   "evidence": "The Company operates and manages its business as a single segment and has one operating and reportable segment, the Virtual Content Production."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company currently generates no revenue from core operations and intends to earn sales from TikTok users purchasing products featured in its live streams.",
+  "evidence": "The Company does not currently generate revenues from its core business operations, and there is no guarantee that the Company will generate any revenues in the future."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the Company terminated the VIE agreements with Wuge and stopped consolidating it.",
+   "evidence": "On September 28, 2022, Makesi WFOE entered into a termination agreement with Wuge and the shareholders of Wuge to terminate the VIE Agreements and to cancel the shares previously issued to the shareholders of Wuge."
+  },
+  {
+   "text": "In 2023, the Company sold TMSR HK (ending the Yuan Ma VIE) and terminated the Highlight Media VIE.",
+   "evidence": "On September 26, 2023, Highlight WFOE entered into a termination agreement with Highlight Media and the shareholders of Highlight Media to terminate the VIE Agreements and sold the interest in the VIE Agreements for a purchase price of $100,000."
+  },
+  {
+   "text": "In 2025, the Company acquired Pallas Capital Holding Ltd, which holds Bitcoin as a long-term reserve.",
+   "evidence": "On September 29, 2025, the Company completed the acquisition of Pallas Capital Holding Ltd, a British Virgin Islands company (\"Pallas\"), pursuant to a Share Exchange Agreement dated September 10, 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Virtual Content Production): TikTok live-streaming e-commerce",
+  "product not in text (Virtual Content Production): Bitcoin digital asset reserve"
+ ]
+}

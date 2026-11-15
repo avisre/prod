@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001984086",
+ "issuerName": "Septerna, Inc.",
+ "builtAt": "2026-11-15T14:16:59.260Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098507",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1984086/000119312526098507/sepn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "SEP-479",
+    "SEP-631",
+    "Native Complex Platform®"
+   ],
+   "description": "An early-stage biotechnology company developing G protein-coupled receptor product candidates for patients.",
+   "evidence": "Based on the information used by the CODM to allocate resources, the Company has determined it operates in one segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

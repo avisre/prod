@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001736730",
+ "issuerName": "CAMP4 Therapeutics Corporation",
+ "builtAt": "2026-11-15T14:14:06.795Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001736730-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1736730/000173673026000016/camp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "R&D",
+   "products": [
+    "CMP-002",
+    "RAP Platform"
+   ],
+   "description": "Clinical-stage development of RNA-targeting therapeutics that upregulate gene expression to treat genetic diseases, primarily central nervous system disorders.",
+   "evidence": "The Company manages its business activities on a consolidated basis and operates as a single operating segment: R&D, which engages in the business of developing a new class of RNA-based therapeutics to treat a broad range of genetic diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from strategic discovery partnerships, including its research, collaboration and license agreement with GlaxoSmithKline.",
+  "evidence": "We also intend to leverage strategic discovery partnerships, including our research, collaboration and license agreement with GlaxoSmithKline, to extend the application of our RAP Platform beyond the CNS and validate our approach to gene upregulation in additional tissues and disease areas."
+ },
+ "changes": [],
+ "dropped": []
+}

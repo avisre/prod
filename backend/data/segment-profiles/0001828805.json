@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001828805",
+ "issuerName": "Aeluma, Inc.",
+ "builtAt": "2026-11-15T14:15:14.022Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-100584",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828805/000121390026100584/ea0305364-10k_aeluma.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Photonic technologies",
+   "products": [
+    "Photodetectors",
+    "Photodetector arrays",
+    "Lasers",
+    "Optical amplifiers",
+    "Wafers",
+    "Chips",
+    "Engineering samples"
+   ],
+   "description": "Develops high-performance photonic and electronic technologies for communications and sensing in telecom, AI datacom, defense, automotive, AR/VR and quantum markets.",
+   "evidence": "Aeluma, Inc. (together with our subsidiary, \"we,\" \"our,\" \"us,\" or the \"Company\") develops high-performance photonic and electronic technologies for communications and sensing in telecom, artificial intelligence (\"AI\") datacom, mobile, defense and aerospace, robotics, automotive, augmented reality/virtual reality (\"AR/VR\"), and quantum applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from U.S. government R&D contracts (cost-reimbursement or fixed-price) and from commercial customers for R&D-related services and small-volume product orders.",
+  "evidence": "The Company currently draws revenue from two primary sources: ● Commercial product and service contracts: Revenue is currently generated from multiple customers for Research and Development (\"R&D\")-related services and small-volume orders. ● Government contracts: Revenue is principally generated from R&D contracts with agencies of the U.S. government or with prime contractors."
+ },
+ "changes": [],
+ "dropped": []
+}

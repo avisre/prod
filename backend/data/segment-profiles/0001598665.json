@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001598665",
+ "issuerName": "Heritage Insurance Holdings, Inc.",
+ "builtAt": "2026-11-15T14:12:29.482Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103715",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1598665/000119312526103715/hrtg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property and casualty insurance",
+   "products": [
+    "personal residential insurance",
+    "commercial residential insurance",
+    "commercial general liability insurance",
+    "wind-only property insurance"
+   ],
+   "description": "A super-regional property and casualty insurance holding company providing personal and commercial residential insurance through insurance company subsidiaries.",
+   "evidence": "We conduct our operations as a single operating and reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums, earned ratably over the twelve-month policy term, plus policy and pay-plan fees, and the company earns investment income on its portfolio.",
+  "evidence": "Premiums associated with new and renewal policies are earned ratably over the twelve-month term of the policy and premiums associated with assumed policies are earned ratably over the remaining term of the policy."
+ },
+ "changes": [],
+ "dropped": []
+}

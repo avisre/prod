@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0002033377",
+ "issuerName": "Mega Fortune Co Ltd",
+ "builtAt": "2026-11-15T14:17:30.237Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-004907",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/2033377/000149315226004907/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IoT solutions and services",
+   "products": [
+    "IoT Integration Solutions services",
+    "BPO services",
+    "IoT Support and Maintenance services",
+    "Trading of IoT-Related products"
+   ],
+   "description": "Provides IoT integration, support and maintenance, business process outsourcing services and trading of IoT-related products to enterprises in Hong Kong.",
+   "evidence": "The CODM believes we have only one business segment, which is the provision of IoT solutions and services.."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay the company for delivered IoT integration solutions, BPO services, IoT support and maintenance services, and trading sales of IoT-related products.",
+  "evidence": "Our revenues consist of (i) IoT Integration Solutions Services; (ii) Business Process Outsourcing (\"BPO\") Services; (iii) IoT Support and Maintenance Services; and (iv) Trading of IoT-Related products."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company sold its Australian subsidiary QBS System Pty Ltd to a related party.",
+   "evidence": "On July 8, 2024, all 1,000 shares of QBS System Pty Ltd, a company incorporated in Australia were transferred by its sole shareholder QBS System to Wong Ka Ki for a consideration of AUD10,000."
+  }
+ ],
+ "dropped": []
+}

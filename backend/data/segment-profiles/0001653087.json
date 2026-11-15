@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001653087",
+ "issuerName": "Alector, Inc.",
+ "builtAt": "2026-11-15T14:13:13.313Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071593",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1653087/000119312526071593/alec-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "nivisnebart (formerly AL101/GSK4527226)",
+    "Alector Brain Carrier (ABC) platform",
+    "brain-penetrant anti-amyloid beta antibody",
+    "brain-penetrant GCase enzyme replacement therapy",
+    "brain-penetrant siRNA programs targeting tau"
+   ],
+   "description": "A clinical-stage biotechnology company developing therapies for neurodegenerative diseases, including Alzheimer's, Parkinson's and Lewy body dementia.",
+   "evidence": "We are a clinical-stage biotechnology company developing therapies for neurodegenerative diseases, with a focus on areas of high unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Alector earns revenue primarily through collaboration and license agreements with pharmaceutical partners such as GSK, which co-develop and fund its product candidates.",
+  "evidence": "Under the current terms of the GSK Agreement, we are responsible for funding and sharing GSK's and our development costs up to $140.5 million for the conduct of the initial Phase 2 trial of nivisnebart in early AD."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Biotechnology): brain-penetrant siRNA programs targeting α-synuclein",
+  "product not in text (Biotechnology): brain-penetrant siRNA programs targeting NLRP3"
+ ]
+}

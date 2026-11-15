@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001957413",
+ "issuerName": "Digital Currency X Technology Inc.",
+ "builtAt": "2026-11-15T14:16:45.899Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-020595",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1957413/000149315226020595/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital asset-related activities",
+   "products": [
+    "crypto assets",
+    "EDGEAI staking"
+   ],
+   "description": "Following disposal of the legacy automotive business, the company's continuing operations consist primarily of digital asset-related activities, including holding and staking crypto assets.",
+   "evidence": "Following the strategic transformation and classification of the legacy automotive business as discontinued operations (see Note 5), the Company's continuing operations consist primarily of digital asset-related activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2026, the company disposed of its entire interest in Chijet Inc., its electric vehicle business in China, and transitioned its strategic focus to technology and digital asset management.",
+   "evidence": "Until the disposal of our entire interest in Chijet Inc. on March 20, 2026 (the \"Disposal\"), as further described below under \"Recent Development,\" we conducted our historical operations in the electric vehicle industry in China through Chijet Inc. and its subsidiaries, including Shandong Baoya."
+  },
+  {
+   "text": "In 2025, the legacy automotive business was classified as discontinued operations following the company's strategic transformation.",
+   "evidence": "Following the strategic transformation and classification of the legacy automotive business as discontinued operations (see Note 5), the Company's continuing operations consist primarily of digital asset-related activities."
+  }
+ ],
+ "dropped": []
+}

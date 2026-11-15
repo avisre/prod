@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0002080073",
+ "issuerName": "VERSAMET ROYALTIES CORPORATION",
+ "builtAt": "2026-11-15T14:17:47.689Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-052847",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2080073/000110465926052847/tmb-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Greenstone GPA",
+   "products": [
+    "gold"
+   ],
+   "description": "Holds a gold purchase agreement on the Greenstone Mine, receiving monthly gold deliveries which it sells.",
+   "evidence": "We earned revenue of $14.4 million from the sale of gold from the Greenstone GPA during the year ended December 31, 2025 as compared to $10.0 million in the same period of 2024."
+  },
+  {
+   "name": "Blackwater royalty",
+   "products": [],
+   "description": "Holds a royalty on the Blackwater mine, which commenced production in 2025.",
+   "evidence": "We earned $1.2 million in royalty revenue from the Blackwater royalty during the year ended December 31, 2025."
+  },
+  {
+   "name": "Kolpa stream",
+   "products": [
+    "copper"
+   ],
+   "description": "Holds a copper stream on the Kolpa mine, receiving copper deliveries which it sells.",
+   "evidence": "We earned $3.9 million in revenue from the sale of copper received under the Kolpa stream during the year ended December 31, 2025."
+  },
+  {
+   "name": "Kiaka royalty",
+   "products": [],
+   "description": null,
+   "evidence": "We earned revenue of $8.1 million from the Kiaka royalty during the year ended Dectember 31, 2025."
+  },
+  {
+   "name": "Mercedes royalty",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Rosh Pinah stream",
+   "products": [
+    "silver"
+   ],
+   "description": "Holds a silver stream on the Rosh Pinah mine, receiving silver deliveries which it sells.",
+   "evidence": "We earned revenue of $2.4 million from the sale of silver received under the Rosh Pinah stream during the year ended December 31, 2025."
+  },
+  {
+   "name": "Santa Rita royalty",
+   "products": [],
+   "description": "Holds a royalty on the Santa Rita Mine, acquired in the third quarter of 2025.",
+   "evidence": "We earned revenue of $2.4 million from the Santa Rita royalty during the year ended December 31, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns royalty revenue from mine operators and sells gold, copper and silver received under stream agreements, paying operators a percentage of delivered metal value.",
+  "evidence": "Cost of sales represents a payment of 10% of the value of the copper delivered to Versamet on a monthly basis to the mine operator."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired the Kolpa stream, the Rosh Pinah stream and the Santa Rita royalty, adding new segments.",
+   "evidence": "No revenue was earned under the Kolpa stream in 2024 as the Kolpa stream was acquired during the second quarter of 2025."
+  },
+  {
+   "text": "In 2025 the Blackwater and Kiaka mines commenced production, generating first revenue from those royalty segments.",
+   "evidence": "No revenue was earned from Kiaka in 2024 as the Kiaka Mine only commenced production in Q2 2025."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Mercedes royalty"
+ ]
+}

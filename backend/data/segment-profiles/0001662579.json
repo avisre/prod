@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001662579",
+ "issuerName": "C4 Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:13:20.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012000",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1662579/000162828026012000/cccc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Targeted Protein Degradation",
+   "products": [
+    "cemsidomide",
+    "CFT8919",
+    "TORPEDO platform"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing small-molecule protein degraders for oncology, inflammation, neuroinflammation and neurodegeneration.",
+   "evidence": "The Company has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from upfront payments received from collaboration partners such as Merck KGaA, Roche, Betta Pharma and Pfizer under research and development collaboration arrangements.",
+  "evidence": "a significant amount of the revenues recognized by the Company are derived from the upfront payments received from our collaboration partners"
+ },
+ "changes": [],
+ "dropped": []
+}

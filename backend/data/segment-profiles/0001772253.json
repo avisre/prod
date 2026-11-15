@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001772253",
+ "issuerName": "FLEX LNG Ltd.",
+ "builtAt": "2026-11-15T14:14:25.848Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-012574",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1772253/000162828026012574/flng-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "vessel operations",
+   "products": [
+    "LNG carriers",
+    "time charter contracts"
+   ],
+   "description": "Charters a fleet of thirteen LNG carriers to customers under time charter contracts, deriving all revenue from vessel operations.",
+   "evidence": "The Company has one reportable segment: vessel operations. The vessel operations segment relates to revenue generated from chartering of vessels to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company hire under time charter contracts, recognized ratably as operating lease revenue, with EU emission allowance values reimbursed by charterers.",
+  "evidence": "Amounts generated from time charter agreements are recognized ratably over the term of the agreement on a straight-line basis as services are provided."
+ },
+ "changes": [],
+ "dropped": []
+}

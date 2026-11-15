@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001566044",
+ "issuerName": "YARROW BIOSCIENCE, INC.",
+ "builtAt": "2026-11-15T14:12:11.494Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001566044-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1566044/000156604426000002/vyne-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "VYN202"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing BET inhibitor therapies for inflammatory and immune-mediated conditions, with a pending merger to advance a TSHR antibody.",
+   "evidence": "The Company is a Delaware corporation and operates as one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns royalty revenue from LEO Pharma on sales of Finacea foam under a license agreement.",
+  "evidence": "Royalty revenues for the years ended December 31, 2025 and 2024 were $0.6 million and $0.5 million, respectively, from LEO Pharma in connection with sales of Finacea."
+ },
+ "changes": [
+  {
+   "text": "In January 2022, the company sold its legacy commercial business, the MST Franchise, to Journey Medical Corporation.",
+   "evidence": "For additional information regarding the sale of the Company's legacy commercial business (the \"MST Franchise\") to Journey Medical Corporation (\"Journey\") in January 2022 and the Company's licensing arrangements with Tay, see \"Note 3—Strategic Agreements.\""
+  },
+  {
+   "text": "In December 2025, the company entered into a merger agreement with Yarrow Biosciences, after which Yarrow's business will become the primary business.",
+   "evidence": "Following the strategic review, we entered into an Agreement and Plan of Merger and Reorganization, dated as of December 17, 2025, which was amended on January 30, 2026 (as amended, the \"Merger Agreement\") with Yarrow Biosciences, Inc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Biopharmaceutical): repibresib gel (VYN201)",
+  "product not in text (Biopharmaceutical): YB-101 (GS-098)",
+  "change not grounded: In 2025, the company terminated the Phase 2b repibresib gel trial in vitiligo an"
+ ]
+}

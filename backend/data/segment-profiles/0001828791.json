@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001828791",
+ "issuerName": "Viant Technology Inc.",
+ "builtAt": "2026-11-15T14:15:13.032Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001828791-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828791/000182879126000019/dsp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advertising technology",
+   "products": [
+    "ViantAI",
+    "Identity graph"
+   ],
+   "description": "Operates a cloud-based demand side platform enabling marketers and advertising agencies to plan, buy and measure programmatic digital advertising across channels.",
+   "evidence": "The Company has a single reportable operating segment which owns and operates a DSP that enables marketers and their advertising agencies to automate and centralize the planning, buying and measurement of their video, audio and display ads across most channels, including CTV, streaming audio, digital out-of-home, mobile and desktop in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Marketers and advertising agencies pay platform fees under percentage-of-spend or fixed CPM pricing, plus service fees for data management, media execution and advanced reporting.",
+  "evidence": "We charge platform fees and service fees pursuant to agreements with our customers that enable them to select their preferred mix of pricing and service options."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advertising technology): Demand side platform (DSP)",
+  "product not in text (Advertising technology): Household ID (HHID)"
+ ]
+}

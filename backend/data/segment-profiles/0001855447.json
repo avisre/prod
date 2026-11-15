@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001855447",
+ "issuerName": "Tigo Energy, Inc.",
+ "builtAt": "2026-11-15T14:15:52.912Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115952",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855447/000119312526115952/tygo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solar energy optimization solutions",
+   "products": [
+    "MLPE products",
+    "Predict+ service"
+   ],
+   "description": "Designs, develops and sells solar energy optimization solutions, including module-level power electronics, energy storage systems and energy management services, to installers and end users.",
+   "evidence": "The Company has one business activity — the design, development and sale of solar energy optimization solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from selling its MLPE products, GO ESS and other offerings to installers, distributors and customers in residential and commercial and industrial markets.",
+  "evidence": "Although a significant portion of our revenue is derived from our MLPE products, we are continuing to develop and promote additional offerings such as our GO ESS product line and Predict+ service, which we believe will help contribute to long-term revenue growth and market leadership."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Solar energy optimization solutions): GO Energy Storage Systems (GO ESS)"
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001648960",
+ "issuerName": "MYSEUM.AI, INC.",
+ "builtAt": "2026-11-15T14:13:04.666Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036485",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1648960/000121390026036485/ea0283148-10k_myseum.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology-based company",
+   "products": [
+    "DatChat Messenger & Private Social Network",
+    "Myseum social media platform",
+    "Picture Party by Myseum",
+    "Habytat"
+   ],
+   "description": "Develops privacy-focused social media and messaging applications for consumers and businesses.",
+   "evidence": "The Company operates as a single operating segment as a technology-based company that is developing social media applications and technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its minority interest in RPM Interactive to Avalon and deconsolidated RPM, which was classified as discontinued operations.",
+   "evidence": "As a result of the closing, the Company no longer holds a controlling interest in and is no longer the primary beneficiary of RPM, which was a variable interest entity, and as of December 12, 2025, has deconsolidated RPM."
+  },
+  {
+   "text": "In 2024, following the acquisition of RPM, the Company ceased development of the Habytat platform.",
+   "evidence": "As discussed above, following our acquisition of RPM in October 2024, we ceased our development of the Habytat platform."
+  },
+  {
+   "text": "In 2024, the Company deconsolidated Metabizz SAS.",
+   "evidence": "On March 31, 2024, based on the Company's analysis, the Company deconsolidated Metabizz SAS (See Note 1)."
+  }
+ ],
+ "dropped": []
+}

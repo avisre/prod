@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001540684",
+ "issuerName": "ATLAS LITHIUM CORPORATION",
+ "builtAt": "2026-11-15T14:12:01.546Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008854",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1540684/000149315226008854/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining",
+   "products": [
+    "Quartzite",
+    "Iron Ore"
+   ],
+   "description": "The mining segment mines, beneficiates and sells material mined from the Company's mining rights in Brazil, with other projects in exploration phase.",
+   "evidence": "The Company has one reportable segment: mining. The mining segment derives revenue in Brazil by mining, beneficiating and selling material mined from the Company's several mining rights."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for material mined and beneficiated from its mining rights, currently quartzite and iron ore, sold in Brazil.",
+  "evidence": "The mining segment derives revenue in Brazil by mining, beneficiating and selling material mined from the Company's several mining rights. Currently the Company generates revenue solely from two operating projects: Quartzite and Iron Ore."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001762506",
+ "issuerName": "Vista Energy, S.A.B. de C.V.",
+ "builtAt": "2026-11-15T14:14:21.286Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-187099",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1762506/000119312526187099/d936340d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and gas exploration and production",
+   "products": [
+    "Crude oil",
+    "Natural gas",
+    "LPG"
+   ],
+   "description": "Explores, develops and produces crude oil, natural gas and LPG in Argentina and Mexico.",
+   "evidence": "The Company supervises goodwill for internal management purposes based on its only business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling its share of crude oil, natural gas and LPG output, including from joint operations.",
+  "evidence": "Its revenue from the sale of its share of the output of the joint operation"
+ },
+ "changes": [],
+ "dropped": []
+}

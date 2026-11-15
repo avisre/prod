@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001828937",
+ "issuerName": "FINANCE OF AMERICA COMPANIES INC.",
+ "builtAt": "2026-11-15T14:15:14.655Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017692",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828937/000162828026017692/foa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retirement Solutions",
+   "products": [
+    "HECM loans",
+    "non-agency reverse mortgage loans",
+    "non-agency second lien reverse mortgage loan product",
+    "traditional home equity loans"
+   ],
+   "description": null,
+   "evidence": "Our Retirement Solutions segment conducts all of our Company's loan origination activity, including the origination and acquisition of HECM loans and non-agency reverse mortgage loans through both the retail and TPO channels."
+  },
+  {
+   "name": "Portfolio Management",
+   "products": [
+    "loan securitization",
+    "loan sales",
+    "risk management",
+    "servicing oversight",
+    "asset management services"
+   ],
+   "description": "Provides product development, securitization, loan sales, risk management, servicing oversight and asset management, connecting borrowers with investors.",
+   "evidence": "Our Portfolio Management segment provides product development, loan securitization, loan sales, risk management, servicing oversight, and asset management services to the Company."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retirement Solutions earns origination fees and net origination gains on loans, while Portfolio Management earns net interest income and fair value changes on portfolio assets monetized through securitization or sale to investors.",
+  "evidence": "The Portfolio Management segment primarily generates revenue from the net interest income and fair value changes on portfolio assets, monetized through securitization, sale, or other financing of those assets."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company began originating traditional home equity loans for the first time, announced in October 2025.",
+   "evidence": "Additionally, in October 2025 we announced that we will begin to originate certain traditional home equity loan products."
+  }
+ ],
+ "dropped": []
+}

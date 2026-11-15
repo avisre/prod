@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001506492",
+ "issuerName": "NUWELLIS, INC.",
+ "builtAt": "2026-11-15T14:11:43.482Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-009080",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1506492/000114036126009080/ef20060639_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardiorenal care",
+   "products": [
+    "Aquadex FlexFlow®",
+    "Aquadex SmartFlow®"
+   ],
+   "description": "Develops, manufactures and commercializes medical devices for ultrafiltration therapy to treat fluid overload in adult and pediatric patients.",
+   "evidence": "The Company and the Company's chief operating decision-maker, the Company's chief executive officer, view the Company's operations and manages its business as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Nuwellis generates revenue mainly from selling consoles and disposable blood filters and catheters used with the Aquadex System, primarily to U.S. hospitals and clinics through a direct salesforce, and to international specialty distributors.",
+  "evidence": "Revenue is generated mainly from the sale of consoles and disposable blood filters and catheters used in conjunction with the Aquadex System."
+ },
+ "changes": [
+  {
+   "text": "In 2016, the Company acquired the Aquadex Business from a subsidiary of Baxter and halted all clinical evaluations of its prior C-Pulse System technology.",
+   "evidence": "During 2016, we acquired the Aquadex Business and announced that we were halting all clinical evaluations of our prior technology, the C-Pulse System."
+  },
+  {
+   "text": "In 2021, the Company changed its name from CHF Solutions, Inc. to Nuwellis, Inc.",
+   "evidence": "On April 27, 2021, the Company announced that it was changing its name from CHF Solutions, Inc. to Nuwellis, Inc."
+  }
+ ],
+ "dropped": []
+}

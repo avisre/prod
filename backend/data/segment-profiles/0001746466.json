@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001746466",
+ "issuerName": "Equillium, Inc.",
+ "builtAt": "2026-11-15T14:14:14.035Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-124143",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1746466/000119312526124143/eq-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Developing novel therapies",
+   "products": [
+    "EQ504",
+    "EQ302"
+   ],
+   "description": "A preclinical-stage biotechnology company developing novel therapies for severe autoimmune and inflammatory disorders, including gastrointestinal and inflammatory lung diseases.",
+   "evidence": "The Company operates through a single operating and reportable segment focused on the business of developing novel therapies to treat severe autoimmune and inflammatory disorders with the mission to develop life-changing therapeutics for patients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the Company's itolizumab development expenses were reimbursed by Ono un"
+ ]
+}

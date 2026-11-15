@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001701261",
+ "issuerName": "FARMMI, INC.",
+ "builtAt": "2026-11-15T14:13:39.037Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001477932-26-000727",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1701261/000147793226000727/fami_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agricultural products",
+   "products": [
+    "Shiitake mushrooms",
+    "Mu Er fungus",
+    "Other edible fungi",
+    "Other agricultural products",
+    "Cotton",
+    "Corn",
+    "Tapioca",
+    "Red dates"
+   ],
+   "description": "Processes and sells edible fungi and other agricultural products and trades bulk agricultural commodities such as corn and cotton to customers.",
+   "evidence": "The Company currently has three main products from which revenue is earned and expenses are incurred: shiitake mushrooms, mu er fungus, and other edible fungi and other agricultural products."
+  },
+  {
+   "name": "Logistics services",
+   "products": [
+    "Cargo transfers",
+    "Bonded warehouses",
+    "Operation services",
+    "Special work order services",
+    "Outbound delivery services",
+    "Storage services"
+   ],
+   "description": "Provides warehouse and logistics services in the U.S. to support a food and agricultural product supply chain system.",
+   "evidence": "To implement global expansion strategy and meet the growing customer demand, the Company launched its warehouse and logistics services business in the U.S. in the summer of 2024, with the aim to develop a food and agricultural product supply chain system."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for sales of edible fungi and other agricultural products, bulk agricultural commodity trading as principal, and warehouse and logistics services.",
+  "evidence": "The Company obtains control over these commodities as a principal from its suppliers before selling these commodities to its customers."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company launched a warehouse and logistics services business in the U.S., adding a new reportable segment.",
+   "evidence": "the Company launched its warehouse and logistics services business in the U.S. in the summer of 2024, with the aim to develop a food and agricultural product supply chain system."
+  },
+  {
+   "text": "In 2020 and 2023, the company closed its Farmmi Liangpin Market and Farmmi Jicai online stores, respectively.",
+   "evidence": "Liangpin Market and Farmmi Jicai were closed in 2020 and 2023, respectively."
+  }
+ ],
+ "dropped": []
+}

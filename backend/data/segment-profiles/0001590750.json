@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001590750",
+ "issuerName": "Viridian Therapeutics, Inc./DE",
+ "builtAt": "2026-11-15T14:12:24.719Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001590750-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1590750/000159075026000007/vrdn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "veligrotug",
+    "elegrobart",
+    "VRDN-006",
+    "VRDN-008",
+    "anti-TSHR candidate"
+   ],
+   "description": "A clinical-stage biopharmaceutical company discovering, developing, and commercializing potential best-in-class medicines for serious and rare autoimmune diseases.",
+   "evidence": "The Company manages its operations as one operating segment, focused on discovering, developing and commercializing potential best-in-class medicines for serious and rare diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

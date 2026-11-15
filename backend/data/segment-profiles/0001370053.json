@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001370053",
+ "issuerName": "ANAPTYSBIO, INC.",
+ "builtAt": "2026-11-15T14:10:41.797Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-088290",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1370053/000119312526088290/anab-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharma",
+   "products": [
+    "rosnilimab",
+    "ANB033",
+    "ANB101"
+   ],
+   "description": "Develops and potentially commercializes innovative immunology therapeutics for autoimmune and inflammatory diseases.",
+   "evidence": "Our Biopharma segment focuses on the development and potential commercialization of innovative immunology therapeutics for autoimmune and inflammatory diseases"
+  },
+  {
+   "name": "Royalty Management",
+   "products": [
+    "Jemperli (dostarlimab-gxly)",
+    "imsidolimab"
+   ],
+   "description": "Manages the financial collaborations for Jemperli from GSK and imsidolimab from Vanda, focused on royalty value.",
+   "evidence": "our Royalty Management segment manages the financial collaboration for Jemperli from GSK and for imsidolimab from Vanda."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company recognizes revenue from milestones and royalties under its immuno-oncology collaboration with GSK and license and transition services revenue from its collaboration with Vanda.",
+  "evidence": "We currently recognize revenue from milestones and royalties achieved under our immuno-oncology collaboration with GSK and license and transition services revenue from our collaboration with Vanda."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2025, in connection with the planned separation of the businesses, the company updated its segment reporting to two operating segments: Biopharma and Royalty Management.",
+   "evidence": "As a result of these changes, we updated our segment reporting to reflect two operating segments: Biopharma and Royalty Management."
+  }
+ ],
+ "dropped": []
+}

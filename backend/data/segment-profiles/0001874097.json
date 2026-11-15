@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001874097",
+ "issuerName": "Cyngn Inc.",
+ "builtAt": "2026-11-15T14:16:05.705Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034900",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1874097/000121390026034900/ea0277796-10k_cyngn.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autonomous vehicle technology",
+   "products": [
+    "DriveMod",
+    "Cyngn Insight",
+    "Cyngn Evolve",
+    "DriveMod Kit"
+   ],
+   "description": "Develops and deploys scalable autonomous vehicle technology, integrating its full-stack driving software onto OEM-built industrial vehicles for industrial organizations.",
+   "evidence": "Cyngn develops and deploys scalable, differentiated autonomous vehicle technology for industrial organizations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for subscriptions to the Enterprise Autonomy Service, product sales or leases of hardware, professional services, and fixed-price NRE contracts, with revenue generally recognized ratably over a contract term of about three years.",
+  "evidence": "The one operating segment generates revenues from subscriptions to its Enterprise Autonomy Service (\"EAS\"), product sales or leases of hardware, and other professional services (i.e., deployment costs) and fixed-price NRE contracts related to customer-specific configuration that consist of several independent phases and include design, data gathering, hardware installation on an industrial vehicle, customer-specific configuration of the DriveMod software, and demonstrations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Autonomous vehicle technology): Enterprise Autonomy Suite (EAS)"
+ ]
+}

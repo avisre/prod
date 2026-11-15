@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001669162",
+ "issuerName": "KINSALE CAPITAL GROUP, INC.",
+ "builtAt": "2026-11-15T14:13:22.626Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001669162-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1669162/000166916226000015/knsl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Excess and surplus lines insurance",
+   "products": [
+    "Commercial Property",
+    "Excess Casualty",
+    "General Casualty",
+    "Small Business Casualty",
+    "Construction",
+    "Small Business Property",
+    "Allied Health",
+    "Entertainment"
+   ],
+   "description": "Kinsale writes property and casualty insurance coverages exclusively for hard-to-place excess and surplus lines risks, sold through independent insurance brokers.",
+   "evidence": "Kinsale is a property and casualty insurance company that focuses exclusively on the excess and surplus lines (\"E&S\") market in the U.S., where we can use our underwriting expertise to write coverages for hard-to-place risks."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Kinsale collects premiums from insureds, primarily small- to medium-sized accounts, for insurance coverages sold through independent insurance brokers, and invests a portion of these funds until claims are paid.",
+  "evidence": "We collect premiums from our insureds and invest a portion of these funds until claims are paid."
+ },
+ "changes": [],
+ "dropped": []
+}

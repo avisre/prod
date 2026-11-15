@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001819411",
+ "issuerName": "GAIN THERAPEUTICS, INC",
+ "builtAt": "2026-11-15T14:15:00.976Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-035188",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819411/000110465926035188/ganx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development in the pharmaceutical sector",
+   "products": [
+    "GT-02287",
+    "Magellan™ platform"
+   ],
+   "description": "A clinical-stage biotechnology company developing novel small molecule therapeutics for CNS disorders, lysosomal storage disorders, metabolic disorders and oncology.",
+   "evidence": "The Company has determined that it operates as one operating segment, which is research and development in the pharmaceutical sector with a focus on developing novel therapeutics to treat diseases caused by protein misfolding."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Research and development in the pharmaceutical sector): structurally targeted allosteric regulators (STARs)"
+ ]
+}

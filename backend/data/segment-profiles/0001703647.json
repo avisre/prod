@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "cik": "0001703647",
+ "issuerName": "Korro Bio, Inc.",
+ "builtAt": "2026-11-15T14:13:42.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104156",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1703647/000119312526104156/krro-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In November 2023, the company completed a business combination in which Frequency Therapeutics acquired Legacy Korro and was renamed Korro Bio.",
+   "evidence": "The term \"Legacy Korro\" refers to privately held Korro Bio Ops, Inc. (formerly known as Korro Bio, Inc.), which we acquired in the November 2023 business combination."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: RNA-editing therapies"
+ ]
+}

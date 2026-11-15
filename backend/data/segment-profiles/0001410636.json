@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001410636",
+ "issuerName": "AMERICAN WATER WORKS COMPANY, INC.",
+ "builtAt": "2026-11-15T14:11:02.282Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001410636-26-000034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1410636/000141063626000034/awk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated Businesses",
+   "products": [
+    "Water services",
+    "Wastewater services",
+    "Fire service",
+    "Sale for resale"
+   ],
+   "description": null,
+   "evidence": "The Company conducts the majority of its business through regulated utilities that provide water and wastewater services, collectively presented as one reportable segment, referred to as the \"Regulated Businesses.\""
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay regulated rates, largely metered and billed monthly for water usage, with wastewater customers billed flat rates or based on water consumption, under rates authorized by public utility commissions.",
+  "evidence": "The vast majority of the Company's regulated water customers are metered, which allows the Company to measure and bill for its customers' water usage, typically on a monthly basis."
+ },
+ "changes": [],
+ "dropped": []
+}

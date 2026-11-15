@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001644903",
+ "issuerName": "cbdMD, Inc.",
+ "builtAt": "2026-11-15T14:13:04.648Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-038435",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1644903/000143774925038435/ycbd20250930_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer wellness",
+   "products": [
+    "cbdMD®",
+    "Paw CBD®",
+    "ATRX®",
+    "Herbal Oasis (\"Oasis\")"
+   ],
+   "description": "Develops, manufactures, markets and sells supplement brands powered by natural compounds, including hemp-derived cannabinoids, for consumers and pets.",
+   "evidence": "cbdMD, Inc. is a consumer wellness company focused on the development, manufacturing, marketing, and sale of supplement brands powered by natural compounds."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and retail/wholesale channel partners pay the company for cannabinoid and functional wellness products sold through e-commerce, online marketplaces, wholesale and specialty channels.",
+  "evidence": "Our products are sold through a diversified distribution network that includes direct-to-consumer e-commerce platforms, online marketplaces, wholesale distribution to national and regional retailers, specialty health and pet channels, and emerging international markets."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001804469",
+ "issuerName": "GUARDFORCE AI CO., LIMITED",
+ "builtAt": "2026-11-15T14:14:45.091Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-046137",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1804469/000121390026046137/ea0284325-20f_guardforce.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Secured Logistics Business",
+   "products": [
+    "Cash-In-Transit – Non-Dedicated Vehicle (Non-DV)",
+    "Cash-In-Transit – Dedicated Vehicle (DV)",
+    "ATM management",
+    "Cash Processing (CPC)",
+    "Cash Center Operations (CCT)",
+    "Consolidate Cash Center Operations (CCC)"
+   ],
+   "description": "Provides traditional secured logistics and cash management services, mainly to banks and retail customers in Thailand.",
+   "evidence": "The Legacy Secured Logistics business metric includes revenues from (i) Cash-In-Transit – Non-Dedicated Vehicle (Non-DV); (ii) Cash-In-Transit – Dedicated Vehicle (DV); (iii) ATM management; (iv) Cash Processing (CPC); (v) Cash Center Operations (CCT); (vi) Consolidate Cash Center Operations (CCC); and (vii) Others."
+  },
+  {
+   "name": "Corporate and others",
+   "products": [],
+   "description": "Covers non-operating activities including holdings, treasury organization, headquarters and central functions.",
+   "evidence": "The Corporate and others segment covers the non-operating activities supporting the Company."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay service fees for cash logistics, lease or subscription payments for robots and AI solutions, advertising screen leases, and one-time installation plus recurring monthly fees for smart retail solutions.",
+  "evidence": "For our Smart Retail Solution, we typically charge a one-time installation fee, followed by recurring monthly fees for services, maintenance, and software management."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company completed the separation with its Handshake information security business, presented as discontinued operations.",
+   "evidence": "we have completed the separation with Handshake on February 6, 2024."
+  },
+  {
+   "text": "In 2025, the company agreed to dispose of Beijing Wanjia, with the equity transfer completed in January 2026 and operations classified as discontinued.",
+   "evidence": "On December 25, 2025, we entered into an equity transfer agreement to dispose of our entire equity interest in Beijing Wanjia and the equity transfer was completed on January 9, 2026."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: AI, Robotics and Smart Solutions"
+ ]
+}

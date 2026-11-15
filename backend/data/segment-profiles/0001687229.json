@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001687229",
+ "issuerName": "Invitation Homes Inc.",
+ "builtAt": "2026-11-15T14:13:32.891Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001687229-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1687229/000168722926000016/invh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single-Family Residential",
+   "products": [
+    "Single-family homes for lease",
+    "Third-party property and asset management services"
+   ],
+   "description": "Acquires, renovates, leases, operates, and manages single-family homes for lease for residents across core U.S. markets.",
+   "evidence": "Our principal business is acquiring, renovating, leasing, operating, and managing single-family residential properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay the company rent for leasing single-family homes, and portfolio owners pay the company for professional property and asset management services.",
+  "evidence": "The Manager also provides professional property and asset management services to portfolio owners of single-family homes for lease, including our investments in unconsolidated joint ventures."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Single-Family Residential): ProCare property management service platform",
+  "product not in text (Single-Family Residential): ResiBuilt single-family rental homebuilding"
+ ]
+}

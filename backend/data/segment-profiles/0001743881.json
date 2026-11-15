@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001743881",
+ "issuerName": "BridgeBio Pharma, Inc.",
+ "builtAt": "2026-11-15T14:14:11.096Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001743881-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1743881/000174388126000009/bbio-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Attruby (acoramidis)",
+    "Beyonttra (acoramidis)",
+    "Nulibry (fosdenopterin)",
+    "Truseltiq (infigratinib)",
+    "Infigratinib",
+    "BBP-418",
+    "Encaleret"
+   ],
+   "description": "Discovers, develops and commercializes medicines for patients with genetic diseases, including approved products and late-stage clinical programs.",
+   "evidence": "We are a single operating and reportable segment, which is in the business of identifying, advancing and commercializing transformative medicines to treat patients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "BridgeBio earns net product revenue from sales of its approved medicines, plus license and services revenue and royalty revenue from collaboration partners.",
+  "evidence": "Revenues: Net product revenue $ 362,368 $ 2,884 $ — License and services revenue 128,322 218,849 9,303 Royalty revenue 11,386 169 —"
+ },
+ "changes": [],
+ "dropped": []
+}

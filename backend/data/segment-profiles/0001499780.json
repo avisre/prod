@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001499780",
+ "issuerName": "GLOBUS MARITIME LTD",
+ "builtAt": "2026-11-15T14:11:37.927Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-028476",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1499780/000110465926028476/glbs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dry bulk shipping",
+   "products": [
+    "charter revenues"
+   ],
+   "description": "Operates a fleet of dry bulk vessels that are chartered to customers worldwide.",
+   "evidence": "management, including the chief operating decision maker, reviews operating results solely by revenue per day and operating results of the fleet and thus the Company has determined that it operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company daily charter hire for the employment of its vessels.",
+  "evidence": "The Company reports financial information and evaluates its operations by charter revenues and not by other factors such as length of ship employment for its customers i.e., spot or time charters or type of vessel."
+ },
+ "changes": [],
+ "dropped": []
+}

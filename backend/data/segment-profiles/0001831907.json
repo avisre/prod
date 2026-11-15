@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0001831907",
+ "issuerName": "LuxExperience B.V.",
+ "builtAt": "2026-11-15T14:15:18.452Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-108069",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1831907/000110465926108069/luxe-20260630x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Luxury | Mytheresa",
+   "products": [
+    "Mytheresa",
+    "ready-to-wear",
+    "shoes",
+    "bags",
+    "accessories",
+    "lifestyle products",
+    "fine jewelry"
+   ],
+   "description": "A curated luxury digital platform selling womenswear, menswear, kidswear, lifestyle and fine jewelry to high-end customers, focused on Europe.",
+   "evidence": "Luxury | Mytheresa: our leading luxury global brand platform that offers a highly curated edit of ready-to-wear, shoes, bags and accessories for womenswear, menswear, kidswear as well as lifestyle products and fine jewelry from up to 250 true luxury brands for womenswear, catering to wardrobe-building, high-end customers with a primary geographical focus on Europe."
+  },
+  {
+   "name": "Luxury | NAP & MRP",
+   "products": [
+    "NET-A-PORTER",
+    "MR PORTER",
+    "PORTER",
+    "Mr P.",
+    "fashion",
+    "fine watches and jewelry",
+    "grooming",
+    "lifestyle products"
+   ],
+   "description": "Online luxury platforms NET-A-PORTER and MR PORTER serving trend-driven, high-end customers with a strong presence in North America.",
+   "evidence": "Luxury | NAP & MRP: our online luxury platforms encompassing the NET-A-PORTER and MR PORTER store brands."
+  },
+  {
+   "name": "Off-Price | YOOX",
+   "products": [
+    "YOOX",
+    "womenswear",
+    "menswear",
+    "kidswear",
+    "lifestyle"
+   ],
+   "description": "A multi-brand off-price digital platform offering past-season fashion, design and art at attractive prices, focused on the European market.",
+   "evidence": "Off-Price | YOOX: YOOX is our multi-brand digital platform for long-lasting fashion, design and art."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns net sales from global luxury consumers who buy fashion, jewelry and lifestyle products through its e-commerce platforms.",
+  "evidence": "In fiscal 2026, Luxury | Mytheresa generated net sales of €994.3 million and GMV of €1,085.3 million"
+ },
+ "changes": [
+  {
+   "text": "In 2025, following the YNAP Acquisition, the company reclassified its operations into three reportable segments beginning in the fourth quarter of fiscal 2025.",
+   "evidence": "Beginning in the fourth quarter of fiscal 2025, we reclassified our operations into three reportable segments, which are highly complementary with regards to geography, proposition and customers"
+  },
+  {
+   "text": "In 2025, the company completed the acquisition of YOOX Net-a-Porter Group S.p.A., adding NET-A-PORTER, MR PORTER, YOOX and THE OUTNET.",
+   "evidence": "In April 2025, we completed the acquisition of YOOX Net-a-Porter Group S.p.A. (\"YNAP\"), with the heritage store brands NET-A-PORTER, the leading luxury fashion destination for women since 2000, and MR PORTER, the men's luxury style destination since 2011, forming the luxury segment next to the Mytheresa luxury segment, and acquiring YOOX, the multi-brand digital platform for long-lasting fashion, design and art since 2000 and THE OUTNET in the Off-Price segment."
+  },
+  {
+   "text": "In 2026, the company sold the assets powering THE OUTNET platform to The O Group LLC.",
+   "evidence": "On April 30, 2026, LuxExperience Group successfully sold the set of assets powering THE OUTNET platform to The O Group LLC (which has been renamed The Outnet Operations US, LLC)."
+  }
+ ],
+ "dropped": []
+}

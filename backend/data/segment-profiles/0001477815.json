@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001477815",
+ "issuerName": "SWEETGREEN, INC.",
+ "builtAt": "2026-11-15T14:11:31.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012520",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1477815/000162828026012520/sg-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Restaurant",
+   "products": [
+    "Bowls",
+    "Plates",
+    "Seasonal and limited-time items",
+    "Signature dressings"
+   ],
+   "description": "Operates company-owned fast-casual restaurants serving healthy food and beverages to customers across the United States.",
+   "evidence": "The Company operates as one operating segment and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for retail sales of food and beverages at its company-owned restaurants in the United States.",
+  "evidence": "The Company has one revenue stream, generating revenue from retail sales of food and beverages by company-owned restaurants within the United States."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed the sale of Spyce, the business unit developing the Infinite Kitchen technology, to Wonder.",
+   "evidence": "On December 29, 2025, subsequent to fiscal year end, the Company completed the previously announced sale of Spyce, the business unit responsible for developing the Infinite Kitchen technology, and certain other assets related to the Infinite Kitchen technology, to Wonder."
+  }
+ ],
+ "dropped": [
+  "product not in text (Restaurant): Core menu signature items",
+  "product not in text (Restaurant): Custom salads"
+ ]
+}

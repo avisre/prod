@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001891856",
+ "issuerName": "GEN Restaurant Group, Inc.",
+ "builtAt": "2026-11-15T14:16:16.170Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134555",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1891856/000119312526134555/genk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Restaurant operations",
+   "products": [
+    "GEN Korean BBQ restaurants",
+    "ready-to-cook meals"
+   ],
+   "description": null,
+   "evidence": "The Company operates 57 Gen Korean BBQ restaurants in the United States and South Korea."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay a fixed all-inclusive price for unlimited quantities of food at the restaurants.",
+  "evidence": "Our guests can order unlimited quantities of food for a fixed price generally ranging from $20.95 to $20.99 for lunch and $29.99 to $33.95 for dinners as of December 31, 2025."
+ },
+ "changes": [],
+ "dropped": []
+}

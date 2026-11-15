@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002027360",
+ "issuerName": "RedCloud Holdings plc",
+ "builtAt": "2026-11-15T14:17:26.482Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001641172-25-011298",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-05-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2027360/000164117225011298/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Open Commerce Platform",
+   "products": [
+    "RedCloud Platform",
+    "mobile commerce apps",
+    "cloud computing platform"
+   ],
+   "description": "Operates an AI-driven Open Commerce platform enabling brands, distributors and retailers in high-growth consumer markets to trade fast-moving consumer goods.",
+   "evidence": "We have developed and operate the RedCloud Platform, that facilitates the trading of everyday consumer supplies of fast-moving consumer goods (\"FMCG\") products across business supply chains."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company charges brands and distributors based on a consumption model, only for transactions made on the Platform.",
+  "evidence": "Our Platform is delivered through a consumption-based business model and we only charging brands and distributors for transactions made on the Platform."
+ },
+ "changes": [
+  {
+   "text": "In 2024, RedCloud Holdings plc was incorporated and became the ultimate holding company of the RedCloud Group through the Formation Transaction.",
+   "evidence": "On October 11, 2024, we undertook a formation transaction pursuant to which all existing security holders of RedCloud Technologies Limited, a private limited company incorporated in England and Wales, exchanged the securities they held in RedCloud Technologies Limited for an equivalent class and number of securities in RedCloud Holdings plc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Open Commerce Platform): AI and machine learning insights"
+ ]
+}

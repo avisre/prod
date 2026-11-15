@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001787740",
+ "issuerName": "Valion Bio, Inc.",
+ "builtAt": "2026-11-15T14:14:34.614Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010343",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1787740/000143774926010343/tivc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharma",
+   "products": [
+    "Entolimod",
+    "Entolasta"
+   ],
+   "description": null,
+   "evidence": "Our Biopharma segment is engaged in the development and commercialization of our pharmaceutical product candidates and is operated from our corporate headquarters in San Antonio, Texas."
+  },
+  {
+   "name": "CDMO",
+   "products": [
+    "Contract development and manufacturing services"
+   ],
+   "description": "Provides contract development and manufacturing services to Tivic and external customers from a San Antonio, Texas facility.",
+   "evidence": "Our CDMO segment offers contract development and manufacturing services to Tivic and external customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The CDMO segment earns fees from development and manufacturing services provided to Tivic and external customers, while the Biopharma segment is pre-commercial and generates no product revenue.",
+  "evidence": "The CDMO provides development services to Tivic to support the manufacturing of Entolimod, the Company's lead product candidate."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the Company acquired the manufacturing and development assets of Scorpius Biomanufacturing, establishing Velocity Bioworks as a wholly owned CDMO subsidiary.",
+   "evidence": "December 2025: Acquisition of the manufacturing and development assets of Scorpius Biomanufacturing, establishing Velocity Bioworks as a wholly owned CDMO subsidiary."
+  },
+  {
+   "text": "In December 2025, the Company ceased sales of its ClearUP sinus device and stopped development of its bioelectronic products, exiting the consumer healthtech business.",
+   "evidence": "The Company ceased sales of its ClearUP sinus device and related operations as of year-end 2025."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Prior to December 2025 the Company operated as a single operating segment, and f"
+ ]
+}

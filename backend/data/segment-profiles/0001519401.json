@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001519401",
+ "issuerName": "Regional Management Corp.",
+ "builtAt": "2026-11-15T14:11:48.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-061549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1519401/000119312526061549/rm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer finance",
+   "products": [
+    "Large installment loans",
+    "Small installment loans",
+    "Optional payment and collateral protection insurance"
+   ],
+   "description": "Provides secured and unsecured installment loans and complementary insurance products to customers with limited access to consumer credit.",
+   "evidence": "The Company has one reportable segment, which is the consumer finance segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay interest and fees on fixed-rate, fixed-term installment loans, and premiums for optional payment and collateral protection insurance.",
+  "evidence": "In 2025, 2024, and 2023, interest and fee income from large loans contributed $382.9 million, $337.7 million, and $323.9 million, respectively, to our total revenue."
+ },
+ "changes": [],
+ "dropped": []
+}

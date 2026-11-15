@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001383395",
+ "issuerName": "SEQUANS COMMUNICATIONS S.A.",
+ "builtAt": "2026-11-15T14:10:49.981Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001383395-26-000082",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1383395/000138339526000082/sqns-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor components",
+   "products": [
+    "Cassiopeia platform (LTE Cat 4)",
+    "chips and modules",
+    "technology licensing and services"
+   ],
+   "description": null,
+   "evidence": "The Company has one operating segment, which is the design and marketing of semiconductor components for cellular and other wireless systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for semiconductor chips and modules, IP licenses, and development and other engineering services.",
+  "evidence": "The Company categorizes its total revenue based on product, license and services revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired ACP Advanced Circuit Pursuit AG, adding RF transceivers and design services to its portfolio.",
+   "evidence": "In January 2025, we acquired ACP Advanced Circuit Pursuit AG (\"ACP\"), a recognized leader in RF semiconductor innovation, that has shipped millions of RF transceivers powering advanced applications such as 5G small cells, drones, and V2X systems."
+  }
+ ],
+ "dropped": [
+  "product not in text (Semiconductor components): Monarch platform (LTE-M/NB-IoT)",
+  "product not in text (Semiconductor components): Calliope platform (LTE Cat 1 and Cat 1bis)",
+  "product not in text (Semiconductor components): 5G RedCap and eRedCap products",
+  "product not in text (Semiconductor components): Iris RF Integrated Transceivers",
+  "change not grounded: In 2024, Qualcomm acquired the majority of the company's 4G IoT technologies whi",
+  "change not grounded: In 2024, the company suspended development of its 5G broadband product for Fixed"
+ ]
+}

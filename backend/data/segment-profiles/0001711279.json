@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001711279",
+ "issuerName": "Krystal Biotech, Inc.",
+ "builtAt": "2026-11-15T14:13:48.853Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001711279-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127926000016/krys-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Genetic medicines",
+   "products": [
+    "VYJUVEK",
+    "KB801",
+    "KB707",
+    "KB407",
+    "KB408",
+    "KB111",
+    "KB301",
+    "KB304"
+   ],
+   "description": "Discovers, develops, manufactures and commercializes genetic medicines for patients with rare and serious diseases with high unmet medical needs.",
+   "evidence": "The Company operates as one operating segment, which is focused on the discovery, development, manufacturing and commercialization of genetic medicines to treat diseases with high unmet medical needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells VYJUVEK to specialty pharmacy providers, hospitals and specialty distributors, recognizing revenue upon delivery and transfer of control at the net sales price.",
+  "evidence": "The Company sells VYJUVEK to a limited number of specialty pharmacy (\"SPs\") providers that mix the medication to be administered at a healthcare professional's office or in the patient's home and to a limited number of hospitals or specialty distributors (\"SDs\") who deliver to hospitals where patients are administered the medication in a healthcare setting."
+ },
+ "changes": [],
+ "dropped": []
+}

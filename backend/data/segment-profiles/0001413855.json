@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001413855",
+ "issuerName": "AIFU Inc.",
+ "builtAt": "2026-11-15T14:11:04.605Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048631",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1413855/000121390026048631/ea0286621-20f_aifu.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance agency segment",
+   "products": [
+    "Life and health insurance products",
+    "Non-life insurance products",
+    "Commercial property insurance",
+    "Cargo insurance",
+    "Hull insurance",
+    "Liability insurance",
+    "Risk management consulting services",
+    "Reinsurance brokerage services"
+   ],
+   "description": "Provides agency services distributing life and non-life insurance products on behalf of insurance companies to individuals and corporate clients.",
+   "evidence": "As of December 31, 2025, we operated one single segment, the insurance agency segment, which mainly consists of providing agency services for distributing life insurance products and non-life insurance products on behalf of insurance companies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns commissions and fees from insurance companies, based on a percentage of premiums paid by the insured, for distributing insurance products, plus advisory fees for brokerage and risk management consulting services.",
+  "evidence": "The commissions and fees we receive from the distribution of insurance products are based on a percentage of the premiums paid by the insured."
+ },
+ "changes": [
+  {
+   "text": "In January 2025, the company disposed of its entire ownership interest in the claims adjusting segment, leaving one operating segment.",
+   "evidence": "In January 2025, we disposed of our entire ownership interest in the operating entity of the claims adjusting segment, which consists of providing pre-underwriting survey services, claims adjusting services, disposal of residual value services, loading and unloading supervision services, and consulting services."
+  },
+  {
+   "text": "In December 2024, Baowang, an online insurance distribution platform, was spun off to BGM as part of a share exchange transaction.",
+   "evidence": "In December 2024, Baowang was spun-off to BGM as part of the share exchange transaction with BGM."
+  }
+ ],
+ "dropped": []
+}

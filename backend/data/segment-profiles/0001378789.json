@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001378789",
+ "issuerName": "AerCap Holdings N.V.",
+ "builtAt": "2026-11-15T14:10:46.463Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-007513",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1378789/000162828026007513/aer-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Flight Equipment Segment",
+   "products": [
+    "narrowbody and widebody aircraft",
+    "regional jets",
+    "freighters",
+    "engines",
+    "helicopters"
+   ],
+   "description": null,
+   "evidence": "We manage our business and analyze and report our results of operations on the basis of one business segment: leasing, financing, sales and management of commercial flight equipment (\"Commercial Flight Equipment Segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Airlines and other operators pay AerCap lease rents, including supplemental maintenance rents, under operating and finance leases of flight equipment.",
+  "evidence": "We lease most of our flight equipment to customers under operating leases."
+ },
+ "changes": [],
+ "dropped": []
+}

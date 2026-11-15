@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001992818",
+ "issuerName": "ZOOZ Strategy Ltd.",
+ "builtAt": "2026-11-15T14:17:02.066Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-013109",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1992818/000149315226013109/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "flywheel",
+   "products": [
+    "power management solutions"
+   ],
+   "description": "Develops and markets flywheel-based power boosting and power management solutions, primarily for fast EV charging infrastructure.",
+   "evidence": "The Company has one reportable operating segment, the \"flywheel,\" which is engaged in developing and marketing flywheel-based power boosting and power management solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Company strategically entered a digital asset treasury business, adding a Corporate & Other category for bitcoin strategy costs that is not an operating segment.",
+   "evidence": "Following its strategic entry in 2025 into a digital asset treasury business, the Company expanded its key performance indicators to include its bitcoin position, general and administrative expenses, and net cash provided by financing activities, which have become core metrics."
+  },
+  {
+   "text": "In July 2025, a new Chief Executive Officer was appointed, changing the CODM and the segment information provided, with prior periods recast.",
+   "evidence": "In July, 2025, the Company appointed a new Chief Executive Officer, resulting in a change in the Company's CODM."
+  }
+ ],
+ "dropped": [
+  "product not in text (flywheel): flywheel-based power boosting solutions"
+ ]
+}

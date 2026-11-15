@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001285819",
+ "issuerName": "OMEROS CORP",
+ "builtAt": "2026-11-15T14:10:23.537Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010636",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1285819/000143774926010636/omer20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutics",
+   "products": [
+    "YARTEMLEA (narsoplimab-wuug)",
+    "Narsoplimab",
+    "OMS1029",
+    "OMS527",
+    "OncotoX-AML",
+    "Targeted Complement Activating Therapy (T-CAT)"
+   ],
+   "description": "Discovers, develops and commercializes small-molecule and protein therapeutics targeting immunologic diseases, complement-mediated diseases, cancers and addictive or compulsive disorders.",
+   "evidence": "We operate in one business segment focusing on the research, discovery, development and commercialization of small-molecule and protein therapeutics targeting immunologic diseases, including complement-mediated diseases and cancers related to dysfunction of the immune system, as well as addictive and compulsive disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from commercial sales of YARTEMLEA to customers, plus upfront payments, milestone payments and tiered royalties from Novo Nordisk under the zaltenibart asset purchase and license agreement.",
+  "evidence": "At the closing of the Transaction, we received an upfront cash payment of $240.0 million."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Therapeutics): MASP-2 small-molecule inhibitors",
+  "product not in text (Therapeutics): MASP-3 small-molecule inhibitors",
+  "change not grounded: In 2025, Omeros sold exclusive global rights to zaltenibart (OMS906) and related"
+ ]
+}

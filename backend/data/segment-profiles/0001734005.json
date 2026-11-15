@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001734005",
+ "issuerName": "Niki BioSolutions, Inc.",
+ "builtAt": "2026-11-15T14:14:03.926Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-035484",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1734005/000121390026035484/ea0281612-20f_aptorum.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and Development",
+   "products": [
+    "Paths Dx Test"
+   ],
+   "description": "A biopharmaceutical company that focuses all its efforts on research and development of novel diagnostics and no longer performs therapeutic services.",
+   "evidence": "The Company now focuses all of its efforts on R&D and therefore no longer performs any therapeutic services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the VIE Mios Pharmaceuticals Limited was dissolved and the Company no longer maintains any ownership over it.",
+   "evidence": "however, Mios was dissolved in 31 October 2024 and therefore we no longer maintain any ownership over such entity."
+  },
+  {
+   "text": "In 2024, the Company terminated the merger agreement with YOOV Group Holding Limited under which YOOV was to become a wholly owned subsidiary.",
+   "evidence": "on October 25, 2024, the parties to the Agreement and Plan of Merger entered into a termination agreement (the \"Termination Agreement\"), pursuant to which the parties agreed to terminate the Agreement and Plan of Merger on the date thereof"
+  }
+ ],
+ "dropped": []
+}

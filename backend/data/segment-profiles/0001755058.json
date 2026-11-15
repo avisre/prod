@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001755058",
+ "issuerName": "ATIF HOLDINGS LIMITED",
+ "builtAt": "2026-11-15T14:14:17.319Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-119658",
+  "periodEnd": "2025-07-31",
+  "filingDate": "2025-12-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1755058/000121390025119658/ea0268474-20f_atifholdings.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consulting service business",
+   "products": [
+    "going public consulting services",
+    "financial consulting services",
+    "listing consultancy",
+    "strategic consulting",
+    "operational consulting",
+    "financial advisory services"
+   ],
+   "description": "Provides business advisory and financial consulting services, mainly going public consulting, to small and medium-sized enterprise customers in China and North America.",
+   "evidence": "the management has determined that the Company now operates in one operating segment with one reporting segment as of July 31, 2025 and 2024, which is the consulting service business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from small and medium-sized enterprise customers, substantially all from providing going public related consulting services.",
+  "evidence": "For the years ended July 31, 2025, 2024 and 2023, substantially all of the Company's revenues was generated from providing going public related consulting services to customers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2021, the Company sold its entire interest in multimedia subsidiary Leaping Group Co., Ltd. (LGC), which was reported as discontinued operations.",
+   "evidence": "The Sales and Purchase Agreement closed on January 29, 2021."
+  },
+  {
+   "text": "In fiscal 2022, the Company sold ATIF GP, ceasing to be investment manager of the ATIF LP private equity fund, which was later deregistered in 2023.",
+   "evidence": "Upon the closing of the Agreement on August 1, 2022, ATIF GP is no longer our subsidiary and ATIF USA ceased to be the investment manager of ATIF LP."
+  },
+  {
+   "text": "In fiscal 2025, the AT Consulting Center stopped operation as the company's business focus shifted to regions outside mainland China.",
+   "evidence": "During the fiscal year ended July 31, 2025, the AT Consulting Center stopped its operation due to the company's business focus has shifted to regions outside mainland china."
+  }
+ ],
+ "dropped": [
+  "product not in text (Consulting service business): business advisory services"
+ ]
+}

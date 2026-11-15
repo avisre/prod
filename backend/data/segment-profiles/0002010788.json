@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0002010788",
+ "issuerName": "EXOZYMES INC.",
+ "builtAt": "2026-11-15T14:17:12.264Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013563",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2010788/000149315226013563/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "eXoZymes as a whole",
+   "products": [
+    "exozymes",
+    "exozyme biosolutions",
+    "isobutanol",
+    "nutraceuticals",
+    "active pharmaceutical ingredients (APIs)",
+    "terpenes"
+   ],
+   "description": "A pre-revenue biotechnology company developing AI-engineered cell-free enzyme systems to produce valuable chemicals for nutraceutical, pharmaceutical and biofuel markets.",
+   "evidence": "The Company has one reportable segment for eXoZymes as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is pre-revenue and is funded by government and private research grants, which reimburse allowable research and development expenses.",
+  "evidence": "eXoZymes is a biotechnology, pre-revenue, development stage company."
+ },
+ "changes": [
+  {
+   "text": "In February 2025, Invizyne Technologies, Inc. was rebranded to eXoZymes, Inc. to clarify its cell-free exozyme technology.",
+   "evidence": "As such, Invizyne Technologies, Inc. was rebranded to eXoZymes, Inc."
+  }
+ ],
+ "dropped": []
+}

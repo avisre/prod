@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001530979",
+ "issuerName": "The Honest Company, Inc.",
+ "builtAt": "2026-11-15T14:11:55.708Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011634",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1530979/000162828026011634/hnst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal care",
+   "products": [
+    "wipes",
+    "diapers",
+    "beauty",
+    "Clean Conscious® wipes",
+    "all-purpose wipes",
+    "flushable wipes",
+    "sanitizing wipes"
+   ],
+   "description": "The company sells cleanly-formulated, sustainably-designed personal care products for babies to adults through retail and ecommerce channels.",
+   "evidence": "Our Chief Executive Officer, as the chief operating decision maker, organizes the Company, manages resource allocations, and measures performance on the basis of one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from retailers and third-party ecommerce customers purchasing its products, and previously from consumers directly through Honest.com.",
+  "evidence": "We have retail partnerships with leading retailers that sell our products through brick and mortar stores and on their own websites."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company exited Honest.com fulfillment, apparel, and retail and online stores in Canada under its Powering Honest Growth initiative.",
+   "evidence": "Powering Honest Growth is aimed at improving simplicity, focus and profitability, which includes exiting certain lower margin, non-strategic categories and channels, including exiting Honest.com fulfillment and apparel, as well as exiting retail and online stores in Canada"
+  },
+  {
+   "text": "In 2023, the company executed a broad-based Transformation Initiative to build the brand and drive growth in higher-margin areas of the portfolio.",
+   "evidence": "In 2023, we executed a broad-based Transformation Initiative designed to build the Honest brand and drive growth in higher-margin areas of the portfolio, strengthen our cost structure, drive focus on the most productive areas of our business, deliver greater impact from brand-building investments, and improve executional excellence across the enterprise."
+  }
+ ],
+ "dropped": [
+  "product not in text (Personal care): personal care"
+ ]
+}

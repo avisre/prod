@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001619544",
+ "issuerName": "9F Inc.",
+ "builtAt": "2026-11-15T14:12:43.873Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050184",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1619544/000121390026050184/ea0285067-20f_9finc.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "E-commerce services",
+   "products": [],
+   "description": "Segment providing e-commerce services to customers in the PRC.",
+   "evidence": "The Group has three reportable segments: E-commerce services, technology Empowerment service and Wealth Management services."
+  },
+  {
+   "name": "technology Empowerment service",
+   "products": [],
+   "description": "Segment providing technology empowerment services to customers in the PRC.",
+   "evidence": "The Group has three reportable segments: E-commerce services, technology Empowerment service and Wealth Management services."
+  },
+  {
+   "name": "Wealth Management services",
+   "products": [],
+   "description": "Segment providing wealth management services to customers in the PRC.",
+   "evidence": "The Group has three reportable segments: E-commerce services, technology Empowerment service and Wealth Management services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

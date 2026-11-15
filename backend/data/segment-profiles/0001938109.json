@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001938109",
+ "issuerName": "PINEAPPLE FINANCIAL INC.",
+ "builtAt": "2026-11-15T14:16:32.015Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-025962",
+  "periodEnd": "2025-08-31",
+  "filingDate": "2025-12-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1938109/000149315225025962/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage technology and brokerage",
+   "products": [
+    "Brokerage Services",
+    "Pineapple+",
+    "MyPineapple",
+    "Mortgage Brokering",
+    "Back Office Support Services",
+    "Pre-Underwriting Support",
+    "Pineapple Insurance"
+   ],
+   "description": "Provides mortgage brokerage services and technology solutions to Canadian mortgage agents, brokers, brokerages and consumers.",
+   "evidence": "Pineapple Financial is a Canadian mortgage technology and brokerage company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns subscription fees from agents using the Platform, per-deal pre-underwriting fees, and commissions from lender partners on funded mortgages.",
+  "evidence": "Our revenue model is diversified across platform subscriptions, pre-risk assessment services and lender partner commissions."
+ },
+ "changes": [],
+ "dropped": []
+}

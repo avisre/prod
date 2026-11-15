@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001630212",
+ "issuerName": "CHANGE AGENTS CORPORATION",
+ "builtAt": "2026-11-15T14:12:51.734Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036474",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1630212/000121390026036474/ea0283138-10k_avalon.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Health Technology",
+   "products": [
+    "Keto Air breathalyzer device"
+   ],
+   "description": "Distributes a non-invasive consumer breathalyzer that measures ketosis levels, sold in North America with an FDA registration number.",
+   "evidence": "a consumer health technology segment, through which we distributes the Keto Air breathalyzer device — a non-invasive consumer breathalyzer that measures ketosis levels and is sold in North America, bearing an FDA registration number"
+  },
+  {
+   "name": "Artificial Intelligence Content Technology",
+   "products": [
+    "RPM platform"
+   ],
+   "description": "Develops and commercializes an AI-driven, short-form video generation platform for content creators, operated by Avalon Quantum AI, LLC.",
+   "evidence": "an artificial intelligence content technology segment, through which we develop and commercialize an AI-driven, short-form video generation platform operated by Avalon Quantum AI, LLC, our wholly owned subsidiary formed in connection with our acquisition of RPM Interactive, Inc. in December 2025"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells the Keto Air breathalyzer device directly to North American consumers, while the RPM platform is still in beta testing and not yet generating commercial revenue.",
+  "evidence": "The platform is currently in beta testing with a limited number of content creators."
+ },
+ "changes": [
+  {
+   "text": "In 2022 and 2023, the company wound down and divested all China-based cellular therapy operations.",
+   "evidence": "Beginning in 2022 and continuing through 2023, our Board of Directors determined to wind down our operations in the People's Republic of China and to divest all assets, subsidiaries, and relationships associated with our China-based activities."
+  },
+  {
+   "text": "In December 2025, the company acquired RPM Interactive, Inc., forming the artificial intelligence content technology segment.",
+   "evidence": "On December 15, 2025, we completed the acquisition of RPM Interactive, Inc. (\"RPM\"), a generative artificial intelligence software company, through a subsidiary merger whereby RPM merged with and into Avalon Quantum AI, LLC, a newly formed, wholly owned subsidiary of our company organized in the State of Nevada."
+  }
+ ],
+ "dropped": [
+  "product not in text (Artificial Intelligence Content Technology): AI-generated avatar videos",
+  "change not grounded: In February 2025, the company exited its 40% equity investment in Laboratory Ser"
+ ]
+}

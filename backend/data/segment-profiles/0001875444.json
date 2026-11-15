@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001875444",
+ "issuerName": "Arhaus, Inc.",
+ "builtAt": "2026-11-15T14:16:08.107Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001875444-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1875444/000187544426000010/arhs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Arhaus Consolidated",
+   "products": [
+    "furniture",
+    "outdoor",
+    "bath",
+    "lighting",
+    "textiles",
+    "décor"
+   ],
+   "description": "Premium home furnishings brand selling artisan-crafted, customizable furniture and décor to affluent clients through Showrooms and eCommerce.",
+   "evidence": "We operate our business as one operating segment and therefore we have one reportable segment that offers an assortment of merchandise across a number of categories, including furniture, outdoor, bath, lighting, textiles and décor."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net revenue from sales of merchandise to clients, primarily in the United States, through its Retail and eCommerce sales channels.",
+  "evidence": "The majority of our revenue is generated through sales to clients in the United States."
+ },
+ "changes": [],
+ "dropped": []
+}

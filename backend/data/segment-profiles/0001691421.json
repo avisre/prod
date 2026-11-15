@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001691421",
+ "issuerName": "Lemonade, Inc.",
+ "builtAt": "2026-11-15T14:13:35.913Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001691421-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1691421/000169142126000016/lmnd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "Renters insurance",
+    "Homeowners insurance",
+    "Pet insurance",
+    "Car insurance",
+    "Life insurance"
+   ],
+   "description": "Lemonade provides digital, AI-powered renters, homeowners, car, pet and life insurance to consumers in the United States and Europe.",
+   "evidence": "A brief chat with our bot, AI Maya, is all it takes to get covered with renters, homeowners, pet, car or life insurance, and we expect to offer a similar experience for other insurance products over time."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay recurring subscription-style insurance premiums, with volatility reduced through reinsurance and additional income from commissions on premiums placed with third-party insurers.",
+  "evidence": "Strong retention rates and a subscription-based model create highly-recurring and naturally-growing revenue streams, and provide visibility into our topline results."
+ },
+ "changes": [],
+ "dropped": []
+}

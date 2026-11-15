@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001434588",
+ "issuerName": "GRAND CANYON EDUCATION, INC.",
+ "builtAt": "2026-11-15T14:11:17.407Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017047",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1434588/000110465926017047/lope-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Education services",
+   "products": [
+    "Technology and academic services",
+    "Marketing and communication services",
+    "Back-office services",
+    "Counseling services and support",
+    "Skills and simulation lab sites",
+    "Financial aid services"
+   ],
+   "description": "Provides integrated technology, academic, marketing and back-office services to universities, most significantly Grand Canyon University, in return for a share of tuition and fees.",
+   "evidence": "The Company operates as a single education services company using a core infrastructure that serves the curriculum and educational delivery needs of its university partners."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "University partners pay GCE a percentage of their tuition and fee revenue under multi-year Services Agreements in exchange for technology, academic, marketing and back-office services.",
+  "evidence": "The Company generates all of its revenue through services agreements with its university partners (\"Services Agreements\"), pursuant to which the Company provides integrated technology and academic services, marketing and communication services, and back-office services to its university partners in return for a percentage of tuition and fee revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Education services): Halo Learning Management System",
+  "product not in text (Education services): Mosaic AI platform"
+ ]
+}

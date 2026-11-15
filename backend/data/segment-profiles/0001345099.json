@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001345099",
+ "issuerName": "MESOBLAST LIMITED",
+ "builtAt": "2026-11-15T14:10:36.685Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001345099-26-000081",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1345099/000134509926000081/meso-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Allogeneic cellular medicines",
+   "products": [
+    "Ryoncil (remestemcel-L-rknd)",
+    "Revascor (rexlemestrocel-L)",
+    "TEMCELL"
+   ],
+   "description": "Develops and commercializes allogeneic cellular medicines for patients with serious underserved conditions including SR-aGvHD, cardiovascular and inflammatory diseases.",
+   "evidence": "By these criteria, the activities of the Company are considered to be one segment being the development and commercialization of its allogeneic cellular medicines platform, and the segmental analysis is the same as the analysis for the Company as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mesoblast earns revenue from sales of its approved product Ryoncil to transplant centers, reimbursed by commercial and government payers including Medicaid and Medicare.",
+  "evidence": "Coverage for Ryoncil ® continues to expand with over 250 million US lives insured by commercial and government payers."
+ },
+ "changes": [],
+ "dropped": []
+}

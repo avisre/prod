@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001771007",
+ "issuerName": "AFYA LIMITED",
+ "builtAt": "2026-11-15T14:14:24.768Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1771007/000129281426002013/afyaform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Undergraduate",
+   "products": [
+    "undergraduate courses related to medical school",
+    "undergraduate health science",
+    "other ex-health undergraduate programs"
+   ],
+   "description": "Provides educational services through undergraduate medical school, health science and other ex-health undergraduate programs.",
+   "evidence": "Undergraduate, which provides educational services through undergraduate courses related to medical school, undergraduate health science and other ex-health undergraduate programs;"
+  },
+  {
+   "name": "Continuing Education",
+   "products": [
+    "residency preparation programs",
+    "specialization test preparation",
+    "graduate courses in medicine",
+    "digital and in-person content"
+   ],
+   "description": "Provides medical education, specialization and graduate courses in medicine delivered through digital and in-person content.",
+   "evidence": "Continuing Education, which provides medical education (including residency preparation programs, specialization test preparation and other medical capabilities), specialization and graduate courses in medicine, delivered through digital and in-person content;"
+  },
+  {
+   "name": "Medical Practice Solutions",
+   "products": [
+    "clinical decision",
+    "clinical management",
+    "doctor-patient relationships",
+    "subscription-based mobile app and website portal"
+   ],
+   "description": "Provides clinical decision, clinical management and doctor-patient relationship solutions for physicians and healthcare players.",
+   "evidence": "Medical Practice Solutions, which provides clinical decision, clinical management and doctor-patient relationships for physicians and provide access, demand and efficiency for the healthcare players."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students pay tuition fees for medical and other courses, and physicians and healthcare professionals pay subscriptions for digital medical practice services.",
+  "evidence": "Our revenue consists primarily of tuition fees charged for medical courses. We also generate revenue from tuition fees for other undergraduate and graduate courses, student fees, certain education-related activities, digital education content and subscription of digital services."
+ },
+ "changes": [],
+ "dropped": []
+}

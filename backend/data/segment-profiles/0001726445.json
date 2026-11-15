@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001726445",
+ "issuerName": "SEER, INC.",
+ "builtAt": "2026-11-15T14:13:59.408Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085481",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1726445/000119312526085481/ck0001726445-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Proteomics",
+   "products": [
+    "Proteograph Product Suite",
+    "Proteograph ONE assay",
+    "SP200 automation instrument",
+    "consumable assays",
+    "data analysis software"
+   ],
+   "description": "Provides researchers with unbiased, deep, rapid and large-scale access to the proteome through its Proteograph Product Suite.",
+   "evidence": "Through our product, the Proteograph® Product Suite (Proteograph), we provide researchers with unbiased, deep, rapid and large-scale access to the proteome, enabling biological discovery that has historically been impractical."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including academic institutions, biopharmaceutical companies, biobanks and clinical research organizations, pay for the Proteograph Product Suite of consumable assays, an automation instrument and data analysis software.",
+  "evidence": "The Proteograph Product Suite is a comprehensive solution consisting of consumable assays, an automation instrument, and data analysis software."
+ },
+ "changes": [],
+ "dropped": []
+}

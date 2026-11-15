@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001916241",
+ "issuerName": "ParaZero Technologies Ltd.",
+ "builtAt": "2026-11-15T14:16:25.297Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-034376",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1916241/000121390026034376/ea0282637-20f_parazero.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autonomous parachute safety systems technologies",
+   "products": [
+    "autonomous parachute safety systems",
+    "anti-drone solutions"
+   ],
+   "description": "Develops and sells autonomous parachute safety systems for commercial and military drone platforms and urban air mobility aircraft, plus counter-drone solutions.",
+   "evidence": "The Company has one reportable segment, as described in Note 1, specializing in the developments and sale pf autonomous parachute safety systems technologies for commercial and military platforms as well as for urban air mobility aircraft, as described in Note 1."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling its safety and counter-drone products to customers, including through reseller arrangements such as distribution on Amazon.",
+  "evidence": "On December 5, 2024, the Company entered into a reseller agreement with Jeffs' Brands Ltd. (Nasdaq: JFBR) (\"Jeffs' Brands\") to distribute, market and sell the Company's Products on Amazon."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Autonomous parachute safety systems technologies): counter-UAS (C-UAS) solutions"
+ ]
+}

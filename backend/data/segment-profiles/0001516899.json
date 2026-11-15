@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001516899",
+ "issuerName": "MAGNA HOLDINGS LTD.",
+ "builtAt": "2026-11-15T14:11:47.782Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-035684",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1516899/000149315226035684/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air Ticketing",
+   "products": [
+    "airline tickets",
+    "service fees"
+   ],
+   "description": "Sells airline tickets to retail, agent and corporate customers, earning commissions, service fees and GDS provider fees.",
+   "evidence": "We earn commissions from airlines for tickets booked by customers through our various channels of sales."
+  },
+  {
+   "name": "Hotels and Packages (including MICE)",
+   "products": [
+    "hotel rooms",
+    "packages",
+    "MICE",
+    "Travelguru"
+   ],
+   "description": "Sells hotel rooms and travel packages, including MICE, to retail, agent and corporate customers.",
+   "evidence": "Revenue from our Hotels and Packages business includes commissions and markups we earn for the sale of hotel rooms (without packages), which is recorded on a \"net\" basis."
+  },
+  {
+   "name": "Other Services",
+   "products": [
+    "rail tickets",
+    "bus tickets",
+    "Freight Forwarding Business"
+   ],
+   "description": "Provides rail and bus ticket sales and freight forwarding services as an agent.",
+   "evidence": "Revenue from other services primarily comprises of revenue from sale of rail and bus tickets and revenue from Freight Forwarding Business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay service fees and package prices while airlines, hotels and other suppliers pay commissions, incentives and markups, recognized net as agent or gross as principal.",
+  "evidence": "We either deduct commissions at the time of payment of the fare to our airline suppliers or collect our commissions on a regular basis from our airline suppliers, whereas incentive payments, which are largely based on volume of business, are collected from our airline suppliers on a periodic basis."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Air Ticketing): GDS incentive fees"
+ ]
+}

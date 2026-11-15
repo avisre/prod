@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001953926",
+ "issuerName": "Zenas BioPharma, Inc.",
+ "builtAt": "2026-11-15T14:16:43.429Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027964",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1953926/000110465926027964/zbio-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunology-based therapies",
+   "products": [
+    "obexelimab",
+    "orelabrutinib",
+    "ZB021",
+    "ZB022",
+    "ZB002",
+    "ZB004",
+    "ZB001"
+   ],
+   "description": "A clinical stage global biopharmaceutical company developing immunology-based therapies for patients with autoimmune diseases.",
+   "evidence": "The Company has one reportable segment focused on the research and development of precision immunology-based therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

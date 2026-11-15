@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001745916",
+ "issuerName": "PennyMac Financial Services, Inc.",
+ "builtAt": "2026-11-15T14:14:13.000Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018142",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926018142/pfsi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Production",
+   "products": [
+    "correspondent production",
+    "broker direct lending",
+    "consumer direct lending"
+   ],
+   "description": "Sources, originates, acquires and sells prime residential conventional and government-insured or guaranteed mortgage loans for the company and PMT.",
+   "evidence": "The production segment performs loan origination, acquisition and sale activities for our account as well as for PMT."
+  },
+  {
+   "name": "Servicing",
+   "products": [
+    "loan servicing",
+    "subservicing",
+    "early buyout transactions"
+   ],
+   "description": "Performs loan administration, collection and default management for loans held for sale, non-affiliate investors and PMT.",
+   "evidence": "The servicing segment performs servicing and subservicing of loans we are holding for sale and for non-affiliate investors, execution and management of early buyout transactions, and servicing of loans sourced and managed for PMT."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns loan origination fees, interest income, gains on loan sales, retained mortgage servicing rights, fulfillment fees, and net loan servicing fees from borrowers, correspondent sellers, PMT and other investors.",
+  "evidence": "In our correspondent production activities, for loans we source for our own account, we earn loan origination fees from the correspondent sellers, interest income on the loans during the time we hold such loans, gains or losses from the date we make a commitment to purchase the loans through the sale of these loans"
+ },
+ "changes": [],
+ "dropped": []
+}

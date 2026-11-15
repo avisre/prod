@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001932737",
+ "issuerName": "Robo.ai Inc.",
+ "builtAt": "2026-11-15T14:16:28.019Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050409",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1932737/000121390026050409/ea0287799-20f_roboaiinc.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Smart electric vehicles",
+   "products": [
+    "Rabdan One",
+    "Rabdan Five",
+    "Rabdan Seven",
+    "auto parts and materials"
+   ],
+   "description": "Designs, assembles and sells smart electric passenger vehicles and auto parts and materials to customers, primarily in the UAE and China.",
+   "evidence": "The Group operates in a single operating segment and has one reportable segment, which includes all activities related to the sales of smart electric vehicles and auto parts and materials."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from customers who purchase its smart electric vehicles and auto parts and materials.",
+  "evidence": "The Group operates in a single operating segment and has one reportable segment, which includes all activities related to the sales of smart electric vehicles and auto parts and materials."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company discontinued its Rabdan branded vehicle business after UAE authorities directed it to stop producing and selling Rabdan branded vehicles.",
+   "evidence": "In June 2024, the Company was notified by the same representative to refrain from selling any Rabdan branded vehicles within the UAE."
+  },
+  {
+   "text": "In February 2026, subsequent to the 2025 fiscal year, the Company agreed to dispose of its entire equity interest in ICONIQ Holding Limited for nominal consideration.",
+   "evidence": "Subsequent to the reporting period, on February 5, 2026, the Company entered into a share transfer agreement with Energy Plus Management Limited, pursuant to which the Company agreed to dispose of its entire equity interest in ICONIQ Holding Limited, representing 100 % of the issued and outstanding shares of ICONIQ Holding Limited, for a nominal consideration of US$ 1.00 ."
+  }
+ ],
+ "dropped": [
+  "product not in text (Smart electric vehicles): smart electric vehicles"
+ ]
+}

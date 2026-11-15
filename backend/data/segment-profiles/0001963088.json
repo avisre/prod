@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001963088",
+ "issuerName": "AtlasClear Holdings, Inc.",
+ "builtAt": "2026-11-15T14:16:49.143Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-044008",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1963088/000149315226044008/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Correspondent clearing",
+   "products": [
+    "Securities liquidations",
+    "Clearing services",
+    "Stock locate services",
+    "Fully paid stock lending",
+    "Margin accounts",
+    "Trading in equity securities for its own account"
+   ],
+   "description": "AtlasClearing is a correspondent securities broker-dealer providing clearing, securities liquidation, stock lending and margin services to small investors and introducing brokers.",
+   "evidence": "AtlasClearing is a correspondent securities broker-dealer registered with the SEC and a member in good standing of FINRA."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns commissions and vetting fees on securities liquidations, stock locate fees from broker-dealers, service charges for clearing services, and interest spreads on stock lending and margin accounts.",
+  "evidence": "It derives its revenue from the liquidation of restricted and control microcap securities; clearing transactions on behalf of an introducing broker-dealer on a fully disclosed basis; and trading in equity securities for its own account."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company acquired Wilson-Davis, now known as AtlasClearing, a correspondent clearing company, and Quantum FinTech Acquisition Corporation.",
+   "evidence": "Through our 2024 acquisitions of Wilson-Davis (now known as AtlasClearing, Inc. \"AtlasClearing\"), a correspondent clearing company, and Quantum FinTech Acquisition Corporation (\"Quantum\")"
+  }
+ ],
+ "dropped": []
+}

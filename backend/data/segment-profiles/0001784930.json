@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001784930",
+ "issuerName": "Mako Mining Corp.",
+ "builtAt": "2026-11-15T14:14:29.996Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-002209",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1784930/000106299326002209/exhibit99-2.htm",
+  "exhibit": "exhibit99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nicaragua",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Operates the San Albino Mine in Nicaragua, producing gold and silver for sale to refineries.",
+   "evidence": "The Company considers its San Albino Mine in Nicaragua, its Moss Mine in the United States and its Eagle Mountain Project in Guyana as its reportable segments."
+  },
+  {
+   "name": "USA",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Operates the Moss Mine in the United States, acquired in 2025, producing gold and silver.",
+   "evidence": "The Company considers its San Albino Mine in Nicaragua, its Moss Mine in the United States and its Eagle Mountain Project in Guyana as its reportable segments."
+  },
+  {
+   "name": "Guyana",
+   "products": [],
+   "description": "Holds the Eagle Mountain Project in Guyana, currently in exploration and evaluation with no revenue.",
+   "evidence": "The Company considers its San Albino Mine in Nicaragua, its Moss Mine in the United States and its Eagle Mountain Project in Guyana as its reportable segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells gold and silver to three refinery customers at spot market prices.",
+  "evidence": "For the year ended December 31, 2025, and 2024, the Company's principal product was gold ( 99 %) and silver ( 1 %) sold to refineries (three customers) at spot market prices."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired the Moss Mine from Wexford EGA, adding the USA segment.",
+   "evidence": "On March 27, 2025, the Company acquired the Moss Mine from Wexford EGA, an entity owned by Wexford."
+  }
+ ],
+ "dropped": []
+}

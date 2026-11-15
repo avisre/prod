@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001406587",
+ "issuerName": "FORESTAR GROUP INC.",
+ "builtAt": "2026-11-15T14:11:00.872Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-053125",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1406587/000162828025053125/for-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "finished single-family residential lots",
+    "lot banking",
+    "land banking",
+    "multifamily sites"
+   ],
+   "description": "Develops land into finished single-family residential lots and sells them to local, regional and national homebuilders.",
+   "evidence": "We manage our operations through our real estate segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuilders, primarily D.R. Horton under a Master Supply Agreement, pay Forestar for finished residential lots sold at market prices and terms.",
+  "evidence": "Under the terms of the Master Supply Agreement, we supply finished lots to D.R. Horton at market terms offered by Forestar and both companies identify land development opportunities to expand our portfolio of assets."
+ },
+ "changes": [],
+ "dropped": []
+}

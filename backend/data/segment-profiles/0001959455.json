@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001959455",
+ "issuerName": "Himalaya Shipping Ltd.",
+ "builtAt": "2026-11-15T14:16:46.913Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001959455-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1959455/000195945526000024/hshp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dry bulk shipping",
+   "products": [
+    "dry bulk vessels",
+    "time charter contracts"
+   ],
+   "description": "Operates a fleet of twelve dry bulk vessels on worldwide time charters for commodity trading, energy transition and transport customers.",
+   "evidence": "We have one reportable segment as our chief operating decision maker (\"CODM\"), being our Board of Directors, measures performance based on our overall return to shareholders based on consolidated net income as reported in our Consolidated Statements of Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company time charter hire under fixed rate or variable rate contracts, with variable rates based on the Capesize Index plus a premium and scrubber and LNG benefits.",
+  "evidence": "Under the variable rate contracts, the Company earns revenues based on the Capesize Index published by the Baltic Exchange plus a premium which varies depending on contract terms."
+ },
+ "changes": [],
+ "dropped": []
+}

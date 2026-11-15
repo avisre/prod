@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001828253",
+ "issuerName": "Evaxion A/S",
+ "builtAt": "2026-11-15T14:15:12.088Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-26-001346",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828253/000117184326001346/evax20251231_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vaccine development",
+   "products": [
+    "AI-Immunology™",
+    "EVX-01",
+    "EVX-03",
+    "EVX-04",
+    "EVX-B2",
+    "EVX-B3",
+    "EVX-B4"
+   ],
+   "description": "A TechBio company using its proprietary AI-Immunology™ platform to develop novel vaccines for cancer and infectious diseases for patients with high unmet medical needs.",
+   "evidence": "The Company does not divide its operations into different segments and the CODM operates and manages the Company's entire operations as one segment, which is consistent with the Company's internal organization and reporting system."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Evaxion earns revenue through partnerships and license agreements with pharmaceutical companies around its AI-Immunology™ platform and pipeline vaccine candidates.",
+  "evidence": "Existing partnerships include a license agreement with Merck & Co., Inc., Rahway, NJ, USA (MSD), the world leader in vaccine development and commercialization, on EVX-B3, a vaccine candidate against an undisclosed bacterial pathogen."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company changed its legal name from Evaxion Biotech A/S to Evaxion A/S.",
+   "evidence": "April 20, 2025, our legal name changed from Evaxion Biotech A/S to Evaxion A/S."
+  }
+ ],
+ "dropped": []
+}

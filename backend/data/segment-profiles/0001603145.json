@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001603145",
+ "issuerName": "XPLR INFRASTRUCTURE, LP",
+ "builtAt": "2026-11-15T14:12:33.989Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001603145-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1603145/000160314526000007/xplr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clean energy",
+   "products": [
+    "wind projects",
+    "solar projects",
+    "solar-plus-storage projects",
+    "battery storage projects"
+   ],
+   "description": null,
+   "evidence": "XPLR's single reportable segment, through its ownership interest in XPLR OpCo, has a partial ownership interest in clean energy infrastructure assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "XPLR derives revenues primarily from various non-affiliated parties under long-term power purchase agreements selling the output and related renewable energy attributes of its projects.",
+  "evidence": "XPLR's reportable segment derives revenues primarily from various non-affiliated parties under long-term PPAs."
+ },
+ "changes": [
+  {
+   "text": "In September 2025, XPLR completed the sale of its ownership interests in Meade Pipeline Co, LLC, which owned natural gas pipeline assets in Pennsylvania.",
+   "evidence": "In September 2025, indirect subsidiaries of XPLR completed the sale of their ownership interests in Meade Pipeline Co, LLC (Meade), which owned an investment in natural gas pipeline assets in Pennsylvania (Meade pipeline investment)."
+  },
+  {
+   "text": "In December 2023, XPLR sold its interests in a portfolio of seven natural gas pipeline assets in Texas.",
+   "evidence": "In December 2023, XPLR sold its interests in a portfolio of seven natural gas pipelines assets in Texas (Texas pipelines)."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In January 2023, a subsidiary of XPLR completed the sale of a 62 MW wind project"
+ ]
+}

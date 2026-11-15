@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001870144",
+ "issuerName": "Cardio Diagnostics Holdings, Inc.",
+ "builtAt": "2026-11-15T14:16:02.124Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001553350-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1870144/000155335026000023/cdio_10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product testing",
+   "products": [
+    "Epi+Gen CHD",
+    "PrecisionCHD",
+    "CardioInnovate360",
+    "HeartRisk"
+   ],
+   "description": "Develops and commercializes AI-driven epigenetic and genetic clinical blood tests for cardiovascular disease risk assessment and detection.",
+   "evidence": "the Company has determined that the Company has one operating segment (product testing) as defined by ASC Topic 280 \"Segment Reporting\"."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Provider organizations, patients, and employers pay for cardiovascular blood tests, generally charged for tests utilized for the minimum committed test volume with pricing varying by organization type, size and volume.",
+  "evidence": "The tests can be paid for by provider organizations, patients, and/or employers."
+ },
+ "changes": [],
+ "dropped": []
+}

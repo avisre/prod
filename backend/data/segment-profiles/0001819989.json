@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001819989",
+ "issuerName": "Cipher Digital Inc.",
+ "builtAt": "2026-11-15T14:15:01.077Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001819989-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin Mining",
+   "products": [
+    "power sales"
+   ],
+   "description": "Operates bitcoin mining data centers in Texas to produce bitcoin for revenue, with power sales as an additional item.",
+   "evidence": "The Company currently has one operating segment , Bitcoin Mining, which through operations produce bitcoin to generate revenue."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by mining bitcoin at its data centers and selling it, plus power sales.",
+  "evidence": "The Company currently has one operating segment , Bitcoin Mining, which through operations produce bitcoin to generate revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company expects to add a segment for construction of data centers for HPC tenants once leases commence operations.",
+   "evidence": "In future periods, the Company expects to have an additional segment related to construction of data centers for HPC tenants when leases for those data centers commence operations."
+  }
+ ],
+ "dropped": [
+  "product not in text (Bitcoin Mining): bitcoin mining"
+ ]
+}

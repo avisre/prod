@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001759631",
+ "issuerName": "HYLIION HOLDINGS CORP.",
+ "builtAt": "2026-11-15T14:14:18.914Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011278",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1759631/000162828026011278/hyln-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power generation",
+   "products": [
+    "KARNO Power Module",
+    "KARNO Core",
+    "R&D services"
+   ],
+   "description": "Designs and develops fuel-agnostic power generators for stationary and mobile applications and provides R&D services, targeting datacenter, commercial, industrial and defense sectors.",
+   "evidence": "Hyliion Holdings Corp. is a Delaware corporation headquartered in Cedar Park, Texas, with research and development (\"R&D\") facilities in Cincinnati, Ohio, that designs and develops power generators for stationary and mobile applications and provides R&D services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling KARNO Power Modules and from R&D services performed under contracts with the United States government.",
+  "evidence": "Under the agreement, the Company will provide R&D services through July 2026 with an option to extend through July 2027, including design reviews, simulations, and reporting."
+ },
+ "changes": [
+  {
+   "text": "In recent years the company wound down its powertrain operations and shifted focus to the KARNO Power Module.",
+   "evidence": "After the previously-announced wind down of our powertrain operations, we shifted our focus to the development and commercialization of the KARNO Power Module as a standalone product targeting power generation and e-mobility markets, and related R&D services that we have undertaken pursuant to contracts with the United States government."
+  }
+ ],
+ "dropped": []
+}

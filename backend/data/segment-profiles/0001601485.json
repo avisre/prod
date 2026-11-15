@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001601485",
+ "issuerName": "Elicio Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:31.097Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001601485-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1601485/000160148526000027/angn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biotechnology",
+   "products": [
+    "ELI-002 7P",
+    "ELI-002 2P",
+    "ELI-007",
+    "ELI-008",
+    "ELI-004 (Amph-CpG-7909)",
+    "AMP technology"
+   ],
+   "description": "Develops lymph node-targeted, off-the-shelf cancer immunotherapies for patients with mKRAS-positive and other mutation-driven solid tumors.",
+   "evidence": "The Company operates as a single operating and reportable segment, reflecting the integrated nature of the Company's business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001883437",
+ "issuerName": "EPSIUM ENTERPRISE LIMITED",
+ "builtAt": "2026-11-15T14:16:12.013Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-049163",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1883437/000121390026049163/ea0286760-20f_epsium.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alcoholic beverages",
+   "products": [
+    "Chinese liquors",
+    "Western liquors",
+    "luxury alcoholic beverages"
+   ],
+   "description": "Imports and sells Chinese and Western liquors with prestigious and popular brands, largely to Chinese tourists, in Macau.",
+   "evidence": "The Operating Entity imports and sells Chinese and Western liquors with prestigious and popular brands."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling imported Chinese and Western liquors to customers, with two-thirds of sales from Chinese liquor manufactured in China.",
+  "evidence": "Two-thirds of our sales came from the sale of Chinese liquor manufactured in China and, we believe, a big portion of the products we sell are ultimately sold to Chinese tourists, thus we are especially susceptible to risks relating to China."
+ },
+ "changes": [],
+ "dropped": []
+}

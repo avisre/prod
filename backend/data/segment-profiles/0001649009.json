@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001649009",
+ "issuerName": "CORE AI HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:13:08.520Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-023908",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649009/000149315226023908/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Core Gaming",
+   "products": [
+    "casual games",
+    "mobile applications",
+    "BI platform"
+   ],
+   "description": null,
+   "evidence": "Core Gaming is focused on the development, distribution, and monetization of casual games, which are delivered as apps for mobile phones, and generates revenue through the display of ads in the games."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from advertising platforms that pay based on the number of completed actions or advertisements displayed in its games.",
+  "evidence": "The Group generates its revenue through publishing advertisements on various advertising platforms."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Core Gaming via a merger and renamed itself from Siyata Mobile Inc. to Core AI Holdings, Inc.",
+   "evidence": "On October 3, 2025 the Company closed the merger (the \"Merger\") contemplated by the Amended and Restated Merger Agreement (the \"A&R Merger Agreement\") by and among the Company, Core Gaming, and Siyata Core Acquisition U.S., Inc."
+  },
+  {
+   "text": "In 2025, the company divested the Siyata Push-To-Talk hardware business, which is reported as a discontinued operation.",
+   "evidence": "On December 29, 2025, the Group completed the divestiture of its mobile hardware business unit (the 'Siyata subsidiary')."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001854270",
+ "issuerName": "Senti Biosciences Holdings, Inc.",
+ "builtAt": "2026-11-15T14:15:52.215Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021580",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1854270/000162828026021580/snti-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no products approved for sale and has never generated revenue from product sales; it relies on grants, collaborations and financing.",
+  "evidence": "We currently have no products approved for sale, and we have never generated any revenue from the sale of any products."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Research and development of gene circuit platform"
+ ]
+}

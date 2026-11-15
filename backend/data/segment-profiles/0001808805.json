@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001808805",
+ "issuerName": "NAUTILUS BIOTECHNOLOGY, INC.",
+ "builtAt": "2026-11-15T14:14:48.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001808805-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1808805/000180880526000011/naut-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company plans to charge select Early Access Program customers for standardized applications delivered through its Nautilus Proteomics Analysis Services, but has not yet generated significant revenue.",
+  "evidence": "This program provides select customers with standardized applications delivered through our \"Nautilus Proteomics Analysis Services\", allowing us to broaden engagement, generate reference datasets, refine workflows, and build commercial momentum while maintaining a high level of scientific and operational control."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Proteomics platform development"
+ ]
+}

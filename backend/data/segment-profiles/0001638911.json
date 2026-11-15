@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001638911",
+ "issuerName": "DUKE Robotics Corp.",
+ "builtAt": "2026-11-15T14:12:55.631Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-026927",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1638911/000121390026026927/ea0279194-10k_duke.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Revenues from civil applications segment",
+   "products": [
+    "Insulator Cleaning Drone (IC Drone)",
+    "AEROTRACE™"
+   ],
+   "description": "Provides drone-based insulator cleaning and aerial monitoring services for critical electric utility infrastructure, primarily for the Israel Electric Corporation in Israel and Europe.",
+   "evidence": "The Company has one operating and reportable segment, drone insulators washing activity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns service revenue from utilities, mainly the Israel Electric Corporation, under commercial agreements for insulator cleaning using the IC Drone, plus royalties and commissions from Elbit on sales of the stabilized weapons drone system.",
+  "evidence": "We are entitled to royalties from sales of this system in accordance with the terms of the agreement."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company renamed its single reportable segment from 'Revenue from drones insulators washing' to 'Revenues from civil applications segment' with no change in composition.",
+   "evidence": "The Company refined the name of the segment previously referred to as 'Revenue from drones insulators washing' to 'Revenues from civil applications segment' to better reflect its nature."
+  }
+ ],
+ "dropped": [
+  "product not in text (Revenues from civil applications segment): Insulator Cleaning Drone System 2 (ICDS2)"
+ ]
+}

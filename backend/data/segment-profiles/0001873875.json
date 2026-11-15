@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001873875",
+ "issuerName": "Incannex Healthcare Inc.",
+ "builtAt": "2026-11-15T14:16:05.537Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-063506",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1873875/000162828026063506/ixhl-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "R&D of the use of psychedelic medicine and drug therapies",
+   "products": [
+    "IHL-42X",
+    "PSX-001",
+    "IHL-675A"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing oral fixed-dose combination therapies and psychedelic-assisted treatments for serious chronic conditions.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the R&D of the use of psychedelic medicine and drug therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

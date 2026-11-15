@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001357874",
+ "issuerName": "PRECISION BIOSCIENCES INC",
+ "builtAt": "2026-11-15T14:10:39.729Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1357874/000162828026017019/dtil-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gene editing therapies",
+   "products": [
+    "ARCUS platform",
+    "PBGENE-HBV",
+    "PBGENE-DMD",
+    "PBGENE-3243",
+    "ECUR-506"
+   ],
+   "description": "A clinical stage gene editing company developing in vivo gene editing therapies for genetic and infectious diseases using the proprietary ARCUS platform.",
+   "evidence": "The Company's CODM, the Chief Executive Officer, views the Company's operations as one operating segment, which includes the discovery and development of therapies utilizing our novel proprietary ARCUS platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no product sales revenue and instead earns revenue from license and collaboration agreements, including upfront payments and royalties on net sales of licensed products.",
+  "evidence": "The Company has not generated any revenue from product sales to date and expects to incur significant expenses and operating losses for the foreseeable future as it advances product candidates through development and clinical trials."
+ },
+ "changes": [],
+ "dropped": []
+}

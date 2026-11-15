@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001834026",
+ "issuerName": "Gold Royalty Corp.",
+ "builtAt": "2026-11-15T14:15:20.188Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-114767",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1834026/000119312526114767/groy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Royalties, streaming and similar interests",
+   "products": [
+    "royalties",
+    "streaming interests"
+   ],
+   "description": "Invests in gold-focused royalty, streaming and similar interests on mining properties operated by third parties.",
+   "evidence": "The Company conducts its business as a single operating segment, being the investment in royalties, streaming and similar interests."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from mine operators under royalty and streaming interests, tied to metal production and prices, and from selling streamed commodities to third-party customers.",
+  "evidence": "For streaming interests, revenue recognition occurs when the relevant commodity received from the stream operator is transferred by the Company to its third-party customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Royalties, streaming and similar interests): net smelter return (NSR) royalties",
+  "product not in text (Royalties, streaming and similar interests): gross revenue (GRR) royalties",
+  "product not in text (Royalties, streaming and similar interests): net profit interest (NPI) royalties"
+ ]
+}

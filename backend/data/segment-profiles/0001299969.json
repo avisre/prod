@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001299969",
+ "issuerName": "Comstock Holding Companies, Inc.",
+ "builtAt": "2026-11-15T14:10:23.587Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018409",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1299969/000162828026018409/chci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate services",
+   "products": [
+    "Asset management",
+    "Property management",
+    "Development and construction management",
+    "Leasing and marketing"
+   ],
+   "description": "Comstock is an asset manager, developer, and operator of mixed-use, transit-oriented properties in the Washington, D.C. region, serving institutional investors, family offices, financial institutions, and governmental…",
+   "evidence": "the Company views its operations and manages its business as one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns recurring, fee-based revenue from asset-owning clients under long-term asset management and property management agreements, including a cost-plus fee structure with affiliate Comstock Partners, LC.",
+  "evidence": "We primarily operate under long-term asset management and property management agreements that provide recurring, fee-based revenue streams."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Real estate services): ParkX parking and security services"
+ ]
+}

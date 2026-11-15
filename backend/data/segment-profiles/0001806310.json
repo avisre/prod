@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001806310",
+ "issuerName": "Taysha Gene Therapies, Inc.",
+ "builtAt": "2026-11-15T14:14:45.779Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115202",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1806310/000119312526115202/tsha-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gene therapy",
+   "products": [
+    "TSHA-102"
+   ],
+   "description": "Develops AAV-based gene therapies for the treatment of rare monogenic diseases of the central nervous system.",
+   "evidence": "The Company views its operations and manages its business as a single operating segment, the gene therapy segment, which is the business of developing AAV-based gene therapies for the treatment of rare monogenic diseases of the central nervous system."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives revenue solely from the Astellas Agreements, which include an exclusive option to license intellectual property and performance of research and development activities.",
+  "evidence": "The gene therapy segment derives revenue solely from the Astellas Agreements (see Note 7)."
+ },
+ "changes": [],
+ "dropped": []
+}

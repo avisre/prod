@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001828673",
+ "issuerName": "HCW Biologics Inc.",
+ "builtAt": "2026-11-15T14:15:12.611Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134934",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828673/000119312526134934/hcwb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life science",
+   "products": [
+    "HCW9302",
+    "HCW11-018b",
+    "HCW11-040",
+    "HCW11-006",
+    "HCW9206",
+    "HCW9201",
+    "TOBI™ platform",
+    "TRBC platform"
+   ],
+   "description": "Discovers and develops novel fusion immunotherapies for autoimmune, proinflammatory, cancer and senescence-associated diseases, plus commercial-ready reagents for immunotherapeutic production.",
+   "evidence": "HCW Biologics, Inc. has one reportable segment: life science."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

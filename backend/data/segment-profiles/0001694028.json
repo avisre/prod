@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001694028",
+ "issuerName": "Liberty Energy Inc.",
+ "builtAt": "2026-11-15T14:13:37.463Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001694028-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1694028/000169402826000006/lbrt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Hydraulic fracturing",
+    "Wireline services",
+    "Proppant delivery solutions",
+    "Sand mines",
+    "Natural gas compression and delivery"
+   ],
+   "description": "Provides integrated completions services and related technologies, including hydraulic fracturing, wireline, proppant delivery and distributed power, to onshore oil and gas E&P companies.",
+   "evidence": "Our operations are organized into a single business segment, which consists of completions services, including hydraulic fracturing, wireline, proppant delivery and goods, including our Permian Basin sand mines, and natural gas compression and delivery, and we have one reportable geographical segment, North America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas E&P companies pay Liberty for completions services such as hydraulic fracturing, wireline, proppant delivery, sand, and natural gas fueling, plus distributed power solutions for commercial, industrial and data center customers.",
+  "evidence": "We offer customers completions services, which include hydraulic fracturing together with complementary services including wireline services, proppant delivery solutions, field gas processing and treating, compressed natural gas (\"CNG\") delivery, data analytics, related goods (including our sand mine operations), and technologies to facilitate lower emission completions, thereby helping our customers reduce their emissions profile."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Liberty expanded into the distributed power business through LPI and acquired IMG Energy Solutions.",
+   "evidence": "In January 2025, we announced LPI's expansion into the distributed power business."
+  }
+ ],
+ "dropped": [
+  "product not in text (North America): Distributed power and energy storage solutions (LPI)",
+  "product not in text (North America): PropConnect™ logistics software"
+ ]
+}

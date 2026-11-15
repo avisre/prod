@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001770236",
+ "issuerName": "MOVING iMAGE TECHNOLOGIES INC.",
+ "builtAt": "2026-11-15T14:14:23.543Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-031299",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1770236/000143774926031299/mitq20260630_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from customers from equipment sales upon shipment, installation services upon completion, and software subscription fees recognized over the contract term.",
+  "evidence": "Revenue from the sale of equipment is recognized upon shipment of such equipment to customers and performance conditions are satisfied."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the company purchased QSC's Digital Cinema Speaker Series loudspeaker product line and related assets.",
+   "evidence": "On October 31, 2025, Moving iMage Technologies, Inc. (the \"Company\") entered into an Asset Purchase Agreement with QSC, LLC."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Cinema technology products and services"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001383414",
+ "issuerName": "PENNANTPARK INVESTMENT CORP",
+ "builtAt": "2026-11-15T14:10:51.555Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-293703",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1383414/000119312525293703/pnnt-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Company",
+   "products": [
+    "first lien secured debt",
+    "second lien secured debt",
+    "subordinated debt",
+    "equity investments"
+   ],
+   "description": "A business development company generating current income and capital appreciation through debt and equity investments in U.S. middle-market companies.",
+   "evidence": "PennantPark Investment Corporation is a BDC whose objectives are to generate both current income and capital appreciation while seeking to preserve capital through debt and equity investments primarily made to U.S. middle-market companies in the form of first lien secured debt, second lien secured debt, subordinated debt and equity investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

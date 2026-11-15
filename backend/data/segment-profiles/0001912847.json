@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001912847",
+ "issuerName": "United Maritime Corp",
+ "builtAt": "2026-11-15T14:16:24.302Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-013851",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1912847/000114036126013851/ef20060832_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shipping",
+   "products": [],
+   "description": "The company operates a fleet of vessels that carry dry bulk and other cargoes, including coal, for charterers worldwide under charter arrangements.",
+   "evidence": "the Company had determined that it had only one operating and reportable segment and has identified the Chairman and Chief Executive Officer as the CODM in accordance with ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company charter revenues for employing its vessels, with revenues evaluated by revenue per day rather than by charter type or customer.",
+  "evidence": "The Company reports financial information and evaluates its operations by total charter revenues and not by the length of vessel employment, customer, type of charter or geographical area as the charterer is free to trade the vessel worldwide and as a result, the disclosure of geographic information is impracticable."
+ },
+ "changes": [],
+ "dropped": []
+}

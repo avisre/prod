@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001783328",
+ "issuerName": "TSCAN THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:14:29.339Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-089884",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1783328/000119312526089884/tcrx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TCR-T Therapies",
+   "products": [
+    "TSC-101",
+    "TSC-102-A01",
+    "TSC-102-A03",
+    "multiplex TCR-T therapy candidates",
+    "in vivo engineering platform",
+    "target discovery platform"
+   ],
+   "description": "A clinical-stage biotechnology company developing TCR-engineered T cell therapies for patients with cancer and autoimmune disorders.",
+   "evidence": "The Company is focused on the development of T cell receptor (TCR)-engineered T cell (TCR-T) therapies for the treatment of patients with cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns collaboration and license revenue from partners such as Amgen, which paid an upfront fee and may pay milestones and royalties for targets discovered.",
+  "evidence": "Under the terms of the agreement, we received a $30.0 million upfront payment and is eligible to earn success-based milestone payments of over $500 million, based upon the achievement of certain development and commercial milestones as well as tiered single-digit royalty payments on net sales of products developed from the collaboration."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company paused further enrollment in its solid tumor Phase 1 trial "
+ ]
+}

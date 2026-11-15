@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001819928",
+ "issuerName": "DoubleVerify Holdings, Inc.",
+ "builtAt": "2026-11-15T14:15:00.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020499",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819928/000110465926020499/dv-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Media effectiveness platform",
+   "products": [
+    "DV Authentic Ad",
+    "DV Pinnacle"
+   ],
+   "description": "Provides AI-driven media effectiveness and digital ad measurement analytics to global advertisers across digital channels.",
+   "evidence": "The Company operates in one single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay the company a Measured Transaction Fee based on the volume of media transactions its solutions measure.",
+  "evidence": "We generate revenue from our advertising customers based on the volume of media transactions, or ads, that our solutions measure (\"Media Transactions Measured\"), for which we receive an analysis fee (\"Measured Transaction Fee\")"
+ },
+ "changes": [],
+ "dropped": []
+}

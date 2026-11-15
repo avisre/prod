@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001576942",
+ "issuerName": "STITCH FIX, INC.",
+ "builtAt": "2026-11-15T14:12:17.717Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-063365",
+  "periodEnd": "2026-08-01",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1576942/000162828026063365/sfix-20260801.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay for merchandise they keep from a Fix or buy directly via Freestyle, plus a styling fee per Fix or an annual Style Pass fee, both credited toward purchases.",
+  "evidence": "We charge clients a styling fee of $20 for each Fix, which is credited toward any merchandise purchased."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, the company ceased operations of its UK business, which is reported as a discontinued operation.",
+   "evidence": "During the first quarter of fiscal 2024, we ceased operations of our UK business and the accounting requirements for reporting the UK business as a discontinued operation were met."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Merchandise sales"
+ ]
+}

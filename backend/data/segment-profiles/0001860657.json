@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001860657",
+ "issuerName": "Allarity Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:16:00.229Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010310",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1860657/000143774926010310/allr20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision medicine",
+   "products": [
+    "Stenoparib",
+    "Stenoparib-DRP® companion diagnostic",
+    "DRP® platform"
+   ],
+   "description": "Clinical-stage precision medicine pharmaceutical company developing the anti-cancer drug stenoparib and its DRP companion diagnostic for ovarian cancer patients.",
+   "evidence": "The Company operates as a single operating and reporting segment, reflecting our sole focus in developing a treatment for ovarian cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for DRP gene expression signature services, plus up-front license fees, milestone payments and royalties under collaboration and out-licensing agreements.",
+  "evidence": "Revenue primarily consists of services performed using our novel DRP platform."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company terminated all other assets, including dovitinib, Irofulven and LiPlaCis, to focus solely on stenoparib.",
+   "evidence": "All other assets including dovitinib, Irofulven and LiPlaCis, were terminated and are no longer part of our portfolio."
+  },
+  {
+   "text": "In 2024, Novartis terminated the license agreement, and the company ceased all development and commercialization activities with respect to all licensed products.",
+   "evidence": "On January 26, 2024, the Company received a termination notice from Novartis due to a material breach of the Original Agreement."
+  }
+ ],
+ "dropped": []
+}

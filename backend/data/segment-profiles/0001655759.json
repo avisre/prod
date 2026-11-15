@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001655759",
+ "issuerName": "ARVINAS, INC.",
+ "builtAt": "2026-11-15T14:13:15.133Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011226",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1655759/000162828026011226/arvn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Protein degradation therapies",
+   "products": [
+    "vepdegestrant",
+    "ARV-102",
+    "ARV-806",
+    "ARV-393",
+    "ARV-027",
+    "ARV-6723",
+    "pan-KRAS degrader"
+   ],
+   "description": "A clinical-stage biotechnology segment developing PROTAC protein degrader therapies for patients with oncology and neurology diseases.",
+   "evidence": "The Company's operations are organized into one operating and reportable segment focused on the discovery, development and commercialization of therapies that degrade disease-causing proteins."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from pharmaceutical partners through research collaborations and licensing arrangements, including upfront fees, research and development payments, milestones and royalties.",
+  "evidence": "The operating segment's revenue is primarily generated through research collaborations and licensing arrangements with pharmaceutical partners."
+ },
+ "changes": [],
+ "dropped": []
+}

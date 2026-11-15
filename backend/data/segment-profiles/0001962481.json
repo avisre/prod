@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001962481",
+ "issuerName": "BranchOut Food Inc.",
+ "builtAt": "2026-11-15T14:16:48.846Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014040",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1962481/000149315226014040/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sales operations in the United States",
+   "products": [
+    "BranchOut branded snacks",
+    "Private label products",
+    "Industrial ingredients"
+   ],
+   "description": "Sells dehydrated fruit and vegetable snacks and ingredients to U.S. retail, private-label and food-manufacturing customers.",
+   "evidence": "The Company has two components, consisting of its sales operations in the United States, and its production operations in Peru."
+  },
+  {
+   "name": "Production operations in Peru",
+   "products": [
+    "Dehydrated fruit and vegetable snacks",
+    "Dehydrated fruit and vegetable ingredients"
+   ],
+   "description": "Manufactures dehydrated fruit and vegetable products at the Peru Facility for export to the United States.",
+   "evidence": "The Company has two components, consisting of its sales operations in the United States, and its production operations in Peru."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by large national retail customers (such as Costco and Walmart), private-label retailers and food manufacturers for its branded snacks, private-label products and industrial ingredients, generally under purchase orders and program-based arrangements.",
+  "evidence": "We sell our products primarily through large national retail customers in the United States, including Costco and Walmart, with additional limited sales through private-label and ingredient customers."
+ },
+ "changes": [],
+ "dropped": []
+}

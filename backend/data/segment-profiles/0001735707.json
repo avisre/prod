@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001735707",
+ "issuerName": "Garrett Motion Inc.",
+ "builtAt": "2026-11-15T14:14:05.807Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001735707-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1735707/000173570726000009/gtx-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Garrett derives revenue from sales of turbocharging, air and fluid compression and high-speed electric motor technologies to OEMs and distributors in the mobility and industrial space.",
+  "evidence": "The Company derives revenues from customers through sales of air and fluid compression and high-speed electric motor technologies for OEMs and distributors within the mobility and industrial space."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company divested its equity interest in an unconsolidated joint venture.",
+   "evidence": "On April 3, 2024, the Company divested its equity interest in an unconsolidated joint venture for approximately $ 58 million, subject to customary debt and working capital adjustments."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Turbocharging and compression technologies"
+ ]
+}

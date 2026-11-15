@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001976695",
+ "issuerName": "Mobile-health Network Solutions",
+ "builtAt": "2026-11-15T14:16:55.578Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-049341",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1976695/000149315226049341/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telemedicine and other services",
+   "products": [
+    "MaNaDr platform",
+    "teleconsultation services"
+   ],
+   "description": "Provides telehealth and teleconsultation services to users through its MaNaDr platform across Singapore and the APAC region.",
+   "evidence": "The Company has determined that it has two operating segments as follows: 1. Telemedicine and other services"
+  },
+  {
+   "name": "Sale of medicine and medical devices",
+   "products": [
+    "MaNaShop",
+    "MaNaPharma",
+    "medicines",
+    "health supplements",
+    "medical devices"
+   ],
+   "description": "Sells medicines, health supplements and medical devices to customers through its MaNaShop and MaNaPharmacy businesses.",
+   "evidence": "2. Sale of medicine and medical devices"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users pay the company for teleconsultation and other services and for medicines and products, with product revenue recognized on a gross basis for inventory it sells and on a net basis for online marketplace sales facilitated for vendors.",
+  "evidence": "Revenue from sale of these products is recognized on a net basis upon delivery of the medicines or products to the customers."
+ },
+ "changes": [],
+ "dropped": []
+}

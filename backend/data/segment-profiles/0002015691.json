@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0002015691",
+ "issuerName": "Elong Power Holding Ltd.",
+ "builtAt": "2026-11-15T14:17:17.795Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-018104",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2015691/000149315226018104/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy storage",
+   "products": [
+    "battery energy storage systems",
+    "lithium-battery energy storage systems",
+    "energy storage batteries"
+   ],
+   "description": "Develops and sells high-power, large-capacity lithium-battery energy storage systems for commercial electric vehicles, specialty vehicles and other scenarios.",
+   "evidence": "The Company operates as one operating segment in accordance with ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for battery energy storage products sold, with revenue recognized upon customer acceptance of the products.",
+  "evidence": "Revenue is recognized at the point in time upon the customer's acceptance of products, which is when control of the promised goods is transferred to the customers, in an amount that reflects the consideration the Company expects to be entitled to for the products sold."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Company sold Elong Power International Co., Limited and its subsidiaries, exiting battery cell and battery pack sales to focus on energy storage systems.",
+   "evidence": "On March 17, 2026, Elong and Elong Power International Co., Limited (\"Elong BVI\") entered into an Equity Transfer Agreement with a non-affiliated third party (the \"Buyer\"), pursuant to which the Company agreed to sell to the Buyer 100% equity interest in Elong BVI, at a purchase price of $10,000."
+  },
+  {
+   "text": "In 2025, the Company transitioned from manufacturing lithium-ion batteries to a specialized developer and seller of lithium-battery energy storage systems.",
+   "evidence": "The Company has commenced new business operations and transitioned into a specialized developer and seller of lithium-battery energy storage systems since 2025."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001673743",
+ "issuerName": "Hinge Health, Inc.",
+ "builtAt": "2026-11-15T14:13:26.577Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013808",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1673743/000162828026013808/hnge-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital MSK Care",
+   "products": [
+    "Chronic program",
+    "Enso",
+    "HingeConnect",
+    "TrueMotion",
+    "HingeSelect",
+    "women's pelvic health",
+    "fall prevention program"
+   ],
+   "description": "Provides AI-powered digital musculoskeletal care, exercise therapy, wearables and care-team support to members of self-insured employers, health plans and government plans.",
+   "evidence": "The Company operates in one operating segment and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients, primarily self-insured employers and health plans, pay subscription fees for access to the company's MSK care platform for their contracted lives.",
+  "evidence": "The Company currently sells its subscriptions to its customers and generates substantially all of its revenue in the U.S."
+ },
+ "changes": [],
+ "dropped": []
+}

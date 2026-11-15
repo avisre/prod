@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001598981",
+ "issuerName": "SKYX Platforms Corp.",
+ "builtAt": "2026-11-15T14:12:29.662Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012927",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1598981/000149315226012927/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue mainly from reselling third-party products such as ceiling fans, heaters and light fixtures, paired with its plug and play feature, and expects sales from direct sales and licensing of advanced and smart products.",
+  "evidence": "Substantially most of our revenues come from the resale of third-party products, which include ceiling fans, heaters, light fixtures, paired, to the extent possible, with our standard \"plug and play\" feature either built in or with an adaptive kit."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company expanded operations by acquiring Belami, an online retailer and e-commerce provider specializing in home lighting, ceiling fans, and other home furnishings.",
+   "evidence": "On April 28, 2023, we completed our acquisition (the \"Closing\") of all of the issued and outstanding shares of Belami, an online retailer and e-commerce provider specializing in home lighting, ceiling fans, and other home furnishings."
+  },
+  {
+   "text": "The company wound down sales of its standard products by discontinuing production of light fixtures and ceiling fans with the older Sky Plug & Receptacle in favor of a new product line.",
+   "evidence": "We wound down the sales of our standard products by discontinuing production of light fixtures and ceiling fans that include the older version of our standard Sky Plug & Receptacle in favor of launching our new line of products described below."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Smart home platforms"
+ ]
+}

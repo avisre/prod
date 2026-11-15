@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001807046",
+ "issuerName": "Belpointe PREP, LLC",
+ "builtAt": "2026-11-15T14:14:47.503Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011713",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1807046/000149315226011713/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "commercial real estate properties"
+   ],
+   "description": "Develops, redevelops and manages commercial real estate assets located within qualified opportunity zones.",
+   "evidence": "As of December 31, 2025, we have organized our operations into two reporting segments, commercial and mixed-use, based on the way we organize and evaluate our business internally."
+  },
+  {
+   "name": "Mixed-use",
+   "products": [
+    "Aster & Links",
+    "VIV"
+   ],
+   "description": "Develops and manages mixed-use real estate projects in qualified opportunity zones, including the Aster & Links and VIV properties.",
+   "evidence": "The increase in both rental revenues and property expenses relates to the continued stabilization of Aster & Links, which commenced lease-up June 30, 2024, as well as VIV, which commenced leasing activities in the fourth quarter of 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns rental revenue from tenants of its commercial and mixed-use real estate properties.",
+  "evidence": "We calculate Segment NOI as rental revenue, less property expenses, excluding non-segment NOI (\"Non-Segment NOI\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mixed-use): mixed-use real estate properties"
+ ]
+}

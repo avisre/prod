@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001833498",
+ "issuerName": "SPECTRAL AI, INC.",
+ "builtAt": "2026-11-15T14:15:19.929Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-033808",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1833498/000121390026033808/ea0282879-10k_spectral.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Predictive medical diagnostics",
+   "products": [
+    "DeepView System",
+    "DeepView SnapShot imaging device",
+    "DeepView SnapShot M",
+    "3-D wound measurement technology"
+   ],
+   "description": "Develops AI-driven predictive medical diagnostics, mainly the DeepView System for assessing burn wound healing potential, funded largely by U.S. government contracts.",
+   "evidence": "The Company has one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue currently comes from U.S. government agencies under research and development contracts; commercial revenue is expected later from SaaS licensing fees and imaging device sales.",
+  "evidence": "Accounts receivable represent amounts due from US government agencies pursuant to research and development contracts associated with the Company's DeepView System."
+ },
+ "changes": [
+  {
+   "text": "Spectral DeepView Limited was dissolved in February 2026.",
+   "evidence": "Spectral DeepView Limited was dissolved in February 2026."
+  }
+ ],
+ "dropped": [
+  "product not in text (Predictive medical diagnostics): DeepView AI-Burns software"
+ ]
+}

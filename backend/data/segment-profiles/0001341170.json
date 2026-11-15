@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001341170",
+ "issuerName": "EUROSEAS LTD.",
+ "builtAt": "2026-11-15T14:10:36.269Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-26-002807",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1341170/000117184326002807/esea20251231_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Operating container carriers",
+   "products": [
+    "Feeder containerships"
+   ],
+   "description": "Operates a fleet of containerships providing worldwide ocean-going transportation of dry and refrigerated containerized cargoes for charterers.",
+   "evidence": "the Company has determined that it operates under one operating and one reportable segment, that of operating container carriers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company daily time charter rates and voyage charter revenues for employing its containerships.",
+  "evidence": "we generated time charter and voyage charter revenues totaling $195.8 million, $219.4 million and $234.44 million respectively."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company spun off three subsidiaries owning older vessels into Euroholdings Ltd., which became an independent publicly traded company.",
+   "evidence": "Euroseas distributed all of Euroholdings' common shares to its shareholders on a pro rata basis on March 17, 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Operating container carriers): Intermediate containerships",
+  "product not in text (Operating container carriers): Time charter services",
+  "product not in text (Operating container carriers): Voyage charter services"
+ ]
+}

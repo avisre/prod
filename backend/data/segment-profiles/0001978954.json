@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001978954",
+ "issuerName": "BBB FOODS INC",
+ "builtAt": "2026-11-15T14:16:55.811Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-140232",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1978954/000119312526140232/tbbb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hard discount retail",
+   "products": [
+    "Branded products",
+    "Private label products",
+    "Spot products",
+    "Sales of recyclables"
+   ],
+   "description": null,
+   "evidence": "He supervises the Company's performance as a single business unit, therefore, the Company has only one operating segment (See Note 23)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for grocery products sold in its stores, plus revenue from sales of recyclables such as cardboard and stretch film.",
+  "evidence": "Sales of recyclables (cardboard and stretch film primarily), are recognized as revenue when control of the products sold has been transferred to the customer."
+ },
+ "changes": [],
+ "dropped": []
+}

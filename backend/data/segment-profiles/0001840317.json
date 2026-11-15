@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001840317",
+ "issuerName": "VEEA INC.",
+ "builtAt": "2026-11-15T14:15:27.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-043667",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840317/000121390026043667/ea0284771-10k_veeainc.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from customers through hardware sales of VeeaHub devices and the sale of licenses and subscriptions.",
+  "evidence": "The Company earns revenue from the sale of its VeeaHub® devices, licenses and subscriptions."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company completed its business combination with Plum Acquisition Corp. I and changed its name to Veea Inc.",
+   "evidence": "we completed the Business Combination on September 13, 2024, and changed our name to \"Veea Inc.\""
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Edge Computing Platform"
+ ]
+}

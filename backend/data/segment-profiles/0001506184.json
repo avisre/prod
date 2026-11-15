@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001506184",
+ "issuerName": "Immutep Limited",
+ "builtAt": "2026-11-15T14:11:42.461Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-429413",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1506184/000119312526429413/d109552d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Immunotherapy",
+   "products": [
+    "eftilagimod alfa (efti or IMP321)",
+    "IMP761",
+    "IMP701 (LAG525; INN: ieramilimab)",
+    "IMP731"
+   ],
+   "description": null,
+   "evidence": "The Group operates in one operating segment, being Immunotherapy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "License revenue is earned through milestone and upfront payments from third party research collaborators and licensing partners, such as Dr. Reddy's, for rights to develop and commercialize the company's drug candidates.",
+  "evidence": "At present, the Group is in the research and development phase of operations and license revenue earned is through milestone payments by third party research collaborators based on the progress of their or the Group's on-going clinical trials and research."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Immutep entered into a strategic licensing agreement with Dr. Reddy's Laboratories granting exclusive rights to develop and commercialize efti outside the Immutep Territory.",
+   "evidence": "During fiscal 2026, Immutep also entered into a strategic licensing agreement with Dr. Reddy's Laboratories (Dr. Reddy's), granting Dr. Reddy's the exclusive right to develop and commercialize efti in all markets worldwide excluding the Immutep Territory."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2026, Immutep discontinued its Phase III TACTI-004 trial of efti in first lin",
+  "change not grounded: In 2026, Novartis terminated the license agreement for IMP701 (ieramilimab), wit"
+ ]
+}

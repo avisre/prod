@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001627282",
+ "issuerName": "CALIBERCOS INC.",
+ "builtAt": "2026-11-15T14:12:48.395Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001627282-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1627282/000162728226000015/cwd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Management",
+   "products": [
+    "Private real estate investment funds",
+    "Digital asset treasury strategy",
+    "Development and construction management",
+    "Acquisition and disposition services",
+    "Brokerage activities",
+    "Fund formation services"
+   ],
+   "description": "A diversified alternative asset management firm sponsoring and managing private real estate investment funds and a digital asset treasury for accredited investors.",
+   "evidence": "We are an alternative asset manager investing across real and digital assets. We sponsor and manage private real estate investment funds and maintain a digital asset treasury strategy focused on blockchain infrastructure assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns organizational and offering fees, fund management fees, financing fees, development and construction management fees, brokerage fees, and performance allocations from the funds and investors it serves.",
+  "evidence": "We earn the following fees from providing these services under our asset management platform (the \"Platform\"): • Organizational and offering fees include fund set-up fees earned during the initial formation, administration, and set-up of fund products we distribute and manage."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company formally adopted a Board-approved digital asset treasury policy to accumulate and manage digital infrastructure assets, starting with Chainlink tokens.",
+   "evidence": "In 2025, we formally adopted a Board-approved digital asset treasury policy (the \"Treasury Reserve Policy\") under which we accumulate and manage digital infrastructure assets, starting with Chainlink tokens (\"LINK\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Asset Management): Caliber Hospitality Trust (CHT)"
+ ]
+}

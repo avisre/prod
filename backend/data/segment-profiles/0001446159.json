@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001446159",
+ "issuerName": "Axe Compute Inc",
+ "builtAt": "2026-11-15T14:11:22.838Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-002094",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1446159/000117184326002094/poai20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Compute Services and Treasury Management",
+   "products": [
+    "ATH staking"
+   ],
+   "description": "Provides customers access to distributed GPU compute capacity for AI and high-performance computing workloads via the Aethir network, and manages the ATH treasury strategy.",
+   "evidence": "Collectively, we refer to this new operating business as our Compute Services and Treasury Management segment, which is the priority of the Company and Management's focus."
+  },
+  {
+   "name": "Drug Discovery Services",
+   "products": [
+    "AI-driven tumor drug-response prediction platforms",
+    "tumor-specific 3D cell culture models",
+    "laboratory and biomarker testing services"
+   ],
+   "description": null,
+   "evidence": "(2) the Drug Discovery Services segment, which provides services that include the application of AI using its proprietary biobank of 150,000+ tumor samples, as well as creation of proprietary 3D culture models used in drug development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for access to GPU compute capacity sourced through the Aethir network, and the Company earns staking yield and potential appreciation on its ATH treasury holdings.",
+  "evidence": "Axe Compute seeks to provide customers with access to graphics processing unit (\"GPU\") compute capacity for artificial intelligence and other high-performance computing workloads, sourced primarily through infrastructure made available by the Aethir network."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold the assets of its Skyline Medical subsidiary, previously the Eagan operating segment, to DeRoyal Industries.",
+   "evidence": "On March 20, 2025, the Company completed the sale of assets related to its wholly owned subsidiary, Skyline Medical Inc., to DeRoyal Industries, Inc., a global manufacturer and supplier of medical products."
+  },
+  {
+   "text": "In 2025, the Company added the Compute Services and Treasury Management segment and renamed itself from Predictive Oncology Inc. to Axe Compute Inc.",
+   "evidence": "In late 2025, we expanded our business strategy to include a compute business under the Axe Compute brand, and renamed the Company Axe Compute Inc., effective December 11, 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Compute Services and Treasury Management): GPU compute capacity access",
+  "product not in text (Compute Services and Treasury Management): Aethir token (ATH) treasury holdings",
+  "product not in text (Drug Discovery Services): proprietary tumor biobank of 150,000+ tumor samples"
+ ]
+}

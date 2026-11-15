@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001496099",
+ "issuerName": "New Mountain Finance Corporation",
+ "builtAt": "2026-11-15T14:11:36.741Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001496099-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1496099/000149609926000008/nmfc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct lending",
+   "products": [
+    "senior secured loans",
+    "unitranche loans",
+    "first lien loans",
+    "second lien loans",
+    "subordinated debt",
+    "equity interests"
+   ],
+   "description": "A business development company providing direct lending solutions, including senior secured debt and select junior capital, to U.S. sponsor-backed upper middle market companies.",
+   "evidence": "Our investment objective is to generate current income and capital appreciation through the sourcing and origination of senior secured loans and select junior capital positions, to growing businesses in defensive industries that offer attractive risk-adjusted returns."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income and capital appreciation from debt investments and equity interests held in its portfolio of middle market companies.",
+  "evidence": "Our investment objective is to generate current income and capital appreciation through the sourcing and origination of senior secured loans and select junior capital positions, to growing businesses in defensive industries that offer attractive risk-adjusted returns."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001574235",
+ "issuerName": "Pulmatrix, Inc.",
+ "builtAt": "2026-11-15T14:12:15.978Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008130",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1574235/000149315226008130/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "iSPERSE™",
+    "PUR3100",
+    "PUR1800",
+    "PUR1900"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing inhaled therapeutics for migraine and respiratory diseases using its proprietary iSPERSE™ dry powder technology.",
+   "evidence": "We are a biopharmaceutical company that has focused on the development of novel inhaled therapeutic products intended to prevent and treat migraine and respiratory diseases with important unmet medical needs using our patented iSPERSE ™ technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company entered into a merger agreement with Cullgen Inc., which if completed would make Cullgen the continuing business of the combined company.",
+   "evidence": "on November 13, 2024, we entered into the Agreement and Plan of Merger and Reorganization, as amended by Amendment No. 1 (\"Amendment No. 1\") thereto on April 7, 2025 (as amended by Amendment No. 1, the \"Merger Agreement\"), pursuant to which, among other matters, PCL Merger Sub, Inc., our direct wholly owned subsidiary, will merge with and into Cullgen Inc. (\"Cullgen\")"
+  }
+ ],
+ "dropped": []
+}

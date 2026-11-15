@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001855509",
+ "issuerName": "TWIN VEE POWERCATS CO.",
+ "builtAt": "2026-11-15T14:15:54.532Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001731122-26-000317",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855509/000173112226000317/e7378_10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Twin Vee PowerCats",
+   "products": [
+    "Twin Vee catamarans",
+    "Wizz Banger Value App",
+    "Wizz Banger Boats retail location"
+   ],
+   "description": "Designs, manufactures and sells recreational and commercial powerboats, including catamarans and monohull boats, to dealers and end users.",
+   "evidence": "The Company operates in two reportable segments: (1) Twin Vee PowerCats, which designs, manufactures, and sells recreational and commercial powerboats; and (2) Wizz Banger, Inc., a development-stage subsidiary with plans to develop an innovative online marketplace leveraging artificial intelligence (AI) to transform how customers search for and purchase recreational marine assets."
+  },
+  {
+   "name": "Wizz Banger, Inc.",
+   "products": [
+    "Wizz Banger Value App",
+    "Wizz Banger Boats"
+   ],
+   "description": "Development-stage subsidiary building an AI-enabled marine retail and valuation platform for buying, selling, trading and financing recreational boats.",
+   "evidence": "Wizz Banger, Inc., a development-stage subsidiary with plans to develop an innovative online marketplace leveraging artificial intelligence (AI) to transform how customers search for and purchase recreational marine assets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by a network of independent boat dealers who buy its boats and resell them to end-user customers.",
+  "evidence": "We primarily sell our boats through a network of 17 independent boat dealers across North America, Hawaii, and Australia who resell our boats to the end user Twin Vee customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired the Bahama Boats brand and integrated its new models.",
+   "evidence": "During the 2025 and 2024 fiscal years, we focused our efforts on increased throughput through our facility, and integrating the new models from our Bahama Boats brand that we acquired in 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Twin Vee PowerCats): Bahama Boat Works \"V\"-hull boats",
+  "change not grounded: In 2024, the minority-owned electric boat subsidiary Forza X1 ceased production "
+ ]
+}

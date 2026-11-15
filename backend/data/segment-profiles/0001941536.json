@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001941536",
+ "issuerName": "BRIDGER AEROSPACE GROUP HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:16:34.542Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001941536-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1941536/000194153626000005/baer-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerial firefighting",
+   "products": [
+    "Fire Suppression",
+    "Aerial Surveillance",
+    "Maintenance, Repair and Overhaul (\"MRO\")",
+    "Super Scoopers",
+    "Air Attack",
+    "Multi-Mission Aircraft (\"MMA\")",
+    "Ignis"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid under contracts primarily by U.S. government customers for aerial firefighting, surveillance and specialty aviation services.",
+  "evidence": "The Company had three customers who individually accounted for 66 %, 11 %, and 10 % of total revenues for the year ended December 31, 2025, and two customers who individually accounted for 61 % and 12 % of total revenues for the year ended December 31, 2024."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Aerial firefighting"
+ ]
+}

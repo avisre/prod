@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001645460",
+ "issuerName": "Cue Biopharma, Inc.",
+ "builtAt": "2026-11-15T14:13:04.656Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108287",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1645460/000119312526108287/cue-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Immuno-STAT platform",
+    "CUE-401",
+    "CUE-500 series",
+    "CUE-501",
+    "CUE-100 series",
+    "CUE-101",
+    "CUE-102"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing injectable therapeutics that selectively modulate disease-specific T cells for autoimmune and inflammatory diseases.",
+   "evidence": "The Company operates as a single reporting segment, focused on developing a novel class of therapeutic biologics to selectively modulate disease-specific T cells directly within the patient's body."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from collaboration and license agreements, as none of its drug product candidates have yet been approved for commercial sale.",
+  "evidence": "all the Company's revenues since inception have been earned from collaboration agreements as none of the Company's drug product candidates have yet been approved for commercial sale."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company entered a collaboration and license agreement with Boehring",
+  "change not grounded: The company licensed its CUE-100 series oncology candidates CUE-101 and CUE-102 "
+ ]
+}

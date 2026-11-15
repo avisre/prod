@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001397911",
+ "issuerName": "LPL Financial Holdings Inc.",
+ "builtAt": "2026-11-15T14:10:56.544Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010705",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1397911/000162828026010705/lpla-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wealth management",
+   "products": [
+    "advisor affiliation models",
+    "investment solutions",
+    "fintech tools",
+    "practice management services",
+    "clearing and custody services",
+    "compliance services"
+   ],
+   "description": "Provides independent financial advisors and financial institutions with brokerage, advisory, custody, technology and practice management services.",
+   "evidence": "Management has determined that the Company operates in one segment, given the common nature of its operations, products and services, production and distribution process and regulatory environment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Financial advisors and institutions pay LPL a share of advisory fees and brokerage commissions, plus separate fees for custody, trading, administrative and support services.",
+  "evidence": "Advisors associated with Independent RIAs retain 100% of their advisory fees, and in return, we charge separate fees for custody, trading, administrative and support services."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company acquired Commonwealth Financial Network, whose broker-dealer assets are expected to be converted to the Company's platform in the fourth quarter of 2026.",
+   "evidence": "On August 1, 2025, the Company acquired 100% of the outstanding equity interests of Commonwealth Financial Network, a privately-held independent wealth management firm."
+  },
+  {
+   "text": "In 2025 the Company completed the conversion of assets from the broker-dealers and investment advisers acquired with Atria and withdrew their registrations.",
+   "evidence": "The Company completed the conversion of assets from these acquired broker-dealers and investment advisers to the Company's platform and completed the withdrawal of the related registrations of these entities during the fourth quarter of 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Wealth management): trust administration and IRA custodial services",
+  "product not in text (Wealth management): insurance brokerage products and services"
+ ]
+}

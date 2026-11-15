@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0002002473",
+ "issuerName": "Bowhead Specialty Holdings Inc.",
+ "builtAt": "2026-11-15T14:17:09.907Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011089",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/2002473/000162828026011089/bow-20251231.htm"
+ },
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "Casualty",
+   "products": [
+    "general liability coverage",
+    "contractor and site pollution liability coverage"
+   ],
+   "description": "Provides tailored primary and excess casualty solutions, including general liability and environmental liability, for complex risks across many industries.",
+   "evidence": "Our Casualty division provides tailored solutions on a primary and excess basis and consists of a team of experienced underwriters with nationwide capabilities who excel at handling complex risks."
+  },
+  {
+   "name": "Professional Liability",
+   "products": [
+    "directors and officers liability",
+    "errors and omissions liability",
+    "employment practices liability",
+    "fiduciary liability",
+    "fidelity liability",
+    "miscellaneous professional liability",
+    "crime insurance",
+    "cyber liability"
+   ],
+   "description": "Offers management and professional liability coverage on an admitted and E&S basis for financial institutions, not-for-profits and other entities.",
+   "evidence": "We offer management liability products, including directors and officers liability, errors and omissions liability, employment practices liability, fiduciary liability, fidelity liability and miscellaneous professional liability, crime insurance, and cyber liability."
+  },
+  {
+   "name": "Healthcare Liability",
+   "products": [
+    "professional and general liability coverage",
+    "management liability coverage"
+   ],
+   "description": "Provides tailored liability solutions solely for healthcare entities including hospitals, medical facilities, senior care providers and managed care organizations.",
+   "evidence": "Bowhead's Healthcare Liability division focuses solely on healthcare entities to provide tailored solutions."
+  },
+  {
+   "name": "Baleen Specialty",
+   "products": [
+    "general liability products"
+   ],
+   "description": "A technology-powered underwriting operation specializing in small to mid-sized non-admitted risks, distributed wholesale-only.",
+   "evidence": "Baleen Specialty is a technology-powered underwriting operation that specializes in small to mid-sized risks that are not eligible in the admitted market."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, Bowhead began delivering small cyber liability and miscellaneous professional liability products through its digital underwriting model, reported as \"Express\".",
+   "evidence": "In 2025, we began to deliver small cyber liability and miscellaneous professional liability products through our digital underwriting model, the premiums of which are reported as \"Express\" in the gross written premiums by underwriting model table below."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

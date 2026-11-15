@@ -1,0 +1,22 @@
+{
+ "version": 1,
+ "cik": "0001844450",
+ "issuerName": "Electrovaya Inc.",
+ "builtAt": "2026-11-15T14:15:37.165Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001753926-25-001917",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1844450/000175392625001917/g085039_ex99-2.htm",
+  "exhibit": "g085039_ex99-2.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Battery manufacturing"
+ ]
+}

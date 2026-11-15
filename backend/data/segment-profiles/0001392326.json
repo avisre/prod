@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001392326",
+ "issuerName": "CAPITAL CLEAN ENERGY CARRIERS CORP.",
+ "builtAt": "2026-11-15T14:10:55.221Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-179568",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1392326/000119312526179568/d41846d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vessel operations",
+   "products": [
+    "LNG/C vessels",
+    "dual-fuel MG/C vessels",
+    "Neo-Panamax container carrier vessel"
+   ],
+   "description": "Provides marine transportation of LNG, LPG and energy transition gases to industrial customers under charters.",
+   "evidence": "The CODM assesses performance for the vessel operations segment and decides how to allocate resources based on consolidated net income. Thus, the Company has determined that it operates as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company hire under time, bareboat or voyage charters for use of its vessels.",
+  "evidence": "The Company reports financial information and evaluates its operations by charter revenues and not by the length, type of vessel or type of ship employment for its customers, i.e. time, bareboat or voyage charters."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Vessel operations): LCO2 – HMG/C vessel",
+  "change not grounded: Since December 2023 the company has sold 14 legacy container vessels, reported a"
+ ]
+}

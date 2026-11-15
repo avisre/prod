@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001661053",
+ "issuerName": "enVVeno Medical Corporation",
+ "builtAt": "2026-11-15T14:13:18.643Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012928",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1661053/000149315226012928/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Devices",
+   "products": [
+    "VenoValve®",
+    "enVVe® System",
+    "enVVe Valve",
+    "enVVe Delivery System",
+    "enVVe Nose Cone",
+    "enVVe Delivery System Accessories",
+    "enVVe Crimping System"
+   ],
+   "description": "A development-stage medical device company creating bioprosthetic replacement venous valves for patients with severe chronic venous insufficiency.",
+   "evidence": "enVVeno Medical Corporation is a medical device company focused on the advancement of innovative bioprosthetic (tissue-based) solutions to improve the standard of care for the treatment of venous disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, after the FDA issued a non-approvable letter for the VenoValve, the company discontinued VenoValve commercialization efforts and focused resources on the enVVe System.",
+   "evidence": "Because the VenoValve was not approved by the FDA, the Company has elected to forego any potential approval and commercialization efforts outside of the U.S. for the VenoValve and to instead focus its resources on bringing enVVe to market."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001386716",
+ "issuerName": "Star Bulk Carriers Corp.",
+ "builtAt": "2026-11-15T14:10:53.465Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000950157-26-000397",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1386716/000095015726000397/sblk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dry bulk shipping",
+   "products": [
+    "dry bulk vessels",
+    "time charters",
+    "spot market"
+   ],
+   "description": "A global shipping company that transports dry bulk commodities for charterers using its fleet of dry bulk carriers.",
+   "evidence": "Our results of operations and financial condition depend significantly on charter rates for dry bulk vessels, which may be highly volatile and are affected by macroeconomic factors outside of our control."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company for transporting dry bulk cargoes under time charters or other employment arrangements, or at spot market rates.",
+  "evidence": "our ability to successfully compete for, enter into and deliver our vessels under time charters or other employment arrangements for our existing vessels after our current charters expire and our ability to earn income in the spot market"
+ },
+ "changes": [],
+ "dropped": []
+}

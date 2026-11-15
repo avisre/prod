@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001718227",
+ "issuerName": "Construction Partners, Inc.",
+ "builtAt": "2026-11-15T14:13:53.750Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-053871",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1718227/000162828025053871/road-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure and road construction",
+   "products": [
+    "hot mix asphalt",
+    "paving",
+    "site development",
+    "utility and drainage systems",
+    "aggregates",
+    "liquid asphalt cement"
+   ],
+   "description": "Constructs and maintains roadways and related infrastructure for public and private customers across eight Sunbelt states.",
+   "evidence": "Management has determined that the Company functions as a single operating segment, and thus reports as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by federal, state and local public agencies and private developers under fixed unit price, lump sum and design-build contracts for road construction and maintenance services and materials.",
+  "evidence": "Our public customer contracts are primarily fixed unit price contracts."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001378325",
+ "issuerName": "CAPSOVISION, INC.",
+ "builtAt": "2026-11-15T14:10:46.407Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001378325-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1378325/000137832526000010/cv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capsule Endoscopy",
+   "products": [
+    "CapsoCam Plus",
+    "CapsoCloud",
+    "CapsoView",
+    "CapsoCam Colon"
+   ],
+   "description": "Develops and sells single-use capsule endoscopy systems and associated software for visualizing the GI tract to gastroenterologists in clinics and hospitals.",
+   "evidence": "Currently, our GI-tract capsule endoscopy solution comprises our single-use CapsoCam capsule and the associated software, CapsoCloud and CapsoView."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of CapsoCam Plus capsules, primarily to gastroenterologists through its in-house sales team and, outside the U.S., qualified distributors.",
+  "evidence": "We currently sell CapsoCam Plus capsules in the U.S. to our customers, which primarily include gastroenterologists practicing in clinics and/or hospitals, primarily through our in-house sales team."
+ },
+ "changes": [],
+ "dropped": []
+}

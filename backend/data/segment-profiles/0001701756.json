@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001701756",
+ "issuerName": "Sadot Group Inc.",
+ "builtAt": "2026-11-15T14:13:40.134Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001731122-26-000630",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1701756/000173112226000630/e7550_10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agri-Foods",
+   "products": [
+    "farming",
+    "commodity trading",
+    "shipping of food and feed",
+    "soybean meal",
+    "wheat",
+    "corn"
+   ],
+   "description": "A global agri-foods unit engaged in farming, commodity trading and shipping of food and feed products for food manufacturers and global markets.",
+   "evidence": "As of December 31, 2025, Sadot Group consisted of one distinct operating unit engaged in the global Agri-Foods industry"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Food manufacturers and other buyers pay the company for sourced, farmed and shipped food and feed commodities such as soybean meal, wheat and corn.",
+  "evidence": "These shipments enhance global food security by providing raw materials and ingredients to various food manufacturers as part of the overall food supply chain."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold the assets of its U.S.-centric restaurant business, including the Pokemoto and Muscle Maker Grill franchise businesses.",
+   "evidence": "On December 4, 2025, the Company and its wholly-owned subsidiaries, Pokemoto LLC, Poke Co Holdings, LLC, and Muscle Maker Development, LLC (collectively, the \"Sellers\"), completed the sale of substantially all of the assets related to the Pokemoto and Muscle Maker Grill franchise businesses (the \"Business\") to MARV Brands of America LLC"
+  },
+  {
+   "text": "In 2025, the Company exited its remaining international operations, discontinuing operations in Brazil, Canada, the United Arab Emirates, Singapore, Ukraine and Zambia.",
+   "evidence": "During the third and fourth quarters of 2025, the Company exited its remaining international operations."
+  },
+  {
+   "text": "In 2025, the Company terminated its consultancy relationship with Aggia LLC FZ, which had provided food supply chain consultancy since November 2022.",
+   "evidence": "On November 20, 2025, the Company entered into a Settlement Agreement and Mutual Release (the \"Settlement Agreement\") with Aggia."
+  }
+ ],
+ "dropped": []
+}

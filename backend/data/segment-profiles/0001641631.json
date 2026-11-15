@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001641631",
+ "issuerName": "BEYOND AIR, INC.",
+ "builtAt": "2026-11-15T14:12:58.751Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-030287",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1641631/000149315226030287/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beyond Air",
+   "products": [
+    "LungFit® PH",
+    "LungFit® PH II",
+    "LungFit® PRO"
+   ],
+   "description": "Develops and markets nitric oxide generator and delivery systems for neonatal pulmonary hypertension and severe lung infections.",
+   "evidence": "The Company's first device, LungFit ® PH received premarket approval (\"PMA\") from the FDA in June 2022."
+  },
+  {
+   "name": "Beyond Cancer",
+   "products": [],
+   "description": "Majority-owned affiliate developing ultra-high concentration nitric oxide delivered directly to solid tumors.",
+   "evidence": "Through our majority-owned affiliate Beyond Cancer, Ltd. (\"Beyond Cancer\"), NO is used to target solid tumors."
+  },
+  {
+   "name": "NeuroNos",
+   "products": [
+    "nNOS inhibitors"
+   ],
+   "description": "Majority-owned affiliate developing neuronal nitric oxide synthase inhibitors for autism spectrum disorder and other neurological conditions.",
+   "evidence": "On March 24, 2025, Beyond Air reorganized its neurology business into a new private company called NeuroNOS Limited (\"NeuroNos\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and distributors pay the company for its LungFit® PH medical device and related components used to deliver nitric oxide to patients.",
+  "evidence": "Inventories consist primarily of purchased filters, bagging kits, cables, adapters, and other components and accessories required to use the LungFit® PH device held for sale to customers."
+ },
+ "changes": [
+  {
+   "text": "In 2021, Beyond Air reorganized its oncology business into a new private company called Beyond Cancer.",
+   "evidence": "On November 4, 2021, Beyond Air reorganized its oncology business into a new private company called Beyond Cancer."
+  },
+  {
+   "text": "In 2025, Beyond Air reorganized its neurology business into a new private company called NeuroNOS Limited.",
+   "evidence": "On March 24, 2025, Beyond Air reorganized its neurology business into a new private company called NeuroNOS Limited (\"NeuroNos\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Beyond Cancer): Ultra-high concentration gaseous nitric oxide (UNO) delivery system"
+ ]
+}

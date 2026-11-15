@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001339970",
+ "issuerName": "ATYR PHARMA, INC.",
+ "builtAt": "2026-11-15T14:10:34.963Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001339970-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1339970/000133997026000008/atyr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug discovery and development",
+   "products": [
+    "Efzofitimod"
+   ],
+   "description": "A clinical stage biotechnology company developing tRNA synthetase-derived therapies for fibrosis and inflammation, including efzofitimod for interstitial lung disease.",
+   "evidence": "We view our operations and manage our business in one operating segment, which includes all activities related to the discovery and development of our product candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns license and collaboration agreement revenues from partners such as Kyorin, its partner in Japan.",
+  "evidence": "The Pharmaceutical and Medical Devices Agency (PMDA) has granted efzofitimod orphan drug designation for the treatment of sarcoidosis to Kyorin Pharmaceutical Co., Ltd. (Kyorin), our partner in Japan."
+ },
+ "changes": [],
+ "dropped": []
+}

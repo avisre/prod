@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0002083526",
+ "issuerName": "Micware Co., Ltd.",
+ "builtAt": "2026-11-15T14:17:47.984Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001829126-26-007060",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-06-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2083526/000182912626007060/micware_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software Defined Vehicles (\"SDV\")",
+   "products": [
+    "IVI system software",
+    "mobility-enhancing software products",
+    "micAuto-PF"
+   ],
+   "description": "Develops and sells software systems for software-defined vehicles, including in-vehicle infotainment software, through Japanese subsidiaries.",
+   "evidence": "Software Defined Vehicles (\"SDV\"): relates to the development and sale of software systems designed for SDV, including IVI system software and other mobility-enhancing software products, conducted by Japanese subsidiaries."
+  },
+  {
+   "name": "Location-Based Services (\"LBS\")",
+   "products": [
+    "in-vehicle navigation software systems",
+    "Navi Core",
+    "map update services",
+    "geographic data-based services"
+   ],
+   "description": null,
+   "evidence": "Location-Based Services (\"LBS\"): relates to the development and licensing of in-vehicle navigation software systems, and other geographic data-based services for Business-to-Business (\"B2B\") customers, mainly serving end users."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "software development services",
+    "B2C mobile app services",
+    "Mvcube"
+   ],
+   "description": null,
+   "evidence": "Other: primarily comprises software development services conducted by overseas subsidiaries designed for SDV, and Business-to-Consumer (\"B2C\") mobile app services unrelated to in-vehicle navigation."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, upon Reorganization, the Company renamed HI Corporation to MAC and Databroad Co., Ltd. to MNC.",
+   "evidence": "On March 1, 2024, upon Reorganization, the Company renamed HI to MAC."
+  },
+  {
+   "text": "In 2024, the Company acquired O-WELL GERMANY GmbH to provide mobility-related software and services to the EU and other international markets.",
+   "evidence": "On March 28, 2024, the Company acquired 100% of the equity interests in O-WELL GERMANY GmbH from O-WELL corporation in order to provide mobility-related software and services to the EU and other international markets."
+  },
+  {
+   "text": "In 2025, the Company acquired the NaviCon smartphone-to-car navigation connectivity business and a taxi dispatch system business from Denso entities.",
+   "evidence": "On March 31, 2025, the Company acquired the NaviCon business from Denso Co., Ltd. pursuant to an acquisition agreement dated April 26, 2024."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

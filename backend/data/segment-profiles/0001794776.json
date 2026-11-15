@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001794776",
+ "issuerName": "Palmer Square Capital BDC Inc.",
+ "builtAt": "2026-11-15T14:14:38.258Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073362",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1794776/000119312526073362/psbd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment",
+   "products": [
+    "corporate debt securities",
+    "CLO structured credit funds",
+    "derivatives transactions"
+   ],
+   "description": "An externally managed business development company that lends to and invests in corporate debt securities of small to large private U.S. companies.",
+   "evidence": "We are a financial services company that primarily lends to and invests in corporate debt securities of companies, including small to large private U.S. companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and other investment income from portfolio companies on its debt investments and pays its Investment Advisor a base management fee and an Income Incentive Fee.",
+  "evidence": "Pursuant to the Advisory Agreement, we pay the Investment Advisor a fee for its investment advisory and management services consisting of two components—a base management fee and an incentive fee (the \"Income Incentive Fee\")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Investment): warrants and other equity rights"
+ ]
+}

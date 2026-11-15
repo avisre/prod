@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001396440",
+ "issuerName": "Main Street Capital Corporation",
+ "builtAt": "2026-11-15T14:10:55.741Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001396440-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1396440/000139644026000016/main-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Principal Investment",
+   "products": [
+    "Private Loan investment strategy",
+    "Middle Market investment portfolio",
+    "Other Portfolio investments"
+   ],
+   "description": "A principal investment firm providing customized debt and equity capital to lower middle market and private loan companies, plus external asset management services.",
+   "evidence": "Main Street Capital Corporation (\"MSCC\" or, together with its consolidated subsidiaries, \"Main Street\" or the \"Company\") is a principal investment firm primarily focused on providing customized long-term debt and equity capital solutions to lower middle market (\"LMM\") companies (its \"LMM investment strategy\") and debt capital to private (\"Private Loan\") companies owned by or in the process of being acquired by a private equity fund (its \"Private Loan investment strategy\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Main Street earns interest and fee income from debt investments, dividends and capital appreciation from equity investments, and management and incentive fees from the External Investment Manager's third-party funds.",
+  "evidence": "The External Investment Manager earns management fees based on the assets of the funds under management and may earn incentive fees, or a carried interest, based on the performance of the funds managed."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Principal Investment): Lower Middle Market (LMM) investment strategy",
+  "product not in text (Principal Investment): External Investment Manager (external asset management)"
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001829247",
+ "issuerName": "BULLFROG AI HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:15:15.118Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011644",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1829247/000149315226011644/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biopharmaceutical companies and other organizations pay BullFrog, in cash, partner equity, or other consideration, for analyzing large complex data sets under collaboration and fee-for-service agreements.",
+  "evidence": "The Company will receive fees related to such agreements in either cash, the equity of its partners, or other consideration and, in some instances, the potential for rights to new intellectual property generated from the analysis."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: AI/ML drug development"
+ ]
+}

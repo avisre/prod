@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001789192",
+ "issuerName": "NEXENTIS TECHNOLOGIES INC.",
+ "builtAt": "2026-11-15T14:14:36.389Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014183",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1789192/000149315226014183/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology activity",
+   "products": [
+    "MITOLINE™"
+   ],
+   "description": null,
+   "evidence": "The Biotechnology operating segment consists of MitoCareX from the acquisition date, and the Renewable energy projects operating segment consists of NITO Renewable Energy, Inc. and Solar photovoltaic joint venture project."
+  },
+  {
+   "name": "Renewable energy projects",
+   "products": [
+    "solar photovoltaic (\"PV\") projects"
+   ],
+   "description": "Develops and sells solar photovoltaic renewable energy projects in Europe at various stages of development.",
+   "evidence": "Solterra's business strategy primarily involves selling renewable energy projects to third parties at various stages of development, from the initial land identification and project advancement through construction, operation, or sale to a third party."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company expects revenue from selling renewable energy projects to third parties at various stages of development and from advisory services to Voice Assist for deferred cash, royalties and contingent proceeds.",
+  "evidence": "Solterra's business strategy primarily involves selling renewable energy projects to third parties at various stages of development, from the initial land identification and project advancement through construction, operation, or sale to a third party."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Save Foods Ltd.'s operations were classified as discontinued operations ahead of its sale, completed in 2026.",
+   "evidence": "In addition, Save Foods Ltd.'s operations were classified as discontinued operations as the Company is committed to a plan to sell the subsidiary and classified its assets and liabilities as held for sale as of December 31, 2025."
+  },
+  {
+   "text": "In 2025 the company acquired MitoCareX and reassessed its reportable segments into Biotechnology activity and Renewable energy projects.",
+   "evidence": "As a result, the Company determined that it has two reportable segments as of December 31, 2025: (i) Biotechnology activity, and (ii) Renewable energy projects."
+  }
+ ],
+ "dropped": [
+  "product not in text (Biotechnology activity): therapeutics for cancer and inflammatory metabolic diseases",
+  "change not grounded: In 2025 the company sold NTWO OFF Ltd. and discontinued its N2O emissions Global"
+ ]
+}

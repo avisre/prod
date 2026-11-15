@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001821424",
+ "issuerName": "Ucommune International Ltd",
+ "builtAt": "2026-11-15T14:15:02.801Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-033208",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1821424/000121390026033208/ea0282756-20f_ucommune.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Workspace membership",
+   "products": [],
+   "description": "Provides agile office space solutions to members, collecting monthly rent as membership service fees or office workstation rental fees.",
+   "evidence": "We generate our net revenue by providing various agile office space solutions to members from whom we collect monthly rent in the form of membership service fees or office workstation rental fees."
+  },
+  {
+   "name": "Other services",
+   "products": [
+    "co-working space management fees",
+    "SaaS services",
+    "IOT solutions and technical support",
+    "ancillary services such as printing and copying fees and catering service fees",
+    "Tour service",
+    "Hotel service"
+   ],
+   "description": "Provides co-working space management, SaaS, IOT and technical support, ancillary member services, tour and hotel services.",
+   "evidence": "Other services net revenue primarily consists of (1) co-working space management fees, (2) SaaS services, IOT solutions and technical support revenue; (3) charges to members for ancillary services such as printing and copying fees and catering service fees; (4) Tour service and (5) Hotel service."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Members pay the company monthly rent in the form of membership service fees or office workstation rental fees, plus fees for other services such as management, SaaS, ancillary, tour and hotel services.",
+  "evidence": "We generate our net revenue by providing various agile office space solutions to members from whom we collect monthly rent in the form of membership service fees or office workstation rental fees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Workspace membership): agile office space services under self-operated model",
+  "product not in text (Workspace membership): U Partner revenue sharing",
+  "product not in text (Workspace membership): conference room service fees"
+ ]
+}

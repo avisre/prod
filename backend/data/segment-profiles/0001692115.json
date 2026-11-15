@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001692115",
+ "issuerName": "Southwest Gas Holdings, Inc.",
+ "builtAt": "2026-11-15T14:13:36.438Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001692115-26-000062",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1692115/000169211526000062/swx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural Gas Distribution",
+   "products": [
+    "regulated natural gas delivery services",
+    "transportation of natural gas"
+   ],
+   "description": "Regulated natural gas utility purchasing, distributing and transporting gas to residential, commercial and industrial customers in Arizona, Nevada and California.",
+   "evidence": "The Company, through its operating wholly-owned subsidiary Southwest Gas, engages in the business of purchasing, distributing, and transporting natural gas for its customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates set by state commissions, designed to recover commission-approved costs plus a return on rate base, with gas costs passed through under PGA mechanisms.",
+  "evidence": "Rates charged to customers vary according to customer class and rate jurisdiction and are set at levels that are intended to allow for the recovery of all commission-approved costs, including a return on rate base sufficient to pay interest on debt as well as a reasonable return on common equity in financing rate base investments."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company deconsolidated Centuri and sold its remaining shares, leaving only the Natural Gas Distribution segment.",
+   "evidence": "After the deconsolidation of Centuri in August 2025, the business is solely comprised of the Natural Gas Distribution segment."
+  },
+  {
+   "text": "In 2024, the Company completed the Centuri IPO and began selling down its ownership in the Utility Infrastructure Services segment.",
+   "evidence": "The Company completed the Centuri IPO in April 2024."
+  },
+  {
+   "text": "In 2023, the Company sold MountainWest, eliminating the Pipeline and Storage segment.",
+   "evidence": "The Company's businesses were managed within three separate reportable segments until February 2023, our Natural Gas Distribution segment (Southwest Gas), our Utility Infrastructure Services segment (Centuri), and our Pipeline and Storage segment (MountainWest)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Natural Gas Distribution): distribution of natural gas",
+  "product not in text (Natural Gas Distribution): interstate pipeline transportation (Great Basin)"
+ ]
+}

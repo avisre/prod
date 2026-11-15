@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001289877",
+ "issuerName": "SFL Corporation Ltd.",
+ "builtAt": "2026-11-15T14:10:23.575Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001289877-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1289877/000128987726000008/sfl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vessel and offshore operations",
+   "products": [
+    "container vessels",
+    "car carriers",
+    "tanker vessels",
+    "jack-up drilling rig"
+   ],
+   "description": "An international ship-owning and chartering company that charters vessels and offshore assets to customers under long-term, fixed-rate contracts.",
+   "evidence": "The Company operates as a single reportable segment, primarily generating revenue from long-term, fixed-rate charters."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers such as Maersk, Volkswagen, Trafigura, Hapag Lloyd and ConocoPhillips pay the company fixed rates under long-term time charter and drilling contracts.",
+  "evidence": "primarily generating revenue from long-term, fixed-rate charters. Additional revenue sources include sales-type lease interest income, voyage charter and pool revenues, and drilling contract revenues."
+ },
+ "changes": [],
+ "dropped": []
+}

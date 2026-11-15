@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001828108",
+ "issuerName": "Aurora Innovation, Inc.",
+ "builtAt": "2026-11-15T14:15:11.318Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001828108-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828108/000182810826000016/aur-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Self-driving technology",
+   "products": [
+    "Aurora Driver",
+    "Aurora Driver for Freight",
+    "Aurora FirstLight Lidar",
+    "Virtual Testing Suite"
+   ],
+   "description": "Develops the Aurora Driver, a self-driving hardware, software and data services platform, for trucking, passenger mobility and local goods delivery markets.",
+   "evidence": "The Company has one reportable segment managed on a consolidated basis by the Chief Executive Officer (CEO) who is the chief operating decision maker (\"CODM\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Aurora earns subscription revenue from its driverless trucking product, Aurora Driver for Freight, and ultimately expects a Driver as a Service model earning fees per mile.",
+  "evidence": "we expect to ultimately commercialize the Aurora Driver in a Driver as a Service (\"DaaS\") business model, in which we will supply self-driving technology and earn revenue on a fee per mile basis, or a comparable pricing mechanism."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the CODM began regularly reviewing revenue and cost of revenue following the launch of Aurora Driver for Freight.",
+   "evidence": "In the second quarter of 2025, our CODM began to regularly review revenue and cost of revenue as a result of the successful launch of the Aurora Driver for Freight product."
+  }
+ ],
+ "dropped": []
+}

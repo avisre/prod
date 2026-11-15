@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001428439",
+ "issuerName": "Roku, Inc.",
+ "builtAt": "2026-11-15T14:11:11.942Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008114",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1428439/000162828026008114/roku-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Platform",
+   "products": [
+    "digital advertising",
+    "streaming services distribution",
+    "The Roku Channel",
+    "Howdy",
+    "Frndly TV",
+    "Roku Originals",
+    "Premium Subscriptions",
+    "branded app buttons on remote controls"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Devices",
+   "products": [
+    "Roku streaming players",
+    "Roku-made TVs",
+    "Roku TV smart projectors",
+    "smart home products and services",
+    "audio products",
+    "related accessories"
+   ],
+   "description": "Sells streaming players, Roku-made TVs, smart home products, audio products, and accessories to consumers at competitive prices.",
+   "evidence": "Devices revenue is generated from the sale of streaming players, Roku-made TVs, smart home products and services, audio products, and related accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Roku earns Platform revenue from advertisers buying digital advertising and from content partners via subscription and transaction revenue shares, Premium Subscriptions, and branded app buttons, plus Devices revenue from consumer hardware sales.",
+  "evidence": "We generate Platform revenue from the sale of digital advertising (including direct and programmatic video advertising, ads integrated into our UI, and related services) and streaming services distribution (including subscription and transaction revenue shares, the sale of Premium Subscriptions, and the sale of branded app buttons on remote controls)."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Platform"
+ ]
+}

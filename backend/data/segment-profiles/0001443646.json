@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001443646",
+ "issuerName": "Booz Allen Hamilton Holding Corporation",
+ "builtAt": "2026-11-15T14:11:21.957Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-037521",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1443646/000162828026037521/bah-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced technology",
+   "products": [
+    "Vellox",
+    "EdgeExtend",
+    "Modular Detachment Kit",
+    "AI solutions",
+    "defense tech products"
+   ],
+   "description": "Builds advanced technology products and solutions, including AI, cyber, and defense technology, for U.S. government, national security, and commercial customers.",
+   "evidence": "We report operating results and financial data in one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Booz Allen is paid by government and commercial customers under cost-reimbursable, time-and-materials, and fixed-price contracts for services and products delivered.",
+  "evidence": "Cost-reimbursable contracts provide for the payment of allowable costs incurred during performance of the contract, up to a ceiling based on the amount that has been funded, plus a fixed fee or award fee."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advanced technology): Sit(x)R",
+  "product not in text (Advanced technology): cyber products"
+ ]
+}

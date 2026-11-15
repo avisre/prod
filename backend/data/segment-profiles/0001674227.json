@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001674227",
+ "issuerName": "SCWorx Corp.",
+ "builtAt": "2026-11-15T14:13:26.671Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037303",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1674227/000121390026037303/ea0281680-10k_scworx.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health information technology solutions and services",
+   "products": [
+    "Virtualized Item Master File repair, expansion and automation",
+    "Electronic Medical Record Management",
+    "Charge Description Master Management",
+    "Contract Management",
+    "Request for Proposal (\"RFP\") Automation",
+    "Integration of Acquired Businesses",
+    "Rebate Management"
+   ],
+   "description": "Provides data content and services for repair, normalization and interoperability of information for healthcare providers, plus big data analytics.",
+   "evidence": "The Company has determined that it currently operates in a single segment - health information technology solutions and services, located in a single geographic location – the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare providers pay the company for its health information technology software solutions and associated services.",
+  "evidence": "SCWorx has developed and markets health information technology solutions and associated services that improve healthcare processes and information flow within hospitals."
+ },
+ "changes": [],
+ "dropped": []
+}

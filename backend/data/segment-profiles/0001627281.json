@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001627281",
+ "issuerName": "Cellectis S.A.",
+ "builtAt": "2026-11-15T14:12:47.068Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-116428",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1627281/000119312526116428/clls-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutics",
+   "products": [
+    "UCART product candidates",
+    "UCART19",
+    "UCART22",
+    "UCART20x22",
+    "cema-cel",
+    "gene therapy product candidates"
+   ],
+   "description": "Develops allogeneic CAR T-cell immunotherapy and gene therapy product candidates for immuno-oncology and monogenic diseases; no products approved for sale.",
+   "evidence": "As from June 1, 2023 and the deconsolidation of Calyxt, we view our operations and manage our business in a single operating and reportable segment corresponding to the Therapeutics segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cellectis derives revenues from collaboration and license agreements, mainly the AstraZeneca Joint Research and Collaboration Agreement and other gene-editing technology licenses, plus milestone payments and royalties from partners such as Servier and Allogene.",
+  "evidence": "For the twelve-month period ended December 31, 2025, we mainly derived our Therapeutics revenues from the JRCA with AstraZeneca, and from other license agreements for the use of our gene editing technology."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Calyxt was deconsolidated and the former Plants segment was presented as discontinued operations, leaving a single Therapeutics segment.",
+   "evidence": "Our former Plants segment is presented as discontinued operations for the year-end period ended December 31, 2023."
+  }
+ ],
+ "dropped": []
+}

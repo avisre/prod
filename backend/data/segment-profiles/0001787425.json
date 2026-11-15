@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001787425",
+ "issuerName": "XP Inc.",
+ "builtAt": "2026-11-15T14:14:33.284Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002070979-26-000182",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1787425/000207097926000182/xp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services",
+   "products": [
+    "investment services",
+    "advisory services",
+    "institutional brokerage",
+    "trading platforms",
+    "market data offerings",
+    "support services"
+   ],
+   "description": "XP provides investment, brokerage and advisory services and trading platforms to retail and institutional clients in Brazil.",
+   "evidence": "The CODM considers the whole Group as a single operating and reportable segment, monitoring operations, making decisions on fund allocation and evaluating performance based on a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "XP earns transaction fees from institutional and retail clients trading on its platforms, plus fees for investment and advisory services.",
+  "evidence": "A limited number of such clients can account for a significant portion of our trading volumes, which in turn results in a significant portion of our transaction fees."
+ },
+ "changes": [],
+ "dropped": []
+}

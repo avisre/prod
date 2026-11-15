@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001842295",
+ "issuerName": "MAZE THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:15:35.136Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-122778",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1842295/000119312526122778/maze-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision medicines",
+   "products": [
+    "MZE829",
+    "MZE782",
+    "MZE001",
+    "Compass platform"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing small molecule precision medicines using human genetics and variant functionalization.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of harnessing its understanding of human genetics and variant functionalization to develop small molecule precision medicines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no product revenue; its only revenue has been license revenue from collaboration and licensing partnerships.",
+  "evidence": "No revenue was generated in the year ended December 31, 2025."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001647639",
+ "issuerName": "Upstart Holdings, Inc.",
+ "builtAt": "2026-11-15T14:13:04.662Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001647639-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1647639/000164763926000027/upst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal Lending",
+   "products": [
+    "unsecured personal loans",
+    "small dollar loans"
+   ],
+   "description": "Upstart's AI lending marketplace segment originating unsecured personal and small dollar loans for consumers, funded by lending partners and institutional investors.",
+   "evidence": "The Company has determined that only one operating segment, Personal Lending, meets the definition of a reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Upstart earns fees from lending partners and institutional investors for use of its platform, borrower referrals, and loan servicing.",
+  "evidence": "Our revenue consists primarily of fees paid by lending partners and institutional investors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company reclassified auto secured personal loans from the Personal Lending operating segment to the Auto Lending operating segment.",
+   "evidence": "Beginning in the third quarter of 2025, the Company reclassified auto secured personal loans from Personal Lending to Auto Lending operating segment."
+  },
+  {
+   "text": "In 2023, the Company suspended development of its small business loan product as part of a reorganization plan.",
+   "evidence": "As part of the January 2023 Plan, the Company reduced its workforce by approximately 20 %, or 365 employees, and suspended development of its small business loan product."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "cik": "0001873454",
+ "issuerName": "Ruanyun Edai Technology Inc.",
+ "builtAt": "2026-11-15T14:16:04.626Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001731122-26-000996",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1873454/000173112226000996/e7798_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Schools, institutions and enterprise customers pay for campus operations and student-life services, educational content, examination and assessment services, AI applications, and international education and testing services.",
+  "evidence": "Smart Campus Services supports campus operations and student-life services, which may include campus food-service management, merchant settlement, dormitory utility services, student-life workflows, vocational development and other institutional support services."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: AI Education Technology",
+  "change not grounded: In 2025, the company dissolved and deregistered its 51%-owned joint venture Meng"
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001958713",
+ "issuerName": "NFT Ltd",
+ "builtAt": "2026-11-15T14:16:46.863Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050939",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1958713/000121390026050939/ea0285153-20f_nftltd.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NFT trading",
+   "products": [
+    "NFT projects",
+    "Takung Exchange market",
+    "digital payment service"
+   ],
+   "description": "Operates an online platform in Hong Kong for trading artwork and non-fungible tokens, with supporting digital payment services.",
+   "evidence": "The Company operates as a single reportable segment in Hong Kong."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023, the Company sold its former subsidiaries Hong Kong Takung Art Company Limited and Hong Kong MQ Group Limited to Fecundity Capital Investment Co., Ltd.",
+   "evidence": "As of May 23, 2023, The Company's stockholders approved the proposed sale (the \"Disposition\") of our former subsidiaries, Hong Kong MQ Group Limited, Hong Kong Takung Art Company Limited to Fecundity Capital Investment Co., Ltd for a purchase price of US$ 1,500,000 ."
+  },
+  {
+   "text": "In 2023, Takung Art Co., Ltd. merged with and into NFT Limited, with NFT Limited as the surviving entity.",
+   "evidence": "Pursuant to the Merger Agreement, among other things, the Company merged with and into NFT, with NFT continuing as the surviving entity (the \"Redomicile\")."
+  },
+  {
+   "text": "In 2021, Hong Kong Takung lost control of Tianjin Takung, which was deconsolidated.",
+   "evidence": "During 2021, Hong Kong Takung lost its control over the operation of Tianjin Takung and the assets, liabilities and results of operations of Tianjin Takung was deconsolidated."
+  }
+ ],
+ "dropped": []
+}

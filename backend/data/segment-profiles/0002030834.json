@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002030834",
+ "issuerName": "OneConstruction Group Limited",
+ "builtAt": "2026-11-15T14:17:28.370Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-080881",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/2030834/000121390026080881/ea0296072-20f_oneconst.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Structural steelwork",
+   "products": [
+    "Procurement and installation of structural steel",
+    "Structural steel frames",
+    "Trusses"
+   ],
+   "description": "A structural steelwork contractor in Hong Kong providing procurement and installation of structural steel as a subcontractor for public and private construction projects.",
+   "evidence": "We, through the operating subsidiary, are a structural steelwork contractor in Hong Kong, specializing in the procurement and installation of structural steel for construction projects in Hong Kong."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue as a subcontractor from registered general building contractors that engage it for structural steelwork on public and private sector construction projects.",
+  "evidence": "As a subcontractor, the direct clients of the operating subsidiary are mostly the registered general building contractors under the Buildings Ordinance (Chapter 123 of the Laws of Hong Kong) (\"BO\") of various types of building and infrastructure projects in Hong Kong."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Structural steelwork): Structural steel components"
+ ]
+}

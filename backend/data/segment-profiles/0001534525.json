@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001534525",
+ "issuerName": "XENETIC BIOSCIENCES, INC.",
+ "builtAt": "2026-11-15T14:11:58.217Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-001737",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534525/000168316826001737/xenetic_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "DNase technology",
+   "products": [
+    "IV rhDNase I",
+    "PolyXen",
+    "XCART",
+    "OncoHist",
+    "ErepoXen",
+    "ImuXen"
+   ],
+   "description": "Pre-clinical biopharmaceutical research and development of DNase immuno-oncology technology for difficult-to-treat cancers.",
+   "evidence": "The Company is principally engaged in pre-clinical research and development activities to advance its DNase technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (DNase technology): DNase technology",
+  "revenue model not grounded"
+ ]
+}

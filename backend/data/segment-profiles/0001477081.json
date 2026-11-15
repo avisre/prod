@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001477081",
+ "issuerName": "Kolibri Global Energy Inc.",
+ "builtAt": "2026-11-15T14:11:31.386Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001493152-26-011486",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1477081/000149315226011486/ex99-3.htm",
+  "exhibit": "ex99-3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "natural gas liquids"
+   ],
+   "description": "Extracts and sells crude oil, natural gas and natural gas liquids from the Tishomingo field in Oklahoma.",
+   "evidence": "The Company sells crude oil, natural gas and natural gas liquids that are extracted from its Tishomingo field in Oklahoma under its wholly-owned subsidiary, Kolibri Energy US Inc."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from selling crude oil, natural gas and natural gas liquids produced from its Oklahoma oil and gas properties.",
+  "evidence": "The Company sells crude oil, natural gas and natural gas liquids that are extracted from its Tishomingo field in Oklahoma under its wholly-owned subsidiary, Kolibri Energy US Inc."
+ },
+ "changes": [],
+ "dropped": []
+}

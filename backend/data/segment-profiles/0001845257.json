@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001845257",
+ "issuerName": "LifeStance Health Group, Inc.",
+ "builtAt": "2026-11-15T14:15:37.730Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071462",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1845257/000119312526071462/lfst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "mental health services",
+   "products": [
+    "psychiatric evaluations and treatment",
+    "psychological and neuropsychological testing",
+    "individual, family and group therapy"
+   ],
+   "description": null,
+   "evidence": "The Company has a single operating and reportable segment – mental health services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid per patient visit, mostly by commercial in-network payors under fee-for-service contracts, with additional revenue from government payors, self-pay patients and management fees from supported practices.",
+  "evidence": "We generate revenue on a per-visit basis when a patient receives care from one of our clinicians."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (mental health services): virtual care through online delivery platform",
+  "product not in text (mental health services): in-person care at centers"
+ ]
+}

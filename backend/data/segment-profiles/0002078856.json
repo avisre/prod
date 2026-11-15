@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002078856",
+ "issuerName": "Hyperliquid Strategies Inc",
+ "builtAt": "2026-11-15T14:17:45.810Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-370281",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2078856/000119312526370281/purr-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital asset treasury",
+   "products": [
+    "HYPE tokens"
+   ],
+   "description": "A U.S. publicly listed digital asset treasury company that accumulates HYPE tokens on behalf of its stockholders and pursues income-earning activities in the Hyperliquid ecosystem.",
+   "evidence": "Our primary business is accumulating HYPE, the native token of the Hyperliquid Layer 1 blockchain ecosystem (\"HYPE\" or \"HYPE Tokens\"), on behalf of our stockholders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Company completed mergers with Sonnet BioTherapeutics Holdings, becoming a publicly listed Nasdaq entity under the symbol PURR.",
+   "evidence": "On December 2, 2025 (the \"Closing Date\"), we completed the Transactions with Sonnet, at which point the Company became a publicly listed entity on the Nasdaq Stock Market under the symbol \"PURR.\""
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2026, the Company sold most of Sonnet's assets to Guidant Biotherapeutics in "
+ ]
+}

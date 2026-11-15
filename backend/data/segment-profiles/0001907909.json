@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001907909",
+ "issuerName": "Vox Royalty Corp.",
+ "builtAt": "2026-11-15T14:16:23.522Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001654954-26-002978",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1907909/000165495426002978/voxr_ex991.htm",
+  "exhibit": "voxr_ex991.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Acquiring and managing royalty interests",
+   "products": [
+    "Advance royalty payments"
+   ],
+   "description": "Acquires and manages royalty interests on producing, development and exploration-stage mining properties operated by third parties.",
+   "evidence": "The Company's business is organized into two operating segments, consisting of (i) acquiring and managing royalty interests, and (ii) acquiring and managing streams and other interests."
+  },
+  {
+   "name": "Acquiring and managing streams and other interests",
+   "products": [],
+   "description": "Acquires and manages stream and other interests, including gold purchase agreements acquired from Deterra Royalties in 2025.",
+   "evidence": "Prior to September 26, 2025, the Company presented one reportable segment, consisting of acquiring and managing royalty interests."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Third-party mine operators pay Vox royalties and stream income based on production from the underlying mines, with Vox purchasing gold under PMPAs at market-referenced prices and capturing margin on resale.",
+  "evidence": "Under the terms of these agreements, Vox purchases a defined percentage of payable gold at a dynamic price that is typically set by market reference prices (LBMA or COMEX) and grants the ability to Vox to capture margin at the time of on-sale of metal on each delivered ounce."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Acquiring and managing royalty interests): Net smelter return (NSR) royalties",
+  "product not in text (Acquiring and managing royalty interests): Gross revenue royalties (GRR)",
+  "product not in text (Acquiring and managing royalty interests): Tonnage royalties",
+  "product not in text (Acquiring and managing royalty interests): Production royalties",
+  "product not in text (Acquiring and managing streams and other interests): Precious Metals Purchase Agreements (PMPAs)",
+  "product not in text (Acquiring and managing streams and other interests): Gold streams",
+  "change not grounded: In 2025, the Company added a second operating segment for streams and other inte"
+ ]
+}

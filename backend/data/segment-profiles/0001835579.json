@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001835579",
+ "issuerName": "ImageneBio, Inc.",
+ "builtAt": "2026-11-15T14:15:22.974Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-099434",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1835579/000119312526099434/ima-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "IMG-007"
+   ],
+   "description": null,
+   "evidence": "The Company operates and manages its business as a single operating and reportable segment for the purpose of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, Ikena Oncology merged with Inmagene Biopharmaceuticals and was renamed ImageneBio, Inc.",
+   "evidence": "On July 25, 2025 (the \"Closing Date\"), the Delaware corporation formerly known as \"Ikena Oncology, Inc.\" (\"Ikena\") completed its previously announced merger with Inmagene Biopharmaceuticals, a privately held exempted company with limited liability incorporated and existing under the laws of the Cayman Islands (\"Legacy Inmagene\")."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

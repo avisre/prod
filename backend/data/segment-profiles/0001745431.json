@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001745431",
+ "issuerName": "StoneCo Ltd.",
+ "builtAt": "2026-11-15T14:14:11.344Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002070979-26-000170",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1745431/000207097926000170/stne-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services solutions",
+   "products": [
+    "Payment Solutions",
+    "Prepayment Solutions",
+    "Digital Banking Solutions",
+    "Credit Solutions",
+    "TapTon",
+    "Ton",
+    "Stone"
+   ],
+   "description": "Provides payments, digital banking, prepayment and credit solutions to Brazilian micro-merchants, SMBs and Key Accounts.",
+   "evidence": "We currently operate in a single business segment mainly composed of financial services solutions, in which we offer payments, digital banking, and credit solutions, tailoring our Ton offering mostly for micro-merchants, and our Stone solution for SMBs."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Merchants and clients pay StoneCo fees for payment processing, subscription services and equipment rental, prepayment financing discounts, and interest and charges on credit and banking solutions.",
+  "evidence": "Net revenue from transaction activities and other services 453.1 2,493.1 3,128.9 3,144.4 Net revenue from subscription services and equipment rental 161.6 889.3 746.2 717.4 Financial income 1,820.5 10,017.3 7,676.2 6,229.3"
+ },
+ "changes": [
+  {
+   "text": "In 2025, StoneCo agreed to sell its Software Businesses and Simplesvet, classified them as discontinued operations, and moved from financial and software segments to a single operating segment.",
+   "evidence": "In the second quarter of 2025, we entered into two separate agreements to sell our Software Businesses and Simplesvet."
+  },
+  {
+   "text": "The Software Businesses segment, largely acquired in 2021, was fully divested in February 2026.",
+   "evidence": "This segment, which was largely acquired in 2021, was fully divested in February 2026."
+  }
+ ],
+ "dropped": []
+}

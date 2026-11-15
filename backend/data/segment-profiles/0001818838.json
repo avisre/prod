@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001818838",
+ "issuerName": "Adagene Inc.",
+ "builtAt": "2026-11-15T14:14:59.463Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-038612",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818838/000110465926038612/adag-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Novel antibody-based cancer medicines",
+   "products": [
+    "ADG126"
+   ],
+   "description": "Discovers and develops novel antibody-based cancer medicines, operating as a single consolidated business.",
+   "evidence": "The Group's principal business activities are related to the discovery and development of novel antibody-based cancer medicines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

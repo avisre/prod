@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001661059",
+ "issuerName": "NextCure, Inc.",
+ "builtAt": "2026-11-15T14:13:18.783Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024137",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1661059/000110465926024137/nxtc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "life sciences",
+   "products": [
+    "SIM0505",
+    "LNCB74",
+    "NC410",
+    "NC525",
+    "NC605",
+    "NC181"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing innovative cancer therapies, including antibody-drug conjugates, for patients unresponsive to current therapies.",
+   "evidence": "We operate our business in one operating segment, which also represents one reportable segment: life sciences."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company announced a prioritization and restructuring of operations, pausing internal manufacturing and reducing its workforce.",
+   "evidence": "In March 2024, we announced a prioritization and restructuring of our operations to align with our focused pipeline (the \"2024 Restructuring\")."
+  }
+ ],
+ "dropped": []
+}

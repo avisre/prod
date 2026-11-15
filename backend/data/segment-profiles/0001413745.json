@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001413745",
+ "issuerName": "Yueda Digital Holding",
+ "builtAt": "2026-11-15T14:11:03.767Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050194",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1413745/000121390026050194/ea0287121-20f_yueda.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Assets",
+   "products": [
+    "Bitcoin (BTC)",
+    "Ether (ETH)",
+    "cryptocurrency mining",
+    "self-mining",
+    "treasury allocations"
+   ],
+   "description": null,
+   "evidence": "We are a Web3 and digital-economy company with a focus on the long-term accumulation of mainstream cryptocurrencies, whether acquired through treasury allocations, self-mining, strategic investme"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In March 2024 the company disposed of Blockchain Dynamics Limited and exited its 2020-2024 cryptocurrency business, then reentered the cryptocurrency business in May 2024 focused on the Bitcoin market.",
+   "evidence": "In March 2024, we completed the disposal of Blockchain Dynamics Limited and the exit of our 2020-2024 cryptocurrency business."
+  },
+  {
+   "text": "In September 2025 the company disposed of its Legacy Business to focus on its Digital Assets Business.",
+   "evidence": "On September 15, 2025, we disposed of the Legacy Business to AR iCapital LLP, a Singaporean company, in exchange for nominal cash consideration of US$1, in order to focus on our Digital Assets Business."
+  }
+ ],
+ "dropped": []
+}

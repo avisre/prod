@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001846839",
+ "issuerName": "SOL Strategies Inc.",
+ "builtAt": "2026-11-15T14:15:41.391Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-25-125666",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1846839/000110465925125666/stke-20250930xex99d2.htm",
+  "exhibit": "stke-20250930xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment in cryptocurrencies and blockchain technology",
+   "products": [
+    "Validation services",
+    "Staking rewards",
+    "Cryptocurrencies"
+   ],
+   "description": "Invests in cryptocurrencies and blockchain technology, earning validation service income and staking rewards.",
+   "evidence": "The Company operates in one reportable operating segment being investment in cryptocurrencies and blockchain technology."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns validation service income and staking rewards, largely paid in cryptocurrencies, from operating validators and delegating tokens.",
+  "evidence": "Validation service income - net (note 17) ​ $ 5,428,188 ​ $ — Staking rewards (note 17) ​ 4,803,686 ​ 271,245"
+ },
+ "changes": [],
+ "dropped": []
+}

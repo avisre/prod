@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001635088",
+ "issuerName": "ROIVANT SCIENCES LTD.",
+ "builtAt": "2026-11-15T14:12:54.209Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001635088-26-000061",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1635088/000163508826000061/roiv-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "brepocitinib",
+    "IMVT-1402",
+    "mosliciguat",
+    "batoclimab"
+   ],
+   "description": "A biopharmaceutical company that discovers, develops and commercializes medicines through nimble subsidiaries called Vants, for patients with unmet needs.",
+   "evidence": "The Company's chief operating decision maker views the operations and manages the business in a single operating and reportable segment focused on the discovery, development and commercialization of medicines and technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, Dermavant was acquired by Organon.",
+   "evidence": "(inclusive of approvals and Phase 3 studies from Vants transferred to Sumitomo Pharma and at Dermavant, which was acquired by Organon in October 2024)"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2026, the company discontinued further development of batoclimab across all i"
+ ]
+}

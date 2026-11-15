@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001736035",
+ "issuerName": "Blackstone Secured Lending Fund",
+ "builtAt": "2026-11-15T14:14:06.308Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001736035-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1736035/000173603526000004/bxsl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Secured lending",
+   "products": [
+    "unitranche loans",
+    "second lien loans",
+    "unsecured or subordinated loans",
+    "other debt and equity securities"
+   ],
+   "description": "An externally managed business development company that invests primarily in secured debt of U.S. private or thinly-traded companies to generate current income and capital appreciation.",
+   "evidence": "Under normal market conditions, we generally invest at least 80% of our total assets (net assets plus borrowings for investment purposes) in secured debt investments and our portfolio is composed primarily of first lien senior secured and unitranche loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns interest, largely at floating rates, and other investment income on loans made to private and thinly-traded companies, and pays its Adviser a management fee and income-based incentive fee.",
+  "evidence": "We have agreed to pay our Adviser a management fee at an annual rate of 1.0% of the average value of our gross assets at the end of the two most recently completed calendar quarters."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Secured lending): first lien senior secured loans",
+  "product not in text (Secured lending): third lien loans"
+ ]
+}

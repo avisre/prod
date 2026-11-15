@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001689375",
+ "issuerName": "ENTRADA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:13:34.690Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001689375-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1689375/000168937526000011/trda-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "ENTR-601-44",
+    "ENTR-601-45",
+    "ENTR-601-50",
+    "ENTR-601-51",
+    "VX-670",
+    "ENTR-801"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing intracellular genetic medicines for neuromuscular and inherited retinal diseases.",
+   "evidence": "The Company manages its operations as a single segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

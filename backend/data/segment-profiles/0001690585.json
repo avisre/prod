@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001690585",
+ "issuerName": "Dianthus Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:13:34.749Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001690585-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1690585/000169058526000006/dnth-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has not generated product revenue; it earns license revenue from licensing agreements.",
+  "evidence": "The Company has not yet generated any revenue from product sales."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Autoimmune therapies"
+ ]
+}

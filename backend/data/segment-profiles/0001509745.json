@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001509745",
+ "issuerName": "CYPHERPUNK TECHNOLOGIES INC.",
+ "builtAt": "2026-11-15T14:11:46.488Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028566",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1509745/000110465926028566/cyph-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Privacy technology",
+   "products": [
+    "sirexatamab (DKN-01)",
+    "FL-501"
+   ],
+   "description": "A privacy technology company implementing a digital asset treasury strategy anchored by Zcash, while its subsidiary Leap develops antibody therapies for cancer patients.",
+   "evidence": "We are a privacy technology company implementing a digital asset treasury strategy anchored by Zcash and, through our subsidiary Leap, are developing novel therapies for patients with cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the company changed its name from Leap Therapeutics, Inc. to Cypherpunk Technologies Inc. and shifted its strategic focus to a Zcash digital asset treasury strategy.",
+   "evidence": "On November 12, 2025, we changed our name from \"Leap Therapeutics, Inc.\" to \"Cypherpunk Technologies Inc.\" and changed our trading symbol from \"LPTX\" to \"CYPH\"."
+  }
+ ],
+ "dropped": [
+  "product not in text (Privacy technology): Zcash (ZEC)"
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001854963",
+ "issuerName": "SHF Holdings, Inc.",
+ "builtAt": "2026-11-15T14:15:52.481Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016778",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1854963/000149315226016778/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services",
+   "products": [
+    "Safe Harbor Program",
+    "Regulatory compliance consulting and technology",
+    "Cannabis-related deposit services",
+    "Lending services"
+   ],
+   "description": "Provides compliant banking, lending, and compliance services to financial institutions serving cannabis-related businesses.",
+   "evidence": "The Company operates as one reportable segment providing financial services and banking solutions to CRBs under ASC 280, Segment Reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns fees from financial institution partners (primarily PCCU) for onboarding, account servicing, investment income on CRB deposits, and a share of loan program income on CRB loans.",
+  "evidence": "We generate revenue through fee income, investment income, and loan program income earned by providing these compliance and lending services to financial institutions serving the cannabis industry."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Financial services): Program licensing"
+ ]
+}

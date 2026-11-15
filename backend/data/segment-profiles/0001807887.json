@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001807887",
+ "issuerName": "LASE Corp.",
+ "builtAt": "2026-11-15T14:14:47.728Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-018110",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1807887/000149315226018110/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Laser technology",
+   "products": [
+    "laser blasting solutions",
+    "laser cleaning and surface conditioning",
+    "turnkey laser material processing systems for marking, cutting, drilling and wel",
+    "Beamer Laser marking systems"
+   ],
+   "description": "Vertically integrated manufacturer of photonics-based industrial laser products and solutions for cleaning, surface conditioning and material processing customers.",
+   "evidence": "We are a vertically integrated manufacturing company for photonics-based industrial products and solutions and, since recently acquiring the assets of Control Micro Systems, Inc. (\"CMS\"), have now expanded the market for our laser products into the large, growing pharmaceutical manufacturing vertical, in what we believe is a recession-resistant sector with significant barriers to entry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company acquired the assets of Control Micro Systems, Inc., expanding into pharmaceutical laser systems.",
+   "evidence": "On October 30, 2024, we entered into an Asset Purchase Agreement with CMS, a laser company located in Orlando, Florida, that designs and builds turnkey laser material processing systems for marking, cutting, drilling and welding."
+  },
+  {
+   "text": "In 2025, the company acquired the Beamer Laser marking systems assets from affiliate Fonon Quantum Technologies.",
+   "evidence": "On August 5, 2025, the Company entered into an Asset Purchase Agreement with FQTI, to acquire the Beamer assets."
+  }
+ ],
+ "dropped": [
+  "product not in text (Laser technology): Laser Shield Anti-Drone System (LSAD)",
+  "revenue model not grounded"
+ ]
+}

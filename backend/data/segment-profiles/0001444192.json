@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001444192",
+ "issuerName": "Grace Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:11:22.362Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-025662",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1444192/000114036126025662/ef20070498_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development and commercialization of pharmaceutical applications of its patents ",
+   "products": [
+    "GTx-104",
+    "GTx-102",
+    "GTx-101"
+   ],
+   "description": "Clinical-stage pharmaceutical company developing drug candidates for rare and orphan diseases using novel drug delivery technologies.",
+   "evidence": "The Company has one reportable operating segment: the development and commercialization of pharmaceutical applications of its patents and licensed rights."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In May 2023, the company implemented a strategic realignment plan, streamlining ",
+  "change not grounded: In June 2026, the company decided not to resume internal development funding for"
+ ]
+}

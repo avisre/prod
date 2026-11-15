@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001547903",
+ "issuerName": "NMI Holdings, Inc.",
+ "builtAt": "2026-11-15T14:12:01.886Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001547903-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1547903/000154790326000011/nmih-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mortgage Insurance",
+   "products": [
+    "Primary mortgage insurance",
+    "Ancillary loan review services"
+   ],
+   "description": "Provides private mortgage insurance protecting lenders and investors from default-related losses on residential mortgage loans, plus outsourced loan review services.",
+   "evidence": "Our Mortgage Insurance segment provides private mortgage insurance and ancillary loan review services and our CODM evaluates our performance and allocates resources based on our consolidated financial results, including consolidated revenue, expenses, net income, assets and shareholders' equity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mortgage lenders pay premium rates for primary mortgage insurance coverage on individual loans, with premiums increasing as coverage levels increase.",
+  "evidence": "In general, our premium rates increase as coverage levels increase."
+ },
+ "changes": [
+  {
+   "text": "Re One historically provided reinsurance coverage to NMIC, but such coverage has been commuted following repeal of statutory risk retention requirements.",
+   "evidence": "Such requirements have been repealed and the reinsurance coverage provided by Re One to NMIC has been commuted."
+  }
+ ],
+ "dropped": []
+}

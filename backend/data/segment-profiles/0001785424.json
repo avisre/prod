@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001785424",
+ "issuerName": "Katapult Holdings, Inc.",
+ "builtAt": "2026-11-15T14:14:32.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016661",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1785424/000162828026016661/kplt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lease-to-own",
+   "products": [
+    "Lease-to-own platform",
+    "Direct integration",
+    "Waterfall integration",
+    "Katapult App",
+    "KPay",
+    "Text-to-checkout"
+   ],
+   "description": "Provides a technology-driven lease-to-own platform that lets underserved U.S. nonprime consumers obtain durable goods from omnichannel and e-commerce retailers.",
+   "evidence": "The Company is a single segment business, which provides lease payment options to consumers to obtain durable goods from omnichannel and e-commerce partners."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay Katapult recurring lease payments under lease-purchase agreements for durable goods, which is the company's primary source of revenue.",
+  "evidence": "Katapult's primary source of revenue is generated from recurring payment streams related to our contracted lease payments with consumers."
+ },
+ "changes": [],
+ "dropped": []
+}

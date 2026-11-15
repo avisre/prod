@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001682241",
+ "issuerName": "Metalpha Technology Holding Limited",
+ "builtAt": "2026-11-15T14:13:30.981Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-086126",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1682241/000121390026086126/ea0299197-20f_metalpha.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Trading of proprietary digital assets and derivative contracts",
+   "products": [
+    "Crypto derivative solutions",
+    "Structured derivative solutions",
+    "Traditional derivative instruments",
+    "Securities advising services",
+    "Asset management services"
+   ],
+   "description": "Provides cryptocurrency derivative solutions, liquidity and proprietary trading for institutional clients and high-net-worth individuals, plus SFC-licensed securities advising and asset management in Hong Kong.",
+   "evidence": "The Company has identified one operating segment: ● trading of proprietary digital assets and derivative contracts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns income from executing cryptocurrency-related transactions with OTC clients, proprietary trading gains, interest and service fees, and fees from SFC-licensed securities advising and asset management services.",
+  "evidence": "We initiated digital asset services in December 2021 and generate income primarily from the execution of cryptocurrency-related transactions, which includes the provision of derivative solutions to over-the-counter (\"OTC\") clients and our proprietary trading activities."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company discontinued and disposed of its mainland China supply chain management platform business.",
+   "evidence": "Upon the completion of the Disposition on March 31, 2023, we discontinued and ceased the Mainland China Business and terminated the VIE structure."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company divested its 40% equity interest in the NextGen Fund."
+ ]
+}

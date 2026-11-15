@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0002033535",
+ "issuerName": "COSTAMARE BULKERS HOLDINGS LIMITED",
+ "builtAt": "2026-11-15T14:17:31.117Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-011994",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2033535/000114036126011994/ef20066084_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Operating dry bulk vessels",
+   "products": [
+    "dry bulk vessels",
+    "time charters",
+    "voyage charters",
+    "COAs"
+   ],
+   "description": "Operates a fleet of dry bulk vessels, chartering them to customers under time and voyage charters and contracts of affreightment.",
+   "evidence": "the Company has determined that it operates under one reportable segment, that of operating dry bulk vessels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company charter hire for transporting dry bulk cargo on its owned and chartered-in vessels under time charters, voyage charters and COAs.",
+  "evidence": "One of our principal objectives is to acquire and charter-in additional vessels in conjunction with entering into additional time or voyage charters and COAs for these vessels."
+ },
+ "changes": [
+  {
+   "text": "In 2025, as part of the realignment of the CBI business, the company transferred the majority of the operating platform trading book to a third party.",
+   "evidence": "For example, in September 2025, as part of the realignment of our CBI business, we transferred the majority of the operating platform trading book to a third party."
+  },
+  {
+   "text": "The CBI dry bulk operating platform commenced operations in the fourth quarter of 2022.",
+   "evidence": "The CBI business commenced operations in the fourth quarter of 2022."
+  }
+ ],
+ "dropped": []
+}

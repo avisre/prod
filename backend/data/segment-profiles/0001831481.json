@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001831481",
+ "issuerName": "SABLE OFFSHORE CORP.",
+ "builtAt": "2026-11-15T14:15:16.320Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001831481-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1831481/000183148126000026/socc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and gas",
+   "products": [
+    "crude oil",
+    "natural gas"
+   ],
+   "description": "Acquires, develops, explores and exploits oil and natural gas in the Santa Ynez Unit in federal waters offshore California, with offshore platforms and pipeline infrastructure.",
+   "evidence": "As of December 31, 2025, the Company is managed as a single operating segment and a single reportable segment: oil and gas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company expects to generate revenue by selling oil and natural gas produced from the Santa Ynez Unit to customers.",
+  "evidence": "Revenue is anticipated to be generated through the sale of oil and natural gas to customers, which is dependent on the coordinated operation of the Company's offshore and onshore infrastructure assets."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Sable completed the Business Combination with Flame Acquisition Corp. and acquired the SYU Assets from Exxon Mobil and Mobil Pacific Pipeline Company.",
+   "evidence": "On February 14, 2024 (the \"Closing Date\"), Sable consummated the mergers and related transactions contemplated by the Merger Agreement (the \"Business Combination\"), following which Flame was renamed \"Sable Offshore Corp.\""
+  }
+ ],
+ "dropped": []
+}

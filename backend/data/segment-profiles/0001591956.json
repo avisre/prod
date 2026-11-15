@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001591956",
+ "issuerName": "DarkHorse Technologies Inc.",
+ "builtAt": "2026-11-15T14:12:25.469Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001591956-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1591956/000159195626000004/any-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin Mining",
+   "products": [
+    "Bitcoin",
+    "ASIC miners",
+    "hash calculation services"
+   ],
+   "description": "Operates an enterprise-scale Bitcoin mining business using ASIC miners deployed at hosting sites and a self-owned Iowa facility.",
+   "evidence": "A key component of the Bitcoin mining business segment is to acquire highly specialized computer servers (known in the industry as \"miners\"), which operate application-specific integrated circuit (\"ASIC\") chips designed specifically to mine Bitcoin, and deploy such miners at-scale utilizing our hosting agreements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by Bitcoin mining pool operators, primarily Foundry Digital LLC, in Bitcoin for providing hash calculation services under Full Pay Per Share arrangements.",
+  "evidence": "In exchange for providing the service, we are entitled to Full Pay Per Share (\"FPPS\"), which is a fractional share of the fixed Bitcoin award the mining pool operator receives, plus a fractional share of the transaction fees attached to that blockchain less net Bitcoin fees due to the mining pool operator over the measurement period, as applicable."
+ },
+ "changes": [
+  {
+   "text": "In December 2023, the company sold its service and product segment focused on containerization, virtualization technologies and data management products.",
+   "evidence": "In December 2023, we sold our service and product segment which focused on containerization and virtualization technologies along with data management products that enabled workload-optimized solutions."
+  }
+ ],
+ "dropped": []
+}

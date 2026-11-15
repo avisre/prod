@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001620737",
+ "issuerName": "ORGANIGRAM HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:12:44.228Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001628280-25-057233",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1620737/000162828025057233/exhibit997-thecompanysco.htm",
+  "exhibit": "exhibit997-thecompanysco.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cannabis",
+   "products": [],
+   "description": "The Organigram Entities operate a cannabis business serving customers, suppliers, partners and service providers across the jurisdictions in which they operate.",
+   "evidence": "Except as may be expressly required by your professional duties with respect to cannabis, being under the influence, and the possession, of recreational and/or illegal drugs in the workplace will not be tolerated."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

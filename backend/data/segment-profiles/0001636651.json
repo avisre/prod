@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001636651",
+ "issuerName": "Ovid Therapeutics Inc.",
+ "builtAt": "2026-11-15T14:12:55.015Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019438",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1636651/000162828026019438/ovid-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from collaboration and licensing arrangements, recognizing nonrefundable upfront license fees and milestone payments when performance obligations are satisfied.",
+  "evidence": "Nonrefundable upfront fees allocated to licenses that are not contingent on any future performance and require no consequential continuing involvement by the Company, are recognized as revenue when the license term commences and the licensed data, technology or product is delivered."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Brain disorder medicines development"
+ ]
+}

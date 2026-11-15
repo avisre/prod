@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001981519",
+ "issuerName": "MIXED MARTIAL ARTS GROUP LIMITED",
+ "builtAt": "2026-11-15T14:16:56.553Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-25-020434",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-10-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1981519/000149315225020434/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Martial arts training programs",
+   "products": [
+    "TrainAlta Warrior Training Program",
+    "BJJLink",
+    "Hype",
+    "MixedMartialArts.com"
+   ],
+   "description": "Provides and administers mixed martial arts training programs, gym programs and related SaaS platforms for gyms, coaches and fans.",
+   "evidence": "The Company has identified one operating segment as the provision and administration of mixed martial arts training programs, gym programs."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Licensee gyms pay usage-based license fees for the Warrior Training Program IP, and academies pay subscription and transaction SaaS fees through BJJLink.",
+  "evidence": "Based on the license agreement, a usage-based royalty arrangement is in place between the Company and the gyms."
+ },
+ "changes": [
+  {
+   "text": "In December 2024, the Company acquired BJJLink, a Jiu Jitsu gym management and fintech platform, adding SaaS revenue streams.",
+   "evidence": "In December 2024, the Company acquired BJJLink, a Jiu Jitsu gym management and fintech platform, for up to US$13 million payable in cash or shares."
+  }
+ ],
+ "dropped": []
+}

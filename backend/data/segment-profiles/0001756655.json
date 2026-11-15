@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001756655",
+ "issuerName": "Ardent Health, Inc.",
+ "builtAt": "2026-11-15T14:14:17.408Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018174",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1756655/000162828026018174/ardt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare services",
+   "products": [
+    "acute care hospitals",
+    "ambulatory facilities",
+    "physician practices",
+    "telehealth services",
+    "urgent care centers",
+    "ambulatory surgery centers",
+    "diagnostic imaging centers"
+   ],
+   "description": "Delivers inpatient and ambulatory healthcare to patients through an integrated network of hospitals, clinics and physician practices.",
+   "evidence": "The Company has one reportable segment, which is healthcare services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by delivering care to patients through its integrated network of hospitals, ambulatory facilities, and physician practices.",
+  "evidence": "The healthcare services segment generates revenues by delivering care to its customers, or patients, through its integrated network of hospitals, ambulatory facilities, and physician practices."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company converted from a Delaware limited liability company into a Delaware corporation in connection with its initial public offering.",
+   "evidence": "On July 17, 2024, Ardent Health Partners, LLC converted from a Delaware limited liability company into a Delaware corporation in connection with its initial public offering and changed its name to Ardent Health Partners, Inc."
+  },
+  {
+   "text": "In 2025, the company changed its name from Ardent Health Partners, Inc. to Ardent Health, Inc.",
+   "evidence": "On June 3, 2025, Ardent Health Partners, Inc. changed its name to Ardent Health, Inc."
+  }
+ ],
+ "dropped": []
+}

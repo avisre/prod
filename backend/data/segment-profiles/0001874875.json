@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001874875",
+ "issuerName": "Hour Loop, Inc.",
+ "builtAt": "2026-11-15T14:16:06.888Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012278",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1874875/000149315226012278/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online retail (e-commerce)",
+   "products": [
+    "home/garden décor",
+    "toys",
+    "kitchenware",
+    "apparel",
+    "electronics"
+   ],
+   "description": "Online retailer that resells wholesale-purchased products to U.S. consumers, primarily as a third-party seller on Amazon.",
+   "evidence": "Segment Information – We only have one segment, which is online retail (e-commerce)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling wholesale-purchased products to customers on Amazon, Walmart and its own website, paying platform fees to Amazon and Walmart.",
+  "evidence": "We sell merchandise on Amazon and the sales are fulfilled by Amazon. We pay Amazon fees for allowing us to sell on their platform."
+ },
+ "changes": [],
+ "dropped": []
+}

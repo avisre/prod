@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001372612",
+ "issuerName": "BOX INC",
+ "builtAt": "2026-11-15T14:10:43.027Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098466",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1372612/000119312526098466/box-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intelligent Content Management",
+   "products": [
+    "Box Shield",
+    "Box Shield Pro",
+    "Box Governance",
+    "Box Zones",
+    "Box Shuttle",
+    "Box Archive",
+    "Box KeySafe",
+    "Box Consulting"
+   ],
+   "description": "Provides a single cloud-based SaaS platform that lets organizations securely manage, share, sign, classify and retain their unstructured business content.",
+   "evidence": "Box is the leading Intelligent Content Management (ICM) provider."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees based on user counts, API and AI unit entitlements and functionality deployed, invoiced at the start of contract terms of one to three years or more.",
+  "evidence": "We offer our solution to customers as a subscription-based service, with subscription fees based on customer requirements, including the number of users, API and AI unit entitlements, and functionality deployed."
+ },
+ "changes": [],
+ "dropped": []
+}

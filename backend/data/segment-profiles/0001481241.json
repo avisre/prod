@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001481241",
+ "issuerName": "Performance Shipping Inc.",
+ "builtAt": "2026-11-15T14:11:33.175Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-017155",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1481241/000114036126017155/ef20060647_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Operating tanker vessels",
+   "products": [
+    "tanker vessels",
+    "time charters",
+    "spot charters",
+    "pool charters"
+   ],
+   "description": "Operates a fleet of tanker vessels employed under time, spot and pool charters for customers trading worldwide.",
+   "evidence": "As a result, the Company has determined that it operates under one reportable segment, that of operating tanker vessels and the assets of such segment are presented under the caption Total assets in the consolidated balance sheets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

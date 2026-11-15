@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001913847",
+ "issuerName": "Coincheck Group N.V.",
+ "builtAt": "2026-11-15T14:16:25.040Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-046005",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1913847/000162828026046005/cnck-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crypto asset exchange",
+   "products": [
+    "Marketplace platform",
+    "Exchange platform",
+    "NFT marketplace",
+    "staking",
+    "asset management services",
+    "digital asset prime brokerage"
+   ],
+   "description": "Provides end-to-end crypto asset exchange services to customers, primarily in Japan, through multi-cryptocurrency marketplace and exchange platforms.",
+   "evidence": "The Company has primarily engaged in providing end-to-end crypto asset exchange services by offering its customers multi-cryptocurrency marketplace and exchange platforms (the \"Marketplace platform\" and the \"Exchange platform,\" respectively) with a deep pool of liquidity for trading crypto assets through its user-friendly applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company based on their crypto asset trading activity, including trading volume and prevailing trading prices for crypto assets.",
+  "evidence": "our revenue is dependent on crypto asset trading activity by our customers, including trading volume and the prevailing trading prices for crypto assets, whose trading prices and volume are highly volatile"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Next Finance Tech, a staking platform service company, and Aplo, a digital asset prime brokerage.",
+   "evidence": "Next Finance Tech Co., Ltd and its subsidiaries (\"Next Finance Tech\") were acquired by Coincheck Parent in March 2025. Next Finance Tech is a staking platform service company. On October 14, 2025, Coincheck Parent acquired all of the issued and outstanding shares of Aplo SAS (\"Aplo\")."
+  },
+  {
+   "text": "In 2024, the company sold a non-major line of business.",
+   "evidence": "Sale of non-major line of business, net of cash and cash equivalents divested 9 281 — —"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2026, the company acquired 96.8% beneficial ownership of 3iQ Digital Holdings"
+ ]
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001891027",
+ "issuerName": "MNTN, Inc.",
+ "builtAt": "2026-11-15T14:16:15.597Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001891027-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1891027/000189102726000019/mntn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Performance TV Software",
+   "products": [
+    "PTV software platform",
+    "MNTN Matched",
+    "Verified Visits",
+    "QuickFrame creative marketplace"
+   ],
+   "description": "Provides a self-serve performance TV software platform that lets marketers target, measure and attribute CTV advertising campaigns.",
+   "evidence": "Our revolutionary PTV software platform allows marketers to combine the powerful storytelling format of TV advertising with the targeting, measurement and attribution capabilities of paid search and social advertising."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay usage-based fees tied to their ad spend on the platform, recognized net of amounts paid to suppliers for advertising inventory, plus fees for ad production activities.",
+  "evidence": "Our revenue is primarily generated through usage-based fees from customers based on their level of ad spend on our platform, net of amounts paid to suppliers for the cost of advertising inventory."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company divested Maximum Effort Marketing's creative services business.",
+   "evidence": "Additionally, we generate revenue through the QuickFrame creative marketplace provided to our customers, and generated revenue through Maximum Effort Marketing's creative services prior to its divestiture on April 1, 2025."
+  }
+ ],
+ "dropped": []
+}

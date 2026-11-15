@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0001329606",
+ "issuerName": "CLEAN ENERGY TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-15T14:10:33.074Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-027409",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1329606/000149315226027409/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clean Energy HRS & CETY Europe",
+   "products": [
+    "Clean Cycle TM generator",
+    "Integrated Power Module",
+    "Containerized System Module",
+    "ORC systems"
+   ],
+   "description": "Converts wasted thermal energy from industrial facilities into zero emission electricity using Organic Rankine Cycle systems.",
+   "evidence": "Clean Energy HRS & CETY Europe – Our Waste Heat Recovery Solutions, converting thermal energy to zero emission electricity."
+  },
+  {
+   "name": "CETY Renewables Waste to Energy Solutions",
+   "products": [
+    "Waste to Energy processing equipment",
+    "engineering services"
+   ],
+   "description": "Provides waste to energy technologies and solutions converting waste into electricity, renewable natural gas, hydrogen and biochar.",
+   "evidence": "CETY Renewables Waste to Energy Solutions – Providing Waste to Energy technologies and solutions."
+  },
+  {
+   "name": "Engineering and Manufacturing Business",
+   "products": [
+    "design services",
+    "manufacturing",
+    "power generation",
+    "BESS",
+    "project management solutions"
+   ],
+   "description": "Provides customers with comprehensive design, manufacturing, power generation, battery storage and project management solutions.",
+   "evidence": "Engineering and Manufacturing Business – providing customers with comprehensive design, manufacturing, power generation, BESS, and project management solutions."
+  },
+  {
+   "name": "CETY HK",
+   "products": [
+    "Natural Gas Trading Operations"
+   ],
+   "description": "Parent company of natural gas trading operations in China supplying natural gas to industrial customers and municipalities.",
+   "evidence": "CETY HK – The parent company of our NG trading operations in China."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for clean energy products, turnkey power plants, engineering and EPC services, and natural gas sold at daily spot prices.",
+  "evidence": "CETY HK procures NG in bulk from wholesale suppliers at fixed, prepaid prices, typically at a discount to prevailing market rates, and sells to customers at daily spot prices over the contract term."
+ },
+ "changes": [
+  {
+   "text": "In 2022 the Company added the CETY HK segment to reflect its new businesses in China.",
+   "evidence": "Prior to the first quarter of 2022 the Company had three reportable segments but added the CETY HK segment to reflect its recent new businesses in China."
+  },
+  {
+   "text": "In December 2025 the Company disposed of its equity interest in Shuya, ending CETY HK operations through Shuya.",
+   "evidence": "CETY HK no longer conducts any operations through Shuya, following the disposition of the Company's equity interest in Shuya in December 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (CETY Renewables Waste to Energy Solutions): HTAP ablative thermal processing products"
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001739410",
+ "issuerName": "RALLYBIO CORPORATION",
+ "builtAt": "2026-11-15T14:14:09.352Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018261",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1739410/000162828026018261/rlyb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biotechnology",
+   "products": [
+    "RLYB116",
+    "RLYB332",
+    "RLYB331",
+    "RLYB212",
+    "REV102"
+   ],
+   "description": "Develops life-transforming therapies for patients with severe and rare diseases, including complement-mediated and iron overload disorders.",
+   "evidence": "The Company manages its operations as a single operating and reportable segment and the measure of segment profit or loss is net loss."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from collaboration partners through upfront fees, milestone payments, and royalties on product sales under licensing and collaboration agreements.",
+  "evidence": "The payment terms of these agreements may include nonrefundable upfront fees, payments based upon the achievement of certain milestones, and additional payments based on product sales derived from the collaboration."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Rallybio entered into a Merger Agreement with Candid, under which Candid will survive as a wholly owned subsidiary and Rallybio's pre-Merger programs will be subject to contingent value rights.",
+   "evidence": "On March 1, 2026, Rallybio entered into the Merger Agreement with Candid, a clinical-stage biotechnology company advancing a leading portfolio of TCE therapeutics for autoimmune diseases, and the Merger Sub."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, Rallybio sold its interest in the ENPP1 inhibitor REV102 to Recursion u"
+ ]
+}

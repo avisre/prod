@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001584207",
+ "issuerName": "ONEMAIN HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:12:23.089Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001584207-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1584207/000158420726000008/omf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer and Insurance",
+   "products": [
+    "Personal Loans",
+    "Auto Finance",
+    "BrightWay credit cards",
+    "Credit life insurance",
+    "Credit disability insurance",
+    "Credit involuntary unemployment insurance",
+    "Trim by OneMain"
+   ],
+   "description": "Originates and services personal loans, auto finance loans, and credit cards, and provides optional credit and non-credit insurance products to nonprime consumers.",
+   "evidence": "At December 31, 2025, Consumer and Insurance (\"C&I\") was our only reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Nonprime consumer borrowers pay interest and certain fees on personal loans, auto finance loans, and credit cards, and customers pay for optional insurance and other products.",
+  "evidence": "We track interest income, including certain fees earned on our finance receivables, and continually monitor the components that impact our yield."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Consumer and Insurance): Guaranteed Asset Protection (GAP) coverage"
+ ]
+}

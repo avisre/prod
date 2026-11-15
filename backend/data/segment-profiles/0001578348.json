@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001578348",
+ "issuerName": "INVESTCORP CREDIT MANAGEMENT BDC, INC.",
+ "builtAt": "2026-11-15T14:12:18.883Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-132860",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1578348/000119312526132860/icmb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty finance",
+   "products": [
+    "first lien loans",
+    "second lien loans",
+    "unitranche loans",
+    "unsecured debt",
+    "bonds"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income and fee income (amendment, prepayment, structuring and other fees) from debt investments in middle-market portfolio companies.",
+  "evidence": "Other fee income includes amendment fees, prepayment fees, structuring fees and other fees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Specialty finance): equity investments through warrants",
+  "segment evidence not verbatim: Specialty finance",
+  "change not grounded: In 2024, the Company changed its fiscal year end from June 30 to December 31."
+ ]
+}

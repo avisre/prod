@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001651625",
+ "issuerName": "AC IMMUNE SA",
+ "builtAt": "2026-11-15T14:13:11.645Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-027342",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1651625/000110465926027342/aciu-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical",
+   "products": [
+    "Morphomer",
+    "SupraAntigen"
+   ],
+   "description": "Discovers and develops therapeutic and diagnostic products targeting misfolded proteins in neurodegenerative and NeuroOrphan diseases.",
+   "evidence": "The Company currently focuses most of its resources on discovering and developing therapeutic and diagnostic products targeting misfolded proteins."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from out-licensing and collaborative agreements (OLCAs) with collaboration partners.",
+  "evidence": "The areas where AC Immune has had to make judgments, estimates and assumptions relate to (i) revenue recognition on OLCAs (Note 13)"
+ },
+ "changes": [],
+ "dropped": []
+}

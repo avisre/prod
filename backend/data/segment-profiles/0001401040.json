@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001401040",
+ "issuerName": "DIAMEDICA THERAPEUTICS INC.",
+ "builtAt": "2026-11-15T14:10:57.796Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010342",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1401040/000143774926010342/dmtp20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug development",
+   "products": [
+    "DM199 (rinvecalinase alfa)",
+    "DM300"
+   ],
+   "description": null,
+   "evidence": "The Company operates in a single operating segment focused on the development of its drug product candidate DM199 for the treatment of severe ischemic disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

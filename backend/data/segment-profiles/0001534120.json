@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001534120",
+ "issuerName": "AVALO THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:11:56.472Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001534120-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534120/000153412026000011/avtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical stage biotechnology",
+   "products": [
+    "abdakibart (AVTX-009)",
+    "quisovalimab (AVTX-002)",
+    "AVTX-006",
+    "AVTX-008",
+    "AVTX-913"
+   ],
+   "description": null,
+   "evidence": "We are a clinical stage biotechnology company fully dedicated to developing IL-1β-based treatments for immune-mediated inflammatory diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company currently generates no product revenue; it historically sold its Millipred prescription drug to wholesaler distributors and expects no future gross product revenues until potential commercialization of its pipeline candidates.",
+  "evidence": "The license and supply agreement for the Millipred ® product ended, as expected, on September 30, 2023, therefore the Company does not expect future gross product revenues until the potential commercialization of its pipeline product candidates."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company's Millipred license and supply agreement ended, ending its historical product revenue.",
+   "evidence": "The license and supply agreement for the Millipred ® product expired, as expected, on September 30, 2023."
+  }
+ ],
+ "dropped": []
+}

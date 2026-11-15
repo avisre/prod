@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001841387",
+ "issuerName": "CANDEL THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:15:33.581Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103134",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1841387/000119312526103134/cadl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Viral immunotherapies",
+   "products": [
+    "valacyclovir"
+   ],
+   "description": "A clinical stage biopharmaceutical business developing off-the-shelf viral immunotherapies that elicit systemic anti-tumor immune responses for cancer patients.",
+   "evidence": "The Company operates in one business segment, which includes all activities related to the discovery, development, and potential commercialization of off-the-shelf viral immunotherapies that help patients fight cancer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Viral immunotherapies): aglatimagene besadenovec (CAN-2409)",
+  "product not in text (Viral immunotherapies): HSV viral immunotherapy platform"
+ ]
+}

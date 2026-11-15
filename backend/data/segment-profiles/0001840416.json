@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001840416",
+ "issuerName": "Sono Group N.V.",
+ "builtAt": "2026-11-15T14:15:28.516Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-002178",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840416/000117184326002178/sev20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solar technology",
+   "products": [
+    "Solar Bus Kit",
+    "solar kits for trucks",
+    "solar charge controller (MCU)",
+    "ViPV solar modules"
+   ],
+   "description": "Develops and integrates proprietary solar technology, including retrofit kits and solar charge controllers, onto commercial vehicles for manufacturers and fleet operators.",
+   "evidence": "In 2024, we expanded our product portfolio beyond the Solar Bus Kit to include similar solar integration solutions for additional commercial vehicle categories, including trucks, vans, RVs, refrigerated trailers, coach buses and panel vans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, mainly commercial vehicle manufacturers and fleet operators, pay for prototype sales and pilot installations of solar retrofit solutions.",
+  "evidence": "Historically, our revenue has been derived primarily from prototype sales and pilot installations of our solar retrofit solutions, including the Solar Bus Kit, across commercial vehicle categories such as buses, trucks, refrigerated trailers and electric vans."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company terminated its Sion passenger car program and pivoted to solar retrofit solutions.",
+   "evidence": "After terminating our Sion passenger car program (the \"Sion\") due to a lack of available funding at the end of February 2023, we pivoted our business model to focus exclusively on retrofitting and integrating our proprietary solar technology onto third party vehicle with an initial focus on our Solar Bus Kit."
+  },
+  {
+   "text": "In 2024 the subsidiary Sono Motors GmbH was reconsolidated after exiting self-administration proceedings.",
+   "evidence": "As a result, all outstanding debts between the Company and the Subsidiary were extinguished, and the Subsidiary was reconsolidated into our consolidated financial statements effective March 1, 2024."
+  },
+  {
+   "text": "In 2026 the company decided to exit its legacy solar operations and adopt a digital asset treasury strategy.",
+   "evidence": "on March 14, 2026, our supervisory board resolved to terminate all current and future funding commitments to the Subsidiary and to exit the legacy solar operations conducted through the Subsidiary, with immediate effect."
+  }
+ ],
+ "dropped": [
+  "product not in text (Solar technology): solar kits for vans",
+  "product not in text (Solar technology): solar kits for RVs",
+  "product not in text (Solar technology): solar kits for refrigeration trailers"
+ ]
+}

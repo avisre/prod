@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001412486",
+ "issuerName": "COCRYSTAL PHARMA, INC.",
+ "builtAt": "2026-11-15T14:11:03.017Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013838",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1412486/000149315226013838/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Antiviral drug development",
+   "products": [
+    "CC-42344"
+   ],
+   "description": "Clinical-stage biotechnology company discovering and developing novel antiviral therapeutics for serious and chronic viral diseases.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment dedicated to the research and development Company's novel orally administered antiviral influenza candidate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

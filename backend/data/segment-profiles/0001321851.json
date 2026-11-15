@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001321851",
+ "issuerName": "Origin Agritech Limited",
+ "builtAt": "2026-11-15T14:10:31.414Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-008700",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1321851/000110465926008700/seed-20250930x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agricultural biotechnology",
+   "products": [
+    "genetically modified phytase corn",
+    "stacked traits of Bt and glyphosate tolerance genes",
+    "Nutrition Enhanced Corn (NEC)"
+   ],
+   "description": "Develops, produces and distributes corn seeds and genetically enhanced crop seed breeding technologies for farmers in the PRC.",
+   "evidence": "Our business focus is primarily on the corn seed development and distribution business and research focused on genetically enhanced breeding technologies in agricultural crops."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling its crop seed products, including hybrid and genetically modified corn seeds, to farmers and distributors in China.",
+  "evidence": "continuing our existing arrangements with farms that grow our crop seed products and entering into new arrangements with additional production farms"
+ },
+ "changes": [
+  {
+   "text": "In 2018, the company sold the subsidiaries Denong, Changchun Origin and Linze Origin under the first phase of the Master Transaction Agreement and terminated the second phase.",
+   "evidence": "In 2018, we closed the first phase of the Master Transaction Agreement and sold the subsidiaries Denong, Changchun Origin and Linze Origin."
+  },
+  {
+   "text": "In 2024, the company established Beijing Origin Agriculture Limited as its primary operational entity and exited the Baodao Origin joint venture.",
+   "evidence": "In September 2024, Origin quit the joint venture."
+  }
+ ],
+ "dropped": [
+  "product not in text (Agricultural biotechnology): glyphosate tolerance corn",
+  "product not in text (Agricultural biotechnology): insect resistance corn",
+  "product not in text (Agricultural biotechnology): hybrid seed varieties"
+ ]
+}

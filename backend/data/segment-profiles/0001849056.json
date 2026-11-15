@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001849056",
+ "issuerName": "Oklo Inc.",
+ "builtAt": "2026-11-15T14:15:45.481Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018698",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1849056/000162828026018698/oklo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nuclear energy",
+   "products": [
+    "Aurora powerhouses",
+    "nuclear fuel recycling",
+    "fuel fabrication",
+    "radioisotopes"
+   ],
+   "description": "Develops fast fission Aurora powerhouses to sell electricity and heat, plus nuclear fuel recycling, fabrication, and radioisotope production.",
+   "evidence": "All properties are used by our single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oklo plans to build, own, and operate its powerhouses and sell electricity and heat directly to customers through power purchase agreements rather than selling reactor designs.",
+  "evidence": "Our primary business model is to sell the energy to customers through PPAs, as opposed to selling our powerhouse designs."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Oklo became a public company via a business combination with AltC Acquisition Corp.",
+   "evidence": "On May 9, 2024, we consummated a business combination pursuant to an Agreement and Plan of Merger and Reorganization dated July 11, 2023"
+  },
+  {
+   "text": "In 2025, Oklo acquired Atomic Alchemy Inc., adding a radioisotope business.",
+   "evidence": "On February 28, 2025, we acquired Atomic Alchemy Inc. (\"Atomic Alchemy\"), a radioisotope business located in the U.S."
+  }
+ ],
+ "dropped": []
+}

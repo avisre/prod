@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001737995",
+ "issuerName": "SkyAI, Inc.",
+ "builtAt": "2026-11-15T14:14:09.190Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014261",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1737995/000149315226014261/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Device Packaging",
+   "products": [
+    "safety syringes",
+    "drug-delivery systems"
+   ],
+   "description": "Markets and distributes syringe products and related drug-delivery systems to hospitals, clinics, healthcare providers, and medical supply organizations.",
+   "evidence": "Medical Device: This segment is responsible for executing and managing the Company's medical device sales and distribution business."
+  },
+  {
+   "name": "Digital Asset Treasury",
+   "products": [
+    "USDC",
+    "USDT"
+   ],
+   "description": "Manages the company's digital asset treasury, holding and staking SOL to generate yield and potential price appreciation.",
+   "evidence": "Digital Asset Treasury: This segment is responsible for executing and managing the Company's treasury platform."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of syringe products to healthcare customers and from staking rewards on its SOL treasury holdings.",
+  "evidence": "Profit generation is expected primarily through (i) potential price appreciation of SOL and (ii) protocol-native staking rewards, which are accrued in SOL."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company moved from a single operating segment to two reportable segments, Medical Device Packaging and Digital Asset Treasury.",
+   "evidence": "During the year ended 2025, as a result of the previously mentioned treasury policy, management re-evaluated its segment reporting structure and determined that is now operates in two reportable segments other than its corporate activities."
+  },
+  {
+   "text": "In 2025, the company sold its Hungarian subsidiary Safegard Medical Kft, which is reported as a discontinued operation.",
+   "evidence": "On October 6, 2025, the Company entered into definitive agreements, including a bill of sale, assignment and assumption agreement providing for the transfer by the Company of certain assets, and a contract for the transfer of business share providing for the assignment by the Company of all of the Company's right, title and interest in and to the issued and outstanding shares of Safegard Medical Kft, the Hungarian subsidiary, which is reflected in the accompanying financial statements as a disco"
+  }
+ ],
+ "dropped": [
+  "product not in text (Medical Device Packaging): conventional syringes",
+  "product not in text (Digital Asset Treasury): Solana (SOL)"
+ ]
+}

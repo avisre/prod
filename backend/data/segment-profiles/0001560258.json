@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001560258",
+ "issuerName": "electroCore, Inc.",
+ "builtAt": "2026-11-15T14:12:05.570Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011636",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1560258/000149315226011636/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bioelectronic Innovations",
+   "products": [
+    "gammaCore",
+    "gammaCore Emerald",
+    "Truvaga",
+    "TAC-STIM",
+    "Quell"
+   ],
+   "description": "Develops and commercializes non-invasive bioelectronic devices for prescription migraine and headache treatment and general wellness and human performance markets.",
+   "evidence": "The Company views its operations and manages its business as one operating segment: Bioelectronic Innovations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of its prescription and general wellness devices to customers, including through ecommerce marketplaces, distributors and government-related arrangements.",
+  "evidence": "We are subject to risks associated with the commercialization of our product offering through ecommerce marketplaces."
+ },
+ "changes": [],
+ "dropped": []
+}

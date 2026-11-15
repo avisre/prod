@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001747661",
+ "issuerName": "Zeta Network Group",
+ "builtAt": "2026-11-15T14:14:15.265Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-110666",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1747661/000121390026110666/ea0307933-20f_zeta.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryptocurrency mining",
+   "products": [
+    "digital asset holdings"
+   ],
+   "description": "Conducts cryptocurrency mining through subsidiary Model Queen, with machines hosted and operated by BTC KZ in Kazakhstan, and holds digital assets.",
+   "evidence": "Our operations now consist principally of cryptocurrency mining conducted through our wholly owned subsidiary Model Queen, together with our digital asset holdings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In April 2025 the company commenced cryptocurrency mining operations in Kazakhstan through Model Queen as a new line of business.",
+   "evidence": "In April 2025, we commenced cryptocurrency mining operations in Kazakhstan through Model Queen."
+  },
+  {
+   "text": "In June 2025 the company changed its name from Color Star Technology Co., Ltd. to Zeta Network Group.",
+   "evidence": "On June 29, 2025, the Company changed its name from Color Star Technology Co., Ltd. to Zeta Network Group."
+  }
+ ],
+ "dropped": [
+  "product not in text (Cryptocurrency mining): cryptocurrency mining",
+  "change not grounded: In 2025 the company sold its entertainment and education operations carried on t"
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001691493",
+ "issuerName": "Nu Holdings Ltd.",
+ "builtAt": "2026-11-15T14:13:36.200Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002166",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1691493/000129281426002166/nuform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital financial services",
+   "products": [
+    "Nu Credit Card",
+    "NuAccount",
+    "personal loans",
+    "Nu Investimentos",
+    "Ultraviolet",
+    "NuPay",
+    "Money Boxes",
+    "Working Capital"
+   ],
+   "description": "A digital financial services platform serving consumers and small businesses in Brazil, Mexico and Colombia across spending, saving, investing, protecting and borrowing.",
+   "evidence": "The CODM considers the whole Group as a single operating and reportable segment, monitoring operations, making decisions on fund allocation, and evaluating performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on credit cards and loans, plus card fees, late fees, insurance commissions and other fees and commissions.",
+  "evidence": "(i) Includes interest income (credit card, loan and other receivables), credit and prepaid card income, late fees, insurance commission and other fees and commission income."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Digital financial services): NuLife insurance"
+ ]
+}

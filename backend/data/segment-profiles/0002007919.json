@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002007919",
+ "issuerName": "Inhibrx Biosciences, Inc.",
+ "builtAt": "2026-11-15T14:17:12.205Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002007919-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2007919/000200791926000006/inbx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biologic therapeutic segment",
+   "products": [
+    "ozekibart (INBRX-109)",
+    "INBRX-106"
+   ],
+   "description": "A clinical-stage biopharmaceutical business discovering and developing novel biologic therapeutic candidates for patients with life-threatening conditions.",
+   "evidence": "The Company views its operations and manages its business as one operating and reportable segment as the Company has devoted substantially all of its resources to drug discovery and development activities through conducting preclinical studies and clinical trials associated with its programs, all of which aim to discover and develop biologic therapeutic candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives revenue from licenses with collaboration partners and grant awards, and has not generated revenue from commercial sale of approved products.",
+  "evidence": "The Company's revenues to date under this segment have been derived from licenses with collaboration partners and grant awards, and the Company has not generated any revenue from the commercial sale of approved therapeutic products (see Note 6)."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the company spun off its INBRX-101 program, which was transferred to Sa"
+ ]
+}

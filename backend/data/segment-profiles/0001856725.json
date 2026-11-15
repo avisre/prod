@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001856725",
+ "issuerName": "RANI THERAPEUTICS HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:15:55.919Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126417",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1856725/000119312526126417/rani-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotherapeutics",
+   "products": [
+    "RaniPill capsule",
+    "RaniPill GO",
+    "RaniPill HC",
+    "RT-114",
+    "RT-117"
+   ],
+   "description": "A clinical stage biotherapeutics company developing an oral delivery platform for biologics and drugs, pursuing partnerships with biopharmaceutical companies.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has not generated product revenue; it receives upfront payments and is eligible for milestones and royalties under collaboration and license agreements with biopharmaceutical partners.",
+  "evidence": "We do not have any products approved for sale, and we have not yet generated any revenue from sales of a commercial product."
+ },
+ "changes": [],
+ "dropped": []
+}

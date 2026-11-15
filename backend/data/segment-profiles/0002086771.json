@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0002086771",
+ "issuerName": "ELEMENTAL ROYALTY CORPORATION",
+ "builtAt": "2026-11-15T14:17:48.547Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001628280-26-020856",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/2086771/000162828026020856/ele-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Royalties",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Royalties"
+ ]
+}

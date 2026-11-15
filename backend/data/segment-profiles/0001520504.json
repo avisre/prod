@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001520504",
+ "issuerName": "Controladora Vuela Compania de Aviacion, S.A.B. de C.V.",
+ "builtAt": "2026-11-15T14:11:49.577Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002559",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1520504/000129281426002559/vlrsform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air transportation",
+   "products": [
+    "passenger air transportation",
+    "v.club membership"
+   ],
+   "description": "An ultra-low-cost airline providing passenger air transportation and related services in Mexico, the United States, Central America and South America.",
+   "evidence": "Management of Controladora monitors the Company as a single business unit that provides air transportation and related services; accordingly, it has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Passengers pay low base fares for flights plus optional fees for unbundled products and services, generating passenger and non-passenger revenue.",
+  "evidence": "We have unbundled certain components of our air travel service as part of a strategy to enable our passengers to only pay for the products and services they want to use."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Air transportation): unbundled travel products and services"
+ ]
+}

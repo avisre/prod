@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001705402",
+ "issuerName": "AGM Group Holdings Inc.",
+ "builtAt": "2026-11-15T14:13:43.418Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-003323",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-08-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1705402/000118518526003323/agmh20f123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Operating segment",
+   "products": [],
+   "description": "The company operates as a single operating segment, with results reviewed by the chief operating decision maker at the revenue level by customer.",
+   "evidence": "Consequently, the Company has determined that it has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the company sold its entire equity interest in Nanjing Lucun, which was accounted for as discontinued operations.",
+   "evidence": "On May 6, 2025, the Hong Kong subsidiary of AGM Holdings, AGM HK, entered into an Equity Transfer Agreement by and among AGM HK, Nanjing Lucun and Hong Kong Giant Electronics Co., Limited (\"Giant Electronics\") for the sale of shares of Nanjing Lucun held by AGM HK to Giant Electronics"
+  }
+ ],
+ "dropped": []
+}

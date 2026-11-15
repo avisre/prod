@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001699350",
+ "issuerName": "Shoulder Innovations, Inc.",
+ "builtAt": "2026-11-15T14:13:37.841Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001699350-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1699350/000169935026000011/si-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shoulder arthroplasty",
+   "products": [
+    "InSet Glenoid",
+    "InSet PLUS Augmented Glenoid",
+    "I-Series humeral stem system",
+    "ProVoyance preoperative planning technology",
+    "two tray instrument system"
+   ],
+   "description": "Commercial-stage medical technology company offering advanced shoulder implant systems, preoperative planning technology, instruments and specialized support to shoulder surgeons.",
+   "evidence": "The Company's business structure is comprised of one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Shoulder arthroplasty): InSet anatomic total shoulder arthroplasty (aTSA) systems",
+  "product not in text (Shoulder arthroplasty): InSet reverse total shoulder arthroplasty (rTSA) systems"
+ ]
+}

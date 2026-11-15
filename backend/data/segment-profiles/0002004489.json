@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0002004489",
+ "issuerName": "Basel Medical Group Ltd",
+ "builtAt": "2026-11-15T14:17:10.200Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-049381",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2004489/000149315226049381/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare services",
+   "products": [
+    "orthopedic treatments and surgeries",
+    "trauma and sports medicine services",
+    "physiotherapy services",
+    "general practices",
+    "health screening",
+    "mental health",
+    "women's health",
+    "neurological treatments"
+   ],
+   "description": "Provides medical services including orthopedic, trauma, sports medicine, general practice and other specialist care to patients in Singapore.",
+   "evidence": "Our Group is a healthcare group primarily involved in the provision of a comprehensive range of health services including but not limited to orthopedic treatments and surgeries, trauma and sports medicine services (both surgical and non-surgical), physiotherapy services, general practices, health screening, mental health, woman's health and neurological treatments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients, their employers or insurers pay the Group fees for medical services rendered, based on an internal itemized fee scale referenced to Ministry of Health benchmarks.",
+  "evidence": "Our fees are paid for either by the patient, or by the patient's employer or insurer in the case of a qualifying claim which qualification depends on the terms of employment or insurance coverage of such patient."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Group acquired Bethesda Medical, adding six general practice clinics in Singapore.",
+   "evidence": "The acquisition of Bethesda Medical was completed on April 30, 2025."
+  }
+ ],
+ "dropped": []
+}

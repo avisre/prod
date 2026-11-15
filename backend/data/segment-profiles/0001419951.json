@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001419951",
+ "issuerName": "DATA STORAGE CORPORATION",
+ "builtAt": "2026-11-15T14:11:06.383Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001731122-26-000564",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1419951/000173112226000564/e7502_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Voice and data",
+   "products": [
+    "fully managed business voice",
+    "internet",
+    "data transport",
+    "SD-WAN communication solutions"
+   ],
+   "description": "Provides fully managed voice, internet, data transport and SD-WAN communication solutions to businesses across multiple verticals nationwide.",
+   "evidence": "Nexxis is a provider of fully managed business voice, internet, data transport, and SD-WAN communication solutions engineered for enterprise-grade reliability, cloud performance, and simplified operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Business customers pay recurring subscription fees for fully managed, integrated connectivity services under unified service agreements.",
+  "evidence": "The unified service agreement offered by Nexxis to its customers provides fully managed, integrated connectivity services that combine advanced voice communications with high-performance internet and WAN infrastructure."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold its cloud solutions business (CloudFirst Technologies Corporation and CloudFirst Europe Ltd.), which was classified as discontinued operations.",
+   "evidence": "On September 11, 2025, the Company completed the sale of its Cloud Solutions Business, which consisted of the operations of the Company's subsidiaries, CloudFirst Technologies Corporation and CloudFirst Europe Ltd."
+  }
+ ],
+ "dropped": [
+  "product not in text (Voice and data): interconnected nomadic VoIP services"
+ ]
+}

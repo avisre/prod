@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001384195",
+ "issuerName": "Ring Energy, Inc.",
+ "builtAt": "2026-11-15T14:10:51.660Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001384195-26-000050",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1384195/000138419526000050/rei-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and Production",
+   "products": [
+    "oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores, produces and sells oil, natural gas and NGLs in the Permian Basin of Texas for midstream and end-user purchasers.",
+   "evidence": "it has been determined that it is appropriate to aggregate its operating segments into a single reportable segment, Exploration and Production, which includes all of its revenues, lease operating expenses, gathering, transportation and processing costs, ad valorem taxes, and oil and natural gas production taxes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells oil, natural gas and NGL production to end users, marketers and other purchasers with pipeline access, recognizing revenue when control transfers at the point of delivery.",
+  "evidence": "We principally sell our oil and natural gas production to end users, marketers and other purchasers that have access to nearby pipeline facilities."
+ },
+ "changes": [],
+ "dropped": []
+}

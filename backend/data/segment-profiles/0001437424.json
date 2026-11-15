@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001437424",
+ "issuerName": "POET TECHNOLOGIES INC.",
+ "builtAt": "2026-11-15T14:11:20.773Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-014253",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1437424/000149315226014253/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor products and services",
+   "products": [
+    "POET Optical Interposer",
+    "Optical Engines",
+    "Light Source products"
+   ],
+   "description": "Designs, manufactures and sells semiconductor photonic packaging products and services, including optical engines and light sources for AI data centers.",
+   "evidence": "The Company and its subsidiaries operate in a single segment; the design, manufacture and sale of semiconductor products and services for commercial applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Semiconductor products and services): Blazar hybrid laser",
+  "change not grounded: In 2025, the Company acquired the remaining shares of Super Photonics Xiamen Co."
+ ]
+}

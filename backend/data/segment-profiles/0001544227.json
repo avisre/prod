@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001544227",
+ "issuerName": "Tempest Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:01.611Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-130490",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1544227/000119312526130490/tpst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Discovery and development of small molecule drugs to treat cancers",
+   "products": [
+    "amezalpat (TPST-1120)",
+    "TPST-1495",
+    "TPST-2003",
+    "TPST-2206",
+    "TPST-3003",
+    "TPST-3206",
+    "TPST-4003"
+   ],
+   "description": "A clinical-stage biotechnology company developing small molecule and CAR-T cell therapy product candidates to treat cancers and other diseases.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of discovery and development of small molecule drugs to treat cancers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In February 2026, the company acquired rights to a portfolio of dual-targeting C"
+ ]
+}

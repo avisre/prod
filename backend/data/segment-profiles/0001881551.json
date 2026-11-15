@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001881551",
+ "issuerName": "SOLIDION TECHNOLOGY, INC.",
+ "builtAt": "2026-11-15T14:16:11.643Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-044126",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1881551/000121390026044126/ea0276988-10k_solidion.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Battery Technology",
+   "products": [
+    "silicon-rich anode materials",
+    "solid-state battery technology",
+    "fire-retardant electrolytes",
+    "graphene-enabled batteries",
+    "elastomer-protected electrodes",
+    "quasi-solid and solid-state electrolytes",
+    "biochar-derived anode materials"
+   ],
+   "description": "Develops and commercializes next-generation battery materials, components and energy storage solutions for EV, ESS and consumer electronics markets.",
+   "evidence": "Solidion Technology, Inc. is an advanced battery technology company focused on the development and commercialization of next-generation battery materials, components, and energy storage solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the SPAC Nubia Brand International Corp. completed its merger with Honeycomb Battery Company and was renamed Solidion Technology, Inc.",
+   "evidence": "On February 2, 2024, we consummated the previously announced business combination (the \"Closing\") pursuant to a Merger Agreement, dated February 16, 2023 (as amended on August 25, 2023, the \"Merger Agreement\"), by and among Nubia, Honeycomb Battery Company, an Ohio corporation (\"HBC\"), and Nubia Merger Sub, Inc."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001553846",
+ "issuerName": "REDHILL BIOPHARMA LTD.",
+ "builtAt": "2026-11-15T14:12:03.887Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-049055",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1553846/000110465926049055/rdhl-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Talicia®",
+    "RHB-104/RHB-204"
+   ],
+   "description": null,
+   "evidence": "our ability to develop or obtain approval for RHB-104/RHB-204 in Crohn's may be adversely impacted if a validated lab test for MAP will not become available"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales of Talicia to wholesalers and patients, net of rebates and patient discount programs offered to wholesalers and patients.",
+  "evidence": "These rebates and discounts, provided to wholesalers and patients, are accounted for as variable consideration, and recognized as a reduction in revenue, for which unsettled amounts are accrued."
+ },
+ "changes": [
+  {
+   "text": "In 2025, following Cumberland's investment, the company lost control of Talicia Holdings Inc. (THI) and its U.S. commercial operations and Talicia licensing activities are presented as discontinued operations.",
+   "evidence": "Accordingly, the Company's U.S. commercial operations and the Talicia licensing activites, which represent a separate major line of business, are presented retrospectively as discontinued operations in accordance with IFRS 5."
+  }
+ ],
+ "dropped": []
+}

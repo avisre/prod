@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001806952",
+ "issuerName": "Lyell Immunopharma, Inc.",
+ "builtAt": "2026-11-15T14:14:46.692Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017253",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1806952/000162828026017253/lyel-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cell therapy",
+   "products": [
+    "LYL273 (previously known as GCC19CART)"
+   ],
+   "description": "A late-stage clinical cell therapy company developing next-generation autologous CAR T-cell product candidates for patients with cancer.",
+   "evidence": "The Company views its operations and manages its business in one operating segment and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Cell therapy): Rondecabtagene autoleucel (ronde-cel, LYL314)"
+ ]
+}

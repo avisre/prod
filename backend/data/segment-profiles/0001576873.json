@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001576873",
+ "issuerName": "AMERICAN     BATTERY TECHNOLOGY COMPANY",
+ "builtAt": "2026-11-15T14:12:17.642Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-042497",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1576873/000149315226042497/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Critical minerals",
+   "products": [
+    "lithium-ion battery recycling",
+    "black mass filter cake",
+    "byproduct metals",
+    "critical mineral exploration"
+   ],
+   "description": "An integrated critical minerals company exploring primary battery metal resources, developing extraction technologies, and recycling lithium-ion batteries for domestic manufacturers.",
+   "evidence": "The Company operates as a single business operating segment, which includes all activities related to the exploration of new primary resources of battery metals, in the development and commercialization of new technologies for the extraction of these battery metals from primary resources, and in the commercialization of an internally developed integrated process for the recycling of lithium-ion batteries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from selling black mass, mostly to foreign customers, and sells recycling byproducts under offtake agreements or into the scrap market.",
+  "evidence": "Sales of black mass represent the majority of the Company's total revenue, and substantially all of its current black mass customers are located outside the United States."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Critical minerals): extraction technologies for primary resources"
+ ]
+}

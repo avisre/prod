@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001837493",
+ "issuerName": "QTREX Quantum Ltd.",
+ "builtAt": "2026-11-15T14:15:24.669Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-001072",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1837493/000118518526001072/iinn20f123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Respiratory support technology",
+   "products": [],
+   "description": "Develops and seeks to commercialize medical devices for the treatment of respiratory failure for the healthcare market.",
+   "evidence": "Our products, focused on the treatment of respiratory failure, are the basis of our business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company expects to record revenue through strategic relationships and distribution agreements with Glo-Med and other distributors for the deployment of its products, but has not yet generated significant product sales revenue.",
+  "evidence": "We currently expect to record revenue through our strategic relationships and distribution agreements with Glo-Med Networks Inc., or Glo-Med, as well as other distributors for the deployment of our products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Respiratory support technology): respiratory support technology"
+ ]
+}

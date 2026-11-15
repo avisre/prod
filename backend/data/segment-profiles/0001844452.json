@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001844452",
+ "issuerName": "INTUITIVE MACHINES, INC.",
+ "builtAt": "2026-11-15T14:15:37.487Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019865",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1844452/000162828026019865/lunr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Space infrastructure and services",
+   "products": [
+    "spacecraft",
+    "landers",
+    "satellites",
+    "surface systems",
+    "propulsion",
+    "avionics",
+    "data relay services",
+    "hosted payload services"
+   ],
+   "description": "Designs, builds, integrates and operates space systems and infrastructure for civil, national security and commercial customers across LEO, GEO, cislunar space and deep space.",
+   "evidence": "The Company operates in one operating segment and one reportable segment underpinned by our operating model organized around three integrated capabilities, Build-Connect-Operate that have similar customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from U.S. government customers, under contracts for spacecraft delivery, lunar cargo missions, data services and related space infrastructure services.",
+  "evidence": "There was one major customer that accounted for 78 % and 90 % of the Company's total revenue for the years ended December 31, 2025 and 2024, respectively."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired KinetX, Inc.",
+   "evidence": "On October 1, 2025, the Company completed the stock purchase agreement to acquire 100% of the issued and outstanding capital stock of KinetX, Inc (\"KinetX\")."
+  },
+  {
+   "text": "In 2026, the Company completed the acquisition of Lanteris Space Holdings LLC, a spacecraft manufacturer.",
+   "evidence": "On January 13, 2026, the Company completed the acquisition of 100% of the issued and outstanding membership interests of Lanteris."
+  }
+ ],
+ "dropped": []
+}

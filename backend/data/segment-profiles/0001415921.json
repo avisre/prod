@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001415921",
+ "issuerName": "NAVIOS MARITIME PARTNERS L.P.",
+ "builtAt": "2026-11-15T14:11:04.620Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-104182",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1415921/000119312526104182/nmm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chartering",
+   "products": [
+    "time charters",
+    "bareboat charters",
+    "voyage charters",
+    "pooling arrangements",
+    "profit-sharing"
+   ],
+   "description": "Navios Partners charters its dry bulk, container and tanker vessels to charterers under time, bareboat and voyage charters and pooling arrangements.",
+   "evidence": "Navios Partners reports financial information and evaluates its operations primarily based on charter revenues, without differentiating by vessel type or the length of ship employment for its customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Charterers pay the company a specified daily hire rate under time and bareboat charters, agreed freight per ton under voyage charters, and allocated pool or profit-share amounts.",
+  "evidence": "A time charter involves placing a vessel at the charterers' disposal for a period of time during which the charterer uses the vessel in return for the payment of a specified daily hire rate."
+ },
+ "changes": [],
+ "dropped": []
+}

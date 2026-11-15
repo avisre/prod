@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001593899",
+ "issuerName": "Atea Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-15T14:12:27.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-094159",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1593899/000119312526094159/avir-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Antiviral therapeutics",
+   "products": [
+    "bemnifosbuvir",
+    "ruzasvir",
+    "AT-587"
+   ],
+   "description": "A late-stage clinical biopharmaceutical company discovering, developing and commercializing novel, orally administered antivirals to treat serious viral diseases.",
+   "evidence": "The Company operates as one operating segment, focused on discovering, developing and commercializing antiviral therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0002064764",
+ "issuerName": "Pulsenmore Ltd.",
+ "builtAt": "2026-11-15T14:17:45.642Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-013485",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2064764/000149315226013485/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "Pulsenmore ES",
+    "Pulsenmore FC",
+    "Pulsenmore MC"
+   ],
+   "description": "Develops, manufactures and sells non-invasive portable home-use ultrasound devices for prenatal care, fertility monitoring and pulmonary applications.",
+   "evidence": "We currently have two primary products, the Pulsenmore ES and the Pulsenmore FC, and an additional third portable ultrasound solution that is in earlier developmental stages, the Pulsenmore MC."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives revenue primarily from sales of its Pulsenmore ES device to healthcare providers and distributors, and in 2025 also recognized revenues from a settlement agreement with GEHC.",
+  "evidence": "We primarily derive revenue from the sale of our Pulsenmore ES product."
+ },
+ "changes": [],
+ "dropped": []
+}

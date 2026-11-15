@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002027317",
+ "issuerName": "Curbline Properties Corp.",
+ "builtAt": "2026-11-15T14:17:25.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-043647",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/2027317/000119312526043647/curb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Convenience shopping centers",
+   "products": [],
+   "description": "Owns and manages a portfolio of convenience shopping centers operated and managed on a consolidated basis.",
+   "evidence": "The Company has a single operating segment. The Company's convenience shopping centers have common characteristics and are managed on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024 the company was separated from its parent pursuant to a separation and distribution agreement.",
+   "evidence": "SeparationAndDistributionAgreementMember 2024-10-01"
+  }
+ ],
+ "dropped": [
+  "product not in text (Convenience shopping centers): convenience shopping centers",
+  "revenue model not grounded"
+ ]
+}

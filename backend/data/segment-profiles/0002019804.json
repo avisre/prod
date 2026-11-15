@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002019804",
+ "issuerName": "Terrestrial Energy Inc. /DE/",
+ "builtAt": "2026-11-15T14:17:18.392Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036846",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2019804/000110465926036846/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced nuclear technology",
+   "products": [
+    "IMSR Core-unit",
+    "IMSR fuel"
+   ],
+   "description": "Develops the IMSR Plant, a small modular molten salt reactor, to supply low-carbon electricity and industrial heat to governments and industrial customers.",
+   "evidence": "Terrestrial Energy Inc. is an advanced nuclear technology company developing the Integral Molten Salt Reactor nuclear plant (\"IMSR Plant\"), which uses the Company's proprietary design of Molten Salt Reactor (\"MSR\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "IMSR Plant project developers and owner-operators will pay the company for pre-construction and construction services, IMSR Core-unit supply, and recurring IMSR fuel supply.",
+  "evidence": "Our customers will be IMSR Plant project developers who are also likely to be the owner-operators of the IMSR Plant to whom we plan to provide engineering and construction services and supply fuel and key components."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advanced nuclear technology): Integral Molten Salt Reactor nuclear plant (IMSR Plant)"
+ ]
+}

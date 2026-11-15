@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001350102",
+ "issuerName": "Ascent Solar Technologies, Inc.",
+ "builtAt": "2026-11-15T14:10:38.649Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-117839",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1350102/000119312526117839/asti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PV",
+   "products": [
+    "PV products",
+    "engineering services"
+   ],
+   "description": "Sells flexible photovoltaic solar products and engineering services, primarily in North America, to specialty and weight-sensitive markets.",
+   "evidence": "The Company has one reportable segment, PV. The PV segment sells PV products and engineering services and currently, is primarily selling it in North America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for its PV products and engineering services.",
+  "evidence": "The PV segment sells PV products and engineering services and currently, is primarily selling it in North America."
+ },
+ "changes": [],
+ "dropped": []
+}

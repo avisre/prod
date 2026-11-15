@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001859690",
+ "issuerName": "Arqit Quantum Inc.",
+ "builtAt": "2026-11-15T14:15:58.715Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-25-119500",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1859690/000110465925119500/arqq-20250930x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity services",
+   "products": [
+    "SKA-Platform™",
+    "NetworkSecure™",
+    "Encryption Intelligence"
+   ],
+   "description": "Provides quantum-safe encryption software and encryption analytics services to governments, militaries, telecom operators and enterprises.",
+   "evidence": "Currently, Arqit conducts business through one operating segment, which is the provision of cybersecurity services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Arqit earns revenue primarily from selling SKA-Platform™ licenses and related services, mostly through channel partners, recognized over the contract term once the license key is delivered.",
+  "evidence": "The majority of revenue is expected to be derived from the sale of SKA-Platform ™ and other related services through channel partners."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, Arqit discontinued its satellite division and fully impaired the related satellite assets.",
+   "evidence": "During the fiscal year ended September 30, 2024, Arqit determined that its satellite assets were no longer considered as \"held for sale\" given it was unsuccessful in its efforts to identify a buyer for the satellite division and/or related IP."
+  },
+  {
+   "text": "In fiscal 2024, Arqit discontinued its TradeSecure product and impaired the related development costs.",
+   "evidence": "During the year ended September 30, 2024, Arqit impaired development costs related to its digital bills of exchange intangibles in connection with the discontinuation of the TradeSecure product."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,23 @@
+{
+ "version": 1,
+ "cik": "0001676725",
+ "issuerName": "IDEAYA Biosciences, Inc.",
+ "builtAt": "2026-11-15T14:13:28.305Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-054533",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1676725/000119312526054533/idya-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Oncology-focused precision medicine research and development",
+  "revenue model not grounded",
+  "change not grounded: In 2026, GSK terminated its agreement and transferred the Pol Theta (IDE705) and"
+ ]
+}

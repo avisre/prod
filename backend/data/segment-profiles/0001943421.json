@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001943421",
+ "issuerName": "Rubico Inc.",
+ "builtAt": "2026-11-15T14:16:34.791Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-010621",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1943421/000114036126010621/ef20062694_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vessel operations",
+   "products": [
+    "M/T Eco Malibu",
+    "M/T Eco West Coast"
+   ],
+   "description": "Owns and operates two Suezmax crude oil tankers chartered to customers for seaborne transportation of crude oil.",
+   "evidence": "The Board of Directors of the Company, the chief operating decision makers, (\"CODM\") assess performance for the vessel operations segment and decides how to allocate resources based on consolidated net income thus the Company has determined that it operates under one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company daily charter hire under time charter agreements for use of its tankers.",
+  "evidence": "Under a time charter agreement, vessel management fees, broker's commissions and operating expenses such as, crew wages, provisions and stores, technical maintenance and insurance expenses are paid by the vessel owner, whereas voyage expenses such as bunkers, port expenses, agents' fees, and extra war risk insurance are paid by the charterer, with the exception of broker's commissions."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company entered into the Newbuilding Yacht SPA to purchase Roman Explorer Inc., owner of the Newbuilding Yacht, expanding into a new line of business.",
+   "evidence": "For instance, in 2025, we entered into the Newbuilding Yacht Share Purchase Agreement (the \"Newbuilding Yacht SPA\") to purchase Roman Explorer Inc., the company that will acquire ownership of the Newbuilding Yacht (as defined below)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Vessel operations): crude oil transportation"
+ ]
+}

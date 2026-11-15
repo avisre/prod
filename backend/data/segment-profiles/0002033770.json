@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0002033770",
+ "issuerName": "CID HOLDCO, INC.",
+ "builtAt": "2026-11-15T14:17:38.000Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-026247",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/2033770/000121390026026247/ea0280037-10k_cidhold.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset tracking",
+   "products": [
+    "Bridges",
+    "Gateways",
+    "Labels",
+    "Dot Cloud SaaS platform",
+    "Subscription services",
+    "Training and support",
+    "Professional services",
+    "Feasibility studies"
+   ],
+   "description": "Provides an integrated offering of hardware tracking devices and cloud-based SaaS subscription services for real-time asset tracking to U.S. customers.",
+   "evidence": "The Company operates as a single reportable segment and generates revenue from an integrated offering of hardware products and related software and subscription services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Company completed a business combination with ShoulderUp, accounted for as a reverse recapitalization with the Company as the accounting acquirer.",
+   "evidence": "Although ShoulderUp was the legal acquirer in the transaction, the Company was determined to be the accounting acquirer based on the evaluation of the relevant accounting guidance."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

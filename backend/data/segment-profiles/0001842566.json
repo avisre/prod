@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001842566",
+ "issuerName": "Airship AI Holdings, Inc.",
+ "builtAt": "2026-11-15T14:15:35.382Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-001280",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1842566/000165495426001280/airsp_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI-driven data management platform",
+   "products": [
+    "Outpost AI",
+    "Acropolis",
+    "Airship Command"
+   ],
+   "description": "Provides an AI-driven edge data management platform that structures and analyzes sensor data for government, law enforcement and large commercial customers.",
+   "evidence": "Accordingly, all operations are considered by management to be one operating segment and one reportable segment as contained in the Consolidated Statements of Operations and Comprehensive Loss to the consolidated financial statements."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay under multi-year contractual agreements that include core offerings plus professional services, technical support and software maintenance, generating recurring revenue.",
+  "evidence": "Our typical customer engagement is a multi-year contractual agreement, an agreement which includes our core offerings as well as professional services, technical support, and software maintenance, which we expect will result in predictable, long-term recurring revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company completed its merger with BYTE Acquisition Corp., making Airship AI a wholly-owned subsidiary of Airship AI Holdings, Inc.",
+   "evidence": "On December 21, 2023, the Company completed the merger contemplated by the Merger Agreement, dated as of June 27, 2023, as amended (the \"Merger Agreement\") by and among BYTE Acquisition Corp. (\"BYTS\"), BYTE Merger Sub, Inc., a Washington corporation and a direct, wholly-owned subsidiary of BYTS (\"Merger Sub\"), and Airship AI."
+  }
+ ],
+ "dropped": []
+}

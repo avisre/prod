@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001674632",
+ "issuerName": "BETA BIONICS, INC.",
+ "builtAt": "2026-11-15T14:13:27.571Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067065",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1674632/000119312526067065/bbnx-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by distributors and pharmacies that resell its iLet and single-use products to people with diabetes, with revenue recognized upon transfer of control, net of returns, rebates, patient assistance and chargebacks.",
+  "evidence": "These products are distributed through a network of distributors and pharmacies, which then resell the products to insulin-requiring PWD."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Diabetes technology"
+ ]
+}

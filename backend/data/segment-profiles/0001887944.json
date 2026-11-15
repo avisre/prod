@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001887944",
+ "issuerName": "Shimmick Corporation",
+ "builtAt": "2026-11-15T14:16:13.688Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-105064",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1887944/000119312526105064/shim-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure solutions",
+   "products": [
+    "Water and wastewater treatment",
+    "Energy transition and mission critical"
+   ],
+   "description": "Provides turnkey heavy civil construction of water and other critical infrastructure for predominantly public-sector customers in the United States.",
+   "evidence": "The Company is organized and operates as one operating and reportable segment: infrastructure solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shimmick is paid predominantly by federal, state and local public-sector customers under fixed-price, cost-reimbursable, and equipment and labor construction contracts.",
+  "evidence": "Our customers are predominantly in the public sector and include a broad base of federal agencies (military and civilian), municipal water and wastewater districts, irrigation districts, flood control districts, local and regional transit authorities, and statewide, county and city public works departments."
+ },
+ "changes": [
+  {
+   "text": "In 2021, the company was sold by AECOM and became an independent company under new private ownership.",
+   "evidence": "In 2021, we were sold by AECOM and became an independent company under new private ownership (the \"AECOM Sale Transaction\")."
+  },
+  {
+   "text": "In 2023, the company completed its initial public offering and its common stock began trading on Nasdaq.",
+   "evidence": "In November 2023, we completed our initial public offering (the \"IPO\") and currently our common stock is listed for trading on the Nasdaq Capital Market under the symbol \"SHIM\"."
+  },
+  {
+   "text": "In 2025, the company launched Axia Electric, a dedicated electrical and power distribution subsidiary.",
+   "evidence": "On June 23, 2025, Shimmick announced the launch of Axia Electric LLC (\"Axia Electric\"), a dedicated electrical subsidiary designed to meet growing market demand for specialized, high-performance electrical and power distribution solutions."
+  }
+ ],
+ "dropped": [
+  "product not in text (Infrastructure solutions): Water resources (dams, reservoirs, conveyance)",
+  "product not in text (Infrastructure solutions): Climate resilience (levees, flood walls, pump stations)",
+  "product not in text (Infrastructure solutions): Transportation and mobility (mass transit, bridges)",
+  "product not in text (Infrastructure solutions): Axia Electric (electrical and power distribution)"
+ ]
+}

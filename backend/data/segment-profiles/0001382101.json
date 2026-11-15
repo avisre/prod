@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001382101",
+ "issuerName": "SUTRO BIOPHARMA, INC.",
+ "builtAt": "2026-11-15T14:10:49.739Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-119873",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1382101/000119312526119873/stro-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ADC development",
+   "products": [
+    "STRO-004",
+    "STRO-006",
+    "STRO-227",
+    "XpressCF",
+    "XpressCF+"
+   ],
+   "description": "A clinical stage oncology business developing site-specific and novel-format antibody drug conjugates for cancer patients.",
+   "evidence": "The Company operates in one business segment that focuses on developing site-specific and novel-format ADCs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by pharmaceutical and biotechnology collaboration partners for drug discovery, development and licensing of product candidates created with its platforms.",
+  "evidence": "Through December 31, 2025, we have received an aggregate of approximately $1.016 billion in payments from all of our collaborations, which includes approximately $79 million in investments in our stock."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company terminated development of luveltamab tazevibulin (luvelta) after a strategic portfolio review.",
+   "evidence": "Following this review, we made the strategic decision to deprioritize additional investment into luvelta development, and development has since been terminated."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the exclusive license agreement with Ipsen for STRO-003 was terminated."
+ ]
+}

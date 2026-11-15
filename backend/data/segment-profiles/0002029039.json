@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0002029039",
+ "issuerName": "Nasus Pharma Ltd",
+ "builtAt": "2026-11-15T14:17:27.287Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-012559",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2029039/000149315226012559/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Intranasal drug development"
+ ]
+}

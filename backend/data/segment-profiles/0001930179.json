@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001930179",
+ "issuerName": "ARB IOT Group Limited",
+ "builtAt": "2026-11-15T14:16:27.437Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-114085",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1930179/000121390026114085/ea0309070-20f_arbiot.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Provision of hardware and software of Internet of Things solutions",
+   "products": [
+    "IoT AI servers",
+    "IoT AI power chargers",
+    "IoT drones"
+   ],
+   "description": "Supplies IoT hardware and software, mainly IoT AI servers, power chargers and drones, to customers across various industries.",
+   "evidence": "We report our results of operations in two reportable segments dedicated to (i) the provision of hardware and software of Internet of Things solutions and (ii) investment holding."
+  },
+  {
+   "name": "Investment holding",
+   "products": [],
+   "description": "Holds investments in the group's operating subsidiaries.",
+   "evidence": "We report our results of operations in two reportable segments dedicated to (i) the provision of hardware and software of Internet of Things solutions and (ii) investment holding."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for IoT products sold, with revenue from sale of goods recognized when control of the goods transfers to the customer upon delivery and acceptance.",
+  "evidence": "Revenue from sale of goods is recognized at a point in time when the Group satisfies a performance obligation by transferring a promised good (i.e., an asset) to a customer."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, revenue from IoT Devices and Smart Solutions and IoT AI Software and Data Solutions fell to nil, while the new IoT AI Infrastructure category generated most revenue.",
+   "evidence": "Revenue from IoT Devices and Smart Solutions decreased from RM153.3 million ($36.4 million) for the year ended June 30, 2025 to RM nil for the year ended June 30, 2026."
+  }
+ ],
+ "dropped": []
+}

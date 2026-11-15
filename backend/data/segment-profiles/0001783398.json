@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001783398",
+ "issuerName": "UWM HOLDINGS CORPORATION",
+ "builtAt": "2026-11-15T14:14:29.843Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001783398-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1783398/000178339826000013/uwmc-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns loan production income from originating and selling mortgage loans, loan servicing income from servicing loans for investors, and interest income on mortgage loans held at fair value.",
+  "evidence": "The Company generates revenue from the following three components of the loan origination business: (i) loan production income, (ii) loan servicing income, and (iii) interest income."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Wholesale Mortgage Lending"
+ ]
+}

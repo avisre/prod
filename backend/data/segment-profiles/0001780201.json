@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001780201",
+ "issuerName": "Lulu’s Fashion Lounge Holdings, Inc.",
+ "builtAt": "2026-11-15T14:14:27.383Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036884",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1780201/000110465926036884/lvlu-20251228x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sale of merchandise directly to end customers",
+   "products": [
+    "women's clothing",
+    "casual wear",
+    "footwear",
+    "event dressing",
+    "exclusive Lulus products"
+   ],
+   "description": "Sells modern, feminine women's clothing at accessible prices directly to Gen Z and Millennial customers, primarily online.",
+   "evidence": "The Company has one reportable segment related to the sale of merchandise directly to end customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily end consumers in the U.S., pay Lulus for women's clothing sold direct-to-consumer through its website and mobile app, plus a small wholesale business.",
+  "evidence": "Our brand primarily operates direct-to-consumer, and while we expect that it will continue to operate in that manner as we continue to grow, we are focusing on channel expansion and wholesale initiatives to further build brand awareness, expand our reach and attract new customers."
+ },
+ "changes": [],
+ "dropped": []
+}

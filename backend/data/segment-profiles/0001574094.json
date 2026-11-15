@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001574094",
+ "issuerName": "RENOVORX, INC.",
+ "builtAt": "2026-11-15T14:12:14.181Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-131928",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1574094/000119312526131928/rnxt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Targeted oncology therapies",
+   "products": [
+    "IAG",
+    "RenovoCath delivery device"
+   ],
+   "description": "Develops novel targeted oncology therapies and offers the RenovoCath delivery system as a stand-alone device for high unmet medical needs.",
+   "evidence": "The Company operates as a single reporting segment, focused on developing novel targeted oncology therapies and offering RenovoCath delivery system as stand-alone device targeting high unmet medical needs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from product sales of RenovoCath devices to commercial customers in the United States.",
+  "evidence": "Accounts receivable represents amounts arising from product sales and are reported at outstanding amounts where management has the intent and ability to collect"
+ },
+ "changes": [],
+ "dropped": []
+}

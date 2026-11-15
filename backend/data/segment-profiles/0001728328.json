@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001728328",
+ "issuerName": "INMED PHARMACEUTICALS INC.",
+ "builtAt": "2026-11-15T14:13:59.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-098419",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1728328/000121390026098419/ea0301263-10k_inmed.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "InMed Pharmaceuticals (\"InMed Pharma\")",
+   "products": [
+    "INM-901",
+    "INM-089",
+    "INM-755 (cannabinol) cream"
+   ],
+   "description": "Preclinical pharmaceutical drug development of proprietary small molecule drug candidates targeting Alzheimer's disease, dry AMD and Epidermolysis Bullosa.",
+   "evidence": "We have determined our reportable segment to be InMed Pharmaceuticals (\"InMed Pharma\") based on the information used by the CODM."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company historically generated revenue from BayMedica product sales, but after the 2026 wind-down of BayMedica it expects no product candidate revenue for several years, funding operations through share sales.",
+  "evidence": "Since our inception, we have generated revenue from BayMedica product sales and no sales from any other sources and have incurred significant operating losses and negative cash flows from our operations."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company wound down and discontinued its BayMedica commercial operations segment, its only revenue-generating business.",
+   "evidence": "On March 4, 2026, the InMed Board ratified, confirmed and approved the decision of the board members of BayMedica to wind down and exit BayMedica's commercial operations business segment, which constitutes the only revenue-generating commercial operations of InMed."
+  }
+ ],
+ "dropped": []
+}

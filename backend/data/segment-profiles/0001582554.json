@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001582554",
+ "issuerName": "MATINAS BIOPHARMA HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:12:21.362Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014132",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1582554/000149315226014132/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biopharmaceutical",
+   "products": [
+    "MAT2203 (oral amphotericin B)",
+    "LNC Platform"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing therapies using its lipid nanocrystal platform delivery technology for patients with life-threatening invasive fungal infections.",
+   "evidence": "Matinas BioPharma Holdings, Inc. (\"Matinas\" or the \"Company\") is a clinical-stage biopharmaceutical company focused on delivering groundbreaking therapies using our lipid nanocrystal (\"LNC\") platform delivery technology (the \"LNC Platform\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001483934",
+ "issuerName": "Scorpio Tankers Inc.",
+ "builtAt": "2026-11-15T14:11:33.392Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001483934-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1483934/000148393426000021/stng-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Handymax",
+   "products": [],
+   "description": "Operates Handymax product tankers transporting crude oil and refined petroleum products, with a niche role in regional European trades.",
+   "evidence": "Handymax vessels exhibited greater resilience given their niche role in regional European trades, where vessel substitution is more limited."
+  },
+  {
+   "name": "MR",
+   "products": [
+    "MR product tankers"
+   ],
+   "description": "Operates MR product tankers earning revenue from seaborne transportation of refined petroleum products in international shipping markets.",
+   "evidence": "MR pool and spot market revenue for the year ended December 31, 2025 was $330.1 million, a decrease of $180.8 million, or 35%, from $510.9 million for the year ended December 31, 2024."
+  },
+  {
+   "name": "LR2",
+   "products": [
+    "LR2 product tankers"
+   ],
+   "description": null,
+   "evidence": "LR2 pool and spot market revenue for the year ended December 31, 2025 was $326.8 million, a decrease of $131.8 million, or 29%, from $458.6 million for the year ended December 31, 2024."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Charterers and commercial pools pay the company for transporting crude oil and refined petroleum products under pool and spot market arrangements, time charters and bareboat charters.",
+  "evidence": "During the years ended December 31, 2025, 2024, and 2023, we owned, lease financed, or chartered-in vessels spanning three different vessel classes, Handymax, MR, and LR2, all of which earned revenues in the seaborne transportation of crude oil and refined petroleum products in the international shipping markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Handymax): Handymax product tankers"
+ ]
+}

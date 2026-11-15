@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001745999",
+ "issuerName": "Beam Therapeutics Inc.",
+ "builtAt": "2026-11-15T14:14:13.220Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-065194",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1745999/000119312526065194/beam-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "risto-cel",
+    "BEAM-302",
+    "BEAM-301",
+    "BEAM-103"
+   ],
+   "description": "Beam Therapeutics develops life-long, curative precision genetic medicines for patients through base editing, operating exclusively in the United States.",
+   "evidence": "The Company views its operations as and manages its business in one operating segment operating exclusively in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns license and collaboration revenue from collaboration and license agreements with third parties, as it has not yet commercialized any product.",
+  "evidence": "the expected timing, progress and success of our collaborations with third parties, including any future payments we may receive under our collaboration and license agreements"
+ },
+ "changes": [],
+ "dropped": []
+}

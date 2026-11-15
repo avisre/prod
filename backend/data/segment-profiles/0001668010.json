@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001668010",
+ "issuerName": "DIGITAL BRANDS GROUP, INC.",
+ "builtAt": "2026-11-15T14:13:22.066Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016851",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1668010/000149315226016851/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from selling apparel to customers through its wholesale, in-store and online channels.",
+  "evidence": "Each of our brands serve or are expected to serve customers through our wholesale, in store and online channels, allowing us to execute on our omni-channel strategy."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company expanded into collegiate-branded apparel through exclusive private label manufacturing agreements with AAA Tuscaloosa, Traffic Holdco and The Grove Collective.",
+   "evidence": "Under these agreements, the Company manufactures collegiate-branded apparel for distribution through university channels and related platforms."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: DTC fashion brands"
+ ]
+}

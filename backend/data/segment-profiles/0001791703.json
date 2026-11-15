@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001791703",
+ "issuerName": "Titan Mining Corporation",
+ "builtAt": "2026-11-15T14:14:37.635Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001213900-26-031504",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1791703/000121390026031504/ea0281557-40f_titan.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling zinc concentrate to customers, with pricing subject to provisional pricing adjustments and smelting and refining charges.",
+  "evidence": "tii:ZincConcentrateProvisionalPricingAdjustmentsCurrentYearMember 2025-01-01 2025-12-31 0001791703"
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Zinc mining"
+ ]
+}

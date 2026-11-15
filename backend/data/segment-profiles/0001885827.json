@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001885827",
+ "issuerName": "Virax Biolabs Group Ltd",
+ "builtAt": "2026-11-15T14:16:13.026Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-295158",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1885827/000119312526295158/vrax-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "ViraxImmune™",
+    "ImmuneSelect"
+   ],
+   "description": "A biotechnology company focused on T cell immune profiling and in vitro diagnostics for viral and immune-mediated diseases, serving research and clinical customers.",
+   "evidence": "The Company has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including research laboratories, contract research organizations, biopharmaceutical companies and academic institutions, pay the Company for research-use-only products such as peptide pools, ELISpot plates and related immune reagents.",
+  "evidence": "ImmuneSelect includes peptide pools, ELISpot plates and related immune reagents designed for use by research laboratories, contract research organizations, biopharmaceutical companies, academic institutions and other research customers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the Company discontinued its historical ViraxClear and ViraxVet third-party test kit distribution activities, which had generated revenue in fiscal 2025 and 2024.",
+   "evidence": "The Company previously generated revenue from historical ViraxClear and ViraxVet third-party test kit distribution activities, which are no longer active strategic product lines of the Company."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001943444",
+ "issuerName": "TUNGRAY TECHNOLOGIES INC",
+ "builtAt": "2026-11-15T14:16:35.662Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001096906-26-000600",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1943444/000109690626000600/trsg-20251231_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers place purchase orders specifying product, quantity, unit price and delivery date, and pay the company for the products and services delivered under those orders.",
+  "evidence": "We have been providing services and products to such major customers based on purchase orders received from them from time to time, which mainly specify the product for purchase, quantity, unit price, and delivery date."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Industrial equipment"
+ ]
+}

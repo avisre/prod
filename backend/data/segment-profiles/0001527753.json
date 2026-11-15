@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001527753",
+ "issuerName": "Personalis, Inc.",
+ "builtAt": "2026-11-15T14:11:51.959Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076615",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1527753/000119312526076615/psnl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced cancer genomic testing",
+   "products": [
+    "NeXT Personal",
+    "NeXT Personal Dx",
+    "advanced cancer genomic testing services",
+    "whole exome sequencing services",
+    "whole genome sequencing services"
+   ],
+   "description": "Provides advanced cancer genomic testing and personalized testing services for precision oncology to physicians, pharmaceutical companies, and population sequencing initiatives.",
+   "evidence": "We manage our business as one operating segment, which is to provide advanced cancer genomic testing services for precision oncology applications, personalized testing services, and other tests."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from pharmaceutical companies, clinical diagnostics customers, government programs such as the VA MVP, diagnostic companies, universities, non-profits, and royalty payments on licensed patents.",
+  "evidence": "Other also includes royalty payments for the patents licensed by the Company."
+ },
+ "changes": [],
+ "dropped": []
+}

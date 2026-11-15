@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001757840",
+ "issuerName": "Indonesia Energy Corporation Limited",
+ "builtAt": "2026-11-15T14:14:18.702Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-019641",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1757840/000149315226019641/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and gas",
+   "products": [
+    "Oil and gas revenues"
+   ],
+   "description": "A single operating segment engaged in upstream oil and gas exploration and production in Indonesia.",
+   "evidence": "The Company manages its business as a single operating segment engaged in upstream oil and gas industry in Indonesia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

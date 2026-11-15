@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001870940",
+ "issuerName": "AirSculpt Technologies, Inc.",
+ "builtAt": "2026-11-15T14:16:03.041Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001870940-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1870940/000187094026000011/airs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "direct medical procedure services",
+   "products": [
+    "AirSculpt®",
+    "AirSculpt® +",
+    "AirSculpt® Smooth",
+    "Power BBL®",
+    "Up a Cup™",
+    "Hip Flip®",
+    "48-Hour Six Pack™",
+    "CankCure®"
+   ],
+   "description": "Provides patented minimally invasive AirSculpt body contouring, fat removal, fat transfer and skin tightening procedures to patients at centers across the U.S. and Canada.",
+   "evidence": "The Company has one operating and one reportable segment: direct medical procedure services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients pay the Company for body contouring procedures performed at its centers.",
+  "evidence": "We performed 11,852 body contouring procedures in 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company closed and deconsolidated its London, United Kingdom facility.",
+   "evidence": "On September 1, 2025, the Company made the decision to close our facility in the United Kingdom because of its financial performance, which was deemed a triggering event for long-lived asset impairment testing."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001720116",
+ "issuerName": "RED VIOLET, INC.",
+ "builtAt": "2026-11-15T14:13:59.268Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-091708",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1720116/000119312526091708/rdvt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Identity intelligence",
+   "products": [
+    "CORE",
+    "IDI",
+    "idiCORE",
+    "FOREWARN"
+   ],
+   "description": "Delivers cloud-based identity intelligence solutions enabling identity verification, risk mitigation, fraud detection, compliance, and customer acquisition for public and private sector organizations.",
+   "evidence": "We have assessed that we have one operating segment and one reporting unit, and the consolidated net assets, including existing goodwill and other intangible assets, are considered to be the carrying value of the reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay licensing fees for access to the company's solutions, either transactionally based on usage, via a monthly fee, or a combination of both.",
+  "evidence": "We recognize revenue from licensing fees (a) on a transactional basis determined by the customer's usage, (b) via a monthly fee or (c) from a combination of both."
+ },
+ "changes": [],
+ "dropped": []
+}

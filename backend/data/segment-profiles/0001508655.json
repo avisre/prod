@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001508655",
+ "issuerName": "Sixth Street Specialty Lending, Inc.",
+ "builtAt": "2026-11-15T14:11:46.244Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-048664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1508655/000119312526048664/tslx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Activity",
+   "products": [
+    "dividends on equity investments",
+    "capital gains on the sale of investments",
+    "loan origination and other fees"
+   ],
+   "description": "A specialty finance company that lends to and invests in U.S. middle-market companies, generating interest, dividend, fee and capital-gains income.",
+   "evidence": "The Company has one reportable segment: Investment Activity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily as interest income from investments held, plus dividends on equity investments, capital gains on investment sales, and loan origination and other fees.",
+  "evidence": "The Investment Activity segment generates revenue primarily in the form of interest income from the investments it holds."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Investment Activity): interest income from investments"
+ ]
+}

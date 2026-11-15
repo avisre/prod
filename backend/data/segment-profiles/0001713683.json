@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001713683",
+ "issuerName": "Zscaler Inc",
+ "builtAt": "2026-11-15T14:13:51.002Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001713683-26-000157",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1713683/000171368326000157/zs-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud security platform",
+   "products": [
+    "Zscaler Zero Trust Exchange",
+    "Zero Trust SASE",
+    "Zero Trust Branch",
+    "Security for AI",
+    "Data Security",
+    "Agentic Security Operations"
+   ],
+   "description": "Provides a cloud-native zero trust security platform that securely connects users, devices, workloads and AI agents to applications and data for enterprises and government agencies.",
+   "evidence": "We operate our business as one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees, primarily calculated on a per-user and metered-usage basis, for access to the cloud platform with related support, plus immaterial professional and other services fees.",
+  "evidence": "We generate revenue primarily from sales of subscriptions to access our cloud platform, together with related support services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cloud security platform): Zscaler Internet Access (ZIA)",
+  "product not in text (Cloud security platform): Zscaler Private Access (ZPA)"
+ ]
+}

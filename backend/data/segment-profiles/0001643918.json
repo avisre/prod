@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001643918",
+ "issuerName": "Biodexa Pharmaceuticals PLC",
+ "builtAt": "2026-11-15T14:13:00.073Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001214659-26-003921",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1643918/000121465926003921/bp31726520f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pipeline Research and Development",
+   "products": [
+    "eRapa",
+    "MTX240",
+    "tolimidone",
+    "MTX110"
+   ],
+   "description": null,
+   "evidence": "The Group contains one reportable operating segment, Pipeline Research and Development ('Pipeline R&D')."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from customers for services supplied under research and development collaboration agreements, recognised over the contract term; no revenue was earned in 2024 or 2025.",
+  "evidence": "All revenue came from the sale of services in 2023. It is derived entirely from the Group's R&D collaboration agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company changed its name to Biodexa Pharmaceuticals PLC and repositioned itself as a therapeutics rather than drug delivery company.",
+   "evidence": "In early 2023, we decided to re-position the Company as therapeutics (as opposed to drug delivery) company and we began looking for additional assets."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the company de-prioritized MTX110 and stopped investing in its drug deli"
+ ]
+}

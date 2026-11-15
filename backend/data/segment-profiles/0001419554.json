@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001419554",
+ "issuerName": "Bone Biologics Corporation",
+ "builtAt": "2026-11-15T14:11:06.168Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008564",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1419554/000149315226008564/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bone regeneration",
+   "products": [
+    "NELL-1",
+    "NB1 bone graft device",
+    "NELL-1/DBM Fusion Device",
+    "DBM Putty"
+   ],
+   "description": null,
+   "evidence": "The Company operates and reports in one segment, which focuses on bone regeneration in spinal fusion using the recombinant human protein known as NELL-1."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

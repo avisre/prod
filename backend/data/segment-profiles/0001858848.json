@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001858848",
+ "issuerName": "TENAYA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:15:58.564Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-102252",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1858848/000119312526102252/tnya-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Heart disease therapies",
+   "products": [
+    "TN-201",
+    "TN-401",
+    "TN-301"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no revenue; it may receive upfront payments, reimbursements and milestone payments from collaboration partners such as Alnylam.",
+  "evidence": "The statement of operations includes research and development expenses, general and administrative expenses, interest income, and income taxes; the Company has not generated any revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Heart disease therapies"
+ ]
+}

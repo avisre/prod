@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001998768",
+ "issuerName": "PROFICIENT AUTO LOGISTICS, INC.",
+ "builtAt": "2026-11-15T14:17:07.368Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036719",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1998768/000121390026036719/ea0283139-10k_proficient.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Company Drivers",
+   "products": [
+    "OEM contract and spot arrangements",
+    "Secondary market auto moves",
+    "Contract services"
+   ],
+   "description": "Asset-based auto transportation using company-owned equipment, serving OEMs and other customers under long-term contracts.",
+   "evidence": "The Company Drivers segment offers automobile transport and contract services under an asset-based model."
+  },
+  {
+   "name": "Subhaulers",
+   "products": [
+    "OEM contract and spot arrangements",
+    "Secondary market auto moves"
+   ],
+   "description": "Asset-light transportation services outsourcing loads to independent contractors and third-party carriers for auto customers.",
+   "evidence": "The Company's Subhaulers segment offers transportation services utilizing an asset-light model focusing on outsourcing transportation of loads to independent contractors and third-party carriers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, mainly auto OEMs, dealers, auctions, leasing and rental companies, pay predetermined per-unit rates based on auto size, weight and mileage, often with fuel surcharges.",
+  "evidence": "Services typically are provided as needed by particular customers and charged according to pre-set rates based on auto size, weight and mileage."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company completed its IPO and acquired the five Founding Companies, plus ATG and Utah Truck & Trailer Repair.",
+   "evidence": "On May 13, 2024, the Company completed the IPO of its common stock, and in connection with the closing of the IPO, the Company also completed the acquisitions of all of the Founding Companies."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company acquired Brothers Auto Transport and PVT Truck & Trailer Re"
+ ]
+}

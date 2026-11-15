@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001514183",
+ "issuerName": "SILO PHARMA, INC.",
+ "builtAt": "2026-11-15T14:11:46.820Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035576",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1514183/000121390026035576/ea0282804-10k_silo.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "SPC-15",
+    "SP-26",
+    "SPC-14",
+    "SPU-16"
+   ],
+   "description": "A developmental stage biopharmaceutical company developing novel therapeutics, including psychedelic formulations, for PTSD, fibromyalgia, Alzheimer's and CNS diseases.",
+   "evidence": "We are currently focusing on four product candidates: 1. SPC-15 for stress-indued psychiatric disorders, including PTSD and anxiety. 2. SP-26 for treatments of fibromyalgia and chronic pain. 3. SPC-14 for treatment of Alzheimer's disease. 4. SPU-16 for CNS disorders, initially targeting multiple sclerosis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025 the company's strategy changed to include a cryptocurrency treasury strategy focused on acquiring leading digital assets.",
+   "evidence": "Our strategy changed to include cryptocurrency treasury strategy in August 2025 to focus on the acquisition of leading digital assets."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the company terminated its license agreement with the University of Mary"
+ ]
+}

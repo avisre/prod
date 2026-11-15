@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001421876",
+ "issuerName": "GALAPAGOS NV",
+ "builtAt": "2026-11-15T14:11:08.450Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-035163",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1421876/000110465926035163/glpg-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "GLPG3667",
+    "GLPG5101",
+    "GLPG5301"
+   ],
+   "description": "A biotechnology company developing medicines for patients with serious diseases, prioritizing oncology and immunology & inflammation programs.",
+   "evidence": "We are currently operating as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from collaboration revenues under the exclusive license agreement with Gilead and from supply revenues.",
+  "evidence": "The revenue recognition related to the exclusive access rights granted to Gilead under the OLCA for our drug discovery platform amounted to €1,069.0 million in 2025, compared to €230.2 million in 2024."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Jyseleca business was transferred to Alfasigma and classified as discontinued operations.",
+   "evidence": "The final agreement was signed on December 30, 2023 and the transaction was closed on January 31, 2024."
+  },
+  {
+   "text": "In 2025, the company announced plans to discontinue its small molecule discovery programs and seek partners for those assets.",
+   "evidence": "In January 2025, we announced a plan to separate into two publicly traded entities, allocating the majority of available cash to a newly established company focused on pipeline development through strategic transactions, as well as our plans to discontinue our small molecule discovery programs and seek potential partners to take over our small molecules assets."
+  },
+  {
+   "text": "In 2025, the Board announced its intention to wind down the cell therapy activities, decided in January 2026.",
+   "evidence": "Following completion of these consultations, the Board of Directors decided in January 2026 to initiate the wind-down of the cell therapy activities."
+  }
+ ],
+ "dropped": []
+}

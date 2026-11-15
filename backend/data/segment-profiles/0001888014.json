@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001888014",
+ "issuerName": "Akanda Corp.",
+ "builtAt": "2026-11-15T14:16:14.150Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-066800",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1888014/000121390026066800/ea0288681-20f_akanda.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure",
+   "products": [
+    "fiber optic networks",
+    "telecommunication towers"
+   ],
+   "description": "Leases and rents fiber optic networks and telecommunication towers in Mexico through First Towers.",
+   "evidence": "Infrastructure activities is a new segment of the Company pursuant to the acquisition of First Towers in August 2025 which relates to the leasing and/or rental of fiber optic networks and telecommunication towers at First Towers in Mexico."
+  },
+  {
+   "name": "Cultivation",
+   "products": [
+    "medical cannabis",
+    "medical cannabis biomass"
+   ],
+   "description": "Cultivated medical cannabis in Portugal through RPK/Holigen until the business was sold in March 2024.",
+   "evidence": "Cultivating activities which comprise the \"cultivation\" segment is made up of the medical cannabis cultivation operations at RPK/Holigen in Portugal up until the sale completion in March 2024 (refer to note 5)."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "medical cannabis products"
+   ],
+   "description": "Distributed medical cannabis products in the United Kingdom through Canmart until its winding up in May 2025.",
+   "evidence": "Distributing activities relate to the distribution of medical cannabis by Canmart in the United Kingdom up until the winding up in May 2025 (refer to note 6)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from leasing telecommunications infrastructure, including tower sites and dark fiber routes, all located in Mexico.",
+  "evidence": "The Company, through its subsidiary – First Towers, generates revenue from the leasing of telecommunications infrastructure, including tower sites and dark fiber routes."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold RPK, its Portuguese medical cannabis cultivation business, exiting the European cultivation operations.",
+   "evidence": "On March 24, 2024, the Company completed the transaction with Somai for the sale of RPK."
+  },
+  {
+   "text": "In 2025, the company added a new Infrastructure segment through the acquisition of First Towers in Mexico.",
+   "evidence": "Infrastructure activities is a new segment of the Company pursuant to the acquisition of First Towers in August 2025 which relates to the leasing and/or rental of fiber optic networks and telecommunication towers at First Towers in Mexico."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company discontinued and shut down Canmart, ceasing its U.K. medica"
+ ]
+}

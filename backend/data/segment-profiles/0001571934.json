@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001571934",
+ "issuerName": "TAO Synergies Inc.",
+ "builtAt": "2026-11-15T14:12:11.506Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037915",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1571934/000110465926037915/taox-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development",
+   "products": [
+    "Bryostatin-1"
+   ],
+   "description": null,
+   "evidence": "The Company operates in one business segment, which consists of research and development activities related to developing therapeutics for neurodegenerative diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by staking its TAO cryptocurrency holdings, receiving additional TAO tokens as staking rewards recognized as income when earned.",
+  "evidence": "The Company stakes its TAO holdings and, as a result, earns a return on its staking which is received in additional TAO tokens."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company changed its name from Synaptogenix, Inc. to TAO Synergies Inc. and launched a cryptocurrency treasury strategy focused on TAO.",
+   "evidence": "On June 25, 2025, we filed a Certificate of Amendment to its Amended and Restated Articles of Incorporation with the Secretary of State for the State of Delaware, effective June 26, 2025, to change the name of the Company from \"Synaptogenix, Inc.\" to \"TAO Synergies Inc.\""
+  },
+  {
+   "text": "In 2025, the company formed subsidiary TAOX Florida Inc. to facilitate its expansion into the cryptocurrency treasury strategy business.",
+   "evidence": "On September 26, 2025, we formed a subsidiary TAOX Florida Inc. for the purpose of facilitating our expansion into the cryptocurrency treasury strategy business."
+  }
+ ],
+ "dropped": []
+}

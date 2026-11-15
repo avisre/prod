@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001838163",
+ "issuerName": "Brand Engagement Network Inc.",
+ "builtAt": "2026-11-15T14:15:24.866Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016954",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1838163/000149315226016954/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Conversational AI",
+   "products": [
+    "AI Agents",
+    "Engagement Language Model (ELM™)",
+    "Web AI Agent",
+    "In-Vehicle Experience",
+    "Sales AI Agent",
+    "Service AI Agent",
+    "Technician AI Agent"
+   ],
+   "description": "Provides secure, enterprise-grade conversational AI solutions that connect human intent to enterprise systems and workflows for business customers.",
+   "evidence": "We are an artificial intelligence company focused on the engagement layer of AI, where human interaction connects directly to enterprise systems, workflows, and real-world outcomes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is largely pre-revenue; customers pay for configurable enterprise AI Agent offerings, such as its entry-level community cloud AI Agent offering.",
+  "evidence": "In November 2023, we acquired our first healthcare customer through our entry-level community cloud AI Agent offering."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company acquired DM Lab Co., LTD., through which it acquired its initial conversational AI technology.",
+   "evidence": "In 2023, we consummated our acquisition of DM Lab Co., LTD., through which we acquired our initial conversational AI technology and foundational capabilities."
+  },
+  {
+   "text": "In 2025, the company terminated its exclusive global automotive reseller agreement with AFG Companies, Inc.",
+   "evidence": "In January 2025, we terminated our relationship with AFG Companies, Inc. and subsequently announced the termination publicly, along with the initiation of legal action."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001622229",
+ "issuerName": "Cogent Biosciences, Inc.",
+ "builtAt": "2026-11-15T14:12:44.342Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-053334",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1622229/000119312526053334/cogt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Precision therapies",
+   "products": [],
+   "description": "Clinical-stage biotechnology company developing precision therapies for genetically defined diseases, with bezuclastinib as its most advanced program.",
+   "evidence": "The Company's singular focus is the development and commercialization of precision therapies for genetically defined diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Precision therapies): bezuclastinib (CGT9486)"
+ ]
+}

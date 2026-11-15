@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001504619",
+ "issuerName": "PENNANTPARK FLOATING RATE CAPITAL LTD.",
+ "builtAt": "2026-11-15T14:11:41.054Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-293672",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1504619/000119312525293672/pflt-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment",
+   "products": [
+    "Floating rate loans",
+    "First lien secured debt",
+    "Second lien secured debt",
+    "Subordinated debt",
+    "Equity investments"
+   ],
+   "description": "A business development company generating current income and capital appreciation by investing primarily in floating rate loans to U.S. middle-market companies.",
+   "evidence": "PennantPark Floating Rate Capital Ltd. is a BDC whose objectives are to generate both current income and capital appreciation while seeking to preserve capital by investing primarily in floating rate loans and other investments made to U.S. middle-market companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest, dividend and other fee income from floating rate loans and investments made to U.S. middle-market companies.",
+  "evidence": "For this purpose, Pre-Incentive Fee Net Investment Income means interest income, dividend income and any other income, including any other fees (other than fees for providing managerial assistance), such as amendment, commitment, origination, prepayment penalties, structuring, diligence and consult"
+ },
+ "changes": [],
+ "dropped": []
+}

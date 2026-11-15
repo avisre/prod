@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001810467",
+ "issuerName": "Sentage Holdings Inc.",
+ "builtAt": "2026-11-15T14:14:49.893Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050210",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1810467/000121390026050210/ea0287707-20f_sentage.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Prepaid card processing",
+   "products": [
+    "prepaid card processing services",
+    "technology consulting and support services"
+   ],
+   "description": "Provides prepaid card processing services and technology consulting and support services to merchant customers in China.",
+   "evidence": "Accordingly, under ASC 606-10-25-14, the Group identified a single performance obligation to provide prepaid card processing services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

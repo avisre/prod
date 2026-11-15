@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001426800",
+ "issuerName": "ASSEMBLY BIOSCIENCES, INC.",
+ "builtAt": "2026-11-15T14:11:10.292Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115992",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1426800/000119312526115992/asmb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "ABI-5366 (5366)",
+    "ABI-1179 (1179)",
+    "ABI-6250 (6250)",
+    "ABI-4334 (4334)",
+    "ABI-7272 (7272)",
+    "ABI-7423 (7423)"
+   ],
+   "description": "A clinical-stage biotechnology company developing therapeutics targeting serious viral diseases including herpes, hepatitis delta and hepatitis B.",
+   "evidence": "We are a biotechnology company developing innovative therapeutics targeting serious viral diseases with the potential to improve the lives of patients worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from its collaboration and license agreement with Gilead Sciences, including option exercise, license fees and milestone payments.",
+  "evidence": "In December 2025, pursuant to our collaboration (Gilead Collaboration) with Gilead Sciences, Inc. (Gilead), Gilead exercised its option to license our HPI program for the treatment of recurrent genital herpes, including our long-acting investigational candidates ABI-1179 (1179) and ABI-5366 (5366)."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Gilead exercised its option to license the company's HPI program, transferring control of that program's development to Gilead.",
+   "evidence": "In December 2025, pursuant to our collaboration (Gilead Collaboration) with Gilead Sciences, Inc. (Gilead), Gilead exercised its option to license our HPI program for the treatment of recurrent genital herpes, including our long-acting investigational candidates ABI-1179 (1179) and ABI-5366 (5366)."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company transitioned development from the prodrug candidate ABI-742"
+ ]
+}

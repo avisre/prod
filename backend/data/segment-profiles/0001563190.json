@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001563190",
+ "issuerName": "COMPASS, INC.",
+ "builtAt": "2026-11-15T14:12:11.463Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001563190-26-000057",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1563190/000156319026000057/comp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate services",
+   "products": [
+    "Compass platform",
+    "CIRE platform",
+    "Anywhere tools and services",
+    "title and escrow",
+    "mortgage",
+    "title underwriting",
+    "relocation"
+   ],
+   "description": "A global real estate services company operating owned-brokerage and franchise businesses under iconic brands for real estate professionals and their clients.",
+   "evidence": "Accordingly, the Company has one operating and reportable segment, inclusive of the businesses acquired during the year, which are in the process of being integrated into the Company's core business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns a share of gross sales commissions from its owned-brokerage agents and royalties and other fees from franchisees.",
+  "evidence": "We primarily generate revenue from our owned-brokerage business when we collect a share of the gross sales commissions that these real estate professionals earn from home sales and certain other fees, such as flat transaction commission fees."
+ },
+ "changes": [
+  {
+   "text": "In January 2026, the Company completed its acquisition of Anywhere Real Estate Inc.",
+   "evidence": "On January 9, 2026, the Company completed its previously announced acquisition of Anywhere Real Estate Inc. (\"Anywhere\") pursuant to the Agreement and Plan of Merger, dated as of September 22, 2025"
+  },
+  {
+   "text": "In January 2025, the Company acquired the company with the exclusive worldwide right to operate the Christie's International Real Estate brand.",
+   "evidence": "In January 2025, the Company acquired a company with the exclusive, worldwide right to operate, franchise and license the Christie's International Real Estate brand."
+  },
+  {
+   "text": "In October 2025, the Company divested its Latter & Blum Texas business.",
+   "evidence": "In October 2025, we divested our Latter & Blum Texas business, which reduced our total agent count by approximately 900."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001623526",
+ "issuerName": "Stoke Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:45.551Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108362",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1623526/000119312526108362/stok-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Stoke",
+   "products": [
+    "zorevunersen (STK-001)",
+    "STK-002"
+   ],
+   "description": "A late-stage clinical company developing RNA-based antisense oligonucleotide medicines to upregulate protein expression for severe genetic diseases.",
+   "evidence": "The Company comprises of one reportable segment, Stoke."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no product revenue and is paid by collaboration partners Acadia and Biogen through upfront payments, milestone payments, cost-sharing and potential royalties.",
+  "evidence": "To date, we have not had any products approved for sale and have not generated any product sales."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company entered into a license and collaboration agreement with Bio",
+  "change not grounded: In 2025, Acadia terminated the MECP2 and undisclosed neurodevelopmental programs"
+ ]
+}

@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001995075",
+ "issuerName": "Megan Holdings Ltd.",
+ "builtAt": "2026-11-15T14:17:04.406Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-057595",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1995075/000121390026057595/ea0289411-20f_megan.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aquaculture and agriculture",
+   "products": [
+    "Upgrading and maintenance of aquaculture and agriculture farms",
+    "Design and development of new aquaculture and agriculture farms",
+    "Pond maintenance",
+    "Aeration and circulation systems",
+    "Seawater intake, distribution, and discharge systems",
+    "Soil preparation and ploughing"
+   ],
+   "description": "Develops, constructs, upgrades and maintains shrimp and pineapple farms for aquaculture and agriculture customers in Malaysia.",
+   "evidence": "We are a company principally engaged in the development, construction and maintenance of aquaculture farms and related works."
+  },
+  {
+   "name": "Industrial solutions",
+   "products": [
+    "Consultancy and management of projects for process engineering and industrial sy",
+    "Warehouse management system",
+    "Building management system",
+    "Supply of robotics and automation equipment",
+    "Sales of industrial supplies"
+   ],
+   "description": "Provides process engineering and industrial systems project consultancy and management, and supplies robotics, automation equipment and industrial supplies.",
+   "evidence": "As of the date of this annual report, the main business activities of MTSB are consultancy and management of projects for process engineering and industrial systems (such as warehouse management system, building management system, etc.), and supply of robotics and automation equipment."
+  },
+  {
+   "name": "Investment in marketable securities",
+   "products": [
+    "Marketable securities"
+   ],
+   "description": "Holds a portfolio of marketable securities generating fair value gains and dividend income.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only three operating segments: a.) Aquaculture and agriculture; b.) Industrial solutions; and c.) Investment in marketable securities"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay project-based fees through progress claims, usually monthly, at an all-in rate covering subcontractor costs plus mark-up, and the company also earns revenue from sales of industrial supplies.",
+  "evidence": "We generate revenue from charging customers a project-based fee through progress claims, usually on a monthly basis."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, MTSB was incorporated as an 80% subsidiary of MMSB, adding the industri"
+ ]
+}

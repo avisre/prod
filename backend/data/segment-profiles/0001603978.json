@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001603978",
+ "issuerName": "AquaBounty Technologies, Inc.",
+ "builtAt": "2026-11-15T14:12:34.477Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001603978-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1603978/000160397826000029/aqb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land-based aquaculture",
+   "products": [
+    "GE Atlantic salmon"
+   ],
+   "description": "The company historically developed and sold land-based, genetically engineered Atlantic salmon raised in recirculating aquaculture system farms.",
+   "evidence": "The financial information presented to and reviewed by the Company's chief operating decision maker, who is the interim chief executive officer, chief financial officer and treasurer, is not prepared in accordance with GAAP, therefore, certain accounting policies of the Company's single operating and reportable segment differ significantly from those described in Note 2 - Summary of Significant Accounting Policies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company sold its Indiana Farm and began selling Ohio Equipment Assets to generate liquidity.",
+   "evidence": "These efforts resulted in the sale of our grow-out farm in Indiana (\"Indiana Farm\") in July 2024, recurring sales throughout 2024 and 2025 of selected equipment originally intended for the Ohio Farm Project (\"Ohio Equipment Assets\")"
+  },
+  {
+   "text": "In 2025, the company sold its Canadian subsidiary, including the Canadian Farms and the intellectual property for the GE Atlantic salmon.",
+   "evidence": "the sale of our Canadian subsidiary, including the broodstock farms owned by the Canadian subsidiary in Prince Edward Island, Canada (\"Canadian Farms\"), and our intellectual property for the GE Atlantic salmon, along with trademarks and patents (\"Corporate IP\") in March 2025."
+  },
+  {
+   "text": "In 2025, the company designated the Ohio Farm Project as a discontinued operation alongside the Indiana Farm and Canadian Farms.",
+   "evidence": "we designated the Ohio Farm Project as a discontinued operation, along with the Indiana Farm and the Canadian Farms in our consolidated financial statements for the years ended December 31, 2025 and 2024 in this Form 10-K"
+  }
+ ],
+ "dropped": []
+}

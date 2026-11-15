@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001820190",
+ "issuerName": "Scilex Holding Company",
+ "builtAt": "2026-11-15T14:15:02.405Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-151455",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1820190/000119312526151455/sclx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Non-opioid pain management",
+   "products": [
+    "ZTlido (lidocaine topical system) 1.8%",
+    "ELYXYB",
+    "GLOPERBA",
+    "SP-103 (lidocaine topical system) 5.4%"
+   ],
+   "description": "Develops and commercializes non-opioid pain management products for patients with acute and chronic pain, all sales in the United States.",
+   "evidence": "The Company is engaged primarily in the development of non-opioid products focused on pain management based on its platform technologies and all sales are based in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Non-opioid pain management): SEMDEXA (SP-102)",
+  "product not in text (Non-opioid pain management): SP-104 (low-dose naltrexone hydrochloride delayed-release capsules)",
+  "revenue model not grounded"
+ ]
+}

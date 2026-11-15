@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001937653",
+ "issuerName": "ZYMEWORKS INC.",
+ "builtAt": "2026-11-15T14:16:30.195Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001937653-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1937653/000193765326000015/zyme-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "biotherapeutics segment",
+   "products": [
+    "Ziihera (zanidatamab-hrii)",
+    "pasritamig",
+    "ZW171",
+    "ZW191",
+    "ZW220",
+    "ZW251",
+    "zanidatamab zovodotin"
+   ],
+   "description": "Manages a portfolio of licensed healthcare assets and develops novel multifunctional biotherapeutics for difficult-to-treat conditions including cancer, inflammation and autoimmune disease.",
+   "evidence": "The Company operates and manages its business in a single reportable segment, which is the Management of a portfolio of licensed healthcare assets and development of novel multifunctional biotherapeutics (the \"biotherapeutics segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns collaboration revenue from strategic partners, including upfront license payments, research and development funding, milestone payments and royalties under collaboration and license agreements.",
+  "evidence": "The biotherapeutics segment revenue consists of collaboration revenue, including amounts recognized relating to upfront non-refundable payments for licenses or options to obtain future licenses, research and development funding, milestone payments and royalties earned under collaboration and license agreements and is managed on a consolidated basis."
+ },
+ "changes": [],
+ "dropped": []
+}

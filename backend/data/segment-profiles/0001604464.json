@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001604464",
+ "issuerName": "Atara Biotherapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:36.115Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108361",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1604464/000119312526108361/atra-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Developing therapeutics",
+   "products": [
+    "Tab-cel (tabelecleucel)",
+    "Ebvallo",
+    "ATA3219",
+    "ATA3431",
+    "ATA188"
+   ],
+   "description": "Develops off-the-shelf allogeneic EBV T-cell immunotherapies for patients with cancer and autoimmune disease.",
+   "evidence": "We operate and manage our business as one operating and reportable segment, which is the business of developing therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns commercialization and collaboration revenue from its partner Pierre Fabre, which commercializes tab-cel in Europe and select markets.",
+  "evidence": "All commercialization and collaboration revenue recognized in 2025 and 2024 related to our agreements with Pierre Fabre, a French company."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company paused development of its allogeneic CAR T programs and dis",
+  "change not grounded: The company also stopped development of ATA188, its allogeneic T-cell immunother"
+ ]
+}

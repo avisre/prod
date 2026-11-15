@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001826667",
+ "issuerName": "TriSalus Life Sciences, Inc.",
+ "builtAt": "2026-11-15T14:15:09.761Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015163",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1826667/000162828026015163/tlsi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells PEDD infusion systems, principally TriNav, directly to hospitals and clinics, which pay for the devices.",
+  "evidence": "The primary end-user customers for our products are hospitals and clinics, to which we sell directly."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Oncology Medical Technology"
+ ]
+}

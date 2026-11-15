@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0002022308",
+ "issuerName": "KIDZ AI Inc.",
+ "builtAt": "2026-11-15T14:17:21.961Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-001941",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/2022308/000147793226001941/class_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online Education",
+   "products": [
+    "Online interactive live courses",
+    "Interest-oriented classes",
+    "Test preparation courses"
+   ],
+   "description": null,
+   "evidence": "We provide comprehensive online interactive live courses for K-12 students in the United States and around the globe."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students and their families pay the company for time-based and credit-based subscriptions to its online live courses.",
+  "evidence": "Disaggregated information of revenues by stream are as follows: Year Ended December 31, 2025 2024 Revenues: Time-based subscriptions $ 854,851 $ 1,161,383 Credit-based subscriptions 2,511,570 2,214,221 Marketing revenues (related party) — 300,000"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company consummated a business combination with BFAC, a SPAC, through which Class Over became its wholly-owned subsidiary.",
+   "evidence": "On April 4, 2025, The Company consummated a business combination with Classover DE and BFAC (the SPAC), resulting in a reverse recapitalization."
+  }
+ ],
+ "dropped": []
+}

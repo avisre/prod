@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001835022",
+ "issuerName": "Coya Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:15:21.689Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-107281",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1835022/000119312526107281/coya-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biotechnology",
+   "products": [
+    "COYA 302",
+    "COYA 303",
+    "Autologous Treg cell therapy"
+   ],
+   "description": "A clinical-stage biotechnology company developing Treg-enhancing therapies for neurodegenerative, autoimmune, and metabolic diseases.",
+   "evidence": "We are a clinical-stage biotechnology company focused on developing proprietary new therapies to enhance the function of regulatory T cells (\"Tregs\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company's revenue comes from its collaborator Dr. Reddy's under the DRL Development Agreement, through up-front license fees, milestone payments, and royalties on net sales of licensed products.",
+  "evidence": "The terms of the arrangement includes payments to the Company of the following: nonrefundable, up-front license fees; regulatory and commercial milestone payments and royalties on net sales of licensed products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Clinical-stage biotechnology): COYA 301 (LD IL-2)"
+ ]
+}

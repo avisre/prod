@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001928581",
+ "issuerName": "GMEX ROBOTICS CORPORATION",
+ "builtAt": "2026-11-15T14:16:27.176Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-049631",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1928581/000149315226049631/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fitness Equipment",
+   "products": [
+    "Muscle Motion",
+    "Rapid Motion",
+    "FleetX",
+    "Harison",
+    "Gym Direct"
+   ],
+   "description": "Markets and sells home and commercial fitness equipment directly to retail and commercial customers through online and offline channels.",
+   "evidence": "In our fitness equipment business segment, we sell our products directly to customers through online or offline platforms."
+  },
+  {
+   "name": "Licensing",
+   "products": [
+    "mYSTEPS Training Clinic",
+    "1FinalRound",
+    "Fitness Mirror",
+    "Yoga-Mirror"
+   ],
+   "description": "Offers a turnkey licensing solution for personal training studios and commercial gym chains, outfitting facilities with proprietary equipment and services.",
+   "evidence": "We offer a turnkey solution for personal training studios and commercial gym chains."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from direct sales of fitness equipment to retail and commercial customers, plus annual license fees from licensees of a base fee plus a fee per opened fitness center.",
+  "evidence": "Fees payable by our licensee to us are a base fee per annum of $125,000 plus $40,000 for each opened fitness center per annum."
+ },
+ "changes": [
+  {
+   "text": "In 2021, the company launched its licensing business with mYSTEPS Training Clinic as its first licensee.",
+   "evidence": "we launched our licensing business in late 2021. mYSTEPS Training Clinic, a new concept fitness club chain, is our first licensee"
+  },
+  {
+   "text": "In 2025, the company began a Solana cryptocurrency treasury program using financing proceeds.",
+   "evidence": "On September 24, 2025, the Company announced its first strategic purchase under the Company's SOL treasury initiative following the first closing under the Company's $100 million facility."
+  }
+ ],
+ "dropped": []
+}

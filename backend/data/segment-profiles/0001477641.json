@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001477641",
+ "issuerName": "DAQO NEW ENERGY CORP.",
+ "builtAt": "2026-11-15T14:11:31.880Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-045134",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1477641/000110465926045134/dq-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Polysilicon",
+   "products": [],
+   "description": "Manufactures and sells polysilicon, primarily to solar wafer and cell manufacturers, from facilities in Xinjiang and Inner Mongolia.",
+   "evidence": "the Company has only one operating and reportable segment - Polysilicon."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Polysilicon): polysilicon",
+  "revenue model not grounded"
+ ]
+}

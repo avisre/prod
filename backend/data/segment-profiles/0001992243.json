@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001992243",
+ "issuerName": "T1 Energy Inc.",
+ "builtAt": "2026-11-15T14:17:01.010Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001992243-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1992243/000199224326000007/t1-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solar module manufacturing",
+   "products": [
+    "PV solar modules",
+    "NEG19RC.20 module",
+    "DEG21C.20 module",
+    "NE09RH.05 module",
+    "TOPCon solar cells"
+   ],
+   "description": "Manufactures and sells photovoltaic solar modules in Texas for utility, commercial and industrial, and residential customers, with a solar cell fab under construction.",
+   "evidence": "Our single operating segment derives its revenues from the manufacturing and sale of PV solar modules."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling PV solar modules, primarily into the U.S. utility-scale solar market.",
+  "evidence": "We are one of the leading solar manufacturing companies in the United States, primarily selling into the utility-scale market, the largest solar market segment in the U.S."
+ },
+ "changes": [
+  {
+   "text": "The company reports discontinued operations, reflecting the divestiture of its prior battery business assets held for sale.",
+   "evidence": "Details of the assets and liabilities of discontinued operations classified as held for sale in the consolidated balance sheets are as follows"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In February 2025 the company changed its corporate name from FREYR Battery, Inc.",
+  "change not grounded: In December 2024 the company acquired Trina Solar US Holding, including the G1_D"
+ ]
+}

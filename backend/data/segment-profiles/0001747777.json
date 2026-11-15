@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001747777",
+ "issuerName": "BLUE OWL TECHNOLOGY FINANCE CORP.",
+ "builtAt": "2026-11-15T14:14:15.365Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001747777-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1747777/000174777726000012/ortf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology Lending",
+   "products": [
+    "first lien senior secured debt investments",
+    "second lien senior secured debt investments",
+    "unsecured debt investments",
+    "subordinated loans or mezzanine loans",
+    "preferred equity investments",
+    "common equity investments",
+    "joint ventures"
+   ],
+   "description": "An externally managed, closed-end finance company that makes debt and equity investments in technology-related, primarily software, companies based primarily in the United States.",
+   "evidence": "We are focused primarily on making loans to, and making debt and equity investments in technology-related, specifically software, companies based primarily in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns current income from interest and other income-producing debt securities held in its portfolio, plus capital appreciation from equity and equity-linked investments.",
+  "evidence": "Our investment objective is to maximize total return by generating current income from debt investments and other income producing securities, and capital appreciation from our equity and equity-linked investments."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed mergers with Blue Owl Technology Finance Corp. II, with OTF II merging into the company as the surviving entity.",
+   "evidence": "On March 24, 2025, we consummated the transactions contemplated by the Agreement and Plan of Merger (the \"Merger Agreement\"), dated November 12, 2024, with Blue Owl Technology Finance Corp. II, a Maryland corporation (\"OTF II\")"
+  }
+ ],
+ "dropped": [
+  "product not in text (Technology Lending): specialty finance investments"
+ ]
+}

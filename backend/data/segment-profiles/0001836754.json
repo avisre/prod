@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001836754",
+ "issuerName": "LEGACY EDUCATION INC.",
+ "builtAt": "2026-11-15T14:15:23.665Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-044147",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1836754/000149315226044147/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Students pay the company tuition and lab fees recognized over the instruction period, plus books, registration and other fees recognized at a point in time.",
+  "evidence": "The Company's primary revenue source is derived from educational programs and services provided at its colleges through tuition and lab fees as well as fees for supporting educational programs such as books and registration costs."
+ },
+ "changes": [
+  {
+   "text": "In December 2024, the company acquired Contra Costa Medical Career College.",
+   "evidence": "In December 2024, we acquired the assets of Contra Costa Medical Career College"
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Career-focused post-secondary education"
+ ]
+}

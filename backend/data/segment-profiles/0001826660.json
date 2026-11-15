@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001826660",
+ "issuerName": "WETOUCH TECHNOLOGY INC.",
+ "builtAt": "2026-11-15T14:15:08.880Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-043017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1826660/000121390026043017/ea0284147-10k_wetouch.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Touch screen business",
+   "products": [],
+   "description": "Develops, manufactures and sells medium- to large-sized projected capacitive touchscreens for financial, automotive, POS, gaming, lottery, medical and HMI customers.",
+   "evidence": "The Company determined that it operated in one operating segment of touch screen business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue by selling various touchscreen products to customers in China and internationally.",
+  "evidence": "We generate revenues through sales of our various touchscreen products."
+ },
+ "changes": [
+  {
+   "text": "In 2023, an independent third party acquired all shares of Sichuan Wetouch, whose business had been assumed by Sichuan Vtouch in 2021.",
+   "evidence": "On March 30, 2023, an independent third party acquired all the shares of Sichuan Wetouch for a nominal amount."
+  }
+ ],
+ "dropped": [
+  "product not in text (Touch screen business): Glass-Glass (GG)",
+  "product not in text (Touch screen business): Glass-Film-Film (GFF)",
+  "product not in text (Touch screen business): Plastic-Glass (PG)",
+  "product not in text (Touch screen business): Glass-Film (GF)"
+ ]
+}

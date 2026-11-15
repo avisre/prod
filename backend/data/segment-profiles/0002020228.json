@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0002020228",
+ "issuerName": "MASONGLORY LIMITED",
+ "builtAt": "2026-11-15T14:17:20.252Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-083085",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2020228/000121390026083085/ea0297251-20f_masonglory.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wet trades works",
+   "products": [
+    "plastering on floors, ceilings and walls",
+    "tile laying on internal and external walls and floors",
+    "brick laying",
+    "floor screeding",
+    "marble works"
+   ],
+   "description": "Provides wet trades works and related ancillary services as a subcontractor to main contractors on building construction projects in Hong Kong.",
+   "evidence": "Based on management's assessment, the Company has only one operating segment and one reportable segment – the provision of wet trades works and related ancillary works to customers in Hong Kong."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from main contractors of building construction projects in Hong Kong for wet trades works performed, recognized over time on uncompleted contracts.",
+  "evidence": "Our direct customers are generally main contractors of various building construction projects in Hong Kong and the ultimate owners of the projects undertaken by us mainly include property developers in Hong Kong as well as the Hong Kong government."
+ },
+ "changes": [],
+ "dropped": []
+}

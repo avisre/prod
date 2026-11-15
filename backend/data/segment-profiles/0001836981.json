@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001836981",
+ "issuerName": "BigBear.ai Holdings, Inc.",
+ "builtAt": "2026-11-15T14:15:24.540Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001836981-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1836981/000183698126000018/bbai-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Predictive analytics",
+   "products": [
+    "Ask Sage",
+    "ConductorOS",
+    "Digital Twin",
+    "Logistics and Supply Chain Management",
+    "CargoSeer AI Shipment Inspection Platform"
+   ],
+   "description": "Provides AI-based predictive analytics, software and services to U.S. government, defense, national security and select commercial customers.",
+   "evidence": "The Company's segment provides predictive analytics capabilities in highly complex, distributed, mission-based operating environments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and commercial customers pay the company for custom-designed AI software and services delivered under contracts.",
+  "evidence": "It is a technology-led solutions organization, providing both software and services to our customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed the acquisition of Ask Sage, adding a generative AI platform for defense and intelligence customers.",
+   "evidence": "On December 31st, 2025, BigBear.ai announced that it had completed the acquisition of Ask Sage, a platform-agnostic generative AI solution designed specifically to serve defense and intelligence customers."
+  },
+  {
+   "text": "In 2026, the company acquired the assets of CargoSeer, adding cargo scanning and trade risk management capabilities.",
+   "evidence": "On January 16, 2026, the Company acquired certain assets and liabilities of CargoSeer Ltd (\" CargoSeer \"), an Israel-based leader in unified AI decision support technology for customs and border operations, for $ 5.0 million, subject to certain customary net working capital adjustments."
+  }
+ ],
+ "dropped": [
+  "product not in text (Predictive analytics): Digital identity and biometrics solutions"
+ ]
+}

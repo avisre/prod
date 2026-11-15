@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001697862",
+ "issuerName": "ARGENX SE",
+ "builtAt": "2026-11-15T14:13:37.606Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001697862-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1697862/000169786226000032/argx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "VYVGART",
+    "VYVGART HYTRULO",
+    "VYVDURA",
+    "efgartigimod",
+    "empasiprubart",
+    "adimanebart"
+   ],
+   "description": "A biopharmaceutical company developing and commercializing antibody-based medicines for patients with severe autoimmune diseases.",
+   "evidence": "VYVGART and VYVGART HYTRULO is a first-and-only immunoglobulin G (IgG) Fc-antibody fragment that targets the FcRn."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product net sales from sales of its approved medicines, primarily VYVGART, to patients and healthcare providers globally.",
+  "evidence": "This strong commercial execution resulted in a milestone for the Company, with VYVGART surpassing $1 billion in product net sales in a single quarter for the first time in the third quarter of 2025."
+ },
+ "changes": [],
+ "dropped": []
+}

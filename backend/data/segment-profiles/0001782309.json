@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001782309",
+ "issuerName": "Skillful Craftsman Education Technology Limited",
+ "builtAt": "2026-11-15T14:14:27.592Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-037431",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1782309/000149315226037431/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technical services",
+   "products": [],
+   "description": "Provides technical services to customers located in the PRC, operating primarily through its subsidiary Jisen Information after deconsolidating its former VIE.",
+   "evidence": "The Group has only one reportable segment since the Group does not distinguish revenues, costs and expenses by operating segments in its internal reporting, and reports costs and expenses by nature as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in the PRC pay the company for technical services, which constituted substantially all revenue from continuing operations.",
+  "evidence": "Substantially all of the Group's revenues were generated from customers located in the PRC, and substantially all of the Group's long-lived assets were located in the PRC."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company terminated its VIE agreements and deconsolidated Wuxi Wangdao, whose online education business is now reported as discontinued operations.",
+   "evidence": "On March 17, 2025, WOFE signed agreements to terminate its VIE arrangements with Wuxi Kingway, resulting in loss of control, deconsolidation of the VIE, and release of the related equity pledge."
+  },
+  {
+   "text": "In 2026, the company agreed to sell Easy Skills Technology Limited and all of its subsidiaries, including the WOFE, to an unrelated third party.",
+   "evidence": "On August 7, 2026, the Company entered into a Share Purchase Agreement (the \"Agreement\") with Penguins Investing Carnival Ltd., a British Virgin Islands company (the \"Buyer\") to transfer 100% equity interest of Easy Skill Technology Ltd. and all of its subsidiaries to the Buyer for a total price of $4.5 million"
+  }
+ ],
+ "dropped": [
+  "product not in text (Technical services): Technical services",
+  "change not grounded: In 2026, the company sold its 75% owned Singapore subsidiary Le First Skilland P"
+ ]
+}

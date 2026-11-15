@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001718224",
+ "issuerName": "BT BRANDS, INC.",
+ "builtAt": "2026-11-15T14:13:52.885Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-001755",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1718224/000147793226001755/btbd_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Restaurant",
+   "products": [
+    "Burger Time",
+    "Keegan's Seafood Grille",
+    "Pie In The Sky Coffee",
+    "Schnitzel Haus"
+   ],
+   "description": "Owns and operates quick-service, casual, and fine-dining restaurants across the Midwest, Massachusetts, and Florida, serving drive-thru, take-out, and dine-in customers.",
+   "evidence": "The Company has determined that it operates as a single reportable segment based on the nature of its operations and the regulatory environment in which it operates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for restaurant food and beverage sales, including drive-thru, take-out, curbside, and third-party delivery orders.",
+  "evidence": "Burger Time serves the drive-thru and take-out segment of the restaurant industry."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company closed its Village Bier Garten restaurant in Cocoa, Florida.",
+   "evidence": "Village Bier Garten, a German-themed restaurant, bar, and entertainment venue located in Cocoa, Florida, ceased operations and was permanently closed in January 2025."
+  },
+  {
+   "text": "In 2025, the company entered a proposed business combination with Aero Velocity Inc. and plans to spin off its restaurant operations into BT Group, Inc.",
+   "evidence": "On September 2, 2025, we entered into an agreement to pursue a proposed business combination with Aero Velocity Inc., a private company that designs and manufactures American-made unmanned aerial vehicles and operates a Drones-as-a-Service business."
+  },
+  {
+   "text": "In 2025, the company closed its Burger Time restaurant in Minot, North Dakota, following closures in Sioux Falls and Ham Lake in 2024.",
+   "evidence": "In July 2025, we ceased operating Burger Time in Minot, North Dakota."
+  }
+ ],
+ "dropped": []
+}

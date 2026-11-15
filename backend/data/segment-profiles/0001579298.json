@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001579298",
+ "issuerName": "BURLINGTON STORES, INC.",
+ "builtAt": "2026-11-15T14:12:19.236Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-116001",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1579298/000119312526116001/burl-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Off-price retail",
+   "products": [
+    "women's ready-to-wear apparel",
+    "menswear",
+    "youth apparel",
+    "baby",
+    "beauty",
+    "footwear",
+    "accessories",
+    "home"
+   ],
+   "description": "Operates Burlington Stores, a nationally recognized off-price retailer of high-quality, branded merchandise at everyday low prices across the United States.",
+   "evidence": "The Company reports segment information in accordance with ASC Topic No. 280 \"Segment Reporting,\" and has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Burlington for value-priced apparel, accessories, home goods and other branded merchandise purchased in its stores.",
+  "evidence": "The Company is an off-price retailer that derives revenues from customers by providing a complete line of value-priced apparel, including: women's ready-to-wear apparel, menswear, youth apparel, baby, beauty, footwear, accessories, home, toys, gifts and coats."
+ },
+ "changes": [],
+ "dropped": []
+}

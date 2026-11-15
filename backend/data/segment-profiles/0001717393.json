@@ -1,0 +1,85 @@
+{
+ "version": 1,
+ "cik": "0001717393",
+ "issuerName": "CORPORACION AMERICA AIRPORTS S.A.",
+ "builtAt": "2026-11-15T14:13:51.680Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-029442",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1717393/000110465926029442/caap-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Argentina",
+   "products": [
+    "aeronautical services",
+    "cargo handling",
+    "airport concessions"
+   ],
+   "description": "Operates airports in Argentina under concession agreements, serving airlines, passengers and cargo users.",
+   "evidence": "As of and for the fiscal year ended December 31, 2025, we have identified six reportable segments: Argentina, Italy, Brazil, Uruguay, Ecuador and Armenia."
+  },
+  {
+   "name": "Italy",
+   "products": [
+    "aeronautical services",
+    "cargo handling",
+    "airport concessions"
+   ],
+   "description": "Operates airports in Italy under concession agreements, serving airlines, passengers and cargo users.",
+   "evidence": "As of and for the fiscal year ended December 31, 2025, we have identified six reportable segments: Argentina, Italy, Brazil, Uruguay, Ecuador and Armenia."
+  },
+  {
+   "name": "Brazil",
+   "products": [
+    "aeronautical services",
+    "cargo handling",
+    "airport concessions"
+   ],
+   "description": "Operates airports in Brazil under concession agreements, serving airlines, passengers and cargo users.",
+   "evidence": "As of and for the fiscal year ended December 31, 2025, we have identified six reportable segments: Argentina, Italy, Brazil, Uruguay, Ecuador and Armenia."
+  },
+  {
+   "name": "Uruguay",
+   "products": [
+    "aeronautical services",
+    "cargo handling",
+    "airport concessions"
+   ],
+   "description": "Operates airports in Uruguay under concession agreements, serving airlines, passengers and cargo users.",
+   "evidence": "As of and for the fiscal year ended December 31, 2025, we have identified six reportable segments: Argentina, Italy, Brazil, Uruguay, Ecuador and Armenia."
+  },
+  {
+   "name": "Ecuador",
+   "products": [
+    "aeronautical services",
+    "cargo handling",
+    "airport concessions"
+   ],
+   "description": "Operates airports in Ecuador under concession agreements, including TAGSA and the Galapagos airport via associate ECOGAL.",
+   "evidence": "Revenue and expense information on a per segment basis for Ecuador includes the results of TAGSA but does not include the results of ECOGAL."
+  },
+  {
+   "name": "Armenia",
+   "products": [
+    "aeronautical services",
+    "cargo handling",
+    "airport concessions"
+   ],
+   "description": "Operates airports in Armenia, including Zvartnots International Airport, under concession agreements.",
+   "evidence": "In Armenia, we submitted to the Armenian Government a new master plan including a capital investment program of U.S.$425 million to be executed by 2033, covering infrastructure development, operational enhancements, and long-term capacity at Zvartnots International Airport."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns fees from airlines and passengers for aeronautical services such as landing, transit, passenger, parking and security fees, under concession agreements.",
+  "evidence": "These fees are invoiced to users of our airport infrastructure, principally airlines using our airports, either from their general revenue or as collected directly from airline passengers."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, CAAP acquired Navinten, operator of Uruguayan airport duty free shops, "
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001940674",
+ "issuerName": "SMX (Security Matters) Public Limited Company",
+ "builtAt": "2026-11-15T14:16:33.020Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-011985",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1940674/000149315226011985/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Leading brands and manufacturers pay the company for business-to-business sales and white label solutions under fixed fee or volume-based revenue models.",
+  "evidence": "The Company offers both business-to-business sales and \"white label\" solutions, depending on the needs of customers and the ultimate end use based on either a fixed fee or volume-based revenue model (or both)."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company consummated the Business Combination with Security Matters PTY and Lionheart, making Security Matters PTY a wholly owned subsidiary.",
+   "evidence": "On March 7, 2023, Security Matters PTY became a private, wholly-owned subsidiary of the Company, and changed its name to Security Matters PTY Ltd. in June 2023."
+  },
+  {
+   "text": "In 2025 the Company established a wholly owned entity in the UAE named SMX Circular Economy FZCO.",
+   "evidence": "On March 26, 2025, the Company established a fully owned entity incorporated in Dubai Multi Commodities Centre Authority, United Arab Emirates with the name and style of \"SMX Circular Economy FZCO\";"
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Brand protection technology",
+  "change not grounded: In 2024 the Company's holding in SMX Circular Economy Platform PTE, Ltd. was red"
+ ]
+}

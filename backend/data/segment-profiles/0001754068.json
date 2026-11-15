@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001754068",
+ "issuerName": "KALARIS THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:14:16.760Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-110659",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1754068/000119312526110659/klrs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Developing retinal therapies",
+   "products": [
+    "TH103"
+   ],
+   "description": "A clinical stage biopharmaceutical company developing treatments for prevalent retinal diseases with major unmet medical needs.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of developing retinal therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

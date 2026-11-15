@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001625297",
+ "issuerName": "Indivior Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-15T14:12:46.692Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012237",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1625297/000162828026012237/indv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Buprenorphine-based prescription drugs",
+   "products": [
+    "SUBLOCADE",
+    "SUBOXONE Film",
+    "SUBUTEX Tablet",
+    "SUBOXONE Tablet"
+   ],
+   "description": "Develops, manufactures and sells buprenorphine-based prescription drugs for the treatment of opioid dependence and related disorders.",
+   "evidence": "The Company operates as one business segment, which is predominantly the development, manufacture and sale of buprenorphine-based prescription drugs for the treatment of opioid dependence and related disorders."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns net revenue from selling its prescription drugs through wholesalers and other channels to payors including commercial managed care, Medicaid, federal purchasers and cash-paying pharmacies.",
+  "evidence": "In the U.S., we have distribution agreements with the three largest wholesalers, which accounted for 51% and 55% of our global net revenue in 2025 and 2024, respectively."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company cancelled its secondary listing on the London Stock Exchange after moving its primary listing to Nasdaq in 2024.",
+   "evidence": "We continued to have a secondary listing on the LSE where our ordinary shares traded on the Equity Shares (Transition) category until July 24, 2025, after which we cancelled our LSE listing."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company announced it would cease operations and discontinue the sal"
+ ]
+}

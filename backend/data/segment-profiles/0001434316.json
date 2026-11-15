@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001434316",
+ "issuerName": "FATE THERAPEUTICS INC",
+ "builtAt": "2026-11-15T14:11:17.377Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073699",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1434316/000119312526073699/fate-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "FT819",
+    "FT522",
+    "iPSC-derived CAR T-cell product candidates",
+    "iPSC-derived CAR NK cell product candidates"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing off-the-shelf, iPSC-derived cellular immunotherapies for patients with autoimmune diseases and cancer.",
+   "evidence": "The Company has one reportable segment relating to its operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives its current revenues from research and development collaborations with collaboration partners.",
+  "evidence": "The segment derives its current revenues from research and development collaborations."
+ },
+ "changes": [],
+ "dropped": []
+}

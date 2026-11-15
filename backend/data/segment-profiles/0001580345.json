@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001580345",
+ "issuerName": "TriplePoint Venture Growth BDC Corp.",
+ "builtAt": "2026-11-15T14:12:20.385Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001580345-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1580345/000158034526000008/tpvg-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income from venture capital-backed venture growth stage companies on secured growth capital loans, equipment financings and revolving loans, plus potential gains from warrants and equity investments.",
+  "evidence": "We believe these investments provide us with a stable, fixed-income revenue stream along with the potential for equity-related gains on a risk-adjusted basis."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Venture growth lending"
+ ]
+}

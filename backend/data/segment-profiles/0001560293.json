@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001560293",
+ "issuerName": "Tenon Medical, Inc",
+ "builtAt": "2026-11-15T14:12:07.390Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035707",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1560293/000121390026035707/ea0280493-10k_tenon.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SI Joint segment",
+   "products": [
+    "The Catamaran®™ SI Joint Fusion System",
+    "The SImmetry +® SI Joint Fusion System"
+   ],
+   "description": "Develops and sells minimally invasive medical device systems for treating patients with sacroiliac joint disorders causing lower back pain.",
+   "evidence": "The Company operates in one business segment: the SI Joint segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling its SI Joint fusion systems to customers such as hospitals and healthcare providers.",
+  "evidence": "Accounts receivable are derived from products delivered to customers and are stated at their net realizable value."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired substantially all assets of SiVantage, Inc. and SIMPL Medical, LLC, adding the SImmetry + System to its portfolio.",
+   "evidence": "In August 2025, we acquired substantially all of the assets of SiVantage, Inc. and SIMPL Medical, LLC, including the SImmetry +® SI Joint Fusion System (\"The SImmetry + System\")"
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001610250",
+ "issuerName": "Boot Barn Holdings, Inc.",
+ "builtAt": "2026-11-15T14:12:39.020Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-061346",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1610250/000110465926061346/boot-20260328x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Footwear",
+    "Apparel",
+    "Hats, accessories and other"
+   ],
+   "description": "Boot Barn operates retail stores and an e-commerce platform selling western and work-related footwear, apparel and accessories to consumers.",
+   "evidence": "The Company operates as one operating and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for merchandise purchased at its stores and through its e-commerce channels.",
+  "evidence": "The Company's accounts receivable consist of amounts due from commercial customers for merchandise sold, as well as receivables from suppliers under co-operative arrangements."
+ },
+ "changes": [],
+ "dropped": []
+}

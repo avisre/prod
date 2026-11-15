@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0002055116",
+ "issuerName": "Kestrel Group Ltd",
+ "builtAt": "2026-11-15T14:17:44.085Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017506",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/2055116/000162828026017506/kg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Program Services",
+   "products": [
+    "fronting services",
+    "issuing carrier capacity",
+    "capacity distribution fees"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Legacy Reinsurance",
+   "products": [
+    "AmTrust Reinsurance Legacy Business",
+    "Diversified Reinsurance Legacy Business",
+    "AmTrust Quota Share",
+    "European Hospital Liability Quota Share",
+    "short-term income protection business"
+   ],
+   "description": "Runs off reinsurance business previously produced by Maiden, comprising AmTrust Reinsurance and Diversified Reinsurance legacy businesses.",
+   "evidence": "Our Legacy Reinsurance segment consists of primarily reinsurance business previously produced by Maiden, which had been segregated into two reportable segments: AmTrust Reinsurance and Diversified Reinsurance."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, Kestrel LLC and Maiden combined to form Kestrel Group Ltd, a new publicly listed specialty program group.",
+   "evidence": "On May 27, 2025, Kestrel Group LLC (\"Kestrel LLC\") and Maiden Holdings, Ltd. (\"Maiden\") completed their previously announced combination (\"Combination\"), forming a new, publicly listed specialty program group operating under the name Kestrel Group Ltd (\"Kestrel Group\" or \"Parent Company\")."
+  },
+  {
+   "text": "In 2025, Maiden's former AmTrust Reinsurance and Diversified Reinsurance reportable segments were combined into the new Legacy Reinsurance segment.",
+   "evidence": "Business formerly classified in the AmTrust Reinsurance segment is now described as \"AmTrust Reinsurance Legacy Business\" while business formerly classified in the Diversified Reinsurance segment is referred to as \"Diversified Reinsurance Legacy Business\" within the new Legacy Reinsurance segment."
+  },
+  {
+   "text": "In 2025, the Swedish regulator declined approval of the sale of Maiden GF and Maiden LF, and the company continues to evaluate strategic alternatives including sale or run-off.",
+   "evidence": "In June 2025, the Swedish Financial Supervisory Authority (\"SFSA\") declined to approve the sale of Maiden GF and Maiden LF."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Program Services",
+  "revenue model not grounded"
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001611747",
+ "issuerName": "SCINAI IMMUNOTHERAPEUTICS LTD.",
+ "builtAt": "2026-11-15T14:12:39.985Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-038011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1611747/000121390026038011/ea0283609-20f_scinai.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "NanoAbs (VHH antibody fragments)",
+    "PC111",
+    "IL-17 NanoAb program",
+    "CDMO services"
+   ],
+   "description": "A biopharmaceutical company developing inflammation and immunology therapeutics and providing contract development and manufacturing services to biotech companies.",
+   "evidence": "We are a biopharmaceutical company with two complementary business units: (i) Scinai R&D, focused on the development of innovative therapeutics in inflammation and immunology, and (ii) our contract development and manufacturing organization (CDMO) business, which operates through our subsidiary, Scinai Biopharma Services Ltd."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from a limited number of customers, primarily small and emerging biotech companies that pay for integrated development and manufacturing services.",
+  "evidence": "Our CDMO business provides integrated development and manufacturing services to small and emerging biotech companies, supporting clients from early-stage development through clinical-stage production."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company changed its corporate name from BiondVax Pharmaceuticals Ltd. to Scinai Immunotherapeutics Ltd.",
+   "evidence": "On September 6, 2023, we announced the change of our corporate name to Scinai Immunotherapeutics Ltd. from BiondVax Pharmaceuticals Ltd. to reflect better our fresh start and new direction."
+  },
+  {
+   "text": "In 2026, the company acquired Recipharm Israel Ltd., renamed Scinai Biopharma Services Ltd., to consolidate its CDMO activities.",
+   "evidence": "Following our acquisition of Recipharm Israel Ltd. on February 17, 2026 (subsequently renamed Scinai Biopharma Services Ltd.), we are in the process of consolidating our CDMO activities under this subsidiary"
+  }
+ ],
+ "dropped": []
+}

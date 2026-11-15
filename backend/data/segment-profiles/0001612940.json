@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001612940",
+ "issuerName": "ProQR Therapeutics N.V.",
+ "builtAt": "2026-11-15T14:12:41.945Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-026713",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1612940/000110465926026713/prqr-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "RNA based therapeutics",
+   "products": [
+    "AX-0810",
+    "AX-2402",
+    "AX-2911",
+    "AX-1412",
+    "Axiomer RNA-editing platform"
+   ],
+   "description": "Clinical-stage biotechnology company discovering and developing innovative RNA editing therapeutics for liver and CNS diseases.",
+   "evidence": "The Company operates in one reportable segment, which comprises the discovery and development of innovative, RNA based therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from collaboration partners such as Lilly under its licensing and research collaboration, and receives grants and funding from patient organizations and government institutions.",
+  "evidence": "In addition to advancing our wholly-owned pipeline programs, we entered into a global licensing and research collaboration with Eli Lilly and Company (\"Lilly\") in September 2021."
+ },
+ "changes": [],
+ "dropped": []
+}

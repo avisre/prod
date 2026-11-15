@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001944885",
+ "issuerName": "Apollomics Inc.",
+ "builtAt": "2026-11-15T14:16:40.774Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-177357",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1944885/000119312526177357/aplm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology drug development",
+   "products": [
+    "vebreltinib"
+   ],
+   "description": "A clinical-stage biotechnology company developing oncology drug candidates, most notably vebreltinib, a c-Met inhibitor, for patients with cancer.",
+   "evidence": "We are substantially dependent on the success of vebreltinib, our most advanced product candidate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

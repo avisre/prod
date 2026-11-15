@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001680378",
+ "issuerName": "SENESTECH, INC.",
+ "builtAt": "2026-11-15T14:13:30.669Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017384",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1680378/000162828026017384/snes-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fertility control products",
+   "products": [
+    "ContraPest",
+    "Evolve Rat",
+    "Evolve Mouse",
+    "Elevate Bait System"
+   ],
+   "description": "Develops, formulates, markets and sells non-lethal fertility control products for managing rat and mouse pest populations.",
+   "evidence": "We operate in a single operating segment: the formulation, development, marketing and sale of fertility control products for use in managing pest populations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling its fertility control rodent bait products to customers, including distributors and pest management customers.",
+  "evidence": "We have also begun to market Evolve products internationally through distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company launched the Evolve product line with Evolve Rat and introduced Evolve Mouse in May 2024, which became its primary revenue-generating product.",
+   "evidence": "The Evolve product line launched in January 2024 as Evolve Rat and is currently our primary revenue-generating product."
+  }
+ ],
+ "dropped": []
+}

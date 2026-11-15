@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001451809",
+ "issuerName": "SiTime Corporation",
+ "builtAt": "2026-11-15T14:11:24.602Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001451809-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1451809/000145180926000012/sitm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Silicon timing systems solutions",
+   "products": [
+    "oscillators",
+    "clock integrated circuits",
+    "resonators",
+    "synchronization software"
+   ],
+   "description": "Designs and sells silicon-based Precision Timing solutions, including oscillators, clocks, resonators and synchronization software, to global electronics customers.",
+   "evidence": "The Company operates in one reportable segment related to the design, development, and sale of silicon timing systems solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "SiTime sells its timing products primarily through distributors and also directly to some end customers, including via its online store SiTimeDirect.",
+  "evidence": "We sell our products primarily through distributors, who in turn sell to our end customers. We also sell products directly to some of our end customers."
+ },
+ "changes": [
+  {
+   "text": "In December 2023, SiTime acquired clocking products and an exclusive license to timing intellectual property from Aura Semiconductor, expanding its clocking portfolio.",
+   "evidence": "In December 2023, we acquired clocking products through the acquisition of certain assets and the exclusive license to certain intellectual property from Aura Semiconductor Pvt. Ltd. and certain of its affiliated entities (together, \"Aura\") relating to Aura's timing business and clock products that significantly expands our presence within the clocking market."
+  },
+  {
+   "text": "In February 2026, SiTime entered into an asset purchase agreement to acquire the timing business assets of Renesas Electronics Corporation.",
+   "evidence": "On February 4, 2026, we entered into an asset purchase agreement (the \"Asset Purchase Agreement\") with Renesas Electronics America Inc., a California corporation (\"Renesas\"), pursuant to which Renesas will and will cause certain of its affiliates to sell, transfer, assign and convey to SiTime all of their right, title and interest in, to and under certain assets related to the timing business of Renesas Electronics Corporation"
+  }
+ ],
+ "dropped": []
+}

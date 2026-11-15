@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001702123",
+ "issuerName": "Cardiol Therapeutics Inc.",
+ "builtAt": "2026-11-15T14:13:40.940Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-037844",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1702123/000110465926037844/crdl-20251231xex99d2.htm",
+  "exhibit": "crdl-20251231xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life sciences",
+   "products": [
+    "CardiolRx™"
+   ],
+   "description": "A late-stage life sciences company developing anti-inflammatory and anti-fibrotic therapies for heart disease.",
+   "evidence": "Cardiol Therapeutics Inc. and its subsidiary (the \"Corporation\" or \"Cardiol\") is a late-stage life sciences company focused on advancing the development of anti-inflammatory and anti-fibrotic therapies for heart disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

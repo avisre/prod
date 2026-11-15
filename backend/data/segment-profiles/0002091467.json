@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002091467",
+ "issuerName": "Boyd Group Services Inc.",
+ "builtAt": "2026-11-15T14:17:49.511Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-112466",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/2091467/000119312526112466/d106626d40f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Canada",
+   "products": [],
+   "description": "Canadian operations of Boyd Group Services, a collision repair and related services company.",
+   "evidence": "ifrs-full:ReportableSegmentsMember country:CA 2025-01-01 2025-12-31"
+  },
+  {
+   "name": "United States",
+   "products": [],
+   "description": "United States operations of Boyd Group Services, a collision repair and related services company.",
+   "evidence": "ifrs-full:ReportableSegmentsMember country:US 2025-01-01 2025-12-31"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

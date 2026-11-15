@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001584831",
+ "issuerName": "OXBRIDGE RE HOLDINGS LIMITED",
+ "builtAt": "2026-11-15T14:12:23.792Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013603",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1584831/000149315226013603/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Reinsurance",
+   "products": [
+    "fully collateralized reinsurance contracts",
+    "property catastrophe reinsurance",
+    "treaty reinsurance contracts",
+    "excess-of-loss contracts"
+   ],
+   "description": "A Cayman Islands specialty reinsurer underwriting fully collateralized property catastrophe reinsurance for property and casualty insurers, primarily in the Gulf Coast region of the United States.",
+   "evidence": "We focus on underwriting fully collateralized reinsurance contracts primarily for property and casualty insurance companies in the Gulf Coast region of the United States, with an emphasis on Florida."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns reinsurance premiums, generally received through brokers, from ceding insurance companies for assuming fully collateralized excess-of-loss property catastrophe reinsurance risk.",
+  "evidence": "We generally receive the premium for the risk assumed and indemnify the cedant against all or a specified portion of losses and expenses in excess of a specified dollar or percentage amount."
+ },
+ "changes": [
+  {
+   "text": "In 2023, subsidiary SurancePlus began developing and selling tokenized reinsurance securities, launching the DeltaCat Re Token.",
+   "evidence": "in 2023, our subsidiary SurancePlus Inc. (\"SurancePlus\") began developing, offering, and selling a tokenized reinsurance security representing fractionalized interests in reinsurance contracts"
+  },
+  {
+   "text": "In 2025, SurancePlus bifurcated its token offering into high yield and balanced yield tokens, issuing ZetaCat Re and EtaCat Re.",
+   "evidence": "In 2025, the SurancePlus bifurcated its offering into a high yield tokens targeting a 42% return and balanced yield token targeting a 20% return, and issued its ZetaCat Re and EtaCat Re tokens, respectively."
+  }
+ ],
+ "dropped": [
+  "product not in text (Reinsurance): tokenized reinsurance securities (DeltaCat Re, EpsilonCat Re, ZetaCat Re, EtaCat"
+ ]
+}

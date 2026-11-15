@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001508475",
+ "issuerName": "VNET Group, Inc.",
+ "builtAt": "2026-11-15T14:11:45.088Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044361",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1508475/000110465926044361/vnet-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hosting and related services",
+   "products": [
+    "colocation",
+    "interconnectivity",
+    "cloud",
+    "VPN",
+    "hybrid IT",
+    "other value-added services"
+   ],
+   "description": "Provides hosting and related services, including colocation, interconnectivity, cloud, VPN and hybrid IT, primarily to customers in the PRC.",
+   "evidence": "Hosting and related services business focuses primarily on colocation, interconnectivity, cloud, VPN, hybrid IT and other value-added services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

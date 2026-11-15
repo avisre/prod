@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001838413",
+ "issuerName": "Full Truck Alliance Co. Ltd.",
+ "builtAt": "2026-11-15T14:15:26.191Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-153778",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1838413/000119312526153778/d20504d20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Freight matching platform"
+ ]
+}

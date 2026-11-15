@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0002001184",
+ "issuerName": "PACS Group, Inc.",
+ "builtAt": "2026-11-15T14:17:08.051Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002001184-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2001184/000200118426000005/pacs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Skilled nursing",
+   "products": [
+    "rehabilitation therapy",
+    "assisted living services",
+    "senior care",
+    "independent living"
+   ],
+   "description": null,
+   "evidence": "The Company has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients, governmental programs such as Medicare and Medicaid, and other third-party payors pay the company for skilled nursing, rehabilitation therapy, and assisted living services rendered under short-term contracts.",
+  "evidence": "These amounts are due from patients, governmental programs, and other third-party payors, and include variable consideration for retroactive revenue adjustments due to settlement of audits, reviews, and investigations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Skilled nursing): skilled nursing"
+ ]
+}

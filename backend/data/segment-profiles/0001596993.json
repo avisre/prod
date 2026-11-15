@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001596993",
+ "issuerName": "DORIAN LPG LTD.",
+ "builtAt": "2026-11-15T14:12:27.902Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001596993-26-000025",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1596993/000159699326000025/lpg-20260331x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "International transportation of LPG",
+   "products": [],
+   "description": "Dorian LPG owns and operates a fleet of very large gas carriers that transport liquefied petroleum gas, and increasingly ammonia, for global energy companies, traders and importers.",
+   "evidence": "Based on this, we have determined that we operate in one reportable segment, the international transportation of LPG."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily as its share of net pool revenues from the Helios Pool, plus time charter hire from charterers employing its vessels.",
+  "evidence": "For the years ended March 31, 2026, 2025 and 2024 approximately 99%, 97% and 95% of our revenues, respectively, were generated through the Helios Pool as net pool revenues—related party."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (International transportation of LPG): Very large gas carriers (VLGCs)",
+  "product not in text (International transportation of LPG): VLGC/AC ammonia-capable carriers",
+  "product not in text (International transportation of LPG): LPG shipping services",
+  "product not in text (International transportation of LPG): Helios Pool commercial services"
+ ]
+}

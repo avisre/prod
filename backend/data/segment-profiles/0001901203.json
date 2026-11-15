@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001901203",
+ "issuerName": "CN Healthy Food Tech Group Corp.",
+ "builtAt": "2026-11-15T14:16:21.428Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-015846",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-02-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1901203/000121390025015846/ea0230568-10k_ironhorse.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blank check",
+   "products": [],
+   "description": "A blank check company seeking to merge with or acquire one or more businesses, currently pursuing a business combination with CFI.",
+   "evidence": "We are a blank check company incorporated as a Delaware corporation whose business purpose is to effect a merger, capital stock exchange, asset acquisition, stock purchase, reorganization or similar business combination with one or more businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company entered into a Share Exchange Agreement to acquire CFI and will change its name to CN Healthy Food Tech Group Corp.",
+   "evidence": "On September 27, 2024, we entered into a Share Exchange Agreement, which was subsequently amended and restated effective December 18, 2024, by and among Iron Horse, Rosy Sea Holdings Limited, a company incorporated and existing under the laws of the British Virgin Islands (\"Seller\") and Zhong Guo Liang Tou Group Limited, a company incorporated and existing under the laws of the British Virgin Islands (\"CFI\") and a wholly owned subsidiary of Seller."
+  }
+ ],
+ "dropped": []
+}

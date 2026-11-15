@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001505065",
+ "issuerName": "Brainsway Ltd.",
+ "builtAt": "2026-11-15T14:11:42.084Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-26-002568",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1505065/000117184326002568/f20f_032726.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "Deep TMS systems",
+    "H-Coils"
+   ],
+   "description": "Develops and sells or leases Deep TMS systems for treating psychiatric disorders such as MDD, OCD and smoking addiction for clinicians and patients.",
+   "evidence": "If our employees or our independent distributors and agents fail to adequately promote, market and sell or lease our Deep TMS systems, our revenues could significantly decrease and/or fail to meet our targets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling or leasing Deep TMS systems to healthcare providers, relying on third-party payor reimbursement and, in some cases, cash-pay models.",
+  "evidence": "Even if a third-party payor covers a particular treatment that uses Deep TMS, the resulting reimbursement rate may not be adequate to cover a provider's cost to purchase or lease the Deep TMS system or ensure such transaction is profitable for the provider."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001401521",
+ "issuerName": "American Coastal Insurance Corporation",
+ "builtAt": "2026-11-15T14:10:58.355Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001401521-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1401521/000140152126000015/acic-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial lines",
+   "products": [
+    "commercial multi-peril property insurance for residential condominium associatio",
+    "apartments",
+    "assisted living facilities",
+    "equipment breakdown",
+    "identity theft",
+    "flood"
+   ],
+   "description": "Writes commercial multi-peril property insurance for residential condominium associations, apartments and assisted living facilities in Florida.",
+   "evidence": "We conduct our operations under one operating segment, which consists of our commercial lines business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums for commercial property insurance in Florida, and the company earns commissions on not-at-risk policies where risk is ceded to other private companies.",
+  "evidence": "On our equipment breakdown, identity theft, and flood policies we earn a commission while retaining no risk of loss, since all such risk is ceded to other private companies (other risks)."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold Interboro Insurance Company (IIC), which previously wrote insurance outside Florida.",
+   "evidence": "Forza's application to acquire IIC was approved by the New York Department of Financial Services (\"NYDFS\") on February 13, 2025, and the sale closed on April 1, 2025."
+  },
+  {
+   "text": "In 2023, former subsidiary United Property & Casualty Insurance Company (UPC) was placed into receivership, divesting the company's ownership.",
+   "evidence": "On February 27, 2023, our former insurance subsidiary that wrote personal residential business in six states, United Property & Casualty Insurance Company (UPC), was placed into receivership with the Florida Department of Financial Services (DFS), which divested our ownership of UPC."
+  }
+ ],
+ "dropped": []
+}

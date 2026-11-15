@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001769256",
+ "issuerName": "XChange TEC.INC",
+ "builtAt": "2026-11-15T14:14:23.306Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-004379",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1769256/000121390026004379/ea0270582-20f_xchange.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance agency",
+   "products": [
+    "insurance agency services"
+   ],
+   "description": "Operates an insurance agency and insurance technology business in the PRC through Alpha Mind and its consolidated VIEs.",
+   "evidence": "The Group has determined that it has one reporting unit, which is also its only reportable segment. The reporting unit relates to the Group's insurance agency business operated under Alpha Mind."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023 the Group transferred all of its equity interest in Haoju and no longer conducts long-term apartment rental business in China.",
+   "evidence": "On October 31, 2023, the Group transferred all of its equity interest in Haoju (Shanghai) Artificial Intelligence Technology Co., Ltd. (\"Haoju\"), to Wangxiancai Limited, at nominal consideration (the \"Second Equity Transfer\")."
+  },
+  {
+   "text": "In 2023 the Company acquired Alpha Mind, an insurance agency and insurance technology business in the PRC.",
+   "evidence": "The Acquisition of Alpha Mind was consummated on December 28, 2023."
+  }
+ ],
+ "dropped": [
+  "product not in text (Insurance agency): insurance technology services"
+ ]
+}

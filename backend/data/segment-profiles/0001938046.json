@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001938046",
+ "issuerName": "Mangoceuticals, Inc.",
+ "builtAt": "2026-11-15T14:16:30.471Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014478",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1938046/000149315226014478/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Men's wellness telemedicine",
+   "products": [
+    "Mango ED",
+    "Grow",
+    "Mojo",
+    "Slim",
+    "Prime",
+    "Dermytol"
+   ],
+   "description": "Connects consumers to licensed healthcare professionals via telehealth and markets men's wellness products including ED, hair loss, hormone and weight loss treatments.",
+   "evidence": "We also focus on developing, marketing, and selling a variety of men's wellness products and services via a telemedicine platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay the company for compounded men's wellness products ordered through its telemedicine platform and fulfilled by a compounding pharmacy.",
+  "evidence": "All Compounded Products are produced at and fulfilled by Epiq Scripts, LLC (\" Epiq Scripts \"), a related party compounding pharmacy, 52% owned by Jacob Cohen, our Chief Executive Officer and Chairman, and are available to patients on the determination of a prescribing physician that the compounded drug is necessary for the individual patient."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company entered into and then rescinded a Master Distribution Agreement with Navy Wharf for Diabetinol, cancelling the related shares.",
+   "evidence": "On July 30, 2025, the Company entered into a Mutual Rescission and Release Agreement (a \" Rescission Agreement \") with Navy Wharf, pursuant to which the Company and Navy Wharf agreed to terminate and rescind the Navy Wharf Agreement, effective as of July 30, 2025"
+  }
+ ],
+ "dropped": []
+}

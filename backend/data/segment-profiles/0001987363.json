@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001987363",
+ "issuerName": "Waton Financial Limited",
+ "builtAt": "2026-11-15T14:17:00.710Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-030310",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1987363/000114036126030310/ef20060841_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Securities brokerage",
+   "products": [
+    "online securities brokerage services",
+    "securities margin financing services",
+    "bond distribution services",
+    "software licensing (including subscription based) and related support services"
+   ],
+   "description": "Provides online securities brokerage, margin financing, bond distribution and software licensing services to customers in Hong Kong.",
+   "evidence": "the Group has determined that it has a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay commissions on securities trades, interest on margin loans, project-based commissions on bond distribution, and fees for software licensing and support services.",
+  "evidence": "WSI commenced to provide bond distribution services by acting as a manager, a placement agent or a non-syndicate capital market intermediary, to procure subscribers to subscribe and pay for bonds in principal amounts during the fiscal year ended March 31, 2024, in return for commission income."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, WSI commenced providing bond distribution services as a manager, placement agent or non-syndicate capital market intermediary.",
+   "evidence": "WSI commenced to provide bond distribution services by acting as a manager, a placement agent or a non-syndicate capital market intermediary, to procure subscribers to subscribe and pay for bonds in principal amounts during the fiscal year ended March 31, 2024, in return for commission income."
+  },
+  {
+   "text": "The company began recognizing revenues from software licensing (including subscription based) and related support services in fiscal 2023.",
+   "evidence": "WSI started to develop the provision of software licensing (including subscription based) and related support services in April 2021 and we started to recognize revenues from such services in the fiscal year ended March 31, 2023."
+  }
+ ],
+ "dropped": []
+}

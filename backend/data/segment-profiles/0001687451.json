@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001687451",
+ "issuerName": "ZK INTERNATIONAL GROUP CO., LTD.",
+ "builtAt": "2026-11-15T14:13:32.970Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-000396",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1687451/000118518526000396/zkin20f012126.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing",
+   "products": [
+    "Steel Strip",
+    "Steel Pipe",
+    "Light Gauge Stainless Steel Pipe (LGSSP)",
+    "Pipe Connections and Fittings"
+   ],
+   "description": "Designs, manufactures and sells stainless steel pipes, fittings and related products for water and gas transmission and other industries.",
+   "evidence": "We currently operate one reportable segment: a manufacturing segment primarily engaged in the design, manufacture and sale of stainless steel pipes, fittings, and related products used in a variety of industries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells pipes, fittings and steel products to water and gas supply companies, distributors and manufacturers in China and abroad.",
+  "evidence": "To market our products and brand to other regions within China, we have set up 48 sales representative posts in major cities across China by assigning our sales and engineer specialists to those regions to establish long-term business relationship with the local water and gas supply companies."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2023 the company wrote off and disposed of its technology segment platforms (DeFi Exchange, xSigma Trading and MaximNFT).",
+   "evidence": "The Company wrote off the carrying value of the platform and recorded a loss of $10,346,769."
+  }
+ ],
+ "dropped": []
+}

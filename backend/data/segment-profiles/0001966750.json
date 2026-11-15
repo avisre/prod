@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001966750",
+ "issuerName": "ZHIBAO TECHNOLOGY INC.",
+ "builtAt": "2026-11-15T14:16:51.065Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-119102",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1966750/000121390026119102/ea0309805-20f_zhibao.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance brokerage",
+   "products": [
+    "MGU services",
+    "2B2C embedded insurance brokerage",
+    "personalized insurance consultations",
+    "targeted consulting services"
+   ],
+   "description": "Provides digital insurance brokerage and insurance technology services in China to insurance companies, business channels and end customers.",
+   "evidence": "With our strong position as a first mover in the 2B2C embedded insurance brokerage market, we aim to further broaden our B channel base through enhanced collaborations with insurance companies, other insurance brokerage companies, and technology firms with resources to B channels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurance companies pay the company for services provided to them, with revenues generated from those services.",
+  "evidence": "The services we provide to insurance companies, and the revenues so generated from those services, may decline or vary over time."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Insurance brokerage): Platform as a Service (\"PaaS\")",
+  "product not in text (Insurance brokerage): 2C direct insurance business"
+ ]
+}

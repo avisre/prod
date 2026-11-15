@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0002020737",
+ "issuerName": "CARING BRANDS, INC.",
+ "builtAt": "2026-11-15T14:17:20.271Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013844",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2020737/000149315226013844/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wellness consumer products",
+   "products": [
+    "Photocil",
+    "hair loss treatments",
+    "eczema and psoriasis treatments",
+    "vitiligo solutions",
+    "jellyfish sting protective suncare line",
+    "women's sexual wellness products"
+   ],
+   "description": "Develops and markets OTC and cosmetic wellness consumer products, including the Photocil narrow-band UV filter for vitiligo and psoriasis.",
+   "evidence": "The Company operates under one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the Company was separated from its then parent Safety Shot, Inc., which had previously acquired the Photocil assets from Applied Biology Inc. in 2022.",
+   "evidence": "Prior to the separation of the Company from its then parent (see Note – 9), the Company was included as a wholly-owned subsidiary of Safety Shot, Inc."
+  }
+ ],
+ "dropped": []
+}

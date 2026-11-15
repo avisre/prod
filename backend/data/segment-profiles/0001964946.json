@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001964946",
+ "issuerName": "Youxin Technology Ltd",
+ "builtAt": "2026-11-15T14:16:50.985Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-004040",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1964946/000149315226004040/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SaaS and PaaS",
+   "products": [
+    "CRM SaaS products",
+    "AI + PaaS platform",
+    "CRM system development services",
+    "additional function development services",
+    "subscription services",
+    "payment channel services"
+   ],
+   "description": "Provides cloud-based SaaS products and a PaaS platform that help retail enterprises, especially mid-tier brands in China, digitally transform their business operations.",
+   "evidence": "The Company operates as one operating and reportable segment and its sole business activity provides SaaS and PaaS service committed to helping retail enterprises digitally transform their businesses using the Company's cloud-based SaaS product and PaaS platform to develop, use, and control business applications without the need to purchase complex IT infrastructure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for CRM system development and additional function development services, annual subscription service fees based on user accounts, a proportion of transactions for payment channel services, and license fees to companies using its SaaS products.",
+  "evidence": "Our company charges an annual service fee as long as the customer is still using the constructed CRM system based on the number of user accounts over the subscription period."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2023, the company disposed of its subsidiary Guangxi Yousen.",
+   "evidence": "November 17, 2022: Guangzhou Youxin disposed its subsidiary Guangxi Yousen."
+  }
+ ],
+ "dropped": [
+  "product not in text (SaaS and PaaS): HRM and OA solutions",
+  "change not grounded: In 2025, the company acquired 51% of Celnet Technology Co., Ltd., a Salesforce p"
+ ]
+}

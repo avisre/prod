@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001628908",
+ "issuerName": "Evolent Health, Inc.",
+ "builtAt": "2026-11-15T14:12:50.228Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628908-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1628908/000162890826000015/evh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Care Management",
+   "products": [
+    "Specialty Care Management Services",
+    "Administrative Services",
+    "Identifi®",
+    "CarePro TM",
+    "Health plan services",
+    "Pharmacy benefit management",
+    "Risk management",
+    "Analytics and reporting"
+   ],
+   "description": "Supports health plans and other risk-bearing entities with specialty care management and administrative services for oncology, cardiology, and musculoskeletal care.",
+   "evidence": "We have one operating segment and one reportable segment as our chief operating decision maker (\"CODM\"), who is our Chief Executive Officer, assesses the performance of our operations, develops strategy and reviews financial information on a consolidated basis for purposes of evaluating financial performance and allocating resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Health plans and other risk-bearing entities pay Evolent for specialty care management and administrative services, under performance-based and fee-based arrangements.",
+  "evidence": "The majority of our revenues derive from our primary solution, Specialty Care Management Services, however we also offer additional administrative services to our customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold Evolent Care Partners, previously recorded in its total cost of care management solution.",
+   "evidence": "The Company consummated the transaction on December 5, 2025."
+  }
+ ],
+ "dropped": []
+}

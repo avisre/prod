@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001649744",
+ "issuerName": "DULUTH HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:13:08.964Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-117508",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1649744/000119312526117508/dlth-20260201.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Omnichannel retail",
+   "products": [
+    "Longtail T® shirts",
+    "Buck Naked® underwear",
+    "Fire Hose® work pants",
+    "No-Yank® Tank",
+    "shirts",
+    "pants",
+    "outerwear",
+    "footwear"
+   ],
+   "description": "Sells men's and women's workwear, casual wear, outdoor apparel and accessories through its own omnichannel platform of stores, website, direct mail and contact centers.",
+   "evidence": "Duluth Trading is a lifestyle brand of men's and women's workwear, casual wear, outdoor apparel and accessories primarily sold through our own omnichannel platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for apparel, footwear and hard goods purchased through its stores and website, with revenue recognized upon shipment or at the point of sale.",
+  "evidence": "The Company's revenue primarily consists of the sale of apparel, footwear and hard goods."
+ },
+ "changes": [],
+ "dropped": []
+}

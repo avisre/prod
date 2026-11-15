@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001993097",
+ "issuerName": "3 E Network Technology Group Limited",
+ "builtAt": "2026-11-15T14:17:02.469Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-005280",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1993097/000118518526005280/mask20f102826.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IT Business Solutions",
+   "products": [
+    "custom software solutions",
+    "restaurant management software",
+    "enterprise-grade memory products",
+    "storage modules",
+    "solid-state drives"
+   ],
+   "description": null,
+   "evidence": "We are a business-to-business (\"B2B\") information technology (\"IT\") business solutions provider."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (IT Business Solutions): property management software",
+  "product not in text (IT Business Solutions): intelligent music generation software",
+  "product not in text (IT Business Solutions): highway monitoring and control software",
+  "revenue model not grounded",
+  "change not grounded: In 2025, the company sold its PRC subsidiaries Guangzhou Sanyi Network and Guang"
+ ]
+}

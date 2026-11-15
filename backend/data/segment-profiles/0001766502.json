@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001766502",
+ "issuerName": "Chewy, Inc.",
+ "builtAt": "2026-11-15T14:14:23.146Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001766502-26-000034",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1766502/000176650226000034/chwy-20260201.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pet products and services",
+   "products": [
+    "pet food and treats",
+    "pet supplies",
+    "pet medications",
+    "Chewy Pharmacy",
+    "Connect with a Vet",
+    "Chewy Vet Care",
+    "Autoship"
+   ],
+   "description": "Online retailer of pet products, supplies, prescriptions and pet health services for pet parents in the U.S. and Canada.",
+   "evidence": "The Company operates in one operating segment and one reportable segment organized around the sale of pet products and services, as the CODM reviews financial information presented on a consolidated basis for purposes of making operating decisions, allocating resources, and evaluating financial performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pet parents pay Chewy for pet products, prescriptions and health services purchased through its websites and mobile applications, including recurring Autoship subscription orders.",
+  "evidence": "We believe that the trend of subscription-based purchasing behavior within the broader trend towards online shopping supports higher levels of customer retention and revenue visibility."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Pet products and services): CarePlus Insurance and Wellness plans"
+ ]
+}

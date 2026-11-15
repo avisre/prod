@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001668438",
+ "issuerName": "Integrated Media Technology Limited",
+ "builtAt": "2026-11-15T14:13:22.321Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-010827",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1668438/000121390026010827/ea0273239-20f_integrated.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Halal products and services",
+   "products": [
+    "nano coated plates for filters and air purifiers",
+    "halal certification",
+    "Halal products"
+   ],
+   "description": "Manufactures and sells nano-coated plate filters, air purifiers and electronic glass, and provides halal certification and distributes halal products.",
+   "evidence": "In summary, the Company is currently focusing on the manufacture and sale of nano coated plates for filters and air purifiers, the manufacture and sale of electronic glass and the provision of halal certification and distribution of Halal products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly in Malaysia, pay the company for sales of halal products and services, with future revenue expected from distributors of halal products, switchable glass and nano-coated plate filters.",
+  "evidence": "In 2023, WISE recorded a revenue of US$85,454 mainly from the sale of healthcare products to the Malaysia markets."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company divested its new energy products and services and digital asset businesses to focus on smartglass, air filters and halal food.",
+   "evidence": "In December 2024, in connection of rationalizing its business operation and to reduce its costs, the Company divested from its investment in new energy products and services and the digital asset business to focus on the business of manufacturing lamination smartglass and air filters, and Halal food business."
+  }
+ ],
+ "dropped": [
+  "product not in text (Halal products and services): electronic glass (switchable/smartglass)",
+  "change not grounded: In 2023, the Company acquired 100% of Itana Energy Pty Ltd and its 50% subsidiar"
+ ]
+}

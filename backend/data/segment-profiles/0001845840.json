@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001845840",
+ "issuerName": "TELESAT CORPORATION",
+ "builtAt": "2026-11-15T14:15:39.795Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-028638",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1845840/000121390026028638/ea0276056-01.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "GEO",
+   "products": [
+    "satellite services",
+    "video and data services",
+    "equipment",
+    "consulting services"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "LEO",
+   "products": [
+    "Telesat Lightspeed"
+   ],
+   "description": "Developing a low earth orbit satellite constellation and integrated terrestrial infrastructure to provide global broadband connectivity services.",
+   "evidence": "We are building, in our LEO business segment, what we believe will be one of the world's most advanced constellations of low earth orbit satellites and integrated terrestrial infrastructure, called \"Telesat Lightspeed\" — a platform designed to revolutionize the provision of global broadband connectivity."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including direct-to-home and enterprise clients, pay Telesat monthly for satellite transponder capacity, ground-based services, equipment, network management and consulting.",
+  "evidence": "We currently earn most of our revenue by providing video and data services using geostationary satellite transponder capacity."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (GEO): ground-based transmit and receive services",
+  "product not in text (GEO): satellite network management",
+  "segment evidence not verbatim: GEO"
+ ]
+}

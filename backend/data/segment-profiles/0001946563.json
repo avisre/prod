@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001946563",
+ "issuerName": "60 DEGREES PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T14:16:40.807Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001554855-26-000467",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1946563/000155485526000467/sxtp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceuticals",
+   "products": [
+    "Arakoda™"
+   ],
+   "description": "Develops and markets new medicines for the treatment and prevention of infectious diseases.",
+   "evidence": "Since its inception, the Company operates and manages its business as a single identifiable segment, focused on the development and marketing of new medicines for the treatment and prevention of infectious diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns most of its revenue selling Arakoda™ to resellers and distributors in the US, Australia and Europe, plus research revenues from a USAMMDA contract, clinical trial supply sales and Australian research rebates.",
+  "evidence": "The Company receives the majority of its revenues from sales of its Arakoda™ product to resellers in the US and abroad."
+ },
+ "changes": [],
+ "dropped": []
+}

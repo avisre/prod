@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001823587",
+ "issuerName": "Sky Harbour Group Corporation",
+ "builtAt": "2026-11-15T14:15:06.193Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009045",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823587/000143774926009045/ysac20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Business aircraft tenants pay the company under long-term rental agreements for hangar space, plus ancillary services and products.",
+  "evidence": "Unlike a service company, our revenues are mostly derived from long-term rental agreements, offering stability and forward visibility of revenues and cash flows."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Home Basing Hangars"
+ ]
+}

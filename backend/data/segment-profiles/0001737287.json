@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001737287",
+ "issuerName": "Allogene Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:14:07.651Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017242",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1737287/000162828026017242/allo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Allogeneic T cell product candidates",
+   "products": [
+    "cemacabtagene ansegedleucel (cema-cel)",
+    "ALLO-316",
+    "ALLO-329"
+   ],
+   "description": "Develops genetically engineered allogeneic T cell product candidates for the treatment of cancer and autoimmune diseases.",
+   "evidence": "The Company has one reportable segment related to developing and commercializing genetically engineered allogeneic T cell product candidates for the treatment of cancer and autoimmune diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives its current revenues from research and development collaborations.",
+  "evidence": "The segment derives its current revenues from research and development collaborations."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company terminated further development of ALLO-647 after discontinu"
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001326200",
+ "issuerName": "GENCO SHIPPING & TRADING LIMITED",
+ "builtAt": "2026-11-15T14:10:32.512Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017117",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326200/000110465926017117/gnk-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Minor bulk fleet",
+   "products": [
+    "Ultramax vessels",
+    "Supramax vessels",
+    "Grains",
+    "Steel products",
+    "Cement",
+    "Fertilizer",
+    "Nickel ore",
+    "Salt"
+   ],
+   "description": "Owns and operates Ultramax and Supramax vessels that primarily transport grains, steel products and other drybulk cargoes for global charterers.",
+   "evidence": "Our major bulk vessels are primarily used to transport iron ore, coal and bauxite, while our minor bulk vessels are primarily used to transport grains, steel products and other drybulk cargoes such as cement, scrap, fertilizer, nickel ore, salt and sugar."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company for seaborne transportation of drybulk cargoes through spot market voyage charters, time charters, index-linked time charters and contracts of affreightment.",
+  "evidence": "We fix a significant number of vessels through an expanded network of customers on spot market voyage charters, where we provide a vessel for the transportation of goods between a load port and discharge port at a specified per-ton rate or on a lump sum basis, as well as on contracts of affreightment directly with cargo providers."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Major bulk fleet"
+ ]
+}

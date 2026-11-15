@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001843973",
+ "issuerName": "flyExclusive, Inc.",
+ "builtAt": "2026-11-15T14:15:36.461Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001843973-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1843973/000184397326000013/flyx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private aviation services",
+   "products": [
+    "Jet club membership program",
+    "Fractional program",
+    "Aircraft management services"
+   ],
+   "description": "Owner and operator of private jets providing charter flights through a jet club, fractional ownership, and MRO services to private aviation customers.",
+   "evidence": "we operate under one reportable segment, which is private aviation services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay non-refundable membership deposits, daily and hourly flight rates, fractional ownership purchase deposits, and MRO billing based on parts and labor.",
+  "evidence": "Jet club revenue is generated from flight operations as well as membership fees."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company completed its business combination through the merger of LGM Enterprises, LLC.",
+   "evidence": "the December 27, 2023 merger of LGM Enterprises, LLC, a North Carolina limited liability company (\"LGM\"), pursuant to an Equity Purchase Agreement, dated as of October 17, 2022"
+  },
+  {
+   "text": "In 2024, the company entered into an aircraft management services agreement with Volato Group, Inc.",
+   "evidence": "On September 2, 2024, the Company entered into an Aircraft Management Services Agreement (the \"Volato Agreement\") with Volato Group, Inc."
+  },
+  {
+   "text": "In 2025, the company amended the Volato Agreement to add asset purchase options.",
+   "evidence": "On October 1, 2025, the Company and Volato entered into the Amendment to the Volato Agreement."
+  }
+ ],
+ "dropped": [
+  "product not in text (Private aviation services): Maintenance, repair, and overhaul (MRO) program"
+ ]
+}

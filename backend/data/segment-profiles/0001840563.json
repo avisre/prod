@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0001840563",
+ "issuerName": "PMGC HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:15:29.119Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035937",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840563/000121390026035937/ea0282650-10k_pmgc.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Northstrive Biosciences",
+   "products": [
+    "EL-22",
+    "EL-32"
+   ],
+   "description": "Biopharmaceutical company developing engineered probiotic aesthetic and therapeutic products for muscle preservation during weight loss treatments.",
+   "evidence": "Northstrive Biosciences Inc. (\"Northstrive Biosciences\") is a biopharmaceutical company focusing on the development and acquisition of cutting-edge aesthetic medicines and therapeutic products."
+  },
+  {
+   "name": "PMGC Capital",
+   "products": [],
+   "description": "Multi-strategy investment firm making direct investments, strategic lending, and acquiring undervalued companies and assets.",
+   "evidence": "PMGC Capital LLC (\"PMGC Capital\") is a multi-strategy investment firm focused on direct investments, strategic lending, and acquiring undervalued companies and assets across diverse markets."
+  },
+  {
+   "name": "Pacific Sun Packaging",
+   "products": [
+    "CPU Packaging",
+    "Memory Module Packaging",
+    "Storage Device Packaging",
+    "Optical and Networking Packaging",
+    "Custom Packaging Solutions"
+   ],
+   "description": "Specialty packaging provider of high-precision, component-level protective packaging for electronics and IT hardware industries.",
+   "evidence": "Pacific Sun Packaging, Inc. (\"Pacific Sun Packaging\" or \"Pacific Sun\") is a specialty packaging provider focused on high-precision, component-level packaging solutions for the electronics and information technology (\"IT\") hardware industries."
+  },
+  {
+   "name": "AGA Precision Systems",
+   "products": [
+    "High-tolerance milling",
+    "Turning",
+    "Mold manufacturing",
+    "Specialty metals machining"
+   ],
+   "description": "CNC machine shop providing high-tolerance precision machining of complex metals for aerospace, defense, and industrial customers.",
+   "evidence": "AGA Precision Systems LLC (\"AGA Precision Systems\" or \"AGA\") is a specialized computer numerical control (\"CNC\") machine shop focused on high-tolerance milling, turning, mold manufacturing, and machining of complex metals including titanium and Inconel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pacific Sun Packaging generates revenue through direct customer relationships providing custom packaging solutions, and AGA Precision Systems generates revenue through contract manufacturing and precision machining services, while Northstrive seeks value through partnerships and licensing.",
+  "evidence": "Pacific Sun Packaging, Inc. – generates revenue through direct customer relationships, providing custom packaging solutions to customers in the semiconductor, data center, and information technology hardware industries, with a focus on customer retention and long-term supply relationships"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company divested the assets of its prior Elevai Skincare Inc. business, which previously specialized in physician-dispensed skincare products.",
+   "evidence": "On January 16, 2025, we completed the divestiture of the assets relating to our prior Elevai Skincare Inc. business."
+  }
+ ],
+ "dropped": []
+}

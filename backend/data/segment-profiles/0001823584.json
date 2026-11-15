@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001823584",
+ "issuerName": "ALLIANCE ENTERTAINMENT HOLDING CORPORATION",
+ "builtAt": "2026-11-15T14:15:05.382Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-042141",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823584/000149315226042141/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers and consumers pay Alliance for distributed physical media, gaming, electronics and collectible products, plus third-party logistics and drop-ship fulfillment services.",
+  "evidence": "Segment revenue is derived from the sale of distribution of pre-recorded music, video movies, video games and related accessories, and merchandising."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Distribution Solutions, Mill Creek and NCircle Entertainment merged into the newly launched Alliance Home Entertainment division.",
+   "evidence": "In 2025 Distribution Solutions has merged into Alliance Home Entertainment."
+  },
+  {
+   "text": "In 2024, the Company acquired Handmade by Robots, a designer of licensed vinyl collectible figures.",
+   "evidence": "In December 2024, the Company acquired Handmade by Robots (\"HMBR\"), a designer of licensed vinyl collectible figures, for approximately $7.55 million in a transaction accounted for as a business combination under ASC 805."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Entertainment distribution and retail",
+  "change not grounded: On December 31, 2025, the Company completed the acquisition of Endstate Authenti"
+ ]
+}

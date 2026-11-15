@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001611746",
+ "issuerName": "SciSparc Ltd.",
+ "builtAt": "2026-11-15T14:12:39.958Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-049322",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1611746/000121390026049322/ea0286030-20f_scisparc.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug Development",
+   "products": [
+    "SCI-110",
+    "SCI-210"
+   ],
+   "description": "Clinical-stage development of cannabinoid-based drugs for Tourette syndrome, Alzheimer's disease and agitation, autism spectrum disorder and status epilepticus.",
+   "evidence": "We are currently engaged in the following development programs based on THC and/or non-psychoactive CBD: SCI-110 for the treatment of TS and for the treatment of Alzheimer's disease and agitation; and SCI-210 for the treatment of ASD and SE."
+  },
+  {
+   "name": "Online Sales",
+   "products": [
+    "hemp gummies",
+    "hemp oil capsules",
+    "hemp gel",
+    "hemp cream",
+    "detox pills",
+    "height pills",
+    "antibacterial creams",
+    "anti-aging creams"
+   ],
+   "description": "Online sales of hemp-based and other beauty and hair treatment products manufactured in the United States, sold on Amazon Marketplace.",
+   "evidence": "(2) online sales of a various range of hemp-based products including hemp gummies, hemp oil capsules, hemp gel, hemp cream, detox pills, height pills, antibacterial creams, and anti-aging creams, among other beauty and hair treatment products that are all manufactured in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from online sales of hemp-based products to consumers, while the drug development segment generated no external revenue.",
+  "evidence": "Revenues External $ - $ 856 $ 856"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the company out-licensed its SCI-160 pain program to Polyrizon and ceas"
+ ]
+}

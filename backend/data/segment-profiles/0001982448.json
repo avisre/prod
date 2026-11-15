@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001982448",
+ "issuerName": "BELIVE HOLDINGS",
+ "builtAt": "2026-11-15T14:16:56.581Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-023306",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1982448/000149315226023306/form20-f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company installation fees, subscription fees, server costs, campaign fees, source code sales, and content production fees for its live commerce and video solutions.",
+  "evidence": "Our revenue generated from the provision of enterprise-grade BeLive White Label Solution and cloud-based BeLive SaaS Solution consists primarily of installation fees, subscription fees, server costs, campaign fees (which are marketing services we provide to our clients), sale of source code, and miscellaneous income."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company formed BeLive AI Studios to expand into content production, generating its first content production revenue.",
+   "evidence": "Operations of BeLive AI Studios commenced during the financial year ended December 31, 2025, This expansion allows us to move beyond streaming infrastructure into premium content creation."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Live commerce and shoppable video solutions"
+ ]
+}

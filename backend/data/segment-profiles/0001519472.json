@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001519472",
+ "issuerName": "SolarMax Technology, Inc.",
+ "builtAt": "2026-11-15T14:11:48.266Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001640334-26-000651",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1519472/000164033426000651/solarmax_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "Solar energy and battery storage systems",
+    "LED projects",
+    "Financing related"
+   ],
+   "description": "Provides EPC services for commercial solar-based battery energy storage systems and sells and installs photovoltaic and battery backup and LED systems for residential, commercial and government customers.",
+   "evidence": "the Company has determined that it has one operating segment, and one reporting segment which is the operation in the United States for the year ended December 31, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for EPC services on BESS projects, sales and installation of solar and LED systems, third-party leasing arrangements, operating leases, power purchase agreements, and financing of solar system purchases.",
+  "evidence": "The following table summarizes the Company's revenue by business line for the years ended December 31, 2025 and 2024"
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company ceased treating its China operation as an operating or reporting segment because it had no revenues or operations there since 2022.",
+   "evidence": "Prior to January 1, 2024, the Company considered its operation in China an operating segment and a reporting segment. However, because the operation in China has had no revenues and no operations in China since 2022, its principal activity having been seeking to collect its receivable from SPIC, and the Company has no agreement and is not engaged in any negotiations or marketing activities in China, the Company no longer considers its operation in China an operating segment or a reporting segmen"
+  }
+ ],
+ "dropped": [
+  "product not in text (United States): Large-scale EPC contracts for BESS"
+ ]
+}

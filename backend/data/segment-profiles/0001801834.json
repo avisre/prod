@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001801834",
+ "issuerName": "PRF Technologies Ltd.",
+ "builtAt": "2026-11-15T14:14:42.952Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001782",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1801834/000117891326001782/zk2634877.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug Development",
+   "products": [
+    "PRF-110",
+    "OcuRing™-K"
+   ],
+   "description": "Develops extended-release drug-delivery products for post-surgical pain and inflammation, including OcuRing™-K for cataract surgery patients.",
+   "evidence": "We are dependent on the success of our product candidates including OcuRing™-K."
+  },
+  {
+   "name": "DeepSolar",
+   "products": [],
+   "description": "Offers an AI-driven solar analytics software solution targeting utility-scale solar operators, independent power producers, and residential solar users.",
+   "evidence": "In March 2025, we acquired the business operations related to an AI-driven solar analytics technology, DeepSolar."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In March 2025, the company acquired the DeepSolar AI-driven solar analytics business, adding a new line of business.",
+   "evidence": "In March 2025, we acquired the business operations related to an AI-driven solar analytics technology, DeepSolar."
+  },
+  {
+   "text": "In August 2025, the company acquired a majority equity interest in LayerBio, adding OcuRing™-K to its development portfolio.",
+   "evidence": "Most recently, in August 2025, we closed an investment in LayerBio, Inc., or Layer Bio, a privately held Boston-based biotechnology company, advancing sustained-release drug delivery technologies in ophthalmology."
+  },
+  {
+   "text": "In January 2026, shareholders approved changing the company's name from PainReform Ltd. to PRF Technologies Ltd.",
+   "evidence": "On January 6, 2026, the shareholders of the Company approved a change of the Company's name from PainReform Ltd. to PRF Technologies Ltd."
+  }
+ ],
+ "dropped": [
+  "product not in text (DeepSolar): DeepSolar"
+ ]
+}

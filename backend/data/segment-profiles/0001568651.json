@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001568651",
+ "issuerName": "Oscar Health, Inc.",
+ "builtAt": "2026-11-15T14:12:11.501Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001568651-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1568651/000156865126000011/oscr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health insurance",
+   "products": [
+    "+Oscar platform",
+    "Campaign Builder",
+    "Healthinsurance.org"
+   ],
+   "description": "Sells ACA individual and family health insurance through federal and state marketplaces and powers providers, payors, brokers and consumers with its technology platform.",
+   "evidence": "Oscar operates as one segment to sell insurance to individuals, families and employees through the federal and state-run healthcare exchanges formed in conjunction with the Patient Protection and Affordable Care Act (\"ACA\") and leverages its technology platform to provide services via its +Oscar offering."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns health insurance policy premiums, collected mostly from CMS under the advanced premium tax credit program and partly directly from members.",
+  "evidence": "We generate the vast majority of our total revenue from health insurance policy premiums. Premiums are collected directly from the Centers for Medicare & Medicaid Services (\"CMS\") as part of the advanced premium tax credits (\"APTC\") program, as well as from our members."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Oscar did not renew the Cigna+Oscar Small Group arrangement and exited the small group market.",
+   "evidence": "On March 26, 2024, the Company notified Cigna Health and Life Insurance Company that it would not renew the Cigna+Oscar Small Group arrangement after the expiration of the initial term on December 31, 2024."
+  },
+  {
+   "text": "In 2025, Oscar acquired Lucie, IHC Specialty Benefits and Healthinsurance.org to support its ICHRA strategy.",
+   "evidence": "In May 2025, the Company purchased 100 % of the equity interests in three businesses operating in the individual market: Lucie, Inc., an approved enhanced direct enrollment (\"EDE\") entity, IHC Specialty Benefits, Inc., an insurance agency that sells individual medical and supplemental health products, and Healthinsurance.org, LLC, which operates online lead generation domains providing educational content for consumers navigating health insurance and the ACA marketplace."
+  }
+ ],
+ "dropped": [
+  "product not in text (Health insurance): Individual market health plans (Catastrophic, Bronze, Silver, Gold, Platinum)",
+  "product not in text (Health insurance): Brokerage services (IHC Specialty Benefits)",
+  "product not in text (Health insurance): Lucie enrollment platform"
+ ]
+}

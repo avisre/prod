@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001874252",
+ "issuerName": "Quantum Cyber N.V.",
+ "builtAt": "2026-11-15T14:16:06.019Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037676",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1874252/000121390026037676/ea0283918-10k_mainz.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "genetic diagnostic testing",
+   "products": [
+    "ColoAlert",
+    "PancAlert",
+    "next generation colorectal cancer screening test"
+   ],
+   "description": "Develops and sells in-vitro diagnostic tests for early detection of cancer, including colorectal and pancreatic cancer screening tests, for laboratories in Europe.",
+   "evidence": "The Company consists of a single reporting segment: genetic diagnostic testing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from sales of ColoAlert test kits to laboratory partners in European markets.",
+  "evidence": "Revenue was primarily generated from sales of ColoAlert test kits in European markets, while operating expenses were driven mainly by research and development activities, sales and marketing efforts, and general and administrative costs."
+ },
+ "changes": [
+  {
+   "text": "In February 2026, the board decided to close the colorectal cancer line of business and wind down ColoAlert and the next generation colorectal cancer screening product candidates, selling the related intellectual property.",
+   "evidence": "In February 2026, our board of directors decided to wind down our ColoAlert product and the development of our next generation colorectal cancer screening product candidates, and to terminate the employment of those persons who were primarily dedicated to those ends."
+  },
+  {
+   "text": "In 2024, the company wound down its direct-to-consumer business to focus on ColoAlert sales to lab partners and sold its European Oncology Lab business in St. Ingbert, Germany.",
+   "evidence": "This decrease was attributable to the Company winding down its direct to consumer business in August 2024 to focus on ColoAlert sales to lab partners, primarily in Germany."
+  },
+  {
+   "text": "In 2026, the company announced a strategic shift toward post-quantum cybersecurity while continuing to pursue commercialization of its blood-based pancreatic cancer detection product candidate, changing its name to Quantum Cyber N.V.",
+   "evidence": "These changes were made to align the Company's strategy to expand its business focus in the area of post-quantum cybersecurity, while continuing to pursue the commercialization of its blood-based pancreatic cancer detection product candidate."
+  }
+ ],
+ "dropped": [
+  "product not in text (genetic diagnostic testing): blood-based pancreatic cancer detection test"
+ ]
+}

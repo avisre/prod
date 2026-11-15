@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001534969",
+ "issuerName": "SERA PROGNOSTICS, INC.",
+ "builtAt": "2026-11-15T14:11:58.708Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001534969-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534969/000153496926000009/sera-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical diagnostics",
+   "products": [
+    "PreTRM test",
+    "PreTRM Global",
+    "LikeMine"
+   ],
+   "description": "Develops and commercializes blood-based biomarker tests and predictive analytic products and services to improve maternal and neonatal health.",
+   "evidence": "The Company operates as one operating segment, which is developing and commercializing its medical diagnostic products and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from sales of its PreTRM blood-based test to patients, physicians, and health care payers in the United States.",
+  "evidence": "The Company's revenue was generated in the U.S. for all periods presented and its assets are all located in the United States."
+ },
+ "changes": [],
+ "dropped": []
+}

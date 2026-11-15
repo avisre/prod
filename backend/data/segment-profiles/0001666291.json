@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001666291",
+ "issuerName": "Claros Mortgage Trust, Inc.",
+ "builtAt": "2026-11-15T14:13:20.981Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-057455",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1666291/000119312526057455/cmtg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Loan Portfolio",
+   "products": [
+    "Senior loans",
+    "Subordinate loans"
+   ],
+   "description": "Invests in income-producing loans collateralized by institutional quality commercial real estate.",
+   "evidence": "We have determined that we have two operating segments and two reporting segments, with activities related to investing in income-producing loans collateralized by institutional quality commercial real estate and activities related to the operations of our real estate owned assets."
+  },
+  {
+   "name": "REO Portfolio",
+   "products": [
+    "Hotel portfolio",
+    "Mixed-use property",
+    "Land parcel",
+    "Multifamily properties"
+   ],
+   "description": "Operates real estate owned assets, including hotels, a mixed-use property, a land parcel and multifamily properties.",
+   "evidence": "we are subject to the risks commonly associated with real estate owned holdings, including risks related to ownership of a hotel portfolio, a mixed-use property, a land parcel, and multifamily properties, which differ from the risks associated with lending."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Borrowers pay interest on commercial real estate loans, and tenants pay rent on real estate owned properties.",
+  "evidence": "Interest and related income $ 389,507 $ - $ 389,507"
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company began reporting two segments after obtaining title to its mixed-use property and operating its hotel portfolio.",
+   "evidence": "For the year ended December 31, 2023, as a result of obtaining title to our mixed-use property and the performance of our hotel portfolio, our CODM determined that we have two operating segments and two reporting segments, with activities related to investing in income-producing loans collateralized by institutional quality commercial real estate and activities related to the operations of our real estate owned assets."
+  }
+ ],
+ "dropped": []
+}

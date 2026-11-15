@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001775194",
+ "issuerName": "UPEXI, INC.",
+ "builtAt": "2026-11-15T14:14:26.426Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-005668",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1775194/000147793226005668/upxi_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns staking rewards by delegating its SOL to third-party validators and earns revenue from selling branded consumer products.",
+  "evidence": "The Company earns staking revenue by delegating its digital assets to third-party validators on proof-of-stake blockchain networks."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Company sold E-Core, Technology Inc. and its subsidiaries, leaving a single segment of branded product sales and distribution.",
+   "evidence": "The Company's financial reporting is organized into a single segment that includes sales and distribution of branded products, following the sale of E-Core, Technology Inc. and its subsidiaries."
+  },
+  {
+   "text": "In 2025, the Company shifted its treasury strategy to hold digital currency assets, primarily Solana, directly on its balance sheet.",
+   "evidence": "Early in 2025, we updated and modified our cash management and treasury strategy to include holding digital currency assets directly on our balance sheet."
+  },
+  {
+   "text": "In 2026, the Company exited certain manufacturing and distribution operations, shutting down manufacturing and distribution centers.",
+   "evidence": "During the year ended June 30, 2026, as a result of the Company's course of action to shut down these manufacturing and distribution centers, a loss on disposal of $ 1,422,289 was recognized within Impairment on assets from manufacturing shut down within the Consolidated Statements of Operations."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Digital asset treasury and consumer products"
+ ]
+}

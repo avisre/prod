@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001318885",
+ "issuerName": "DIANA SHIPPING INC.",
+ "builtAt": "2026-11-15T14:10:28.958Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001562762-26-000030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1318885/000156276226000030/dsx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dry bulk vessels",
+   "products": [
+    "Ultramax",
+    "Panamax",
+    "Kamsarmax",
+    "Post-Panamax",
+    "Capesize",
+    "Newcastlemax"
+   ],
+   "description": "Owns and bareboat chart in dry bulk vessels and employs them worldwide, mostly on short- to medium-term time charters.",
+   "evidence": "We specialize in the ownership and bareboat charter-in of dry bulk vessels, determined as one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company daily charter hire rates for vessels employed under time charter agreements.",
+  "evidence": "Currently, the majority of our vessels are employed on short- to medium-term time charter agreements."
+ },
+ "changes": [],
+ "dropped": []
+}

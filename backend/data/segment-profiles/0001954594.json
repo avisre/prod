@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001954594",
+ "issuerName": "Haoxi Health Technology Ltd",
+ "builtAt": "2026-11-15T14:16:43.970Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-105242",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1954594/000121390026105242/ea0306597-20f_haoxi.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online Marketing",
+   "products": [
+    "online marketing services"
+   ],
+   "description": "Provides online marketing and online marketing services to customers, with operations conducted in the PRC.",
+   "evidence": "The operating entity is an online marketing and online marketing service provider and is not engaged in data activities as defined under the Personal Information Protection Law."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001850119",
+ "issuerName": "Century Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:15:45.494Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-026759",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1850119/000110465926026759/ipsc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "CNTY-813",
+    "CNTY-308",
+    "CNTY-101",
+    "Allo-Evasion™ technology",
+    "iPSC-derived beta islet cells",
+    "iPSC-derived NK cells"
+   ],
+   "description": null,
+   "evidence": "The Company views its operations and manages the business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Biotechnology): iPSC-derived T cells",
+  "revenue model not grounded"
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001655888",
+ "issuerName": "BLUE OWL CAPITAL CORP",
+ "builtAt": "2026-11-15T14:13:16.502Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001655888-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1655888/000165588826000010/obdc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct lending",
+   "products": [
+    "Senior secured loans",
+    "Unsecured loans",
+    "Subordinated loans",
+    "Mezzanine loans",
+    "Broadly syndicated loans",
+    "Preferred equity investments",
+    "Common equity investments"
+   ],
+   "description": "A business development company that originates loans and makes debt and equity investments in U.S. middle-market companies to generate current income and capital appreciation.",
+   "evidence": "Our investment strategy focuses on primarily originating and making loans to, and making debt and equity investments in, U.S. middle-market companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and other investment income from loans and investments in portfolio companies, and pays its Adviser a base management fee and an incentive fee.",
+  "evidence": "Pursuant to the Investment Advisory Agreement, we will pay the Adviser a base management fee and an incentive fee."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Direct lending): Specialty financing portfolio company investments",
+  "change not grounded: In 2025, the company completed its acquisition of Blue Owl Capital Corporation I"
+ ]
+}

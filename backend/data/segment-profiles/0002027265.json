@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0002027265",
+ "issuerName": "MASTERBEEF GROUP",
+ "builtAt": "2026-11-15T14:17:24.741Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-023479",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/2027265/000149315226023479/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Catering service",
+   "products": [
+    "Catering income",
+    "Sales of goods",
+    "Management fee income"
+   ],
+   "description": "Operates restaurant outlets in Hong Kong serving food and beverages to dining customers.",
+   "evidence": "The Group's operating activities are attributable to a single operating segment focusing on catering service."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the Group for meals at its restaurant outlets, for goods sold, and management fees are earned over time.",
+  "evidence": "Revenue from contract with customers within the scope of IFRS 15, types of goods or services:- Catering income – at a point in time"
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company disposed of its entire equity interests in Chubby Bento Limited and Bao Pot Taiwanese Claypot Limited and their subsidiaries.",
+   "evidence": "the Company agreed to sell its 100 % equity interest in Chubby Bento Limited and its subsidiaries, and the Purchasers agreed to acquire the same for an aggregate consideration of US$ 1,000"
+  }
+ ],
+ "dropped": []
+}

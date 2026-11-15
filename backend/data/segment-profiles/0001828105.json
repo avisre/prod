@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0001828105",
+ "issuerName": "HIPPO HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:15:10.646Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001828105-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828105/000182810526000008/hippo-20251231.htm"
+ },
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "Homeowners",
+   "products": [
+    "Hippo-branded homeowners insurance"
+   ],
+   "description": "Homeowners insurance written through Hippo's owned program and third-party program partners, managed on an aggregate basis.",
+   "evidence": "Our reported Homeowners line of business is a combination of policies written by our owned program and polices written by third-party program partners."
+  },
+  {
+   "name": "Renters",
+   "products": [],
+   "description": "Short-tail personal lines coverage protecting personal property and contents of rented residences, underwritten by a third-party program administrator.",
+   "evidence": "The Renters line is a short-tail personal lines coverage typically providing protection for personal property and contents of rented residences."
+  },
+  {
+   "name": "Casualty",
+   "products": [
+    "General liability",
+    "Commercial auto liability",
+    "Excess and umbrella liability"
+   ],
+   "description": "Liability insurance covering bodily injury, property damage and defense costs, written through delegated authority arrangements with program administrators and MGAs.",
+   "evidence": "Casualty consists of liability insurance products with short to medium tail loss characteristics."
+  },
+  {
+   "name": "Commercial Multi-Peril (\"CMP\")",
+   "products": [
+    "Small business owners policies",
+    "Habitational commercial packages",
+    "Retail and service industry packages"
+   ],
+   "description": "Commercial property and packaged property and liability coverage for small to mid-sized commercial insureds under a single policy.",
+   "evidence": "Commercial Multi-Peril includes commercial property and packaged property and liability coverage for small to mid-sized commercial insureds under a single policy."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Specialty property programs",
+    "Niche personal or commercial products",
+    "Runoff and discontinued programs"
+   ],
+   "description": "Individually immaterial insurance products and programs, including runoff and discontinued programs reported through policy expiration.",
+   "evidence": "Other includes insurance products and programs that are not material on an individual basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hippo earns premium from policyholders and fee income from MGAs using its licensed carrier platform, combining stable fee income with selective risk retention.",
+  "evidence": "Hippo focuses on balanced, diversified growth by combining stable fee income from its carrier platform with selective risk retention across personal and commercial lines—participating in the underwriting results of high-performing MGA programs."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Renters): Renters insurance"
+ ]
+}

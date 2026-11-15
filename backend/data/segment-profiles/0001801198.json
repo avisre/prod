@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001801198",
+ "issuerName": "Legend Biotech Corp",
+ "builtAt": "2026-11-15T14:14:42.714Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001801198-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1801198/000180119826000008/legn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "CARVYKTI",
+    "cilta-cel"
+   ],
+   "description": "Develops and commercializes cell therapies, principally CARVYKTI (cilta-cel), for patients with blood cancers such as multiple myeloma.",
+   "evidence": "The Company entered into the Janssen Agreement to develop and commercialize cilta-cel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Legend Biotech earns license and milestone revenue from collaboration partners such as Janssen and Novartis, plus its pro-rata share of collaboration net trade sales of CARVYKTI for which Janssen is the principal selling to customers.",
+  "evidence": "Collaboration revenue includes the Company's pro-rata share of collaboration net trade sales for which Janssen is the principal in the sale to the customers under Janssen Agreement."
+ },
+ "changes": [],
+ "dropped": []
+}

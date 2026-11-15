@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001848309",
+ "issuerName": "SIGMA LITHIUM CORPORATION",
+ "builtAt": "2026-11-15T14:15:45.477Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001292814-26-001908",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1848309/000129281426001908/ex99-3.htm",
+  "exhibit": "ex99-3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lithium",
+   "products": [
+    "high purity lithium fines",
+    "high-grade lithium oxide concentrate"
+   ],
+   "description": "Produces and sells lithium concentrate products from its integrated mining and processing operations in Brazil to international customers.",
+   "evidence": "Based on this assessment, the Company concluded that its operations are organized and managed on an integrated basis, resulting in the identification of a single reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling high purity lithium fines and high-grade lithium oxide concentrate to customers domiciled in various countries.",
+  "evidence": "For disclosure purposes under IFRS Accounting Standards, the Company presents the geographical breakdown of revenues based on the customers' domicile, reflecting the nature and economic origin of its revenue streams."
+ },
+ "changes": [],
+ "dropped": []
+}

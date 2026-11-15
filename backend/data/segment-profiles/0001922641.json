@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001922641",
+ "issuerName": "Enlight Renewable Energy Ltd.",
+ "builtAt": "2026-11-15T14:16:26.477Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001828",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1922641/000117891326001828/zk2634901.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MENA",
+   "products": [
+    "solar energy",
+    "wind energy"
+   ],
+   "description": "Produces and sells electricity generated from solar and wind energy projects in the Middle East and North Africa.",
+   "evidence": "MENA segment - Produces its revenue from the sale of the electricity which is produced through solar energy and wind energy in the Middle East and North Africa (MENA)."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "wind energy",
+    "solar energy"
+   ],
+   "description": "Produces and sells electricity generated from wind and solar energy projects in Europe.",
+   "evidence": "Europe segment - Produces its revenue from the sale of the electricity which is produced through wind energy and solar energy in Europe."
+  },
+  {
+   "name": "USA",
+   "products": [
+    "solar energy"
+   ],
+   "description": "Sells electricity produced from solar energy in the United States, mostly at fixed tariffs over extended periods, and earns tax benefits.",
+   "evidence": "U.S.A segment - Produces its revenue and income from the sale of the electricity which is produced through solar energy in the United States, mostly at fixed tariffs over extended periods and from tax benefits."
+  },
+  {
+   "name": "Others",
+   "products": [
+    "management services",
+    "construction services"
+   ],
+   "description": "Provides management services to projects in development, construction or operation, and construction services for projects.",
+   "evidence": "Others - Produces its revenue mostly from management services to projects in stages of development, construction or operation, and from construction services for projects."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company primarily generates revenue from selling electricity produced by its renewable energy facilities to utilities and other offtakers under long-term power purchase agreements.",
+  "evidence": "We primarily generate revenue from the sale of electricity produced by our renewable energy facilities, pursuant to long-term PPAs."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company established the Enlight Enterprise business unit for direct power sales to corporate customers in Israel's deregulated electricity market.",
+   "evidence": "Starting in January 2024, the Israeli electricity market shifted to a fully deregulated market. In preparation for this event, the Company established a new business unit, Enlight Enterprise, to engage in direct power sales to corporate customers."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the company acquired 80% of Aria Energy, renamed Enlight Local in May 2"
+ ]
+}

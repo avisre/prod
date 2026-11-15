@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001530766",
+ "issuerName": "STREAMEX CORP.",
+ "builtAt": "2026-11-15T14:11:55.210Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014376",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1530766/000149315226014376/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tokenized finance",
+   "products": [
+    "GLDY",
+    "Streamex Exchange platform",
+    "PURE EP™ Platform"
+   ],
+   "description": "Operates a tokenized real-world asset finance platform and retains a legacy biomedical signal processing business for electrophysiologists.",
+   "evidence": "For the year ended December 31, 2025, the Company operated as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company seeks to earn tokenization, issuance, trading and platform fees plus yield spreads from investors using its tokenized asset platform, and historically sold the PURE EP™ Platform and related support services.",
+  "evidence": "Streamex expects to earn revenue through tokenization fees, trading fees, and yield spreads, while operating with minimal direct exposure to commodity price risk."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Streamex Exchange Corporation, entering the tokenized real-world asset business.",
+   "evidence": "On May 28, 2025, the Company completed the acquisition of Streamex Exchange Corporation (\"Streamex Exchange\"), a corporation incorporated under the laws of British Columbia on April 5, 2024."
+  },
+  {
+   "text": "In 2025, the company changed its name from BioSig Technologies, Inc. to Streamex Corp. and its ticker from BSGM to STEX.",
+   "evidence": "On September 12, 2025, the Company changed its name from BioSig Technologies, Inc. to Streamex Corp., and on September 12, 2025, its common stock, listed on The Nasdaq Capital Market, began trading under the ticker symbol \"STEX,\" replacing the former ticker symbol \"BSGM.\""
+  }
+ ],
+ "dropped": []
+}

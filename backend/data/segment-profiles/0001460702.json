@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001460702",
+ "issuerName": "AIxCrypto Holdings, Inc.",
+ "builtAt": "2026-11-15T14:11:25.825Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013434",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1460702/000149315226013434/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company expects to earn platform licensing fees from enterprises, structuring and transaction fees on tokenized assets, and ecosystem participation revenue from the AIxC Hub, but has not generated material revenue to date.",
+  "evidence": "Platform licensing fees will be charged to enterprise customers utilizing AIxC's EAI infrastructure and tokenization stack."
+ },
+ "changes": [
+  {
+   "text": "In November 2025 the Company rebranded from Qualigen Therapeutics to AIxCrypto Holdings and shifted from an early-stage clinical therapeutics business to AI and blockchain infrastructure.",
+   "evidence": "In connection with the closing of the Offering, the Company rebranded from Qualigen Therapeutics, Inc. to AIxCrypto Holdings, Inc. and began trading on Nasdaq under the ticker symbol AIXC in November 2025."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: AI and blockchain infrastructure",
+  "change not grounded: In February 2026 the Company decided to discontinue development of the BesTrade "
+ ]
+}

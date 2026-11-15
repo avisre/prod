@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001707919",
+ "issuerName": "CENNTRO INC.",
+ "builtAt": "2026-11-15T14:13:46.105Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-014773",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1707919/000114036126014773/ef20060665_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial vehicles",
+   "products": [
+    "Metro®",
+    "iChassis™",
+    "Avantier™",
+    "Teemak™",
+    "Bison Motor™",
+    "Antric One"
+   ],
+   "description": "Designs, manufactures, distributes and services electric and hydrogen-powered commercial vehicles for fleet and municipal organizations.",
+   "evidence": "We are an emerging designer, manufacturer, distributor, and service provider of commercial vehicles powered by either electricity or hydrogen energy sources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling fully assembled commercial vehicles and unassembled semi-knockdown vehicle kits to fleet and municipal customers through dealers, EV Centers and channel partners.",
+  "evidence": "we may distribute our vehicles in unassembled semi-knockdown vehicle kits (\"vehicle kits\") for local assembly in addition to fully assembled vehicles."
+ },
+ "changes": [
+  {
+   "text": "In 2024 and 2025 the company shifted European distribution from Company-operated EV Centers to a distribution partner-led model.",
+   "evidence": "In European markets, where competitive and macroeconomic conditions warranted a more asset-light approach, the Company transitioned from Company-operated EV Centers to a distribution partner-led model, enabling greater operational flexibility and more efficient deployment of resources."
+  },
+  {
+   "text": "In 2024 the company completed a redomiciliation changing its ultimate parent's jurisdiction of incorporation from Australia to Nevada.",
+   "evidence": "On February 27, 2024, our predecessor CEGL, a public company incorporated under the laws of Australia completed the Redomiciliation of CEGL."
+  }
+ ],
+ "dropped": [
+  "product not in text (Commercial vehicles): LogStar™"
+ ]
+}

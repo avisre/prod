@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001388320",
+ "issuerName": "Actinium Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-15T14:10:53.509Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036504",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1388320/000121390026036504/ea0279291-10k_actinium.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Targeted radiotherapies",
+   "products": [
+    "Iomab-B",
+    "Actimab-A",
+    "Iomab-ACT",
+    "ATNM-400"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing targeted radiotherapies for patients with solid tumors and hematologic malignancies.",
+   "evidence": "We operate as a single operating segment focused on research, discovery, and clinical development of targeted radiotherapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company records no commercial revenue; it earns grant revenue and is eligible for milestone payments and royalties from licensees such as Immedica.",
+  "evidence": "We are eligible to receive certain regulatory and commercial milestone payments and royalties on net sales of the product in certain countries that may result from the License Agreement."
+ },
+ "changes": [],
+ "dropped": []
+}

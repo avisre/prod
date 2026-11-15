@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001601712",
+ "issuerName": "SYNCHRONY FINANCIAL",
+ "builtAt": "2026-11-15T14:12:32.798Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001601712-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1601712/000160171226000006/syf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer finance",
+   "products": [
+    "private label credit cards",
+    "Dual Card",
+    "general purpose credit cards",
+    "installment loans",
+    "FDIC-insured deposit products"
+   ],
+   "description": "Provides credit products through financing programs with retailers, merchants, manufacturers and healthcare providers, plus FDIC-insured deposit products via Synchrony Bank.",
+   "evidence": "We primarily offer private label, Dual Card, co-brand and general purpose credit cards, as well as short- and long-term installment loans, and savings products insured by the Federal Deposit Insurance Corporation (\"FDIC\") through Synchrony Bank (the \"Bank\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay interest and fees on credit card and installment loans, and the company earns retailer share arrangements and interchange from partner programs.",
+  "evidence": "Those platforms are organized by the types of partners we work with, and are measured on interest and fees on loans, loan receivables, active accounts and other sales metrics."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Consumer finance): co-brand credit cards"
+ ]
+}

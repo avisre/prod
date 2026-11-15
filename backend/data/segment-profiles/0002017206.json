@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0002017206",
+ "issuerName": "Millrose Properties, Inc.",
+ "builtAt": "2026-11-15T14:17:18.113Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002017206-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/2017206/000201720626000002/ck0002017206-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land banking",
+   "products": [
+    "Homesite option contracts",
+    "Finished homesites",
+    "Development loans secured by residential property",
+    "Horizontal Development"
+   ],
+   "description": "Purchases and develops residential land and sells finished homesites to homebuilders through option contracts, providing an asset-light land banking solution.",
+   "evidence": "We have one reportable segment that derives revenue primarily from our portfolio of homesites under option contracts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Homebuilders pay recurring cash option fees under option contracts for finished homesites, and borrowers pay interest on development loans secured by residential property.",
+  "evidence": "Our option contracts provide for the payment of recurring cash option fees as compensation for the capital and operational solution delivered by the Millrose platform."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Millrose completed its Spin-Off from Lennar and became an independent, publicly traded company.",
+   "evidence": "On February 7, 2025, we completed our Spin-Off from Lennar through a distribution of approximately 80% of our Common Stock to holders of Lennar common stock as of the close of business on January 21, 2025."
+  }
+ ],
+ "dropped": []
+}

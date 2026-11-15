@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001944902",
+ "issuerName": "Ohmyhome Limited",
+ "builtAt": "2026-11-15T14:16:40.783Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048586",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1944902/000121390026048586/ea0286457-20f_ohmyhome.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property technology",
+   "products": [
+    "property brokerage services",
+    "renovation services",
+    "property management services",
+    "home services"
+   ],
+   "description": "Operates an integrated property technology platform providing end-to-end property transaction and services solutions to users in Singapore and Malaysia.",
+   "evidence": "Although we believe no other industry player in Singapore and Malaysia operates under a comprehensive and integrated platform business model similar to ours, we face competition from players in different segments of the property transactions and services industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Group service fees under service agreements for property and related services rendered.",
+  "evidence": "We enter into service agreements with its customers that outline the rights, responsibilities, and obligations of each party. The agreements also identify the scope of services, service fees, and payment terms."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Property technology): property listing platform"
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001280784",
+ "issuerName": "HERCULES CAPITAL, INC.",
+ "builtAt": "2026-11-15T14:10:23.409Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001280784-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1280784/000128078426000009/htgc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Finance",
+   "products": [
+    "Structured Debt",
+    "senior secured loans",
+    "warrant and equity investments",
+    "investment advisory services"
+   ],
+   "description": "Provides senior secured loans and Structured Debt to venture capital-backed and institutional-backed technology and life sciences companies.",
+   "evidence": "Hercules Capital, Inc. is a specialty finance company focused on providing senior secured loans to high-growth, innovative venture capital-backed and institutional-backed companies in a variety of technology and life sciences industries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Portfolio companies pay interest and fees on debt investments, and the company earns capital appreciation from warrant and equity investments plus management fees from third-party funds.",
+  "evidence": "We aim to achieve our business objectives by maximizing our portfolio total return through generation of current income from our debt investments and capital appreciation from our warrant and equity investments."
+ },
+ "changes": [],
+ "dropped": []
+}

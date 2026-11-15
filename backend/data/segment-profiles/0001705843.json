@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001705843",
+ "issuerName": "Cibus, Inc.",
+ "builtAt": "2026-11-15T14:13:44.552Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018815",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1705843/000162828026018815/cbus-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agricultural biotechnology",
+   "products": [
+    "Trait Machine process",
+    "Rice herbicide tolerance (HT) traits"
+   ],
+   "description": "Develops gene-edited plant traits for major agricultural crops and licenses them to seed companies, alongside R&D services and a sustainable ingredients program.",
+   "evidence": "Cibus has one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Seed companies and partners pay Cibus for R&D services to develop plant traits, with traits intended to be licensed for royalties.",
+  "evidence": "The operating segment revenues are derived from customers as a result of Cibus providing R&D services to develop plant traits which are specific genetic characteristics in the DNA of a plant's seed ."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company streamlined operations to focus on Rice weed management traits, including workforce reductions and consolidation of core operations to San Diego.",
+   "evidence": "In June 2025, building on efficiencies from previous restructuring initiatives, the Company announced further streamlining of its operational focus to preserve capital resources and concentrate its working capital expenditures on the commercial advancement of the Company's weed management traits for Rice."
+  }
+ ],
+ "dropped": [
+  "product not in text (Agricultural biotechnology): Rapid Trait Development System (RTDS)",
+  "product not in text (Agricultural biotechnology): Canola Pod Shatter Reduction",
+  "product not in text (Agricultural biotechnology): Canola Weed Management (HT)",
+  "product not in text (Agricultural biotechnology): Canola Sclerotinia Resistance",
+  "product not in text (Agricultural biotechnology): Soybean Weed Management (HT)",
+  "product not in text (Agricultural biotechnology): Sustainable ingredients (lauric oils and bio fragrance products)"
+ ]
+}

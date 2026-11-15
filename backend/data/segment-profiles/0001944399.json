@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001944399",
+ "issuerName": "Perpetuals.com Ltd",
+ "builtAt": "2026-11-15T14:16:36.010Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-081217",
+  "periodEnd": "2025-04-30",
+  "filingDate": "2025-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1944399/000121390025081217/ea0251451-20f_earlyworks.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blockchain technology",
+   "products": [
+    "GLS",
+    "software and system development services",
+    "consulting and solution services",
+    "sale of NFTs"
+   ],
+   "description": "A Japan-based blockchain technology company that delivers services and develops solutions using its proprietary GLS for industries such as IT, metaverse, advertisement and entertainment.",
+   "evidence": "We deliver services and develop solutions based on our proprietary GLS to leverage blockchain technology in various business settings, including advertisement tracking, online visitor management, and sales of non-fungible tokens."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers across diverse industries pay the company for software and system development services, consulting and solution services, and sales of NFTs.",
+  "evidence": "We generate revenue from our (i) software and system development services, (ii) consulting and solution services, and (iii) sale of NFTs."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001602842",
+ "issuerName": "MOGO INC.",
+ "builtAt": "2026-11-15T14:12:33.462Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-197914",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1602842/000119312526197914/mogo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fintech",
+   "products": [
+    "Intelligent Investing app",
+    "MogoTrade app",
+    "Tactex Asset Management",
+    "Carta payments platform",
+    "Mogo Line of Credit"
+   ],
+   "description": "A financial technology company offering a digital wealth platform, European payments infrastructure, and a Canadian consumer lending portfolio to consumers, advisors and enterprise clients.",
+   "evidence": "Orion Digital Corp. is a financial technology company focused on its digital wealth platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025 the company changed its name from Mogo Inc. to Orion Digital Corp., with trading under the new ticker ORIO beginning in January 2026.",
+   "evidence": "On December 29, 2025, the Company's name was changed to Orion Digital Corp. and on January 2, 2026 the Company's common shares began trading under the new ticker symbol ORIO on the Nasdaq and TSX."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

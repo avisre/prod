@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001801169",
+ "issuerName": "Opendoor Technologies Inc.",
+ "builtAt": "2026-11-15T14:14:41.293Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001801169-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1801169/000180116926000010/open-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential real estate product and service offerings",
+   "products": [
+    "Cash Offer",
+    "Cash Plus Offer",
+    "title insurance and escrow services"
+   ],
+   "description": "An e-commerce platform for residential real estate transactions that buys homes directly from sellers, resells them, and offers integrated title and escrow services.",
+   "evidence": "The operating segment is the Company's residential real estate product and service offerings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Opendoor earns revenue primarily by reselling homes it buys from sellers, charging sellers a service fee, and charging buyers and sellers title, escrow and settlement fees.",
+  "evidence": "For customers who sell directly to us, we charge a service fee."
+ },
+ "changes": [],
+ "dropped": []
+}

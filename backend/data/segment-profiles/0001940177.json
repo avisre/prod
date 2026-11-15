@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001940177",
+ "issuerName": "PodcastOne, Inc.",
+ "builtAt": "2026-11-15T14:16:32.853Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-021988",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1940177/000143774926021988/podc20260331_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Podcast platform",
+   "products": [
+    "vodcasts (video podcasts)",
+    "branded podcasts",
+    "merchandise",
+    "live events",
+    "LaunchpadOne",
+    "host read ads",
+    "dynamic ads",
+    "segment sponsorships"
+   ],
+   "description": "A podcast platform and publisher that produces and distributes advertiser-supported podcast content for listeners, talent and brand advertisers.",
+   "evidence": "The Company views its operations and manages its business in one segment, which is the business of being a leading podcast platform and publisher that makes its content available to audiences via all podcasting distribution platforms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from advertising agencies and clients who pay for audio, video and social advertising impressions, plus a percentage split of advertising revenue shared with talent.",
+  "evidence": "We generate revenue from the sale of audio, video and social advertising delivered through advertising impressions."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company completed its spin-out from LiveOne and became a standalone publicly traded company on Nasdaq.",
+   "evidence": "On September 8, 2023, we completed our spin-out from LiveOne and our direct listing on The Nasdaq Capital Market (the \"Spin-Out\") and our shares of common stock began trading on the Nasdaq under the symbol of \"PODC\"."
+  }
+ ],
+ "dropped": []
+}

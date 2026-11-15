@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0002024258",
+ "issuerName": "Phaos Technology Holdings (Cayman) Limited",
+ "builtAt": "2026-11-15T14:17:22.632Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-040828",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-08-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2024258/000149315226040828/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Microscopy equipment",
+   "products": [
+    "related software"
+   ],
+   "description": "Sells and develops microscopy equipment and related software for customers in Singapore, the Philippines and Indonesia.",
+   "evidence": "PTPL has been carrying on business since February 22, 2017 and is engaged in the sale and development of microscopy equipment and its related software."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay contractual service fees, with revenue recognized over time or upon completion and customer acceptance of services.",
+  "evidence": "The amount of revenue recognized is based on the transaction price, which generally comprises the contractual service fee."
+ },
+ "changes": [
+  {
+   "text": "In 2024, PTPL became the Company's indirect wholly-owned subsidiary through a share swap as part of an internal reorganization.",
+   "evidence": "On November 29, 2024, the Company proceeded with an internal reorganization whereby PTPL became our indirect wholly-owned subsidiary through a share swap."
+  }
+ ],
+ "dropped": [
+  "product not in text (Microscopy equipment): microscopy equipment"
+ ]
+}

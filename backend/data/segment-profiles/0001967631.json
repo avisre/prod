@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001967631",
+ "issuerName": "Jinxin Technology Holding Company",
+ "builtAt": "2026-11-15T14:16:51.986Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048243",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1967631/000121390026048243/ea0287299-20f_jinxin.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital educational content",
+   "products": [
+    "Namibox",
+    "digital educational contents",
+    "learning apps"
+   ],
+   "description": "Provides digital educational contents to users primarily through its app and programs built on proprietary IT infrastructure, mainly in the PRC.",
+   "evidence": "We provide digital educational contents to users primarily through our app and programs built upon proprietary IT infrastructure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

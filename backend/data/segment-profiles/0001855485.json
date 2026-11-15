@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001855485",
+ "issuerName": "Calidi Biotherapeutics, Inc.",
+ "builtAt": "2026-11-15T14:15:53.780Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013242",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855485/000149315226013242/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "RedTail platform",
+    "CLD-401"
+   ],
+   "description": "Develops targeted oncolytic virus therapies, including the RedTail enveloped virus platform and stem cell based SuperNova and NeuroNova platforms, for cancer patients.",
+   "evidence": "The Company views its operations and manages its business as a single reportable segment whose operations include the research, development and commercialization efforts of platforms to potentiate oncolytic virus therapies on a consolidated basis, as further described in Note 1."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company expects future income from license fees, upfront payments, funded R&D agreements, milestone payments, product sales, third-party funding and royalties.",
+  "evidence": "The Company expects to generate future income from a combination of license fees and other upfront payments, funded R&D agreements, milestone payments, product sales, government and other third-party funding, and royalties, which depend on the results, regulatory approval, and timing of the successful commercialization of the Company's products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Biotechnology): CLD-201 (SuperNova)",
+  "product not in text (Biotechnology): CLD-101 (NeuroNova)"
+ ]
+}

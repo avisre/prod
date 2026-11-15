@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0002032779",
+ "issuerName": "Euroholdings Ltd",
+ "builtAt": "2026-11-15T14:17:29.111Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001477932-26-002657",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2032779/000147793226002657/ehld_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Operating container carriers and tankers",
+   "products": [
+    "feeder containership vessels",
+    "MR product tanker vessel"
+   ],
+   "description": "International shipping company providing worldwide seaborne transportation of dry and refrigerated containerized cargoes and refined petroleum products.",
+   "evidence": "the Company has determined that it operates under one operating and one reportable segment, that of operating container carriers and tankers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay the company for employing its vessels under a mix of short-term or spot charters and long-term charters.",
+  "evidence": "Our long-term strategy to maximize the value of our fleet is to employ our vessels on a mix of all types of charter contracts, including in the short-term or spot market and on long-term charters."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company was spun off from Euroseas and became an independent publicly traded company.",
+   "evidence": "On March 18, 2025, the shares of common stock of Euroholdings began trading on the Nasdaq Capital Market under the ticker symbol \"EHLD\" and Euroholdings became an independent publicly traded company focusing on managing older vessels, as well as other maritime opportunities."
+  },
+  {
+   "text": "In 2025, the company sold the m/v Diamantis P.",
+   "evidence": "On January 15, 2025, we sold the m/v Diamantis P to an unrelated third-party buyer at a gross price of $13.15 million."
+  },
+  {
+   "text": "In 2025, the company acquired the MR product tanker m/t Hellas Avatar and decided to focus growth in the tanker sector.",
+   "evidence": "Following the Marla Transaction, our Board of Directors decided to focus our growth in the tanker sector and, initially, the medium-range (MR) product tanker subsector."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0002053456",
+ "issuerName": "Generation Essentials Group",
+ "builtAt": "2026-11-15T14:17:38.126Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-049334",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/2053456/000121390026049334/ea0285525-20f_generation.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Media and entertainment",
+   "products": [
+    "print and digital advertising campaigns",
+    "licensing",
+    "subscription",
+    "sales of magazines and newspaper",
+    "branded content",
+    "video production",
+    "social media activation",
+    "event creation"
+   ],
+   "description": "Provides print and digital advertising, licensing, subscriptions, magazine and newspaper sales, and value-added marketing services to audiences and advertisers.",
+   "evidence": "Media and entertainment segment. We engage in the provision of print and digital advertising campaigns, licensing, subscription, sales of magazines and newspaper, and value-added marketing services including branded content, video production, social media activation, event creation, and experiential marketing, among other services."
+  },
+  {
+   "name": "Hotel operation, hospitality and VIP services",
+   "products": [
+    "hotel operations",
+    "hospitality",
+    "VIP services"
+   ],
+   "description": "Operates hotels and provides hospitality and VIP services to guests.",
+   "evidence": "Hotel operation, hospitality and VIP services segment. We engage in hotel operations, hospitality and VIP services"
+  },
+  {
+   "name": "Strategic investment",
+   "products": [
+    "listed and unlisted equity shares investments",
+    "movie income right investments"
+   ],
+   "description": "Makes proprietary investments and manages a portfolio of listed and unlisted equity shares and movie income rights.",
+   "evidence": "The strategic investment segment. We engage in proprietary investments and management of high-quality investment portfolio, including listed and unlisted equity shares investments and movie income right investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers and customers pay for advertising campaigns, subscriptions, magazine and newspaper sales and marketing services, hotel guests pay for hospitality and VIP services, and the strategic investment segment earns dividends and fair value gains on equity investments.",
+  "evidence": "We derive a meaningful portion of our revenue from strategic investment business."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company disposed of entire equity interests in certain subsidiaries that were not conducting its core business.",
+   "evidence": "The difference was due to the disposal of entire equity interests in certain of our subsidiaries, which were not conducting the core business of our company, during 2024."
+  },
+  {
+   "text": "In 2023 the company acquired The Art Newspaper, contributing a full year impact from 2024.",
+   "evidence": "Our segment revenue from the media and entertainment segment increased from US$14.4 million in 2023 to US$18.9 million in 2024, primarily due to the successful operations and expansions of L'Officiel, as well as the full year impact of our acquisition of The Art Newspaper in October 2023."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,21 @@
+{
+ "version": 1,
+ "cik": "0001628171",
+ "issuerName": "Revolution Medicines, Inc.",
+ "builtAt": "2026-11-15T14:12:50.004Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071563",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1628171/000119312526071563/rvmd-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Clinical-stage oncology"
+ ]
+}

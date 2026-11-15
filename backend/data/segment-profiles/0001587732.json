@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001587732",
+ "issuerName": "ONE Gas, Inc.",
+ "builtAt": "2026-11-15T14:12:24.168Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001587732-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1587732/000158773226000009/ogs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated public utilities",
+   "products": [
+    "Oklahoma Natural Gas",
+    "Kansas Gas Service",
+    "Texas Gas Service",
+    "natural gas distribution services"
+   ],
+   "description": "A fully regulated natural gas distribution utility serving residential, commercial, and transportation customers in Oklahoma, Kansas, and Texas.",
+   "evidence": "We operate in one reportable business segment: regulated public utilities that deliver natural gas to residential, commercial, and transportation customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay regulated tariff-based fixed and variable charges for natural gas delivery, with gas costs passed through without markup, plus transportation and miscellaneous service fees.",
+  "evidence": "Our natural gas sales include fixed and variable charges related to the delivery of natural gas and gas costs that are passed through to our customers in accordance with our cost of natural gas regulatory mechanisms."
+ },
+ "changes": [],
+ "dropped": []
+}

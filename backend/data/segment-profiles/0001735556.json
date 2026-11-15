@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001735556",
+ "issuerName": "SANGRIX INC.",
+ "builtAt": "2026-11-15T14:14:04.962Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-108989",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1735556/000110465926108989/btog-20260630x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital assets",
+   "products": [
+    "Bitcoin mining",
+    "Dogecoin treasury",
+    "GPU servers"
+   ],
+   "description": "A shell-like digital asset company that previously mined Bitcoin, holds a Dogecoin treasury, and is expanding into AI computing and GPU server infrastructure.",
+   "evidence": "In July 2025, we established a dedicated Dogecoin treasury program as part of our digital-asset strategy."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earned revenue from Bitcoin mining production and sales of cryptocurrency miners, but generated no revenue in fiscal 2026 after ceasing mining operations.",
+  "evidence": "we expect our results of operations to continue to be affected by the Bitcoin price as all our revenue has been from Bitcoin mining production."
+ },
+ "changes": [
+  {
+   "text": "In 2022 the company sold its subsidiaries WVM Inc. and China Silanchi Holding Limited and exited its former VIE structure.",
+   "evidence": "On April 27, 2022, as approved by a majority of shareholders in a special meeting of shareholders, we completed a disposition in which we sold all the equity interest in its subsidiaries WVM Inc. and China Silanchi Holding Limited for a total price of US$1,000,000 pursuant to a share purchase agreement dated March 31, 2022."
+  },
+  {
+   "text": "In 2023 the company ceased all Bitcoin mining operations in the United States due to high operating costs.",
+   "evidence": "In December 2023, we ceased the operations of the miners in the Wyoming site in December 2023 due to the high operating costs in the United States."
+  },
+  {
+   "text": "In 2025 the company established a Dogecoin treasury program and began expanding toward AI computing and digital infrastructure in 2026.",
+   "evidence": "In July 2025, we established a dedicated Dogecoin treasury program as part of our digital-asset strategy."
+  }
+ ],
+ "dropped": []
+}

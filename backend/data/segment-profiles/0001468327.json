@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001468327",
+ "issuerName": "Rent the Runway, Inc.",
+ "builtAt": "2026-11-15T14:11:27.622Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001468327-26-000020",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1468327/000146832726000020/wdq-20260131.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay monthly subscription fees for rental plans, per-item fees for a-la-carte rentals, and purchase prices for resale items.",
+  "evidence": "Rent the Runway makes thousands of designer styles accessible through our Subscription offering for a flat monthly price or through our Reserve offering on a per item basis."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Designer Rental"
+ ]
+}

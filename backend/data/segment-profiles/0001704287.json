@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001704287",
+ "issuerName": "Bluejay Diagnostics, Inc.",
+ "builtAt": "2026-11-15T14:13:43.320Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024616",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1704287/000121390026024616/ea0279152-10k_bluejay.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company currently has no revenue-generating operations; if Symphony is cleared, it plans to sell single-use diagnostic test cartridges to critical care facilities, generating most revenue from cartridge sales.",
+  "evidence": "We do not currently have any revenue-generating operations."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Diagnostics development"
+ ]
+}

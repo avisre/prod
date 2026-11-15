@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001506251",
+ "issuerName": "Citius Pharmaceuticals, Inc.",
+ "builtAt": "2026-11-15T14:11:42.749Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-125333",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1506251/000121390025125333/ea0270098-10k_citius.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology",
+   "products": [
+    "LYMPHIR",
+    "Mino-Lok",
+    "Halo-Lido",
+    "NoveCite"
+   ],
+   "description": "Develops and commercializes innovative targeted oncology therapies and other critical care products for patients with unmet medical needs.",
+   "evidence": "The Company operates through a single operating and reportable segment which is focused on developing and commercializing innovative targeted oncology therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of its FDA-approved oncology product LYMPHIR, launched in December 2025 through its majority-owned subsidiary Citius Oncology.",
+  "evidence": "In December 2025, we became a commercial company with the launch of LYMPHIR by our majority owned subsidiary Citius Oncology."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the LYMPHIR business (SpinCo) merged with TenX Keane Acquisition, which was renamed Citius Oncology, with Citius Pharma retaining majority ownership.",
+   "evidence": "On August 12, 2024, pursuant to the terms and conditions of the Merger Agreement, Merger Sub merged with and into SpinCo, with SpinCo surviving as a wholly owned subsidiary of TenX, which was subsequently renamed Citius Oncology Sub."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001419275",
+ "issuerName": "RTB DIGITAL, INC.",
+ "builtAt": "2026-11-15T14:11:05.939Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-001363",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1419275/000118518526001363/rvyl10k123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment processing",
+   "products": [
+    "Credit card payment processing services",
+    "NEMS Core disbursements platform"
+   ],
+   "description": "Provides global payment acceptance and disbursement solutions, enabling merchants to process credit card payments through third-party acquiring banks and processors.",
+   "evidence": "Ryvyl is a financial technology company that provides global payment acceptance and disbursement solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants pay Ryvyl for credit card payment processing services, which represent the substantial majority of revenues, plus disbursement services via NEMS Core.",
+  "evidence": "Credit card payment processing services represent the substantial majority of Ryvyl's revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its wholly owned subsidiary Ryvyl EU, comprising substantially all of the International segment, and now operates as one segment.",
+   "evidence": "As of June 1, 2025, the Company has completed the previously announced sale of its wholly owned subsidiary, Ryvyl EU, which comprised substantially all of the business previously reported under the Company's International segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Prior to June 1, 2025, the Company operated under two reportable segments, North"
+ ]
+}

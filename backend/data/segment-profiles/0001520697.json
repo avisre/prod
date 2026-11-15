@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001520697",
+ "issuerName": "Acadia Healthcare Company, Inc.",
+ "builtAt": "2026-11-15T14:11:49.893Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-078266",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1520697/000119312526078266/achc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "behavioral healthcare services",
+   "products": [
+    "inpatient psychiatric and substance abuse care",
+    "outpatient psychiatric care",
+    "adolescent residential treatment"
+   ],
+   "description": null,
+   "evidence": "The Company has one reportable segment, behavioral healthcare services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from services rendered to patients for inpatient psychiatric and substance abuse care, outpatient psychiatric care and residential treatment.",
+  "evidence": "Revenue is primarily derived from services rendered to patients for inpatient psychiatric and substance abuse care, outpatient psychiatric care and residential treatment."
+ },
+ "changes": [],
+ "dropped": []
+}

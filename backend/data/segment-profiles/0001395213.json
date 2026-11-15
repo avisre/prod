@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001395213",
+ "issuerName": "EDENOR",
+ "builtAt": "2026-11-15T14:10:55.661Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002270",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1395213/000129281426002270/ednform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electricity distribution",
+   "products": [
+    "Electricity distribution services",
+    "Right of use of poles",
+    "Connection and reconnection charges"
+   ],
+   "description": "Distributes electricity to residential, commercial and industrial customers in its exclusive concession area in Argentina.",
+   "evidence": "Although our concession grants us the exclusive right to distribute electric energy within our service area, this exclusivity may be revoked in whole or in part if technological developments make it possible for energy distribution to evolve from its current condition of natural monopoly to a competitive business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay regulated electricity tariffs set under the concession, plus charges for connections, reconnections and use of poles.",
+  "evidence": "Finally, the ENRE approved Company's new tariff schedule, effective as of March 1, 2026, including a 2.5% increase in the VAD."
+ },
+ "changes": [],
+ "dropped": []
+}

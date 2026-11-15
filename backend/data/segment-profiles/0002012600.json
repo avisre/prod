@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0002012600",
+ "issuerName": "RYOJBABA CO., LTD.",
+ "builtAt": "2026-11-15T14:17:16.165Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-012158",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/2012600/000149315226012158/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consulting services",
+   "products": [
+    "labor and corporate consulting services",
+    "consulting services to labor unions",
+    "consulting services to companies"
+   ],
+   "description": "Provides labor and corporate consulting to labor unions and companies to foster constructive employment relationships and resolve labor disputes.",
+   "evidence": "In consulting services, we provide consulting services to both labor unions and companies to enable constructive resolution of labor issues."
+  },
+  {
+   "name": "Health services",
+   "products": [
+    "osteopathic clinics",
+    "osteopathic beauty salons"
+   ],
+   "description": "Operates directly owned osteopathic clinics and an osteopathic beauty salon in Japan to alleviate physical ailments primarily created by work-related stress.",
+   "evidence": "In the health segment, we have two health services, osteopathic clinics and osteopathic beauty salons."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Labor unions and companies pay consulting fees, while individual customers pay for treatments at directly operated osteopathic clinics and beauty salons.",
+  "evidence": "We provide consulting services to labor unions, as well as to companies wishing to build constructive relationships with labor unions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Consulting services): whistleblowing and stress checks support",
+  "product not in text (Consulting services): dispute resolution services"
+ ]
+}

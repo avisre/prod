@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001389545",
+ "issuerName": "Stablecoin Development Corporation",
+ "builtAt": "2026-11-15T14:10:54.325Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009090",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1389545/000143774926009090/nby20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital assets",
+   "products": [
+    "SKY token"
+   ],
+   "description": "Acquires and holds digital assets, primarily SKY tokens, to participate in protocol-level economics of open digital financial networks.",
+   "evidence": "The Company has one operating and reportable segment encompassing its consolidated operations as of December 31, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company may earn protocol-defined incentives or rewards from staking, governance participation, or other protocol-level activities, and may periodically monetize digital asset holdings.",
+  "evidence": "Such activities, when undertaken, may generate protocol-defined incentives or rewards in accordance with network rules."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its primary eyecare business (Avenova) and its PhaseOne trademark, completing its exit from legacy pharmaceutical operations.",
+   "evidence": "The Avenova Asset Divestiture closed on January 17, 2025 in which we sold our primary eyecare business (see Note 13, \"Avenova Asset Divestiture and Bridge Loan\"); ● The PhaseOne Divestiture closed on January 8, 2025 in which we sold our PhaseOne trademark (see Note 14, \"PhaseOne Divestiture\")"
+  },
+  {
+   "text": "In 2024 the company sold its primary skin care business (DERMAdoctor).",
+   "evidence": "The DERMAdoctor Divestiture closed on March 12, 2024 in which we sold our primary skin care business (see Note 15, \"DERMAdoctor Divestiture\")."
+  },
+  {
+   "text": "During 2025 the company completed a comprehensive realignment, adopting a capital allocation strategy focused on acquiring and holding digital assets.",
+   "evidence": "During 2025, the Company completed a comprehensive realignment of its business and adopted a capital allocation approach focused on acquiring and holding digital assets that enable participation in decentralized financial networks, subject to applicable risk, liquidity, governance, and regulatory considerations."
+  }
+ ],
+ "dropped": []
+}

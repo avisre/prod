@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001687932",
+ "issuerName": "J.Jill, Inc.",
+ "builtAt": "2026-11-15T14:13:34.621Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134566",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1687932/000119312526134566/jill-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lifestyle brand",
+   "products": [
+    "apparel",
+    "footwear",
+    "accessories",
+    "Pure Jill",
+    "Wearever",
+    "Fit"
+   ],
+   "description": null,
+   "evidence": "J.Jill is a national lifestyle brand that provides apparel, footwear and accessories designed to help its customers move through a full life with ease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for apparel, footwear and accessories sold through J.Jill's retail stores, ecommerce platform and catalog, and the company also earns royalties from a third party's private label credit card program.",
+  "evidence": "These royalties are based on an agreed-upon percentage of sales generated through the use of the private label credit card."
+ },
+ "changes": [],
+ "dropped": []
+}

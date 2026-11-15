@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001802665",
+ "issuerName": "HARMONY BIOSCIENCES HOLDINGS, INC.",
+ "builtAt": "2026-11-15T14:14:44.871Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018859",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465926018859/hrmy-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net product revenue from sales of its sole commercial product, WAKIX, primarily through specialty pharmaceutical distributors and pharmacies in the United States.",
+  "evidence": "Net product revenue related to the sales of WAKIX was $868.5 million for the year ended December 31, 2025."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Neuroscience pharmaceuticals"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001777393",
+ "issuerName": "ChargePoint Holdings, Inc.",
+ "builtAt": "2026-11-15T14:10:08.509Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001777393-26-000013",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1777393/000177739326000013/chpt-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EV charging",
+   "products": [
+    "Networked Charging Systems",
+    "eMSP Service",
+    "Assure",
+    "Omni Port",
+    "professional services"
+   ],
+   "description": "Provides EV charging hardware, software and services to businesses, fleet operators, CPOs, e-Mobility Service Providers and automakers across North America and Europe.",
+   "evidence": "ChargePoint Holdings, Inc. (\"ChargePoint\" or the \"Company\") is a leading provider of electric vehicle (\"EV\") charging technology solutions to customers that want to offer EV charging, driving the transition to electric mobility across North America and Europe."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "ChargePoint generates revenue from sales of Networked Charging Systems hardware, subscription software (ChargePoint Platform and Assure) billed upfront, and professional services sold to charging station owners and operators.",
+  "evidence": "ChargePoint primarily generates revenue from the sale of its Networked Charging Systems, sales of a variety of software solutions that comprise the ChargePoint Platform and are offered as a subscription billed upfront regardless of term, sale of its Assure and other service programs as a subscription billed upfront regardless of term, and sales of its professional services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (EV charging): ChargePoint Platform (CMS Service)",
+  "product not in text (EV charging): ChargePoint as a Service (CPaaS)"
+ ]
+}

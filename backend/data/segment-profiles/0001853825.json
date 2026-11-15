@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001853825",
+ "issuerName": "Datacentrex, Inc.",
+ "builtAt": "2026-11-15T14:15:51.197Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016375",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1853825/000149315226016375/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Scrypt compute",
+   "products": [
+    "Scrypt ASIC miners",
+    "hashrate marketplace monetization",
+    "merged mining of Litecoin and Dogecoin"
+   ],
+   "description": "Operates owned Scrypt-based proof-of-work compute deployed at third-party colocation facilities, monetizing hashrate through marketplace channels.",
+   "evidence": "Our current operating platform is centered on owned and operated Scrypt-based proof-of-work (\"PoW\") compute deployed through third-party colocation facilities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Third-party hashrate buyers pay a market-determined rate for the Company's Scrypt hashrate, with settlement typically denominated in Bitcoin.",
+  "evidence": "Buyers pay a market-determined rate for hashrate, and the marketplace coordinates matching, settlement, and operational routing."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Thumzup Media Corporation acquired Dogehash Technologies, Inc. and changed its name to Datacentrex, Inc.",
+   "evidence": "Following completion of the Merger, the combined company changed its name to Datacentrex, Inc."
+  }
+ ],
+ "dropped": []
+}

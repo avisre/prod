@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001315098",
+ "issuerName": "Roblox Corporation",
+ "builtAt": "2026-11-15T14:10:25.931Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001315098-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1315098/000131509826000024/rblx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Roblox Platform",
+   "products": [
+    "Roblox Client",
+    "Roblox Studio",
+    "Roblox Cloud"
+   ],
+   "description": "Operates an immersive gaming and creation platform that lets users explore experiences and creators build, publish, and monetize content.",
+   "evidence": "Roblox derives revenue globally and manages its business activities on a consolidated basis, resulting in a single operating and reportable segment, which is at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Users pay Roblox for Robux used to buy virtual items and experiences, and Roblox retains a portion of every Robux transaction while distributing the rest to creators.",
+  "evidence": "Roblox retains a portion of every Robux transaction for the Platform and support services we provide to creators and distributes the rest to creators."
+ },
+ "changes": [],
+ "dropped": []
+}

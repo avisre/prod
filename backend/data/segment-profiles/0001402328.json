@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001402328",
+ "issuerName": "SUNSHINE BIOPHARMA INC.",
+ "builtAt": "2026-11-15T14:10:59.881Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002644",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1402328/000168316826002644/sunshine_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical",
+   "products": [
+    "generic prescription drugs",
+    "OTC supplements",
+    "K1.1 mRNA",
+    "SBFM-PL4"
+   ],
+   "description": "An integrated pharmaceutical business researching, developing and commercializing generic prescription drugs and OTC supplements, primarily for Canadian pharmacies and patients.",
+   "evidence": "The Company operates as one operating segment, which is also its one reportable segment, as the Chief Executive Officer, acting as the Chief Operating Decision Maker (\"CODM\"), evaluates financial performance and allocates resources on a consolidated, enterprise-wide basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells generic prescription drugs and OTC supplements directly to pharmacies in Canada, which pay for the products.",
+  "evidence": "The Company is not subject to material customer concentration risks as it sells its products directly to pharmacies in several Canadian Provinces."
+ },
+ "changes": [],
+ "dropped": []
+}

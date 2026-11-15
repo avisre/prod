@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001719714",
+ "issuerName": "MEREO BIOPHARMA GROUP PLC",
+ "builtAt": "2026-11-15T14:13:54.424Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115226",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1719714/000119312526115226/mreo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rare disease therapies",
+   "products": [
+    "Setrusumab (BPS-804/UX143)",
+    "Alvelestat (MPH-966)",
+    "Etigilimab (MPH-313)"
+   ],
+   "description": "Develops rare disease therapies, advancing product candidates through clinical development toward partnering or commercialization.",
+   "evidence": "The Company has one operating segment focused on the business of developing rare disease therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay the Company upfront license fees, milestone payments, and royalties on net sales under licensing and collaboration agreements for its product candidates.",
+  "evidence": "Under both licensing and collaboration agreements, rights to product candidates are provided to a partner typically in exchange for consideration in the form of upfront payments and/or development, regulatory, commercial or other similar milestones, and royalties on commercial sales, should regulatory approval be obtained for the product candidates."
+ },
+ "changes": [],
+ "dropped": []
+}

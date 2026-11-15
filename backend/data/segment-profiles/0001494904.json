@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001494904",
+ "issuerName": "GLOBAL INDEMNITY GROUP, LLC",
+ "builtAt": "2026-11-15T14:11:36.283Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-100467",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1494904/000119312526100467/gbli-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agency and Insurance Services",
+   "products": [
+    "Penn America Insurance Services, LLC",
+    "Collectibles Insurance Services, LLC",
+    "Valyn Re, LLC",
+    "Kaleidoscope Insurance Technologies, Inc.",
+    "Sayata",
+    "Liberty Insurance Adjustment Agency, Inc."
+   ],
+   "description": "Katalyx's four agencies distribute specialty property and casualty insurance in the E&S marketplace, supported by three technology, marketplace and claims service businesses.",
+   "evidence": "The Agency and Insurance Services segment comprises the Katalyx platform focused on underwriting, growth and distribution of insurance products, and providing technology and claim services to policyholders and agents."
+  },
+  {
+   "name": "Belmont Insurance Companies - Core",
+   "products": [
+    "assumed reinsurance products"
+   ],
+   "description": "Insurance company operations for ongoing direct insurance and assumed reinsurance products written in the excess and surplus lines marketplace.",
+   "evidence": "Belmont Insurance Companies - Core (\"Belmont Core\") - insurance company operations for ongoing direct insurance and assumed reinsurance products written in the E&S marketplace (formerly the Penn-America segment)."
+  },
+  {
+   "name": "Belmont Insurance Companies - Non-Core",
+   "products": [],
+   "description": "Insurance company operations for lines of business that have been de-emphasized or are no longer being written.",
+   "evidence": "Belmont Insurance Companies - Non-Core (\"Belmont Non-Core\") - insurance company operations for lines of business that have been de-emphasized or are no longer being written (formerly the Non-Core Operations segment)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns premiums from policyholders for specialty property and casualty insurance distributed through wholesale general agents, retail agents and direct-to-consumer channels, and pays commissions to those agents.",
+  "evidence": "Contracts with each agent set forth key terms including direct commissions and profit commissions."
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of 2025, the Company realigned its reportable segments into Agency and Insurance Services, Belmont Core and Belmont Non-Core.",
+   "evidence": "In the first quarter of 2025, the Company realigned its reportable segments to reflect changes in how the Company now manages its operations, reviews operating results, and allocates resources."
+  },
+  {
+   "text": "In December 2024, the Company completed an internal reorganization establishing Katalyx Holdings LLC as a distinct intermediary platform.",
+   "evidence": "In December 2024, the Company completed an internal reorganization that established Katalyx Holdings LLC as a distinct intermediary platform."
+  }
+ ],
+ "dropped": [
+  "product not in text (Agency and Insurance Services): J.H. Ferguson & Associates, LLC (Vacant Express, Specialty Products)",
+  "product not in text (Belmont Insurance Companies - Core): direct insurance products"
+ ]
+}

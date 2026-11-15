@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001652130",
+ "issuerName": "INTELLIA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:13:12.784Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076550",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1652130/000119312526076550/ntla-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development of gene editing-based therapies",
+   "products": [
+    "NTLA-3001"
+   ],
+   "description": "A biopharmaceutical company developing CRISPR gene editing-based therapies for patients with severe diseases such as hereditary angioedema and ATTR amyloidosis.",
+   "evidence": "The Company has identified one operating and reportable segment: the development of gene editing-based therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue primarily through collaboration arrangements with third parties, such as Regeneron, which pay upfront payments, milestones, royalties and cost-sharing.",
+  "evidence": "The operating segment's revenue is primarily generated through collaboration arrangements with third parties."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Development of gene editing-based therapies): lonvoguran ziclumeran (lonvo-z, NTLA-2002)",
+  "product not in text (Development of gene editing-based therapies): nexiguran ziclumeran (nex-z, NTLA-2001)",
+  "change not grounded: In 2025, the Company discontinued the NTLA-3001 program as part of a strategic r"
+ ]
+}

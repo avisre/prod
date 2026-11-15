@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001976443",
+ "issuerName": "SILYNXCOM LTD.",
+ "builtAt": "2026-11-15T14:16:54.895Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050328",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1976443/000121390026050328/ea0288112-20f_silynxcom.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tactical communication headsets",
+   "products": [
+    "In-Ear Headsets",
+    "ruggedized tactical protective and communication headset devices",
+    "communication accessories"
+   ],
+   "description": "Develops, manufactures and sells ruggedized tactical in-ear protective and communication headsets and accessories for military, police, law enforcement and civilian users worldwide.",
+   "evidence": "We develop, manufacture, and sell ruggedized tactical protective and communication headset devices as well as other communication accessories, all of which have been field-tested and combat proven."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from selling In-Ear Headsets and communication accessories directly to military, police and law enforcement units via government tenders, and indirectly through distributors, agents and OEM partnerships.",
+  "evidence": "We sell our In-Ear Headsets and communication accessories directly to military forces, police and other law enforcement units around the world. We also sell indirectly, through a specialized network of local distributors in each geography in which we operate, as well as through key strategic partnerships with radio equipment manufacturers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Tactical communication headsets): drone detection headset"
+ ]
+}

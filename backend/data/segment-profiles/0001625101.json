@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001625101",
+ "issuerName": "Pulse Biosciences, Inc.",
+ "builtAt": "2026-11-15T14:12:45.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004724",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1625101/000143774926004724/plse20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from U.S. sales of its nPulse System and Vybrance percutaneous electrodes to clinical sites under evaluation, consulting, and early commercial agreements.",
+  "evidence": "To date, we have placed our nPulse System at sites in the United States under either short-term evaluation, consulting or other early commercial agreements pursuant to which the sites have been performing initial patient treatments and evaluating the nPulse System"
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: NPS technology research and development"
+ ]
+}

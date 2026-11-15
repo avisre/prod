@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001609253",
+ "issuerName": "California Resources Corp",
+ "builtAt": "2026-11-15T14:12:37.195Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001609253-26-000051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1609253/000160925326000051/crc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and Natural Gas",
+   "products": [
+    "crude oil",
+    "condensate",
+    "natural gas liquids",
+    "natural gas"
+   ],
+   "description": "Explores for, develops and produces crude oil, condensate, NGLs and natural gas in California and Utah.",
+   "evidence": "Our oil and natural gas segment explores for, develops and produces crude oil and condensate, natural gas liquids and natural gas in major producing basins located in California and Utah."
+  },
+  {
+   "name": "Carbon Management",
+   "products": [
+    "Carbon TerraVault JV"
+   ],
+   "description": null,
+   "evidence": "Our carbon management segment, which we refer to as Carbon TerraVault, is focused on building, installing, operating and maintaining CO 2 capture equipment, transportation assets and underground storage facilities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by customers for sales of crude oil, condensate, NGLs and natural gas, sales of electricity, and marketing of purchased commodities.",
+  "evidence": "Our business is organized into two reporting segments: oil and natural gas and carbon management."
+ },
+ "changes": [
+  {
+   "text": "In 2024, CRC combined with Aera Energy LLC in an all-stock transaction.",
+   "evidence": "Aera Merger - The transactions contemplated by the definitive agreement and plan of merger entered into on February 7, 2024 to obtain all the ownership interests in Aera in an all-stock transaction."
+  }
+ ],
+ "dropped": [
+  "product not in text (Carbon Management): CO2 capture equipment",
+  "product not in text (Carbon Management): CO2 transportation assets",
+  "product not in text (Carbon Management): underground CO2 storage facilities",
+  "change not grounded: In 2025, CRC combined with Berry Corporation in an all-stock transaction that cl"
+ ]
+}

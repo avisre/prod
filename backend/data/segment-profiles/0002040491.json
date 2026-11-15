@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0002040491",
+ "issuerName": "ATEGRITY SPECIALTY INSURANCE COMPANY HOLDINGS",
+ "builtAt": "2026-11-15T14:17:38.123Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002040491-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/2040491/000204049126000011/asic-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Insurance",
+   "products": [
+    "commercial property",
+    "casualty"
+   ],
+   "description": "Underwrites excess and surplus lines property and casualty insurance for small to medium-sized businesses across the United States.",
+   "evidence": "We operate our business in a single segment and as one reportable segment for purposes of assessing performance, making operating decisions and allocating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

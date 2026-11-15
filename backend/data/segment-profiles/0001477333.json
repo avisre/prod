@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001477333",
  "issuerName": "Cloudflare, Inc.",
- "builtAt": "2026-11-14T17:37:41.556Z",
+ "builtAt": "2026-11-15T14:10:08.377Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001477333-26-000016",
@@ -13,22 +13,27 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Cloudflare",
+   "name": "Connectivity Cloud",
    "products": [
     "Application Services",
-    "Secure Access Service Edge (SASE)",
-    "Developer Solutions",
-    "Consumer Offerings"
+    "SASE platform",
+    "Developer-based solutions",
+    "Consumer offerings",
+    "Web Application Firewall (WAF)",
+    "Bot Management",
+    "Cloudflare Workers"
    ],
-   "description": "Delivers integrated cloud-based security, performance, and reliability services across a global network to businesses and consumers.",
-   "evidence": "We deliver a suite of deeply integrated products that serve as a unified control plane for our customers, allowing them to build, connect, and secure applications and corporate infrastructure."
+   "description": "Cloudflare delivers a global cloud network providing security, performance, and reliability services to businesses of all sizes worldwide.",
+   "evidence": "The Company has one reportable and operating segment."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers pay subscription and support fees recognized over time for use of the company's global network and products.",
+  "text": "Customers pay subscription and support fees, recognized over time, for access to Cloudflare's global network and products, either directly or through channel partners.",
   "evidence": "Subscription and support revenue is recognized over time and accounted for substantially all of the Company's revenue for the years ended December 31, 2025, 2024, and 2023."
  },
  "changes": [],
- "dropped": []
+ "dropped": [
+  "product not in text (Connectivity Cloud): DDoS Mitigation"
+ ]
 }

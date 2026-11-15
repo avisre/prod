@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001712807",
+ "issuerName": "PAGSEGURO DIGITAL LTD.",
+ "builtAt": "2026-11-15T14:13:50.124Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-000826",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1712807/000155485526000826/pags-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services",
+   "products": [
+    "PagBank digital account",
+    "in-person payments via POS devices",
+    "prepaid, cash, debit and credit cards",
+    "cross-border payment service provider (PSP)",
+    "digital banking solutions"
+   ],
+   "description": "Provides financial technology and payment solutions, including digital banking, card issuing and acquiring, to consumers and SMEs in Brazil.",
+   "evidence": "the PagSeguro Group and its subsidiaries operate in a single segment, as financial service agents."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants and consumers pay the company for payment processing (MDR), card issuing, banking services and prepayment of credit card receivables.",
+  "evidence": "diversify revenue streams beyond MDR and the prepayment of credit card receivables."
+ },
+ "changes": [
+  {
+   "text": "In 2023, PagSeguro Brazil acquired the remaining shares of NetPOS and merged RegistraSeguro S.A. into PagSeguro Brazil.",
+   "evidence": "In July 2023, PagSeguro Brazil acquired 90% of the shares of NetPOS, in addition to the 10% it had previously acquired, and it therefore reached 100% of the share capital of NetPOS; and"
+  },
+  {
+   "text": "In 2024, PagSeguro set up the FIDM fund to anticipate third-party assignments in accordance with market operations.",
+   "evidence": "In June 2024, PagSeguro set up the Fundo de Investimento em Direitos Creditórios – PagBank Multiadquirência – Responsabilidade Limitada, or FIDM."
+  },
+  {
+   "text": "In 2025, the Company contributed PagSeguro Brazil shares to BS Holding and completed a partial spin-off of BS Holding in December 2025.",
+   "evidence": "In December 2025, we completed a partial spin-off of BS Holding pursuant to which a portion of the shares of PagSeguro Brazil held by BS Holding was transferred directly to the Company as its shareholder."
+  }
+ ],
+ "dropped": [
+  "product not in text (Financial services): full acquirer services"
+ ]
+}

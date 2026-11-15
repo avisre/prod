@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001628063",
+ "issuerName": "SERITAGE GROWTH PROPERTIES",
+ "builtAt": "2026-11-15T14:12:49.214Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134736",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1628063/000119312526134736/srg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "Consolidated Properties",
+    "Unconsolidated Properties"
+   ],
+   "description": "Owns, develops, redevelops, manages, sells and leases retail and mixed-use real estate properties across the United States while executing a Plan of Sale.",
+   "evidence": "The Company currently operates in a single reportable segment which includes the ownership, development, redevelopment, management, sale and leasing of real estate properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the Company rent under leases and buyers pay the Company for properties sold under its Plan of Sale.",
+  "evidence": "The Company's primary objective is to create value for its shareholders through the monetization of the Company's assets through the Plan of Sale, which can be suspended by the Board of Trustees."
+ },
+ "changes": [
+  {
+   "text": "In 2022, shareholders approved the Plan of Sale under which the Company is selling all of its assets and dissolving.",
+   "evidence": "The 2022 Annual Meeting of Shareholders occurred on October 24, 2022, at which time the Plan of Sale was approved by the shareholders, following our filing of a final proxy statement with the Securities and Exchange Commission (\"SEC\") on September 14, 2022."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2022, the Company revoked its REIT election and became a taxable C Corporatio"
+ ]
+}

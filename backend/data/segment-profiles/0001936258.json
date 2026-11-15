@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001936258",
+ "issuerName": "NewAmsterdam Pharma Company N.V.",
+ "builtAt": "2026-11-15T14:16:29.392Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-056029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1936258/000119312526056029/nams-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardio-metabolic diseases",
+   "products": [
+    "obicetrapib",
+    "obicetrapib and ezetimibe fixed-dose combination"
+   ],
+   "description": "A late-stage biopharmaceutical company developing and, if approved, commercializing oral LDL-C lowering therapies for patients with cardiometabolic diseases.",
+   "evidence": "The Company has one operating segment and, therefore, one reportable segment, which comprises the discovery, development and commercialization of transformative therapies for cardio-metabolic diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company's only revenue to date comes from the Menarini License and Menarini Supply Agreement, under which its partner Menarini pays for rights to commercialize obicetrapib in Europe.",
+  "evidence": "To date the Menarini License and the Menarini Supply Agreement have been the only source of revenue to the Company and all such revenues derive from Italy."
+ },
+ "changes": [],
+ "dropped": []
+}

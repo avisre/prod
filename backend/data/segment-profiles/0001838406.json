@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001838406",
+ "issuerName": "BKV CORPORATION",
+ "builtAt": "2026-11-15T14:15:25.914Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-015661",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1838406/000162828026015661/bkv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy",
+   "products": [
+    "natural gas production",
+    "natural gas midstream",
+    "power generation",
+    "CCUS",
+    "Carbon Sequestered Gas"
+   ],
+   "description": "An integrated energy company producing natural gas and NGLs, operating midstream systems, generating natural gas-fired power, and developing carbon capture, utilization and sequestration projects.",
+   "evidence": "Our operations are supported by four business lines: natural gas production, natural gas midstream, power generation, and CCUS."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "BKV earns revenue from selling produced natural gas and NGLs, from midstream services, power generation, and from CCUS projects for third parties.",
+  "evidence": "In addition to lowering emissions in our owned and operated upstream and natural gas midstream businesses, CCUS for third parties is a focus of our business plan."
+ },
+ "changes": [
+  {
+   "text": "In 2024, BKV sold BKV Chaffie Corners and certain non-operated upstream assets in Chelsea.",
+   "evidence": "On June 14, 2024, BKV sold BKV Chaffee Corners, LLC (\"Chaffee\"), and on June 28, 2024, sold certain of its non-operated upstream assets in Chelsea."
+  },
+  {
+   "text": "In 2025, BKV acquired Bedrock Production, LLC, adding Barnett Shale producing properties and midstream assets.",
+   "evidence": "On September 29, 2025, BKV Upstream Midstream acquired 100 % of the equity interests of Bedrock Production, LLC (now known as BKV Barnett II, LLC (\"BKV Barnett II\")), a Texas limited liability company (such transaction, the \"Bedrock Acquisition\") from Bedrock Energy Partners, LLC (the \"Seller\"), pursuant to a Membership Purchase Agreement (the \"Bedrock Purchase Agreement\")."
+  }
+ ],
+ "dropped": []
+}

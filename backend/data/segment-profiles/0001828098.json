@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001828098",
+ "issuerName": "Steakholder Foods Ltd.",
+ "builtAt": "2026-11-15T14:15:10.268Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050174",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828098/000121390026050174/ea0287480-20f_steakholder.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development and sales of three-dimensional printing production machines and plan",
+   "products": [
+    "meat printer",
+    "fish printer",
+    "plant-based ingredient blends"
+   ],
+   "description": null,
+   "evidence": "The Company operates and manages its business as one reportable and operating segment - development and sales of three-dimensional printing production machines and plant-based products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers and partners pay the company for three-dimensional printers and associated supplies, primarily plant-based ingredient blends, used to produce alternative protein foods.",
+  "evidence": "Our initial commercial offering combines three-dimensional printers and their supplies, primarily plant-based ingredient blends for printing plant-based meat and fish analogs."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Twine, which became a wholly-owned subsidiary, but the company continued to report a single operating segment.",
+   "evidence": "Following the approval of our shareholders at an annual general meeting held on October 28, 2025, the Acquisition Transaction closed on October 31, 2025, and resulted in Twine becoming a wholly-owned subsidiary of the Company."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001826168",
+ "issuerName": "TIM S.A.",
+ "builtAt": "2026-11-15T14:15:08.156Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-001915",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1826168/000129281426001915/timbform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Telecommunications",
+   "products": [
+    "residential fixed ultra-broadband",
+    "IoT connectivity"
+   ],
+   "description": "Provides mobile, fixed-line and multimedia telecommunications services to customers in Brazil under a single integrated business segment.",
+   "evidence": "decision makers understand that the Company represents only one business segment and does not contemplate specific strategies focused only on one service line"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay TIM for mobile, fixed-line and multimedia communication services operated under its SMP, STFC and SCM licenses.",
+  "evidence": "The aim is to maximize the result obtained by operating the SMP, STFC and SCM licenses."
+ },
+ "changes": [
+  {
+   "text": "In 2023, TIM S.A. merged SPE Cozani, the entity holding the Oi Móvel assets acquired in 2022, into the company.",
+   "evidence": "SPE Cozani was merged into us and ceased to exist as a separate legal entity."
+  }
+ ],
+ "dropped": [
+  "product not in text (Telecommunications): mobile services (SMP)",
+  "product not in text (Telecommunications): fixed telephony services (STFC)",
+  "product not in text (Telecommunications): multimedia communication services (SCM)"
+ ]
+}

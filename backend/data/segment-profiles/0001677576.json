@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001677576",
+ "issuerName": "Innovative Industrial Properties, Inc.",
+ "builtAt": "2026-11-15T14:13:29.186Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001677576-26-000001",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1677576/000167757626000001/iipr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cannabis Portfolio Segment",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Life Science Portfolio Segment",
+   "products": [
+    "IQHQ Credit Facility",
+    "IQHQ Preferred Stock",
+    "IQHQ Warrant"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under long-term triple-net leases, and borrowers pay interest on loans and dividends accrue on preferred stock investments.",
+  "evidence": "These properties are generally leased, and we expect to continue leasing them on a triple-net lease basis, pursuant to which the tenant is responsible for all aspects of and costs related to the property and its operation during the lease term, including structural repairs, maintenance, real estate taxes and insurance."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company began reporting two segments, Cannabis Portfolio and Life Science Portfolio, in connection with its life science investments.",
+   "evidence": "During the fourth quarter of 2025, in connection with our significant financial investments in the life science industry, we began managing the business through two reportable segments based on portfolio type."
+  }
+ ],
+ "dropped": [
+  "product not in text (Cannabis Portfolio Segment): specialized industrial and commercial properties leased to state-licensed cannab",
+  "segment evidence not verbatim: Cannabis Portfolio Segment",
+  "segment evidence not verbatim: Life Science Portfolio Segment"
+ ]
+}

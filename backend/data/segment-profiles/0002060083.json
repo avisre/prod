@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002060083",
+ "issuerName": "Hang Feng Technology Innovation Co., Ltd.",
+ "builtAt": "2026-11-15T14:17:44.088Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-044270",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2060083/000121390026044270/ea0285142-20f_hang.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Management consulting",
+   "products": [
+    "Management consulting services",
+    "Asset management services"
+   ],
+   "description": "Provides management consulting and asset management services to individuals and companies, primarily in Hong Kong.",
+   "evidence": "Based on the management's assessment, the Company determines that it has only one operating segment and therefore one reportable segment as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from management consulting services provided to clients, including related parties, with all revenue derived in or from Hong Kong.",
+  "evidence": "Revenue from services provided to related-party"
+ },
+ "changes": [],
+ "dropped": []
+}

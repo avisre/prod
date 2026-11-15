@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001734750",
+ "issuerName": "CORVEX, INC.",
+ "builtAt": "2026-11-15T14:14:04.460Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036609",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1734750/000121390026036609/ea0278320-10k_corvex.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare",
+   "products": [
+    "Wellness Ring",
+    "portable chargers and charging cables",
+    "ring sizers",
+    "mobile applications"
+   ],
+   "description": "Sells the Wellness Ring, a wearable designed specifically for women, together with accessories and mobile applications, primarily in the United States.",
+   "evidence": "The Company generates revenue from the sale of Wellness Rings, portable chargers and charging cables, ring sizers, and mobile applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for sales of Wellness Rings, portable chargers and charging cables, ring sizers, and mobile applications, with revenue recognized upon transfer of control.",
+  "evidence": "The Company recognizes revenue from contracts with customers upon transfer of control of promised goods or services at the transaction price which reflects the consideration the Company expects to be entitled in exchange for those goods or services."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company completed a merger acquiring Corvex OpCo, adding an AI cloud computing business alongside its healthcare business.",
+   "evidence": "On March 19, 2026, we consummated and completed the Merger pursuant to the Merger Agreement, as further described below."
+  }
+ ],
+ "dropped": []
+}

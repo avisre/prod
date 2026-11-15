@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001831868",
+ "issuerName": "SeaStar Medical Holding Corp",
+ "builtAt": "2026-11-15T14:15:18.183Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009797",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1831868/000143774926009797/icu20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Device Segment",
+   "products": [
+    "QUELIMMUNE"
+   ],
+   "description": "Develops, seeks regulatory approval for, and commercializes adult and pediatric Selective Cytopheretic Devices for critically ill patients with organ failure.",
+   "evidence": "The Company is comprised of a single reportable segment, its Device Segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals in the United States purchase the QUELIMMUNE therapy after completing the SAVE Surveillance Registry process.",
+  "evidence": "As of December 31, 2025, we had 10 active commercial hospital customers that have completed the process for the SAVE Surveillance Registry and have purchased QUELIMMUNE therapy."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Device Segment): Selective Cytopheretic Device (SCD)"
+ ]
+}

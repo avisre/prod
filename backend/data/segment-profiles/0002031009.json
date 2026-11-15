@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0002031009",
+ "issuerName": "Skyline     Builders Group Holding Limited",
+ "builtAt": "2026-11-15T14:17:28.579Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-073107",
+  "periodEnd": "2024-03-31",
+  "filingDate": "2025-08-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/2031009/000121390025073107/ea0248326-20f_skyline.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Civil Engineering",
+   "products": [
+    "Road and drainage works",
+    "Public civil engineering works",
+    "Roadworks",
+    "Road drainage and sewer and waterworks",
+    "Foundation and piling (sheet piles)",
+    "Signage and graphics",
+    "Hoarding"
+   ],
+   "description": "An Approved Public Works Contractor undertaking roads and drainage civil engineering works, mostly as subcontractor, for public and private sector customers in Hong Kong.",
+   "evidence": "We operate in a single segment that represents the Company's core business as an Approved Public Works Contractor undertaking roads and drainage to its customers in Hong Kong."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from construction customers, mainly public sector project owners and main contractors, for civil engineering road and drainage works performed under construction contracts.",
+  "evidence": "Our construction activities mainly include public civil engineering works, such as road and drainage works, in Hong Kong."
+ },
+ "changes": [],
+ "dropped": []
+}

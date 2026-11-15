@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001286139",
+ "issuerName": "LegalZoom.com, Inc.",
+ "builtAt": "2026-11-15T14:10:23.548Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001286139-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1286139/000128613926000012/lz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online legal services",
+   "products": [
+    "legal advisory subscriptions",
+    "compliance concierge",
+    "trademark registration",
+    "registered agent services",
+    "LZ Virtual Mail",
+    "bookkeeping",
+    "estate planning services"
+   ],
+   "description": "An online platform offering technology-enabled legal, compliance and business management services to individuals and small businesses across the U.S.",
+   "evidence": "Our Chief Executive Officer, as the Chief Operating Decision Maker, or CODM, organizes our company, manages resource allocations, and measures performance on the basis of our one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay LegalZoom flat fees for one-time transaction products and recurring subscription fees for legal, compliance and business management services.",
+  "evidence": "For the year ended December 31, 2025, approximately 65% of our revenue was derived from subscriptions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Online legal services): business formation products"
+ ]
+}

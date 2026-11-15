@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001961847",
+ "issuerName": "INNO HOLDINGS INC.",
+ "builtAt": "2026-11-15T14:16:48.632Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-027805",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1961847/000149315225027805/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Recycled consumer electronic devices",
+   "products": [
+    "smartphones (various models of iPhone)",
+    "tablets (various models of iPad)"
+   ],
+   "description": "Sources and sells pre-owned consumer electronic devices, mainly iPhones, to wholesalers who resell them in Asia, Europe and other regions.",
+   "evidence": "The recycled consumer electronic devices offered by us include smartphones (various models of iPhone) and tablets (various models of iPad)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wholesale customers pay the company for recycled consumer electronic devices, which they resell to their wholesale and retail customers.",
+  "evidence": "Currently we derive all of our revenues from wholesale customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company discontinued its cold-formed-steel business and sold all ownership in the subsidiaries conducting it.",
+   "evidence": "In the second quarter of 2025, the Company decided to discontinue its cold-formed-steel business and sold all of the Company's ownership in the subsidiaries through which the Company conducted its cold-formed-steel business."
+  },
+  {
+   "text": "In 2024, the Company acquired Lear Group Limited and Baymax High Technology Co., Limited to conduct its recycled consumer electronic devices business.",
+   "evidence": "We conduct our business of recycled consumer electronic devices through two Hong Kong-based wholly-owned subsidiaries Lear Group Limited and Baymax High Technology Co., Limited, acquired by the Company in October and December 2024, respectively."
+  }
+ ],
+ "dropped": []
+}

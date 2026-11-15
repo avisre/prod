@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001858685",
+ "issuerName": "Biofrontera Inc.",
+ "builtAt": "2026-11-15T14:15:56.139Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011625",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1858685/000149315226011625/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical products",
+   "products": [
+    "Ameluz",
+    "BF-RhodoLED",
+    "RhodoLED XL"
+   ],
+   "description": "Develops, manufactures and commercializes pharmaceutical products for dermatological conditions, selling Ameluz PDT to dermatology offices in the United States.",
+   "evidence": "The Company operates as one operating segment, that derives revenue primarily from our principal product, Ameluz, which is a prescription drug approved for use in PDT using our RhodoLED Lamps, for the treatment of AKs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue by selling Ameluz and the RhodoLED Lamps directly to dermatology offices and groups on a buy-and-bill basis, with dermatologists purchasing and holding inventory.",
+  "evidence": "With our national commercial team, we generate revenue by selling our products directly to dermatology offices and groups."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company completed the sale of the intangible asset relating to its Xepi product line.",
+   "evidence": "On November 6, 2025, the Company completed the sale of the intangible asset relating to its Xepi product line, a long-lived asset previously classified as held for sale."
+  },
+  {
+   "text": "In 2025 the company acquired all United States rights to Ameluz and RhodoLED from the Biofrontera Group.",
+   "evidence": "On October 20, 2025, we entered into i) an Asset Purchase Agreement (the \"Transfer Agreement\") and ii) an Earnout Agreement (together with the Transfer Agreement, the \"Agreements\"), with the Biofrontera Group, pursuant to which the Company acquired all rights in the United States to Ameluz and RhodoLED (the \"Strategic Transaction\")."
+  }
+ ],
+ "dropped": []
+}

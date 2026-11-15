@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001850270",
+ "issuerName": "ProKidney Corp.",
+ "builtAt": "2026-11-15T14:15:49.249Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-113881",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1850270/000119312526113881/prok-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "rilparencel"
+   ],
+   "description": "A late-clinical-stage biotechnology company developing an autologous cell therapy to preserve kidney function in patients with advanced chronic kidney disease and diabetes.",
+   "evidence": "The Company's operations are principally managed as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no approved products and no product sales revenue; it recognizes only lease revenue from third parties leasing space in its manufacturing buildings.",
+  "evidence": "The Company does not have any product candidates approved for sale and has not generated any revenue from product sales."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed a domestication changing its jurisdiction of incorporation from the Cayman Islands to Delaware, along with related restructuring transactions.",
+   "evidence": "Effective July 1, 2025 (the \"Domestication Date\"), the Company completed a domestication process through which it changed its jurisdiction of incorporation from the Cayman Islands to the State of Delaware (the \"Domestication\")."
+  }
+ ],
+ "dropped": []
+}

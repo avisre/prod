@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001635077",
+ "issuerName": "ACLARION, INC.",
+ "builtAt": "2026-11-15T14:12:53.506Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-001986",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1635077/000168316826001986/aclarion_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nociscan segment",
+   "products": [
+    "NOCISCAN"
+   ],
+   "description": "Delivers Nociscan reports that use MRS data and proprietary biomarkers to help clinicians identify painful lumbar discs.",
+   "evidence": "The Company operates and reports in one segment (\"Nociscan segment\") related to the delivery of Nociscan reports."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company collects fees from clients for providing Nociscan reports, recognizing revenue upon delivery of the report.",
+  "evidence": "The Company generates revenues, earnings, net income (loss), and cash flows through the single segment by collecting fees from our clients for providing Nociscan reports."
+ },
+ "changes": [],
+ "dropped": []
+}

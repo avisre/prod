@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001500198",
+ "issuerName": "NeuroOne Medical Technologies Corporation",
+ "builtAt": "2026-11-15T14:11:39.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-25-122390",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1500198/000121390025122390/ea0268749-10k_neuroone.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Technology",
+   "products": [
+    "Evo Cortical",
+    "Evo sEEG",
+    "OneRF Brain Ablation System",
+    "OneRF TN Ablation System",
+    "Drug delivery",
+    "Spinal Cord Stimulation",
+    "Basivertebral Nerve Ablation"
+   ],
+   "description": "Develops and commercializes thin-film electrode, ablation and stimulation technologies for diagnosing and treating brain conditions and pain.",
+   "evidence": "The Company's Chief Executive Officer views the Company's operations and manages its business in one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales of its electrode and ablation devices, including through a distribution agreement with Zimmer Biomet, and license revenue from collaboration and license arrangements.",
+  "evidence": "We have a distribution agreement with Zimmer, Inc. (\"Zimmer\") providing Zimmer Biomet Holdings, Inc. with a license to commercialize and distribute the Evo Cortical, Evo sEEG, and OneRF Brain Ablation System in the brain."
+ },
+ "changes": [],
+ "dropped": []
+}

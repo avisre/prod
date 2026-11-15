@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001956744",
+ "issuerName": "TRON INC.",
+ "builtAt": "2026-11-15T14:16:44.592Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012723",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1956744/000149315226012723/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Toy and Souvenir",
+   "products": [
+    "figures",
+    "plush",
+    "accessories",
+    "apparel",
+    "homewares",
+    "toys and souvenirs"
+   ],
+   "description": "Designs, develops and manufactures custom toys and souvenirs for the world's largest theme parks and entertainment venues.",
+   "evidence": "The Company is a trusted toy and souvenir designer and developer, selling into the world's largest theme parks and entertainment venues."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Theme parks, entertainment venues and retailers pay the company for its custom toys, souvenirs and pop culture merchandise.",
+  "evidence": "Accounts receivable are generated from sales of the Company's products."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company changed its name from SRM Entertainment, Inc. to Tron Inc. and adopted a TRX token treasury strategy.",
+   "evidence": "Tron Inc. (formerly SRM Entertainment, Inc.), is a publicly traded company pioneering blockchain-integrated treasury strategies."
+  }
+ ],
+ "dropped": []
+}

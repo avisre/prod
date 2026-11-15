@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "cik": "0001614744",
+ "issuerName": "PURPLE BIOTECH LTD.",
+ "builtAt": "2026-11-15T14:12:42.109Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-031365",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1614744/000121390026031365/ea0281765-20f_purple.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2021, the Company discontinued operations related to Consensi, its FDA approved fixed-dose combination drug for osteoarthritis pain and hypertension.",
+   "evidence": "During 2021, the Company determined to discontinue operations related to Consensi."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Oncology therapeutics development"
+ ]
+}

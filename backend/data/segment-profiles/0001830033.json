@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001830033",
+ "issuerName": "PureCycle Technologies, Inc.",
+ "builtAt": "2026-11-15T14:15:16.299Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076801",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1830033/000119312526076801/pct-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Polypropylene recycling",
+   "products": [
+    "PureFive® resin",
+    "compounded polypropylene resin"
+   ],
+   "description": "Commercializes a patented dissolution recycling technology to restore waste polypropylene into near-virgin resin for customers.",
+   "evidence": "the Company's Chief Executive Officer , who is also the CODM, makes decisions and manages the Company's operations as a single operating segment, which encompasses integrated business activities related to the recycling of polypropylene into resin pellets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for recycled and compounded polypropylene resin pellets or co-products, with revenue recognized when control of the product transfers.",
+  "evidence": "Our revenue is primarily generated from the sale of recycled and compounded polypropylene resin pellets or co-products to customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Polypropylene recycling): recycled polypropylene resin pellets"
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0002021688",
+ "issuerName": "Uni-Fuels Holdings Ltd",
+ "builtAt": "2026-11-15T14:17:20.998Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-018455",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/2021688/000149315226018455/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marine fuels",
+   "products": [
+    "Marine fuels brokerage"
+   ],
+   "description": "Provides marine fuel supply as a reseller and broker to shipping companies operating across global ports and market sectors.",
+   "evidence": "We have been providing marine fuels supply as a reseller and broker to our customers consisting of shipping companies operating in market sectors such as bulk carriers, tanker vessels, offshore support vessels, container ships, general cargo vessels, tugs and barges, car carriers, cruise liners, yachts, and dredging vessels since the incorporation of our Singapore subsidiary."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shipping customers pay the company either a price with a sales margin on resold marine fuels or a one-off brokerage commission for referring them to third-party suppliers.",
+  "evidence": "We generate our income from reselling the marine fuels products from our suppliers to our customers and generate our profit by adding a sales margin on top of the cost of purchase."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Marine fuels): Very low sulfur fuel oil (VLSFO)",
+  "product not in text (Marine fuels): High sulfur fuel oil (HSFO)",
+  "product not in text (Marine fuels): Marine gas oil (MGO)",
+  "product not in text (Marine fuels): Bio marine fuel (BMF)"
+ ]
+}

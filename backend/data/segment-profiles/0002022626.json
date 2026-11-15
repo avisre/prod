@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0002022626",
+ "issuerName": "UPSTREAM BIO, INC.",
+ "builtAt": "2026-11-15T14:17:22.615Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126188",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/2022626/000119312526126188/upb-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is reimbursed by Maruho for research and development service costs related to verekitug in Japan.",
+  "evidence": "Pursuant to the agreement, the Company provides to Maruho research and development services related to verekitug in Japan, and Maruho reimburses the Company for these costs incurred in performing the research and development services (Note 15)."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Inflammatory disease treatments"
+ ]
+}

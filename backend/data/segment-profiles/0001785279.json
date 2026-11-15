@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001785279",
+ "issuerName": "Metagenomi Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:14:31.897Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-093976",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1785279/000119312526093976/mgx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Genome editing therapeutics",
+   "products": [],
+   "description": "Develops curative therapeutics for patients using a proprietary metagenomics-derived genome editing toolbox.",
+   "evidence": "The Company operates and manages its business as one operating and reportable segment, which is the business of developing curative therapeutics for patients using the Company's proprietary, comprehensive metagenomics-derived genome editing toolbox."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns collaboration revenue from pharmaceutical partners such as Ionis, Moderna and Affini-T under collaboration contracts.",
+  "evidence": "Collaboration revenue: Ionis $ 24,621 $ 30,439 Moderna — 18,742 Affini-T 564 3,114 Other 25 —"
+ },
+ "changes": [],
+ "dropped": []
+}

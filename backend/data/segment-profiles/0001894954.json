@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001894954",
+ "issuerName": "Expion Energy, Inc.",
+ "builtAt": "2026-11-15T14:16:18.380Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001903596-26-000075",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1894954/000190359626000075/xpon_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Storage (ES)",
+   "products": [
+    "12V GC2 and Group 27 series LiFePO4 batteries",
+    "EX1 battery",
+    "48 Volt GC2 LiFePO4 battery",
+    "e360 SmartTalk mobile app",
+    "chargers, monitors, inverters, and solar components",
+    "DASGen Hybrid Energy Storage System"
+   ],
+   "description": null,
+   "evidence": "We currently operate Expion360 as one reportable business segment, Energy Storage (ES)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells batteries and accessories to dealers, wholesalers, private-label customers, and OEMs, generally on a purchase order basis without long-term revenue commitments.",
+  "evidence": "Our sales are primarily generated from dealers, wholesalers, private-label customers, and OEMs serving the RV, marine, and industrial markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Energy Storage (ES)): e360 LiFePO4 batteries",
+  "product not in text (Energy Storage (ES)): Edge battery (12V and 48V)"
+ ]
+}

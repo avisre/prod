@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001916416",
+ "issuerName": "Intelligent Group Limited",
+ "builtAt": "2026-11-15T14:16:25.801Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-037404",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1916416/000121390026037404/ea0282978-20f_intelligent.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial PR",
+   "products": [
+    "Crisis management",
+    "Investor relations and targeting",
+    "Investor polling",
+    "Coordinate listing activities",
+    "Press conferences and interviews",
+    "Corporate events"
+   ],
+   "description": "Provides financial public relations services to Hong Kong listed companies, IPO candidates, private companies and investors.",
+   "evidence": "The Company operates a single line of business, providing financial public relations (\"Financial PR\") services, and manages its operations as an integrated whole."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fixed project-based service fees, generally in stages or in full before services are performed, plus periodic fixed retainer fees, with out-of-pocket expenses reimbursed.",
+  "evidence": "In general, we receive (i) fixed service fees in respect of our provision of Financial PR services, which are payable in stages; and (ii) periodic (monthly, quarterly or semi-annually) fixed services fees in respect of our provision of retainer services to clients."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired a PRC subsidiary (Shenzhen Huiyue Technology Limited) and LQ Capital Limited, but management concluded these did not create separate operating segments.",
+   "evidence": "During the year ended November 30, 2025, the Company completed the acquisition of a PRC subsidiary. Management evaluated the impact of the acquisition and concluded that it did not result in a separate operating segment, as the CODM continues to review financial information on a consolidated basis and does not separately assess performance or allocate resources to the PRC subsidiary."
+  }
+ ],
+ "dropped": [
+  "product not in text (Financial PR): News releases and shareholders' meetings preparation"
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001841675",
+ "issuerName": "ARGO BLOCKCHAIN PLC",
+ "builtAt": "2026-11-15T14:15:33.929Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-051793",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1841675/000110465926051793/arbk-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crypto mining",
+   "products": [
+    "Bitcoin mining"
+   ],
+   "description": "The Group mines Bitcoin and other crypto assets using purpose-built mining machines at facilities in North America.",
+   "evidence": "The directors consider that the Group has only one significant reporting segment being crypto mining which is fully earned by USA subsidiary for the financial year ended 31 December 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Group earns rewards and fees denominated in the native blockchain asset for verifying blocks, and sells its mined Bitcoin weekly to fund operating expenses and working capital needs.",
+  "evidence": "In 2025, 2024, and 2023, our treasury management strategy was to sell our mined Bitcoin on a weekly basis in order to fund our operating expenses and for working capital needs."
+ },
+ "changes": [
+  {
+   "text": "In 2022 the Company sold its Helios facility and shifted to a hosting model, and in 2024 it sold the Mirabel facility.",
+   "evidence": "In December 2022, we sold the Helios facility, which we designed, constructed, and energized over the course of 2021 and 2022."
+  },
+  {
+   "text": "In 2024 the Company sold the Mirabel facility and now owns and operates only its Baie Comeau data center.",
+   "evidence": "After selling the Mirabel facility in March 2024, Argo continues to own and operate its data center in Baie Comeau, Quebec."
+  }
+ ],
+ "dropped": []
+}

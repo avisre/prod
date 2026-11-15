@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001853138",
+ "issuerName": "Kodiak AI, Inc.",
+ "builtAt": "2026-11-15T14:15:50.972Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016910",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1853138/000162828026016910/kdk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Physical AI",
+   "products": [
+    "Kodiak Driver",
+    "Assisted Autonomy",
+    "SensorPods"
+   ],
+   "description": "Provides AI-powered autonomous vehicle technology, primarily the Kodiak Driver, to long-haul trucking, industrial trucking and defense customers.",
+   "evidence": "Kodiak is a leading provider of physical AI, with a focus on AI-powered autonomous vehicle (\"AV\") technology, that is designed to help tackle some of the toughest driving jobs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay per-vehicle or per-mile license fees under the DaaS model, or traditional per-mile or per-load fees for freight delivered on Kodiak-owned autonomous trucks, plus fees for services to the U.S. military.",
+  "evidence": "Under this model, we generate revenue through either a per-vehicle or per-mile license fee."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Kodiak Robotics, Inc. merged with Ares Acquisition Corporation II and the combined company was renamed Kodiak AI, Inc.",
+   "evidence": "On September 24, 2025 (the \"Closing Date\" or \"Closing\"), Kodiak Robotics, Inc. (\"Legacy Kodiak\") and Ares Acquisition Corporation II (\"AACT\") consummated the merger transaction (the \"Merger\") as contemplated by a definitive business combination agreement (the \"BCA\") and AACT changed its name to Kodiak AI, Inc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Physical AI): Driver-as-a-Service (DaaS)"
+ ]
+}

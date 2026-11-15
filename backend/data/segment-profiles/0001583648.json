@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001583648",
+ "issuerName": "Palvella Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:22.203Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-133372",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1583648/000119312526133372/pvla-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Company operations",
+   "products": [
+    "QTORIN rapamycin",
+    "QTORIN pitavastatin"
+   ],
+   "description": "Discovers and develops therapies for individuals with serious and rare skin diseases and vascular malformations.",
+   "evidence": "The CODM views the Company's operations as a single operating segment which is the business of discovering and developing products for individuals with serious and rare skin diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has generated no product revenue and expects future revenue from developing and commercializing product candidates independently or through partnerships.",
+  "evidence": "As of December 31, 2025, the Company operations segment has not generated any product revenue since inception, as it does not yet have approved products for sale."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Pieris Pharmaceuticals merged with Legacy Palvella and was renamed Palvella Therapeutics, with Legacy Palvella becoming a wholly owned subsidiary.",
+   "evidence": "On December 13, 2024 (the \"Closing Date\"), Palvella Therapeutics, Inc., a Nevada corporation (the \"Company\" or \"Palvella\") (previously named Pieris Pharmaceuticals, Inc. and our predecessor company (\"Pieris\")), consummated the previously announced merger pursuant to the terms of that certain Agreement and Plan of Merger, dated as of July 23, 2024 (the \"Merger Agreement\")"
+  }
+ ],
+ "dropped": []
+}

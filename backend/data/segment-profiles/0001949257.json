@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001949257",
+ "issuerName": "Radiopharm Theranostics Limited",
+ "builtAt": "2026-11-15T14:16:40.809Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-105181",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1949257/000121390026105181/ea0306842-20f_radiopharm.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research, development and commercialization of health technologies",
+   "products": [
+    "177Lu-BetaBart",
+    "Anti-HER-2",
+    "Anti-TROP-2",
+    "Anti-PD-L1",
+    "Anti-PTK7",
+    "Ga-Trivehexin",
+    "F-FPIA Imaging Agent",
+    "PTPµ-targeted radiopharmaceutical agent"
+   ],
+   "description": "A research and development company developing radiopharmaceutical products for therapeutic and diagnostic applications in precision oncology.",
+   "evidence": "Management has determined, based on the reports reviewed by the chief operating decision maker that are used to make strategic decisions, that the group has one reportable segment being the research, development and commercialization of health technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from a strategic development services contract under which it leads clinical development of radiopharmaceuticals in Australia for Lantheus, which covers the clinical development costs.",
+  "evidence": "During the year ended 30 June 2025, the group entered into a strategic development services contract with Lantheus to advance clinical development of innovative radiopharmaceuticals in Australia."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the PTPµ-targeted radiopharmaceutical agent was handed back to Case Western Reserve University.",
+   "evidence": "In January 2026, the asset was handed back to the university."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the company transferred its TROP2 and DUNP19 clinical assets to Lantheu"
+ ]
+}

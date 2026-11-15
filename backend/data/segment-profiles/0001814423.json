@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001814423",
+ "issuerName": "iHuman Inc.",
+ "builtAt": "2026-11-15T14:14:54.239Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-048541",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1814423/000110465926048541/ih-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online education",
+   "products": [
+    "Online subscriptions",
+    "Offline products and others",
+    "Self-directed and interactive applications",
+    "Digital contents",
+    "Intellectual development materials and devices"
+   ],
+   "description": "Provides childhood intellectual development online subscriptions and offline materials and smart devices to individual users, kindergartens and distributors.",
+   "evidence": "The Group does not distinguish between markets or segments for purposes of internal reporting."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual users, kindergartens and distributors pay for online subscriptions, digital contents, and offline materials and smart devices.",
+  "evidence": "The Group sells materials and smart devices to individual users, kindergartens and distributors."
+ },
+ "changes": [],
+ "dropped": []
+}

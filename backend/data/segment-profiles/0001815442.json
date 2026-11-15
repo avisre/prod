@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001815442",
+ "issuerName": "KYMERA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:14:54.245Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073395",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1815442/000119312526073395/kymr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "KT-621",
+    "KT-579",
+    "KT-485/SAR447971"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing oral targeted protein degradation medicines, primarily for immunology diseases.",
+   "evidence": "The Company operates and manages its business as one reportable segment and one operating segment, which is dedicated to reinventing the treatment of human disease through the development of innovative, highly differentiated medicines that address significant health problems and that meaningfully improve patients' lives."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from collaboration agreements with pharmaceutical partners such as Sanofi and Gilead for the development of its drug candidates.",
+  "evidence": "Significant estimates relied upon in preparing these financial statements include revenue recognized under our collaboration agreements, accrual for research and development expenses, lease impairment, and equity-based compensation expense."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Biopharmaceutical): CDK2 molecular glue degraders"
+ ]
+}

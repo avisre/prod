@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001534254",
+ "issuerName": "CION Investment Corporation",
+ "builtAt": "2026-11-15T14:11:58.029Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001534254-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534254/000153425426000003/cion-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investments",
+   "products": [
+    "Senior secured first lien debt",
+    "Senior secured second lien debt",
+    "Unitranche loans",
+    "Collateralized securities",
+    "Structured products",
+    "Unsecured debt",
+    "Equity"
+   ],
+   "description": "An externally managed BDC that invests primarily in senior secured debt, and to a lesser extent equity, of private U.S. middle-market companies to generate current income and capital appreciation.",
+   "evidence": "Our portfolio is comprised primarily of investments in senior secured debt, including first lien loans, second lien loans and unitranche loans, and, to a lesser extent, collateralized securities, structured products and other similar securities, unsecured debt, and equity, of private and thinly-traded U.S. middle-market companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and other investment income from debt and equity investments in, and direct loans to, private U.S. middle-market portfolio companies.",
+  "evidence": "As of December 31, 2025, we engaged in the purchase of debt and equity securities primarily issued by portfolio companies and lend directly to portfolio companies."
+ },
+ "changes": [],
+ "dropped": []
+}

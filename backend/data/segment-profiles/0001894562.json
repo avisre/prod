@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001894562",
+ "issuerName": "Prime Medicine, Inc.",
+ "builtAt": "2026-11-15T14:16:18.133Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013569",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1894562/000162828026013569/prme-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "PM577 for Wilson Disease",
+    "PM359 for CGD",
+    "Cystic Fibrosis program",
+    "Prime Editing platform"
+   ],
+   "description": "A biotechnology company developing Prime Editing genetic medicines for patients with diseases driven by genetic alterations.",
+   "evidence": "We are a biotechnology company focused on developing a new class of genetic medicines designed to provide durable, and potentially curative, treatment options for patients with diseases driven by defined genetic alterations, acquired cellular dysfunction, or dysregulated gene expression."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Biotechnology): PM647 for alpha-1 antitrypsin deficiency"
+ ]
+}

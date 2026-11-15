@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001852131",
+ "issuerName": "Nextpower Inc.",
+ "builtAt": "2026-11-15T14:15:49.846Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001852131-26-000017",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1852131/000185213126000017/nxt-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solar and energy technology",
+   "products": [
+    "NX Horizon®",
+    "NX Horizon-XTR™",
+    "NX Horizon® with Hail Pro™",
+    "TrueCapture® energy yield management system",
+    "electrical balance of systems (eBOS)",
+    "foundations",
+    "steel frames",
+    "AI and robotic services"
+   ],
+   "description": "Provides integrated solar tracking, structural, electrical and digital solutions for utility-scale solar power plants, serving EPCs, developers and owners.",
+   "evidence": "We are a leading global provider of solar and energy technology solutions for utility-scale power plants."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers such as EPC firms, solar project developers and owners pay the company for its solar tracker systems and integrated solutions.",
+  "evidence": "Our customers include engineering, procurement and construction firms (\"EPCs\"), as well as solar project developers and owners."
+ },
+ "changes": [],
+ "dropped": []
+}

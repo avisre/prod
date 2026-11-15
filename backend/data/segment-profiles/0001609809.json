@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001609809",
+ "issuerName": "Seres Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:12:38.042Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103276",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1609809/000119312526103276/mcrb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Live biotherapeutics",
+   "products": [
+    "SER-155",
+    "SER-603",
+    "SER-147",
+    "VOWST"
+   ],
+   "description": "Clinical-stage company developing novel live biotherapeutic product candidates to prevent infections and treat immune and GI-related diseases in medically vulnerable patients.",
+   "evidence": "The Company's singular focus is on developing live biotherapeutics for medically vulnerable patient populations to prevent bacterial bloodstream and antimicrobial resistant (AMR) infections as well as to treat GI-related immune diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue to date has been generated solely through the Company's agreements with its collaborators, all of which has been earned in the United States.",
+  "evidence": "Revenue to date has been generated solely through the Company's agreements with its collaborators, all of which has been earned in the United States."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold VOWST, its FDA-approved microbiome biotherapeutic, to Nestlé Health Science.",
+   "evidence": "We led the successful development and approval of VOWST, the first FDA-approved orally administered microbiome biotherapeutic and a Breakthrough Therapy designated drug, which was sold to Société des Produits Nestlé S.A., or SPN, and with certain of its affiliates, collectively, Nestlé Health Science, in September 2024."
+  }
+ ],
+ "dropped": []
+}

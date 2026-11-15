@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001822462",
+ "issuerName": "Foghorn Therapeutics Inc.",
+ "builtAt": "2026-11-15T14:15:03.915Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016814",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1822462/000162828026016814/fhtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Segment",
+   "products": [
+    "FHD-909 (LY4050784)",
+    "FHD-286",
+    "SMARCA2 (BRM)",
+    "CBP",
+    "EP300",
+    "ARID1B"
+   ],
+   "description": "Clinical stage precision therapeutics biotechnology company discovering and developing medicines targeting genetically determined dependencies within the chromatin regulatory system.",
+   "evidence": "The Company manages its operations as a single segment (the \"Segment\") for the purposes of assessing performance and making operating decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue is derived entirely from recognition of deferred revenue related to the collaboration agreement with Eli Lilly and funds received under the Lilly stock purchase agreement.",
+  "evidence": "The Segment's revenue is derived entirely from the recognition of deferred revenue related to our collaboration agreement with Lilly and funds received under the Lilly SPA"
+ },
+ "changes": [],
+ "dropped": []
+}

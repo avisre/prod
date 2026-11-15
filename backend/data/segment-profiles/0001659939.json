@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001659939",
+ "issuerName": "ENEL CHILE S.A.",
+ "builtAt": "2026-11-15T14:13:17.293Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-050251",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1659939/000110465926050251/enic-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Generation",
+   "products": [
+    "electricity generation",
+    "hydroelectric power plants",
+    "wind farms",
+    "solar plants",
+    "geothermal capacity",
+    "gas/diesel power plants"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Distribution and networks",
+   "products": [
+    "electricity distribution",
+    "customer power connection works",
+    "public lighting projects",
+    "antenna leasing",
+    "network connections"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling electricity to regulated and unregulated customers, with generators selling at freely negotiated or bid-based contract prices and distributors charging regulated tariffs.",
+  "evidence": "Generators supply electricity to end customers using lines and substations that belong to transmission and distribution companies."
+ },
+ "changes": [
+  {
+   "text": "In 2023, EGP Chile spun off solar plants into Arcadia, which Enel Chile subsequently sold in October 2023.",
+   "evidence": "As a result, Enel Chile became the owner of 99.99% of Arcadia, which was subsequently sold to Sonnedix Chile Arcadia S.p.A. and Sonnedix Chile Arcadia Generación S.p.A. on October 24, 2023."
+  }
+ ],
+ "dropped": [
+  "product not in text (Generation): battery energy storage systems (BESS)",
+  "segment evidence not verbatim: Generation",
+  "segment evidence not verbatim: Distribution and networks",
+  "change not grounded: In 2022, Enel Chile sold its entire 99.09% ownership interest in its transmissio"
+ ]
+}

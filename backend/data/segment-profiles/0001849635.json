@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001849635",
+ "issuerName": "Trump Media & Technology Group Corp.",
+ "builtAt": "2026-11-15T14:15:45.486Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-007174",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1849635/000114036126007174/ef20062365_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Media",
+   "products": [
+    "Truth Social",
+    "Truth Predict",
+    "Truth+",
+    "Patriot Package"
+   ],
+   "description": "Operates the Truth Social social media platform and Truth+ streaming service, earning advertising and subscription revenue from users and advertisers.",
+   "evidence": "Media, previously social media & streaming, includes products and services such as advertisement through our Truth Social platform, including Truth Predict."
+  },
+  {
+   "name": "Truth.Fi",
+   "products": [
+    "Bitcoin and similar cryptocurrencies or crypto-related securities"
+   ],
+   "description": "Provides financial services and FinTech products, including America First investment vehicles and a bitcoin and digital asset treasury strategy.",
+   "evidence": "Truth.Fi, will provide separately managed accounts (\"SMAs\"); customized exchange-traded funds and/or exchange-traded products (collectively, \"ETFs\") invested in America First principles, and bitcoin and similar cryptocurrencies or crypto-related securities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Media segment earns revenue from advertisers on Truth Social and from subscribers paying for the Truth+ Patriot Package; Truth.Fi earned no revenue in 2025.",
+  "evidence": "For the year ended December 31, 2025, our Media segment earned revenue of $ 3,425.3 and $ 257.3 from advertising and subscriptions, respectively."
+ },
+ "changes": [
+  {
+   "text": "In the second quarter of 2025, TMTG added the Truth.Fi operating segment to its social media and streaming segment, creating two reportable segments.",
+   "evidence": "In the second quarter of 2025, our internal reporting and segments changed. We added the Truth.Fi operating segment to our social media and streaming segment."
+  },
+  {
+   "text": "In 2025, the social media and streaming segment was renamed Media.",
+   "evidence": "Media, previously social media & streaming, includes products and services such as advertisement through our Truth Social platform, including Truth Predict."
+  }
+ ],
+ "dropped": [
+  "product not in text (Truth.Fi): Separately managed accounts (SMAs)",
+  "product not in text (Truth.Fi): Exchange-traded funds (ETFs)"
+ ]
+}

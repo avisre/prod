@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001808377",
+ "issuerName": "INNOVATIVE EYEWEAR, INC.",
+ "builtAt": "2026-11-15T14:14:48.403Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002695",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1808377/000182912626002695/innovativeeye_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Smartglasses",
+   "products": [
+    "Lucyd Lyte",
+    "Lucyd Armor",
+    "Nautica Powered by Lucyd",
+    "Eddie Bauer Powered by Lucyd",
+    "Reebok Powered by Lucyd",
+    "Lucyd app"
+   ],
+   "description": "Develops and sells smart eyewear, including prescription eyeglasses, sunglasses, safety glasses and sport glasses, plus related accessories and apps.",
+   "evidence": "The Company has a single reportable segment, which generates revenue from the sales of smartglasses, and related accessories and apps."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

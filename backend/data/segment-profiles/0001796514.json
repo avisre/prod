@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001796514",
+ "issuerName": "BTC Digital Ltd.",
+ "builtAt": "2026-11-15T14:14:39.053Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-054456",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1796514/000121390026054456/ea0285868-20f_btcdigi.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryptocurrency Mining",
+   "products": [
+    "bitcoin mining"
+   ],
+   "description": "Operates cryptocurrency mining business in the U.S., validating bitcoin transactions and earning block rewards and transaction fees.",
+   "evidence": "As of the date of this annual report, the operating entities only operate cryptocurrency mining business in the U.S., and we no longer provide ELT services, which services were provided by the former VIEs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns bitcoin block rewards and transaction fees from mining, which may be sold to generate revenue or retained.",
+  "evidence": "A miner that successfully validates and adds a new block to the blockchain typically receives block rewards and may also receive transaction fees associated with the transactions included in that block."
+ },
+ "changes": [
+  {
+   "text": "In 2022 the VIE contractual arrangements were terminated and the former VIEs' ELT services were deconsolidated.",
+   "evidence": "The termination of the VIE contractual arrangements were effective on November 19, 2022."
+  },
+  {
+   "text": "In 2023 the company changed its name from Meten Holding Group Ltd. to BTC Digital Ltd.",
+   "evidence": "The shareholders also approved to change our name from \"Meten Holding Group Ltd.\" to \"BTC Digital Ltd.,\" which became effective on August 18, 2023."
+  }
+ ],
+ "dropped": []
+}

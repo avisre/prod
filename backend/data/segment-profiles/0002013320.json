@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0002013320",
+ "issuerName": "Eastern International Ltd.",
+ "builtAt": "2026-11-15T14:17:16.434Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-035476",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2013320/000149315226035476/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Logistics Services",
+   "products": [
+    "Project logistics",
+    "General logistics",
+    "Transportation services",
+    "Warehouse subleasing services",
+    "New energy infrastructure construction services"
+   ],
+   "description": "Provides domestic and cross-border project and general logistics, warehouse subleasing, and new energy infrastructure construction services to corporate clients.",
+   "evidence": "We, through Suzhou TC-Link, provide domestic and cross-border professional logistic services including project logistic and general logistic for company clients."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Corporate clients pay the company for transportation services, warehouse subleasing services, and new energy infrastructure construction services.",
+  "evidence": "Our revenues are derived from transportation services, warehouse subleasing services and new energy infrastructure construction services provided to customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Guizhou Tianrun and entered the new energy infrastructure construction service business.",
+   "evidence": "Upon the acquisition of Guizhou Tianrun, the Company entered into new energy infrastructure construction service business."
+  }
+ ],
+ "dropped": []
+}

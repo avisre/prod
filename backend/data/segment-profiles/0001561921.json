@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001561921",
+ "issuerName": "TELA Bio, Inc.",
+ "builtAt": "2026-11-15T14:12:11.452Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-034507",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1561921/000110465926034507/tela-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Soft-tissue reconstruction",
+   "products": [
+    "OviTex Reinforced Tissue Matrix",
+    "OviTex LPR",
+    "OviTex IHR Reinforced Tissue Matrix",
+    "OviTex PRS Reinforced Tissue Matrix",
+    "OviTex PRS Long-Term Resorbable",
+    "LIQUIFIX Hernia Mesh Fixation Devices"
+   ],
+   "description": "Develops and sells soft-tissue reconstruction products for hernia repair, abdominal wall reconstruction, and plastic and reconstructive surgery for surgeons and hospitals.",
+   "evidence": "The Company has one reportable segment which is focused on providing innovative soft-tissue reconstruction solutions that optimize clinical outcomes by prioritizing the preservation and restoration of the patient's own anatomy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling its OviTex and OviTex PRS products and distributed devices to hospitals and healthcare providers, mainly through a direct sales force in the U.S. and Europe.",
+  "evidence": "We primarily market our products through a single direct sales force, predominantly in the U.S., with a small number of sales representatives in the United Kingdom and European Union, and also utilize a smaller number of independent contractors and distributors in the United States and certain European countries."
+ },
+ "changes": [
+  {
+   "text": "In March 2024, the company sold its distribution rights to the NIVIS Fibrillar Collagen Pack to MiMedx Group, Inc.",
+   "evidence": "In March 2024, we sold our distribution rights to MiMedx Group, Inc. in exchange for an initial $5.0 million payment and additional future payments aggregating between a minimum of $3.0 million and a maximum of $7.0 million based on net sales of NIVIS (now marketed as HELIOGEN) during the first two years following its launch by MiMedx Group, Inc."
+  }
+ ],
+ "dropped": []
+}

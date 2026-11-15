@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001629210",
+ "issuerName": "PARAMOUNT GOLD NEVADA CORP.",
+ "builtAt": "2026-11-15T14:12:50.792Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-394400",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1629210/000119312526394400/pzg-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sleeper Gold Project and other Nevada based Projects",
+   "products": [
+    "Sleeper Gold Project"
+   ],
+   "description": "Exploration and development of the Sleeper Gold Project and other Nevada-based mineral properties.",
+   "evidence": "The Company's properties include the Sleeper Gold Project and the Grassy Mountain Project."
+  },
+  {
+   "name": "Grassy Mountain Project and other Oregon based Projects",
+   "products": [
+    "Grassy Mountain Project"
+   ],
+   "description": "Exploration and development of the Grassy Mountain Project and other Oregon-based mineral properties.",
+   "evidence": "The Company's properties include the Sleeper Gold Project and the Grassy Mountain Project."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

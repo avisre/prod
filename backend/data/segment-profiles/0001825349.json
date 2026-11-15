@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001825349",
+ "issuerName": "Chanson International Holding",
+ "builtAt": "2026-11-15T14:15:06.723Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-045625",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1825349/000121390026045625/ea0286626-20f_chansoninter.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "China",
+   "products": [],
+   "description": "The company's operations in the People's Republic of China, reviewed by the CODM as a separate operating segment.",
+   "evidence": "Based on management's assessment, the Company has determined that it has two reportable segments: China and the United States."
+  },
+  {
+   "name": "United States and others",
+   "products": [],
+   "description": "The company's operations in the United States and other immaterial operations, reviewed by the CODM as a separate operating segment.",
+   "evidence": "Based on management's assessment, the Company has determined that it has two operating segments, China and the United States and others."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

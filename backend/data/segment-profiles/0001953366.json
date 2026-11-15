@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001953366",
+ "issuerName": "Star Holdings",
+ "builtAt": "2026-11-15T14:16:42.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001953366-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1953366/000195336626000003/stho-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "loans",
+    "operating properties",
+    "land and development properties",
+    "Safe Shares",
+    "Asbury Park Waterfront",
+    "Magnolia Green"
+   ],
+   "description": "Manages and monetizes legacy iStar real estate assets—loans, operating properties, and land and development properties—to generate cash flows for shareholders.",
+   "evidence": "The Company operates its business through one reportable and operating segment that focuses on realizing value for shareholders primarily by generating cash flows through active asset management and sales of its existing loans, operating properties and land and development properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates cash from buyers of its properties and land, borrowers repaying loans, hotel and entertainment operations, and sales of Safe Shares.",
+  "evidence": "We expect to focus on realizing value for shareholders primarily by maximizing cash flows through active asset management and asset sales."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Star Holdings was formed through the Spin-Off of iStar's legacy non-ground lease assets and became an independent, publicly traded company.",
+   "evidence": "Immediately prior to the closing of the Merger, iStar completed a series of reorganization and separation transactions (collectively, the \"Spin-Off\") in accordance with the terms of a Separation and Distribution Agreement (the \"Separation and Distribution Agreement\"), dated as of March 31, 2023, by and between iStar and us."
+  }
+ ],
+ "dropped": []
+}

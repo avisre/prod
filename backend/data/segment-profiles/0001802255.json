@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001802255",
+ "issuerName": "Guardian Pharmacy Services, Inc.",
+ "builtAt": "2026-11-15T14:14:43.544Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-102172",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1802255/000119312526102172/d16111d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmacy services",
+   "products": [
+    "Compliance packaging",
+    "Robotic dispensing",
+    "EMAR integration",
+    "Pharmacy workflow software",
+    "Mock audits of LTCFs",
+    "Drug therapy evaluations"
+   ],
+   "description": "Provides technology-enabled pharmacy dispensing and consultative services to residents of long-term care facilities, primarily assisted living and behavioral health facilities.",
+   "evidence": "We are a leading, highly differentiated pharmacy services company that provides an extensive suite of technology-enabled services designed to help residents of LTCFs adhere to their appropriate drug regimen, which in turn helps reduce the cost of care and improve clinical outcomes."
+  }
+ ],
+ "productRevenueBrokenOut": null,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Pharmacy services): Prescription and non-prescription pharmaceutical dispensing",
+  "product not in text (Pharmacy services): Caregiver training and continuing education programs"
+ ]
+}

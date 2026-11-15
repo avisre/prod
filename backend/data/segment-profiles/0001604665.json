@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001604665",
+ "issuerName": "Westlake Chemical Partners LP",
+ "builtAt": "2026-11-15T14:12:36.482Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001604665-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1604665/000160466526000010/wlkp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OpCo",
+   "products": [
+    "ethylene",
+    "propylene",
+    "crude butadiene",
+    "pyrolysis gasoline",
+    "hydrogen",
+    "Longview Pipeline"
+   ],
+   "description": null,
+   "evidence": "The Partnership has one operating segment, which is the Partnership's reportable segment, OpCo."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

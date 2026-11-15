@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0001420520",
+ "issuerName": "ATOMERA INCORPORATED",
+ "builtAt": "2026-11-15T14:11:07.603Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-001291",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1420520/000168316826001291/atomera_i10k-123125.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay upfront license fees for R&D and high-volume manufacturing licenses, ongoing royalties on MST-enabled products sold, and fees for MSTcad licensing and engineering services.",
+  "evidence": "Our preferred model is to charge our customers upfront license fees for each license grant."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Semiconductor technology licensing"
+ ]
+}

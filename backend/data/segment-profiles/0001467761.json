@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001467761",
+ "issuerName": "FIEE, INC.",
+ "builtAt": "2026-11-15T14:11:27.531Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-002591",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1467761/000182912626002591/fieeinc_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital services",
+   "products": [
+    "Digital content and MCN services",
+    "Software development services",
+    "Digital authentication services",
+    "Global Premium Plan",
+    "Overseas Basic Plan",
+    "Starter Plan",
+    "Micro Identification",
+    "AI Image Recognition Authentication"
+   ],
+   "description": "Provides digital content and MCN services, custom software development, and AI- and blockchain-based digital authentication services to individual and corporate clients.",
+   "evidence": "Our services primarily consist of three core areas: (1) digital content and MCN services, (2) software development services, and (3) digital authentication services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay upfront, non-refundable fees for tiered digital service packages, with basic service revenue recognized ratably over the contract term and value-added services recognized upon acceptance.",
+  "evidence": "The Company recognizes revenues from basic services ratably over the contract term beginning on the commencement date of each contract."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company pivoted from its legacy WiFi/SaaS networking business to a digital service provider model, launching customized software services in July 2025.",
+   "evidence": "In July 2025, we formally launched customized software services."
+  },
+  {
+   "text": "In 2025 the company acquired Japanese digital authentication firm HGK, adding AI and blockchain authentication services to its portfolio.",
+   "evidence": "On November 30, 2025, we completed the acquisition of Houren-Geiju Kabushikikaisha (\"HGK\"), a Japanese technology company specializing in digital authentication services for art collections."
+  },
+  {
+   "text": "In 2023 the company's exclusive global license to sell consumer networking products under the Motorola brand ended.",
+   "evidence": "During this period, we held the exclusive global license to design, manufacture, and sell consumer networking products under the Motorola brand until 2023."
+  }
+ ],
+ "dropped": []
+}

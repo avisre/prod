@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0002079999",
+ "issuerName": "Cardinal Infrastructure Group Inc",
+ "builtAt": "2026-11-15T14:17:47.165Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-120014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/2079999/000119312526120014/cdnl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Site preparation",
+   "products": [
+    "site preparation services",
+    "grading",
+    "underground utilities",
+    "drilling and blasting",
+    "paving",
+    "asphalt plants",
+    "concrete work",
+    "erosion control"
+   ],
+   "description": "Provides site preparation and complementary construction services for residential, commercial, industrial, retail and state infrastructure customers in the Southeast United States.",
+   "evidence": "The CODM manages the business activities on a consolidated basis and as such the Company determined it is a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for construction projects, with all revenue derived from construction projects based in North Carolina and South Carolina.",
+  "evidence": "The Company derives all revenue in the United States of America from construction projects based in North Carolina and South Carolina in 2025, 2024, and 2023."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001476150",
+ "issuerName": "Terreno Realty Corporation",
+ "builtAt": "2026-11-15T14:11:30.326Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001476150-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1476150/000147615026000011/trno-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "Warehouse/distribution",
+    "Flex (including light industrial and R&D)",
+    "Transshipment",
+    "Improved land"
+   ],
+   "description": "Acquires, owns and operates industrial real estate in six major coastal U.S. markets for tenants in infill locations.",
+   "evidence": "The Company has determined that it has one reportable segment, with activities related to investing in real estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under leases, typically three to ten years, for use of the company's industrial properties and improved land.",
+  "evidence": "The Company's assets engage in leasing activities that generate revenues and incur operating expenses. Lease terms typically range from three to ten years."
+ },
+ "changes": [],
+ "dropped": []
+}

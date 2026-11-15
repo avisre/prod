@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001644378",
+ "issuerName": "RMR GROUP INC.",
+ "builtAt": "2026-11-15T14:13:04.639Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001644378-26-000026",
+  "periodEnd": "2026-09-30",
+  "filingDate": "2026-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1644378/000164437826000026/rmr-20260930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate asset management",
+   "products": [
+    "Management services to Sonesta International Hotels Corporation",
+    "Management services to AlerisLife Inc.",
+    "RMR Residential",
+    "Management services to other private capital vehicles"
+   ],
+   "description": "Provides real estate investment, asset management and property management services to publicly traded REITs and private capital clients.",
+   "evidence": "We manage our business on a consolidated basis and therefore have one reportable segment: real estate asset management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "RMR earns base management fees and incentive management fees under long term management and advisory agreements with the Managed Equity REITs, SEVN and other clients.",
+  "evidence": "Alignment of interests also exists between us and our Managed Equity REITs due to the manner upon which we earn base management fees and incentive management fees under our management agreements with the Managed Equity REITs, as described in more detail below."
+ },
+ "changes": [
+  {
+   "text": "In 2026, AlerisLife transitioned management of its senior living communities to third party operators and completed the sale of all its assets in January 2026, effectively ceasing operations.",
+   "evidence": "In September 2025, AlerisLife announced that it had entered into agreements to transition the management of its senior living communities to third party operators and in January 2026 completed the sale of all of its assets."
+  }
+ ],
+ "dropped": [
+  "product not in text (Real estate asset management): Management services to Managed Equity REITs (DHC, ILPT, OPI, SVC)",
+  "product not in text (Real estate asset management): Advisory services for Seven Hills Realty Trust (SEVN)",
+  "change not grounded: In 2026, OPI emerged from chapter 11 bankruptcy and RMR LLC entered into amended"
+ ]
+}

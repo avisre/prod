@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001709941",
+ "issuerName": "BIOAGE LABS, INC.",
+ "builtAt": "2026-11-15T14:13:47.927Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-120873",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1709941/000119312526120873/bioa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Extending healthy human life by targeting molecular causes of aging",
+   "products": [
+    "BGE-102",
+    "APJ agonists"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing therapeutic product candidates for metabolic diseases by targeting the biology of human aging.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of extending healthy human life by targeting molecular causes of aging."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns collaboration revenue from pharmaceutical partners, with a single customer accounting for all revenue in 2025.",
+  "evidence": "For the year ended December 31, 2025, the same customer accounted for 100 % of the Company's revenue."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001783183",
+ "issuerName": "PHATHOM PHARMACEUTICALS, INC.",
+ "builtAt": "2026-11-15T14:14:28.610Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073379",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1783183/000119312526073379/phat-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical",
+   "products": [
+    "VOQUEZNA",
+    "VOQUEZNA DUAL PAK",
+    "VOQUEZNA TRIPLE PAK"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of its VOQUEZNA products to customers in the United States.",
+  "evidence": "The segment derives its current revenues from the sale of VOQUEZNA products."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Pharmaceutical"
+ ]
+}

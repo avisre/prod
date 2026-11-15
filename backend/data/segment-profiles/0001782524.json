@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001782524",
+ "issuerName": "Morgan Stanley Direct Lending Fund",
+ "builtAt": "2026-11-15T14:14:27.683Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076632",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1782524/000119312526076632/msdl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty finance",
+   "products": [
+    "first lien senior secured term loans",
+    "second lien senior secured term loans",
+    "unitranche loans",
+    "mezzanine debt",
+    "unsecured debt",
+    "equity investments"
+   ],
+   "description": "An externally managed specialty finance company that lends primarily senior secured debt to U.S. middle-market companies backed by private equity sponsors.",
+   "evidence": "We are a non-diversified, externally managed specialty finance company focused on lending to middle-market companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income from portfolio debt investments, plus dividends on equity investments, capital gains on sales, and loan origination and other fees.",
+  "evidence": "We generate revenues primarily in the form of interest income from investments we hold."
+ },
+ "changes": [],
+ "dropped": []
+}

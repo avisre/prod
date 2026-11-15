@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001500881",
+ "issuerName": "ENCORE ENERGY CORP.",
+ "builtAt": "2026-11-15T14:11:39.145Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022507",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1500881/000162828026022507/encr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Uranium",
+   "products": [
+    "yellowcake"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells uranium (yellowcake) to customers, with revenue recognized when shipping lots are weighed, sampled and inventoried at a North American conversion facility.",
+  "evidence": "This is the point at which the Company sells its product to its customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Uranium): uranium",
+  "segment evidence not verbatim: Uranium",
+  "change not grounded: In December 2023, the Company sold 30% of the Alta Mesa Project to Boss Energy L"
+ ]
+}

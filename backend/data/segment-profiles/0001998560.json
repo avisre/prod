@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001998560",
+ "issuerName": "Mint Inc Ltd",
+ "builtAt": "2026-11-15T14:17:06.959Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-090165",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1998560/000121390026090165/ea0300620-20f_mint.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Interior design and fit out service",
+   "products": [
+    "Design and fit out services",
+    "Design only services"
+   ],
+   "description": "Provides interior design and fit out services for residential and non-residential premises in Hong Kong.",
+   "evidence": "The Company has identified the following two major reportable segments: ● Interior design and fit out service ● Robotics and AI Solutions Business"
+  },
+  {
+   "name": "Robotics and AI Solutions Business",
+   "products": [
+    "Sale of robotic products"
+   ],
+   "description": "Develops and sells robotics and AI solutions, including robotic products, through a joint venture with Axonex Intelligence Limited.",
+   "evidence": "The following table presents revenue by major revenue type for the years ended March 31, 2026, 2025 and 2024, respectively: For the years ended March 31, 2026 2025 2024 Design and fit out services $ 1,882,061 $ 2,986,769 $ 3,603,422 Design only services 24,129 279,621 779,574 Sale of robotic products 384,429 — —"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in Hong Kong pay the company for interior design and fit out services and for sales of robotic products.",
+  "evidence": "The following table presents revenue by major revenue type for the years ended March 31, 2026, 2025 and 2024, respectively: For the years ended March 31, 2026 2025 2024 Design and fit out services $ 1,882,061 $ 2,986,769 $ 3,603,422 Design only services 24,129 279,621 779,574 Sale of robotic products 384,429 — —"
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the company began generating revenue from a new Robotics and AI Solutions Business segment through sales of robotic products.",
+   "evidence": "Sale of robotic products 384,429 — —"
+  }
+ ],
+ "dropped": []
+}

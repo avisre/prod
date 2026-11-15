@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001857030",
+ "issuerName": "INTERCURE LTD.",
+ "builtAt": "2026-11-15T14:15:55.923Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-020743",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1857030/000149315226020743/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investments in the medical cannabis sector",
+   "products": [
+    "pharmaceutical-grade cannabis and cannabis-based products",
+    "CANNDOC brand",
+    "Givol",
+    "Leon Pharm",
+    "Max Pharm",
+    "Cookies",
+    "Pharma Zone trade house"
+   ],
+   "description": "Produces, manufactures and distributes pharmaceutical-grade cannabis and cannabis-based products for medical use to patients in Israel and target markets.",
+   "evidence": "Investments in the medical cannabis sector: Canndoc, Cannolam, Pharmazone and other investments as described in Note 8."
+  },
+  {
+   "name": "Investments in portfolio companies in the biomed sector",
+   "products": [
+    "XTL",
+    "Cavnox",
+    "Fore"
+   ],
+   "description": "Holds strategic investments in life sciences and medical innovation companies, measured at fair value through profit or loss.",
+   "evidence": "Investments in portfolio companies in the biomed sector: the Company has investments in XTL, Cavnox and Fore."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling pharmaceutical-grade cannabis and cannabis-based products, distributed to patients through licensed retail pharmacies and its own pharmacy chain.",
+  "evidence": "In Israel, we distribute our products through licensed retail pharmacy locations, where patients may fill their prescriptions on site or have our products delivered directly to their residence."
+ },
+ "changes": [
+  {
+   "text": "In July 2024, the company acquired Leon Pharm, a leading Israel-based pharmacy chain specializing in dispensing medical cannabis.",
+   "evidence": "In July 2024, we completed the purchase of Leon Pharm Ltd. (\"Leon Pharm\"), a leading, Israel-based pharmacy chain located in major cities throughout Israel specializing in dispensing medical cannabis in Israel, by way of a share purchase of all of the issued and outstanding share capital of Leon Pharm."
+  }
+ ],
+ "dropped": []
+}

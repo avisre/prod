@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001880661",
+ "issuerName": "TPG Inc.",
+ "builtAt": "2026-11-15T14:16:10.572Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001880661-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1880661/000188066126000011/tpg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alternative asset management",
+   "products": [
+    "Capital",
+    "Growth",
+    "Impact",
+    "Credit",
+    "Real Estate",
+    "Market Solutions"
+   ],
+   "description": "A global alternative asset manager offering investment strategies in private equity, credit and real estate to fund investors and clients.",
+   "evidence": "We operate our business in a single operating and reportable segment, as our CEO, who is our chief operating decision maker (the \"CODM\"), manages the business on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "TPG earns management, monitoring, transaction and incentive fees from funds, portfolio companies and third parties, plus performance allocations from its funds as general partner.",
+  "evidence": "Fees and other consists primarily of (i) management fees, (ii) monitoring fees, (iii) transaction fees, (iv) incentive fee income and (v) expense reimbursements from unconsolidated funds, portfolio companies and third parties."
+ },
+ "changes": [
+  {
+   "text": "In 2025, TPG acquired Peppertree, a specialized digital infrastructure investment firm focused on wireless communications towers.",
+   "evidence": "On July 1, 2025, we acquired the business of Peppertree Capital Management, Inc. pursuant to the terms and subject to the conditions set forth in the Peppertree Transaction Agreement."
+  },
+  {
+   "text": "In 2023, TPG acquired Angelo Gordon, a scaled alternative investment firm focused on credit and real estate investing.",
+   "evidence": "which includes the impact of our highly strategic acquisitions of Angelo Gordon, a scaled alternative investment firm focused on credit and real estate investing on November 1, 2023, and Peppertree, a specialized digital infrastructure investment firm with a focus on wireless communications towers on July 1, 2025."
+  }
+ ],
+ "dropped": []
+}

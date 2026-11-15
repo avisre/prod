@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001582961",
+ "issuerName": "DigitalOcean Holdings, Inc.",
+ "builtAt": "2026-11-15T14:12:22.183Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001582961-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1582961/000158296126000019/docn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud",
+   "products": [
+    "Droplet virtual machines",
+    "Storage and networking offerings",
+    "Managed Hosting",
+    "Managed Database",
+    "Managed Kubernetes",
+    "Marketplace",
+    "Gradient AI Platform and Gradient AI Agents"
+   ],
+   "description": "DigitalOcean operates an agentic inference cloud platform offering IaaS, PaaS/SaaS and AI/ML products for AI and digital native enterprises.",
+   "evidence": "Accordingly, the Company has one operating and reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay DigitalOcean for usage of its cloud and AI infrastructure, platform and managed services under transparent, predictable, usage-based pricing.",
+  "evidence": "Our pricing model, which is transparent and predictable, eliminating surprises for our customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Cloud): Gradient AI Infrastructure (GPU Droplets, Bare Metal GPUs)"
+ ]
+}

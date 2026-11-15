@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001845338",
+ "issuerName": "monday.com Ltd.",
+ "builtAt": "2026-11-15T14:15:39.308Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000870",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1845338/000117891326000870/zk2634436.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software",
+   "products": [
+    "Work OS"
+   ],
+   "description": "monday.com operates a single software segment providing its Work OS platform to customers worldwide.",
+   "evidence": "The Company has a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

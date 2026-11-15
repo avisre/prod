@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001985487",
+ "issuerName": "Joint Stock Company Kaspi.kz",
+ "builtAt": "2026-11-15T14:17:00.698Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001985487-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1985487/000198548726000008/kspi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payments Platform",
+   "products": [
+    "Kaspi Pay Super App",
+    "online advertising services"
+   ],
+   "description": "Provides merchants with a seamless payment and traffic experience through the Kaspi Pay Super App.",
+   "evidence": "provide merchants with a seamless experience in our Kaspi Pay Super App, including a high level of traffic flow and effective online advertising services"
+  },
+  {
+   "name": "Marketplace Platform",
+   "products": [
+    "Kaspi.kz Super App",
+    "e-Grocery",
+    "digital Gift Cards",
+    "Kaspi Travel",
+    "Government Services"
+   ],
+   "description": "Offers consumers a wide range of products and services through the Kaspi.kz Super App marketplace.",
+   "evidence": "provide consumers with a wide range of high-quality product and service offerings through our Kaspi.kz Super App"
+  },
+  {
+   "name": "Fintech Platform",
+   "products": [
+    "consumer finance",
+    "merchant finance",
+    "micro business finance",
+    "Business Deposit for merchants"
+   ],
+   "description": "Provides consumer, merchant and micro business financing and deposit products to retail and business customers.",
+   "evidence": "Our credit risk exposure arises primarily from our consumer finance, merchant finance and micro business finance through our Fintech Platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and merchants pay the company for products, services, financing and advertising offered through its two-sided Super App platforms.",
+  "evidence": "offer secure and reliable platforms for all participants and balance the interests of these participants, including consumers, merchants, service providers and others"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired a controlling stake in Turkish e-commerce company Hepsiburada, its first major international expansion.",
+   "evidence": "On 29 January 2025, the Group acquired 65.41 % share in \"D-MARKET Electronic Services & Trading\" (\"Hepsiburada\") JSC with the consideration of approximately USD 1,127 million"
+  }
+ ],
+ "dropped": []
+}

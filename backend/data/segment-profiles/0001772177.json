@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001772177",
+ "issuerName": "KURA SUSHI USA, INC.",
+ "builtAt": "2026-11-15T14:14:24.885Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-449960",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-11-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1772177/000119312526449960/krus-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Company-owned restaurants",
+   "products": [
+    "food and beverages",
+    "sushi",
+    "revolving and express conveyor belts",
+    "Bikkura-Pon rewards machines",
+    "touch screen menus"
+   ],
+   "description": "Operates technology-enabled Japanese restaurants serving sushi and other food and beverages to guests in the United States.",
+   "evidence": "The Company operates as one reportable segment: company-owned restaurants and in one geographic area: the United States of America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay the company for food and beverages sold in its restaurants, mostly by credit or debit card.",
+  "evidence": "Sales represent sales of food and beverages in restaurants."
+ },
+ "changes": [],
+ "dropped": []
+}

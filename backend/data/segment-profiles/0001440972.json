@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001440972",
+ "issuerName": "LITHIUM ARGENTINA AG",
+ "builtAt": "2026-11-15T14:11:21.407Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-118478",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1440972/000119312526118478/lar-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cauchari-Olaroz",
+   "products": [
+    "lithium brine",
+    "battery quality lithium products"
+   ],
+   "description": "Operates the Cauchari-Olaroz lithium brine operation in Argentina producing lithium products for the battery market.",
+   "evidence": "The Company has identified two operating segments which include Cauchari-Olaroz and Pastos Grandes Basin."
+  },
+  {
+   "name": "Pastos Grandes Basin",
+   "products": [
+    "lithium brine",
+    "lithium chloride"
+   ],
+   "description": "Develops and explores lithium brine projects in the Pastos Grandes basin in Salta, Argentina, including the Pozuelos-Pastos Grandes project.",
+   "evidence": "the regional development plan of the Company and Ganfeng with respect to PPG, including expectations regarding its advancement and benefits, the targeted production capacity, and the potential production of lithium chloride"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025 the Company proposed a joint venture with Ganfeng to combine the Pozuelos-Pastos Grandes and Sal de la Puna lithium brine projects in Salta, Argentina.",
+   "evidence": "the proposed joint venture transaction with Ganfeng to combine the Pozuelos-Pastos Grandes and Sal de la Puna lithium brine projects in Salta, Argentina."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the Company completed its continuation from British Columbia, Canada to ",
+  "change not grounded: In 2024 the Company incurred transaction costs primarily related to the Separati"
+ ]
+}

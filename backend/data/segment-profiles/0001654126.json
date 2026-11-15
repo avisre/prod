@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001654126",
+ "issuerName": "ZIM INTEGRATED SHIPPING SERVICES LTD.",
+ "builtAt": "2026-11-15T14:13:14.711Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000784",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1654126/000117891326000784/zk2634463.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Container liner shipping",
+   "products": [
+    "Logistics services",
+    "Land transportation",
+    "Custom brokerage",
+    "LCL",
+    "Project cargo",
+    "Air freight services",
+    "ZIMonitor",
+    "myZIM"
+   ],
+   "description": "A global container liner shipping company providing seaborne cargo transportation and logistics services to customers across worldwide trade lanes.",
+   "evidence": "The Group is managed as one operating unit, generating revenues from operating a global liner service network of cargo shipping and related services, in which lines share the use of its resources and their performance are co-dependent."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for seaborne transportation of containerized cargo and vehicles, plus value-added logistics services.",
+  "evidence": "In 2025, our 10 largest customers represented approximately 12% of our freight revenues and our 50 largest customers represented approximately 27% of our freight revenues."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Container liner shipping): Containerized cargo shipping",
+  "product not in text (Container liner shipping): Vehicle transport via car carrier vessels"
+ ]
+}

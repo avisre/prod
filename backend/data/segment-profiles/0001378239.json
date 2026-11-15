@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0001378239",
+ "issuerName": "Central North Airport Group",
+ "builtAt": "2026-11-15T14:10:45.090Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-051987",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1378239/000110465926051987/omab-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zacatecas",
+   "products": [
+    "aeronautical services",
+    "non-aeronautical services"
+   ],
+   "description": "Operates the Zacatecas airport serving passengers and airlines in Mexico.",
+   "evidence": "Zacatecas 0.4 1.7 % 188.5 1.8 % 424.9"
+  },
+  {
+   "name": "Ciudad Juárez",
+   "products": [
+    "aeronautical services",
+    "non-aeronautical services"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Reynosa",
+   "products": [
+    "aeronautical services",
+    "non-aeronautical services"
+   ],
+   "description": "Operates the Reynosa airport serving passengers and airlines in the border region.",
+   "evidence": "Reynosa 0.5 2.0 % 188.8 1.8 % 349.6"
+  },
+  {
+   "name": "Terminal 2 NH Collection Hotel",
+   "products": [
+    "hotel services"
+   ],
+   "description": "Hotel located at one of the company's airport terminals serving travelers.",
+   "evidence": "Our reportable segments under IFRS include its airports, the Terminal 2 NH Collection Hotel, the Hilton Garden Inn Hotel and the OMA-VYNMSA Industrial Park, individually"
+  },
+  {
+   "name": "Hilton Garden Inn Hotel",
+   "products": [
+    "hotel services"
+   ],
+   "description": "Hotel serving travelers, operated as an individual reportable segment.",
+   "evidence": "Our reportable segments under IFRS include its airports, the Terminal 2 NH Collection Hotel, the Hilton Garden Inn Hotel and the OMA-VYNMSA Industrial Park, individually"
+  },
+  {
+   "name": "OMA-VYNMSA Industrial Park",
+   "products": [],
+   "description": "Industrial park operated as an individual reportable segment.",
+   "evidence": "Our reportable segments under IFRS include its airports, the Terminal 2 NH Collection Hotel, the Hilton Garden Inn Hotel and the OMA-VYNMSA Industrial Park, individually"
+  },
+  {
+   "name": "other",
+   "products": [],
+   "description": "Holding company and other companies combined because they are not required to be reported separately.",
+   "evidence": "information about our holding company and other companies has been combined in the \"other\" line item, as they represent other business activities and are segments that are not required to be reported separately."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Airlines and other carriers pay the company regulated aeronautical charges (passenger, landing, parking and walkway charges) plus non-aeronautical revenues from airport users and tenants.",
+  "evidence": "Our revenues from aeronautical services are derived principally from: passenger charges, landing charges, aircraft parking charges, charges for the use of passenger walkways and charges for the provision of airport security services."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Ciudad Juárez",
+  "product not in text (OMA-VYNMSA Industrial Park): industrial park services"
+ ]
+}

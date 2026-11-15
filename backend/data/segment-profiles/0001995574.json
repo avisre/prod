@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001995574",
+ "issuerName": "Icon Energy Corp",
+ "builtAt": "2026-11-15T14:17:05.221Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-006582",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1995574/000114036126006582/ef20060631_20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dry bulk shipping",
+   "products": [
+    "Dry bulk vessels",
+    "Time charters",
+    "Voyage charters",
+    "Bareboat charters"
+   ],
+   "description": "Transports dry bulk cargoes along global shipping routes through ownership and operation of dry bulk vessels for charterers.",
+   "evidence": "We transport dry bulk cargoes along global shipping routes through the ownership and operation of dry bulk vessels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by chartering its dry bulk vessels to regional and international dry bulk operators, commodity traders and end users, primarily under time charters where the charterer pays a daily hire.",
+  "evidence": "We generate revenues by chartering our vessels to regional and international dry bulk operators, commodity traders and end users, primarily on time charters (either index-linked or fixed rate) or voyage charters, depending on market conditions, opportunities available to us, and other strategic and tactical considerations."
+ },
+ "changes": [],
+ "dropped": []
+}

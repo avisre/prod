@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001821769",
+ "issuerName": "Navitas Semiconductor Corporation",
+ "builtAt": "2026-11-15T14:15:02.809Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001821769-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1821769/000182176926000007/nvts-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power Semiconductors",
+   "products": [
+    "GaN power ICs",
+    "SiC devices",
+    "high-speed silicon system controllers",
+    "digital isolators"
+   ],
+   "description": "Designs, develops and markets next-generation GaN and SiC power semiconductors and related components for power conversion and charging customers.",
+   "evidence": "The Company is organized and operates as one reportable segment, the design, development, manufacture and marketing of integrated circuits and related components for use primarily in next-generation power semiconductors including GaN power ICs, SiC devices and associated high-speed silicon system controllers, and digital isolators used in power conversion and charging."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In late 2025, the company announced a strategic pivot called \"Navitas 2.0,\" refo"
+ ]
+}

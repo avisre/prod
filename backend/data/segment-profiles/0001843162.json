@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001843162",
+ "issuerName": "Chicago Atlantic BDC, Inc.",
+ "builtAt": "2026-11-15T14:15:35.463Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115112",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1843162/000119312526115112/lien-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment",
+   "products": [
+    "Securities of U.S. private or thinly traded public companies",
+    "Cash and cash equivalents",
+    "U.S. government securities"
+   ],
+   "description": "A business development company that invests primarily in debt securities of U.S. private or thinly traded public companies, including companies in the cannabis industry.",
+   "evidence": "As a BDC, we are required to invest at least 70% of our total assets primarily in securities of U.S. private or thinly traded public companies, cash, cash equivalents, U.S. government securities and other high-quality debt instruments that mature in one year or less from the date of investment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Investment): High-quality debt instruments maturing in one year or less",
+  "revenue model not grounded",
+  "change not grounded: In 2025, the company terminated its Dividend Reinvestment Plan effective Decembe"
+ ]
+}

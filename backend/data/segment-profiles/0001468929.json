@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001468929",
+ "issuerName": "NEXGEL, INC.",
+ "builtAt": "2026-11-15T14:11:28.210Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014377",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1468929/000149315226014377/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NexGel",
+   "products": [
+    "hydrogel products",
+    "Kenkoderm",
+    "Silly George",
+    "NEXDrape",
+    "NEXDerm"
+   ],
+   "description": "Manufactures ultra-gentle, high-water-content hydrogel products for healthcare and consumer applications, including branded consumer products and contract manufacturing.",
+   "evidence": "The NexGel segment is comprised of the manufacturing of ultra-gentle, high-water-content hydrogel products for healthcare and consumer applications, which is based in Langhorne, Pennsylvania as well as the Kenkoderm acquisition, the Silly George acquisition and the Enigma JV."
+  },
+  {
+   "name": "CGN",
+   "products": [],
+   "description": "Provides converting and packaging services for finished goods through the CGN joint venture based in Granbury, Texas.",
+   "evidence": "The CGN segment is comprised of the CGN JV used for the Company's converting and packaging business, which is based in Granbury, Texas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay NexGel for hydrogel products supplied as a contract manufacturer, branded consumer products sold direct to consumers, and converting and packaging services.",
+  "evidence": "We distribute our products as a contract manufacturer, supplying our gels to third parties who incorporate them into their own products."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company acquired the Silly George beauty brand.",
+   "evidence": "On May 15, 2024, the Company entered into and closed a transaction related to an Asset Purchase Agreement dated May 15, 2024"
+  },
+  {
+   "text": "In 2024, the Enigma JV included in the NexGel segment was dissolved.",
+   "evidence": "However, the Enigma JV was dissolved on December 23, 2024."
+  }
+ ],
+ "dropped": [
+  "product not in text (NexGel): Medagel (SilverSeal, Hexagels, Turfguard)",
+  "product not in text (CGN): converting and packaging services"
+ ]
+}

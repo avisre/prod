@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001996192",
+ "issuerName": "Quanome Technologies, Inc.",
+ "builtAt": "2026-11-15T14:17:06.243Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-103571",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1996192/000121390026103571/ea0305524-10k_quanome.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical distribution",
+   "products": [
+    "infusion products",
+    "foods for special medical purposes",
+    "specialty pharmaceuticals"
+   ],
+   "description": "Distributes pharmaceutical products sourced from manufacturers to hospitals, pharmaceutical distributors and other healthcare providers in China.",
+   "evidence": "The Company's one reportable segment serves its customers primarily by providing pharmaceutical products in China."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling pharmaceutical products on a direct basis to hospitals, distributors and other healthcare providers, bearing ownership risks while products are in its possession.",
+  "evidence": "The Company generates a substantial percentage of its revenue from selling pharmaceutical products on a direct basis, whereby it is exposed to the risks and rewards of ownership of the material while in its possession."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company transferred the operations of ABL Chicago to an unrelated third party and ceased its cross-border freight forwarding and logistics business.",
+   "evidence": "On February 12, 2026, we transferred the operations of ABL Chicago to an unrelated third party, which obtained operational control and substantially all economic interests associated with the business."
+  },
+  {
+   "text": "In 2026, the company changed its corporate name from Lakeside Holding Limited to Quanome Technologies, Inc.",
+   "evidence": "To align with this strategic direction, effective August 3, 2026, the Company changed its corporate name from Lakeside Holding Limited to Quanome Technologies, Inc."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001840616",
+ "issuerName": "New Found Gold Corp.",
+ "builtAt": "2026-11-15T14:15:30.236Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-034548",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1840616/000110465926034548/nfgc-20251231xex99d1.htm",
+  "exhibit": "nfgc-20251231xex99d1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral exploration",
+   "products": [
+    "Queensway Gold Project",
+    "Hammerdown Gold Project"
+   ],
+   "description": "An emerging Canadian gold producer exploring and delineating gold resources on two material properties in Newfoundland and Labrador.",
+   "evidence": "New Found Gold is an emerging Canadian gold producer with assets in the Province of Newfoundland and Labrador."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, New Found Gold acquired all shares of Maritime Resources Corp. it did not already own, making Maritime a fully owned subsidiary and adding the Hammerdown Gold Project.",
+   "evidence": "Effective November 13, 2025, New Found Gold acquired all of the issued and outstanding shares of Maritime Resources Corp. (\" Maritime \"), a company incorporated under the laws of British Columbia, that it did not already own by way of a statutory plan of arrangement pursuant to Division 5 of Part 9 of the BCBCA, whereby Maritime became its fully owned subsidiary."
+  }
+ ],
+ "dropped": []
+}

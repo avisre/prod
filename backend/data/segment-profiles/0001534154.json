@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001534154",
+ "issuerName": "authID Inc.",
+ "builtAt": "2026-11-15T14:11:56.540Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037459",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1534154/000121390026037459/ea0275977-10k_authid.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biometric Identity",
+   "products": [
+    "Proof™",
+    "Verified™",
+    "PrivacyKey™",
+    "Identity Exchange (IDX™) Platform",
+    "authID Mandate"
+   ],
+   "description": "Provides enterprises a cloud-based biometric identity platform for identity proofing, authentication, and account recovery of customers and employees.",
+   "evidence": "authID powers biometric identity proofing, biometric authentication, and account recovery with a fast, accurate, user-friendly experience."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001743102",
+ "issuerName": "Jiayin Group Inc.",
+ "builtAt": "2026-11-15T14:14:10.919Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-183485",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1743102/000119312526183485/jfin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online lending",
+   "products": [
+    "small credit loan business"
+   ],
+   "description": "Operates an online consumer lending platform in China connecting individual borrowers with investors.",
+   "evidence": "The Group operates and manages its business as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company charges fees for its loan facilitation services to borrowers and investors.",
+  "evidence": "such as the determination of the fee rate at which the Company charges for its services and the allocation of budget between operating costs and expense"
+ },
+ "changes": [
+  {
+   "text": "By 2025 the company disposed of its overseas subsidiaries in Nigeria that had extended small credit loans to individual borrowers.",
+   "evidence": "As of the date of this annual report, we have disposed of our subsidiaries in Nigeria."
+  }
+ ],
+ "dropped": []
+}

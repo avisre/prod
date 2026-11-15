@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001941029",
+ "issuerName": "Advanced Biomed Inc.",
+ "builtAt": "2026-11-15T14:16:33.281Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-109029",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1941029/000121390026109029/ea0307457-10k_advanced.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology and software-related operations",
+   "products": [
+    "FinTruth Financial Verification Agent Platform"
+   ],
+   "description": "Develops and operates FinTruth, an enterprise AI financial verification platform that verifies AI-generated financial content against source documents for financial institutions.",
+   "evidence": "The Company has one reportable segment for its continuing operations, consisting primarily of its technology and software-related operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from agency services and plans enterprise subscriptions, usage-based API fees and integrated solutions for its FinTruth platform.",
+  "evidence": "This period's revenue was derived from agency services."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company sold Advanced Biomed HK and its subsidiary Shanghai Sglcell, disposing of part of its biomedical operations.",
+   "evidence": "In December 2025 and June 2026, respectively, we sold Advanced Biomed HK (together with its subsidiary, Shanghai Sglcell) and Advanced Biomed Taiwan, thereby disposing of our biomedical operations"
+  },
+  {
+   "text": "In June 2026, the company sold Advanced Biomed Taiwan, completing the disposal of its biomedical operations, which are presented as discontinued operations.",
+   "evidence": "the historical operating financial performance of our biotechnology segment has been reclassified as discontinued operations"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In April 2026, the company acquired 100% of Acellent, which operates the FinTrut"
+ ]
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001474903",
+ "issuerName": "BGSF, INC",
+ "builtAt": "2026-11-15T14:11:30.271Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001474903-26-000030",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1474903/000147490326000030/bgsf-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property Management",
+   "products": [
+    "Contract field talent",
+    "Contingent placements",
+    "On-demand or short-term assignments",
+    "Direct hire placements"
+   ],
+   "description": "Provides maintenance and office field talent to property management companies responsible for apartment communities and commercial buildings across the U.S.",
+   "evidence": "The Property Management segment provides office and maintenance field talent to property management companies responsible for the apartment communities' and commercial buildings' day-to-day operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Property management companies pay BGSF for contract field talent assignments and contingent direct hire placements.",
+  "evidence": "Our workforce services consist of on-demand or short-term assignments and direct hire placements in the Property Management industry."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its Professional segment to INSPYR Solutions, leaving Property Management as its only segment.",
+   "evidence": "This effort resulted in the sale of the Professional segment in September 2025 to INSPYR Solutions."
+  }
+ ],
+ "dropped": []
+}

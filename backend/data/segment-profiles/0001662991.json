@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001662991",
+ "issuerName": "SEZZLE INC.",
+ "builtAt": "2026-11-15T14:13:20.739Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001662991-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1662991/000166299126000016/szl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payments",
+   "products": [
+    "Sezzle Platform",
+    "Pay-in-Four",
+    "Pay-in-Full",
+    "Pay-in-Two",
+    "Pay-in-Five",
+    "Sezzle Virtual Card",
+    "Sezzle Premium",
+    "Sezzle Anywhere"
+   ],
+   "description": "Operates a digital payments platform in North America that extends consumers point-of-sale installment credit and subscription services.",
+   "evidence": "Our Chief Executive Officer is considered to be the CODM, and our operations comprise one reportable segment, primarily deriving revenue from our payment processing platform in North America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company derives revenue from its payment processing platform, charging merchants for payment processing and consumers fees, interest, and recurring subscription charges.",
+  "evidence": "The \"pay-in-four\" product may be free or subject to fees and/or interest."
+ },
+ "changes": [
+  {
+   "text": "In recent years the company has been winding down and exiting operations in India and certain countries in Europe.",
+   "evidence": "We operate in the United States and Canada, and are currently winding down and exiting operations in India and certain countries in Europe."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001733868",
+ "issuerName": "CNFinance Holdings Limited",
+ "builtAt": "2026-11-15T14:14:03.236Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050285",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1733868/000121390026050285/ea0287165-20f_cnfinance.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Loan facilitation",
+   "products": [
+    "home equity loans",
+    "loan facilitation services"
+   ],
+   "description": "Facilitates loans to borrowers introduced by sales partners through trust company partners, sharing credit risk with sales partners.",
+   "evidence": "\"effective sales partners\" refers to the sales partners who have introduced at least one borrower since inception to us that was approved by our trust company partners for loan facilitation"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and fees income on loans facilitated to borrowers, net of collaboration costs paid to sales partners, plus non-interest income.",
+  "evidence": "\"total operating income\" refers to the sum of (i) net interest and fees income after collaboration cost and (ii) total non-interest income"
+ },
+ "changes": [],
+ "dropped": []
+}

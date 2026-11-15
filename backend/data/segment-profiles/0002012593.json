@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0002012593",
+ "issuerName": "Rapport Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:17:15.560Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-099360",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/2012593/000119312526099360/rapp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drug discovery and development",
+   "products": [
+    "RAP-219"
+   ],
+   "description": "A clinical-stage biotechnology company discovering and developing small molecule precision medicines for patients with neurological or psychiatric disorders.",
+   "evidence": "We are a clinical-stage biotechnology company dedicated to the discovery and development of small molecule precision medicines for patients with neurological or psychiatric disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no revenue-generating products and will not generate revenue until regulatory approval is obtained and products are commercialized.",
+  "evidence": "The Company does not have any revenue generating products, and revenue will not be generated from any other current or future product candidates until regulatory approval is obtained and products are commercialized."
+ },
+ "changes": [],
+ "dropped": []
+}

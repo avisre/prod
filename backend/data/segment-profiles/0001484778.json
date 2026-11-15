@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001484778",
+ "issuerName": "ThredUp Inc.",
+ "builtAt": "2026-11-15T14:11:34.644Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001484778-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1484778/000148477826000007/tdup-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online resale platform",
+   "products": [
+    "Managed marketplace",
+    "Resale-as-a-Service (\"RaaS\")",
+    "Clean Out Bag",
+    "Style Chat"
+   ],
+   "description": "Operates an online managed resale marketplace for apparel, shoes and accessories for U.S. buyers and sellers, plus resale services for brands and retailers.",
+   "evidence": "ThredUp operates one of the world's largest online resale platforms for apparel, shoes and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "ThredUp earns revenue primarily from consignment sales of items to buyers on its website and mobile app, recognized net of seller payouts, plus bag fees charged to sellers for processing Clean Out Bags.",
+  "evidence": "We generate revenue primarily from items that are sold to buyers on our website and mobile app, as well as bag fees charged to sellers for processing Clean Out Bags."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, ThredUp divested 91.0% of Remix and discontinued its European operation"
+ ]
+}

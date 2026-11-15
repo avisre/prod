@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0002012096",
+ "issuerName": "Powell Max Limited",
+ "builtAt": "2026-11-15T14:17:14.155Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-049983",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2012096/000121390026049983/ea0287062-20f_powell.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial communications services",
+   "products": [
+    "Corporate financial communications services",
+    "IPO financial printing services",
+    "Consultancy fees",
+    "Supporting and maintenance services"
+   ],
+   "description": "Provides financial printing, translation, production and related communications services to listed companies and listing applicants in Hong Kong.",
+   "evidence": "We operate in a single business line, being the provision of financial communications services and related support services in Hong Kong, and our chief operating decision maker reviews financial information on an aggregated basis."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients, mainly Hong Kong listed companies and listing applicants, pay the company for financial printing, translation, production, consultancy and related compliance support services under fixed-fee contracts.",
+  "evidence": "consideration is generally fixed and agreed at the outset of each engagement."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Miracle Media Production Limited, adding printing, translation, production and maintenance services.",
+   "evidence": "Completion of the acquisition took place on February 28, 2025. Following the acquisition, Miracle Media became our wholly owned subsidiary."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001799448",
+ "issuerName": "Aligos Therapeutics, Inc.",
+ "builtAt": "2026-11-15T14:14:41.043Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-092614",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1799448/000119312526092614/algs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Liver and viral diseases",
+   "products": [
+    "pevifoscorvir sodium (previously known as ALG-000184)",
+    "ALG-055009",
+    "ALG-097558"
+   ],
+   "description": "Clinical-stage biotechnology company discovering and developing drug candidates for liver diseases and viral infections, including chronic HBV, MASH, obesity and coronavirus infections.",
+   "evidence": "The Company has one reportable segment which is focused on discovering and developing drug candidates in both liver and viral diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue through license and collaboration agreements and has never generated revenue from product sales.",
+  "evidence": "The Company's reportable segment primarily generates revenue through its license and collaboration agreements (see Notes 9 and 10)."
+ },
+ "changes": [],
+ "dropped": []
+}

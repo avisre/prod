@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001766140",
+ "issuerName": "UNICYCIVE THERAPEUTICS, INC.",
+ "builtAt": "2026-11-15T14:14:21.570Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-035903",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1766140/000121390026035903/ea0281982-10k_unicycive.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "oxylanthanum carbonate",
+    "UNI-494"
+   ],
+   "description": "A clinical-stage biotechnology company developing innovative therapies for kidney disease, including a phosphate binder and an acute kidney injury drug candidate.",
+   "evidence": "Our current development programs are focused on two novel therapies: oxylanthanum carbonate, a next-generation phosphate binder for the treatment of hyperphosphatemia in chronic kidney disease patients on dialysis, and UNI-494, a novel drug candidate in development for the treatment of acute kidney injury."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}
