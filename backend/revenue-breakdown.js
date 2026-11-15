@@ -154,7 +154,7 @@ function forPage(contract) {
     return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, measure: contract.measure || null, basis: contract.basis || null, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
         totalRevenue: pageTotal, currency: contract.currency || null, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
         profile: contract.profile || null,
-        items: contract.rows.map(r => { const seg = contract.profile?.segments.find(s => s.shown && segmentProfiles.sameSegment(s.name, r.name))
+        items: contract.rows.map(r => { const seg = contract.profile?.segments.find(s => s.shown && segmentProfiles.sameSegment(s.name, r.name, companyName(contract.symbol)))
                 || (contract.rows.length === 1 && contract.profile?.segments.length === 1 && contract.profile.segments[0].shown ? contract.profile.segments[0] : null);
             return { name: r.name, revenueUsd: contract.currency === 'USD' ? r.value : null, value: r.value, revenuePct: r.share, description: seg?.description || '', products: seg?.products || [] }; }) };
 }

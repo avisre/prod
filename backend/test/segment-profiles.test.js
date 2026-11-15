@@ -176,6 +176,20 @@ test('a near-miss spelling keeps its rows as segments; only a different cut is n
     assert.equal(other.profile.rowsAreSegments, false, 'another company\'s words are not Verizon\'s');
 });
 
+test('a row matched through the company\'s own name keeps its words on the page (Verizon)', () => {
+    const cik = require('../stock-universe').lookup('VZ')?.cik;
+    assert.ok(cik, 'VZ is in the stock universe');
+    profiles.write(cik, { version: profiles.VERSION, cik, status: 'ok', filing: FILING, productRevenueBrokenOut: false, revenueModel: null, changes: [],
+        segments: [{ name: 'Verizon Consumer Group', products: ['Fios'], description: 'Wireless and home internet for consumers.' },
+            { name: 'Verizon Business Group', products: [], description: 'Network services for businesses.' }] });
+    const c = { symbol: 'VZ', grade: 'complete', kind: 'operating segments', currency: 'USD', totalRevenue: 100, remainder: null,
+        rows: [{ name: 'Consumer', value: 80, share: 80 }, { name: 'Business', value: 20, share: 20 }] };
+    const { profile } = profiles.enrich(cik, c.rows, { kind: c.kind, issuer: 'Verizon Communications Inc.' });
+    const page = breakdown.forPage({ ...c, profile });
+    assert.deepEqual(page.items.map(i => i.description), ['Wireless and home internet for consumers.', 'Network services for businesses.']);
+    assert.deepEqual(page.items[0].products, ['Fios']);
+});
+
 test('one segment under two members over the years is one row once named (AppLovin history)', () => {
     const rows = profiles.enrich(APP, [
         { name: 'Single reportable segment', sales: [null, 1841, 3224], profit: [null, null, null], assets: [null, null, null] },
