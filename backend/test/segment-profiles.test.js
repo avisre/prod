@@ -12,7 +12,7 @@ const DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'segment-profiles-'));
 process.env.SEGMENT_PROFILES_DIR = DIR;
 const profiles = require('../segment-profiles');
 const breakdown = require('../revenue-breakdown');
-const { validate, pickDocument, businessExhibit, widestExhibit, THIN } = require('../../scripts/build-segment-profiles');
+const { validate, pickDocument, businessExhibit, widestExhibit, oneSegmentMismatch, statedSegments, THIN } = require('../../scripts/build-segment-profiles');
 
 const APP = '0001751008';
 const FILING = { form: '10-K', accessionNumber: '0001751008-26-000010', periodEnd: '2025-12-31', filingDate: '2026-02-19',
@@ -47,6 +47,18 @@ test('only what the filing text says survives the check', () => {
         revenueModel: { text: 'Advertisers pay.', evidence: 'Advertisers pay us for advertising.' }, changes: [] }, TEXT);
     assert.equal(loose.segments[0].description, null);
     assert.equal(loose.revenueModel, null);
+});
+
+test('a filing that states its own segment count is not a single-segment split', () => {
+    const one = 'We operate and are managed as one operating segment, and derive revenue from ...';
+    const split = [{}, {}, {}];
+    assert.equal(oneSegmentMismatch({ segments: split }, one), true, 'three segments against a one-segment filing');
+    assert.equal(oneSegmentMismatch({ segments: split.slice(0, 2) }, one), true);
+    assert.equal(oneSegmentMismatch({ segments: [{}, {}] }, one + ' We test goodwill at one level below the operating segment.'), true, 'the boilerplate does not make it a split');
+    const wimi = 'The Company determined that it operates as a single operating segment. The Company has determined that it has three operating segments: (1) AR advertising, (2) AR entertainment and (3) semiconductors.';
+    assert.equal(oneSegmentMismatch({ segments: split }, wimi), false, 'the filing also states three segments');
+    assert.deepEqual([...statedSegments(wimi)], [3]);
+    assert.deepEqual([...statedSegments('We have five reportable segments.')], [5]);
 });
 
 test('a wrapper filing is read from its exhibit 13 or 99, and from no other exhibit', () => {

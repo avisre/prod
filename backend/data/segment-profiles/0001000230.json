@@ -2,30 +2,42 @@
  "version": 1,
  "cik": "0001000230",
  "issuerName": "OPTICAL CABLE CORPORATION",
- "builtAt": "2026-11-14T17:42:07.537Z",
+ "builtAt": "2026-11-15T08:02:59.378Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-25-038228",
   "periodEnd": "2025-10-31",
   "filingDate": "2025-12-18",
-  "url": "https://www.sec.gov/Archives/edgar/data/1000230/000143774925038228/ex_897382.htm"
+  "url": "https://www.sec.gov/Archives/edgar/data/1000230/000143774925038228/occ20251031_10k.htm"
  },
  "status": "ok",
  "segments": [
   {
-   "name": "Fiber Optic and Copper Data Communication Cabling and Connectivity Solutions",
-   "products": [],
-   "description": "Design, development, manufacture and marketing of fiber optic and copper data communication cabling and connectivity solutions.",
-   "evidence": "The Company is organized and operates as one reportable segment that includes the design, development, manufacture and marketing of fiber optic and copper data communication cabling and connectivity solutions."
+   "name": "Fiber optic and copper cabling and connectivity",
+   "products": [
+    "Fiber optic cable offering",
+    "Enterprise connectivity product offering",
+    "Harsh environment and specialty connectivity product offering",
+    "Copper datacom cables",
+    "Hybrid cabling",
+    "Procyon®",
+    "Superior Modular Products™",
+    "Centric Solutions™"
+   ],
+   "description": "Manufactures fiber optic and copper data communication cabling and connectivity solutions for enterprise, harsh environment, specialty and wireless carrier markets.",
+   "evidence": "Optical Cable Corporation and its subsidiaries (collectively, the \"Company\" or \"OCC®\") is a leading manufacturer of a broad range of fiber optic and copper data communication cabling and connectivity solutions primarily for the enterprise market and various harsh environment and specialty markets (collectively, the non-carrier markets), and also the wireless carrier market, offering integrated suites of high quality products which operate as a system solution or seamlessly integrate with other c"
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company sells fiber optic and copper cabling and connectivity solutions to enterprise, data center and other market sectors.",
-  "evidence": "Through this strategic collaboration, OCC and Lightera expect to benefit from offering expanded fiber optic and copper cabling and connectivity solutions to the enterprise and data center sectors, as well as an expanded presence in other sectors."
+  "text": "OCC designs, manufactures, markets and sells cabling and connectivity products to customers in the enterprise, harsh environment, specialty and wireless carrier markets.",
+  "evidence": "OCC designs, develops and manufactures, and markets and sells, fiber optic and hybrid cables for a broad range of enterprise, data center, harsh environment, wireless carrier and other specialty markets and applications."
  },
- "changes": [],
- "dropped": [
-  "change not grounded: In 2025, OCC entered into a strategic collaboration with Lightera, LLC to expand"
- ]
+ "changes": [
+  {
+   "text": "In 2025, OCC entered a strategic collaboration with Lightera, combining portions of both companies' product portfolios with certain Lightera products offered and sold by OCC.",
+   "evidence": "As part of this strategic collaboration, OCC and Lightera have combined portions of the product portfolios of both companies to deliver additional integrated cabling and connectivity solution offerings, which will include certain Lightera products being offered and sold by OCC."
+  }
+ ],
+ "dropped": []
 }

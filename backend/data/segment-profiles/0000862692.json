@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000862692",
  "issuerName": "CRYO-CELL INTERNATIONAL, INC.",
- "builtAt": "2026-11-14T13:53:07.458Z",
+ "builtAt": "2026-11-15T08:02:55.881Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-083096",
@@ -13,39 +13,29 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Cellular processing and cryogenic storage for family use",
-   "products": [
-    "umbilical cord blood service",
-    "cord tissue service"
-   ],
-   "description": "Collects and preserves umbilical cord blood and tissue stem cells for the exclusive benefit of newborn babies and their families.",
-   "evidence": "The Company is organized in three reportable segments; 1.) cellular processing and cryogenic storage for family use, with a current focus on the collection and preservation of umbilical cord blood and tissue stem cells"
-  },
-  {
    "name": "Manufacture of PrepaCyte CB units",
    "products": [
     "PrepaCyte® CB Processing System"
    ],
-   "description": "Manufactures PrepaCyte CB units, the processing technology used to process umbilical cord blood stem cells, for sale to customers.",
-   "evidence": "2.) the manufacture of PrepaCyte® CB Processing System (\"PrepaCyte CB\") units, the processing technology used to process umbilical cord blood stem cells"
+   "description": "Manufactures and sells PrepaCyte CB units, the processing technology used to process umbilical cord blood stem cells.",
+   "evidence": "the manufacture of PrepaCyte® CB Processing System (\"PrepaCyte CB\") units, the processing technology used to process umbilical cord blood stem cells"
   },
   {
    "name": "Cellular processing and cryogenic storage of umbilical cord blood stem cells for",
-   "products": [],
-   "description": "Processes and cryogenically stores umbilical cord blood stem cells for public use, selling units to the National Marrow Donor Program.",
-   "evidence": "3.) cellular processing and cryogenic storage of umbilical cord blood stem cells for public use."
+   "products": [
+    "cord blood units"
+   ],
+   "description": "Processes and stores umbilical cord blood stem cells for public use, sold to the National Marrow Donor Program for transplant centers.",
+   "evidence": "cellular processing and cryogenic storage of umbilical cord blood stem cells for public use"
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers pay for the cord blood stem cell program and PrepaCyte CB units, licensees pay for selling the program outside the United States, and the National Marrow Donor Program pays for public cord blood units.",
+  "text": "Customers pay for the private cord blood program and PrepaCyte CB units, licensees pay for selling the program abroad, and NMDP pays for public cord blood units.",
   "evidence": "Revenues for the cellular processing and cryogenic cellular storage represent sales of the umbilical cord blood stem cells program to customers and income from licensees selling the umbilical cord blood stem cells program to customers outside the United States."
  },
- "changes": [
-  {
-   "text": "In 2025, Duke University gave notice of termination of the License Agreement, halting planned expansion into clinic services and biopharmaceutical manufacturing.",
-   "evidence": "the Company has received from Duke a notice of termination of the License Agreement as of May 17, 2025."
-  }
- ],
- "dropped": []
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Cellular processing and cryogenic cellular storage for family use"
+ ]
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000003570",
  "issuerName": "CHENIERE ENERGY, INC.",
- "builtAt": "2026-11-14T14:06:16.079Z",
+ "builtAt": "2026-11-15T08:02:25.917Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000003570-26-000005",
@@ -13,25 +13,20 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Liquefied Natural Gas",
+   "name": "LNG",
    "products": [],
-   "description": "Produces and sells liquefied natural gas from liquefaction facilities to customers globally.",
-   "evidence": "Marketing LNG produced by the Liquefaction Projects that is not contracted under long-term contracts is available for Cheniere Marketing, our integrated marketing function, to sell in the global market under spot sales or other short-term agreements."
-  },
-  {
-   "name": "Regasification Service",
-   "products": [],
-   "description": "Provides regasification services for liquefied natural gas at terminals.",
-   "evidence": "lng:RegasificationServiceMember"
+   "description": "Produces and sells liquefied natural gas from its Liquefaction Projects to customers worldwide under long-term contracts and short-term or spot sales.",
+   "evidence": "LNG produced by the Liquefaction Projects that is not contracted under long-term contracts is available for Cheniere Marketing, our integrated marketing function, to sell in the global market under spot sales or other short-term agreements."
   }
  ],
- "productRevenueBrokenOut": false,
+ "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Customers pay for liquefied natural gas sold under long-term contracts and spot sales, and for regasification services.",
-  "evidence": "Marketing LNG produced by the Liquefaction Projects that is not contracted under long-term contracts is available for Cheniere Marketing, our integrated marketing function, to sell in the global market under spot sales or other short-term agreements."
+  "text": "Customers pay Cheniere for LNG under long-term, short-term and spot sales agreements, plus regasification and other services.",
+  "evidence": "LNG produced by the Liquefaction Projects that is not contracted under long-term contracts is available for Cheniere Marketing, our integrated marketing function, to sell in the global market under spot sales or other short-term agreements."
  },
  "changes": [],
  "dropped": [
-  "product not in text (Liquefied Natural Gas): Liquefied natural gas"
+  "product not in text (LNG): LNG",
+  "product not in text (LNG): Regasification services"
  ]
 }

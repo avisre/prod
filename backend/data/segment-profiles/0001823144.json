@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001823144",
  "issuerName": "GPGI, Inc.",
- "builtAt": "2026-11-14T17:39:20.498Z",
+ "builtAt": "2026-11-15T08:02:35.511Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-017266",
@@ -16,37 +16,28 @@
    "name": "CompoSecure",
    "products": [
     "metal payment cards",
-    "Arculus platform",
+    "Arculus",
     "secure authentication solutions",
-    "Arculus key cards"
+    "digital asset storage solutions"
    ],
-   "description": "Designs and manufactures premium metal payment cards and secure authentication and digital asset storage solutions for bank issuers and fintech companies.",
-   "evidence": "CompoSecure, L.L.C. (\"CompoSecure\"), a leading manufacturer of premium metal credit cards and provider of secure authentication solutions"
-  },
-  {
-   "name": "Husky",
-   "products": [
-    "injection molding equipment",
-    "aftermarket services"
-   ],
-   "description": "Manufactures injection molding equipment and provides aftermarket services for the food, packaging, and medical markets.",
-   "evidence": "Husky Holdings LLC (\"Husky\"), a leading manufacturer of injection molding equipment and aftermarket services for the food, packaging, and medical markets."
+   "description": "Designs and manufactures premium metal payment cards and secure authentication solutions for bank issuers, fintech companies and consumers.",
+   "evidence": "CompoSecure, founded in 2000, and headquartered in Somerset, New Jersey, is the global leader in the design and manufacturing of premium metal payment cards and secure authentication solutions."
   }
  ],
  "productRevenueBrokenOut": false,
- "revenueModel": {
-  "text": "Business customers pay under purchase orders or statements of work for manufactured metal payment cards, and consumers pay at checkout for Arculus key cards via e-commerce platforms.",
-  "evidence": "The Company's B2B (business‑to‑business) revenue primarily arises from the manufacture and delivery of metal payment cards under customer‑specific purchase orders or statements of work."
- },
+ "revenueModel": null,
  "changes": [
   {
-   "text": "In 2025 the Company changed to equity method accounting, reflected in zero inventories and property and equipment balances.",
-   "evidence": "Reflecting the change to equity method accounting, the major classes of inventories were as follows:"
+   "text": "In 2025 the Company agreed to combine with Husky Technologies, adding a new business that would constitute an entirely new business segment.",
+   "evidence": "On November 2, 2025, the Company entered into a Share Purchase Agreement with entities affiliated with Platinum Equity, LLC (\"Platinum Equity\"), pursuant to which the Company combined with Husky Technologies Limited for aggregate consideration of approximately $4.976 billion, comprised of cash and shares of the Company's Class A Common Stock (the \"Husky Combination\")."
+  },
+  {
+   "text": "Following the Husky Transaction closing, in 2026 the Company rebranded from CompoSecure to GPGI.",
+   "evidence": "Following the closing of the Husky Transaction, the Company rebranded to GPGI and, beginning on January 23, 2026, the Company's Class A Common Stock continued trading on the New York Stock Exchange (the \"NYSE\") under the ticker symbol \"GPGI.\""
   }
  ],
  "dropped": [
-  "change not grounded: On February 28, 2025, the Company spun off Resolute Holdings to its Class A stoc",
-  "change not grounded: In 2025 the Company agreed to combine with Husky Technologies Limited, completin"
- ],
- "escalated": "revenue model not quoted"
+  "revenue model not grounded",
+  "change not grounded: On February 28, 2025 the Company distributed all shares of Resolute Holdings on "
+ ]
 }

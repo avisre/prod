@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000707549",
  "issuerName": "LAM RESEARCH CORPORATION",
- "builtAt": "2026-11-14T13:48:48.998Z",
+ "builtAt": "2026-11-15T08:02:51.588Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000707549-26-000037",
@@ -15,24 +15,24 @@
   {
    "name": "Manufacturing and servicing of wafer processing semiconductor manufacturing equi",
    "products": [
-    "Equipment Intelligence solutions"
+    "SABRE",
+    "ALTUS",
+    "VECTOR",
+    "Striker",
+    "Kiyo",
+    "Flex",
+    "Akara",
+    "Reliant"
    ],
-   "description": "Supplies wafer fabrication equipment and services in deposition, etch, and clean markets to semiconductor memory, foundry, and integrated device manufacturers.",
+   "description": "Supplies wafer fabrication equipment and support services for deposition, etch and clean to semiconductor memory, foundry and integrated device manufacturers.",
    "evidence": "The Company operates in one reportable business segment: manufacturing and servicing of wafer processing semiconductor manufacturing equipment."
   }
  ],
  "productRevenueBrokenOut": true,
  "revenueModel": {
-  "text": "Semiconductor manufacturers pay Lam for new leading-edge wafer fabrication equipment plus customer support-related revenue including customer service, spares, upgrades, and non-leading-edge Reliant equipment.",
+  "text": "Semiconductor manufacturers pay for new leading-edge systems and for customer support including service, spares, upgrades and non-leading-edge Reliant equipment.",
   "evidence": "Systems revenue includes sales of new leading-edge equipment in deposition, etch, clean and other water fabrication markets. Customer support-related revenue includes sales of customer service, spares, upgrades, and non-leading-edge equipment from the Company's Reliant® product line."
  },
  "changes": [],
- "dropped": [
-  "product not in text (Manufacturing and servicing of wafer processing semiconductor manufacturing equi): Deposition systems (ALTUS, SABRE, Striker, VECTOR)",
-  "product not in text (Manufacturing and servicing of wafer processing semiconductor manufacturing equi): Etch systems (Kiyo, Versys Metal, Akara, Flex, Vantex, Syndion, Argos, Prevos, S",
-  "product not in text (Manufacturing and servicing of wafer processing semiconductor manufacturing equi): Clean systems (EOS, DV-Prime, Da Vinci, SP Series, Coronus)",
-  "product not in text (Manufacturing and servicing of wafer processing semiconductor manufacturing equi): Dry resist (Aether)",
-  "product not in text (Manufacturing and servicing of wafer processing semiconductor manufacturing equi): Customer Support Business Group services (CSBG)",
-  "product not in text (Manufacturing and servicing of wafer processing semiconductor manufacturing equi): Reliant refurbished non-leading-edge products"
- ]
+ "dropped": []
 }

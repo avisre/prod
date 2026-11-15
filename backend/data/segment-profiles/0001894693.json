@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001894693",
  "issuerName": "SaverOne 2014 Ltd.",
- "builtAt": "2026-11-15T02:51:02.237Z",
+ "builtAt": "2026-11-15T08:04:24.106Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-035545",
@@ -16,25 +16,22 @@
    "name": "development of the technology necessary to create a life-saving system that prev",
    "products": [
     "SaverOne system",
-    "Generation 1.0",
     "Generation 2.0",
     "OEM solution",
     "Advanced Driver-Assistance System (ADAS)",
     "VRU solution"
    ],
-   "description": "Single operating segment developing and commercializing RF-based driver distraction prevention and road-user detection safety systems for vehicles.",
+   "description": "Designs, develops and commercializes transportation and safety solutions that prevent car accidents by detecting cellular phone RF signals, for vehicle fleets and manufacturers.",
    "evidence": "Since inception date, the operation of the Company is conducted through one operating segment, i.e., development of the technology necessary to create a life-saving system that prevents certain uses of cell phones while driving a motor vehicle."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers, including commercial fleets and public transportation companies, pay the Company for its aftermarket SaverOne driver safety systems installed in vehicles.",
+  "text": "Customers pay for SaverOne systems sold and installed in fleets and vehicles, through commercial orders and distributors in the aftermarket.",
   "evidence": "We are currently offering our solution for commercial deployments only, with an initial, pre-defined period, for evaluating the solution."
  },
  "changes": [],
  "dropped": [
-  "product not in text (development of the technology necessary to create a life-saving system that prev): In Cabin Driver Distraction Prevention Solution (DDPS)",
-  "change not grounded: In the first quarter of 2023 the Company phased out its Generation 1.0 product, "
- ],
- "escalated": "no segments"
+  "product not in text (development of the technology necessary to create a life-saving system that prev): In Cabin Driver Distraction Prevention Solution (DDPS)"
+ ]
 }

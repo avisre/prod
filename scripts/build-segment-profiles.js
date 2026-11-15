@@ -235,12 +235,27 @@ function askClaude(prompt, model) {
 // A filing that says the company has one operating or reportable segment: a read that answers with the
 // product or market table behind it has mistaken what the company sells for how it is organised.
 const ONE_SEGMENT = /(?:\bwe\b|\bthe company\b|\bthe group\b|\bthe registrant\b)[^.]{0,90}\b(?:one|a single|single)\b[^.]{0,40}\b(?:operating|reportable|business)\b[^.]{0,20}\bsegment\b|\blone\s+segment\b/i;
+const COUNT_WORD = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+// "three operating segments", "five reportable segments": the count a filing states for itself.
+function statedSegments(text) {
+    const found = new Set();
+    for (const m of String(text || '').matchAll(/\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\b[^.]{0,30}\b(?:operating|reportable|business)\b[^.]{0,10}\bsegments\b/gi))
+        found.add(COUNT_WORD[m[1].toLowerCase()] ?? Number(m[1]));
+    return found;
+}
+// A reply that split a company which files one segment - unless the filing itself states that many
+// segments elsewhere (WiMi says "a single operating segment" in one note and "three operating segments"
+// in another; the three are the segments).
+function oneSegmentMismatch(v, text) {
+    if (!v || v.segments.length < 2 || !ONE_SEGMENT.test(String(text || ''))) return false;
+    return !statedSegments(text).has(v.segments.length);
+}
 // What the cheap read cannot be trusted to settle: no segment survived the check, a segment it named
 // is not in the filing, none of its segments is any segment row the filing tags, or the filing says one
 // segment and the reply split it.
 function hard(v, data, text) {
     if (!v || !v.segments.length) return 'no segments';
-    if (v.segments.length > 1 && ONE_SEGMENT.test(String(text || ''))) return 'filing says one segment';
+    if (oneSegmentMismatch(v, text)) return 'filing says one segment';
     if (v.dropped.some(d => d.startsWith('segment name not in text'))) return 'segment not in filing';
     if (v.dropped.includes('revenue model not grounded')) return 'revenue model not quoted';
     const latest = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0];
@@ -296,7 +311,7 @@ async function one(cik) {
     if (!v) return { ...head, filing: filingOf(), status: 'model-unparseable', ...(escalated ? { escalated } : {}) };
     // Still split after the stronger read: the card keeps its figures only rather than showing a
     // product table as the segments. The read is kept in the record for review, not shown.
-    if (v.segments.length > 1 && ONE_SEGMENT.test(doc.text)) return { ...head, filing: filingOf(), status: 'one-segment-mismatch', ...v, ...(escalated ? { escalated } : {}) };
+    if (oneSegmentMismatch(v, doc.text)) return { ...head, filing: filingOf(), status: 'one-segment-mismatch', ...v, ...(escalated ? { escalated } : {}) };
     return { ...head, filing: filingOf(), status: v.segments.length ? 'ok' : 'no-segments', ...v, ...(escalated ? { escalated } : {}) };
 }
 
@@ -309,7 +324,7 @@ function targets() {
     return LIMIT ? todo.slice(0, LIMIT) : todo;
 }
 
-module.exports = { validate, windows, latestAnnual, pickDocument, businessExhibit, widestExhibit, ONE_SEGMENT, THIN, SYSTEM };
+module.exports = { validate, windows, latestAnnual, pickDocument, businessExhibit, widestExhibit, ONE_SEGMENT, oneSegmentMismatch, statedSegments, THIN, SYSTEM };
 if (require.main === module) (async () => {
     if (!CLAUDE) {
         require('./lib/dev-env').loadAiEnvOnly(BACKEND);

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001137789",
  "issuerName": "Seagate Technology Holdings plc",
- "builtAt": "2026-11-14T17:37:23.527Z",
+ "builtAt": "2026-11-15T08:02:26.046Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001137789-26-000159",
@@ -13,28 +13,24 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Data Center",
+   "name": "Data storage",
    "products": [
-    "High-capacity HDDs",
-    "Storage systems"
+    "storage systems",
+    "Mozaic platform",
+    "high-capacity nearline drives"
    ],
-   "description": "Provides scalable, high-capacity storage infrastructure to cloud service providers, enterprises and OEMs for AI-enabled computing and data-intensive workloads.",
-   "evidence": "Our Data Center portfolio includes high-capacity HDDs of up to 44TB and storage systems of up to 3.5PB. These purpose-built solutions are designed to support hyperscale, CSPs, original equipment manufacturers (\"OEMs\") and enterprise organizations, providing scalable storage infrastructure for AI-enabled cloud computing, business-critical applications, content delivery, backup, archive and other large-scale workloads."
-  },
-  {
-   "name": "Edge IoT",
-   "products": [
-    "Storage products"
-   ],
-   "description": "Provides storage solutions ranging from one to thirty-two terabytes for industrial, commercial and consumer environments where data processing occurs near creation.",
-   "evidence": "Our Edge IoT portfolio includes storage products ranging from 1TB to 32TB to enable applications where data is created, processed and stored closer to its source. These solutions serve industrial, commercial and consumer environments, supporting video and image applications, network-attached storage (\"NAS\"), smart infrastructure, personal computing, gaming, streaming, creative workflows and data backup."
+   "description": "Designs and manufactures mass-capacity data storage products for hyperscale, cloud, enterprise and consumer customers across data center and edge markets.",
+   "evidence": "We design and manufacture HDDs, storage systems and related solutions serving two principal end markets: Data Center"
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers purchase hard disk drives and storage systems directly or through distributors, OEMs and resellers for data storage infrastructure.",
-  "evidence": "We sell our products through a combination of direct and indirect sales channels. Our Data Center portfolio is sold primarily to CSPs, OEMs, distributors and enterprise organizations."
+  "text": "Customers pay Seagate for storage products sold through direct and indirect channels, with major customers purchasing under master purchase agreements.",
+  "evidence": "Many of our major customers, including OEMs and hyperscale cloud operators, purchase products under master purchase agreements, with deliveries scheduled based on customer purchase orders and demand forecasts."
  },
  "changes": [],
- "dropped": []
+ "dropped": [
+  "product not in text (Data storage): Hard disk drives (HDDs)",
+  "product not in text (Data storage): network-attached storage (NAS)"
+ ]
 }

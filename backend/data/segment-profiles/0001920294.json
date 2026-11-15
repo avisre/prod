@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001920294",
  "issuerName": "Rezolve AI plc",
- "builtAt": "2026-11-14T17:40:29.778Z",
+ "builtAt": "2026-11-15T08:04:54.048Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001193125-26-132456",
@@ -10,43 +10,43 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1920294/000119312526132456/rzlv-20251231.htm"
  },
- "status": "ok",
+ "status": "one-segment-mismatch",
  "segments": [
   {
-   "name": "Brain Commerce",
+   "name": "Agentic commerce",
    "products": [
+    "Brain Commerce",
+    "Brain Checkout",
     "Conversational AI",
     "Discovery AI",
-    "Data Intelligence & Enablement"
-   ],
-   "description": "Provides subscription-based SaaS offerings enabling businesses to create, manage and optimize customer experiences through AI-first conversational commerce and product discovery.",
-   "evidence": "Brain Commerce: Our Brain Commerce line of business provides products and services (primarily subscription-based SaaS offerings) that enable businesses and enterprises to create, manage, execute, measure, monetize and optimize customer experiences through the delivery of personalized, human-like shopping experiences with AI-first conversational commerce and product discovery solutions."
-  },
-  {
-   "name": "Brain Checkout",
-   "products": [
+    "Data Intelligence & Enablement",
     "Purchase Suite",
-    "Click & Collect"
+    "Click & Collect",
+    "brainpowa"
    ],
-   "description": "Provides products and services enabling businesses to deliver faster, smarter checkout experiences with conversational cart management, crypto-ready payments and curbside pickup.",
-   "evidence": "Brain Checkout: Our Brain Checkout line of business provides products and services that enable businesses and enterprises to deliver faster, smarter checkout experiences with conversational cart management, crypto-ready payments, and seamless curbside or in-store pickup."
+   "description": "Provides an AI-led commerce platform enabling discovery, conversation, checkout, fulfillment and payments for retail and enterprise brands.",
+   "evidence": "We operate as a single operating segment."
   },
   {
    "name": "Enterprise Services",
-   "products": [],
-   "description": "Provides information technology services on a cost-plus basis, intelligent business solutions and analytics to assist businesses with strategic decision-making and IT needs.",
-   "evidence": "Enterprise Services: Our Enterprise Services line of business provides information technology services (primarily on a cost-plus basis), intelligent business solutions and analytics to assist businesses in leveraging insights for strategic decision-making and to fulfill both their local and global information technology needs."
+   "products": [
+    "IT services",
+    "intelligent business solutions",
+    "analytics"
+   ],
+   "description": "Provides information technology services, intelligent business solutions and analytics to help businesses leverage insights and meet IT needs.",
+   "evidence": "Our Enterprise Services line of business provides information technology services (primarily on a cost-plus basis), intelligent business solutions and analytics to assist businesses in leveraging insights for strategic decision-making and to fulfill both their local and global information technology needs."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Merchants are billed monthly on a subscription basis for SaaS products and cloud-based software solutions, with some contracts involving consumption-based or upfront payments.",
+  "text": "Merchants pay primarily subscription or consumption fees for SaaS commerce products, billed monthly, plus cost-plus professional IT services.",
   "evidence": "Merchants are billed on a monthly basis for the services rendered."
  },
  "changes": [
   {
-   "text": "In February 2026, the company completed the acquisition of Reward Loyalty UK Limited, which develops customer engagement, loyalty and commerce technology platforms for banks and retail partners.",
-   "evidence": "On February 10, 2026, the Company completed the acquisition (the \"Reward Acquisition\") of all of the issued share capital of Reward Loyalty UK Limited (\"Reward\") pursuant to a sale and purchase agreement (the \"Reward Purchase Agreement\") with the shareholders listed on Schedule 1 thereto and Peter West."
+   "text": "In 2024 the Company completed the Business Combination with Armada and a Pre-Closing Demerger of Rezolve Limited transferring its business and assets.",
+   "evidence": "On August 15, 2024 (the \"Closing Date\") Armada Acquisition Corp. I, a Delaware corporation (\"Armada\"), the Company and Rezolve Merger Sub, Inc., a Delaware corporation (\"Rezolve Merger Sub\"), consummated the business combination (the \"Business"
   }
  ],
  "dropped": []

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000003499",
  "issuerName": "ALEXANDERS INC",
- "builtAt": "2026-11-14T14:06:13.547Z",
+ "builtAt": "2026-11-15T08:02:49.057Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000003499-26-000005",
@@ -13,7 +13,7 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Leasing, management, development and redevelopment of properties in New York Cit",
+   "name": "leasing, management, development and redevelopment of properties in New York Cit",
    "products": [
     "731 Lexington Avenue",
     "Rego Park II",
@@ -21,16 +21,15 @@
     "Rego Park I",
     "The Alexander apartment tower"
    ],
-   "description": "Leases, manages, develops and redevelops five office, retail and residential properties in New York City.",
+   "description": "Leases, manages, develops and redevelops office, retail and residential properties in New York City for tenants.",
    "evidence": "We have determined that our properties, which are considered our operating segments, have similar economic characteristics and meet the criteria that permit these operating segments to be aggregated into one reportable segment (the leasing, management, development and redevelopment of properties in New York City)."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Tenants pay the company rental revenues for leasing office, retail and residential space at its New York City properties.",
+  "text": "Tenants pay rental revenue to lease office, retail and residential space at the company's New York City properties.",
   "evidence": "Bloomberg accounted for revenue o f $129,317,000, $125,349,000 and $120,351,000 in the years ended December 31, 2025 , 2024 and 2023 , respectively, representing approximately 61% , 55% and 54% of our rental revenues in each year, respectively."
  },
  "changes": [],
- "dropped": [],
- "escalated": "no segments"
+ "dropped": []
 }

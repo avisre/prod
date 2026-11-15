@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001825570",
  "issuerName": "Patria Investments Limited",
- "builtAt": "2026-11-14T17:39:55.529Z",
+ "builtAt": "2026-11-15T08:02:36.571Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0002070979-26-000201",
@@ -13,47 +13,23 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Private Equity",
-   "products": [],
-   "description": "Manages private equity investment funds focused on lower-middle-market and other private equity strategies across multiple geographies.",
-   "evidence": "our established Private Equity Solutions business and advancing our global diversification strategy"
-  },
-  {
-   "name": "Credit",
+   "name": "Investment Management",
    "products": [
-    "Collateralized Loan Obligations"
+    "Private Equity",
+    "Credit",
+    "Real Estate",
+    "Infrastructure",
+    "Private Equity Solutions"
    ],
-   "description": "Specializes in structuring and managing credit investments including collateralized loan obligations and credit strategies.",
-   "evidence": "a Brazilian investment manager specializing in the structuring and management of Collateralized Loan Obligations"
-  },
-  {
-   "name": "Real Estate",
-   "products": [
-    "Real Estate Investment Trusts"
-   ],
-   "description": "Manages listed and unlisted real estate investment trusts across office, logistics, credit, multi-assets and urban retail strategies.",
-   "evidence": "RBR manages 12 funds and post acquisition, we believe that will strengthen our position as one of the leading managers of listed REITs in Brazil, with scale across a variety of strategies, including Office, Logistics, Credit, Multi-Assets and Urban Retail"
-  },
-  {
-   "name": "Infrastructure",
-   "products": [],
-   "description": "Manages infrastructure investment funds and related assets.",
-   "evidence": "Investments in infrastructure, private equity, real estate and certain other assets may expose us to increased environmental liabilities"
+   "description": "Alternative investment manager raising and managing private market funds across asset classes for institutional and individual investors in Latin America and globally.",
+   "evidence": "Investments in infrastructure, private equity, real estate and certain other assets may expose us to increased environmental liabilities that are inherent in the ownership of real assets."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Generates management fees based on assets under management, incentive fees based on fund performance, and advisory and ancillary fees from investors in managed funds.",
-  "evidence": "Fee Related Earnings (\"FRE\"), is a performance measure used to assess our ability to generate profits from revenues that are measured and received on a recurring basis"
+  "text": "Investors in the funds pay the company management fees, incentive fees and advisory and other ancillary fees for managing third-party capital.",
+  "evidence": "FRE is calculated as net revenue from management fees, net revenue from incentive fees, net revenue from advisory and other ancillary fees and related taxes, less personnel expenses including rewards and bonus paid in cash and general and administrative expenses"
  },
- "changes": [
-  {
-   "text": "In 2026, acquired WP Global Partners in the United States, a private equity solutions manager focused on lower-middle-market investments.",
-   "evidence": "On February 2, 2026, we announced an agreement to acquire WP Global Partners LLC (\"WP\"), a U.S. based private equity solutions manager focused on the lower-middle-market"
-  }
- ],
- "dropped": [
-  "change not grounded: In 2025, acquired Solis Investimentos in Brazil specializing in collateralized l",
-  "change not grounded: In 2025, acquired RBR Gestão in Brazil managing listed real estate investment tr"
- ]
+ "changes": [],
+ "dropped": []
 }

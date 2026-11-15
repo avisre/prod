@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001970622",
  "issuerName": "USA Rare Earth, Inc.",
- "builtAt": "2026-11-14T17:39:03.304Z",
+ "builtAt": "2026-11-15T08:03:04.564Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001970622-26-000021",
@@ -13,29 +13,30 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Vertically integrated, domestic rare earth element magnet production supply chai",
+   "name": "vertically integrated, domestic rare earth element magnet production supply chai",
    "products": [
-    "Rare earth oxides",
-    "Rare earth metals",
-    "Sintered neodymium-iron-boron permanent magnets",
-    "Strip-cast products"
+    "rare earth elements",
+    "oxides",
+    "metals",
+    "alloys",
+    "strip-cast",
+    "sintered NdFeB permanent magnets",
+    "casting and strip casting material"
    ],
-   "description": "Integrated production of rare earth elements, metals, alloys and permanent magnets from mine to magnet for defense, manufacturing and technology applications.",
+   "description": "Builds an integrated rare earth value chain from mine to magnet, producing elements, oxides, metals, alloys and permanent magnets for defense, technology and advanced manufacturers.",
    "evidence": "The Company operates in a single reportable operating segment; that segment being the vertically integrated, domestic rare earth element magnet production supply chain."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers purchase casting and strip casting materials and rare earth products for advanced manufacturing, defense and technology applications.",
+  "text": "Customers pay the company for sales of casting and strip casting material, mostly international buyers.",
   "evidence": "All of the Company's revenue is derived from sales of casting and strip casting material based on the customers' \"shipped to\" address."
  },
  "changes": [
   {
-   "text": "In November 2025, the company acquired Less Common Metals Ltd., a producer of rare earth metals and alloys, integrating metal-making capabilities into its value chain.",
+   "text": "In November 2025 the company acquired Less Common Metals, a producer of light and heavy rare earth metals and alloys.",
    "evidence": "On November 18, 2025 (\"Acquisition Date\"), Laconia Acquisition Sub Limited (\"Laconia\"), our wholly owned subsidiary, acquired Indian Ocean Rare Metals Pte. Ltd. (\"IORM\"), the parent of Less Common Metals (also referred to as \"LCM\")."
   }
  ],
- "dropped": [
-  "product not in text (Vertically integrated, domestic rare earth element magnet production supply chai): Rare earth alloys"
- ]
+ "dropped": []
 }

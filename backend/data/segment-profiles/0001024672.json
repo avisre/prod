@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001024672",
  "issuerName": "ELTEK LTD.",
- "builtAt": "2026-11-14T17:42:30.542Z",
+ "builtAt": "2026-11-15T08:02:59.442Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-001768",
@@ -13,24 +13,24 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Manufacturing, marketing and sale of custom made printed circuit boards",
+   "name": "custom made printed circuit boards",
    "products": [
-    "Backplanes"
+    "Rigid PCBs",
+    "Flexible and flex-rigid PCBs",
+    "Backplanes",
+    "multi-layer PCBs"
    ],
-   "description": "Manufactures and supplies technologically advanced custom-made printed circuit board solutions for high-end electronics applications.",
+   "description": "Manufactures, markets and sells custom-made printed circuit boards for defense, aerospace, medical and industrial electronics customers worldwide.",
    "evidence": "The Company operates as a single operating segment - manufacturing, marketing and sale of custom made printed circuit boards."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers pay for custom-manufactured printed circuit boards sold directly to original equipment manufacturers and through distributors.",
+  "text": "Customers pay the company for manufactured custom-designed printed circuit boards supplied mainly to high-technology industries.",
   "evidence": "We manufacture and supply technologically advanced custom-made circuitry solutions for use in sophisticated and compact electronic products."
  },
  "changes": [],
  "dropped": [
-  "product not in text (Manufacturing, marketing and sale of custom made printed circuit boards): Custom-made rigid printed circuit boards",
-  "product not in text (Manufacturing, marketing and sale of custom made printed circuit boards): Flexible and flex-rigid printed circuit boards",
-  "product not in text (Manufacturing, marketing and sale of custom made printed circuit boards): Multi-layer printed circuit boards",
-  "product not in text (Manufacturing, marketing and sale of custom made printed circuit boards): High-density interconnect printed circuit boards"
+  "product not in text (custom made printed circuit boards): HDI PCBs"
  ]
 }

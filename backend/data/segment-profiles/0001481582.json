@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001481582",
  "issuerName": "RYERSON HOLDING CORPORATION",
- "builtAt": "2026-11-14T17:40:19.496Z",
+ "builtAt": "2026-11-15T08:02:26.064Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-062397",
@@ -13,7 +13,7 @@
  "status": "ok",
  "segments": [
   {
-   "name": "North America",
+   "name": "Metals processing and distribution",
    "products": [
     "stainless steel",
     "aluminum",
@@ -22,39 +22,15 @@
     "nickel",
     "red metals"
    ],
-   "description": "Value-added processing and distribution of industrial metals serving manufacturing customers across the United States, Canada, and Mexico.",
-   "evidence": "We are a leading value-added processor and distributor of industrial metals with operations in the United States (\"U.S.\") through JT Ryerson and other U.S. subsidiaries, in Canada through our indirect wholly-owned subsidiary Ryerson Canada, Inc., a Canadian corporation (\"Ryerson Canada\"), and in Mexico through our indirect wholly-owned subsidiary Ryerson Metals de Mexico, S. de R.L. de C.V., a Mexican corporation (\"Ryerson Mexico\")."
-  },
-  {
-   "name": "International",
-   "products": [
-    "stainless steel",
-    "aluminum",
-    "carbon steel",
-    "alloy steels"
-   ],
-   "description": "Metal processing and distribution operations in China serving manufacturing customers with value-added services.",
-   "evidence": "In addition to our North American operations, we conduct metal processing and distribution operations in China through an indirect wholly-owned subsidiary, Ryerson China Limited, a Chinese limited liability company (\"Ryerson China\")."
+   "description": "Value-added processing and distribution of industrial metals to manufacturing end-markets across North America and China.",
+   "evidence": "We are a leading value-added processor and distributor of industrial metals with operations in the United States (\"U.S.\") through JT Ryerson and other U.S. subsidiaries, in Canada through our indirect wholly-owned subsidiary Ryerson Canada, Inc."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Customers pay for processed and unprocessed metals and value-added processing and fabrication services, with nearly eighty percent of products sold processed to customer requirements.",
-  "evidence": "In addition to our metals products, we offer numerous value-added processing and fabrication services, and nearly 80% of the products we sell are processed to meet customer requirements."
+  "text": "Customers pay Ryerson for delivery of as-is or processed metal products, with many committing to purchase on a regular basis at agreed or indexed prices.",
+  "evidence": "Revenue is recognized based on the consideration expected to be received for delivery of as-is or processed metal products when, or as, the Company satisfies its contractual obligation to transfer control of a product to a customer, which we refer to as a performance obligation."
  },
- "changes": [
-  {
-   "text": "In 2025, Ryerson completed the merger with Olympic Steel, Inc. announced in 2025, combining the two companies to enhance Ryerson's position as North America's second largest metals service center.",
-   "evidence": "On October 28, 2025, Ryerson and Olympic Steel, Inc. (\"Olympic Steel\") jointly announced their definitive agreement to merge and on February 13, 2026, they announced the successful completion of the merger (the \"Olympic Steel Merger\")."
-  },
-  {
-   "text": "In 2024, Ryerson acquired Production Metals, LLC as part of its bolt-on acquisition strategy.",
-   "evidence": "In 2024, we acquired Production Metals, LLC while in 2023, Ryerson's acquisitions included BLP Holdings, LLC, Norlen Incorporated, TSA Processing, and Hudson Tool Steel Corporation."
-  },
-  {
-   "text": "In 2023, Ryerson completed acquisitions of BLP Holdings, LLC, Norlen Incorporated, TSA Processing, and Hudson Tool Steel Corporation.",
-   "evidence": "In 2024, we acquired Production Metals, LLC while in 2023, Ryerson's acquisitions included BLP Holdings, LLC, Norlen Incorporated, TSA Processing, and Hudson Tool Steel Corporation."
-  }
- ],
+ "changes": [],
  "dropped": []
 }

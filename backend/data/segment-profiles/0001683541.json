@@ -2,34 +2,41 @@
  "version": 1,
  "cik": "0001683541",
  "issuerName": "AURORA CANNABIS INC",
- "builtAt": "2026-11-14T17:41:43.942Z",
+ "builtAt": "2026-11-15T08:02:26.069Z",
  "filing": {
   "form": "40-F",
   "accessionNumber": "0001628280-26-042364",
   "periodEnd": "2026-03-31",
   "filingDate": "2026-06-11",
-  "url": "https://www.sec.gov/Archives/edgar/data/1683541/000162828026042364/acb-20260331_d2.htm"
+  "url": "https://www.sec.gov/Archives/edgar/data/1683541/000162828026042364/acb-20260331.htm"
  },
  "status": "ok",
  "segments": [
   {
    "name": "Cannabis",
-   "products": [],
-   "description": "Production and distribution of cannabis products for medical and adult-use markets.",
-   "evidence": "ICC previously formed part of the Cannabis operating segment and constituted a cash generating unit."
-  },
-  {
-   "name": "Plant Propagation",
-   "products": [],
-   "description": "Plant propagation and cultivation services through subsidiary operations.",
-   "evidence": "Prior to the Bevo Transaction, Bevo comprised the Company's Plant Propagation operating segment and constituted a cash generating unit."
+   "products": [
+    "medical cannabis"
+   ],
+   "description": "Produces and sells medical and consumer cannabis products to patients and consumers in Canada and international markets.",
+   "evidence": "acb:ConsumerCannabisCustomersMember"
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
- "changes": [],
+ "changes": [
+  {
+   "text": "In 2026 the company disposed of its Bevo Agtech Inc. plant propagation business, reported as discontinued operations.",
+   "evidence": "acb:BevoAgtechIncMember 2026-02-17 2026-02-17"
+  },
+  {
+   "text": "ICC Labs Inc. assets were classified as held for sale across 2024 to 2026.",
+   "evidence": "ifrs-full:NoncurrentAssetsHeldForSaleMember acb:ICCLabsInc.AssetsMember 2026-03-31"
+  }
+ ],
  "dropped": [
-  "change not grounded: In 2026, the company disposed of its Plant Propagation segment when it exchanged",
-  "change not grounded: In 2025, the company exited its Cannabis operations in Uruguay through ICC Labs "
+  "product not in text (Cannabis): dried cannabis",
+  "product not in text (Cannabis): extracted cannabis",
+  "product not in text (Cannabis): consumer cannabis",
+  "segment name not in text: Plant Propagation"
  ]
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001879754",
  "issuerName": "EShallGo Inc.",
- "builtAt": "2026-11-15T02:51:09.611Z",
+ "builtAt": "2026-11-15T08:02:37.011Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001185185-26-003210",
@@ -13,34 +13,25 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Office solution",
+   "name": "Office solution provider",
    "products": [
+    "office equipment sales",
+    "office equipment leasing",
     "after-sale maintenance & repair",
+    "office supplies",
     "office furniture",
     "IT products",
-    "water dispensers",
-    "printing paper",
     "supply chain finance services"
    ],
-   "description": "Sells and leases office equipment and supplies and provides after-sale maintenance and repair to institutional and enterprise customers across China.",
+   "description": "Sells and leases office equipment and supplies and provides after-sale maintenance and repair services to institutional and enterprise customers in China.",
    "evidence": "We specialize in two distinct market sectors: office supply sale and leasing, and after-sale maintenance & repair."
-  },
-  {
-   "name": "one reportable segment",
-   "products": [],
-   "description": "The company operates as a single reportable segment reviewed by the CODM on a consolidated basis.",
-   "evidence": "Therefore, the Company has only one operating segment and one reportable segment."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Institutional and enterprise customers pay the company for office equipment sales, leasing, and after-sale maintenance and repair services.",
-  "evidence": "Junzhang Shanghai's current main business is office equipment and supply sales and aftersales service."
+  "text": "Institutional and enterprise customers pay the company for office equipment and supply sales, equipment leasing, maintenance services and related supply chain finance.",
+  "evidence": "is active in the business of providing products and services of office supplies, office equipment leasing, office equipment maintenance services, and related supply chain finance services."
  },
  "changes": [],
- "dropped": [
-  "product not in text (Office solution): office equipment sale and leasing",
-  "product not in text (Office solution): EShallGo e-commerce platform"
- ],
- "escalated": "revenue model not quoted"
+ "dropped": []
 }

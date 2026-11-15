@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001280452",
  "issuerName": "Monolithic Power Systems, Inc.",
- "builtAt": "2026-11-14T17:36:59.615Z",
+ "builtAt": "2026-11-15T08:04:23.984Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-006113",
@@ -13,7 +13,7 @@
  "status": "ok",
  "segments": [
   {
-   "name": "semiconductor-based power electronics solutions",
+   "name": "high-performance, semiconductor-based power electronics solutions",
    "products": [
     "DC to DC",
     "driver metal-oxide-semiconductor field-effect transistor",
@@ -21,22 +21,17 @@
     "current limit switch",
     "lighting control products"
    ],
-   "description": "Designs and sells high-performance, semiconductor-based power electronics solutions for storage, computing, enterprise data, automotive, industrial, communications and consumer end markets.",
+   "description": "Designs, develops, markets and sells power electronics solutions for storage and computing, enterprise data, automotive, industrial, communications and consumer end markets.",
    "evidence": "The Company operates in one reportable segment that includes the design, development, marketing and sale of high-performance, semiconductor-based power electronics solutions for the storage and computing, enterprise data, automotive, industrial, communications and consumer end markets."
-  },
-  {
-   "name": "semiconductor-based power electronics solutions",
-   "products": [],
-   "description": null,
-   "evidence": null
   }
  ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The company sells its semiconductor products to end customers primarily through third-party distributors and value-added resellers.",
+  "evidence": "we then sell our products to end customers primarily through third-party distributors and value-added resellers."
+ },
  "changes": [],
  "dropped": [
-  "product not in text (semiconductor-based power electronics solutions): AC to DC",
-  "revenue model not grounded"
- ],
- "escalated": "revenue model not quoted"
+  "product not in text (high-performance, semiconductor-based power electronics solutions): AC to DC"
+ ]
 }
