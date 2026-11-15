@@ -9,6 +9,10 @@ const { HEADERS } = require('./sec-reporting');
 // annual reports run past 18 MB (National Grid, Korea Electric), and a runner
 // has the memory a web instance does not.
 const MAX_BYTES = (Number(process.env.SEC_ORIGINAL_MAX_MB) || 18) * 1024 * 1024;
+// A filer's own revenue tag ("jbgs:PropertyRevenue") or an IFRS revenue line
+// ("ifrs-full:RevenueFromRenderingOfServices") is a segment revenue figure like any other; the table
+// still has to reconcile to consolidated revenue to be shown, so a wider net cannot invent one.
+const REVENUE_CONCEPT = /Revenue|Sales|LeaseIncome|InterestIncome|Premiums/i;
 // shared: the periods and units of a multi-document filing are declared once,
 // in whichever document carries the header, and referenced from the others.
 function parseOriginal(text, filing, cik, shared) {
@@ -110,7 +114,11 @@ function parseOriginal(text, filing, cik, shared) {
   if(incomeLine.has(name) && c.start && !multiSegment && segmentTotal(c))segmentTotals.push({taxonomy,concept,measure,f});
   if(c.dimensions.length && !(ownMember && legal(c)===ownMember) && !(successor(c) && successorYears.has(period(c)))) {
    // A single disclosed segment axis is retained separately, never entity revenue.
-   const segmentDims=c.dimensions.filter(d=>!(d.axis==='srt:ConsolidationItemsAxis' && d.member==='us-gaap:OperatingSegmentsMember'));
+   // The consolidation axis a filing repeats every segment row on: srt for US GAAP, ifrs-full for IFRS
+   // (Grupo Aeroportuario del Sureste). Only the "operating segments" member is dropped; the total and
+   // the elimination members stay out of the table the way corporate items do.
+   const segmentDims=c.dimensions.filter(d=>!((d.axis==='srt:ConsolidationItemsAxis' && d.member==='us-gaap:OperatingSegmentsMember')
+     || (d.axis==='ifrs-full:SegmentConsolidationItemsAxis' && d.member==='ifrs-full:OperatingSegmentsMember')));
    // Operating segments, product and service lines, and regions; revenue, or the
    // measure a bank or insurer breaks out by segment in its place.
    // Segment profit and assets on the operating-segment axis, read beside the revenue table (Screener's Profit % and return columns).
@@ -118,7 +126,7 @@ function parseOriginal(text, filing, cik, shared) {
    if(split){qualified.push({group:[name,c.start,c.end,measure,filing.accessionNumber].join('|'),qualifier:split.qualifier,item:{concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:[split.segment],allDimensions:c.dimensions}}});continue;}
    if(c.start && segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || ''))plainSegment.add([name,c.start,c.end,measure,filing.accessionNumber].join('|'));
    if(metric &&segmentDims.length===1 && /(?:StatementBusinessSegments|:Segments)Axis$/.test(segmentDims[0].axis || '') && (metric==='assets'?!c.start:c.start))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
-   else if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
+   else if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept) || REVENUE_CONCEPT.test(concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
    continue;
   }
   // The lines a filer breaks operating expenses into on its income statement

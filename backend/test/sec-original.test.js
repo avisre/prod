@@ -20,6 +20,43 @@ test('unknown inline transformation, nil values and segment contexts do not beco
  assert.deepEqual(parseOriginal(text,filing,CIK).facts,{});
 });
 
+// IFRS 8 tables tag every row twice: on the segment axis and on the IFRS consolidation axis, which the
+// note uses for the total and the eliminations. Only the srt consolidation axis was stripped, so a
+// whole IFRS segment table was dropped (Grupo Aeroportuario del Sureste, 20-F).
+test('an IFRS segment row is read through its consolidation axis, never the total or eliminations', () => {
+ const {parseOriginal}=require('../sec-original');
+ const filing={form:'20-F',filingDate:'2026-04-30',accessionNumber:'0000000123-26-000002',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000002/asr-20251231.htm'};
+ const head='<html><xbrli:context id="seg"><xbrli:entity><xbrli:identifier scheme="https://www.sec.gov/CIK">123</xbrli:identifier>'
+  +'<xbrli:segment><xbrldi:explicitMember dimension="ifrs-full:SegmentsAxis">asurb:CancunMember</xbrldi:explicitMember>'
+  +'<xbrldi:explicitMember dimension="ifrs-full:SegmentConsolidationItemsAxis">ifrs-full:OperatingSegmentsMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity>'
+  +'<xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>'
+  +'<xbrli:context id="corp"><xbrli:entity><xbrli:identifier scheme="https://www.sec.gov/CIK">123</xbrli:identifier>'
+  +'<xbrli:segment><xbrldi:explicitMember dimension="ifrs-full:SegmentsAxis">asurb:CancunMember</xbrldi:explicitMember>'
+  +'<xbrldi:explicitMember dimension="ifrs-full:SegmentConsolidationItemsAxis">ifrs-full:CorporateAndEliminationsMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity>'
+  +'<xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>'
+  +'<xbrli:unit id="mxn"><xbrli:measure>iso4217:MXN</xbrli:measure></xbrli:unit>';
+ const fact=ctx=>`<ix:nonFraction name="ifrs-full:RevenueFromRenderingOfServices" contextRef="${ctx}" unitRef="mxn" scale="3" decimals="-3" format="ixt:num-dot-decimal">8,167,803</ix:nonFraction>`;
+ const doc=parseOriginal(head+fact('seg')+fact('corp')+'</html>',filing,'123');
+ assert.equal(doc.segments.length,1,'the operating-segment row is kept');
+ assert.deepEqual(doc.segments[0]._original.dimensions.map(d=>d.axis),['ifrs-full:SegmentsAxis']);
+ assert.equal(doc.segments[0].val,8167803000);
+});
+
+// JBG SMITH tags its segment revenue on its own concepts (jbgs:PropertyRevenue), not a us-gaap revenue
+// tag, so a table that adds up to consolidated revenue was dropped as if the filing had no segment note.
+test('a filer\'s own segment revenue concept is kept when the table reconciles', () => {
+ const {parseOriginal}=require('../sec-original');
+ const filing={form:'10-K',filingDate:'2026-02-20',accessionNumber:'0000000123-26-000003',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000003/jbgs.htm'};
+ const ctx=id=>`<xbrli:context id="${id}"><xbrli:entity><xbrli:identifier scheme="https://www.sec.gov/CIK">123</xbrli:identifier><xbrli:segment>`
+  +`<xbrldi:explicitMember dimension="srt:ConsolidationItemsAxis">us-gaap:OperatingSegmentsMember</xbrldi:explicitMember>`
+  +`<xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">jbgs:${id}Member</xbrldi:explicitMember></xbrli:segment></xbrli:entity>`
+  +`<xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>`;
+ const fact=id=>`<ix:nonFraction name="jbgs:PropertyRevenue" contextRef="${id}" unitRef="usd" scale="3" decimals="-3" format="ixt:num-dot-decimal">205,937</ix:nonFraction>`;
+ const doc=parseOriginal(`<html>${ctx('MultiFamily')}${ctx('Commercial')}<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>${fact('MultiFamily')}${fact('Commercial')}</html>`,filing,'123');
+ assert.equal(doc.segments.length,2,'both segment rows are kept');
+ assert.deepEqual(doc.segments.map(f=>f.concept),['PropertyRevenue','PropertyRevenue']);
+});
+
 // Clorox's FY2026 10-K: the primary document is a cover page that declares the
 // periods and units; the statements sit in a second document that only refers to them.
 test('a second document reads its figures against the periods declared in the first',()=>{
