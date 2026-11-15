@@ -463,6 +463,15 @@ test('a product-member revenue total fills a blank revenue and keeps its dimensi
  assert.equal(row.totalRevenue,8920);assert.equal(d.sources[row._sources.totalRevenue[0]].dimension,'ProductOrService=OilAndGas');
  assert.deepEqual(p.validateFinancial(d,'0000000123','2026-10-03'),[]);
 });
+// A column line's field: a tag two fields list goes to the one that reads it first. OtherAssets is otherAssets'
+// own tag and otherNonCurrentAssets' guarded fallback; refusing it as ambiguous dropped Berkshire's "Other"
+// columns and its FY2025 other assets of $45,354m (refresh refused, 2026-11-15).
+test('columnField gives a tag two fields list to the field that reads it first',()=>{
+ assert.equal(lines.columnField('OtherAssets'),'otherAssets');
+ assert.equal(lines.columnField('OtherAssetsNoncurrent'),'otherNonCurrentAssets');
+ assert.equal(lines.columnField('CashAndCashEquivalentsAtCarryingValue'),'cashAndCashEquivalentsAtCarryingValue');
+ assert.equal(lines.columnField('NotABalanceTag'),null);
+});
 // A balance sheet presented in segment columns (statement-lines columnSum). Berkshire's 10-Q
 // 0001193125-26-341032 for 2026-06-30, axis ProductOrService: Assets 1,010,646 + 252,425 = 1,263,071;
 // cash 35,096 + 5,513 = 40,609 and PP&E 39,409 + 185,815 = 225,224, with no plain figures at all.

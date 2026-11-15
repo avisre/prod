@@ -157,6 +157,20 @@ test('a class is the listing\'s only when its figures are within 5% and no other
     assert.equal(blank.income.annualReports.filter(r => r.dilutedEPS !== null || r.eps !== null).length, 0, 'Class A must not be taken for the Class B listing');
 });
 
+test('a trailing P/E confirms a class only against a period that ended within 15 months of the quote', (t) => {
+    // GEF-B on 2026-11-14: $100.65 at 14.78x implies 6.81, 2.4% from Class B's FY2024 6.98 — by chance, the
+    // annual is two years old (Greif's 2025 transition report is a 10-KT). The weekly gate failed on it.
+    const greif = classIssuer([{ end: '2024-10-31', start: '2023-11-01', type: 'annual', members: { dilutedEPS: { ClassA: 4.64, ClassB: 6.98 } } }]);
+    const stale = reason(t, 'GEF-B', greif, { ...quote(100.65, 14.779736), asOf: '2026-11-13' });
+    assert.equal(stale.coverage.perShareAllowed, false);
+    assert.equal(stale.overview.PERatio, null);
+    assert.equal(stale.overview.EPS, null);
+    // the same figures a year earlier, when the annual was current, confirm Class B
+    const current = reason(t, 'GEF-B', greif, { ...quote(100.65, 14.779736), asOf: '2025-11-13' });
+    assert.equal(current.coverage.perShareAllowed, true);
+    assert.equal(current.overview.EPS, 6.98);
+});
+
 test('a quarter where the classes filed one figure still counts toward the trailing twelve months', (t) => {
     // HSY: the latest annual and quarter keep each class's figure, older quarters the shared one.
     const hsy = classIssuer([

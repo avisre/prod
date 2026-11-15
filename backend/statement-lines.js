@@ -250,6 +250,17 @@ function columnSum(assets,line){
  const values=members.map(m=>own.get(m));
  return {axis,members,values,assets:members.map(m=>assets.axes.get(axis).get(m)),sum:values.reduce((a,b)=>a+b,0)};
 }
+// The one balance field a column line (columnSum) is read as, or null. A standard tag two fields list goes to the
+// field that reads it first; the other holds it as a guarded fallback (OtherAssets: otherAssets, and
+// otherNonCurrentAssets on an unclassified sheet). Once OtherAssets joined otherNonCurrentAssets (2026-11-05),
+// Berkshire's "Other" column lines were dropped and, with them, its FY2025 other assets of $45,354m
+// (24,413 + 20,941), so every later refresh was refused (EXTRACTION_DISCARDED_VALID_PERIOD, 2026-11-15).
+function columnField(tag){
+ const balance=require('./sec-facts').MAPS.balance,fields=Object.keys(balance).filter(f=>(balance[f]['us-gaap'] || []).includes(tag));
+ if(fields.length<2)return fields[0] || null;
+ const first=fields.filter(f=>balance[f]['us-gaap'][0]===tag);
+ return first.length===1?first[0]:null;
+}
 // A balance-sheet line that is borrowing of any kind. Read wide on purpose: a presented line
 // this matches but the row does not hold leaves total debt unread (sec-facts presentedDebt),
 // while one it missed would understate it. Leases, interest and totals are not debt lines.
@@ -432,4 +443,4 @@ function noSubtotal(values){
 }
 const DIR=()=>path.join(p.DATA_DIR,'sec-statement-lines');
 function forCik(cik){const id=p.cik(cik);if(!id)return [];try{const doc=JSON.parse(fs.readFileSync(path.join(DIR(),id+'.json'),'utf8'));return doc.cik===id && Array.isArray(doc.lines)?doc.lines:[];}catch(e){if(e.code==='ENOENT')return [];throw e;}}
-module.exports={RULES,BALANCE,INDUSTRY_FIELDS,debtLine,debtSubtotalParts,capexLine,faceToken,faceParts,labelPart,noSubtotal,FACE_FAMILY,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,ownTag,forCik,DIR,STATEMENT,columnSum,COLUMN_AXES};
+module.exports={RULES,BALANCE,INDUSTRY_FIELDS,debtLine,debtSubtotalParts,capexLine,faceToken,faceParts,labelPart,noSubtotal,FACE_FAMILY,fieldsFor,memberTotal,acceptedDimension,label,mappedTags,ownTag,forCik,DIR,STATEMENT,columnSum,columnField,COLUMN_AXES};

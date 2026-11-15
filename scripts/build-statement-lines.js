@@ -14,9 +14,8 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),read
 const backend=path.join(__dirname,'../backend'),req=m=>require(path.join(backend,'node_modules',m));
 const lines=require('../backend/statement-lines'),p=require('../backend/sec-coverage'),{MAPS}=require('../backend/sec-facts');
 const FORM=/^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
-// A balance-sheet face tag and the one field it maps to (MAPS.balance us-gaap list); a tag on two
-// fields (LiabilitiesAndStockholdersEquity) and custom tags are not read as columns.
-const BALANCE_TAG=new Map();for(const [field,def] of Object.entries(MAPS.balance))for(const c of def['us-gaap'] || []){if(!BALANCE_TAG.has(c))BALANCE_TAG.set(c,new Set());BALANCE_TAG.get(c).add(field);}
+// A balance-sheet face tag and the one field it is read as (statement-lines columnField); custom tags are not read as columns.
+const BALANCE_FIELD=new Map();for(const def of Object.values(MAPS.balance))for(const c of def['us-gaap'] || []){const f=lines.columnField(c);if(f)BALANCE_FIELD.set(c,f);}
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i>0?process.argv[i+1]:fallback;};
 const day=s=>/^\d{8}$/.test(s || '')?`${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`:null;
 
@@ -64,7 +63,7 @@ async function child(file,out,covered){
  await table(zip,'pre.txt',(c,h)=>{
   const adsh=c[h.adsh],stmt=c[h.stmt];if(!subs.has(adsh) || !lines.STATEMENT[stmt] || c[h.inpth]!=='0')return;
   const tag=c[h.tag],version=c[h.version],plabel=c[h.plabel];
-  if(stmt==='BS' && (tag==='Assets' || BALANCE_TAG.get(tag)?.size===1))face.set(adsh+'|'+tag+'|'+version,plabel);
+  if(stmt==='BS' && (tag==='Assets' || BALANCE_FIELD.has(tag)))face.set(adsh+'|'+tag+'|'+version,plabel);
   if(stmt==='BS' && lines.debtLine(tag,plabel)){if(!debt.has(adsh))debt.set(adsh,new Map());debt.get(adsh).set(tag+'|'+version,tag);}
   if(stmt==='BS'){if(!bsLines.has(adsh))bsLines.set(adsh,[]);bsLines.get(adsh).push([c[h.report],Number(c[h.line]),tag+'|'+version,lines.debtLine(tag,plabel),/^total\b/i.test(plabel || '')]);}
   const token=lines.faceToken(stmt,tag,plabel,version===adsh,String(version).split('/')[0]);
@@ -181,11 +180,11 @@ async function child(file,out,covered){
   const anchor=by.get(anchors[0]);
   for(const [id,e] of by){
    const tag=id.split('|')[1];if(tag==='Assets')continue;
-   const fields=[...BALANCE_TAG.get(tag) || []];if(fields.length!==1)continue;
+   const field=BALANCE_FIELD.get(tag);if(!field)continue;
    const sum=lines.columnSum(anchor,e);
    if(!sum)continue;
    const version=id.split('|')[2];
-   w.write(JSON.stringify([sub.cik,{s:'balance',k:'columns',f:fields[0],e:end,q:0,u:uom,t:version===adsh?'custom':String(version).split('/')[0],c:tag,l:face.get(id),x:sum.axis,g:sum.members,v:sum.values,ta:sum.assets,a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;
+   w.write(JSON.stringify([sub.cik,{s:'balance',k:'columns',f:field,e:end,q:0,u:uom,t:version===adsh?'custom':String(version).split('/')[0],c:tag,l:face.get(id),x:sum.axis,g:sum.members,v:sum.values,ta:sum.assets,a:adsh,m:sub.form,d:sub.filed}])+'\n');n++;
   }
  }
  // A total revenue line filed only under one product member, never on its own: APA's 2025 "Total revenues" of

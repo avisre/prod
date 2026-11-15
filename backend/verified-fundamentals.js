@@ -43,7 +43,18 @@ function perShareBasis(company,data,quote,quoteCurrency) {
  const price=p.number(quote?.price),pe=p.number(quote?.trailingPE);
  if(!(price>0 && pe>0))return 'share_class';
  const perShare=r=>p.number(r?.dilutedEPS) ?? p.number(r?.eps);
- return [perShare(latest),ttmPerShare(latest,data?.income?.quarterlyReports || [],perShare)].some(eps=>eps>0 && Math.abs(Math.log(price/pe/eps))<=Math.log(1/0.6))?null:'share_class';
+ return confirmable(latest,data?.income?.quarterlyReports || [],perShare,quote).some(eps=>eps>0 && Math.abs(Math.log(price/pe/eps))<=Math.log(1/0.6))?null:'share_class';
+}
+// The per-share figures a quote's trailing P/E may confirm: the latest annual and its trailing twelve months,
+// each only while its period ended within 15 months of the quote. Greif's annual stopped at 2024-10-31 (its
+// 2025 transition report is a 10-KT, not read), and on 2026-11-14 a quote of $100.65 at 14.78x put Class B's
+// stale $6.98 within 5% by chance, showing GEF-B a P/E the filings no longer support.
+const CONFIRM_DAYS=456;
+function confirmable(latest,quarters,perShare,quote) {
+ const at=Date.parse(quote?.asOf || ''),fresh=end=>!Number.isFinite(at) || at-Date.parse(end)<=CONFIRM_DAYS*864e5;
+ if(!latest)return [];
+ const ends=quarters.map(r=>r.fiscalDateEnding).filter(e=>e>latest.fiscalDateEnding).sort(),ttm=ttmPerShare(latest,quarters,perShare);
+ return [fresh(latest.fiscalDateEnding)?perShare(latest):null,fresh(ends.at(-1) || latest.fiscalDateEnding)?ttm:null];
 }
 // The quote's P/E is trailing twelve months, so compare with the fiscal year moved on by the
 // quarters filed since it, less the same quarters a year earlier (Q4 is never filed alone).
@@ -62,7 +73,7 @@ function listingClassData(data,quote) {
  const members=[...new Set(['dilutedEPS','eps'].flatMap(f=>Object.keys(latest._classes[f] || {})))],band=Math.log(1.05);
  // A row whose classes filed one figure carries it on the field itself (HSY's older quarters).
  const figure=(r,m)=>p.number(r?._classes?.dilutedEPS?.[m]?.v) ?? p.number(r?._classes?.eps?.[m]?.v) ?? p.number(r?.dilutedEPS) ?? p.number(r?.eps);
- const distance=m=>{const f=r=>figure(r,m);return [f(latest),ttmPerShare(latest,data.income.quarterlyReports || [],f)].reduce((best,eps)=>eps>0?Math.min(best,Math.abs(Math.log(price/pe/eps))):best,Infinity);};
+ const distance=m=>{const f=r=>figure(r,m);return confirmable(latest,data.income.quarterlyReports || [],f,quote).reduce((best,eps)=>eps>0?Math.min(best,Math.abs(Math.log(price/pe/eps))):best,Infinity);};
  const ranked=members.map(m=>[m,distance(m)]).sort((a,b)=>a[1]-b[1]);
  const member=ranked.length && ranked[0][1]<=band && ranked.slice(1).every(([,d])=>d>band)?ranked[0][0]:null;
  if(!member)return null;
