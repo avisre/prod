@@ -3936,7 +3936,7 @@
                 // the figures the filing tags. Rows that are product lines or regions are shown as what they are,
                 // under the company's reportable segments, never as segments themselves.
                 const p = d.profile || null, rows = Array.isArray(d.segments) ? d.segments : [];
-                const rowsAreSegments = !d.breakdown || d.breakdown === 'operating segments';
+                const rowsAreSegments = !(p && p.rowsAreSegments === false) && (!d.breakdown || d.breakdown === 'operating segments');
                 const segTotal = rows.reduce((a, s) => a + (s.revenueUsd || 0), 0);
                 if (segTotal > 0) rows.forEach((s) => {
                     if (s.revenuePct === null && s.revenueUsd !== null) s.revenuePct = Math.round(s.revenueUsd / segTotal * 1000) / 10;
@@ -3956,7 +3956,7 @@
                     ? rows.map((s) => line(s, true)).concat((p ? p.segments.filter((x) => !x.shown) : []).map((x) => line(x, false)))
                     : (p ? p.segments.map((x) => line(x, false)) : []);
                 const cut = !rowsAreSegments && rows.length ? `
-                      <p class="label" style="margin:14px 0 8px;">Revenue by ${d.breakdown === 'regions' ? 'region' : 'product line'} · ${esc(d.fiscalYear || 'latest')}</p>
+                      <p class="label" style="margin:14px 0 8px;">${d.breakdown === 'regions' ? 'Revenue by region' : !d.breakdown || d.breakdown === 'operating segments' ? 'Revenue as tagged in the filing' : 'Revenue by product line'} · ${esc(d.fiscalYear || 'latest')}</p>
                       <div style="display:grid; gap:8px;">${rows.map((s) => line(s, true)).join('')}</div>` : '';
                 const filing = (p && p.filing) || d.filing || {};
                 const extra = [
