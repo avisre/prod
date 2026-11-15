@@ -1,0 +1,91 @@
+{
+ "version": 1,
+ "cik": "0000080424",
+ "issuerName": "PROCTER & GAMBLE Co",
+ "builtAt": "2026-11-14T13:46:13.079Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000080424-26-000103",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beauty",
+   "products": [
+    "Head & Shoulders",
+    "Herbal Essences",
+    "Pantene",
+    "Rejoice",
+    "Native",
+    "Old Spice",
+    "Safeguard",
+    "Secret"
+   ],
+   "description": "Sells hair care, personal care and skin care products to consumers worldwide.",
+   "evidence": "The beauty categories in which we compete are hair care, personal care and skin care."
+  },
+  {
+   "name": "Grooming",
+   "products": [
+    "Braun",
+    "Gillette",
+    "Venus"
+   ],
+   "description": "Sells blades, razors, female grooming products, appliances and pre- and post-shave products to consumers.",
+   "evidence": "We are the global market leader in the grooming market, where we hold more than 50% share."
+  },
+  {
+   "name": "Health Care",
+   "products": [
+    "Crest",
+    "Oral-B",
+    "Metamucil",
+    "Neurobion",
+    "Pepto-Bismol",
+    "Vicks"
+   ],
+   "description": "Provides oral care and personal health care products to consumers.",
+   "evidence": "We compete in oral care and personal health care."
+  },
+  {
+   "name": "Fabric & Home Care",
+   "products": [
+    "Ariel",
+    "Downy",
+    "Gain",
+    "Tide",
+    "Cascade",
+    "Dawn",
+    "Fairy",
+    "Febreze"
+   ],
+   "description": "Sells fabric care and home care products, including laundry detergents and dish care, to consumers.",
+   "evidence": "This segment is comprised of a variety of fabric care products, including laundry detergents, additives and fa"
+  },
+  {
+   "name": "Baby, Feminine & Family Care",
+   "products": [
+    "Luvs",
+    "Pampers",
+    "Always",
+    "Always Discreet",
+    "Tampax",
+    "Bounty",
+    "Charmin",
+    "Puffs"
+   ],
+   "description": "Sells baby care, feminine care and family care products such as diapers, wipes and paper goods to consumers.",
+   "evidence": "Baby Care ( Baby Wipes, Taped Diapers and Pants ) Luvs, Pampers"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "P&G sells branded consumer packaged goods to mass merchandisers, grocery stores, digital commerce channels, distributors, wholesalers and other retail customers, and also sells direct to consumers.",
+  "evidence": "Our products are sold in about 180 countries and territories primarily through mass merchandisers, digital commerce (including social commerce) channels, grocery stores, membership club stores, drug stores, department stores, distributors, wholesalers, specialty beauty stores (including airport duty-free stores), high-frequency stores, pharmacies, electronics stores and professional channels."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,80 @@
+{
+ "version": 1,
+ "cik": "0000314489",
+ "issuerName": "FIRST BUSEY CORPORATION",
+ "builtAt": "2026-11-14T13:47:59.861Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000314489-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/314489/000031448926000013/buse-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial loans",
+    "CRE loans",
+    "real estate construction loans",
+    "agricultural loans",
+    "commercial depository services",
+    "residential real estate loans",
+    "home equity lines of credit",
+    "consumer loans"
+   ],
+   "description": null,
+   "evidence": "Busey Bank offers a range of diversified financial products and services for consumers and businesses, including online and mobile banking capabilities to conveniently serve its customers' needs."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "asset management",
+    "investment services",
+    "brokerage",
+    "fiduciary services",
+    "philanthropic advisory",
+    "tax preparation",
+    "farm management",
+    "financial planning"
+   ],
+   "description": "Provides asset management, investment, brokerage, fiduciary, tax and farm management services to individuals, businesses, and foundations.",
+   "evidence": "Busey Bank provides a full range of asset management, investment, brokerage, fiduciary, philanthropic advisory, tax preparation, and farm management services to individuals, businesses, and foundations through its Wealth Management business."
+  },
+  {
+   "name": "FirsTech",
+   "products": [
+    "mobile text-based bill payment",
+    "interactive voice response systems",
+    "electronic payment concentration and routing",
+    "walk-in payment processing",
+    "direct debit services",
+    "merchant services referral solutions",
+    "lockbox remittance processing"
+   ],
+   "description": "Delivers technology-enabled payment processing solutions to business clients across the United States, concentrated in financial services, utilities, insurance, and telecommunications.",
+   "evidence": "FirsTech, a wholly owned subsidiary of Busey Bank, delivers technology‑enabled payment processing solutions to business clients across the United States."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Corporate and other activities not attributable to the Banking, Wealth Management, or FirsTech segments.",
+   "evidence": "Net income Banking $ 150,342 $ 117,266 $ 123,853 Wealth Management 24,183 22,030 18,804 FirsTech (1,763) (670) 830 Other (37,500) (24,935) (20,922)"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Busey earns interest and fees on loans and investments, wealth management fees, service fees, and payment technology solutions revenue from its customers.",
+  "evidence": "Busey Bank's principal sources of income are interest and fees on loans and investments, wealth management fees, service fees, and payment technology solutions revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Busey acquired Merchants and Manufacturers Bank Corporation, adding Life Equity Loan products and expanding its suburban Chicago presence.",
+   "evidence": "On April 1, 2024, Busey completed its acquisition of M&M and its wholly-owned subsidiary, M&M Bank."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, Busey acquired CrossFirst Bankshares, Inc., and CrossFirst Bank was mer"
+ ]
+}

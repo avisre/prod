@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000069488",
+ "issuerName": "Myers Industries, Inc.",
+ "builtAt": "2026-11-14T13:45:35.167Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-092521",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/69488/000119312526092521/mye-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Material Handling",
+   "products": [
+    "Akro-Mils®",
+    "Ameri-Kart®",
+    "Buckhorn®",
+    "Elkhart Plastics®",
+    "Jamco®",
+    "Scepter®",
+    "Signature Systems®",
+    "Trilogy Plastics™"
+   ],
+   "description": "Manufactures durable plastic reusable containers, pallets, bins, storage and organization products, composite ground protection matting, and fuel/water/waste containers for diverse industrial and consumer markets.",
+   "evidence": "The Material Handling Segment's products include plastic reusable containers, pallets, small parts bins, bulk shipping containers, storage and organization products, OEM parts, custom plastic products, composite ground protection matting, consumer fuel containers and tanks for water, fuel and waste handling."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "Myers Tire Supply®",
+    "MTS Xpress™",
+    "Elrick™",
+    "Fleetline™",
+    "Mohawk Rubber Sales™",
+    "Patch Rubber Company®",
+    "Advance Traffic Markings®",
+    "Tuffy™"
+   ],
+   "description": "Distributes equipment, tools and supplies for tire servicing and automotive under-vehicle repair, and manufactures tire repair, retreading and traffic marking products for tire dealers, fleets and repair facilities.",
+   "evidence": "The Distribution Segment is engaged in the distribution of equipment, tools and supplies used for tire servicing and automotive under-vehicle repair and the manufacture of tire repair and retreading products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling manufactured plastic products directly to end-users and through distributors, and by distributing tire service equipment and supplies to dealers, fleets, repair centers and government agencies.",
+  "evidence": "Products are sold both directly to end-users and through distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired Signature Systems, a manufacturer and distributor of composite matting ground protection, and included it in the Material Handling Segment.",
+   "evidence": "On February 8, 2024, the Company acquired the stock of Signature CR Intermediate Holdco, Inc. (\"Signature\" or \"Signature Systems\"), a manufacturer and distributor of composite matting ground protection for industrial applications, stadium turf protection and temporary event flooring, which is included in the Material Handling Segment."
+  }
+ ],
+ "dropped": []
+}

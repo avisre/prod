@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000004977",
+ "issuerName": "Aflac Incorporated",
+ "builtAt": "2026-11-14T14:06:21.286Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011402",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/4977/000162828026011402/afl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aflac Japan",
+   "products": [
+    "Cancer Insurance",
+    "Medical Insurance",
+    "Nursing Care Insurance",
+    "Whole Life Insurance",
+    "Term Life Insurance",
+    "Endowment Insurance"
+   ],
+   "description": "Provides supplemental health and life insurance products to Japanese consumers, primarily cancer, medical and nursing care insurance.",
+   "evidence": "Aflac Japan is the principal contributor to the Parent Company's consolidated earnings and the largest insurer in Japan in terms of cancer and medical (third sector insurance products) policies in force."
+  },
+  {
+   "name": "Aflac U.S.",
+   "products": [
+    "Supplemental Health Insurance",
+    "Dental and Vision Insurance"
+   ],
+   "description": "Provides supplemental health and life insurance products to United States customers through multiple distribution channels.",
+   "evidence": "Aflac U.S. includes the insurance subsidiaries American Family Life Assurance Company of Columbus (Aflac); Continental American Insurance Company (CAIC), branded as Aflac Group Insurance (AGI); American Family Life Assurance Company of New York (Aflac New York); Tier One Insurance Company (TOIC); and Aflac Benefits Solutions, Inc. (ABS), which provides a platform for Aflac Dental and Vision in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay premiums for supplemental insurance coverage that pays cash benefits when policyholders get sick or hurt for eligible claims.",
+  "evidence": "When a policyholder or insured gets sick or hurt, the Company pays cash benefits fairly and promptly for eligible claims."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Aflac U.S.): Voluntary Life Insurance",
+  "product not in text (Aflac U.S.): Employer-paid Health Insurance"
+ ]
+}

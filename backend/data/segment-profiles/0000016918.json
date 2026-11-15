@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000016918",
+ "issuerName": "CONSTELLATION BRANDS, INC.",
+ "builtAt": "2026-11-14T14:07:17.810Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000016918-26-000011",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/16918/000001691826000011/stz-20260228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beer",
+   "products": [
+    "Modelo Especial",
+    "Corona Extra",
+    "Pacifico",
+    "Victoria",
+    "Modelo Chelada",
+    "Corona Non-Alcoholic",
+    "Austin Cocktails",
+    "HOPWTR"
+   ],
+   "description": "Produces and markets imported beer brands and alcohol-by-volume products in the U.S. market.",
+   "evidence": "We are the #1 brewer and seller of imported beer in the U.S. market. We are also a leader in the high-end segment of the U.S. beer market, which includes the imported and ABA categories."
+  },
+  {
+   "name": "Wine and Spirits",
+   "products": [
+    "Kim Crawford",
+    "Ruffino",
+    "Robert Mondavi Winery",
+    "The Prisoner Wine Company",
+    "High West",
+    "Casa Noble",
+    "Mi CAMPO",
+    "Nelson's Green Brier"
+   ],
+   "description": "Produces and markets exclusively higher-end wine and spirits brands primarily in the U.S. and international markets.",
+   "evidence": "We are a higher-end wine and spirits company in the U.S. market, with a portfolio that we believe is positioned for long-term growth."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers purchase beer, wine, and spirits through wholesale distributors and retailers who are the company's direct customers.",
+  "evidence": "The strength of our brands makes us a supplier of choice to many of our consumers and our Customers, which include wholesale distributors and retailers."
+ },
+ "changes": [
+  {
+   "text": "In June 2025, the company sold and licensed trademarks of mainstream wine brands in the Wine and Spirits segment to focus on exclusively higher-end brands.",
+   "evidence": "June 2025 Sold and, in certain instances, exclusively licensed the trademarks of a portion of our wine and spirits business, primarily centered around our then-owned mainstream wine brands and associated inventory, wineries, vineyards, offices; supported our focus on consumer-led premiumization trends and meeting the evolving needs of consumers."
+  }
+ ],
+ "dropped": []
+}

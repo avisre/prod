@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000851205",
+ "issuerName": "COGNEX CORP",
+ "builtAt": "2026-11-14T13:52:50.917Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000851205-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/851205/000085120526000012/cgnx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Machine vision technology",
+   "products": [
+    "machine vision systems",
+    "barcode reading",
+    "AI-enabled vision technology",
+    "3D vision",
+    "deep learning vision software",
+    "edge learning products",
+    "optical components"
+   ],
+   "description": "Develops and sells industrial machine vision hardware and software that automate manufacturing and distribution tasks for customers across diverse end markets.",
+   "evidence": "The Company operates in one segment, machine vision technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cognex is paid by manufacturers and logistics companies, directly or through OEMs, machine builders, and system integrators, for machine vision products that automate manufacturing and distribution.",
+  "evidence": "Cognex sells to customers in nearly all major industries in which discrete items are manufactured on an assembly line or moved through a distribution center or warehouse."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Machine vision technology): Solutions Experience (SLX) devices"
+ ]
+}

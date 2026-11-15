@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000816956",
+ "issuerName": "CONMED CORPORATION",
+ "builtAt": "2026-11-14T13:51:50.686Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000816956-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/816956/000081695626000009/cnmd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Surgical devices",
+   "products": [
+    "AirSeal",
+    "BioBrace",
+    "TruShot with Y-Knot All-In-One Soft Tissue Fixation System"
+   ],
+   "description": "Develops, manufactures and sells surgical devices and related equipment globally to surgeons and healthcare professionals in orthopedics, general surgery and other specialties.",
+   "evidence": "We account and report for our business as a single operating segment entity engaged in the development, manufacturing and sale on a global basis of surgical devices and related equipment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals, surgery centers and distributors worldwide pay CONMED for surgical devices and equipment, with most revenue recognized when goods are transferred and some services recognized over time.",
+  "evidence": "Hospitals and customers may reduce demand for surgical products if they reserve space for patients or experience staff shortages or disputes due to public health crises, pandemics, epidemics or similar events."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Surgical devices): Orthopedic surgery products",
+  "product not in text (Surgical devices): General surgery products",
+  "product not in text (Surgical devices): Hall surgical power tools",
+  "product not in text (Surgical devices): Buffalo Filter smoke evacuation products",
+  "product not in text (Surgical devices): Endomechanical instruments"
+ ]
+}

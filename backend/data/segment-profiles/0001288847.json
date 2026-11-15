@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001288847",
+ "issuerName": "Five9, Inc.",
+ "builtAt": "2026-11-14T17:36:43.234Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001288847-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1288847/000128884726000023/fivn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intelligent CX Platform",
+   "products": [
+    "AI Agents",
+    "Agent Assist",
+    "Workflow Automation",
+    "AI Insights",
+    "AI Summaries",
+    "Workforce Engagement Management",
+    "Revenue Execution"
+   ],
+   "description": "Cloud-based contact center software providing omni-channel customer experience management powered by AI for enterprise organizations.",
+   "evidence": "We operate in a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay monthly subscription fees based on licenses for platform access and usage-based fees for telephony and AI consumption.",
+  "evidence": "We generate subscription revenue from our Intelligent CX Platform, and also generate usage-based telephony revenue. We charge our customers monthly subscription fees for access to our solution, primarily based on the number of licenses. Our AI solutions are sold to our customers on a consumption or capacity basis."
+ },
+ "changes": [],
+ "dropped": []
+}

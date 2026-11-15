@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000096223",
+ "issuerName": "Jefferies Financial Group Inc.",
+ "builtAt": "2026-11-14T13:46:47.934Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000096223-26-000009",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/96223/000009622326000009/jef-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Banking and Capital Markets",
+   "products": [
+    "Advisory",
+    "Equity underwriting",
+    "Debt underwriting",
+    "Equities",
+    "Fixed income",
+    "Jefferies Finance",
+    "Berkadia"
+   ],
+   "description": "Provides investment banking, capital markets and other related services, including underwriting, financial advisory, equities and fixed income sales and trading, to clients globally.",
+   "evidence": "Investment Banking and Capital Markets provides investment banking, capital markets and other related services to our clients."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "Alternative investment management",
+    "Jefferies Credit Partners",
+    "Stratos",
+    "Tessellis",
+    "HomeFed"
+   ],
+   "description": "Provides alternative investment management services to investors globally and holds investments in public securities, private companies and consolidated subsidiaries.",
+   "evidence": "Asset Management provides alternative investment management services to investors globally through our directly owned managers and through our affiliated asset managers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay Jefferies advisory and underwriting fees, commissions or spread revenue from executing, settling and clearing securities transactions, and asset management fees and investment returns from investors.",
+  "evidence": "Commissions or spread revenue is earned by executing, settling and clearing transactions for clients across these markets in equity and equity-related products, including common stock, American depository receipts, global depository receipts, exchange-traded funds, exchange-traded and over-the-counter (\"OTC\") equity derivatives, convertible and other equity-linked products and closed-end funds."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Jefferies sold Foursight, its wholly-owned subsidiary engaged in the lending and servicing of automobile loans.",
+   "evidence": "Foursight, our wholly-owned subsidiary engaged in the lending and servicing of automobile loans (until the sale in April 2024)"
+  },
+  {
+   "text": "Beginning in the fourth quarter of 2024, revenues from corporate equity derivative transactions were reclassified from Other investment banking to Equities net revenues.",
+   "evidence": "Beginning in the fourth quarter of 2024, revenues from corporate equity derivative transactions historically included within Other investment banking net revenues were reclassified to Equities net revenues as the underlying business has matured and has started to generate meaningful revenues."
+  }
+ ],
+ "dropped": []
+}

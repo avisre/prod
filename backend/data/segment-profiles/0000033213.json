@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000033213",
+ "issuerName": "EQT CORPORATION",
+ "builtAt": "2026-11-14T13:44:03.190Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000033213-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/33213/000003321326000018/eqt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Upstream",
+   "products": [
+    "natural gas",
+    "NGLs",
+    "oil"
+   ],
+   "description": "Develops and produces natural gas, NGLs and oil from proved reserves, primarily in the Marcellus Shale of the Appalachian Basin.",
+   "evidence": "Primarily sales of natural gas, NGLs and oil and gains on derivatives."
+  },
+  {
+   "name": "Gathering",
+   "products": [
+    "gathering system",
+    "processing facility"
+   ],
+   "description": "Gathers natural gas for the Upstream segment and third parties under long-term gathering agreements.",
+   "evidence": "Our Gathering segment has gathering agreements with our Upstream segment and with third parties."
+  },
+  {
+   "name": "Transmission",
+   "products": [
+    "transmission and storage system"
+   ],
+   "description": "Provides natural gas transmission and storage services to the Upstream segment and third parties including local distribution companies and marketers.",
+   "evidence": "Our Transmission segment has transmission and storage agreements with our Upstream segment and with third parties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "EQT earns revenue primarily from selling natural gas, NGLs and oil, and from pipeline revenues charged to its Upstream segment and third parties for gathering, transmission and storage services.",
+  "evidence": "(a) Primarily sales of natural gas, NGLs and oil and gains on derivatives. (b) Primarily pipeline revenues."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective as of December 31, 2025, EQT renamed its previously reported Productio"
+ ]
+}

@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000104169",
+ "issuerName": "Walmart Inc.",
+ "builtAt": "2026-11-14T13:47:12.646Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000104169-26-000055",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Walmart U.S.",
+   "products": [
+    "Grocery",
+    "General merchandise",
+    "Health and wellness",
+    "Walmart+ membership",
+    "advertising solutions",
+    "financial services",
+    "fuel"
+   ],
+   "description": "Mass merchandiser of consumer products serving U.S. customers through retail stores, walmart.com and the Walmart mobile application.",
+   "evidence": "Walmart U.S. is a mass merchandiser of consumer products, operating under the \"Walmart\" and \"Walmart Neighborhood Market\" brands, as well as walmart.com and the Walmart mobile application."
+  },
+  {
+   "name": "Walmart International",
+   "products": [
+    "supercenters",
+    "supermarkets",
+    "warehouse clubs",
+    "cash and carry",
+    "flipkart.com",
+    "PhonePe",
+    "walmart.com.mx",
+    "walmart.ca"
+   ],
+   "description": null,
+   "evidence": "Walmart International is our second largest segment and operates 5,743 stores across 18 countries outside of the U.S."
+  },
+  {
+   "name": "Sam's Club U.S.",
+   "products": [
+    "samsclub.com",
+    "Sam's Club mobile application"
+   ],
+   "description": "Membership-only warehouse club serving U.S. members through clubs and eCommerce.",
+   "evidence": "Sam's Club U.S. is a membership-only warehouse club that operates 601 clubs in 44 states in the U.S. and Puerto Rico and also operates samsclub.com and the Sam's Club mobile application."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers and members pay for merchandise purchased in stores and online, plus membership fees, advertising, marketplace, fulfillment and financial services.",
+  "evidence": "As we execute on our strategy globally, our business continues to expand through offerings such as membership, advertising, marketplace and fulfillment services, and financial services."
+ },
+ "changes": [],
+ "dropped": []
+}

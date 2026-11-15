@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000023197",
+ "issuerName": "COMTECH TELECOMMUNICATIONS CORP /DE/",
+ "builtAt": "2026-11-14T14:07:39.595Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000023197-26-000114",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/23197/000002319726000114/cmtl-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Allerium",
+   "products": [
+    "Cloud-native call handling",
+    "Emergency communications applications",
+    "Trusted location services",
+    "Carrier-grade location, messaging and public alerting technologies"
+   ],
+   "description": "Provider of mission-critical communications infrastructure and software for public safety and mobile networks worldwide.",
+   "evidence": "Allerium is a leading provider of Next Generation 9-1-1 (\"NG9-1-1\") infrastructure and emergency communications technologies for state and local governments, public safety agencies and telecommunications carriers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "State and local governments, public safety agencies and telecommunications carriers purchase infrastructure, software and services for emergency communications.",
+  "evidence": "Allerium is a leading provider of Next Generation 9-1-1 (\"NG9-1-1\") infrastructure and emergency communications technologies for state and local governments, public safety agencies and telecommunications carriers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the Terrestrial and Wireless Networks segment was rebranded to Allerium.",
+   "evidence": "During fiscal 2025, we launched the rebranding of our Terrestrial and Wireless Networks segment to \"Allerium,\" a fusion of \"all\" and \"continuum.\""
+  },
+  {
+   "text": "In fiscal 2026, the Satellite and Space Communications segment was classified as discontinued operations pending sale to Wavestream Corporation.",
+   "evidence": "As the Strategic Transaction represents a material strategic shift in our business, the results and net assets of the Disposal Group are presented herein as \"discontinued operations\" and comparable prior periods have been recast to reflect this change."
+  }
+ ],
+ "dropped": [
+  "product not in text (Allerium): Next Generation 9-1-1 (NG9-1-1) infrastructure",
+  "product not in text (Allerium): Emergency Services IP Networks (ESInets)",
+  "product not in text (Allerium): Next Generation Core Services (NGCS)"
+ ]
+}

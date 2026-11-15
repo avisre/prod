@@ -1,0 +1,86 @@
+{
+ "version": 1,
+ "cik": "0000771999",
+ "issuerName": "DSS,     INC.",
+ "builtAt": "2026-11-14T13:50:38.166Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014231",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/771999/000149315226014231/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product Packaging",
+   "products": [
+    "custom folding cartons",
+    "mailers",
+    "photo sleeves",
+    "3-dimensional direct mail solutions",
+    "security paper",
+    "vital records",
+    "prescription paper",
+    "secure coupons"
+   ],
+   "description": "Through Premier Packaging, manufactures custom paperboard packaging and security printing products for pharmaceutical, consumer goods, food and other US customers.",
+   "evidence": "Our wholly-owned subsidiary Premier Packaging Corporation (\"Premier\"), provides custom packaging services and serves clients in the pharmaceutical, nutraceutical, consumer goods, beverage, specialty foods, confections, photo packaging and direct marketing industries, among others."
+  },
+  {
+   "name": "Biotechnology",
+   "products": [
+    "LineBacker",
+    "Equivir",
+    "Procombin",
+    "VanXin",
+    "Bioplastics",
+    "Laetose",
+    "3F",
+    "3F Mosquito Repellent"
+   ],
+   "description": "Researches, patents and licenses biomedical and wellness technologies for human healthcare, including drug discovery and consumer health products.",
+   "evidence": "Biotech discovers, confirms, and patents unique science and technologies which can be developed into new offerings in human healthcare and wellness in collaboration with external partners through licensing, co-development, joint ventures, and other relationships."
+  },
+  {
+   "name": "Commercial Lending",
+   "products": [
+    "commercial business lines of credit",
+    "land development financing",
+    "inventory financing",
+    "equipment financing",
+    "third-party loan servicing"
+   ],
+   "description": "Through American Pacific Financial, provides commercial financing and loan services to businesses in the US and Asia.",
+   "evidence": "APF provides financing solutions including commercial business lines of credit, land development financing, inventory financing, equipment financing, and third-party loan servicing."
+  },
+  {
+   "name": "Securities and Investment Management",
+   "products": [
+    "broker-dealer activities",
+    "investment advisory operations",
+    "real estate-related investment entities",
+    "DSS Securities, Inc.",
+    "Sentinel Brokers Company, Inc."
+   ],
+   "description": "Develops and acquires securities trading, broker-dealer, investment advisory and healthcare real estate investment assets.",
+   "evidence": "The Securities and Investment Management segment was established to develop and/or acquire assets in the securities trading and management arena and includes broker-dealer activities, investment advisory operations, and real estate-related investment entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of printed packaging products, commercial lending and loan servicing fees, rental income from real estate, and licensing of biotech technologies.",
+  "evidence": "The Company reported year-over-year revenue growth, increased printed product sales within the Product Packaging segment, increased rental income within its real estate portfolio, and the completion of the sale of its Plano, Texas facility for $9.5 million."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025, Direct Marketing ceased to be a reportable segment and was moved into Corporate and Other.",
+   "evidence": "As a result of this CODM realignment, Direct Marketing is no longer a reportable segment and is now reported within Corporate and Other."
+  },
+  {
+   "text": "In February 2025, the company sold its Celios air purification asset to Impact BioMedical Inc. as part of portfolio streamlining.",
+   "evidence": "DSS, Inc. announced the sale of its Celios® air purification asset to Impact BioMedical Inc. in an all-equity transaction valued at approximately $1.15 million."
+  }
+ ],
+ "dropped": []
+}

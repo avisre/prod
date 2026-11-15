@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001235912",
+ "issuerName": "CVRx, Inc.",
+ "builtAt": "2026-11-14T17:41:54.229Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-014708",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1235912/000110465926014708/cvrx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Neuromodulation Solutions",
+   "products": [
+    "Barostim"
+   ],
+   "description": "Develops, manufactures, and commercializes minimally invasive neuromodulation devices for patients with heart failure.",
+   "evidence": "CVRx is a commercial-stage medical device company focused on developing, manufacturing, and commercializing innovative and minimally invasive neuromodulation solutions for patients with cardiovascular disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue from sales of Barostim medical devices to customers in the U.S. and Europe.",
+  "evidence": "We derive all our revenues from sales to customers in Europe and the U.S."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000890541",
+ "issuerName": "FOREIGN TRADE BANK OF LATIN AMERICA, INC.",
+ "builtAt": "2026-11-14T17:39:47.333Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-026056",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/890541/000162828026026056/blx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Business Segment",
+   "products": [
+    "bilateral short- and medium-term loans",
+    "structured and syndicated credits",
+    "loan commitments",
+    "issued and confirmed letters of credit",
+    "stand-by letters of credit",
+    "guarantees covering commercial risk",
+    "co-financing arrangements",
+    "structured trade financing"
+   ],
+   "description": "Financial intermediation and fee-generating activities for corporations, financial institutions and investors in Latin America supporting trade.",
+   "evidence": "The Commercial Business Segment encompasses the Bank's core business of financial intermediation and fee generating activities developed to cater to corporations, financial institutions and investors in Latin America."
+  },
+  {
+   "name": "Treasury Business Segment",
+   "products": [],
+   "description": "Manages the Bank's investment portfolio, assets and liabilities, and mitigates financial risks including interest rate, liquidity, price and currency risks.",
+   "evidence": "The Treasury Business Segment focuses on managing the Bank's Investment Portfolio, and the overall structure of its assets and liabilities to achieve more efficient funding and liquidity positions for the Bank, mitigating the traditional financial risks associated with the balance sheet, such as interest rate, liquidity, price and currency risks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank receives interest income on loans and investment securities, and fees and commissions from issuance, confirmation and negotiation of letters of credit, guarantees and loan commitments, funded by interbank deposits and debt securities.",
+  "evidence": "The Bank's lending and investing activities are funded by interbank deposits, primarily from central banks and financial institutions in the Region, by borrowings from international commercial banks, and by sales of the Bank's debt securities to financial institutions and investors in Asia, Europe, North America and the Region."
+ },
+ "changes": [],
+ "dropped": []
+}

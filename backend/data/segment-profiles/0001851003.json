@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001851003",
+ "issuerName": "Zeta Global Holdings Corp.",
+ "builtAt": "2026-11-14T17:39:05.863Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-068598",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1851003/000119312526068598/zeta-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zeta",
+   "products": [
+    "Zeta Marketing Platform",
+    "Zeta SuperGraph",
+    "Zeta Answers"
+   ],
+   "description": "AI-powered omnichannel data-driven cloud platform providing enterprises with consumer intelligence and marketing automation software.",
+   "evidence": "Zeta is a leading AI-powered omnichannel data-driven cloud platform that provides enterprises with consumer intelligence and marketing automation software."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for software-as-a-service access to marketing and data platform enabling personalized marketing across multiple channels.",
+  "evidence": "We empower our customers to target, connect and engage consumers through software that delivers personalized marketing across all addressable channels, including email, social media, web, chat, Connected TV (\"CTV\") and video, among others."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, Zeta acquired Marigold's enterprise software business, closing on Novem"
+ ]
+}

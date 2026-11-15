@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000846617",
+ "issuerName": "DIME COMMERCIAL BANCSHARES, INC.",
+ "builtAt": "2026-11-14T13:52:43.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000846617-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/846617/000084661726000013/dcom-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "commercial real estate loans",
+    "multi-family mortgage loans",
+    "residential mortgage loans",
+    "commercial and consumer loans",
+    "home equity loans",
+    "construction and land loans",
+    "merchant credit and debit card processing",
+    "treasury management services"
+   ],
+   "description": "Provides full-service commercial and consumer banking, lending, deposit and related financial services to individuals, businesses and municipalities in the Greater Long Island area.",
+   "evidence": "The activities of the Company comprise one reportable segment, \"Community Banking.\""
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns net interest income and non-interest income from banking operations, serving depositors and borrowers primarily in the Greater Long Island area.",
+  "evidence": "All revenues are derived from banking operations within the United States, and for the years ended December 31, 2025, 2024 and 2023, there was no customer that accounted for more than 10% of the Company's consolidated revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Community Banking): CDARS and ICS programs",
+  "product not in text (Community Banking): title insurance brokerage"
+ ]
+}

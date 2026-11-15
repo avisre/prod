@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000049754",
+ "issuerName": "Dine Brands Global, Inc.",
+ "builtAt": "2026-11-14T13:44:46.619Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011393",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/49754/000162828026011393/din-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Franchise",
+   "products": [
+    "IHOP",
+    "Applebee's",
+    "Fuzzy's"
+   ],
+   "description": "Franchise operations of IHOP, Applebee's and Fuzzy's restaurants, earning royalties, advertising fees and sales of proprietary products from franchisees.",
+   "evidence": "Franchise - consists of IHOP, Applebee's, and Fuzzy's franchise operations which generate revenues primarily from royalties and advertising fees from 1,812 IHOP franchised restaurants, 1,520 Applebee's franchised restaurants, and 105 Fuzzy's franchised restaurants in addition to revenues from the sale of proprietary IHOP and Fuzzy's products to our franchisees;"
+  },
+  {
+   "name": "Company-owned restaurants",
+   "products": [
+    "IHOP restaurants",
+    "Applebee's restaurants",
+    "Fuzzy's restaurant"
+   ],
+   "description": "Operates company-owned IHOP, Applebee's and Fuzzy's restaurants that generate restaurant sales revenues.",
+   "evidence": "Company-owned restaurants - primarily generates revenues from 12 IHOP restaurants, 59 Applebee's restaurants and one Fuzzy's restaurant;"
+  },
+  {
+   "name": "Rental",
+   "products": [],
+   "description": "Earns rental revenues from lease or sublease agreements covering franchised restaurant properties.",
+   "evidence": "Rental - rental revenues are primarily from lease or sublease agreements covering 521 IHOP franchised restaurants and one Applebee's franchised restaurant."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Franchisees pay the company royalties and advertising fees based on gross sales, plus purchases of proprietary products, while customers pay for meals at company-owned restaurants and franchisees pay rent under leases.",
+  "evidence": "Under these arrangements, we generally receive franchise royalty fees of 4.5% of gross sales and national advertising fees of 3.5% of gross sales."
+ },
+ "changes": [],
+ "dropped": []
+}

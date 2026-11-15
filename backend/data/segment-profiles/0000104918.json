@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000104918",
+ "issuerName": "AVISTA CORP",
+ "builtAt": "2026-11-14T13:47:14.897Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067872",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/104918/000119312526067872/ava-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Avista Utilities",
+   "products": [
+    "electric distribution and transmission",
+    "natural gas distribution",
+    "wholesale purchases and sales of electricity and natural gas"
+   ],
+   "description": "Regulated utility providing electric and natural gas services to customers in Washington, Idaho, Oregon and Montana.",
+   "evidence": "Avista Utilities – an operating division of Avista Corp., comprising the regulated utility operations in Washington, Idaho, Oregon and Montana."
+  },
+  {
+   "name": "AEL&P",
+   "products": [
+    "electric services"
+   ],
+   "description": "Regulated electric utility serving customers in Juneau, Alaska.",
+   "evidence": "AEL&P – a regulated utility providing electric services in Juneau, Alaska that is a wholly-owned subsidiary and the primary operating subsidiary of AERC."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for electric and natural gas utility service, with earnings driven by general rate cases approved by state utility commissions.",
+  "evidence": "Net income increased primarily due to the effects of general rate cases."
+ },
+ "changes": [],
+ "dropped": []
+}

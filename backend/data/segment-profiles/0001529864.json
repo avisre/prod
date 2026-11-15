@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001529864",
+ "issuerName": "Enova International, Inc.",
+ "builtAt": "2026-11-14T17:36:40.286Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-060461",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1529864/000119312526060461/enva-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online Financial Services",
+   "products": [
+    "Consumer installment loans",
+    "Small business installment loans",
+    "Consumer line of credit accounts",
+    "Small business line of credit accounts",
+    "CSO program",
+    "Bank Programs"
+   ],
+   "description": "Originates, arranges, guarantees and purchases installment loans and lines of credit for consumers and small businesses.",
+   "evidence": "We have one reportable segment that includes all of our online financial services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers borrow funds deposited to their bank accounts and repay principal plus fees and/or interest to the company.",
+  "evidence": "Our online financing products and services provide customers with a deposit of funds to their bank account in exchange for a commitment to repay the amount deposited plus fees and/or interest."
+ },
+ "changes": [],
+ "dropped": []
+}

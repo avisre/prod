@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001158895",
+ "issuerName": "LEMAITRE VASCULAR, INC.",
+ "builtAt": "2026-11-14T17:36:57.510Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073360",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1158895/000119312526073360/ck0001158895-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices and implants",
+   "products": [
+    "AlboGraft",
+    "AnastoClip",
+    "Artegraft",
+    "CardioCel",
+    "PhasTipp",
+    "Pruitt",
+    "RestoreFlow",
+    "VascuCel"
+   ],
+   "description": "Develops, manufactures, and markets vascular devices and cryopreserved human tissue for treatment of peripheral vascular, renal, and cardiovascular disease.",
+   "evidence": "We are a global provider of medical devices and human tissue cryopreservation services largely used in the treatment of peripheral vascular disease, end-stage renal disease, and cardiovascular disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and surgical centers purchase vascular devices and cryopreserved tissue products from the company through direct sales representatives and distributors.",
+  "evidence": "We sell our products and services primarily through a direct sales force."
+ },
+ "changes": [],
+ "dropped": []
+}

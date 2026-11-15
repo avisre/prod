@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "cik": "0000315709",
+ "issuerName": "INTERNATIONAL BANCSHARES CORPORATION",
+ "builtAt": "2026-11-14T13:48:06.101Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020439",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/315709/000110465926020439/iboc-20251231xex13.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [],
+   "description": "A multi-bank holding company operating five wholly owned subsidiary banks that offer banking products and services to customers.",
+   "evidence": "We operate as one segment, banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

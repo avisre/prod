@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000036270",
+ "issuerName": "M&T BANK CORPORATION",
+ "builtAt": "2026-11-14T13:44:12.080Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000036270-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/36270/000003627026000010/mtb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Bank",
+   "products": [
+    "commercial and industrial loans",
+    "commercial real estate loans",
+    "commercial mortgage banking",
+    "equipment leasing and financing",
+    "interest rate swap agreements"
+   ],
+   "description": "Provides commercial lending, deposits and related financial services to businesses and professional clients.",
+   "evidence": "The reportable segments are Commercial Bank, Retail Bank, and Institutional Services and Wealth Management."
+  },
+  {
+   "name": "Retail Bank",
+   "products": [
+    "residential mortgage loans",
+    "consumer loans",
+    "automobile loans",
+    "recreational finance",
+    "deposit accounts"
+   ],
+   "description": "Serves individual consumers with residential and consumer lending, deposits and related branch-based banking services.",
+   "evidence": "Net income for the Retail Bank segment decreased $274 million in 2025 as compared with 2024."
+  },
+  {
+   "name": "Institutional Services and Wealth Management",
+   "products": [
+    "wealth management services",
+    "brokerage services"
+   ],
+   "description": "Provides institutional client, wealth management, trust and fiduciary services to clients.",
+   "evidence": "Wilmington Trust, N.A. and its subsidiaries offer various institutional client and wealth management services."
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Contains business activities not included in the three reportable segments.",
+   "evidence": "All other business activities that are not included in the three reportable segment results have been included in the \"All Other\" category."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "M&T earns interest income on loans and investment securities and fees from deposit service charges, mortgage servicing, brokerage and other fiduciary services provided to customers.",
+  "evidence": "The only activities that, as a class, contributed 10% or more of the sum of consolidated interest income and other income in any of the last three years were interest income on loans in each of 2025, 2024 and 2023, interest income on investment securities in 2025 and interest income on deposits at banks in each of 2024 and 2023."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company sold its CIT business, with an earnout payment received in 2025.",
+   "evidence": "a $28 million distribution of an earnout payment related to the Company's sale of its CIT business in 2023"
+  }
+ ],
+ "dropped": [
+  "product not in text (Retail Bank): credit card and merchant services",
+  "product not in text (Institutional Services and Wealth Management): institutional client services",
+  "product not in text (Institutional Services and Wealth Management): trust and fiduciary services"
+ ]
+}

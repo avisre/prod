@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000056873",
+ "issuerName": "KROGER CO",
+ "builtAt": "2026-11-14T13:45:02.701Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037723",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/56873/000110465926037723/kr-20260131x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail operations",
+   "products": [
+    "supermarkets",
+    "retail pharmacies",
+    "fuel centers",
+    "Kroger Precision Marketing",
+    "Our Brands",
+    "Simple Truth®",
+    "Private Selection®",
+    "Smart Way®"
+   ],
+   "description": "Operates supermarkets, multi-department stores and fulfillment centers selling groceries, pharmacy and fuel to customers across the United States.",
+   "evidence": "The Company's retail operations, which represent substantially all of the Company's consolidated sales, are its only reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Retail operations): eCommerce Pickup and Delivery",
+  "revenue model not grounded",
+  "change not grounded: In 2024, Kroger completed the sale of its Kroger Specialty Pharmacy business to "
+ ]
+}

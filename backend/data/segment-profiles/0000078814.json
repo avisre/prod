@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000078814",
+ "issuerName": "PITNEY BOWES INC",
+ "builtAt": "2026-11-14T13:46:06.190Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009650",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/78814/000162828026009650/pbi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SendTech Solutions",
+   "products": [
+    "physical and digital shipping and mailing technology solutions",
+    "shipping APIs",
+    "digital delivery services",
+    "revolving credit solution",
+    "interest-bearing deposit solution",
+    "supplies and maintenance services"
+   ],
+   "description": "Provides shipping and mailing technology, software, supplies, maintenance and financing solutions to businesses of all sizes and government entities.",
+   "evidence": "SendTech Solutions provides clients with physical and digital shipping and mailing technology solutions and other applications to help simplify and save on the sending, tracking and receiving of letters, parcels and flats, as well as supplies and maintenance services for these offerings."
+  },
+  {
+   "name": "Presort Services",
+   "products": [
+    "mail sortation services",
+    "First-Class Mail",
+    "First Class Flats",
+    "Marketing Mail",
+    "Marketing Mail Flats/Bound Printed Matter",
+    "Mail Exchange program",
+    "Presort Services Account"
+   ],
+   "description": "Provides outsourced mail sortation services that let clients qualify for USPS postal workshare discounts, from pickup to delivery into the postal system.",
+   "evidence": "We are the largest workshare partner of the United States Postal Service (\"USPS\") and national outsource provider of mail sortation services that allow clients to qualify volumes of First-Class Mail, First Class Flats, Marketing Mail and Marketing Mail Flats/Bound Printed Matter for postal workshare discounts."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds residual amounts of the former Global Ecommerce segment that did not qualify for discontinued operations treatment, including dissolved or sold operations and shared services functions.",
+   "evidence": "Other represents amounts of the prior Global Ecommerce segment that did not qualify for discontinued operations treatment, primarily related to operations that were dissolved or sold and certain shared services functions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay for shipping and mailing equipment, supplies, services under maintenance contracts, financing arrangements, and mail sortation services that qualify mail for postal workshare discounts.",
+  "evidence": "Support services are primarily provided under maintenance contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company exited the Global Ecommerce business through an orderly wind-down of operations.",
+   "evidence": "In August 2024, we exited from the Global Ecommerce business through an orderly wind-down of these operations."
+  },
+  {
+   "text": "In 2025, the company recast its revenue reporting presentation into Services, Products, and Financing and other categories.",
+   "evidence": "We recast our reporting presentation of revenue and cost of revenue to better align with our offerings."
+  },
+  {
+   "text": "In 2025, the company recast segment reporting to move a cross-border services contract from Other operations into the SendTech Solutions segment.",
+   "evidence": "We recast our segment reporting to report the revenue and related expenses of a cross-border services contract in our SendTech Solutions reporting segment, which was previously reported in Other operations."
+  }
+ ],
+ "dropped": [
+  "product not in text (SendTech Solutions): The Pitney Bowes Bank financing alternatives"
+ ]
+}

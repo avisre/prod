@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000020212",
+ "issuerName": "Churchill Downs Inc",
+ "builtAt": "2026-11-14T14:07:28.357Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000020212-26-000025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/20212/000002021226000025/chdn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Live and Historical Racing",
+   "products": [
+    "Churchill Downs Racetrack",
+    "Derby City Gaming & Hotel",
+    "Derby City Gaming Downtown",
+    "Turfway Park Racing & Gaming",
+    "Newport Racing & Gaming",
+    "Oak Grove Racing, Gaming & Hotel",
+    "Marshall Yards Racing & Gaming",
+    "Ellis Park Racing & Gaming"
+   ],
+   "description": "Live thoroughbred and harness racing, historical racing machines, and pari-mutuel wagering at multiple venues across Kentucky, Virginia, and New Hampshire.",
+   "evidence": "The Live and Historical Racing segment includes live and historical pari-mutuel racing related revenue and expenses at Churchill Downs Racetrack and our historical racing properties in Kentucky, Virginia, and New Hampshire."
+  },
+  {
+   "name": "Wagering Services and Solutions",
+   "products": [
+    "TwinSpires",
+    "BetAmerica",
+    "United Tote Company",
+    "Exacta Systems, LLC",
+    "Bloodstock Research Information Services",
+    "Sports betting"
+   ],
+   "description": "Online horse racing wagering platforms, advance deposit wagering, pari-mutuel technology solutions, and sports betting services.",
+   "evidence": "The Wagering Services and Solutions segment includes the revenue and expenses from TwinSpires, United Tote Company (\"United Tote\"), Exacta Systems, LLC (\"Exacta\"), and sports betting."
+  },
+  {
+   "name": "Gaming",
+   "products": [
+    "Regional casino gaming properties"
+   ],
+   "description": "Acquisition, development, and operation of regional casino gaming properties with slot machines, table games, and food and beverage offerings.",
+   "evidence": "the acquisition, development, and operation of regional casino gaming properties"
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Other businesses and certain corporate operations aggregated separately from the three reportable segments.",
+   "evidence": "We aggregate our other businesses as well as certain corporate operations in All Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay commissions on pari-mutuel wagering, simulcast fees, admissions, sponsorships, food and beverage services, online wagering, and gaming operations.",
+  "evidence": "Our Live and Historical Racing properties earn commissions primarily from pari-mutuel wagering on live and historical races, simulcast fees earned from other wagering sites, fees from racing event-related services including admissions, personal seat licenses, sponsorships, television rights, other miscellaneous services, and revenue from food and beverage services."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company opened Terre Haute Casino Resort, which contributed to Gaming segment revenue in 2025.",
+   "evidence": "Terre Haute Casino Resort (\"Terre Haute\"): Continued to grow the Terre Haute Casino Resort during its first full year of operation."
+  },
+  {
+   "text": "In 2024, the company opened The Rose Gaming Resort in Northern Virginia in November, which contributed significant revenue growth in 2025.",
+   "evidence": "The Rose Gaming Resort (\"The Rose\") in Dumfries, Virginia was opened by the Company in November 2024 with 1,650 HRMs, a 102-room hotel, eight food and beverage offerings, and a simulcast wagering area."
+  },
+  {
+   "text": "In 2025, the company ceased HRM operations in Louisiana, reducing Gaming segment revenue.",
+   "evidence": "an $18.9 million decrease from the cessation of HRM operations in Louisiana"
+  }
+ ],
+ "dropped": []
+}

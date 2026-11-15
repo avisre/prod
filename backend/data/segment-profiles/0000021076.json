@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0000021076",
+ "issuerName": "THE CLOROX COMPANY",
+ "builtAt": "2026-11-14T14:07:30.750Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000021076-26-000034",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/21076/000002107626000034/clx-20260630_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health and Wellness",
+   "products": [
+    "Clorox",
+    "Clorox2",
+    "Pine-Sol",
+    "Scentiva",
+    "Tilex",
+    "Liquid-Plumr",
+    "Formula 409",
+    "Purell"
+   ],
+   "description": "Cleaning, disinfecting, sanitizing and professional products marketed and sold in the United States.",
+   "evidence": "Health and Wellness consists of cleaning, disinfecting, sanitizing and professional products marketed and sold in the United States."
+  },
+  {
+   "name": "Household",
+   "products": [
+    "Glad",
+    "Fresh Step",
+    "Scoop Away",
+    "Kingsford"
+   ],
+   "description": "Bags and wraps, cat litter and grilling products marketed and sold in the United States.",
+   "evidence": "Household consists of bags and wraps, cat litter and grilling products marketed and sold in the United States."
+  },
+  {
+   "name": "Lifestyle",
+   "products": [
+    "Hidden Valley",
+    "Brita",
+    "Burt's Bees"
+   ],
+   "description": "Food, water-filtration and natural personal care products marketed and sold in the United States.",
+   "evidence": "Lifestyle consists of food, water-filtration and natural personal care products marketed and sold in the United States."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Clorox",
+    "Poett",
+    "Pine-Sol",
+    "Clorinda",
+    "Chux",
+    "Glad",
+    "Ever Clean",
+    "Fresh Step"
+   ],
+   "description": "Laundry additives, home care products, bags and wraps, cat litter and water-filtration products sold outside the United States.",
+   "evidence": "International consists of products sold outside the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells consumer and professional products through mass retailers, grocery outlets, warehouse clubs, dollar stores, home hardware centers, drug stores and e-commerce channels.",
+  "evidence": "sells its products in approximately 95 markets, primarily through mass retailers; grocery outlets; warehouse clubs; dollar stores; home hardware centers; drug, pet and military stores; third-party and owned e-commerce channels; and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company completed acquisition of GOJO Industries, Inc., expanding its product portfolio to include the Purell brand and GOJO's health and hygiene solutions.",
+   "evidence": "In April 2026, the Company completed the acquisition of GOJO Industries, Inc. (GOJO), expanding its product portfolio to include the Purell brand and GOJO's health and hygiene solutions."
+  },
+  {
+   "text": "In 2025, the company divested its Better Health VMS business, which was reflected in Corporate and Other.",
+   "evidence": "Corporate and Other includes certain non-allocated administrative and other costs, various other non-operating income and expenses, as well as the results of the Better Health VMS business through the date of divestiture."
+  }
+ ],
+ "dropped": []
+}

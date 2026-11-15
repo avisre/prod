@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000319201",
+ "issuerName": "KLA CORP",
+ "builtAt": "2026-11-14T13:48:13.212Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000319201-26-000027",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/319201/000031920126000027/klac-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Process Control",
+   "products": [
+    "inspection products",
+    "metrology products",
+    "chemistry process control",
+    "software products",
+    "related services"
+   ],
+   "description": "Provides inspection, metrology and software products and related services that help IC, wafer, reticle/mask and chemical/materials manufacturers achieve target yields from R&D to volume production.",
+   "evidence": "Within the Semiconductor Process Control segment, our comprehensive portfolio of inspection, metrology and software products, as well as related services, help IC, wafer, reticle/mask and chemical/materials manufacturers achieve target yields throughout the entire fabrication process, from R&D to final volume production."
+  },
+  {
+   "name": "Specialty Semiconductor Process",
+   "products": [
+    "etching process tools"
+   ],
+   "description": "Develops and sells advanced vacuum deposition and etching process tools for specialty semiconductor customers including MEMS, RF and power semiconductor manufacturers.",
+   "evidence": "Within the Specialty Semiconductor Process segment, we develop and sell advanced vacuum deposition and etching process tools, which are used by a broad range of specialty semiconductor customers, including manufacturers of microelectromechanical systems (\"MEMS\"), radio frequency (\"RF\") communication semiconductors, and power semiconductors for automotive and industrial applications."
+  },
+  {
+   "name": "PCB and Component Inspection",
+   "products": [
+    "inspection products",
+    "direct imaging for patterning products"
+   ],
+   "description": "Enables electronic device manufacturers to inspect, test and measure PCBs, IC substrates and packaged ICs to verify quality and pattern electronic circuitry.",
+   "evidence": "Within the PCB and Component Inspection segment, we enable electronic device manufacturers to inspect, test and measure PCBs, IC substrates and packaged ICs to verify their quality, pattern the desired electronic circuitry on the relevant substrate and perform three-dimensional shaping of metalized circuits on multiple surfaces."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "KLA derives revenue primarily from product sales and related service contracts, mostly through its direct sales force, with recurring subscription-like service contracts generating maintenance revenue.",
+  "evidence": "Our revenues are derived primarily from product sales and related service contracts, mostly through our direct sales force."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Specialty Semiconductor Process): advanced vacuum deposition process tools",
+  "product not in text (PCB and Component Inspection): testing and measurement products"
+ ]
+}

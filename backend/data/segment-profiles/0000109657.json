@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000109657",
+ "issuerName": "GT Biopharma, Inc.",
+ "builtAt": "2026-11-14T13:47:31.813Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008443",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/109657/000149315226008443/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical stage biopharmaceutical",
+   "products": [
+    "GTB-3550",
+    "GTB-3650",
+    "GTB-5550",
+    "GTB-7550",
+    "TriKE® platform",
+    "Dual Targeting TriKE® platform"
+   ],
+   "description": "Clinical stage biopharmaceutical company developing novel immuno-oncology products based on proprietary TriKE® and Dual Targeting TriKE® fusion protein immune cell engager platforms.",
+   "evidence": "The Company operates and manages its business as one reportable and operating as a clinical stage biopharmaceutical company focused on the development and commercialization of novel immune-oncology products based on our proprietary Tri-specific Killer Engager (TriKE®), and Tetra-specific Killer Engager (Dual Targeting TriKE®) platforms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, the company suspended clinical development of its first TriKE® product "
+ ]
+}

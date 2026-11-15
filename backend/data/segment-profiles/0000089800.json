@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000089800",
+ "issuerName": "THE SHERWIN-WILLIAMS COMPANY",
+ "builtAt": "2026-11-14T13:46:27.483Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000089800-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/89800/000008980026000008/shw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Paint Stores Group",
+   "products": [
+    "protective and marine products",
+    "OEM product finishes",
+    "related products",
+    "purchased associated products"
+   ],
+   "description": "Operates company-operated specialty paint stores serving architectural and industrial paint contractors and do-it-yourself homeowners in the United States, Canada and the Caribbean region.",
+   "evidence": "These stores market and sell Sherwin-Williams ® and other controlled brand architectural paint and coatings, protective and marine products, OEM product finishes and related products."
+  },
+  {
+   "name": "Consumer Brands Group",
+   "products": [
+    "branded and private-label architectural paint",
+    "stains",
+    "varnishes",
+    "industrial products",
+    "wood finishes products",
+    "wood preservatives",
+    "applicators",
+    "aerosols"
+   ],
+   "description": "Manufactures and distributes branded and private-label paints and related products to retailers, dealers and distributors, and operates specialty paint stores in Latin America.",
+   "evidence": "The Consumer Brands Group manufactures and distributes a broad portfolio of branded and private-label architectural paint, stains, varnishes, industrial products, wood finishes products, wood preservatives, applicators, corrosion inhibitors, aerosols, caulks and adhesives to retailers, including home centers and hardware stores, dedicated dealers and distributors throughout North America, Latin America and Europe."
+  },
+  {
+   "name": "Performance Coatings Group",
+   "products": [
+    "industrial coatings for wood finishing",
+    "protective and marine coatings",
+    "coil coatings",
+    "packaging coatings",
+    "performance-based resins and colorants"
+   ],
+   "description": "Develops and sells industrial coatings and resins worldwide to retailers, dealers, jobbers, licensees and third-party distributors through branches and direct sales staff.",
+   "evidence": "The Performance Coatings Group develops and sells industrial coatings for wood finishing and general industrial (metal and plastic) applications, automotive refinish, protective and marine coatings, coil coatings, packaging coatings and performance-based resins and colorants worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Paint Stores Group): Sherwin-Williams® architectural paint and coatings",
+  "product not in text (Performance Coatings Group): general industrial (metal and plastic) coatings",
+  "product not in text (Performance Coatings Group): automotive refinish coatings",
+  "revenue model not grounded"
+ ]
+}

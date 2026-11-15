@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000097210",
+ "issuerName": "TERADYNE, INC.",
+ "builtAt": "2026-11-14T13:46:51.651Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-059002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/97210/000119312526059002/ter-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Test",
+   "products": [
+    "Semiconductor test systems",
+    "FLEX Test Platform"
+   ],
+   "description": "Designs, manufactures, sells and supports semiconductor, HDD and SSD test systems and related services for IDMs, Fabless companies, Foundries and OSATs worldwide.",
+   "evidence": "We design, manufacture, sell and support Semiconductor, Hard Disk Drive (\"HDD\"), and Solid State Disk (\"SSD\") test systems and related services on a worldwide basis."
+  },
+  {
+   "name": "Product Test",
+   "products": [
+    "circuit-board test and inspection systems",
+    "wireless test systems",
+    "photonic integrated circuit (\"PIC\") test solutions",
+    "defense and aerospace test instrumentation and systems"
+   ],
+   "description": "Provides product test systems including circuit-board test, wireless test, PIC test solutions and defense and aerospace test instrumentation.",
+   "evidence": "product test (\"Product Test\") systems, which include circuit-board test and inspection systems, wireless test systems, photonic integrated circuit (\"PIC\") test solutions, and defense and aerospace test instrumentation and systems."
+  },
+  {
+   "name": "Robotics",
+   "products": [
+    "collaborative robotic arms",
+    "autonomous mobile robots"
+   ],
+   "description": "Provides collaborative robotic arms and autonomous mobile robots used by global manufacturing, logistics and industrial customers to improve quality and efficiency.",
+   "evidence": "Teradyne's robotics product offerings consist primarily of collaborative robotic arms and autonomous mobile robots used by global manufacturing, logistics and industrial customers to improve quality, increase manufacturing and material handling efficiency while reducing costs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Teradyne sells automated test equipment and services predominantly through a direct sales force to semiconductor makers and electronics companies, while Robotics products are sold principally through distributors and OEMs.",
+  "evidence": "We sell in these areas predominantly through a direct sales force, except for Robotics products, which are sold principally through distributors and OEMs."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Teradyne combined its production board test, defense and aerospace, and wireless test businesses into a new Product Test segment effective March 2025.",
+   "evidence": "In the first quarter of 2025, Teradyne identified opportunities for operational synergies amongst our production board test, defense and aerospace, and wireless test businesses leading to the creation of the Product Test division as a new segment effective March 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Semiconductor Test): Hard Disk Drive (HDD) test systems",
+  "product not in text (Semiconductor Test): Solid State Disk (SSD) test systems",
+  "product not in text (Semiconductor Test): IG-XL software operating system"
+ ]
+}

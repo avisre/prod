@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000046080",
+ "issuerName": "HASBRO, INC.",
+ "builtAt": "2026-11-14T13:44:35.504Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000046080-26-000011",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/46080/000004608026000011/has-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wizards of the Coast and Digital Gaming",
+   "products": [
+    "MAGIC: THE GATHERING",
+    "DUNGEONS & DRAGONS",
+    "MONOPOLY GO!",
+    "Tabletop Gaming",
+    "Digital and Licensed Gaming"
+   ],
+   "description": "Publishes tabletop trading card and role-playing games and develops and licenses digital games for players and fans worldwide.",
+   "evidence": "Wizards of the Coast and Digital Gaming segment net revenues increased 44.7% in 2025 compared to 2024."
+  },
+  {
+   "name": "Consumer Products",
+   "products": [
+    "TRANSFORMERS",
+    "NERF",
+    "PLAY-DOH",
+    "PEPPA PIG",
+    "BEYBLADE",
+    "MARVEL",
+    "STAR WARS",
+    "MY LITTLE PONY"
+   ],
+   "description": "Designs, manufactures and sells toys and games based on owned and licensed brands to retailers, ecommerce and direct-to-consumer channels.",
+   "evidence": "In our Consumer Products segment, we saw solid performance from BEYBLADE, TRANSFORMERS and Hasbro Gaming, as well as success from recent innovation, such as the announcement of Baby Evie joining PEPPA PIG."
+  },
+  {
+   "name": "Entertainment",
+   "products": [
+    "Family Brands",
+    "Film and TV"
+   ],
+   "description": "Monetizes Hasbro's family brands through film, television and entertainment licensing and streaming arrangements.",
+   "evidence": "Entertainment segment net revenues decreased 4.4% in 2025 compared to 2024, primarily driven by the timing of entertainment streaming renewals."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hasbro earns revenue from selling toys and games at retail, through ecommerce and direct-to-consumer platforms, from digital and licensed gaming arrangements, and from licensing its IP to partners.",
+  "evidence": "We market and sell toys and games based on our owned and controlled brands globally at retail stores, through ecommerce platforms and through our fan-based direct-to-consumer platforms Hasbro PULSE and SECRET LAIR."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025 Hasbro completed the divestiture of the non-core eOne Film and TV busine"
+ ]
+}

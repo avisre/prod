@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000746598",
+ "issuerName": "BRADY CORP",
+ "builtAt": "2026-11-14T13:50:03.215Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000746598-26-000044",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/746598/000074659826000044/brc-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas & Asia",
+   "products": [
+    "Safety and facility identification and protection",
+    "Product identification",
+    "Wire identification",
+    "Healthcare identification",
+    "People identification"
+   ],
+   "description": "Sells identification and workplace safety products to customers across North America, South America and Asia.",
+   "evidence": "The Americas & Asia segment is comprised of our operations in North America, South America and Asia."
+  },
+  {
+   "name": "Europe & Australia",
+   "products": [
+    "Safety and facility identification and protection",
+    "Product identification",
+    "Wire identification",
+    "Healthcare identification",
+    "People identification"
+   ],
+   "description": "Sells identification and workplace safety products to customers across Europe, the Middle East, Africa and Australia.",
+   "evidence": "the Europe & Australia segment is comprised of our operations in Europe, the Middle East, Africa and Australia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000037808",
+ "issuerName": "FNB CORP/PA/",
+ "builtAt": "2026-11-14T13:44:14.655Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000037808-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/37808/000003780826000007/fnb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "corporate banking",
+    "treasury management services",
+    "small business banking",
+    "investment real estate financing",
+    "business credit",
+    "capital markets",
+    "equipment financing",
+    "deposit products"
+   ],
+   "description": "Regional bank providing commercial and consumer banking services to consumers, corporations, governments and small- to medium-sized businesses across seven states and the District of Columbia.",
+   "evidence": "Our Community Banking segment consists of FNBPA, which offers commercial and consumer banking services."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "personal and corporate fiduciary services",
+    "administration of decedent and trust estates",
+    "investment products and services"
+   ],
+   "description": "Provides wealth management, fiduciary and investment services to individuals, corporations and retirement funds primarily within FNB's geographic markets.",
+   "evidence": "Our Wealth Management segment delivers wealth management services to individuals, corporations and retirement funds, including existing customers of the Community Banking segment, located primarily within our geographic markets."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "personal insurance",
+    "title insurance products"
+   ],
+   "description": "Full-service insurance brokerage agency offering commercial and personal insurance through major carriers, plus a reinsurance subsidiary and a title insurance company.",
+   "evidence": "FNIA is a full-service insurance brokerage agency offering numerous lines of commercial and personal insurance through major carriers to businesses and individuals primarily within FNB's geographic markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "FNB earns revenue from borrowers paying interest on loans, customers paying fees for banking, trust, investment and insurance brokerage services, and depositors funding the bank.",
+  "evidence": "As a diversified financial services holding company, FNB, through our subsidiaries, provides a full range of financial services, principally to consumers, corporations, governments and small- to medium-sized businesses in our market areas through our subsidiary network, which is led by our largest subsidiary, FNBPA."
+ },
+ "changes": [
+  {
+   "text": "In 2025, FNB's registered investment advisory subsidiary FNBIA ceased operations, with client accounts transferred to FNTC and FNBIA deregistered and in the process of dissolution.",
+   "evidence": "Our former registered investment advisory company, FNBIA, client accounts were transferred to FNTC, and FNBIA was deregistered in the fourth quarter 2025 with the company currently in the process of being dissolved."
+  }
+ ],
+ "dropped": [
+  "product not in text (Insurance): commercial insurance"
+ ]
+}

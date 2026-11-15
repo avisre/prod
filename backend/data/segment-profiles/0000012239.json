@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0000012239",
+ "issuerName": "DOMINARI HOLDINGS INC.",
+ "builtAt": "2026-11-14T14:06:59.702Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036897",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/12239/000121390026036897/ea0283159-10k_domin.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wealth Management",
+   "products": [
+    "Full-Service Brokerage",
+    "Wealth Planning",
+    "Asset Management",
+    "Insurance and Annuity Products"
+   ],
+   "description": "Provides comprehensive financial services to high-net-worth individuals, families, corporate executives and businesses through brokerage and advisory accounts.",
+   "evidence": "Dominari Securities provides a comprehensive array of financial services to high-net-worth individuals and families, corporate executives, and public and private businesses."
+  },
+  {
+   "name": "Investment Banking",
+   "products": [
+    "Financial Advisory",
+    "Equities Capital Markets",
+    "Debt Capital Markets",
+    "Fund Placement",
+    "Debt Advisory & Restructuring",
+    "Private Equity"
+   ],
+   "description": "Provides strategic advisory and capital markets services to emerging growth and middle market businesses across multiple sectors.",
+   "evidence": "Dominari Securities' investment banking division provides strategic advisory services and capital markets products to emerging growth and middle market businesses."
+  },
+  {
+   "name": "Sales and Trading",
+   "products": [
+    "Institutional Equity Sales and Trading",
+    "Equity Derivatives and Index Options",
+    "Institutional Fixed Income Sales and Trading",
+    "Securities Lending"
+   ],
+   "description": "Offers broad range of sales and trading services to clients for equities, derivatives, fixed income and securities lending.",
+   "evidence": "Dominari Securities provides a broad range of sales and trading services to our clients."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "Discretionary Portfolio Management",
+    "Non-Discretionary Fee-Based Programs",
+    "Manager Research and Due Diligence"
+   ],
+   "description": "Provides discretionary and non-discretionary fee-based investment management solutions to high-net-worth clients, institutions and corporations.",
+   "evidence": "Dominari Securities offers discretionary and non-discretionary fee-based programs to provide tailored investment management solutions and services to high-net-worth private clients, institutions and corporations and/or plans sponsored by them."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns commissions and fees from brokerage transactions, advisory services, asset-based management fees, investment banking underwriting and placement fees, and trading commissions and spreads.",
+  "evidence": "The primary sources of revenue in each of the Company's business lines are commissions and fees earned on advisory and underwriting transactions and customer accounts managed by its employees."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company acquired Dominari Securities LLC, a broker-dealer and investment adviser formerly named Fieldpoint Private Securities LLC, through its subsidiary Dominari Financial.",
+   "evidence": "The newly acquired dually registered broker-dealer and investment adviser was renamed Dominari Securities LLC (\"Dominari Securities\") and is a wholly owned subsidiary of Dominari Financial."
+  },
+  {
+   "text": "In 2022, the company formed Dominari Financial Inc. as a wholly owned subsidiary to shift operating focus from biotechnology to fintech and financial services.",
+   "evidence": "In June of 2022, the Company formed a wholly owned financial services subsidiary, Dominari Financial Inc. (\"Dominari Financial\"), with the intent of shifting the Company's primary operating focus away from biotechnology to the fintech and financial services industries."
+  },
+  {
+   "text": "In 2025, the company entered into agreements establishing American Ventures LLC and related management entities, holding a ninety percent membership interest.",
+   "evidence": "On June 17, 2025, the Company entered into two Limited Liability Agreements with American Ventures Management LLC (\"AV Manager\") and American Ventures IM LLC (\"AV Investment Manager\"). The Company holds a ninety percent (90%) Membership Interest in each."
+  }
+ ],
+ "dropped": []
+}

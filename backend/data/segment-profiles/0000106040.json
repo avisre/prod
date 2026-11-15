@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000106040",
+ "issuerName": "WESTERN DIGITAL CORPORATION",
+ "builtAt": "2026-11-14T13:47:21.043Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-057139",
+  "periodEnd": "2026-07-03",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/106040/000162828026057139/wdc-20260703.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HDD",
+   "products": [
+    "high-capacity enterprise HDDs",
+    "high-performance HDD solutions",
+    "HDD external storage products",
+    "ePMR",
+    "OptiNAND",
+    "UltraSMR",
+    "triple stage actuators"
+   ],
+   "description": "Develops, manufactures and sells hard disk drive storage devices and solutions for cloud, client and consumer end markets.",
+   "evidence": "The Company has therefore determined that it has one reportable segment: HDD."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Western Digital is paid by cloud, OEM, channel and retail customers for the HDD storage products it sells across its Cloud, Client and Consumer end markets.",
+  "evidence": "We provide the Cloud end market with an array of high-capacity enterprise HDDs."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (HDD): heat-assisted magnetic recording (HAMR)",
+  "change not grounded: In 2025, Western Digital separated its Flash business by distributing 80.1% of S"
+ ]
+}

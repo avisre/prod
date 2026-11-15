@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000860748",
+ "issuerName": "Kemper Corporation",
+ "builtAt": "2026-11-14T13:53:04.899Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000860748-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/860748/000086074826000014/kmpr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Property & Casualty Insurance",
+   "products": [
+    "Specialty Personal Automobile Insurance",
+    "Commercial Automobile Insurance",
+    "Kemper Auto",
+    "Kemper Reciprocal"
+   ],
+   "description": "Provides specialty personal and commercial automobile insurance to consumers and businesses in targeted markets, distributed mainly through independent agents and brokers.",
+   "evidence": "The Specialty Property & Casualty Insurance segment provides personal automobile insurance to consumers who have had difficulty obtaining standard or preferred risk insurance, usually because of their driving records, claims experience or premium payment history."
+  },
+  {
+   "name": "Life Insurance",
+   "products": [
+    "Fire/Contents Protection",
+    "personal general liability coverage"
+   ],
+   "description": "Offers life and other insurance solutions providing basic protection for customers and their families, plus fire/contents and personal liability coverage sold by career agents.",
+   "evidence": "In addition, the Life Insurance segment's career agents also sell contents coverage for personal property to its customers against loss resulting from fire, lightning and other causes as well as personal general liability coverage."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Kemper earns insurance premiums from policyholders for automobile, life and related coverage, distributed through independent agents and brokers paid commissions, plus direct and captive channels.",
+  "evidence": "The Specialty Property & Casualty Insurance segment distributes these products primarily through independent agents and brokers who are paid commissions for their services, but also distributes a smaller portion of these products through direct to consumer and captive channels."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company established Kemper Reciprocal, an Illinois-domiciled reciprocal insurance exchange writing specialty automobile policies.",
+   "evidence": "In the third quarter of 2023 the Company established Kemper Reciprocal (the \"Reciprocal Exchange\" or \"Exchange\"), an Illinois-domiciled reciprocal insurance exchange."
+  },
+  {
+   "text": "The Company expects to fully exit its Preferred Insurance business, reported in Non-Core Operations.",
+   "evidence": "Non-Core Operations includes the results of our Preferred Insurance business which we expect to fully exit."
+  }
+ ],
+ "dropped": [
+  "product not in text (Life Insurance): life insurance"
+ ]
+}

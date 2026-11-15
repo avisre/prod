@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000067887",
+ "issuerName": "MOOG Inc.",
+ "builtAt": "2026-11-14T13:45:32.540Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-054103",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/67887/000162828025054103/mog-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Space and Defense",
+   "products": [
+    "satellite components",
+    "spacecraft vehicles",
+    "turrets",
+    "defense component programs"
+   ],
+   "description": "Designs and manufactures precision motion and fluid controls for space and defense applications, including satellites, launch vehicles and defense components.",
+   "evidence": "Within Space and Defense, we had higher orders across our satellite and launch vehicle programs, as well as for defense component programs."
+  },
+  {
+   "name": "Military Aircraft",
+   "products": [
+    "military OEM programs",
+    "military aftermarket",
+    "MV-75 program",
+    "F-35 program"
+   ],
+   "description": "Supplies precision flight controls and control systems for military aircraft OEM production and aftermarket programs.",
+   "evidence": "Sales increased in military OEM programs $63 million, driven by the ramp-up of activity on the MV-75 program and new production programs."
+  },
+  {
+   "name": "Commercial Aircraft",
+   "products": [
+    "commercial OEM",
+    "commercial aftermarket",
+    "A350 program"
+   ],
+   "description": "Provides precision flight controls and control systems for commercial aircraft OEM and aftermarket customers.",
+   "evidence": "Commercial aftermarket sales increased $68 million, driven largely by strong fleet utilization on the 787 and A350 programs."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "medical devices",
+    "flight simulation systems",
+    "test products",
+    "industrial automation",
+    "liquid cooling pumps"
+   ],
+   "description": "Supplies industrial precision controls and medical devices for energy, simulation, automation and medical markets.",
+   "evidence": "The twelve-month backlog in Industrial increased due to increased orders in medical and liquid cooling pumps used in data centers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including aerospace and defense primes and industrial and medical customers, pay Moog for precision motion and fluid control products and systems, with revenue recognized from confirmed orders over time.",
+  "evidence": "Our twelve-month backlog represents confirmed orders we believe will be recognized as revenue within the next twelve months."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Industrial divested businesses, primarily within industrial automation, and Commercial Aircraft sold a non-core product line as part of portfolio shaping activities.",
+   "evidence": "Industrial net sales decreased in 2025 compared to 2024, driven by divestitures, primarily within industrial automation, and lower sales for flight simulation systems and test products."
+  }
+ ],
+ "dropped": [
+  "product not in text (Space and Defense): launch vehicle components",
+  "product not in text (Space and Defense): missile components",
+  "product not in text (Commercial Aircraft): 787 program",
+  "product not in text (Industrial): energy market products"
+ ]
+}

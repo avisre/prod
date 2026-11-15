@@ -1,0 +1,80 @@
+{
+ "version": 1,
+ "cik": "0000103730",
+ "issuerName": "Vishay Intertechnology, Inc.",
+ "builtAt": "2026-11-14T13:47:11.972Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000103730-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/103730/000010373026000019/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MOSFETs",
+   "products": [],
+   "description": "Manufactures low-voltage power MOSFET semiconductor components for electronic product makers worldwide.",
+   "evidence": "Newport, South Wales, United Kingdom MOSFETs 439,000"
+  },
+  {
+   "name": "Diodes",
+   "products": [
+    "Power rectifiers"
+   ],
+   "description": "Manufactures diode semiconductor components, including power rectifiers, for a broad range of end markets.",
+   "evidence": "We are currently a worldwide technology and market leader in wire wound power shunts, leaded and thin film SMD resistors, power inductors, wet and polymer tantalum capacitors in conformal-coated packages, power rectifiers, low-voltage power MOSFETs, and infrared components."
+  },
+  {
+   "name": "Optoelectronic Components",
+   "products": [
+    "Infrared components"
+   ],
+   "description": "Produces optoelectronic and infrared semiconductor components used in signal and data transfer applications.",
+   "evidence": "Semiconductors include MOSFETs, diodes, and optoelectronic components."
+  },
+  {
+   "name": "Resistors",
+   "products": [
+    "Bulk Metal foil resistors",
+    "Wire wound power shunts",
+    "Leaded and thin film SMD resistors",
+    "Non-linear resistors"
+   ],
+   "description": "Manufactures precision, thin film, and power resistors for automotive, industrial, consumer and other markets.",
+   "evidence": "We are currently a worldwide technology and market leader in wire wound power shunts, leaded and thin film SMD resistors, power inductors, wet and polymer tantalum capacitors in conformal-coated packages, power rectifiers, low-voltage power MOSFETs, and infrared components."
+  },
+  {
+   "name": "Inductors",
+   "products": [
+    "Power inductors",
+    "IHLP®"
+   ],
+   "description": "Manufactures power inductors and other inductive passive components for electronic designs.",
+   "evidence": "Passive components include resistors, inductors, and capacitors."
+  },
+  {
+   "name": "Capacitors",
+   "products": [
+    "Wet and polymer tantalum capacitors in conformal-coated packages"
+   ],
+   "description": "Manufactures capacitors, including wet and polymer tantalum types, that store and discharge energy.",
+   "evidence": "Passive components include resistors, inductors, and capacitors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vishay earns revenue by selling commodity, certified, and custom discrete semiconductor and passive electronic components to manufacturers and distributors of electronic products.",
+  "evidence": "We design, manufacture, and market electronic components that cover a wide range of functions and technologies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MOSFETs): MOSFETs",
+  "product not in text (Diodes): Diodes",
+  "product not in text (Optoelectronic Components): Optoelectronic components",
+  "product not in text (Resistors): Resistors",
+  "product not in text (Inductors): Inductors",
+  "product not in text (Capacitors): Capacitors"
+ ]
+}

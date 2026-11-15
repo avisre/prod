@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000101594",
+ "issuerName": "BIG SKY INDUSTRIAL INC.",
+ "builtAt": "2026-11-14T13:47:04.191Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008057",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/101594/000143774926008057/useg20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and Production",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Acquires, develops and operates oil and natural gas producing properties in the continental United States, with industrial gas development underway in Montana.",
+   "evidence": "The Company operates primarily in the exploration and production segment of the oil and gas industry, conducting onshore operations within the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by purchasers for its share of produced oil, natural gas and NGL sales from operated and non-operated properties.",
+  "evidence": "All current revenues are derived from the production and sale of oil and natural gas."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold legacy assets in South Texas, East Texas, and Kansas/Oklahoma to redeploy capital into its industrial gas focus area.",
+   "evidence": "Beginning in the fourth quarter 2023 and continuing through year-end 2025, we sold several legacy oil and natural gas assets and redeployed the capital into our industrial gas focus area."
+  },
+  {
+   "text": "In 2025 the company closed on the sale of a portion of its Wyoming properties.",
+   "evidence": "The Company also closed on the sale of a portion of our Wyoming properties for approximately $500 thousand."
+  }
+ ],
+ "dropped": [
+  "product not in text (Exploration and Production): natural gas liquids (NGLs)",
+  "product not in text (Exploration and Production): industrial gas (development stage)"
+ ]
+}

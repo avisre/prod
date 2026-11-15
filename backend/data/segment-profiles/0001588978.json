@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001588978",
+ "issuerName": "PROCEPT BioRobotics Corporation",
+ "builtAt": "2026-11-14T17:40:06.378Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001588978-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1588978/000158897826000009/prct-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Surgical robotics",
+   "products": [
+    "AquaBeam Robotic System",
+    "HYDROS Robotic System",
+    "Aquablation therapy",
+    "single-use disposable handpiece"
+   ],
+   "description": "Develops, manufactures and sells image-guided surgical robotic systems for minimally invasive urologic surgery treating benign prostatic hyperplasia.",
+   "evidence": "We develop, manufacture and sell the AquaBeam Robotic System and HYDROS Robotic System, which are advanced, image-guided, surgical robotic systems for use in minimally invasive urologic surgery, with an initial focus on treating benign prostatic hyperplasia, or BPH."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals, surgery centers, leasing companies and distributors pay for robotic systems and single-use disposable handpieces, via direct sales or sales-type leasing arrangements.",
+  "evidence": "Currently, in the United States, we primarily sell our products to hospitals, or end customers, and to a lesser extent, distribution partners, ambulatory surgery centers and leasing companies."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

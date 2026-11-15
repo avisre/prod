@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000350698",
+ "issuerName": "AUTONATION, INC.",
+ "builtAt": "2026-11-14T13:48:17.099Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007800",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/350698/000162828026007800/an-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domestic",
+   "products": [
+    "Ford",
+    "Lincoln",
+    "Chevrolet",
+    "Buick",
+    "Cadillac",
+    "GMC",
+    "Chrysler",
+    "Dodge"
+   ],
+   "description": "Retail automotive franchises selling new vehicles manufactured by Ford, General Motors, and Stellantis, plus used vehicles, parts and service, and finance and insurance products.",
+   "evidence": "Our Domestic segment is comprised of retail automotive franchises that sell new vehicles manufactured by Ford, General Motors, and Stellantis."
+  },
+  {
+   "name": "Import",
+   "products": [
+    "Toyota",
+    "Honda",
+    "Nissan",
+    "Hyundai",
+    "Subaru",
+    "Acura",
+    "Mazda",
+    "Infiniti"
+   ],
+   "description": "Retail automotive franchises selling new vehicles manufactured primarily by Toyota, Honda, Hyundai, and Subaru, plus used vehicles, parts and service, and finance and insurance products.",
+   "evidence": "Our Import segment is primarily comprised of retail automotive franchises that sell new vehicles manufactured by Toyota, Honda, Hyundai, and Subaru."
+  },
+  {
+   "name": "Premium Luxury",
+   "products": [
+    "Mercedes-Benz",
+    "BMW",
+    "Lexus",
+    "Audi",
+    "Jaguar Land Rover",
+    "Aston Martin",
+    "Bentley",
+    "Porsche"
+   ],
+   "description": "Retail automotive franchises selling new vehicles manufactured primarily by Mercedes-Benz, BMW, Lexus, Audi, and Jaguar Land Rover, plus used vehicles, parts and service, and finance and insurance products.",
+   "evidence": "Our Premium Luxury segment is primarily comprised of retail automotive franchises that sell new vehicles manufactured by Mercedes-Benz, BMW, Lexus, Audi, and Jaguar Land Rover."
+  },
+  {
+   "name": "AutoNation Finance",
+   "products": [
+    "indirect financing"
+   ],
+   "description": "Captive auto finance company providing indirect financing to qualified retail customers on vehicles AutoNation sells.",
+   "evidence": "Our AutoNation Finance segment is comprised of our captive auto finance company, which provides indirect financing to qualified retail customers on vehicles we sell."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay AutoNation for new and used vehicles, parts and repair services, and finance and insurance products, while AutoNation Finance earns indirect financing revenue from qualified retail customers on vehicles sold.",
+  "evidence": "We offer a diversified range of automotive products and services, including new vehicles, used vehicles, \"parts and service\" (also referred to as \"After-Sales\"), which includes automotive repair and maintenance services as well as wholesale parts and collision businesses, and automotive \"finance and insurance\" products (also referred to as \"Customer Financial Services\"), which include vehicle service and other protection products, as well as the arranging of financing for vehicle purchases throu"
+ },
+ "changes": [],
+ "dropped": []
+}

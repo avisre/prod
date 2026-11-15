@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001500412",
+ "issuerName": "Ambiq Micro, Inc.",
+ "builtAt": "2026-11-14T17:39:56.799Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-094004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1500412/000119312526094004/ambq-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Solutions",
+   "products": [
+    "SPOT platform",
+    "Systems-on-chip (SoCs)",
+    "graphiqSPOT",
+    "neuralSPOT",
+    "turboSPOT",
+    "secureSPOT",
+    "Voice-on-SPOT"
+   ],
+   "description": "Ultra-low power semiconductor solutions for edge AI compute in personal devices, medical, industrial, and smart home markets.",
+   "evidence": "We are a pioneer and leading provider of ultra-low power semiconductor solutions designed to address the significant power consumption challenges of general purpose and AI compute – especially at the edge."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Manufacturers purchase systems-on-chip semiconductor solutions through distributors and sales representatives for integration into edge AI devices.",
+  "evidence": "We leverage our internal direct sales force and our global network of distributors and sales representatives to pursue and support our core end markets."
+ },
+ "changes": [],
+ "dropped": []
+}

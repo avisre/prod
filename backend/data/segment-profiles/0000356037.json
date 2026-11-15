@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000356037",
+ "issuerName": "CSP Inc",
+ "builtAt": "2026-11-14T13:48:31.357Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000356037-25-000065",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/356037/000035603725000065/cspi-20250930x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology Solutions (\"TS\")",
+   "products": [
+    "Third-party computer hardware and software",
+    "Professional IT consulting services",
+    "Managed IT services (\"MSP\")",
+    "Cloud services",
+    "IT security compliance services",
+    "Custom software applications"
+   ],
+   "description": "A value-added reseller of third-party hardware and software that also provides professional, managed IT and cloud services to SMB and enterprise customers.",
+   "evidence": "The TS segment generates product revenues by reselling third-party computer hardware and software as a value added reseller (\"VAR\")."
+  },
+  {
+   "name": "High Performance Products (\"HPP\")",
+   "products": [
+    "ARIA™ Software-Defined Security (\"SDS\")",
+    "ARIA Packet Intelligence software",
+    "ARIA Advanced Detection and Response (\"ADR\")",
+    "ARIA Zero Trust (AZT) PROTECT™",
+    "Myricom® network adapters",
+    "Multicomputer product portfolio"
+   ],
+   "description": "Sells cybersecurity software, Myricom network adapters and legacy multicomputer products to commercial, OEM, government and defense customers.",
+   "evidence": "The HPP segment revenue comes from three distinct product lines: (i) a cybersecurity solution marketed as ARIA™ Software-Defined Security (\"SDS\"), which is offered to commercial, original equipment manufacturers (\"OEM\") and government customers; (ii) the Myricom ® network adapters and related software for commercial, government and OEM customers; and (iii) the legacy Multicomputer product portfolio for digital signal processing (\"DSP\") applications within the defense markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for resold third-party hardware and software, professional and managed IT services, and recurring software licenses, support packages and supporting services.",
+  "evidence": "Revenue is derived from: (i) license sales of our software platform components, (ii) support packages and (iii) any required supporting services."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company introduced the ARIA Zero Trust (AZT) PROTECT™ product to the market.",
+   "evidence": "In July of 2023 ARIA Zero Trust (AZT) PROTECT™ was introduced to the market."
+  },
+  {
+   "text": "The Myricom ARC Series adapters reached end of life due to ASIC supplier problems, significantly reducing their contribution to the HPP business.",
+   "evidence": "The ARC series has reached end of life due to ASIC supplier problems which will significantly reduce its contribution to the HPP line of business."
+  },
+  {
+   "text": "Multicomputer products for DSP applications are no longer actively developed and will continue to be sold into established programs only through fiscal year 2025.",
+   "evidence": "Multicomputer products for DSP applications are no longer actively developed but will continue to be sold into established programs through fiscal year 2025 and supported for several years via our repair services offering."
+  }
+ ],
+ "dropped": [
+  "product not in text (Technology Solutions (\"TS\")): Unified communications solutions",
+  "product not in text (High Performance Products (\"HPP\")): ARC Series SmartNIC adapters",
+  "product not in text (High Performance Products (\"HPP\")): Myricom Secure Intelligent Adapters (\"SIA\")"
+ ]
+}

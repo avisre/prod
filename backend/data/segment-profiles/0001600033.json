@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001600033",
+ "issuerName": "e.l.f. Beauty, Inc.",
+ "builtAt": "2026-11-14T17:36:38.536Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001600033-26-000020",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1600033/000160003326000020/elf-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beauty",
+   "products": [
+    "e.l.f. Cosmetics",
+    "e.l.f. SKIN",
+    "rhode",
+    "Naturium",
+    "Well People"
+   ],
+   "description": "Multi-brand beauty company offering inclusive, accessible, clean, vegan and cruelty free cosmetics and skin care products to consumers.",
+   "evidence": "e.l.f. Beauty, Inc. (\"e.l.f. Beauty\" and together with our subsidiaries, the \"Company,\" or \"we\") is a multi-brand beauty company that offers inclusive, accessible, clean, vegan and cruelty free cosmetics and skin care products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and direct e-commerce consumers pay the Company for cosmetics and skin care products delivered at a point in time.",
+  "evidence": "Revenue is recognized when control of promised goods or services is transferred to a customer in an amount that reflects the consideration that the Company expects to receive in exchange for those goods or services."
+ },
+ "changes": [
+  {
+   "text": "In May 2026 the Company transferred the Keys Soulcare brand to Alicia Keys, removing it from the brand portfolio.",
+   "evidence": "We transferred the Keys Soulcare brand to Alicia Keys in May 2026 and it is no longer part of our brand portfolio."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

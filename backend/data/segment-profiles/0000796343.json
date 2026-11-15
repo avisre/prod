@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000796343",
+ "issuerName": "ADOBE INC.",
+ "builtAt": "2026-11-14T13:51:12.576Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000796343-26-000003",
+  "periodEnd": "2025-11-28",
+  "filingDate": "2026-01-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/796343/000079634326000003/adbe-20251128.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Media",
+   "products": [
+    "Adobe Acrobat solutions",
+    "Adobe Express",
+    "Creative Cloud subscriptions",
+    "Adobe Photoshop",
+    "Adobe Illustrator",
+    "Adobe Lightroom",
+    "Adobe Premiere Pro",
+    "Adobe After Effects"
+   ],
+   "description": "Serves business professionals, consumers, creators and creative professionals with content creation, publishing and document productivity solutions.",
+   "evidence": "Our Digital Media segment provides products and services that enable individuals, teams, businesses, and enterprises to create, publish and promote their content anywhere and accelerate their productivity by transforming how they view, share, engage with and collaborate on documents and creative content."
+  },
+  {
+   "name": "Digital Experience",
+   "products": [
+    "Adobe Experience Platform",
+    "Real-Time Customer Data Platform",
+    "Customer Journey Analytics",
+    "Adobe Experience Manager Sites",
+    "Adobe Commerce",
+    "Adobe Journey Optimizer",
+    "Adobe Marketo Engage",
+    "Adobe GenStudio"
+   ],
+   "description": "Provides marketing professionals an integrated platform to create, manage, measure and optimize customer experiences from analytics to commerce.",
+   "evidence": "Our Digital Experience segment provides marketing professionals with an integrated platform and set of products, services and solutions that enable businesses to create, manage, execute, measure, monetize and optimize customer experiences that span from analytics to commerce."
+  },
+  {
+   "name": "Publishing and Advertising",
+   "products": [
+    "eLearning solutions",
+    "technical document publishing",
+    "web conferencing",
+    "document and forms platform",
+    "web app development",
+    "Adobe PostScript",
+    "Adobe PDF standards",
+    "Adobe Advertising offerings"
+   ],
+   "description": "Contains legacy products and services addressing eLearning, technical document publishing, web conferencing, high-end printing and advertising.",
+   "evidence": "Our Publishing and Advertising segment contains legacy products and services that address diverse market opportunities, including eLearning solutions, technical document publishing, web conferencing, document and forms platform, web app development, high-end printing and our Adobe Advertising offerings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay primarily through subscriptions for cloud-based products, plus perpetual and term licenses, pay-per-use models, consulting services and transaction-based advertising.",
+  "evidence": "We offer many of our products via a SaaS model or a managed services model (both of which are referred to as hosted or cloud-based) as well as through term subscription and pay-per-use models."
+ },
+ "changes": [
+  {
+   "text": "Effective in the first quarter of fiscal 2026, Adobe will combine its three prior segments into a single operating and reportable segment.",
+   "evidence": "Effective in the first quarter of fiscal 2026, we will combine our prior segments—Digital Media, Digital Experience and Publishing and Advertising—into a single operating and reportable segment due to changes in how management intends to evaluate results, allocate resources and execute the strategic opportunities outlined above."
+  }
+ ],
+ "dropped": []
+}

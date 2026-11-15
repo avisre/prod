@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000720858",
+ "issuerName": "INVESTORS TITLE CO",
+ "builtAt": "2026-11-14T13:49:22.655Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000720858-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/720858/000072085826000011/itic-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Title Insurance",
+   "products": [
+    "commercial title insurance",
+    "reinsurance of title insurance risks"
+   ],
+   "description": "Underwrites residential and commercial title insurance for owners and mortgagees of real estate through ITIC and NITIC.",
+   "evidence": "The Company's primary business activity, and one of its reportable operating segments, is the issuance of residential and commercial title insurance through ITIC and NITIC."
+  },
+  {
+   "name": "Exchange Services",
+   "products": [
+    "tax-deferred real property exchange services",
+    "reverse exchanges"
+   ],
+   "description": "Provides tax-deferred like-kind real property exchange services as a qualified intermediary through ITEC and ITAC.",
+   "evidence": "The Company's second reportable operating segment is providing tax-deferred real property exchange services through its subsidiaries, Investors Title Exchange Corporation (\"ITEC\") and Investors Title Accommodation Corporation (\"ITAC\")."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "management services to title insurance agencies",
+    "investment management and trust services"
+   ],
+   "description": "Comprises management services to title insurance agencies via ITMS and investment management and trust services via Investors Trust.",
+   "evidence": "None of these other lines of business is currently a reportable segment for which separate financial information is presented; instead, they are collectively included and reported in the category \"All Other\" in the segment information in Note 12 of the Notes to the Consolidated Financial Statements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns one-time title insurance premiums from property owners and mortgagees at closing, exchange fees and interest on client deposits, and fees for management, investment and trust services.",
+  "evidence": "Title insurance premiums written reflect a one-time premium payment, with no recurring premiums."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Title Insurance): residential title insurance",
+  "product not in text (Exchange Services): build to suit exchanges"
+ ]
+}

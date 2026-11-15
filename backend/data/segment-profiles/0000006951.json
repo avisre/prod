@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000006951",
+ "issuerName": "APPLIED MATERIALS INC /DE",
+ "builtAt": "2026-11-14T14:06:31.882Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-056742",
+  "periodEnd": "2025-10-26",
+  "filingDate": "2025-12-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/6951/000162828025056742/amat-20251026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Systems",
+   "products": [
+    "Patterning systems",
+    "Transistor and interconnect products",
+    "Process control systems",
+    "Advanced packaging systems"
+   ],
+   "description": "Designs, develops, manufactures and sells equipment used to fabricate semiconductor chips across materials engineering, process control and advanced packaging.",
+   "evidence": "Our Semiconductor Systems segment designs, develops, manufactures and sells a wide range of equipment used to fabricate semiconductor chips, also referred to as integrated circuits (ICs)."
+  },
+  {
+   "name": "Applied Global Services",
+   "products": [
+    "Services",
+    "Spares",
+    "Factory automation software"
+   ],
+   "description": "Provides services, spares and factory automation software to optimize performance of semiconductor equipment globally.",
+   "evidence": "Our AGS segment provides services, spares and factory automation software to customer fabrication plants globally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semiconductor manufacturers purchase capital equipment and services to fabricate chips and optimize installed equipment performance.",
+  "evidence": "Our business is based on capital equipment investments by major semiconductor and other manufacturers, and is subject to significant variability in customer demand for our products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Semiconductor Systems): Metrology and inspection systems",
+  "product not in text (Applied Global Services): 200 millimeter equipment",
+  "change not grounded: In fiscal 2026, the 200mm equipment business will be moved from AGS to Semicondu",
+  "change not grounded: Display was no longer considered a significant operating segment as of October 2"
+ ]
+}

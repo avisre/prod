@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000728385",
+ "issuerName": "BIRCHTECH CORP.",
+ "builtAt": "2026-11-14T13:49:38.043Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-001835",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/728385/000147793226001835/meec_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Activated Carbon Technologies",
+   "products": [
+    "Shaped activated carbons (including reactivated GAC)",
+    "Testing and consulting services"
+   ],
+   "description": "Provides patented activated carbon technologies for mercury emissions capture at coal-fired power plants and developing water purification solutions targeting PFAS.",
+   "evidence": "We are a provider of specialty activated carbon technologies, delivering innovative solutions for air and water purification."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Coal-fired utilities and licensees pay for sorbent products, patent licenses, demonstrations, consulting services and equipment.",
+  "evidence": "The following table presents sales by operating segment disaggregated based on the type of product for the years ended December 31, 2025 and 2024."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company introduced a new water treatment business targeting PFAS in drinking water.",
+   "evidence": "In April 2024, we announced the introduction of our new water treatment business to address the growing potable (drinking) water market with next-generation sorbent technologies."
+  }
+ ],
+ "dropped": [
+  "product not in text (Activated Carbon Technologies): SEA® mercury capture process",
+  "product not in text (Activated Carbon Technologies): Sorbent Enhancement Additive (SEA®) products",
+  "product not in text (Activated Carbon Technologies): Water treatment sorbent technologies",
+  "product not in text (Activated Carbon Technologies): Carbon Rejuvenation™ thermal reactivation"
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000778164",
+ "issuerName": "ALTO INGREDIENTS, INC.",
+ "builtAt": "2026-11-14T13:50:44.507Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-027687",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/778164/000121390026027687/ea0280136-10k_alto.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pekin production",
+   "products": [
+    "specialty alcohols",
+    "grain neutral spirits",
+    "corn germ",
+    "dried yeast",
+    "corn protein meal",
+    "corn protein feed",
+    "distillers grains",
+    "liquid feed"
+   ],
+   "description": "Produces and sells alcohols and essential ingredients at the three Pekin, Illinois production facilities for domestic and international customers.",
+   "evidence": "Pekin production , which includes the production and sale of alcohols and other products we refer to as \"essential ingredients\" described below, produced at our three production facilities located in Pekin, Illinois, which we refer to as our Pekin Campus;"
+  },
+  {
+   "name": "Marketing and distribution",
+   "products": [
+    "specialty alcohols",
+    "renewable fuels",
+    "essential ingredients",
+    "fuel-grade ethanol"
+   ],
+   "description": "Markets and merchant-trades company-produced alcohols and essential ingredients and sells third-party fuel-grade ethanol to domestic and international customers.",
+   "evidence": "Marketing and distribution , which includes marketing and merchant trading for company-produced alcohols and essential ingredients on an aggregated basis, and sales of fuel-grade ethanol sourced from third parties;"
+  },
+  {
+   "name": "Western production",
+   "products": [
+    "renewable fuels",
+    "fuel-grade ethanol",
+    "distillers corn oil",
+    "liquid CO 2",
+    "dried yeast",
+    "corn protein meal",
+    "distillers grains"
+   ],
+   "description": null,
+   "evidence": "Western production , which includes the production and sale of renewable fuels and essential ingredients produced at our Western production facilities, including our liquid CO 2 plant, on an aggregated basis, none of which are individually so significant as to be considered a separately reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including distilled spirits producers, food manufacturers, oil companies and gasoline marketers, pay for specialty alcohols, renewable fuels and essential ingredients produced or sourced by the company.",
+  "evidence": "Our renewable fuel customers are located throughout the Western and Midwestern United States and consist of integrated oil companies and gasoline marketers who blend fuel-grade ethanol into gasoline."
+ },
+ "changes": [
+  {
+   "text": "The company cold-idled its Magic Valley facility for all of 2025 to minimize financial losses, while continuing ethanol terminaling services.",
+   "evidence": "As a consequence, we cold-idled our Magic Valley facility for all of 2025 and through the filing of this report to minimize financial losses."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company acquired a liquid CO2 production facility adjacent to its O"
+ ]
+}

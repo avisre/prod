@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000354963",
+ "issuerName": "Shenandoah Telecommunications Company",
+ "builtAt": "2026-11-14T13:48:28.355Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000354963-26-000125",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/354963/000035496326000125/shen-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broadband",
+   "products": [
+    "broadband internet",
+    "video",
+    "voice",
+    "high-speed Ethernet",
+    "dark fiber leasing",
+    "Wavelength fiber optic services",
+    "managed network services"
+   ],
+   "description": "Provides broadband data, video and voice services to residential and commercial customers, plus fiber and Ethernet services to enterprise and wholesale customers, in eight eastern U.S. states.",
+   "evidence": "Shentel provides broadband data, video and voice services to residential and commercial customers in portions of Virginia, West Virginia, Maryland, Pennsylvania, Kentucky, Delaware, Ohio and Indiana, via fiber optic and hybrid fiber coaxial (\"HFC\") cable networks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential and commercial customers pay subscription fees for broadband internet, video and voice services, and enterprise and wholesale customers pay for Ethernet, dark fiber and Wavelength services.",
+  "evidence": "We also lease dark fiber and provide Ethernet and Wavelength fiber optic services to enterprise and wholesale customers throughout the entirety of our service area."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Broadband): Glo Fiber Fiber-To-The-Home (FTTH) service",
+  "product not in text (Broadband): digital subscriber line (DSL) services"
+ ]
+}

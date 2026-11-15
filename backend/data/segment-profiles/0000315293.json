@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000315293",
+ "issuerName": "Aon plc",
+ "builtAt": "2026-11-14T13:48:02.929Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008116",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/315293/000162828026008116/aon-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Risk Capital",
+   "products": [
+    "Commercial Risk Solutions",
+    "Reinsurance Solutions",
+    "insurance and specialty brokerage",
+    "global risk consulting",
+    "captives management",
+    "Affinity programs",
+    "treaty reinsurance",
+    "facultative reinsurance"
+   ],
+   "description": "Provides commercial insurance brokerage, risk consulting, and reinsurance solutions to organizations, insurers, and reinsurers worldwide.",
+   "evidence": "We manage our business within two reportable segments: Risk Capital and Human Capital."
+  },
+  {
+   "name": "Human Capital",
+   "products": [
+    "Health Solutions",
+    "Wealth Solutions",
+    "consulting and brokerage",
+    "consumer benefits",
+    "retirement consulting",
+    "pension administration",
+    "investments consulting"
+   ],
+   "description": "Delivers health and benefits brokerage, talent advisory, retirement consulting, pension administration, and investment advice to employers and institutions.",
+   "evidence": "Human Capital Health Solutions includes consulting and brokerage, consumer benefits, compensation, and talent advisory services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Aon earns commissions and fees from clients for brokerage and consulting services, plus compensation from insurance and reinsurance companies for services provided to them.",
+  "evidence": "Our business generates revenues primarily through commissions, compensation from insurance and reinsurance companies for services we provide to them, and fees from customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Aon divested the NFP Wealth business, which was classified as held for sale in September 2025.",
+   "evidence": "includes the impact of strong organic revenue growth from the divested NFP Wealth business, as defined in Liquidity and Financial Condition, until classified as held for sale in September 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Human Capital): compensation and talent advisory services"
+ ]
+}

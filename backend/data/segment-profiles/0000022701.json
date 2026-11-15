@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000022701",
+ "issuerName": "SUNATION ENERGY, INC.",
+ "builtAt": "2026-11-14T14:07:39.247Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000022701-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/22701/000002270126000003/sune-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hawaii Energy Connection",
+   "products": [
+    "photovoltaic solar energy systems",
+    "battery storage",
+    "energy management control devices",
+    "grid services"
+   ],
+   "description": "Designs, installs, and maintains residential and commercial solar energy systems and battery storage in Hawaii.",
+   "evidence": "Our current business units, Hawaii Energy Connection, LLC (\"HEC\"), and New York-based subsidiaries, the SUNation entities (collectively, \"SUNation NY\") are engaged in the design, installation, and maintenance of solar energy systems across residential, commercial, and municipal sectors."
+  },
+  {
+   "name": "SUNation NY",
+   "products": [
+    "photovoltaic solar energy systems",
+    "battery storage",
+    "roofing services",
+    "community solar services"
+   ],
+   "description": "Designs, installs, and maintains residential, commercial, and municipal solar systems, battery storage, roofing, and community solar in New York.",
+   "evidence": "Our current business units, Hawaii Energy Connection, LLC (\"HEC\"), and New York-based subsidiaries, the SUNation entities (collectively, \"SUNation NY\") are engaged in the design, installation, and maintenance of solar energy systems across residential, commercial, and municipal sectors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homeowners and businesses finance solar system purchases through loan companies, with the company receiving cash upon completion of installation milestones.",
+  "evidence": "Under the customer loan scenario, we receive cash payments from the loan company upon completion of various milestones during the installation process."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000864240",
+ "issuerName": "SYPRIS SOLUTIONS, INC.",
+ "builtAt": "2026-11-14T13:53:12.588Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009882",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/864240/000143774926009882/sypr20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sypris Technologies",
+   "products": [
+    "forged, machined, welded and heat-treated steel components",
+    "drive train components",
+    "axle shafts",
+    "transmission shafts",
+    "gear sets",
+    "steer axle knuckles",
+    "high-pressure closures",
+    "pressurized closures, insulated joints and other specialty products"
+   ],
+   "description": "Supplies forged and machined steel components for heavy commercial vehicle, automotive and energy pipeline markets in North America.",
+   "evidence": "Sypris Technologies, which is comprised of Sypris Technologies, Inc. and its subsidiaries, generates revenue primarily from the sale of forged, machined, welded and heat-treated steel components primarily for the heavy commercial vehicle and high-pressure energy pipeline applications."
+  },
+  {
+   "name": "Sypris Electronics",
+   "products": [
+    "circuit card and full \"box build\" manufacturing",
+    "high reliability manufacturing",
+    "systems assembly and integration",
+    "design for manufacturability",
+    "design to specification",
+    "circuit card assemblies for electronic sensors and systems"
+   ],
+   "description": "Provides electronics manufacturing and integration services for aerospace, defense, space and other high-reliability electronics customers.",
+   "evidence": "Sypris Electronics, which is comprised of Sypris Electronics, LLC, generates revenue primarily through circuit card and full \"box build\" manufacturing, high reliability manufacturing, systems assembly and integration, design for manufacturability and design to specification work."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, often under multi-year sole-source contracts, pay Sypris to manufacture products and subassemblies to customer specifications.",
+  "evidence": "Our manufacturing processes frequently involve the fabrication or assembly of a product or subassembly according to specifications provided by our customers."
+ },
+ "changes": [],
+ "dropped": []
+}

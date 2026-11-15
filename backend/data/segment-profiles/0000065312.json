@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000065312",
+ "issuerName": "EVI Industries, Inc.",
+ "builtAt": "2026-11-14T13:45:23.545Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-029759",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/65312/000143774926029759/evi20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Laundry Distribution",
+   "products": [
+    "commercial laundry equipment",
+    "washers and dryers",
+    "tunnel systems and vended machines",
+    "sheet feeders, flatwork ironers, automatic sheet folders, and stackers",
+    "conveyor and rail systems",
+    "boilers, hot water/steam systems, power generation products, water purification,",
+    "replacement parts and accessories",
+    "installation, maintenance, and repair services"
+   ],
+   "description": "A value-added distributor that sells, leases, and services commercial laundry equipment, parts, and accessories for government, institutional, industrial, commercial and retail customers.",
+   "evidence": "As of June 30, 2026, the Company reported its results of operations through a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for purchases or leases of commercial laundry equipment, parts and accessories, and for installation, maintenance, and repair services.",
+  "evidence": "The Company's primary sources of cash are sales of products and services, and borrowings under its credit facility."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Company acquired Sudsies and established a new division that will be a separate operating and reportable segment for consumer garment care services.",
+   "evidence": "The Company has established a new division, which will be a separate operating and reportable segment, for its consumer garment care services operations and investments."
+  }
+ ],
+ "dropped": []
+}

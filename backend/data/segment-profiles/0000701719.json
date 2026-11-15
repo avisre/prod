@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000701719",
+ "issuerName": "ENVELA CORPORATION",
+ "builtAt": "2026-11-14T13:48:40.652Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000701719-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/701719/000070171926000004/ela-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "consumer",
+   "products": [
+    "pre-owned and repurposed fine jewelry",
+    "diamonds",
+    "gemstones",
+    "luxury watches",
+    "secondary-market bullion",
+    "Four Nines",
+    "Bijoux Exchange"
+   ],
+   "description": "Retail organization buying and selling authenticated pre-owned luxury hard assets such as jewelry, watches, and bullion to consumers and business partners.",
+   "evidence": "The consumer segment focuses on selling authenticated luxury goods, including pre-owned and repurposed fine jewelry, diamonds, gemstones, luxury watches, and secondary-market bullion."
+  },
+  {
+   "name": "commercial",
+   "products": [
+    "ITAD",
+    "product returns",
+    "de-manufacturing of end-of-life electronic assets",
+    "reclamation of base and precious metals",
+    "data destruction",
+    "asset refurbishment",
+    "remarketing"
+   ],
+   "description": "Provides IT asset disposition, product returns, electronics recycling, and reclamation of base and precious metals for businesses and manufacturers.",
+   "evidence": "the commercial segment provides solutions for ITAD and product returns, as well as the de-manufacturing of end-of-life electronic assets, the reclamation of base and precious metals, and other saleable materials."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Envela earns revenue by buying and reselling secondary-market goods to customers and by charging business partners fee-for-service disposition, returns, and recycling services.",
+  "evidence": "These fee-for-service relationships allow our business partners to outsource the management of testing and packaging of items for resale while maintaining custody of their inventory."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -169,7 +169,8 @@ function withProfile(result,symbol) {
     const company=require('./stock-universe').lookup(String(symbol || '').toUpperCase());
     const cik=result?.cik || company?.cik;
     if(!cik) return result;
-    const {rows,profile}=require('./segment-profiles').enrich(cik,result?.segments || [],{kind:result?.breakdown || null});
+    // The listing's own name lets the matcher read "Consumer" as "Verizon Consumer Group".
+    const {rows,profile}=require('./segment-profiles').enrich(cik,result?.segments || [],{kind:result?.breakdown || null,issuer:company?.name || null});
     if(!profile) return result;
     if(result?.error) return {symbol,segments:[],profile,filing:profile.filing};
     return {...result,segments:rows,profile};

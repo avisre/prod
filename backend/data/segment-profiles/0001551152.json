@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001551152",
+ "issuerName": "AbbVie Inc.",
+ "builtAt": "2026-11-14T17:36:16.668Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001551152-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1551152/000155115226000008/abbv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Innovative Medicines and Therapies",
+   "products": [
+    "Skyrizi",
+    "Rinvoq",
+    "Humira",
+    "Vraylar",
+    "Botox Therapeutic",
+    "Ubrelvy",
+    "Qulipta",
+    "Vyalev"
+   ],
+   "description": "Research-based biopharmaceutical company developing and commercializing advanced therapies across immunology, neuroscience, oncology and aesthetics.",
+   "evidence": "AbbVie is a global, diversified research-based biopharmaceutical company positioned for success with a comprehensive product portfolio that has leadership positions across immunology, neuroscience, oncology and aesthetics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "AbbVie sells pharmaceutical products to wholesalers, distributors, government agencies, healthcare facilities, specialty pharmacies, retailers and directly to physicians and healthcare providers.",
+  "evidence": "AbbVie's products are generally sold worldwide directly to wholesalers, distributors, government agencies, health care facilities, specialty pharmacies and independent retailers from AbbVie-owned distribution centers and public warehouses."
+ },
+ "changes": [],
+ "dropped": []
+}

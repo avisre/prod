@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0000010795",
+ "issuerName": "BECTON, DICKINSON AND COMPANY",
+ "builtAt": "2026-11-14T14:06:56.603Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000010795-25-000099",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/10795/000001079525000099/bdx-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "BD Medical",
+   "products": [
+    "Advanced peripheral catheters",
+    "Central lines",
+    "IV medication safety and infusion therapy delivery systems",
+    "Medication compounding workflow systems",
+    "Prefillable drug delivery systems",
+    "Advanced hemodynamic monitoring systems"
+   ],
+   "description": "Produces medical technologies and devices for hospitals, clinics, physicians' offices, consumers, pharmacies, and healthcare workers.",
+   "evidence": "BD Medical produces a broad array of medical technologies and devices that are used to help improve healthcare delivery in a wide range of settings."
+  },
+  {
+   "name": "BD Life Sciences",
+   "products": [
+    "Automated blood culturing and tuberculosis culturing systems",
+    "Microorganism identification and drug susceptibility systems",
+    "Molecular testing systems",
+    "Fluorescence-activated cell sorters and analyzers",
+    "Blood collection systems",
+    "Antibodies and kits for performing cell analysis"
+   ],
+   "description": "Provides diagnostic specimens collection, infectious disease detection, cancer diagnosis, and research tools for cellular study.",
+   "evidence": "BD Life Sciences provides products for the safe collection and transport of diagnostics specimens, and instruments and reagent systems to detect a broad range of infectious diseases, healthcare-associated infections and cancers."
+  },
+  {
+   "name": "BD Interventional",
+   "products": [
+    "Peripheral vascular stents",
+    "Urine management and measurement devices",
+    "Indwelling, intermittent and external urine catheters",
+    "BD Surgiphor Antimicrobial Irrigation System",
+    "BD ChloraPrep surgical infection prevention products"
+   ],
+   "description": "Provides vascular, urology, oncology and surgical specialty products for single-use, temporary or permanent implantation.",
+   "evidence": "BD Interventional provides vascular, urology, oncology and surgical specialty products that are intended to be used once and then discarded or are either temporarily or permanently implanted."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare institutions, physicians, laboratories, pharmaceutical companies, and the general public pay for medical supplies, devices, laboratory equipment and diagnostic products.",
+  "evidence": "BD is a global medical technology company engaged in the development, manufacture and sale of a broad range of medical supplies, devices, laboratory equipment and diagnostic products used by healthcare institutions, physicians, life science researchers, clinical laboratories, the pharmaceutical industry and the general public."
+ },
+ "changes": [
+  {
+   "text": "In 2022, BD spun off its Diabetes Care business as Embecta Corp., a separate publicly-traded company.",
+   "evidence": "On April 1, 2022, BD completed the separation and distribution of Embecta Corp. (\"Embecta\"), formerly BD's Diabetes Care business, into a separate, publicly-traded company."
+  },
+  {
+   "text": "In 2023, BD sold the Interventional segment's Surgical Instrumentation platform.",
+   "evidence": "In August 2023, BD completed the sale of the Interventional segment's Surgical Instrumentation platform pursuant to a definitive agreement that was signed in June 2023."
+  }
+ ],
+ "dropped": [
+  "product not in text (BD Medical): Peripheral intravenous catheters",
+  "product not in text (BD Interventional): Hernia and soft tissue repair products",
+  "product not in text (BD Interventional): Percutaneous transluminal angioplasty balloon catheters",
+  "change not grounded: In 2024, BD acquired Edwards Lifesciences' Critical Care product group for $3.91"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000070145",
+ "issuerName": "NATIONAL FUEL GAS COMPANY",
+ "builtAt": "2026-11-14T13:45:38.231Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000070145-25-000039",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/70145/000007014525000039/nfg-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated Upstream and Gathering",
+   "products": [
+    "natural gas",
+    "natural gas processing",
+    "pipeline gathering facilities"
+   ],
+   "description": "Explores for and develops Appalachian natural gas reserves through Seneca and gathers and processes that gas through Midstream Company.",
+   "evidence": "Seneca is engaged in the exploration for, and development of, natural gas reserves in the Appalachian region of the United States. Midstream Company builds, owns and operates natural gas processing and pipeline gathering facilities in the Appalachian region, primarily providing gathering services to Seneca."
+  },
+  {
+   "name": "Pipeline and Storage",
+   "products": [
+    "interstate natural gas transportation services",
+    "storage services"
+   ],
+   "description": "Provides interstate natural gas transportation and underground storage services for affiliated and nonaffiliated companies in Pennsylvania and New York.",
+   "evidence": "Supply Corporation and Empire provide interstate natural gas transportation services for affiliated and nonaffiliated companies through integrated natural gas pipeline systems in Pennsylvania and New York."
+  },
+  {
+   "name": "Utility",
+   "products": [
+    "natural gas utility services"
+   ],
+   "description": null,
+   "evidence": "Distribution Corporation provides natural gas utility services to approximately 756,000 customers through a local distribution system located in western New York and northwestern Pennsylvania."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling natural gas to customers, from providing regulated gas transportation and storage services at FERC-approved rates, and from providing utility service at state-regulated rates.",
+  "evidence": "The FERC, among other things, approves the rates that Supply Corporation and Empire may charge to their gas transportation and/or storage customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Exploration and Production and Gathering segments were combined into a single Integrated Upstream and Gathering segment.",
+   "evidence": "During the quarter ended September 30, 2025, the president and chief executive officer determined that the Exploration and Production segment and Gathering segment should be treated as one operating segment in order to provide more clarity for management and investors as to the interdependence of both Seneca and Midstream Company in bringing Appalachian natural gas to market."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0000320193",
+ "issuerName": "Apple Inc.",
+ "builtAt": "2026-11-14T13:48:16.143Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000320193-26-000026",
+  "periodEnd": "2026-09-26",
+  "filingDate": "2026-11-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/aapl-20260926.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "iPhone",
+    "Mac",
+    "iPad",
+    "Wearables, Home and Accessories",
+    "Services"
+   ],
+   "description": "Sells Apple's hardware products and services to customers across North and South America.",
+   "evidence": "The Company's reportable segments consist of the Americas, Europe, Greater China, Japan and Rest of Asia Pacific."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "iPhone",
+    "Mac",
+    "iPad",
+    "Wearables, Home and Accessories",
+    "Services"
+   ],
+   "description": "Sells Apple's hardware products and services in Europe, India, the Middle East and Africa.",
+   "evidence": "Europe includes European countries, as well as India, the Middle East and Africa."
+  },
+  {
+   "name": "Greater China",
+   "products": [
+    "iPhone",
+    "Mac",
+    "iPad",
+    "Wearables, Home and Accessories",
+    "Services"
+   ],
+   "description": "Sells Apple's hardware products and services in China mainland, Hong Kong and Taiwan.",
+   "evidence": "Greater China includes China mainland, Hong Kong and Taiwan."
+  },
+  {
+   "name": "Japan",
+   "products": [
+    "iPhone",
+    "Mac",
+    "iPad",
+    "Wearables, Home and Accessories",
+    "Services"
+   ],
+   "description": "Sells Apple's hardware products and services to customers in Japan.",
+   "evidence": "The Company's reportable segments consist of the Americas, Europe, Greater China, Japan and Rest of Asia Pacific."
+  },
+  {
+   "name": "Rest of Asia Pacific",
+   "products": [
+    "iPhone",
+    "Mac",
+    "iPad",
+    "Wearables, Home and Accessories",
+    "Services"
+   ],
+   "description": "Sells Apple's hardware products and services in Australia, New Zealand and other Asian countries.",
+   "evidence": "Rest of Asia Pacific includes Australia, New Zealand and those Asian countries not included in the Company's other reportable segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers, businesses, education, enterprise and government customers pay Apple for its hardware products, related services and resold third-party products sold through direct and indirect channels.",
+  "evidence": "The Company sells its products and resells third-party products in most of its major markets directly to customers through its retail and online stores and its direct sales force."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000008177",
+ "issuerName": "ATLANTIC AMERICAN CORPORATION",
+ "builtAt": "2026-11-14T14:06:40.718Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-039933",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-10-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/8177/000114036126039933/ef20060652_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "American Southern",
+   "products": [
+    "Commercial Automobile Insurance",
+    "General Liability Insurance",
+    "Surety Bonds",
+    "Inland Marine"
+   ],
+   "description": "Property and casualty operations providing tailored commercial automobile, liability, surety and inland marine coverage to governments, municipalities and fleets.",
+   "evidence": "American Southern comprises the Company's property and casualty operations and its primary product lines are as follows: Commercial Automobile Insurance policies provide bodily injury and/or property damage liability coverage, uninsured motorist coverage and physical damage coverage for commercial accounts."
+  },
+  {
+   "name": "Bankers Fidelity",
+   "products": [
+    "ordinary life insurance",
+    "Medicare Supplement",
+    "Vantage Flex Plus®",
+    "Vantage Recovery®",
+    "group accident and health",
+    "other individual health"
+   ],
+   "description": "Life and health operations offering individual and group life insurance, Medicare Supplement and supplemental accident and health products to policyholders.",
+   "evidence": "Bankers Fidelity comprises the life and health operations of the Company and offers a variety of life and supplemental health products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Policyholders pay premiums to the Company's insurance subsidiaries for property and casualty and life and health insurance coverage.",
+  "evidence": "The following table summarizes, for the periods indicated, the allocation of American Southern's net earned premiums from each of its principal product lines:"
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no filed row matches"
+}

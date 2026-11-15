@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000353278",
+ "issuerName": "NOVO NORDISK A/S",
+ "builtAt": "2026-11-14T13:48:24.897Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000353278-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/353278/000035327826000012/nvo-20251231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Obesity and Diabetes care",
+   "products": [
+    "Ozempic®",
+    "Rybelsus®",
+    "Victoza®",
+    "Wegovy®",
+    "Saxenda®",
+    "Tresiba®",
+    "Xultophy®",
+    "NovoRapid®"
+   ],
+   "description": "Researches, develops, manufactures and markets products for obesity, diabetes, cardiovascular and emerging therapy areas.",
+   "evidence": "Obesity and Diabetes care: obesity, diabetes, cardiovascular and emerging therapy areas"
+  },
+  {
+   "name": "Rare disease",
+   "products": [],
+   "description": "Researches, develops, manufactures and markets products for rare blood disorders, rare endocrine disorders and hormone replacement therapy.",
+   "evidence": "Rare disease: rare blood disorders, rare endocrine disorders and hormone replacement therapy."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Novo Nordisk earns net sales from selling its pharmaceutical products to customers, with revenue reduced by estimated rebates, discounts, charge-backs and expected product returns.",
+  "evidence": "Estimated product returns are recorded as a reduction in sales and as a provision for estimated product returns."
+ },
+ "changes": [],
+ "dropped": []
+}

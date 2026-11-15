@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000100591",
+ "issuerName": "ARGAN INC",
+ "builtAt": "2026-11-14T13:46:59.749Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-035216",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/100591/000110465926035216/agx-20260131x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power",
+   "products": [
+    "engineering, procurement, construction, commissioning, maintenance, project deve",
+    "combined-cycle facilities",
+    "simple-cycle peaking plants",
+    "biofuel plants",
+    "biomass plants",
+    "solar fields",
+    "solar fields with battery storage",
+    "wind farms"
+   ],
+   "description": "Provides full-service EPC and related services for large-scale power generation projects to independent power producers, public utilities and other commercial firms.",
+   "evidence": "Through the Power segment, we provide a full range of engineering, procurement, construction, commissioning, maintenance, project development, and technical consulting services to the power generation market."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "industrial construction and field services",
+    "pipe and vessel fabrication",
+    "piping systems",
+    "pressure vessels"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Teledata",
+   "products": [
+    "project management",
+    "construction",
+    "installation",
+    "maintenance",
+    "repair",
+    "emergency response services"
+   ],
+   "description": "Provides project management, construction, installation, maintenance, repair and emergency response services for power distribution and communications and data networks.",
+   "evidence": "The Teledata segment provides project management, construction, installation, maintenance, repair, and emergency response services across power distribution and information, communications, and data networks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from project owners and industrial and government customers under EPC services and other construction contracts.",
+  "evidence": "The substantial portions of the revenues of this reportable segment for these three years were derived from the performance of activities under EPC services and other construction contracts with the owners of power plant projects."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Industrial"
+ ]
+}

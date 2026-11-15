@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000708781",
+ "issuerName": "CASS INFORMATION SYSTEMS, INC.",
+ "builtAt": "2026-11-14T13:48:49.454Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000708781-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/708781/000070878126000010/cass-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Information Services",
+   "products": [
+    "FreightPay",
+    "Transdata",
+    "Ratemaker",
+    "Expense$mart",
+    "TouchPoint",
+    "Gyve",
+    "CassPay",
+    "integrated payments"
+   ],
+   "description": "Provides freight invoice rating, payment processing, auditing, facility-related invoice processing and church management software for large enterprises and faith-based organizations.",
+   "evidence": "The TEM Business Unit is included in the Information Services operating segment."
+  },
+  {
+   "name": "Banking Services",
+   "products": [
+    "deposit accounts"
+   ],
+   "description": "Cass Commercial Bank supports the Company's payment operations and provides banking services to privately held businesses, restaurant franchises and faith-based ministries.",
+   "evidence": "The Company's bank subsidiary, Cass Commercial Bank (the \"Bank\"), supports the Company's payment operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Large enterprises pay Cass processing fees for invoice payment and transaction services, plus financial fees on funds management, and banking customers pay transaction-based service charges on deposit accounts.",
+  "evidence": "Fees are recognized at the point in time when the payment transactions are made, which is when the performance obligation is satisfied."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its telecom expense management and managed mobility solutions business unit to Asignet USA Inc., exiting those businesses.",
+   "evidence": "On April 7, 2025, the Company signed an Asset Purchase Agreement providing for the sale of its telecom expense management and managed mobility solutions business unit (\"TEM Business Unit\") to Asignet USA Inc (\"Asignet\") for a purchase price of $18.0 million."
+  }
+ ],
+ "dropped": [
+  "product not in text (Banking Services): commercial banking services",
+  "product not in text (Banking Services): financial exchange services"
+ ]
+}

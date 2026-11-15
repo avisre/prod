@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000081362",
+ "issuerName": "QUAKER CHEMICAL CORPORATION",
+ "builtAt": "2026-11-14T13:46:13.459Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010694",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/81362/000162828026010694/kwr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "metal removal fluids",
+    "rolling lubricants",
+    "hydraulic fluids",
+    "surface solutions",
+    "Fluidcare"
+   ],
+   "description": "Develops, produces and markets industrial process fluids and chemical management services for heavy industrial and manufacturing customers in the Americas.",
+   "evidence": "The Company has three reportable segments: (i) Americas; (ii) EMEA; and (iii) Asia/Pacific."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "metal removal fluids",
+    "rolling lubricants",
+    "hydraulic fluids",
+    "surface solutions",
+    "Fluidcare"
+   ],
+   "description": "Develops, produces and markets industrial process fluids and chemical management services for heavy industrial and manufacturing customers in Europe, the Middle East and Africa.",
+   "evidence": "The Company has three reportable segments: (i) Americas; (ii) EMEA; and (iii) Asia/Pacific."
+  },
+  {
+   "name": "Asia/Pacific",
+   "products": [
+    "metal removal fluids",
+    "rolling lubricants",
+    "hydraulic fluids",
+    "surface solutions",
+    "Fluidcare"
+   ],
+   "description": "Develops, produces and markets industrial process fluids and chemical management services for heavy industrial and manufacturing customers in the Asia/Pacific region.",
+   "evidence": "The Company has three reportable segments: (i) Americas; (ii) EMEA; and (iii) Asia/Pacific."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Industrial and manufacturing customers pay Quaker Houghton for specialty process fluid products and Fluidcare chemical management services, sold mostly directly by employees, with the balance through distributors and agents.",
+  "evidence": "The majority of the Company's sales worldwide are made directly through its own employees and its Fluidcare TM programs, with the balance sold through distributors and agents."
+ },
+ "changes": [],
+ "dropped": []
+}

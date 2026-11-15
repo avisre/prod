@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000748268",
+ "issuerName": "Red Cat Holdings, Inc.",
+ "builtAt": "2026-11-14T13:50:04.799Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019861",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/748268/000162828026019861/rcat-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drone and Robotic Solutions",
+   "products": [
+    "Black Widow™",
+    "Teal 2",
+    "FANG™",
+    "Edge 130",
+    "uncrewed surface vessels (USVs)"
+   ],
+   "description": "Provides American-made small unmanned aircraft systems and uncrewed surface vessels for defense, national security, and commercial customers.",
+   "evidence": "We are a U.S.-based provider of advanced all-domain drone and robotic solutions for defense, national security, and commercial applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including the U.S. government, issue purchase orders at their own discretion to purchase the company's drone and robotic products.",
+  "evidence": "Our customers issue purchase orders solely at their own discretion."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company launched a new division, Blue Ops, Inc., focused on uncrewed surface vessel weapons systems.",
+   "evidence": "In August 2025, we announced the launch of our newest division, Blue Ops, Inc., focused on developing a family of battle-tested USV weapons systems that meet the rapidly evolving demands of the modern battlefield."
+  }
+ ],
+ "dropped": []
+}

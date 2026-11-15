@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000738214",
+ "issuerName": "AEMETIS, INC",
+ "builtAt": "2026-11-14T13:49:53.390Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008289",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/738214/000143774926008289/amtx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "California Ethanol",
+   "products": [
+    "denatured fuel ethanol",
+    "undenatured alcohol for beverage producers"
+   ],
+   "description": null,
+   "evidence": "Our California Ethanol segment consists of a 65 million gallon per year capacity ethanol production facility located in Keyes, California (the \"Keyes Plant\")."
+  },
+  {
+   "name": "California Dairy Renewable Natural Gas",
+   "products": [
+    "D3 RINs",
+    "LCFS credits"
+   ],
+   "description": "Owns and operates dairy anaerobic digesters and pipeline in central California, producing RNG delivered as transportation fuel with associated environmental credits.",
+   "evidence": "Our California Dairy Renewable Natural Gas segment, Aemetis Biogas LLC (\"ABGL\"), owns and operates anaerobic digesters at local dairies near the Keyes Plant to produce biogas from dairy waste."
+  },
+  {
+   "name": "India Biodiesel",
+   "products": [
+    "biodiesel",
+    "refined glycerin"
+   ],
+   "description": null,
+   "evidence": "Our India Biodiesel segment, Universal Biofuels Private Limited (\"UBPL\"), includes a biodiesel production plant in Kakinada, India (\"Kakinada Plant\") with a production capacity of about 80 million gallons per year."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "sustainable aviation fuel",
+    "renewable diesel"
+   ],
+   "description": "Holds development-stage projects including CCUS and SAF/renewable diesel at Riverbank, California, plus the Goodland Energy Center held for future development.",
+   "evidence": "Our \"All Other\" segment consists of our projects that are under development, including our planned Carbon Capture and Underground Sequestration (\"CCUS\") and sustainable aviation fuel and renewable diesel projects in Riverbank, California."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (California Ethanol): Wet Distillers Grains (WDG)",
+  "product not in text (California Ethanol): Distillers Corn Oil (DCO)",
+  "product not in text (California Ethanol): Condensed Distillers Solubles (CDS)",
+  "product not in text (California Ethanol): carbon dioxide (CO₂)",
+  "product not in text (California Dairy Renewable Natural Gas): Renewable Natural Gas (RNG)",
+  "product not in text (All Other): Carbon Capture and Underground Sequestration (CCUS)",
+  "revenue model not grounded"
+ ]
+}

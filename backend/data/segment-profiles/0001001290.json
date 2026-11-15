@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "cik": "0001001290",
+ "issuerName": "CREDICORP LTD",
+ "builtAt": "2026-11-14T17:38:10.267Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001001290-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1001290/000100129026000008/bap-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Universal Banking",
+   "products": [
+    "BCP Stand-alone",
+    "BCP Bolivia",
+    "Yape",
+    "Individuals",
+    "SME-Business",
+    "SME-Pyme"
+   ],
+   "description": "Lending and transactional banking for retail and wholesale customers in Peru and Bolivia.",
+   "evidence": "Our Universal Banking LoB, which focuses on lending and transactional business, is organized into (i) retail banking activities, including our Individuals, SME-Business, SME-Pyme (small and micro firm) segments, which are carried out by BCP Stand-alone's Retail Banking Group (RBG) and Yape"
+  },
+  {
+   "name": "Microfinance",
+   "products": [
+    "Mibanco",
+    "Mibanco Colombia"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Insurance & Pensions",
+   "products": [
+    "Pacífico Seguros",
+    "Grupo Pacífico",
+    "Pacífico EPS",
+    "Prima AFP"
+   ],
+   "description": "Provides general and life insurance, reinsurance, medical and health services, and private pension fund management.",
+   "evidence": "Pacífico Compañía de Seguros y Reaseguros S.A. (Pacífico Seguros and, together with its consolidated subsidiaries, Grupo Pacífico), an entity that contracts and manages all types of general risk and life insurance, reinsurance, provides medical and health services under Pacífico S.A. Entidad Prestadora de Salud (Pacífico EPS)"
+  },
+  {
+   "name": "Investment Management and Advisory",
+   "products": [
+    "Credicorp Capital Ltd.",
+    "ASB Bank Corp."
+   ],
+   "description": "Provides investment management and advisory services and private banking.",
+   "evidence": "within Investment Management and Advisory: (vii) Credicorp Capital Ltd. (together with its subsidiaries) which was formed in 2012, and (viii) ASB Bank Corp."
+  },
+  {
+   "name": "Other segments",
+   "products": [
+    "Grupo Crédito S.A.",
+    "Inversiones Credicorp Bolivia",
+    "SEAH"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on loans, commissions on transactions, insurance and reinsurance premiums, medical service fees and investment management fees.",
+  "evidence": "Corresponds to total interest and similar income, other income, the result of the insurance and reinsurance service and medical services results."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Microfinance",
+  "segment evidence not verbatim: Other segments"
+ ],
+ "escalated": "revenue model not quoted"
+}

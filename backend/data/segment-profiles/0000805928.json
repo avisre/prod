@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000805928",
+ "issuerName": "Axogen, Inc.",
+ "builtAt": "2026-11-14T13:51:31.219Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000805928-26-000031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/805928/000080592826000031/axgn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Peripheral nerve repair",
+   "products": [
+    "Avance® (acellular nerve allograft-arwx)",
+    "Avance® Nerve Graft",
+    "Axoguard Nerve Connector®",
+    "Axoguard Nerve Protector®",
+    "Axoguard HA+ Nerve Protector™",
+    "Axoguard Nerve Cap®",
+    "Avive+ Soft Tissue Matrix™"
+   ],
+   "description": "Develops and commercializes technologies for peripheral nerve regeneration and repair, selling implant products to surgeons and healthcare providers.",
+   "evidence": "The Company operates in a single reportable segment of peripheral nerve repair, offers similar products to its customers, and enters into consistently structured arrangements with similar types of customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

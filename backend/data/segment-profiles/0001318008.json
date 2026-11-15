@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001318008",
+ "issuerName": "ZUMIEZ INC",
+ "builtAt": "2026-11-14T17:41:07.644Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104063",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1318008/000119312526104063/zumz-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Retail",
+   "products": [
+    "Apparel",
+    "Footwear",
+    "Accessories",
+    "Hardgoods",
+    "Skateboards",
+    "Snowboards",
+    "Bindings",
+    "Components"
+   ],
+   "description": "Specialty retailer of apparel, footwear, accessories and hardgoods for young men and women expressing individuality through action sports and streetwear.",
+   "evidence": "Zumiez Inc., including its wholly-owned subsidiaries, is a leading specialty retailer of apparel, footwear, accessories and hardgoods for young men and women who want to express their individuality through the fashion, music, art and culture of action sports, streetwear and other unique lifestyles."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for apparel, footwear, accessories and hardgoods purchased through physical stores and ecommerce platforms.",
+  "evidence": "We operate ecommerce websites at zumiez.com, zumiez.ca, blue-tomato.com and fasttimes.com.au."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2012, acquired Blue Tomato, a leading European specialty retailer.",
+   "evidence": "We acquired Blue Tomato in fiscal 2012."
+  },
+  {
+   "text": "In fiscal 2016, acquired Fast Times Skateboarding, an Australian leading specialty retailer.",
+   "evidence": "We acquired Fast Times Skateboarding (\"Fast Times\") in fiscal 2016."
+  }
+ ],
+ "dropped": []
+}

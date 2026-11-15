@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000750558",
+ "issuerName": "QNB Corp.",
+ "builtAt": "2026-11-14T13:50:07.643Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-107482",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/750558/000119312526107482/qnbc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial loans",
+    "residential mortgage loans",
+    "consumer loans",
+    "investment securities",
+    "retail brokerage services"
+   ],
+   "description": "A community bank providing commercial, retail banking and retail brokerage services to residents and businesses in southeastern Pennsylvania.",
+   "evidence": "The segment is locally managed and provides a full range of commercial, retail banking and retail brokerage services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "QNB earns revenue primarily from interest on loans and investments funded by customer deposits, along with fees from banking and brokerage services.",
+  "evidence": "Significant revenues are provided by loans, investments and deposits."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): time, demand and savings deposits"
+ ]
+}

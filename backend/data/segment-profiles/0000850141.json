@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000850141",
+ "issuerName": "HORACE MANN EDUCATORS CORPORATION",
+ "builtAt": "2026-11-14T13:52:49.652Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000850141-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/850141/000085014126000007/hmn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property & Casualty",
+   "products": [],
+   "description": "Provides property and casualty insurance products, with loss reserves for long-tail and short-tail coverages.",
+   "evidence": "There are a number of assumptions involved in the determination of our property & casualty loss reserves."
+  },
+  {
+   "name": "Life & Retirement",
+   "products": [
+    "individual life",
+    "annuity",
+    "long term care benefits"
+   ],
+   "description": "Holds individual life, annuity and long term care benefit blocks that are in runoff and largely ceded to reinsurers.",
+   "evidence": "We have legacy blocks of individual life, annuity and long term care benefits that are no longer strategic; these blocks are in runoff and effectively 100% ceded to remove the financial impact to us"
+  },
+  {
+   "name": "Supplemental & Group Benefits",
+   "products": [
+    "cancer",
+    "heart",
+    "hospital",
+    "disability",
+    "accident",
+    "group disability",
+    "group life",
+    "specialty health benefits"
+   ],
+   "description": "Sells supplemental and group employee benefit products, including disability, accident and health coverages, to educators and other customers.",
+   "evidence": "Our supplemental products offer indemnity benefits rather than the reimbursement of actual costs."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay insurance premiums for property and casualty, life and retirement, and supplemental and group benefit coverages, with a portion of risk ceded to reinsurers.",
+  "evidence": "We retained approximately 73.1% of gross and assumed group disability, life, and specialty health benefits in 2025."
+ },
+ "changes": [],
+ "dropped": []
+}

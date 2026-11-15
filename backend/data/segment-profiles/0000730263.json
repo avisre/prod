@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000730263",
+ "issuerName": "THOR Industries, Inc.",
+ "builtAt": "2026-11-14T13:49:40.735Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000730263-26-000027",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/730263/000073026326000027/tho-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North American Towable Recreational Vehicles",
+   "products": [
+    "Airstream Classic",
+    "Jay Flight",
+    "Eagle",
+    "Montana",
+    "Springdale",
+    "Hideout",
+    "Sportsmen",
+    "Sienna"
+   ],
+   "description": "Manufactures conventional travel trailers and fifth wheels for North American customers through Airstream (towable), Jayco (towable), Keystone and KZ.",
+   "evidence": "The North American Towable Recreational Vehicles reportable segment consists of the following operating segments that have been aggregated: Airstream (towable), Jayco (towable), Keystone and KZ."
+  },
+  {
+   "name": "North American Motorized Recreational Vehicles",
+   "products": [
+    "Interstate",
+    "ACE",
+    "Hurricane",
+    "Vegas",
+    "Tellaro",
+    "Quantum",
+    "Allegro",
+    "Phaeton"
+   ],
+   "description": "Manufactures gasoline and diesel Class A, Class C and Class B motorhomes through Airstream (motorized), Jayco (motorized), Thor Motor Coach and Tiffin Motorhomes.",
+   "evidence": "The North American Motorized Recreational Vehicles reportable segment consists of the following operating segments that have been aggregated: Airstream (motorized), Jayco (motorized), Thor Motor Coach and Tiffin Motorhomes."
+  },
+  {
+   "name": "European Recreational Vehicles",
+   "products": [
+    "motorcaravans",
+    "campervans",
+    "urban vehicles",
+    "caravans",
+    "Hymer",
+    "Buerstner",
+    "Dethleffs",
+    "Sunlight"
+   ],
+   "description": "Manufactures motorized and towable recreational vehicles in Europe through the Erwin Hymer Group, sold primarily within Europe.",
+   "evidence": "The European Recreational Vehicles reportable segment consists solely of the EHG business."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "aluminum extrusions",
+    "specialized RV component products"
+   ],
+   "description": "Includes Airxcel and Postle, which supply RV-related products and components to RV manufacturers and aftermarket customers.",
+   "evidence": "The operations of the Company's Airxcel and Postle subsidiaries are included in \"Other\" in Note 2 to the Consolidated Financial Statements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells RVs and related parts and accessories primarily to independent, non-franchise dealers in the United States, Canada and Europe, generally producing vehicles to dealer order.",
+  "evidence": "We manufacture a wide variety of recreational vehicles in the United States and Europe and sell those vehicles, as well as related parts and accessories, primarily to independent, non-franchise dealers throughout the United States, Canada and Europe."
+ },
+ "changes": [],
+ "dropped": []
+}

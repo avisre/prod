@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000230557",
+ "issuerName": "SELECTIVE INSURANCE GROUP, INC",
+ "builtAt": "2026-11-14T13:47:41.078Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000230557-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/230557/000023055726000006/sigi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Standard Commercial Lines",
+   "products": [
+    "Commercial Property (including Inland Marine)",
+    "Commercial Package Policies",
+    "Commercial Automobile",
+    "General Liability (including Excess Liability/Umbrella)",
+    "Workers Compensation",
+    "Businessowners' Policies",
+    "Bonds (Fidelity and Surety)",
+    "Flood"
+   ],
+   "description": "Sells property and casualty insurance products and services to commercial enterprises, typically businesses, non-profit organizations, and local government agencies.",
+   "evidence": "We sell our Standard Commercial Lines property and casualty insurance products and services to commercial enterprises, typically businesses, non-profit organizations, and local government agencies, primarily in 36 states and the District of Columbia."
+  },
+  {
+   "name": "Standard Personal Lines",
+   "products": [
+    "Homeowners",
+    "Personal Automobile",
+    "Personal Umbrella",
+    "Flood"
+   ],
+   "description": "Sells property and casualty insurance products and services primarily to individuals, including flood coverage through the NFIP's Write Your Own program.",
+   "evidence": "We sell our Standard Personal Lines property and casualty insurance products and services primarily to individuals in 15 states."
+  },
+  {
+   "name": "E&S Lines",
+   "products": [
+    "Commercial Property (including Inland Marine)",
+    "Commercial Package Policies",
+    "Commercial Automobile",
+    "General Liability (including Excess Liability/Umbrella)",
+    "Flood"
+   ],
+   "description": "Sells excess and surplus lines property and casualty insurance to commercial customers unable to obtain coverage in the standard marketplace.",
+   "evidence": "The market for our E&S Lines property and casualty insurance products and services is commercial customers unable to obtain coverage in the standard marketplace, generally because of unusual or high-risk exposures."
+  },
+  {
+   "name": "Investments",
+   "products": [],
+   "description": "Invests premiums collected by the Insurance Subsidiaries and amounts generated through capital management strategies, including debt and equity securities issuance.",
+   "evidence": "Investments, which represented 10% (including net realized and unrealized gains and losses) of \"Total revenues,\" invests the (i) premiums our Insurance Subsidiaries collect and (ii) amounts generated through our capital management strategies, including debt and equity securities issuance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums, billed as direct premiums written, which are recognized as net premiums earned ratably over a policy's term; the company also earns net investment income on invested premiums.",
+  "evidence": "DPW are the amounts billed to policyholders for insurance coverage and services."
+ },
+ "changes": [],
+ "dropped": []
+}

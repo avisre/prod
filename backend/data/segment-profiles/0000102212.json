@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000102212",
+ "issuerName": "UNIVEST FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T13:47:07.305Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000102212-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/102212/000010221226000012/uvsp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "loans",
+    "leases",
+    "deposits",
+    "equipment financing"
+   ],
+   "description": "Provides domestic banking services, including lending and deposit gathering, for individuals, businesses, municipalities and non-profit organizations.",
+   "evidence": "The Bank is engaged in domestic banking services for individuals, businesses, municipalities and non-profit organizations."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "Girard Investment Services, LLC",
+    "Girard Advisory Services, LLC",
+    "Girard Pension Services, LLC"
+   ],
+   "description": "Provides brokerage, investment advisory and pension consulting and management services, including to municipal entities.",
+   "evidence": "Girard Pension Services, LLC, a registered investment advisor, which provides investment consulting and management services to municipal entities."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "Univest Insurance, LLC",
+    "commercial lines",
+    "contingent commission income"
+   ],
+   "description": "Provides insurance products through an independent insurance agency for commercial and other customers.",
+   "evidence": "Univest Insurance, LLC, an independent insurance agency headquartered in Lansdale, Pennsylvania."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Corporation interest on loans and leases, fees for banking, wealth management and insurance services, and commissions on insurance and investment products.",
+  "evidence": "Other competitors, including credit unions, consumer finance companies, mortgage companies, insurance companies, wealth management providers, leasing companies, financial technology companies, specialty finance companies, technology companies and mutual funds, compete for certain lending and deposit gathering services and insurance and wealth management services offered by the Bank and its operating segments."
+ },
+ "changes": [],
+ "dropped": []
+}

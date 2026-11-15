@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000105744",
+ "issuerName": "NEW CONCEPT ENERGY, INC.",
+ "builtAt": "2026-11-14T13:47:20.241Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001214659-26-004135",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/105744/000121465926004135/nc32026010k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Current Operations",
+   "products": [],
+   "description": "Leases its Parkersburg, West Virginia office building and provides advisory, accounting and management services to an independent oil and gas company.",
+   "evidence": "The Company's operations during 2025 include both leasing its office building located in Parkersburg West Virginia and managing the oil and gas operations it sold in August 2020 to a third party."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2020 the Company sold its oil and gas wells and mineral leases located in Ohio and West Virginia.",
+   "evidence": "In August 2020, the Company sold its oil and gas wells and mineral leases which were located in Ohio and West Virginia."
+  }
+ ],
+ "dropped": [
+  "product not in text (Current Operations): real estate leasing",
+  "product not in text (Current Operations): advisory, accounting and management services for oil and gas wells",
+  "revenue model not grounded"
+ ]
+}

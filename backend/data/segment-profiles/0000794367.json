@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000794367",
+ "issuerName": "Macy's, Inc.",
+ "builtAt": "2026-11-14T13:51:11.046Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021721",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/794367/000162828026021721/m-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Omnichannel retail",
+   "products": [
+    "Macy's",
+    "Macy's Backstage",
+    "Macy's small format",
+    "Bloomingdale's",
+    "Bloomingdale's The Outlet",
+    "Bloomie's",
+    "Bluemercury"
+   ],
+   "description": "Operates stores, websites and mobile applications under three brands selling apparel, accessories, cosmetics, home furnishings and other consumer goods to a broad customer base.",
+   "evidence": "As of January 31, 2026, the Company's operations and operating segments were conducted through Macy's, Macy's Backstage, Macy's small format, Bloomingdale's, Bloomingdale's The Outlet, Bloomie's and Bluemercury, which are aggregated into one reporting segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for merchandise sold in stores and online, plus other revenue from the credit card program profit-sharing and advertising through Macy's Media Network.",
+  "evidence": "We generate revenue beyond merchandise sales, including through our credit card program, a profit sharing portfolio that is an integral part of our broader retail ecosystem that enhances customer loyalty and engagement, and Macy's Media Network, our retail media business that enables brand partners to advertise across our platforms and leverage our customer reach."
+ },
+ "changes": [],
+ "dropped": []
+}

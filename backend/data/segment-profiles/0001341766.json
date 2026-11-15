@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001341766",
+ "issuerName": "CELSIUS HOLDINGS, INC.",
+ "builtAt": "2026-11-14T17:36:24.096Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001341766-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1341766/000134176626000024/celh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Functional Energy and Wellness Beverages",
+   "products": [
+    "On-the-go powder and hydration sticks",
+    "Nutrition and wellness products"
+   ],
+   "description": "Develops, manufactures, markets and distributes functional energy drinks and wellness beverages under three primary brands across multiple channels.",
+   "evidence": "Celsius operates as a functional energy drink and wellness beverage company in the U.S. and internationally. We develop, process, market, sell, manufacture and distribute a portfolio of differentiated products with innovative formulas meant to positively impact the lives of our consumers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sells functional energy drinks and wellness beverages to distributors, retailers and e-commerce platforms; generates revenue through product sales with incentives including rebates, placement fees and listing fees.",
+  "evidence": "Our customer base primarily consists of distributors, e-commerce retailers and various brick-and-mortar outlets, including grocery and convenience stores, club stores and health-focused locations such as gyms and nutrition stores."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Rockstar brand assets and liabilities in the U.S. and Canada from PepsiCo as part of the Pepsi Transactions.",
+   "evidence": "Pursuant to the Transaction Agreement, we acquired certain assets and assumed certain liabilities comprising Rockstar in the U.S. and Canada."
+  }
+ ],
+ "dropped": [
+  "product not in text (Functional Energy and Wellness Beverages): CELSIUS ready-to-drink energy beverages",
+  "product not in text (Functional Energy and Wellness Beverages): Alani Nu ready-to-drink energy beverages",
+  "product not in text (Functional Energy and Wellness Beverages): Rockstar ready-to-drink energy beverages",
+  "change not grounded: In 2025, the company acquired Alani Nu brand and products through the Alani Nu A"
+ ]
+}

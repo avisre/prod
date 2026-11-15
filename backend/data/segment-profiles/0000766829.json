@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000766829",
+ "issuerName": "H2O AMERICA",
+ "builtAt": "2026-11-14T13:50:30.607Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012438",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/766829/000162828026012438/hto-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Utility Services",
+   "products": [
+    "San Jose Water Company",
+    "Connecticut Water Company",
+    "Maine Water Company",
+    "The Texas Water Company",
+    "Acequia Water Supply Corporation",
+    "water service",
+    "wastewater service"
+   ],
+   "description": "Provides regulated water and wastewater utility services to customers in California, Connecticut, Maine and Texas.",
+   "evidence": "Together, SJWC, excluding the City of Cupertino (\"Cupertino\") service concession arrangement operations, CWC, MWC, TWC, and Acequia, are referred to as \"Water Utility Services,\" which is our single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates set by state utility commissions for water and wastewater service, designed to recover operating expenses and provide a return on equity.",
+  "evidence": "The ratemaking process is intended to provide revenues sufficient to recover normal operating expenses, provide funds for replacement of water infrastructure and produce a fair and reasonable return on stockholder common equity."
+ },
+ "changes": [
+  {
+   "text": "In 2025, TWC agreed to acquire Quadvest's regulated water and sewer utility business, with the sale transfer and merger application filed in 2026.",
+   "evidence": "On July 7, 2025, H2O America, through its indirect subsidiary, TWC, entered into an Asset Purchase Agreement (the \"Regulated Business APA\"), with Quadvest, L.P., a Texas limited partnership, as seller (\"Quadvest Retail\") and H2O America, as guarantor."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company changed its corporate name from SJW Group to H2O America."
+ ]
+}

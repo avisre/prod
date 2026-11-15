@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001905660",
+ "issuerName": "HUB Cyber Security Ltd.",
+ "builtAt": "2026-11-15T02:51:12.883Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-079236",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-07-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1905660/000121390026079236/ea0297580-20f_hubcyber.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product and Technology Segment",
+   "products": [
+    "Integrated cybersecurity hardware/software solutions",
+    "Customer identity products"
+   ],
+   "description": "Develops and markets integrated cybersecurity hardware/software solutions for organizations to protect RAM or confidential computing data.",
+   "evidence": "we develop and market integrated cybersecurity hardware/software solutions that allow organizations to protect their RAM or confidential computing data to create a reliable work environment."
+  },
+  {
+   "name": "Professional Services Segment",
+   "products": [
+    "System security and reliability solutions",
+    "Consulting services",
+    "Planning services",
+    "Integration services",
+    "Fully managed corporate cybersecurity services"
+   ],
+   "description": "Offers cybersecurity consulting, planning, training, integration and fully managed corporate cybersecurity services to enterprises.",
+   "evidence": "we offer data and cybersecurity and system security and reliability solutions and related services such as consulting, planning, training, integrating and ongoing servicing of cybersecurity, risk management, system quality, reliability and security projects and fully managed corporate cybersecurity services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for cybersecurity and system security solutions, professional services including consulting and integration, and managed corporate cybersecurity services.",
+  "evidence": "we offer data and cybersecurity and system security and reliability solutions and related services such as consulting, planning, training, integrating and ongoing servicing of cybersecurity, risk management, system quality, reliability and security projects and fully managed corporate cybersecurity services."
+ },
+ "changes": [
+  {
+   "text": "In 2026, HUB ceased BST operations and discontinued this business as part of comprehensive restructuring.",
+   "evidence": "During June 2026 we ceased BST's operations, terminated BST's main commercial contract and terminated the employees of this business."
+  }
+ ],
+ "dropped": [
+  "product not in text (Product and Technology Segment): Confidential computing data protection solutions",
+  "product not in text (Product and Technology Segment): Trust Rails framework",
+  "product not in text (Professional Services Segment): Data and cybersecurity solutions",
+  "product not in text (Professional Services Segment): Training services",
+  "change not grounded: In 2021, HUB TLV merged with ALD, with HUB TLV becoming a wholly owned subsidiar",
+  "change not grounded: In 2025, HUB acquired BST and its subsidiaries, later recording a full impairmen"
+ ]
+}

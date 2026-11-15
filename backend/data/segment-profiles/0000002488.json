@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000002488",
+ "issuerName": "ADVANCED MICRO DEVICES, INC",
+ "builtAt": "2026-11-14T14:06:07.737Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000002488-26-000018",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Center",
+   "products": [
+    "AMD Pensando DPUs",
+    "FPGAs",
+    "Adaptive SoCs"
+   ],
+   "description": "Provides AI accelerators, server CPUs, GPUs, networking products and adaptive SoCs for data center customers.",
+   "evidence": "the Data Center segment, which primarily includes AI accelerators, CPUs for servers, GPUs, APUs, DPUs, AI NICs, FPGAs and SoC products for data centers"
+  },
+  {
+   "name": "Client and Gaming",
+   "products": [
+    "AMD Ryzen Threadripper processors",
+    "Discrete GPUs",
+    "Semi-custom SoCs"
+   ],
+   "description": "Supplies CPUs, APUs, chipsets and GPUs for desktops, notebooks, gaming and commercial PCs.",
+   "evidence": "the Client and Gaming segment, which primarily includes CPUs, APUs, chipsets for desktops and notebooks, discrete GPUs, and semi-custom SoC products and development services"
+  },
+  {
+   "name": "Embedded",
+   "products": [
+    "Embedded CPUs",
+    "FPGAs",
+    "System-on-Modules",
+    "Adaptive SoCs"
+   ],
+   "description": "Delivers high-performance computing solutions for automotive, industrial, healthcare, storage and networking markets.",
+   "evidence": "the Embedded segment, which primarily includes embedded CPUs, APUs, FPGAs, SOMs, and adaptive SoC products"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase AMD semiconductors including CPUs, GPUs, and specialized processors for data centers, client computing, gaming and embedded applications.",
+  "evidence": "Our CPUs and APUs power PCs that are an integral part of how customers work, learn and play."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2025, AMD combined the Client and Gaming segments into one reportable segment to align with how it manages its business.",
+   "evidence": "Beginning in the first quarter of fiscal year 2025, we combined the Client and Gaming segments into one reportable segment to align with how we manage our business."
+  }
+ ],
+ "dropped": [
+  "product not in text (Data Center): AMD EPYC Server CPUs",
+  "product not in text (Data Center): AMD Instinct GPUs",
+  "product not in text (Data Center): AMD Pensando AI NICs",
+  "product not in text (Data Center): AMD Solarflare networking solutions",
+  "product not in text (Client and Gaming): AMD Ryzen CPUs",
+  "product not in text (Client and Gaming): AMD Ryzen AI processors",
+  "product not in text (Client and Gaming): AMD Ryzen PRO processors",
+  "product not in text (Embedded): Embedded APUs"
+ ]
+}

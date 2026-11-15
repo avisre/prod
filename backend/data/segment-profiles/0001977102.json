@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001977102",
+ "issuerName": "Birkenstock Holding plc",
+ "builtAt": "2026-11-14T17:38:50.402Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-25-323599",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1977102/000119312525323599/birk-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Madrid",
+    "Arizona",
+    "Boston",
+    "Gizeh",
+    "Mayari",
+    "Core Silhouettes",
+    "1774"
+   ],
+   "description": "Sells footbed-based footwear to consumers and wholesale partners across the Americas region.",
+   "evidence": "Our strongest, most developed segments are the Americas and EMEA, which represented 52% and 37% of revenue, respectively, for the year ended September 30, 2025."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Madrid",
+    "Arizona",
+    "Boston",
+    "Gizeh",
+    "Mayari",
+    "Core Silhouettes",
+    "1774"
+   ],
+   "description": "Sells footbed-based footwear to consumers and wholesale partners across Europe, Middle East and Africa.",
+   "evidence": "the Company changed the structure of its internal organization which resulted in the new operating segments EMEA and APAC, whereas the Americas operating segment remained unchanged."
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "Madrid",
+    "Arizona",
+    "Boston",
+    "Gizeh",
+    "Mayari",
+    "Core Silhouettes",
+    "1774"
+   ],
+   "description": "Sells footbed-based footwear to consumers and wholesale partners across the Asia-Pacific region.",
+   "evidence": "Our APAC segment has demonstrated considerable growth potential, which has not been fully realized historically due to the finite nature of our product supply as a result of limited production capacities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In fiscal 2025 the Company reorganized into three reportable segments Americas, EMEA and APAC, splitting the prior structure into EMEA and APAC.",
+   "evidence": "during the first quarter of the fiscal year 2025, the Company changed the structure of its internal organization which resulted in the new operating segments EMEA and APAC, whereas the Americas operating segment remained unchanged."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "escalated": "revenue model not quoted"
+}

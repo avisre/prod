@@ -1,0 +1,91 @@
+{
+ "version": 1,
+ "cik": "0000107263",
+ "issuerName": "WILLIAMS COMPANIES, INC.",
+ "builtAt": "2026-11-14T13:47:25.239Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000107263-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/107263/000010726326000006/wmb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Transmission, Power & Gulf",
+   "products": [
+    "Transco",
+    "MountainWest",
+    "Gulf Coast Storage",
+    "NorTex",
+    "Gulfstream",
+    "Louisiana LNG",
+    "Driftwood Pipeline"
+   ],
+   "description": "Provides FERC-regulated interstate natural gas transmission and storage, market-based storage, offshore gathering, and LNG-related investments for utilities, municipalities, and industrial customers.",
+   "evidence": "Williams' interstate natural gas pipelines, which are presented in the Transmission, Power & Gulf segment as described under the heading \"Business Segments,\" are subject to regulation by the FERC"
+  },
+  {
+   "name": "Northeast G&P",
+   "products": [
+    "natural gas gathering",
+    "natural gas processing"
+   ],
+   "description": "Provides natural gas gathering and processing services for producers in the northeastern United States.",
+   "evidence": "Williams' gathering, treating, and processing operations are presented within the Transmission, Power & Gulf; Northeast G&P; and West reporting segments, as described under the heading \"Business Segments.\""
+  },
+  {
+   "name": "West",
+   "products": [
+    "natural gas gathering",
+    "natural gas processing"
+   ],
+   "description": "Provides natural gas gathering and processing services for producers in western supply areas.",
+   "evidence": "Williams' gathering, treating, and processing operations are presented within the Transmission, Power & Gulf; Northeast G&P; and West reporting segments, as described under the heading \"Business Segments.\""
+  },
+  {
+   "name": "Gas & NGL Marketing Services",
+   "products": [
+    "natural gas marketing",
+    "NGL marketing",
+    "Cogentrix"
+   ],
+   "description": "Markets natural gas and NGLs, providing asset management, trading, storage, and transportation for utilities, power generators, producers, and petrochemical users.",
+   "evidence": "Williams' natural gas and NGL marketing services are presented primarily within its Gas & NGL Marketing Services segment."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "upstream operations"
+   ],
+   "description": "Includes upstream operations and minor business activities that are not reportable segments, as well as corporate operations.",
+   "evidence": "Other includes upstream operations and minor business activities that are not reportable segments, as well as corporate operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Williams is paid fees based on volumes of natural gas gathered, treated, and processed, regulated reservation and commodity charges for interstate transportation and storage, and sales of marketed natural gas, NGLs, and equity NGL production.",
+  "evidence": "Williams is generally paid a fee based on the volume of natural gas gathered and/or treated, generally measured in the Btu heating value."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Williams purchased a minority interest in Cogentrix, accounted for within the Gas & NGL Marketing Services segment.",
+   "evidence": "In March 2025, Williams purchased a minority interest in Cogentrix Co-Investment Fund, LP (Cogentrix) which is accounted for as an equity-method investment within the Gas & NGL Marketing Services segment."
+  },
+  {
+   "text": "In 2024, Williams closed on the acquisition of the third-party operator Crowheart Energy, LLC, making Williams operator of the Wamsutter upstream properties.",
+   "evidence": "In November 2024, Williams closed on the acquisition of the third-party operator Crowheart Energy, LLC."
+  }
+ ],
+ "dropped": [
+  "product not in text (Transmission, Power & Gulf): Northwest Pipeline (NWP)",
+  "product not in text (Northeast G&P): NGL extraction",
+  "product not in text (West): NGL extraction",
+  "product not in text (Gas & NGL Marketing Services): wholesale trading",
+  "product not in text (Gas & NGL Marketing Services): storage and transportation services",
+  "product not in text (Other): Wamsutter basin properties",
+  "product not in text (Other): Haynesville Shale properties",
+  "change not grounded: In 2025, Williams acquired a 10 percent interest in Louisiana LNG and an 80 perc"
+ ]
+}

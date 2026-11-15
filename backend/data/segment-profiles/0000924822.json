@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000924822",
+ "issuerName": "MILLER INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T17:40:58.499Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-023486",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/924822/000110465926023486/mlr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Towing and recovery equipment",
+   "products": [
+    "Car carriers",
+    "Wreckers",
+    "Transport trailers",
+    "Century",
+    "Vulcan",
+    "Holmes",
+    "Challenger",
+    "Jige"
+   ],
+   "description": "Designs and manufactures bodies of car carriers and wreckers installed on third-party chassis, sold through distributors and directly to customers.",
+   "evidence": "The Company has one reportable segment identified as towing and recovery equipment, which is manufactured in the United States, United Kingdom, Italy, and France."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase towing and recovery equipment through a network of distributors or directly as end-user customers, with sales also to governmental entities through prime contractors.",
+  "evidence": "Our products are marketed and sold primarily through a network of distributors that serve all 50 states, Canada, Mexico, and other foreign markets, and through prime contractors to governmental entities."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company acquired substantially all assets of Southern Hydraulic Cylinder, Inc., which manufactures hydraulic cylinders and related components.",
+   "evidence": "During fiscal 2023, the Company acquired substantially all of the assets and assumed certain liabilities of Southern Hydraulic Cylinder, Inc. through an acquisition subsidiary formed as a Tennessee corporation, which then changed its name to SHC, Inc. (\"SHC\")."
+  },
+  {
+   "text": "In 2025, the Company acquired Omars – S.p.A., a designer and manufacturer of towing and recovery vehicles headquartered in Italy.",
+   "evidence": "On December 2, 2025, Miller Industries, Inc. acquired Omars – S.p.A (\"Omars\"), a designer and manufacturer of towing and recovery vehicles, headquartered in Cuneo, Italy."
+  }
+ ],
+ "dropped": []
+}

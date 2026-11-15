@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000719733",
+ "issuerName": "KEY TRONIC CORP",
+ "builtAt": "2026-11-14T13:49:19.820Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000719733-26-000033",
+  "periodEnd": "2026-06-27",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/719733/000071973326000033/ktcc-20260627.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronics Manufacturing Services",
+   "products": [
+    "integrated electronic and mechanical engineering",
+    "precision plastic molding",
+    "sheet metal fabrication",
+    "printed circuit board (PCB) and complete product assembly",
+    "component selection, sourcing and procurement",
+    "worldwide logistics",
+    "new product testing and production",
+    "surface mount technologies (SMT)"
+   ],
+   "description": "Provides integrated electronic and mechanical engineering, assembly, sourcing, logistics and testing services for OEM customers.",
+   "evidence": "As of June 27, 2026, the Company operates and internally manages a single operating segment, Electronics Manufacturing Services, as this is the only discrete financial information that is regularly reviewed by the chief operating decision maker."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEM customers pay the company under manufacturing service agreements and purchase orders for contract manufacturing of customer-specific products, recognized over time or upon shipment.",
+  "evidence": "The Company generally enters into manufacturing service agreements (\"MSA\") with its customers that outlines the terms of the business relationship between the customer and the Company."
+ },
+ "changes": [],
+ "dropped": []
+}

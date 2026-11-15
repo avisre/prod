@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000765880",
+ "issuerName": "Healthpeak Properties, Inc.",
+ "builtAt": "2026-11-14T13:50:27.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-005044",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/765880/000162828026005044/peak-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Outpatient medical",
+   "products": [
+    "outpatient medical buildings",
+    "hospitals"
+   ],
+   "description": "Owns, operates, and develops outpatient medical buildings and hospitals for healthcare delivery tenants in the United States.",
+   "evidence": "Under the outpatient medical and lab segments, we own, operate, and develop outpatient medical buildings, hospitals, and lab buildings."
+  },
+  {
+   "name": "Lab",
+   "products": [
+    "lab buildings"
+   ],
+   "description": "Owns, operates, and develops lab buildings serving pharmaceutical, biotechnology, and medical device companies.",
+   "evidence": "Under the outpatient medical and lab segments, we own, operate, and develop outpatient medical buildings, hospitals, and lab buildings."
+  },
+  {
+   "name": "Senior housing",
+   "products": [
+    "life plan communities",
+    "senior housing properties",
+    "independent living facilities",
+    "assisted living facilities"
+   ],
+   "description": "Operates life plan communities and senior housing properties through RIDEA structures managed by third-party operators.",
+   "evidence": "Under the senior housing segment, our properties are operated through RIDEA structures."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthpeak earns rental income from tenants leasing its healthcare properties and management-fee-based operating income from senior housing properties operated through RIDEA structures.",
+  "evidence": "As third-party operators manage our RIDEA properties in exchange for the receipt of a management fee, we are not directly exposed to the credit risk of these operators in the same manner or to the same extent as a triple-net tenant."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025, the company began evaluating life plan communities and the SWF SH JV as a single reportable segment called senior housing.",
+   "evidence": "During the fourth quarter of 2025, in connection with the planned Offering of Janus Living, our chief operating decision maker (\"CODM\"), the President and Chief Executive Officer (\"CEO\"), began evaluating our life plan communities (formerly known as continuing care retirement communities, or CCRCs) and our unconsolidated joint venture with a sovereign wealth fund that owns 19 senior housing properties (our \"SWF SH JV\") as a single operating and reportable segment, referred to as senior housing."
+  },
+  {
+   "text": "In the fourth quarter of 2025, two properties were reclassified from the outpatient medical segment to other non-reportable segments.",
+   "evidence": "Also during the fourth quarter of 2025, two other properties were reclassified from the outpatient medical segment to the other non-reportable segments as these properties are not representative of the characteristics of the outpatient medical segment and therefore, are no longer evaluated by the CODM in conjunction with the outpatient medical properties."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, Healthpeak completed its merger with Physicians Realty Trust, acquiring"
+ ]
+}

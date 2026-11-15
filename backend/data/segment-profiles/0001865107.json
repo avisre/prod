@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0001865107",
+ "issuerName": "a.k.a. Brands Holding Corp.",
+ "builtAt": "2026-11-14T17:42:13.314Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001865107-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1865107/000186510726000008/aka-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Princess Polly",
+   "products": [],
+   "description": null,
+   "evidence": "Princess Polly is a leading fashion brand loved globally for its trend-driven designs, viral online presence and exclusive influencer collaborations."
+  },
+  {
+   "name": "Petal & Pup",
+   "products": [],
+   "description": null,
+   "evidence": "Petal & Pup, founded in Australia in 2014 and expanded into the U.S. via its acquisition by a.k.a. Brands in 2019, is a rapidly growing global feminine lifestyle brand, targeting women in their 20s and 30s."
+  },
+  {
+   "name": "Culture Kings",
+   "products": [
+    "Loiter",
+    "Carre",
+    "Saint Morta",
+    "Third-party streetwear brands"
+   ],
+   "description": "Premier streetwear retail destination offering curated in-house and third-party brands through experiential concept stores and online.",
+   "evidence": "Culture Kings is a premier international streetwear retail destination, standing at the intersection of fashion, art, sports and music, and a leader in the worldwide streetwear phenomenon."
+  },
+  {
+   "name": "mnml",
+   "products": [],
+   "description": "Men's streetwear brand designing premier, fashion-forward apparel at accessible prices through direct-to-consumer and wholesale channels.",
+   "evidence": "mnml is a men's streetwear brand that designs premier, fashion-forward apparel at accessible prices."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase fashion apparel, footwear and accessories through direct-to-consumer online channels, physical retail stores and wholesale partnerships with retailers.",
+  "evidence": "Through these brands we reach a broad audience of next-generation consumers who seek fashion inspiration on social media and primarily shop online."
+ },
+ "changes": [
+  {
+   "text": "Petal & Pup and Princess Polly successfully launched in Nordstrom stores in 2025, expanding brand footprint.",
+   "evidence": "In 2025, Petal & Pup and Princess Polly successfully launched in all Nordstrom stores across the U.S., further expanding the brands' footprint and customer touchpoints."
+  }
+ ],
+ "dropped": [
+  "product not in text (Princess Polly): Trend-driven fashion apparel",
+  "product not in text (Princess Polly): Exclusive influencer collaboration pieces",
+  "product not in text (Petal & Pup): Feminine lifestyle apparel",
+  "product not in text (Petal & Pup): Women's fashion collections",
+  "product not in text (Culture Kings): In-house designed streetwear brands",
+  "product not in text (mnml): Men's streetwear apparel",
+  "product not in text (mnml): Fashion-forward menswear",
+  "change not grounded: Princess Polly launched in Nordstrom department stores across the United States "
+ ]
+}

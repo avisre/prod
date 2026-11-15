@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000864749",
+ "issuerName": "TRIMBLE INC.",
+ "builtAt": "2026-11-14T13:53:12.699Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000864749-26-000015",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/864749/000086474926000015/trmb-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Architects, Engineers, Construction, and Owners (\"AECO\")",
+   "products": [
+    "SketchUp",
+    "Architecture & Interior Design Software",
+    "Building Information Modeling (\"BIM\"), Engineering, and Virtual Design and Const",
+    "Construction Software",
+    "Owner Software"
+   ],
+   "description": "Serves architecture, engineering, construction, and asset ownership organizations with connected lifecycle software for design, construction, and asset management.",
+   "evidence": "The AECO segment primarily serves organizations across architecture, engineering, construction, and asset ownership through a connected lifecycle solution."
+  },
+  {
+   "name": "Field Systems",
+   "products": [
+    "Field-based data collection systems",
+    "Field software",
+    "Real-time communications systems",
+    "Back-office software for data processing"
+   ],
+   "description": "Provides software and hardware products and services for surveying, mapping, civil and building construction field services, and positioning systems to private, commercial, and government customers.",
+   "evidence": "The Field Systems segment provides software and hardware products and services to private, commercial, and government customers."
+  },
+  {
+   "name": "Transportation and Logistics (\"T&L\")",
+   "products": [
+    "Trimble Transportation Cloud",
+    "Transporeon",
+    "Connected supply chain solutions"
+   ],
+   "description": "Provides transportation management software and marketplace solutions that help shippers, carriers, and drivers improve efficiency, safety, transparency, and sustainability.",
+   "evidence": "our Transporeon business creates a marketplace for shippers, forwarders, carriers, and retailers to connect online and digitize their end-to-end transportation management processes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for software sold as subscription services, consumption, term or perpetual licenses, plus hardware, services, and marketplace offerings sold through direct, dealer, joint venture, OEM, and digital channels.",
+  "evidence": "Our software is sold as subscription services, including consumption, term licenses, or perpetual licenses, and is hosted as Software as a Service (\"SaaS\"), or can be provisioned for on-premise usage."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Trimble sold its global transportation telematics (Mobility) business to Platform Science, retaining an equity stake.",
+   "evidence": "On February 8, 2025, we completed the sale of our global transportation telematics (\"Mobility\") business to Platform Science, Inc. (\"Platform Science\") resulting in our ownership, or rights to acquire ownership of 32.5% o f Platform Science's expanded business with an approximate fair value of $253.9 million ."
+  },
+  {
+   "text": "In 2024, Trimble completed the Ag divestiture, which generated a large gain in the prior year.",
+   "evidence": "Non-operating expense, net increased primarily due to the Ag divestiture gain in the prior year."
+  }
+ ],
+ "dropped": [
+  "product not in text (Field Systems): Geospatial surveying and mapping solutions"
+ ]
+}

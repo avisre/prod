@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000842180",
+ "issuerName": "BANCO BILBAO VIZCAYA ARGENTARIA, S.A.",
+ "builtAt": "2026-11-14T13:52:34.301Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-010001",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/842180/000162828026010001/bbva-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Spain",
+   "products": [
+    "retail banking",
+    "asset management",
+    "wholesale banking"
+   ],
+   "description": "The Group's banking operations in Spain, covering retail, asset management and wholesale banking for customers.",
+   "evidence": "Set forth below are the Group's current five operating segments: • Spain;"
+  },
+  {
+   "name": "Mexico",
+   "products": [
+    "retail banking",
+    "asset management",
+    "wholesale banking"
+   ],
+   "description": "The Group's banking operations in Mexico, covering retail, asset management and wholesale banking for customers.",
+   "evidence": "Set forth below are the Group's current five operating segments: • Spain; • Mexico;"
+  },
+  {
+   "name": "Turkey",
+   "products": [
+    "retail banking",
+    "asset management",
+    "wholesale banking"
+   ],
+   "description": "The Group's banking operations in Turkey, conducted mainly through Garanti, covering retail and wholesale banking.",
+   "evidence": "Set forth below are the Group's current five operating segments: • Spain; • Mexico; • Turkey;"
+  },
+  {
+   "name": "South America",
+   "products": [
+    "retail banking",
+    "asset management",
+    "wholesale banking"
+   ],
+   "description": "The Group's banking operations in South American countries for retail and wholesale customers.",
+   "evidence": "Set forth below are the Group's current five operating segments: • Spain; • Mexico; • Turkey; • South America;"
+  },
+  {
+   "name": "Rest of Business",
+   "products": [
+    "retail banking",
+    "asset management",
+    "wholesale banking"
+   ],
+   "description": "The Group's banking operations in other countries and regions not covered by the named geographic segments.",
+   "evidence": "Set forth below are the Group's current five operating segments: • Spain; • Mexico; • Turkey; • South America; and • Rest of Business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Group earns net interest income from loans and advances to customers, plus fee and other banking income from retail, asset management and wholesale banking services.",
+  "evidence": "Internationally diversified and with strengths in the traditional banking businesses of retail banking, asset management and wholesale banking, the Group is committed to offering a compelling digital proposition focused on customer experience."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the operating segment structure remained the same as in 2024, with only immaterial intra-group reallocations between segments and the Corporate Center.",
+   "evidence": "As of December 31, 2025, the structure of the operating segments used by the BBVA Group for management purposes remained the same as in 2024."
+  }
+ ],
+ "dropped": []
+}

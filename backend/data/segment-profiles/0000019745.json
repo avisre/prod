@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000019745",
+ "issuerName": "CHESAPEAKE UTILITIES CORP",
+ "builtAt": "2026-11-14T14:07:26.822Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011753",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/19745/000162828026011753/cpk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated Energy",
+   "products": [
+    "Natural gas distribution",
+    "Electric distribution",
+    "Natural gas transmission"
+   ],
+   "description": "Natural gas and electric distribution, and natural gas transmission services to residential, commercial and industrial customers.",
+   "evidence": "Our regulated energy businesses are comprised of natural gas and electric distribution, as well as natural gas transmission services."
+  },
+  {
+   "name": "Unregulated Energy",
+   "products": [
+    "Propane distribution",
+    "Marlin Gas Services",
+    "Other unregulated energy services"
+   ],
+   "description": "Non-regulated propane distribution and energy services including compressed natural gas and liquefied natural gas transport.",
+   "evidence": "Investments in other related non-regulated businesses and services including sustainable investments, such as renewable natural gas related investments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Regulated businesses recover costs and earn returns through PSC-approved rates; unregulated businesses operate on competitive pricing.",
+  "evidence": "Revenues in the Regulated Energy segment are based on rates regulated by the PSC in the states in which we operate or, in the case of Eastern Shore which is an interstate business, by the FERC."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, the company acquired Florida City Gas (FCG) for $922.8 million, adding "
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000708955",
+ "issuerName": "FIRST FINANCIAL BANCORP /OH/",
+ "builtAt": "2026-11-14T13:48:50.857Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000708955-26-000028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/708955/000070895526000028/ffbc-20251231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial banking",
+   "products": [
+    "Commercial loans",
+    "Retail banking",
+    "Mortgage banking",
+    "Wealth management",
+    "Investment commercial real estate",
+    "Commercial finance",
+    "Insurance premium financing",
+    "Equipment lease financing"
+   ],
+   "description": "A financial holding company operating First Financial Bank, providing banking and financial services to business and retail clients in Ohio, Indiana, Kentucky and Illinois.",
+   "evidence": "First Financial provides banking and financial services products to business and retail clients through its six lines of business: Commercial, Retail Banking, Mortgage Banking, Wealth Management, Investment Commercial Real Estate and Commercial Finance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "First Financial earns interest on its loan and lease portfolio and securities, plus fees from banking, wealth management, mortgage and specialty finance services provided to business and retail clients.",
+  "evidence": "First Financial's loan portfolio consists of commercial loan types, including C&I, lease financing (equipment leasing), construction real estate and commercial real estate, as well as consumer loan types, such as residential real estate, home equity, installment and credit card loans."
+ },
+ "changes": [],
+ "dropped": []
+}

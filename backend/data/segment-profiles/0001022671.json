@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001022671",
+ "issuerName": "Steel Dynamics, Inc.",
+ "builtAt": "2026-11-14T17:37:19.823Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021395",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1022671/000110465926021395/stld-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel Operations",
+   "products": [
+    "Coated steel products",
+    "Structural steel",
+    "Rails",
+    "Reinforcing steel bar",
+    "Engineered bar products",
+    "Threaded products"
+   ],
+   "description": "Electric arc furnace steel mills producing steel from scrap, with coating and processing operations serving construction, automotive, manufacturing and transportation end markets.",
+   "evidence": "Our steel operations consist of electric arc furnace steel mills that produce steel from ferrous scrap and scrap substitutes, using continuous casting and automated rolling mills, along with numerous steel coating, processing, and warehouse operations."
+  },
+  {
+   "name": "Metals Recycling Operations",
+   "products": [
+    "Ferrous scrap",
+    "Nonferrous scrap",
+    "Aluminum scrap"
+   ],
+   "description": "Processing, transportation, marketing and brokerage of ferrous and nonferrous scrap metals throughout the United States and Mexico.",
+   "evidence": "Metals recycling operations include our Omni ferrous and nonferrous processing, transportation, marketing, brokerage, and scrap management services located throughout the United States and in Central and Northern Mexico."
+  },
+  {
+   "name": "Steel Fabrication Operations",
+   "products": [
+    "Steel joists",
+    "Joist girders",
+    "Steel deck systems"
+   ],
+   "description": "Fabrication of steel joists, joist girders, and steel deck systems for non-residential construction applications.",
+   "evidence": "Steel fabrication operations include our New Millennium Building Systems' joist and deck plants located throughout the United States, and in Northern Mexico."
+  },
+  {
+   "name": "Aluminum Operations",
+   "products": [
+    "Recycled aluminum flat rolled products",
+    "Recycled aluminum deox-rod"
+   ],
+   "description": "Production of recycled aluminum flat rolled products and ancillary recycled aluminum products serving beverage can, automotive and industrial sectors.",
+   "evidence": "Our aluminum operations consist of a 650,000-metric-ton recycled aluminum flat rolled products mill in Columbus, Mississippi; two 150,000-metric-ton satellite recycled aluminum slab centers, one in Central Mexico and one under construction in the Southwest U.S.; and an ancillary recycled aluminum deox-rod facility."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for manufacture and sale of steel products, processing and sale of recycled metals, and fabrication and sale of steel joist and deck products.",
+  "evidence": "The company's primary sources of revenue are currently derived from the manufacture and sale of steel products, the processing and sale of recycled ferrous and nonferrous metals, and the fabrication and sale of steel joist and deck products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Steel Operations): Hot rolled steel",
+  "product not in text (Steel Operations): Cold rolled steel",
+  "product not in text (Aluminum Operations): Recycled aluminum slabs",
+  "change not grounded: In 2025, the company acquired New Process Steel, L.P. on December 1, 2025, addin"
+ ]
+}

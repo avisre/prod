@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000764065",
+ "issuerName": "CLEVELAND-CLIFFS INC.",
+ "builtAt": "2026-11-14T13:50:22.393Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000764065-26-000025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/764065/000076406526000025/clf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steelmaking",
+   "products": [
+    "hot-rolled",
+    "cold-rolled",
+    "coated",
+    "stainless and electrical",
+    "plate",
+    "slab and other steel products",
+    "iron ore",
+    "HBI"
+   ],
+   "description": "Vertically integrated steel producer serving automotive, infrastructure and manufacturing, distributors, converters and steel producers in North America.",
+   "evidence": "We primarily operate through one reportable segment – the Steelmaking segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in North America pay for steel products under fixed-price contracts, spot market sales, or contracts with variable pricing tied to a published steel index.",
+  "evidence": "We sell approximately 35-40% of our flat-rolled steel shipments under fixed price contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company completed the Stelco Acquisition, expanding its presence in Canada.",
+   "evidence": "On November 1, 2024, we completed the Stelco Acquisition."
+  },
+  {
+   "text": "In 2025, the company decided to fully or partially idle, or permanently close, six operations including permanently closing its Steelton, Conshohocken and Riverdale facilities.",
+   "evidence": "During 2025, we made the decision to fully or partially idle, or permanently close, six of our operations."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the five-year contract to supply semi-finished steel slabs initiated wi"
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000944809",
+ "issuerName": "OPKO Health, Inc.",
+ "builtAt": "2026-11-14T17:40:30.205Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076596",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/944809/000119312526076596/opk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pharmaceuticals",
+   "products": [
+    "NGENLA (Somatrogon)",
+    "Rayaldee",
+    "MDX2001",
+    "MDX2003",
+    "MDX2004",
+    "EBV Nanoparticle Vaccine"
+   ],
+   "description": "Develops, manufactures and sells pharmaceutical products and multi-specific immune therapies for growth disorders, kidney disease, cancer and infectious diseases.",
+   "evidence": "The pharmaceutical segment consists of the pharmaceutical operations we operate in Chile, Mexico, Ireland, Israel, Spain, Ecuador, France, the United States, and our global pharmaceutical research and development operations."
+  },
+  {
+   "name": "diagnostics",
+   "products": [
+    "BioReference",
+    "4Kscore test"
+   ],
+   "description": "Operates clinical laboratory testing services including specialty urology and women's health testing for patients and providers.",
+   "evidence": "The diagnostics segment primarily consists of the clinical laboratory operations of BioReference."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by manufacturing and selling pharmaceutical products and by performing clinical laboratory testing services.",
+  "evidence": "Through our pharmaceutical business, we manufacture and sell Rayaldee , a U.S. Food and Drug Administration (\"FDA\") approved treatment for secondary hyperparathyroidism (\"SHPT\") in adults with stage 3 or 4 chronic kidney disease (\"CKD\") and vitamin D insufficiency."
+ },
+ "changes": [
+  {
+   "text": "In 2024 and 2025 the company divested non-core laboratory assets, including clinical diagnostics, reproductive health, women's health and oncology diagnostics businesses.",
+   "evidence": "In 2024 and 2025, we completed two separate divestitures of non-core laboratory assets for total aggregate consideration of up to $462.5 million, including approximately $32.5 million in potential earnout consideration."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

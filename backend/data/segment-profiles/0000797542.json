@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000797542",
+ "issuerName": "QUANTUM X LABS INC.",
+ "builtAt": "2026-11-14T13:51:16.047Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013205",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/797542/000149315226013205/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "search",
+   "products": [],
+   "description": "Develops software solutions that automate, optimize and monetize internet campaigns to obtain and route internet user traffic to customers.",
+   "evidence": "The search segment develops a variety of technological software solutions, which perform automation, optimization, and monetization of internet campaigns, for the purposes of obtaining and routing internet user traffic to its customers."
+  },
+  {
+   "name": "digital content",
+   "products": [],
+   "description": "Created and edited content in different languages for target audiences to generate revenues from advertising platforms by routing internet user traffic to customers.",
+   "evidence": "The digital content segment was engaged in the creation and editing of content, in different languages, for different target audiences, for the purposes of generating revenues from leading advertising platforms, by utilizing such content to obtain and route internet user traffic for its customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Group for obtaining and routing internet user traffic to them via automated, optimized and monetized internet campaigns, and Metagramm licenses its products on a subscription basis to businesses and individual customers.",
+  "evidence": "Metagramm licenses its products on a subscription basis to businesses and individual customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Gix Media sold all of its holdings in Cortex and the Group ceased its operations in the digital content segment, which is reported as discontinued operations.",
+   "evidence": "On November 9, 2025, Gix Media sold all of its holdings in Cortex (see notes 8.A, 8.B). Subsequently, the Group ceased its operations in the digital content segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (search): technological software solutions for automation, optimization, and monetization ",
+  "change not grounded: In 2025, the Company acquired 100% of Metagramm Software Ltd., whose main produc"
+ ]
+}

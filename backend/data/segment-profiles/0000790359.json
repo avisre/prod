@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000790359",
+ "issuerName": "NBT BANCORP INC",
+ "builtAt": "2026-11-14T13:51:02.783Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-007179",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/790359/000114036126007179/ef20060005_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "demand deposit accounts",
+    "savings accounts",
+    "interest-bearing checking accounts",
+    "MMDA and CD accounts",
+    "indirect and direct consumer loans",
+    "home equity loans",
+    "mortgages",
+    "business banking loans and commercial loans"
+   ],
+   "description": "Provides commercial banking, retail banking and wealth management services to individuals, corporations and municipalities in the Company's market area.",
+   "evidence": "The Company's business, primarily conducted through the Bank, consists of providing commercial banking, retail banking and wealth management services primarily to customers in its market area."
+  },
+  {
+   "name": "Retirement Plan Administration",
+   "products": [],
+   "description": "Provides retirement plan administration services through EPIC Advisors, a national benefits administration firm.",
+   "evidence": "Among other services, EPIC provides retirement plan administration."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns net interest income on loans and securities funded by deposits and borrowings, plus noninterest income such as service charges, card services, retirement plan administration fees, wealth management revenue and insurance services.",
+  "evidence": "The financial condition and operating results of the Company are dependent on its net interest income, which is the difference between the interest and dividend income earned on its earning assets, primarily loans and securities and the interest expense paid on its interest-bearing liabilities, primarily deposits and borrowings."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed the acquisition of Evans Bancorp, Inc., enhancing its presence in Western New York.",
+   "evidence": "On May 2, 2025, the Company completed the acquisition of Evans, through the merger of Evans with and into the Company, with the Company surviving the merger, and the merger of Evans Bank with and into the Bank, with the Bank as the surviving bank."
+  }
+ ],
+ "dropped": [
+  "product not in text (Retirement Plan Administration): retirement plan administration"
+ ]
+}

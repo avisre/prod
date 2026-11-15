@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000021344",
+ "issuerName": "COCA COLA CO",
+ "builtAt": "2026-11-14T14:07:33.268Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010047",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/ko-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "EMEA",
+   "products": [],
+   "description": "Beverage concentrate and finished product operations in Europe, Middle East and Africa region.",
+   "evidence": "The results of the Costa (excluding the ready-to-drink business), innocent and doğadan businesses are now reported within the Company's Europe, Middle East and Africa (\"EMEA\") operating segment."
+  },
+  {
+   "name": "Latin America",
+   "products": [],
+   "description": "Beverage concentrate and finished product operations in Latin America region.",
+   "evidence": "Our operating structure includes the following operating segments: • EMEA • Latin America • North America • Asia Pacific • Bottling Investments"
+  },
+  {
+   "name": "North America",
+   "products": [],
+   "description": "Beverage concentrate and finished product operations in North America region.",
+   "evidence": "Our operating structure includes the following operating segments: • EMEA • Latin America • North America • Asia Pacific • Bottling Investments"
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [],
+   "description": "Beverage concentrate and finished product operations in Asia Pacific region.",
+   "evidence": "Our operating structure includes the following operating segments: • EMEA • Latin America • North America • Asia Pacific • Bottling Investments"
+  },
+  {
+   "name": "Bottling Investments",
+   "products": [],
+   "description": "Consolidated bottling and distribution operations producing and selling finished beverages to retailers and distributors.",
+   "evidence": "These operations consist primarily of our consolidated bottling and distribution operations, which are included in our Bottling Investments operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Concentrate operations sell beverage concentrates and syrups to bottling partners; finished product operations sell finished beverages to retailers, distributors and wholesalers.",
+  "evidence": "Our concentrate operations typically generate net operating revenues by selling beverage concentrates, sometimes referred to as \"beverage bases,\" syrups, including fountain syrups, and certain finished beverages to authorized bottling operations."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Global Ventures operating segment was sunset; Costa, innocent and doğadan businesses were moved to EMEA.",
+   "evidence": "Effective January 1, 2025, we sunset our Global Ventures operating segment to streamline and simplify our operating structure."
+  }
+ ],
+ "dropped": []
+}

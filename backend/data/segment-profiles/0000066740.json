@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000066740",
+ "issuerName": "3M COMPANY",
+ "builtAt": "2026-11-14T13:45:29.802Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000066740-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/66740/000006674026000014/mmm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Safety and Industrial",
+   "products": [
+    "Abrasives",
+    "Automotive Aftermarket",
+    "Electrical Markets",
+    "Industrial Adhesives and Tapes",
+    "Industrial Specialties Division",
+    "Personal Safety",
+    "Roofing Granules"
+   ],
+   "description": "Supplies industrial abrasives, adhesives, electrical products and personal safety protection for industrial, construction and automotive aftermarket customers.",
+   "evidence": "The reportable segments are Safety and Industrial, Transportation and Electronics, and Consumer."
+  },
+  {
+   "name": "Transportation and Electronics",
+   "products": [
+    "Advanced Materials",
+    "Automotive and Aerospace",
+    "Commercial Branding and Transportation",
+    "Display Materials and Systems",
+    "Electronics Materials Solutions"
+   ],
+   "description": "Provides materials and solutions for vehicles, electronics, semiconductor production, data centers, aerospace and commercial graphics customers.",
+   "evidence": "3M is a diversified technology company with a global presence in the following businesses : Safety and Industrial; Transportation and Electronics; and Consumer."
+  },
+  {
+   "name": "Consumer",
+   "products": [
+    "Consumer Safety and Well-Being",
+    "Home and Auto Care",
+    "Home Improvement",
+    "Packaging and Expression"
+   ],
+   "description": "Sells consumer products for home cleaning, air quality, home improvement, stationery and personal care through retail channels.",
+   "evidence": "Some seasonality impacts this business segment, for example back-to-school and holiday"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded",
+  "change not grounded: In 2024, 3M spun off its Solventum health care business.",
+  "change not grounded: In 2025, 3M completed its exit of PFAS manufacturing."
+ ]
+}

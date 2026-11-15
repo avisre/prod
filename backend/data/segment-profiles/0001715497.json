@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001715497",
+ "issuerName": "Borr Drilling Limited",
+ "builtAt": "2026-11-14T17:40:02.830Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-021450",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1715497/000162828026021450/borr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dayrate",
+   "products": [
+    "Jack-up drilling rigs",
+    "Drilling services",
+    "Workover operations"
+   ],
+   "description": "Ownership, contracting and operation of jack-up drilling rigs for shallow-water oil and gas exploration and production.",
+   "evidence": "We view our operations and manage our business as a single operating segment, our dayrate segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay dayrates for drilling contracts covering single wells, groups of wells, or stated terms on jack-up rigs.",
+  "evidence": "We contract our jack-up rigs primarily on a dayrate basis to drill wells for our customers, including integrated oil companies, state-owned national oil companies (\"NOCs\") and independent oil and gas companies."
+ },
+ "changes": [],
+ "dropped": []
+}

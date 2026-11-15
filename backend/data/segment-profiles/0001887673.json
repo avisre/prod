@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001887673",
+ "issuerName": "Wearable Devices Ltd.",
+ "builtAt": "2026-11-15T02:50:49.206Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-026977",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1887673/000121390026026977/ea0280234-20f_wearable.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wearable Devices",
+   "products": [
+    "Mudra Band for Apple Watch",
+    "Mudra Link",
+    "Mudra Inspire",
+    "Mudra Experience Studio"
+   ],
+   "description": "Develops and sells non-invasive neural input interface wristbands for controlling digital devices using hand gestures.",
+   "evidence": "We are a growth company developing a non-invasive neural input interface in the form of a wearable wristband for controlling digital devices using subtle finger gestures and hand movements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase wearable neural input devices and development kits, and licensing agreements with technology companies for hardware and software integration.",
+  "evidence": "In 2025 and 2024, we had revenues of $647 thousand and $522 thousand, respectively."
+ },
+ "changes": [
+  {
+   "text": "In September 2024, the company launched Mudra Link, a universal neural band, which began regular sales and shipments in February 2025.",
+   "evidence": "In September 2024, we launched the Mudra Link, a universal neural band to control multiple Operating Systems, or OS, devices. The Mudra Link has been sold and shipped regularly since February 2025."
+  },
+  {
+   "text": "In February 2026, the company announced launch of Mudra Experience Studio, a universal single codebase Neural Input Platform for XR and AI Developers.",
+   "evidence": "In February 2026, we announced the launch of Mudra Experience Studio – a universal single codebase Neural Input Platform for XR and AI Developers."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In December 2023, the company commenced shipment of Mudra Band, its first B2C co"
+ ]
+}

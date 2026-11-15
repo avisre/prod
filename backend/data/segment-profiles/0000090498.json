@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000090498",
+ "issuerName": "SIMMONS FIRST NATIONAL CORP",
+ "builtAt": "2026-11-14T13:46:29.244Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011618",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/90498/000162828026011618/sfnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community and Commercial Banking",
+   "products": [
+    "consumer, real estate and commercial loans",
+    "checking, savings and time deposits",
+    "treasury management",
+    "credit cards",
+    "SBA lending",
+    "agricultural finance lending",
+    "equipment lending",
+    "warehouse lending"
+   ],
+   "description": "Provides banking services, including loans and deposit products, to consumer, business and corporate customers across the Company's six-state footprint.",
+   "evidence": "The Company is organized with community and commercial banking groups."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "trust and investment services",
+    "insurance services"
+   ],
+   "description": "Holds the wealth group, which provides trust, investment and insurance services and does not meet quantitative thresholds for separate reporting.",
+   "evidence": "The Company also considers its wealth group, which provides trust and investment services, as well as insurance services, to be operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns net interest income from loans and deposits and noninterest income from fees on services such as trust, brokerage and treasury management, paid by individual and business customers.",
+  "evidence": "The CODM analyzes on the spread between interest revenue and interest expense (net interest income) to assess performance and to allocate operating and capital resources."
+ },
+ "changes": [],
+ "dropped": []
+}

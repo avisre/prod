@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000357173",
+ "issuerName": "OLD SECOND BANCORP INC",
+ "builtAt": "2026-11-14T13:48:33.130Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020393",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/357173/000110465926020393/osbc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "Deposit products",
+    "Trust and wealth management services",
+    "Lending services",
+    "Commercial, industrial, consumer and real estate lending",
+    "Residential mortgages",
+    "Electronic banking services",
+    "Corporate cash management products",
+    "Safe deposit operations"
+   ],
+   "description": null,
+   "evidence": "We evaluate our operations as one operating segment, which is community banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest on commercial, consumer and real estate loans and fees from deposit, trust, wealth management and other banking services provided to customers.",
+  "evidence": "We are a full-service banking business offering a broad range of deposit products, trust and wealth management services, lending services, and deposit services, including demand, NOW, money market, savings, time deposit and individual retirement accounts; commercial, industrial, consumer and real estate lending, including installment loans, agricultural loans, lines of credit, lease financing receivables and overdraft checking; safe deposit operations, and an extensive variety of additional serv"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed its acquisition of Bancorp Financial, adding Evergreen Bank Group and nationwide retail lending lines.",
+   "evidence": "On July 1, 2025, we completed our previously announced acquisition of Bancorp Financial, Inc. (\"Bancorp Financial\"), pursuant to the agreement and plan of merger dated February 24, 2025."
+  },
+  {
+   "text": "In 2024, the company completed a branch purchase transaction with First Merchants Bank, acquiring five branches in Illinois.",
+   "evidence": "On December 6, 2024, we completed our branch transaction with First Merchants Bank (\"FRME\")."
+  }
+ ],
+ "dropped": []
+}

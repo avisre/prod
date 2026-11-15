@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000066570",
+ "issuerName": "MSA SAFETY INC",
+ "builtAt": "2026-11-14T13:45:28.516Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000066570-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/66570/000006657026000005/msa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Fixed gas detection monitoring systems",
+    "Flame detectors and open-path infrared gas detectors",
+    "Refrigerant detection and identification",
+    "Portable gas detection instruments",
+    "MSA G1 SCBA",
+    "V-Gard helmets"
+   ],
+   "description": "Sells safety products including detection instruments, fire service equipment and industrial PPE to distributors and end-users in the Americas.",
+   "evidence": "Our primary breathing apparatus product in the Americas segment, the MSA G1 SCBA, is a platform that offers many differentiated features."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Fixed gas detection monitoring systems",
+    "Flame detectors and open-path infrared gas detectors",
+    "Refrigerant detection and identification",
+    "Portable gas detection instruments",
+    "MSA M1 SCBA",
+    "V-Series fall protection equipment"
+   ],
+   "description": "Sells safety products including detection instruments, fire service equipment and industrial PPE through direct and indirect channels outside the Americas.",
+   "evidence": "The MSA M1 SCBA, which is our primary breathing apparatus product in the International segment, represents the most advanced and ergonomic SCBA that we have launched in the International markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "MSA is paid by distributors and end-user customers for its safety products, solutions and related services, with the Americas selling mostly through distribution and the International segment using both indirect and direct channels.",
+  "evidence": "Our customers generally fall into two categories: distributors and end-user customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Americas): Cairns fire helmets",
+  "product not in text (Americas): Globe firefighter protective apparel",
+  "product not in text (International): Gallet fire helmets",
+  "product not in text (International): Bristol Uniforms firefighter protective apparel"
+ ]
+}

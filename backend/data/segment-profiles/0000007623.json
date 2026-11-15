@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000007623",
+ "issuerName": "ARTS WAY MANUFACTURING CO INC",
+ "builtAt": "2026-11-14T14:06:37.859Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-003904",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/7623/000143774926003904/artw20251130_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agricultural Products",
+   "products": [
+    "animal feed processing equipment",
+    "forage equipment",
+    "manure spreaders",
+    "sugar beet harvesting equipment",
+    "dirt work equipment",
+    "bale processors",
+    "after-market service parts"
+   ],
+   "description": "Manufactures and distributes specialized farm machinery under the Art's-Way brand through independent dealers.",
+   "evidence": "Our Agricultural Products segment manufactures and distributes farm equipment under the Art's-Way name."
+  },
+  {
+   "name": "Modular Buildings",
+   "products": [
+    "research laboratories"
+   ],
+   "description": "Manufactures custom-designed modular buildings for research and animal housing, sold or leased to institutions.",
+   "evidence": "Our Modular Buildings segment manufactures modular buildings for various uses, commonly animal containment and research laboratories, through our wholly owned subsidiary, Art's-Way Scientific, Inc., an Iowa corporation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for farm equipment through dealers and direct sales, with lease options available for modular buildings.",
+  "evidence": "We sell our labeled products through independent farm equipment dealers throughout the United States, Australia, Canada, Japan and the United Kingdom."
+ },
+ "changes": [
+  {
+   "text": "Tools business ceased operations in 2023 and was disposed of by 2025.",
+   "evidence": "During the third quarter of fiscal 2023, the Company ceased operations of its Tools business, which was reported in discontinued operations for the twelve months ended November 30, 2024. The remaining components of the Tools segment were disposed prior to the twelve months ended November 30, 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Modular Buildings): modular buildings",
+  "product not in text (Modular Buildings): animal containment facilities"
+ ]
+}

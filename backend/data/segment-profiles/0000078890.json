@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000078890",
+ "issuerName": "BRINK’S CO",
+ "builtAt": "2026-11-14T13:46:06.705Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000078890-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/78890/000007889026000010/bco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Cash-in-transit services",
+    "Basic ATM services",
+    "Brink's Global Services",
+    "Cash management services",
+    "Vaulting services",
+    "Digital Retail Solutions",
+    "ATM Managed Services"
+   ],
+   "description": "Operations in the U.S. and Canada, including the Brink's Global Services line of business, serving financial institutions, retailers and other commercial customers.",
+   "evidence": "North America – operations in the U.S. and Canada, including the Brink's Global Services (\"BGS\") line of business,"
+  },
+  {
+   "name": "Latin America",
+   "products": [
+    "Cash-in-transit services",
+    "Basic ATM services",
+    "Brink's Global Services",
+    "Cash management services",
+    "Vaulting services",
+    "Digital Retail Solutions",
+    "ATM Managed Services"
+   ],
+   "description": "Operations in Latin American countries where Brink's has an ownership interest, including the Brink's Global Services line of business.",
+   "evidence": "Latin America – operations in Latin American countries where we have an ownership interest, including the BGS line of business,"
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Cash-in-transit services",
+    "Cash management services",
+    "Vaulting services",
+    "Digital Retail Solutions",
+    "ATM Managed Services"
+   ],
+   "description": "Predominantly operations in European countries that primarily provide services outside of the BGS line of business.",
+   "evidence": "Europe – predominantly operations in European countries that primarily provide services outside of the BGS line of business, and"
+  },
+  {
+   "name": "Rest of World",
+   "products": [
+    "Brink's Global Services",
+    "Cash-in-transit services",
+    "Cash management services",
+    "Digital Retail Solutions",
+    "ATM Managed Services"
+   ],
+   "description": "Operations in the Middle East, Africa and Asia, plus BGS operations in Europe and Latin America where Brink's lacks an ownership interest.",
+   "evidence": "Rest of World – operations in the Middle East, Africa and Asia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including financial institutions, retailers, government agencies, mints and jewelers, pay Brink's under contracts for cash and valuables management, digital retail solutions and ATM managed services, often recurring multi-year terms.",
+  "evidence": "We enter into contracts with our customers to establish pricing and other terms."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective December 31, 2025, operations in certain geographies were moved from t"
+ ]
+}

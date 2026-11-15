@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000744187",
+ "issuerName": "REX AMERICAN RESOURCES CORPORATION",
+ "builtAt": "2026-11-14T13:49:57.612Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000930413-26-000937",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/744187/000093041326000937/c115944_10k-ixbrl.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ethanol and by-products",
+   "products": [
+    "ethanol",
+    "modified distillers grains",
+    "wet distillers grains",
+    "distillers corn oil"
+   ],
+   "description": "Produces ethanol and related by-products at six dry-mill corn ethanol plants for fuel and animal feed markets.",
+   "evidence": "The Company has one reportable segment, ethanol and by-products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling ethanol and by-products to a limited number of larger commercial buyers, shipped by rail and truck.",
+  "evidence": "The Company sells its products to a limited number of larger commercial buyers, which may increase the chance of loss due to non-performance by a counterparty."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (ethanol and by-products): dry distillers grains with solubles (DDGS)"
+ ]
+}

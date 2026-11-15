@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000008858",
+ "issuerName": "AVNET, INC.",
+ "builtAt": "2026-11-14T14:06:44.538Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-096346",
+  "periodEnd": "2026-06-27",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/8858/000110465926096346/avt-20260627x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronic Components",
+   "products": [
+    "semiconductors",
+    "interconnect, passive and electromechanical components",
+    "computers",
+    "embedded solutions",
+    "integrated solutions",
+    "supply chain solutions"
+   ],
+   "description": "Distributes electronic components and provides design, supply chain, and embedded solutions to high and medium-volume customers across industrial, automotive, defense and aerospace markets.",
+   "evidence": "Avnet's EC reportable segment primarily supports high and medium-volume customers. It markets, sells, and distributes electronic components from many of the world's leading electronic component manufacturers, including semiconductors, IP&E components (interconnect, passive and electromechanical components), and other integrated and embedded components."
+  },
+  {
+   "name": "Farnell",
+   "products": [
+    "kits",
+    "tools",
+    "electronic components",
+    "industrial automation components",
+    "test and measurement products",
+    "single-board computers"
+   ],
+   "description": "Distributes electronic components, kits, tools, and test products to lower-volume customers and engineers primarily through e-commerce channels for development, prototyping and testing.",
+   "evidence": "Avnet's Farnell reportable segment primarily supports lower-volume customers that need electronic components quickly to develop, prototype, and test their products. It distributes a comprehensive portfolio of kits, tools, electronic components, industrial automation components, and test and measurement products to both engineers and entrepreneurs, primarily through an e-commerce channel."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Avnet generates revenue by distributing electronic components and related products to OEMs, EMS providers, ODMs, engineers and entrepreneurs, earning margins on sales.",
+  "evidence": "Avnet, Inc. and its consolidated subsidiaries (collectively, the \"Company\" or \"Avnet\"), is a leading global electronic component technology distributor and solutions provider that has served customers' evolving needs for more than a century."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electronic Components): design support services"
+ ]
+}

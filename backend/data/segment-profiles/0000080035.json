@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0000080035",
+ "issuerName": "Preformed Line Products Company",
+ "builtAt": "2026-11-14T13:46:09.581Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000080035-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/80035/000008003526000007/plpc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PLP-USA",
+   "products": [
+    "Energy Products",
+    "Communications Products",
+    "Special Industries Products",
+    "Solar Framing Products",
+    "Inspection Services"
+   ],
+   "description": "U.S. operations manufacturing traditional products supporting domestic energy, telecommunications, solar framing and inspection services customers.",
+   "evidence": "Our PLP-USA segment is comprised of our U.S. operations manufacturing our traditional products primarily supporting our domestic energy, telecommunications, solar framing products and inspection services."
+  },
+  {
+   "name": "The Americas",
+   "products": [
+    "Energy Products",
+    "Communications Products"
+   ],
+   "description": "Operations in North and South America, excluding PLP-USA, supporting energy, telecommunications, data communication and solar customers.",
+   "evidence": "Our other three segments, The Americas, EMEA and Asia-Pacific, support our energy, telecommunications, data communication, solar and other products in each respective geographical region."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Energy Products",
+    "Communications Products"
+   ],
+   "description": "Operations in Europe, the Middle East and Africa supporting energy, telecommunications, data communication and solar customers.",
+   "evidence": "We report our segments in four geographic regions: PLP-USA (including corporate), The Americas (includes operations in North and South America, excluding PLP-USA), EMEA (Europe, Middle East & Africa) and Asia-Pacific, in accordance with accounting standards codified in Financial Accounting Standards Board (FASB) Accounting Standards Codification (ASC) 280, \"Segment Reporting\"."
+  },
+  {
+   "name": "Asia-Pacific",
+   "products": [
+    "Energy Products",
+    "Communications Products"
+   ],
+   "description": "Operations in the Asia-Pacific region supporting energy, telecommunications, data communication and solar customers.",
+   "evidence": "Our other three segments, The Americas, EMEA and Asia-Pacific, support our energy, telecommunications, data communication, solar and other products in each respective geographical region."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns revenue by selling cable and wire support, protection and connection products to energy utilities, communication companies, cable operators, governmental agencies, contractors, distributors and value-added resellers.",
+  "evidence": "The Company's customers include public and private energy utilities and communication companies, cable operators, governmental agencies, contractors and subcontractors, distributors and value-added resellers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (The Americas): Data Communication Products",
+  "product not in text (The Americas): Solar Products",
+  "product not in text (EMEA): Data Communication Products",
+  "product not in text (EMEA): Solar Products",
+  "product not in text (Asia-Pacific): Data Communication Products",
+  "product not in text (Asia-Pacific): Solar Products"
+ ]
+}

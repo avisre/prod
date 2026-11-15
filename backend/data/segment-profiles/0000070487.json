@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000070487",
+ "issuerName": "NRC Health",
+ "builtAt": "2026-11-14T13:45:40.078Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/70487/000143774926007002/nrc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare analytics",
+   "products": [
+    "Patient Experience solutions",
+    "Consumer Experience solutions",
+    "Employee Experience solutions",
+    "Market Experience solutions",
+    "Market Insights"
+   ],
+   "description": "Provides subscription-based analytics, insights and workflow enablement solutions that measure and improve patient, consumer, employee and market experiences for healthcare organizations.",
+   "evidence": "The Company provides analytics and insight solutions designed to measure and improve patient and employee experience for healthcare organizations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare organizations pay recurring subscription fees for the Company's experience management and insights solutions.",
+  "evidence": "Our portfolio of subscription-based solutions provides actionable information, analysis, and workflow enablement tools to healthcare organizations across a range of mission-critical, constituent-related elements, including patient experience, service recovery, care transitions, employee engagement, reputation management, rounding, and brand loyalty."
+ },
+ "changes": [],
+ "dropped": []
+}

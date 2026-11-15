@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000025445",
+ "issuerName": "CRANE NXT, CO.",
+ "builtAt": "2026-11-15T04:40:01.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000025445-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/25445/000002544526000009/cxt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crane Payment Innovations (CPI)",
+   "products": [
+    "electronic equipment and associated software",
+    "advanced automation solutions",
+    "processing systems",
+    "field service solutions",
+    "remote diagnostics and productivity software solutions"
+   ],
+   "description": "Provides electronic payment acceptance equipment, software and automation solutions for verifying and authenticating payment transactions worldwide.",
+   "evidence": "CPI provides electronic equipment and associated software leveraging extensive and proprietary core capabilities with various detection and sensing technologies for applications including verification and authentication of payment transactions."
+  },
+  {
+   "name": "Security and Authentication Technologies (SAT)",
+   "products": [
+    "banknotes",
+    "brand protection",
+    "authentication solutions",
+    "digital content protection"
+   ],
+   "description": "Provides security solutions for securing physical products and brand protection for brands, government agencies and financial institutions.",
+   "evidence": "SAT provides advanced security solutions based on proprietary technology for securing physical products, including banknotes, consumer goods, and industrial products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including brands, government agencies and financial institutions, pay the company for its technology products, equipment, software and services.",
+  "evidence": "These solutions serve various brands, as well as government agencies and financial insti tutions."
+ },
+ "changes": [
+  {
+   "text": "In 2023, as part of the Separation, the Aerospace & Electronics, Process Flow Technologies and Engineered Materials businesses were spun off to SpinCo, with Holdings renamed Crane NXT, Co.",
+   "evidence": "As part of the Separation, the Aerospace & Electronics, Process Flow Technologies and Engineered Materials businesses of Holdings were spun off to SpinCo."
+  },
+  {
+   "text": "In connection with the OpSec acquisition, the company renamed its Crane Currency reportable segment to Security and Authentication Technologies.",
+   "evidence": "In connection with the acquisition of OpSec, we renamed our \"Crane Currency\" reportable segment to \"Security and Authentication Technologies,\" which consists of the Crane Currency business and the Crane Authentication business comprised of the acquired OpSec and De La Rue businesses."
+  }
+ ],
+ "dropped": []
+}

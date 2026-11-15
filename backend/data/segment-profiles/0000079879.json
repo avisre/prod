@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000079879",
+ "issuerName": "PPG INDUSTRIES INC",
+ "builtAt": "2026-11-14T13:46:09.201Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000079879-26-000046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/79879/000007987926000046/ppg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Architectural Coatings",
+   "products": [
+    "Paints",
+    "wood stains",
+    "adhesives",
+    "sealants",
+    "purchased sundries",
+    "paint strippers",
+    "decorative coatings"
+   ],
+   "description": "Supplies decorative paints, coatings, adhesives, sealants and related products to painting contractors and consumers for residential and commercial buildings.",
+   "evidence": "This reportable business segment primarily supplies a variety of decorative coatings, adhesives, sealants and finishes along with paint strippers, stains and related chemicals."
+  },
+  {
+   "name": "Performance Coatings",
+   "products": [
+    "Aerospace Coatings",
+    "Automotive Refinish Coatings",
+    "Protective and Marine Coatings",
+    "Traffic Solutions",
+    "transparencies",
+    "paint films",
+    "pavement marking products"
+   ],
+   "description": "Supplies protective coatings, sealants, transparencies, paint films and pavement marking products to aftermarket, aerospace, marine and infrastructure customers.",
+   "evidence": "This reportable business segment primarily supplies a variety of protective coatings, adhesives, sealants and finishes along with pavement marking products and related chemicals, transparencies and paint films."
+  },
+  {
+   "name": "Industrial Coatings",
+   "products": [
+    "Automotive OEM Coatings",
+    "Packaging Coatings",
+    "Specialty Products",
+    "metal pretreatments",
+    "TESLIN® substrate",
+    "optical lens materials"
+   ],
+   "description": "Supplies protective and decorative coatings, adhesives, sealants, metal pretreatments and specialty products directly to original equipment manufacturers and industrial customers.",
+   "evidence": "This reportable business segment primarily supplies a variety of protective and decorative coatings and finishes along with adhesives, sealants, metal pretreatment products, optical monomers and coatings, low-friction coatings and other specialty products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "PPG earns revenue by selling paints, coatings and specialty products directly to manufacturers, contractors, distributors, retailers and consumers.",
+  "evidence": "PPG supplies paints, coatings and specialty products to customers serving a wide array of end-uses, including industrial equipment and components; packaging material; aircraft and marine equipment; automotive original equipment; automotive refinish and aftermarket; pavement marking products; as well as coatings for other industrial and consumer products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Industrial Coatings): Industrial Coatings",
+  "product not in text (Industrial Coatings): OLED materials"
+ ]
+}

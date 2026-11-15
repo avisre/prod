@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000074046",
+ "issuerName": "Oil-Dri Corporation of America",
+ "builtAt": "2026-11-14T13:45:50.315Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-065453",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/74046/000162828026065453/odc-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail and Wholesale Products Group",
+   "products": [
+    "Cat's Pride",
+    "Jonny Cat",
+    "Cat's Pride KatKit",
+    "Ultra",
+    "Litter Pearls",
+    "Pro's Choice"
+   ],
+   "description": "Sells cat litter, industrial and automotive absorbents, and sports field products to mass merchandisers, pet outlets, grocery, dollar stores, distributors and online retailers.",
+   "evidence": "We have two reportable operating segments for financial reporting derived from the different characteristics of our two major customer groups: the Retail and Wholesale Products Group and the Business to Business Products Group."
+  },
+  {
+   "name": "Business to Business Products Group",
+   "products": [
+    "Pure-Flo",
+    "Perform",
+    "Select",
+    "Metal-X",
+    "Metal-Z",
+    "Ultra-Clear",
+    "Agsorb",
+    "Verge"
+   ],
+   "description": "Supplies fluids purification adsorbents, agricultural and horticultural carriers, and animal health and nutrition products to oil processors, feed manufacturers and livestock producers.",
+   "evidence": "The Business to Business Products Group customers include processors and refiners of edible oils, renewable diesel, petroleum-based oils and biodiesel fuel; manufacturers of animal feed and agricultural chemicals; and distributors of animal health and nutrition products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers who resell products to end consumers and customers who use the products in their production processes or as ingredients pay Oil-Dri for its sorbent products.",
+  "evidence": "Our products are sold to two primary customer groups, including customers who resell our products as originally produced to the end consumer and other customers who use our products as part of their production process or use them as an ingredient in their final finished product."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, Oil-Dri acquired Ultra Pet Company, including its Netherlands subsidiary MBA Pet BV, a distributor of silica gel-based cat litter in Europe.",
+   "evidence": "Our wholly-owned subsidiary, MBA Pet BV, located in the Netherlands, which was acquired on May 1, 2024 as part of the acquisition of Ultra Pet Company, Inc. (\"Ultra Pet\"), is a distributor of silica gel-based cat litter to the Europe region."
+  }
+ ],
+ "dropped": [
+  "product not in text (Retail and Wholesale Products Group): Oil-Dri floor absorbents",
+  "product not in text (Retail and Wholesale Products Group): Fresh Step (co-packaged)"
+ ]
+}

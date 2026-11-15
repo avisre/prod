@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000018498",
+ "issuerName": "GENESCO INC",
+ "builtAt": "2026-11-14T14:07:22.400Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-123492",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/18498/000119312526123492/gco-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Journeys Group",
+   "products": [
+    "Journeys®",
+    "Journeys Kidz®",
+    "Little Burgundy®"
+   ],
+   "description": "Retail footwear chain and e-commerce operations selling branded footwear, apparel and accessories to youth and children consumers.",
+   "evidence": "Journeys Group, comprised of the Journeys ® , Journeys Kidz ® and Little Burgundy ® retail footwear chains and e-commerce operations"
+  },
+  {
+   "name": "Schuh Group",
+   "products": [
+    "Schuh"
+   ],
+   "description": "Retail footwear chain and e-commerce operations selling branded footwear primarily in the United Kingdom and Republic of Ireland.",
+   "evidence": "Schuh Group, comprised of the Schuh retail footwear chain and e-commerce operations"
+  },
+  {
+   "name": "Johnston & Murphy Group",
+   "products": [
+    "Johnston & Murphy®"
+   ],
+   "description": "Retail operations, e-commerce and wholesale distribution of branded footwear, apparel and accessories to consumers and retail accounts.",
+   "evidence": "Johnston & Murphy Group, comprised of Johnston & Murphy ® retail operations, e-commerce operations and wholesale distribution of products under the Johnston & Murphy ® brand"
+  },
+  {
+   "name": "Genesco Brands Group",
+   "products": [
+    "Dockers®",
+    "Levi's®",
+    "Wrangler®"
+   ],
+   "description": "Licensed branded footwear wholesaler sourcing, designing, marketing and distributing footwear under licensed brands to retail accounts.",
+   "evidence": "Genesco Brands Group, comprised of the licensed Dockers ® (\"Dockers\") and Levi's ® (\"Levi's\") brands, as well as other brands we license for footwear"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and wholesale retail accounts purchase branded footwear, apparel and accessories through retail stores, e-commerce websites and wholesale distribution channels.",
+  "evidence": "We also source, design, market and distribute footwear, apparel and accessories at wholesale, primarily under our Johnston & Murphy brand, the licensed Dockers ® brand, the licensed Levi's ® brand and other brands that we license for footwear to over 900 retail accounts in the United States"
+ },
+ "changes": [
+  {
+   "text": "In Fiscal 2026, the company exited its Levi's license business which was set to expire in May 2026.",
+   "evidence": "Our license with Levi's expires in May 2026 and we are in the process of exiting that business."
+  },
+  {
+   "text": "In Fiscal 2026, the company signed a multi-year licensing agreement with Kontoor Brands to design, source, market and distribute footwear under the Wrangler brand.",
+   "evidence": "During the second quarter of Fiscal 2026, we signed a multi-year licensing agreement with Kontoor Brands, Inc. (\"Kontoor\") to design, source market and distribute men's, women's and children's footwear under the Wrangler ® brand (\"Wrangler\")."
+  },
+  {
+   "text": "In Fiscal 2026, the company announced formation of the Journeys Global Retail Group uniting Journeys, Schuh and Little Burgundy retail banners.",
+   "evidence": "During the third quarter of Fiscal 2026, we announced the formation of the Journeys Global Retail Group which unites Journeys, Schuh and Little Burgundy."
+  }
+ ],
+ "dropped": []
+}

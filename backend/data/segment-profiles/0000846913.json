@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000846913",
+ "issuerName": "FUEL TECH, INC.",
+ "builtAt": "2026-11-14T13:52:44.467Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006623",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/846913/000143774926006623/ftek20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "APC technology",
+   "products": [
+    "NOxOUT® SNCR systems",
+    "ASCR® Advanced Selective Catalytic Reduction systems",
+    "U2A process",
+    "UDI™ Urea Direct Injection systems",
+    "Electrostatic Precipitator (ESP) products and services",
+    "Flue Gas Conditioning (FGC) systems",
+    "GSG™ Graduated Straightening Grid"
+   ],
+   "description": "Provides NOx reduction and particulate control technologies, systems and services to utility, industrial and municipal solid waste combustion customers worldwide.",
+   "evidence": "Our NOx reduction and particulate control technologies are installed worldwide on over 2,000 combustion units, including utility, industrial and municipal solid waste applications."
+  },
+  {
+   "name": "FUEL CHEM",
+   "products": [
+    "TIFI® Targeted In-Furnace Injection™ processes"
+   ],
+   "description": "Provides customized chemical injection programs that improve efficiency, reliability and environmental performance of combustion units for fuel-burning customers.",
+   "evidence": "Our FUEL CHEM technologies revolve around the unique application of chemical injection programs which improve the efficiency, reliability, fuel flexibility, boiler heat rate and environmental status of combustion units."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including a small number of significant ones, pay Fuel Tech under contracts with customer-specific delivery terms for air pollution control systems, equipment and services and FUEL CHEM chemical programs.",
+  "evidence": "Our contracts generally stipulate customer specific delivery terms and may have contract cycles of a year or more, which subjects these contracts to many factors beyond our control."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (APC technology): ULTRA® urea-to-ammonia process",
+  "product not in text (FUEL CHEM): specialty chemical injection programs"
+ ]
+}

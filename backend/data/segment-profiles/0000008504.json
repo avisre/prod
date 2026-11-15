@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000008504",
+ "issuerName": "AgEagle Aerial Systems Inc.",
+ "builtAt": "2026-11-14T14:06:40.925Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010682",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/8504/000143774926010682/uavs20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drones",
+   "products": [
+    "eBee TAC",
+    "eBee X",
+    "eBee VISION"
+   ],
+   "description": "Designs, manufactures and sells fixed-wing uncrewed aerial systems for military, defense, public safety, agriculture, surveying and utilities.",
+   "evidence": "In 2025, the Company re-focused on its two primary product lines – Uncrewed Aircraft Systems and Multispectral Sensors."
+  },
+  {
+   "name": "Sensors",
+   "products": [
+    "Altum-PT",
+    "RedEdge-P"
+   ],
+   "description": "Develops and distributes advanced thermal and multispectral drone sensors for agriculture, plant research, land management and forestry.",
+   "evidence": "In early 2022, AgEagle completed development and brought to market the Altum-PT™ and RedEdge-P™ — next generation thermal and multispectral sensors which offer critical advancements on MicaSense's legacy sensor products to customers primarily in agriculture, plant research, land management and forestry management."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase drones, sensors and software; revenue from drones and sensors is reported by product line.",
+  "evidence": "The table below reflects our revenue by operating segment for the years indicated below: For the Year Ended December 31, Type 2025 2024 Drones $ 7,857,059 $ 6,410,305 Sensors 4,954,023 6,663,196 Software-as-a-Service (SaaS) — 319,276 Total $ 12,811,082 $ 13,392,777"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the Company ceased SaaS operations when Measure Global, Inc. ceased ope"
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "version": 1,
+ "cik": "0000780571",
+ "issuerName": "Itron, Inc.",
+ "builtAt": "2026-11-14T13:50:46.885Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000780571-26-000033",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/780571/000078057126000033/itri-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Device Solutions",
+   "products": [
+    "standard electricity, gas, and water meters",
+    "heat and allocation products",
+    "communicating meters",
+    "implementation and installation of associated devices"
+   ],
+   "description": "Hardware products for measurement, control, or sensing sold to utilities and other global markets.",
+   "evidence": "Device Solutions – This segment primarily includes hardware products used for measurement, control, or sensing."
+  },
+  {
+   "name": "Networked Solutions",
+   "products": [
+    "network infrastructure",
+    "network design services",
+    "headend management and application software",
+    "automated meter reading (AMR)",
+    "advanced metering infrastructure (AMI)",
+    "distributed energy resource management (DERMs)",
+    "smart lighting"
+   ],
+   "description": "Complete solutions combining communicating endpoints, network infrastructure, and software for acquiring and transporting application-specific data.",
+   "evidence": "Networked Solutions – This segment primarily includes a combination of communicating endpoints (e.g., smart meters, modules, endpoints, and sensors), network infrastructure, network design services, and associated headend management and application software designed and sold as a complete solution for acquiring and transporting robust application-specific data."
+  },
+  {
+   "name": "Outcomes",
+   "products": [
+    "data management",
+    "grid planning and operations",
+    "AMI operations",
+    "gas distribution safety",
+    "non-revenue water reduction",
+    "revenue assurance",
+    "energy forecasting",
+    "consumer engagement"
+   ],
+   "description": "Value-added software and services using analytics to help utilities, municipalities, and cities improve decisions and operations.",
+   "evidence": "Outcomes – This segment primarily includes our value-added, enhanced software and services in which we utilize distributed compute to manage, organize, analyze, and interpret raw, anonymized data using artificial intelligence, machine learning, statistical modeling, and other analytics."
+  },
+  {
+   "name": "Resiliency Solutions",
+   "products": [
+    "emergency preparedness and response",
+    "damage prevention"
+   ],
+   "description": "Software and services for worker safety, emergency preparedness, and damage prevention for critical infrastructure providers and contractors.",
+   "evidence": "Resiliency Solutions – This segment primarily includes software and services focused on worker safety, emergency preparedness and response, and damage prevention for critical infrastructure providers and their supporting contractors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Utilities and cities pay Itron for hardware, software, and services delivered as standalone one-time purchases or multi-year end-to-end solutions, including recurring SaaS, NaaS, and managed services.",
+  "evidence": "These solutions may be delivered as part of a standalone, one-time purchase or an end-to-end solution spanning multiple years."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Itron added Resiliency Solutions as a new reportable segment in the fourth quarter, following its acquisition of Urbint, Inc.",
+   "evidence": "Resiliency Solutions is a new reportable segment starting in the fourth quarter of 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Networked Solutions): communicating endpoints (smart meters, modules, endpoints, and sensors)",
+  "product not in text (Resiliency Solutions): worker safety software and services"
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000029002",
+ "issuerName": "DIODES INC /DEL/",
+ "builtAt": "2026-11-14T14:08:02.048Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-044918",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/29002/000119312526044918/diod-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "standard semiconductor products",
+   "products": [],
+   "description": "Design, manufacture, and distribute analog and power semiconductor solutions for automotive, industrial, computing, consumer electronics, and communications markets.",
+   "evidence": "For financial reporting purposes, we operate in a single segment, standard semiconductor products, through our various design, manufacturing, and distribution facilities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase semiconductor products directly or through distribution network for use in end-user applications.",
+  "evidence": "The majority or our customers are served through our distribution network and some are direct customers who purchase directly from the Company."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000088205",
+ "issuerName": "SPX TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T13:46:23.518Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000088205-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/88205/000008820526000008/spxc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HVAC",
+   "products": [
+    "Marley",
+    "Recold",
+    "SGS",
+    "Cincinnati Fan",
+    "TAMCO",
+    "Berko",
+    "Qmark",
+    "Fahrenheat"
+   ],
+   "description": "Engineers, manufactures and services cooling, air movement and handling, and heating and ventilation products for industrial, institutional, commercial and residential customers.",
+   "evidence": "The segment engineers, designs, manufactures, installs and services package and process cooling products and engineered air movement and handling solutions for the industrial (including data center and power generation), institutional, and commercial HVAC markets, as well as hydronic and electrical heating and ventilation products for the residential, industrial, institutional, and commercial markets."
+  },
+  {
+   "name": "Detection and Measurement",
+   "products": [
+    "Radiodetection",
+    "Pearpoint",
+    "Schonstedt",
+    "Cues",
+    "ULC Robotics",
+    "Genfare",
+    "Flash Technology"
+   ],
+   "description": "Engineers and manufactures underground pipe and cable locators, inspection and rehabilitation equipment, robotic systems, transportation systems, communication technologies and aids to navigation for infrastructure…",
+   "evidence": "The segment engineers, designs, manufactures, services, and installs underground pipe and cable locators, inspection and rehabilitation equipment, robotic systems, transportation systems, communication technologies, and aids to navigation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling engineered products and related services to industrial, institutional, commercial and residential customers through direct sales, independent manufacturing representatives, third-party distributors and retailers.",
+  "evidence": "The primary distribution channels for the segment's products are direct to customers, independent manufacturing representatives, third-party distributors, and retailers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, SPX acquired Kranze Technology Solutions, whose results are reflected within the Detection and Measurement segment.",
+   "evidence": "On January 27, 2025, we completed the acquisition of Kranze Technology Solutions, Inc. (\"KTS\"), which specializes in digital interoperability and tactical networking solutions, primarily for the defense industry."
+  },
+  {
+   "text": "In 2025, SPX acquired Sigma Heating and Cooling and Omega Heat Pump, whose results are reflected within the HVAC segment.",
+   "evidence": "On April 15, 2025, we completed the acquisition of Sigma Heating and Cooling and Omega Heat Pump (\"Sigma & Omega\"), which specializes in highly engineered hydronic heating and cooling equipment, including vertical stack heat pumps and fan coils, institutional heating products, and both air-cooled and water-cooled commercial self-contained units."
+  },
+  {
+   "text": "In 2026, Crawford's Industrial & Transportation Products businesses were classified as assets held for sale with results reported as discontinued operations.",
+   "evidence": "These non-core businesses will be recorded as assets held for sale, with their results reported as discontinued operations while we identify suitable buyer(s) and execute our plan to sell these businesses within twelve months."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000060519",
+ "issuerName": "LOUISIANA-PACIFIC CORPORATION",
+ "builtAt": "2026-11-14T13:45:09.994Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000060519-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/60519/000006051926000012/lpx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Siding",
+   "products": [
+    "LP® SmartSide® Trim & Siding",
+    "LP BuilderSeries® Lap Siding",
+    "LP® Outdoor Building Solutions®",
+    "LP® SmartSide® ExpertFinish® Trim & Siding"
+   ],
+   "description": "Manufactures engineered wood siding, trim, soffit, and fascia for builders and installers in new construction, repair and remodeling, and outdoor structures.",
+   "evidence": "Our Siding business serves diverse end markets with a broad product portfolio of engineered wood siding, trim, soffit, and fascia."
+  },
+  {
+   "name": "Oriented Strand Board (OSB)",
+   "products": [
+    "LP® FlameBlock® Fire-Rated Sheathing",
+    "LP WeatherLogic® Air & Water Barrier",
+    "LP® TechShield® Radiant Barrier",
+    "LP Legacy® Premium Sub-Flooring",
+    "LP® TopNotch® 350 Durable Sub-Flooring"
+   ],
+   "description": "Manufactures and distributes OSB structural panels, including value-added LP Structural Solutions, used as roof decking, sidewall sheathing, and floor underlayment.",
+   "evidence": "Our OSB business manufactures and distributes OSB structural panel products, including the innovative value-added OSB product portfolio known as LP® Structural Solutions"
+  },
+  {
+   "name": "Other",
+   "products": [
+    "OSB structural panels",
+    "siding products",
+    "timber and timberlands"
+   ],
+   "description": "Comprises the South American business (LPSA) plus timber and timberlands and other minor products, services, and closed operations.",
+   "evidence": "Other now comprises our South American operations and other products that are not individually significant."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "LP is paid by retailers, wholesalers, distributors, dealers, and home centers for its building products sold through wholesale and retail distribution channels.",
+  "evidence": "The principal customers for our building solutions are retailers, wholesalers, and home building and industrial businesses in North America and South America."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the LPSA operating segment no longer met reportable segment criteria and its financial information was included in Other.",
+   "evidence": "In the fourth quarter of 2025, the Company determined that LPSA did not meet the reportable segment criteria and beginning with the fourth quarter of 2025, the financial information for the LPSA operating segment is included in Other."
+  }
+ ],
+ "dropped": []
+}

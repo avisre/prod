@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001612042",
+ "issuerName": "Ascendis Pharma A/S",
+ "builtAt": "2026-11-14T17:38:28.216Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-046590",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1612042/000119312526046590/asnd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical Products",
+   "products": [
+    "YORVIPATH (palopegteriparatide)",
+    "SKYTROFA (lonapegsomatropin-tcgd)",
+    "TransCon hGH",
+    "TransCon PTH",
+    "TransCon CNP",
+    "TransCon TLR7/8 Agonist",
+    "TransCon IL-2 b/g"
+   ],
+   "description": "Global biopharmaceutical company developing TransCon-based therapies for endocrinology rare diseases, oncology, metabolic and cardiovascular diseases, and ophthalmology.",
+   "evidence": "We are a global biopharmaceutical company focused on applying our innovative TransCon technology platform to make a meaningful difference for patients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients and healthcare providers purchase approved pharmaceutical products for treatment of medical conditions.",
+  "evidence": "The sales team engages with healthcare providers to present products, usage, and safety guidelines in accordance with the label."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the company closed enrollment in the BelieveIT-201 clinical trial and d"
+ ]
+}

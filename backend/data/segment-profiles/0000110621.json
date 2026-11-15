@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000110621",
+ "issuerName": "RPM International Inc.",
+ "builtAt": "2026-11-14T13:47:33.086Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-312142",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/110621/000119312526312142/rpm-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CPG",
+   "products": [
+    "waterproofing, coatings and traditional roofing systems",
+    "sealants, air barriers, tapes and foams",
+    "concrete and masonry admixtures",
+    "high-performance resin flooring systems",
+    "fire and water damage restoration products"
+   ],
+   "description": "Sells construction products and services, including sealants, coatings, roofing systems, concrete admixtures and repair products, to manufacturers, contractors, distributors and end-users.",
+   "evidence": "Our CPG segment generated $3.1 billion in net sales for the fiscal year ended May 31, 2026, and includes the following major product lines and brand names:"
+  },
+  {
+   "name": "PCG",
+   "products": [
+    "high-performance polymer flooring products and installation services",
+    "FRP composite grating and structures"
+   ],
+   "description": "Sells high-performance flooring, corrosion control and fireproofing coatings, infrastructure repair systems and food industry coatings to contractors, distributors and end-users.",
+   "evidence": "Our PCG segment generated $2.1 billion in net sales for the fiscal year ended May 31, 2026, and includes the following major product lines and brand names:"
+  },
+  {
+   "name": "Consumer",
+   "products": [
+    "rust-preventative, special purpose, and decorative paints",
+    "caulks, sealants, primers",
+    "contact cement, cleaners",
+    "flooring systems and sealers",
+    "woodcare coatings",
+    "abrasives, colorants"
+   ],
+   "description": "Sells branded consumer products including paints, caulks, sealants, cleaners, woodcare coatings and colorants to consumer markets.",
+   "evidence": "Rust-preventative, special purpose, and decorative paints, caulks, sealants, primers, contact cement, cleaners, flooring systems and sealers, woodcare coatings, abrasives, colorants and other branded consumer products"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net sales from selling specialty chemical products and construction services directly to manufacturers, contractors, distributors and end-users.",
+  "evidence": "Our construction product lines and services are sold directly to manufacturers, contractors, distributors and end-users, including industrial manufacturing facilities, concrete and cement producers, public institutions and other commercial customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CPG): insulated building cladding materials (EIFS)",
+  "product not in text (CPG): roofing and building maintenance services",
+  "product not in text (CPG): insulated concrete form (ICF) wall systems",
+  "product not in text (PCG): corrosion-control coatings and fireproofing products",
+  "product not in text (PCG): specialty construction products for bridge expansion joints and infrastructure r",
+  "product not in text (PCG): amine curing agents and specialty epoxy resins",
+  "product not in text (PCG): edible coatings and food industry solutions",
+  "change not grounded: Effective June 1, 2025, RPM realigned from four reportable segments to three, tr"
+ ]
+}

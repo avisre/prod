@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0000059558",
+ "issuerName": "LINCOLN NATIONAL CORPORATION",
+ "builtAt": "2026-11-14T13:45:07.881Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000059558-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/59558/000005955826000016/lnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Annuities",
+   "products": [
+    "variable annuities",
+    "fixed (including indexed) annuities",
+    "registered index-linked annuities (\"RILA\")",
+    "Lincoln ProtectedPay lifetime income suite",
+    "American Legacy Target Date Income variable annuity",
+    "i4LIFE Advantage Select GIB and i4LIFE Advantage Secure GIB riders",
+    "4LATER Select Advantage rider"
+   ],
+   "description": "Provides tax-deferred investment growth and lifetime wealth accumulation and protection opportunities for clients through variable, fixed and registered index-linked annuities.",
+   "evidence": "The Annuities segment provides tax-deferred investment growth and lifetime wealth accumulation and protection opportunities for its clients by offering variable annuities, fixed (including indexed) annuities and registered index-linked annuities (\"RILA\")."
+  },
+  {
+   "name": "Life Insurance",
+   "products": [
+    "individual life insurance",
+    "corporate-owned universal life insurance and variable universal life insurance (",
+    "bank-owned universal life insurance and variable universal life insurance (\"BOLI"
+   ],
+   "description": "Provides individual life insurance products distributed through financial intermediaries to customers seeking wealth protection.",
+   "evidence": "LFD distributes our individual life insurance and annuity products, retirement plan products and services and corporate-owned universal life insurance and variable universal life insurance (\"COLI\") and bank-owned universal life insurance and variable universal life insurance (\"BOLI\") products and services."
+  },
+  {
+   "name": "Group Protection",
+   "products": [
+    "group insurance products",
+    "dental claims management",
+    "disability claims management"
+   ],
+   "description": "Provides group protection products and services to employers, distributed primarily through employee benefit brokers, TPAs and other employee benefit firms.",
+   "evidence": "Group Protection distributes its products and services primarily through employee benefit brokers, TPAs and other employee benefit firms."
+  },
+  {
+   "name": "Retirement Plan Services",
+   "products": [
+    "LINCOLN ALLIANCE program",
+    "Multi-Fund variable annuity",
+    "plan recordkeeping",
+    "compliance testing",
+    "participant education",
+    "trust and custodial services"
+   ],
+   "description": "Provides employers with retirement plan products and services, primarily in the defined contribution retirement plan marketplace.",
+   "evidence": "The Retirement Plan Services segment provides employers with retirement plan products and services, primarily in the defined contribution retirement plan marketplace."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay premiums and fees for insurance and annuity contracts, including mortality and expense assessments on separate account balances and surrender charges on early withdrawals.",
+  "evidence": "We charge contract holders mortality and expense assessments on their separate account balance to cover insurance and administrative expenses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Group Protection): self-insured plan services",
+  "product not in text (Retirement Plan Services): LINCOLN DIRECTOR group variable annuity",
+  "change not grounded: In 2024, Lincoln sold its wealth management business, and results of its former "
+ ]
+}

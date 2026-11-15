@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0001776661",
+ "issuerName": "Advantage Solutions Inc.",
+ "builtAt": "2026-11-14T17:40:54.059Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-088543",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1776661/000119312526088543/adv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Branded Services",
+   "products": [
+    "Brokerage Services",
+    "Branded Merchandising",
+    "Omni-commerce Marketing Services"
+   ],
+   "description": "Sales, merchandising, and omni-commerce marketing support to branded CPG manufacturers.",
+   "evidence": "Branded Services provides sales, merchandising, and omni‑commerce marketing support to branded CPG manufacturers."
+  },
+  {
+   "name": "Experiential Services",
+   "products": [
+    "Digital sampling programs",
+    "Demonstrations",
+    "Experiential events"
+   ],
+   "description": "In-store and digital sampling programs, demonstrations, and experiential events for manufacturers and retailers.",
+   "evidence": "Experiential Services provides in‑store and digital sampling programs, demonstrations, and experiential events for manufacturers and retailers."
+  },
+  {
+   "name": "Retailer Services",
+   "products": [
+    "Retailer Merchandising",
+    "Advisory Services",
+    "Agency Services"
+   ],
+   "description": "Solutions supporting retailers in merchandising execution, private brands, and retail-media marketing initiatives.",
+   "evidence": "Retailer Services provides solutions that support retailers in the development of in‑store merchandising execution, private brands and retail‑media and marketing initiatives."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "CPG manufacturers and retailers pay through commissions, fee-for-service arrangements, and cost-plus structures depending on engagement nature.",
+  "evidence": "Our revenue model consists of commissions, fee for service arrangements, and cost-plus structures depending on the nature of the engagement."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2024, the company realigned its organization and began reporting results under three segments: Branded Services, Experiential Services, and Retailer Services, with prior-period segment information recast to conform to the new structure.",
+   "evidence": "Beginning in fiscal year 2024, we reported our results under three segments, Branded Services, Experiential Services and Retailer Services, reflecting the organizational realignment implemented on January 1, 2024."
+  },
+  {
+   "text": "During 2024 and 2025, the company executed portfolio simplification strategy including disposition of certain non-core businesses that met discontinued operations criteria.",
+   "evidence": "We continued to execute the portfolio simplification strategy initiated in 2024, including the disposition of certain non‑core businesses that met the discontinued operations criteria and the associated reclassification of prior‑period results."
+  }
+ ],
+ "dropped": [
+  "product not in text (Experiential Services): In-store sampling programs"
+ ]
+}

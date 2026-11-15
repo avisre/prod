@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000047111",
+ "issuerName": "HERSHEY CO",
+ "builtAt": "2026-11-14T13:44:39.884Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008586",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/47111/000162828026008586/hsy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Confectionery",
+   "products": [
+    "Hershey's",
+    "Reese's",
+    "Kisses",
+    "Jolly Rancher",
+    "Kit Kat",
+    "Twizzlers",
+    "Ice Breakers",
+    "ONE bar"
+   ],
+   "description": "Chocolate and non-chocolate confectionery, gum and refreshment products, protein bars, spreads, pantry items and retail operations in the United States and Canada.",
+   "evidence": "This segment is responsible for our traditional chocolate and non-chocolate confectionery market position in the United States and Canada."
+  },
+  {
+   "name": "North America Salty Snacks",
+   "products": [
+    "SkinnyPop popcorn",
+    "LesserEvil popcorn",
+    "Pirates Booty snacks",
+    "Dot's Homestyle Pretzels snacks"
+   ],
+   "description": "Salty snacking products in the United States, including ready-to-eat popcorn, baked snacks and pretzels.",
+   "evidence": "This segment is responsible for our salty snacking products in the United States."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Pelon Pelo Rico",
+    "IO-IO",
+    "Sofit"
+   ],
+   "description": "Operations outside North America, manufacturing and selling confectionery and snack products in Mexico, Brazil, India, Malaysia and export markets.",
+   "evidence": "International is a combination of all other operating segments that are not individually material, including those geographic regions where we operate outside of North America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hershey is paid mainly by wholesale distributors, grocery stores, mass merchandisers, drug stores, clubs, convenience and dollar stores that resell its products to end-consumers.",
+  "evidence": "Our customers are mainly wholesale distributors, chain grocery stores, mass merchandisers, chain drug stores, vending companies, wholesale clubs, convenience stores, dollar stores, concessionaires, and department stores."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Hershey acquired LesserEvil, adding organic popcorn and puffed snack products to its portfolio.",
+   "evidence": "On November 18, 2025, we completed the acquisition of LesserEvil, LLC (\"LesserEvil\"), previously a privately held company that produces and sells organic popcorn and puffed snack products to retailers and distributors in the United States and Canada."
+  },
+  {
+   "text": "In 2024, Hershey acquired the Sour Strips sour candy brand.",
+   "evidence": "On November 8, 2024, we completed the acquisition of the Sour Strips brand from Actual Candy, LLC."
+  },
+  {
+   "text": "In 2023, Hershey acquired manufacturing assets from Weaver Popcorn Manufacturing, adding popcorn manufacturing capacity.",
+   "evidence": "On May 31, 2023, we completed the acquisition of certain assets that provide additional manufacturing capacity from Weaver Popcorn Manufacturing, Inc. (\"Weaver\"), a leader in the production and co-packing of microwave popcorn and ready-to-eat popcorn, and former co-manufacturer of the Company's SkinnyPop brand."
+  }
+ ],
+ "dropped": []
+}

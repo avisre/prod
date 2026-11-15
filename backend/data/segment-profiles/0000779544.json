@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000779544",
+ "issuerName": "ARK RESTAURANTS CORP.",
+ "builtAt": "2026-11-14T13:50:45.944Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000779544-25-000055",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/779544/000077954425000055/arkr-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Restaurants",
+   "products": [
+    "Bryant Park Grill & Café",
+    "The Porch at Bryant Park",
+    "Sequoia",
+    "Gallagher's Steakhouse",
+    "America",
+    "Gonzalez y Gonzalez",
+    "Yolos",
+    "Robert"
+   ],
+   "description": "Owns and operates restaurants, bars, fast food concepts and catering operations in the United States, serving diners at destination locations.",
+   "evidence": "As of the fiscal year ended September 27, 2025, we owned and/or operated 16 restaurants and bars, 12 fast food concepts and catering operations through our subsidiaries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for restaurant meals, beverages, fast food and catering services, and the Company earns management fees based on a percentage of gross sales at managed locations.",
+  "evidence": "Management fees earned, which have been eliminated in consolidation, are based on a percentage of gross sales of the restaurant."
+ },
+ "changes": [],
+ "dropped": []
+}

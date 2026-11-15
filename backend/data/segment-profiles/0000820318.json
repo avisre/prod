@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000820318",
+ "issuerName": "Coherent Corp.",
+ "builtAt": "2026-11-14T13:51:55.659Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000820318-26-000020",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/820318/000082031826000020/iivi-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Datacenter & Communications",
+   "products": [
+    "Transceivers",
+    "Co-packaged optics",
+    "Optical circuit switches",
+    "VCSELs",
+    "EELs",
+    "Pump lasers",
+    "Optical amplifiers",
+    "Transport products"
+   ],
+   "description": "Supplies optical components, modules, subsystems and semiconductor devices for datacenter and communications customers.",
+   "evidence": "The Datacenter & Communications segment leverages our compound semiconductor technology platforms and deep knowledge of end-user applications for its key end markets to deliver differentiated components, modules, and subsystems."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "Excimer lasers",
+    "Solid-state lasers",
+    "CO 2 lasers",
+    "Laser systems",
+    "Engineered materials",
+    "Laser optics",
+    "Thermoelectric components",
+    "Advanced ceramic and metal-matrix composite materials"
+   ],
+   "description": "Provides lasers, optics and engineered materials to industrial, semiconductor and display capital equipment, precision manufacturing and instrumentation customers.",
+   "evidence": "The Industrial segment's lasers and optics products serve industrial customers in both semiconductor and display capital equipment and precision manufacturing, and instrumentation customers in life sciences and scientific instrumentation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue by selling lasers, transceivers, optical devices and engineered materials to customers in datacenter, communications and industrial end markets.",
+  "evidence": "We generate nearly all of our revenues, earnings, and cash flows from developing, manufacturing, and marketing a wide range of products and services for our end markets."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective July 1, 2025, the company realigned from three segments (Networking, M"
+ ]
+}

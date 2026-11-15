@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001792789",
+ "issuerName": "DOORDASH, INC.",
+ "builtAt": "2026-11-14T17:36:26.155Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001792789-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1792789/000179278926000013/dash-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "one reportable segment",
+   "products": [
+    "DoorDash Marketplace",
+    "Wolt Marketplace",
+    "Deliveroo Marketplace",
+    "DashPass",
+    "Wolt+",
+    "Deliveroo Plus",
+    "Commerce Platform",
+    "Drive"
+   ],
+   "description": null,
+   "evidence": "As such, the Company has determined that it operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns fees from merchants based on transaction size and charges consumers delivery and service fees per transaction, plus advertising.",
+  "evidence": "We typically earn a fee from merchants for the services we provide based on the size of each transaction."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company acquired Deliveroo, adding the Deliveroo Marketplace to its offerings.",
+   "evidence": "In connection with the acquisition of Deliveroo, the Company entered into a deal-contingent foreign exchange forward transaction with Bank of America, N.A."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

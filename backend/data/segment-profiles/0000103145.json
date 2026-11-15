@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000103145",
+ "issuerName": "VEECO INSTRUMENTS INC.",
+ "builtAt": "2026-11-14T13:47:09.861Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019711",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/103145/000110465926019711/veco-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor process equipment",
+   "products": [
+    "Laser Annealing systems",
+    "IBD300 systems",
+    "SPECTOR Ion Beam Sputtering system",
+    "MOCVD systems",
+    "MBE systems",
+    "ALD systems"
+   ],
+   "description": "Develops, manufactures, sells and supports semiconductor and thin film process equipment used by customers to make electronic devices.",
+   "evidence": "The Company operates and measures its results in one operating segment and therefore has one reportable segment: the development, manufacture, sales, and support of semiconductor and thin film process equipment primarily sold to make electronic devices."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including semiconductor manufacturers, IDMs, foundries, OSATs, governments, universities and research institutions, purchase the company's process equipment systems to produce current-generation devices in volume and develop next-generation products.",
+  "evidence": "In general, our customers purchase our systems to both produce current-generation devices in volume and to develop next-generation products which deliver more efficient, cost-effective, and advanced technological solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Semiconductor process equipment): NEXUS Ion Beam Deposition and Etch systems",
+  "product not in text (Semiconductor process equipment): Advanced Packaging Lithography equipment",
+  "product not in text (Semiconductor process equipment): Single Wafer Wet Processing systems"
+ ]
+}

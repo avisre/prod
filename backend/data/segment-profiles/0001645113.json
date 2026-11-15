@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001645113",
+ "issuerName": "NovoCure Limited",
+ "builtAt": "2026-11-14T17:39:46.742Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001645113-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1645113/000164511326000017/nvcr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology",
+   "products": [
+    "Optune Gio",
+    "Optune Lua",
+    "Optune Pax",
+    "Optune Mya"
+   ],
+   "description": "Global oncology company delivering Tumor Treating Fields therapy through medical devices for cancer treatment.",
+   "evidence": "We are a global oncology company with a proprietary platform technology called Tumor Treating Fields (\"TTFields\"), which are electric fields that exert physical forces to kill cancer cells."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare providers and payers reimburse the company for Tumor Treating Fields therapy devices, with coverage policies established with public and private payers.",
+  "evidence": "We have established coverage policies with both public and private payers for the use of Optune Gio in our active markets."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company submitted a PMA for Optune Mya for brain metastases from NSCLC, a new indication not previously marketed.",
+   "evidence": "In December 2025 we submitted the final module of the PMA, seeking approval under the proposed brand name Optune Mya ®."
+  }
+ ],
+ "dropped": []
+}

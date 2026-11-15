@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000797468",
+ "issuerName": "OCCIDENTAL PETROLEUM CORPORATION",
+ "builtAt": "2026-11-14T13:51:15.236Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009059",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/oxy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and Gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Explores and produces oil, NGLs and natural gas in U.S. basins, the Gulf of America and Oman for energy markets.",
+   "evidence": "est oil and gas producers in the U.S., holding leading positions in the Permian and DJ Basins as well as offshore Gulf of America, and is the largest independent oil producer in Oman."
+  },
+  {
+   "name": "Midstream and Marketing",
+   "products": [
+    "direct air capture",
+    "carbon sequestration",
+    "lithium development",
+    "STRATOS"
+   ],
+   "description": "Provides flow assurance and marketing that optimize the value of oil and gas operations, and advances low carbon technologies.",
+   "evidence": "Our midstream and marketing segment ensures flow assurance and optimizes the value of oil and gas operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Occidental for produced oil, NGLs and natural gas and for midstream, marketing and low carbon services.",
+  "evidence": "The Company's financial results are significantly influenced by oil prices, and to a lesser extent, NGL and natural gas prices, and commodity market differentials."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Occidental agreed to sell OxyChem to Berkshire Hathaway, and the former chemical reportable segment is now presented as discontinued operations.",
+   "evidence": "Prior to presentation of OxyChem as discontinued operations, the Company's chemical business was a reportable segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Oil and Gas): natural gas liquids (NGLs)",
+  "product not in text (Midstream and Marketing): flow assurance services"
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000832988",
+ "issuerName": "SIGNET JEWELERS LIMITED",
+ "builtAt": "2026-11-14T13:52:18.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000832988-26-000055",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/832988/000083298826000055/sig-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Kay (Kay Jewelers and Kay Outlet)",
+    "Zales (Zales Jewelers and Zales Outlet)",
+    "Jared (Jared Jewelers and Jared Vault)",
+    "Banter by Piercing Pagoda",
+    "Diamonds Direct",
+    "Rocksbox",
+    "James Allen",
+    "Blue Nile"
+   ],
+   "description": "Operates jewelry stores in malls, kiosks and off-mall locations throughout the US and Canada, as well as online.",
+   "evidence": "The North America reportable segment operated nine brands through both online and brick and mortar retail operations."
+  },
+  {
+   "name": "International",
+   "products": [
+    "H.Samuel",
+    "Ernest Jones"
+   ],
+   "description": "Operates jewelry stores and online retail in the UK and Republic of Ireland under two brands.",
+   "evidence": "The International reportable segment had 253 locations in the UK and Republic of Ireland as of January 31, 2026, and maintained an online retail presence for its brands, H.Samuel and Ernest Jones."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds certain Company activities, primarily the diamond sourcing operation and diamond polishing factory in Botswana.",
+   "evidence": "Certain Company activities are managed in the \"Other\" reportable segment for financial reporting purposes, primarily the Company's diamond sourcing operation and diamond polishing factory in Botswana."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Signet earns revenue primarily from selling jewelry merchandise and related services directly to retail customers through its stores and brand websites.",
+  "evidence": "The Signet brand websites also offer customers the ability to purchase products online and have them delivered to their local store or home."
+ },
+ "changes": [
+  {
+   "text": "In Fiscal 2027, the Rocksbox brand will be transitioned into a distinct proprietary collection within Kay rather than operating as a standalone brand.",
+   "evidence": "In Fiscal 2027, the Rocksbox private label fashion assortment will become a distinct proprietary collection within Kay."
+  },
+  {
+   "text": "In Fiscal 2027, the James Allen brand will be leveraged as a proprietary collection within Blue Nile and the jamesallen.com website will be sunsetted.",
+   "evidence": "During the first half of the year we will be sunsetting the jamesallen.com website."
+  }
+ ],
+ "dropped": []
+}

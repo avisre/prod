@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000821189",
+ "issuerName": "EOG RESOURCES, INC.",
+ "builtAt": "2026-11-14T13:51:59.526Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000821189-26-000054",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000054/eog-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "Crude oil and condensate",
+    "Natural gas liquids",
+    "Natural gas",
+    "Gathering, processing and marketing"
+   ],
+   "description": "Explores for, develops, produces and markets crude oil, NGLs and natural gas across major U.S. producing basins including the Delaware Basin, Eagle Ford, Utica and Rocky Mountain areas.",
+   "evidence": "For segment reporting purposes, the CODM consider the major United States producing areas to be one operating segment."
+  },
+  {
+   "name": "Trinidad",
+   "products": [
+    "Natural gas",
+    "Crude oil and condensate"
+   ],
+   "description": "Holds offshore exploration and production licenses and production sharing contracts in Trinidad, producing natural gas and crude oil and condensate.",
+   "evidence": "In 2025, EOG's net production in Trinidad averaged approximately 230 MMcfd of natural gas and approximately 1.4 MBbld of crude oil and condensate."
+  },
+  {
+   "name": "Other International",
+   "products": [],
+   "description": "Pursues exploration, development and exploitation opportunities outside the United States and Trinidad, including in Bahrain and the United Arab Emirates.",
+   "evidence": "EOG has operations offshore Trinidad, onshore Bahrain, and onshore United Arab Emirates, and is evaluating additional exploration, development and exploitation opportunities in those jurisdictions and other select international areas."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "EOG earns revenue by selling crude oil and condensate, NGLs and natural gas to customers at prevailing market prices, plus gathering, processing and marketing of third-party commodities and fees.",
+  "evidence": "Revenues are recognized for the sale of crude oil and condensate, NGLs and natural gas at the point control of the product is transferred to the customer, typically when production is delivered and title or risk of loss transfers to the customer."
+ },
+ "changes": [
+  {
+   "text": "In 2025, EOG acquired Encino Acquisition Partners, LLC, adding Utica play acreage to the United States segment.",
+   "evidence": "For discussion regarding EOG's August 2025 acquisition of Encino Acquisition Partners, LLC, see ITEM 7, Management's Discussion and Analysis of Financial Condition and Results of Operations – Overview – Operations and Note 16 to Consolidated Financial Statements."
+  }
+ ],
+ "dropped": []
+}

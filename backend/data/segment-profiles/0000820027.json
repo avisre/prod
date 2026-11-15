@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000820027",
+ "issuerName": "AMERIPRISE FINANCIAL, INC.",
+ "builtAt": "2026-11-14T13:51:55.269Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000820027-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/820027/000082002726000011/amp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advice & Wealth Management",
+   "products": [
+    "Financial planning and advice services",
+    "Managed accounts",
+    "Brokerage products and services",
+    "Cash management and banking products",
+    "Face-amount certificates",
+    "Mutual funds",
+    "Insurance and annuities"
+   ],
+   "description": "Provides financial planning, advice, brokerage, and cash management and banking products to retail clients through a network of financial advisors.",
+   "evidence": "We provide financial planning and advice, as well as full-service brokerage services, to more than 3.5 million retail clients through our financial advisors."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "U.S. registered funds",
+    "Non-U.S. retail focused funds",
+    "Institutional and retail separately managed accounts",
+    "CLOs",
+    "Private funds",
+    "Collective investment trust funds",
+    "Sub-advised accounts"
+   ],
+   "description": "Through Columbia Threadneedle, provides global investment management, advice and products to retail, high net worth and institutional clients.",
+   "evidence": "Through Columbia Threadneedle, we provide investment management, advice and products to retail, high net worth and institutional clients on a global scale."
+  },
+  {
+   "name": "Retirement & Protection Solutions",
+   "products": [
+    "Annuities",
+    "Life insurance",
+    "Disability income insurance"
+   ],
+   "description": "Offers annuity, life and disability income insurance products under the RiverSource brand to clients within the Ameriprise client experience.",
+   "evidence": "We offer clients annuities, life insurance and disability income insurance products to meet their needs or current stage in life"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fees based on assets under management and account balances, plus financial planning, transaction, distribution and performance fees, and premiums on insurance and annuity products.",
+  "evidence": "A significant portion of revenues in this segment are fee-based and driven by the level of client assets, which is impacted by both market movements and net flows."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advice & Wealth Management): ETFs, closed-end funds and model offerings",
+  "product not in text (Asset Management): Liability Driven Investment (LDI) funds"
+ ]
+}

@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000355811",
+ "issuerName": "GENTEX CORPORATION",
+ "builtAt": "2026-11-14T13:48:29.234Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000355811-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/355811/000035581126000010/gntx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive Products",
+   "products": [
+    "interior and exterior electrochromic automatic-dimming rearview mirrors",
+    "non-auto dimming rearview mirrors",
+    "HomeLink",
+    "driver assist forward safety camera systems",
+    "telematics systems",
+    "ITM systems",
+    "other automotive electronics"
+   ],
+   "description": "Designs, develops, manufactures and markets digital vision, connected car and other automotive products and electronics for automakers worldwide.",
+   "evidence": "Automotive products represent the Company's largest business segment, consisting of digital vision, connected car, and other automotive products and electronics which are developed and manufactured by the Company."
+  },
+  {
+   "name": "Premium Audio Products",
+   "products": [
+    "premium loudspeakers",
+    "architectural speakers",
+    "commercial and cinema speakers",
+    "outdoor speakers",
+    "wireless and Bluetooth speakers",
+    "A/V receivers",
+    "home theater systems",
+    "soundbars"
+   ],
+   "description": "Designs, manufactures, markets and distributes high quality audio equipment delivering superior sound quality for consumers.",
+   "evidence": "Established following the acquisition of VOXX, this segment designs, manufactures, markets, and distributes high quality audio equipment created to deliver superior sound quality and performance, including premium loudspeakers, architectural speakers, commercial and cinema speakers, outdoor speakers, wireless and Bluetooth speakers, A/V receivers, home theater systems, soundbars, and music streaming systems."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Fire Protection",
+    "Dimmable Aircraft Windows",
+    "Nanofiber",
+    "Medical",
+    "Aftermarket Electronics",
+    "Consumer Electronics",
+    "Biometrics"
+   ],
+   "description": "Aggregates fire protection, dimmable aircraft windows, nanofiber, medical, aftermarket electronics, consumer electronics and biometrics operating segments.",
+   "evidence": "The Other reportable segment includes the operating segments of Fire Protection, Dimmable Aircraft Windows, Nanofiber, Medical, Aftermarket Electronics, Consumer Electronics, and Biometrics."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, following the VOXX acquisition, the company reorganized into three reportable segments: Automotive Products, Premium Audio Products, and Other.",
+   "evidence": "In connection with the acquisition of VOXX (see Note 1 1 , \"Acquisitions\" ), effective April 1, 2025, the Company reorganized its financial reporting into nine distinct operating segments based on its products and internal organizational structure."
+  }
+ ],
+ "dropped": [
+  "product not in text (Automotive Products): Full Display Mirror (FDM)",
+  "revenue model not grounded"
+ ]
+}

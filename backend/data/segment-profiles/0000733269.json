@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000733269",
+ "issuerName": "LiveRamp Holdings, Inc.",
+ "builtAt": "2026-11-14T13:49:48.714Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000733269-26-000025",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/733269/000073326926000025/ramp-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Collaboration Platform",
+   "products": [
+    "/LiveRamp Data Collaboration Platform",
+    "LiveRamp Data Marketplace",
+    "RampID",
+    "Live/Identity",
+    "Live/Access",
+    "professional services"
+   ],
+   "description": "Provides a data collaboration platform that lets marketers and media owners securely share, manage and activate first-party consumer data with partners.",
+   "evidence": "The Company has one primary business activity, its data collaboration platform, as described in the business description section of Note 1, \"Organization and Summary of Significant Accounting Policies.\""
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns subscription fees from clients accessing its platform, revenue-sharing fees from data transactions through the LiveRamp Data Marketplace, transactional usage-based fees from publishers and addressable TV providers, and professional services fees.",
+  "evidence": "The Company generates revenue from subscription fees from clients accessing our platform, revenue-sharing fees generated from data transactions through our LiveRamp Data Marketplace, transactional usage-based fees from arrangements with certain publishers and addressable TV providers, and professional services fees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Data Collaboration Platform): Authenticated Traffic Solution (ATS)"
+ ]
+}

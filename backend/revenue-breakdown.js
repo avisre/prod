@@ -21,6 +21,8 @@
 // to the numbers.
 const store = require('./sec-segment-observations');
 const segmentProfiles = require('./segment-profiles');
+// The listing's own name, for the profile matcher: a filed row can carry it ("Verizon Consumer Group").
+const companyName = symbol => (symbol && require('./stock-universe').lookup(String(symbol).toUpperCase())?.name) || null;
 
 const REASONS = {
     untagged: 'The latest annual filing does not report a revenue breakdown that accounts for total revenue.',
@@ -78,7 +80,7 @@ function fromGroups(groups, symbol = null, { read = false, revenue = null, incom
     }
     const segmentTotal = [...byName.values()].reduce((n, v) => n + v, 0), base = view.gross ? segmentTotal : group.totalRevenue;
     const rows = segmentProfiles.enrich(cik, [...byName].map(([name, value]) => ({ name, value, share: round1(value / base * 100) })).sort((a, b) => b.value - a.value),
-        { kind: store.kind(group) }).rows.map(({ products, description, ...r }) => r);
+        { kind: store.kind(group), issuer: companyName(symbol) }).rows.map(({ products, description, ...r }) => r);
     const listed = rows.reduce((n, r) => n + r.value, 0), gap = group.totalRevenue - listed;
     const level = view.gross ? 'complete' : grade(view.coverage, rows.length, { floor: 0, minRows: 1 }), single = rows.length === 1;
     if (level === 'none') return none(symbol, whyNone(groups, read));
@@ -130,7 +132,7 @@ async function storedGroups(symbol) {
 // cached page read must not), and grades whatever text result is handed in.
 async function forSymbol(symbol, { text = true, cachedText = null } = {}) {
     const sym = String(symbol || '').toUpperCase(), { groups, cik, read: wasRead, revenue = null, incomeInParts = false } = await storedGroups(sym);
-    const profiled = c => { const { profile } = segmentProfiles.enrich(cik, c.rows || [], { kind: c.kind || null }); return profile ? { ...c, profile } : c; };
+    const profiled = c => { const { profile } = segmentProfiles.enrich(cik, c.rows || [], { kind: c.kind || null, issuer: companyName(sym) }); return profile ? { ...c, profile } : c; };
     const tagged = fromGroups(groups || [], sym, { read: wasRead, revenue, incomeInParts, cik });
     if (tagged.grade === 'complete') return profiled(tagged);
     const segments = require('./segments');
@@ -152,7 +154,8 @@ function forPage(contract) {
     return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, measure: contract.measure || null, basis: contract.basis || null, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
         totalRevenue: pageTotal, currency: contract.currency || null, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
         profile: contract.profile || null,
-        items: contract.rows.map(r => { const seg = contract.profile?.segments.find(s => s.shown && segmentProfiles.sameSegment(s.name, r.name));
+        items: contract.rows.map(r => { const seg = contract.profile?.segments.find(s => s.shown && segmentProfiles.sameSegment(s.name, r.name))
+                || (contract.rows.length === 1 && contract.profile?.segments.length === 1 && contract.profile.segments[0].shown ? contract.profile.segments[0] : null);
             return { name: r.name, revenueUsd: contract.currency === 'USD' ? r.value : null, value: r.value, revenuePct: r.share, description: seg?.description || '', products: seg?.products || [] }; }) };
 }
 

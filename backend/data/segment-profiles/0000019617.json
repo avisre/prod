@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000019617",
+ "issuerName": "JPMORGAN CHASE & CO",
+ "builtAt": "2026-11-14T14:07:25.775Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008131",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/jpm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer & Community Banking",
+   "products": [
+    "Mortgage banking",
+    "Card Services",
+    "Payments"
+   ],
+   "description": "Serves consumers and small businesses with deposit, credit, mortgage, card, payments and investment products.",
+   "evidence": "The Firm's consumer business segment is CCB"
+  },
+  {
+   "name": "Commercial & Investment Bank",
+   "products": [
+    "Investment banking",
+    "Fixed Income Markets",
+    "Equity Markets",
+    "Commercial banking",
+    "Payments",
+    "Securities Services"
+   ],
+   "description": "Provides investment banking, markets, commercial banking and transaction services to corporate and institutional clients.",
+   "evidence": "the Firm's wholesale business segments are CIB and AWM"
+  },
+  {
+   "name": "Asset & Wealth Management",
+   "products": [
+    "Asset management",
+    "Wealth management",
+    "Custody services"
+   ],
+   "description": "Manages assets and provides wealth management, investment advisory and custody services to institutional and individual clients.",
+   "evidence": "the Firm's wholesale business segments are CIB and AWM"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers and clients pay for financial services including deposit fees, lending spreads, asset management fees, transaction fees, investment banking fees, and trading revenues.",
+  "evidence": "The Firm is a leader in investment banking, financial services for consumers and small businesses, commercial banking, financial transaction processing and asset management."
+ },
+ "changes": [
+  {
+   "text": "In January 2026, JPMorganChase announced that Chase will become the new issuer of Apple Card through a forward purchase commitment to acquire the Apple credit card portfolio.",
+   "evidence": "On January 7, 2026, JPMorganChase announced that Chase will become the new issuer of Apple Card."
+  }
+ ],
+ "dropped": [
+  "product not in text (Consumer & Community Banking): Deposit products",
+  "product not in text (Consumer & Community Banking): Credit products",
+  "product not in text (Consumer & Community Banking): Investment services",
+  "product not in text (Consumer & Community Banking): Auto financing",
+  "product not in text (Asset & Wealth Management): Investment advisory"
+ ]
+}

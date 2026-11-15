@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001778982",
+ "issuerName": "Huize Holding Limited",
+ "builtAt": "2026-11-15T02:50:32.034Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-175067",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1778982/000119312526175067/d94820d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance Brokerage Services",
+   "products": [],
+   "description": "Online insurance brokerage platform connecting clients with insurance products and providers.",
+   "evidence": "The CEO concluded that the Group has only one operating and reportable segment - insurance brokerage services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay for insurance products through the platform; the company earns commissions from insurers and service fees from user traffic channels.",
+  "evidence": "Such service fee rate is set case-by-case based on our negotiation with each user traffic channel, taking into account our relationship with the respective user traffic channel, and its historical and expected contribution to our insurance sales."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000066004",
+ "issuerName": "MIDDLESEX WATER COMPANY",
+ "builtAt": "2026-11-14T13:45:27.482Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009777",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/66004/000162828026009777/msex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated",
+   "products": [
+    "Middlesex System",
+    "Tidewater System",
+    "Pinelands Water",
+    "Pinelands Wastewater",
+    "Southern Shores"
+   ],
+   "description": "Provides regulated water and wastewater utility services to residential, commercial, industrial and fire protection customers in New Jersey and Delaware.",
+   "evidence": "The segments in the tables included below are comprised of the following companies: Regulated- Middlesex, Tidewater, Pinelands and Southern Shores; Non-Regulated- USA, USA-PA, and White Marsh."
+  },
+  {
+   "name": "Non-Regulated",
+   "products": [],
+   "description": "Operates water and wastewater systems under contract for municipal and private clients and provides related administrative services.",
+   "evidence": "The Company's other subsidiaries are Pinelands Water Company (Pinelands Water) and Pinelands Wastewater Company (Pinelands Wastewater) (collectively, Pinelands), Utility Service Affiliates, Inc. (USA) and Utility Service Affiliates (Perth Amboy) Inc. (USA-PA)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for water and wastewater service, and municipal and private clients pay contract fees for operating their water and wastewater systems.",
+  "evidence": "Middlesex also operates water and wastewater systems under contract on behalf of municipal and private clients primarily in New Jersey and Delaware."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Non-Regulated): Contract operations of water and wastewater systems",
+  "product not in text (Non-Regulated): HomeServe home maintenance programs",
+  "product not in text (Non-Regulated): Property leases to Tidewater"
+ ]
+}

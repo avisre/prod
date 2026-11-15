@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000712034",
+ "issuerName": "ACCO Brands Corporation",
+ "builtAt": "2026-11-14T13:48:54.832Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098616",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/712034/000119312526098616/acco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ACCO Brands Americas",
+   "products": [
+    "At-A-Glance",
+    "Five Star",
+    "GBC",
+    "Hilroy",
+    "Kensington",
+    "Mead",
+    "PowerA",
+    "Quartet"
+   ],
+   "description": "Designs, markets, sources, manufactures and sells consumer, technology and business branded products in the U.S., Canada, Brazil, Mexico and Chile.",
+   "evidence": "Americas includes the U.S., Canada, Brazil, Mexico, and Chile and International includes EMEA, Australia, New Zealand, and Asia."
+  },
+  {
+   "name": "ACCO Brands International",
+   "products": [
+    "Barrilito",
+    "Buro",
+    "Derwent",
+    "Esselte",
+    "Foroni",
+    "Leitz",
+    "Marbig",
+    "NOBO"
+   ],
+   "description": "Designs, markets, sources, manufactures and sells consumer, technology and business branded products across EMEA, Australia, New Zealand and Asia.",
+   "evidence": "ACCO Brands has two operating segments based in different geographic regions: Americas and International."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells branded consumer, technology and business products to retailers, e-tailers, wholesalers, dealers and other distribution channels, and also sells directly through e-commerce sites and its direct sales organization.",
+  "evidence": "These channels include mass retailers, e-tailers, discount, drug/grocery and variety chains, warehouse clubs, hardware and specialty stores, independent office product dealers, office superstores, wholesalers, contract stationers, and specialist technology businesses."
+ },
+ "changes": [],
+ "dropped": []
+}

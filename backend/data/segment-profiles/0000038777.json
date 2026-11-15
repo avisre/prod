@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000038777",
+ "issuerName": "FRANKLIN RESOURCES INC",
+ "builtAt": "2026-11-14T13:44:18.411Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000038777-25-000238",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/38777/000003877725000238/ben-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment management and related services",
+   "products": [
+    "Franklin Templeton",
+    "Alcentra",
+    "Benefit Street Partners",
+    "Brandywine Global Investment Management",
+    "Clarion Partners",
+    "ClearBridge Investments",
+    "Legg Mason",
+    "Lexington Partners"
+   ],
+   "description": "Global investment management organization providing investment management and related services to retail, institutional and high-net-worth investors worldwide.",
+   "evidence": "We have one operating segment, investment management and related services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns investment management fees, generally based on a percentage of assets under management in advised accounts, from retail, institutional and high-net-worth investors.",
+  "evidence": "Our fees for providing investment management services are generally based on a percentage of AUM in the accounts that we advise, and vary based on the asset classes of the accounts, the types of services that we provide, and the market for those services."
+ },
+ "changes": [],
+ "dropped": []
+}

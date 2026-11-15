@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000866787",
+ "issuerName": "AutoZone, Inc.",
+ "builtAt": "2026-11-14T13:53:19.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-118791",
+  "periodEnd": "2026-08-29",
+  "filingDate": "2026-10-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/866787/000110465926118791/azo-20260829x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Auto Parts Segment",
+   "products": [
+    "new and remanufactured automotive hard parts",
+    "maintenance items",
+    "accessories",
+    "non-automotive products",
+    "ALLDATA brand of automotive diagnostic, repair, collision and shop management so",
+    "Duralast branded products"
+   ],
+   "description": "Retailer and distributor of automotive replacement parts and accessories through stores and online platforms in the Americas.",
+   "evidence": "The Company is a leading retailer and distributor of automotive parts and accessories through the Company's 8,031 stores in the Americas."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including DIY buyers and commercial accounts such as repair garages, dealers, service stations and fleet owners, pay AutoZone for automotive parts, accessories and software purchased in stores or online.",
+  "evidence": "We also sell automotive hard parts, maintenance items, accessories and non-automotive products through www.autozone.com, and our commercial customers can make purchases through www.autozonepro.com."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the Company combined all its previously defined operating segments into a single operating and reportable segment.",
+   "evidence": "During the fourth quarter of fiscal 2025, the Company combined all its previously defined operating segments into a single operating and reportable segment to align with how the Company is currently managed and evaluated."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001782170",
+ "issuerName": "Remitly Global, Inc.",
+ "builtAt": "2026-11-14T17:37:12.665Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1782170/000162828026009038/rely-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Money Movement",
+   "products": [
+    "Remitly Flex",
+    "Remitly Wallet and Card",
+    "Remitly One"
+   ],
+   "description": "Digital cross-border financial services platform enabling customers to send money internationally and access related financial services.",
+   "evidence": "The substantial majority of our revenue is currently generated from our global money movement product, where we earn revenue from transaction fees charged to customers and foreign exchange spreads applied to the amount the customer is sending."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay transaction fees and foreign exchange spreads on cross-border money transfers, with revenue from transaction fees and FX spreads.",
+  "evidence": "we earn revenue from transaction fees charged to customers and foreign exchange spreads applied to the amount the customer is sending."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Global Money Movement): Cross-border payment platform"
+ ]
+}

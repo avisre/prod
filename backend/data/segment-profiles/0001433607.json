@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001433607",
+ "issuerName": "InspireMD, Inc.",
+ "builtAt": "2026-11-15T02:50:04.395Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010886",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1433607/000149315226010886/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Device",
+   "products": [
+    "CGuard Prime Carotid Stent System",
+    "SwitchGuard neuroprotection system"
+   ],
+   "description": "Develops, manufactures and markets products for the treatment of carotid artery disease and other vascular disease, including the proprietary CGuard stent platform.",
+   "evidence": "The Company has one operating and reporting segment, that develops, manufactures and markets products for the treatment of carotid artery disease and other vascular disease, including the Company's proprietary CGuard™ stent platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Medical Device): CGuard Carotid Embolic Prevention System (CGuard EPS)",
+  "revenue model not grounded",
+  "change not grounded: In 2025, CGuard Prime received FDA premarket approval on June 23, 2025 and was l",
+  "change not grounded: In January 2024, CGuard EPS received CE Mark recertification under the EU Medica"
+ ],
+ "escalated": "revenue model not quoted"
+}

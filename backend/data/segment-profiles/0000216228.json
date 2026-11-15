@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000216228",
+ "issuerName": "ITT INC.",
+ "builtAt": "2026-11-14T13:47:38.860Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000216228-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/216228/000021622826000012/itt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Motion Technologies",
+   "products": [
+    "ITT Friction Technologies",
+    "KONI",
+    "Novitek",
+    "Axtone",
+    "brake pads",
+    "shock absorbers",
+    "damping technologies"
+   ],
+   "description": "Manufactures brake pads, shock absorbers, energy absorption components and damping technologies for automotive and rail transportation customers.",
+   "evidence": "MT is a global manufacturer of highly engineered brake pads, shock absorbers and damping technologies for the automotive and rail markets."
+  },
+  {
+   "name": "Industrial Process",
+   "products": [
+    "Goulds Pumps",
+    "Bornemann",
+    "Svanehøj",
+    "PRO Services",
+    "Rheinhütte Pumpen",
+    "Engineered Valves",
+    "Habonim",
+    "industrial pumps, valves, and monitoring and control systems"
+   ],
+   "description": "Makes industrial pumps, valves, and monitoring and control systems and provides aftermarket services for energy, chemical, pharmaceutical and other industrial markets.",
+   "evidence": "IP is a global manufacturer of industrial pumps, valves, and monitoring and control systems, and provides aftermarket services for the energy, chemical and petrochemical, pharmaceutical, general industrial, marine, mining, pulp and paper, food and beverage, power generation and biopharmaceutical markets."
+  },
+  {
+   "name": "Connect & Control Technologies",
+   "products": [
+    "Cannon",
+    "VEAM",
+    "BIW Connector Systems",
+    "Aerospace Controls",
+    "Enidine",
+    "Compact Automation",
+    "kSARIA",
+    "Micro-Mode"
+   ],
+   "description": "Designs and manufactures harsh-environment interconnect solutions and critical energy absorption and flow control components for aerospace, defense and industrial markets.",
+   "evidence": "CCT is a global designer and manufacturer of harsh-environment interconnect solutions and critical energy absorption and flow control components, primarily for the aerospace, defense and industrial markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

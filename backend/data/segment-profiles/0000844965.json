@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000844965",
+ "issuerName": "TETRA Technologies, Inc.",
+ "builtAt": "2026-11-14T13:52:41.072Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000844965-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/844965/000084496526000015/tti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Completion Fluids & Products",
+   "products": [
+    "CBF additives",
+    "TETRA Neptune",
+    "liquid and dry calcium chloride",
+    "calcium bromide",
+    "zinc bromide",
+    "sodium bromide",
+    "TETRA PureFlow"
+   ],
+   "description": "Manufactures and markets clear brine fluids, additives, calcium chloride and bromide products for oil and gas operators, industrial markets, and battery technology companies.",
+   "evidence": "Our Completion Fluids & Products Segment manufactures and markets clear brine fluids (\"CBFs\"), additives, and associated products and services to the oil and gas industry for use in well drilling, completion, and workover operations in the United States and in certain countries in Latin America, Europe, Asia, the Middle East, and Africa."
+  },
+  {
+   "name": "Water & Flowback Services",
+   "products": [
+    "water management services",
+    "frac flowback",
+    "production well testing",
+    "water analysis, treatment, and recycling",
+    "blending and distribution"
+   ],
+   "description": "Provides onshore oil and gas operators with comprehensive water management, frac flowback, and production well testing services in major U.S. basins and select international regions.",
+   "evidence": "Our Water & Flowback Services Segment provides onshore oil and gas operators with comprehensive water management services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "TETRA is paid by oil and gas exploration and production companies, oilfield service companies, and industrial, agricultural, road, and food and beverage purchasers for its fluids, chemicals, and water management services.",
+  "evidence": "Our customers consist primarily of major, well-established oil and gas producers and independent oil and gas companies, as well as industrial, agricultural, road, and food and beverage purchasers for the chemicals we manufacture."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Completion Fluids & Products): clear brine fluids (CBFs)",
+  "product not in text (Water & Flowback Services): sand management hydrocyclones"
+ ]
+}

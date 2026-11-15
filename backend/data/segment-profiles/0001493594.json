@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001493594",
+ "issuerName": "MACOM Technology Solutions Holdings, Inc.",
+ "builtAt": "2026-11-14T17:37:03.302Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493594-25-000054",
+  "periodEnd": "2025-10-03",
+  "filingDate": "2025-11-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1493594/000149359425000054/mtsi-20251003.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductors and modules",
+   "products": [
+    "Integrated circuits",
+    "Multi-chip modules",
+    "Diodes",
+    "Amplifiers",
+    "Switches and switch limiters",
+    "Passive and active components",
+    "RF and optical subsystems"
+   ],
+   "description": "Designs, develops, manufactures and markets high-performance RF, microwave, millimeter wave, optical and photonic semiconductor products for industrial, defense, data center and telecommunications customers.",
+   "evidence": "We have one reportable operating segment that designs, develops, manufactures and markets semiconductors and modules."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase semiconductor products and components incorporated into larger electronic systems; revenue derived from direct sales, independent sales representatives and distributors.",
+  "evidence": "Our revenue is derived from sales of high-performance RF, microwave, millimeter wave, optical and photonic semiconductor products. We design, integrate, manufacture and package differentiated, semiconductor-based products that we sell to customers through our direct sales organization, our network of independent sales representatives and our distributors."
+ },
+ "changes": [],
+ "dropped": []
+}

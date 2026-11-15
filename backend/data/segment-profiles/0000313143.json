@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000313143",
+ "issuerName": "HAEMONETICS CORPORATION",
+ "builtAt": "2026-11-14T13:47:53.852Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000313143-26-000050",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/313143/000031314326000050/hae-20260328.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Plasma",
+   "products": [
+    "NexSys PCS plasmapheresis collection system",
+    "NexSys PCS with YES technology",
+    "NexSys PCS with Persona technology",
+    "NexLynk DMS donor management system",
+    "Donor360 tools"
+   ],
+   "description": "Provides automated plasma collection devices, disposables and donor management software to plasma collection centers and biopharmaceutical companies.",
+   "evidence": "\"Plasma\" includes plasma collection devices and disposables, donor management software and supporting software solutions sold to plasma customers."
+  },
+  {
+   "name": "Blood Center",
+   "products": [
+    "blood collection and processing devices",
+    "disposables for plasma, red cells and platelets"
+   ],
+   "description": "Offers automated blood component collection systems and disposables that help blood centers optimize collections, improve donor safety and control costs.",
+   "evidence": "\"Blood Center\" includes blood collection and processing devices and disposables for plasma, red cells and platelets."
+  },
+  {
+   "name": "Hospital",
+   "products": [
+    "Vascular Closure",
+    "Sensor-Guided Technologies",
+    "Esophageal Protection",
+    "Hemostasis Management",
+    "Cell Salvage",
+    "Transfusion Management",
+    "VASCADE MVP XL",
+    "PerQseal Elite"
+   ],
+   "description": "Provides interventional technologies and blood management technologies for hospitals and interventional cardiology procedures.",
+   "evidence": "\"Hospital\" is comprised of Interventional Technologies, which includes Vascular Closure, Sensor-Guided Technologies and Esophageal Protection product lines, and Blood Management Technologies, which includes Hemostasis Management, Cell Salvage and Transfusion Management product lines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling automated collection devices, related disposables, software and services to plasma collectors, blood centers and hospitals.",
+  "evidence": "We offer automated blood component systems to blood centers to collect blood products efficiently and cost effectively."
+ },
+ "changes": [
+  {
+   "text": "In January 2026, the company acquired Vivasure, adding the PerQseal Elite large bore closure system to the Hospital segment.",
+   "evidence": "The addition of Vivasure expands our Hospital business unit portfolio in the interventional cardiology market and will be included in the Hospital reportable segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Plasma): NexSys PCS with Persona PLUS technology",
+  "product not in text (Blood Center): MCS brand apheresis systems"
+ ]
+}

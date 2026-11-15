@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000807882",
+ "issuerName": "JACK IN THE BOX INC.",
+ "builtAt": "2026-11-14T13:51:33.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000807882-25-000072",
+  "periodEnd": "2025-09-28",
+  "filingDate": "2025-11-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/807882/000080788225000072/jack-20250928.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Jack in the Box",
+   "products": [
+    "Jumbo Jack",
+    "Buttery Jack",
+    "Smash Jack",
+    "breakfast sandwiches with freshly cracked eggs",
+    "tacos",
+    "curly fries",
+    "egg rolls",
+    "real ice cream shakes"
+   ],
+   "description": "Operates and franchises one of the nation's largest hamburger chains, primarily in the western and southern United States.",
+   "evidence": "Jack in the Box restaurants offer a broad selection of distinctive products including classic burgers like its Jumbo Jack ® and innovative product lines such as the Buttery Jack ® and Smash Jack ® burgers."
+  },
+  {
+   "name": "Del Taco",
+   "products": [
+    "burritos",
+    "fries",
+    "freshly grilled chicken",
+    "carne asada steak",
+    "fresh house-made guacamole",
+    "freshly grated cheddar cheese",
+    "slow-cooked beans made from scratch",
+    "creamy Queso Blanco"
+   ],
+   "description": "Operates and franchises a Mexican-American quick service restaurant chain serving Mexican and American favorites prepared fresh.",
+   "evidence": "Del Taco offers a unique variety of both Mexican and American favorites such as burritos and fries, prepared fresh in every restaurant's kitchen with the value and convenience of a drive-thru."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns retail sales at company-operated restaurants and rental revenue, royalties, advertising, and franchise and other fees from franchise-operated restaurants.",
+  "evidence": "We derive revenue from retail sales at Jack in the Box and Del Taco company-operated restaurants and rental revenue, royalties, advertising, and franchise and other fees from franchise-operated restaurants."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company entered into an agreement to sell Del Taco Holdings Inc. to Yadav Enterprises, Inc.",
+   "evidence": "On October 15, 2025, the Company entered into a Stock Purchase Agreement (the \"Purchase Agreement\") with Yadav Enterprises, Inc., a California corporation (\"Buyer\") and Anil Yadav (\"Buyer Guarantor\") to sell to Buyer all of the issued and outstanding equity interests of Del Taco Holdings Inc."
+  }
+ ],
+ "dropped": []
+}

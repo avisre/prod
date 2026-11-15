@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000717605",
+ "issuerName": "Hexcel Corporation",
+ "builtAt": "2026-11-14T13:49:09.886Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-046377",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/717605/000119312526046377/hxl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Composite Materials",
+   "products": [
+    "HexTow® carbon fibers",
+    "HexForce® fabrics, multi-axials and specialty reinforcements",
+    "HexPly® prepregs",
+    "HexWeb® honeycomb",
+    "HexWeb® Acousti-Cap®",
+    "Polyspeed® Pultruded Profiles"
+   ],
+   "description": "Manufactures and markets carbon fibers, reinforcements, prepregs, adhesives, honeycomb and pultruded profiles for commercial and military aircraft, transportation and industrial applications.",
+   "evidence": "The Composite Materials segment is comprised of our carbon fiber, specialty reinforcements, resin systems, prepregs and other fiber-reinforced matrix materials, and honeycomb core product lines and pultruded profiles."
+  },
+  {
+   "name": "Engineered Products",
+   "products": [
+    "Composite structures",
+    "HexAM® 3D printed parts",
+    "Engineered honeycomb",
+    "Dielectric absorber foams and honeycomb",
+    "Magnetic absorbers",
+    "Thermoplastics"
+   ],
+   "description": "Manufactures composite structures and precision machined honeycomb parts, plus RF/EMI and microwave absorbing materials, primarily for the aerospace industry.",
+   "evidence": "The Engineered Products segment is comprised of lightweight high strength composite structures, radio frequency/electromagnetic interference (\"RF/EMI\") and microwave absorbing materials, engineered core and specialty machined honeycomb products with added functionality."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hexcel earns net sales from third-party customers, primarily aerospace manufacturers, who buy its advanced composite materials and engineered products.",
+  "evidence": "Net sales for the Composite Materials segment to third-party customers were $1,516.2 million in 2025, $1,531.0 million in 2024, and $1,474.2 million in 2023, which represented about 80% of our net sales each year."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Hexcel completed the divestiture of its operations in Austria, which only served industrial markets with industrial-grade fibers procured from third parties.",
+   "evidence": "During the third quarter of 2025, the Company completed the divestiture of its operations in Austria."
+  },
+  {
+   "text": "Beginning with the first quarter of 2025, Hexcel began reporting sales for a new market category, Defense, Space & Other, combining the previous Space & Defense and Industrial markets.",
+   "evidence": "Beginning with the first quarter of 2025, sales are being reported for two markets, Commercial Aerospace, unchanged from past practice, and a new sales category titled Defense, Space & Other, which combines the previous Space & Defense market and the Industrial market."
+  }
+ ],
+ "dropped": [
+  "product not in text (Composite Materials): HexFlow® resins",
+  "product not in text (Composite Materials): HexBond® structural adhesives",
+  "product not in text (Engineered Products): RF interference control materials"
+ ]
+}

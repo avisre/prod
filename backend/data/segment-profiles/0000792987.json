@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000792987",
+ "issuerName": "Astec Industries, Inc.",
+ "builtAt": "2026-11-14T13:51:06.541Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000792987-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/792987/000079298726000011/aste-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure Solutions",
+   "products": [
+    "Asphalt plants",
+    "Concrete batch plants",
+    "Asphalt pavers",
+    "Milling machines",
+    "Wood chippers and grinders",
+    "Blower trucks and trailers",
+    "Industrial automation controls",
+    "Telematics platforms"
+   ],
+   "description": "Designs, engineers, manufactures and markets asphalt and concrete plants, road construction equipment, industrial thermal systems, land clearing and recycling heavy equipment.",
+   "evidence": "The Infrastructure Solutions segment designs, engineers, manufactures and markets a complete line of asphalt plants, concrete plants and their related components and ancillary equipment, including industrial automation controls and telematics platforms, as well as asphalt road construction equipment, industrial thermal systems, land clearing, recycling and other heavy equipment."
+  },
+  {
+   "name": "Materials Solutions",
+   "products": [
+    "Jaw crushers",
+    "Cone crushers",
+    "Incline screens",
+    "Washing plants",
+    "Radial and telescoping conveyors",
+    "Rock breaker systems",
+    "Hydraulic breakers",
+    "Pugmills"
+   ],
+   "description": "Designs and manufactures heavy equipment for aggregate and minerals processing, plus servicing, rebuilding and parts supply for civil construction, mining, recycling and bulk handling markets.",
+   "evidence": "The Materials Solutions segment designs and manufactures heavy equipment used in aggregate and minerals processing operations in addition to servicing, rebuilding and supplying parts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including asphalt and concrete producers, contractors, distributors, mine and quarry operators and government agencies, pay Astec for equipment sales and replacement parts.",
+  "evidence": "In addition to equipment sales, we manufacture and sell replacement parts for equipment in each of our product lines and replacement parts for some competitors' equipment."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Astec acquired TerraSource Holdings, a manufacturer of material processing equipment and related aftermarket parts.",
+   "evidence": "we completed the acquisition of TerraSource Holdings, LLC (\"TerraSource\"), a market-leading manufacturer of material processing equipment and related aftermarket parts serving complementary crushing, screening and separation applications on July 1, 2025"
+  },
+  {
+   "text": "In 2026, Astec acquired CWMF, LLC, a manufacturer of portable and stationary asphalt plant equipment and parts.",
+   "evidence": "the acquisition of CWMF, LLC, a manufacturer of portable and stationary asphalt plant equipment and parts on January 1, 2026"
+  }
+ ],
+ "dropped": []
+}

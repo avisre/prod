@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000067347",
+ "issuerName": "MODINE MANUFACTURING CO",
+ "builtAt": "2026-11-14T13:45:32.369Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-066795",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/67347/000110465926066795/mod-20260331x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Climate Solutions",
+   "products": [
+    "Data Centers",
+    "Heat Transfer Solutions",
+    "HVAC Technologies"
+   ],
+   "description": "Provides energy-efficient, climate-controlled solutions and components, including data center cooling, heat exchangers, and HVAC&R systems for commercial, education, industrial, and residential applications.",
+   "evidence": "The Climate Solutions segment provides energy-efficient, climate-controlled solutions and components."
+  },
+  {
+   "name": "Performance Technologies",
+   "products": [],
+   "description": "Provides engineered heat transfer systems and components for on- and off-highway OEM vehicular applications.",
+   "evidence": "In addition, we are a leading provider of engineered heat transfer systems and high-quality heat transfer components for use in on- and off-highway original equipment manufacturer (\"OEM\") vehicular applications."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Modine supplies products to customers, primarily OEMs, distributors, contractors and end users, on the basis of individual purchase orders and, where mutually beneficial, long-term sales agreements of three to five years.",
+  "evidence": "Generally, we supply products to our customers on the basis of individual purchase orders received from them."
+ },
+ "changes": [
+  {
+   "text": "In January 2026, Modine agreed to spin off and combine its Performance Technologies segment businesses with Gentherm in a Reverse Morris Trust transaction expected to close by the end of calendar 2026.",
+   "evidence": "In January 2026, we entered into definitive agreements with Gentherm Incorporated ( \"Gentherm\") , whereby we will spin-off and simultaneously combine our Performance Technologies segment businesses with Gentherm in a Reverse Morris Trust transaction."
+  },
+  {
+   "text": "During fiscal 2026, Modine acquired three businesses—AbsolutAire, L.B. White, and Climate by Design—contributing to growth in its HVAC Technologies business.",
+   "evidence": "In addition, we acquired three businesses during fiscal 2026, AbsolutAire, Inc. (\"AbsolutAire\"), LBW Holding Corp. (\"L.B. White\"), and Climate by Design International (\"Climate by Design\"), which contributed to growth in our HVAC Technologies business."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective April 1, 2026, Modine split its Climate Solutions segment into two sep"
+ ]
+}

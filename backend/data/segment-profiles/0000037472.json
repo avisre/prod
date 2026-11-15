@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000037472",
+ "issuerName": "FLEXSTEEL INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:44:13.945Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-357097",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/37472/000119312526357097/flxs-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "furniture products",
+   "products": [
+    "Flexsteel",
+    "Zecliner",
+    "Statements",
+    "Zen",
+    "Perfect Match",
+    "Pulse",
+    "Blue Steel Spring"
+   ],
+   "description": "Manufactures, imports and distributes a broad line of residential furniture, including sofas, loveseats, chairs, sectionals, bedroom, dining and occasional furniture.",
+   "evidence": "The Company operates in one reportable segment, furniture products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells furniture products primarily throughout the United States through its internal sales force and independent representatives to retail partners and online channels.",
+  "evidence": "The Company's furniture products are sold primarily throughout the United States by the Company's internal sales force and various independent representatives."
+ },
+ "changes": [],
+ "dropped": []
+}

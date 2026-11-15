@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000831001",
+ "issuerName": "Citigroup Inc",
+ "builtAt": "2026-11-14T13:52:14.738Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000831001-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/831001/000083100126000011/c-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Services",
+   "products": [
+    "Treasury and Trade Solutions",
+    "trade services",
+    "working capital loans",
+    "export and agency finance"
+   ],
+   "description": "Provides cash management, trade and working capital financing services to corporate and institutional clients globally.",
+   "evidence": "Services increased 10%, driven by demand in TTS for working capital loans as well as export and agency finance."
+  },
+  {
+   "name": "Markets",
+   "products": [
+    "Spread Products",
+    "asset-backed financing",
+    "commercial warehouse lending"
+   ],
+   "description": "Serves institutional clients with trading, financing and market-making across fixed income and other spread products.",
+   "evidence": "Markets increased 25%, primarily driven by asset-backed financing and commercial warehouse lending in Spread Products."
+  },
+  {
+   "name": "Banking",
+   "products": [
+    "lending",
+    "capital markets",
+    "M&A advisory"
+   ],
+   "description": "Delivers lending, capital markets and merger and acquisition advisory services to corporate and institutional clients.",
+   "evidence": "Citi aims to establish relationships with these clients whose needs encompass multiple products, including cash management and trade services, foreign exchange, lending, capital markets and M&A advisory."
+  },
+  {
+   "name": "Wealth",
+   "products": [
+    "margin lending",
+    "mortgage loans"
+   ],
+   "description": "Provides wealth management, lending and investment services to affluent and high-net-worth clients.",
+   "evidence": "Wealth increased 1%, with growth in margin lending primarily offset by the transfers of certain relationships and associated mortgage loans to USPB from Wealth ."
+  },
+  {
+   "name": "U.S. Personal Banking",
+   "products": [
+    "Branded Cards",
+    "Retail Services",
+    "Retail Banking"
+   ],
+   "description": "Offers credit cards, retail banking and lending products to U.S. consumers and retail clients.",
+   "evidence": "USPB increased 5%, driven by growth in Retail Banking, largely due to transfers of certain relationships and associated mortgage loans to USPB from Wealth , as well as growth in Branded Cards."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Corporate, institutional and retail clients pay Citi for banking products and services including cash management, trade services, foreign exchange, lending, capital markets and M&A advisory.",
+  "evidence": "Citi aims to establish relationships with these clients whose needs encompass multiple products, including cash management and trade services, foreign exchange, lending, capital markets and M&A advisory."
+ },
+ "changes": [],
+ "dropped": []
+}

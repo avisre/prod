@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000067215",
+ "issuerName": "DYCOM INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:45:30.853Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000067215-26-000008",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/67215/000006721526000008/dy-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications",
+   "products": [
+    "placement and splicing of fiber, copper, and coaxial cables",
+    "tower construction, lines and antenna installation",
+    "small cell site placement",
+    "underground facility locating services",
+    "customer premise equipment",
+    "engineering services",
+    "program and project management"
+   ],
+   "description": "Provides construction, maintenance, installation and engineering services for telecommunications providers, cable operators, wireless carriers and utilities.",
+   "evidence": "The Communications segment provides a range of construction, maintenance, and installation services, including the placement and splicing of fiber, copper, and coaxial cables."
+  },
+  {
+   "name": "Building Systems",
+   "products": [
+    "energy management",
+    "fire safety systems"
+   ],
+   "description": "Provides comprehensive building infrastructure solutions for data centers and other critical facilities.",
+   "evidence": "The Building Systems segment specializes in providing comprehensive building infrastructure solutions, including electrical, energy management, security, and fire safety systems for data centers and other critical facilities ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, mainly telecommunications providers, pay Dycom under master service agreements and other contracts with discrete pricing for individual tasks, with revenue recognized over time as services are performed.",
+  "evidence": "We perform a significant amount of our services under master service agreements and other contracts that contain customer-specified service requirements."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, following the acquisition of Power Solutions, the Company added the Building Systems segment as a new reportable segment.",
+   "evidence": "Beginning in fiscal 2026, the Company reports the results of the Building Systems segment separately as a reportable segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Building Systems): electrical systems",
+  "product not in text (Building Systems): security systems"
+ ]
+}

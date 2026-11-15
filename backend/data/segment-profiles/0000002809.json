@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000002809",
+ "issuerName": "AGNICO EAGLE MINES LIMITED",
+ "builtAt": "2026-11-14T14:06:07.757Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-032153",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926032153/aem-20251231xex99d3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold Mining",
+   "products": [],
+   "description": "Produces and sells gold from mining operations located in Canada, Australia, Finland and Mexico.",
+   "evidence": "Agnico Eagle earns substantially all of its revenue and cash flow from the production and sale of gold in both doré bar and concentrate form."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for gold production sold in doré bar and concentrate forms, with revenue from mining operations.",
+  "evidence": "Agnico Eagle earns substantially all of its revenue and cash flow from the production and sale of gold in both doré bar and concentrate form."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Gold Mining): Gold in doré bar form",
+  "product not in text (Gold Mining): Gold in concentrate form"
+ ]
+}

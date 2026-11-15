@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000763532",
+ "issuerName": "LSI INDUSTRIES INC",
+ "builtAt": "2026-11-14T13:50:17.887Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-029621",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/763532/000143774926029621/lyts20260630d_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lighting Segment",
+   "products": [
+    "outdoor and indoor lighting fixture and controls solutions",
+    "lighting fixtures, poles and accessories",
+    "sensors",
+    "photocontrols",
+    "dimming",
+    "motion detection",
+    "circuit controllers"
+   ],
+   "description": "Manufactures and sells American-made indoor and outdoor lighting fixtures and controls for vertical markets like refueling, retail, grocery and parking.",
+   "evidence": "Our Lighting Segment manufactures, markets, and sells outdoor and indoor lighting fixture and controls solutions in several vertical markets such as but not limited to the following: refueling and convenience store, parking lot and garage, quick-service restaurant, retail, grocery and pharmacy, automotive dealership, sports court and field, and warehouse."
+  },
+  {
+   "name": "Display Solutions Segment",
+   "products": [
+    "signage and canopy graphics",
+    "pump dispenser graphics",
+    "building fascia graphics",
+    "interior signage and marketing graphics",
+    "digital signage",
+    "digital menu board systems",
+    "refrigerated displays",
+    "custom store fixtures"
+   ],
+   "description": "Manufactures, sells and installs custom visual image and display elements, fixtures and graphics that enhance retail customers' brand image and shopping experience.",
+   "evidence": "The major products and services offered by our Display Solutions Segment include signage and canopy graphics, pump dispenser graphics, building fascia graphics, decals, interior signage and marketing graphics, aisle markers, wall mural graphics, and refrigerated food and beverage displays, check-out counters, and an array of merchandising displays and cabinetry specific to the needs of our customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lighting revenue comes from project-based product sales to end-users and from selling standard products to stocking distributors, while display solutions and related services are sold directly to customers or brand marketers, often as multi-site programs.",
+  "evidence": "The first revenue stream is from project-based business, quoting and receiving orders as a preferred vendor for product sales to multiple end-users, including customer-owned as well as franchised and licensed dealer operations."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, LSI acquired Royston Group and consolidated it into the Display Solutions Segment.",
+   "evidence": "We recently acquired Royston Group (Royston), an Atlanta-based leader in identity and equipment solutions for retail environments in the third quarter of fiscal 2026."
+  },
+  {
+   "text": "In fiscal 2025, LSI acquired Canada's Best Holdings and consolidated it into the Display Solutions Segment.",
+   "evidence": "In the third quarter of fiscal 2025, we acquired Canada's Best Holdings (CBH), an Ontario Canada-based company which is a leading provider of retail fixtures and custom store design solutions for grocery, quick service restaurant, c-store, banking, and specialty retail industries."
+  },
+  {
+   "text": "In fiscal 2024, LSI acquired EMI Industries and consolidated it into the Display Solutions Segment.",
+   "evidence": "We also acquired EMI Industries, LLC (EMI) in the fourth quarter of fiscal 2024."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000004127",
+ "issuerName": "SKYWORKS SOLUTIONS, INC.",
+ "builtAt": "2026-11-14T14:06:16.267Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000004127-25-000085",
+  "periodEnd": "2025-10-03",
+  "filingDate": "2025-11-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/4127/000000412725000085/swks-20251003.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Products",
+   "products": [
+    "Amplifiers",
+    "Antenna Tuners",
+    "Attenuators",
+    "Automotive Tuners and Digital Radios",
+    "Wireless ASoC",
+    "DC/DC Converters",
+    "Demodulators",
+    "Detectors"
+   ],
+   "description": "Designs, develops, manufactures, and markets analog and mixed-signal semiconductor products for aerospace, automotive, broadband, cellular, defense, entertainment, industrial, medical, and consumer applications.",
+   "evidence": "The Company has a single reportable operating segment which designs, develops, manufactures, and markets similar proprietary semiconductor products, including intellectual property."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase semiconductor products through direct sales and distributors for integration into communications, consumer electronics, and industrial devices.",
+  "evidence": "The Company's revenue from external customers is generated principally from the sale of semiconductor products."
+ },
+ "changes": [],
+ "dropped": []
+}

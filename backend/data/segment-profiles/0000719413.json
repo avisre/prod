@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000719413",
+ "issuerName": "HECLA MINING COMPANY",
+ "builtAt": "2026-11-14T13:49:19.339Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-055059",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/719413/000119312526055059/hl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Greens Creek",
+   "products": [
+    "silver, zinc, and precious metals flotation concentrates",
+    "gravity concentrate containing payable silver, gold and lead",
+    "unrefined bullion (doré)"
+   ],
+   "description": "Underground mine on Admiralty Island near Juneau, Alaska producing silver, gold, lead and zinc concentrates sold to custom smelters and metal traders.",
+   "evidence": "Greens Creek located on Admiralty Island, near Juneau, Alaska - 100% owned and has been in production since 1989."
+  },
+  {
+   "name": "Lucky Friday",
+   "products": [
+    "silver and zinc flotation concentrates"
+   ],
+   "description": "Underground mine in northern Idaho producing silver, zinc and lead flotation concentrates sold to custom smelters and metal traders.",
+   "evidence": "Lucky Friday located in northern Idaho - 100% owned and has been a producing mine for us since 1958."
+  },
+  {
+   "name": "Keno Hill",
+   "products": [
+    "silver and precious metal flotation concentrates"
+   ],
+   "description": "Silver mine in Canada's Yukon Territory in ramp-up, producing silver and precious metal flotation concentrates below commercial production levels.",
+   "evidence": "Keno Hill is currently in ramp-up and producing silver and precious metal flotation concentrates, but at less than what we consider to be commercial production levels."
+  },
+  {
+   "name": "Casa Berardi",
+   "products": [
+    "unrefined gold and silver bullion bars (doré)",
+    "loaded carbon",
+    "precipitates"
+   ],
+   "description": "Mine in the Abitibi region of northwestern Quebec producing gold and silver doré, loaded carbon and precipitates shipped to refiners.",
+   "evidence": "Casa Berardi located in the Abitibi region of northwestern Quebec, Canada - 100% owned and has been in production since late 2006."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hecla is paid by custom smelters, metal traders, third-party processors and refiners for the payable metals contained in its concentrates, carbon material and doré.",
+  "evidence": "The silver, zinc and precious metals concentrates and carbon material we produce are sold to custom smelters, metal traders and third-party processors, and the unrefined doré we produce is sold to refiners or further refined before sale of the metals to traders."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Hecla announced an agreement to sell its subsidiary owning the Casa Berardi operation to Orezone Gold Corporation, expected to close in the first quarter of 2026.",
+   "evidence": "On January 26, 2026, following a review of how Casa Berardi fits into our future strategy, we announced that we entered into a material definitive agreement to sell our wholly-owned subsidiary Hecla Quebec Inc., which owns the Casa Berardi operation to Orezone Gold Corporation (\"Orezone\") for up to $593 million in total consideration"
+  }
+ ],
+ "dropped": []
+}

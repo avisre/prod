@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000810332",
+ "issuerName": "Republic Airways Holdings Inc.",
+ "builtAt": "2026-11-14T13:51:35.887Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019614",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/810332/000162828026019614/rjet-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regional airline services",
+   "products": [
+    "American Eagle",
+    "Delta Connection",
+    "United Express",
+    "Embraer E170"
+   ],
+   "description": "Provides scheduled regional passenger flight capacity to major airline partners under multi-year capacity purchase agreements.",
+   "evidence": "The Company is organized and operates as one operating and reportable segment: regional airline services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Partner Airlines pay Republic fixed amounts specified under CPAs, including fixed monthly payments per aircraft and payments per block hour or flight, while retaining all passenger and cargo revenue.",
+  "evidence": "the Partner Airlines retain all the revenue from the passengers and cargo aboard Republic's flights and, in exchange, pay Republic the fixed amounts specified under Republic's CPAs."
+ },
+ "changes": [
+  {
+   "text": "In November 2025, Republic Airways Holdings merged with and into Mesa Air Group, with Mesa Parent continuing as the surviving corporation and renamed Republic Airways Holdings Inc.",
+   "evidence": "On November 25, 2025, Legacy Republic completed the Merger with Mesa Parent with the Mesa Parent legal entity continuing as the surviving corporation."
+  }
+ ],
+ "dropped": [
+  "product not in text (Regional airline services): Capacity Purchase Agreements (CPAs)",
+  "product not in text (Regional airline services): Embraer E175"
+ ]
+}

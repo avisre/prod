@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001454938",
+ "issuerName": "Teads Holding Co.",
+ "builtAt": "2026-11-14T17:42:11.165Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001454938-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1454938/000145493826000015/tead-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advertising Platform",
+   "products": [],
+   "description": "Omnichannel advertising platform connecting advertisers and media owners to drive advertising outcomes across digital channels.",
+   "evidence": "The Company is a leading omnichannel advertising platform focused on driving outcomes for brand and performance advertisers across screens."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers purchase media owner inventory through the platform via cost per click, cost per thousand impressions, or guaranteed minimum arrangements.",
+  "evidence": "We generate revenue from advertisers purchasing media owner inventory through our platform."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Outbrain completed acquisition of Legacy Teads in February and changed its corporate name to Teads Holding Co. in June.",
+   "evidence": "On February 3, 2025, Outbrain Inc. (\"Outbrain\") completed its acquisition (the \"Acquisition\") of TEADS, a private limited liability company ( société à responsabilité limitée ) incorporated and existing under the laws of the Grand Duchy of Luxembourg (\"Legacy Teads\")."
+  }
+ ],
+ "dropped": []
+}

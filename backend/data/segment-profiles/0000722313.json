@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000722313",
+ "issuerName": "NORTECH SYSTEMS INCORPORATED",
+ "builtAt": "2026-11-14T13:49:24.847Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012913",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/722313/000149315226012913/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract Manufacturing",
+   "products": [
+    "medical devices",
+    "wire and cable assemblies",
+    "printed circuit board assemblies",
+    "complex higher-level assemblies",
+    "box builds",
+    "fiber optic technologies"
+   ],
+   "description": "Provides engineering design and manufacturing services for complex electromedical and electromechanical products to OEMs in medical, aerospace, defense and industrial markets.",
+   "evidence": "Substantially all of our operations fall under the Contract Manufacturing segment within the Electronic Manufacturing Services (\"EMS\") industry."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "OEM customers pay the company for contract manufacturing of products built to their unique design specifications, plus engineering, testing and supply chain services.",
+  "evidence": "Most of our net sales are derived from products built to the customer's unique design specifications."
+ },
+ "changes": [],
+ "dropped": []
+}

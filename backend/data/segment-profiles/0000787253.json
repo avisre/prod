@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000787253",
+ "issuerName": "NATURAL ALTERNATIVES INTERNATIONAL, INC.",
+ "builtAt": "2026-11-14T13:50:54.554Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-031343",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/787253/000143774926031343/naii20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private-label contract manufacturing",
+   "products": [
+    "vitamins",
+    "minerals",
+    "herbs",
+    "nutritional supplements",
+    "capsules",
+    "tablets",
+    "chewable wafers",
+    "powders"
+   ],
+   "description": "Provides private-label contract manufacturing services to companies that market and distribute nutritional supplements and other health care products to consumers.",
+   "evidence": "Private-label contract manufacturing, in which we primarily provide manufacturing services to companies that market and distribute nutritional supplements and other health care products."
+  },
+  {
+   "name": "Patent and trademark licensing",
+   "products": [
+    "CarnoSyn®",
+    "SR CarnoSyn®",
+    "CarnoSyn® 4X",
+    "TriBsyn®"
+   ],
+   "description": "Sells beta-alanine raw material and earns royalties and license income from supply and license agreements under the company's trademarks.",
+   "evidence": "Patent and trademark licensing, which primarily includes direct raw material sales and royalty income from our license and supply agreements associated with the sale and use of beta-alanine under our CarnoSyn®, SR CarnoSyn®, CarnoSyn® 4X, and TriBsyn® trademarks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by nutritional supplement marketers for contract manufacturing services and by licensees and raw material buyers for beta-alanine sales, royalties and licensing of its patents and trademarks.",
+  "evidence": "We directly sell CarnoSyn®, SR CarnoSyn®, CarnoSyn® 4X, and TriBsyn® and license our related patent and trademark rights to others for use in or with their products."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company discontinued its SustainedRx® direct-to-consumer brand of SR CarnoSyn® Wellness tablets.",
+   "evidence": "This brand was discontinued during fiscal 2025 as it was not commercially successful."
+  }
+ ],
+ "dropped": []
+}

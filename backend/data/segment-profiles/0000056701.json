@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000056701",
+ "issuerName": "KOSS CORPORATION",
+ "builtAt": "2026-11-14T13:45:00.533Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000056701-26-000034",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/56701/000005670126000034/koss-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Headphones and related accessories",
+   "products": [
+    "high-fidelity headphones",
+    "wireless Bluetooth® headphones",
+    "wireless Bluetooth® speakers",
+    "computer headsets",
+    "telecommunications headsets",
+    "active noise canceling headphones"
+   ],
+   "description": "Designs, manufactures and sells stereo headphones and related personal listening accessories to consumers, distributors, retailers and OEMs worldwide.",
+   "evidence": "The Company has a single reportable segment, the design, manufacture and sale of headphones and related accessories, which reflects the manner in which the Company's Chief Executive Officer, who is the Company's CODM, regularly reviews financial information to manage the business, allocate resources and assess performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by distributors, retailers, direct-to-consumer buyers and OEMs for its stereo headphones and related accessory products.",
+  "evidence": "The Company's products are sold through U.S. distributors, international distributors, audio specialty stores, the internet, national retailers, grocery stores, electronics retailers, and prisons under the \"Koss\" name as well as private label."
+ },
+ "changes": [],
+ "dropped": []
+}

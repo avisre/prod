@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000715787",
+ "issuerName": "INTERFACE INC",
+ "builtAt": "2026-11-14T13:49:05.194Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000715787-26-000006",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/715787/000071578726000006/tile-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas (\"AMS\")",
+   "products": [
+    "carpet tile",
+    "luxury vinyl tile (\"LVT\")",
+    "nora® rubber flooring",
+    "FLOR® premium area rugs",
+    "TacTiles® carpet tile installation system"
+   ],
+   "description": "Sells the Company's integrated flooring portfolio—modular carpet, LVT, rubber flooring and FLOR rugs—across the United States, Canada and Latin America.",
+   "evidence": "The AMS operating segment includes the United States, Canada and Latin America geographic areas."
+  },
+  {
+   "name": "Europe, Africa, Asia and Australia",
+   "products": [
+    "carpet tile",
+    "luxury vinyl tile (\"LVT\")",
+    "nora® rubber flooring",
+    "FLOR® premium area rugs",
+    "TacTiles® carpet tile installation system"
+   ],
+   "description": "Sells the same integrated flooring products as AMS within Europe, Africa, Asia and Australia.",
+   "evidence": "Our AMS and EAAA reportable segments sell the same products within their respective geographical regions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, mainly in commercial and institutional end-markets, pay the Company for flooring products, largely made-to-order, plus installation products and turnkey flooring project management services.",
+  "evidence": "While we continue to manufacture and sell a substantial portion of our carpet tile in standard styles, most of our modular carpet sales in the Americas and Asia-Pacific regions are made-to-order products designed to meet customer specifications."
+ },
+ "changes": [],
+ "dropped": []
+}

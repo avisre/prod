@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001506293",
+ "issuerName": "Pinterest, Inc.",
+ "builtAt": "2026-11-14T17:37:07.592Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001506293-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1506293/000150629326000021/pins-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advertising",
+   "products": [],
+   "description": "Delivers digital advertisements to users on Pinterest's visual search and discovery platform across multiple formats and campaign objectives.",
+   "evidence": "We generate revenue by delivering ads on our website and mobile application."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers pay for ads through an auction system based on cost per click, cost per thousand impressions, cost per view, or cost per day.",
+  "evidence": "We typically bill customers on a CPC, CPM, CPV, or CPD basis, and our payment terms vary by customer type and location."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advertising): Standard ads",
+  "product not in text (Advertising): Video ads",
+  "product not in text (Advertising): Shopping ads",
+  "product not in text (Advertising): Carousel ads",
+  "product not in text (Advertising): Collection ads",
+  "product not in text (Advertising): Interactive ads",
+  "product not in text (Advertising): Premier Spotlight ads",
+  "product not in text (Advertising): Idea ads"
+ ]
+}

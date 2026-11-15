@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0000101829",
+ "issuerName": "RTX CORPORATION",
+ "builtAt": "2026-11-14T13:47:05.890Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000101829-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Collins Aerospace",
+   "products": [
+    "electric power generation, management and distribution systems",
+    "environmental control systems",
+    "flight control systems",
+    "landing systems",
+    "integrated avionics",
+    "cabin interiors",
+    "aftermarket services",
+    "connected aviation solutions"
+   ],
+   "description": "Provides technologically advanced aerospace and defense products and aftermarket services to aircraft manufacturers, airlines, governments and defense customers worldwide.",
+   "evidence": "Collins Aerospace is a leading global provider of technologically advanced aerospace and defense products."
+  },
+  {
+   "name": "Pratt & Whitney",
+   "products": [
+    "PW1000G Geared Turbofan (GTF) engine family",
+    "F135 engine",
+    "auxiliary power units",
+    "PT6 E-Series engine family",
+    "XA103 engine",
+    "fleet management services",
+    "maintenance, repair and overhaul services"
+   ],
+   "description": "Designs, manufactures and services aircraft engines and auxiliary power units for commercial, military, business jet and general aviation customers.",
+   "evidence": "Pratt & Whitney is among the world's leading suppliers of aircraft engines for commercial, military, business jet, and general aviation customers."
+  },
+  {
+   "name": "Raytheon",
+   "products": [
+    "Advanced Medium Range Air-to-Air Missile (AMRAAM)",
+    "StormBreaker smart weapon",
+    "Long Range Stand Off Weapon (LRSO)",
+    "Early Warning Radar",
+    "Tomahawk",
+    "Standard Missile 6 (SM-6)",
+    "AIM-9X SIDEWINDER missile",
+    "SPY-6 radar"
+   ],
+   "description": "Provides defensive and offensive threat detection, tracking and mitigation capabilities including missiles, sensors, radars and air and missile defense systems for government and commercial customers.",
+   "evidence": "Raytheon is a leading provider of defensive and offensive threat detection, tracking and mitigation capabilities for U.S. and foreign government and commercial customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, RTX sold the actuation and flight control business and the Simmonds Precision Products business within its Collins segment.",
+   "evidence": "the sale of the actuation and flight control business within our Collins segment completed in the third quarter of 2025, the sale of the Simmonds Precision Products business within our Collins segment completed in the fourth quarter of 2025"
+  },
+  {
+   "text": "In 2024, RTX sold the Cybersecurity, Intelligence and Services (CIS) business within its Raytheon segment and the Goodrich Hoist & Winch business within its Collins segment.",
+   "evidence": "the sale of the Cybersecurity, Intelligence and Services (CIS) business within our Raytheon segment completed in the first quarter of 2024, and the sale of the Goodrich Hoist & Winch business within our Collins segment completed in the fourth quarter of 2024."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

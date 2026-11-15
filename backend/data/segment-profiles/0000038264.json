@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000038264",
+ "issuerName": "FORWARD INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:44:16.562Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-25-009068",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/38264/000168316825009068/forward_i10k-093025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Design",
+   "products": [
+    "hardware and software product design and engineering services",
+    "medical products",
+    "smart displays",
+    "beverage vending",
+    "enterprise and mobile software applications",
+    "lighting",
+    "security and detections systems",
+    "cameras"
+   ],
+   "description": "Provides hardware and software product design and engineering services to top tier medical and technology customers, predominantly in the U.S.",
+   "evidence": "The Company provides hardware and software product design and engineering services to customers predominantly located in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company under project contracts for design, engineering and development services.",
+  "evidence": "Customer specifications and scope of services are laid out in project contracts and we work closely with the customer to identify and correct any quality issues that arise."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company decided to cease operations of its retail distribution segment.",
+   "evidence": "In July 2023, the Company decided to cease operations of its retail distribution segment (\"Retail Exit\") and is presenting the results of operations for this segment within discontinued operations in the periods presented herein."
+  },
+  {
+   "text": "In 2025, the Company sold its OEM distribution segment and now presents it as discontinued operations.",
+   "evidence": "In May 2025, the Company completed the sale of this line of business and is presenting its results of operations within discontinued operations in the current and prior periods presented herein."
+  }
+ ],
+ "dropped": []
+}

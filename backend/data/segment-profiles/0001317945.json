@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001317945",
+ "issuerName": "Omega Flex, Inc.",
+ "builtAt": "2026-11-14T17:41:30.834Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009876",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1317945/000149315226009876/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flexible Metal Hose",
+   "products": [
+    "TracPipe® CSST",
+    "TracPipe® CounterStrike® CSST",
+    "MediTrac® corrugated medical gas tubing",
+    "DoubleTrac® double-containment piping",
+    "DEF-Trac® flexible piping",
+    "AutoFlare® fittings",
+    "Corrugated copper tubing",
+    "Accessories"
+   ],
+   "description": "Manufactures and sells flexible metal hose and corrugated tubing with fittings and accessories for residential, commercial, industrial and medical applications.",
+   "evidence": "The Company's business is managed as a single operating segment that consists of the manufacture and sale of flexible metal hose (also described as corrugated tubing), as well as the sale of the Company's related proprietary fittings and a vast array of accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for flexible metal hose, fittings and accessories sold through distributors, wholesalers and original equipment manufacturers.",
+  "evidence": "The Company primarily sells its products through distributors, wholesalers and to original equipment manufacturers (\"OEMs\") throughout North America and Europe, and to a lesser extent other global markets."
+ },
+ "changes": [
+  {
+   "text": "In October 2024, the Company formed a new U.S. subsidiary, Flex-Trac, Inc., for its MediTrac® corrugated medical gas tubing products.",
+   "evidence": "In October 2024, formed a new U.S. subsidiary, Flex-Trac, Inc., for its MediTrac ® corrugated medical gas tubing products."
+  },
+  {
+   "text": "In late 2023, the Company discontinued the AutoSnap® fitting due to overwhelming market acceptance of the AutoFlare® fitting.",
+   "evidence": "In late 2023, we discontinued the AutoSnap ® fitting, due to overwhelming market acceptance of the AutoFlare ® fitting."
+  }
+ ],
+ "dropped": []
+}

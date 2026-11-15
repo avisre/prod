@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000098677",
+ "issuerName": "TOOTSIE ROLL INDUSTRIES INC",
+ "builtAt": "2026-11-14T13:46:55.338Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021621",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/98677/000110465926021621/tr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Confectionery products",
+   "products": [
+    "TOOTSIE ROLL",
+    "TOOTSIE POPS",
+    "CHARMS",
+    "BLOW-POP",
+    "CELLA'S",
+    "DOTS",
+    "JUNIOR MINTS",
+    "ANDES"
+   ],
+   "description": "Manufactures and sells confectionery products to wholesale distributors, retailers, e-commerce merchants, the U.S. military and fund-raising organizations in the United States, Canada and Mexico.",
+   "evidence": "The Company has determined that it currently has one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company is paid by wholesale distributors, grocery and retail customers, e-commerce merchants, the U.S. military and fund-raising organizations for confectionery products sold through food and grocery brokers or directly.",
+  "evidence": "They are sold through food and grocery brokers or directly by the Company to customers throughout the United States, Canada and Mexico."
+ },
+ "changes": [],
+ "dropped": []
+}

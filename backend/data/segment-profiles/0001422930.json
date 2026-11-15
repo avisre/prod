@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001422930",
+ "issuerName": "PUBMATIC, INC.",
+ "builtAt": "2026-11-14T17:41:00.466Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001422930-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1422930/000142293026000010/pubm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advertising Technology",
+   "products": [
+    "Connect",
+    "Activate",
+    "OpenWrap",
+    "Intelligent Yield",
+    "Convert",
+    "AI Insights"
+   ],
+   "description": "AI-powered advertising technology platform connecting publishers, buyers, and data providers for digital advertising transactions.",
+   "evidence": "PubMatic, Inc. (\"we\", or \"us) is an independent, artificial intelligence-powered advertising technology company that delivers digital advertising performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Publishers and buyers pay fees for platform use based on advertising inventory value and value-added features.",
+  "evidence": "We generate revenue through fees charged to our publishers, which are generally a percentage of the value of the advertising impressions that publishers monetize on our platform. We also generate revenues from new and add-on features and functionality, such as Connect, our solution that provides additional data and insights to buyers, Activate, which allows buyers to execute direct deals on our platform across our publisher inventory, and OpenWrap, our header bidding solution."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advertising Technology): PubMatic platform"
+ ]
+}

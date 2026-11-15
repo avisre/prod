@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000351569",
+ "issuerName": "AMERIS BANCORP",
+ "builtAt": "2026-11-14T13:48:19.726Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000351569-26-000050",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/351569/000035156926000050/abcb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking Division",
+   "products": [
+    "commercial loans",
+    "consumer loans",
+    "deposit accounts"
+   ],
+   "description": "Provides full service financial services, including commercial and consumer lending and deposit accounts, to retail and commercial customers.",
+   "evidence": "The Banking Division derives its revenues from the delivery of full service financial services to include commercial loans, consumer loans and deposit accounts."
+  },
+  {
+   "name": "Retail Mortgage Division",
+   "products": [
+    "one-to-four family residential mortgage loans"
+   ],
+   "description": "Originates, sells and services one-to-four family residential mortgage loans.",
+   "evidence": "The Retail Mortgage Division derives its revenues from the origination, sales and servicing of one-to-four family residential mortgage loans."
+  },
+  {
+   "name": "Warehouse Lending Division",
+   "products": [
+    "warehouse lines"
+   ],
+   "description": "Originates and services warehouse lines of credit to other businesses secured by residential mortgage loans and servicing rights.",
+   "evidence": "The Warehouse Lending Division derives its revenues from the origination and servicing of warehouse lines to other businesses that are secured by underlying one-to-four family residential mortgage loans and residential mortgage servicing rights."
+  },
+  {
+   "name": "Premium Finance Division",
+   "products": [
+    "commercial insurance premium finance loans"
+   ],
+   "description": "Originates and services commercial insurance premium finance loans for borrowers throughout the United States.",
+   "evidence": "The Premium Finance Division derives its revenues from the origination and servicing of commercial insurance premium finance loans."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from interest and fees on loans to business and consumer borrowers, loan sales and servicing, and deposit services.",
+  "evidence": "The Company evaluates performance and allocates resources based on profit or loss from operations."
+ },
+ "changes": [],
+ "dropped": []
+}

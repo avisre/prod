@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0002047148",
+ "issuerName": "CTW",
+ "builtAt": "2026-11-14T17:41:57.920Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-110271",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/2047148/000121390026110271/ea0308330-20f_ctw.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Game Distribution and Related Services",
+   "products": [
+    "G123.jp platform",
+    "Queen's Blade",
+    "So I'm a Spider, So What?",
+    "Goblin Slayer",
+    "Vivid Army",
+    "Arifureta: From Commonplace to World's Strongest - Rebellion Soul",
+    "BLACK LAGOON Heaven's Shot",
+    "Dropkick on My Devil!! Chaos"
+   ],
+   "description": "Operates a web-based gaming platform distributing free-to-play games inspired by Japanese animations to global players.",
+   "evidence": "We are a leading globally accessible, web-based gaming platform, offering players an immersive digital space through our flagship HTML5 platform, G123.jp."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Game developers pay service fees by allowing the company to retain a percentage of in-game purchases made by end-users, averaging approximately eighty-eight percent after royalty costs.",
+  "evidence": "In exchange for using our platform, resources, and services, game developers pay service fees to us by allowing us to retain an average of approximately 88% of the gross in-game purchase amounts generated from a game on our platform after the advance is fully recouped."
+ },
+ "changes": [],
+ "dropped": []
+}

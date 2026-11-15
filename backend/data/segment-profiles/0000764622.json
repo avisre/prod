@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000764622",
+ "issuerName": "PINNACLE WEST CAPITAL CORPORATION",
+ "builtAt": "2026-11-14T13:50:25.982Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000764622-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/764622/000076462226000011/pnw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regulated electricity",
+   "products": [
+    "retail electricity",
+    "wholesale electricity",
+    "electricity generation",
+    "transmission",
+    "distribution"
+   ],
+   "description": "Traditional regulated retail and wholesale electricity businesses serving Native Load customers in Arizona, conducted through subsidiary APS.",
+   "evidence": "Our reportable business segment is our regulated electricity segment, which consists of traditional regulated retail and wholesale electricity businesses (primarily electric service to Native Load customers) and related activities, and includes electricity generation, transmission, and distribution."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay APS under traditional cost-based regulation for retail and wholesale electric service.",
+  "evidence": "Pinnacle West's reportable business segment is our regulated electricity segment, which consists of retail and wholesale sales supplied under traditional cost-based regulation and related activities and includes electricity generation, transmission, and distribution."
+ },
+ "changes": [],
+ "dropped": []
+}

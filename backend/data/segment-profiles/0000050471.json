@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000050471",
+ "issuerName": "REPOSITRAK, INC.",
+ "builtAt": "2026-11-14T13:44:48.563Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-031392",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/50471/000143774926031392/trak20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software-as-a-Service",
+   "products": [
+    "supply chain management",
+    "compliance and traceability",
+    "B2B e-commerce",
+    "Audit Management",
+    "MarketPlace supplier discovery",
+    "out-of-stock management",
+    "scan-based trading"
+   ],
+   "description": null,
+   "evidence": "ReposiTrak, Inc., a Nevada corporation (\" ReposiTrak \", \" We \", \" us \", \"our\" or the \" Company \") is a Software-as-a-Service (\" SaaS \") company that operates a business-to-business ('B2B') e-commerce, compliance, traceability and supply chain management platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for its SaaS platform and services, including cash payments for services provided under service agreements.",
+  "evidence": "Under the terms of the Agreement, the Company agreed to provide certain services (the \" Services \") to the Client for a one-year term beginning March 13, 2026."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company changed its corporate name from Park City Group, Inc. to ReposiTrak, Inc.",
+   "evidence": "on December 21, 2023, the Company effected a change of its corporate name from Park City Group, Inc. to ReposiTrak, Inc., pursuant to a short-form merger with its wholly owned subsidiary, ReposiTrak, Inc., a Utah corporation, with the Company remaining as the surviving entity."
+  }
+ ],
+ "dropped": [
+  "product not in text (Software-as-a-Service): ReposiTrak Traceability Network (RTN)"
+ ]
+}

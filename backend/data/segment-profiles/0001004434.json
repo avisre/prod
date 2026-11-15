@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001004434",
+ "issuerName": "AFFILIATED MANAGERS GROUP, INC.",
+ "builtAt": "2026-11-14T17:36:16.720Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008665",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1004434/000162828026008665/amg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment management",
+   "products": [],
+   "description": "Invests in and partners with independent investment firms managing alternative and differentiated long-only strategies globally.",
+   "evidence": "AMG is a strategic partner to leading independent investment firms globally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutional and individual clients pay fees for investment management services provided by Affiliate firms across alternatives and differentiated long-only strategies.",
+  "evidence": "Our Affiliates' attractive return streams are utilized in client portfolios to address a range of needs for institutional and individual clients globally; certain Affiliates also provide investment management and customized investment counseling and fiduciary services to high net worth individuals, families, and institutional clients."
+ },
+ "changes": [],
+ "dropped": []
+}

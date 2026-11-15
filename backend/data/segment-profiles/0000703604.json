@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000703604",
+ "issuerName": "DISTRIBUTION SOLUTIONS GROUP, INC.",
+ "builtAt": "2026-11-14T13:48:43.167Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000703604-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/703604/000070360426000008/dsgr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lawson",
+   "products": [
+    "Aftermarket automotive supplies",
+    "Fastening systems",
+    "Fluid power",
+    "Electrical",
+    "Specialty chemicals",
+    "Cutting tools and abrasives",
+    "Safety",
+    "Welding and metal repair"
+   ],
+   "description": "Distributes specialty MRO products and vendor managed inventory services to industrial, commercial, institutional and governmental customers in the United States and Canada.",
+   "evidence": "Lawson is a distributor of specialty products and services to the industrial, commercial, institutional and governmental MRO marketplace."
+  },
+  {
+   "name": "TestEquity",
+   "products": [
+    "Test and measurement equipment",
+    "Industrial and electronic production supplies",
+    "Vendor managed inventory programs",
+    "Converting, fabrication and adhesive solutions",
+    "Environmental test chambers",
+    "Calibration, refurbishment and rental solutions"
+   ],
+   "description": "Distributes test and measurement equipment, production supplies and related solutions to aerospace, defense, semiconductor, electronics and other industries, primarily in North America.",
+   "evidence": "TestEquity is a leading distributor of test and measurement equipment and solutions, industrial and electronic production supplies, vendor managed inventory programs, and converting, fabrication and adhesive solutions from its leading manufacturing partners."
+  },
+  {
+   "name": "Gexpro Services",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Canada Branch Division",
+   "products": [],
+   "description": "Operates branch locations serving Canadian customers as a separate reportable segment.",
+   "evidence": "The following is a discussion of our four reportable segments: Lawson, TestEquity, Gexpro Services and Canada Branch Division."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay DSG for distributed products and value-added supply chain and inventory management services across MRO, OEM and industrial technology markets.",
+  "evidence": "DSG is dedicated to helping customers lower their total cost of operation by increasing productivity and efficiency with the right products, expert technical support, and fast, reliable delivery to be a one-stop solution provider."
+ },
+ "changes": [
+  {
+   "text": "In 2022, DSG acquired TestEquity and Gexpro Services, combining them with Lawson under the DSG holding company.",
+   "evidence": "On April 1, 2022, DSG, which at the time already owned Lawson, acquired TestEquity and Gexpro Services, in transactions in which TestEquity and Gexpro Services were merged with and into subsidiaries of DSG"
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Gexpro Services"
+ ]
+}

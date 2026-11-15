@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000866829",
+ "issuerName": "HORNBECK OFFSHORE SERVICES, INC.",
+ "builtAt": "2026-11-14T13:53:19.583Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000866829-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/866829/000086682926000008/hlx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Well Intervention",
+   "products": [
+    "Production enhancement",
+    "Well plug and abandonment",
+    "Intervention riser systems",
+    "Subsea intervention lubricators",
+    "Riserless Open-water Abandonment Module"
+   ],
+   "description": "Provides vessel-based services enabling customers to access subsea offshore wells for production enhancement and decommissioning operations worldwide.",
+   "evidence": "Our Well Intervention segment provides services enabling our customers to safely access subsea offshore wells for the purpose of performing production enhancement or decommissioning operations, thereby mitigating the need to drill new wells by extending the useful lives of existing wells and preserving the environment by preventing uncontrolled releases of oil and natural gas."
+  },
+  {
+   "name": "Robotics",
+   "products": [
+    "Work-class ROVs",
+    "Trenchers",
+    "IROV boulder grabs",
+    "Cable burial",
+    "Seabed clearance",
+    "Offshore construction",
+    "Inspection, repair and maintenance"
+   ],
+   "description": "Provides trenching, seabed clearance, offshore construction and IRM services to oil, gas and renewable energy markets globally.",
+   "evidence": "Our Robotics segment provides trenching, seabed clearance, offshore construction and IRM services to both the oil and gas and the renewable energy markets globally, thereby assisting the delivery of renewable energy and supporting responsible energy transition."
+  },
+  {
+   "name": "Shallow Water Abandonment",
+   "products": [
+    "Offshore oilfield decommissioning",
+    "Reclamation",
+    "Well intervention",
+    "Inspection, repair and maintenance",
+    "Heavy lift",
+    "Commercial diving",
+    "Liftboats",
+    "P&A systems"
+   ],
+   "description": "Provides decommissioning, reclamation, well intervention, IRM, heavy lift and commercial diving services in the Gulf of America shelf.",
+   "evidence": "Our Shallow Water Abandonment segment provides services in support of the upstream and midstream ‎industries predominantly in the Gulf of America shelf, including offshore oilfield decommissioning and ‎reclamation, well intervention, IRM, heavy lift and commercial diving services."
+  },
+  {
+   "name": "Production Facilities",
+   "products": [
+    "Helix Producer I",
+    "Helix Fast Response System",
+    "Mature oil and gas properties"
+   ],
+   "description": "Provides the HP I as an oil and natural gas processing facility, the HFRS well control response resource, and owns mature oil and gas properties in the Gulf of America.",
+   "evidence": "Our Production Facilities segment includes the HP I , the HFRS and our ownership of mature oil and gas properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas producers, pipeline companies, renewable energy companies and offshore construction firms pay for vessel-based well intervention, robotics, abandonment and production facility services under contracts and in spot markets.",
+  "evidence": "Our customers consist primarily of major, national and independent oil and gas producers and suppliers, pipeline transmission companies, renewable energy companies and offshore engineering and construction firms."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the company acquired Helix Alliance, which became part of the Shallow Water Abandonment segment.",
+   "evidence": "Our Shallow Water Abandonment segment includes Helix Alliance that was acquired in July 2022, a vertically integrated company that offers a diversified fleet of marine assets including nine liftboats, six offshore supply vessels (\"OSVs\"), three dive support vessels (\"DSVs\"), a heavy lift derrick barge, a crew boat, 20 P&A systems and six CT systems."
+  }
+ ],
+ "dropped": [
+  "product not in text (Well Intervention): Well intervention",
+  "product not in text (Well Intervention): Coiled tubing operations"
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000775215",
+ "issuerName": "HBT Financial, Inc.",
+ "builtAt": "2026-11-14T13:50:41.726Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000775215-26-000025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/775215/000077521526000025/hbt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "commercial real estate loans",
+    "commercial and industrial loans",
+    "one-to-four family residential loans",
+    "deposit accounts",
+    "digital banking services",
+    "wealth management",
+    "residential mortgage origination and servicing"
+   ],
+   "description": "Provides deposit, lending, wealth management, and mortgage products and services to consumers, businesses, and municipal entities in Illinois and eastern Iowa.",
+   "evidence": "Through our bank subsidiary, Heartland Bank and Trust Company (\"Heartland Bank\" or the \"Bank\"), we provide a comprehensive suite of financial products and services to consumers, businesses, and municipal entities throughout Illinois and eastern Iowa."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income from loans and investments plus noninterest income from deposit customer activity, wealth management activities, and mortgage servicing.",
+  "evidence": "Interest income from loans and investments as well as noninterest income from deposit customer activity, wealth management activities, and mortgage servicing generate the significant revenues."
+ },
+ "changes": [
+  {
+   "text": "In 2023, HBT Financial completed its acquisition of Town and Country Financial Corporation, whose bank branches began operating as branches of Heartland Bank.",
+   "evidence": "On February 1, 2023, HBT Financial completed its acquisition of Town and Country Financial Corporation (\"Town and Country\"), the holding company for Town and Country Bank."
+  }
+ ],
+ "dropped": [
+  "product not in text (Community Banking): agricultural and farmland loans"
+ ]
+}

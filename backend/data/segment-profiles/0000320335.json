@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000320335",
+ "issuerName": "GLOBE LIFE INC.",
+ "builtAt": "2026-11-14T13:48:16.344Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000320335-26-000090",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/320335/000032033526000090/gl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life insurance",
+   "products": [
+    "traditional whole life",
+    "term life",
+    "other life insurance"
+   ],
+   "description": "Sells nonparticipating ordinary life insurance, mainly traditional whole life and term, to lower middle-income to middle-income Americans through direct-to-consumer and agent channels.",
+   "evidence": "The life insurance segment is our primary segment and is the largest contributor to earnings in each year presented."
+  },
+  {
+   "name": "Health insurance",
+   "products": [
+    "Medicare Supplement",
+    "limited-benefit supplemental health insurance",
+    "accident",
+    "cancer",
+    "critical illness",
+    "heart",
+    "intensive care"
+   ],
+   "description": "Provides Medicare Supplement and limited-benefit supplemental health coverage designed to supplement health coverage policyholders already own.",
+   "evidence": "Globe Life offers Medicare Supplement and limited-benefit supplemental health insurance products that include accident, cancer, critical illness, heart, intensive care, and other health products."
+  },
+  {
+   "name": "Investment",
+   "products": [],
+   "description": "Invests a predominantly high-quality, investment-grade portfolio, mainly fixed maturities, to meet policyholder obligations and build shareholder value.",
+   "evidence": "Excess investment income, the measure of profitability of our investment segment, declined 16% during the year ended 2025 to $138 million from $164 million in 2024."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Policyholders pay premiums for individual life and health insurance, with additional revenue from policy charges on policyholder account values and investment income.",
+  "evidence": "Revenues for individual life and health insurance products are primarily derived from premium income and, to a lesser extent, through policy charges to the policyholder account values on annuity products and certain individual life products."
+ },
+ "changes": [],
+ "dropped": []
+}

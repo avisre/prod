@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000064463",
+ "issuerName": "SOLUNA HOLDINGS, INC.",
+ "builtAt": "2026-11-14T13:45:19.739Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021847",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cryptocurrency Mining",
+   "products": [
+    "Bitcoin mining",
+    "Project Dorothy",
+    "Project Sophie",
+    "Project Marie"
+   ],
+   "description": "Mines Bitcoin through proprietary operations and joint ventures at the Company's data centers.",
+   "evidence": "The Cryptocurrency Mining segment generates revenue from the cryptocurrency the Company earns through its Bitcoin mining activities, which is currently generated from Project Dorothy, and previously from Project Sophie and Marie."
+  },
+  {
+   "name": "Data Center Hosting",
+   "products": [
+    "Bitcoin hosting",
+    "colocation services",
+    "Project Sophie",
+    "Project Dorothy",
+    "Project Marie"
+   ],
+   "description": "Provides hosting and colocation services to third-party Bitcoin mining customers at the Company's data centers.",
+   "evidence": "The Data Center Hosting segment generated revenue from hosting services performed to third-party Bitcoin mining customers at the Company's data centers, which were previously at Project Marie and currently from Project Sophie and Project Dorothy."
+  },
+  {
+   "name": "High-Performance Computing Services",
+   "products": [
+    "Project Ada",
+    "Project Kati 2"
+   ],
+   "description": "Develops and leases HPC assets and AI-ready data centers to third-party HPC/AI customers.",
+   "evidence": "The High-Performance Computing Services segment may generate revenue from either the sale or lease of HPC assets (such as Project Ada which leased GPUs), or from HPC/AI data centers to be leased to third-party HPC/AI customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fixed fees or profit shares for Bitcoin hosting capacity, mining pools pay Block Rewards, HPC customers pay for leases, and grid operators pay fees for demand response dispatch capability.",
+  "evidence": "In exchange, the grid pays the company a fee for this dispatch right, provided the Company can perform within certain parameters."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company terminated its agreement with HPE and refocused its HPC strategy on dedicated data center leasing and hosting.",
+   "evidence": "In March 2025, we terminated our prior agreement with Hewlett Packard Enterprise Company (\"HPE\"), which had supported our earlier GPU-as-a-Service offering."
+  },
+  {
+   "text": "In 2025 the Company exited active provision of Soluna Cloud Services, a business line initiated in 2024.",
+   "evidence": "In the third quarter of 2024, the Company initiated Soluna Cloud Services, a new business line to provide high performance computing services to support generative AI workstreams, but decided to exit active provision of these services during the first quarter of 2025 and will focus in the future on provision of colocation services at our datacenters to host customers in the AI generative space."
+  }
+ ],
+ "dropped": [
+  "product not in text (High-Performance Computing Services): HPC asset sales and leases",
+  "product not in text (High-Performance Computing Services): AI-ready data centers"
+ ]
+}

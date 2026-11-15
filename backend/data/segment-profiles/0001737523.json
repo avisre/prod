@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001737523",
+ "issuerName": "BioNexus Gene Lab Corp.",
+ "builtAt": "2026-11-15T02:50:53.649Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-002218",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1737523/000147793226002218/bglc_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Trading of industrial chemicals",
+   "products": [],
+   "description": "Trades chemical raw materials for industrial applications in Southeast Asia.",
+   "evidence": "Trading of industrial chemicals - Includes trading of industrial chemicals"
+  },
+  {
+   "name": "Provision for genomic screening services",
+   "products": [],
+   "description": "Develops and provides blood-based genomic screening services for early disease risk assessment.",
+   "evidence": "Provision for genomic screening services - includes in commercializing proprietary blood-based diagnostic test for early disease detection"
+  },
+  {
+   "name": "Investment holding",
+   "products": [],
+   "description": "Holds investments and related investment activities.",
+   "evidence": "Investment holding - Investment holding"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers purchase chemical raw materials; patients or healthcare providers pay for blood-based genomic screening services.",
+  "evidence": "The Company, through its wholly owned subsidiary Chemrex, focuses on the sale of chemical raw materials for the manufacture of industrial, medical, appliance, aero, automotive, mechanical, and electronic industries in the Southeast Asia region."
+ },
+ "changes": [
+  {
+   "text": "In November 2025, the Company obtained exclusive commercial rights to the VitaGuard™ Minimal Residual Disease platform in the ASEAN region through a licensing arrangement with Fidelion Diagnostics.",
+   "evidence": "In November 2025, the Company completed a Share Subscription and Shareholders' Agreement with Fidelion Diagnostics Pte. Ltd., a Singapore company (\"Fidelion\"). The parties also entered into an Intellectual Property License Agreement, pursuant to which the Company obtained exclusive commercial rights to the VitaGuard™ Minimal Residual Disease (MRD) platform in the ASEAN region, on a perpetual and exclusive basis."
+  }
+ ],
+ "dropped": []
+}

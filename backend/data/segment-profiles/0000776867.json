@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0000776867",
+ "issuerName": "WHITE MOUNTAINS INSURANCE GROUP, LTD",
+ "builtAt": "2026-11-14T13:50:42.383Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012603",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/776867/000162828026012603/wtm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ark/WM Outrigger",
+   "products": [
+    "property",
+    "specialty",
+    "marine & energy",
+    "casualty",
+    "accident & health"
+   ],
+   "description": "Specialty property and casualty insurance and reinsurance underwritten through Lloyd's syndicates and a Bermuda insurer, plus a collateralized reinsurance vehicle.",
+   "evidence": "Ark is a specialty property and casualty insurance and reinsurance company that offers a wide range of niche insurance and reinsurance products, including property, specialty, marine & energy, casualty and accident & health."
+  },
+  {
+   "name": "HG Global",
+   "products": [
+    "municipal bond guarantee reinsurance"
+   ],
+   "description": "Provides municipal bond guarantee reinsurance through HG Global and its reinsurance subsidiary HG Re.",
+   "evidence": "White Mountains's municipal bond guarantee reinsurance business is conducted through its subsidiary HG Global Ltd. and its reinsurance subsidiary HG Re Ltd. (\"HG Re\") (collectively with HG Re, \"HG Global\")."
+  },
+  {
+   "name": "Kudu",
+   "products": [
+    "capital solutions for asset and wealth management firms"
+   ],
+   "description": "Provides capital solutions for asset and wealth management firms through Kudu Investment Management.",
+   "evidence": "White Mountains provides capital solutions for asset and wealth management firms through its subsidiary Kudu Investment Management, LLC and its subsidiaries (collectively, \"Kudu\")."
+  },
+  {
+   "name": "Distinguished",
+   "products": [
+    "specialty insurance distribution"
+   ],
+   "description": "Specialty insurance distribution business conducted through WM Phoenix Parent and its subsidiaries d/b/a Distinguished Programs.",
+   "evidence": "White Mountains's specialty insurance distribution business is conducted through its subsidiary WM Phoenix Parent, L.P. and its subsidiaries d/b/a Distinguished Programs (collectively, \"Distinguished\")."
+  },
+  {
+   "name": "Other Operations",
+   "products": [
+    "WM Advisors",
+    "MediaAlpha",
+    "PassportCard/DavidShield",
+    "BroadStreet",
+    "Elementum",
+    "WTM Partners",
+    "Enterprise Solutions",
+    "Bamboo CRVs"
+   ],
+   "description": "Holds remaining operating businesses, holding companies, investment assets managed by WM Advisors and other assets.",
+   "evidence": "As of December 31, 2025, White Mountains's reportable segments were Ark/WM Outrigger, HG Global, Kudu and Distinguished, with its remaining operating businesses, holding companies and other assets included in Other Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurance customers pay premiums for policies, ceding insurers pay reinsurance premiums, and distribution businesses earn commissions and fees for placing insurance.",
+  "evidence": "Generally, insurance companies underwrite insurance policies in exchange for premiums paid by their customers (the insureds)."
+ },
+ "changes": [
+  {
+   "text": "In 2025, White Mountains sold a controlling financial interest in Bamboo, which was deconsolidated and is no longer a reportable segment.",
+   "evidence": "On December 5, 2025, White Mountains completed the sale of a controlling financial interest in Bamboo. As a result, White Mountains deconsolidated Bamboo on December 5, 2025, and Bamboo is no longer a reportable segment."
+  },
+  {
+   "text": "In 2024, White Mountains acquired a controlling financial interest in Bamboo, which became a reportable segment.",
+   "evidence": "On January 2, 2024, White Mountains acquired a controlling financial interest in Bamboo."
+  }
+ ],
+ "dropped": []
+}

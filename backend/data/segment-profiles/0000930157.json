@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000930157",
+ "issuerName": "RENTOKIL INITIAL PLC /FI",
+ "builtAt": "2026-11-14T17:38:22.879Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-034062",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/930157/000110465926034062/rto-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pest Control",
+   "products": [
+    "General pest maintenance contracts",
+    "Termite contracts",
+    "Pest control services"
+   ],
+   "description": "Provides pest control services including general pest maintenance and termite management for customers globally.",
+   "evidence": "Pest Control: the Group offers a range of services, with the most common being general pest maintenance contracts."
+  },
+  {
+   "name": "Hygiene & Wellbeing",
+   "products": [
+    "Washroom equipment"
+   ],
+   "description": "Provides washroom equipment, consumables and servicing as well as related hygiene and wellbeing services.",
+   "evidence": "Hygiene & Wellbeing: the Group offers a similar type of service to Pest Control, providing washroom equipment, consumables, and a technician to service the washroom."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Group for pest control and hygiene services delivered under full-service contracts, recognized over the contract duration or at completion.",
+  "evidence": "These are mainly full-service contracts, inclusive of equipment, maintenance, and consumables as required."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the company acquired Terminix Global Holdings, Inc., the most recognised brand in U.S. termite and pest management services.",
+   "evidence": "In 2022, we acquired Terminix Global Holdings, Inc. (\"Terminix\"), the most recognised brand in U.S. termite and pest management services."
+  }
+ ],
+ "dropped": [
+  "product not in text (Hygiene & Wellbeing): Washroom consumables",
+  "product not in text (Hygiene & Wellbeing): Washroom services"
+ ]
+}

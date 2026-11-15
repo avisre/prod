@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000007789",
+ "issuerName": "Associated Banc-Corp",
+ "builtAt": "2026-11-14T14:06:38.697Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000007789-26-000071",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/7789/000000778926000071/asb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate and Commercial Specialty",
+   "products": [],
+   "description": "Provides commercial and business lending services to corporate clients and commercial enterprises.",
+   "evidence": "Our business is primarily relationship-driven and is organized into three reportable segments: Corporate and Commercial Specialty; Community, Consumer, and Business; and Risk Management and Shared Services."
+  },
+  {
+   "name": "Community, Consumer, and Business",
+   "products": [],
+   "description": "Offers consumer banking, residential mortgages, and community business lending through branches across four states.",
+   "evidence": "Our business is primarily relationship-driven and is organized into three reportable segments: Corporate and Commercial Specialty; Community, Consumer, and Business; and Risk Management and Shared Services."
+  },
+  {
+   "name": "Risk Management and Shared Services",
+   "products": [],
+   "description": "Manages investment portfolio, centralized risk management, and shared service functions for the organization.",
+   "evidence": "Our business is primarily relationship-driven and is organized into three reportable segments: Corporate and Commercial Specialty; Community, Consumer, and Business; and Risk Management and Shared Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay through interest on loans and deposits, and fees for banking and financial services.",
+  "evidence": "Through Associated Bank and various nonbanking subsidiaries, we provide a broad array of banking and nonbanking products and services to individuals and businesses through 184 banking branches as of December 31, 2025, serving more than 100 communities, primarily within our four-state branch footprint."
+ },
+ "changes": [],
+ "dropped": []
+}

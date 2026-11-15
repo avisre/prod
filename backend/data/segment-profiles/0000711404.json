@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000711404",
+ "issuerName": "The Cooper Companies, Inc.",
+ "builtAt": "2026-11-14T13:48:53.506Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-055615",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/711404/000162828025055615/coo-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CooperVision",
+   "products": [
+    "Biofinity",
+    "Avaira Vitality",
+    "MyDay",
+    "clariti 1 day",
+    "Proclear",
+    "Biomedics",
+    "MiSight 1 day"
+   ],
+   "description": "Global manufacturer of soft contact lenses and myopia management products for contact lens wearers worldwide.",
+   "evidence": "CooperVision is a global manufacturer providing products for contact lens wearers."
+  },
+  {
+   "name": "CooperSurgical",
+   "products": [
+    "Paragard",
+    "donor gametes",
+    "cryostorage services",
+    "genomic services",
+    "surgical products",
+    "cord blood and cord tissue storage"
+   ],
+   "description": "Provider of medical devices and services for fertility and women's health, serving OB/GYN offices, hospitals, surgery centers and fertility clinics.",
+   "evidence": "CooperSurgical offers a broad array of products and services focused on fertility and women's health."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cooper earns revenue selling contact lenses to optical chains, retailers, buying groups and mass merchandisers, and selling medical devices and services to health care professionals, clinics and consumers.",
+  "evidence": "CooperVision focuses on supporting the growth of all customers including key accounts (which include optical chains, global retailers, certain buying groups and mass merchandisers) by investing in selling, promotional and advertising activities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CooperVision): ortho-k and scleral lenses",
+  "product not in text (CooperSurgical): fertility media, micro-tools and lab equipment"
+ ]
+}

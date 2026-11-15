@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000715153",
+ "issuerName": "HONDA MOTOR CO., LTD.",
+ "builtAt": "2026-11-14T13:49:03.506Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-274991",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/715153/000119312526274991/d116494d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Motorcycle Business",
+   "products": [
+    "motorcycles",
+    "all-terrain vehicles (ATVs)",
+    "side-by-sides (SxS)",
+    "sports, business and commuter models"
+   ],
+   "description": "Develops, manufactures and sells motorcycles across engine displacement classes and off-road vehicles for customers worldwide.",
+   "evidence": "Honda produces a wide range of motorcycles covering various engine displacement classes."
+  },
+  {
+   "name": "Automobile Business",
+   "products": [
+    "ACCORD series",
+    "CITY",
+    "CIVIC series",
+    "FIT series",
+    "CR-V series",
+    "HR-V series",
+    "ODYSSEY",
+    "N-BOX"
+   ],
+   "description": "Manufactures and markets passenger cars, light trucks and mini vehicles, including hybrid, battery electric and fuel cell models.",
+   "evidence": "Honda's principal automobile products include the following vehicle models: (in alphabetical order) Passenger cars: ACCORD series, CITY, CIVIC series, FIT series Light trucks: CR-V series, FREED, HR-V series, ODYSSEY, PASSPORT, PILOT, VEZEL series Mini vehicles: N-BOX"
+  },
+  {
+   "name": "Financial Services Business",
+   "products": [
+    "retail lending",
+    "leasing to customers",
+    "wholesale financing to dealers"
+   ],
+   "description": "Provides retail lending, leasing and dealer financing through finance subsidiaries to support product sales.",
+   "evidence": "The services of these subsidiaries include retail lending, leasing to customers and other financial services, such as wholesale financing to dealers."
+  },
+  {
+   "name": "Power Products and Other Businesses",
+   "products": [
+    "general purpose engines",
+    "generators",
+    "water pumps",
+    "lawn mowers",
+    "brush cutters",
+    "tillers",
+    "HondaJet aircraft"
+   ],
+   "description": "Manufactures power products such as engines, generators and lawn equipment, and delivers HondaJet aircraft.",
+   "evidence": "Since then, Honda has manufactured a variety of power products including general purpose engines, generators, water pumps, lawn mowers, brush cutters, and tillers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Honda earns revenue from external customers through sales of motorcycles, automobiles and power products, and from financial services including retail lending, leasing and wholesale financing to dealers.",
+  "evidence": "The services of these subsidiaries include retail lending, leasing to customers and other financial services, such as wholesale financing to dealers."
+ },
+ "changes": [],
+ "dropped": []
+}

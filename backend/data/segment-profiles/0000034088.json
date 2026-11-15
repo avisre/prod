@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000034088",
+ "issuerName": "Exxon Mobil Corporation",
+ "builtAt": "2026-11-14T13:44:06.823Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000034088-26-000045",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/xom-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Upstream",
+   "products": [
+    "crude oil",
+    "natural gas"
+   ],
+   "description": "Explores for and produces crude oil and natural gas for global energy markets.",
+   "evidence": "Any material decline in oil or natural gas prices could have a material adverse effect on the Company's operations, results, financial condition, and proved reserves, especially in the Upstream segment."
+  },
+  {
+   "name": "Energy Products",
+   "products": [
+    "petroleum products",
+    "lower-emission fuels"
+   ],
+   "description": "Manufactures, trades, transports and sells petroleum products and fuels to industrial and individual consumers.",
+   "evidence": "On the other hand, a material increase in oil or natural gas prices could have a material adverse effect on the Company's operations and results, especially in the Energy Products, Chemical Products, and Specialty Products segments."
+  },
+  {
+   "name": "Chemical Products",
+   "products": [
+    "petrochemicals"
+   ],
+   "description": "Manufactures and sells petrochemicals to industrial customers worldwide.",
+   "evidence": "The oil, gas, and petrochemical businesses are fundamentally commodity businesses."
+  },
+  {
+   "name": "Specialty Products",
+   "products": [
+    "performance chemicals",
+    "performance lubricants",
+    "Proxxima TM resin systems",
+    "carbon materials"
+   ],
+   "description": "Sells specialty and performance products that provide differentiated properties versus commodity alternatives.",
+   "evidence": "Performance products (performance chemicals, performance lubricants) refers to products that provide differentiated performance for multiple applications through enhanced properties versus commodity alternatives and bring significant additional value to customers and end-users."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "ExxonMobil earns revenue from selling crude oil, natural gas, petroleum products, petrochemicals and specialty products, whose prices depend on commodity supply and demand.",
+  "evidence": "This means ExxonMobil's operations and earnings may be significantly affected by changes in oil, gas, and petrochemical prices and by changes in margins on refined products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Specialty Products): specialty products"
+ ]
+}

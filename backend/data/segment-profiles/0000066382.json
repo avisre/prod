@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000066382",
+ "issuerName": "MillerKnoll, Inc.",
+ "builtAt": "2026-11-14T13:45:28.364Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000066382-26-000092",
+  "periodEnd": "2026-05-30",
+  "filingDate": "2026-07-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/66382/000006638226000092/mlkn-20260530.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Contract",
+   "products": [
+    "furniture products",
+    "Spinneybeck",
+    "FilzFelt",
+    "Maharam",
+    "Edelman",
+    "Knoll Textile"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "International Contract",
+   "products": [
+    "furniture products"
+   ],
+   "description": "Designs, sources, manufactures and sells furniture products for office, healthcare and educational environments outside North America.",
+   "evidence": "International Contract — Includes the operations associated with the design, sourcing, manufacture, and sale of furniture products, directly or indirectly through an independent dealership network for office, healthcare, and educational environments in Europe, the Middle East, Africa, Asia-Pacific, and Latin America."
+  },
+  {
+   "name": "Global Retail",
+   "products": [
+    "modern design furnishings",
+    "accessories",
+    "Holly Hunt"
+   ],
+   "description": "Sells modern design furnishings and accessories to third-party retailers and directly to consumers via eCommerce, catalogs and retail stores.",
+   "evidence": "Global Retail — Includes global operations associated with the sale of modern design furnishings and accessories to third party retailers, as well as direct to consumer sales through eCommerce, direct-mail catalogs, and physical retail stores, along with the global operations of the Holly Hunt brand."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from selling furniture products and related services, primarily through independent contract furniture dealers, direct customer sales, retailers, catalogs and eCommerce platforms.",
+  "evidence": "It is estimated that approximately 53.6% of the Company's sales in the fiscal year ended May 30, 2026, were made directly through independent dealers."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: North America Contract"
+ ]
+}

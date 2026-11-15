@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000034903",
+ "issuerName": "FEDERAL REALTY INVESTMENT TRUST",
+ "builtAt": "2026-11-14T13:44:07.908Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000034903-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/34903/000003490326000017/frt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "community and neighborhood shopping centers",
+    "mixed-use properties"
+   ],
+   "description": "Owns, manages, acquires and redevelops retail and mixed-use properties in major coastal and select underserved markets.",
+   "evidence": "We specialize in the ownership, management, and redevelopment of high quality retail and mixed-use properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by tenants under lease agreements for space in its retail and mixed-use properties.",
+  "evidence": "Our revenue is primarily generated from lease agreements with tenants."
+ },
+ "changes": [],
+ "dropped": []
+}

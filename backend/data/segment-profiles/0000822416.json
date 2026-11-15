@@ -1,0 +1,103 @@
+{
+ "version": 1,
+ "cik": "0000822416",
+ "issuerName": "PULTEGROUP, INC.",
+ "builtAt": "2026-11-15T04:40:01.436Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000822416-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/822416/000082241626000007/phm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Northeast",
+   "products": [
+    "single-family detached homes",
+    "townhomes",
+    "condominiums",
+    "duplexes"
+   ],
+   "description": "Builds and sells homes to homebuyers in Maryland, Massachusetts, New Jersey, Pennsylvania, Rhode Island and Virginia.",
+   "evidence": "Northeast: Maryland, Massachusetts, New Jersey, Pennsylvania, Rhode Island, Virginia"
+  },
+  {
+   "name": "Southeast",
+   "products": [
+    "single-family detached homes",
+    "townhomes",
+    "condominiums",
+    "duplexes"
+   ],
+   "description": "Builds and sells homes to homebuyers in Georgia, North Carolina, South Carolina and Tennessee.",
+   "evidence": "Southeast: Georgia, North Carolina, South Carolina, Tennessee"
+  },
+  {
+   "name": "Florida",
+   "products": [
+    "single-family detached homes",
+    "townhomes",
+    "condominiums",
+    "duplexes"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Midwest",
+   "products": [
+    "single-family detached homes",
+    "townhomes",
+    "condominiums",
+    "duplexes"
+   ],
+   "description": "Builds and sells homes to homebuyers in Illinois, Indiana, Kentucky, Michigan, Minnesota and Ohio.",
+   "evidence": "Midwest: Illinois, Indiana, Kentucky, Michigan, Minnesota, Ohio"
+  },
+  {
+   "name": "Texas",
+   "products": [
+    "single-family detached homes",
+    "townhomes",
+    "condominiums",
+    "duplexes"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "West",
+   "products": [
+    "single-family detached homes",
+    "townhomes",
+    "condominiums",
+    "duplexes"
+   ],
+   "description": "Builds and sells homes to homebuyers in Arizona, California, Colorado, Nevada, New Mexico, Oregon, Utah and Washington.",
+   "evidence": "West: Arizona, California, Colorado, Nevada, New Mexico, Oregon, Utah, Washington"
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "mortgage banking",
+    "title",
+    "insurance agency",
+    "Pulte Mortgage"
+   ],
+   "description": "Provides mortgage banking, title, and insurance agency services, primarily supporting the company's homebuilding customers.",
+   "evidence": "We also have a reportable segment for our Financial Services operations, which consist principally of mortgage banking, title, and insurance agency operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuyers pay the company for homes it builds and sells, and mortgage, title and insurance customers pay for financial services.",
+  "evidence": "Home sale revenues are composed of single-family detached homes, as well as attached homes, such as townhomes, condominiums, and duplexes."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Florida",
+  "segment evidence not verbatim: Texas"
+ ]
+}

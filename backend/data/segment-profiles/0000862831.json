@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000862831",
+ "issuerName": "Financial Institutions, Inc.",
+ "builtAt": "2026-11-14T13:53:08.513Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-098467",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/862831/000119312526098467/fisi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "checking and NOW accounts",
+    "savings accounts",
+    "certificates of deposit",
+    "commercial and consumer loans",
+    "residential mortgage loans",
+    "home equity lines of credit",
+    "indirect automobile loans"
+   ],
+   "description": "Community banking through Five Star Bank, offering deposit and loan products to consumer, commercial and municipal customers in New York and the Mid-Atlantic.",
+   "evidence": "Five Star Bank, referred to as \"FSB\" or \"the Bank,\" which provides a full range of banking services to consumer, commercial and municipal customers in Western and Central New York, and commercial loans in the Mid-Atlantic region"
+  },
+  {
+   "name": "Wealth management",
+   "products": [
+    "customized investment advice",
+    "investment consulting",
+    "retirement plan services"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns interest and fees on loans, uses deposits as its principal funding source, and earns advisory fees from investment and wealth management services.",
+  "evidence": "The Bank offers deposit products, which include checking and NOW accounts, savings accounts, and certificates of deposit, as its principal source of funding."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wealth management): wealth management",
+  "segment evidence not verbatim: Wealth management"
+ ]
+}

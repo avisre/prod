@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000317540",
+ "issuerName": "COCA-COLA CONSOLIDATED, INC.",
+ "builtAt": "2026-11-14T13:48:09.485Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009057",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/317540/000162828026009057/coke-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nonalcoholic Beverages",
+   "products": [
+    "Coca-Cola",
+    "Coca-Cola Zero Sugar",
+    "Diet Coke",
+    "Sprite",
+    "Fanta",
+    "BODYARMOR",
+    "POWERade",
+    "Dasani"
+   ],
+   "description": null,
+   "evidence": "Nonalcoholic Beverages represents the vast majority of the Company's consolidated net sales and income from operations."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "Red Classic"
+   ],
+   "description": "Includes the Red Classic subsidiaries, which do not meet the quantitative threshold for separate reporting.",
+   "evidence": "The additional operating segment, which includes the Red Classic subsidiaries, does not meet the quantitative threshold for separate reporting and, therefore, has been reported as \"All Other.\""
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail customers pay the Company for bottle/can sales of beverages, while other revenue comes from sales to other Coca-Cola bottlers, post-mix sales, transportation revenue and equipment maintenance revenue.",
+  "evidence": "Bottle/can sales primarily include products packaged in plastic bottles and aluminum cans. Other sales include sales to other Coca‑Cola bottlers, post‑mix sales, transportation revenue and equipment maintenance revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Data Ventures, Inc. operating segment was liquidated, dissolved and merged into the Nonalcoholic Beverages operating segment.",
+   "evidence": "As of December 31, 2025, the Data Ventures, Inc. operating segment was liquidated, dissolved and merged into the Nonalcoholic Beverages operating segment."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000072331",
+ "issuerName": "NORDSON CORPORATION",
+ "builtAt": "2026-11-14T13:45:43.960Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000072331-25-000144",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/72331/000007233125000144/ndsn-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial Precision Solutions",
+   "products": [
+    "Industrial Coatings",
+    "Nonwovens",
+    "Packaging",
+    "Polymer Processing",
+    "Precision Agriculture",
+    "Product Assembly"
+   ],
+   "description": "Delivers proprietary dispensing and material processing technology to consumer durable, non-durable, industrial, agriculture and automotive markets.",
+   "evidence": "This segment delivers proprietary dispensing and material processing technology to diverse end markets."
+  },
+  {
+   "name": "Medical and Fluid Solutions",
+   "products": [
+    "Engineered Fluid Solutions",
+    "Medical Interventional Solutions",
+    "Medical Fluid Components",
+    "Surgical Solutions"
+   ],
+   "description": "Provides components and device solutions for medical, life science, high-tech industrial and other diverse end markets.",
+   "evidence": "This segment includes components and device solutions for medical, life science, high-tech industrial, and other diverse end markets."
+  },
+  {
+   "name": "Advanced Technology Solutions",
+   "products": [
+    "Electronics Dispense Systems",
+    "Test and Inspection"
+   ],
+   "description": "Integrates proprietary product technologies into customers' production processes, serving predominantly semiconductor and electronics end markets.",
+   "evidence": "This segment predominantly serves customers in the semiconductor and electronics end markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Nordson for precision dispensing, applying, testing, inspection and surface treatment equipment, systems and components, sold through a direct sales force and qualified distributors.",
+  "evidence": "We market our products globally, primarily through a direct sales force and qualified distributors and sales representatives."
+ },
+ "changes": [],
+ "dropped": []
+}

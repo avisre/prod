@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000821026",
+ "issuerName": "ANDERSONS, INC.",
+ "builtAt": "2026-11-14T13:51:57.233Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000821026-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/821026/000082102626000010/ande-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agribusiness",
+   "products": [
+    "whole grains",
+    "grain products",
+    "feed ingredients",
+    "domestic fuel products",
+    "agricultural and related plant nutrients",
+    "bulk agricultural fertilizers",
+    "specialized high-value nutrient products",
+    "turf related products"
+   ],
+   "description": "Merchandises and manages logistics of physical commodities and manufactures, distributes and retails agricultural and plant nutrient products for producers and end users.",
+   "evidence": "The Agribusiness segment is a diversified business focusing on capturing profits through relationships with agricultural producers and end users as both a supplier and customer."
+  },
+  {
+   "name": "Renewables",
+   "products": [
+    "ethanol",
+    "ethanol co-products",
+    "renewable feedstocks",
+    "E-85",
+    "dried distillers grains"
+   ],
+   "description": "Produces, purchases and sells ethanol and co-products from four ethanol plants and merchandises ethanol, co-products and other biofuels.",
+   "evidence": "The Renewables segment produces, purchases and sells ethanol and co-products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns merchandising margins and elevation fees buying and selling commodities, plus fees for grain marketing, risk management and origination services, and sells ethanol, co-products and nutrients to customers.",
+  "evidence": "The business also offers a number of unique grain marketing, risk management and origination services to its customers and ethanol plants within the Renewables segment for which it collects fees."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the former Trade segment was combined with the former Nutrient & Industrial segment to form the new Agribusiness segment.",
+   "evidence": "As a result, the former Trade segment was combined with the former Nutrient & Industrial segment in the newly formed Agribusiness segment along with several smaller business lines being moved between the Agribusiness and Renewables segments."
+  },
+  {
+   "text": "In 2024 substantially all of ELEMENT's assets were sold after the Company deconsolidated the subsidiary in 2023.",
+   "evidence": "Substantially all of the ELEMENT's assets were sold on January 31, 2024, see Note 17 of the Consolidated Financial Statements for more information."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 the Company acquired the remaining 49.9% of TAMH, renaming it The Anders"
+ ]
+}

@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000014707",
+ "issuerName": "CALERES, INC",
+ "builtAt": "2026-11-14T14:07:07.554Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000014707-26-000053",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/14707/000001470726000053/cal-20260131x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Famous Footwear",
+   "products": [
+    "Nike",
+    "Skechers",
+    "adidas",
+    "Crocs",
+    "Converse",
+    "Birkenstock",
+    "HeyDude",
+    "New Balance"
+   ],
+   "description": "Retail footwear stores and e-commerce selling branded and company-owned footwear to families.",
+   "evidence": "The Famous Footwear segment is comprised of our Famous Footwear retail stores, famousfootwear.com and famousfootwear.ca."
+  },
+  {
+   "name": "Brand Portfolio",
+   "products": [
+    "Sam Edelman",
+    "Vionic",
+    "Naturalizer",
+    "Allen Edmonds",
+    "Stuart Weitzman",
+    "Dr. Scholl's Shoes",
+    "Circus NY",
+    "Sam & Libby"
+   ],
+   "description": "Wholesale and direct-to-consumer distribution of owned and licensed footwear brands through retailers and branded stores.",
+   "evidence": "The Brand Portfolio segment offers retailers and consumers a carefully cultivated portfolio of leading brands."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers and retailers purchase branded footwear and related products through retail stores, e-commerce, wholesale channels and department stores.",
+  "evidence": "This segment is comprised of wholesale operations that designs, develops, sources, manufactures, markets and distributes branded, licensed and private-label footwear primarily to online retailers, national chains, department stores, independent retailers, mass merchandisers and franchise partners, as well as Company-owned Famous Footwear, Sam Edelman, Naturalizer, Allen Edmonds and Stuart Weitzman stores and e-commerce businesses."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Stuart Weitzman was acquired and added to the Brand Portfolio segment.",
+   "evidence": "In August 2025, we acquired Stuart Weitzman to increase our penetration in premium contemporary footwear."
+  }
+ ],
+ "dropped": []
+}

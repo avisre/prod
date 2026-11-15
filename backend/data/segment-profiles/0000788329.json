@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000788329",
+ "issuerName": "Johnson Outdoors Inc.",
+ "builtAt": "2026-11-14T13:50:55.735Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-25-045348",
+  "periodEnd": "2025-10-03",
+  "filingDate": "2025-12-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/788329/000114036125045348/jout-20251003.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fishing",
+   "products": [
+    "Minn Kota electric motors",
+    "Humminbird sonar and GPS equipment",
+    "Cannon downriggers",
+    "marine battery chargers",
+    "shallow water anchors"
+   ],
+   "description": "Manufactures and markets electric trolling motors, fish-finding sonar and GPS electronics, and downriggers sold to outdoor retailers, boat OEMs and consumers.",
+   "evidence": "The Company's Fishing segment key brands are: Minn Kota electric motors for quiet trolling or primary propulsion, marine battery chargers and shallow water anchors; Humminbird sonar and GPS equipment for fish finding, navigation and marine cartography; and Cannon downriggers for controlled-depth fishing."
+  },
+  {
+   "name": "Camping & Watercraft Recreation",
+   "products": [
+    "Jetboil portable outdoor cooking systems",
+    "Old Town canoes and kayaks",
+    "Carlisle branded paddles",
+    "personal flotation devices"
+   ],
+   "description": "Designs and sells portable cooking systems, canoes, kayaks, paddles and related accessories to specialty dealers, retailers and consumers.",
+   "evidence": "The Company's Camping & Watercraft segment key brands are: Jetboil portable outdoor cooking systems, Old Town canoes and kayaks, and Carlisle branded paddles."
+  },
+  {
+   "name": "Diving",
+   "products": [
+    "buoyancy compensators",
+    "dive computers and gauges",
+    "wetsuits",
+    "masks",
+    "fins",
+    "snorkels and accessories"
+   ],
+   "description": "Manufactures and markets premium underwater diving and snorkeling equipment for recreational and technical divers worldwide.",
+   "evidence": "The Company manufactures and markets underwater diving products for recreational divers, which it sells and distributes under the SCUBAPRO brand name."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by outdoor specialty retailers, retail chains, distributors, boat OEMs, internet retailers and direct consumers for purchases of its branded outdoor recreation products.",
+  "evidence": "Fishing brands and related accessories are sold across the globe, with the majority of sales coming from North America through large outdoor specialty retailers, such as Bass Pro Shops and Scheels; large retail store chains; distributors that service independent marine, sporting goods and internet dealers; and original equipment manufacturers (OEM) of boat brands such as Tracker, Skeeter and Ranger."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Diving): SCUBAPRO regulators"
+ ]
+}

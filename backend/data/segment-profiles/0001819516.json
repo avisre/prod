@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001819516",
+ "issuerName": "WHEELS UP EXPERIENCE INC.",
+ "builtAt": "2026-11-14T17:41:30.137Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016512",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819516/000162828026016512/up-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "private aviation services",
+   "products": [
+    "Wheels Up Signature Membership",
+    "Wheels Up Charter Solutions",
+    "Custom Enterprise Solutions",
+    "cargo flights",
+    "government and defense solutions",
+    "Dynamic Access Plan",
+    "Fixed Access Plan"
+   ],
+   "description": "Provides on-demand private aviation through a membership program and charter solutions for individual and business private flyers.",
+   "evidence": "Due to the nature of the services that we provide, we have determined that we operate as one reportable segment, which is private aviation services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Members and customers pay for flights, membership fees and Membership Funds advanced for future flight services, plus other complementary services.",
+  "evidence": "We offer numerous services to our members, customers and industry partners, and generate the majority of our revenue from member and customer flights, whether as part of Wheels Up's membership program or charter solutions."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company launched the Wheels Up Signature Membership, evolving its membership program tied to its fleet modernization strategy.",
+   "evidence": "In early September 2025, we announced the Wheels Up Signature Membership, an evolution enabled by our fleet modernization strategy that provides members access to our Bombardier Challenger 300 series and Embraer Phenom 300 series aircraft, in addition to our legacy aircraft fleet."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

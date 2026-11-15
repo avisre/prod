@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000110471",
+ "issuerName": "WOLVERINE WORLD WIDE, INC.",
+ "builtAt": "2026-11-14T13:47:32.989Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012614",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/110471/000162828026012614/www-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Active Group",
+   "products": [
+    "Merrell® footwear and apparel",
+    "Saucony® footwear and apparel",
+    "Sweaty Betty® activewear",
+    "Chaco® footwear"
+   ],
+   "description": "Designs, markets and licenses outdoor, running and activewear brands for consumers of casual and performance footwear and apparel.",
+   "evidence": "Active Group, consisting of Merrell ® footwear and apparel, Saucony ® footwear and apparel, Sweaty Betty ® activewear, and Chaco ® footwear"
+  },
+  {
+   "name": "Work Group",
+   "products": [
+    "Wolverine® footwear and apparel",
+    "Cat® footwear",
+    "Bates® uniform footwear",
+    "Harley-Davidson® footwear",
+    "HYTEST® safety footwear"
+   ],
+   "description": "Supplies work boots, uniform and safety footwear for workers, tradespeople and first responders worldwide.",
+   "evidence": "Work Group, consisting of Wolverine ® footwear and apparel, Cat ® footwear, Bates ® uniform footwear, Harley-Davidson ® footwear and HYTEST ® safety footwear"
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Sperry® footwear",
+    "Keds® footwear",
+    "Hush Puppies® footwear and apparel",
+    "leather marketing operations",
+    "sourcing operations",
+    "multi-branded direct-to-consumer retail stores",
+    "Stride Rite® licensed business"
+   ],
+   "description": "Houses remaining brands, licensing, sourcing, leather marketing and multi-brand retail not included in the reportable segments.",
+   "evidence": "The Other category consists of Sperry ® footwear, Keds ® footwear, Hush Puppies ® footwear and apparel, the Company's leather marketing operations, sourcing operations that include third-party commission revenues, multi-branded direct-to-consumer retail stores and the Stride Rite ® licensed business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from selling branded footwear, apparel and accessories to third-party customers, from third-party distributors, licensees and joint ventures, and from its direct-to-consumer businesses.",
+  "evidence": "Revenue for the reportable segments includes revenue from the sale of branded footwear, apparel and accessories to third-party customers; revenue from third-party distributors, licensees and joint ventures; and revenue from the Company's direct-to-consumer businesses."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company sold the global Sperry business to Authentic Brands Group LLC.",
+   "evidence": "Effective January 10, 2024 the Company sold the global Sperry ® business to Authentic Brands Group LLC."
+  },
+  {
+   "text": "In 2023 the Company sold the global Keds business to Designer Brands, Inc.",
+   "evidence": "Effective February 4, 2023 the Company sold the global Keds ® business to Designer Brands, Inc."
+  },
+  {
+   "text": "In 2023 the Company sold the Wolverine Leathers Division in two separate transactions.",
+   "evidence": "The Wolverine Leathers Division was sold in two separate transactions in 2023."
+  }
+ ],
+ "dropped": []
+}

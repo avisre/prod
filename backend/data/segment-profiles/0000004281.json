@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000004281",
+ "issuerName": "HOWMET AEROSPACE INC.",
+ "builtAt": "2026-11-14T14:06:16.309Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000004281-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/4281/000000428126000012/hwm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engine Products",
+   "products": [
+    "Airfoils",
+    "Seamless rolled rings",
+    "Investment castings",
+    "Forged jet engine components"
+   ],
+   "description": "Produces advanced jet engine and industrial gas turbine components for aerospace and defense applications.",
+   "evidence": "Engine Products utilizes advanced designs and techniques to support next-generation engine programs and produces components primarily for aircraft engines and industrial gas turbines, including airfoils and seamless rolled rings."
+  },
+  {
+   "name": "Fastening Systems",
+   "products": [
+    "Aerospace fastening systems",
+    "Industrial fastening systems",
+    "Commercial transportation fasteners",
+    "Installation tools"
+   ],
+   "description": "Produces highly engineered aerospace, industrial and commercial transportation fastening systems and installation tools.",
+   "evidence": "Fastening Systems produces aerospace and industrial fastening systems as well as commercial transportation fasteners and installation tools."
+  },
+  {
+   "name": "Engineered Structures",
+   "products": [
+    "Titanium ingots",
+    "Titanium mill products",
+    "Titanium forgings",
+    "Titanium extrusions",
+    "Aluminum forgings",
+    "Nickel forgings",
+    "Aluminum machined components"
+   ],
+   "description": "Produces titanium and aluminum engineered structural components for aerospace and defense airframes and engines.",
+   "evidence": "Engineered Structures produces titanium ingots and mill products for aerospace and defense applications and is vertically integrated to produce titanium forgings, titanium extrusions, and machining services for airframe, wing, aero-engine, and landing gear components."
+  },
+  {
+   "name": "Forged Wheels",
+   "products": [
+    "Forged aluminum wheels",
+    "Alcoa® Wheels"
+   ],
+   "description": "Manufactures lightweight forged aluminum wheels for commercial trucks, buses and trailers.",
+   "evidence": "Forged Wheels manufactures lightweight, high-strength forged aluminum wheels for trucks, buses, and trailers, serving the global transportation market."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including aerospace manufacturers, defense contractors, and transportation companies purchase products directly or through distributors.",
+  "evidence": "Its products and solutions include investment castings for jet engines and industrial gas turbines (nickel superalloys, titanium, and aluminum), including airfoils and structural parts; seamless rolled rings for jet engines (mostly nickel superalloys); fastening systems for aerospace, industrial and commercial transportation applications (titanium, steel, and nickel superalloys); forged jet engine components (e.g., jet engine disks); machined and forged aircraft parts (titanium and aluminum); an"
+ },
+ "changes": [
+  {
+   "text": "In 2020, the Arconic Inc. Separation Transaction separated the company into Howmet and Arconic Corporation, with Howmet retaining Engine Products, Fastening Systems, Engineered Structures, and Forged Wheels.",
+   "evidence": "On April 1, 2020, Arconic Inc. separated its businesses (the \"Arconic Inc. Separation Transaction\") into two independent, publicly traded companies: Howmet Aerospace Inc. (the new name for Arconic Inc.) and Arconic Corporation."
+  },
+  {
+   "text": "In 2025, the company combined revenue disclosure for industrial gas turbine and oil and gas end markets into Gas Turbines, eliminating the Industrial & Other end market disclosure.",
+   "evidence": "In the fourth quarter 2025, the Company combined the revenue disclosure for the industrial gas turbine and oil & gas end markets into Gas Turbines. As a result of this change, the Company will no longer disclose the Industrial & Other end market."
+  }
+ ],
+ "dropped": []
+}

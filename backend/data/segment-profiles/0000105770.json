@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000105770",
+ "issuerName": "WEST PHARMACEUTICAL SERVICES, INC.",
+ "builtAt": "2026-11-14T13:47:21.007Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000105770-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/105770/000010577026000010/wst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Proprietary Products",
+   "products": [
+    "elastomers & primary containment",
+    "drug delivery devices",
+    "integrated systems",
+    "analytical lab services",
+    "stoppers and seals",
+    "syringe and cartridge components",
+    "vials, syringes, plungers and cartridges",
+    "self-injection devices"
+   ],
+   "description": "Provides proprietary packaging, containment and drug delivery systems plus integrated services to biologic, generic and pharmaceutical drug customers.",
+   "evidence": "Our Proprietary Products reportable segment offers elastomers & primary containment, drug delivery devices, integrated systems, and analytical lab services, primarily to biologic, generic, and pharmaceutical drug customers."
+  },
+  {
+   "name": "Contract-Manufactured Products",
+   "products": [
+    "custom contract-manufacturing and assembly solutions",
+    "multi-component molding",
+    "in-mold labeling",
+    "ultrasonic welding",
+    "clean room molding",
+    "device assembly",
+    "drug handling capabilities"
+   ],
+   "description": "Designs, manufactures and assembles customer-owned complex devices for pharmaceutical, diagnostic and medical device customers.",
+   "evidence": "Our Contract-Manufactured Products reportable segment serves as a fully integrated business, focused on the design, manufacture, and automated assembly of complex devices, primarily for pharmaceutical, diagnostic, and medical device customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biologic, generic, pharmaceutical, diagnostic and medical device companies pay West for proprietary packaging and delivery components, integrated services, and custom contract-manufactured devices.",
+  "evidence": "Our products and services are sold and distributed primarily through our own sales force and distribution network, with limited use of contract sales agents and regional distributors."
+ },
+ "changes": [],
+ "dropped": []
+}

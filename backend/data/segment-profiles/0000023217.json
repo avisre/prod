@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000023217",
+ "issuerName": "CONAGRA BRANDS, INC.",
+ "builtAt": "2026-11-14T14:07:40.041Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-083905",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/23217/000110465926083905/tmb-20260531x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Grocery & Snacks",
+   "products": [
+    "Birds Eye",
+    "Duncan Hines",
+    "Slim Jim",
+    "Angie's BOOMCHICKAPOP"
+   ],
+   "description": "Branded, shelf-stable food products sold in various retail channels in the United States.",
+   "evidence": "The Grocery & Snacks reporting segment principally includes branded, shelf-stable food products sold in various retail channels in the United States."
+  },
+  {
+   "name": "Refrigerated & Frozen",
+   "products": [
+    "Healthy Choice",
+    "Marie Callender's",
+    "Reddi-wip",
+    "Hebrew National"
+   ],
+   "description": "Branded, temperature-controlled food products sold in various retail channels in the United States.",
+   "evidence": "The Refrigerated & Frozen reporting segment principally includes branded, temperature-controlled food products sold in various retail channels in the United States."
+  },
+  {
+   "name": "International",
+   "products": [],
+   "description": "Branded food products in various temperature states sold in retail and foodservice channels outside the United States.",
+   "evidence": "The International reporting segment principally includes branded food products, in various temperature states, sold in various retail and foodservice channels outside of the United States."
+  },
+  {
+   "name": "Foodservice",
+   "products": [
+    "meals",
+    "entrees",
+    "sauces",
+    "custom-manufactured culinary products"
+   ],
+   "description": "Branded and customized food products packaged for sale to restaurants and foodservice establishments primarily in the United States.",
+   "evidence": "The Foodservice reporting segment includes branded and customized food products, including meals, entrees, sauces, and a variety of custom-manufactured culinary products packaged for sale to restaurants and other foodservice establishments primarily in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for branded food products and customized food items sold through retail and foodservice channels.",
+  "evidence": "Our products are sold, directly and through distributors, to chain, wholesale, value, cooperative, club, and independent grocery, pharmacy and drug, convenience and other store operators; and foodservice customers, including restaurants and bars, travel and leisure customers, schools, health care facilities, and government customers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the Chef Boyardee business was sold in the first quarter, reducing segment net sales.",
+   "evidence": "Fiscal 2026 and 2025 included $7.0 million and $385.9 million, respectively, of net sales related to our Chef Boyardee ® business, which was sold in the first quarter of fiscal 2026."
+  },
+  {
+   "text": "In fiscal 2026, the frozen fish business was sold in the first quarter, reducing segment net sales.",
+   "evidence": "Fiscal 2026 and 2025 included $4.9 million and $76.8 million, respectively, of net sales related to our frozen fish business, which was sold in the first quarter of fiscal 2026."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000096943",
+ "issuerName": "TELEFLEX INCORPORATED",
+ "builtAt": "2026-11-14T13:46:50.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000096943-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/96943/000009694326000019/tfx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Arrow branded catheters",
+    "EZ-IO Intraosseous Vascular Access System",
+    "QuikClot",
+    "GuideLiner, Turnpike and TrapLiner catheters",
+    "MANTA Vascular Closure device",
+    "Arrow OnControl powered bone biopsy system",
+    "Weck, MiniLap, Pleur-Evac, Deknatel, KMedic, Pilling and Titan SGS"
+   ],
+   "description": "Sells the company's medical technology portfolio—vascular, interventional and surgical products—to hospitals and healthcare providers in the Americas.",
+   "evidence": "We have three reportable segments: Americas, EMEA (Europe, the Middle East and Africa) and Asia (Asia Pacific)."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Arrow branded catheters",
+    "EZ-IO Intraosseous Vascular Access System",
+    "QuikClot",
+    "GuideLiner, Turnpike and TrapLiner catheters",
+    "MANTA Vascular Closure device",
+    "Arrow OnControl powered bone biopsy system",
+    "Weck, MiniLap, Pleur-Evac, Deknatel, KMedic, Pilling and Titan SGS"
+   ],
+   "description": "Sells the company's vascular, interventional and surgical medical devices to hospitals and healthcare providers across Europe, the Middle East and Africa.",
+   "evidence": "We have three reportable segments: Americas, EMEA (Europe, the Middle East and Africa) and Asia (Asia Pacific)."
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "Arrow branded catheters",
+    "EZ-IO Intraosseous Vascular Access System",
+    "QuikClot",
+    "GuideLiner, Turnpike and TrapLiner catheters",
+    "MANTA Vascular Closure device",
+    "Arrow OnControl powered bone biopsy system",
+    "Weck, MiniLap, Pleur-Evac, Deknatel, KMedic, Pilling and Titan SGS"
+   ],
+   "description": "Sells the company's vascular, interventional and surgical medical devices to hospitals and healthcare providers in Asia Pacific.",
+   "evidence": "We have three reportable segments: Americas, EMEA (Europe, the Middle East and Africa) and Asia (Asia Pacific)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and healthcare providers worldwide pay Teleflex for single-use medical devices sold through a direct sales force and distributors.",
+  "evidence": "We market and sell our products to hospitals and healthcare providers worldwide through a combination of our direct sales force and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Teleflex announced definitive agreements to sell its Acute Care, Interventional Urology and OEM businesses, which are reflected in discontinued operations.",
+   "evidence": "on December 9, 2025, we announced that we had entered into definitive agreements to sell our Acute Care and Interventional Urology (also referred to as \"IU\") businesses to Intersurgical® Ltd and our OEM business to Montagu and Kohlberg (collectively referred to as the \"Strategic Divestitures\")."
+  },
+  {
+   "text": "In 2025, Teleflex acquired substantially all of the Vascular Intervention business of BIOTRONIK SE & Co. KG, adding coronary and peripheral medical devices.",
+   "evidence": "On June 30, 2025, we acquired substantially all of the Vascular Intervention business of BIOTRONIK SE & Co. KG (\"VI Business\")."
+  },
+  {
+   "text": "In 2023, Teleflex completed the final phase of the 2021 Respiratory business divestiture to Medline with the transfer of certain additional manufacturing assets.",
+   "evidence": "The second and final phase of the Respiratory business divestiture was completed in December 2023 with the transfer of certain additional manufacturing assets to Medline."
+  }
+ ],
+ "dropped": []
+}

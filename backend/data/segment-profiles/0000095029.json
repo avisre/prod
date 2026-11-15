@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000095029",
+ "issuerName": "STURM,     RUGER & COMPANY, INC.",
+ "builtAt": "2026-11-14T13:46:43.665Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001174947-26-000243",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/95029/000117494726000243/rgr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Firearms",
+   "products": [
+    "Rifles",
+    "Pistols",
+    "Revolvers",
+    "Shotguns",
+    "Marlin lever-action rifles",
+    "Accessories and replacement parts"
+   ],
+   "description": "Designs, manufactures and sells rifles, pistols, revolvers and shotguns to federally-licensed independent wholesale distributors serving the commercial sporting market.",
+   "evidence": "The firearms segment manufactures and sells rifles, pistols, and revolvers principally to a number of federally-licensed, independent wholesale distributors primarily located in the United States."
+  },
+  {
+   "name": "Castings",
+   "products": [
+    "Steel investment castings"
+   ],
+   "description": "Manufactures steel investment castings and metal injection molding parts mainly for internal use by the firearms segment, with minimal outside sales.",
+   "evidence": "The castings segment manufactures and sells steel investment castings and metal injection molding parts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company is paid by federally-licensed independent wholesale distributors who purchase firearms directly from the Company and resell to retail dealers, plus limited direct sales of castings to outside customers.",
+  "evidence": "The Company's firearms are primarily marketed through a network of federally licensed, independent wholesale distributors who purchase the products directly from the Company."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Firearms): Glenfield bolt-action rifles",
+  "product not in text (Castings): Metal injection molding (MIM) parts"
+ ]
+}

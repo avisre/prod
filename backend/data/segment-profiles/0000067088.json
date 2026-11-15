@@ -1,0 +1,91 @@
+{
+ "version": 1,
+ "cik": "0000067088",
+ "issuerName": "Mitsubishi UFJ Financial Group, Inc.",
+ "builtAt": "2026-11-14T13:45:30.282Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-047095",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/67088/000162828026047095/mufg-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail & Digital Business Group",
+   "products": [
+    "credit card settlement",
+    "consumer financing products and services",
+    "lending and deposit-taking operations"
+   ],
+   "description": "Serves individual and corporate customers in Japan through face-to-face, remote and digital channels, including consumer finance and credit cards.",
+   "evidence": "Covers the businesses of Mitsubishi UFJ NICOS, other consumer finance companies, and MUFG Bank with individual customers (excluding wealth management customers) and corporate customers in Japan through the three channels under the concept of \"Real (Face-to-Face) × Remote × Digital\"."
+  },
+  {
+   "name": "Commercial Banking & Wealth Management Business Group",
+   "products": [
+    "commercial banking",
+    "trust banking",
+    "securities products and services",
+    "wealth management solutions",
+    "real estate services"
+   ],
+   "description": "Serves small and medium sized enterprise clients and wealth management clients in Japan with banking, trust and securities offerings.",
+   "evidence": "Covers small and medium sized enterprise clients and wealth management clients in Japan, offering an extensive array of commercial banking, trust banking and securities products and services."
+  },
+  {
+   "name": "Japanese Corporate & Investment Banking Business Group",
+   "products": [],
+   "description": "Provides corporate and investment banking services to corporate clients in Japan.",
+   "evidence": "The business activities relevant to fees and commissions on remittances and transfers are attributable to R&D, Commercial Banking & Wealth Management Business Group (\"CWM\"), Japanese Corporate Investment Banking Business Group (\"JCIB\") and Global Corporate Investment Banking Business Group (\"GCIB\") with no significant concentration in any particular segments."
+  },
+  {
+   "name": "Global Commercial Banking Business Group",
+   "products": [],
+   "description": "Provides commercial banking services to customers outside Japan, including through subsidiary banks such as Krungsri and Bank Danamon.",
+   "evidence": "Starting from the fiscal year ended March 31, 2025, the fiscal year of Krungsri, which is included in the Global Commercial Banking Business Group, has been changed from the previous January to December period to an April to March period for consolidation purposes."
+  },
+  {
+   "name": "Asset Management & Investor Services Business Group",
+   "products": [
+    "administration and management services for investment funds",
+    "trust services"
+   ],
+   "description": "Provides asset management and investor services, including investment fund administration and trust services.",
+   "evidence": "The business activities relevant to fees and commissions on administration and management services for investment funds are substantially attributable to Asset Management & Investor Service Business Group (\"AM/IS\")."
+  },
+  {
+   "name": "Global Corporate & Investment Banking Business Group",
+   "products": [],
+   "description": "Provides corporate and investment banking services to corporate clients globally.",
+   "evidence": "Overseas, we will strive for higher profitability by evolving our Global Corporate & Investment Banking (GCIB) and Global Markets (GM) integrated business model, and seek to seize opportunities arising from Asia's economic growth by strengthening our collaboration with subsidiary and partner banks."
+  },
+  {
+   "name": "Global Markets Business Group",
+   "products": [],
+   "description": "Conducts global markets businesses such as trading and sales and arbitrage activities in financial markets.",
+   "evidence": "The MUFG Group performs trading activities through market-making, sales and arbitrage, while maintaining risk levels within appropriate limits in accordance with its risk management policy."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Comprises businesses and items not allocated to the other business segments.",
+   "evidence": "Prior period business segment information has been recast to enable comparison between the relevant amounts for the fiscal years ended March 31, 2024, 2025 and 2026."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay MUFG interest on loans and deposits, and fees and commissions for credit cards, securities, fund administration, trust, remittance, guarantee, insurance and real estate services.",
+  "evidence": "Its net revenue mainly consists of interest income from lending and deposit-taking operations and fees relating to credit card settlement and consumer financing products and services."
+ },
+ "changes": [
+  {
+   "text": "In 2022, MUFG Americas Holding completed the transfer of all shares in MUFG Union Bank to U.S. Bancorp.",
+   "evidence": "On December 1, 2022, MUFG Americas Holding completed the transfer of all of the shares in MUFG Union Bank to U.S. Bancorp."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Starting from the fiscal year ended March 31, 2025, Krungsri's fiscal year withi"
+ ]
+}

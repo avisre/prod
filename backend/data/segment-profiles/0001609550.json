@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001609550",
+ "issuerName": "Inspire Medical Systems, Inc.",
+ "builtAt": "2026-11-14T17:36:51.911Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001609550-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1609550/000160955026000016/insp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Inspire system",
+   "products": [],
+   "description": "Develops and commercializes minimally invasive neurostimulation technology for patients with moderate to severe obstructive sleep apnea.",
+   "evidence": "We are a medical technology company focused on the development and commercialization of innovative, minimally invasive solutions for patients with obstructive sleep apnea (\"OSA\"). Our proprietary Inspire system is the first FDA, European Union (\"EU\") Regulation No. 2017/745 (\"MDR\" or \"EU Medical Devices Regulation\"), and Japan Pharmaceuticals and Medical Devices Agency-approved neurostimulation technology of its kind that provides a safe and effective treatment for patients with moderate to seve"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals, ambulatory surgery centers, and patients via third-party payors such as commercial insurers and Medicare pay for the Inspire system implantation and treatment.",
+  "evidence": "Our U.S. customers are generally reimbursed for the cost of patient treatment by various third-party payors, such as commercial insurance providers and Medicare."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Inspire system): Inspire system"
+ ]
+}

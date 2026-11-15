@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000098222",
+ "issuerName": "TIDEWATER INC",
+ "builtAt": "2026-11-14T13:46:53.855Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006391",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/98222/000143774926006391/tdw20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Offshore service vessels",
+    "Anchor Handling Towing Supply Vessels",
+    "Platform Supply Vessels"
+   ],
+   "description": "Provides offshore marine support services to energy customers operating in the Americas region.",
+   "evidence": "We manage our operations through five geographically aligned reporting segments: ● Americas ● Asia Pacific ● Middle East ● Europe/Mediterranean ● West Africa"
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "Offshore service vessels",
+    "Anchor Handling Towing Supply Vessels",
+    "Platform Supply Vessels"
+   ],
+   "description": "Provides offshore marine support services to energy customers operating in the Asia Pacific region.",
+   "evidence": "We manage our operations through five geographically aligned reporting segments: ● Americas ● Asia Pacific ● Middle East ● Europe/Mediterranean ● West Africa"
+  },
+  {
+   "name": "Middle East",
+   "products": [
+    "Offshore service vessels",
+    "Anchor Handling Towing Supply Vessels",
+    "Platform Supply Vessels"
+   ],
+   "description": "Provides offshore marine support services to energy customers operating in the Middle East region.",
+   "evidence": "We manage our operations through five geographically aligned reporting segments: ● Americas ● Asia Pacific ● Middle East ● Europe/Mediterranean ● West Africa"
+  },
+  {
+   "name": "Europe/Mediterranean",
+   "products": [
+    "Offshore service vessels",
+    "Anchor Handling Towing Supply Vessels",
+    "Platform Supply Vessels"
+   ],
+   "description": "Provides offshore marine support services to energy customers operating in the Europe/Mediterranean region.",
+   "evidence": "We manage our operations through five geographically aligned reporting segments: ● Americas ● Asia Pacific ● Middle East ● Europe/Mediterranean ● West Africa"
+  },
+  {
+   "name": "West Africa",
+   "products": [
+    "Offshore service vessels",
+    "Anchor Handling Towing Supply Vessels",
+    "Platform Supply Vessels"
+   ],
+   "description": "Provides offshore marine support services to energy customers operating in the West Africa region.",
+   "evidence": "We manage our operations through five geographically aligned reporting segments: ● Americas ● Asia Pacific ● Middle East ● Europe/Mediterranean ● West Africa"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly oil and gas companies, pay fixed day rates under vessel time charter contracts of a few months to several years, plus some spot charters and recovery of certain costs such as fuel.",
+  "evidence": "Our revenues are derived primarily from vessel time charter or similar contracts ranging in duration from a few months to several years."
+ },
+ "changes": [],
+ "dropped": []
+}

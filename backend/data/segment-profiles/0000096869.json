@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000096869",
+ "issuerName": "TEJON RANCH CO.",
+ "builtAt": "2026-11-14T13:46:48.657Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019685",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/96869/000162828026019685/trc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate - commercial/industrial",
+   "products": [
+    "Tejon Ranch Commerce Center",
+    "TRCC-East",
+    "TRCC-West",
+    "Outlets at Tejon"
+   ],
+   "description": "Develops, leases and monetizes commercial and industrial real estate at the Tejon Ranch Commerce Center for nationally recognized tenants.",
+   "evidence": "The Commercial/Industrial segment is the Company's primary revenue and earnings engine, encompassing the full cycle of real estate value creation: planning and permitting of land held for development, construction of infrastructu"
+  },
+  {
+   "name": "Multifamily",
+   "products": [
+    "Terra Vista at Tejon"
+   ],
+   "description": "Develops and holds residential rental communities within master-planned projects, beginning with Terra Vista at Tejon.",
+   "evidence": "In connection with the commencement of lease-up at Terra Vista at Tejon, we began reporting Multifamily as a separate operating segment in 2025, reflecting our expansion into the development and long-term ownership of residential rental communities."
+  },
+  {
+   "name": "Real estate - resort/residential",
+   "products": [
+    "Mountain Village",
+    "Grapevine",
+    "Centennial",
+    "Grapevine North"
+   ],
+   "description": "Holds and entitles land for large-scale master-planned resort and residential communities; not a revenue-generating segment.",
+   "evidence": "Note: Our Resort Residential reporting segment is not a revenue generating segment in the periods reported herein."
+  },
+  {
+   "name": "Mineral resources",
+   "products": [],
+   "description": "Generates recurring royalty income from third-party extraction activities on company landholdings.",
+   "evidence": "Our mineral resources operations generate recurring royalty income from third-party extraction activities with minimal capital deployment by the Company."
+  },
+  {
+   "name": "Farming",
+   "products": [
+    "almond and pistachio acreage"
+   ],
+   "description": "Grows almonds and pistachios on the San Joaquin Valley floor as an interim productive use of land.",
+   "evidence": "Our almond and pistachio acreage located on the San Joaquin Valley floor generates current cash flow and maintains these properties in active agricultural production pending potential future development, including areas contemplated for projects such as Grapevine North."
+  },
+  {
+   "name": "Ranch operations",
+   "products": [],
+   "description": "Supports land stewardship, infrastructure maintenance and cost management across the company's landholdings.",
+   "evidence": "Our ranch operations primarily support land stewardship and cost management across our broader landholdings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns lease and land-sale revenue from commercial and industrial tenants, rental income from multifamily apartments, royalties from third-party mineral extraction, and farming sales.",
+  "evidence": "Our mineral resources operations generate recurring royalty income from third-party extraction activities with minimal capital deployment by the Company."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company began reporting Multifamily as a separate operating segment upon commencement of lease-up at Terra Vista at Tejon.",
+   "evidence": "In connection with the commencement of lease-up at Terra Vista at Tejon, we began reporting Multifamily as a separate operating segment in 2025, reflecting our expansion into the development and long-term ownership of residential rental communities."
+  }
+ ],
+ "dropped": []
+}

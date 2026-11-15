@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000860546",
+ "issuerName": "COPT DEFENSE PROPERTIES",
+ "builtAt": "2026-11-14T13:53:02.825Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000860546-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/860546/000086054626000011/cdp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Defense/IT Portfolio",
+   "products": [
+    "office properties",
+    "single-tenant data center shells"
+   ],
+   "description": "Owns, operates and develops office and data center shell properties near key U.S. Government defense installations for the USG and defense contractors.",
+   "evidence": "As of December 31, 2025, our Defense/IT Portfolio included: • 201 operating properties totaling 23.2 million square feet."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "office properties"
+   ],
+   "description": "Holds six office properties in the Greater Washington, DC/Baltimore region that the company intends to sell when market conditions permit.",
+   "evidence": "our Other segment included our remaining six operating properties, representing 7.9% of our square feet in operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns rental revenue from tenants, primarily the USG and defense contractors, under leases on its office and data center shell properties.",
+  "evidence": "Our tenants include the USG and its defense contractors, who are primarily engaged in priority national security activities, and who generally require mission-critical and high security property enhancements."
+ },
+ "changes": [],
+ "dropped": []
+}

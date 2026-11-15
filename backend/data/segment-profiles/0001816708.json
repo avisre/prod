@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001816708",
+ "issuerName": "OWLET, INC.",
+ "builtAt": "2026-11-14T17:41:50.774Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001816708-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816708/000181670826000018/owlt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pediatric health platform",
+   "products": [
+    "Dream Sock",
+    "BabySat",
+    "Dream Sight",
+    "Dream Duo",
+    "Owlet360",
+    "Accessories"
+   ],
+   "description": "Provides FDA-cleared wearable pediatric monitors with video, sleep analytics, and subscription health insights for families.",
+   "evidence": "Owlet is a leading pediatric health platform and the only company globally to offer U.S. FDA-cleared and internationally medically-certified wearable pediatric monitors for home use."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Parents and caregivers purchase wearable monitors and video devices directly or through retailers; BabySat may be insurance-reimbursed; subscription services provide recurring revenue.",
+  "evidence": "Owlet products are marketed and distributed in the United States and internationally through consumer and, more recently, through healthcare distribution channels."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Dream Sock replaced the legacy Smart Sock product as the next-generation monitor.",
+   "evidence": "Dream Sock is the next-generation monitor that replaced our legacy Smart Sock product."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, Owlet360 subscription service was fully launched in January after excee"
+ ]
+}

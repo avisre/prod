@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0002058349",
+ "issuerName": "Etoiles Capital Group Co., Ltd.",
+ "builtAt": "2026-11-14T17:41:32.953Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-056086",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/2058349/000121390026056086/ea0288885-20f_etoiles.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated Investor Relations Services",
+   "products": [],
+   "description": "Provides integrated investor relations services to companies managing institutional relations and stakeholder engagement.",
+   "evidence": "Etoiles Consultancy specializes in providing integrated investor relations services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Companies pay for integrated investor relations services including institutional relations management and stakeholder engagement solutions.",
+  "evidence": "Etoiles Consultancy is a limited liability company primarily engaged in the provision of integrated investor relations services."
+ },
+ "changes": [],
+ "dropped": []
+}

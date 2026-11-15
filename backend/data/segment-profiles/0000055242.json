@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000055242",
+ "issuerName": "KENNAMETAL INC.",
+ "builtAt": "2026-11-14T13:44:56.654Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-056143",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/55242/000162828026056143/kmt-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metal Cutting",
+   "products": [
+    "milling",
+    "hole making",
+    "turning",
+    "threading",
+    "toolmaking systems",
+    "Kennametal®",
+    "WIDIA®",
+    "WIDIA Hanita®"
+   ],
+   "description": "Develops and manufactures high performance tooling and metal cutting products and services for General Engineering, Transportation, Aerospace & Defense and Energy end markets.",
+   "evidence": "The Metal Cutting segment develops and manufactures high performance tooling and metal cutting products and services and offers an assortment of standard and custom metal cutting solutions to diverse end markets, including General Engineering, Transportation, Aerospace & Defense and Energy."
+  },
+  {
+   "name": "Infrastructure",
+   "products": [
+    "engineered tungsten carbide and ceramic components",
+    "earth cutting tools",
+    "advanced metallurgical powders",
+    "compacts",
+    "nozzles",
+    "frac seats",
+    "tungsten carbide powders",
+    "tungsten penetrators and armor solutions"
+   ],
+   "description": "Produces engineered tungsten carbide and ceramic components, earth cutting tools and metallurgical powders for Earthworks, General Engineering, Energy and Aerospace & Defense end markets.",
+   "evidence": "Our Infrastructure segment produces engineered tungsten carbide and ceramic components, earth cutting tools, and advanced metallurgical powders, primarily for the Earthworks, General Engineering, Energy and Aerospace & Defense end markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells tooling, wear-resistant components and powders to industrial manufacturers and equipment-intensive producers through a direct sales force and distributors.",
+  "evidence": "Metal Cutting markets its products under the Kennametal ® , WIDIA ® , WIDIA Hanita ® and WIDIA GTD ® brands through its direct sales force, a network of independent and national distributors, integrated supplier channels and digitally."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the company sold a subsidiary located in Goshen, Indiana.",
+   "evidence": "During fiscal 2025, we completed the sale of a subsidiary located in Goshen, Indiana to a Chicago-based private equity firm and recognized a loss on divestiture of $1.5 million."
+  }
+ ],
+ "dropped": []
+}

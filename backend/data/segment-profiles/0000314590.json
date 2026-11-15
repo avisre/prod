@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0000314590",
+ "issuerName": "Sasol Limited",
+ "builtAt": "2026-11-14T13:48:00.351Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-104048",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/314590/000110465926104048/ssl-20260630xex99d1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mining",
+   "products": [
+    "coal"
+   ],
+   "description": "Secures coal feedstock for the Southern African value chain, mainly for gasification, and generates electricity and steam.",
+   "evidence": "Mining is responsible for securing coal feedstock for the Southern African value chain, mainly for gasification, but also to generate electricity and steam."
+  },
+  {
+   "name": "Gas",
+   "products": [
+    "natural methane rich gas (MRG)",
+    "liquefied petroleum gas (LPG)",
+    "condensate"
+   ],
+   "description": "Provides upstream feedstock, transports gas through the ROMPCO pipeline, and sells gas externally to customers.",
+   "evidence": "The Gas segment reflects the upstream feedstock, transport of gas through the Republic of Mozambique Pipeline Investments Company (ROMPCO) pipeline, and external natural methane rich gas (MRG) and liquefied petroleum gas (LPG) sales."
+  },
+  {
+   "name": "Fuels",
+   "products": [
+    "liquid fuels"
+   ],
+   "description": "Sells and markets liquid fuels produced in South Africa through retail and wholesale channels, including ORYX GTL in Qatar.",
+   "evidence": "The Fuels segment comprises the sales and marketing of liquid fuels produced in South Africa."
+  },
+  {
+   "name": "Chemicals Africa",
+   "products": [
+    "Base Chemicals",
+    "Differentiated Chemicals"
+   ],
+   "description": "Produces and sells base and differentiated chemicals for customers in the Africa region.",
+   "evidence": "The Chemicals Business has a strong diversified, global presence which has been organised into three customer-focused regional operating segments – Africa under Southern Africa and America and Eurasia under International Chemicals."
+  },
+  {
+   "name": "Chemicals America",
+   "products": [
+    "Base Chemicals",
+    "Differentiated Chemicals"
+   ],
+   "description": "Produces and sells base and differentiated chemicals for customers in the Americas.",
+   "evidence": "The Chemicals business reportable segments are differentiated by the regions in which they operate."
+  },
+  {
+   "name": "Chemicals Eurasia",
+   "products": [
+    "Base Chemicals",
+    "Differentiated Chemicals"
+   ],
+   "description": "Produces and sells base and differentiated chemicals for customers in the Eurasia region.",
+   "evidence": "The International Chemicals business comprises of Chemicals America and Chemicals Eurasia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Sasol for coal, gas, condensate, liquid fuels and chemical products sold under long-term and short-term supply contracts, with revenue recognised on delivery.",
+  "evidence": "Coal is supplied to SO and to Sasolburg Operations based on long-term supply contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Sasol Mining ceased export coal production and concluded its final export sales in the first quarter of 2026.",
+   "evidence": "Following the repurposing of the existing export beneficiation plant as a destoning solution, Sasol Mining ceased export production on 30 June 2025 and concluded its final export sales in quarter 1 of 2026."
+  }
+ ],
+ "dropped": []
+}

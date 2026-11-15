@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000048287",
+ "issuerName": "HNI Corporation",
+ "builtAt": "2026-11-14T13:44:41.704Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000048287-26-000084",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/48287/000004828726000084/hni-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Workplace Furnishings",
+   "products": [
+    "panel-based and freestanding furniture systems",
+    "seating",
+    "benching",
+    "tables",
+    "architectural products",
+    "storage",
+    "ancillary products",
+    "hospitality products"
+   ],
+   "description": "Designs, manufactures and markets office furniture and workplace solutions for commercial, government, education and health care customers.",
+   "evidence": "The various Workplace Furnishings businesses sell similar products that include panel-based and freestanding furniture systems, seating, benching, tables, architectural products, storage, ancillary products, hospitality products and social collaborative items."
+  },
+  {
+   "name": "Residential Building Products",
+   "products": [
+    "gas, wood, electric, and pellet-fueled fireplaces",
+    "inserts",
+    "stoves",
+    "facings",
+    "outdoor fire pits and fire tables",
+    "accessories"
+   ],
+   "description": "Manufactures and sells hearth products to builders and homeowners through dealers, distributors and company-owned outlets.",
+   "evidence": "The Residential Building Products businesses manufacture and sell a full array of gas, wood, electric, and pellet-fueled fireplaces, inserts, stoves, facings, outdoor fire pits and fire tables, and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net sales from selling workplace furnishings through dealers, distributors and direct to end-users and governments, and hearth products through dealers, distributors and company-owned outlets.",
+  "evidence": "These products are sold primarily through a system of independent dealers, company-owned dealers, and office product distributors, but also directly to end-user customers and federal, state, and local governments."
+ },
+ "changes": [
+  {
+   "text": "In 2025, HNI acquired Steelcase Inc., which is included in the Workplace Furnishings segment.",
+   "evidence": "On December 10, 2025 the Corporation acquired by merger Steelcase Inc. (\"Steelcase\"), a global design and furniture company headquartered in Grand Rapids, Michigan, for total consideration of cash and HNI common stock valued at $1.9 billion."
+  },
+  {
+   "text": "In 2025, HNI divested HNI India in the second quarter.",
+   "evidence": "the divestiture of HNI India in the second quarter of 2025 allows the Corporation to focus on its core strategies."
+  }
+ ],
+ "dropped": []
+}

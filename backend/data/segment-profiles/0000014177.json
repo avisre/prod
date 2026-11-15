@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000014177",
+ "issuerName": "BRIDGFORD FOODS CORPORATION",
+ "builtAt": "2026-11-14T14:07:04.419Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-004079",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/14177/000149315226004079/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Frozen Food Products",
+   "products": [
+    "biscuits",
+    "bread dough items",
+    "roll dough items",
+    "dry sausage products",
+    "salami",
+    "beef jerky"
+   ],
+   "description": "Manufacturing and distributing frozen food products to food service and retail customers throughout the United States.",
+   "evidence": "Bridgford currently operates in two business segments - the processing and distribution of frozen food products and the processing and distribution of snack food products."
+  },
+  {
+   "name": "Snack Food Products",
+   "products": [],
+   "description": "Manufacturing and distributing non-refrigerated snack food products through direct-store-delivery and warehouse distribution networks.",
+   "evidence": "Bridgford currently operates in two business segments - the processing and distribution of frozen food products and the processing and distribution of snack food products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase frozen and snack food products through food service distributors, retail distributors, and direct-store-delivery to retail locations.",
+  "evidence": "Products produced by the Frozen Food Products segment are generally supplied to food service and retail distributors who take title to the product upon shipment receipt."
+ },
+ "changes": [],
+ "dropped": []
+}

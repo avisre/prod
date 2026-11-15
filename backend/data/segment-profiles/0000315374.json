@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000315374",
+ "issuerName": "HURCO COMPANIES, INC.",
+ "builtAt": "2026-11-14T13:48:05.805Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-002512",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/315374/000110465926002512/hurc-20251031x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial automation equipment",
+   "products": [
+    "Computerized Machine Tools",
+    "Computer Control Systems and Software",
+    "Service Parts",
+    "Service Fees",
+    "WinMax® software"
+   ],
+   "description": "Designs, manufactures, and sells computerized CNC machine tools, controls, software, parts, and services to companies in the metal cutting industry worldwide.",
+   "evidence": "We are organized and managed as a single operating and reportable segment: industrial automation equipment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly metal cutting companies, pay for machine tools, control systems, software, replacement parts, and service and training, sold through distributors, agents, and direct sales.",
+  "evidence": "Our products are marketed and sold internationally through a broad network of independent distributors and agents and direct sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Industrial automation equipment): UltiMotion® motion control system"
+ ]
+}

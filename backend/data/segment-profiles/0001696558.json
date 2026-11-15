@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001696558",
+ "issuerName": "Jerash Holdings (US), Inc.",
+ "builtAt": "2026-11-15T02:50:04.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-070227",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1696558/000121390026070227/ea0292859-10k_jerash.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing and Exporting",
+   "products": [
+    "Jackets",
+    "Polo shirts",
+    "T-shirts",
+    "Pants",
+    "Shorts",
+    "Vests"
+   ],
+   "description": "Manufactures customized ready-made sportswear and outerwear from knitted fabric for well-known brands and retailers.",
+   "evidence": "Jerash Holdings (US), Inc. (\"Jerash Holdings\"), through its wholly owned operating subsidiaries (together, the \"Group,\" \"we,\" \"us,\" or \"our\"), is principally engaged in the manufacturing and exporting of customized, ready-made sportswear and outerwear from knitted fabric produced in its facilities in the Hashemite Kingdom of Jordan (\"Jordan\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for customized ready-made sportswear and outerwear manufactured by the company.",
+  "evidence": "The Company's major product is outerwear."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, principal activities of Chinese Garments, Jerash Embroidery, and Paramount were transferred to Jerash Garments.",
+   "evidence": "During the fiscal year 2026, principal activities of Chinese Garments, Jerash Embroidery, Paramount were transferred to Jerash Garments."
+  },
+  {
+   "text": "In June 2025, Treasure Success and Eratex approved termination of J&B's business operations and dissolution expected to complete in April 2027.",
+   "evidence": "On June 16, 2025, Treasure Success and Eratex attended a meeting of shareholders of J&B and approved the termination of J&B's business operations and the dissolution of J&B, which is expected to complete in April 2027."
+  },
+  {
+   "text": "In August 2025, Treasure Success and Newtech Textile (HK) Limited authorized application for deregistration of Jerash Newtech.",
+   "evidence": "On August 20, 2025, Treasure Success and Newtech Textile (HK) Limited attended a meeting of shareholders of Jerash Newtech and agreed to and authorized an application to be made for the deregistration of Jerash Newtech."
+  }
+ ],
+ "dropped": []
+}

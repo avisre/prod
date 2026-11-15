@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000106535",
+ "issuerName": "WEYERHAEUSER COMPANY",
+ "builtAt": "2026-11-14T13:47:22.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-051422",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/106535/000119312526051422/wy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Timberlands",
+   "products": [
+    "logs",
+    "sawlogs",
+    "stumpage and pay-as-cut timber",
+    "delivered logs"
+   ],
+   "description": "Grows and harvests timber on company-owned and managed timberlands, selling logs domestically and for export.",
+   "evidence": "Demand for sawlogs within our Timberlands segment is directly affected by domestic production of wood-based building products as well as export markets."
+  },
+  {
+   "name": "Real Estate, Energy and Natural Resources",
+   "products": [
+    "Real Estate",
+    "Natural Resources",
+    "Climate Solutions"
+   ],
+   "description": "Monetizes higher and better use timberlands and surface and subsurface assets, including through real estate sales and climate-related markets.",
+   "evidence": "Real Estate & ENR — Deliver premiums to timberland value by identifying and monetizing higher and better use lands and capturing the full value of surface and subsurface assets, including through our Climate Solutions business."
+  },
+  {
+   "name": "Wood Products",
+   "products": [
+    "structural lumber",
+    "oriented strand board",
+    "engineered wood products",
+    "complementary building products",
+    "specialty products"
+   ],
+   "description": "Manufactures wood products for residential, multi-family, repair and remodel, industrial and light commercial markets in the U.S. and Canada.",
+   "evidence": "Wood Products — Manufacture high-quality structural lumber, oriented strand board and engineered wood products, as well as deliver complementary building products for residential, multi-family, industrial and light commercial applications at competitive costs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in domestic and export building and construction markets pay Weyerhaeuser for logs, wood products and real estate or natural resource assets.",
+  "evidence": "Our Wood Products segment primarily sells into the new residential building and repair and remodel markets."
+ },
+ "changes": [
+  {
+   "text": "Beginning in the first quarter of 2026, the Real Estate, Energy and Natural Resources segment will be renamed Strategic Land Solutions.",
+   "evidence": "Beginning in the first quarter of 2026, the Real Estate, Energy and Natural Resources (Real Estate & ENR) segment will be renamed Strategic Land Solutions."
+  }
+ ],
+ "dropped": []
+}

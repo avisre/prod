@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001854139",
+ "issuerName": "Zevia PBC",
+ "builtAt": "2026-11-14T17:41:59.097Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005601",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1854139/000143774926005601/zvia20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beverages",
+   "products": [
+    "Soda",
+    "Energy Drinks",
+    "Tea"
+   ],
+   "description": "Develops, markets, sells and distributes zero sugar, naturally sweetened beverages across multiple categories.",
+   "evidence": "We are a better-for-you beverage company that develops, markets, sells, and distributes naturally delicious, zero sugar beverages."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers purchase beverages through brick and mortar retail stores and e-commerce channels across grocery, drug, warehouse club, mass, natural, convenience and specialty outlets.",
+  "evidence": "Our products are distributed and sold principally across the U.S. and Canada through a wide-ranging network of major retailers in the grocery, drug, warehouse club, mass, natural, convenience and e-commerce channels and in natural product stores and specialty outlets."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company will discontinue selling its Tea product line.",
+   "evidence": "In 2026, we will discontinue selling this product line."
+  }
+ ],
+ "dropped": []
+}

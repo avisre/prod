@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001158114",
+ "issuerName": "Applied Optoelectronics, Inc.",
+ "builtAt": "2026-11-14T17:38:32.393Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005875",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1158114/000143774926005875/aaoi20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fiber-optic networking products",
+   "products": [
+    "optical transceivers",
+    "lasers",
+    "laser components",
+    "transmitters",
+    "light engines",
+    "distribution equipment"
+   ],
+   "description": "Design and manufacture fiber-optic networking products for internet data center, CATV, telecom and FTTH markets.",
+   "evidence": "Applied Optoelectronics, Inc. (the \"Company\" or \"AOI\") is a leading, vertically integrated provider of fiber-optic networking products, primarily for four networking end-markets: internet data center, cable television (\"CATV\"), telecommunications, (\"telecom\"), and fiber-to-the-home (\"FTTH\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers including hyperscale data center operators, CATV equipment vendors, MSOs, network equipment manufacturers and telecom service providers purchase optical networking products for infrastructure and connectivity.",
+  "evidence": "Our customers in this market are generally large internet-based (\"hyperscale\") data center operators, along with equipment suppliers who supply our products along with others to our hyperscale data center operator customers."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company began offering CATV products directly to MSO customers under the Quantum Bandwidth brand name instead of solely through equipment vendors.",
+   "evidence": "In 2023, we began offering many of our CATV products directly to MSO customers, under Quantum Bandwidth™ brand name."
+  }
+ ],
+ "dropped": [
+  "product not in text (Fiber-optic networking products): headend equipment",
+  "product not in text (Fiber-optic networking products): node equipment"
+ ]
+}

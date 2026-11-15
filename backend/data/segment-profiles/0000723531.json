@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000723531",
+ "issuerName": "Paychex, Inc.",
+ "builtAt": "2026-11-14T13:49:29.064Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-307785",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/723531/000119312526307785/payx-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Human capital management",
+   "products": [
+    "Paychex Flex",
+    "SurePayroll",
+    "Paycor",
+    "Payroll processing",
+    "HR outsourcing (ASO and PEO)",
+    "Benefits administration",
+    "Insurance",
+    "WISE"
+   ],
+   "description": "Provides integrated human capital management technology and advisory solutions for HR, payroll, employee benefits, and insurance to businesses and their employees.",
+   "evidence": "We are an industry-leading human capital management (\"HCM\") company providing comprehensive technology and advisory solutions in human resources (\"HR\"), payroll processing, employee benefits, and insurance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

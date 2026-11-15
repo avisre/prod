@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000749251",
+ "issuerName": "Gartner, Inc.",
+ "builtAt": "2026-11-14T13:50:06.365Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000749251-26-000112",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/749251/000074925126000112/it-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business and Technology Insights",
+   "products": [
+    "subscription services",
+    "published content, data and benchmarks",
+    "Global Technology Sales",
+    "Global Business Sales",
+    "reports, briefings, updates and related tools"
+   ],
+   "description": "Provides subscription-based research, advisory access and tools to executives across every major function, industry and geography.",
+   "evidence": "Gartner delivers independent, objective insights to leaders across an enterprise through subscription services that include on-demand access to published content, data and benchmarks, and direct access to a network of more than 2,400 business and technology experts located around the globe."
+  },
+  {
+   "name": "Conferences",
+   "products": [
+    "Gartner Symposium/Xpo series",
+    "IT Symposium/Xpo",
+    "role-specific summits",
+    "workshop-style seminars",
+    "peer networking meetings",
+    "exclusive local C-level meetings"
+   ],
+   "description": "Hosts in-person conferences where IT and business executives learn, network and access Gartner insights and guidance.",
+   "evidence": "From our Gartner Symposium/Xpo series, to industry-leading conferences focused on specific business roles and topics, to peer-driven sessions, our offerings enable attendees to experience the best of Gartner insights and guidance."
+  },
+  {
+   "name": "Consulting",
+   "products": [
+    "custom analysis",
+    "on-the-ground support",
+    "benchmarking capabilities",
+    "IT cost optimization",
+    "digital transformation",
+    "IT sourcing optimization"
+   ],
+   "description": "Serves senior executives driving technology-related strategic initiatives with custom analysis and advisory support.",
+   "evidence": "Gartner Consulting serves chief information officers and other senior executives who are driving technology-related strategic initiatives to optimize technology investments and drive business impact."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay subscription fees for access to insights content and advisory services, plus fees for conference attendance and consulting engagements.",
+  "evidence": "Clients normally sign subscription contracts that provide access to our content and advisory services for individual users over a defined period."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Research segment was renamed Business and Technology Insights.",
+   "evidence": "In the second quarter of 2025, we renamed our segment previously referred to as Research to Business and Technology Insights (or \"Insights\") to reflect the nature of the value we provide to clients."
+  },
+  {
+   "text": "In 2025, Digital Markets was separated from the Insights segment and moved to Other as a non-reportable operating segment.",
+   "evidence": "In the third quarter of 2025, we changed the structure of our internal organization and concluded that Gartner Digital Markets (\"Digital Markets\") was an operating segment but does not meet the criteria of a reportable segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Gartner completed the sale of Digital Markets on February 5, 2026."
+ ]
+}

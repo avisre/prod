@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000069633",
+ "issuerName": "NAPCO SECURITY TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T13:45:36.179Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-100081",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/69633/000110465926100081/nssc-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security Products",
+   "products": [
+    "Standalone and networked digital door locks",
+    "Locksets, Panic Devices and Door Closers",
+    "Intrusion alarm equipment",
+    "Intrusion and fire alarm cellular communication devices and services",
+    "Door controllers and hosted services for access control",
+    "Video surveillance products",
+    "StarLink cellular communication devices",
+    "Alarm Lock"
+   ],
+   "description": "Manufactures and distributes electronic security devices, including access control, door locks, intrusion and fire alarm systems, video surveillance, and recurring cellular communication services.",
+   "evidence": "The Company operates its business under one operating segment, which is also its reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells security equipment upfront to distributors, dealers and installers, and charges installers monthly subscription fees for cellular communication services to its Networx Operations Center.",
+  "evidence": "These products are installed at the premises of end users, and we generate revenue from the installers by both the upfront purchase of our products and the monthly subscription fees for access to our Networx Operations Center (NOC) that provides cellular communication services to the devices."
+ },
+ "changes": [],
+ "dropped": []
+}

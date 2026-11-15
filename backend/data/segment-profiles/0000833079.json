@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000833079",
+ "issuerName": "Meritage Homes Corporation",
+ "builtAt": "2026-11-14T13:52:19.257Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000833079-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/833079/000083307926000010/mth-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "West",
+   "products": [],
+   "description": "Designs and builds entry-level and first move-up homes for homebuyers in western U.S. markets.",
+   "evidence": "These three regions are our principal homebuilding reporting segments."
+  },
+  {
+   "name": "Central",
+   "products": [],
+   "description": "Designs and builds entry-level and first move-up homes for homebuyers in central U.S. markets.",
+   "evidence": "These three regions are our principal homebuilding reporting segments."
+  },
+  {
+   "name": "East",
+   "products": [],
+   "description": "Designs and builds entry-level and first move-up homes for homebuyers in eastern U.S. markets.",
+   "evidence": "These three regions are our principal homebuilding reporting segments."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "mortgage services",
+    "insurance services",
+    "Carefree Title",
+    "Meritage Insurance"
+   ],
+   "description": "Provides title, escrow, mortgage and insurance services to the company's homebuyers.",
+   "evidence": "We also operate a financial services segment, which offers title and escrow, mortgage, and insurance services to our homebuyers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Homebuyers pay the company for homes purchased, and homebuyers also pay fees for title, escrow, mortgage and insurance services.",
+  "evidence": "At December 31, 2025, we were actively selling homes in 336 communities, with base prices ranging from approximately $161,000 to $1,000,000."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (West): single-family attached homes",
+  "product not in text (West): single-family detached homes",
+  "product not in text (Central): single-family attached homes",
+  "product not in text (Central): single-family detached homes",
+  "product not in text (East): single-family attached homes",
+  "product not in text (East): single-family detached homes",
+  "product not in text (Financial Services): title and escrow services",
+  "change not grounded: Effective January 1, 2025, the Tennessee homebuilding operating segment was recl"
+ ]
+}

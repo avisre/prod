@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000867840",
+ "issuerName": "PRECISION OPTICS CORPORATION, INC.",
+ "builtAt": "2026-11-14T13:53:21.192Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-007462",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/867840/000168316826007462/poci_i10k-063026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Optical Instruments",
+   "products": [
+    "endoscopes",
+    "endocouplers",
+    "Microprecision™ lenses",
+    "micro medical cameras",
+    "Unity Imaging Platform",
+    "digital imaging endoscopes"
+   ],
+   "description": "Develops and manufactures advanced optical instruments, including custom medical devices for minimally invasive surgery and optical components for defense, aerospace and industrial customers.",
+   "evidence": "We have been a developer and manufacturer of advanced optical instruments since 1982, and we operate primarily in two key market segments: medical devices and advanced defense/aerospace products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Medical device, defense/aerospace and industrial customers pay the company for manufactured optical systems and components and for engineering and product development services.",
+  "evidence": "During the fiscal year ended June 30, 2026, approximately 72% of our business was from systems manufacturing, 11% was from engineering services primarily relating to the design of medical device optical assemblies, 15% was from Ross Optical, and 2% from our micro-optics laboratory."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Optical Instruments): Ross Optical custom optical components and assemblies"
+ ]
+}

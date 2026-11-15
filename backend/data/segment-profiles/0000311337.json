@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000311337",
+ "issuerName": "SUNCOR ENERGY INC",
+ "builtAt": "2026-11-14T13:47:51.659Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-020411",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/311337/000110465926020411/su-20251231xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil Sands",
+   "products": [
+    "bitumen",
+    "synthetic crude oil",
+    "diesel"
+   ],
+   "description": "Explores, develops and produces bitumen and synthetic crude oil from mining and in situ operations in Northern Alberta for customers.",
+   "evidence": "Oil Sands includes the company's operations in Northern Alberta to explore, develop and produce bitumen, synthetic crude oil and related products from mining and in situ operations."
+  },
+  {
+   "name": "Exploration and Production",
+   "products": [
+    "crude oil",
+    "natural gas liquids"
+   ],
+   "description": "Holds offshore East Coast Canada oilfield interests and international onshore working interests in Libya, producing crude oil and natural gas liquids.",
+   "evidence": "Exploration and Production (E&P) includes offshore activity in East Coast Canada, with interests in the Terra Nova, White Rose, Hibernia and Hebron oilfields."
+  },
+  {
+   "name": "Refining and Marketing",
+   "products": [
+    "gasoline",
+    "distillate",
+    "petrochemical products",
+    "refined products"
+   ],
+   "description": "Refines crude oil and distributes, markets, transports and trades refined and petrochemical products through retail and wholesale networks in Canada and the U.S.",
+   "evidence": "Refining and Marketing includes the refining of crude oil products, and the distribution, marketing and transportation of refined and petrochemical products, and other purchased products through the retail and wholesale networks located in Canada and the United States (U.S.)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from selling crude oil, bitumen, refined products such as gasoline and distillate, and petrochemical products to wholesale and retail customers in North America and internationally.",
+  "evidence": "The company's revenues are from the following major commodities and geographical regions:"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000050725",
+ "issuerName": "GRIFFON CORPORATION",
+ "builtAt": "2026-11-14T13:44:49.289Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-053242",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/50725/000162828025053242/gff-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home and Building Products",
+   "products": [
+    "Clopay",
+    "Ideal",
+    "Holmes",
+    "Cornell",
+    "Cookson",
+    "residential sectional garage doors",
+    "rolling steel service doors",
+    "fire doors"
+   ],
+   "description": "Clopay manufactures and markets residential and commercial garage doors and rolling steel doors for dealers and retail chains in North America.",
+   "evidence": "Home and Building Products (\"HBP\") conducts its operations through Clopay Corporation (\"Clopay\"). Founded in 1964, Clopay is the largest manufacturer and marketer of garage doors and rolling steel doors in North America."
+  },
+  {
+   "name": "Consumer and Professional Products",
+   "products": [
+    "AMES",
+    "Hunter",
+    "True Temper",
+    "ClosetMaid",
+    "Razor-Back Professional Tools",
+    "Jackson Professional Tools",
+    "Casablanca",
+    "Hunter Industrial"
+   ],
+   "description": "CPP is a global provider of branded consumer and professional tools, fans, home storage and organization products, and indoor and outdoor lifestyle products.",
+   "evidence": "Consumer and Professional Products (\"CPP\") is a global provider of branded consumer and professional tools; residential, industrial and commercial fans; home storage and organization products; and products that enhance indoor and outdoor lifestyles."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Griffon earns revenue from selling branded garage doors and rolling steel doors to professional installing dealers and home center retail chains, and branded consumer and professional products sold globally through retailers.",
+  "evidence": "Clopay's customers include over 3,000 independent professional installing dealers and major home center retail chains including Home Depot and Menards."
+ },
+ "changes": [
+  {
+   "text": "In 2022, Griffon divested its defense electronics (Telephonics) business to focus on core markets.",
+   "evidence": "We divested our specialty plastics business in 2018 and our defense electronics (Telephonics) business in 2022 to focus on our core markets and improve our free cash flow conversion."
+  },
+  {
+   "text": "In 2024, CPP's AMES subsidiary acquired substantially all the assets of Pope, a leading Australian provider of residential watering products.",
+   "evidence": "On July 1, 2024, Griffon announced that its subsidiary, The AMES Companies, Inc., (\"AMES\") expanded the scope of its Australian operations by acquiring substantially all the assets of Pope, a leading Australian provider of residential watering products, from The Toro Company (NYSE:TTC) for a purchase price of approximately AUD 21,800 (approximately $14,500) in cash."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000731766",
+ "issuerName": "UnitedHealth Group Incorporated",
+ "builtAt": "2026-11-14T13:49:44.810Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000731766-26-000062",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000062/unh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Optum Health",
+   "products": [
+    "patient-centered care",
+    "care management",
+    "wellness and consumer engagement",
+    "health financial services",
+    "Optum Financial",
+    "Optum Bank",
+    "telehealth",
+    "remote patient monitoring"
+   ],
+   "description": "Delivers comprehensive, patient-centered care and health financial services to consumers, employers, payers and public entities.",
+   "evidence": "Optum Health delivers patient-centered care, care management, wellness and consumer engagement, and health financial services;"
+  },
+  {
+   "name": "Optum Insight",
+   "products": [
+    "data and analytics",
+    "research",
+    "consulting",
+    "technology",
+    "managed services solutions",
+    "revenue cycle management",
+    "payment integrity portfolio"
+   ],
+   "description": "Provides data, analytics, technology and managed services to health systems, health plans, governments and life sciences companies.",
+   "evidence": "Optum Insight offers data, analytics, research, consulting, technology and managed services solutions;"
+  },
+  {
+   "name": "Optum Rx",
+   "products": [
+    "pharmacy care services",
+    "home delivery, specialty and community health pharmacies",
+    "in-home and community-based infusion services",
+    "rare disease and gene therapy support services",
+    "direct-to-consumer solutions",
+    "utilization management",
+    "medication management"
+   ],
+   "description": "Provides diversified pharmacy care services to health benefits providers, employer plans, unions, coalitions and public-sector entities.",
+   "evidence": "Optum Rx provides diversified pharmacy care services."
+  },
+  {
+   "name": "UnitedHealthcare",
+   "products": [
+    "UnitedHealthcare Employer & Individual",
+    "UnitedHealthcare Medicare & Retirement",
+    "UnitedHealthcare Community & State"
+   ],
+   "description": "Offers a full range of health benefits to consumers, employers, seniors and economically disadvantaged populations.",
+   "evidence": "UnitedHealthcare, which includes UnitedHealthcare Employer & Individual, UnitedHealthcare Medicare & Retirement and UnitedHealthcare Community & State."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns premiums and fees from health benefit plans, monthly premiums and fees under value-based and administrative arrangements, contracted fees for services, and fees plus investment and interest income from financial services.",
+  "evidence": "Optum Health offerings include fully accountable value-based arrangements, where Optum Health assumes responsibility for health care costs in exchange for a monthly premium."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: On January 1, 2026, Optum Financial, including Optum Bank, moved from Optum Heal"
+ ]
+}

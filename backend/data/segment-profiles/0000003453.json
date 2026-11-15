@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000003453",
+ "issuerName": "Matson, Inc.",
+ "builtAt": "2026-11-14T14:06:12.018Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020944",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/3453/000110465926020944/matx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ocean Transportation",
+   "products": [
+    "Hawaii service",
+    "China service",
+    "Guam service",
+    "Japan service",
+    "Micronesia service",
+    "Alaska service",
+    "South Pacific service",
+    "Terminal and stevedoring services"
+   ],
+   "description": "Provides ocean freight transportation services to domestic non-contiguous economies and island regions, plus terminal services.",
+   "evidence": "Matson's Ocean Transportation business is conducted through Matson Navigation Company, Inc. (\"MatNav\"), a wholly-owned subsidiary of Matson, Inc. Founded in 1882, MatNav provides a vital lifeline of ocean freight transportation services to the domestic non-contiguous economies of Hawaii, Alaska and Guam, and to other island economies in Micronesia."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "Transportation Brokerage",
+    "Freight Forwarding",
+    "Warehousing",
+    "Supply Chain Management"
+   ],
+   "description": "Provides multimodal transportation brokerage, freight forwarding, warehousing and supply chain management services throughout North America and Asia.",
+   "evidence": "Matson's Logistics business is conducted through Matson Logistics, Inc. (\"Matson Logistics\"), a wholly-owned subsidiary of MatNav. Established in 1987, Matson Logistics extends the geographic reach of Matson's transportation network throughout North America and Asia, and provides a variety of logistics services to its customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for ocean transportation of containerized freight and vehicles, and for logistics services including transportation brokerage, freight forwarding, warehousing and supply chain management.",
+  "evidence": "The majority of Matson's Hawaii service revenue is derived from the westbound carriage of containerized freight."
+ },
+ "changes": [],
+ "dropped": []
+}

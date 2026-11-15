@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000017843",
+ "issuerName": "CARPENTER TECHNOLOGY CORPORATION",
+ "builtAt": "2026-11-14T14:07:21.012Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000017843-26-000034",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/17843/000001784326000034/crs-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Alloys Operations",
+   "products": [
+    "titanium alloys",
+    "powder metals",
+    "stainless steels",
+    "alloy steels",
+    "tool steels"
+   ],
+   "description": "Manufactures major premium alloy and stainless steel at mills in Pennsylvania, South Carolina and Alabama.",
+   "evidence": "The SAO segment is comprised of the Company's major premium alloy and stainless steel manufacturing operations. This includes operations performed at mills primarily in Reading and Latrobe, Pennsylvania and surrounding areas as well as South Carolina and Alabama."
+  },
+  {
+   "name": "Performance Engineered Products",
+   "products": [
+    "Dynamet titanium business",
+    "Carpenter Additive business",
+    "Latrobe distribution",
+    "Mexico distribution"
+   ],
+   "description": "Provides differentiated specialty alloy operations including titanium, additive manufacturing materials and distribution services.",
+   "evidence": "The PEP segment is comprised of the Company's differentiated operations. This segment includes the Dynamet titanium business, the Carpenter Additive business and the Latrobe and Mexico distribution businesses."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in aerospace, defense, medical, transportation, energy, industrial and consumer markets pay for specialty alloys and related materials.",
+  "evidence": "We are a recognized leader in high-performance specialty alloy-based materials and process solutions for critical applications in the aerospace, defense, medical, transportation, energy, industrial and consumer markets."
+ },
+ "changes": [],
+ "dropped": []
+}

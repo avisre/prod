@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002060016",
+ "issuerName": "AGENCIA COMERCIAL SPIRITS LTD",
+ "builtAt": "2026-11-14T17:41:14.561Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050040",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2060016/000121390026050040/ea0286788-20f_agencia.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Trading and wholesale of whisky",
+   "products": [
+    "whisky products"
+   ],
+   "description": "Trades and wholesales whisky products across several geographic regions on an integrated basis.",
+   "evidence": "The Company therefore operates as a single operating segment, as its activities relating to the trading and wholesale of whisky products are managed on an integrated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for whisky products it trades and wholesales.",
+  "evidence": "its activities relating to the trading and wholesale of whisky products are managed on an integrated basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000101199",
+ "issuerName": "UNITED FIRE GROUP INC",
+ "builtAt": "2026-11-14T13:47:01.765Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000101199-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/101199/000010119926000015/ufcs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property and casualty insurance",
+   "products": [
+    "Commercial lines",
+    "Other liability",
+    "Fire and allied lines",
+    "Automobile",
+    "Workers' compensation",
+    "Surety",
+    "Reinsurance assumed"
+   ],
+   "description": "Writes property and casualty insurance, primarily commercial lines including surety bonds, through independent agencies for small and middle market businesses.",
+   "evidence": "We operate as one operating segment. Our revenues are primarily derived from premiums earned for property and casualty insurance products issued to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay premiums for property and casualty insurance products, which the company earns ratably over the coverage period.",
+  "evidence": "Our revenues are primarily derived from premiums earned for property and casualty insurance products issued to customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Property and casualty insurance): Lloyd's of London syndicates",
+  "change not grounded: In 2020, the Company announced its intent to withdraw as a direct writer of pers"
+ ]
+}

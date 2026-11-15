@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0001527166",
+ "issuerName": "Carlyle Group Inc.",
+ "builtAt": "2026-11-14T17:36:24.367Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001527166-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1527166/000152716626000009/cg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Private Equity",
+   "products": [
+    "Buyout funds",
+    "Growth capital funds",
+    "Real estate funds",
+    "Infrastructure funds",
+    "Natural resources funds"
+   ],
+   "description": "Advises buyout, growth, real estate, infrastructure and natural resources funds investing in corporate transactions and portfolio companies.",
+   "evidence": "Our Global Private Equity segment advises our buyout, growth, real estate, and infrastructure & natural resources funds."
+  },
+  {
+   "name": "Global Credit",
+   "products": [
+    "Insurance solutions",
+    "Liquid credit",
+    "Opportunistic credit",
+    "Direct lending",
+    "Asset-backed finance",
+    "Aviation finance",
+    "Infrastructure credit",
+    "Global capital markets"
+   ],
+   "description": "Advises funds pursuing credit strategies across the spectrum including direct lending, CLOs, and aircraft financing.",
+   "evidence": "Our Global Credit segment advises funds and vehicles that pursue investment strategies including insurance solutions, liquid credit, opportunistic credit, direct lending, asset-backed finance, aviation finance, infrastructure credit, cross-platform credit products, and global capital markets."
+  },
+  {
+   "name": "Carlyle AlpInvest",
+   "products": [
+    "Secondary purchases",
+    "Portfolio finance",
+    "Co-investment programs",
+    "Primary fund investments"
+   ],
+   "description": "Advises global private equity programs pursuing secondary purchases, co-investments and financing of existing portfolios.",
+   "evidence": "Our Carlyle AlpInvest segment advises global private equity programs that pursue secondary purchases and financing of existing portfolios, managed co-investment programs, and primary fund investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Carlyle earns management fees from investment funds it manages and performance fees or carried interest when specified investment returns are achieved.",
+  "evidence": "We earn management fees pursuant to contractual arrangements with the investment funds that we manage and fees for transaction advisory and oversight services provided to portfolio companies of these funds. We also typically receive a performance fee from an investment fund, which may be either an incentive fee or a special residual allocation of income, which we refer to as a performance allocation, or carried interest, in the event that specified investment returns are achieved by the fund."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Global Investment Solutions segment was renamed Carlyle AlpInvest.",
+   "evidence": "Carlyle AlpInvest (formerly, Global Investment Solutions)"
+  }
+ ],
+ "dropped": []
+}

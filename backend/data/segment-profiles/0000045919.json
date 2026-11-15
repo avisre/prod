@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000045919",
+ "issuerName": "HARTE HANKS, INC.",
+ "builtAt": "2026-11-14T13:44:34.428Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018894",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/45919/000162828026018894/hrth-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Revenue Solutions",
+   "products": [
+    "Data & Analytics",
+    "Research & Intelligence",
+    "Strategy",
+    "Creative & Content",
+    "Marketing Technology",
+    "Digital and Multi-channel Marketing Execution & Advertising",
+    "Demand Generation and ABM",
+    "Managed Marketing Services"
+   ],
+   "description": "Provides data-driven marketing, demand generation and managed marketing services that help clients identify, engage and activate audiences.",
+   "evidence": "Revenue Solutions formerly referred to as Marking Services, Customer Care, and Fulfillment & Logistics Services."
+  },
+  {
+   "name": "Customer Care",
+   "products": [
+    "Customer Service Outsourcing",
+    "Customer Care Technology and AI Transformation",
+    "Self-Service Technology"
+   ],
+   "description": "Delivers omnichannel customer care and support services, including outsourced agents, CRM and AI technology, and self-service solutions.",
+   "evidence": "Our global, omnichannel delivery model is focused on providing our clients three key services: • Customer Service Outsourcing - Our accomplished customer care associates interact and resolve consumer queries and complaints across hardware and software platforms, healthcare benefit plans, product recalls and/or a myriad of other customer service issues."
+  },
+  {
+   "name": "Fulfillment & Logistics Services",
+   "products": [
+    "Product fulfillment",
+    "Print fulfillment",
+    "Mail fulfillment",
+    "Logistics"
+   ],
+   "description": "Stores, fulfills and delivers samples, kits, materials and products direct to consumers, influencers or businesses for client brands.",
+   "evidence": "Storing, fulfilling and delivering samples, kits, materials and products direct to the door of consumers, influencers or businesses;"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay Harte Hanks for marketing, customer care and fulfillment services delivered on a project or ongoing service basis.",
+  "evidence": "We then combine these insights with seamless program execution, fulfillment, service and delivery on a project or ongoing service basis to meet our clients' goals."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company renamed its Marking Services segment to Revenue Solutions.",
+   "evidence": "Harte Hanks, Inc. is a leading global customer experience company operating in three business segments: Revenue Solutions formerly referred to as Marking Services, Customer Care, and Fulfillment & Logistics Services."
+  },
+  {
+   "text": "Starting in 2024, services were organized into three business units spanning the end-to-end customer and product lifecycles.",
+   "evidence": "Operationally, starting in 2024, our services are organized into three business units that span the end to end customer and product lifecycles:"
+  }
+ ],
+ "dropped": []
+}

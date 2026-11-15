@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000866273",
+ "issuerName": "MATRIX SERVICE CO",
+ "builtAt": "2026-11-14T13:53:15.224Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000866273-26-000057",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/866273/000086627326000057/mtrx-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Storage and Terminal Solutions",
+   "products": [
+    "integrated engineering, procurement and construction (\"EPC\") services",
+    "repair, maintenance and fabrication services",
+    "geodesic domes",
+    "aluminum internal floating roofs",
+    "floating suction and skimmer systems",
+    "roof drain systems",
+    "floating roof seals"
+   ],
+   "description": "Provides EPC, repair, maintenance and fabrication services for bulk liquid, cryogenic and refrigerated storage and terminal facilities, plus specialty tank products.",
+   "evidence": "Storage and Terminal Solutions : delivers integrated engineering, procurement and construction (\"EPC\") services, along with repair, maintenance and fabrication services for bulk liquid, cryogenic, and refrigerated storage and terminal facilities supporting both traditional and emerging energy markets, including LNG, NGLs, petroleum products, chemicals, hydrogen, and ammonia."
+  },
+  {
+   "name": "Utility and Power Infrastructure",
+   "products": [
+    "construction, maintenance, upgrades and fabrication services for power generatio",
+    "integrated EPC, fabrication, and upgrade services for LNG peak shaving facilitie"
+   ],
+   "description": "Provides construction, maintenance, upgrade and fabrication services for power generation and power infrastructure for utilities, energy producers and data center customers.",
+   "evidence": "Utility and Power Infrastructure : delivers comprehensive construction, maintenance, upgrades and fabrication services for power generation facilities and power infrastructure systems for a variety of customers, including public and private utilities, energy producers and data center customers."
+  },
+  {
+   "name": "Process and Industrial Facilities",
+   "products": [
+    "engineering, construction, maintenance, and repair services",
+    "thermal vacuum test chambers"
+   ],
+   "description": "Provides engineering, construction, maintenance and repair services for heavy industrial and energy transition markets, including specialized aerospace and defense infrastructure.",
+   "evidence": "Process and Industrial Facilities : delivers engineering, construction, maintenance, and repair services across diverse heavy industrial and energy transition markets, including midstream and downstream energy, chemicals, mining and minerals, renewable fuels, and hydrogen."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company under fixed-price, time-and-material, or cost-plus contracts for engineering, construction, maintenance and fabrication projects, plus sales of specialty tank products.",
+  "evidence": "We perform work for our customers under contracts with various compensation formats that include fixed-price, time-and-material, cost-plus, or some combination thereof."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000277135",
+ "issuerName": "W.W. Grainger, Inc.",
+ "builtAt": "2026-11-14T13:47:44.792Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000277135-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/277135/000027713526000011/gww-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High-Touch Solutions N.A.",
+   "products": [
+    "Grainger.com",
+    "KeepStock®",
+    "technical support",
+    "inventory management",
+    "private label MRO items"
+   ],
+   "description": "Provides value-added MRO solutions rooted in deep product knowledge and customer expertise for customers with complex buying needs in North America.",
+   "evidence": "The Company's High-Touch Solutions N.A. segment provides value-added MRO solutions that are rooted in deep product knowledge and customer expertise."
+  },
+  {
+   "name": "Endless Assortment",
+   "products": [
+    "Zoro Tools, Inc. (Zoro)",
+    "MonotaRO Co., Ltd. (MonotaRO)"
+   ],
+   "description": "Provides a streamlined and transparent online platform with one-stop shopping for millions of products, operating mainly in the U.S. and Japan.",
+   "evidence": "The Endless Assortment segment includes the Company's Zoro Tools, Inc. (Zoro) and MonotaRO Co., Ltd. (MonotaRO) online channels which operate predominately in the U.S. and Japan, respectively."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Grainger earns revenue by selling MRO products and related services, such as inventory management and technical support, to businesses, government entities and institutions through both high-touch and online channels.",
+  "evidence": "Grainger's customers range from smaller businesses to large corporations, government entities and other institutions, representing a broad collection of industries, including, but not limited to commercial, healthcare, and manufacturing."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Grainger exited the U.K. market, completing the sale of the Cromwell business and closing the Zoro U.K. business.",
+   "evidence": "In the fourth quarter of 2025, Grainger exited the U.K. market by completing the sale of the Cromwell business and closing the Zoro U.K. business."
+  }
+ ],
+ "dropped": []
+}

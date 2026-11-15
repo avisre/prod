@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000742278",
+ "issuerName": "RPC, INC.",
+ "builtAt": "2026-11-14T13:49:56.276Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021480",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/742278/000110465926021480/res-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technical Services",
+   "products": [
+    "Pressure Pumping",
+    "Wireline",
+    "Downhole Tools",
+    "Coiled Tubing",
+    "Cementing",
+    "Snubbing",
+    "Nitrogen",
+    "Well Control"
+   ],
+   "description": "Provides well-site oilfield services and equipment with personnel to oil and gas producers for completion, production and maintenance of wells.",
+   "evidence": "This operating segment consists primarily of pressure pumping, wireline, downhole tools, coiled tubing and cementing."
+  },
+  {
+   "name": "Support Services",
+   "products": [
+    "Rental Tools",
+    "Pipe Handling",
+    "Pipe Inspection and Storage Services",
+    "Well Control School"
+   ],
+   "description": "Provides off-well-site equipment rentals and support services such as pipe inspection, storage and training to oil and gas producers.",
+   "evidence": "The equipment and services offered include rental tools, drill pipe and related tools, pipe handling, pipe inspection and storage services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and gas companies pay RPC for short-term oilfield services at rates based on the specific job, equipment, labor and consumables, generally invoiced upon completion of services.",
+  "evidence": "Pricing for these services is a function of rates based on the nature of the specific job, with consideration for the extent of equipment, labor, and consumables needed for the job."
+ },
+ "changes": [],
+ "dropped": []
+}

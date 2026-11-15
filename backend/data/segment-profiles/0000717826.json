@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000717826",
+ "issuerName": "ERICSSON LM TELEPHONE CO",
+ "builtAt": "2026-11-14T13:49:11.836Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-104149",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/717826/000119312526104149/d948057dex151.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enterprise",
+   "products": [
+    "Vonage",
+    "network APIs",
+    "private 5G",
+    "Enterprise Wireless Solutions",
+    "wireless WAN"
+   ],
+   "description": null,
+   "evidence": "Market area Other primarily includes IPR licensing revenues and segment Enterprise sales."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for network hardware, software licenses, subscription and usage-based cloud services, managed services and IPR royalties.",
+  "evidence": "IPR contracts are usually structured as a royalty fee based on sales or usage over the period, measured on a quarterly basis."
+ },
+ "changes": [
+  {
+   "text": "In 2024 Ericsson decided to exit a number of enterprise areas.",
+   "evidence": "Following the decision in 2024 to exit a number of areas, it was encouraging to see that we returned to year-over-year growth while strengthening the gross margin in Q4."
+  },
+  {
+   "text": "In 2025 Ericsson sold iconectiv, generating a gain.",
+   "evidence": "Excluding the gain from the iconectiv sale, the EBITA margin was 14.9%, bringing us close to our long-term ambition."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001828318",
+ "issuerName": "Enovix Corp",
+ "builtAt": "2026-11-14T17:40:03.913Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001828318-26-000006",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828318/000182831826000006/envx-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Battery Manufacturing",
+   "products": [
+    "silicon-anode batteries",
+    "battery cells",
+    "battery packs"
+   ],
+   "description": "Designs, develops, manufactures and commercializes advanced lithium-ion batteries with silicon-anode architectures for consumer electronics, defense and industrial applications.",
+   "evidence": "Enovix Corporation (the \"Company,\" \"we,\" \"us,\" \"our\" and \"Enovix\") is a global high-performance battery company focused on designing, developing, manufacturing, and commercializing advanced Lithium-ion, or Li-ion, batteries, including proprietary silicon-anode architectures, for smartphones, smart eyewear, defense, industrial and emerging edge-AI applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including original equipment manufacturers and original design manufacturers purchase batteries for smartphones, smart eyewear, defense and industrial applications.",
+  "evidence": "Most recently, we partnered with a top-tier mobile original equipment manufacturer (\"OEM\") on the development of our AI-1 TM smartphone battery, which demonstrated high volumetric energy density and fast-charge performance verified by an independent testing laboratory."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Enovix acquired Routejade, Inc., a battery manufacturer in South Korea, to vertically integrate electrode coating and battery pack manufacturing and expand product offerings to include lithium-ion battery technologies for defense and industrial…",
+   "evidence": "The Routejade acquisition enabled us to vertically integrate electrode coating and battery pack manufacturing and expand our product offerings to include lithium-ion battery technologies, including silicon-doped graphite solutions, for defense and industrial applications."
+  },
+  {
+   "text": "In 2025, Enovix acquired battery cell manufacturing assets and facilities from SolarEdge in South Korea to further expand manufacturing capabilities.",
+   "evidence": "In 2025, we further expanded our manufacturing capabilities in South Korea through the acquisition of an adjacent battery cell manufacturing facility and related equipment from Solar Edge."
+  }
+ ],
+ "dropped": [
+  "product not in text (Battery Manufacturing): AI-1 lithium-ion batteries",
+  "product not in text (Battery Manufacturing): silicon-doped graphite batteries"
+ ]
+}

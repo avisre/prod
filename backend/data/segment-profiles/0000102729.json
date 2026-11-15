@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000102729",
+ "issuerName": "Valmont Industries, Inc.",
+ "builtAt": "2026-11-14T13:47:08.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000102729-26-000007",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/102729/000010272926000007/vmi-20251227x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure",
+   "products": [
+    "Utility structures",
+    "Coatings services",
+    "Valmont Site Pro 1",
+    "Solar trackers"
+   ],
+   "description": "Manufactures and distributes products and solutions for utility, lighting, transportation, telecommunications and solar markets, plus coatings services to protect metal products.",
+   "evidence": "This segment consists of the manufacture and distribution of products and solutions to serve the infrastructure markets of utility, lighting, transportation, telecommunications, and solar, along with coatings services to protect metal products."
+  },
+  {
+   "name": "Agriculture",
+   "products": [
+    "Linear irrigation equipment",
+    "Aftermarket parts",
+    "Tubular products",
+    "Advanced technology solutions for precision agriculture"
+   ],
+   "description": "Manufactures center pivot and linear irrigation equipment components for agricultural markets, including aftermarket parts and precision agriculture technology.",
+   "evidence": "This segment consists of the manufacture of center pivot and linear irrigation equipment components for agricultural markets, including aftermarket parts and tubular products, and advanced technology solutions for precision agriculture."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including utilities, wireless carriers, contractors, solar developers and growers, pay Valmont for manufactured infrastructure products, coatings services and irrigation equipment, often sold through competitive bidding, direct sales forces and independent dealers.",
+  "evidence": "In the Infrastructure sector, sales are often determined through competitive bidding processes, with contracts awarded to the lowest bidder that meets all necessary qualifications."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Valmont divested its extractive business, which manufactured and distributed screening products for mining and quarrying in Australia and New Zealand, previously in the Infrastructure segment.",
+   "evidence": "Divested our extractive business, which included the manufacturing and distribution of screening products for the mining and quarrying sectors in Australia and New Zealand previously included in the Infrastructure segment, for $3.3 million"
+  },
+  {
+   "text": "In 2023, Valmont divested Torrent Engineering and Equipment Company, LLC, previously included in the Infrastructure segment.",
+   "evidence": "Divested Torrent Engineering and Equipment Company, LLC, an integrator of prepackaged pump stations in Indiana previously included in the Infrastructure segment, for $6.4 million"
+  },
+  {
+   "text": "In 2024, Valmont divested George Industries, a coating and anodizing company in California previously included in the Infrastructure segment.",
+   "evidence": "Divested George Industries, a coating and anodizing company in California previously included in the Infrastructure segment, for $0.5 million"
+  }
+ ],
+ "dropped": [
+  "product not in text (Infrastructure): Lighting and Transportation poles and structures",
+  "product not in text (Infrastructure): Telecommunications towers and small cell structures",
+  "product not in text (Agriculture): Center pivot irrigation equipment"
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000815556",
+ "issuerName": "FASTENAL CO",
+ "builtAt": "2026-11-14T13:51:48.620Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000815556-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/815556/000081555626000009/fast-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "threaded fasteners",
+    "industrial and construction supplies",
+    "FASTVend",
+    "FASTStock",
+    "FASTBin",
+    "FASTClick",
+    "integrated supply programs",
+    "eBusiness"
+   ],
+   "description": "Wholesale distribution of industrial and construction supplies, primarily fasteners, to business customers in the United States through a network of sites and distribution centers.",
+   "evidence": "Therefore, we report the results of our one reportable segment (U.S.) below."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fastenal earns sales primarily from business-to-business customers who purchase industrial and construction supplies, plus certain service fees and cash sales.",
+  "evidence": "The large majority of our transactions are business-to-business."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Fastenal began disclosing Sites information instead of public branches and customer-dedicated Onsites.",
+   "evidence": "Starting in 2025, we have disclosed Sites information instead of public branches and customer-dedicated Onsites."
+  }
+ ],
+ "dropped": []
+}

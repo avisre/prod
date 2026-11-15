@@ -1,0 +1,19 @@
+{
+ "version": 1,
+ "cik": "0000793733",
+ "issuerName": "SKYWEST INC",
+ "builtAt": "2026-11-14T13:51:08.905Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-016358",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/793733/000110465926016358/skyw-20251231xex10d5.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

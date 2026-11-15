@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000712771",
+ "issuerName": "ConnectOne Bancorp, Inc.",
+ "builtAt": "2026-11-14T13:48:57.567Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005320",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/712771/000143774926005320/cnob20251231c_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community bank",
+   "products": [
+    "personal and business checking accounts",
+    "money market accounts",
+    "time and savings accounts",
+    "credit cards",
+    "wire transfers",
+    "safe deposit boxes",
+    "retirement accounts",
+    "cash management services"
+   ],
+   "description": "A full-service commercial bank offering deposit and loan products to small and mid-sized businesses, professionals and individuals in the New York Metropolitan area and Florida.",
+   "evidence": "ConnectOne Bank is a high-performing commercial bank offering a full suite of deposit and loan products and services to the general public, primarily to small and mid-sized businesses, local professionals and individuals residing, working and conducting business in the New York Metropolitan area and the Florida market served by our West Palm Beach office and Orlando loan production office."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns most of its revenue from net interest income, the spread between interest received on loans and investment securities and interest paid on deposits and borrowings.",
+  "evidence": "We derive a majority of our revenue from net interest income (i.e., the difference between the interest we receive on our loans and investment securities and the interest we pay on deposits and borrowings)."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed its acquisition of The First of Long Island Corporation, whose bank subsidiary merged into ConnectOne Bank.",
+   "evidence": "On June 1, 2025 (the \"Acquisition Date\"), the Company completed the acquisition of The First of Long Island Corporation (\"FLIC\"), the parent company for The First National Bank of Long Island (\"FNBLI\"), in accordance with the definitive Agreement and Plan of Merger dated as of September 4, 2024 (the \"Merger Agreement\")."
+  }
+ ],
+ "dropped": []
+}

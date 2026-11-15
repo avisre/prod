@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000007084",
+ "issuerName": "Archer-Daniels-Midland Co",
+ "builtAt": "2026-11-14T14:06:33.340Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000007084-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/7084/000000708426000011/adm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ag Services and Oilseeds",
+   "products": [
+    "Soybeans",
+    "Oilseeds",
+    "Vegetable oils",
+    "Oilseed protein meals",
+    "Biodiesel",
+    "Peanuts",
+    "Cotton cellulose pulp"
+   ],
+   "description": "Originates, merchandises, transports, and processes oilseeds and agricultural commodities for food, feed, energy, and industrial customers.",
+   "evidence": "The Ag Services and Oilseeds segment includes global activities related to the origination, merchandising, transportation, and storage of agricultural raw materials, as well as the crushing and processing of oilseeds, including soybeans and soft seeds such as cottonseed, sunflower seed, canola, rapeseed, and flaxseed."
+  },
+  {
+   "name": "Carbohydrate Solutions",
+   "products": [
+    "Sweeteners",
+    "Starches",
+    "Syrups",
+    "Glucose",
+    "Wheat flour",
+    "Dextrose",
+    "Ethanol",
+    "Citric acids"
+   ],
+   "description": "Converts corn and wheat into ingredients and products for food, beverage, and fuel applications.",
+   "evidence": "The Carbohydrate Solutions segment engages in corn and wheat wet and dry milling and related processing activities. The segment converts corn and wheat into products and ingredients used in food and beverage applications, including sweeteners, starches, syrups, glucose, wheat flour, and dextrose."
+  },
+  {
+   "name": "Nutrition",
+   "products": [
+    "Plant-based proteins",
+    "Flavors and colors",
+    "Flavor systems",
+    "Emulsifiers",
+    "Probiotics",
+    "Enzymes"
+   ],
+   "description": "Creates and distributes nutrition ingredients and solutions for humans, livestock, aquaculture, and pets.",
+   "evidence": "The Nutrition segment serves various end markets including food, beverages, and nutritional supplements for humans, and complete feed, feed premix and additives, pet food and pet treats for livestock, aquaculture, and pets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers across food, feed, fuel, and industrial sectors pay for commodities, processed ingredients, and nutritional products.",
+  "evidence": "The segment produces and markets vegetable oils and oilseed protein meals used by food, feed, energy, and industrial customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Nutrition): Pet treats and pet foods",
+  "product not in text (Nutrition): Animal feed products"
+ ]
+}

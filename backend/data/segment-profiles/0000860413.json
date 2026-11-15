@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000860413",
+ "issuerName": "FIRST INTERSTATE BANCSYSTEM, INC.",
+ "builtAt": "2026-11-14T13:53:01.747Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000860413-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/860413/000086041326000011/fibk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "Mortgage loan origination and servicing",
+    "Repurchase agreements"
+   ],
+   "description": "Provides commercial, governmental and consumer banking services—deposits, lending, mortgage origination and wealth management—to individuals, businesses and nonprofits.",
+   "evidence": "Community banking encompasses commercial, governmental, and consumer banking services provided through our Bank, which primarily include the acceptance of deposits, the extension of credit, mortgage loan origination and servicing, and wealth management, which includes trust, employee benefit, investment management, insurance, agency, and custodial services to individuals, businesses, and nonprofit organizations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individuals, businesses, government entities and nonprofits pay the bank interest on loans, deposit and borrowing-related fees, and commissions on annuity and insurance product sales.",
+  "evidence": "Annuity and insurance commissions, included in wealth management revenues, primarily represent commissions received on annuity and insurance product sales."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company exited its indirect lending origination business and outsourced its consumer credit card portfolio.",
+   "evidence": "we exited our indirect lending origination business in early 2025 and outsourced our consumer credit card portfolio in mid-2025, as further described in Part II, Item 7."
+  }
+ ],
+ "dropped": [
+  "product not in text (Community banking): Deposits (checking, savings, time deposits)",
+  "product not in text (Community banking): Real estate, consumer, commercial, agricultural and other loans",
+  "product not in text (Community banking): Wealth management (trust, employee benefit, investment management, insurance, ag",
+  "change not grounded: In 2025, the company completed the divestiture of its banking operations in Ariz"
+ ]
+}

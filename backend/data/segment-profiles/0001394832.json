@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001394832",
+ "issuerName": "ATS Corp /ATS",
+ "builtAt": "2026-11-14T17:39:25.769Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001394832-26-000015",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1394832/000139483226000015/ats-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automation Systems",
+   "products": [],
+   "description": "Single operating segment that plans, allocates resources, builds capabilities and implements best practices globally.",
+   "evidence": "The Company's operations are reported as one operating segment, Automation Systems, which plans, allocates resources, builds capabilities and implements best practices on a global basis."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for construction contracts, services rendered, and sale of goods across life sciences, consumer products, food and beverage, energy and transportation markets.",
+  "evidence": "Revenues from construction contracts $ 1,602,013 $ 1,311,119 Services rendered 723,879 651,143 Sale of goods 647,040 571,026"
+ },
+ "changes": [],
+ "dropped": []
+}

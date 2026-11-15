@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0000901832",
+ "issuerName": "ASTRAZENECA PLC",
+ "builtAt": "2026-11-14T17:37:38.527Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-019130",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/901832/000110465926019130/azn-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceuticals",
+   "products": [],
+   "description": "Research, development, manufacture and sale of pharmaceutical and biologics products across oncology, cardiovascular, respiratory, vaccines and rare disease areas for patients worldwide.",
+   "evidence": "The Company was formed when the pharmaceutical, agrochemical and specialty chemical businesses of Imperial Chemical Industries PLC were demerged in 1993."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from product sales, plus alliance and collaboration revenue, with customers including government payers, managed care organisations, hospitals and purchasing organisations.",
+  "evidence": "These rebates typically arise from sales contracts with government payers, third-party managed care organisations, hospitals, long-term care facilities, group purchasing organisations and various state programmes."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "segment not in filing"
+}

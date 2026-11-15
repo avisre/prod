@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000038725",
+ "issuerName": "FRANKLIN ELECTRIC CO., INC.",
+ "builtAt": "2026-11-14T13:44:16.724Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000038725-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/38725/000003872526000009/fele-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Systems",
+   "products": [
+    "submersible motors",
+    "pumps",
+    "drives",
+    "electronic controls",
+    "water treatment systems",
+    "monitoring devices"
+   ],
+   "description": "Designs, manufactures and sells water pumping systems for groundwater, water transfer and wastewater in residential, agricultural, municipal and industrial applications.",
+   "evidence": "The Water Systems segment designs, manufactures and sells motors, pumps, drives, electronic controls, monitoring devices, and related parts and equipment primarily for use in groundwater, water transfer and wastewater."
+  },
+  {
+   "name": "Energy Systems",
+   "products": [
+    "fuel pumping systems",
+    "fuel containment systems",
+    "monitoring and control systems",
+    "submersible pumps",
+    "pipe, sumps, fittings",
+    "vapor recovery components",
+    "electronic controls"
+   ],
+   "description": "Designs, manufactures and sells fuel pumping, containment and monitoring systems for energy applications, including gas stations and power utility infrastructure.",
+   "evidence": "Energy Systems is a global leader in the production and marketing of fuel pumping systems, fuel containment systems and monitoring and control systems."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "groundwater equipment products",
+    "water pumping systems"
+   ],
+   "description": "Operates wholly owned groundwater distributors, the Headwater Companies, selling products to water well contractors in the U.S. professional groundwater market.",
+   "evidence": "The Distribution segment is operated as a collection of wholly owned leading groundwater distributors known as the Headwater Companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells water and fuel pumping products to specialty distributors, OEMs, industrial and petroleum equipment distributors, major oil and utility companies, and water well contractors, on normal and customary trade terms.",
+  "evidence": "The Company's Water Systems and Energy Systems products and related equipment are sold to specialty distributors and some original equipment manufacturers (\"OEMs\"), as well as industrial and petroleum equipment distributors and major oil and utility companies."
+ },
+ "changes": [
+  {
+   "text": "The Fueling Systems segment was renamed Energy Systems to reflect its diverse portfolio and growth strategy.",
+   "evidence": "The Company changed the name of the Fueling Systems segment to Energy Systems to reflect its diverse portfolio and growth strategy, as well as to better reflect the markets and customers served by the segment."
+  }
+ ],
+ "dropped": []
+}

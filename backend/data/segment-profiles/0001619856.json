@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001619856",
+ "issuerName": "Caribou Biosciences, Inc.",
+ "builtAt": "2026-11-14T17:41:43.837Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001619856-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1619856/000161985626000008/crbu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Allogeneic CAR-T Cell Therapies",
+   "products": [
+    "CB-011"
+   ],
+   "description": "Clinical-stage development of allogeneic off-the-shelf CAR-T cell therapies for treating hematologic malignancies using proprietary chRDNA genome-editing technology.",
+   "evidence": "We operate and manage our business as one reportable segment and one operating segment, which is the business of developing allogeneic CAR-T cell therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company receives licensing and collaboration revenue from licensees through nonrefundable upfront fees, maintenance fees, milestone payments, and royalties on commercialized products.",
+  "evidence": "Payments to us under these arrangements typically include one or more of the following: nonrefundable upfront license fees, maintenance fees, milestones, and other contingent payments to us for the achievement of defined collaboration objectives and certain nonclinical, clinical, regulatory, and sales-based events, as well as royalties on sales of any commercialized products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Allogeneic CAR-T Cell Therapies): Vispacabtagene regedleucel (vispa-cel)",
+  "change not grounded: In 2025, the company discontinued the GALLOP phase 1 trial of vispa-cel for lupu"
+ ]
+}

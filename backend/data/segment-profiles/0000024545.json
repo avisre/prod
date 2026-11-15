@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000024545",
+ "issuerName": "Molson Coors Beverage Company",
+ "builtAt": "2026-11-14T14:07:44.837Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000024545-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/24545/000002454526000006/tap-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Coors Light",
+    "Miller Lite",
+    "Coors Banquet",
+    "Molson Canadian",
+    "Blue Moon Belgian White",
+    "Vizzy Hard Seltzer",
+    "Simply Spiked",
+    "Fever-Tree"
+   ],
+   "description": "Production, importing, marketing, distribution and sales of beer and modern beverages in U.S., Canada and Latin America.",
+   "evidence": "Our Americas segment consists of the production, importing, marketing, distribution and sales of our owned brands, partner brands and licensed brands in the U.S., Canada and various countries in Latin America."
+  },
+  {
+   "name": "EMEA&APAC",
+   "products": [
+    "Carling",
+    "Ožujsko",
+    "Staropramen",
+    "Cobra",
+    "Pilsner Urquell",
+    "Peroni Nastro Azurro",
+    "Heineken",
+    "factored brands"
+   ],
+   "description": "Production, marketing and sales of beer and beverages in Europe, Middle East, Africa and Asia Pacific regions.",
+   "evidence": "Our EMEA&APAC segment consists of the production, marketing and sales of our owned brands, partner brands and licensed brands in Bulgaria, Croatia, Czech Republic, Hungary, Montenegro, the Republic of Ireland, Romania, Serbia, the U.K., various other European countries and certain countries within the Middle East, Africa and Asia Pacific regions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers purchase beer and beverage products across retail and on-premise channels; government excise taxes are levied on alcohol products.",
+  "evidence": "excise taxes remitted to tax authorities are government-imposed taxes on alcohol products which are shown in a separate line item in the consolidated statements of operations as a reduction of sales."
+ },
+ "changes": [
+  {
+   "text": "In 2020, the company changed its name from Molson Coors Brewing Company to Molson Coors Beverage Company in connection with expansion beyond the beer aisle.",
+   "evidence": "In January 2020, we changed our name from Molson Coors Brewing Company to Molson Coors Beverage Company in connection with our expansion beyond the beer aisle."
+  }
+ ],
+ "dropped": []
+}

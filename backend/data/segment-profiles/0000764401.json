@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000764401",
+ "issuerName": "INSTEEL INDUSTRIES INC.",
+ "builtAt": "2026-11-14T13:50:23.725Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-033862",
+  "periodEnd": "2026-10-03",
+  "filingDate": "2026-10-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/764401/000143774926033862/iiin20261003_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel wire reinforcing products",
+   "products": [
+    "PC strand",
+    "WWR",
+    "ESM",
+    "CPR",
+    "SWWR"
+   ],
+   "description": "Manufactures and markets steel wire reinforcing products for concrete construction applications, sold mainly to manufacturers of concrete products.",
+   "evidence": "Our concrete reinforcing products consist of two product lines: PC strand and WWR."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insteel is paid by manufacturers of concrete products, and to a lesser extent distributors, rebar fabricators and contractors, for its steel wire reinforcing products.",
+  "evidence": "We sell our products to a broad range of customers that includes manufacturers of concrete products, and to a lesser extent, distributors, rebar fabricators and contractors."
+ },
+ "changes": [
+  {
+   "text": "In August 2026, Insteel announced plans to close its Upper Sandusky, Ohio manufacturing facility and consolidate its operations into its remaining WWR facilities.",
+   "evidence": "In August 2026, we announced plans to close our Upper Sandusky, Ohio manufacturing facility and consolidate its operations into our remaining WWR facilities."
+  }
+ ],
+ "dropped": []
+}

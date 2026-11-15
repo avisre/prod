@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000827876",
+ "issuerName": "CleanSpark, Inc.",
+ "builtAt": "2026-11-14T13:52:11.744Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-297510",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin mining",
+   "products": [
+    "AI and HPC hosting and leasing"
+   ],
+   "description": "Operates owned and leased data centers across Georgia, Tennessee, Mississippi and Wyoming to mine bitcoin, with plans to support AI and HPC workloads.",
+   "evidence": "The Company has a sole reporting segment which is the bitcoin mining segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns variable consideration in bitcoin from a single third-party mining pool operator in exchange for contributing computing power to the pool.",
+  "evidence": "We obtain bitcoin as a result of our mining operations by contributing all of our computing power to a single mining pool operator, who is currently our sole customer."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2025, the company's co-location hosting arrangement in New York expired and wind-down commenced.",
+   "evidence": "We had an independent bitcoin mining operation in Massena, NY subject to a hosting agreement that operated 50 MW, which expired on December 31, 2024."
+  }
+ ],
+ "dropped": [
+  "product not in text (Bitcoin mining): bitcoin mining"
+ ]
+}

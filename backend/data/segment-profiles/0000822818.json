@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000822818",
+ "issuerName": "CLEAN HARBORS, INC",
+ "builtAt": "2026-11-14T13:52:02.142Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000822818-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/822818/000082281826000009/clh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Environmental Services",
+   "products": [
+    "emergency response services",
+    "Total PFAS Solutions",
+    "industrial maintenance and specialty industrial services",
+    "parts washer and vacuum services",
+    "containerized waste collection",
+    "InSite Service"
+   ],
+   "description": "Provides hazardous and non-hazardous waste collection, treatment, recycling and disposal, plus emergency response and industrial services to customers across North America.",
+   "evidence": "We safely collect, transport, treat, recycle when suitable and dispose of hazardous and non-hazardous waste through our network of over 100 waste disposal facilities including incinerators; landfills; treatment, storage and disposal facilities, or TSDFs, wastewater treatment facilities; and solvent recycling centers."
+  },
+  {
+   "name": "Safety-Kleen Sustainability Solutions",
+   "products": [
+    "base oil"
+   ],
+   "description": "Collects used oil and automotive fluids and re-refines them into base oil, lubricants and byproducts sold back to customers.",
+   "evidence": "SKSS provides collections services for used oil, used oil filters and other automotive related fluids, allowing customers to manage these wastes in a responsible and compliant way while also converting these waste streams into high quality products for re-use."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for waste collection, treatment, disposal and industrial services, and for re-refined base oil, lubricants and byproducts returned to the marketplace.",
+  "evidence": "These gallons were then processed, along with additives and some purchased used oil, into new re-refined base oil, lubricants and byproducts, which were returned back into the marketplace."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Environmental Services): hazardous and non-hazardous waste collection, transport, treatment, recycling an",
+  "product not in text (Safety-Kleen Sustainability Solutions): used oil, used oil filter and automotive fluid collection services",
+  "product not in text (Safety-Kleen Sustainability Solutions): vacuum gas oil (VGO)",
+  "product not in text (Safety-Kleen Sustainability Solutions): re-refined lubricants"
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000021665",
+ "issuerName": "COLGATE-PALMOLIVE COMPANY",
+ "builtAt": "2026-11-14T14:07:37.546Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000021665-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/21665/000002166526000006/cl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oral, Personal and Home Care",
+   "products": [],
+   "description": "Manufactures and markets oral care, personal care and home care products sold to retailers, wholesalers and distributors worldwide.",
+   "evidence": "We operate in two product segments: Oral, Personal and Home Care; and Pet Nutrition."
+  },
+  {
+   "name": "Pet Nutrition",
+   "products": [
+    "Hill's Science Diet",
+    "Hill's Prescription Diet",
+    "Prime100"
+   ],
+   "description": "Produces specialty pet nutrition products for dogs and cats sold through pet retailers, veterinarians and eCommerce.",
+   "evidence": "Through our Hill's Pet Nutrition segment (\"Hill's\" or \"Pet Nutrition\"), we are a leader in specialty pet nutrition products for dogs and cats with products marketed in over 80 countries and territories worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers and pet owners pay for consumer packaged goods sold through retailers, wholesalers, distributors, veterinarians and direct-to-consumer channels.",
+  "evidence": "Our Oral, Personal and Home Care products are sold to a variety of retailers, wholesalers and distributors worldwide. Pet Nutrition products are sold by authorized pet supply retailers, veterinarians and eCommerce retailers. Certain of our products are also sold direct-to-consumer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Oral, Personal and Home Care): Colgate, Darlie, elmex, hello, meridol, Sorriso, Tom's of Maine toothpastes",
+  "product not in text (Oral, Personal and Home Care): Colgate, Darlie, elmex, meridol toothbrushes",
+  "product not in text (Oral, Personal and Home Care): Colgate, elmex, meridol mouthwashes",
+  "product not in text (Oral, Personal and Home Care): Palmolive, Protex, Softsoap liquid hand soaps",
+  "product not in text (Oral, Personal and Home Care): Irish Spring, Palmolive, Protex bar soaps",
+  "product not in text (Oral, Personal and Home Care): Irish Spring, Palmolive, Sanex, Softsoap shower gels",
+  "product not in text (Oral, Personal and Home Care): Lady Speed Stick, Sanex, Speed Stick, Tom's of Maine deodorants and antiperspira",
+  "product not in text (Oral, Personal and Home Care): EltaMD, Filorga, PCA SKIN skin health products"
+ ]
+}

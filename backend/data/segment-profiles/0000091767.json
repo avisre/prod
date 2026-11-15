@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000091767",
+ "issuerName": "Sonoco Products Company",
+ "builtAt": "2026-11-14T13:46:34.088Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000091767-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/91767/000009176726000008/son-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Packaging",
+   "products": [
+    "rigid paper containers",
+    "metal cans",
+    "metal ends and closures",
+    "metal food and household packaging"
+   ],
+   "description": "Makes rigid paper, metal and plastic packaging for consumer staples customers in food, beverage, household, personal and pharmaceutical markets.",
+   "evidence": "Products within the Consumer Packaging segment consist of rigid packaging (paper, metal, and plastic), primarily serving the consumer staples market focused on food, beverage, household, personal, and pharmaceutical products."
+  },
+  {
+   "name": "Industrial Paper Packaging",
+   "products": [
+    "paperboard tubes",
+    "cores",
+    "cones",
+    "partitions",
+    "paper-based protective materials",
+    "uncoated recycled paperboard"
+   ],
+   "description": "Produces recycled-fiber packaging such as tubes, cores and paperboard, serving consumer staples, consumer discretionary and industrial end markets.",
+   "evidence": "Products within the Industrial Paper Packaging segment consist primarily of goods produced from recycled fiber including paperboard tubes, cores, cones and cans; partitions; paper-based protective materials; and uncoated recycled paperboard for high-end applications such as folding cartons, can board, and laminated structures."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "industrial and specialty plastics"
+   ],
+   "description": "Holds the remaining industrial and specialty plastics business after the ThermoSafe divestiture.",
+   "evidence": "As of December 31, 2025, the operations in All Other consisted of approximately 5 plants in the Company's industrial and specialty plastics business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sonoco sells engineered packaging products directly to consumer and industrial customers, and also sells surplus manufactured paper to third parties.",
+  "evidence": "Sonoco uses approximately 56% of the paper it manufactures, and the remainder is sold to third parties."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Sonoco sold TFP, which is presented as discontinued operations for all periods.",
+   "evidence": "On April 1, 2025, the Company completed the sale of TFP to TOPPAN Holdings Inc. (\"Toppan\") for approximately $1.8 billion on a cash-free and debt-free basis and subject to customary adjustments."
+  },
+  {
+   "text": "In 2025 Sonoco sold ThermoSafe, leaving industrial and specialty plastics as the only All Other business, which moves into Industrial Paper Packaging in 2026.",
+   "evidence": "On November 3, 2025, the Company completed the sale of ThermoSafe, its temperature-assured packaging business and part of the All Other group of businesses, to Arsenal Capital Partners (\"Arsenal\"), a private equity firm, for net cash consideration of $656 million paid at closing on a cash-free and debt-free basis and subject to customary adjustments."
+  }
+ ],
+ "dropped": [
+  "product not in text (Consumer Packaging): rigid plastic packaging",
+  "product not in text (Industrial Paper Packaging): paperboard cans",
+  "change not grounded: In 2024 Sonoco acquired Eviosys, which operates within the Consumer Packaging se"
+ ]
+}

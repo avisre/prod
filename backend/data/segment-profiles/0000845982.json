@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000845982",
+ "issuerName": "Smith & Nephew plc",
+ "builtAt": "2026-11-14T13:52:42.553Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-028258",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/845982/000110465926028258/snn-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Orthopaedics",
+   "products": [
+    "Knee Implants",
+    "Hip Implants",
+    "Other Reconstruction",
+    "Trauma & Extremities"
+   ],
+   "description": "Provides orthopaedic reconstruction implants and trauma and extremities products for hospitals and surgeons.",
+   "evidence": "Orthopaedics and Sports Medicine & ENT consists of the following businesses: Knee Implants, Hip Implants, Other Reconstruction, Trauma & Extremities, Sports Medicine Joint Repair, Arthroscopic Enabling Technologies and ENT."
+  },
+  {
+   "name": "Sports Medicine & ENT",
+   "products": [
+    "Sports Medicine Joint Repair",
+    "Arthroscopic Enabling Technologies",
+    "ENT (Ear, Nose and Throat)"
+   ],
+   "description": "Provides sports medicine joint repair, arthroscopic enabling technologies and ear, nose and throat products for surgeons.",
+   "evidence": "The Group has concluded that Sports Medicine and ENT meet the aggregation criteria and therefore, these operating segments have been aggregated into a single operating segment."
+  },
+  {
+   "name": "Advanced Wound Management",
+   "products": [
+    "Advanced Wound Care",
+    "Advanced Wound Bioactives",
+    "Advanced Wound Devices"
+   ],
+   "description": "Provides advanced wound care, bioactives and devices products, largely through wholesalers and distributors.",
+   "evidence": "Advanced Wound Management consists of the following businesses: Advanced Wound Care, Advanced Wound Bioactives and Advanced Wound Devices."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Group sells medical devices to hospitals, Ambulatory Surgery Centers, wholesalers and distributors, recognising revenue when control of the products transfers to the customer.",
+  "evidence": "In general, our business in Established Markets is direct to hospitals and Ambulatory Surgery Centers, whereas in the Emerging Markets we generally sell through distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024, robotics consumables revenue was reclassified from Other Reconstruction to Knee and Hip Implants.",
+   "evidence": "Robotics consumables revenue has been reclassified from Other Reconstruction to Knee and Hip implants."
+  },
+  {
+   "text": "In 2024, the Group changed its segment trading profit measure by allocating directly attributable corporate costs to business units.",
+   "evidence": "In 2024, the Group changed the segment trading profit measure presented to the ExCo by allocating directly attributable corporate costs to business units."
+  },
+  {
+   "text": "In 2023, management concluded that Engage products should be discontinued and wrote off their assets and liabilities.",
+   "evidence": "During 2023, management evaluated the commercial viability of Engage products and concluded that they should be discontinued."
+  }
+ ],
+ "dropped": []
+}

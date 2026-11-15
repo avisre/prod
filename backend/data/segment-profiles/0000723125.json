@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0000723125",
+ "issuerName": "Micron Technology, Inc.",
+ "builtAt": "2026-11-14T13:49:26.877Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000723125-26-000023",
+  "periodEnd": "2026-09-03",
+  "filingDate": "2026-10-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000023/mu-20260903.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud Memory Business Unit (\"CMBU\")",
+   "products": [
+    "HBM",
+    "DDR",
+    "LPDDR",
+    "GDDR",
+    "low-power server DRAM"
+   ],
+   "description": "Provides memory solutions for large hyperscale cloud customers and HBM for all data center customers.",
+   "evidence": "CMBU is focused on memory solutions for large hyperscale cloud customers, and HBM for all data center customers."
+  },
+  {
+   "name": "Core Data Center Business Unit (\"CDBU\")",
+   "products": [
+    "data center SSDs",
+    "NAND components",
+    "DDR4 RDIMMs",
+    "QLC NAND"
+   ],
+   "description": "Provides storage solutions for all data center customers and memory solutions for OEM data center, enterprise, and NeoCloud customers.",
+   "evidence": "CDBU is focused on storage solutions for all data center customers, including data center SSDs and NAND components, and memory solutions for OEM data center, enterprise, and NeoCloud customers."
+  },
+  {
+   "name": "Mobile and Client Business Unit (\"MCBU\")",
+   "products": [
+    "DRAM",
+    "NAND",
+    "TLC",
+    "QLC",
+    "LPDDR"
+   ],
+   "description": "Provides memory and storage solutions for the mobile and client segments, plus consumer-market DRAM and component DRAM and NAND.",
+   "evidence": "MCBU is focused on memory and storage solutions for the mobile and client segments."
+  },
+  {
+   "name": "Automotive and Embedded Business Unit (\"AEBU\")",
+   "products": [
+    "DRAM",
+    "NAND",
+    "NOR"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Holds operations that do not meet the thresholds of a reportable segment.",
+   "evidence": "Our other operations do not meet the thresholds of a reportable segment and are reported under All Other."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Micron sells DRAM, NAND, and NOR memory and storage products through its business units to customers in data center, mobile, client, automotive, industrial, and consumer markets.",
+  "evidence": "We sell our products through our business units into various markets in numerous forms, including components, modules, SSDs, managed NAND, multi-chip packages, and wafers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 Micron began reporting under four business unit reportable segments (CMBU, CDBU, MCBU, and AEBU), replacing its prior segment structure.",
+   "evidence": "We have the following four business units, which are our reportable segments:"
+  }
+ ],
+ "dropped": [
+  "product not in text (Cloud Memory Business Unit (\"CMBU\")): high-capacity DIMMs",
+  "product not in text (Core Data Center Business Unit (\"CDBU\")): DDR5 RDIMMs",
+  "segment evidence not verbatim: Automotive and Embedded Business Unit (\"AEBU\")"
+ ]
+}

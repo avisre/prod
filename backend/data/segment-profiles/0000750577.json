@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000750577",
+ "issuerName": "HANCOCK WHITNEY CORPORATION",
+ "builtAt": "2026-11-14T13:50:08.414Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077903",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/750577/000119312526077903/hwc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "commercial and industrial loans",
+    "commercial real estate loans",
+    "consumer loans",
+    "treasury management services",
+    "letters of credit",
+    "equipment finance and leasing"
+   ],
+   "description": "Provides commercial, small business and retail banking services, including loans, deposits and treasury management, to businesses and consumers.",
+   "evidence": "The Bank offers a broad range of traditional and online banking services to commercial, small business and retail customers, providing a variety of transaction and savings deposit products, treasury management services, secured and unsecured loan products (including revolving credit facilities), letters of credit and similar financial guarantees."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "trust services",
+    "investment management services",
+    "investment advisory and brokerage products",
+    "fixed annuity and life insurance products"
+   ],
+   "description": "Provides trust and investment management services to retirement plans, corporations and individuals.",
+   "evidence": "The Bank provides trust and investment management services to retirement plans, corporations and individuals and provides its customers with access to investment advisory and brokerage products."
+  },
+  {
+   "name": "Treasury, Operations, and Other Corporate Business & Administration",
+   "products": [],
+   "description": "Houses treasury, operations and corporate administrative functions supporting the banking and wealth management businesses.",
+   "evidence": "in Commercial Banking, 10% in Wealth Management, and 35% in Treasury, Operations, and Other Corporate Business & Administration."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Bank interest on loans and fees for banking, trust and investment services, while the Bank pays interest on deposits.",
+  "evidence": "The Bank's primary lending focus is to provide commercial, consumer and real estate loans to consumers, small and middle market businesses, and corporate clients in the markets served by the Bank."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Florida-based Sabal Trust Company, expanding its trust and asset management business.",
+   "evidence": "The May 2025 acquisition of Florida-based Sabal Trust Company expanded our trust and asset management business with the addition of their leadership team and clients, including approximately $3 billion in assets under management."
+  }
+ ],
+ "dropped": []
+}

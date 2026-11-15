@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001568100",
+ "issuerName": "PAGERDUTY, INC.",
+ "builtAt": "2026-11-14T17:40:56.033Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001568100-26-000012",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1568100/000156810026000012/pd-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital operations management",
+   "products": [
+    "PagerDuty Operations Cloud",
+    "PagerDuty Advance",
+    "AIOps",
+    "Incident management",
+    "Customer service operations",
+    "SRE Agent",
+    "Workflow automation"
+   ],
+   "description": "Provides a cloud platform that helps enterprises detect, diagnose, and resolve time-sensitive, mission-critical digital operations incidents across their technology stack.",
+   "evidence": "The Company manages its operations and allocates resources as one operating and reportable segment at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees primarily for cloud-hosted software, with additional revenue from term-license software subscriptions and professional services.",
+  "evidence": "The Company generates revenue primarily from cloud-hosted software subscription fees."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

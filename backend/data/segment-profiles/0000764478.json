@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000764478",
+ "issuerName": "Best Buy Co., Inc.",
+ "builtAt": "2026-11-14T13:50:25.379Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000764478-26-000009",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/764478/000076447826000009/bby-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domestic",
+   "products": [
+    "Best Buy",
+    "Best Buy Ads",
+    "Best Buy Business",
+    "Best Buy Essentials",
+    "Best Buy Health",
+    "Best Buy Marketplace",
+    "Geek Squad",
+    "Insignia"
+   ],
+   "description": "U.S. retail and services operations, including Best Buy Health, selling technology products and services to consumers online, in stores and in homes.",
+   "evidence": "The Domestic segment is comprised of our operations in all states, districts and territories of the U.S. and our Best Buy Health business, and includes the brand names Best Buy, Best Buy Ads, Best Buy Business, Best Buy Essentials, Best Buy Health, Best Buy Marketplace, Geek Squad, Imagine That, Insignia, Lively, Jitterbug, My Best Buy, My Best Buy Memberships, Pacific Kitchen and Home, TechLiquidators and Yardbird; and the domain names bestbuy.com, lively.com, techliquidators.com and yardbird.c"
+  },
+  {
+   "name": "International",
+   "products": [
+    "Best Buy",
+    "Best Buy Ads",
+    "Best Buy Business",
+    "Best Buy Express",
+    "Best Buy Marketplace",
+    "Best Buy Mobile",
+    "Geek Squad",
+    "Insignia"
+   ],
+   "description": "Canadian retail and services operations selling technology products and services to consumers online and in stores.",
+   "evidence": "Our International segment is comprised of all operations in Canada under the brand names Best Buy, Best Buy Ads, Best Buy Business, Best Buy Express, Best Buy Marketplace, Best Buy Mobile, Geek Squad, Insignia and TechLiquidators and the domain names bestbuy.ca and techliquidators.ca."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Best Buy for technology products and services purchased online, in stores or in their homes, including advertising, delivery, installation, repair, memberships and warranty-related services.",
+  "evidence": "Services - advertising, delivery, health-related services, installation, marketplace commissions, memberships, repair, set-up, technical support, warranty-related services; and"
+ },
+ "changes": [],
+ "dropped": []
+}

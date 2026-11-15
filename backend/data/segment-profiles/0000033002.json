@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000033002",
+ "issuerName": "ENNIS, INC.",
+ "builtAt": "2026-11-14T14:08:23.824Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-213764",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-05-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/33002/000119312526213764/ebf-20260228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "printing services and manufacture of business forms",
+   "products": [
+    "snap sets",
+    "continuous forms",
+    "laser cut sheets",
+    "tags",
+    "labels",
+    "envelopes",
+    "integrated products",
+    "pressure sensitive products"
+   ],
+   "description": "Manufactures and sells custom and semi-custom business forms and printed products through independent distributors.",
+   "evidence": "We operate approximately 50 manufacturing plants throughout the United States in 20 strategically located states as one reportable segment; printing services and manufacture of business forms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Independent distributors, commercial printers, direct mail and fulfillment companies purchase printed products for resale to end users.",
+  "evidence": "We sell predominantly through independent distributors, as well as to many of our competitors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, acquired CFC Print & Mail, Northeastern Envelope Company, and Envelope Superstore to strengthen business products and envelope capabilities.",
+   "evidence": "On November 14, 2025, we acquired the assets and business of CFC Print & Mail (\"CFC\") in Grand Prairie, Texas."
+  },
+  {
+   "text": "In 2024, acquired Printing Technologies, Inc. to strengthen production capabilities and diversify product offerings.",
+   "evidence": "On June 26, 2024, we acquired the assets and business of Printing Technologies, Inc. (\"PTI\") in Indianapolis, Indiana."
+  }
+ ],
+ "dropped": []
+}

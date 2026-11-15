@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000829323",
+ "issuerName": "Inuvo, Inc.",
+ "builtAt": "2026-11-14T13:52:13.856Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-001943",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/829323/000165495426001943/inuvo_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Advertising",
+   "products": [
+    "IntentKey®",
+    "IntentPath",
+    "Ranger",
+    "Campsight",
+    "ALOT®"
+   ],
+   "description": "Provides AI-driven data and advertising technology that places digital advertising across devices, websites, applications and browsers for agencies, brands and large advertising platforms.",
+   "evidence": "We operate as a single reportable segment that places digital advertising throughout devices, websites, applications and browsers across social, search and programmatic advertising channels, facilitating the delivery of millions of advertising messages monthly."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers, agencies and large advertising platforms pay Inuvo for placing digital advertising, with revenue measured after deducting marketing expenses, exchange fees and publisher payments.",
+  "evidence": "The CODM evaluates performance and allocates resources based on contribution margin, which is calculated as revenue after deducting marketing expenses, exchange fees, and publisher payments."
+ },
+ "changes": [],
+ "dropped": []
+}

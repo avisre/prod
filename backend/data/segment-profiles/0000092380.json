@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000092380",
+ "issuerName": "SOUTHWEST AIRLINES CO",
+ "builtAt": "2026-11-14T13:46:36.213Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000092380-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/92380/000009238026000004/luv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air transportation",
+   "products": [
+    "Assigned and extra legroom seating",
+    "Redeye flights"
+   ],
+   "description": "Southwest operates a single segment providing scheduled air transportation for passengers and cargo in the United States and near-international markets.",
+   "evidence": "The Company is managed as a single operating segment that provides air transportation for Passengers and cargo."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Passengers pay Southwest for scheduled air travel fares, including seat and fare bundle choices, and shippers pay for cargo transportation.",
+  "evidence": "Southwest Airlines Co. (the \"Company\" or \"Southwest\") operates Southwest Airlines, a major passenger airline that provides scheduled air transportation in the United States and near-international markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Air transportation): Scheduled passenger air transportation",
+  "product not in text (Air transportation): Cargo transportation",
+  "product not in text (Air transportation): Getaways by Southwest vacation packages"
+ ]
+}

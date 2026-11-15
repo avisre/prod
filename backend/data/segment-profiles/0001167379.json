@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001167379",
+ "issuerName": "Alcon Inc.",
+ "builtAt": "2026-11-14T17:38:02.522Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001167379-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1167379/000116737926000014/alc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Surgical",
+   "products": [
+    "ophthalmic products for cataract surgery",
+    "implantables",
+    "consumables",
+    "surgical equipment"
+   ],
+   "description": "Researches, develops, manufactures and sells ophthalmic surgical products, implantables, consumables and equipment for multiple surgical procedures.",
+   "evidence": "In Surgical, Alcon researches, develops, manufactures, distributes and sells ophthalmic products for cataract surgery, vitreoretinal surgery, refractive laser surgery and glaucoma surgery. The surgical portfolio also includes implantables, consumables and surgical equipment required for these procedures and supports the end-to-end procedure needs of the ophthalmic surgeon."
+  },
+  {
+   "name": "Vision Care",
+   "products": [
+    "daily disposable contact lenses",
+    "reusable contact lenses",
+    "color-enhancing contact lenses",
+    "cell therapies to treat ocular diseases",
+    "dry eye products",
+    "contact lens care products"
+   ],
+   "description": "Researches, develops, manufactures and sells contact lenses, cell therapies and ocular health products for consumer and professional use.",
+   "evidence": "In Vision Care, Alcon researches, develops, manufactures, distributes and sells daily disposable, reusable, and color-enhancing contact lenses, cell therapies to treat ocular diseases and a comprehensive portfolio of ocular health products, including products for dry eye, ocular allergies, glaucoma and contact lens care, as well as ocular vitamins and redness relievers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Eye care professionals and consumers purchase Alcon's surgical and vision care products for treating ocular conditions and consumer eye care needs.",
+  "evidence": "In each of our markets, we rely on our strong relationships with eye care professionals and consumers to attract and retain customers and expand the market."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Surgical): vitreoretinal surgery products",
+  "product not in text (Surgical): refractive laser surgery products",
+  "product not in text (Surgical): glaucoma surgery products",
+  "product not in text (Vision Care): ocular allergy products",
+  "product not in text (Vision Care): glaucoma products"
+ ]
+}

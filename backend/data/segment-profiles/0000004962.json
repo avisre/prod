@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000004962",
+ "issuerName": "AMERICAN EXPRESS CO",
+ "builtAt": "2026-11-14T14:06:21.107Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000004962-26-000080",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/4962/000000496226000080/axp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Consumer Services",
+   "products": [
+    "Credit and charge cards",
+    "Membership Rewards program",
+    "Amex Offers",
+    "High yield savings",
+    "Consumer checking accounts",
+    "Consumer installment loans"
+   ],
+   "description": "Provides credit, charge and complementary financial products and services to U.S. consumers.",
+   "evidence": "We principally engage in businesses comprising four reportable operating segments: U.S. Consumer Services (USCS), Commercial Services (CS), International Card Services (ICS) and Global Merchant and Network Services (GMNS)."
+  },
+  {
+   "name": "Commercial Services",
+   "products": [
+    "Credit and charge cards",
+    "Lines of credit",
+    "Cash and expense management solutions"
+   ],
+   "description": "Offers credit, charge cards and payment solutions to small businesses, mid-sized companies and large corporations.",
+   "evidence": "We principally engage in businesses comprising four reportable operating segments: U.S. Consumer Services (USCS), Commercial Services (CS), International Card Services (ICS) and Global Merchant and Network Services (GMNS)."
+  },
+  {
+   "name": "International Card Services",
+   "products": [
+    "Credit and charge cards",
+    "Membership Rewards program",
+    "Amex Offers"
+   ],
+   "description": "Provides credit, charge cards and related products and services to customers outside the United States.",
+   "evidence": "We principally engage in businesses comprising four reportable operating segments: U.S. Consumer Services (USCS), Commercial Services (CS), International Card Services (ICS) and Global Merchant and Network Services (GMNS)."
+  },
+  {
+   "name": "Global Merchant and Network Services",
+   "products": [
+    "OptBlue merchant-acquiring program",
+    "Fraud-prevention tools",
+    "Marketing solutions",
+    "Data analytics"
+   ],
+   "description": "Manages merchant relationships worldwide, operates the payments network and provides merchant services and solutions.",
+   "evidence": "Our GMNS reportable operating segment builds and manages relationships with millions of merchants around the world that choose to accept American Express cards."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Card Members and commercial customers pay annual fees and interest on card balances; merchants pay discount rates for card acceptance; third-party issuers and acquirers pay network fees.",
+  "evidence": "The Delta cobrand portfolio generates fee revenue and interest income from Card Members and discount revenue from Delta and other merchants for spending on Delta cobrand cards."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Commercial Services): Business checking accounts",
+  "product not in text (Commercial Services): B2B payment products",
+  "product not in text (International Card Services): Banking and payment products",
+  "product not in text (Global Merchant and Network Services): Merchant acquiring services",
+  "product not in text (Global Merchant and Network Services): Card network services"
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001041024",
+ "issuerName": "ROCKWELL MEDICAL, INC.",
+ "builtAt": "2026-11-15T02:50:24.712Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-021186",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1041024/000162828026021186/rmti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hemodialysis",
+   "products": [
+    "CitraPure Citric Acid Concentrate",
+    "Dri-Sate Acid Concentrate",
+    "RenalPure Acid Concentrate",
+    "RenalPure Bicarbonate Concentrate",
+    "SteriLyte Bicarbonate Concentrate",
+    "Bicarbonate Cartridges",
+    "Dry Acid Concentrate Mix System",
+    "Ancillary Products"
+   ],
+   "description": "Manufactures and distributes hemodialysis concentrates and ancillary products to dialysis clinics and providers.",
+   "evidence": "Rockwell operates in one market segment, the hemodialysis market, which involves the manufacture, sale and distribution of hemodialysis products to hemodialysis clinics, including pharmaceutical, dialysis concentrates, dialysis kits and other ancillary products used in the dialysis process."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dialysis clinics and providers pay for hemodialysis concentrates and ancillary products used to treat end-stage kidney disease patients.",
+  "evidence": "Rockwell's core business is to provide dialysis clinics and the patients they serve with the highest quality products supported by the best customer service in the industry."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company concluded manufacturing at its South Carolina facility as part of ongoing efforts to streamline operations.",
+   "evidence": "The Company previously operated a manufacturing and warehouse facility in South Carolina, but the Company concluded manufacturing at that facility in the third quarter of 2025 as part of its ongoing efforts to streamline operations and improve efficiency."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000317788",
+ "issuerName": "DIGITAL TURBINE, INC.",
+ "builtAt": "2026-11-14T13:48:09.519Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-038115",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/317788/000162828026038115/apps-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "On Device Solutions",
+   "products": [
+    "Application Media",
+    "Content Media",
+    "SingleTap®",
+    "DT DSP"
+   ],
+   "description": "Delivers app discovery, app installs and content media to device end users through partnerships with wireless carriers and OEMs.",
+   "evidence": "The Company's On Device Solutions (\"ODS\") business consists of products and services that simplify the discovery and delivery of mobile apps and content media for device end users."
+  },
+  {
+   "name": "App Growth Platform",
+   "products": [
+    "Advertising Solutions",
+    "Ad Monetization Solutions",
+    "DT Offer Wall"
+   ],
+   "description": "Provides advertising and ad monetization solutions enabling app developers, brands, agencies and publishers to run and monetize mobile campaigns.",
+   "evidence": "The Company's App Growth Platform (\"AGP\") business consists of Advertising Solutions and Ad Monetization Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers, agencies and DSPs pay the Company for app installs and advertising placements, with revenue shared with wireless carriers, OEMs and app publishers under revenue share or CPM, CPI, CPP or CPA arrangements.",
+  "evidence": "The Company generally offers these services under a revenue share model."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (App Growth Platform): DT Demand Side Platform (DSP)"
+ ]
+}

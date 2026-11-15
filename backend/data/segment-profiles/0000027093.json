@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "cik": "0000027093",
+ "issuerName": "U.S. GOLD CORP.",
+ "builtAt": "2026-11-14T14:07:56.127Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-035188",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/27093/000149315226035188/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and Evaluation of Mineral Properties",
+   "products": [],
+   "description": "The Company is engaged in the exploration and evaluation of its mineral properties.",
+   "evidence": "The Company is engaged in the exploration and evaluation of its mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

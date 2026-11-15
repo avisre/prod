@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000814676",
+ "issuerName": "CPS TECHNOLOGIES CORP.",
+ "builtAt": "2026-11-14T13:51:48.201Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006687",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/814676/000143774926006687/cpsh20251227_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced materials",
+   "products": [
+    "Metal matrix composites (MMCs)",
+    "Baseplates and heat spreaders",
+    "Hermetic Packaging products",
+    "HybridTech Armor®"
+   ],
+   "description": "Designs, manufactures and sells custom advanced material solutions, primarily metal matrix composites, to electronics assemblers, microelectronics systems houses and armor manufacturers.",
+   "evidence": "The Company produces and sells advanced material solutions, primarily metal matrix composites, to assemblers of high density electronics and other specialty components and subassemblies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, mainly global electronics OEMs and microelectronics systems houses, pay CPS for custom, build-to-order advanced material components and armor products made to their specifications.",
+  "evidence": "Operationally, the Company typically follows a build-to-order, highly customized manufacturing model, supported by ongoing investments in employee training, automation, and process efficiency."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Advanced materials): Aluminum silicon carbide (AlSiC) components"
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001683825",
+ "issuerName": "trivago N.V.",
+ "builtAt": "2026-11-14T17:41:39.969Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001683825-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1683825/000168382526000006/trvg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [],
+   "description": "Hotel search and price comparison platform serving Argentina, Brazil, Canada, Chile, Colombia, Ecuador, Mexico, Peru, United States and Uruguay.",
+   "evidence": "Our Americas segment is comprised of Argentina, Brazil, Canada, Chile, Colombia, Ecuador, Mexico, Peru, the United States and Uruguay."
+  },
+  {
+   "name": "Developed Europe",
+   "products": [],
+   "description": "Hotel search and price comparison platform serving Austria, Belgium, Denmark, Finland, France, Germany, Ireland, Italy, Netherlands, Norway, Portugal, Spain, Sweden, Switzerland and United Kingdom.",
+   "evidence": "Our Developed Europe segment is comprised of Austria, Belgium, Denmark, Finland, France, Germany, Ireland, Italy, the Netherlands, Norway, Portugal, Spain, Sweden, Switzerland and the United Kingdom."
+  },
+  {
+   "name": "Rest of World",
+   "products": [],
+   "description": "Hotel search and price comparison platform serving all other countries including Japan, Turkey, Australia, New Zealand and Poland.",
+   "evidence": "Our RoW segment is comprised of all other countries, the most significant by revenue of which are Japan, Turkey, Australia, New Zealand and Poland."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Advertisers including OTAs, hotel chains and independent hotels pay for referrals when users click offers and are referred to their booking websites.",
+  "evidence": "When they click on an offer for a hotel room or other accommodation at a certain price, they are referred to our advertisers' websites where they can complete their booking."
+ },
+ "changes": [
+  {
+   "text": "In 2025, trivago acquired Holisto Ltd, renamed trivago DEALS Ltd, an AI-driven hotel rate aggregator and white-label booking engine provider.",
+   "evidence": "We completed the strategic acquisition of Holisto Ltd (renamed to trivago DEALS Ltd) in July 2025."
+  }
+ ],
+ "dropped": []
+}

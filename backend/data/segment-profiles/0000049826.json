@@ -1,0 +1,104 @@
+{
+ "version": 1,
+ "cik": "0000049826",
+ "issuerName": "ILLINOIS TOOL WORKS INC",
+ "builtAt": "2026-11-14T13:44:46.958Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000049826-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/49826/000004982626000008/itw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive OEM",
+   "products": [
+    "plastic and metal components, fasteners and assemblies for automobiles, light tr"
+   ],
+   "description": "Global niche supplier of components and fasteners for automotive-related applications serving automotive OEMs and tiers.",
+   "evidence": "Businesses in this segment produce components and fasteners for automotive-related applications."
+  },
+  {
+   "name": "Food Equipment",
+   "products": [
+    "warewashing equipment",
+    "cooking equipment, including ovens, ranges and broilers",
+    "refrigeration equipment, including refrigerators, freezers and prep tables",
+    "food processing equipment, including slicers, mixers and scales",
+    "kitchen exhaust, ventilation and pollution control systems",
+    "food equipment service, maintenance and repair"
+   ],
+   "description": "Branded industry leader in commercial food equipment with innovation and integrated service offerings for food service and retail markets.",
+   "evidence": "This segment is a highly focused and branded industry leader in commercial food equipment differentiated by innovation and integrated service offerings."
+  },
+  {
+   "name": "Test & Measurement and Electronics",
+   "products": [
+    "equipment, consumables, and related software for testing and measuring of materi",
+    "electronic assembly equipment",
+    "electronic components and component packaging",
+    "static control equipment and consumables used for contamination control in clean",
+    "pressure sensitive adhesives and components for electronics, medical, transporta"
+   ],
+   "description": "Producer of test and measurement and electronic manufacturing and MRO solutions for customers in diverse end markets.",
+   "evidence": "Businesses in this segment produce equipment, consumables, and related software for testing and measuring of materials and structures, as well as equipment and consumables used in the production of electronic subassemblies and microelectronics."
+  },
+  {
+   "name": "Welding",
+   "products": [
+    "arc welding equipment",
+    "metal arc welding consumables and related accessories"
+   ],
+   "description": "Branded value-added manufacturer of arc welding equipment, consumables and accessories for industrial and commercial applications.",
+   "evidence": "Businesses in this segment produce arc welding equipment, consumables and accessories for a wide array of industrial and commercial applications."
+  },
+  {
+   "name": "Polymers & Fluids",
+   "products": [
+    "adhesives for industrial, construction and consumer purposes",
+    "chemical fluids which clean or add lubrication to machines",
+    "epoxy and resin-based coating products for industrial applications",
+    "hand wipes and cleaners for industrial applications",
+    "fluids, polymers and other supplies for auto aftermarket maintenance and appeara",
+    "fillers and putties for auto body repair",
+    "polyester coatings and patch and repair products for the marine industry"
+   ],
+   "description": "Branded supplier of engineered adhesives, sealants, lubrication and cutting fluids, and auto aftermarket fluids and polymers to niche markets.",
+   "evidence": "Businesses in this segment produce engineered adhesives, sealants, lubrication and cutting fluids, and fluids and polymers for auto aftermarket maintenance and appearance."
+  },
+  {
+   "name": "Construction Products",
+   "products": [
+    "fasteners and related fastening tools for wood and metal applications",
+    "anchors, fasteners and related tools for concrete applications",
+    "metal plate truss components and related equipment and software",
+    "packaged hardware, fasteners, anchors and other products for retail"
+   ],
+   "description": "Branded supplier of innovative engineered fastening systems and solutions for residential and commercial construction markets.",
+   "evidence": "This segment is a branded supplier of innovative engineered fastening systems and solutions."
+  },
+  {
+   "name": "Specialty Products",
+   "products": [
+    "conveyor systems and line automation for the food and beverage industries",
+    "plastic consumables that multi-pack cans and bottles and related equipment",
+    "foil, film and related equipment used to decorate consumer products",
+    "product coding and marking equipment and related consumables",
+    "plastic and metal closures and components for appliances",
+    "airport ground support equipment",
+    "components for medical devices"
+   ],
+   "description": "Diversified niche businesses producing beverage packaging equipment, product coding and marking equipment, and appliance components and fasteners.",
+   "evidence": "This segment is focused on diversified niche market opportunities with substantial patent protection producing beverage packaging equipment and consumables, product coding and marking equipment and consumables, and appliance components and fasteners."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "ITW earns operating revenue from selling industrial products, equipment, consumables and related services to customers across its seven segments' end markets.",
+  "evidence": "The CODM primarily uses operating revenue, operating income and related operating margins in assessing the current and expected long-term performance of the Company's segments"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000027419",
+ "issuerName": "Target Corporation",
+ "builtAt": "2026-11-14T14:07:56.681Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000027419-26-000016",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/27419/000002741926000016/tgt-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Target",
+   "products": [
+    "General merchandise",
+    "Groceries",
+    "Owned and exclusive brands",
+    "National brand merchandise",
+    "Target Plus digital marketplace"
+   ],
+   "description": "Operates stores and digital channels offering fashionable, differentiated merchandise and everyday essentials at discounted prices to guests.",
+   "evidence": "We operate as a single segment designed to enable guests to purchase products seamlessly in stores or through our digital channels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests purchase merchandise through stores and digital channels; the company also generates revenue from advertising, credit card profit-sharing, marketplace fees, and in-store amenities.",
+  "evidence": "In addition to Merchandise Sales, we generate revenue from other sources, most notably advertising revenue and credit card profit-sharing income."
+ },
+ "changes": [],
+ "dropped": []
+}

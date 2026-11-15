@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000056679",
+ "issuerName": "KORN FERRY",
+ "builtAt": "2026-11-14T13:45:00.092Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000056679-26-000021",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/56679/000005667926000021/kfy-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consulting",
+   "products": [
+    "Organization Strategy",
+    "Assessment & Succession",
+    "Leadership & Professional Development",
+    "Total Rewards",
+    "Board & CEO Services"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Digital",
+   "products": [
+    "Korn Ferry Talent Suite"
+   ],
+   "description": "Delivers technology-enabled, subscription-based access to Korn Ferry's talent intelligence and data assets.",
+   "evidence": "Talent Suite enables those insights to be embedded within client workflows, accessed directly through subscription-based offerings, or leveraged by Korn Ferry consultants to help clients improve performance and make more effective people and organizational decisions."
+  },
+  {
+   "name": "Executive Search North America",
+   "products": [],
+   "description": "Recruits board-level, C-suite and senior executive talent for clients in North America.",
+   "evidence": "This solution is managed and reported on a geographic basis and represents four of the Company's reportable segments (Executive Search North America, Executive Search Europe, Middle East and Africa (\"EMEA\"), Executive Search Asia Pacific (\"APAC\") and Executive Search Latin America)."
+  },
+  {
+   "name": "Executive Search EMEA",
+   "products": [],
+   "description": "Recruits board-level, C-suite and senior executive talent for clients in Europe, the Middle East and Africa.",
+   "evidence": "This solution is managed and reported on a geographic basis and represents four of the Company's reportable segments (Executive Search North America, Executive Search Europe, Middle East and Africa (\"EMEA\"), Executive Search Asia Pacific (\"APAC\") and Executive Search Latin America)."
+  },
+  {
+   "name": "Executive Search Latin America",
+   "products": [],
+   "description": "Recruits board-level, C-suite and senior executive talent for clients in Latin America.",
+   "evidence": "This solution is managed and reported on a geographic basis and represents four of the Company's reportable segments (Executive Search North America, Executive Search Europe, Middle East and Africa (\"EMEA\"), Executive Search Asia Pacific (\"APAC\") and Executive Search Latin America)."
+  },
+  {
+   "name": "Professional Search & Interim",
+   "products": [],
+   "description": "Places permanent professionals and interim leaders across business-critical functions such as Finance, IT, HR and Operations.",
+   "evidence": "Professional Search & Interim focuses on scalable, high impact recruiting and interim talent solutions at the professional level that offer flexibility and speed in dynamic business environments."
+  },
+  {
+   "name": "RPO",
+   "products": [],
+   "description": "Provides high-volume, outsourced end-to-end talent acquisition services for enterprise clients through global Talent Delivery Centers.",
+   "evidence": "RPO provides high-volume, outsourced hiring solutions that deliver end-to-end talent acquisition services for enterprise clients."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay Korn Ferry fees for advisory consulting and talent acquisition services, embedded technology solutions, and subscription-based licenses to its talent intelligence.",
+  "evidence": "To deliver value at scale across this broad client base, we operate through three primary engagement models: 1. Advisory engagements – tailored consulting and talent acquisition services grounded in proprietary data, behavioral science and expert advisory. 2. Embedded solutions – technology-enabled capabilities integrated into client workflows and decision-making processes to support ongoing talent, leadership and organizational decisions. 3. Subscription-based offerings – licensed offerings tha"
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Consulting",
+  "segment name not in text: Executive Search APAC"
+ ]
+}

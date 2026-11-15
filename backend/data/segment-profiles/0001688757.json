@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001688757",
+ "issuerName": "Establishment Labs Holdings Inc.",
+ "builtAt": "2026-11-14T17:39:42.419Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001688757-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1688757/000168875726000022/esta-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Breast Aesthetics and Reconstruction",
+   "products": [
+    "Motiva Round",
+    "Motiva Ergonomix Round",
+    "Motiva Ergonomix2",
+    "Motiva Flora Tissue Expander",
+    "Preservé",
+    "Mia Femtech"
+   ],
+   "description": "Global medical technology company focused on silicone gel-filled breast implants for aesthetic augmentation and surgical reconstruction.",
+   "evidence": "Our line of silicone gel-filled breast implants, branded as Motiva Implants, is the centerpiece of our medical technology platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Medical device manufacturer sells breast implants and tissue expanders to patients through surgeons via distributors or direct sales.",
+  "evidence": "Since launching Motiva Implants in October 2010, the majority of our revenue has been generated from sales of our Motiva Implants."
+ },
+ "changes": [
+  {
+   "text": "In 2025, launched Preservé, a minimally invasive breast tissue-preserving technology, expanding product portfolio.",
+   "evidence": "In February 2025, we launched Preservé, a minimally invasive breast tissue-preserving technology for breast augmentation, revision augmentation and mastopexy augmentation."
+  }
+ ],
+ "dropped": [
+  "product not in text (Breast Aesthetics and Reconstruction): Motiva Ergonomix Oval",
+  "product not in text (Breast Aesthetics and Reconstruction): Motiva Anatomical",
+  "change not grounded: In 2024, received FDA 510(k) clearance for Motiva Flora SmoothSilk Tissue Expand"
+ ]
+}

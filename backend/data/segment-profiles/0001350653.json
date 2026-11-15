@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001350653",
+ "issuerName": "ALPHATEC HOLDINGS, INC.",
+ "builtAt": "2026-11-14T17:40:20.634Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067393",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1350653/000119312526067393/atec-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Spine Surgery",
+   "products": [
+    "Midline ALIF approach"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and surgical centers purchase the company's spine surgery products and technologies including implants, fixation systems, imaging platforms and surgical approaches.",
+  "evidence": "The Company's customers are primarily hospitals and surgical centers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Spine Surgery): Prone TransPsoas approach",
+  "product not in text (Spine Surgery): Lateral TransPsoas approach",
+  "product not in text (Spine Surgery): SafeOp Surgical technology",
+  "product not in text (Spine Surgery): EOS Imaging platform",
+  "product not in text (Spine Surgery): EOS Insight software",
+  "product not in text (Spine Surgery): InVictus Direct Vertebral Rotation",
+  "product not in text (Spine Surgery): IdentiTi porous titanium implants",
+  "segment evidence not verbatim: Spine Surgery",
+  "change not grounded: In 2019-2021, the company acquired SafeOp Surgical, proprietary technology that ",
+  "change not grounded: In 2019-2021, the company acquired EOS Imaging, a technology platform that enabl",
+  "change not grounded: In 2024, the company launched EOS Insight, a software platform powered by EOS im"
+ ]
+}

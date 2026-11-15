@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000050493",
+ "issuerName": "INGLES MARKETS, INCORPORATED",
+ "builtAt": "2026-11-14T13:44:48.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000050493-25-000019",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/50493/000005049325000019/imkt-20250927x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail grocery",
+   "products": [
+    "Grocery",
+    "Non-foods",
+    "Perishables",
+    "Fuel",
+    "pharmacies",
+    "fuel centers",
+    "Ingles Curbside"
+   ],
+   "description": "Operates supermarkets in the southeast United States selling grocery, perishables, non-food products and fuel to retail customers.",
+   "evidence": "The Company operates one primary business segment, retail grocery, on a 52- or 53-week fiscal year ending on the last Saturday in September."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the Company for grocery, perishable, non-food and fuel purchases at its supermarkets, and other retailers, food service distributors and grocery warehouses buy products from its fluid dairy plant.",
+  "evidence": "In addition, the milk processing and packaging plant sells approximately 81% of its products to other retailers, food service distributors and grocery warehouses in 18 states, which provides the Company with an additional source of revenue."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2025, the expense allocation methodology changed to move shopping center rental costs out of the retail segment, with fiscal 2024 and 2023 recast to be comparable.",
+   "evidence": "For fiscal year 2025, our expense allocation methodology changed to include direct and indirect costs associated with the shopping center rentals that were previously included in the retail segment."
+  }
+ ],
+ "dropped": []
+}

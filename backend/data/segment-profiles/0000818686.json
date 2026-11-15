@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000818686",
+ "issuerName": "TEVA PHARMACEUTICAL INDUSTRIES LIMITED",
+ "builtAt": "2026-11-14T13:51:53.330Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-034532",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/818686/000119312526034532/d93612d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "generic prescription products",
+    "AUSTEDO and AUSTEDO XR",
+    "AJOVY",
+    "UZEDY",
+    "COPAXONE",
+    "TRUXIMA",
+    "BENDEKA"
+   ],
+   "description": "Sells generic, biosimilar, OTC and innovative medicines, plus the Anda distribution business, to pharmacies, chains, hospitals and physician offices in the United States.",
+   "evidence": "We are one of the leading generic pharmaceutical companies in the United States."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "SUDOCREM",
+    "NasenDuo",
+    "DICLOX FORTE",
+    "OLFEN Max",
+    "FLEGAMINA",
+    "AJOVY",
+    "COPAXONE"
+   ],
+   "description": "Markets generic, OTC, biosimilar and innovative medicines across the European Union, the United Kingdom and certain other European countries.",
+   "evidence": "Our Europe segment includes the European Union, the United Kingdom and certain other European countries."
+  },
+  {
+   "name": "International Markets",
+   "products": [
+    "OTC products",
+    "biosimilars",
+    "innovative medicines",
+    "AJOVY",
+    "AUSTEDO"
+   ],
+   "description": null,
+   "evidence": "Our International Markets segment includes all countries in which we operate other than those in our United States and Europe segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Teva is paid mainly by retail drug chains, mail order distributors, wholesalers, pharmacy chains, health funds and other health insurers who purchase its generic, biosimilar, OTC and innovative medicines.",
+  "evidence": "Most of our generic sales in the United States are made to retail drug chains, mail order distributors and wholesalers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Teva divested and deconsolidated its Teva-Takeda business venture in Japan.",
+   "evidence": "On March 31, 2025, we divested our Teva-Takeda business venture in Japan, which included generic products and legacy products."
+  },
+  {
+   "text": "As part of its Pivot to Growth strategy, Teva intends to divest its API business.",
+   "evidence": "As part of our Pivot to Growth strategy, we intend to divest our API business, in order to focus on our core business strengths and capital allocation towards growth engines and innovation."
+  }
+ ],
+ "dropped": [
+  "product not in text (United States): Anda distribution",
+  "product not in text (Europe): generics including OTC and biosimilars",
+  "product not in text (International Markets): branded generic medicines"
+ ]
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000731012",
+ "issuerName": "HEALTHCARE SERVICES GROUP, INC.",
+ "builtAt": "2026-11-14T13:49:42.805Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000731012-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/731012/000073101226000009/hcsg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Environmental Services",
+   "products": [
+    "housekeeping",
+    "laundry",
+    "linen",
+    "facility maintenance"
+   ],
+   "description": "Manages housekeeping, laundry, linen and facility maintenance departments for healthcare facilities, primarily long-term care providers.",
+   "evidence": "We are organized into two reportable segments: housekeeping, laundry, linen and other services (\"Environmental Services\" or \"EVS\") and dietary department services (\"Dietary\")."
+  },
+  {
+   "name": "Dietary",
+   "products": [
+    "food purchasing",
+    "meal preparation",
+    "professional dietitian services",
+    "clinical consulting services"
+   ],
+   "description": "Manages dietary departments of healthcare facilities, including food purchasing, meal preparation and dietitian services for residents.",
+   "evidence": "Dietary services consist of managing our customers' dietary departments, which are principally responsible for food purchasing, meal preparation and professional dietitian services, which include the development of menus that meet the dietary needs of residents."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare facilities pay HCSG under full-service or management-only agreements for managing their housekeeping, laundry, linen and dietary departments.",
+  "evidence": "We provide services primarily pursuant to full-service agreements with our customers. Under such agreements, we are responsible for the day-to-day management of our employees located at our customers' facilities, as well as for the provision of certain supplies."
+ },
+ "changes": [],
+ "dropped": []
+}

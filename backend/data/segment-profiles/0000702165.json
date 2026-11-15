@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000702165",
+ "issuerName": "NORFOLK SOUTHERN CORP",
+ "builtAt": "2026-11-14T13:48:41.749Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-006268",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/702165/000162828026006268/nsc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Railway operations",
+   "products": [
+    "Merchandise",
+    "Intermodal",
+    "Coal"
+   ],
+   "description": "Operates a major freight railroad transporting raw materials, intermediate products, and finished goods for customers in the eastern United States.",
+   "evidence": "We manage our company as one reportable operating segment, railway operations, providing rail transportation to customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Norfolk Southern to transport freight by rail, with revenues recognized proportionally as shipments move from origin to destination.",
+  "evidence": "Transportation revenues are recognized proportionally as a shipment moves from origin to destination, and related expenses are recognized as incurred."
+ },
+ "changes": [],
+ "dropped": []
+}

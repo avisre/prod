@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001907085",
+ "issuerName": "Oddity Tech Ltd",
+ "builtAt": "2026-11-14T17:40:44.505Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-029490",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1907085/000110465926029490/odd-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beauty and Wellness",
+   "products": [
+    "IL MAKIAGE",
+    "SpoiledChild",
+    "METHODIQ"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers purchase beauty and wellness products online through direct-to-consumer channels at price points ranging from twenty to one hundred dollars per item.",
+  "evidence": "Products are priced in a range of $20-$100 per item, with higher price points for the more elite performance products in our range."
+ },
+ "changes": [
+  {
+   "text": "In two thousand twenty-three, the company acquired Revela and established ODDITY LABS for biotechnology development.",
+   "evidence": "In 2023, we acquired Revela, a Boston-based biotechnology company pioneering pharma-grade technology to discover molecules and formulations for beauty and wellness products."
+  },
+  {
+   "text": "In two thousand twenty-two, the company launched SpoiledChild as its second brand.",
+   "evidence": "In 2022, we launched our second brand, SpoiledChild, as a multicategory wellness brand."
+  },
+  {
+   "text": "In two thousand twenty-five, the company launched METHODIQ as its third brand, a medical telehealth platform.",
+   "evidence": "In 2025, we launched our third brand, METHODIQ, as a medical telehealth platform to deliver high-efficacy treatments at scale."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Beauty and Wellness"
+ ]
+}

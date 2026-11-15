@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000109563",
+ "issuerName": "APPLIED INDUSTRIAL TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T13:47:31.550Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000109563-26-000033",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/109563/000010956326000033/ait-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Service Center",
+   "products": [
+    "industrial bearings",
+    "motors",
+    "belting",
+    "drives",
+    "couplings",
+    "pumps",
+    "linear motion products",
+    "hydraulic and pneumatic components"
+   ],
+   "description": "MRO-focused distribution operations providing products and services for maintenance and repair of production equipment and motion control infrastructure across North America, Australia, and New Zealand.",
+   "evidence": "Our Service Center segment represents our MRO-focused distribution operations across North America, Australia, and New Zealand."
+  },
+  {
+   "name": "Engineered Solutions",
+   "products": [
+    "hydraulic and pneumatic fluid power technologies",
+    "engineered flow control products and services",
+    "automation technologies",
+    "machine vision",
+    "collaborative robots",
+    "mobile robots",
+    "RFID (radio-frequency identification)",
+    "industrial networking"
+   ],
+   "description": "Operations that distribute, engineer, design, integrate, and repair fluid power, specialty flow control, and automation technologies for industrial, mobile, and technology customers.",
+   "evidence": "Our Engineered Solutions segment represents our operations that specialize in distributing, engineering, designing, integrating, and repairing hydraulic and pneumatic fluid power technologies, engineered flow control products and services, and automation technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers pay Applied for distributed industrial products and value-added technical services used in MRO, OEM, and new system install applications.",
+  "evidence": "Our customers use our products and services for both Maintenance, Repair, and Operations (\"MRO\"), Original Equipment Manufacturing (\"OEM\"), and new system install applications across a variety of end markets primarily in North America, as well as Australia, New Zealand, and Singapore."
+ },
+ "changes": [],
+ "dropped": []
+}

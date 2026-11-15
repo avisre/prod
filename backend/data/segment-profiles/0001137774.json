@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0001137774",
+ "issuerName": "Prudential Financial, Inc.",
+ "builtAt": "2026-11-14T17:37:12.417Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001137774-26-000048",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1137774/000113777426000048/pru-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PGIM",
+   "products": [
+    "Public Fixed Income",
+    "Private Credit and Other Alternatives",
+    "Public Equity",
+    "Real Estate",
+    "Multi-Asset",
+    "Mutual funds",
+    "Exchange-traded funds",
+    "Separately managed accounts"
+   ],
+   "description": "Global investment management business providing comprehensive array of investment management solutions to institutional investors, retail clients, and affiliated insurance businesses.",
+   "evidence": "PGIM provides a comprehensive array of investment management solutions to institutional investors, retail clients, and our affiliated insurance and retirement businesses."
+  },
+  {
+   "name": "Retirement Strategies",
+   "products": [
+    "Group Annuities",
+    "Pension risk transfers",
+    "Guaranteed investment contracts",
+    "Structured settlements",
+    "Longevity reinsurance",
+    "Fixed Annuities",
+    "Investment-only Stable Value Wraps"
+   ],
+   "description": "Develops and distributes retirement investment and income products and services to institutional and individual customers, serving retirement plan sponsors and retail investors.",
+   "evidence": "Retirement Strategies serves the retirement needs of both our institutional and individual customers."
+  },
+  {
+   "name": "Group Insurance",
+   "products": [],
+   "description": "Leading group benefits provider offering benefits coverage to employers and employees across multiple market segments.",
+   "evidence": "We are a leading group benefits provider with a focus on further diversifying our portfolio by expanding our Premier Market and Association segments and growing voluntary supplemental health."
+  },
+  {
+   "name": "Individual Life",
+   "products": [],
+   "description": "Develops and distributes individual life insurance products to individual customers in the United States.",
+   "evidence": "Our principal operations consist of PGIM (our global investment management business), our U.S. Businesses (consisting of our Retirement Strategies, Group Insurance and Individual Life businesses), our International Businesses, the Closed Block division and our Corporate and Other operations."
+  },
+  {
+   "name": "International Businesses",
+   "products": [],
+   "description": "Operates insurance and retirement businesses across Asia, Europe, and Latin America serving both institutional and individual customers.",
+   "evidence": "Effective in the first quarter of 2025, consistent with changes to the Company's internal management structure, our International Businesses are reflected as a single operating and reportable segment."
+  },
+  {
+   "name": "Closed Block Division",
+   "products": [],
+   "description": "Manages in-force participating insurance and annuity products from the demutualization of PICA, accounted for as a divested business.",
+   "evidence": "The Closed Block includes certain in-force participating insurance and annuity products and corresponding assets that are used for the payment of benefits and policyholders' dividends on these products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investment management fees calculated as percentage of assets under management, performance-based incentive fees, commercial mortgage origination and servicing fees, insurance premiums, and annuity premiums.",
+  "evidence": "Our revenues primarily come in the form of asset management fees, which are typically calculated based upon a percentage of assets under management."
+ },
+ "changes": [
+  {
+   "text": "In 2025, International Businesses were reorganized from two separate reportable segments (Life Planner and Gibraltar Life and Other) into a single reportable segment.",
+   "evidence": "Effective in the first quarter of 2025, consistent with changes to the Company's internal management structure, our International Businesses are reflected as a single operating and reportable segment, which is how the chief operating decision maker (\"CODM\") now assesses its performance and allocates resources."
+  }
+ ],
+ "dropped": [
+  "product not in text (Retirement Strategies): FlexGuard indexed-variable annuity products"
+ ]
+}

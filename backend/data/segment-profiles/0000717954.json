@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000717954",
+ "issuerName": "UNIFIRST CORPORATION",
+ "builtAt": "2026-11-14T13:49:13.053Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-067689",
+  "periodEnd": "2026-08-29",
+  "filingDate": "2026-10-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/717954/000162828026067689/unf-20260829.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Uniform & Facility Service Solutions",
+   "products": [
+    "uniforms",
+    "protective clothing",
+    "non-garment items",
+    "industrial wiping products",
+    "floor mats",
+    "cleanroom cleaning"
+   ],
+   "description": "Designs, manufactures, rents, cleans, delivers and sells uniforms, protective clothing and non-garment items to businesses in the U.S. and Canada.",
+   "evidence": "The Uniform & Facility Service Solutions reporting segment designs, manufactures, purchases, rents, cleans, delivers and sells uniforms and protective clothing and non-garment items in the U.S. and Canada."
+  },
+  {
+   "name": "First Aid & Safety Solutions",
+   "products": [
+    "first aid cabinet services",
+    "non-prescription medicines",
+    "safety supplies",
+    "fire safety",
+    "safety training"
+   ],
+   "description": "Sells first aid cabinet services, safety supplies, fire safety and training to end users and wholesalers.",
+   "evidence": "The First Aid & Safety Solutions reporting segment sells first aid cabinet services, non-prescription medicines, safety supplies, fire safety and provides certain safety training to both end users and wholesalers."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "non-garment items",
+    "nuclear garment decontamination"
+   ],
+   "description": "Operates the nuclear garment decontamination business, renting and servicing specialty garments for nuclear applications.",
+   "evidence": "This reporting segment consists of our nuclear garment decontamination business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay UniFirst under written service contracts of three to five years for rental, lease and direct purchase of uniforms and related items and services.",
+  "evidence": "We primarily serve our customers pursuant to written service contracts that range in duration from three to five years."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, all financial information was recast to reflect the current three-segment structure of Uniform & Facility Service Solutions, First Aid & Safety Solutions and Other.",
+   "evidence": "All financial information presented in this Annual Report on Form 10-K has been recast to reflect this segment structure for all periods presented."
+  }
+ ],
+ "dropped": [
+  "product not in text (Uniform & Facility Service Solutions): specialty garments for cleanroom applications",
+  "product not in text (Other): specialty garments for nuclear applications"
+ ]
+}

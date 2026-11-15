@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000775158",
+ "issuerName": "Oshkosh Corporation",
+ "builtAt": "2026-11-14T13:50:41.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-054061",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/775158/000119312526054061/osk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Access",
+   "products": [
+    "telehandlers",
+    "SkyTrak",
+    "Jerr-Dan towing and recovery vehicles",
+    "parts and accessories",
+    "technical support, training and reconditioning services"
+   ],
+   "description": "Designs and manufactures access and material handling equipment, including aerial work platforms and telehandlers, for equipment rental companies, construction contractors and home improvement centers.",
+   "evidence": "The Access segment designs and manufactures access and material handling equipment for use in a wide range of construction, industrial, agricultural, vegetation management and maintenance applications to safely position workers and materials at height under industry-leading brands, JLG and SkyTrak."
+  },
+  {
+   "name": "Vocational",
+   "products": [
+    "Pierce fire apparatus",
+    "Oshkosh S-Series front-discharge concrete mixer vehicles"
+   ],
+   "description": "Designs and manufactures fire apparatus, airport equipment, refuse collection vehicles, concrete mixers and command vehicles for municipal and commercial customers in North America.",
+   "evidence": "The Vocational segment includes the Pierce, Maxi-Metal, Oshkosh AeroTech, Oshkosh Airport Products, McNeilus, IMT, Oshkosh S-Series and Frontline Communications businesses."
+  },
+  {
+   "name": "Transport",
+   "products": [
+    "Family of Heavy Tactical Vehicles (FHTV)",
+    "Family of Medium Tactical Vehicles (FMTV)",
+    "Medium Caliber Weapons System (MCWS)",
+    "Next Generation Delivery Vehicle (NGDV)"
+   ],
+   "description": "Designs, manufactures and sustains specialty vehicles and mobility systems for the U.S. Department of Defense, approved foreign customers and the U.S. Postal Service.",
+   "evidence": "Under the Oshkosh Defense brand, the Transport segment designs, manufactures and sustains best-in-class specialty vehicles and mobility systems for the U.S. Department of Defense (DoD) and approved foreign customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of purpose-built vehicles and equipment to equipment rental companies, contractors, municipalities, commercial customers and the U.S. government, largely under multi-year contracts, plus parts, service and financing arrangements.",
+  "evidence": "The Company generated approximately 20% of its net sales in both 2025 and 2024, and 19% in 2023, from sales to the United States (U.S.) government, a substantial majority of which were under multi-year contracts and programs in the defense vehicle market."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company acquired AUSA, a Spanish manufacturer of wheeled dumpers, rough terrain forklifts and telehandlers.",
+   "evidence": "In September 2024, the Company acquired AUSA, a privately held Spanish manufacturer of wheeled dumpers, rough terrain forklifts and telehandlers, for $114.5 million."
+  },
+  {
+   "text": "In 2023, the Transport segment sold its snow removal apparatus business and the Vocational segment sold its rear-discharge concrete mixer business.",
+   "evidence": "In July 2023, the Transport segment sold its snow removal apparatus business for $17.1 million."
+  },
+  {
+   "text": "In 2023, the Company acquired AeroTech and Hinowa, adding airport ground support equipment and compact crawler booms businesses.",
+   "evidence": "In August 2023, the Company acquired AeroTech from JBT Corporation for $804.6 million."
+  }
+ ],
+ "dropped": [
+  "product not in text (Access): JLG aerial work platforms",
+  "product not in text (Vocational): Maxi-Metal fire apparatus",
+  "product not in text (Vocational): Oshkosh AeroTech airport ground support equipment and gate equipment",
+  "product not in text (Vocational): Oshkosh Airport Products ARFF vehicles",
+  "product not in text (Vocational): McNeilus refuse and recycling collection vehicles",
+  "product not in text (Vocational): IMT field service vehicles and truck-mounted cranes",
+  "product not in text (Vocational): Frontline Communications simulators and command vehicles",
+  "product not in text (Transport): Oshkosh Defense specialty vehicles and mobility systems"
+ ]
+}

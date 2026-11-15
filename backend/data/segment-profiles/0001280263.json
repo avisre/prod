@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001280263",
+ "issuerName": "AMBARELLA, INC.",
+ "builtAt": "2026-11-14T17:39:17.972Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-119321",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1280263/000119312526119321/amba-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI-based processing and video and image processing SoC solutions",
+   "products": [
+    "N1 SoC",
+    "CVflow AI accelerator",
+    "4D imaging radar architecture",
+    "Adaptive AI radar software algorithms"
+   ],
+   "description": "Developer of low-power AI-based and video image processing system-on-chip semiconductors for edge AI and physical AI applications.",
+   "evidence": "The Company operates as a single operating and reportable segment and derives substantially all of its revenue from development and sales of low-power AI-based processing and video and image processing SoC solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase SoC semiconductors for integration into their products including security cameras, automotive systems, robots, and consumer devices.",
+  "evidence": "Our products are used in a wide variety of human viewing, computer vision for edge and physical AI applications, including a variety of video security cameras, automotive camera systems, fixed robots, autonomous mobile robots (AMRs), industrial applications, intelligent transportation systems, and consumer devices, such as action, drone and 360° cameras."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (AI-based processing and video and image processing SoC solutions): CV7 family SoCs",
+  "product not in text (AI-based processing and video and image processing SoC solutions): CV3 family SoCs"
+ ]
+}

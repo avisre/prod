@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000866729",
+ "issuerName": "SCHOLASTIC CORPORATION",
+ "builtAt": "2026-11-14T13:53:18.707Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000866729-26-000018",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/866729/000086672926000018/schl-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Children's Book Publishing and Distribution",
+   "products": [
+    "Book Fairs",
+    "Book Clubs",
+    "Trade Publishing",
+    "Harry Potter®",
+    "The Hunger Games®",
+    "Dog Man®",
+    "Goosebumps®",
+    "Clifford The Big Red Dog®"
+   ],
+   "description": "Publishes and distributes children's print, digital and audio books in the United States through school-based book fairs, book clubs and the trade channel.",
+   "evidence": "This segment comprises the Company's Children's Book Group, which includes the Book Fairs, Book Clubs, and Trade Publishing divisions."
+  },
+  {
+   "name": "Education",
+   "products": [],
+   "description": null,
+   "evidence": "a leading provider of print and digital instructional materials for grades pre-kindergarten (\"pre-K\") to grade 12"
+  },
+  {
+   "name": "Entertainment",
+   "products": [
+    "9 Story Media Group Inc.",
+    "Scholastic Entertainment Inc."
+   ],
+   "description": null,
+   "evidence": "The Entertainment segment includes the operations of 9 Story Media Group Inc. as acquired on June 20, 2024, including its studios in Canada, Ireland and Indonesia (\"9 Story\"), and Scholastic Entertainment Inc. (\"SEI\")."
+  },
+  {
+   "name": "International",
+   "products": [],
+   "description": "Operates the Company's children's book publishing, book clubs, book fairs, trade and educational businesses outside the United States, including export sales.",
+   "evidence": "Scholastic has operations in the United States and throughout the world including Canada, the United Kingdom, Ireland, Australia, New Zealand and Asia and, through its export business, sells products in approximately 145 international locations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue by selling children's books, educational materials and media to schools, families, teachers, bookstores, online retailers and mass merchandisers through its proprietary school channels, trade channel and international operations.",
+  "evidence": "It distributes its products and services through these channels, retail stores and the internet, as well as directly to schools and libraries."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In fiscal 2024, Scholastic Entertainment Inc. was reported in the Children's Boo"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000717423",
+ "issuerName": "MURPHY OIL CORPORATION",
+ "builtAt": "2026-11-14T13:49:08.073Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011709",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/717423/000162828026011709/mur-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "natural gas liquids (NGLs)"
+   ],
+   "description": "Explores and produces oil and natural gas in the Gulf of America and the Eagle Ford Shale of South Texas.",
+   "evidence": "In the U.S., Murphy produces oil and natural gas primarily from fields in the Gulf of America and in the Eagle Ford Shale area of South Texas."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "natural gas liquids (NGLs)"
+   ],
+   "description": "Produces oil and natural gas from the Tupper Montney and Kaybob Duvernay onshore and the Hibernia and Terra Nova offshore fields.",
+   "evidence": "In Canada, the Company holds working interests in the Tupper Montney (100% working interest), the Kaybob Duvernay and two non-operated offshore assets – the Hibernia and Terra Nova fields, located offshore Newfoundland and Labrador in the Jeanne d'Arc Basin."
+  },
+  {
+   "name": "All Other Countries",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "natural gas liquids (NGLs)"
+   ],
+   "description": "Explores for oil and natural gas in Brazil, Brunei, Côte d'Ivoire, Vietnam and Morocco, with production in Brunei.",
+   "evidence": "During 2025, Murphy's principal E&P activities were conducted in the U.S. by wholly-owned Murphy Exploration & Production Company – USA and its subsidiaries, in Canada by wholly-owned Murphy Oil Company Ltd. and its subsidiaries, and in Brazil, Brunei, Côte d'Ivoire and Vietnam by wholly-owned Murphy Exploration & Production Company – International and its subsidiaries."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Murphy earns revenue from selling produced crude oil, natural gas and NGLs to purchasers of its hydrocarbon production.",
+  "evidence": "The Company produces crude oil and condensate (collectively, crude oil), natural gas and natural gas liquids (NGLs) primarily in the U.S. and Canada and explores for crude oil, natural gas and NGLs (collectively, oil and natural gas) in targeted areas worldwide."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, Murphy sold a portion of its Kaybob Duvernay working interest and its e"
+ ]
+}

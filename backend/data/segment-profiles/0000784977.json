@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000784977",
+ "issuerName": "PORTLAND GENERAL ELECTRIC COMPANY",
+ "builtAt": "2026-11-14T13:50:50.866Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-052750",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/784977/000119312526052750/por-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric utility",
+   "products": [
+    "transmission",
+    "distribution",
+    "retail sale of electricity"
+   ],
+   "description": "A vertically-integrated regulated electric utility that generates, transmits, distributes and sells electricity at retail to customers in Oregon.",
+   "evidence": "PGE is a vertically-integrated electric utility engaged in the generation, transmission, distribution, and retail sale of electricity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail customers in its Oregon service territory pay regulated cost-based prices for electricity, with revenues determined by forecasted cost to serve plus a reasonable rate of return set by the OPUC.",
+  "evidence": "The Company operates as a cost-based, regulated electric utility with revenue requirements and customer prices determined based on the forecasted cost to serve retail customers and a reasonable rate of return as determined by the Public Utility Commission of Oregon (OPUC)."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electric utility): electricity generation",
+  "product not in text (Electric utility): wholesale purchase and sale of electricity"
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000812074",
+ "issuerName": "O-I GLASS, INC.",
+ "builtAt": "2026-11-14T13:51:41.209Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-014319",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/812074/000110465926014319/oi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "flavored malt beverages",
+    "spirits",
+    "wine",
+    "food items",
+    "soft drinks",
+    "teas",
+    "juices",
+    "pharmaceuticals"
+   ],
+   "description": "Manufactures glass containers for beverage, food and pharmaceutical customers across the U.S., Canada, Mexico and South America.",
+   "evidence": "The Company has 30 glass container manufacturing plants in the Americas region located in Brazil, Canada, Colombia, Ecuador, Mexico, Peru and the U.S. and interests in three joint ventures that manufacture glass containers."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "wine",
+    "spirits",
+    "non-alcoholic beverages",
+    "food"
+   ],
+   "description": "Manufactures glass containers for alcoholic and non-alcoholic beverage and food markets across ten European countries.",
+   "evidence": "These plants primarily produce glass containers for the alcoholic beverages (beer, wine and spirits), non-alcoholic beverages and food markets in these countries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells glass containers directly to food and beverage manufacturers under annual or multi-year supply agreements, and some products through distributors.",
+  "evidence": "The Company sells most of its glass container products directly to customers under annual or multi-year supply agreements."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company halted further MAGMA development and operations after concluding the program had not met operational and financial thresholds.",
+   "evidence": "Following a comprehensive evaluation, the Company decided to halt further MAGMA development and operations."
+  }
+ ],
+ "dropped": [
+  "product not in text (Americas): glass containers for beer",
+  "product not in text (Europe): glass containers for beer"
+ ]
+}

@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000790816",
+ "issuerName": "Brandywine Realty Trust",
+ "builtAt": "2026-11-14T13:51:04.042Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000790816-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/790816/000079081626000008/bdn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Philadelphia CBD",
+   "products": [
+    "office properties",
+    "residential properties",
+    "mixed-use properties"
+   ],
+   "description": "Owns and operates office, life science/lab, residential and mixed-use properties located in the City of Philadelphia, Pennsylvania.",
+   "evidence": "The Philadelphia CBD segment includes properties located in the City of Philadelphia, Pennsylvania."
+  },
+  {
+   "name": "Pennsylvania Suburbs",
+   "products": [
+    "office properties",
+    "residential properties",
+    "mixed-use properties"
+   ],
+   "description": "Owns and operates properties in Chester, Delaware and Montgomery counties in the Philadelphia suburbs.",
+   "evidence": "The Pennsylvania Suburbs segment includes properties in Chester, Delaware and Montgomery counties in the Philadelphia suburbs."
+  },
+  {
+   "name": "Austin, Texas",
+   "products": [
+    "office properties",
+    "residential properties",
+    "mixed-use properties"
+   ],
+   "description": "Owns and operates properties located in the City of Austin, Texas.",
+   "evidence": "The Austin, Texas segment includes properties in the City of Austin, Texas."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "office properties",
+    "residential properties",
+    "mixed-use properties"
+   ],
+   "description": "Owns and operates properties in Washington, D.C., Northern Virginia, Southern Maryland, Camden County, New Jersey and New Castle County, Delaware.",
+   "evidence": "The Other segment includes properties in Washington, D.C., Northern Virginia, Southern Maryland, Camden County, New Jersey and New Castle County, Delaware."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay base rent plus reimbursements of a portion of real estate taxes, operating expenses, and common area maintenance and utility charges under leases.",
+  "evidence": "Tenant reimbursements generally include payment of a portion of real estate taxes, operating expenses, and common area maintenance and utility charges."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Philadelphia CBD): life science/lab properties",
+  "product not in text (Pennsylvania Suburbs): life science/lab properties",
+  "product not in text (Austin, Texas): life science/lab properties",
+  "product not in text (Other): life science/lab properties"
+ ]
+}

@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000040729",
+ "issuerName": "Ally Financial Inc.",
+ "builtAt": "2026-11-14T13:44:26.964Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000040729-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/40729/000004072926000005/ally-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive Finance",
+   "products": [
+    "loans",
+    "retail installment sales contracts",
+    "operating leases",
+    "lines of credit",
+    "SmartAuction finder services"
+   ],
+   "description": "Provides consumer and commercial automotive financing, including loans and operating leases, primarily through dealer relationships.",
+   "evidence": "Within our Automotive Finance operations, we are focused on enhancing our market-leading position and delivering long-term growth in annual originations by continuing to strengthen dealer engagement, deepen strategic partnerships, and evolve our expansion strategies, while maintaining an appropriate level of risk appetite."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "vehicle service contracts",
+    "written premiums"
+   ],
+   "description": "Offers automotive insurance products, including vehicle service contracts, through the dealer network.",
+   "evidence": "Within our Insurance operations, we seek to grow written premiums and deliver accretive returns by leveraging our automotive dealer network and driving efficiencies through process improvements and claims management, managing risk, and leveraging strategic reinsurance."
+  },
+  {
+   "name": "Corporate Finance",
+   "products": [
+    "leveraged cash flow loans",
+    "letters of credit",
+    "second-out loans",
+    "technology/venture finance",
+    "energy and infrastructure finance"
+   ],
+   "description": "Provides senior secured leveraged cash flow loans and other financing to equity sponsors and middle-market companies.",
+   "evidence": "The Company also includes a seasoned corporate finance business that offers capital for equity sponsors and middle-market companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Ally earns interest and lease income on consumer and commercial loans and operating leases, insurance written premiums, and fee income from corporate finance lending and Ally Invest advisory and brokerage services.",
+  "evidence": "The Company serves customers with deposits and securities brokerage and investment advisory services as well as automotive financing and insurance offerings."
+ },
+ "changes": [
+  {
+   "text": "Ally sold its Ally Lending business in 2024.",
+   "evidence": "We closed the sales of Ally Lending and Ally Credit Card on March 1, 2024, and April 1, 2025, respectively."
+  },
+  {
+   "text": "Ally sold its Ally Credit Card business in 2025.",
+   "evidence": "We closed the sales of Ally Lending and Ally Credit Card on March 1, 2024, and April 1, 2025, respectively."
+  },
+  {
+   "text": "Ally ceased consumer mortgage originations in 2025, resulting in a run-off of the mortgage portfolio.",
+   "evidence": "Consumer mortgage originations ceased during the second quarter of 2025, which has and will continue to result in a gradual run-off of our consumer mortgage loan portfolio."
+  }
+ ],
+ "dropped": [
+  "product not in text (Corporate Finance): defense and aerospace finance"
+ ]
+}

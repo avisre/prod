@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000314227",
+ "issuerName": "TOMI ENVIRONMENTAL SOLUTIONS, INC.",
+ "builtAt": "2026-11-14T13:47:58.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-003091",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/314227/000165495426003091/tomz_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Disinfection and Decontamination",
+   "products": [
+    "SteraMist",
+    "Binary Ionization Technology (BIT)",
+    "BIT Solution",
+    "SteraMist Integration System (SIS)",
+    "Hybrid",
+    "iHP Corporate Service fogging"
+   ],
+   "description": "Provides environmentally friendly disinfection and decontamination equipment, consumables and services for indoor air and surface treatment across life sciences, healthcare, food safety and commercial markets.",
+   "evidence": "The Company operates and is managed as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for SteraMist equipment sales, BIT Solution consumables, corporate decontamination services, and Installation/Operational/Performance Qualification (IQ/OQ/PQ) services.",
+  "evidence": "Within such industries, our revenue is derived from equipment sales, BIT Solution consumables, corporate decontamination services, and Installation/Operational/Performance Qualification (IQ/OQ/PQ) services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Disinfection and Decontamination): SteraMist iHP Custom Engineered System (CES)",
+  "product not in text (Disinfection and Decontamination): SteraMist Integration System – Standalone (SIS-SA)"
+ ]
+}

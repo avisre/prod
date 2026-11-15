@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000732717",
+ "issuerName": "AT&T INC.",
+ "builtAt": "2026-11-14T13:49:48.293Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000732717-26-000120",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/732717/000073271726000120/t-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications",
+   "products": [
+    "Mobility",
+    "Business Wireline",
+    "Consumer Wireline",
+    "AT&T Fiber",
+    "AT&T Internet Air",
+    "Cricket",
+    "AT&T PREPAID",
+    "FirstNet"
+   ],
+   "description": "Provides wireless and wireline telecom and broadband services to U.S. consumers and businesses globally through Mobility, Business Wireline and Consumer Wireline units.",
+   "evidence": "The Communications segment provides wireless and wireline telecom and broadband services to consumers located in the United States and businesses globally."
+  },
+  {
+   "name": "Latin America",
+   "products": [],
+   "description": "Provides wireless service and equipment in Mexico.",
+   "evidence": "The Latin America segment provides wireless service and equipment in Mexico."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumers and businesses pay for wireless service and equipment, broadband and fiber connections, business connectivity and managed services, and legacy voice and data services.",
+  "evidence": "Our Mobility business unit revenue includes the following categories: service and equipment."
+ },
+ "changes": [
+  {
+   "text": "In July 2025, AT&T sold its remaining interest in DIRECTV to TPG.",
+   "evidence": "In July 2025, we sold our remaining interest in DIRECTV to TPG."
+  },
+  {
+   "text": "In July 2021, AT&T separated its U.S. Video business into DIRECTV and began accounting for the investment under the equity method.",
+   "evidence": "With the close of the transaction (DIRECTV Transaction), we separated our Video business, comprised of our U.S. video operations, and began accounting for our investment in DIRECTV under the equity method."
+  }
+ ],
+ "dropped": []
+}

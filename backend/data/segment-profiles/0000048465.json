@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000048465",
+ "issuerName": "HORMEL FOODS CORPORATION",
+ "builtAt": "2026-11-14T13:44:41.733Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000048465-25-000059",
+  "periodEnd": "2025-10-26",
+  "filingDate": "2025-12-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/48465/000004846525000059/hrl-20251026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Planters",
+    "SPAM",
+    "Jennie-O",
+    "Skippy",
+    "Applegate",
+    "Wholly",
+    "Hormel Black Label",
+    "Bacon1"
+   ],
+   "description": "Processes, markets, and sells food products to U.S. retail channels, including grocery stores, mass merchandisers, club stores, and e-commerce providers.",
+   "evidence": "The Retail segment consists primarily of the processing, marketing, and sale of food products sold predominantly in retail channels, including grocery stores, mass merchandisers, club stores, natural food chains, drug, dollar and discount chains, and e-commerce providers in the United States (U.S.)."
+  },
+  {
+   "name": "Foodservice",
+   "products": [],
+   "description": "Processes, markets, and sells food products to distributors and operators of food away from home, such as restaurants, hospitality, healthcare, and convenience stores in the U.S.",
+   "evidence": "The Foodservice segment consists primarily of the processing, marketing, and sale of food products to distributors and operators across a wide range of providers of food away from home, including restaurants, hospitality, healthcare, K-12, college and universities, and convenience stores in the U.S."
+  },
+  {
+   "name": "International",
+   "products": [],
+   "description": "Processes, markets, and sells the Company's products through retail and foodservice channels internationally, including operations in China and Brazil.",
+   "evidence": "The International segment processes, markets, and sells the Company's products through retail and foodservice channels internationally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from selling branded, value-added meat, nuts, and other food products to retail customers, foodservice distributors and operators, and international buyers, plus royalties from licensed international manufacturing.",
+  "evidence": "The Company has licensed other companies to manufacture various products internationally on a royalty basis."
+ },
+ "changes": [],
+ "dropped": []
+}

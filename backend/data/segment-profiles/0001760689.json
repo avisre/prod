@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001760689",
+ "issuerName": "MICROVAST HOLDINGS, INC.",
+ "builtAt": "2026-11-14T17:41:02.402Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018264",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1760689/000162828026018264/mvst-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Battery Solutions for Electric Commercial Vehicles",
+   "products": [
+    "Battery management systems"
+   ],
+   "description": "Designs, develops, and manufactures high-performance lithium-ion battery solutions for electric commercial vehicles with ultra-fast charging and extended cycle life.",
+   "evidence": "We design, develop, and manufacture high-performance battery solutions for light, medium, and heavy-duty trucks, buses, trains, mining trucks, marine and port vehicles, automated guided vehicles, and specialty vehicles."
+  },
+  {
+   "name": "Energy Storage Systems",
+   "products": [],
+   "description": "Develops and manufactures battery solutions for grid infrastructure, providing capacity support and grid resiliency for renewable energy and data center applications.",
+   "evidence": "We believe energy storage is now a critical component of grid infrastructure."
+  },
+  {
+   "name": "Battery Components",
+   "products": [
+    "Cathode materials",
+    "Anode materials",
+    "Electrolyte",
+    "Separator",
+    "Polyaramid separator",
+    "Full concentration gradient cathode"
+   ],
+   "description": "Develops and manufactures critical lithium-ion battery components including cathode, anode, electrolyte, and separator for internal use and external sale.",
+   "evidence": "As a vertically integrated battery company, Microvast develops and owns proprietary intellectual property and know-how relating to the design, development, and manufacture of the four critical components of lithium-ion batteries: cathode, anode, electrolyte, and separator."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells battery solutions and components to original equipment manufacturers in commercial vehicle and energy storage industries.",
+  "evidence": "We have primarily supplied our battery solutions to OEMs for use in electric commercial and specialty vehicles."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Battery Solutions for Electric Commercial Vehicles): Lithium-ion battery systems for light, medium, and heavy-duty trucks",
+  "product not in text (Battery Solutions for Electric Commercial Vehicles): Bus battery systems",
+  "product not in text (Battery Solutions for Electric Commercial Vehicles): Mining truck batteries",
+  "product not in text (Battery Solutions for Electric Commercial Vehicles): Marine and port vehicle batteries",
+  "product not in text (Battery Solutions for Electric Commercial Vehicles): Train batteries",
+  "product not in text (Battery Solutions for Electric Commercial Vehicles): Automated guided vehicle batteries",
+  "product not in text (Energy Storage Systems): Energy storage systems",
+  "product not in text (Energy Storage Systems): Grid support solutions",
+  "product not in text (Battery Components): Lithium titanate oxide powder"
+ ]
+}

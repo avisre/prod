@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001119769",
+ "issuerName": "CERAGON NETWORKS LTD",
+ "builtAt": "2026-11-14T17:41:38.439Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-002118",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1119769/000117891326002118/zk2634939.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wireless Transport",
+   "products": [],
+   "description": "Designs and sells wireless transport solutions for short-haul, long-haul and small cells transport.",
+   "evidence": "Wireless Transport; Short-haul, Long-haul and Small Cells Transport"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mobile operators and telecommunications companies pay for wireless transport equipment and professional services for network deployment and maintenance.",
+  "evidence": "Revenue from tangible products is recognized at a point in time when control of the product is transferred to the customer (i.e., when the Company's performance obligation is satisfied), in accordance with the agreed-upon delivery terms. Revenues from customer support and extended warranty are recognized ratably over the contract period, as the services have a consistent continuous pattern of transfer to a customer during the contract period."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In January 2025, the company completed the acquisition of E2E, a systems integra"
+ ]
+}

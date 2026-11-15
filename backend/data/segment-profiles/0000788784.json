@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000788784",
+ "issuerName": "PUBLIC SERVICE ENTERPRISE GROUP INC",
+ "builtAt": "2026-11-14T13:50:56.780Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-077446",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/788784/000119312526077446/peg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PSE&G",
+   "products": [
+    "Electric transmission",
+    "Electric distribution",
+    "Natural gas distribution",
+    "Regulated solar generation projects",
+    "Energy efficiency (EE) and related programs",
+    "Appliance services and repairs"
+   ],
+   "description": "A franchised New Jersey public utility providing regulated electric transmission and electric and gas distribution to residential, commercial and industrial customers.",
+   "evidence": "PSE&G earns revenues from its regulated rate tariffs under which it provides electric transmission and electric and natural gas distribution to residential, commercial and industrial (C&I) customers in its service territory."
+  },
+  {
+   "name": "PSEG Power LLC (PSEG Power) & Other",
+   "products": [
+    "Nuclear generation",
+    "Legacy lease investments",
+    "Competitively bid, FERC regulated transmission"
+   ],
+   "description": "An energy supply company operating merchant nuclear generating assets and fuel supply functions, plus parent company and other direct subsidiaries.",
+   "evidence": "PSEG Power —which is an energy supply company that consists of the operations of merchant nuclear generating assets and fuel supply functions engaged in competitive energy sales via its principal direct wholly owned subsidiaries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "PSEG earns revenues from regulated rate tariffs for electric transmission and gas and electric distribution at PSE&G, and from selling energy, capacity and wholesale natural gas from its nuclear generation units at PSEG Power.",
+  "evidence": "PSEG Power earns revenues primarily by selling energy and capacity from its nuclear generation units and from the sale of wholesale natural gas through a full-requirements contract with PSE&G."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (PSE&G): EV make-ready charging infrastructure",
+  "product not in text (PSEG Power LLC (PSEG Power) & Other): Energy and capacity sales",
+  "product not in text (PSEG Power LLC (PSEG Power) & Other): Wholesale natural gas supply",
+  "product not in text (PSEG Power LLC (PSEG Power) & Other): Bilateral energy and gas contracts",
+  "product not in text (PSEG Power LLC (PSEG Power) & Other): PSEG Long Island T&D operations"
+ ]
+}

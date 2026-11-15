@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000945841",
+ "issuerName": "POOL CORPORATION",
+ "builtAt": "2026-11-15T04:40:01.408Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-074833",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/945841/000119312526074833/pool-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by purchasing products from manufacturers and distributing them to customers such as pool builders, service companies and retail stores.",
+  "evidence": "we add considerable value by purchasing products from a large number of manufacturers and then efficiently distributing the products with high levels of customer service on conditions that are generally more favorable than our customers could obtain on their own."
+ },
+ "changes": [
+  {
+   "text": "In November 2025 the National Pool Tile distribution network was renamed National Pool Trends (NPT).",
+   "evidence": "National Pool Trends (NPT), formerly National Pool Tile prior to November 2025; and"
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Wholesale distribution"
+ ]
+}

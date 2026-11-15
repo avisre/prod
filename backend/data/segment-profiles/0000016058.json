@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000016058",
+ "issuerName": "CACI International Inc",
+ "builtAt": "2026-11-14T14:07:09.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-054195",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/16058/000162828026054195/caci-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domestic Operations",
+   "products": [
+    "Cyber capabilities",
+    "Digital Solutions",
+    "Enterprise IT solutions",
+    "Mission and Engineering Support"
+   ],
+   "description": "Provides technology and expertise to U.S. government agencies for national security, intelligence, defense, and federal civilian sectors.",
+   "evidence": "CACI provides technology that addresses our customers' most challenging needs. This includes agile software development using open modern architectures and DevSecOps; advanced data platforms, applications, and analytics augmented by Artificial Intelligence (AI), Enterprise Resource Planning systems, electromagnetic spectrum capabilities, space-based sensors and ground site processors, photonics, and network modernization."
+  },
+  {
+   "name": "International Operations",
+   "products": [
+    "IT services",
+    "Proprietary data and software products"
+   ],
+   "description": "Provides IT services and software products to commercial and government customers throughout the U.K., continental Europe, and around the world.",
+   "evidence": "Our International Operations provide a diverse mix of IT services and proprietary data and software products, serving commercial and government customers throughout the U.K., continental Europe, and around the world."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The federal government pays through contracts as prime contractor or subcontractor for technology and expertise; commercial customers pay for IT services and software products.",
+  "evidence": "We generate substantially all of our revenues from contracts with the federal government."
+ },
+ "changes": [
+  {
+   "text": "During fiscal 2026, the Company completed two acquisitions that enhanced ability to deliver advanced technology in the space domain and specialist data and cloud migration services.",
+   "evidence": "During fiscal 2026, the Company completed two acquisitions that enhanced our ability to deliver advanced technology for our national security customers in the space domain and to provide specialist data and cloud migration services to government clients."
+  }
+ ],
+ "dropped": [
+  "product not in text (Domestic Operations): C3I technology and networks",
+  "product not in text (Domestic Operations): Space domain awareness and sensing",
+  "product not in text (Domestic Operations): Spectrum Superiority technology"
+ ]
+}

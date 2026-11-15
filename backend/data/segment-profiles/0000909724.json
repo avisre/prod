@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000909724",
+ "issuerName": "TANDY LEATHER FACTORY, INC",
+ "builtAt": "2026-11-15T02:50:27.442Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-006550",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/909724/000114036126006550/ef20060825_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "leather",
+    "hand tools",
+    "hardware",
+    "kits",
+    "liquids",
+    "machines",
+    "supplies"
+   ],
+   "description": "Specialty retail of leather and leathercraft products through company-leased stores and e-commerce websites.",
+   "evidence": "We sell our products primarily through company-leased stores and through orders generated from our global websites, and through our commercial division."
+  },
+  {
+   "name": "Commercial",
+   "products": [
+    "leather lace",
+    "cut leather pieces",
+    "do-it-yourself kits",
+    "production services"
+   ],
+   "description": "Business-focused division serving customers with volume orders, customized products and assembly services.",
+   "evidence": "Our commercial division is tailored to the needs of those customers who build businesses around leather."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail customers and commercial customers pay for leather products, tools, supplies and services through stores, websites and direct commercial relationships.",
+  "evidence": "We sell our products primarily through company-leased stores and through orders generated from our global websites, and through our commercial division."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000039263",
+ "issuerName": "Cullen/Frost Bankers, Inc.",
+ "builtAt": "2026-11-14T13:44:19.869Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000039263-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/39263/000003926326000011/cfr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "deposit accounts",
+    "insurance commissions",
+    "interchange and card transaction fees",
+    "trust services",
+    "public finance underwriting",
+    "merchant services",
+    "letter of credit fees"
+   ],
+   "description": "Provides commercial and consumer banking products and services, including loans, deposits, and related fee-based services, primarily in Texas.",
+   "evidence": "Our operations are managed along two reportable operating segments consisting of Banking and Frost Wealth Advisors."
+  },
+  {
+   "name": "Frost Wealth Advisors",
+   "products": [
+    "trust and investment management fees",
+    "investment management",
+    "estate fees",
+    "brokerage services"
+   ],
+   "description": "Provides trust, investment management, and wealth advisory services to customers, earning primarily trust and investment management fees.",
+   "evidence": "Trust and investment management fee income is the most significant income component for Frost Wealth Advisors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income on loans and securities, plus fees from deposit service charges, trust and investment management, insurance commissions, and card transactions paid by customers.",
+  "evidence": "The increase was primarily related to increases in service charges on deposit accounts; insurance commissions and fees; other non-interest income; interchange and card transaction fees; and other charges, commissions and fees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): commercial and consumer loans"
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000817720",
+ "issuerName": "SYNAPTICS INCORPORATED",
+ "builtAt": "2026-11-14T13:51:51.052Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000817720-26-000055",
+  "periodEnd": "2026-06-27",
+  "filingDate": "2026-08-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/817720/000081772026000055/syna-20260627.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor products",
+   "products": [
+    "Touch controllers",
+    "Integrated touch and display"
+   ],
+   "description": "Develops, markets and sells semiconductor products, including Edge AI processors, wireless connectivity, touch, biometrics and video solutions, for electronic devices and OEMs.",
+   "evidence": "We operate in one segment — the development, marketing and sale of semiconductor products used in electronic devices and products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Synaptics earns revenue by selling semiconductor products and related goods, services and IP licenses to electronic device manufacturers and other customers.",
+  "evidence": "Our contract liabilities are comprised of deferred revenue and primarily relate to our obligation to transfer goods, services or licenses of our IP to customers for which we have received consideration."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Semiconductor products): Synaptics Astra™ processors",
+  "product not in text (Semiconductor products): Wireless connectivity (Wi-Fi®, Bluetooth®, BLE, Zigbee, Thread, Matter, GPS, GNS",
+  "product not in text (Semiconductor products): Natural ID® biometric fingerprint",
+  "product not in text (Semiconductor products): DisplayLink® and DisplayPort® video interface"
+ ]
+}

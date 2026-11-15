@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001559720",
+ "issuerName": "Airbnb, Inc.",
+ "builtAt": "2026-11-14T17:36:16.677Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001559720-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1559720/000155972026000004/abnb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Airbnb",
+   "products": [
+    "stays",
+    "experiences",
+    "services"
+   ],
+   "description": null,
+   "evidence": "We operate a global marketplace connecting guests with stays, experiences, and services, collectively in over 220 countries and regions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests book stays, experiences, and services from hosts, with Airbnb collecting merchant fees from transaction values.",
+  "evidence": "Less: Merchant fees and chargebacks 1,369 1,508 1,666"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000043196",
+ "issuerName": "Gray Media, Inc.",
+ "builtAt": "2026-11-14T13:44:32.518Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005803",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/43196/000143774926005803/gtn20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Broadcasting",
+   "products": [
+    "local television stations",
+    "Gray Digital Media",
+    "secondary digital channels"
+   ],
+   "description": "Owns and operates local television stations and digital assets serving US television households with news, entertainment and network programming.",
+   "evidence": "We are the nation's largest owner of top-rated local television stations and digital assets in the United States."
+  },
+  {
+   "name": "Production Companies",
+   "products": [
+    "Raycom Sports",
+    "Tupelo Media Group",
+    "PowerNation Studios",
+    "Assembly Atlanta",
+    "Third Rail Studios"
+   ],
+   "description": "Operates video production companies and studio production facilities producing content for various clients.",
+   "evidence": "Our additional media properties include video production companies Raycom Sports, Tupelo Media Group, and PowerNation Studios, and studio production facilities Assembly Atlanta and Third Rail Studios."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from local, regional and national broadcast and digital advertising and from retransmission consent fees paid by MVPDs, plus lesser studio and tower rental fees.",
+  "evidence": "Our operating revenues are derived primarily from broadcast and digital advertising and from retransmission consent fees."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company changed its corporate name from Gray Television, Inc. to Gray Media, Inc.",
+   "evidence": "On January 1, 2025, we changed our corporate name from Gray Television, Inc. to Gray Media, Inc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Broadcasting): Telemundo affiliated stations"
+ ]
+}

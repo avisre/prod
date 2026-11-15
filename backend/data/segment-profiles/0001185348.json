@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001185348",
+ "issuerName": "PRA GROUP INC",
+ "builtAt": "2026-11-14T17:40:51.564Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185348-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1185348/000118534826000006/praa-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [],
+   "description": "Purchases and collects nonperforming loans in the United States through Core and Insolvency accounts.",
+   "evidence": "During the fourth quarter of 2025, we reorganized our business segment structure from a single operating segment into two operating and reportable segments, comprised of our U.S. and European businesses."
+  },
+  {
+   "name": "Europe",
+   "products": [],
+   "description": null,
+   "evidence": "During the fourth quarter of 2025, we reorganized our business segment structure from a single operating segment into two operating and reportable segments, comprised of our U.S. and European businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Credit originators pay the company to purchase nonperforming loan portfolios; the company generates returns through cash collections on those loans.",
+  "evidence": "Our primary business is the purchase, collection and management of nonperforming loan portfolios, and we are a global leader in the industry. Most of the loans we purchase are from credit originators who have chosen not to pursue, or have been unsuccessful in collecting, the full balance owed to them."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025, the company reorganized from a single operating segment into two reportable segments: U.S. and European businesses.",
+   "evidence": "During the fourth quarter of 2025, we reorganized our business segment structure from a single operating segment into two operating and reportable segments, comprised of our U.S. and European businesses."
+  }
+ ],
+ "dropped": []
+}

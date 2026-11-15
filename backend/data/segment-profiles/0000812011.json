@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000812011",
+ "issuerName": "VAIL RESORTS, INC.",
+ "builtAt": "2026-11-14T13:51:41.184Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000812011-26-000049",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/812011/000081201126000049/mtn-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mountain",
+   "products": [
+    "lift tickets",
+    "pass products",
+    "ski and snowboard lessons",
+    "equipment rentals",
+    "retail merchandise",
+    "dining venues",
+    "private club operations"
+   ],
+   "description": null,
+   "evidence": "Our Mountain segment operates 42 world-class destination mountain resorts and regional ski areas (collectively, our \"Resorts\")."
+  },
+  {
+   "name": "Lodging",
+   "products": [
+    "RockResorts",
+    "Grand Teton Lodge Company",
+    "Colorado resort ground transportation company",
+    "mountain resort golf courses"
+   ],
+   "description": "Owns and manages luxury hotels, condominiums, NPS concessioner properties, transportation and golf courses for resort travelers.",
+   "evidence": "In the Lodging segment, we own and/or manage a collection of luxury hotels and condominiums under our RockResorts brand, other strategic lodging properties and a large number of condominiums located in proximity to our North American mountain resorts, National Park Service (\"NPS\") concessioner properties including the Grand Teton Lodge Company (\"GTLC\"), which operates destination resorts in Grand Teton National Park, a Colorado resort ground transportation company and mountain resort golf course"
+  },
+  {
+   "name": "Real Estate",
+   "products": [],
+   "description": "Owns, develops and sells real estate in and around the company's resort communities.",
+   "evidence": "Our Real Estate segment owns, develops and sells real estate in and around our resort communities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Guests pay the company for lift tickets and pass products plus amenities such as lessons, rentals, dining and lodging.",
+  "evidence": "Our Mountain segment derives revenue through the sale of lift tickets, including pass products, as well as a comprehensive offering of amenities available to guests, including ski and snowboard lessons, equipment rentals and retail merchandise sales, a variety of dining venues, private club operations and other winter and summer recreational activities."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired Crans-Montana, which was added to its operations.",
+   "evidence": "The consolidated results of operations, including any consolidated financial metrics pertaining thereto, include the operations of Crans-Montana (acquired May 2, 2024), prospectively from the date of acquisition."
+  }
+ ],
+ "dropped": []
+}

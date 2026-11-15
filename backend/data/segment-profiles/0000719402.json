@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000719402",
+ "issuerName": "FIRST NATIONAL CORP /VA/",
+ "builtAt": "2026-11-14T13:49:18.588Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009748",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/719402/000143774926009748/fxnc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "consumer loans",
+    "residential mortgages",
+    "home equity loans",
+    "commercial loans",
+    "checking accounts",
+    "treasury management solutions",
+    "savings accounts",
+    "money market accounts"
+   ],
+   "description": "Provides lending and deposit products and services to small and medium-sized businesses, individuals, estates, local governments and non-profits in Virginia and northern North Carolina.",
+   "evidence": "The Company operates through two reportable operating segments: banking and wealth management."
+  },
+  {
+   "name": "wealth management",
+   "products": [
+    "estate planning",
+    "investment management of assets",
+    "trustee under an agreement",
+    "trustee under a will",
+    "individual retirement accounts",
+    "estate settlement"
+   ],
+   "description": "Provides fiduciary, investment management and estate services to individuals, estates and other clients.",
+   "evidence": "Wealth management services include estate planning, investment management of assets, trustee under an agreement, trustee under a will, individual retirement accounts, and estate settlement."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income on loans and investments plus noninterest income from deposit service charges, wealth management fees, and ATM and check card fees.",
+  "evidence": "Noninterest income is derived primarily from service charges on deposits, fee income from wealth management services, and ATM and check card fees."
+ },
+ "changes": [
+  {
+   "text": "In 2025 two previously held subsidiaries, Bank of Fincastle Services, Inc. and ESF, LLC, were closed with no material impact.",
+   "evidence": "In March of 2 025 two previously held subsidiaries of the Company, Bank of Fincastle Services, Inc. and ESF, LLC, were closed with no material impact to the financials related to the closures."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024 the Company completed its merger with Touchstone, acquiring 12 branches "
+ ]
+}

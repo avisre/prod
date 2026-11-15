@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000276720",
+ "issuerName": "PURE CYCLE CORPORATION",
+ "builtAt": "2026-11-14T13:47:43.578Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-25-110312",
+  "periodEnd": "2025-08-31",
+  "filingDate": "2025-11-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/276720/000110465925110312/pcyo-20250831x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water and wastewater services",
+   "products": [
+    "wholesale water services",
+    "wastewater services",
+    "reclaimed water for irrigation and industrial use",
+    "raw water for industrial oil and gas operations"
+   ],
+   "description": "Provides wholesale water and wastewater services to local governmental entities and industrial customers in the Denver metropolitan area.",
+   "evidence": "We mainly provide wholesale water and wastewater services to local governmental entities that in turn provide residential and commercial water and wastewater services to customers in their communities."
+  },
+  {
+   "name": "Land development",
+   "products": [
+    "Sky Ranch master planned community",
+    "finished residential lots"
+   ],
+   "description": null,
+   "evidence": "We acquired Sky Ranch with the intention of selling lots to home builders to add value to our core water and wastewater operations by adding the ultimate purchasers of the homes as our water customers."
+  },
+  {
+   "name": "Single-family rental",
+   "products": [
+    "rental townhomes"
+   ],
+   "description": "Owns and rents single-family homes and townhomes at Sky Ranch under lease agreements to Colorado renters.",
+   "evidence": "we have retained lots in our Sky Ranch development for our single-family rental business where we contract with national homebuilders to build us single-family homes for rent, typically under annual lease agreements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by local governmental entities for wholesale water and wastewater services, by homebuilders for finished lots, and by tenants for rental homes.",
+  "evidence": "Each of our businesses providing water and wastewater services, land development and single-family home rentals generates attractive recurring monthly income."
+ },
+ "changes": [
+  {
+   "text": "In recent years the company launched its single-family rental segment as a third operating segment.",
+   "evidence": "These rental homes represent our investment in our third operating segment as we expect to add an additional 76 homes in Phase 2 with the ability to add more than 200 homes as Sky Ranch builds out."
+  }
+ ],
+ "dropped": [
+  "product not in text (Land development): commercial, retail and light industrial lots",
+  "product not in text (Land development): Sky Ranch Academy charter school",
+  "product not in text (Single-family rental): single-family detached rental homes"
+ ]
+}

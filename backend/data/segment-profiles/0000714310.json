@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000714310",
+ "issuerName": "Valley National Bancorp",
+ "builtAt": "2026-11-14T13:49:00.458Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000714310-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/714310/000071431026000017/vly-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Banking",
+   "products": [
+    "retail banking",
+    "asset management advisory",
+    "brokerage",
+    "trust",
+    "title insurance",
+    "tax credit advisory services",
+    "private banking"
+   ],
+   "description": "Provides retail banking and wealth management and insurance services to individual customers.",
+   "evidence": "Valley's Wealth Management and Insurance Services Division, comprised of asset management advisory, brokerage, trust, personal and title insurance, tax credit advisory services, and our international and domestic private banking businesses, is a reporting unit within the Consumer Banking segment."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "commercial and industrial loans",
+    "commercial real estate loans",
+    "construction loans",
+    "equipment leasing",
+    "treasury management and payments solutions",
+    "cannabis-related business banking",
+    "venture banking"
+   ],
+   "description": "Provides lending, leasing and treasury services to small and middle market businesses across various industries.",
+   "evidence": "We make commercial loans to small and middle market businesses, primarily located in New Jersey, New York, and Florida."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Valley earns net interest income from interest earned on loans and investment securities, net of interest paid on deposits and borrowings, plus fee income from banking services.",
+  "evidence": "Net interest income is the difference between interest income earned on interest-earning assets, such as loans and investment securities, and interest expense paid on interest bearing liabilities, such as deposits and borrowed funds."
+ },
+ "changes": [],
+ "dropped": []
+}

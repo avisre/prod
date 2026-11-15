@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0000312069",
+ "issuerName": "BARCLAYS PLC",
+ "builtAt": "2026-11-14T13:47:52.168Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000312069-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/312069/000031206926000004/bcs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Barclays UK",
+   "products": [
+    "Retail Banking",
+    "Personal Banking",
+    "Barclaycard Consumer UK",
+    "Business Banking"
+   ],
+   "description": "UK ring-fenced bank serving retail and business banking customers in the UK.",
+   "evidence": "Barclays UK broadly represents businesses that sit within the UK ring-fenced bank entity, Barclays Bank UK PLC, and comprises Retail Banking (which includes Personal Banking and Barclaycard Consumer UK) and Business Banking"
+  },
+  {
+   "name": "Barclays UK Corporate Bank",
+   "products": [
+    "lending",
+    "trade and working capital",
+    "liquidity",
+    "payments",
+    "FX solutions"
+   ],
+   "description": "Provides lending, trade, working capital, liquidity, payments and FX solutions to UK corporate clients.",
+   "evidence": "Barclays UK Corporate Bank brings together lending, trade and working capital, liquidity, payments and FX solutions for UK corporate clients with an annual turnover from £ 6.5 million and higher"
+  },
+  {
+   "name": "Barclays Private Bank and Wealth Management",
+   "products": [
+    "investment products",
+    "banking products",
+    "lending products",
+    "financial services"
+   ],
+   "description": "Serves UK and international private banking and wealth management clients with investment, banking and lending products and advice.",
+   "evidence": "Barclays Private Bank and Wealth Management serves UK and international private banking clients, providing a range of investment, banking and lending products alongside expert advice."
+  },
+  {
+   "name": "Barclays Investment Bank",
+   "products": [
+    "Global Markets",
+    "Investment Banking",
+    "International Corporate Banking"
+   ],
+   "description": null,
+   "evidence": "Barclays Investment Bank incorporates the Global Markets, Investment Banking and International Corporate Banking businesses, serving FTSE 350, multinationals and financial institution clients that are regular users of Investment Bank services"
+  },
+  {
+   "name": "Barclays US Consumer Bank",
+   "products": [
+    "co-branded credit cards",
+    "private label credit cards",
+    "instalment loans",
+    "online savings accounts",
+    "certificates of deposits"
+   ],
+   "description": "Co-branded credit card issuer and financial services partner for US travel, entertainment, retail and affinity institutions.",
+   "evidence": "Barclays US Consumer Bank is a co-branded credit card issuer and financial services partner in the United States for travel, entertainment, retail and affinity institutions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Barclays earns net interest income on loans, advances and debt securities, and fee and commission income from transactional, advisory, brokerage, execution and underwriting services for consumers and wholesale clients.",
+  "evidence": "The Group recognises fee and commission income charged for services provided by the Group as and when performance obligations are satisfied, for example, on completion of the underlying transaction."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Barclays US Consumer Bank): small business credit cards"
+ ]
+}

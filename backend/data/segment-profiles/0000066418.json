@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000066418",
+ "issuerName": "MEXCO ENERGY CORPORATION",
+ "builtAt": "2026-11-14T13:45:28.408Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-030386",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/66418/000149315226030386/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Crude oil and natural gas development, exploration, and production",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "condensate"
+   ],
+   "description": "Acquires, explores, develops and produces crude oil and natural gas properties in the United States, primarily in the Permian Basin of West Texas and Southeastern New Mexico.",
+   "evidence": "Accordingly, the Company has one reportable segment: crude oil and natural gas development, exploration, and production."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling crude oil and natural gas production to various purchasers, plus income from investments in LLCs holding royalty interests.",
+  "evidence": "Our primary credit risk is related to oil and gas production sold to various purchasers and the receivables are generally not collateralized."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Crude oil and natural gas development, exploration, and production): natural gas liquids (NGLs)"
+ ]
+}

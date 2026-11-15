@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001583708",
+ "issuerName": "SENTINELONE, INC",
+ "builtAt": "2026-11-14T17:38:57.847Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001583708-26-000020",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1583708/000158370826000020/s-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity",
+   "products": [
+    "Singularity Platform",
+    "Purple AI"
+   ],
+   "description": "AI-powered autonomous cybersecurity platform providing threat prevention, detection, and response across endpoints, cloud workloads, and identities.",
+   "evidence": "We are a cybersecurity provider that delivers an artificial intelligence-powered platform to enable autonomous cybersecurity defense."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for access to the Singularity Platform and related cybersecurity services.",
+  "evidence": "Revenue is recognized when a customer obtains control of the promised services."
+ },
+ "changes": [],
+ "dropped": []
+}

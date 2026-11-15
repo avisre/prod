@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000814585",
+ "issuerName": "MBIA INC.",
+ "builtAt": "2026-11-14T13:51:46.420Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076834",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/814585/000119312526076834/mbi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "corporate",
+   "products": [
+    "support services",
+    "asset and capital management"
+   ],
+   "description": "Conducts general corporate activities, providing support services to MBIA's operating subsidiaries and managing assets and capital through MBIA Inc. and MBIA Services.",
+   "evidence": "Our corporate segment consists of general corporate activities, including providing support services to MBIA's operating subsidiaries and asset and capital management."
+  },
+  {
+   "name": "international and structured finance insurance",
+   "products": [
+    "financial guarantee insurance"
+   ],
+   "description": "Runs off international and structured finance insured portfolios through MBIA Corp., focusing on paying policyholder claims and maximizing recoveries.",
+   "evidence": "our international and structured finance insurance business is managed through MBIA Insurance Corporation and its subsidiaries (\"MBIA Corp.\")"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company was compensated by insurance premiums paid upfront or on an installment basis for financial guarantee insurance policies, and MBIA Services provides support services on a fee-for-service basis.",
+  "evidence": "We have been compensated for our insurance policies by insurance premiums that were paid upfront or on an installment basis."
+ },
+ "changes": [
+  {
+   "text": "National ceased pursuing the writing of new financial guarantee insurance policies in 2017, and the company's operating subsidiaries are running off their insured portfolios.",
+   "evidence": "National ceased pursuing the writing of new financial guarantee insurance policies in 2017, and its primary activity today is to provide ongoing surveillance, including remediation activity where warranted, of its existing insured portfolio"
+  }
+ ],
+ "dropped": [
+  "segment name not in text: United States (U.S.) public finance insurance"
+ ]
+}

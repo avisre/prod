@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001846832",
+ "issuerName": "DLocal Limited",
+ "builtAt": "2026-11-14T17:39:25.191Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0002070979-26-000113",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1846832/000207097926000113/dlo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payment processing",
+   "products": [],
+   "description": "Payment processing services enabling merchants to receive and facilitate payments in emerging markets.",
+   "evidence": "The Group operates as a single operating segment, \"payment processing\"."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "International merchants pay for payment processing services to receive payments and facilitate payments in emerging markets.",
+  "evidence": "The Group derives its revenues from delivering services to international merchants (mainly in the United States, Europe, and China), enabling them to receive payments and facilitate payments in emerging markets."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001498403",
+ "issuerName": "BioLineRx Ltd",
+ "builtAt": "2026-11-15T02:50:32.932Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001581",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1498403/000117891326001581/zk2634707.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development and commercialization of therapeutics",
+   "products": [
+    "APHEXDA (motixafortide)",
+    "GLIX1"
+   ],
+   "description": "Biopharmaceutical company developing and commercializing life-changing therapies in oncology and rare diseases.",
+   "evidence": "The Company operates in a single reportable operating segment – the development and commercialization of therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenues from product sales and license fees through direct commercialization and out-licensing agreements with collaborators.",
+  "evidence": "In this regard, product sales relate to the Company's direct commercialization activities in the U.S. from October 2023 through November 2024, while license revenues relate to outlicensing agreements entered into in Asia and in the U.S. in October 2023 and November 2024, respectively."
+ },
+ "changes": [
+  {
+   "text": "In October 2023, the company out-licensed rights to motixafortide for all indications in substantially all of Asia.",
+   "evidence": "In October 2023, we out-licensed the rights to motixafortide for all indications in substantially all of Asia and in November 2024, we out-licensed the global rights (other than in Asia) to motixafortide for all indications, other than solid tumors."
+  },
+  {
+   "text": "In November 2024, the company out-licensed global rights to motixafortide for all indications other than solid tumors, and shut down independent U.S. commercialization activities.",
+   "evidence": "In October 2023, we out-licensed the rights to motixafortide for all indications in substantially all of Asia and in November 2024, we out-licensed the global rights (other than in Asia) to motixafortide for all indications, other than solid tumors. As a result of the November 2024 transaction, we shut down our independent commercialization activities in the United States and refocused our operations on development activities in Israel in the fields of oncology and rare diseases, at a significan"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In September 2025, the company entered into a collaboration with Hemispherian fo"
+ ]
+}

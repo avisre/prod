@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000831641",
+ "issuerName": "TETRA TECH INC",
+ "builtAt": "2026-11-14T13:52:15.912Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000831641-25-000032",
+  "periodEnd": "2025-09-28",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/831641/000083164125000032/ttek-20250928.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Government Services Group",
+   "products": [
+    "water resources analysis and water management",
+    "environmental monitoring",
+    "data analytics",
+    "government consulting",
+    "waste management",
+    "civil infrastructure master planning and resilient engineering design",
+    "disaster management"
+   ],
+   "description": "Provides high-end consulting and engineering services primarily to U.S. federal, state and local government clients and international development agencies worldwide.",
+   "evidence": "GSG provides high-end consulting and engineering services primarily to U.S. government clients (federal, state and local) and international development agencies worldwide."
+  },
+  {
+   "name": "Commercial/International Services Group",
+   "products": [
+    "energy",
+    "industrial",
+    "high-performance buildings",
+    "aerospace",
+    "sustainable infrastructure",
+    "environmental services",
+    "engineering and project management services"
+   ],
+   "description": "Provides high-end consulting and engineering services to U.S. commercial clients and international commercial and government clients outside development agencies.",
+   "evidence": "CIG primarily provides high-end consulting and engineering services to U.S. commercial clients, and international clients inclusive of the commercial and government sectors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Government Services Group): information technology consulting",
+  "revenue model not grounded"
+ ]
+}

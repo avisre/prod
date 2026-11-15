@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000790526",
+ "issuerName": "RadNet, Inc.",
+ "builtAt": "2026-11-14T13:51:02.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-013337",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/790526/000162828026013337/rdnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Imaging Centers",
+   "products": [
+    "MRI",
+    "CT",
+    "PET",
+    "nuclear medicine",
+    "mammography",
+    "ultrasound",
+    "diagnostic radiology (X-ray)",
+    "fluoroscopy"
+   ],
+   "description": "Operates freestanding outpatient diagnostic imaging centers providing multi-modality imaging services to patients and referring physicians.",
+   "evidence": "Our Imaging Centers segment provides physicians with capabilities to facilitate the diagnosis and treatment of diseases and disorders and may reduce unnecessary invasive procedures, often reducing the cost and amount of care for patients."
+  },
+  {
+   "name": "Digital Health",
+   "products": [
+    "DeepHealth OS",
+    "RIS/PACS",
+    "Reporting",
+    "Remote Scanning Solution",
+    "Image exchange platform services"
+   ],
+   "description": "Sells AI-enabled health informatics software and imaging IT systems that distribute, display, store and retrieve digital images for outpatient radiology and hospital systems.",
+   "evidence": "Integral to the imaging center business is our Digital Health operating segment, which sells computerized systems that distribute, display, store and retrieve digital images."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by third-party payors such as managed care organizations, insurance companies, Medicare or Medicaid for diagnostic imaging procedures, and by customers for Digital Health software solutions.",
+  "evidence": "These centers bill third-party payors, such as managed care organizations, insurance companies, Medicare or Medicaid."
+ },
+ "changes": [
+  {
+   "text": "In November 2025, the Digital Health segment acquired CIMAR in the UK, which provides image exchange platform services for NHS hospitals and private healthcare providers.",
+   "evidence": "Additionally, in November 2025 the segment acquired CIMAR in UK which provides Image exchange platform Services for various NHS hospitals as well as private healthcare providers."
+  }
+ ],
+ "dropped": [
+  "product not in text (Digital Health): AI suites for breast, lung and prostate imaging",
+  "change not grounded: In 2025, the Digital Health segment integrated the business of ICAD Inc., adding"
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000858877",
+ "issuerName": "CISCO SYSTEMS, INC.",
+ "builtAt": "2026-11-14T13:53:00.441Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000858877-26-000132",
+  "periodEnd": "2026-07-25",
+  "filingDate": "2026-09-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/858877/000085887726000132/csco-20260725.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Networking",
+    "Security",
+    "Collaboration",
+    "Observability",
+    "technical support services",
+    "professional services"
+   ],
+   "description": "Sells Cisco networking, security, collaboration and observability products and lifecycle services to businesses, governments and service providers across the Americas.",
+   "evidence": "Our business is organized into the following three geographic segments: Americas; Europe, Middle East, and Africa (EMEA); and Asia Pacific, Japan, and China (APJC)."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Networking",
+    "Security",
+    "Collaboration",
+    "Observability",
+    "technical support services",
+    "professional services"
+   ],
+   "description": "Sells Cisco networking, security, collaboration and observability products and lifecycle services to customers across Europe, the Middle East and Africa.",
+   "evidence": "Our business is organized into the following three geographic segments: Americas; Europe, Middle East, and Africa (EMEA); and Asia Pacific, Japan, and China (APJC)."
+  },
+  {
+   "name": "APJC",
+   "products": [
+    "Networking",
+    "Security",
+    "Collaboration",
+    "Observability",
+    "technical support services",
+    "professional services"
+   ],
+   "description": "Sells Cisco networking, security, collaboration and observability products and lifecycle services to customers across Asia Pacific, Japan and China.",
+   "evidence": "Our business is organized into the following three geographic segments: Americas; Europe, Middle East, and Africa (EMEA); and Asia Pacific, Japan, and China (APJC)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses, public institutions, governments and service providers pay Cisco for hardware, software, SaaS offerings and lifecycle services such as technical support and professional services.",
+  "evidence": "In addition to our product offerings, we provide a broad range of services over the lifecycle of our products, including technical support services and professional services."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "cik": "0001789299",
+ "issuerName": "UTime Limited",
+ "builtAt": "2026-11-15T02:51:20.076Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-036780",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-08-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1789299/000149315226036780/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OEM/ODM",
+   "products": [],
+   "description": "The company engages in original equipment manufacturer and original design manufacturer activities.",
+   "evidence": "All of the Company's revenue is derived from OEM/ODM activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001743745",
+ "issuerName": "Greenlane Holdings, Inc.",
+ "builtAt": "2026-11-15T02:51:11.791Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014263",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1743745/000149315226014263/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale and Distribution",
+   "products": [
+    "wholesale accessories",
+    "vape devices",
+    "lifestyle products"
+   ],
+   "description": "Develops and distributes wholesale accessories, vape devices, and lifestyle products through an asset-light drop-ship model.",
+   "evidence": "one reportable segment that develops and distributes wholesale accessories, vape devices, and lifestyle products (the \"Wholesale Segment\")"
+  },
+  {
+   "name": "Digital Asset",
+   "products": [
+    "BERA",
+    "staking services",
+    "validator participation"
+   ],
+   "description": "Manages the company's digital asset treasury through acquisition, staking, and validator participation activities related to BERA.",
+   "evidence": "one segment that manages the Company's digital asset treasury (the \"Digital Asset Segment\")"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wholesale segment generates revenue from sales of accessories, vape devices and lifestyle products; Digital Asset segment generates revenue from staking and validator participation activities.",
+  "evidence": "In the Digital Asset Segment, the Company's digital asset investments are maintained and managed to make a return on investment through validation and staking activities to generate revenue."
+ },
+ "changes": [
+  {
+   "text": "In October 2025, the company transitioned from a traditional wholesale and distribution model to a digital asset treasury strategy centered on BERA, creating a new Digital Asset segment.",
+   "evidence": "In October 2025, we undertook a substantial strategic transition from a traditional wholesale and distribution operating model to a digital asset treasury strategy centered on BERA"
+  }
+ ],
+ "dropped": []
+}

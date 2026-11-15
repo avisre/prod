@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000005981",
+ "issuerName": "AMERICAN VANGUARD CORPORATION",
+ "builtAt": "2026-11-14T14:06:26.183Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108593",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/5981/000119312526108593/avd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "American Vanguard",
+   "products": [
+    "insecticides",
+    "fungicides",
+    "herbicides",
+    "soil health",
+    "plant nutrition",
+    "molluscicides",
+    "growth regulators",
+    "soil fumigants"
+   ],
+   "description": "Manufactures and markets synthetic, biological and biorational chemical products for agricultural, commercial and consumer uses.",
+   "evidence": "It synthesizes and formulates chemicals and ferments and extracts microbial products for crops, turf, ornamental plants, and human and animal health protection. These products, which include insecticides, fungicides, herbicides, soil health, plant nutrition, molluscicides, growth regulators, soil fumigants, and biorationals, are marketed in liquid, powder, and granular forms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase products on a purchase order basis from national distributors and buying groups domestically, and through sales offices or wholly owned distributors internationally.",
+  "evidence": "In the U.S. AMVAC predominantly distributes its products through national distribution companies and buying groups or co-operatives, which purchase AMVAC's goods on a purchase order basis and, in turn, sell them to retailers/growers/end-users."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company completed the acquisition of Punto Verde, a distributor in Ecuador, to strengthen product portfolio and market access in Latin America.",
+   "evidence": "During 2023, the Company completed the acquisition of Punto Verde S.A. Punversa (Punto Verde), a well-established distributor in Guayaquil, Ecuador, to strengthen its product portfolio and market access in the Latin American region."
+  }
+ ],
+ "dropped": []
+}

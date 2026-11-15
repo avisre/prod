@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000707179",
+ "issuerName": "Old National Bancorp",
+ "builtAt": "2026-11-14T13:48:47.360Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000707179-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/707179/000070717926000010/onb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial loans",
+    "commercial real estate loans",
+    "agricultural loans",
+    "letters of credit",
+    "lease financing",
+    "home equity lines of credit",
+    "residential real estate loans",
+    "deposits"
+   ],
+   "description": "Provides commercial and consumer banking, lending, depository, wealth management, trust, investment advisory, brokerage, and capital markets services to clients in the Midwest and Southeast.",
+   "evidence": "Through our wholly owned banking subsidiary and non-bank affiliates, we provide a wide range of services primarily throughout the Midwest and Southeast regions of the United States and elsewhere, including commercial and consumer loan and depository services, private banking, capital markets, brokerage, wealth management, trust, investment advisory, and other traditional banking services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income on loans and fee income from loan origination and fees charged on deposit accounts.",
+  "evidence": "We earn interest income on loans as well as fee income from the origination of loans and from fees charged on deposit accounts."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Old National completed its acquisition of CapStar, strengthening its Nashville, Tennessee presence.",
+   "evidence": "On April 1, 2024, Old National completed its acquisition of CapStar and its wholly owned subsidiary, CapStar Bank, in an all-stock transaction."
+  },
+  {
+   "text": "In 2025, Old National completed its acquisition of Bremer, solidifying its position in Minnesota and adding funding in North Dakota.",
+   "evidence": "On May 1, 2025, Old National completed its acquisition of Bremer and its wholly owned subsidiary, Bremer Bank, National Association."
+  }
+ ],
+ "dropped": []
+}

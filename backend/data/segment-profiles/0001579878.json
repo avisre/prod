@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001579878",
+ "issuerName": "FIGMA, INC.",
+ "builtAt": "2026-11-14T17:38:41.677Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009228",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1579878/000162828026009228/fig-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Platform",
+   "products": [
+    "Figma Design",
+    "Figma Draw",
+    "FigJam",
+    "Figma Slides",
+    "Dev Mode",
+    "Figma Make",
+    "Figma Sites",
+    "Payload CMS"
+   ],
+   "description": "AI-powered platform for teams to collaborate on digital product design, development, and delivery throughout the entire software creation lifecycle.",
+   "evidence": "The Company manages its operations and allocates resources as a single operating segment at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for platform access based on number of seats and subscription plan tier, invoiced monthly or annually.",
+  "evidence": "The Company primarily derives its revenue from sales of subscriptions for access to its platform."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001945240",
+ "issuerName": "ROMA GREEN FINANCE LIMITED",
+ "builtAt": "2026-11-15T02:49:58.567Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-035563",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1945240/000149315226035563/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ESG and sustainability advisory",
+   "products": [
+    "Sustainability Program Development",
+    "ESG Reporting",
+    "Climate change strategies and solutions",
+    "Environmental audit"
+   ],
+   "description": "Provides ESG, corporate governance, risk management and sustainability and climate change related advisory services to corporate clients in Hong Kong and Singapore.",
+   "evidence": "Based on the management's assessment, for the years ended March 31, 2024, 2025 and 2026, the Company has one reporting business segment in Hong Kong and Singapore as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns advisory fees from clients for ESG, sustainability and climate change advisory services.",
+  "evidence": "We earn advisory fees from each client to whom we provide services."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001434265",
+ "issuerName": "Genmab A/S",
+ "builtAt": "2026-11-14T17:38:19.861Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001434265-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1434265/000143426526000014/gmab-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Antibody therapeutics",
+   "products": [
+    "Darzalex",
+    "Kesimpta",
+    "Tepezza"
+   ],
+   "description": "Develops and commercializes antibody-based medicines for cancer and other diseases, largely through collaboration and license partners.",
+   "evidence": "Genmab is managed and operated as one business unit, which is reflected in the organizational structure and internal reporting."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Genmab earns royalties, net product sales, reimbursement, milestone and collaboration revenue from licensees and collaboration partners for its antibody products and technologies.",
+  "evidence": "Genmab recognizes revenues from non-refundable upfront fees allocated to the license at the point in time the license is transferred to the licensee and the licensee is able to use and benefit from the license."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Genmab acquired Merus N.V., recording intangibles in the Netherlands.",
+   "evidence": "$ 7,394 million relates to intangibles in the Netherlands acquired as a part of the acquisition of Merus N.V."
+  },
+  {
+   "text": "In the fourth quarter of 2025 the acasunlimab program was terminated.",
+   "evidence": "other intangible assets associated with the acasunlimab program, which was terminated in the fourth quarter of 2025."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

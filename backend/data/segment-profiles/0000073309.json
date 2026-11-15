@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000073309",
+ "issuerName": "NUCOR CORP",
+ "builtAt": "2026-11-14T13:45:48.752Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071575",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/73309/000119312526071575/nue-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "steel mills",
+   "products": [
+    "sheet steel (hot-rolled, cold-rolled and galvanized)",
+    "plate steel",
+    "structural steel (wide-flange beams, beam blanks, H-piling and sheet piling)",
+    "bar steel (blooms, billets, concrete reinforcing bar, merchant bar and engineere"
+   ],
+   "description": "Produces sheet, plate, structural and bar steel from recycled scrap in electric arc furnaces, selling mainly to steel service centers, fabricators and manufacturers in North America.",
+   "evidence": "In the steel mills segment, Nucor produces sheet steel (hot-rolled, cold-rolled and galvanized), plate steel, structural steel (wide-flange beams, beam blanks, H-piling and sheet piling) and bar steel (blooms, billets, concrete reinforcing bar, merchant bar and engineered special bar quality (\"SBQ\"))."
+  },
+  {
+   "name": "steel products",
+   "products": [
+    "steel joists and joist girders",
+    "steel deck",
+    "galvanized torque tubes used in solar arrays",
+    "hollow structural section (\"HSS\") steel tubing",
+    "electrical conduit",
+    "fabricated concrete reinforcing steel",
+    "metal building systems",
+    "insulated metal panels"
+   ],
+   "description": "Manufactures downstream steel products such as joists, deck, tubing, conduit, racking, metal buildings and towers for construction, energy and industrial customers.",
+   "evidence": "In the steel products segment, Nucor produces steel joists and joist girders, steel deck, galvanized torque tubes used in solar arrays, hollow structural section (\"HSS\") steel tubing, electrical conduit, fabricated concrete reinforcing steel, cold finished steel, steel fasteners, steel grating and expanded metal, wire and wire mesh, metal building systems, insulated metal panels, steel racking for warehouse systems and data centers, overhead doors, and utility towers and structures for communica"
+  },
+  {
+   "name": "raw materials",
+   "products": [
+    "ferrous scrap",
+    "pig iron",
+    "scrap brokerage and processing services"
+   ],
+   "description": "Produces and procures ferrous and non-ferrous materials, including DRI and scrap processed through DJJ, primarily supplying Nucor's steel mills.",
+   "evidence": "The Company also produces and procures ferrous and non-ferrous materials primarily for use in its steel manufacturing business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Nucor earns revenue by selling steel and steel products to external customers such as steel service centers, fabricators and manufacturers, largely through contract and spot sales.",
+  "evidence": "The steel mills segment sells its products primarily to steel service centers, fabricators and manufacturers located throughout the United States, Canada and Mexico."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (raw materials): direct reduced iron (DRI)"
+ ]
+}

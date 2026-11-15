@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000705432",
+ "issuerName": "SOUTHSIDE BANCSHARES, INC.",
+ "builtAt": "2026-11-14T13:48:44.908Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000705432-26-000034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/705432/000070543226000034/sbsi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "consumer and commercial loans",
+    "deposit accounts",
+    "wealth management",
+    "trust and brokerage services",
+    "1-4 family residential loans",
+    "home equity loans",
+    "commercial real estate loans",
+    "municipal loans"
+   ],
+   "description": "A community-focused bank offering loans, deposits, wealth management and trust services to individuals, businesses, municipalities and nonprofits in Texas.",
+   "evidence": "We are a community-focused financial institution that offers a full range of financial services to individuals, businesses, municipal entities and nonprofit organizations in the communities that we serve."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and fees on loans to consumers, businesses and municipalities, and fees from deposit, wealth management, trust and brokerage services.",
+  "evidence": "These services include consumer and commercial loans, deposit accounts, wealth management, trust and brokerage services."
+ },
+ "changes": [],
+ "dropped": []
+}

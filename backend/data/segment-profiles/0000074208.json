@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000074208",
+ "issuerName": "UDR, Inc.",
+ "builtAt": "2026-11-14T13:45:51.849Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000074208-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/74208/000007420826000013/udr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Same-Store Communities",
+   "products": [
+    "multifamily apartment communities"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Non-Mature Communities/Other",
+   "products": [
+    "recently acquired, developed and redeveloped communities",
+    "non-apartment components of mixed use properties"
+   ],
+   "description": "Communities not meeting Same-Store criteria, including recently acquired, developed and redeveloped communities and non-apartment mixed-use components.",
+   "evidence": "Our Non-Mature Communities/Other segment represents those communities that do not meet the criteria to be included in Same-Store Communities, including, but not limited to, recently acquired, developed and redeveloped communities, and the non-apartment components of mixed use properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "UDR earns rental revenue from tenants leasing apartment homes and retail and commercial space under operating leases.",
+  "evidence": "UDR's communities and retail and commercial space are leased to tenants under operating leases."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Same-Store Communities"
+ ]
+}

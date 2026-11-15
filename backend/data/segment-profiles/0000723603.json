@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000723603",
+ "issuerName": "CULP INC",
+ "builtAt": "2026-11-14T13:49:29.583Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-307064",
+  "periodEnd": "2026-05-03",
+  "filingDate": "2026-07-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/723603/000119312526307064/culp-20260503.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "bedding",
+   "products": [
+    "woven jacquard fabrics",
+    "knitted fabrics",
+    "converted fabrics",
+    "sewn mattress covers"
+   ],
+   "description": "Manufactures and markets mattress fabrics and sewn mattress covers to bedding manufacturers.",
+   "evidence": "The bedding segment, previously known as Culp Home Fashions prior to the recent integration of our bedding and upholstery divisions, manufactures and markets bedding and sewn mattress covers to bedding manufacturers."
+  },
+  {
+   "name": "upholstery",
+   "products": [
+    "upholstery fabrics",
+    "cut and sewn kits",
+    "roller and solar shades",
+    "drapery",
+    "roman shades and top treatments",
+    "hardware",
+    "top-of-mattress soft goods"
+   ],
+   "description": "Markets fabrics for residential, commercial, and hospitality furniture, plus window treatment products and installation services.",
+   "evidence": "The upholstery segment, previously known as Culp Upholstery Fabrics prior to the recent integration of our bedding and upholstery divisions, markets fabrics for residential, commercial, and hospitality furniture."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Culp is paid by leading bedding and furniture manufacturers for fabrics and related products it produces at its own facilities or sources from other suppliers.",
+  "evidence": "The company markets a variety of fabrics to its global customer base of leading bedding and furniture companies, including fabrics produced at Culp's manufacturing facilities and fabrics sourced through other suppliers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, Culp announced a restructuring that included the phased wind-down and closure of its Quebec, Canada manufacturing plant, with the facility sold at the start of fiscal 2026.",
+   "evidence": "It included a phased wind-down and closure of our manufacturing plant in Quebec, Canada, the transition of a portion of that plant's knitting operations to our manufacturing facility in Stokesdale, North Carolina, and the transition of that plant's weaving operations to a strategic sourcing model."
+  },
+  {
+   "text": "At the end of fiscal 2025, Culp initiated the combination of its two operating divisions, Culp Upholstery Fabrics and Culp Home Fashions, into one unified business, completed by the end of fiscal 2026.",
+   "evidence": "At the end of fiscal 2025, we initiated an integration effort involving the combination of our two operating divisions, Culp Upholstery Fabrics and Culp Home Fashions, into one unified business as described below in \" — Fiscal 2026 Business Integration.\""
+  }
+ ],
+ "dropped": []
+}

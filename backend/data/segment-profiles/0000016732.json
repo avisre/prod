@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000016732",
+ "issuerName": "The Campbell’s Company",
+ "builtAt": "2026-11-14T14:07:12.594Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000016732-26-000026",
+  "periodEnd": "2026-08-02",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/16732/000001673226000026/cpb-20260802.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Meals & Beverages",
+   "products": [
+    "Campbell's condensed and ready-to-serve soups",
+    "Swanson broth and stocks",
+    "Pacific Foods broth, soups and non-dairy beverages",
+    "Prego pasta sauces",
+    "Pace Mexican sauces",
+    "Rao's pasta sauces, dry pasta, frozen entrées, frozen pizza and soups",
+    "V8 juices and beverages",
+    "Michael Angelo's frozen entrées and pasta sauces"
+   ],
+   "description": "Soup, simple meals and beverages products in retail and foodservice in the U.S., Canada and Latin America.",
+   "evidence": "Meals & Beverages, which consists of soup, simple meals and beverages products in retail and foodservice in the U.S. and Canada."
+  },
+  {
+   "name": "Snacks",
+   "products": [
+    "Pepperidge Farm cookies, crackers, fresh bakery and frozen products",
+    "Goldfish crackers",
+    "Snyder's of Hanover pretzels",
+    "Lance sandwich crackers",
+    "Cape Cod potato chips",
+    "Kettle Brand potato chips",
+    "Late July snacks",
+    "Snack Factory pretzel crisps"
+   ],
+   "description": "Snacking products in retail in the U.S., including cookies, crackers, bakery and pretzel items.",
+   "evidence": "Snacks, which consists of Pepperidge Farm cookies, crackers, fresh bakery and frozen products, including Goldfish crackers, Snyder's of Hanover pretzels, Lance sandwich crackers, Cape Cod potato chips, Kettle Brand potato chips, Late July snacks, Snack Factory pretzel crisps, and other snacking products in retail in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Products resold to consumers through retail food chains, mass discounters, mass merchandisers, club stores, convenience stores, dollar stores, e-commerce and other retail establishments.",
+  "evidence": "Our products are generally resold to consumers through retail food chains, mass discounters, mass merchandisers, club stores, convenience stores, dollar stores, e-commerce and other retail, commercial and non-commercial establishments."
+ },
+ "changes": [
+  {
+   "text": "In 2024, sold Pop Secret popcorn business from Snacks segment.",
+   "evidence": "On August 26, 2024, we completed the sale of our Pop Secret popcorn business."
+  },
+  {
+   "text": "In 2025, sold noosa yoghurt business from Meals & Beverages segment.",
+   "evidence": "On February 24, 2025, we completed the sale of our noosa yoghurt business."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, acquired Sovos Brands for total purchase consideration of 2.899 billion"
+ ]
+}

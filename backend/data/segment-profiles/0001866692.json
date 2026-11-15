@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001866692",
+ "issuerName": "AMPLITUDE, INC.",
+ "builtAt": "2026-11-14T17:40:35.567Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-057847",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1866692/000119312526057847/ampl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software",
+   "products": [
+    "Amplitude Analytics",
+    "Session Replay",
+    "Feature Experimentation",
+    "Web Experimentation",
+    "Audience Activation",
+    "Guides and Surveys",
+    "AI Agents",
+    "Amplitude Model Context Protocol"
+   ],
+   "description": "Provides an AI Analytics Platform that helps businesses understand user behavior in digital products through a unified, integrated SaaS offering.",
+   "evidence": "The software segment provides an AI Analytics Platform to customers using a SaaS model."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees based on contracted usage with variable consideration for overage fees, delivered as a SaaS service.",
+  "evidence": "We generate revenue primarily through subscription-based pricing, offering flexible plans that scale with our customers."
+ },
+ "changes": [],
+ "dropped": []
+}

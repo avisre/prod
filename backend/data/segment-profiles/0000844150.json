@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0000844150",
+ "issuerName": "NatWest Group plc",
+ "builtAt": "2026-11-14T13:52:39.192Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-016245",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/844150/000110465926016245/nwg-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private Banking & Wealth Management",
+   "products": [],
+   "description": "Segment serving private banking and wealth management clients of NatWest Group.",
+   "evidence": "Effective from Q2 2025, the reportable segment Private Banking was renamed Private Banking & Wealth Management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the reportable segment Private Banking was renamed Private Banking & Wealth Management, with no change to its financial results.",
+   "evidence": "Effective from Q2 2025, the reportable segment Private Banking was renamed Private Banking & Wealth Management. This does not change the financial results of Private Banking & Wealth Management or the consolidated financial results of NatWest Group."
+  }
+ ],
+ "dropped": []
+}

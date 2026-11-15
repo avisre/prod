@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000033992",
+ "issuerName": "KINGSTONE COMPANIES, INC.",
+ "builtAt": "2026-11-14T13:44:05.254Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000033992-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/33992/000003399226000013/kins-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property and casualty insurance",
+   "products": [
+    "Personal lines",
+    "Livery physical damage",
+    "Canine legal liability policies",
+    "Mandatory state joint underwriting associations"
+   ],
+   "description": "Multi-line regional property and casualty insurer writing personal lines and commercial auto insurance through retail and wholesale agents and brokers, mainly in New York.",
+   "evidence": "We are a multi-line regional property and casualty insurance company writing business exclusively through retail and wholesale agents and brokers (\"producers\") appointed by our wholly-owned subsidiary, KICO."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Insureds pay premiums for property and casualty policies, recognized as earned premiums over the policy term, supplemented by ceding commissions, investment income, and policy fees.",
+  "evidence": "We derive substantially all of our revenue from KICO, including revenues from earned premiums, ceding commissions from quota share reinsurance, net investment income generated from our investment portfolio, and net realized gains and losses on investment securities."
+ },
+ "changes": [
+  {
+   "text": "In 2025, KICO withdrew from writing any business in New Jersey and non-renewed all previously written New Jersey policies.",
+   "evidence": "In 2025, KICO made the decision to withdraw from writing any business in the state of New Jersey. All policies previously written in the State of New Jersey were non-renewed during 2025."
+  }
+ ],
+ "dropped": []
+}

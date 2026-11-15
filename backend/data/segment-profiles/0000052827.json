@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000052827",
+ "issuerName": "RAYONIER INC.",
+ "builtAt": "2026-11-14T13:44:53.403Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000052827-26-000036",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/52827/000005282726000036/ryn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Southern Timber",
+   "products": [
+    "pulpwood",
+    "sawtimber",
+    "carbon capture and storage"
+   ],
+   "description": null,
+   "evidence": "Our revenues, operating income and cash flows are primarily derived from three core segments: Southern Timber, Pacific Northwest Timber, and Real Estate."
+  },
+  {
+   "name": "Pacific Northwest Timber",
+   "products": [
+    "sawtimber",
+    "export logs",
+    "log trading activities"
+   ],
+   "description": null,
+   "evidence": "Our timber businesses are disaggregated into Southern Timber and Pacific Northwest Timber."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "rural and recreational HBU property sales",
+    "development property sales",
+    "Wildlight",
+    "Heartwood"
+   ],
+   "description": "Sells higher and better use rural and development properties at premiums to timberland value, including entitled development projects.",
+   "evidence": "We also seek to maximize the value of our land portfolio by pursuing higher and better use (\"HBU\") land sale opportunities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Rayonier earns revenue from harvesting and selling timber, licensing and leasing land for hunting, minerals, cell towers, solar and carbon capture, and selling HBU and development real estate.",
+  "evidence": "We generate recurring income and cash flow primarily from the harvest and sale of timber."
+ },
+ "changes": [
+  {
+   "text": "Effective the third quarter of 2025, the Trading segment was eliminated, with its log trading activities folded into the Southern Timber and Pacific Northwest Timber segments.",
+   "evidence": "the previously reported Trading segment's log trading activities conducted in the U.S. South and Pacific Northwest are now reported in the respective Southern Timber or Pacific Northwest Timber segments based on geographical location for all periods presented."
+  }
+ ],
+ "dropped": [
+  "product not in text (Southern Timber): hunting licenses",
+  "product not in text (Southern Timber): mineral extraction leases",
+  "product not in text (Southern Timber): cell tower leases",
+  "product not in text (Southern Timber): solar energy leases",
+  "product not in text (Pacific Northwest Timber): hunting licenses",
+  "product not in text (Pacific Northwest Timber): mineral extraction leases",
+  "product not in text (Pacific Northwest Timber): cell tower leases",
+  "change not grounded: In 2025, Rayonier sold its 77% interest in the New Zealand joint venture, which "
+ ]
+}

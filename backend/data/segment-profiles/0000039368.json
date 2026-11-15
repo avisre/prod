@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000039368",
+ "issuerName": "FULLER H B CO",
+ "builtAt": "2026-11-14T13:44:20.917Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-001767",
+  "periodEnd": "2025-11-29",
+  "filingDate": "2026-01-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/39368/000143774926001767/ful20251130_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hygiene, Health and Consumable Adhesives",
+   "products": [],
+   "description": "Manufactures and supplies adhesives for assembly, packaging, converting, nonwoven, hygiene, health and beauty, flexible packaging, graphic arts and envelope markets.",
+   "evidence": "The Hygiene, Health and Consumable Adhesives operating segment manufactures and supplies adhesives products in the assembly, packaging, converting, nonwoven, hygiene, health and beauty, flexible packaging, graphic arts and envelope markets."
+  },
+  {
+   "name": "Engineering Adhesives",
+   "products": [],
+   "description": "Provides high-performance adhesives to transportation, electronics, clean energy, aerospace and defense, textile, appliance and heavy machinery markets.",
+   "evidence": "The Engineering Adhesives operating segment provides high-performance adhesives to the transportation, electronics, clean energy, aerospace and defense, textile, appliance and heavy machinery markets."
+  },
+  {
+   "name": "Building Adhesive Solutions",
+   "products": [
+    "specialty adhesives",
+    "sealants",
+    "tapes",
+    "application devices"
+   ],
+   "description": null,
+   "evidence": "The Building Adhesive Solutions operating segment manufactures and provides specialty adhesives, sealants, tapes and application devices for commercial building roofing systems, heavy infrastructure projects, road/highway transportation applications, telecom/5G utilities, industrial LNG plants, building envelope applications, HVAC insulation systems, performance woodworking and insulating glass."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Manufacturers in consumer goods, construction and industrial markets pay the company for adhesives, sealants and specialty chemical products, delivered directly or through distributors.",
+  "evidence": "Our products are delivered directly to customers primarily from our manufacturing and distribution facilities, with additional deliveries made through distributors."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the company sold its North America Flooring business, previously part of the Construction Adhesives operating segment.",
+   "evidence": "As of the beginning of fiscal 2025, we reorganized our operating segments by selling our North America Flooring business, previously part of the Construction Adhesives operating segment"
+  },
+  {
+   "text": "In fiscal 2025, the company combined its Insulating Glass, Woodworking and Composite businesses with Construction Adhesives Roofing and Building Envelope and Infrastructure businesses to form the Building Adhesive Solutions operating segment.",
+   "evidence": "combining our Insulating Glass, Woodworking and Composite businesses, previously part of the Engineering Adhesives operating segment, with Construction Adhesives Roofing and Building Envelope and Infrastructure businesses to form the Building Adhesive Solutions operating segment"
+  }
+ ],
+ "dropped": [
+  "product not in text (Hygiene, Health and Consumable Adhesives): assembly adhesives",
+  "product not in text (Hygiene, Health and Consumable Adhesives): packaging adhesives",
+  "product not in text (Hygiene, Health and Consumable Adhesives): converting adhesives",
+  "product not in text (Hygiene, Health and Consumable Adhesives): nonwoven adhesives",
+  "product not in text (Hygiene, Health and Consumable Adhesives): hygiene adhesives",
+  "product not in text (Hygiene, Health and Consumable Adhesives): health and beauty adhesives",
+  "product not in text (Hygiene, Health and Consumable Adhesives): flexible packaging adhesives",
+  "product not in text (Hygiene, Health and Consumable Adhesives): graphic arts adhesives",
+  "product not in text (Engineering Adhesives): high-performance adhesives for transportation",
+  "product not in text (Engineering Adhesives): electronics adhesives",
+  "product not in text (Engineering Adhesives): clean energy adhesives",
+  "product not in text (Engineering Adhesives): aerospace and defense adhesives",
+  "product not in text (Engineering Adhesives): textile adhesives",
+  "product not in text (Engineering Adhesives): appliance adhesives",
+  "product not in text (Engineering Adhesives): heavy machinery adhesives"
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000064996",
+ "issuerName": "MERCURY GENERAL CORPORATION",
+ "builtAt": "2026-11-14T13:45:21.960Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000064996-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/64996/000006499626000005/mcy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property and Casualty",
+   "products": [
+    "Private passenger automobile insurance",
+    "Homeowners insurance",
+    "Commercial automobile insurance",
+    "Commercial property insurance",
+    "Mechanical protection",
+    "Umbrella insurance"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Policyholders pay premiums for insurance coverage, and the Company's owned agencies AIS and PoliSeek earn commission income from third-party insurers for selling policies.",
+  "evidence": "The Company's revenue from contracts with customers that are in scope of Topic 606 represents the commission income that the Company's 100% owned insurance agencies, Auto Insurance Specialists LLC (\"AIS\") and PoliSeek AIS Insurance Solutions, Inc. (\"Poliseek\"), earned from third-party insurers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, American Mercury Lloyds Insurance Company was converted from a Lloyd's plan to a stock company and renamed Mercury Insurance Company of Texas.",
+   "evidence": "Effective August 13, 2025, American Mercury Lloyds Insurance Company was converted from a Lloyd's plan to a stock company and changed the company name to Mercury Insurance Company of Texas."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Property and Casualty"
+ ]
+}

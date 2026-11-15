@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000046619",
+ "issuerName": "HEICO CORPORATION",
+ "builtAt": "2026-11-14T13:44:37.980Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000046619-25-000082",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/46619/000004661925000082/hei-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flight Support Group",
+   "products": [
+    "repair and overhaul services",
+    "military aircraft parts and support services",
+    "thermal insulation blankets and parts",
+    "expanded foil mesh for lightning strike protection",
+    "personnel and cargo parachute products"
+   ],
+   "description": "Designs and manufactures FAA-approved jet engine and aircraft component replacement parts, and provides repair, overhaul, distribution and specialty products for aviation, defense and industrial customers.",
+   "evidence": "The FSG uses proprietary technology to design and manufacture jet engine and aircraft component replacement parts for sale at lower prices than those manufactured by OEMs."
+  },
+  {
+   "name": "Electronic Technologies Group",
+   "products": [
+    "infrared simulation and test equipment",
+    "laser rangefinder receivers",
+    "electrical power supplies",
+    "memory products",
+    "harsh environment electronic connectors",
+    "RF and microwave amplifiers",
+    "crashworthy and ballistically self-sealing auxiliary fuel systems"
+   ],
+   "description": "Designs, manufactures and sells electronic, data and microwave, and electro-optical products for aviation, defense, space, medical, telecommunications and electronics industries.",
+   "evidence": "The ETG collectively designs, manufactures and sells various types of electronic, data and microwave, and electro-optical products, including infrared simulation and test equipment, laser rangefinder receivers, electrical power supplies, back-up power supplies, power conversion products, underwater locator beacons, emergency locator transmission beacons, flight deck annunciators, panels, indicators, electromagnetic and radio frequency interference shielding and filters, high power capacitor char"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "HEICO sells replacement parts, repair and overhaul services, and electronic products to commercial airlines, repair facilities, OEMs, governments, defense contractors and other industrial customers.",
+  "evidence": "We sell our products to a broad customer base consisting of domestic and foreign commercial and cargo airlines, repair and overhaul facilities, other aftermarket suppliers of aircraft engine and airframe materials, OEMs, domestic and foreign military units, electronic manufacturing services companies, manufacturers for the defense industry as well as medical, telecommunications, scientific, and industrial companies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Flight Support Group): FAA-approved jet engine and aircraft component replacement parts",
+  "product not in text (Flight Support Group): specialty parts for aerospace and industrial OEMs",
+  "product not in text (Flight Support Group): emergency descent devices (EDDs)",
+  "product not in text (Electronic Technologies Group): high reliability (Hi-Rel) passive electronic components and rotary joint assembl"
+ ]
+}

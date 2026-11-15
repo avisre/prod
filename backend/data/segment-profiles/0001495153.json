@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001495153",
+ "issuerName": "MakeMyTrip Ltd",
+ "builtAt": "2026-11-14T17:39:18.931Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-318134",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1495153/000119312526318134/mmyt-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Air Ticketing",
+   "products": [],
+   "description": "Online booking of airline tickets for customers primarily in India.",
+   "evidence": "Revenue from the sale of airline tickets, hotel room nights and bus tickets is recognized as an agent on a \"net\" commission earned basis, as our company does not assume any performance obligation relating to the service."
+  },
+  {
+   "name": "Hotels and Packages",
+   "products": [],
+   "description": "Online booking of hotel room nights and travel packages including air, hotel, car and tour services.",
+   "evidence": "In our packages business, our company acts as the primary obligor for such packages since our company controls the services before such services are transferred to the traveler and accordingly, the revenue for packages is accounted for on a \"gross\" basis."
+  },
+  {
+   "name": "Bus Ticketing",
+   "products": [],
+   "description": "Online booking of bus tickets for customers through platform and aggregator partnerships.",
+   "evidence": "Revenue from bus ticketing includes commissions or fees earned from the sale of bus tickets, including from bus operators."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Car rental, rail ticketing, tours, attractions, advertising, currency exchange and visa services.",
+   "evidence": "Our other revenue primarily comprises: (i) third-party advertising on our platform and brand alliance fees (ii) fees for the booking of car hire services through our subsidiary, Savaari, which are recognized on a \"gross\" basis, (iii) fees for the booking of rail tickets, car hire from third-party suppliers, tours and attractions and ancillary travel requirements such as facilitating access to third-party travel and other travel assurance products, and (iv) foreign currency exchange and visa rela"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for travel bookings through the platform; company earns commissions from suppliers and convenience fees from travelers.",
+  "evidence": "Revenue from bus ticketing includes commissions or fees earned from the sale of bus tickets, including from bus operators. We also earn convenience fees from travelers and receive commissions from aggregators from whom we source inventory for certain bus tickets, when their inventory is booked through our platform."
+ },
+ "changes": [
+  {
+   "text": "In February 2025, acquired corporate travel and expense management business operated through the Happay brand.",
+   "evidence": "In February 2025, we acquired a corporate travel and expense management business on a going concern basis, operated through the \"Happay\" brand."
+  },
+  {
+   "text": "In March 2026, acquired majority equity interest in Flamingo Transworld group holiday packages business and strategic minority interest in Atlys visa processing platform.",
+   "evidence": "In March 2026, we acquired a majority equity interest in Flamingo Transworld, a group holiday packages business based in India, and a strategic minority interest in Atlys, a visa processing platform."
+  },
+  {
+   "text": "In December 2023, acquired majority equity interest in Savaari car rental services business.",
+   "evidence": "In December 2023, we acquired a majority equity interest in Savaari which is engaged in the business of providing car rental services in India."
+  }
+ ],
+ "dropped": []
+}

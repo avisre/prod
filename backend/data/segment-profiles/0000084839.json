@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000084839",
+ "issuerName": "ROLLINS, INC.",
+ "builtAt": "2026-11-14T13:46:19.283Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000084839-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/84839/000008483926000008/rol-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pest control",
+   "products": [
+    "Residential",
+    "Commercial",
+    "Termite and Ancillary"
+   ],
+   "description": "Provides pest, termite and wildlife control services to residential and commercial customers worldwide through company-owned and franchised locations.",
+   "evidence": "We operate under one reportable segment which contains our three service offerings:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residential and commercial customers pay under contracts specifying pricing for recurring pest prevention treatments, plus ancillary and one-time services; franchisees pay initial fees and royalties.",
+  "evidence": "Our pest and termite control services are performed pursuant to terms of contracts that specify the pricing arrangement with the customer."
+ },
+ "changes": [],
+ "dropped": []
+}

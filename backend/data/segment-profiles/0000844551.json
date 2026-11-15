@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000844551",
+ "issuerName": "Woodside Energy Group Ltd",
+ "builtAt": "2026-11-14T13:52:40.255Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-010858",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/844551/000162828026010858/wds-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Australia",
+   "products": [
+    "Liquefied natural gas (LNG)",
+    "Pipeline gas",
+    "Crude oil",
+    "Condensate",
+    "Natural gas liquids",
+    "New energy products"
+   ],
+   "description": "Exploration, development, production and sale of LNG, pipeline gas, crude oil, condensate and natural gas liquids from Australian assets.",
+   "evidence": "Australia: Exploration, evaluation, development, production and sale of liquefied natural gas (LNG), pipeline gas, crude oil, condensate and natural gas liquids, as well as the development, production and sale of new energy products from Australian assets that have achieved FID."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Liquefied natural gas (LNG)",
+    "Pipeline gas",
+    "Crude oil",
+    "Condensate",
+    "Natural gas liquids",
+    "New energy products"
+   ],
+   "description": "Exploration, development, production and sale of oil and gas products from assets located outside Australia.",
+   "evidence": "International: Exploration, evaluation, development, production and sale of LNG, pipeline gas, crude oil, condensate and natural gas liquids, and the development, production and sale of new energy products from assets located outside Australia that have achieved FID."
+  },
+  {
+   "name": "Marketing",
+   "products": [
+    "Oil and gas portfolio",
+    "Purchased volumes",
+    "Shipping",
+    "Trading"
+   ],
+   "description": "Marketing, shipping and trading of the Group's oil and gas portfolio and optimisation activities that generate incremental value.",
+   "evidence": "Marketing: Marketing, shipping and trading of the Group's oil and gas portfolio (including purchased volumes) and optimisation activities that generate incremental value."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Woodside for hydrocarbons (LNG, pipeline gas, crude oil, condensate and NGLs) when control transfers, plus LNG processing, services and shipping revenue.",
+  "evidence": "Revenue from the sale of hydrocarbons is recognised at a point in time when control of the product is transferred to the customer."
+ },
+ "changes": [
+  {
+   "text": "In 2025, new energy projects that reached FID were moved into the Australia or International segments, with 2024 and 2023 comparatives restated.",
+   "evidence": "New energy projects that have reached a final investment decision (FID) are now reported within either the Australia or International segments, depending on their geographical location."
+  },
+  {
+   "text": "In 2025, Woodside divested the Greater Angostura assets in Trinidad and Tobago.",
+   "evidence": "As a result of the divestment of the Greater Angostura assets in Trinidad and Tobago, Woodside's proved developed reserves decreased by 16.3 MMboe (shown as acquisitions and divestments in Table 2)."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, Woodside completed the sale of 10.0% and 15.1% non-operating participat"
+ ]
+}

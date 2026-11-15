@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000006955",
+ "issuerName": "ENERPAC TOOL GROUP CORP.",
+ "builtAt": "2026-11-14T14:06:32.971Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000006955-26-000109",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/6955/000000695526000109/epac-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial Tools & Services",
+   "products": [
+    "cylinders",
+    "pumps",
+    "hydraulic torque wrenches",
+    "bolt tensioners",
+    "specialty tools",
+    "heavy lifting technology solutions",
+    "maintenance and manpower services"
+   ],
+   "description": "Global supplier of branded hydraulic and mechanical tools and services to industrial, refining, petrochemical, MRO, machining, manufacturing, power generation, infrastructure and mining markets.",
+   "evidence": "IT&S is a global supplier of branded hydraulic and mechanical tools and services to a broad array of end markets, including general industrial; refining and petrochemical; industrial MRO; machining & manufacturing; power generation; infrastructure; mining; and other markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for branded hydraulic and mechanical tools, services, and rental services sold through distributors and direct sales to OEMs and end users.",
+  "evidence": "The segment delivers products and services primarily through our world-class, global network of distributors, as well as direct sales to OEMs and select end users."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the company acquired SFE Group, a global industrial equipment company focused on specialized fabrication, welding, machining, and maintenance tools.",
+   "evidence": "On October 28, 2026, we completed the acquisition of Specialized Fabrication Equipment Group LLC (\"SFE Group\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Industrial Tools & Services): tool rental services"
+ ]
+}

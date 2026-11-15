@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000771497",
+ "issuerName": "ABM INDUSTRIES INCORPORATED",
+ "builtAt": "2026-11-14T13:50:35.715Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000771497-25-000031",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/771497/000077149725000031/abm-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business & Industry",
+   "products": [
+    "janitorial and maintenance",
+    "facilities engineering",
+    "parking and transportation management"
+   ],
+   "description": "Provides comprehensive facility solutions including janitorial, engineering, and parking services to commercial real estate, sports venues, and healthcare clients.",
+   "evidence": "B&I, our largest reportable segment, encompasses comprehensive facility solutions, including janitorial and maintenance, facilities engineering, and parking and transportation management to a diverse range of clients."
+  },
+  {
+   "name": "Manufacturing & Distribution",
+   "products": [
+    "integrated facility services",
+    "engineering",
+    "janitorial and maintenance",
+    "specialized solutions"
+   ],
+   "description": "Provides integrated facility, engineering, janitorial and specialized services to manufacturing, distribution, and data center facilities.",
+   "evidence": "M&D provides integrated facility services, engineering, janitorial and maintenance, and other specialized solutions to a variety of manufacturing, distribution, and data center facilities."
+  },
+  {
+   "name": "Aviation",
+   "products": [
+    "parking and transportation management",
+    "janitorial and maintenance services",
+    "passenger assistance",
+    "catering logistics",
+    "aircraft cabin maintenance",
+    "transportation solutions"
+   ],
+   "description": "Provides support services to airlines and airports, including parking, janitorial, passenger assistance, and cabin maintenance.",
+   "evidence": "Aviation provides comprehensive support services to airlines and airports, including parking and transportation management, janitorial and maintenance services, passenger assistance, catering logistics, aircraft cabin maintenance, and transportation solutions."
+  },
+  {
+   "name": "Education",
+   "products": [
+    "janitorial and custodial services",
+    "landscaping and grounds maintenance",
+    "facilities engineering",
+    "parking management"
+   ],
+   "description": "Delivers facility services to public school districts, private schools, colleges, and universities.",
+   "evidence": "Education delivers comprehensive facility services to public school districts, private schools, colleges, and universities."
+  },
+  {
+   "name": "Technical Solutions",
+   "products": [
+    "mechanical and electrical systems",
+    "microgrid systems",
+    "UPS systems",
+    "power distribution units",
+    "EV charging stations",
+    "Linc Service",
+    "TEGG"
+   ],
+   "description": "Specializes in facility infrastructure services including mechanical and electrical systems and microgrid design, installation, and maintenance.",
+   "evidence": "Technical Solutions specializes in comprehensive facility infrastructure services, including mechanical and electrical systems, as well as design, installation, and maintenance of microgrid systems encompassing UPS systems, power distribution units and EV charging stations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay ABM under various contract types, including monthly fixed-price, square-foot, cost-plus, work orders, transaction-price, hourly, parking, energy savings, franchise, and milestone-based microgrid and UPS installation arrangements.",
+  "evidence": "We generate revenues under several types of contracts, as explained below."
+ },
+ "changes": [],
+ "dropped": []
+}

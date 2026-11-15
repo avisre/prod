@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000799292",
+ "issuerName": "M/I HOMES, INC.",
+ "builtAt": "2026-11-14T13:51:25.261Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000799292-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/799292/000079929226000006/mho-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Northern homebuilding",
+   "products": [
+    "single-family homes",
+    "attached townhomes",
+    "land and lots"
+   ],
+   "description": "Builds and sells single-family homes and attached townhomes to first-time, move-up, empty-nester and luxury buyers in northern markets.",
+   "evidence": "Our homebuilding operations are aggregated for reporting purposes into two reporting segments - the Northern and Southern regions."
+  },
+  {
+   "name": "Southern homebuilding",
+   "products": [
+    "single-family homes",
+    "attached townhomes",
+    "land and lots"
+   ],
+   "description": "Builds and sells single-family homes and attached townhomes to first-time, move-up, empty-nester and luxury buyers in southern markets.",
+   "evidence": "We have determined our reportable segments are: Northern homebuilding; Southern homebuilding; and financial services operations."
+  },
+  {
+   "name": "Financial services",
+   "products": [
+    "mortgage loans",
+    "title services",
+    "closing services"
+   ],
+   "description": "Provides mortgage loans and title services to the customers of the homebuilding operations through M/I Financial and title subsidiaries.",
+   "evidence": "Our financial services operations support our homebuilding operations by providing mortgage loans and title services to the customers of our homebuilding operations and are reported as an independent segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Homebuyers pay for homes delivered and land/lots sold, and financial services generates revenue from originating and selling mortgages and collecting fees for title insurance and closing services.",
+  "evidence": "Our financial services operations generate revenue primarily from originating and selling mortgages and collecting fees for title insurance and closing services."
+ },
+ "changes": [],
+ "dropped": []
+}

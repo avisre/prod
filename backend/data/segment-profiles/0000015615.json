@@ -1,0 +1,85 @@
+{
+ "version": 1,
+ "cik": "0000015615",
+ "issuerName": "MasTec, Inc.",
+ "builtAt": "2026-11-14T14:07:09.444Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000015615-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/15615/000001561526000020/mtz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications",
+   "products": [
+    "wireline/fiber networks",
+    "data center buildout and interconnection",
+    "wireless integration and optimization",
+    "install-to-the-home services",
+    "select utility infrastructure"
+   ],
+   "description": "Engineering, construction, maintenance and customer fulfillment for communications and digital infrastructure serving wireless, wireline/fiber and data center customers.",
+   "evidence": "Our Communications segment performs engineering, construction, maintenance and customer fulfillment activities related to communications and digital infrastructure, primarily for wireless and wireline/fiber networks, data center buildout and interconnection, wireless integration and optimization and install-to-the-home services, as well as select utility infrastructure, among others."
+  },
+  {
+   "name": "Clean Energy and Infrastructure",
+   "products": [
+    "battery storage systems",
+    "heavy civil and industrial infrastructure",
+    "environmental remediation services"
+   ],
+   "description": "Installation and construction of renewable power generation, battery storage, heavy civil infrastructure and environmental remediation services for energy and utility customers.",
+   "evidence": "Our Clean Energy and Infrastructure segment primarily serves energy, utility, government and other end-markets through the installation and construction of power generation facilities, primarily from clean energy and renewable sources, such as wind, solar, biomass, natural gas and hydrogen, as well as battery storage systems for renewable energy; various types of heavy civil and industrial infrastructure services, including roads, bridges and rail; and environmental remediation services."
+  },
+  {
+   "name": "Power Delivery",
+   "products": [
+    "distribution infrastructure",
+    "grid modernization",
+    "emergency restoration services",
+    "environmental planning and compliance services"
+   ],
+   "description": "Engineering, construction and maintenance of power transmission and distribution infrastructure, grid modernization and emergency restoration for energy, utility and data center industries.",
+   "evidence": "Our Power Delivery segment primarily serves the energy, utility and data center infrastructure industries through the engineering, construction and maintenance of power transmission and distribution infrastructure, including electrical and gas lines, power reserve and battery infrastructure, and distribution network systems, substations and grid modernization; emergency restoration services following natural disasters and accidents; and environmental planning and compliance services."
+  },
+  {
+   "name": "Pipeline Infrastructure",
+   "products": [
+    "natural gas pipelines",
+    "water pipelines",
+    "carbon capture sequestration pipelines",
+    "pipeline integrity services"
+   ],
+   "description": "Engineering, construction, maintenance and integrity services for natural gas, water and carbon capture pipelines serving energy and utilities industries.",
+   "evidence": "Our Pipeline Infrastructure segment performs engineering, construction, maintenance and other services for pipeline infrastructure, including natural gas, water and carbon capture sequestration pipelines, as well as pipeline integrity, including the repair of pipeline infrastructure and facilitating their safe use throughout their lifecycle, and other services for the energy and utilities industries."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Equity investees and small business units with activities in certain international end-markets whose services may vary from primary segments.",
+   "evidence": "The Other segment includes certain equity investees, the services of which may vary from those provided by our primary segments, as well as other small business units with activities in certain international end-markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for labor-based construction services under multi-year master service agreements or contracts for specific projects.",
+  "evidence": "a significant portion of our services are provided under master service and other service agreements, which are generally multi-year agreements. The remainder of our work is generated pursuant to contracts for specific projects or jobs that require the construction or installation of an entire infrastructure system or specified units within an infrastructure system."
+ },
+ "changes": [
+  {
+   "text": "In 2025, a utility operations component was moved from Communications segment to Power Delivery segment to better align with end markets and operational structure.",
+   "evidence": "In the first quarter of 2025, we made changes to our Communications and Power Delivery segment structure to more closely align with our segments' end markets and to better correspond with the operational management reporting structure of both segments. These changes included moving a component with utility operations previously reported in our Communications segment to our Power Delivery segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Communications): wireless networks",
+  "product not in text (Clean Energy and Infrastructure): power generation facilities from renewable sources",
+  "product not in text (Clean Energy and Infrastructure): wind energy",
+  "product not in text (Clean Energy and Infrastructure): solar energy",
+  "product not in text (Power Delivery): power transmission infrastructure",
+  "product not in text (Pipeline Infrastructure): pipeline repair services"
+ ]
+}

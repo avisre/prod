@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000838875",
+ "issuerName": "WILLAMETTE VALLEY VINEYARDS, INC.",
+ "builtAt": "2026-11-14T13:52:28.649Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001199835-26-000061",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/838875/000119983526000061/wvvi-10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct Sales",
+   "products": [
+    "Willamette Valley Vineyards",
+    "Domaine Willamette",
+    "Griffin Creek",
+    "Tualatin Estate",
+    "Pambrun",
+    "Maison Bleue",
+    "Natoma",
+    "Elton"
+   ],
+   "description": "Sells the Company's wines and related services directly to consumers through tasting rooms, wine clubs, online sales, events, and catering.",
+   "evidence": "Direct Sales include retail sales in the tasting rooms, wine club sales, internet sales, on-site events, kitchen and catering sales and other sales made directly to the consumer without the use of an intermediary, including sales of bulk wine or grapes."
+  },
+  {
+   "name": "Distributor Sales",
+   "products": [
+    "Willamette Valley Vineyards",
+    "Domaine Willamette",
+    "Griffin Creek",
+    "Tualatin Estate",
+    "Pambrun",
+    "Maison Bleue",
+    "Natoma",
+    "Elton"
+   ],
+   "description": "Sells the Company's wines to third-party distributors and wine brokers at wholesale rates for resale.",
+   "evidence": "Distributor Sales include all sales through a third party where prices are given at a wholesale rate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

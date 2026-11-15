@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000352541",
+ "issuerName": "ALLIANT ENERGY CORPORATION",
+ "builtAt": "2026-11-14T13:48:20.220Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000352541-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/352541/000035254126000007/lnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IPL",
+   "products": [
+    "retail electric service",
+    "steam"
+   ],
+   "description": "Public utility generating and distributing electricity and distributing and transporting natural gas to retail customers in Iowa.",
+   "evidence": "IPL - is a public utility engaged principally in the generation and distribution of electricity and the distribution and transportation of natural gas to retail customers in select markets in Iowa."
+  },
+  {
+   "name": "WPL",
+   "products": [
+    "retail electric service"
+   ],
+   "description": "Public utility generating and distributing electricity and distributing and transporting natural gas to retail customers in Wisconsin.",
+   "evidence": "WPL - is a public utility engaged principally in the generation and distribution of electricity and the distribution and transportation of natural gas to retail customers in select markets in Wisconsin."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail customers pay tariff-based rates set through rate reviews based on cost of service, and wholesale customers pay under FERC market-based rates or power supply agreements.",
+  "evidence": "IPL's and WPL's retail electric and gas customer prices are based on IPL's and WPL's cost of service and are determined through general rate review proceedings and various tariff filings with the IUC and PSCW, respectively."
+ },
+ "changes": [
+  {
+   "text": "In 2025, IPL exited the steam business after its steam contracts ran through 2025.",
+   "evidence": "Subsequent to December 31, 2025, IPL exited the steam business."
+  },
+  {
+   "text": "IPL's wholesale power agreement with Southern Minnesota Energy Cooperative expired in 2025.",
+   "evidence": "IPL's wholesale power agreement with Southern Minnesota Energy Cooperative expired in 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (IPL): retail natural gas service",
+  "product not in text (IPL): wholesale electricity",
+  "product not in text (WPL): retail natural gas service",
+  "product not in text (WPL): wholesale electricity"
+ ]
+}

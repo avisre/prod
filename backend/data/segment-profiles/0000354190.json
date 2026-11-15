@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000354190",
+ "issuerName": "ARTHUR J. GALLAGHER & CO.",
+ "builtAt": "2026-11-14T13:48:25.652Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008662",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/354190/000162828026008662/ajg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brokerage",
+   "products": [
+    "retail insurance brokerage",
+    "Gallagher Re",
+    "wholesale insurance brokerage",
+    "reinsurance brokerage",
+    "consulting services"
+   ],
+   "description": "Provides insurance and reinsurance brokerage and consulting services to commercial, nonprofit, public sector and individual clients worldwide.",
+   "evidence": "Our brokerage segment operations provide brokerage and consulting services to entities of all types, including commercial, nonprofit, public sector entities, insurance companies and insurance capital providers, and to a lesser extent, individuals, in the areas of insurance and reinsurance placements, risk of loss management, and management of employer sponsored benefit programs."
+  },
+  {
+   "name": "Risk Management",
+   "products": [
+    "contract claim settlement",
+    "claim administration",
+    "loss control services",
+    "risk management consulting"
+   ],
+   "description": "Provides third-party property/casualty claims settlement and administration services to commercial, nonprofit, captive and public sector entities that self-insure.",
+   "evidence": "Our risk management segment operations provide contract claim settlement, claim administration, loss control services and risk management consulting for commercial, nonprofit, captive and public sector entities, and various other organizations that choose to self-insure property/casualty coverages or choose to use a third-party claims management organization rather than the claim services provided by an underwriting enterprise."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients and underwriting enterprises pay commissions based on a percentage of premiums, service fees, supplemental and contingent revenues, and interest, premium finance and other income; risk management clients pay fees including performance-based fees.",
+  "evidence": "The major sources of our operating revenues are commissions, fees, supplemental and contingent revenues and interest income, premium finance and other income from our brokerage operation, and fees, including performance‑based fees, from our risk management operations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Brokerage): managing general agent/underwriter programs",
+  "product not in text (Brokerage): captive management services"
+ ]
+}

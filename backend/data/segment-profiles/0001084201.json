@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001084201",
+ "issuerName": "SINOVAC BIOTECH LTD",
+ "builtAt": "2026-11-15T02:51:20.059Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-258534",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1084201/000119312526258534/sva-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vaccines",
+   "products": [
+    "Varicella vaccine",
+    "sIPV (Poliomyelitis Vaccine, Inactivated, Sabin Strains)"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers are government agencies and private purchasers in China and internationally who buy vaccines for immunization programs and private markets.",
+  "evidence": "The Company's customers are mainly various government agencies in China. For the year ended December 31, 2025, Pan American Health Organization (\"PAHO\") accounted for approximately 18 % of the total sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Vaccines): Hepatitis A Vaccine, Inactivated (Healive)",
+  "product not in text (Vaccines): Hepatitis A and B Combined Vaccine (Bilive)",
+  "product not in text (Vaccines): Influenza Vaccine (Split Virion), Inactivated (Anflu)",
+  "product not in text (Vaccines): Pandemic Influenza Vaccine (Panflu)",
+  "product not in text (Vaccines): Enterovirus Type 71 Vaccine, Inactivated (Inlive)",
+  "product not in text (Vaccines): PPSV23 (23-Valent Pneumococcal Polysaccharide Vaccine)",
+  "segment evidence not verbatim: Vaccines"
+ ]
+}

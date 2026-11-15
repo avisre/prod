@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000773840",
+ "issuerName": "Honeywell International Inc",
+ "builtAt": "2026-11-14T13:50:39.641Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000773840-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/773840/000077384026000013/hon-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace Technologies",
+   "products": [
+    "auxiliary power units",
+    "propulsion engines",
+    "environmental control systems",
+    "integrated avionics",
+    "connectivity services",
+    "electric power systems",
+    "radar and surveillance systems",
+    "aircraft wheels and brakes"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Industrial Automation",
+   "products": [
+    "automation control and instrumentation products and services",
+    "smart energy products",
+    "sensing technologies",
+    "gas detection technologies",
+    "system design, advanced automation equipment, software and analytics"
+   ],
+   "description": "Provides intelligent, sustainable and secure industrial automation solutions for customers in refining/petrochemicals, life sciences, utilities, and warehouse and logistics segments.",
+   "evidence": "Industrial Automation is a global provider of industrial automation solutions that deliver intelligent, sustainable, and secure operations for customers in refining/petrochemicals, life sciences, utilities, and warehouse and logistics segments."
+  },
+  {
+   "name": "Building Automation",
+   "products": [],
+   "description": "One of Honeywell's four reportable business segments in 2025; no product detail is given in the supplied text.",
+   "evidence": "In 2025, we globally managed our business operations through four reportable business segments: Aerospace Technologies, Industrial Automation, Building Automation, and Energy and Sustainability Solutions."
+  },
+  {
+   "name": "Energy and Sustainability Solutions",
+   "products": [],
+   "description": "One of Honeywell's four reportable business segments in 2025; the Advanced Materials business was spun off from it in October 2025.",
+   "evidence": "The Advanced Materials business was previously included within the Energy and Sustainability Solutions reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Honeywell sells products, software and services to OEMs, airlines, aircraft operators, industrial customers and the U.S. government, and also provides spare parts, repair, overhaul and maintenance services.",
+  "evidence": "Aerospace Technologies also provides spare parts, repair, overhaul, and maintenance services (principally to aircraft operators), and sells licenses or intellectual property to other parties."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Honeywell completed the spin-off of its Advanced Materials business into Solstice Advanced Materials, previously part of Energy and Sustainability Solutions.",
+   "evidence": "On October 30, 2025, we completed the spin-off of our Advanced Materials (AM) business into an independent, publicly traded company named Solstice Advanced Materials, Inc. (Solstice)."
+  },
+  {
+   "text": "In 2025, Honeywell announced a planned realignment effective in the first quarter of 2026 creating a new Process Automation and Technology segment.",
+   "evidence": "In October 2025, the Company announced a planned realignment, expected to be effective in the first quarter of 2026, of its business units comprising its Industrial Automation and Energy and Sustainability Solutions reportable business segments to form a new reportable business segment, Process Automation and Technology, and result in a new composition of its Industrial Automation reportable business segment."
+  },
+  {
+   "text": "In 2025, Honeywell announced its intention to separate from Honeywell Aerospace into independent public companies, expected in the third quarter of 2026.",
+   "evidence": "On February 6, 2025, we announced our plans to separate Honeywell from Honeywell Aerospace, into two independent U.S. public companies."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Aerospace Technologies"
+ ]
+}

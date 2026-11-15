@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000798359",
+ "issuerName": "CENTERSPACE",
+ "builtAt": "2026-11-14T13:51:19.160Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000798359-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/798359/000079835926000014/csr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multifamily",
+   "products": [
+    "apartment communities",
+    "apartment homes"
+   ],
+   "description": "Owns, manages, acquires, develops and redevelops apartment communities for residents in large attractive markets.",
+   "evidence": "Accordingly, the apartment communities are aggregated into a single reportable segment, Multifamily."
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Non-multifamily properties, non-multifamily components of mixed-use properties, and disposed or held-for-sale apartment communities.",
+   "evidence": "\"All other\" is composed of non-multifamily properties, non-multifamily components of mixed-use properties and apartment communities the Company has disposed or designated as held for sale, which did not meet the aggregation criteria."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay Centerspace rent for apartment homes, generating rental revenue from its apartment communities.",
+  "evidence": "Each of the operating properties is considered a separate operating segment because each property earns revenues, incurs expenses, and has discrete financial information."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Centerspace disposed of twelve apartment communities and associated commercial space, plus its corporate office building.",
+   "evidence": "During the year ended December 31, 2025, Centerspace disposed of twelve apartment communities and associated commercial space, in addition to its corporate office building, in three transactions for an aggregate sales price of $ 215.5 million."
+  },
+  {
+   "text": "In 2024, Centerspace disposed of two apartment communities in exchange transactions.",
+   "evidence": "During the year ended December 31, 2024, Centerspace disposed of two apartment communities in two exchange transactions for an aggregate sales price of $ 19.0 million."
+  }
+ ],
+ "dropped": []
+}

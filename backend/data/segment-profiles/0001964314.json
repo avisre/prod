@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001964314",
+ "issuerName": "JBDI Holdings Limited",
+ "builtAt": "2026-11-15T02:50:40.970Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-041241",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-09-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1964314/000149315226041241/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Containers",
+   "products": [
+    "reconditioned steel drums",
+    "new steel drums"
+   ],
+   "description": "Supplier of reconditioned and new containers to solvent, chemical, petroleum and edible product oil industries.",
+   "evidence": "Our products include reconditioned and new steel drums, plastic drums, carboys and IBCs with different capacities and our customers span various industries such as solvent, chemical, petroleum and edible product oil industries."
+  },
+  {
+   "name": "Services",
+   "products": [
+    "reconditioning services",
+    "disposal and collection/delivery services",
+    "wastewater treatment services"
+   ],
+   "description": "Ancillary services including container reconditioning, disposal, collection, delivery and wastewater treatment.",
+   "evidence": "Apart from the selling of Containers, we also provide ancillary services to our customers, including (i) reconditioning services for used Containers; (ii) disposal and collection/delivery services; and (iii) wastewater treatment services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in solvent, chemical, petroleum and edible product oil industries pay for reconditioned and new containers and ancillary services.",
+  "evidence": "Over 70% of our total revenue during the financial years ended May 31, 2025 and 2026, respectively, was derived from the sale of reconditioned and new Containers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Containers): reconditioned plastic drums",
+  "product not in text (Containers): reconditioned carboys",
+  "product not in text (Containers): reconditioned IBCs",
+  "product not in text (Containers): new plastic drums",
+  "product not in text (Containers): new carboys",
+  "product not in text (Containers): new IBCs"
+ ]
+}

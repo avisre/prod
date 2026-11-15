@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000076267",
+ "issuerName": "PARK AEROSPACE CORP.",
+ "builtAt": "2026-11-14T17:40:41.256Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-018900",
+  "periodEnd": "2026-03-01",
+  "filingDate": "2026-05-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/76267/000143774926018900/pke20260301_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace",
+   "products": [
+    "advanced composite materials",
+    "film adhesives",
+    "lightning strike protection materials",
+    "specialty ablative materials",
+    "SigmaStrut™",
+    "AlphaStrut™",
+    "RAYCARB C2B® NG",
+    "composite parts, structures and assemblies"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "single segment",
+   "products": [],
+   "description": "The Company operates as one reportable segment managed and assessed on a consolidated basis by its Chief Executive Officer.",
+   "evidence": "The Company operates in a single segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Aerospace",
+  "revenue model not grounded"
+ ],
+ "escalated": "no segments"
+}

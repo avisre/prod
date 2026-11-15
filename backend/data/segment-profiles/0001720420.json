@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001720420",
+ "issuerName": "IBEX LIMITED",
+ "builtAt": "2026-11-14T17:41:07.312Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001720420-26-000025",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1720420/000172042026000025/ibex-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Customer Engagement",
+   "products": [
+    "Connect",
+    "Wave iX",
+    "customer service",
+    "technical support",
+    "revenue generation",
+    "back office services"
+   ],
+   "description": "Delivers differentiated customer service, technical support, revenue generation and outsourced back office services through omni-channel communications.",
+   "evidence": "This business unit delivers differentiated customer service (assisting our clients' customers with information about our clients and their products or services), technical support (providing specialized teams to provide information, assistance and technical guidance to our clients' customers on a specific product or service), revenue generation (upselling and cross selling) and other value-added outsourced back office services (finance and accounting, marketing support, sales operations, and hum"
+  },
+  {
+   "name": "Customer Acquisition",
+   "products": [
+    "ibex Digital",
+    "digital marketing",
+    "e-commerce technology",
+    "platform solutions"
+   ],
+   "description": "Offers digital marketing, e-commerce technology and platform solutions to help consumer-facing businesses build and scale technology-driven customer acquisition.",
+   "evidence": "In addition, our ibex Digital suite of solutions works with consumer-facing businesses to help them build, grow and scale technology-driven customer acquisition solutions, while helping drive digital transformation. We offer digital marketing, e-commerce technology, and platform solutions for our clients, helping them build new customer acquisition channels, increase acquired customers, and often do both at a reduced cost."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay for customer engagement services through delivery of outsourced customer service and technical support across omni-channels, and for digital marketing and acquisition solutions.",
+  "evidence": "ibex delivers end-to-end customer engagement, innovative business process outsourcing (\"BPO\"), smart digital marketing, online acquisition technology, and Artificial Intelligence (\"AI\") solutions to help companies acquire, engage, and retain valuable customers."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company consolidated to a single reportable segment after previously reporting multiple segments.",
+   "evidence": "The Company has a single operating and reportable segment as the Company's CODM is regularly provided with only consolidated financial results, to make decisions and assess performance."
+  }
+ ],
+ "dropped": []
+}

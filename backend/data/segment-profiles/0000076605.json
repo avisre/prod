@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000076605",
+ "issuerName": "PATRICK INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:45:59.420Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000076605-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/76605/000007660526000013/patk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacturing",
+   "products": [
+    "Laminated and decorative surface products",
+    "Solid surface, granite and quartz countertops",
+    "Fabricated aluminum products",
+    "Electrical systems components",
+    "Cabinet products, doors, components and custom cabinetry",
+    "Fiber reinforced polyester (\"FRP\") products",
+    "Boat towers, tops, power bimini systems, trailers, frames and other engineered s",
+    "RV awnings, windows, fiberglass siding and roofing"
+   ],
+   "description": "Manufactures component products for RV, marine, powersports, manufactured housing and industrial OEM customers.",
+   "evidence": "The Company operates within two reportable segments, Manufacturing and Distribution, through a nationwide network of manufacturing and distribution centers for its products"
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "Pre-finished wall and ceiling panels",
+    "Drywall and drywall finishing products",
+    "Interior and exterior lighting products",
+    "Wiring, electrical and plumbing products",
+    "Transportation and logistics services",
+    "Cement siding",
+    "Raw and processed lumber",
+    "Appliances"
+   ],
+   "description": "Distributes building and component products, plus transportation and logistics services, to RV, marine, powersports, MH and industrial customers.",
+   "evidence": "The Manufacturing and Distribution segments accounted for 74% and 26%, respectively, of the Company's consolidated net sales for the year ended December, 31, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid primarily by RV, marine, powersports, manufactured housing and industrial OEMs and manufacturers for the component products and distribution services it sells them.",
+  "evidence": "The Company's RV products are sold primarily to major RV original equipment manufacturers (\"OEMs\"), smaller OEMs, and to a lesser extent, manufacturers in adjacent industries."
+ },
+ "changes": [],
+ "dropped": []
+}

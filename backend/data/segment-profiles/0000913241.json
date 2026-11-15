@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000913241",
+ "issuerName": "STEVEN MADDEN, LTD.",
+ "builtAt": "2026-11-14T17:37:13.043Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012995",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/913241/000162828026012995/shoo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale Footwear",
+   "products": [
+    "Steve Madden",
+    "Kurt Geiger",
+    "Dolce Vita",
+    "Betsey Johnson",
+    "Blondo",
+    "Carvela",
+    "Anne Klein"
+   ],
+   "description": "Designs, sources, and markets footwear brands to department stores, mass merchants, and retailers globally.",
+   "evidence": "Our Wholesale Footwear segment designs, sources, and markets our brands and sells our products, consisting of footwear, to department stores, mass merchants, off-price retailers, shoe chains, online retailers, national chains, specialty retailers, independent stores, and clubs throughout the United States, the United Kingdom, Europe, Canada, and Mexico."
+  },
+  {
+   "name": "Wholesale Accessories/Apparel",
+   "products": [
+    "Steve Madden",
+    "Kurt Geiger",
+    "Dolce Vita",
+    "Betsey Johnson",
+    "Carvela",
+    "ATM",
+    "Anne Klein"
+   ],
+   "description": "Designs, sources, and markets handbags and apparel brands to retailers throughout the United States and internationally.",
+   "evidence": "Our Wholesale Accessories/Apparel segment designs, sources, and markets our brands and sells our products, primarily consisting of handbags and apparel, to department stores, mass merchants, off-price retailers, online retailers, specialty retailers, independent stores, and clubs throughout the United States, the United Kingdom, Europe, Canada, and Mexico."
+  },
+  {
+   "name": "Direct-to-Consumer",
+   "products": [
+    "Steve Madden",
+    "Kurt Geiger",
+    "Carvela",
+    "Dolce Vita",
+    "ATM"
+   ],
+   "description": "Sells footwear, handbags, apparel, and accessories through retail stores, outlet stores, concessions, and e-commerce platforms globally.",
+   "evidence": "Our Direct-to-Consumer segment engages in the sale of footwear, handbags, apparel, and other trend accessories through Steve Madden, Kurt Geiger, Carvela, Dolce Vita, and ATM full-price retail stores, Steve Madden, Kurt Geiger and Carvela outlet stores, directly-operated concessions in international markets, and directly-operated e-commerce platforms."
+  },
+  {
+   "name": "Licensing",
+   "products": [
+    "Steve Madden",
+    "Kurt Geiger",
+    "Betsey Johnson"
+   ],
+   "description": "Licenses trademarks for apparel, accessories, and home categories with royalties based on licensee revenue.",
+   "evidence": "Our Licensing segment engages in the licensing of the Steve Madden ® , Kurt Geiger ® , and Betsey Johnson ® trademarks for use in the sale of select apparel, accessories, and home categories as well as various other non-core products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay wholesale and direct-to-consumer retailers for footwear, accessories, and apparel; licensees pay royalties based on revenue and sales percentage for advertising.",
+  "evidence": "Most of our license agreements require the licensee to pay the Company a royalty based on actual revenue, a minimum royalty in the event predetermined revenue targets are not achieved and a percentage of sales for brand advertising."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Kurt Geiger and Carvela trademarks via acquisition of Mercury Acquisitions Topco Limited.",
+   "evidence": "In May 2025, we acquired the Kurt Geiger ® trademark via our acquisition of Mercury Acquisitions Topco Limited (\"MATL\"), the ultimate parent company of Kurt Geiger."
+  },
+  {
+   "text": "In 2024, the company acquired the ATM brand in November 2024.",
+   "evidence": "ATM was founded in 2012, and we acquired the ATM brand in November 2024."
+  }
+ ],
+ "dropped": []
+}

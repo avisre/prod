@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000811596",
+ "issuerName": "KAISER ALUMINUM CORPORATION",
+ "builtAt": "2026-11-14T13:51:37.741Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-059575",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/811596/000119312526059575/kalu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Aluminum Mill Products",
+   "products": [
+    "flat-rolled (plate, sheet, and coil)",
+    "extruded (rod, bar, hollows, and shapes)",
+    "drawn (rod, bar, pipe, tube, and wire)",
+    "cast aluminum products"
+   ],
+   "description": "Produces semi-fabricated specialty aluminum mill products for aerospace, packaging, general engineering and automotive customers.",
+   "evidence": "Our business is organized into one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, primarily blue-chip aerospace, automotive, packaging manufacturers and metal service centers, pay for highly engineered semi-fabricated specialty aluminum mill products.",
+  "evidence": "We have long-standing relationships with our customers, which consist primarily of blue-chip companies, including leading aerospace and automotive manufacturers, tier one aerospace and automotive suppliers, beverage and food packaging manufacturers, and metal service centers."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Beginning January 1, 2025, the Other Products category was combined with GE Prod"
+ ]
+}

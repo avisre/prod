@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0001997464",
+ "issuerName": "Marex Group Ltd",
+ "builtAt": "2026-11-14T17:39:20.230Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001997464-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1997464/000199746426000018/mar-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clearing",
+   "products": [],
+   "description": "Provides clearing and settlement services for financial derivatives and commodities contracts.",
+   "evidence": "Clearing net commission income increased $ 12.4 m to $ 275.4 m (2024: $ 263.0 m) , reflecting increased client activity and volumes as contracts cleared increased to 1,280 m (2024: 1,116 m)."
+  },
+  {
+   "name": "Agency and Execution",
+   "products": [
+    "Securities",
+    "Prime",
+    "FX",
+    "Rates",
+    "Credit",
+    "Equities",
+    "Energy"
+   ],
+   "description": "Provides agency and execution services across securities, energy and other asset classes for clients.",
+   "evidence": "Agency and Execution revenue increased $ 354.0 m to $ 1,049.2 m (2024: $ 695.2 m), reflecting strong growth in Securities and Energy."
+  },
+  {
+   "name": "Market Making",
+   "products": [
+    "Metals",
+    "Securities",
+    "Energy",
+    "Agriculture"
+   ],
+   "description": "Provides market making services across metals, securities, energy and agricultural commodities.",
+   "evidence": "Market Making revenue increased $ 27.7 m to $ 235.5 m in 2025 (2024: $ 207.8 m), driven by strong growth in Metals, Securities and Energy, which more than offset softer conditions in Agriculture highlighting the resilience of our multi-asset approach in Market Making amid a mixed market backdrop in 2025, driven by rising tariffs and heightened uncertainty."
+  },
+  {
+   "name": "Hedging and Investment Solutions",
+   "products": [
+    "Financial Products",
+    "Hedging Solutions",
+    "Structured products"
+   ],
+   "description": "Provides hedging solutions and structured investment products to clients across asset classes.",
+   "evidence": "Solutions revenue increased $ 35.3 m to $ 196.8 m (2024: $ 161.5 m), reflecting higher client activity across both Financial Products and Hedging Solutions ."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay commissions for execution and clearing services, net interest income from client balances, and net trading income from market making and proprietary positions.",
+  "evidence": "Revenue increased by $ 429.4 m to $ 2,024.1 m (2024: $ 1,594.7 m), with growth across all operating segments and contributions from acquisitions completed during the year."
+ },
+ "changes": [],
+ "dropped": []
+}

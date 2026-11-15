@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000040570",
+ "issuerName": "GEE GROUP INC.",
+ "builtAt": "2026-11-14T13:44:25.325Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-25-009011",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/40570/000147793225009011/job_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Professional Staffing Services",
+   "products": [
+    "Contract staffing services",
+    "Direct hire placement services",
+    "IT staffing"
+   ],
+   "description": "Provides temporary and permanent placement of specialized professionals in IT, engineering, accounting and finance, office support and healthcare to U.S. customers.",
+   "evidence": "Our contract and placement services are currently provided under our Professional Staffing Services operating division or segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company acquired Hornet Staffing, Inc., broadening its professional contract staffing footprint within the Professional Staffing Services segment.",
+   "evidence": "We acquired Hornet Staffing, Inc., a Georgia corporation, (\"Hornet\") on January 3, 2025, broadening our footprint in the professional contract staffing market with a specialty in working with managed service providers (\"MSP\") and vendor management systems (\"VMS\") that streamline outsourced labor for large clients."
+  }
+ ],
+ "dropped": [
+  "product not in text (Professional Staffing Services): Engineering staffing",
+  "product not in text (Professional Staffing Services): Accounting and finance staffing",
+  "product not in text (Professional Staffing Services): Office support staffing",
+  "product not in text (Professional Staffing Services): Medical scribes for EMR services",
+  "revenue model not grounded",
+  "change not grounded: In fiscal 2025 the former Industrial Staffing Services segment was deemed a disc"
+ ]
+}

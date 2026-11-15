@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000004457",
+ "issuerName": "U-Haul Holding Company",
+ "builtAt": "2026-11-14T14:06:18.295Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-241850",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/4457/000119312526241850/uhal-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Moving and Storage",
+   "products": [
+    "Rental trucks and trailers",
+    "Moving supplies",
+    "Towing accessories",
+    "Propane",
+    "Fixed and portable moving and storage units",
+    "Self-storage units",
+    "U-Box portable moving and storage units"
+   ],
+   "description": "Rents trucks, trailers, and storage units to do-it-yourself movers and manages self-storage properties throughout North America.",
+   "evidence": "Our Moving and Storage segment (\"Moving and Storage\") consists of the rental of trucks and trailers, sales of moving supplies, sales of towing accessories, sales of propane, and the rental of fixed and portable moving and storage units to the \"do-it-yourself\" mover and management of self-storage properties owned by others."
+  },
+  {
+   "name": "Property and Casualty Insurance",
+   "products": [
+    "Safemove",
+    "Safetow",
+    "Safemove Plus",
+    "Safehaul",
+    "Safestor"
+   ],
+   "description": "Provides property and casualty insurance claims handling and underwrites protection packages for U-Haul rental customers.",
+   "evidence": "Our Property and Casualty Insurance segment (\"Property and Casualty Insurance\") provides loss adjusting and claims handling for U-Haul through regional offices across the United States and Canada. Property and Casualty Insurance also underwrites components of the Safemove, Safetow, Safemove Plus, Safehaul and Safestor protection packages to U-Haul customers."
+  },
+  {
+   "name": "Life Insurance",
+   "products": [
+    "Medicare supplement insurance",
+    "Annuities"
+   ],
+   "description": "Sells life insurance, Medicare supplement insurance, annuities and related products to the senior market through Oxford Life Insurance Company.",
+   "evidence": "Oxford Life Insurance Company (\"Oxford\"), our life insurance subsidiary, sells life insurance, Medicare supplement insurance, annuities and other related products to the senior market."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for rental of trucks, trailers, and storage units; sales of moving supplies and accessories; and insurance protection packages.",
+  "evidence": "Our Moving and Storage segment (\"Moving and Storage\") consists of the rental of trucks and trailers, sales of moving supplies, sales of towing accessories, sales of propane, and the rental of fixed and portable moving and storage units to the \"do-it-yourself\" mover and management of self-storage properties owned by others."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Life Insurance): Life insurance"
+ ]
+}

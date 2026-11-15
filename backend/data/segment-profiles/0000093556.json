@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000093556",
+ "issuerName": "STANLEY BLACK & DECKER, INC.",
+ "builtAt": "2026-11-14T13:46:40.089Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000093556-26-000009",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/93556/000009355626000009/swk-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tools & Outdoor",
+   "products": [
+    "Outdoor Power Equipment",
+    "DEWALT®",
+    "CRAFTSMAN®",
+    "STANLEY®",
+    "BLACK+DECKER®",
+    "CUB CADET®"
+   ],
+   "description": "Worldwide leader in hand tools, power tools, outdoor products and related accessories sold to professional end users, distributors, dealers, retail consumers and industrial customers.",
+   "evidence": "The Tools & Outdoor segment is comprised of the Power Tools Group (\"PTG\"), Hand Tools, Accessories & Storage (\"HTAS\"), and Outdoor Power Equipment (\"Outdoor\") product lines."
+  },
+  {
+   "name": "Engineered Fastening",
+   "products": [
+    "externally threaded fasteners",
+    "blind rivets and tools",
+    "blind inserts and tools",
+    "drawn arc weld studs and systems",
+    "engineered plastic and mechanical fasteners",
+    "self-piercing riveting systems",
+    "precision nut running systems",
+    "micro fasteners"
+   ],
+   "description": "Global leader of highly engineered, application-based fastening components sold to automotive, manufacturing, electronics, construction and aerospace customers.",
+   "evidence": "The business primarily sells highly engineered components such as fasteners, fittings and various engineered products, which are designed for specific applications across multiple verticals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from selling tools, outdoor products and engineered fastening components, largely through retailers, home centers, mass merchants, distributors, dealers and a direct sales force.",
+  "evidence": "The majority of sales are distributed through retailers, including home centers, mass merchants, hardware stores, and retail lumber yards, as well as third-party distributors, independent dealers, and a direct sales force."
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of 2025, the Industrial segment was renamed Engineered Fastening.",
+   "evidence": "In the first quarter of 2025, the Industrial segment was renamed \"Engineered Fastening\" as a result of a more focused portfolio following recent divestitures."
+  },
+  {
+   "text": "In April 2024, the Company sold its Infrastructure business, comprised of the attachment and handheld hydraulic tools business.",
+   "evidence": "In April 2024, the Company sold its Infrastructure business, comprised of the attachment and handheld hydraulic tools business, for net proceeds of $729 million."
+  },
+  {
+   "text": "In December 2025, the Company announced a definitive agreement to sell its Consolidated Aerospace Manufacturing (CAM) business.",
+   "evidence": "Most recently, the Company announced in December 2025 that it had entered into a definitive agreement to sell its Consolidated Aerospace Manufacturing (\"CAM\") business for $1.8 billion in cash."
+  }
+ ],
+ "dropped": [
+  "product not in text (Tools & Outdoor): Power Tools Group (PTG)",
+  "product not in text (Tools & Outdoor): Hand Tools, Accessories & Storage (HTAS)"
+ ]
+}

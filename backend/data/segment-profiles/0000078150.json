@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000078150",
+ "issuerName": "PLDT Inc.",
+ "builtAt": "2026-11-14T13:46:03.711Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-182147",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/78150/000119312526182147/phi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wireless",
+   "products": [
+    "mobile services",
+    "fixed wireless broadband services",
+    "Smart",
+    "TNT",
+    "Smart Infinity",
+    "Giga Power",
+    "Magic Data",
+    "All Data"
+   ],
+   "description": "Provides prepaid and postpaid mobile communications and fixed wireless broadband services to consumers throughout the Philippines.",
+   "evidence": "We provide (1) mobile services, (2) fixed wireless broadband services, and (3) other services, through our wireless business, with mobile services contributing 98 % of our 2025 wireless service revenues"
+  },
+  {
+   "name": "Fixed Line",
+   "products": [
+    "data",
+    "voice",
+    "miscellaneous services",
+    "PLDT Home",
+    "PLDT Enterprise",
+    "ePLDT Inc.",
+    "Vitro Inc."
+   ],
+   "description": "Provides fixed line data, voice and ICT services to retail, corporate and SME clients, including data center, multi-cloud, cyber security, data and AI solutions.",
+   "evidence": "Our Fixed Line business segment offers data, voice, and miscellaneous services."
+  },
+  {
+   "name": "Others",
+   "products": [
+    "MIH",
+    "Kayana"
+   ],
+   "description": "Holds interests in digital platforms and other technologies.",
+   "evidence": "Our other business consists primarily of our interests in digital platforms and other technologies, including our interests in MIH and Kayana."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for telecommunications services, including prepaid and postpaid mobile voice, SMS and data, and fixed line voice, data and ICT services, mostly prepaid subscribers.",
+  "evidence": "We generate revenues primarily from providing the following telecommunications services: cellular voice, SMS and data services in the wireless business; and local exchange, international and national long distance, data and other network, and information and communications services in the fixed line business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wireless): Smart Signature Plans+",
+  "change not grounded: In 2022 and 2023, Smart and DMPI agreed to sell 7,569 telecom towers and related",
+  "change not grounded: In 2024, PLDT's equity ownership in Kayana was reduced to 45%, leading it to be ",
+  "change not grounded: In 2024, PGIH sold a 4.99% equity interest in Multisys Technologies Corporation "
+ ]
+}

@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000795266",
+ "issuerName": "KB HOME",
+ "builtAt": "2026-11-14T13:51:11.342Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000795266-26-000017",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/795266/000079526626000017/kbh-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "West Coast",
+   "products": [
+    "attached and detached single-family residential homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Homebuilding operations serving first-time, move-up and active adult buyers in California, Idaho and Washington markets.",
+   "evidence": "For reporting purposes, we organize our homebuilding operations into four segments — West Coast, Southwest, Central and Southeast."
+  },
+  {
+   "name": "Southwest",
+   "products": [
+    "attached and detached single-family residential homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Homebuilding operations serving homebuyers in Arizona and Nevada markets such as Phoenix, Tucson and Las Vegas.",
+   "evidence": "The following table presents financial information related to our Southwest homebuilding reporting segment for the years indicated"
+  },
+  {
+   "name": "Central",
+   "products": [
+    "attached and detached single-family residential homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Homebuilding operations serving homebuyers in Colorado and Texas markets including Denver, Austin, Dallas, Fort Worth, Houston and San Antonio.",
+   "evidence": "The following table presents financial information related to our Central homebuilding reporting segment for the years indicated"
+  },
+  {
+   "name": "Southeast",
+   "products": [
+    "attached and detached single-family residential homes",
+    "townhomes",
+    "condominiums"
+   ],
+   "description": "Homebuilding operations serving homebuyers in Florida and North Carolina markets such as Tampa, Orlando and Raleigh.",
+   "evidence": "The following table presents financial information related to our Southeast homebuilding reporting segment for the years indicated"
+  },
+  {
+   "name": "Financial services",
+   "products": [
+    "insurance products",
+    "title services",
+    "mortgage loan originations"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Financial services",
+  "revenue model not grounded"
+ ]
+}

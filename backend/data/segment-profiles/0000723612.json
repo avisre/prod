@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000723612",
+ "issuerName": "AVIS BUDGET GROUP, INC.",
+ "builtAt": "2026-11-14T13:49:29.839Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000723612-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/723612/000072361226000012/car-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Avis",
+    "Budget",
+    "Zipcar",
+    "Payless",
+    "Budget Truck"
+   ],
+   "description": "Vehicle rental, car sharing and licensee operations in North America, South America, Central America and the Caribbean.",
+   "evidence": "Americas - consisting primarily of (i) vehicle rental operations in North America, South America, Central America and the Caribbean, (ii) car sharing operations in certain of these markets, and (iii) licensees in the areas in which we do not operate directly."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Avis",
+    "Budget",
+    "Zipcar",
+    "Apex",
+    "AmicoBlu",
+    "Maggiore",
+    "FranceCars",
+    "McNicoll Hire"
+   ],
+   "description": "Vehicle rental, car sharing and licensee operations in Europe, the Middle East, Africa, Asia and Australasia.",
+   "evidence": "International - consisting primarily of (i) vehicle rental operations in Europe, the Middle East, Africa, Asia and Australasia, (ii) car sharing operations in certain of these markets, and (iii) licensees in the areas in which we do not operate directly."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay rental fees for vehicles and trucks, car sharing members pay membership fees, and licensees pay royalty fees based on a percentage of applicable revenues.",
+  "evidence": "We license the Avis brand to independent commercial owners who generally pay royalty fees to us based on a percentage of applicable revenues."
+ },
+ "changes": [],
+ "dropped": []
+}

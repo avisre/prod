@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000766704",
+ "issuerName": "WELLTOWER INC.",
+ "builtAt": "2026-11-14T13:50:29.971Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000766704-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/766704/000076670426000010/well-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seniors Housing Operating",
+   "products": [
+    "Wellness housing",
+    "Independent living and independent supportive living",
+    "Continuing care retirement communities",
+    "Assisted living",
+    "Alzheimer's/dementia care",
+    "Care homes with or without nursing (U.K.)"
+   ],
+   "description": "Owns seniors and wellness housing communities managed by operating partners under incentive-based contracts, serving older adults across the U.S., U.K. and Canada.",
+   "evidence": "Our Seniors Housing Operating properties include wellness housing, independent living and independent supportive living, continuing care retirement communities, assisted living, Alzheimer's/dementia care and include care homes with or without nursing (U.K.)"
+  },
+  {
+   "name": "Triple-net",
+   "products": [
+    "Independent living and independent supportive living (Canada)",
+    "Assisted living",
+    "Continuing care retirement communities",
+    "Alzheimer's/dementia care",
+    "Care homes with or without nursing (U.K.)",
+    "Long-term/post-acute care"
+   ],
+   "description": "Leases seniors housing and long-term/post-acute care properties to operators under long-term triple-net master leases, with tenants paying all operating costs.",
+   "evidence": "Our Triple-net properties are primarily leased to operators under long-term, triple-net master leases that obligate the tenant to pay all operating costs, utilities, real estate taxes, insurance, maintenance costs and all obligations under certain ground leases."
+  },
+  {
+   "name": "Outpatient Medical",
+   "products": [
+    "Outpatient medical buildings"
+   ],
+   "description": "Owns outpatient medical buildings triple-net leased to investment grade healthcare providers, largely affiliated with health systems.",
+   "evidence": "Our remaining outpatient medical portfolio, exclusive of held for sale properties, primarily consists of triple-net leased properties leased to investment grade healthcare providers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Welltower earns resident fees and services revenue from seniors housing residents and rental income from tenants under triple-net and outpatient medical leases, plus interest income.",
+  "evidence": "Our primary sources of revenue include resident fees and services revenue, rental income, interest income and interest earned on short-term deposits."
+ },
+ "changes": [],
+ "dropped": []
+}

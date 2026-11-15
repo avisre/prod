@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000764180",
+ "issuerName": "Altria Group, Inc.",
+ "builtAt": "2026-11-14T13:50:23.516Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000764180-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/764180/000076418026000017/mo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "smokeable products",
+   "products": [
+    "Marlboro",
+    "Black & Mild",
+    "combustible cigarettes",
+    "machine-made large cigars"
+   ],
+   "description": null,
+   "evidence": "smokeable tobacco products, consisting of combustible cigarettes manufactured and sold by PM USA and machine-made large cigars manufactured and sold by Middleton"
+  },
+  {
+   "name": "oral tobacco products",
+   "products": [
+    "Copenhagen",
+    "Skoal",
+    "Red Seal",
+    "on!"
+   ],
+   "description": "Manufactures and sells moist smokeless tobacco products and oral nicotine pouches to U.S. consumers.",
+   "evidence": "The oral tobacco products segment includes the premium brands, Copenhagen and Skoal , and a value brand, Red Seal , sold by USSTC."
+  },
+  {
+   "name": "e-vapor products",
+   "products": [
+    "NJOY ACE",
+    "tobacco and menthol e-vapor products"
+   ],
+   "description": "Manufactures and sells e-vapor products to customers in the United States.",
+   "evidence": "NJOY contracts with third-party importers to supply all of its products and sells its e-vapor products to customers in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Altria earns revenue by selling tobacco products principally to wholesalers, distributors and large retail organizations, including chain stores, in the United States.",
+  "evidence": "Our tobacco subsidiaries sell their tobacco products principally to wholesalers (including distributors) and large retail organizations, including chain stores."
+ },
+ "changes": [],
+ "dropped": []
+}

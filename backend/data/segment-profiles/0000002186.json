@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000002186",
+ "issuerName": "BK Technologies Corp",
+ "builtAt": "2026-11-14T14:06:07.716Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007826",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/2186/000143774926007826/bkti20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land Mobile Radio (LMR) Products and Solutions",
+   "products": [
+    "KNG series radios",
+    "Two-way land mobile radios",
+    "Mobile radios"
+   ],
+   "description": "Designs, manufactures and markets wireless communications products and related accessories consisting of two-way land mobile radios and public safety grade solutions for first responders.",
+   "evidence": "The LMR segment provides radio devices that are hand-held (portable) or installed in vehicles (mobile) and operate on private radio systems that are P25 compliant."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government and public safety agencies, military, industrial and commercial enterprises purchase LMR products and solutions for communications and field applications.",
+  "evidence": "BK Technologies-branded products serve government markets, including, but not limited to, emergency response, public safety, homeland security and military customers of federal, state and municipal government agencies, as well as various industrial and commercial enterprises."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Land Mobile Radio (LMR) Products and Solutions): BKR series radios",
+  "product not in text (Land Mobile Radio (LMR) Products and Solutions): BK ONE smartphone applications",
+  "product not in text (Land Mobile Radio (LMR) Products and Solutions): Portable radios",
+  "product not in text (Land Mobile Radio (LMR) Products and Solutions): Radio accessories"
+ ]
+}

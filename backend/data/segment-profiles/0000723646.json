@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000723646",
+ "issuerName": "FRANKLIN FINANCIAL SERVICES CORPORATION",
+ "builtAt": "2026-11-14T13:49:30.332Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000723646-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/723646/000072364626000016/fraf-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "checking, savings, and time deposit accounts",
+    "commercial real estate loans",
+    "commercial and industrial loans",
+    "residential mortgage loans",
+    "safe deposit facilities"
+   ],
+   "description": "Provides traditional commercial and retail banking services, including deposits and lending, to individuals, businesses and government customers.",
+   "evidence": "In this segment, interest income on loans and securities, and banking service fees are the primary source of revenue."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "estate planning and administration",
+    "corporate and personal trust fund management",
+    "pension, profit sharing and other employee benefit funds management",
+    "custodial services",
+    "non-trust related investment services",
+    "mutual funds",
+    "annuities",
+    "selected insurance products"
+   ],
+   "description": "Provides personal, corporate, pension and fiduciary trust and investment services to individual and corporate customers.",
+   "evidence": "The Bank also performs personal, corporate, pension and fiduciary services through its Wealth Management department."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Bank earns interest on loans, investments and deposits, banking service fees, and wealth management fees from assets under management, largely transactional or accrued month-end.",
+  "evidence": "The Company's noninterest revenue streams are largely based on transactional activity, or standard month-end revenue accruals such as asset management fees based on month-end market values."
+ },
+ "changes": [
+  {
+   "text": "Beginning in 2024, Wealth Management was added as a reportable segment in addition to Community Banking.",
+   "evidence": "Beginning in 2024, Management determined that its Wealth Management function qualified as a reportable segment, in addition to Community Banking, because of the amount of fee income it generates, its discrete financial information, and its management and review by its chief operating decision maker."
+  }
+ ],
+ "dropped": [
+  "product not in text (Community Banking): construction and land development loans",
+  "product not in text (Community Banking): consumer installment and revolving loans"
+ ]
+}

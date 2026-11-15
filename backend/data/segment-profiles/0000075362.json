@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000075362",
+ "issuerName": "PACCAR Inc",
+ "builtAt": "2026-11-14T13:45:55.139Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-057025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/75362/000119312526057025/pcar-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Truck",
+   "products": [
+    "Kenworth",
+    "Peterbilt",
+    "DAF"
+   ],
+   "description": "Designs, manufactures and distributes light-, medium- and heavy-duty commercial trucks sold worldwide to independent dealers.",
+   "evidence": "The Truck segment includes the design, manufacture and distribution of high-quality, light-, medium- and heavy-duty commercial trucks."
+  },
+  {
+   "name": "Parts",
+   "products": [
+    "TRP",
+    "aftermarket parts for trucks and related commercial vehicles"
+   ],
+   "description": "Distributes aftermarket parts for trucks and related commercial vehicles to dealers and TRP stores worldwide.",
+   "evidence": "The Parts segment includes the distribution of aftermarket parts for trucks and related commercial vehicles to over 2,000 Kenworth, Peterbilt and DAF dealers and more than 350 TRP, PACCAR's aftermarket parts brand, stores in 99 countries around the world."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "finance and leasing products and services"
+   ],
+   "description": "Provides finance and leasing products and services to customers and dealers, principally related to PACCAR products.",
+   "evidence": "The Financial Services segment includes finance and leasing products and services provided to customers and dealers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "PACCAR earns revenue primarily by selling new trucks to independent dealers, selling aftermarket parts to dealers, and earning finance and leasing income from customers and dealers.",
+  "evidence": "Substantially all trucks are sold to independent dealers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Truck): PACCAR diesel engines",
+  "change not grounded: In 2024, PACCAR sold its industrial winch manufacturing business, which had been"
+ ]
+}

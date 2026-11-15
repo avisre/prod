@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000008670",
+ "issuerName": "AUTOMATIC DATA PROCESSING, INC.",
+ "builtAt": "2026-11-14T14:06:42.745Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000008670-26-000030",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/8670/000000867026000030/adp-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Employer Services",
+   "products": [
+    "RUN Powered by ADP",
+    "ADP Workforce Now",
+    "ADP Lyric HCM",
+    "Payroll Services",
+    "Benefits Administration",
+    "Talent Management",
+    "Workforce Management Solutions",
+    "Compliance Solutions"
+   ],
+   "description": "Serves businesses of all sizes worldwide with technology-based HCM solutions including cloud platforms and HR outsourcing services.",
+   "evidence": "Our Employer Services segment serves clients ranging from single-employee small businesses to large enterprises with tens of thousands of employees around the world, offering a comprehensive range of technology-based HCM solutions, including our strategic, cloud-based platforms, and HRO (other than PEO) solutions."
+  },
+  {
+   "name": "Professional Employer Organization",
+   "products": [
+    "ADP TotalSource"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Employers pay for cloud-based HCM platforms, payroll processing, benefits administration, talent management, compliance solutions, and PEO co-employment services based on client size, number of employees managed, and service usage.",
+  "evidence": "Our Employer Services segment serves clients ranging from single-employee small businesses to large enterprises with tens of thousands of employees around the world, offering a comprehensive range of technology-based HCM solutions, including our strategic, cloud-based platforms, and HRO (other than PEO) solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Professional Employer Organization"
+ ]
+}

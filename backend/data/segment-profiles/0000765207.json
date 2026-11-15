@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000765207",
+ "issuerName": "FIRST BANCORP, INC",
+ "builtAt": "2026-11-14T13:50:26.236Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000765207-26-000067",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/765207/000076520726000067/fnlc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "Loans",
+    "Investments"
+   ],
+   "description": "The Company operates one reportable segment providing banking products and services, with all operations domestic.",
+   "evidence": "The Company's reportable segment is determined by the Chief Financial Officer, who is the designated chief operating decision maker, based upon information provided about the Company's products and services offered, primarily banking operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from loans, investments, and deposit product service fees paid by its banking customers.",
+  "evidence": "Loans, investments, and deposit product service fees provide the revenues in the banking operation."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking operations): Deposit products"
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000351998",
+ "issuerName": "DATA I/O CORPORATION",
+ "builtAt": "2026-11-14T13:48:20.124Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-003625",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/351998/000165495426003625/daio_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Programming systems",
+   "products": [
+    "LumenX2 programming platform",
+    "LumenX2-M4 manual programmer",
+    "LumenX-M8 manual programmer",
+    "consumable adapters",
+    "software services",
+    "programming-at-test service offerings",
+    "security deployment systems"
+   ],
+   "description": "Designs, manufactures and sells programming and security deployment systems and services for electronic device manufacturers using flash memory, microcontrollers and secure devices.",
+   "evidence": "Data I/O operates as a single segment entity, with the sole objective to design, manufacture, and sell programming systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Electronic device manufacturers pay Data I/O for programming and security deployment systems, consumable adapters, software and services, with recurring services and consumables revenue moderating cyclical capital equipment sales.",
+  "evidence": "The Company is now focusing its efforts on progressing toward a more balanced revenue model that incorporates recurring services and consumables revenues, including adapter sales, software services, and programming-at-test service offerings."
+ },
+ "changes": [],
+ "dropped": []
+}

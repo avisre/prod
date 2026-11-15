@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000851520",
+ "issuerName": "EXPONENT, INC.",
+ "builtAt": "2026-11-14T13:52:52.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082508",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/851520/000119312526082508/expo-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineering and Other Scientific",
+   "products": [
+    "Biomechanics",
+    "Biomedical Engineering & Sciences",
+    "Civil & Structural Engineering",
+    "Construction Consulting",
+    "Data Sciences",
+    "Electrical Engineering & Computer Science",
+    "Human Factors",
+    "Materials Science & Electrochemistry"
+   ],
+   "description": "A broad service group providing technical consulting in different practices primarily in engineering for corporate, legal, insurance and government clients.",
+   "evidence": "The Engineering and Other Scientific segment is a broad service group providing technical consulting in different practices primarily in engineering."
+  },
+  {
+   "name": "Environmental and Health",
+   "products": [
+    "Chemical Regulation & Food Safety",
+    "Ecological & Biological Sciences",
+    "Environmental & Earth Sciences",
+    "Health Sciences"
+   ],
+   "description": "Provides environmental, epidemiology and health risk analysis consulting on environmental hazards and their impact on human health and the environment.",
+   "evidence": "The Environmental and Health segment provides services in the area of environmental, epidemiology and health risk analysis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay Exponent for consulting engagements on either a fixed-price basis or a time and material basis with hourly rates based on staff skills and experience, billed monthly.",
+  "evidence": "We provide our services on either a fixed-price basis or on a time and material basis, charging in the latter case hourly rates for each staff member involved in a project, based on their skills and experience."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000057515",
+ "issuerName": "The Marzetti Company",
+ "builtAt": "2026-11-14T13:45:04.810Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000057515-26-000019",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/57515/000005751526000019/mzti-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [],
+   "description": "Manufactures and sells branded and licensed specialty food products to grocery retailers and consumers in the United States.",
+   "evidence": "The following table presents the primary Retail products we manufacture and sell under our brand names:"
+  },
+  {
+   "name": "Foodservice",
+   "products": [
+    "Custom-formulated sauces"
+   ],
+   "description": "Manufactures custom-formulated and branded sauces, dressings, frozen breads and pasta sold mainly under private label to national chain restaurants.",
+   "evidence": "The majority of our Foodservice sales are products sold under private label to national chain restaurant accounts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns net sales from retailers, distributors and national chain restaurant accounts that purchase its specialty food products, largely through sales personnel, food brokers and distributors.",
+  "evidence": "The vast majority of the products we sell in the Retail segment are sold through sales personnel, food brokers and distributors in the United States."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company acquired Bachan's, Inc., the Japanese Barbecue Sauce brand, in May 2026.",
+   "evidence": "the acquisition of Bachan's, Inc. (\"Bachan's\"), the rapidly growing Japanese Barbecue Sauce brand known for its authentic, clean-label products, in May 2026"
+  }
+ ],
+ "dropped": [
+  "product not in text (Retail): Frozen garlic breads (New York Bakery)",
+  "product not in text (Retail): Frozen Parkerhouse style yeast rolls and dinner rolls (Sister Schubert's)",
+  "product not in text (Retail): Salad dressings (Marzetti, Marzetti Simply Dressed, Cardini's, Girard's)",
+  "product not in text (Retail): Vegetable dips and fruit dips (Marzetti)",
+  "product not in text (Retail): Japanese barbecue sauces and condiments (Bachan's)",
+  "product not in text (Retail): Croutons and salad toppings (New York Bakery, Chatham Village, Marzetti)",
+  "product not in text (Retail): Licensed products (Chick-fil-A, Olive Garden, Buffalo Wild Wings, Texas Roadhous",
+  "product not in text (Foodservice): Salad dressings (Marzetti)",
+  "product not in text (Foodservice): Frozen Parkerhouse style yeast rolls and dinner rolls (Sister Schubert's)",
+  "product not in text (Foodservice): Frozen pasta (Marzetti Frozen Pasta)",
+  "product not in text (Foodservice): Private label products for national chain restaurant accounts",
+  "change not grounded: In 2025 the company changed its name from Lancaster Colony Corporation to The Ma"
+ ]
+}

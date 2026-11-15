@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000065172",
+ "issuerName": "MESABI TRUST",
+ "builtAt": "2026-11-14T13:45:22.891Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-046864",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/65172/000110465926046864/msb-20260131xex13.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Iron ore mining",
+   "products": [
+    "iron ore pellets",
+    "standard pellets",
+    "DR pellets"
+   ],
+   "description": "A pass-through royalty trust holding interests in Mesabi Iron Range lands, earning royalties from Northshore's iron ore mining operations.",
+   "evidence": "Substantially all of the revenue, operating profits and assets of the Trust relate to one business segment—iron ore mining."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Trust is paid royalties by Northshore Mining Company (Cleveland-Cliffs) based on the amounts and sales prices of iron ore products shipped from Silver Bay, Minnesota.",
+  "evidence": "The information regarding amounts and sales prices of shipped iron ore products is used to compute the royalties payable to the Trust by Northshore."
+ },
+ "changes": [],
+ "dropped": []
+}

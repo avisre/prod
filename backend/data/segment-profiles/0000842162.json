@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000842162",
+ "issuerName": "LEAR CORP",
+ "builtAt": "2026-11-14T13:52:33.465Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000842162-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/842162/000084216226000011/lear-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seating",
+   "products": [
+    "complete seat systems",
+    "seat trim covers",
+    "surface materials such as leather and fabric",
+    "seat mechanisms",
+    "seat cushioning",
+    "headrests",
+    "thermal comfort systems"
+   ],
+   "description": "Designs, develops, engineers and manufactures complete seat systems and key seat components for the world's major automotive manufacturers.",
+   "evidence": "Our Seating segment consists of the design, development, engineering and manufacture of complete seat systems and key seat components."
+  },
+  {
+   "name": "E-Systems",
+   "products": [
+    "complete electrical distribution and connection systems",
+    "wire harnesses",
+    "terminals and connectors",
+    "high-voltage battery connection systems",
+    "battery disconnect units",
+    "zonal controllers",
+    "body domain control modules",
+    "smart and passive power distribution modules"
+   ],
+   "description": "Designs, develops, engineers and manufactures electrical distribution and connection systems, high-voltage power distribution products and low-voltage power distribution products and electronic controllers for…",
+   "evidence": "Our E-Systems segment consists of the design, development, engineering and manufacture of complete electrical distribution and connection systems; high-voltage power distribution products, including BDUs; and low-voltage power distribution products and electronic controllers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lear is paid by the world's major automotive manufacturers for the seat systems, seat components and electrical distribution, connection and power management products it supplies.",
+  "evidence": "We supply complete seat systems, key seat components, complete electrical distribution and connection systems, high-voltage power distribution products, including battery disconnect units (\"BDUs\"), and low-voltage power distribution products and electronic controllers t o all of the world's major automotive manufacturers."
+ },
+ "changes": [],
+ "dropped": []
+}

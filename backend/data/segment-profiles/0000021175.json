@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000021175",
+ "issuerName": "CNA FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T14:07:32.632Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000021175-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/21175/000002117526000011/cna-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty",
+   "products": [],
+   "description": "Commercial property and casualty insurance serving specialized business segments and customers.",
+   "evidence": "Our commercial property and casualty insurance operations are managed and reported in three business segments: Specialty, Commercial and International, which we refer to collectively as Property & Casualty Operations."
+  },
+  {
+   "name": "Commercial",
+   "products": [],
+   "description": "Commercial property and casualty insurance serving commercial customers and business enterprises.",
+   "evidence": "Our commercial property and casualty insurance operations are managed and reported in three business segments: Specialty, Commercial and International, which we refer to collectively as Property & Casualty Operations."
+  },
+  {
+   "name": "International",
+   "products": [],
+   "description": "Property and casualty insurance operations in Canada, United Kingdom, Continental Europe and Lloyd's of London.",
+   "evidence": "Our commercial property and casualty insurance operations are managed and reported in three business segments: Specialty, Commercial and International, which we refer to collectively as Property & Casualty Operations."
+  },
+  {
+   "name": "Life & Group",
+   "products": [],
+   "description": "Life and group insurance operations including long-term care policies and related benefits.",
+   "evidence": "Our operations outside of Property & Casualty Operations are managed and reported in two business segments: Life & Group and Corporate & Other."
+  },
+  {
+   "name": "Corporate & Other",
+   "products": [],
+   "description": "Corporate functions and other operations not allocated to primary business segments.",
+   "evidence": "Our operations outside of Property & Casualty Operations are managed and reported in two business segments: Life & Group and Corporate & Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurance customers pay premiums for commercial property and casualty coverages, surety, life and group insurance, warranty and risk management services.",
+  "evidence": "Our insurance products primarily include commercial property and casualty coverages, including surety. Our services include warranty, risk management information services and claims administration."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000788965",
+ "issuerName": "HALLADOR ENERGY CO",
+ "builtAt": "2026-11-14T13:50:58.761Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027174",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/788965/000110465926027174/hnrg-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric Operations",
+   "products": [
+    "Accredited Capacity",
+    "Energy"
+   ],
+   "description": "Owns and operates the Merom coal-fired power plant, selling accredited capacity and wholesale energy to utilities and other MISO market participants.",
+   "evidence": "Hallador Power, the Company's wholly-owned electric subsidiary, owns and operates the Merom Power Plant (\"Merom\"), a 1,080 MW coal-fired power generating station, consisting of two steam turbine generators."
+  },
+  {
+   "name": "Coal Operations",
+   "products": [
+    "Bituminous coal"
+   ],
+   "description": "Mines bituminous coal in the Illinois Basin in Indiana to supply power plants in the Midwest and Southeast United States.",
+   "evidence": "Sunrise, the Company's wholly-owned mining subsidiary, mines coal from reserves found in the Illinois Basin (\"ILB\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hallador sells accredited capacity and wholesale energy to utilities and other energy market participants through PPAs, bilateral transactions and MISO spot markets, and sells coal to power plants, typically free on board from the shipping point.",
+  "evidence": "Hallador Power sells accredited capacity to utilities and other energy market participants within the MISO system mainly through power purchase agreements (\"PPAs\") and other bilateral transactions."
+ },
+ "changes": [],
+ "dropped": []
+}

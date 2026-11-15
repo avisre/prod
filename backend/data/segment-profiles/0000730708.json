@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000730708",
+ "issuerName": "Seacoast Banking Corporation of Florida",
+ "builtAt": "2026-11-14T13:49:42.099Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012787",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/730708/000162828026012787/sbcf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial and consumer banking",
+    "wealth management",
+    "insurance services"
+   ],
+   "description": "Provides integrated financial services including commercial and consumer banking, wealth management, mortgage and insurance services to customers.",
+   "evidence": "The Company's one reportable segment provides integrated financial services including commercial and consumer banking, wealth management, and mortgage and insurance services to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from interest and fees on loans, interest on cash and investment securities, and fees on depository products and services charged to banking customers.",
+  "evidence": "Segment revenues are driven primarily by interest and fees on loans, interest on cash and cash equivalents and on investment securities, and fees on depository products and services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): mortgage services"
+ ]
+}

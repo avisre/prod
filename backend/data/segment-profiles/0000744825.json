@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000744825",
+ "issuerName": "AMERICAN SHARED HOSPITAL SERVICES",
+ "builtAt": "2026-11-14T13:49:59.385Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010731",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/744825/000143774926010731/asha20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical equipment leasing",
+   "products": [
+    "Gamma Knife"
+   ],
+   "description": "Provides radiation therapy equipment to hospitals under fee-per-use or revenue sharing contracts, sharing in revenue and operating costs.",
+   "evidence": "The medical equipment leasing segment, which we also refer to as the Company's leasing segment, operates by fee-per-use contracts or revenue sharing contracts where the Company shares in the revenue and operating costs of the equipment."
+  },
+  {
+   "name": "Direct patient services",
+   "products": [
+    "Gamma Knife"
+   ],
+   "description": "Owns and operates radiation therapy facilities in Rhode Island, Peru, Ecuador and Mexico that treat patients directly under contracts with the individual.",
+   "evidence": "The Company's facilities in Rhode Island, Peru, Ecuador, and Mexico are considered direct patient services, where a contract exists between the Company's facilities and the individual treated at the facility."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals pay under fee-per-use or revenue sharing contracts for leased equipment, while individual patients (or their payors) contract directly with the Company's own treatment facilities.",
+  "evidence": "The medical equipment leasing segment, which we also refer to as the Company's leasing segment, operates by fee-per-use contracts or revenue sharing contracts where the Company shares in the revenue and operating costs of the equipment."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company began treating patients at its stand-alone LINAC radiation therapy facility in Puebla, Mexico.",
+   "evidence": "In July 2024, the Company began treating patients at its stand-alone radiation therapy facility in Puebla, Mexico."
+  }
+ ],
+ "dropped": [
+  "product not in text (Medical equipment leasing): Proton beam radiation therapy (PBRT) system",
+  "product not in text (Direct patient services): LINAC radiation therapy",
+  "change not grounded: In 2024, the Company acquired a 60% interest in the RI Companies, adding three R"
+ ]
+}

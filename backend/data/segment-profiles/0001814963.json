@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001814963",
+ "issuerName": "INTELLIGENT LIVING APPLICATION GROUP INC.",
+ "builtAt": "2026-11-15T02:50:42.867Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-018930",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1814963/000149315226018930/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mechanical Locksets",
+   "products": [
+    "ODM door locksets",
+    "Deadbolts",
+    "Entry locksets",
+    "Privacy locksets",
+    "Passage locksets",
+    "Storeroom locks"
+   ],
+   "description": "Manufactures and sells mechanical locksets for indoor and outdoor residential and commercial applications in the United States, Canada, Taiwan and Asia.",
+   "evidence": "We produce various ODM indoor and outdoor locksets mainly for importers, builders and the construction market in the USA."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including importers, builders and construction companies purchase mechanical locksets through distribution partners across North America and Asia.",
+  "evidence": "We build our distribution network by working together with our large and small business partners in different geographic areas to sell our products."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company terminated its Smart Lock project due to lack of funding and reduced income caused by tariffs and slowdown in the US real estate market.",
+   "evidence": "In December 2025, the Company terminated Smart Lock project due to the lack of funding and reduced income caused by the tariff on our products to the U.S. and slowdown in US real estate market."
+  }
+ ],
+ "dropped": [
+  "product not in text (Mechanical Locksets): Bamberg branded locksets"
+ ]
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000828146",
+ "issuerName": "INTERLINK ELECTRONICS, INC",
+ "builtAt": "2026-11-14T13:52:11.771Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-035244",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/828146/000110465926035244/link-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sensor technologies",
+   "products": [
+    "piezoelectric sensors",
+    "membrane keypads",
+    "graphic overlays",
+    "smart textiles",
+    "electrochemical gas sensors",
+    "Eco Sensors™ ozone monitors",
+    "air quality modules"
+   ],
+   "description": "Designs, develops, and manufactures force/touch, piezoelectric, textile-based, and gas and environmental sensor technologies and integrated HMI solutions for OEM customers.",
+   "evidence": "The Company operates as a single operating and reportable segment: the design, development, and manufacture of sensor technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, largely OEMs and distributors, pay for sensor products upon shipment and for engineering services and grants recognized over the contract term.",
+  "evidence": "We (i) input orders based upon receipt of a customer purchase order, (ii) confirm pricing through the customer purchase order record, (iii) validate creditworthiness through past payment history, credit agency reports and other financial data, and (iv) recognize revenue when goods are shipped and title and risk of loss transfer to the customer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Sensor technologies): FSR® force-sensing sensors"
+ ]
+}

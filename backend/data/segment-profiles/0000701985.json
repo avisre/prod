@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000701985",
+ "issuerName": "BATH & BODY WORKS, INC.",
+ "builtAt": "2026-11-14T13:48:40.818Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000701985-26-000008",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/701985/000070198526000008/bbwi-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal care and home fragrance",
+   "products": [
+    "fine fragrance mist",
+    "body cream",
+    "lotion",
+    "eau de parfum",
+    "body wash",
+    "hand soap",
+    "sanitizer",
+    "3-wick candles"
+   ],
+   "description": "Sells body care, home fragrance, soap and sanitizer products to consumers through company-operated stores, e-commerce, Amazon and international partner-operated locations.",
+   "evidence": "Bath & Body Works is a global leader in personal care and home fragrance, driven by the belief that everybody deserves to feel good."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay the company for body care and home fragrance products sold through its own stores, e-commerce sites, Amazon, and franchise, license and wholesale arrangements with international partners.",
+  "evidence": "In addition to our Company-operated stores, our products are sold at partner-operated locations and e-commerce sites in more than 45 countries through franchise, license and wholesale arrangements."
+ },
+ "changes": [],
+ "dropped": []
+}

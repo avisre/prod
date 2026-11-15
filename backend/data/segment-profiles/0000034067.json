@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000034067",
+ "issuerName": "DMC GLOBAL INC.",
+ "builtAt": "2026-11-14T13:44:05.515Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000034067-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/34067/000003406726000009/boom-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Arcadia Products",
+   "products": [
+    "Arcadia",
+    "Wilson Partitions",
+    "Arcadia Custom",
+    "aluminum framing systems",
+    "windows",
+    "curtain walls",
+    "storefronts",
+    "entrance systems"
+   ],
+   "description": "Provides architectural building products, including aluminum framing systems, windows, curtain walls and partitions, to U.S. commercial and high-end residential construction customers.",
+   "evidence": "Arcadia Products provides architectural building products to the U.S. construction industry through three branded product offerings: Arcadia, which serves the commercial exteriors market; Wilson Partitions, which serves the commercial interiors market; and Arcadia Custom, which is used in the high-end residential market."
+  },
+  {
+   "name": "DynaEnergetics",
+   "products": [
+    "advanced perforating systems",
+    "perforating components and systems"
+   ],
+   "description": "Vertically integrated global manufacturer of advanced perforating systems for oil and gas well completion and well plug-and-abandonment operations.",
+   "evidence": "DynaEnergetics is a vertically integrated, global manufacturer of advanced perforating systems used in oil and gas well completion and well plug-and-abandonment operations."
+  },
+  {
+   "name": "NobelClad",
+   "products": [
+    "explosion-welded clad metal plates",
+    "specialized transition joints"
+   ],
+   "description": "Produces explosion-welded clad metal plates and transition joints for corrosion-resistant industrial processing equipment, aluminum smelting, ship construction and LNG processing.",
+   "evidence": "NobelClad produces explosion-welded clad metal plates for use in the construction of corrosion-resistant industrial processing equipment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue by selling manufactured architectural building products, perforating systems, and clad metal plates to construction, energy, and industrial processing customers.",
+  "evidence": "DMC Global Inc. (\"DMC\", \"we\", \"us\", \"our\", or the \"Company\") operates three manufacturing businesses: Arcadia Products, DynaEnergetics and NobelClad, which provide differentiated products and engineered solutions primarily for the construction, energy, and industrial processing markets."
+ },
+ "changes": [],
+ "dropped": []
+}

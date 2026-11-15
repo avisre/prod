@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000030697",
+ "issuerName": "Wendy's Co",
+ "builtAt": "2026-11-14T14:08:14.438Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000030697-26-000009",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/30697/000003069726000009/wen-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wendy's U.S.",
+   "products": [],
+   "description": "Operates and franchises Wendy's quick-service restaurants in the United States, generating revenue from company-operated sales and franchise fees.",
+   "evidence": "Wendy's U.S. includes the operation and franchising of Wendy's restaurants in the U.S. and derives its revenues from sales at Company-operated restaurants and royalties, franchise fees and national advertising fund collections from franchised restaurants."
+  },
+  {
+   "name": "Wendy's International",
+   "products": [],
+   "description": null,
+   "evidence": "Wendy's International includes the operation and franchising of Wendy's restaurants in countries and territories other than the U.S. and derives its revenues from sales at Company-operated restaurants and royalties, fees and advertising fund collections from franchised restaurants."
+  },
+  {
+   "name": "Global Real Estate & Development",
+   "products": [],
+   "description": "Manages real estate for Wendy's restaurants leased to franchisees and earns development fees and joint venture income.",
+   "evidence": "Global Real Estate & Development includes real estate activity for owned sites and sites leased from third parties, which are leased and/or subleased to franchisees, and also includes our share of the income of our Canadian restaurant real estate joint venture (\"TimWen\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Franchisees and company-operated restaurants pay royalties, franchise fees, advertising contributions and rent for Wendy's operations.",
+  "evidence": "The revenues from our restaurant business are derived from two principal sources: (1) sales at Company-operated restaurants and (2) franchise-related revenues, including royalties, franchise fees, national advertising funds contributions and rents received from Wendy's franchised restaurants."
+ },
+ "changes": [
+  {
+   "text": "In 2011, the company sold Arby's Restaurant Group and changed its name from Wendy's/Arby's Group, Inc. to The Wendy's Company.",
+   "evidence": "Effective July 5, 2011, in connection with the Company's sale of Arby's Restaurant Group, Inc., the Company's corporate name was changed to The Wendy's Company."
+  }
+ ],
+ "dropped": []
+}

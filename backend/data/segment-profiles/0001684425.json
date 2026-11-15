@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001684425",
+ "issuerName": "TDH Holdings, Inc.",
+ "builtAt": "2026-11-15T02:50:35.286Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-045630",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1684425/000121390026045630/ea0286521-20f_tdhhold.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Real Estate Management",
+   "products": [],
+   "description": "Acquires, leases and manages commercial real estate properties generating rental revenue under lease agreements with commercial clients.",
+   "evidence": "beginning in 2024, we have been acquiring, leasing and managing commercial real estate properties that generate rental revenue under lease agreements with our commercial clients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Commercial clients pay monthly rent and certain property operating expenses under long-term net lease agreements.",
+  "evidence": "A net lease typically requires the client to be responsible for monthly rent and certain property operating expenses including property taxes, insurance, and maintenance."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company discontinued its pet food manufacturing business segment due to operational challenges.",
+   "evidence": "we decided to discontinue our petfood manufacturing business segment in the first quarter of 2023 due to the above operational challenges."
+  },
+  {
+   "text": "In 2024, the company discontinued its restaurant business segment.",
+   "evidence": "We discontinued our restaurant business segment during the second quarter of 2024."
+  },
+  {
+   "text": "In 2025, BVBA was fully disposed of as the bankruptcy liquidation was completed.",
+   "evidence": "On May 6, 2025, the Court announced that the bankruptcy liquidation of BVBA had been completed and the bankruptcy proceedings were completed."
+  }
+ ],
+ "dropped": []
+}

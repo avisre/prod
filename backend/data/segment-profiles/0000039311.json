@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000039311",
+ "issuerName": "INDEPENDENT BANK CORPORATION",
+ "builtAt": "2026-11-14T13:44:20.851Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000039311-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/39311/000003931126000009/ibcp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Independent Bank",
+   "products": [
+    "loans",
+    "deposits",
+    "mortgage loan servicing",
+    "interchange income",
+    "service charges on deposit accounts",
+    "investment and insurance commissions"
+   ],
+   "description": "Community-oriented financial institution delivering loan and deposit products to customers through banking operations.",
+   "evidence": "We have one reportable segment which is determined by the Chief Executive Officer, who is the designated chief operating decision maker, based upon information provided about the products and services we offer, primarily banking operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest and fees on loans, and the bank earns deposit service charges, interchange income, mortgage loan servicing fees and gains on mortgage loans sold.",
+  "evidence": "Loans, investments, and deposits provide the majority of revenues in the banking operation."
+ },
+ "changes": [],
+ "dropped": []
+}

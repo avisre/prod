@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000076282",
+ "issuerName": "Park-Ohio Holdings Corp",
+ "builtAt": "2026-11-14T13:45:57.695Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000076282-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/76282/000007628226000007/pkoh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Supply Technologies",
+   "products": [
+    "Total Supply Management™",
+    "Fasteners",
+    "Pins",
+    "Valves",
+    "Hoses",
+    "Wire harnesses",
+    "Clamps and fittings"
+   ],
+   "description": "Provides supply chain management outsourcing of production components and manufactures precision cold-formed and cold-extruded fasteners for OEM customers.",
+   "evidence": "The Company operates through three reportable segments: Supply Technologies, Assembly Components and Engineered Products."
+  },
+  {
+   "name": "Assembly Components",
+   "products": [
+    "Fuel rails",
+    "Fuel filler pipes",
+    "Turbo Charging hoses",
+    "Turbo Coolant hoses",
+    "Extruded rubber and plastics",
+    "Molded rubber and plastics"
+   ],
+   "description": "Designs and manufactures fuel efficiency, reduced emissions and vehicle electrification products for worldwide car manufacturers.",
+   "evidence": "Assembly Components manufactures products oriented towards fuel efficiency, reduced emissions and vehicle electrification."
+  },
+  {
+   "name": "Engineered Products",
+   "products": [
+    "Induction heating and melting systems",
+    "Pipe threading systems",
+    "Industrial oven systems",
+    "Forging presses",
+    "Forged steel and machined products",
+    "Generators and transformers",
+    "Forming machines",
+    "Inverters"
+   ],
+   "description": "Designs and manufactures highly engineered capital equipment and forged and machined products for metals, oil and gas, aerospace, rail and other industries.",
+   "evidence": "Our Engineered Products segment operates a diverse group of niche manufacturing businesses that design and manufacture a broad range of highly engineered products, including induction heating and melting systems, pipe threading systems and forged and machined products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily OEMs, pay the company under sole-source contracts for supply chain management services, manufactured components and capital equipment.",
+  "evidence": "Total Supply Management ™ is typically provided to customers pursuant to sole-source arrangements."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company sold its Aluminum Products business, which is classified as a discontinued operation.",
+   "evidence": "On December 29, 2023, the Company completed the sale of its Aluminum Products business, which has been classified as a discontinued operation for all periods presented."
+  }
+ ],
+ "dropped": [
+  "product not in text (Supply Technologies): SPAC® nuts and SPAC® bolts",
+  "product not in text (Assembly Components): Flexible multi-layer plastic and rubber fuel assemblies"
+ ]
+}

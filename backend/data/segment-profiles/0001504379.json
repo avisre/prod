@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001504379",
+ "issuerName": "Caesarstone Ltd.",
+ "builtAt": "2026-11-14T17:42:21.763Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000732",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1504379/000117891326000732/zk2634462.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineered Stone and Other Materials Surfaces",
+   "products": [
+    "Engineered stone countertops",
+    "Porcelain slabs",
+    "Natural stone",
+    "Sinks",
+    "Fabrication tools and materials"
+   ],
+   "description": "Design, produce and resell engineered stone, natural stone and porcelain surfaces for countertops, vanities and other interior and exterior applications globally.",
+   "evidence": "The Company manages its business on the basis of one operating segment and derives revenues mainly from the sale of high quality engineered stone and other materials surfaces."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wholesale sales to fabricators and distributors of engineered stone, porcelain and natural stone slabs for countertops and other interior and exterior applications.",
+  "evidence": "The majority of our sales are at the wholesale level of fabricators and distributors and exclude fabrication, installation and other service-related costs."
+ },
+ "changes": [
+  {
+   "text": "Since 2023, discontinued production operations in Sdot-Yam Israel, Bar-Lev Israel and Richmond Hill Georgia facilities as part of manufacturing restructuring.",
+   "evidence": "Since 2023, our manufacturing network has been undergoing restructuring, with the focus of optimizing our global production footprint. As part of this strategic plan, we shifted our focus from in-house production activities and discontinued production operations in our Sdot-Yam, Israel, Bar-Lev, Israel and Richmond Hill, GA, USA, production facilities."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, completed acquisition of remaining equity interests in Lioli, a porcela"
+ ]
+}

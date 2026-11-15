@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001272842",
+ "issuerName": "Airgain, Inc.",
+ "builtAt": "2026-11-14T17:42:13.973Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076752",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1272842/000119312526076752/airg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wireless Connectivity Solutions",
+   "products": [
+    "Smart Network Controlled Cellular Repeaters",
+    "Embedded cellular modems",
+    "Asset tracking solutions",
+    "AirgainConnect Fleet system solution",
+    "Aftermarket antennas",
+    "Embedded antennas for consumer access points"
+   ],
+   "description": "Single segment providing wireless connectivity solutions across enterprise, automotive, and consumer markets.",
+   "evidence": "Due to similarities of its products, methods of production and it's management and administrative structure, the Company operates as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase wireless connectivity hardware products and pay for recurring software subscriptions and cloud services.",
+  "evidence": "Product sales for the year ended December 31, 2025 accounted for approximate 94 % of the Company's total revenue, as compared to 6 % coming from service revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wireless Connectivity Solutions): Antennas for access points and IoT applications"
+ ]
+}

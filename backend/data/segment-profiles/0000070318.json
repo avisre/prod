@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000070318",
+ "issuerName": "TENET HEALTHCARE CORP",
+ "builtAt": "2026-11-14T13:45:39.869Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000070318-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/70318/000007031826000012/thc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hospital Operations and Services",
+   "products": [
+    "acute care and specialty hospitals",
+    "urgent care centers",
+    "imaging centers",
+    "off-campus hospital emergency departments",
+    "micro-hospitals",
+    "value-based care services"
+   ],
+   "description": "Operates acute care and specialty hospitals, outpatient facilities and physician practices, and provides revenue cycle management and value-based care services to healthcare clients.",
+   "evidence": "Our Hospital Operations segment is comprised of our acute care and specialty hospitals, physician practices and outpatient facilities."
+  },
+  {
+   "name": "Ambulatory Care",
+   "products": [
+    "ambulatory surgery centers",
+    "surgical hospitals"
+   ],
+   "description": "Operates USPI's ambulatory surgery centers and surgical hospitals, largely through joint ventures with physicians and health system partners.",
+   "evidence": "Our Ambulatory Care segment is comprised of the operations of USPI."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Hospital Operations and Services): Conifer Health Solutions revenue cycle management",
+  "change not grounded: In January 2026, Tenet completed a transaction with CommonSpirit Health returnin"
+ ]
+}

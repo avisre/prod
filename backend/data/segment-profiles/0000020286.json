@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000020286",
+ "issuerName": "CINCINNATI FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T14:07:29.310Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000020286-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/20286/000002028626000008/cinf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Lines Insurance",
+   "products": [
+    "Commercial casualty",
+    "Commercial property",
+    "Commercial auto",
+    "Workers' compensation",
+    "Management liability",
+    "Surety",
+    "Machinery and equipment"
+   ],
+   "description": "Provides commercial liability, property, auto, workers' compensation and specialized coverage to businesses.",
+   "evidence": "The five commercial business lines are: • Commercial casualty – Provides coverage to businesses against third-party liability from accidents occurring on their premises or arising out of their operations, including injuries sustained from products or liability related to professional services."
+  },
+  {
+   "name": "Personal Lines Insurance",
+   "products": [
+    "Personal auto",
+    "Homeowner",
+    "Dwelling fire",
+    "Inland marine",
+    "Personal umbrella liability",
+    "Watercraft"
+   ],
+   "description": "Provides personal auto, homeowner and other personal insurance products to individuals through independent agencies.",
+   "evidence": "The personal lines insurance segment contributed net earned premiums of $3.199 billion to 2025 consolidated total revenues, or 25.3% of the total, and reported a loss before income taxes of $111 million."
+  },
+  {
+   "name": "Excess and Surplus Lines Insurance",
+   "products": [
+    "Commercial casualty",
+    "Commercial property",
+    "Professional liability",
+    "Management liability",
+    "Excess liability"
+   ],
+   "description": "Provides non-standard commercial liability and property coverage for unique business risks with higher rates and customized terms.",
+   "evidence": "The excess and surplus lines segment contributed net earned premiums of $698 million to 2025 consolidated total revenues, or 5.5% of the total, and reported profit before income taxes of $85 million."
+  },
+  {
+   "name": "Life Insurance",
+   "products": [
+    "Life insurance policies",
+    "Fixed annuities"
+   ],
+   "description": "Provides life insurance policies and fixed annuities through The Cincinnati Life Insurance Company.",
+   "evidence": "The Cincinnati Life Insurance Company (Cincinnati Life), which provides life insurance policies and fixed annuities"
+  },
+  {
+   "name": "Investments",
+   "products": [],
+   "description": "Manages the parent company investment portfolio and provides commercial leasing and financing services.",
+   "evidence": "CFC Investment Company, which offers commercial leasing and financing services to our agencies, their clients and other customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Independent insurance agencies and policyholders pay premiums for property casualty insurance, life insurance and fixed annuities; investment income earned on invested assets.",
+  "evidence": "Our main business is property casualty insurance marketed through independent insurance agencies in 46 states."
+ },
+ "changes": [],
+ "dropped": []
+}

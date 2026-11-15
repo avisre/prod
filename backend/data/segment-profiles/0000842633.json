@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000842633",
+ "issuerName": "TRIMAS CORPORATION",
+ "builtAt": "2026-11-14T13:52:35.420Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000842633-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/842633/000084263326000012/trs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaging",
+   "products": [
+    "Rieke®",
+    "Affaba & Ferrari™",
+    "Taplast™",
+    "Rapak®",
+    "Aarts Packaging™",
+    "Intertech™",
+    "Omega Plastics™",
+    "Singolo™ polymeric pumps"
+   ],
+   "description": "Designs and manufactures specialty, highly engineered polymeric and steel closure and dispensing systems for consumer packaging, life sciences and industrial customers.",
+   "evidence": "We believe TriMas Packaging is a leading designer, developer and manufacturer of specialty, highly engineered polymeric and steel closure and dispensing systems serving a broad range of end markets, including consumer packaging (beauty and personal care, food and beverage, and home care), as well as life sciences and industrial applications."
+  },
+  {
+   "name": "Specialty Products",
+   "products": [
+    "Norris Cylinder™"
+   ],
+   "description": "Designs, manufactures and distributes highly engineered high and low-pressure steel cylinders for transporting, storing and dispensing compressed gases.",
+   "evidence": "TriMas' Norris Cylinder business is a leading designer, manufacturer and distributor of highly-engineered, large, intermediate and small-sized, high and low-pressure Type 1 steel cylinders used in the transportation, storage and dispensing of packaged and compressed gases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "TriMas earns revenue from direct sales of its engineered products to customers and through distributors and agents serving consumer products, life sciences, industrial and other end markets.",
+  "evidence": "TriMas Packaging accesses its markets through direct sales to customers, as well as through leading distributors, where it has enjoyed favorable, long-standing relationships."
+ },
+ "changes": [
+  {
+   "text": "In 2025, TriMas agreed to sell TriMas Aerospace, and the Aerospace segment is now presented as a discontinued operation.",
+   "evidence": "As a result, the financial results of our Aerospace segment are presented as a discontinued operation and the assets and liabilities have been retrospectively reclassified to assets and liabilities held for sale for all periods presented in the financial statements included in this Annual Report of Form 10-K"
+  }
+ ],
+ "dropped": [
+  "change not grounded: On January 31, 2025, TriMas closed the divestiture of the Arrow Engine business,"
+ ]
+}

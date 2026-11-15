@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000040704",
+ "issuerName": "GENERAL MILLS, INC.",
+ "builtAt": "2026-11-14T13:44:25.524Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-046466",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/40704/000162828026046466/gis-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Retail",
+   "products": [
+    "ready-to-eat cereals",
+    "soup",
+    "meal kits",
+    "refrigerated and frozen dough products",
+    "dessert and baking mixes",
+    "frozen pizza and pizza snacks",
+    "snack bars",
+    "fruit snacks"
+   ],
+   "description": "Sells branded human food products to grocery stores, mass merchandisers, membership stores, natural food chains, dollar and discount chains, convenience stores, and e-commerce grocery providers in North America.",
+   "evidence": "Our North America Retail operating segment reflects business with a wide variety of grocery stores, mass merchandisers, membership stores, natural food chains, drug, dollar and discount chains, convenience stores, and e-commerce grocery providers."
+  },
+  {
+   "name": "International",
+   "products": [
+    "super-premium ice cream and frozen desserts",
+    "meal kits",
+    "salty snacks",
+    "snack bars",
+    "dessert and baking mixes",
+    "pet food products"
+   ],
+   "description": "Operates retail and foodservice businesses outside the United States and Canada, including export sales and products manufactured for sale to international joint ventures.",
+   "evidence": "Our International operating segment consists of retail and foodservice businesses outside of the United States and Canada."
+  },
+  {
+   "name": "North America Pet",
+   "products": [
+    "pet food products"
+   ],
+   "description": "Sells pet food products primarily in the United States and Canada through national pet superstore chains, e-commerce retailers, and other channels.",
+   "evidence": "Our North America Pet operating segment includes pet food products sold primarily in the United States and Canada in national pet superstore chains, e-commerce retailer"
+  },
+  {
+   "name": "North America Foodservice",
+   "products": [],
+   "description": "Serves commercial and noncommercial foodservice distributors and operators, restaurants, and convenience stores in North America.",
+   "evidence": "Our primary customers are grocery stores, mass merchandisers, membership stores, natural food chains, drug, dollar and discount chains, e-commerce retailers, commercial and noncommercial foodservice distributors and operators, restaurants, convenience stores, and pet specialty stores."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "General Mills sells branded human and pet food products to grocery stores, mass merchandisers, e-commerce retailers, foodservice distributors and operators, restaurants, convenience stores, and pet specialty stores, generally through its direct sales force.",
+  "evidence": "We generally sell to these customers through our direct sales force."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 General Mills divested its United States yogurt business, and in fiscal 2025 it divested its Canada yogurt business.",
+   "evidence": "Divestiture of the United States yogurt business in the first quarter of fiscal 2026 and the Canada yogurt business in the third quarter of fiscal 2025 ."
+  },
+  {
+   "text": "In fiscal 2026, after the U.S. yogurt divestiture, the former U.S. Morning Foods and Canada operating units were combined into a new Big G Cereal & Canada operating unit within North America Retail.",
+   "evidence": "Upon completion of the United States yogurt business divestiture in fiscal 2026 , the former U.S. Morning Foods and Canada operating units were combined into a new Big G Cereal & Canada operating unit."
+  }
+ ],
+ "dropped": [
+  "product not in text (International): shelf-stable vegetables"
+ ]
+}

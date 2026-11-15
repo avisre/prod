@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000856982",
+ "issuerName": "MERIT MEDICAL SYSTEMS INC",
+ "builtAt": "2026-11-14T13:52:57.937Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000856982-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/856982/000085698226000008/mmsi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardiovascular",
+   "products": [
+    "Peripheral intervention",
+    "Cardiac intervention",
+    "Custom procedural solutions",
+    "Prelude® Introducer Sheaths",
+    "Embosphere® Microspheres",
+    "SCOUT® Radar Localization System"
+   ],
+   "description": "Manufactures medical devices for vascular access and minimally invasive treatment of heart, peripheral vessel and organ diseases for physicians and hospitals.",
+   "evidence": "We conduct our business through two operating segments: cardiovascular and endoscopy."
+  },
+  {
+   "name": "Endoscopy",
+   "products": [
+    "Merit Medical Endotek®",
+    "Gastroenterology",
+    "Pulmonary",
+    "Resilience Through-the-Scope Esophageal Stent",
+    "C2 CryoBalloon® device",
+    "EsophyX® Z+ system",
+    "Elation® Pulmonary™ Balloon Dilator"
+   ],
+   "description": "Provides endoscopic devices for gastroenterology and pulmonary procedures, including stents, dilation balloons and ablation technology.",
+   "evidence": "The products in our endoscopy operating segment, Merit Medical Endotek ® , are organized in two product portfolios: gastroenterology and pulmonary."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merit sells medical devices to end-user physicians, hospitals, alternate site facilities, buying groups and healthcare networks in the U.S., and to distributors and custom procedure tray manufacturers internationally.",
+  "evidence": "In the U.S., we have dedicated, direct sales organizations primarily focused on selling to end-user physicians, hospitals and alternate site facilities (e.g., office-based labs), major buying groups and integrated healthcare networks."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Merit reorganized its sales teams and product categories to include spine products under its OEM product category.",
+   "evidence": "In 2025, we reorganized our sales teams and product categories to include our spine products under our OEM product category."
+  }
+ ],
+ "dropped": [
+  "product not in text (Cardiovascular): Original equipment manufacturer (OEM)",
+  "product not in text (Cardiovascular): Wrapsody® Endoprosthesis",
+  "product not in text (Cardiovascular): HeRO® Graft",
+  "product not in text (Endoscopy): AERO® Tracheobronchial Stents"
+ ]
+}

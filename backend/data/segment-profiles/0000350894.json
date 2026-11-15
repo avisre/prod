@@ -1,0 +1,93 @@
+{
+ "version": 1,
+ "cik": "0000350894",
+ "issuerName": "SEI INVESTMENTS COMPANY",
+ "builtAt": "2026-11-14T13:48:18.521Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000350894-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/350894/000035089426000013/seic-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Managers",
+   "products": [
+    "fund administration",
+    "fund accounting and depository services",
+    "middle office services",
+    "investor reporting",
+    "regulatory and compliance support",
+    "trustee, investment management, and administration services for CITs",
+    "private credit administration"
+   ],
+   "description": "Provides an outsourced investment management operating platform spanning front, middle, and back office to alternative and traditional asset managers, fund companies, and sovereign wealth funds.",
+   "evidence": "We provide a comprehensive, outsourced investment management operating platform to alternative and traditional asset managers, fund companies, and sovereign wealth funds."
+  },
+  {
+   "name": "Private Banks",
+   "products": [
+    "SEI Wealth Platform",
+    "investment processing",
+    "operations and administrative outsourcing",
+    "asset management programs",
+    "SEI Data Cloud"
+   ],
+   "description": "Provides technology, operations, and asset management solutions to the wealth management businesses within banks and trust companies, plus independent wealth advisors.",
+   "evidence": "We provide technology, operations, and asset management solutions primarily to the wealth management businesses embedded within banks and trust companies, in addition to independent wealth advisors."
+  },
+  {
+   "name": "Investment Advisors",
+   "products": [
+    "SEI Wealth Platform",
+    "technology and administrative services",
+    "customized investment management programs",
+    "goals-based strategies",
+    "direct indexing",
+    "separately managed accounts",
+    "ETFs",
+    "mutual funds"
+   ],
+   "description": "Provides wealth management technology, operations, and asset management solutions for independent financial advisors across the RIA, bank, and independent broker-dealer markets.",
+   "evidence": "We provide wealth management technology, operations, and asset management solutions for independent financial advisors across the RIA, bank, and independent broker-dealer market segments."
+  },
+  {
+   "name": "Institutional Investors",
+   "products": [
+    "outsourced chief investment officer",
+    "discretionary investment management",
+    "collective trust fund programs",
+    "fixed-income and equity funds",
+    "separately managed account programs",
+    "liquidity or money market funds"
+   ],
+   "description": "Delivers investment management and advisory solutions for institutional clients, including LSV Asset Management's value equity management for its clients.",
+   "evidence": "An additional $99.2 billion in assets is managed by our unconsolidated affiliate LSV Asset Management (LSV), an RIA that specializes in value equity management for its clients."
+  },
+  {
+   "name": "Investments in New Businesses",
+   "products": [
+    "Stratos Wealth Holdings"
+   ],
+   "description": "Houses new and developing businesses, including the strategic investment in Stratos, a network supporting financial advisors across business models and affiliation structures.",
+   "evidence": "In December 2025, we completed the first stage of our strategic investment in Stratos Wealth Holdings (Stratos), a network of affiliated companies focused on supporting the success of financial advisors across business models and affiliation structures, reinforcing SEI's footprint in the advice segment and complementing our administration and asset management platforms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay SEI fees for technology and operations outsourcing, asset management services, and professional services, with outsourcing and asset management fees generally earned as a percentage of assets under management or administration.",
+  "evidence": "In 2025, we earned approximately 57% of our revenue from technology and operations outsourcing and 38% from asset management fees, with the remainder attributable to professional services and other ancillary services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, SEI completed the first stage of its strategic investment in Stratos Wealth Holdings, reinforcing its footprint in the advice segment.",
+   "evidence": "In December 2025, we completed the first stage of our strategic investment in Stratos Wealth Holdings (Stratos), a network of affiliated companies focused on supporting the success of financial advisors across business models and affiliation structures, reinforcing SEI's footprint in the advice segment and complementing our administration and asset management platforms."
+  }
+ ],
+ "dropped": [
+  "product not in text (Private Banks): SEI Private Trust Company custody",
+  "change not grounded: In 2025, SEI divested its Family Office Services business."
+ ]
+}

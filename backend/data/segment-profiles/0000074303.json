@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000074303",
+ "issuerName": "Olin Corporation",
+ "builtAt": "2026-11-14T13:45:52.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000074303-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/74303/000007430326000027/oln-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chlor Alkali Products and Vinyls",
+   "products": [
+    "chlorine and caustic soda",
+    "ethylene dichloride (EDC)",
+    "vinyl chloride monomer (VCM)",
+    "methyl chloride",
+    "methylene chloride",
+    "chloroform",
+    "carbon tetrachloride",
+    "perchloroethylene"
+   ],
+   "description": "Manufactures and sells chlor alkali chemicals, vinyls intermediates and chlorinated organics for industrial customers worldwide.",
+   "evidence": "The Chlor Alkali Products and Vinyls segment manufactures and sells chlorine and caustic soda, ethylene dichloride (EDC) and vinyl chloride monomer (VCM), methyl chloride, methylene chloride, chloroform, carbon tetrachloride, perchloroethylene, hydrochloric acid, hydrogen, bleach products and potassium hydroxide, which represented 54% of 2025 sales."
+  },
+  {
+   "name": "Epoxy",
+   "products": [
+    "aromatics (acetone and phenol)",
+    "allyl chloride",
+    "epichlorohydrin",
+    "liquid epoxy resins",
+    "solid epoxy resins",
+    "converted epoxy resins",
+    "additives"
+   ],
+   "description": "Produces and sells epoxy materials, precursors and formulated solutions to customers primarily in North America and Western Europe.",
+   "evidence": "The Epoxy segment produces and sells a full range of epoxy materials and precursors, including aromatics (acetone and phenol), allyl chloride, epichlorohydrin, liquid epoxy resins, solid epoxy resins and formulated solutions products such as converted epoxy resins and additives, which represented 20% of 2025 sales."
+  },
+  {
+   "name": "Winchester",
+   "products": [
+    "sporting ammunition",
+    "reloading components",
+    "small caliber military ammunition and components",
+    "industrial cartridges",
+    "clay targets"
+   ],
+   "description": "Manufactures and sells ammunition and related products for commercial, industrial and U.S. military customers.",
+   "evidence": "The Winchester segment produces and sells sporting ammunition, reloading components, small caliber military ammunition and components, industrial cartridges and clay targets, along with contracted U.S. military project revenue, which represented 26% of 2025 sales."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Olin earns revenue from selling chemicals, epoxy products and ammunition to industrial and consumer customers, including contracted U.S. military project revenue.",
+  "evidence": "The Winchester segment produces and sells sporting ammunition, reloading components, small caliber military ammunition and components, industrial cartridges and clay targets, along with contracted U.S. military project revenue, which represented 26% of 2025 sales."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Olin and Mitsui mutually decided to end their Blue Water Alliance joint venture by the end of 2025.",
+   "evidence": "On September 18, 2025, we announced a mutual decision with Mitsui & Co., Ltd. to end our joint venture, Blue Water Alliance, by the end of 2025."
+  },
+  {
+   "text": "In 2025, Olin acquired AMMO, Inc.'s small caliber ammunition manufacturing assets, included in the Winchester segment.",
+   "evidence": "On April 18, 2025, Olin acquired AMMO, Inc.'s small caliber ammunition manufacturing assets for total consideration of $55.8 million."
+  }
+ ],
+ "dropped": []
+}

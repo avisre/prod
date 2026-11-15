@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0001781446",
+ "issuerName": "GAUZY LTD.",
+ "builtAt": "2026-11-15T02:50:33.219Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-022437",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1781446/000121390025022437/ea0233167-20f_gauzy.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aeronautics",
+   "products": [
+    "cockpit shading",
+    "cabin shading",
+    "advanced shading solutions"
+   ],
+   "description": null,
+   "evidence": "We primarily derive revenue mainly from the sale of cockpit and cabin shading in our aeronautics segment, the sale of ADAS technology and driver safety doors in our safety tech segment, and the sale of SPD and LC films for smart glass applications in our architecture and automotive segments."
+  },
+  {
+   "name": "Architecture",
+   "products": [
+    "SPD films",
+    "LC films",
+    "smart glass"
+   ],
+   "description": "Supplies smart glass films and electronics for commercial, retail, residential, healthcare and hospitality architectural applications.",
+   "evidence": "the sale of SPD and LC films for smart glass applications in our architecture and automotive segments."
+  },
+  {
+   "name": "Automotive",
+   "products": [
+    "SPD films",
+    "LC films",
+    "smart glass"
+   ],
+   "description": "Supplies smart glass films integrated into glass rooftops, side windows and windshields for automotive OEMs.",
+   "evidence": "In the automotive segment, OEMs incorporate our technology in glass rooftops, side windows and windshields to replace conventional mechanical sun visors and shades."
+  },
+  {
+   "name": "Safety Tech",
+   "products": [
+    "ADAS technology",
+    "driver safety doors",
+    "camera monitoring systems",
+    "CMS"
+   ],
+   "description": null,
+   "evidence": "the sale of ADAS technology and driver safety doors in our safety tech segment"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Aeronautics): full-stack smart glass products",
+  "revenue model not grounded"
+ ],
+ "escalated": "revenue model not quoted"
+}

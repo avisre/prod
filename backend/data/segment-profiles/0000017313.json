@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000017313",
+ "issuerName": "Capital Southwest Corporation",
+ "builtAt": "2026-11-14T14:07:18.904Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000017313-26-000035",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/17313/000001731326000035/cswc-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Portfolio Investments",
+   "products": [],
+   "description": "Provides customized debt and equity financing to lower middle market companies primarily in the United States.",
+   "evidence": "We specialize in providing customized financing to lower middle market (\"LMM\") companies in a broad range of industry segments located primarily in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Generates income from debt investments through interest and fee payments, equity investments through dividends and capital appreciation, and payment-in-kind interest added to loan principals.",
+  "evidence": "We derive income primarily from debt investments in portfolio companies as discussed in Note 3 - Investments."
+ },
+ "changes": [],
+ "dropped": []
+}

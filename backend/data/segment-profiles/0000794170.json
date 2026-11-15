@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000794170",
+ "issuerName": "Toll Brothers, Inc.",
+ "builtAt": "2026-11-14T13:51:10.315Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000794170-25-000112",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/794170/000079417025000112/tol-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North",
+   "products": [
+    "attached homes",
+    "master-planned communities",
+    "urban low-, mid-, and high-rise communities"
+   ],
+   "description": "Designs, builds, markets and sells luxury homes and communities in the northern United States for move-up, first-time, empty-nester, active-adult and second-home buyers.",
+   "evidence": "Our operations in Illinois were immaterial to the North geographic segment."
+  },
+  {
+   "name": "South",
+   "products": [
+    "attached homes",
+    "master-planned communities",
+    "urban low-, mid-, and high-rise communities"
+   ],
+   "description": "Designs, builds, markets and sells luxury homes and communities in the southern United States for move-up, first-time, empty-nester, active-adult and second-home buyers.",
+   "evidence": "The following table summarizes certain information with respect to our operating communities at October 31, 2025: Total number of operating communities Number of selling communities Homes approved Homes closed Homes under contract but not closed (Backlog) Home sites available North 67 55 5,826 2,632 833 2"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Home buyers pay the company for delivered homes, and the company also earns revenue from land sales to joint ventures, third-party builders and other parties, plus ancillary services such as mortgage, title and golf operations.",
+  "evidence": "Our revenues from land sales and other generally consist of the following: (1) land sales to joint ventures in which we retain an interest; (2) lot sales to third-party builders within our master-planned communities; (3) bulk land sales to third parties of land we have decided no longer meets our development criteria; (4) sales of land parcels to third parties (typically because there is a superior economic use of the property); and (5) sales of commercial and retail properties generally located"
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the company announced its exit from the multifamily development business, selling about half its Apartment Living portfolio and its operating platform to Kennedy Wilson.",
+   "evidence": "On September 18, 2025, we announced our intention to exit the multifamily development business, beginning with the sale of our interests in approximately half of our portfolio, as well as our operating platform, to Kennedy Wilson for a purchase price of approximately $380 million, as adjusted to reflect investments in certain assets since the September announcement."
+  }
+ ],
+ "dropped": [
+  "product not in text (North): luxury single-family detached homes",
+  "product not in text (North): Toll Brothers City Living condominiums",
+  "product not in text (South): luxury single-family detached homes",
+  "product not in text (South): Toll Brothers City Living condominiums"
+ ]
+}

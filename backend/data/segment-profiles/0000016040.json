@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000016040",
+ "issuerName": "CABOT CORP",
+ "builtAt": "2026-11-14T14:07:09.832Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-292412",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/16040/000119312525292412/cbt-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Reinforcement Materials",
+   "products": [
+    "Reinforcing carbons",
+    "E2C® composites",
+    "EVOLVE® Sustainable Solutions"
+   ],
+   "description": "Manufactures reinforcing carbons and elastomer composites for tire and industrial product applications.",
+   "evidence": "Our reinforcing carbons products are used in tires and industrial products."
+  },
+  {
+   "name": "Performance Chemicals",
+   "products": [],
+   "description": "Produces specialty chemicals and performance materials including fumed metal oxides, conductive additives, and related products.",
+   "evidence": "Our business is currently organized into two reportable segments: Reinforcement Materials and Performance Chemicals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase reinforcing carbons and specialty compounds for incorporation into their products, with pricing adjusted for feedstock costs.",
+  "evidence": "These arrangements typically provide for sales price adjustments to account for changes in relevant feedstock costs including natural gas and, in many cases, changes in other relevant costs"
+ },
+ "changes": [],
+ "dropped": []
+}

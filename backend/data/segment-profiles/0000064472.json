@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000064472",
+ "issuerName": "GENCOR INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:45:20.147Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-312742",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/64472/000119312525312742/d65222d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "equipment for the highway construction industry",
+   "products": [
+    "asphalt plants",
+    "asphalt pavers",
+    "combustion systems",
+    "fluid heat transfer systems",
+    "spare parts"
+   ],
+   "description": "Designs and manufactures heavy machinery, including asphalt plants, pavers, combustion systems and fluid heat transfer systems, for highway construction and environmental and petrochemical markets.",
+   "evidence": "The Company has one reporting segment, equipment for the highway construction industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily highway construction companies, pay the Company for machinery and related equipment sold through Company sales representatives and independent dealers and agents, plus servicing and spare parts.",
+  "evidence": "The Company's products are manufactured in the United States and sold through a combination of Company sales representatives and independent dealers and agents."
+ },
+ "changes": [
+  {
+   "text": "In 2020, the Company acquired the asphalt paver assets from Volvo Construction Equipment North America LLC.",
+   "evidence": "In 2020, the Company acquired the asphalt paver assets from Volvo Construction Equipment North America LLC."
+  }
+ ],
+ "dropped": []
+}

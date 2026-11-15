@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0001001250",
+ "issuerName": "Estee Lauder Companies Inc",
+ "builtAt": "2026-11-14T17:36:34.137Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001001250-26-000041",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1001250/000100125026000041/el-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Skin Care",
+   "products": [],
+   "description": "Manufactures and sells skin care products including moisturizers, serums, cleansers, and related items.",
+   "evidence": "Skin Care - Our broad range of skin care products address various skin care needs. These products include moisturizers, serums, cleansers, toners, eye care, body care, exfoliators, acne and oil correctors, facial masks and sun care products."
+  },
+  {
+   "name": "Makeup",
+   "products": [],
+   "description": "Manufactures and sells makeup products across various shades, colors, and related application tools.",
+   "evidence": "Makeup - We offer an extensive array of makeup products across shades and colors. Our full array of makeup products includes foundations, powders, concealers and setting sprays, lipsticks, lip liners and lip glosses, and mascaras, eyeshadows and eyeliners."
+  },
+  {
+   "name": "Fragrance",
+   "products": [],
+   "description": "Manufactures and sells fragrance products in various forms and related fragrance-based items.",
+   "evidence": "Fragrance - We offer a variety of fragrance products. The fragrances are sold in various forms, including parfum, eau de parfum, eau de toilette, eau de cologne, and body spray, as well as lotions, creams, powders, candles and soaps that are based on a particular fragrance."
+  },
+  {
+   "name": "Hair Care",
+   "products": [],
+   "description": "Manufactures and sells hair care products including shampoos, conditioners, styling products, and treatments.",
+   "evidence": "Hair Care - Our hair care products include shampoos, conditioners, styling products, treatment, finishing sprays and hair color products."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Includes royalty revenue from trademark licensing and sales of ancillary products and services.",
+   "evidence": "Other - The other category includes royalty revenue from our licensing of the TOM FORD trademark to third parties as well as sales from ancillary products and services that do not fit within the definitions of skin care, makeup, fragrance, and hair care."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wholesaler and direct-to-consumer seller of beauty products to department stores, specialty retailers, online platforms, and consumers through company websites and stores.",
+  "evidence": "We operate as a wholesaler, with our products sold in brick-and-mortar locations and on various e-commerce platforms, including those operated by department stores, duty-free retailers, specialty-multi retailers, online pure players, upscale perfumeries and pharmacies, and top-tier salons and spas. Additionally, we operate a direct-to-consumer business across freestanding stores, our brands' websites and third-party online platforms."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2023, the company acquired the TOM FORD brand and related intellectual property, transitioning from a license arrangement to full ownership.",
+   "evidence": "In 2005, we entered into a license agreement and developed, manufactured and distributed luxury beauty products under the TOM FORD brand name. In fiscal 2023, we acquired the TOM FORD brand and related intellectual property."
+  },
+  {
+   "text": "In 2024, the company purchased the remaining interest in DECIEM Beauty Group Inc., achieving full ownership after increasing investment to seventy-six percent in 2021.",
+   "evidence": "After increasing our investment to 76% in 2021, we purchased the remaining interest in the Deciem Beauty Group Inc. (\"DECIEM\") in 2024."
+  }
+ ],
+ "dropped": []
+}

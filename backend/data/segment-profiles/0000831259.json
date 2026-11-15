@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000831259",
+ "issuerName": "Freeport-McMoRan Inc.",
+ "builtAt": "2026-11-14T13:52:15.012Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000831259-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/831259/000083125926000012/fcx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "South America Mines",
+   "products": [
+    "copper concentrate",
+    "copper cathode"
+   ],
+   "description": "Operates the Cerro Verde and El Abra mines in Peru, selling copper concentrate and cathode under annual and multi-year contracts.",
+   "evidence": "Copper concentrate is also produced at the Cerro Verde mine in Peru and the Grasberg minerals district in Indonesia."
+  },
+  {
+   "name": "Grasberg",
+   "products": [
+    "copper concentrate",
+    "copper cathode",
+    "gold"
+   ],
+   "description": "PT Freeport Indonesia operates the Grasberg minerals district in Indonesia, producing copper concentrate, cathode and gold.",
+   "evidence": "We produce gold almost exclusively from our mines in the Grasberg minerals district."
+  },
+  {
+   "name": "Molybdenum",
+   "products": [
+    "molybdenum-based chemicals"
+   ],
+   "description": "Produces molybdenum from primary molybdenum mines and as a byproduct, plus conversion facilities in the U.S. and Europe.",
+   "evidence": "Molybdenum is a key alloying element in steel and the raw material for several chemical-grade products used in catalysts, lubrication, smoke suppression, corrosion inhibition and pigmentation."
+  },
+  {
+   "name": "All other",
+   "products": [
+    "copper rod",
+    "refined copper"
+   ],
+   "description": "Includes U.S. rod and refining operations, Atlantic Copper smelting and refining in Spain, other mining operations, exploration, legacy oil and gas properties and corporate items.",
+   "evidence": "Corporate, Other & Eliminations consist of our other mining operations, exploration activities, legacy oil and gas properties, corporate and elimination items."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "FCX earns revenue from selling copper concentrate, cathode and rod, gold and molybdenum to fabricators, smelters and other customers under dollar- or rupiah-denominated annual and long-term contracts priced off COMEX and LME benchmarks.",
+  "evidence": "Our consolidated revenues for 2025 primarily included sales of copper (75%), gold (15%) and molybdenum (8%)."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: North America Copper Mines",
+  "product not in text (Molybdenum): molybdenum"
+ ]
+}

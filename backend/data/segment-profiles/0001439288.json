@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001439288",
+ "issuerName": "ZURN ELKAY WATER SOLUTIONS CORPORATION",
+ "builtAt": "2026-11-14T17:37:36.031Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-006372",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1439288/000162828026006372/zws-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Management",
+   "products": [
+    "Professional grade water safety and control products",
+    "Flow systems products",
+    "Hygienic and environmental products",
+    "Filtered drinking water products"
+   ],
+   "description": "Designs, manufactures, and markets specification-driven water management solutions for institutional, commercial, waterworks and residential construction.",
+   "evidence": "The Company's product portfolio includes professional grade water safety and control products, flow systems products, hygienic and environmental products and filtered drinking water products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Building owners and construction market participants pay for specification-driven water management products for new construction, retrofit, and waterworks applications.",
+  "evidence": "The demand for our products is primarily driven by new institutional and commercial building construction, the retrofit of existing structures (to make them more energy and water efficient) and, to a lesser extent, new infrastructure and residential construction."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the company completed the Elkay Merger and changed its name to Zurn Elkay Water Solutions Corporation.",
+   "evidence": "On July 1, 2022, the Merger was completed following which we changed our name to \"Zurn Elkay Water Solutions Corporation\"."
+  },
+  {
+   "text": "In 2021, the company divested its Process & Motion Control business to Regal Rexnord Corporation through a Reverse Morris Trust tax-free spin-off transaction.",
+   "evidence": "On October 4, 2021, we completed a Reverse Morris Trust tax-free spin-off transaction (the \"Spin-Off Transaction\") in which our former Process & Motion Control business was divested to Regal Rexnord Corporation (formerly known as Regal Beloit Corporation)."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000084748",
+ "issuerName": "ROGERS CORP",
+ "builtAt": "2026-11-14T13:46:18.162Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000084748-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/84748/000008474826000007/rog-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced Electronics Solutions",
+   "products": [
+    "circuit materials",
+    "ceramic substrate materials",
+    "busbars",
+    "cooling solutions",
+    "curamik",
+    "ROLINX",
+    "RO4000 Series",
+    "RT/duroid"
+   ],
+   "description": "Designs, develops, manufactures and sells circuit materials, ceramic substrates, busbars and cooling solutions for EV/HEV, aerospace and defense, wireless infrastructure and other electronics markets.",
+   "evidence": "Our AES operating segment designs, develops, manufactures and sells circuit materials, ceramic substrate materials, busbars and cooling solutions for applications in EV/HEV, automotive (e.g., ADAS), aerospace and defense (e.g., antenna systems, communication systems and phased array radar systems), renewable energy (e.g., wind and solar), wireless infrastructure (e.g., power amplifiers, antennas and small cells), mass transit, industrial (e.g., variable frequency drives), connected devices (e.g."
+  },
+  {
+   "name": "Elastomeric Material Solutions",
+   "products": [
+    "polyurethane and silicone materials",
+    "customized silicones",
+    "ultra-high molecular weight polyethylene materials",
+    "PORON",
+    "BISCO",
+    "DeWAL",
+    "ARLON"
+   ],
+   "description": "Designs, develops, manufactures and sells engineered material solutions including polyurethane, silicone, PTFE and UHMWPE materials for cushioning, sealing, insulation and protection applications.",
+   "evidence": "Our EMS operating segment designs, develops, manufactures and sells engineered material solutions for a wide variety of applications and markets."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "elastomer components",
+    "elastomer floats",
+    "ENDUR",
+    "NITROPHYL"
+   ],
+   "description": "Consists of non-core elastomer components for general industrial markets and elastomer floats for level sensing in fuel tanks, motors and storage tanks.",
+   "evidence": "Our Other operating segment consists of elastomer components for applications in the general industrial market, as well as elastomer floats for level sensing in fuel tanks, motors, and storage tanks applications in the general industrial and automotive markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Rogers is paid by OEMs, fabricators, converters, distributors and component suppliers, primarily through short-term purchase orders for its engineered materials and components.",
+  "evidence": "Our sales recognized at a point in time are generally pursuant to short-term purchase orders."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Elastomeric Material Solutions): polytetrafluoroethylene materials"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000753308",
+ "issuerName": "NEXTERA ENERGY INC",
+ "builtAt": "2026-11-14T13:50:14.119Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000753308-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/753308/000075330826000015/nee-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FPL",
+   "products": [
+    "electric energy",
+    "generation",
+    "storage",
+    "transmission",
+    "distribution"
+   ],
+   "description": "Rate-regulated electric utility serving more than six million customer accounts in Florida through generation, transmission, distribution and sale of electric energy.",
+   "evidence": "FPL is a rate-regulated electric utility engaged primarily in the generation, storage, transmission, distribution and sale of electric energy in Florida."
+  },
+  {
+   "name": "NEER",
+   "products": [
+    "renewables",
+    "nuclear",
+    "natural gas",
+    "battery storage facilities",
+    "regulated electric and gas transmission assets",
+    "integrated energy and technology solutions"
+   ],
+   "description": "Energy infrastructure developer that builds, owns and operates long-term contracted generation and storage facilities and delivers energy solutions to utilities and businesses across the U.S.",
+   "evidence": "NEER's strategic focus is centered on the development, construction and operation of long-term contracted generation facilities, including renewables, nuclear and natural gas, as well as battery storage facilities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "FPL earns regulated retail and wholesale electric rates approved by the FPSC and FERC, while NEER earns revenue from long-term contracted generation facilities and from supplying gas and power to utilities and businesses.",
+  "evidence": "For both retail and wholesale customers, the prices (or rates) that FPL may charge are approved by regulatory bodies, by the FPSC in the case of retail customers and by the FERC in the case of wholesale customers."
+ },
+ "changes": [
+  {
+   "text": "In 2023, FPL sold its ownership interest in its Florida City Gas business.",
+   "evidence": "See Note 1 – Disposal of Businesses for a discussion of the sale of FPL's ownership interest in its Florida City Gas business."
+  }
+ ],
+ "dropped": [
+  "product not in text (NEER): gas and power supply"
+ ]
+}

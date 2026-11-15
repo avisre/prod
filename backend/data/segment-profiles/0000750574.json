@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000750574",
+ "issuerName": "AUBURN NATIONAL BANCORPORATION, INC",
+ "builtAt": "2026-11-14T13:50:08.191Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-111012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/750574/000119312526111012/d87304d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "checking",
+    "savings",
+    "transaction deposit accounts",
+    "certificates of deposit",
+    "residential mortgage loans",
+    "commercial, financial, agricultural, real estate construction and consumer loan ",
+    "Visa Checkcards"
+   ],
+   "description": "A full-service community bank providing deposits, loans and electronic banking services to customers in Lee County and East Alabama.",
+   "evidence": "The Bank provides a full range of banking services in its primary market area, Lee County, which includes the Auburn-Opelika Metropolitan Statistical Area."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns interest on loans and securities and collects transaction-based and periodic service charges on deposits, plus ATM and interchange fees from customers.",
+  "evidence": "Service charges on deposits and ATM and interchange fees – Fees from these services are either transaction-based, for which the performance obligations are satisfied when the individual transaction is processed, or set periodic service charges, for which the performance obligations are satisfied over the period the service is provided."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): online banking and bill payment"
+ ]
+}

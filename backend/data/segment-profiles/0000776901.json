@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000776901",
+ "issuerName": "INDEPENDENT BANK CORP",
+ "builtAt": "2026-11-14T13:50:42.992Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000776901-26-000058",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/776901/000077690126000058/indb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rockland Trust",
+   "products": [
+    "Commercial real estate loans",
+    "Commercial construction loans",
+    "Commercial and industrial loans",
+    "Small business loans",
+    "Residential mortgages",
+    "Home equity loans and lines",
+    "Other consumer loans",
+    "Mobile, online, and telephone banking services"
+   ],
+   "description": "A Massachusetts trust company providing banking, investment and financial services to businesses and consumers in Eastern Massachusetts, Worcester County, southern New Hampshire, and Rhode Island.",
+   "evidence": "At December 31, 2025, Independent Bank Corp.'s consolidated subsidiaries included the Company's banking subsidiary, Rockland Trust, which is the Company's only reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Bank earns interest income from borrowers on its commercial, consumer real estate, and other consumer loan portfolios, and also generates non-interest income from banking, investment, and financial services.",
+  "evidence": "The following table shows the balance of the gross average loan portfolio by category, the percentage of the gross average loan portfolio, and the percentage of total interest income that the loans generated, by category, for the fiscal years indicated"
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed the acquisition of Enterprise Bancorp, Inc.",
+   "evidence": "On July 1, 2025, the Company completed the acquisition of Enterprise Bancorp, Inc. (\"Enterprise\")."
+  },
+  {
+   "text": "In 2023, the like-kind exchange services provided through Compass Exchange Advisors LLC ceased.",
+   "evidence": "The like-kind exchange services provided in connection with this entity ceased during 2023."
+  }
+ ],
+ "dropped": []
+}

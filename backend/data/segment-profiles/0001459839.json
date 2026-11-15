@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001459839",
+ "issuerName": "SI-BONE, INC.",
+ "builtAt": "2026-11-14T17:40:47.353Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001459839-26-000036",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1459839/000145983926000036/sibn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Procedural Solutions for Compromised Bone",
+   "products": [
+    "iFuse",
+    "iFuse 3D",
+    "iFuse TORQ",
+    "iFuse Bedrock Granite",
+    "iFuse INTRA",
+    "iFuse TORQ TNT",
+    "iFuse Bone"
+   ],
+   "description": "Develops and markets minimally invasive titanium implants and instruments for sacroiliac joint dysfunction, thoracolumbar fixation, and pelvic trauma.",
+   "evidence": "We are a leader in developing innovative procedural solutions for compromised bone, grounded in expertise in biomechanical design and anatomy-specific innovation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Sells titanium implants and instruments to hospitals and surgical centers primarily through direct sales force and third-party agents.",
+  "evidence": "We market our products primarily with a direct sales force as well as a number of third-party sales agents in the United States, and with a combination of a direct sales force, sales agents and resellers in other countries."
+ },
+ "changes": [],
+ "dropped": []
+}

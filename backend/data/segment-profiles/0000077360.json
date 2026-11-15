@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000077360",
+ "issuerName": "Pentair plc",
+ "builtAt": "2026-11-14T13:46:00.147Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000077360-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/77360/000007736026000007/pnr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flow",
+   "products": [
+    "pressure vessels",
+    "gas recovery solutions",
+    "membrane bioreactors",
+    "wastewater reuse systems",
+    "advanced membrane filtration",
+    "specialty insertion valves",
+    "water supply pumps",
+    "fluid transfer pumps"
+   ],
+   "description": "Designs, manufactures and sells fluid treatment and pump products and systems for global residential, commercial and industrial markets.",
+   "evidence": "This segment designs, manufactures and sells a variety of fluid treatment and pump products and systems, including pressure vessels, gas recovery solutions, membrane bioreactors, wastewater reuse systems and advanced membrane filtration, separation systems, specialty insertion valves, line stop fittings and installation equipment, water disposal pumps, water supply pumps, fluid transfer pumps, turbine pumps, solid handling pumps, and agricultural spray nozzles, while serving the global residenti"
+  },
+  {
+   "name": "Water Solutions",
+   "products": [
+    "pressure tanks",
+    "control valves",
+    "activated carbon products",
+    "commercial ice machines",
+    "conventional filtration products",
+    "point-of-entry and point-of-use water treatment systems"
+   ],
+   "description": "Designs, manufactures and sells commercial and residential water treatment products and systems for filtration, softening and foodservice applications.",
+   "evidence": "This segment designs, manufactures and sells commercial and residential water treatment products and systems including pressure tanks, control valves, activated carbon products, commercial ice machines, conventional filtration products, and point-of-entry and point-of-use water treatment systems."
+  },
+  {
+   "name": "Pool",
+   "products": [
+    "pumps",
+    "filters",
+    "heaters",
+    "lights",
+    "automatic controls",
+    "chlorinators",
+    "automatic cleaners",
+    "pool accessories"
+   ],
+   "description": "Designs, manufactures and sells energy-efficient residential and commercial pool equipment and accessories for maintenance, repair, renovation and construction.",
+   "evidence": "This segment designs, manufactures and sells a complete line of energy-efficient residential and commercial pool equipment and accessories including pumps, filters, heaters, lights, automatic controls, chlorinators, automatic cleaners, maintenance equipment and pool accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pentair earns revenue by selling water treatment, pump and pool products to wholesale and retail distribution businesses, end users, consumers and original equipment manufacturers.",
+  "evidence": "Customers also include end users, consumers and original equipment manufacturers."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective January 1, 2026, Pentair moved its residential and irrigation flow bus"
+ ]
+}

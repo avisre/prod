@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000808439",
+ "issuerName": "TAT Technologies Ltd.",
+ "builtAt": "2026-11-14T13:51:34.282Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001363",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/808439/000117891326001363/zk2634525.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OEM of Heat Transfer Solutions and Aviation Accessories",
+   "products": [
+    "pre-coolers heat exchangers",
+    "oil/fuel hydraulic heat exchangers",
+    "environmental control and power electronics cooling systems",
+    "pumps",
+    "valves",
+    "turbine power units",
+    "cold plates",
+    "cooling systems for electronic systems"
+   ],
+   "description": "Designs and manufactures heat transfer solutions and aviation accessories for commercial and military aerospace and ground defense customers.",
+   "evidence": "OEM of heat transfer solutions and aviation accessories primarily include the design, development and manufacture of (i) broad range of heat transfer solutions, such as pre-coolers heat exchangers and oil/fuel hydraulic heat exchangers, used in mechanical and electronic systems on board of commercial, military and business aircraft"
+  },
+  {
+   "name": "MRO Services for heat transfer components and OEM of heat transfer solutions",
+   "products": [
+    "heat transfer MRO services",
+    "heat transfer solutions"
+   ],
+   "description": "Provides FAA-certified MRO services for heat transfer components and manufactures certain heat transfer solutions for airlines, air cargo carriers, maintenance service centers and the military.",
+   "evidence": "TAT's Limco subsidiary operates an FAA-certified repair station, which provides heat transfer MRO services for airlines, air cargo carriers, maintenance service centers and the military."
+  },
+  {
+   "name": "MRO services for Aviation Components and Lease",
+   "products": [
+    "MRO of APUs",
+    "APU lease activity"
+   ],
+   "description": "Provides FAA-certified MRO services for APUs, landing gear and other aircraft components, plus APU leasing, for airlines and military customers.",
+   "evidence": "MRO services for aviation components include the MRO of APUs, landing gears and other aircraft components, as well as APU lease activity."
+  },
+  {
+   "name": "Overhaul and coating of jet engine components",
+   "products": [
+    "turbine vanes and blades",
+    "fan blades",
+    "variable inlet guide vanes",
+    "afterburner flaps"
+   ],
+   "description": "Provides overhaul and coating of jet engine components through the Turbochrome subsidiary.",
+   "evidence": "TAT's activities in the area of overhaul and coating of jet engine components includes the overhaul and coating of jet engine components, including turbine vanes and blades, fan blades, variable inlet guide vanes and afterburner flaps."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "TAT earns revenue from airlines, air cargo carriers, maintenance service centers, militaries and aircraft manufacturers who pay for OEM heat transfer products and aviation accessories and for MRO, overhaul and coating services.",
+  "evidence": "Such supply contracts are generally long-term engagements that may have terms of ten years or more."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MRO services for Aviation Components and Lease): MRO of landing gears",
+  "product not in text (MRO services for Aviation Components and Lease): MRO of other aircraft components"
+ ]
+}

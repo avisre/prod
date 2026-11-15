@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000012040",
+ "issuerName": "FLANIGAN’S ENTERPRISES, INC.",
+ "builtAt": "2026-11-14T14:06:56.948Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001174947-25-001463",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-12-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/12040/000117494725001463/ea0268707-10k_flanigans.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Restaurant Operations",
+   "products": [
+    "Flanigan's Seafood Bar and Grill",
+    "Flanigan's",
+    "Brendan's Sports Pub",
+    "The Whale's Rib"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Package Liquor Store Operations",
+   "products": [
+    "Big Daddy's Liquors",
+    "Big Daddy's Wine & Liquors"
+   ],
+   "description": "Operates package liquor stores emphasizing high volume business with brand name and private label merchandise at discount prices.",
+   "evidence": "Our package liquor stores emphasize high volume business by providing customers with a wide selection of brand name and private label liquors, beers and wines while offering competitive pricing by meeting the published sales prices of our competitors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Restaurant and package liquor store customers pay for food, beverages and merchandise; franchisees pay royalties and advertising fees based on gross sales.",
+  "evidence": "Food sales currently represent approximately 79.67% and bar sales approximately 20.33% of our total restaurant sales."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Restaurant Operations"
+ ]
+}

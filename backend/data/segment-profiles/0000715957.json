@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000715957",
+ "issuerName": "DOMINION ENERGY, INC",
+ "builtAt": "2026-11-14T13:49:06.065Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-063120",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dominion Energy Virginia",
+   "products": [
+    "regulated electric generation",
+    "transmission",
+    "distribution",
+    "CVOW Commercial Project"
+   ],
+   "description": "Regulated electric utility serving customers in Virginia, including generation, transmission and distribution and the CVOW offshore wind project.",
+   "evidence": "Presented below are selected operating statistics related to Dominion Energy Virginia's operations:"
+  },
+  {
+   "name": "Dominion Energy South Carolina",
+   "products": [
+    "electric distribution",
+    "gas distribution"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Contracted Energy",
+   "products": [
+    "Millstone",
+    "renewable natural gas",
+    "renewable energy"
+   ],
+   "description": "Nonregulated generation business including the Millstone nuclear station and renewable natural gas facilities.",
+   "evidence": "Presented below are selected operating statistics related to Contracted Energy's operations:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated electric and gas rates for generation, transmission and distribution services, and the nonregulated business earns energy margins from electricity and renewable natural gas sales.",
+  "evidence": "The availability of nuclear fuel, natural gas, purchased power or other materials utilized by the Companies to provide electric generation, transmission and distribution and/or gas distribution services to their customers."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Dominion Energy South Carolina",
+  "change not grounded: In 2024, a 50% noncontrolling interest in the CVOW Commercial Project was sold t"
+ ]
+}

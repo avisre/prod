@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000763744",
+ "issuerName": "LCI INDUSTRIES",
+ "builtAt": "2026-11-14T13:50:19.300Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000763744-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/763744/000076374426000011/lcii-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "OEM",
+   "products": [
+    "Chassis and suspension solutions",
+    "Furniture and mattresses",
+    "Axles",
+    "Awnings",
+    "Slide-out mechanisms"
+   ],
+   "description": "Manufactures and distributes engineered components for OEMs in the RV, transportation, marine, and housing markets.",
+   "evidence": "Our OEM Segment services leading OEMs in the RV, transportation, marine, and housing markets."
+  },
+  {
+   "name": "Aftermarket",
+   "products": [
+    "Hitches",
+    "Truck accessories",
+    "Towing accessories",
+    "Towing electrical",
+    "Furniture",
+    "Awnings",
+    "Slide toppers",
+    "Biminis, covers, buoys, and fenders"
+   ],
+   "description": "Supplies accessories, replacement parts, and upgrades for RV, transportation, marine, and automotive markets through dealers, distributors, service centers, and online.",
+   "evidence": "Our Aftermarket Segment enhances the product lifecycle for the RV, transportation, marine, and automotive markets by offering discretionary accessories, replacement parts, and upgrades."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by RV, transportation, marine, and housing OEMs for engineered components, and by aftermarket customers—retail dealers, wholesale distributors, service centers, and direct-to-consumer online buyers—for accessories, replacement parts, and upgrades.",
+  "evidence": "In addition to serving original equipment manufacturers (\"OEMs\"), we also cater to aftermarket needs, selling through retail dealers, wholesale distributors, and service centers, as well as direct-to-consumer sales through online platforms."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (OEM): Windows, doors and windshields",
+  "product not in text (OEM): Appliances and electronic components"
+ ]
+}

@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0001800227",
+ "issuerName": "People Incorporated",
+ "builtAt": "2026-11-14T17:37:10.776Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009997",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1800227/000162828026009997/iaci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "People Inc.",
+   "products": [
+    "PEOPLE",
+    "Better Homes & Gardens",
+    "Verywell",
+    "Food & Wine",
+    "Travel + Leisure",
+    "Allrecipes",
+    "REAL SIMPLE",
+    "Investopedia"
+   ],
+   "description": null,
+   "evidence": "People Inc. - one of the largest digital and print publishers in America and is committed to content — made by people for people — that delights, teaches, inspires and entertains."
+  },
+  {
+   "name": "Care.com",
+   "products": [
+    "Care for Business",
+    "HomePay"
+   ],
+   "description": "Online destination connecting families with caregivers for children, aged parents, pets and homes, and caregivers with families.",
+   "evidence": "Care.com , a leading online destination for families to connect with caregivers for their children, aged parents, pets and homes and for caregivers to connect with families seeking care services."
+  },
+  {
+   "name": "Search",
+   "products": [
+    "Ask Media Group",
+    "Desktop"
+   ],
+   "description": "Provides general search services and legacy desktop search software to consumers and business partners.",
+   "evidence": "Search - consists of Ask Media Group , a collection of websites providing general search services and information, and Desktop, our legacy desktop search software business."
+  },
+  {
+   "name": "Emerging & Other",
+   "products": [
+    "Vivian Health",
+    "The Daily Beast",
+    "IAC Films",
+    "Mosaic Group"
+   ],
+   "description": "Collection of smaller businesses including a healthcare job platform, news website and film producer services.",
+   "evidence": "Emerging & Other - consists of: ◦ Vivian Health , a platform to efficiently connect healthcare professionals with job opportunities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers, affiliate commerce partners, magazine subscribers, licensees, and families and businesses paying subscription and contract fees pay the company.",
+  "evidence": "Digital revenue consists principally of advertising, performance marketing and licensing and other revenue. Print revenue consists principally of subscription, advertising, project and other, newsstand and performance marketing revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: On March 31, 2025, IAC completed the spin-off of Angi Inc., which is now present",
+  "change not grounded: On July 31, 2025, Dotdash Meredith Inc. was rebranded People Inc.",
+  "change not grounded: On February 15, 2024, the company completed the sale of assets of Mosaic Group."
+ ],
+ "escalated": "revenue model not quoted"
+}

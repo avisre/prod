@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000216085",
+ "issuerName": "HAVERTY FURNITURE COMPANIES, INC",
+ "builtAt": "2026-11-14T13:47:37.109Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012199",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/216085/000162828026012199/hvt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail furniture",
+   "products": [
+    "residential furniture",
+    "accessories",
+    "custom upholstery programs",
+    "mattress product lines"
+   ],
+   "description": "Specialty retailer of residential furniture and accessories for middle to upper-middle income customers in Southern and Midwest U.S. markets.",
+   "evidence": "Havertys is a specialty retailer of residential furniture and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Havertys for furniture and accessories, including delivery fees charged to customers that are included in net sales.",
+  "evidence": "Delivery fees of approximately $ 30,247,000 , $ 29,279,000 and $ 36,187,000 were charged to customers in 2025, 2024 and 2023, respectively, and are included in net sales."
+ },
+ "changes": [],
+ "dropped": []
+}

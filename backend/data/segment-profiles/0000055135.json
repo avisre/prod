@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000055135",
+ "issuerName": "KELLY SERVICES, INC.",
+ "builtAt": "2026-11-14T13:44:55.631Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000055135-26-000053",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/55135/000005513526000053/kelya-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enterprise Talent Management",
+   "products": [
+    "Business Process Outsourcing",
+    "KellyConnect",
+    "Skilled Professional Solutions",
+    "MSP",
+    "RPO",
+    "PPO",
+    "RocketPower",
+    "Sevenstep"
+   ],
+   "description": "Provides temporary staffing, outcome-based and permanent placement services in light industrial, contact center and office clerical specialties, plus global MSP, RPO and PPO solutions.",
+   "evidence": "Enterprise Talent Management – delivers temporary staffing, outcome-based and permanent placement services focused on light industrial, contact center and office and clerical specialties in North America across a variety of industries and includes products such as Business Process Outsourcing, KellyConnect and Skilled Professional Solutions offerings."
+  },
+  {
+   "name": "Science, Engineering & Technology",
+   "products": [
+    "MRP",
+    "Softworld",
+    "NextGen",
+    "GTA",
+    "statementworX"
+   ],
+   "description": "Provides highly specialized temporary staffing, outcome-based and permanent placement services in science, clinical research, engineering, technology and telecommunications.",
+   "evidence": "SET is focused on science and clinical research, engineering, technology and telecommunications specialties predominantly in North America."
+  },
+  {
+   "name": "Education",
+   "products": [
+    "CTC",
+    "PTS",
+    "Greenwood/Asher",
+    "Teachers On Call"
+   ],
+   "description": null,
+   "evidence": "Education – delivers high quality education and therapy services talent through temporary staffing, permanent placement and executive search services to Pre-K-12 school districts and education organizations across the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, Kelly combined its former P&I and OCG segments into the new Enterprise Talent Management segment.",
+   "evidence": "We combined our former P&I and OCG segments into the ETM segment in the first quarter of 2025, responding to a shift in customer demand toward integrated workforce solutions and enabling a more streamlined and efficient go-to-market approach."
+  },
+  {
+   "text": "In 2024, Kelly completed the sale of its European staffing operations within the International business unit.",
+   "evidence": "In 2024, Kelly completed the sale of its European staffing operations within the Company's International business unit, further sharpening its focus on specialty outcome-based and staffing services in North America, while maintaining global recruitment process outsourcing (\"RPO\") and MSP capabilities."
+  },
+  {
+   "text": "In 2022, Kelly monetized its non-core stake in Persol Holdings.",
+   "evidence": "By monetizing non-core assets (Persol Holdings Co., Ltd. in 2022 and EMEA staffing operations in 2024, among other transactions) and redeploying available capital, Kelly completed several strategic acquisitions over the years."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

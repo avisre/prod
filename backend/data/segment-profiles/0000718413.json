@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000718413",
+ "issuerName": "Community Bancorp./VT",
+ "builtAt": "2026-11-14T13:49:14.424Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-002870",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/718413/000165495426002870/cmtv_ex13.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "Loans",
+    "Investments",
+    "Deposit products"
+   ],
+   "description": "Provides banking services, primarily lending, investments and deposit products, to customers in domestic markets.",
+   "evidence": "Loans, investments, and deposit product service fees provide revenues in the banking operation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and fees on loans, interest on investments, and deposit product service fees from its banking customers.",
+  "evidence": "Loans, investments, and deposit product service fees provide revenues in the banking operation."
+ },
+ "changes": [],
+ "dropped": []
+}

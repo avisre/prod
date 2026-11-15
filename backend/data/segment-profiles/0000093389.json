@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000093389",
+ "issuerName": "Standard Motor Products, Inc.",
+ "builtAt": "2026-11-14T13:46:38.649Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000093389-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/93389/000009338926000012/smp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vehicle Control",
+   "products": [
+    "Engine Management",
+    "Electrical & Safety",
+    "Wire Sets & Other",
+    "ignition coils",
+    "fuel injectors and related components",
+    "anti-lock brake and vehicle speed sensors",
+    "spark plug wire sets"
+   ],
+   "description": "Supplies automotive aftermarket customers with premium replacement parts for engine management, electrical and safety, and ignition wire set product groups.",
+   "evidence": "Our Vehicle Control Segment services our core automotive aftermarket customers through its offering of premium replacement parts within the following major product groups."
+  },
+  {
+   "name": "Temperature Control",
+   "products": [
+    "AC System Components",
+    "Other Thermal Components",
+    "compressors",
+    "air conditioning repair kits",
+    "heat exchangers"
+   ],
+   "description": "Supplies automotive aftermarket customers with premium air conditioning and thermal replacement parts for vehicle temperature management.",
+   "evidence": "Our Temperature Control Segment also services our core automotive aftermarket customers through its offering of premium replacement parts within the following major product groups."
+  },
+  {
+   "name": "Nissens Automotive",
+   "products": [
+    "Engine Cooling",
+    "Air Conditioning",
+    "Engine Efficiency",
+    "radiators and oil coolers",
+    "turbochargers and intercoolers",
+    "compressors and condensers"
+   ],
+   "description": "European supplier of thermal management and engine efficiency replacement parts for the automotive aftermarket, acquired in November 2024.",
+   "evidence": "Our Nissens Automotive Segment was created in the fourth quarter of 2024 following the completion of our acquisition of Nissens Automotive, a leading European supplier of thermal management and engine efficiency products for the automotive aftermarket."
+  },
+  {
+   "name": "Engineered Solutions",
+   "products": [
+    "Thermal Management Products",
+    "Sensors",
+    "Switches",
+    "Power Distribution",
+    "Electrification & Electronics",
+    "Injection & Fuel Delivery",
+    "Ignition & Emissions",
+    "Clamping Devices"
+   ],
+   "description": "Provides custom-engineered solutions to vehicle and equipment manufacturers in commercial and light vehicle, construction, agriculture, marine and other end markets.",
+   "evidence": "Our Engineered Solutions Segment services our vehicle and equipment manufacturing customers across diverse global end markets, including commercial and light vehicles, construction, agriculture, power sports, marine, hydraulics and lawn and garden, through an offering of custom-engineered solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by retailers, warehouse distributors, original equipment manufacturers and original equipment service part operations purchasing its replacement parts and custom-engineered solutions.",
+  "evidence": "We sell our products primarily to retailers, warehouse distributors, original equipment manufacturers and original equipment service part operations in the United States, Europe, Canada, Mexico, and other foreign countries."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company created the Nissens Automotive segment following its acquisition of AX V Nissens III ApS and its subsidiaries in November 2024.",
+   "evidence": "Nissens Automotive was created in the fourth quarter of 2024 following the completion of our acquisition of AX V Nissens III ApS (now known as SMP Nissens III ApS) and its direct and indirect subsidiaries (\"Nissens Automotive\") in November 2024."
+  }
+ ],
+ "dropped": []
+}

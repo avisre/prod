@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000837465",
+ "issuerName": "Callaway Golf Company",
+ "builtAt": "2026-11-14T13:52:27.615Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000837465-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/837465/000083746526000010/modg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Golf Equipment",
+   "products": [
+    "golf clubs",
+    "golf balls",
+    "woods (drivers, fairway woods and hybrids)",
+    "irons (irons and wedges)",
+    "packaged sets sold under the Callaway and Strata brands",
+    "putters sold under the Odyssey brand",
+    "pre-owned golf clubs"
+   ],
+   "description": "Designs, manufactures and sells golf clubs and golf balls for amateur and professional golfers of all skill levels.",
+   "evidence": "We design, manufacture and sell a full line of high-quality golf equipment, including golf clubs and golf balls."
+  },
+  {
+   "name": "Apparel, Gear and Other",
+   "products": [
+    "TravisMathew",
+    "OGIO",
+    "apparel",
+    "bags",
+    "other accessories"
+   ],
+   "description": "Sells premium golf and active lifestyle apparel, gear and accessories under the TravisMathew and OGIO brands.",
+   "evidence": "As of December 31, 2025, we had two operating and reportable business segments: Golf Equipment and Apparel, Gear and Other (previously known as the \"Active Lifestyle\" segment)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by wholesale customers such as golf course pro shops, off-course and sporting goods retailers, online retailers, distributors and mass merchants, and directly by consumers through websites and retail locations.",
+  "evidence": "We sell our golf equipment products domestically and internationally, directly and through our wholly-owned subsidiaries, to wholesale customers, including golf course pro shops, off-course retailers, sporting goods retailers, online retailers, and third-party distributors, as well as to mass merchants for certain products."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold the Jack Wolfskin business, which is now reported in discontinued operations.",
+   "evidence": "On May 31, 2025, we completed the sale of 100% of the outstanding equity interests of Callaway Germany Holdco GmbH, which owned the Jack Wolfskin business"
+  },
+  {
+   "text": "Effective the fourth quarter of 2025, the company renamed its \"Active Lifestyle\" segment to \"Apparel, Gear and Other\" with no change in segment composition.",
+   "evidence": "effective as of the fourth quarter of 2025, we renamed our \"Active Lifestyle\" segment to \"Apparel, Gear and Other;\" this change did not impact the composition of the segment or previously reported financial results."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective January 1, 2026, the company completed the sale of a 60% ownership int"
+ ]
+}

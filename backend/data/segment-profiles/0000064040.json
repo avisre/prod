@@ -1,0 +1,86 @@
+{
+ "version": 1,
+ "cik": "0000064040",
+ "issuerName": "S&P Global Inc.",
+ "builtAt": "2026-11-14T13:45:19.399Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000064040-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/64040/000006404026000013/spgi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "S&P Global Market Intelligence",
+   "products": [
+    "Data, Analytics & Insights",
+    "Capital IQ platforms",
+    "Enterprise Solutions",
+    "Credit & Risk Solutions",
+    "RatingsXpress®",
+    "RatingsDirect®",
+    "Credit Analytics"
+   ],
+   "description": "Provides multi-asset-class data, analytics and workflow solutions for investment professionals, corporations, governments and universities.",
+   "evidence": "Market Intelligence is a global provider of multi-asset-class data and analytics integrated with purpose-built workflow solutions."
+  },
+  {
+   "name": "S&P Global Ratings",
+   "products": [
+    "credit ratings"
+   ],
+   "description": "Independent provider of credit ratings, research and analytics serving investors, corporations, governments, banks and other debt issuers.",
+   "evidence": "Ratings is an independent provider of credit ratings, research, and analytics."
+  },
+  {
+   "name": "S&P Global Energy",
+   "products": [
+    "Energy & Resources Data & Insights",
+    "Price Assessments",
+    "Upstream Data & Insights",
+    "Advisory & Transactional Services"
+   ],
+   "description": "Provides price data, benchmarks, analytics and software for energy and commodity market participants.",
+   "evidence": "Energy is a leading independent provider of information and benchmark prices for the energy and commodity markets."
+  },
+  {
+   "name": "S&P Global Mobility",
+   "products": [
+    "Dealer",
+    "Manufacturing",
+    "Financial"
+   ],
+   "description": "Serves the automotive value chain including OEMs, suppliers, dealerships, consumers and finance and insurance companies.",
+   "evidence": "Mobility is a leading provider of solutions serving the full automotive value chain including vehicle manufacturers (Original Equipment Manufacturers or OEMs), automotive suppliers, mobility service providers, retailers, consumers, and finance and insurance companies."
+  },
+  {
+   "name": "S&P Dow Jones Indices",
+   "products": [
+    "Investment vehicles",
+    "Exchange traded derivatives",
+    "Index-related licensing fees",
+    "Data and customized index subscription fees"
+   ],
+   "description": "Global index provider maintaining valuation and index benchmarks for investment advisors, wealth managers and institutional investors.",
+   "evidence": "Indices is a global index provider maintaining a wide variety of valuation and index benchmarks for investment advisors, wealth managers and institutional investors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for data, analytics and software, transaction fees for credit ratings on new debt issuance, usage-based royalties for licensed benchmarks and price data, and asset-linked fees tied to funds tracking its indices.",
+  "evidence": "Indices derives revenue from asset-linked fees when investors direct funds into its proprietary designed or owned indexes, sales-usage based royalties of its indices, as well as data subscription arrangements."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Board decided to pursue a full separation of the Mobility segment via a tax-free spin-off expected to be completed mid-2026.",
+   "evidence": "On April 29, 2025, we announced that our Board of Directors decided to pursue a full separation of our Mobility segment, creating a new publicly traded company."
+  }
+ ],
+ "dropped": [
+  "product not in text (S&P Global Ratings): credit research and analytics",
+  "product not in text (S&P Global Ratings): Crisil research and analytics",
+  "change not grounded: In 2023, the company sold S&P Global Engineering Solutions, completing the sale "
+ ]
+}

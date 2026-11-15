@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000036146",
+ "issuerName": "Trustmark Corporation",
+ "builtAt": "2026-11-14T13:44:11.830Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/36146/000119312526064009/trmk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "General Banking",
+   "products": [
+    "Commercial Banking",
+    "Consumer Banking",
+    "Mortgage Banking",
+    "New Market Tax Credits (NMTC)"
+   ],
+   "description": "Provides commercial, consumer and mortgage banking services, including loans, deposits and treasury management, to business and consumer customers.",
+   "evidence": "Trustmark's operations are managed along two operating segments: General Banking 3 Segment and Wealth Management Segment."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "trust",
+    "investment",
+    "brokerage",
+    "qualified and non-qualified retirement plan services",
+    "custodial services"
+   ],
+   "description": "Offers fiduciary, trust, investment, brokerage, retirement plan and custodial services for corporate and individual customers.",
+   "evidence": "Wealth Management – TB offers specialized fiduciary services and expertise in the areas of wealth management, trust, investment, brokerage, qualified and non-qualified retirement plan services and custodial services for corporate and individual customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Trustmark earns net interest income on loans and securities plus noninterest income from banking fees, mortgage banking and wealth management services paid by business and consumer customers.",
+  "evidence": "Revenue is defined as net interest income plus noninterest income (loss)."
+ },
+ "changes": [
+  {
+   "text": "The Insurance Segment was moved to discontinued operations and is no longer a reportable segment.",
+   "evidence": "The Insurance Segment is included in discontinued operations for all periods presented in the accompanying consolidated balance sheets and the consolidated statements of income (loss)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Wealth Management): wealth management"
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000028823",
+ "issuerName": "Diebold Nixdorf, Incorporated",
+ "builtAt": "2026-11-14T14:08:01.224Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000028823-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/28823/000002882326000008/dbd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "Branch Automation Solutions",
+    "cash recycling technology",
+    "Vynamic Smart Vision technology"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Retail",
+   "products": [],
+   "description": "Supplies automated solutions and services to retailers worldwide.",
+   "evidence": "automates, digitizes and transforms the way people bank and shop"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company generates revenue from sales of hardware products and software solutions, plus recurring service revenues from maintenance and support contracts.",
+  "evidence": "Products transferred at a point in time 43 % 43 % Products and services transferred over time 57 % 57 % Net sales 100 % 100 %"
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Banking",
+  "change not grounded: In 2023, the company underwent a reorganization following Chapter 11 emergence, "
+ ]
+}

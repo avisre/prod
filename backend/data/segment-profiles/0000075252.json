@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000075252",
+ "issuerName": "Accendra Health, Inc.",
+ "builtAt": "2026-11-14T13:45:53.696Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018169",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/75252/000110465926018169/omi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home healthcare",
+   "products": [
+    "Apria",
+    "Byram Healthcare",
+    "Lofta",
+    "ostomy, wound care (including negative pressure wound therapy), urology, inconti"
+   ],
+   "description": "Provides home medical equipment, disposable medical supplies and related clinical and administrative support services to patients with chronic, complex and acute conditions.",
+   "evidence": "We are one of the industry's highest-quality providers of home healthcare equipment, medical supplies and related services, while maintaining a commitment to being a low-cost operator."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by managed care plans, Medicare, Medicaid, private insurers, home health agencies and patients under fee-for-service and capitation arrangements for equipment, supplies and services rented and sold to patients.",
+  "evidence": "Revenues are generated through fee-for-service and capitation arrangements with large government and commercial payors (Payors) for equipment, supplies, services and other items rented and sold to patients."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold its Products & Healthcare Services business, which is no longer reported in continuing operations.",
+   "evidence": "On December 31, 2025, we completed the sale of the P&HS business pursuant to the Purchase Agreement."
+  },
+  {
+   "text": "In 2025, the company changed its name from Owens & Minor, Inc. to Accendra Health, Inc.",
+   "evidence": "Accendra Health, Inc. (f/k/a Owens & Minor, Inc.) and subsidiaries (Accendra Health, we, us, our or the Company) is a leading nationwide provider of products, technology, and services that supports health beyond the hospital for millions of people each year."
+  }
+ ],
+ "dropped": [
+  "product not in text (Home healthcare): diabetes treatment products",
+  "product not in text (Home healthcare): home respiratory therapy (home oxygen and non-invasive ventilation services)",
+  "product not in text (Home healthcare): CPAP and bi-level positive airway pressure devices"
+ ]
+}

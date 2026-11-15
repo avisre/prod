@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000016160",
+ "issuerName": "CAL-MAINE FOODS, INC.",
+ "builtAt": "2026-11-14T14:07:10.508Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001562762-26-000080",
+  "periodEnd": "2026-05-30",
+  "filingDate": "2026-07-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/16160/000156276226000080/calm2026053010K.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Conventional Shell Eggs",
+   "products": [
+    "Sunups®",
+    "Sunny Meadow®"
+   ],
+   "description": "Produces, grades, packages, markets and distributes conventional shell eggs for U.S. retail and foodservice customers.",
+   "evidence": "The Conventional Shell Eggs segment consists primarily of the production, grading, packaging, marketing and distribution of shell eggs sold as conventional shell eggs, which includes our brands Sunups® and Sunny Meadow®."
+  },
+  {
+   "name": "Specialty Shell Eggs",
+   "products": [
+    "Farmhouse Eggs®",
+    "4Grain®",
+    "Egg-Land's Best®",
+    "Land O' Lakes®"
+   ],
+   "description": "Produces and distributes cage-free, nutritionally enhanced, organic, brown, pasture-raised and free-range shell eggs for customers nationwide.",
+   "evidence": "The Specialty Shell Eggs segment consists primarily of the production, grading, packaging, marketing and distribution of shell eggs sold as cage -free, nutritionally enhanced , organic, brown, pasture -raised and free-range eggs."
+  },
+  {
+   "name": "Prepared Foods",
+   "products": [
+    "pre-cooked egg patties",
+    "omelets",
+    "folded and scrambled egg formats",
+    "pancakes",
+    "waffles",
+    "specialty wraps",
+    "Van's®",
+    "Crepini®"
+   ],
+   "description": "Produces, packages, markets and distributes prepared foods such as egg patties, omelets, pancakes and waffles.",
+   "evidence": "The Prepared Foods segment consists primarily of the production, packaging, marketing and distribution of prepared foods product offerings such as pre-cooked egg patties, omelets, folded and scrambled egg formats , pancakes, waffles and specialty wraps."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail and foodservice customers pay the Company for shell eggs and prepared egg-based foods sold throughout much of the U.S.",
+  "evidence": "The Company's shell egg portfolio spans the full egg value ladder —from conventional to specialty, including cage-free, nutritionally enhanced, organic, brown, pasture -raised, and free-range eggs—serving both retail and foodservice customers nationwide."
+ },
+ "changes": [
+  {
+   "text": "Effective in the fourth quarter of fiscal 2026, the Company moved from one reportable segment to three: Conventional Shell Eggs, Specialty Shell Eggs, and Prepared Foods.",
+   "evidence": "Effective in the fourth quarter of fiscal 2026, we revised our internal reporting to change the manner in which we manage our business, which reflects a focus on managing operations based on our product categories rather than on a consolidated basis."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective June 2, 2025, the Company acquired Echo Lake Foods, expanding its prep",
+  "change not grounded: Effective May 12, 2026, the Company acquired certain assets of the Van's Foods b"
+ ],
+ "escalated": "revenue model not quoted"
+}

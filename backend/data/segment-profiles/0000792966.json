@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000792966",
+ "issuerName": "FARMERS & MERCHANTS BANCORP, INC.",
+ "builtAt": "2026-11-14T13:51:06.117Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-081475",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/792966/000119312526081475/fmao-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "commercial banking",
+   "products": [
+    "commercial, agricultural, and residential mortgage as well as consumer lending a",
+    "commercial and consumer banking services",
+    "wealth advisory services",
+    "insurance",
+    "checking account services",
+    "savings and time deposit services",
+    "on-line banking"
+   ],
+   "description": "Provides a broad array of financial products and services, including lending, banking, wealth advisory and insurance, to individual and business clients in Ohio, Indiana and Michigan.",
+   "evidence": "The commercial banking segment provides a broad array of financial products and services including commercial, agricultural, and residential mortgage as well as consumer lending activities, commercial and consumer banking services, wealth advisory services and insurance to individual and business clients through most of its banking center locations in Ohio, Indiana, and Michigan."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from loans, investments and deposits in its banking operation, paid by borrowing customers and depositors.",
+  "evidence": "Loans, investments and deposits provide revenue in the banking operation."
+ },
+ "changes": [
+  {
+   "text": "The Company dissolved its captive insurance subsidiary, Farmers & Merchants Risk Management, in December 2023.",
+   "evidence": "Our other subsidiary, Farmers & Merchants Risk Management (Captive) was a captive insurance company formed in December 2014, located in Nevada and dissolved in December 2023."
+  },
+  {
+   "text": "The Bank formed an insurance agency, F&M Insurance Agency, LLC, in November 2023 to offer insurance products.",
+   "evidence": "The Bank formed an insurance agency, F&M Insurance Agency, LLC, in November 2023 to offer insurance products to our customers."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000751978",
+ "issuerName": "VICOR CORPORATION",
+ "builtAt": "2026-11-14T13:50:12.459Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085102",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/751978/000119312526085102/vicr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power components",
+   "products": [
+    "Advanced Products",
+    "Brick Products",
+    "electrical and mechanical accessories"
+   ],
+   "description": "Designs, manufactures and markets modular power components and power systems converting electrical power for electronic device manufacturers.",
+   "evidence": "The Company is organized and operates as single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, contract manufacturers and distributors pay for power components and systems, and licensees pay royalties under licensing arrangements.",
+  "evidence": "In addition to offering competitively differentiated products for sale, we also offer and engage in licensing arrangements with customers, resulting in royalty revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Power components): Factorized Power Architecture (FPA) products",
+  "product not in text (Power components): front-end devices"
+ ]
+}

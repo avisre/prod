@@ -1,0 +1,105 @@
+{
+ "version": 1,
+ "cik": "0000002969",
+ "issuerName": "AIR PRODUCTS AND CHEMICALS, INC.",
+ "builtAt": "2026-11-14T14:06:07.786Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000002969-25-000055",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2969/000000296925000055/apd-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "oxygen",
+    "nitrogen",
+    "argon",
+    "hydrogen",
+    "helium",
+    "carbon dioxide",
+    "carbon monoxide",
+    "syngas"
+   ],
+   "description": "Regional industrial gases business producing and selling atmospheric, process, and specialty gases to customers in the Americas.",
+   "evidence": "Our industrial gases business, which is organized and operated regionally in the Americas, Asia, Europe, and Middle East and India segments, produces and sells atmospheric gases such as oxygen, nitrogen, and argon"
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "oxygen",
+    "nitrogen",
+    "argon",
+    "hydrogen",
+    "helium",
+    "carbon dioxide",
+    "carbon monoxide",
+    "syngas"
+   ],
+   "description": "Regional industrial gases business producing and selling atmospheric, process, and specialty gases to customers in Asia.",
+   "evidence": "Our industrial gases business, which is organized and operated regionally in the Americas, Asia, Europe, and Middle East and India segments, produces and sells atmospheric gases such as oxygen, nitrogen, and argon"
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "oxygen",
+    "nitrogen",
+    "argon",
+    "hydrogen",
+    "helium",
+    "carbon dioxide",
+    "carbon monoxide",
+    "syngas"
+   ],
+   "description": "Regional industrial gases business producing and selling atmospheric, process, and specialty gases to customers in Europe.",
+   "evidence": "Our industrial gases business, which is organized and operated regionally in the Americas, Asia, Europe, and Middle East and India segments, produces and sells atmospheric gases such as oxygen, nitrogen, and argon"
+  },
+  {
+   "name": "Middle East and India",
+   "products": [
+    "oxygen",
+    "nitrogen",
+    "argon",
+    "hydrogen",
+    "helium",
+    "carbon dioxide",
+    "carbon monoxide",
+    "syngas"
+   ],
+   "description": "Regional industrial gases business producing and selling atmospheric, process, and specialty gases to customers in the Middle East and India.",
+   "evidence": "Our industrial gases business, which is organized and operated regionally in the Americas, Asia, Europe, and Middle East and India segments, produces and sells atmospheric gases such as oxygen, nitrogen, and argon"
+  },
+  {
+   "name": "Corporate and other",
+   "products": [
+    "cryogenic and gas processing equipment"
+   ],
+   "description": "Includes sale of cryogenic and gas processing equipment for air separation plus Rotoflow and Gardner Cryogenics businesses.",
+   "evidence": "The Corporate and other segment includes activity related to the sale of cryogenic and gas processing equipment for air separation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for industrial gases supplied on-site via long-term contracts or merchant delivery, and for equipment sold worldwide.",
+  "evidence": "These sale of gas arrangements are generally governed by long-term contracts ranging from 15- to 20-years."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2024, the company sold its LNG process technology and equipment business, previously in Corporate and other, to Honeywell International Inc.",
+   "evidence": "On 30 September 2024, we completed the sale of our LNG business to Honeywell International Inc."
+  },
+  {
+   "text": "In fiscal year 2025, the company exited various projects primarily related to clean energy generation and distribution.",
+   "evidence": "In fiscal year 2025, we exited certain clean energy projects as discussed in Note 5, Business and Asset Actions , to the consolidated financial statements."
+  }
+ ],
+ "dropped": [
+  "product not in text (Corporate and other): Rotoflow turboexpanders",
+  "product not in text (Corporate and other): Gardner Cryogenics containers",
+  "change not grounded: In fiscal year 2025, the company sold its 100% ownership interest in a consolida"
+ ],
+ "escalated": "revenue model not quoted"
+}

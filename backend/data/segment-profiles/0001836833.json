@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001836833",
+ "issuerName": "Planet Labs PBC",
+ "builtAt": "2026-11-14T17:38:19.693Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-119957",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1836833/000119312526119957/pl-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Earth observation",
+   "products": [
+    "imagery licensing",
+    "dedicated capacity",
+    "data solutions",
+    "satellite services"
+   ],
+   "description": "Provides daily satellite imagery, data analytics and satellite manufacturing and mission services to commercial and government customers worldwide.",
+   "evidence": "The Company derives its revenue principally from licensing rights to use imagery, dedicated capacity, data solutions and satellite services arrangements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay licenses to access imagery and analytics via cloud subscriptions and usage-based contracts, and milestone-based payments for satellite services arrangements.",
+  "evidence": "We generate revenue primarily by selling licenses to our data and analytics to customers over a cloud-based platform via fixed price subscription and usage-based contracts."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "segment not in filing"
+}

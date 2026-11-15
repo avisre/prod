@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0000001800",
+ "issuerName": "ABBOTT LABORATORIES",
+ "builtAt": "2026-11-14T14:06:07.671Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010185",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1800/000162828026010185/abt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Established Pharmaceutical Products",
+   "products": [
+    "Creon",
+    "Duspatal",
+    "Dicetel",
+    "Heptral",
+    "Duphaston",
+    "Femoston",
+    "TriCor",
+    "Synthroid"
+   ],
+   "description": "Branded generic pharmaceuticals for gastroenterology, women's health, cardiovascular, pain, respiratory and biologic therapeutic areas.",
+   "evidence": "Abbott has four reportable segments: Established Pharmaceutical Products, Diagnostic Products, Nutritional Products, and Medical Devices."
+  },
+  {
+   "name": "Diagnostic Products",
+   "products": [
+    "Alinity",
+    "ARCHITECT",
+    "Cell-Dyn",
+    "m2000",
+    "i-STAT",
+    "BinaxNOW",
+    "Panbio",
+    "ID NOW"
+   ],
+   "description": "Diagnostic systems and tests for laboratory, molecular, point-of-care and rapid testing applications worldwide.",
+   "evidence": "These products include a broad line of diagnostic systems and tests manufactured, marketed, and sold worldwide."
+  },
+  {
+   "name": "Nutritional Products",
+   "products": [
+    "Similac",
+    "Ensure",
+    "Glucerna",
+    "PediaSure",
+    "Pedialyte",
+    "Jevity",
+    "Osmolite",
+    "Oxepa"
+   ],
+   "description": "Pediatric and adult nutritional products including infant formula, adult nutrition and enteral feeding products.",
+   "evidence": "These products include a broad line of pediatric and adult nutritional products manufactured, marketed, and sold worldwide."
+  },
+  {
+   "name": "Medical Devices",
+   "products": [
+    "Assurity MRI",
+    "Aveir",
+    "Ellipse",
+    "HeartMate",
+    "XIENCE",
+    "MitraClip",
+    "TriClip",
+    "FreeStyle Libre"
+   ],
+   "description": "Rhythm management, electrophysiology, heart failure, vascular, structural heart devices and continuous glucose monitoring products.",
+   "evidence": "These products include a broad line of rhythm management, electrophysiology, heart failure, vascular, and structural heart devices for the treatment of cardiovascular diseases, and diabetes care and continuous glucose monitoring (CGM) products, as well as neuromodulation devices for the management of chronic pain and movement disorders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers include wholesalers, distributors, healthcare facilities, hospitals, government agencies, and consumers who purchase pharmaceuticals, diagnostics, nutritional products and medical devices.",
+  "evidence": "These products are generally sold directly to wholesalers, distributors, government agencies, healthcare facilities, pharmacies, and independent retailers from Abbott-owned distribution centers or public warehouses, depending on the market served."
+ },
+ "changes": [],
+ "dropped": []
+}

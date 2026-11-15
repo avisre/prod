@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000350852",
+ "issuerName": "COMMUNITY TRUST BANCORP, INC.",
+ "builtAt": "2026-11-14T13:48:18.495Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-007058",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/350852/000114036126007058/ef20060685_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking services",
+   "products": [
+    "residential and commercial real estate loans",
+    "checking accounts",
+    "regular and term savings accounts and savings certificates",
+    "full service securities brokerage services",
+    "consumer loans",
+    "debit cards",
+    "annuity and life insurance products",
+    "Individual Retirement Accounts and Keogh plans"
+   ],
+   "description": "Provides consumer and commercial community banking services, including loans, deposits, brokerage, insurance, and trust and wealth management, to communities in Kentucky, West Virginia, and Tennessee.",
+   "evidence": "Management analyzes the operation of CTBI assuming one reportable segment, community banking services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "CTBI earns interest on loans and securities and fees from customers for banking, brokerage, trust, and wealth management services, with most customer contracts short-term and paid when services are performed.",
+  "evidence": "Generally, CTBI enters into contracts with customers that are short-term in nature where the performance obligations are fulfilled and payment is processed at the same time."
+ },
+ "changes": [],
+ "dropped": []
+}

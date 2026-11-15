@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000059478",
+ "issuerName": "ELI LILLY AND COMPANY",
+ "builtAt": "2026-11-14T13:45:06.792Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000059478-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000013/lly-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Human pharmaceutical products",
+   "products": [
+    "Basaglar",
+    "Humalog",
+    "Humulin",
+    "Jardiance",
+    "Mounjaro",
+    "Trulicity",
+    "Zepbound",
+    "Cyramza"
+   ],
+   "description": null,
+   "evidence": "We discover, develop, manufacture, and market products in a single business segment—human pharmaceutical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Lilly earns net product revenue from selling medicines to wholesalers and other customers, plus collaboration revenue from profit-sharing, royalties, and upfront and milestone payments.",
+  "evidence": "We recognize revenue primarily from two different types of contracts, product sales to customers (net product revenue) and collaborations and other arrangements."
+ },
+ "changes": [],
+ "dropped": []
+}

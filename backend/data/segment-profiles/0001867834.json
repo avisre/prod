@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001867834",
+ "issuerName": "Bragg Gaming Group Inc.",
+ "builtAt": "2026-11-15T02:50:12.060Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-037580",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1867834/000110465926037580/brag-20251231xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2B Online Gaming",
+   "products": [],
+   "description": "Business-to-business online gaming software and services for contracted customers.",
+   "evidence": "The Company has one reportable operating segment in its continuing operations, B2B Online Gaming."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from contracted customers in various jurisdictions through its online gaming platform.",
+  "evidence": "Revenue for continuing operations was generated from contracted customers in the following jurisdictions:"
+ },
+ "changes": [],
+ "dropped": []
+}

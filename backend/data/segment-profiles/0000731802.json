@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000731802",
+ "issuerName": "ATMOS ENERGY CORP",
+ "builtAt": "2026-11-14T13:49:45.342Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000731802-25-000056",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/731802/000073180225000056/ato-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Distribution",
+   "products": [
+    "regulated natural gas distribution",
+    "related sales operations"
+   ],
+   "description": "Regulated natural gas distribution and related sales operations serving residential, commercial, public authority and industrial customers in eight states.",
+   "evidence": "The distribution segment is comprised of our regulated natural gas distribution and related sales operations in eight states."
+  },
+  {
+   "name": "Pipeline and Storage",
+   "products": [
+    "Atmos Pipeline-Texas division",
+    "storage services",
+    "natural gas transmission operations in Louisiana",
+    "underground storage facilities"
+   ],
+   "description": "Regulated intrastate pipeline and storage operations in Texas plus natural gas transmission operations in Louisiana, serving distribution divisions and third parties.",
+   "evidence": "The pipeline and storage segment is comprised primarily of the regulated pipeline and storage operations of our Atmos Pipeline-Texas division and our natural gas transmission operations in Louisiana."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates set by state regulatory authorities for natural gas sales and transportation, intended to cover costs of business plus a reasonable return on invested capital.",
+  "evidence": "These rates are intended to be sufficient to cover the costs of conducting business, including a reasonable return on invested capital."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Distribution): natural gas transportation",
+  "product not in text (Pipeline and Storage): pipeline transportation services"
+ ]
+}

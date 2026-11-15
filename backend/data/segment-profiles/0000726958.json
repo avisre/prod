@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000726958",
+ "issuerName": "CASEY’S GENERAL STORES, INC.",
+ "builtAt": "2026-11-14T13:49:36.171Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000726958-26-000046",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/726958/000072695826000046/casy-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Convenience stores",
+   "products": [
+    "fuel",
+    "prepared food and dispensed beverage",
+    "grocery and general merchandise",
+    "pizza",
+    "donuts",
+    "tobacco and nicotine products",
+    "car washes",
+    "Casey's Rewards"
+   ],
+   "description": null,
+   "evidence": "We manage the business on the basis of one operating segment and therefore, have only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company derives revenue primarily from retail sales of fuel and in-store products to store guests, plus a small wholesale fuel network.",
+  "evidence": "The Company derives its revenue primarily from the retail sale of fuel and the products offered inside our stores."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0000863894",
+ "issuerName": "VERU INC.",
+ "builtAt": "2026-11-14T13:53:11.669Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-038089",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/863894/000143774925038089/veru20250930_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "enobosarm",
+    "sabizabulin"
+   ],
+   "description": "Late clinical stage biopharmaceutical company developing novel medicines for cardiometabolic and inflammatory diseases.",
+   "evidence": "We are a late clinical stage biopharmaceutical company focused on developing novel medicines for the treatment of cardiometabolic and inflammatory diseases."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the Company sold its FDA-approved commercial product, the FC2 Female Co"
+ ]
+}

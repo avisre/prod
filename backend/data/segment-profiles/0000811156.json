@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000811156",
+ "issuerName": "CMS ENERGY CORP",
+ "builtAt": "2026-11-14T13:51:37.617Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000811156-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/811156/000081115626000004/cms-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electric utility",
+   "products": [
+    "electricity"
+   ],
+   "description": "Generates, purchases, distributes and sells electricity to residential, commercial and diversified industrial customers in Michigan's Lower Peninsula.",
+   "evidence": "Consumers' electric utility operations, which include the generation, purchase, distribution, and sale of electricity, generated operating revenue of $5.6 billion in 2025, $5.1 billion in 2024, and $4.7 billion in 2023."
+  },
+  {
+   "name": "gas utility",
+   "products": [
+    "natural gas"
+   ],
+   "description": "Purchases, transmits, stores, distributes and sells natural gas to residential, commercial and diversified industrial customers in Michigan.",
+   "evidence": "Consumers' gas utility operations include the purchase, transmission, storage, distribution, and sale of natural gas."
+  },
+  {
+   "name": "NorthStar Clean Energy",
+   "products": [
+    "independent power production",
+    "renewable generation"
+   ],
+   "description": "Non-utility operations engaged in domestic independent power production, including development and operation of renewable generation, and marketing of independent power production.",
+   "evidence": "NorthStar Clean Energy, through its subsidiaries and equity investments, is engaged in domestic independent power production, including the development and operation of renewable generation, and the marketing of independent power production."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for electricity and natural gas delivered to them, with rates subject to MPSC and FERC jurisdiction.",
+  "evidence": "Consumers' rates and certain other aspects of its business are subject to the jurisdiction of the MPSC and FERC, as well as to NERC reliability standards, as described in CMS Energy and Consumers Regulation."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Consumers retired the D.E. Karn coal-fueled generating units and purchased the Covert Generating Station.",
+   "evidence": "This strategy involves taking steps to end the use of coal, including the retirement of the D.E. Karn coal-fueled generating units, totaling 515 MW of nameplate capacity, in 2023 and obtaining MPSC approval to retire J.H. Campbell, totaling 1,407 MW of nameplate capacity."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, Consumers entered an agreement to sell its 13 hydroelectric dams compri"
+ ]
+}

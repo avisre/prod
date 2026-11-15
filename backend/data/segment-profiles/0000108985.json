@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0000108985",
+ "issuerName": "YORK WATER COMPANY",
+ "builtAt": "2026-11-14T13:47:28.104Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000108985-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/108985/000010898526000015/form10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates, approved by the PPUC, for water and wastewater service, plus municipalities pay for billing and collection services.",
+  "evidence": "Increases in revenues are generally dependent on the Company's ability to obtain rate increases from the PPUC in a timely manner and in adequate amounts and to increase volumes of water sold through increased consumption and increases in the number of customers served."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Regulated water utility"
+ ]
+}

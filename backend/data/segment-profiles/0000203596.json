@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000203596",
+ "issuerName": "WESBANCO, INC.",
+ "builtAt": "2026-11-14T13:47:35.196Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085463",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/203596/000119312526085463/wsbc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "retail banking",
+    "corporate banking",
+    "mortgage banking",
+    "insurance",
+    "brokerage services"
+   ],
+   "description": "Provides retail and corporate banking, mortgage banking, brokerage and insurance services to personal and business customers through Wesbanco Bank branches.",
+   "evidence": "Wesbanco offers these services through two reportable segments, community banking and trust and investment services."
+  },
+  {
+   "name": "trust and investment services",
+   "products": [
+    "personal and corporate trust services",
+    "mutual funds",
+    "annuities",
+    "WesMark Funds"
+   ],
+   "description": "Provides trust and fiduciary services and investment products, including the WesMark mutual funds, for customers, with assets held in fiduciary or agency capacities.",
+   "evidence": "Wesbanco Bank also offers trust and investment services and various alternative investment products including mutual funds and annuities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Wesbanco earns revenue from customers through interest on loans, fees for banking, trust, brokerage and insurance services, and interest paid on deposits affects its competitive pricing.",
+  "evidence": "Wesbanco generally competes on the basis of superior customer service and responsiveness to customer needs, available loan and deposit products, rates of interest charged on loans, rates of interest paid for deposits, and the availability and pricing of trust, brokerage and insurance services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Wesbanco completed its acquisition of Premier Financial Corp. (PFC).",
+   "evidence": "On February 28, 2025, Wesbanco completed its acquisition of PFC."
+  },
+  {
+   "text": "In 2023, PFC sold substantially all of the assets of First Insurance Group of the Midwest, Inc., which is being dissolved.",
+   "evidence": "First Insurance Group of the Midwest, Inc., which was acquired in the Premier Financial Corp. (\"PFC\") acquisition, formerly offered insurance services throughout PFC's markets prior to the sale of substantially all of its assets by PFC on June 30, 2023."
+  }
+ ],
+ "dropped": []
+}

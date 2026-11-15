@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001000275",
+ "issuerName": "ROYAL BANK OF CANADA",
+ "builtAt": "2026-11-14T17:37:39.376Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-25-305927",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1000275/000119312525305927/d95203dex2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal Banking",
+   "products": [],
+   "description": "Provides financial products and services to retail clients in Canada, the Caribbean and the U.S.",
+   "evidence": "Personal Banking Provides a broad suite of financial products and services to retail clients in Canada, the Caribbean and the U.S."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [],
+   "description": "Serves Canadian businesses with lending, deposits, payments, cash management and advisory services.",
+   "evidence": "Commercial Banking Serves the end-to-end needs of Canadian businesses, including subsidiaries of multi-nationals."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [],
+   "description": "Serves affluent and high-net-worth clients with wealth, investment, trust, banking and credit solutions globally.",
+   "evidence": "Wealth Management Primarily serves affluent, high-net-worth (HNW) and ultra-high-net-worth (UHNW) clients from our offices in key financial centres across the globe."
+  },
+  {
+   "name": "Insurance",
+   "products": [],
+   "description": "Offers life, health, property and casualty, travel, group benefits and reinsurance solutions.",
+   "evidence": "Insurance Offers a comprehensive suite of advice and solutions for individual and business clients including life, health, wealth solutions, property & casualty, travel, group benefits, longevity reinsurance and reinsurance solutions for creditor products."
+  },
+  {
+   "name": "Capital Markets",
+   "products": [],
+   "description": "Provides advisory, sales and trading, lending and transaction banking to corporate and institutional clients globally.",
+   "evidence": "Capital Markets Provides expertise in advisory & origination, sales & trading, lending & financing and transaction banking to corporate, institutional, sponsor and government clients globally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Interest income from loans and deposits, fees from wealth management and transaction services, insurance premiums, and trading revenues.",
+  "evidence": "Total revenue $ 66,605 $ 57,344"
+ },
+ "changes": [
+  {
+   "text": "In 2024, HSBC Bank Canada was acquired and consolidated into Personal Banking, Commercial Banking, Wealth Management and Capital Markets segments.",
+   "evidence": "On March 28, 2024, we completed the acquisition of HSBC Bank Canada (HSBC Canada transaction)."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000730272",
+ "issuerName": "REPLIGEN CORP",
+ "builtAt": "2026-11-14T13:49:40.814Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076528",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/730272/000119312526076528/rgen-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bioprocessing",
+   "products": [
+    "Filtration (including Fluid Management)",
+    "Chromatography",
+    "Process Analytics",
+    "Proteins",
+    "XCell® ATF Cell Retention Systems"
+   ],
+   "description": "Develops and commercializes bioprocessing technologies and systems that increase efficiency and flexibility in manufacturing biological drugs for biopharmaceutical companies and other life science customers.",
+   "evidence": "We currently operate as one bioprocessing business, with a comprehensive suite of products to serve both upstream and downstream processes in biological drug manufacturing."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from sales of consumable and single-use bioprocessing products, plus growing hardware and equipment offerings, to global biopharmaceutical companies, contract development and manufacturing organizations and other life science companies.",
+  "evidence": "The majority of our revenue is derived from consumable and/or single-campaign (\"single-use\") product sales, though we have grown our hardware and equipment offerings in recent years."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Bioprocessing): TangenX® flat sheet cassettes"
+ ]
+}

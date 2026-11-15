@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000094344",
+ "issuerName": "STEWART INFORMATION SERVICES CORP",
+ "builtAt": "2026-11-14T13:46:42.039Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000094344-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/94344/000009434426000007/stc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "title insurance and related services (title)",
+   "products": [
+    "title insurance policies",
+    "searching",
+    "abstracting",
+    "examining",
+    "closing",
+    "home and personal insurance services",
+    "Section 1031 tax-deferred exchanges",
+    "digital customer engagement platform services"
+   ],
+   "description": "Provides services to transfer title to real property for homebuyers, sellers, lenders and real estate professionals, including title insurance and closing.",
+   "evidence": "The title segment provides services needed to transfer title to property in a real estate transaction and includes services such as searching, abstracting, examining, closing and insuring the condition of the title to the property."
+  },
+  {
+   "name": "real estate solutions",
+   "products": [
+    "credit and real estate information services",
+    "valuation services",
+    "online notarization and closing services",
+    "capital markets search services"
+   ],
+   "description": "Supports the real estate industry with information, valuation, notarization, closing and search services.",
+   "evidence": "The real estate solutions segment supports the real estate industry and primarily includes credit and real estate information services, valuation services, online notarization and closing services, and capital markets search services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers such as homebuyers, lenders and real estate professionals pay one-time title insurance premiums, escrow and other fees for title and real estate services.",
+  "evidence": "Title insurance, however, is issued for a one-time premium and the owner's policy provides protection for as long as the owner owns the property, or has liability in connection with the property, or a lender under its policy has its insured lien on the property."
+ },
+ "changes": [],
+ "dropped": []
+}

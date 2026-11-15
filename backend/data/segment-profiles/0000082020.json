@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000082020",
+ "issuerName": "UNITED STATES LIME & MINERALS INC",
+ "builtAt": "2026-11-14T13:46:15.943Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020480",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/82020/000110465926020480/uslm-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "lime and limestone operations",
+   "products": [
+    "crushed limestone",
+    "aggregate",
+    "quicklime",
+    "hydrated lime",
+    "lime slurry"
+   ],
+   "description": "Manufactures and sells lime and limestone products to construction, industrial, environmental, metals, roof shingle, agriculture, and oil and gas services customers.",
+   "evidence": "The lime and limestone operations segment derives revenues from the sale of crushed limestone, pulverized limestone, aggregate, quicklime, hydrated lime, and lime slurry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily contractors and industrial, environmental, metals, agriculture and oil and gas services companies, pay the Company for lime and limestone products ordered on a purchase-order basis or through bids.",
+  "evidence": "Sales were made primarily by the Company's nine sales employees who call on current and potential customers and solicit orders, which are generally made on a purchase-order basis."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company determined its natural gas interests no longer met the definition of an operating segment, leaving one reportable segment.",
+   "evidence": "During 2024, the Company determined that the activities of its natural gas interests and the associated level of review of those activities by the CODM precluded the natural gas activities from meeting the definition of an operating segment, as provided in ASC 280."
+  }
+ ],
+ "dropped": [
+  "product not in text (lime and limestone operations): pulverized limestone (PLS)"
+ ]
+}

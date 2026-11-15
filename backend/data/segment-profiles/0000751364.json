@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0000751364",
+ "issuerName": "NNN REIT, INC.",
+ "builtAt": "2026-11-14T13:50:10.814Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-045617",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/751364/000119312526045617/nnn-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay NNN rent under long-term net leases, with tenants bearing property operating expenses, and substantially all lease income is reported as one-line rental income.",
+  "evidence": "NNN predominantly derives its revenues from real estate leased to tenants under long-term net leases."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Net lease real estate"
+ ]
+}

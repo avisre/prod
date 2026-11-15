@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0002009714",
+ "issuerName": "TMD ENERGY LIMITED",
+ "builtAt": "2026-11-15T02:50:28.027Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-049262",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/2009714/000149315226049262/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marine Fuel Bunkering Services",
+   "products": [
+    "Marine gas oil",
+    "High sulfur fuel oil",
+    "Low sulfur fuel oil",
+    "Very low sulfur fuel oil",
+    "Ship management services",
+    "Vessel chartering services"
+   ],
+   "description": "Supply and marketing of marine fuels to ships and vessels, ship management and vessel chartering services.",
+   "evidence": "We are principally involved in marine fuel bunkering services specializing in the supply and marketing of marine gas oil and marine fuel oil (including high sulfur fuel oil, low sulfur fuel oil and very low sulfur fuel oil), to ships and vessels at sea. We are also involved in the provision of ship management services for in-house and external vessels, as well as vessel chartering services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for marine fuel delivery by ship-to-ship transfer and related bunkering services at sea and in ports.",
+  "evidence": "Our bunkering vessels pull alongside the ships or vessels to deliver marine fuel, where the ships or vessels can be at a berth, at an anchorage, or in motion at low speeds."
+ },
+ "changes": [],
+ "dropped": []
+}

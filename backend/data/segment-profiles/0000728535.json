@@ -1,0 +1,80 @@
+{
+ "version": 1,
+ "cik": "0000728535",
+ "issuerName": "J.B. HUNT TRANSPORT SERVICES, INC.",
+ "builtAt": "2026-11-14T13:49:39.388Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005294",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/728535/000143774926005294/jbht20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intermodal (JBI)",
+   "products": [
+    "intermodal freight solutions",
+    "drayage",
+    "53-foot, high-cube containers",
+    "chassis fleet"
+   ],
+   "description": "Provides intermodal freight solutions using arrangements with major North American rail carriers, with company-performed drayage, for customers in the US, Canada and Mexico.",
+   "evidence": "The transportation service offerings of our JBI segment utilize arrangements with most major North American rail carriers to provide intermodal freight solutions for our customers throughout the continental United States, Canada, and Mexico."
+  },
+  {
+   "name": "Dedicated Contract Services® (DCS®)",
+   "products": [
+    "private fleet conversion",
+    "replenishment",
+    "specialized equipment",
+    "supply chain solutions"
+   ],
+   "description": "Designs and executes long-term, cost-plus dedicated supply chain solutions with customized freight movement, equipment and labor for individual customers.",
+   "evidence": "DCS focuses on private fleet conversion and creation in replenishment and specialized equipment."
+  },
+  {
+   "name": "Integrated Capacity Solutions (ICS)",
+   "products": [
+    "freight brokerage",
+    "transportation logistics solutions",
+    "J.B. Hunt 360",
+    "flatbed",
+    "refrigerated",
+    "expedited",
+    "single-source logistics management"
+   ],
+   "description": null,
+   "evidence": "ICS provides traditional freight brokerage and transportation logistics solutions to customers through relationships with thousands of third-party carriers and integration with our owned equipment within other segments."
+  },
+  {
+   "name": "Final Mile Services® (FMS)",
+   "products": [
+    "last-mile delivery",
+    "big and bulky delivery and installation services",
+    "fulfillment",
+    "retail-pooling distributions",
+    "LTL services"
+   ],
+   "description": "Provides last-mile delivery, installation, fulfillment and LTL services through a network of cross-dock and delivery system locations.",
+   "evidence": "FMS provides last-mile delivery services to customers through a network of cross-dock and other delivery system locations."
+  },
+  {
+   "name": "Truckload (JBT)",
+   "products": [
+    "full-load, dry-van freight",
+    "J.B. Hunt 360box®",
+    "drop trailer solutions"
+   ],
+   "description": "Provides over-the-road full-load dry-van truckload service using company tractors, independent contractors and third-party carriers.",
+   "evidence": "The service offering in this segment is full-load, dry-van freight, utilizing tractors and trailers operating over roads and highways."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

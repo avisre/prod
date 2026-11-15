@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000861459",
+ "issuerName": "GRANITE CONSTRUCTION INC",
+ "builtAt": "2026-11-14T13:53:06.188Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000861459-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/861459/000086145926000004/gva-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction",
+   "products": [
+    "roads",
+    "pavement preservation",
+    "bridges",
+    "rail lines",
+    "airports",
+    "marine ports",
+    "dams",
+    "reservoirs"
+   ],
+   "description": "Builds and rehabilitates public infrastructure and complex projects for public agencies, utilities, industrial facilities and energy companies.",
+   "evidence": "The Construction segment focuses on construction and rehabilitation of roads, pavement preservation, bridges, rail lines, airports, marine ports, dams, reservoirs, aqueducts, infrastructure and site development for use by the general public and water-related construction for municipal agencies, commercial water suppliers, industrial facilities and energy companies."
+  },
+  {
+   "name": "Materials",
+   "products": [
+    "aggregates",
+    "asphalt concrete",
+    "liquid asphalt",
+    "recycled materials"
+   ],
+   "description": "Produces and delivers construction materials for internal use in construction projects and for sale to third parties.",
+   "evidence": "The Materials segment focuses on production and delivery of aggregates, asphalt concrete, liquid asphalt and recycled materials for internal use in our construction projects and for sale to third parties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Granite is paid by public agencies and private clients under construction contracts executed at fixed price, time and materials, cost reimbursable or fixed unit price, and by third parties for construction materials.",
+  "evidence": "that are executed according to a fixed price, time and materials, cost reimbursable and fixed unit price"
+ },
+ "changes": [],
+ "dropped": []
+}

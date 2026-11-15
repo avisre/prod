@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000715579",
+ "issuerName": "ACNB CORPORATION",
+ "builtAt": "2026-11-14T13:49:04.362Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017229",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/715579/000162828026017229/acnb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ACNB Bank",
+   "products": [
+    "commercial mortgages",
+    "real estate development and construction loans",
+    "accounts receivable and inventory financing",
+    "agricultural and governmental loans",
+    "home equity loans and lines of credit",
+    "personal residential mortgages",
+    "trust and investment services",
+    "retail brokerage services"
+   ],
+   "description": "A full-service community commercial bank providing banking, lending, mortgage and wealth management services to customers in Pennsylvania and Maryland.",
+   "evidence": "ACNB Bank is a full-service commercial bank operating under charter from the Pennsylvania Department of Banking and Securities."
+  },
+  {
+   "name": "ACNB Insurance Services",
+   "products": [
+    "property insurance",
+    "health insurance",
+    "life insurance",
+    "disability insurance"
+   ],
+   "description": null,
+   "evidence": "ACNB Insurance Services is managed separately from the Bank and is reported as a separate operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Bank interest and fees on loans, deposit and wealth management service fees, and insurance clients pay premiums and commissions to the insurance agency.",
+  "evidence": "Commercial lending includes commercial mortgages, real estate development and construction loans, accounts receivable and inventory financing, and agricultural and governmental loans."
+ },
+ "changes": [
+  {
+   "text": "In 2025, ACNB acquired Traditions Bancorp, Inc. and merged Traditions Bank into ACNB Bank.",
+   "evidence": "Effective February 1, 2025, ACNB closed the acquisition of Traditions Bancorp, Inc., holding company for Traditions Bank, York, Pennsylvania."
+  }
+ ],
+ "dropped": [
+  "product not in text (ACNB Insurance Services): casualty insurance"
+ ]
+}

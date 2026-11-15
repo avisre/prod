@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000026058",
+ "issuerName": "CTS CORPORATION",
+ "builtAt": "2026-11-14T14:07:52.009Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067039",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/26058/000119312526067039/cts-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sensors, Connectivity Components, and Actuators",
+   "products": [
+    "Controls",
+    "Pedals",
+    "Piezo Sensing Products",
+    "Sensors",
+    "Switches",
+    "Transducers",
+    "EMI/RFI Filters",
+    "Capacitors"
+   ],
+   "description": "Global manufacturer of sensors, connectivity components, and actuators for aerospace, defense, industrial, medical, and transportation markets.",
+   "evidence": "CTS Corporation (\"CTS\", \"we\", \"our\", \"us\" or the \"Company\") is a global manufacturer of sensors, connectivity components, and actuators."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs, tier one suppliers, distributors, and the U.S. Government pay for sensors, connectivity components, and actuators for their products.",
+  "evidence": "We design, manufacture, and sell a broad line of sensors, connectivity components, and actuators primarily to original equipment manufacturers (\"OEMs\"), tier one suppliers for the aerospace and defense, industrial, medical, and transportation markets, and the U.S. Government."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000806172",
+ "issuerName": "SONO TEK CORP",
+ "builtAt": "2026-11-14T13:51:32.324Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171520-26-000113",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-05-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/806172/000117152026000113/eps12623_sotk.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ultrasonic Coating Systems",
+   "products": [
+    "Multi-Axis Coating Systems",
+    "Integrated Coating Systems",
+    "Fluxing Systems",
+    "OEM Systems",
+    "Universal Align"
+   ],
+   "description": "Designs and manufactures custom-engineered ultrasonic coating systems that apply precise thin film coatings for microelectronics, medical, industrial, alternative energy and emerging markets.",
+   "evidence": "Our products include fully integrated Multi-Axis Coating Systems, Integrated Coating Systems, Fluxing Systems, OEM Systems and other related systems."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including original equipment manufacturers, distributors and end users, pay the company for ultrasonic coating equipment and application consulting services, sold through direct sales personnel, distributors and sales representatives.",
+  "evidence": "Our principal customers include original equipment manufacturers, distributors and end users of our products in the industries that we serve."
+ },
+ "changes": [],
+ "dropped": []
+}

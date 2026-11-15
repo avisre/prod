@@ -1,0 +1,124 @@
+{
+ "version": 1,
+ "cik": "0000104889",
+ "issuerName": "GRAHAM HOLDINGS CO",
+ "builtAt": "2026-11-14T13:47:13.953Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011405",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/104889/000162828026011405/ghc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Kaplan International",
+   "products": [
+    "Kaplan Professional Education",
+    "Kaplan Assessments",
+    "KI Pathways",
+    "Kaplan Languages Group",
+    "Mander Portman Woodward",
+    "Dublin Business School",
+    "Kaplan Open Learning",
+    "Kaplan Business School"
+   ],
+   "description": null,
+   "evidence": "Kaplan International KI operates a diverse portfolio of educational businesses across Europe, the Middle East and North Africa, the Asia Pacific region, and North America."
+  },
+  {
+   "name": "Kaplan Higher Education",
+   "products": [
+    "managed services",
+    "analytics",
+    "technology support",
+    "marketing",
+    "student advising and admissions support",
+    "financial aid services",
+    "curriculum development support"
+   ],
+   "description": "Provides non-academic managed services supporting online programs at higher education institutions, including Purdue University Global.",
+   "evidence": "KNA provides non-academic managed services such as analytics, technology support, marketing, student advising and admissions support, financial aid services, and curriculum development support for online programs offered at higher education institutions."
+  },
+  {
+   "name": "Kaplan Supplemental Education",
+   "products": [
+    "exam preparation",
+    "professional licensure",
+    "certification",
+    "continuing education",
+    "book/study aid products"
+   ],
+   "description": "Provides exam preparation, professional licensure, certification and continuing education offerings to learners from kindergarten through the professional level.",
+   "evidence": "Training offered to learners includes exam preparation, professional licensure, certification, and continuing education, and degrees predominantly online leading through its industry expertise."
+  },
+  {
+   "name": "Television Broadcasting",
+   "products": [
+    "seven television broadcast stations",
+    "social media management tools"
+   ],
+   "description": "Owns and operates seven television broadcast stations and provides social media management tools connecting newsrooms with users.",
+   "evidence": "The Company's television broadcasting segment owns and operates seven television broadcast stations and provides social media management tools designed to connect newsrooms with their users."
+  },
+  {
+   "name": "CSI",
+   "products": [
+    "nursing care",
+    "prescription services",
+    "in-home infusion treatments"
+   ],
+   "description": "Provides nursing care and prescription services for patients receiving in-home infusion treatments.",
+   "evidence": "The largest of these is CSI Pharmacy Holding Company, LLC (CSI), which provides nursing care and prescription services for patients receiving in-home infusion treatments."
+  },
+  {
+   "name": "Manufacturing",
+   "products": [
+    "electrical solutions",
+    "lifting solutions",
+    "aluminum cladding products"
+   ],
+   "description": "Manufactures products for the commercial building industry, electrical and lifting solutions, utility parts and aluminum cladding for industrial customers.",
+   "evidence": "The Company's manufacturing companies include a multi-product supplier to the commercial building industry, a manufacturer of electrical solutions, a manufacturer of lifting solutions, and a supplier of parts used in electric utilities and industrial systems."
+  },
+  {
+   "name": "Automotive",
+   "products": [
+    "eight dealerships",
+    "valet repair services"
+   ],
+   "description": "Operates eight automotive dealerships and valet repair services.",
+   "evidence": "The Company's automotive business comprises eight dealerships and valet repair services."
+  },
+  {
+   "name": "Other Businesses",
+   "products": [
+    "Clyde's Restaurant Group",
+    "Framebridge",
+    "Code3",
+    "Foreign Policy",
+    "Slate",
+    "online art gallery"
+   ],
+   "description": "A group of ten operating business units in specialty, retail and media categories, including restaurants, custom framing, marketing solutions and media properties.",
+   "evidence": "In total, there are ten operating business units that make up this group in three categories: specialty, retail and media."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students, professionals, companies, universities, colleges, schools and school districts pay the Company for educational products and services, and other customers pay for broadcasting, healthcare, manufacturing, automotive and other offerings.",
+  "evidence": "These relationships include approximately 17,680 companies and approximately 1,510 universities, colleges, schools and school districts, which, along with individual students and professionals, pay for Kaplan's products and services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company changed its segment presentation into seven reportable segments, breaking CSI out of the healthcare division.",
+   "evidence": "The Company changed the presentation of its segments in the fourth quarter of 2025 into the following seven reportable segments: Kaplan International, Kaplan Higher Education, Kaplan Supplemental Education, Television Broadcasting, CSI, Manufacturing and Automotive (see Note 19)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Manufacturing): commercial building industry products",
+  "product not in text (Manufacturing): parts for electric utilities and industrial systems",
+  "product not in text (Other Businesses): podcast monetization platform"
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000055785",
+ "issuerName": "KIMBERLY-CLARK CORPORATION",
+ "builtAt": "2026-11-14T13:44:58.874Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007567",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/55785/000162828026007567/kmb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Huggies",
+    "Kleenex",
+    "Scott",
+    "Cottonelle",
+    "Poise",
+    "Depend",
+    "Pull-Ups",
+    "Kotex"
+   ],
+   "description": "Manufactures and markets essential consumer and professional products made from fibers and absorbent materials across North America.",
+   "evidence": "The Company's continuing operations are now organized into two reportable segments defined by geographic region: North America (\"NA\") and International Personal Care (\"IPC\")."
+  },
+  {
+   "name": "International Personal Care",
+   "products": [
+    "Huggies",
+    "Kotex",
+    "Poise",
+    "Depend",
+    "Plenitud",
+    "Sweety",
+    "Softex",
+    "Intimus"
+   ],
+   "description": "Sells personal care products such as diapers, feminine care and incontinence products to consumers outside North America.",
+   "evidence": "The Company's continuing operations are now organized into two reportable segments defined by geographic region: North America (\"NA\") and International Personal Care (\"IPC\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by supermarkets, mass merchandisers, drugstores, warehouse clubs, other retail outlets, distributors, e-commerce channels and professional end-users for its consumer and professional products.",
+  "evidence": "Our essential products for household use are sold directly to supermarkets, mass merchandisers, drugstores, warehouse clubs, variety and department stores and other retail outlets, as well as through other distributors and e-commerce."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the former International Family Care and Professional segment was moved to a joint venture with Suzano and is now reported as discontinued operations, leaving two reportable segments.",
+   "evidence": "As a result, the results of the IFP Business are reported as discontinued operations and excluded from both continuing operations and segment results for all periods presented."
+  },
+  {
+   "text": "In 2024, the company sold its personal protective equipment business including Kimtech and KleenGuard branded products.",
+   "evidence": "2024 - The sale of our personal protective equipment business which included Kimtech branded products such as gloves, apparel and masks, and KleenGuard branded products such as gloves, apparel, respirators and eyewear."
+  },
+  {
+   "text": "In 2023, the company acquired the remaining shares of Thinx Inc. and sold its Neve tissue brand and related assets in Brazil.",
+   "evidence": "2023 - The acquisition of the remaining shares of Thinx Inc. (\"Thinx\"), an industry leader in the reusable period and incontinence underwear category."
+  }
+ ],
+ "dropped": []
+}

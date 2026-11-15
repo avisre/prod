@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001127537",
+ "issuerName": "PULMONX CORPORATION",
+ "builtAt": "2026-11-14T17:42:22.263Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001127537-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1127537/000112753726000015/lung-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Technology",
+   "products": [
+    "Zephyr Endobronchial Valve",
+    "Chartis Pulmonary Assessment System",
+    "LungTraX Platform",
+    "AeriSeal System"
+   ],
+   "description": "Develops and commercializes minimally invasive medical devices to treat severe emphysema patients with COPD.",
+   "evidence": "We are a commercial-stage medical technology company that provides a minimally invasive treatment for patients with severe emphysema, a form of chronic obstructive pulmonary disease (\"COPD\"). Our solution, which is comprised of the Zephyr Endobronchial Valve (\"Zephyr Valve\"), the Chartis Pulmonary Assessment System (\"Chartis System\") and the LungTraX Platform, is designed to treat severe emphysema patients who, despite medical management, are still profoundly symptomatic and either do not want o"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and distributors purchase Zephyr Valves, delivery catheters, Chartis System components and usage fees, and access to the LungTraX Platform.",
+  "evidence": "The Company's revenue is generated primarily from the sale of its products to hospitals and distributors in the United States and international markets."
+ },
+ "changes": [],
+ "dropped": []
+}

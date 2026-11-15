@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000713676",
+ "issuerName": "PNC Financial Services Group, Inc.",
+ "builtAt": "2026-11-14T13:48:59.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000713676-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/713676/000071367626000020/pnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Banking",
+   "products": [
+    "deposit",
+    "credit",
+    "fee-based products and services",
+    "lending products"
+   ],
+   "description": "Provides retail and business banking, including a full range of lending and deposit products, to consumers and small businesses through a coast-to-coast branch network.",
+   "evidence": "We are organized around our customers and communities for strong relationships and local delivery of retail and business banking including a full range of lending products"
+  },
+  {
+   "name": "Corporate & Institutional Banking",
+   "products": [
+    "corporate banking",
+    "real estate finance",
+    "asset-based lending"
+   ],
+   "description": "Provides specialized financial services for corporations and government entities.",
+   "evidence": "specialized services for corporations and government entities, including corporate banking, real estate finance and asset-based lending"
+  },
+  {
+   "name": "Asset Management Group",
+   "products": [
+    "wealth management",
+    "asset management"
+   ],
+   "description": "Provides wealth management and asset management services to clients.",
+   "evidence": "wealth management and asset management"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "PNC earns net interest income from lending and deposits and fee-based revenue from services provided to retail, corporate, institutional and asset management customers.",
+  "evidence": "We offer a broad range of deposit, credit and fee-based products and services to serve our customers."
+ },
+ "changes": [],
+ "dropped": []
+}

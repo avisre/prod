@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000070866",
+ "issuerName": "NCR VOYIX CORPORATION",
+ "builtAt": "2026-11-14T13:45:41.619Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000070866-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/70866/000007086626000006/ncr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Voyix POS",
+    "Voyix Self-Checkout",
+    "point-of-sale solutions",
+    "self-checkout solution"
+   ],
+   "description": "Serves enterprise and mid-market retailers in convenience & fuel, grocery, drug & mass merchandise, and department & specialty retail with end-to-end commerce solutions.",
+   "evidence": "Our Retail segment primarily serves enterprise and mid-market retailers in the convenience & fuel; grocery, drug & mass merchandise; and department & specialty retail industries."
+  },
+  {
+   "name": "Restaurants",
+   "products": [
+    "Aloha Next by Voyix",
+    "Voyix POS",
+    "kiosk",
+    "mobile ordering",
+    "pay-at-table",
+    "menu management offerings"
+   ],
+   "description": "Serves quick-service, table-service and fast casual restaurants of all sizes with end-to-end solutions that streamline ordering and transacting.",
+   "evidence": "Our Restaurants segment is focused on serving restaurants and food service establishments including quick-service, table-service and fast casual restaurants of all sizes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and restaurants pay for SaaS solutions, software licenses, hardware, payments processing, and installation, professional and maintenance services.",
+  "evidence": "These decreases in revenue are partially offset by an increase in payment processing revenue, hardware revenue and hardware maintenance revenue as compared to the prior year."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company spun off its ATM-focused businesses into NCR Atleos.",
+   "evidence": "On October 16, 2023, we completed the spin-off of our ATM-focused business, which included our self-service banking, payments & network, and telecommunications and technology businesses, into an independent publicly traded company, NCR Atleos Corporation and its consolidated subsidiaries (collectively hereinafter \"NCR Atleos\")."
+  },
+  {
+   "text": "In 2024, the company sold its Digital Banking segment businesses.",
+   "evidence": "We completed the sale of our Digital Banking segment businesses (the \"Digital Banking Sale\") to an affiliate of The Veritas Capital Fund VIII, L.P. (the \"Buyer\") on September 30, 2024."
+  },
+  {
+   "text": "In 2024, the company entered an agreement to transition its self-checkout and point-of-sale hardware businesses to an outsourced design and manufacturing model.",
+   "evidence": "On August 6, 2024, we announced our entry into a commercial agreement with Ennoconn Corporation (\"Ennoconn\") to transition our self-checkout and point-of-sale hardware businesses to an outsourced design and manufacturing model (\"ODM\"), including the sale of certain assets relating to these businesses (the \"Hardware Business Transition\")."
+  }
+ ],
+ "dropped": []
+}

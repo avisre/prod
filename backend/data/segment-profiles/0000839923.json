@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000839923",
+ "issuerName": "VODAFONE GROUP PUBLIC LTD CO",
+ "builtAt": "2026-11-14T13:52:30.515Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-235425",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/839923/000119312526235425/d143190d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Germany",
+   "products": [
+    "mobile",
+    "broadband",
+    "TV",
+    "IoT",
+    "Vodafone Business"
+   ],
+   "description": "Provides mobile, broadband, TV and business digital services to consumer and business customers in Germany.",
+   "evidence": "We continue to be the largest provider of fixed line gigabit connectivity in Germany, as we market gigabit speeds to almost 75% of German homes with 5 million fibre households beyond our own cable footprint of 25 million households."
+  },
+  {
+   "name": "UK",
+   "products": [
+    "mobile",
+    "broadband",
+    "Vodafone Business"
+   ],
+   "description": "Provides mobile and fixed connectivity services in the UK following the merger with Three UK.",
+   "evidence": "Following the merger of Vodafone UK with Three UK during the year, information is not yet available for Three UK employees."
+  },
+  {
+   "name": "Other Europe",
+   "products": [],
+   "description": "Operates mobile and fixed communications services across Portugal, Ireland, Greece, Romania, Czech Republic and Albania.",
+   "evidence": "Other Europe markets comprise Portugal, Ireland, Greece, Romania, Czech Republic and Albania."
+  },
+  {
+   "name": "Türkiye",
+   "products": [],
+   "description": "Provides mobile and fixed communications services in Türkiye.",
+   "evidence": "Reflects employees based in Albania, Czech Republic, Greece, Ireland, Portugal, and Romania."
+  },
+  {
+   "name": "Africa",
+   "products": [],
+   "description": "Provides communications services across African markets including Vodacom Group and Egypt.",
+   "evidence": "Reflects employees based in Vodacom Group, including Egypt."
+  },
+  {
+   "name": "Common Functions",
+   "products": [],
+   "description": "Houses corporate functions and shared operations supporting the Group.",
+   "evidence": "Comprises corporate functions and shared operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for mobile, broadband, TV and business connectivity and digital services, plus equipment sales and wholesale network revenue.",
+  "evidence": "Total revenue decreased 0.4% to € 12.1 billion as a result of lower equipment revenue."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Germany): Skaylink cloud and security services",
+  "change not grounded: In 2026, Vodafone merged its UK business with Three UK."
+ ]
+}

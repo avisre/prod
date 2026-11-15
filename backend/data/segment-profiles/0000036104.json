@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000036104",
+ "issuerName": "US BANCORP \\DE\\",
+ "builtAt": "2026-11-14T13:44:11.096Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000036104-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/36104/000003610426000011/usb-20251231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wealth, Corporate, Commercial and Institutional Banking",
+   "products": [
+    "core banking",
+    "specialized lending",
+    "transaction and payment processing",
+    "capital markets",
+    "asset management",
+    "brokerage and investment related services"
+   ],
+   "description": "Provides banking, lending, payments, capital markets, asset management and brokerage services to wealth, corporate, commercial real estate, government and institutional clients.",
+   "evidence": "Wealth, Corporate, Commercial and Institutional Banking provides core banking, specialized lending, transaction and payment processing, capital markets, asset management, and brokerage and investment related services to wealth, middle market, large corporate, commercial real estate, government and institutional clients."
+  },
+  {
+   "name": "Consumer and Business Banking",
+   "products": [
+    "consumer banking",
+    "small business banking",
+    "consumer lending"
+   ],
+   "description": "Serves consumers and small businesses through branches, digital channels, ATMs and intermediary relationships such as auto dealerships and mortgage banks.",
+   "evidence": "Consumer and Business Banking comprises consumer banking, small business banking and consumer lending."
+  },
+  {
+   "name": "Payment Services",
+   "products": [
+    "consumer and business credit cards",
+    "stored-value cards",
+    "debit cards",
+    "corporate, government and purchasing card services",
+    "merchant processing"
+   ],
+   "description": "Provides card-based payment products and merchant processing services to consumers, businesses, corporations and government clients.",
+   "evidence": "Payment Services includes consumer and business credit cards, stored-value cards, debit cards, corporate, government and purchasing card services and merchant processing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income on loans and investments funded by deposits, plus noninterest income such as trust and investment management fees, service charges, card and merchant processing fees, and mortgage banking revenue from its customers.",
+  "evidence": "Noninterest income increased $331 million (7.3 percent) in 2025, compared with 2024, primarily due to business growth and favorable market conditions impacting trust and investment management fees, and higher service charges due to an increase in treasury management fees."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company revised its business segment funds transfer-pricing methodology related to deposits and loans, with prior period results recast.",
+   "evidence": "During 2025 and 2024, certain organization and methodology changes were made, including revising the Company's business segment funds transfer-pricing methodology related to deposits and loans during the second quarter of 2024."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001561550",
+ "issuerName": "Datadog, Inc.",
+ "builtAt": "2026-11-14T17:36:32.275Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008819",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1561550/000162828026008819/ddog-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Observability and Security Platform",
+   "products": [
+    "Infrastructure monitoring",
+    "Application performance monitoring",
+    "Log management",
+    "User experience monitoring",
+    "Cloud security",
+    "Service management",
+    "OnCall",
+    "Product Analytics"
+   ],
+   "description": "AI-powered SaaS platform providing unified observability and security for cloud applications and infrastructure.",
+   "evidence": "The Company is the AI-powered observability and security platform for cloud applications. The Company's SaaS platform integrates and automates infrastructure monitoring, application performance monitoring, log management, user experience monitoring, cloud security, service management, and many other capabilities to provide unified, real-time observability and security of its customers' entire technology stack."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase subscriptions to the cloud-based platform on monthly, annual or multi-year terms, billed in advance or in arrears based on usage.",
+  "evidence": "The Company generates revenue from the sale of subscriptions to customers using its cloud-based platform. The terms of the Company's subscription agreements are primarily monthly, annual or multi-year."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000882095",
+ "issuerName": "GILEAD SCIENCES, INC.",
+ "builtAt": "2026-11-14T17:36:45.773Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000882095-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/882095/000088209526000006/gild-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Biktarvy",
+    "Descovy",
+    "Genvoya",
+    "Sunlenca",
+    "Epclusa",
+    "Livdelzi",
+    "Vemlidy",
+    "Tecartus"
+   ],
+   "description": null,
+   "evidence": "We have one operating segment which primarily focuses on the discovery, development and commercialization of innovative medicines in areas of unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare providers and patients pay for pharmaceutical products sold through wholesalers and distributors, with revenue recognized upon shipment or delivery.",
+  "evidence": "We recognize revenue from product sales when control of the product transfers to the customer, which is generally upon shipment or delivery, or in certain cases, upon the corresponding sales by our customer to a third party."
+ },
+ "changes": [],
+ "dropped": []
+}

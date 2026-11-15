@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000063276",
+ "issuerName": "MATTEL INC /DE/",
+ "builtAt": "2026-11-14T13:45:15.083Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010716",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/63276/000162828026010716/mat-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Barbie",
+    "American Girl",
+    "Hot Wheels",
+    "Matchbox",
+    "Fisher-Price",
+    "Thomas & Friends",
+    "Masters of the Universe",
+    "UNO"
+   ],
+   "description": "Markets and sells Mattel's toys and consumer products in the United States and Canada across all of Mattel's categories.",
+   "evidence": "The North America segment markets and sells toys and consumer products in the United States and Canada across all of Mattel's categories."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Barbie",
+    "Hot Wheels",
+    "Fisher-Price",
+    "Matchbox",
+    "Monster High",
+    "UNO",
+    "MEGA"
+   ],
+   "description": "Sells Mattel's toys and consumer products outside North America, generally the same products, some adapted for particular international markets.",
+   "evidence": "Products marketed and sold by the International segment are generally the same as those marketed and sold by the North America segment, although some products are developed or adapted for particular international markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mattel is paid by retailers, wholesalers, agents and distributors for its toys, and also sells certain products directly to consumers through its e-commerce platform and third-party e-commerce channels.",
+  "evidence": "Mattel's products are sold directly to retailers and wholesalers in most European, Latin American, and Asian countries, in Australia and New Zealand, and through agents and distributors in those countries where Mattel has no direct presence."
+ },
+ "changes": [],
+ "dropped": []
+}

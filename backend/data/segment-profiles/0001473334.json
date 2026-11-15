@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001473334",
+ "issuerName": "XMAX INC.",
+ "builtAt": "2026-11-14T17:40:58.857Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016828",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1473334/000149315226016828/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Furniture",
+   "products": [
+    "Sofas",
+    "Coffee tables",
+    "Dining tables",
+    "Beds",
+    "Chairs",
+    "Entertainment consoles",
+    "Cabinets",
+    "Marble slabs"
+   ],
+   "description": "Designer and distributor of contemporary residential and commercial furniture sold through wholesale, retail and online channels worldwide.",
+   "evidence": "XMax Inc. (the \"Company\"), formerly known as Nova LifeStyle, Inc. and Stevens Resources, Inc, is a U.S.-headquartered innovative designer and distributor of contemporary styled residential and commercial furniture incorporated into a dynamic marketing and sales platform offering retail as well as online selection and global purchase fulfillment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers including designers, distributors and retailers pay for furniture products through wholesale, retail and online sales channels.",
+  "evidence": "Our customers principally consist of designers, distributors and retailers who cater to mid-level and high-end private label home furnishings that have little product overlap within our specific furnishings products or product lines."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company sold entire jade mats inventory in liquidation sales and exited the Jade Mats business which had been acquired in 2019.",
+   "evidence": "Due to the negative impact caused by COVID-19, we eventually sold the entire jade mats inventory in liquidation sales in June 2023 and existed from Jade Mats business."
+  },
+  {
+   "text": "In 2023, the Company completed de-registration and liquidation of Nova HK and transferred its operations to Nova Malaysia in 2022.",
+   "evidence": "In February 2023, Nova HK was completed the process of de-registration and liquidation."
+  }
+ ],
+ "dropped": []
+}

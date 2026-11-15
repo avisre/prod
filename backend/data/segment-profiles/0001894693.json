@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001894693",
+ "issuerName": "SaverOne 2014 Ltd.",
+ "builtAt": "2026-11-15T02:51:02.237Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-035545",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1894693/000121390026035545/ea0283503-20f_saverone.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "development of the technology necessary to create a life-saving system that prev",
+   "products": [
+    "SaverOne system",
+    "Generation 1.0",
+    "Generation 2.0",
+    "OEM solution",
+    "Advanced Driver-Assistance System (ADAS)",
+    "VRU solution"
+   ],
+   "description": "Single operating segment developing and commercializing RF-based driver distraction prevention and road-user detection safety systems for vehicles.",
+   "evidence": "Since inception date, the operation of the Company is conducted through one operating segment, i.e., development of the technology necessary to create a life-saving system that prevents certain uses of cell phones while driving a motor vehicle."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including commercial fleets and public transportation companies, pay the Company for its aftermarket SaverOne driver safety systems installed in vehicles.",
+  "evidence": "We are currently offering our solution for commercial deployments only, with an initial, pre-defined period, for evaluating the solution."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (development of the technology necessary to create a life-saving system that prev): In Cabin Driver Distraction Prevention Solution (DDPS)",
+  "change not grounded: In the first quarter of 2023 the Company phased out its Generation 1.0 product, "
+ ],
+ "escalated": "no segments"
+}

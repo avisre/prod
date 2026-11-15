@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001603015",
+ "issuerName": "Via Transportation, Inc.",
+ "builtAt": "2026-11-14T17:40:22.448Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001603015-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1603015/000160301526000008/via-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Platform",
+   "products": [
+    "Planning and Scheduling software",
+    "Operating software",
+    "Passenger tools",
+    "Data and insights",
+    "Technology-enabled services"
+   ],
+   "description": "Transforms public transportation systems into smart, data-driven, AI-powered efficient digital networks through modular software and services.",
+   "evidence": "The Company is organized into one reportable segment, the Platform segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Government agencies and private organizations pay recurring subscription fees for software platform access and technology-enabled services to manage transit networks.",
+  "evidence": "In each of the years ended December 31, 2025 and 2024, we generated 97% of our revenue from recurring subscription fees."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Legacy segment operating contract terminated in June 2024 and was not renewed as the company focused on the Platform segment.",
+   "evidence": "The Legacy segment includes a legacy operational contract, which terminated in June 2024."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In December 2025, the company acquired Downtowner, adding customers to the Platf"
+ ]
+}

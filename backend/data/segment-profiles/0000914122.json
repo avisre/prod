@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000914122",
+ "issuerName": "Perma-Pipe International Holdings, Inc.",
+ "builtAt": "2026-11-14T17:41:37.467Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-012499",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/914122/000143774926012499/ppih20260131_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Piping Systems",
+   "products": [
+    "insulated and jacketed district heating and cooling piping systems",
+    "primary and secondary containment piping systems",
+    "leak detection systems"
+   ],
+   "description": "Engineers, designs, manufactures and sells specialty piping systems and leak detection systems for energy distribution, chemical transport, and pipeline protection.",
+   "evidence": "The Company is engaged in the manufacture and sale of products in one reportable segment: Piping Systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase piping systems and leak detection systems as discrete projects, with revenues recognized as products are delivered and accepted.",
+  "evidence": "The Company's piping systems are typically sold as a part of discrete projects, and customer demand can vary by reporting period."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Piping Systems): coating and insulation of oil and gas gathering and transmission pipelines",
+  "product not in text (Piping Systems): anti-corrosion coatings for steel pipe"
+ ]
+}

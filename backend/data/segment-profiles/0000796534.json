@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000796534",
+ "issuerName": "NATIONAL BANKSHARES, INC.",
+ "builtAt": "2026-11-14T13:51:14.414Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-128311",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/796534/000119312526128311/nksh-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns most of its revenue from interest and fees on loans to small and mid-sized businesses and individuals, plus interest on investments.",
+  "evidence": "The Bank's primary source of revenue stems from lending activities."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company acquired Frontier Community Bank, expanding its banking operations.",
+   "evidence": "On June 1, 2024, NBB purchased Frontier Community Bank (\"FCB\"), a Virginia bank."
+  }
+ ],
+ "dropped": [
+  "segment name not in text: Community banking"
+ ]
+}

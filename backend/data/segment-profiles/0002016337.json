@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002016337",
+ "issuerName": "PTL Limited",
+ "builtAt": "2026-11-15T02:50:17.407Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050289",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2016337/000121390026050289/ea0287294-20f_ptl.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marine fuel logistics services",
+   "products": [
+    "marine fuel"
+   ],
+   "description": "Provides marine fuel logistics services and one-stop solutions for vessel refuelling mainly in Hong Kong.",
+   "evidence": "The single segment represents the Company's core business of providing marine fuel logistics services and one-stop solutions for vessel refuelling mainly in Hong Kong."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for marine fuel delivered to their vessels, mainly in Hong Kong.",
+  "evidence": "The following table shows the revenue by geographical location of the Company's revenue for the years ended December 31, 2025 2024and 2023 respectively, where is based on the location at which the marine fuel is delivered to the customer"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Marine fuel logistics services): vessel refuelling one-stop solutions"
+ ],
+ "escalated": "revenue model not quoted"
+}

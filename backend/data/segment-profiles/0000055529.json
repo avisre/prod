@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000055529",
+ "issuerName": "KEWAUNEE SCIENTIFIC CORPORATION",
+ "builtAt": "2026-11-14T13:44:57.579Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000055529-26-000020",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/55529/000005552926000020/kequ-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lab Products Group",
+   "products": [
+    "steel and wood casework",
+    "fume hoods",
+    "adaptable modular systems",
+    "moveable workstations",
+    "stand-alone benches",
+    "biological safety cabinets",
+    "epoxy resin work surfaces and sinks",
+    "CO2 incubators"
+   ],
+   "description": "Designs, manufactures, and installs laboratory, healthcare, and technical furniture and infrastructure products, including Nu Aire's laboratory products, for domestic customers.",
+   "evidence": "The Lab Products Group segment consists of the Company's operations based out of Statesville, North Carolina and Kewaunee's subsidiary, Nu Aire, Inc., based out of Plymouth, Minnesota."
+  },
+  {
+   "name": "International",
+   "products": [],
+   "description": "Foreign subsidiaries provide laboratory furniture products and services including facility design, engineering construction, and project management for international customers.",
+   "evidence": "The International segment consists of the foreign subsidiaries identified in Note 1 , Summary of Significant Accounting Policies , of the Notes to Consolidated Financial Statements included in Item 8 of this Annual Report on Form 10-K."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay through purchase orders and contracts, submitted directly or through dealers, subsidiaries, and a national distributor, for laboratory furniture and related services.",
+  "evidence": "Our products are sold primarily through purchase orders and contracts submitted by customers directly or through our dealers, our subsidiaries in Singapore and India, and a national distributor."
+ },
+ "changes": [
+  {
+   "text": "In November 2024, the Company acquired Nu Aire, Inc., adding biological safety cabinets and other laboratory products to the Lab Products Group segment.",
+   "evidence": "Our acquisition of Nu Aire, Inc., (\"Nu Aire\"), completed in November 2024, complements the Company's portfolio through Nu Aire's biological safety cabinets, CO2 incubators, ultralow freezers, and other essential laboratory products."
+  },
+  {
+   "text": "In the fourth quarter of fiscal year 2026, the Company renamed the Domestic reportable segment to Lab Products Group, with no change in segment composition.",
+   "evidence": "The Company changed the name of the Domestic reportable segment to Lab Products Group during the fourth quarter of fiscal year 2026."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000095574",
+ "issuerName": "SUPERIOR GROUP OF COMPANIES, INC.",
+ "builtAt": "2026-11-14T13:46:45.612Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006653",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/95574/000143774926006653/sgc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Branded Products",
+   "products": [
+    "BAMKO®",
+    "HPI®",
+    "customized merchandising solutions",
+    "promotional products",
+    "branded uniform programs",
+    "gifts with purchase",
+    "corporate awards, incentives and recognition programs",
+    "specialty packaging and displays"
+   ],
+   "description": "Produces and sells customized merchandising solutions, promotional products and branded uniform programs to customers across many industries.",
+   "evidence": "Superior's Branded Products segment, primarily through its signature marketing brands BAMKO® and HPI®, produces and sells customized merchandising solutions, promotional products and branded uniform programs."
+  },
+  {
+   "name": "Healthcare Apparel",
+   "products": [
+    "Wink®",
+    "Fashion Seal Healthcare®",
+    "CID Resources",
+    "Carhartt Medical",
+    "scrubs",
+    "lab coats",
+    "protective apparel",
+    "patient gowns"
+   ],
+   "description": "Manufactures and sells healthcare apparel such as scrubs, lab coats, protective apparel and patient apparel to laundries, dealers, distributors, retailers and consumers.",
+   "evidence": "Superior's Healthcare Apparel segment, primarily through its portfolio of brands Wink® and Fashion Seal Healthcare®, its trade name CID Resources and its license of Carhartt Medical, manufactures (through third parties or in its own facilities) and sells a wide range of healthcare apparel, such as scrubs, lab coats, protective apparel and patient apparel."
+  },
+  {
+   "name": "Contact Centers",
+   "products": [
+    "The Office Gurus®",
+    "business process outsourcing",
+    "contact and call-center support services",
+    "email, text, chat and social media support"
+   ],
+   "description": "Provides outsourced, nearshore and onshore business process outsourcing and contact and call-center support services to North American customers.",
+   "evidence": "In our Contact Centers segment (also known as The Office Gurus), which operates in El Salvador, Belize, Dominican Republic, the United States and Jamaica until its closure on June 15, 2025, we provide outsourced, nearshore and onshore business process outsourcing, contact and call-center support services to North American customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Superior for customized promotional products and branded uniforms, healthcare apparel, and outsourced contact-center support services.",
+  "evidence": "The Company produces and manufactures (through third parties or in its own facilities) and sells a wide range of promotional products and branded uniforms in its Branded Products segment and healthcare apparel and accessories in its Healthcare Apparel segment."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company closed its Jamaica contact center operations within the Contact Centers segment.",
+   "evidence": "which operates in El Salvador, Belize, Dominican Republic, the United States and Jamaica until its closure on June 15, 2025"
+  }
+ ],
+ "dropped": [
+  "product not in text (Contact Centers): inbound and outbound voice support",
+  "change not grounded: In 2024, the Company acquired 3 Point branding company, adding to the Branded Pr"
+ ]
+}

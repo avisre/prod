@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000850429",
+ "issuerName": "Tredegar Corporation",
+ "builtAt": "2026-11-14T13:52:50.238Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016665",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/850429/000162828026016665/tg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aluminum Extrusions",
+   "products": [
+    "mill (unfinished), machined, anodized and painted, and thermally improved alumin",
+    "Futura Transitions TM by Bonnell Aluminum (flooring trims)",
+    "TSLOTS TM by Bonnell Aluminum (structural aluminum framing systems)"
+   ],
+   "description": "Produces custom fabricated and finished aluminum extrusions sold to fabricators and distributors in building, transportation, consumer durables, machinery, electrical and distribution markets.",
+   "evidence": "Aluminum Extrusions, also referred to as Bonnell Aluminum, produces high-quality, soft and medium strength alloyed aluminum extrusions, custom fabricated and finished, for the building and construction, automotive and transportation, consumer durables goods, machinery and equipment, electrical and renewable energy, and distribution markets."
+  },
+  {
+   "name": "High Performance Films",
+   "products": [
+    "surface protection films",
+    "advanced packaging films",
+    "films for other markets",
+    "UltraMask®",
+    "ForceField™",
+    "ForceField PEARL ®",
+    "Pearl A™",
+    "Obsidian™"
+   ],
+   "description": "Produces surface protection and advanced packaging films that protect high-value display components for manufacturers in high-technology applications.",
+   "evidence": "High Performance Films produces surface protection films, advanced packaging films and films for other markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells aluminum extrusions directly to fabricators and distributors, and films to manufacturers, primarily in the U.S. and Asia.",
+  "evidence": "Aluminum Extrusions manufactures mill (unfinished), machined, anodized and painted, and thermally improved aluminum extrusions for sale directly to fabricators and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Tredegar sold its flexible packaging films business (Terphane) headquartered in Brazil to Oben Group.",
+   "evidence": "On November 1, 2024, the Company completed the sale of its flexible packaging films business (also referred to as \"Terphane\") headquartered in Brazil to Oben Group."
+  },
+  {
+   "text": "In 2025, the segment formerly known as PE Films was renamed High Performance Films, with no changes to its operations.",
+   "evidence": "In the fourth quarter of 2025, the Company renamed the segment formerly known as \"PE Films.\" This segment will be referred to as \"High Performance Films\" going forward."
+  }
+ ],
+ "dropped": []
+}

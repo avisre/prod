@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0000109380",
+ "issuerName": "ZIONS BANCORPORATION, NATIONAL ASSOCIATION",
+ "builtAt": "2026-11-14T13:47:31.371Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000109380-26-000046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/109380/000010938026000046/zions-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zions Bank",
+   "products": [],
+   "description": "Geographically defined affiliate bank operating branches in Utah, Idaho and Wyoming under local brand and management.",
+   "evidence": "Zions Bank, headquartered in Salt Lake City, Utah, operated 92 branches in Utah, 25 branches in Idaho, and one branch in Wyoming at December 31, 2025."
+  },
+  {
+   "name": "California Bank & Trust",
+   "products": [],
+   "description": "Affiliate bank operating branches across California under its own local brand and management team.",
+   "evidence": "California Bank & Trust, headquartered in San Diego, California, operated 77 branches across California at December 31, 2025."
+  },
+  {
+   "name": "Amegy Bank",
+   "products": [],
+   "description": "Affiliate bank operating branches across Texas under its own local brand and management team.",
+   "evidence": "Amegy Bank, headquartered in Houston, Texas, operated 76 branches across Texas at December 31, 2025."
+  },
+  {
+   "name": "National Bank of Arizona",
+   "products": [],
+   "description": "Affiliate bank operating branches across Arizona under its own local brand and management team.",
+   "evidence": "National Bank of Arizona, headquartered in Phoenix, Arizona, operated 56 branches across Arizona at December 31, 2025."
+  },
+  {
+   "name": "Nevada State Bank",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Vectra Bank Colorado",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "The Commerce Bank of Washington",
+   "products": [],
+   "description": "Affiliate bank operating in Washington and Oregon under its own local brand and management team.",
+   "evidence": "The Commerce Bank of Washington (\"TCBW\"), which also operates as The Commerce Bank of Oregon in Oregon."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Enterprise-level segment providing governance, risk oversight, capital allocation, centralized technology and back-office operations.",
+   "evidence": "The affiliate banks are supported by an enterprise-level segment—referred to as the \"Other\" segment— which provides governance and risk oversight, capital allocation, and strategic objectives, and includes centralized technology infrastructure, back-office operations, and certain business lines that are not managed through the affiliate structure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The bank earns net interest income from loans and deposits and noninterest income from banking, capital markets and wealth management services provided to customers.",
+  "evidence": "Zions Bancorporation, National Association (\"Zions Bancorporation, N.A.,\" \"the Bank,\" \"we,\" \"our,\" \"us\") is a bank headquartered in Salt Lake City, Utah, with annual net revenue (net interest income and noninterest income) of $3.4 billion in 2025, and total assets of approximately $89 billion at December 31, 2025."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Nevada State Bank",
+  "segment evidence not verbatim: Vectra Bank Colorado"
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000887153",
+ "issuerName": "GRUPO SIMEC, S.A.B. de C.V.",
+ "builtAt": "2026-11-14T17:39:09.446Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-083889",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/887153/000121390026083889/ea0299895-20f_grupo.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mexico",
+   "products": [
+    "SBQ steel",
+    "I-Beams",
+    "Channels",
+    "Angles",
+    "Hot-rolled bars",
+    "Flat bars",
+    "Rebar",
+    "Cold-finished bars"
+   ],
+   "description": "Manufactures and distributes SBQ steel, structural steel and rebar products from Mexican facilities serving automotive, construction and industrial markets.",
+   "evidence": "our Mexican segment represents the results of our operations in Mexico, including our plants in Mexicali, Guadalajara, Tlaxcala and San Luis Potosí"
+  },
+  {
+   "name": "United States",
+   "products": [],
+   "description": "Ceased steelmaking operations in August 2023; facilities remain inactive with residual administrative expenses only.",
+   "evidence": "Following the cessation of our U.S. operations in 2023, the segment no longer includes production activity but continues to be reported separately due to ongoing expenses associated with the former U.S. operations."
+  },
+  {
+   "name": "Brazil",
+   "products": [
+    "Rebar",
+    "Channels",
+    "Angles",
+    "Hot-rolled bars"
+   ],
+   "description": "Operates steelmaking and rolling facilities producing rebar, structural angles, channels and hot-rolled bars for construction and industrial markets.",
+   "evidence": "our Brazil segment represents the results of our operations in four plants located in Brazil, one of which started operations in June 2015 and two of which started to consolidate operations in May 2018"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in automotive, construction and industrial sectors purchase SBQ steel and structural steel products at prices determined by market conditions and customer relationships.",
+  "evidence": "We produce a wide range of value-added SBQ steel, long-steel and medium-sized structural steel products."
+ },
+ "changes": [
+  {
+   "text": "In August 2023, Republic Steel ceased all steelmaking operations in the United States, ceasing production at facilities in Ohio and New York.",
+   "evidence": "we ceased all production activities at our United States facilities in 2023 and did not operate any of these facilities during 2024 and 2025"
+  }
+ ],
+ "dropped": []
+}

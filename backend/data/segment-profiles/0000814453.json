@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000814453",
+ "issuerName": "NEWELL BRANDS INC",
+ "builtAt": "2026-11-14T13:51:44.753Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000814453-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/814453/000081445326000008/nwl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home and Commercial Solutions",
+   "products": [
+    "Rubbermaid",
+    "Rubbermaid Commercial Products",
+    "Mapa",
+    "Spontex",
+    "Crockpot",
+    "Mr. Coffee",
+    "Oster",
+    "Sunbeam"
+   ],
+   "description": "Designs, manufactures and distributes household products, kitchen appliances, food and home storage, cookware, home fragrance and commercial cleaning solutions for consumers and professional customers.",
+   "evidence": "The H&CS segment designs, manufactures, sources, markets and distributes a diverse line of household products, including kitchen appliances, food and home storage, fresh preserving, vacuum sealing, gourmet cookware, bakeware and cutlery and home fragrance products, as well as commercial cleaning and maintenance solutions products, closet and garage organization products, hygiene systems and material handling solutions."
+  },
+  {
+   "name": "Learning and Development",
+   "products": [
+    "Dymo",
+    "Elmer's",
+    "EXPO",
+    "Paper Mate",
+    "Parker",
+    "Sharpie",
+    "Graco",
+    "NUK"
+   ],
+   "description": "Designs, manufactures and distributes writing instruments, art and activity products, labeling solutions, and baby gear and infant care products for consumers.",
+   "evidence": "The L&D segment designs, manufactures, sources, markets and distributes writing instruments, including markers and highlighters, pens and pencils; art products; activity-based products; labeling solutions; baby gear and infant care products."
+  },
+  {
+   "name": "Outdoor and Recreation",
+   "products": [
+    "Bubba",
+    "Campingaz",
+    "Coleman",
+    "Contigo",
+    "Marmot"
+   ],
+   "description": "Designs, manufactures and distributes active lifestyle products for outdoor and outdoor-related activities, including technical apparel and on-the-go beverageware.",
+   "evidence": "The O&R segment designs, manufactures, sources, markets and distributes global consumer active lifestyle products for outdoor and outdoor-related activities, including technical apparel and on-the-go beverageware."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells its branded consumer products directly to retailers such as mass merchants, warehouse clubs, department stores, e-commerce retailers and distributors, and also sells direct to consumers online and in Yankee Candle retail stores.",
+  "evidence": "The H&CS segment primarily markets its products directly to mass merchants, warehouse clubs, home centers, department stores, drug/grocery stores, specialty retailers, discount stores, e-commerce retailers, commercial products distributors, select contract customers and other professional customers, as well as direct to consumers online and in Yankee Candle retail stores."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025 the Company announced a global Productivity Plan and closed approximatel"
+ ]
+}

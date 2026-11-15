@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000716643",
+ "issuerName": "Regis Corp",
+ "builtAt": "2026-11-14T13:49:07.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000716643-26-000031",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/716643/000071664326000031/rgs-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Franchise",
+   "products": [
+    "Supercuts",
+    "SmartStyle",
+    "Cost Cutters",
+    "First Choice Haircutters",
+    "Magicuts",
+    "Roosters Men's Grooming Center"
+   ],
+   "description": "Franchises hair care salons operated by franchisees under the Company's brands, providing support, training and marketing.",
+   "evidence": "The Company reports its operations in two operating segments: franchise and company-owned."
+  },
+  {
+   "name": "Company-owned",
+   "products": [
+    "Supercuts",
+    "Cost Cutters",
+    "Holiday Hair"
+   ],
+   "description": "Operates company-owned hair care salons directly, serving as a testing ground for brand and operational initiatives.",
+   "evidence": "the Company's 264 company-owned salons, operating primarily under the Supercuts, Cost Cutters, and Holiday Hair brands, are directly operated by the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns royalty revenue based on service and product sales at franchise locations, plus initial franchise fees and advertising funds, and earns revenue from services and products sold at company-owned salons.",
+  "evidence": "We earn royalty revenue based on service and product sales at our franchise locations and earn revenue for services and products sold at our company-owned salons."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In December 2024, the Company acquired Alline Salon Group, adding 314 company-ow"
+ ]
+}

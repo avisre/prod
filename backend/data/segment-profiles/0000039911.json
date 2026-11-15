@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000039911",
+ "issuerName": "GAP, INC",
+ "builtAt": "2026-11-14T13:44:23.075Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018573",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/39911/000162828026018573/gap-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Apparel Retail",
+   "products": [
+    "Old Navy",
+    "Gap",
+    "Banana Republic",
+    "Athleta"
+   ],
+   "description": "An omni-channel specialty retailer selling apparel, accessories, and personal care products for men, women, and children under four brands.",
+   "evidence": "We have determined that each of our operating segments share similar qualitative and economic characteristics, and therefore the results of our operating segments are aggregated into one reportable segment as of January 31, 2026."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for apparel, accessories, and personal care products sold through Company-operated stores, online channels, and franchise and licensing arrangements.",
+  "evidence": "Gap Inc. is an omni-channel retailer, with sales to customers both in stores and online, through Company-operated and franchise stores, websites, and third-party arrangements."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2022, Gap Inc. signed agreements to transition Gap China and Gap Taiwan operations to Baozun Inc. as a franchise partner, with the Gap China transaction closing in January 2023.",
+   "evidence": "On November 7, 2022, we signed agreements to transition our Gap China and Gap Taiwan operations to a third party, Baozun Inc., to operate Gap China and Gap Taiwan stores and the in-market website as a franchise partner, subject to regulatory approvals and closing conditions."
+  },
+  {
+   "text": "In August 2025, Gap Inc. and Baozun Inc. decided not to proceed with the transition of Gap's Taiwan operations.",
+   "evidence": "On August 27, 2025, the parties reached a decision to not proceed with the transition of Gap's operations in Taiwan."
+  }
+ ],
+ "dropped": []
+}

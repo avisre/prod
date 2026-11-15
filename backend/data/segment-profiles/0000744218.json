@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000744218",
+ "issuerName": "Celldex Therapeutics, Inc.",
+ "builtAt": "2026-11-14T13:49:58.019Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019652",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/744218/000110465926019652/cldx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development, manufacturing and commercialization of novel therapeutics",
+   "products": [
+    "CDX-622"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing therapeutic antibodies for patients with severe inflammatory, allergic and autoimmune diseases.",
+   "evidence": "The Company is managed as a single operating and reportable segment that operates in the business of development, manufacturing and commercialization of novel therapeutics for human health care."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has had no commercial revenues from drug sales; its revenue comes from license arrangements, primarily with Rockefeller University.",
+  "evidence": "We have had no commercial revenues from sales of our drug candidates, and we have had a history of operating losses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Development, manufacturing and commercialization of novel therapeutics): Barzolvolimab (CDX-0159)"
+ ]
+}

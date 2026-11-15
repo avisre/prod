@@ -1,0 +1,85 @@
+{
+ "version": 1,
+ "cik": "0000001750",
+ "issuerName": "AAR CORP",
+ "builtAt": "2026-11-14T14:06:07.644Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-085459",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1750/000110465926085459/air-20260531x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Parts Supply",
+   "products": [
+    "new parts Distribution",
+    "aircraft parts",
+    "engine parts",
+    "airframe parts and components"
+   ],
+   "description": "Distributes new OEM aircraft parts and used serviceable material to commercial and government aerospace customers.",
+   "evidence": "Parts Supply remains unchanged from the prior structure, primarily consisting of new parts Distribution and sales of used serviceable material, including aircraft, engine and airframe parts and components (\"USM\");"
+  },
+  {
+   "name": "Repair, Engineering, and Software",
+   "products": [
+    "Airframe MRO",
+    "Component MRO",
+    "Trax",
+    "Aerostrat",
+    "Airvoyant",
+    "Airinmar"
+   ],
+   "description": "Provides maintenance, repair, and overhaul services and cloud-based software solutions for aircraft maintenance and logistics.",
+   "evidence": "Repair, Engineering, and Software primarily consists of maintenance, repair, and overhaul (\"MRO\") of airframes (\"Airframe MRO\"), certain other components (\"Component MRO\"), and our software platforms, including Trax, Aerostrat, Airvoyant and Airinmar;"
+  },
+  {
+   "name": "Government Solutions",
+   "products": [
+    "fleet management",
+    "aircraft operations",
+    "supply chain logistics programs",
+    "Mobility Systems",
+    "pallets",
+    "shelters",
+    "containers"
+   ],
+   "description": "Manages government and military aircraft operations, supply chain logistics, and manufactures mobility equipment like pallets and shelters.",
+   "evidence": "Government Solutions primarily consists of our fleet management and operations of customer-owned aircraft, customized performance-based supply chain logistics programs in support of the U.S. Department of War (\"DoW\"), the U.S. Department of State (\"DoS\") and foreign governments and the engineering, design, integration, manufacture, and repair of pallets, shelters, and containers (\"Mobility Systems\");"
+  },
+  {
+   "name": "Legacy Commercial Programs",
+   "products": [
+    "component pool and repair programs",
+    "consumables and expendables inventory"
+   ],
+   "description": "Provides asset-heavy flight hour-based component repair programs and consumables distribution to commercial airlines.",
+   "evidence": "Legacy Commercial Programs consists of asset-heavy flight hour-based component pool and repair programs for commercial airlines and distribution of consumables and expendables inventory."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for distribution of aircraft parts, maintenance and repair services, software subscriptions, and government supply chain logistics support.",
+  "evidence": "We offer a broad line of products and services to commercial and government aerospace customers and operate globally in over 20 countries."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the company combined government programs and Mobility Systems into a new Government Solutions segment.",
+   "evidence": "Combined our government programs activities and our Mobility Systems business, previously reported as Expeditionary Services, into a new operating segment named Government Solutions;"
+  },
+  {
+   "text": "In fiscal 2026, the company repositioned its software platform from Integrated Solutions to the Repair and Engineering segment, renamed Repair, Engineering, and Software.",
+   "evidence": "Re-positioned our software platform to our Repair and Engineering segment, which was renamed Repair, Engineering, and Software;"
+  },
+  {
+   "text": "In fiscal 2026, Legacy Commercial Programs was separated from Integrated Solutions as its own operating segment and the company announced intention to exit it.",
+   "evidence": "Legacy Commercial Programs, the remaining business unit within the Integrated Solutions segment, is now separately reported as its own operating segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Parts Supply): used serviceable material (USM)"
+ ]
+}

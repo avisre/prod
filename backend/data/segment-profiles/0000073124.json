@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000073124",
+ "issuerName": "NORTHERN TRUST CORPORATION",
+ "builtAt": "2026-11-14T13:45:48.081Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000073124-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/73124/000007312426000016/ntrs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Servicing",
+   "products": [
+    "custody",
+    "fund administration",
+    "investment operations outsourcing",
+    "investment management",
+    "investment risk and analytical services",
+    "employee benefit services",
+    "securities lending",
+    "foreign exchange"
+   ],
+   "description": "Global provider of asset servicing and related services to institutional investors such as retirement funds, foundations, endowments, fund managers, and sovereign wealth funds.",
+   "evidence": "Asset Servicing (AS) is a leading global provider of asset servicing and related services to corporate and public retirement funds, foundations, endowments, fund managers, insurance companies, sovereign wealth funds, and other institutional investors around the globe."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "trust, investment management, custody, and philanthropic services",
+    "financial consulting",
+    "guardianship and estate administration",
+    "family business consulting",
+    "family financial education",
+    "brokerage services",
+    "private and business banking",
+    "Global Family Office"
+   ],
+   "description": "Serves high-net-worth individuals and families, business owners, executives, professionals, retirees, and privately-held businesses with trust, investment, and banking services.",
+   "evidence": "Wealth Management (WM) focuses on high-net-worth individuals and families, business owners, executives, professionals, retirees, and established privately-held businesses in its target markets."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Holds Asset Management, corporate support functions, and non-recurring items not directly attributable to the two client-focused reporting segments.",
+   "evidence": "Northern Trust reports certain income and expense items not allocated to Asset Servicing and Wealth Management in Other."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Institutional and wealth clients pay Northern Trust trust, investment and other servicing fees, foreign exchange trading income, and net interest income on loans and deposits.",
+  "evidence": "Noninterest Income Trust, Investment and Other Servicing Fees $ 2,800.2 $ 2,632.8 $ 2,461.9 $ 2,217.6 $ 2,095.0 $ 1,899.9 Foreign Exchange Trading Income (Loss) 268.0 247.2 213.0 (27.2) (16.0) (9.1)"
+ },
+ "changes": [
+  {
+   "text": "In 2025, certain operations support activities were moved out of Asset Servicing and Wealth Management with the formation of the Enterprise Chief Operating Office, whose expenses are reported within Other.",
+   "evidence": "Effective January 2025, certain operations support activities were moved out of Asset Servicing and Wealth Management in connection with the formation of the Enterprise Chief Operating Office."
+  }
+ ],
+ "dropped": []
+}

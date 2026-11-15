@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001803599",
+ "issuerName": "Concentrix Corporation",
+ "builtAt": "2026-11-14T17:36:24.611Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001803599-26-000027",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1803599/000180359926000027/cnxc-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single operating segment",
+   "products": [
+    "Strategy and Design",
+    "Data and Analytics",
+    "Enterprise Technology",
+    "Digital Operations",
+    "iX Hello",
+    "iX Hero",
+    "Agentic Operating Framework"
+   ],
+   "description": "Provides integrated customer experience, technology, and digital operations services to global brands across five industry verticals.",
+   "evidence": "Given the homogeneity of end-to-end solutions and technology and the integrated delivery model, the Company operates in a single operating segment, based on how the chief operating decision maker (\"CODM\") views and evaluates the Company's operations in making operational and strategic decisions and assessments of financial performance (including for purposes of allocating resources and assessing performance)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay the company for delivering technology and services, most significantly based on a fixed unit-price per transaction or other objective measure of output.",
+  "evidence": "Service contracts are most significantly based on a fixed unit-price per transaction or other objective measure of output."
+ },
+ "changes": [
+  {
+   "text": "In September 2025, the company acquired SAI Digital, an end-to-end digital commerce and CX technology solutions company.",
+   "evidence": "Our September 2025 acquisition of SAI Digital, an end-to-end digital commerce and CX technology solutions company with a strong presence in Asia;"
+  },
+  {
+   "text": "In September 2023, the company acquired the Webhelp business, a leading provider of CX solutions.",
+   "evidence": "Our September 2023 acquisition of the Webhelp business (\"Webhelp\"), a leading provider of CX solutions, including sales, marketing, and payment services, with significant operations and client relationships in Europe, Latin America, and Africa;"
+  }
+ ],
+ "dropped": [],
+ "escalated": "no segments"
+}

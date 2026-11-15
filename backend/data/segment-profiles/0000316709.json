@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000316709",
+ "issuerName": "SCHWAB CHARLES CORP",
+ "builtAt": "2026-11-14T13:48:07.858Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000316709-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/316709/000031670926000009/schw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investor Services",
+   "products": [
+    "Brokerage",
+    "Mutual funds",
+    "Exchange-traded funds (ETFs)",
+    "Managed investing solutions",
+    "Alternative investments",
+    "Digital assets",
+    "Banking",
+    "Trust"
+   ],
+   "description": "Provides retail brokerage, investment advisory, banking and trust services to individual investors, and retirement plan and business services to businesses and their employees.",
+   "evidence": "The Investor Services segment provides retail brokerage, investment advisory, and banking and trust services to individual investors, and retirement plan and business services, as well as other corporate brokerage services, to businesses and their employees."
+  },
+  {
+   "name": "Advisor Services",
+   "products": [
+    "Custodial services",
+    "Banking and trust services",
+    "Support services"
+   ],
+   "description": "Provides custodial, trading, banking and trust, and support services to independent registered investment advisors, independent retirement advisors, and recordkeepers.",
+   "evidence": "The Advisor Services segment provides custodial, trading, banking and trust, and support services to independent registered investment advisors (RIAs), independent retirement advisors, and recordkeepers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Schwab earns net interest revenue, asset management and administration fees, trading revenue, and bank deposit account fees from client assets and trading activity across both segments.",
+  "evidence": "Net revenues in both segments are generated from the underlying client assets and trading activity; differences in the composition of net revenues between the segments are based on the composition of client assets, client trading frequency, and pricing unique to each."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Schwab announced an agreement to acquire Forge Global Holdings, expected to close in March 2026.",
+   "evidence": "On November 6, 2025, Schwab announced that it had entered into a definitive agreement to acquire Forge Global Holdings, Inc. (Forge), operator of a leading private market platform and trading marketplace, in a transaction valued at approximately $660 million."
+  }
+ ],
+ "dropped": [
+  "product not in text (Advisor Services): Trading services",
+  "change not grounded: In 2024, Schwab completed the Ameritrade client account transitions and integrat"
+ ]
+}

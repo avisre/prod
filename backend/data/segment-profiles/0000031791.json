@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000031791",
+ "issuerName": "REVVITY, INC",
+ "builtAt": "2026-11-14T14:08:18.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000031791-26-000012",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/31791/000003179126000012/revv-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Sciences",
+   "products": [
+    "Reagents",
+    "Instruments",
+    "Software",
+    "Solutions"
+   ],
+   "description": "Provides technologies, reagents, instruments and software for drug discovery, development and life sciences research.",
+   "evidence": "Our comprehensive portfolio of technologies helps life sciences researchers better understand diseases and develop treatments. We provide a broad suite of products, solutions, software and services that facilitate optimized workflows, increase productivity, and accelerate every stage of the drug discovery and development pipeline."
+  },
+  {
+   "name": "Diagnostics",
+   "products": [
+    "Immunodiagnostics",
+    "Reproductive health"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pharmaceutical, biotech, contract research organizations, academic and government institutions purchase products and services for research and diagnostics.",
+  "evidence": "We partner with global pharmaceutical, biotech and contract research organizations, as well as academic and government institutions, to enable them to discover and develop better treatments and therapeutics to fight disease faster and more efficiently."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Diagnostics"
+ ]
+}

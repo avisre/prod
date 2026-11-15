@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000720500",
+ "issuerName": "AMTECH SYSTEMS, INC.",
+ "builtAt": "2026-11-14T13:49:22.296Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-25-314147",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/720500/000119312525314147/asys-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Thermal Processing Solutions",
+   "products": [
+    "Continuous Thermal Processing Systems",
+    "High-Temperature Belt Furnace",
+    "Horizontal Diffusion Furnaces",
+    "conveyorized reflow equipment",
+    "flux management system"
+   ],
+   "description": "Provides reflow equipment, high-temperature furnaces and diffusion furnaces for semiconductor packaging, electronic assembly and power device manufacturers.",
+   "evidence": "Our Thermal Processing Solutions includes conveyorized reflow equipment for advanced semiconductor packaging and electronic assembly, high temperature conveyorized furnaces for power semiconductor substrate and electronic components manufacturing, and diffusion furnaces for (SIC) and (Si) power device production."
+  },
+  {
+   "name": "Semiconductor Fabrication Solutions",
+   "products": [
+    "PR Hoffman consumables",
+    "CMP slurries and dispersants",
+    "cleaning chemicals",
+    "lubricants and cooling fluids",
+    "wafer cleaning equipment",
+    "CMP foundry services",
+    "CMP equipment parts and services"
+   ],
+   "description": "Provides consumables, equipment and services for wafer polishing, cleaning, dicing and CMP processes to semiconductor wafer manufacturers.",
+   "evidence": "Our Semiconductor Fabrication Solutions include consumables, equipment and services for wafer polishing, dicing and cleaning."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semiconductor device packaging, electronic assembly and device fabrication companies worldwide pay Amtech for equipment, consumables and services used to fabricate and package semiconductor devices.",
+  "evidence": "We sell these products to semiconductor device packaging, electronic assembly and device fabrication companies worldwide."
+ },
+ "changes": [],
+ "dropped": []
+}

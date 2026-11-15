@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000093410",
+ "issuerName": "Chevron Corp",
+ "builtAt": "2026-11-14T13:46:39.003Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000093410-26-000078",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Upstream",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "liquefied natural gas",
+    "carbon capture and storage",
+    "gas-to-liquids plant"
+   ],
+   "description": "Explores for, develops, produces and transports crude oil and natural gas, and processes, transports and markets LNG, for global energy customers.",
+   "evidence": "Upstream operations consist primarily of exploring for, developing, producing and transporting crude oil and natural gas; processing, liquefaction, transportation and regasification associated with liquefied natural gas; transporting crude oil by major international oil export pipelines; transporting, storage and marketing of natural gas; carbon capture and storage; and a gas-to-liquids plant."
+  },
+  {
+   "name": "Downstream",
+   "products": [
+    "lubricants",
+    "renewable fuels",
+    "commodity petrochemicals",
+    "plastics for industrial uses",
+    "fuel and lubricant additives"
+   ],
+   "description": "Refines crude oil into petroleum products and manufactures and markets fuels, lubricants, renewable fuels, petrochemicals and additives for industrial and consumer customers.",
+   "evidence": "Downstream operations consist primarily of refining crude oil into petroleum products; marketing of crude oil, refined products and lubricants; manufacturing and marketing of renewable fuels; transporting crude oil and refined products by pipeline, marine vessel, motor equipment and rail car; and manufacturing and marketing of commodity petrochemicals, plastics for industrial uses and fuel and lubricant additives."
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Holds activities outside the upstream and downstream segments, including lower carbon and other businesses not allocated to reportable segments.",
+   "evidence": "All Other (3,545) (2,668) (2,206)"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Chevron earns revenue from selling crude oil, natural gas, LNG, refined petroleum products, lubricants, renewable fuels and petrochemicals to energy, industrial and consumer customers at market-driven prices.",
+  "evidence": "Prices for crude oil, natural gas, liquefied natural gas (LNG), petroleum products and petrochemicals are generally determined by supply and demand."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Chevron acquired Hess Corporation, adding significantly to proved reserves and expected production.",
+   "evidence": "The largest additions were from the acquisition of Hess Corporation (Hess) and extensions and discoveries in shale and tight assets in the Permian Basin, and project approvals in Australia and Guyana."
+  }
+ ],
+ "dropped": [
+  "product not in text (Downstream): refined petroleum products"
+ ]
+}

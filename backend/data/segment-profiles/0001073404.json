@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001073404",
+ "issuerName": "GERDAU S.A.",
+ "builtAt": "2026-11-14T17:38:47.082Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-027678",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1073404/000110465926027678/ggb-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brazil Business Segment",
+   "products": [],
+   "description": "Produces crude steel and finished steel products in Brazil using integrated and electric arc furnace mills.",
+   "evidence": "This unit represented 55.2% of the total crude steel output (in volume) of the Brazil Business Segment in 2025."
+  },
+  {
+   "name": "North America Business Segment",
+   "products": [],
+   "description": "Steel production and operations in North America reporting results in U.S. dollars.",
+   "evidence": "For example, the North America Business Segment reports its results in U.S. dollars."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

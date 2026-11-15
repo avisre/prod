@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000789933",
+ "issuerName": "NACCO INDUSTRIES, INC.",
+ "builtAt": "2026-11-15T04:40:01.373Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000789933-26-000070",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/789933/000078993326000070/nacco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Utility Coal Mining",
+   "products": [
+    "coal"
+   ],
+   "description": "Operated by North American Coal, manages surface coal mines that are exclusive, long-term fuel providers for power generation companies.",
+   "evidence": "The Utility Coal Mining segment, operated by North American Coal ® , manages surface coal mines that are exclusive, long-term fuel providers for power generation companies."
+  },
+  {
+   "name": "Contract Mining",
+   "products": [
+    "contract mining services",
+    "dragline services",
+    "MTECK draglines"
+   ],
+   "description": "Operated by North American Mining, provides specialized long-term contract mining services for aggregates producers and infrastructure projects.",
+   "evidence": "The Contract Mining segment, operated by North American Mining ® , is a leading provider of a broad range of specialized, long-term contract mining services."
+  },
+  {
+   "name": "Minerals and Royalties",
+   "products": [
+    "oil and gas mineral and royalty interests"
+   ],
+   "description": "Includes Catapult, acquires and promotes development of oil and gas mineral and royalty interests and related investments.",
+   "evidence": "The Minerals and Royalties segment, which includes the Catapult Mineral Partners ® (Catapult) business, acquires and promotes the development of mineral and royalty interests and other related investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for coal supplied to power plants under long-term fee-based contracts, contract mining services, and the company earns royalties from oil and gas sales.",
+  "evidence": "As an owner of mineral and royalty interests, we are entitled to a portion of the revenues received from the sale of oil, natural gas and associated natural gas liquids."
+ },
+ "changes": [
+  {
+   "text": "During 2025, the company renamed its segments: Coal Mining became Utility Coal Mining, North American Mining became Contract Mining, and Minerals Management became Minerals and Royalties.",
+   "evidence": "The Utility Coal Mining, Contract Mining and Minerals and Royalties segments were formerly the Coal Mining, North American Mining and Minerals Management segments, respectively."
+  }
+ ],
+ "dropped": []
+}

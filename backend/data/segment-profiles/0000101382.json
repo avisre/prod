@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000101382",
+ "issuerName": "UMB FINANCIAL CORP",
+ "builtAt": "2026-11-14T13:47:03.352Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076496",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/101382/000119312526076496/umbf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [],
+   "description": "One of three business segments providing banking products and services to commercial customers.",
+   "evidence": "The Company's products and services are grouped into three segments: Commercial Banking, Institutional Banking, and Personal Banking."
+  },
+  {
+   "name": "Institutional Banking",
+   "products": [],
+   "description": "One of three business segments serving institutional customers with banking and asset servicing.",
+   "evidence": "The Company's products and services are grouped into three segments: Commercial Banking, Institutional Banking, and Personal Banking."
+  },
+  {
+   "name": "Personal Banking",
+   "products": [],
+   "description": "One of three business segments providing banking products and services to retail customers.",
+   "evidence": "The Company's products and services are grouped into three segments: Commercial Banking, Institutional Banking, and Personal Banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for banking services and asset servicing, including asset-management, trust, bankcard, and cash-management services.",
+  "evidence": "The Company provides banking services and asset servicing to its customers in the United States and around the globe."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Heartland Financial USA, Inc. in an all-stock transaction, with HTLF Bank merging into UMB Bank.",
+   "evidence": "On January 31, 2025, the Company acquired all of the outstanding stock of Heartland Financial USA, Inc., a Delaware corporation (HTLF), in an all-stock transaction"
+  }
+ ],
+ "dropped": []
+}

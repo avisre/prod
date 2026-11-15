@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000034782",
+ "issuerName": "1st Source Corp",
+ "builtAt": "2026-11-14T13:44:07.399Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000034782-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/34782/000003478226000011/source-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial banking",
+   "products": [
+    "Commercial and consumer banking services",
+    "Trust and wealth advisory services",
+    "Insurance",
+    "Specialty Finance Group services",
+    "Renewable energy financing",
+    "Construction equipment financing",
+    "Aircraft financing",
+    "Auto and light truck fleet financing"
+   ],
+   "description": "Provides commercial and consumer banking, trust and wealth advisory services, insurance, and specialty equipment financing to individual and business clients.",
+   "evidence": "The Company has one reportable operating segment, commercial banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual and business clients pay interest on loans and leases, and the company earns fees from deposit, trust, insurance, and other banking services.",
+  "evidence": "We generally compete on the basis of client service and responsiveness to client needs, available loan and deposit products, the rates of interest charged on loans and leases, the rates of interest paid for funds, other credit and service charges, the quality of services rendered, the convenience of banking facilities, and in the case of loans and leases to large commercial borrowers, relative lending limits."
+ },
+ "changes": [],
+ "dropped": []
+}

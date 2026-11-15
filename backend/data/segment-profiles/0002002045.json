@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0002002045",
+ "issuerName": "GCL Global Holdings Ltd",
+ "builtAt": "2026-11-14T17:42:20.195Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-084021",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2002045/000121390026084021/ea0297613-20f_gclglobal.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Console games, hardware, computer accessories and other multi-media products",
+   "products": [
+    "console game codes",
+    "hardware",
+    "computer accessories",
+    "multi-media products"
+   ],
+   "description": "Distributes console games, hardware, computer accessories and other multi-media products to end consumers.",
+   "evidence": "Sale of console game, hardware, and accessories Our revenue from sale of console game, hardware, and accessories increased by approximately $32.2 million, or 35.4%, to approximately $123.3 million for the year ended March 31, 2025 from approximately $91.0 million for the year ended March 31, 2024."
+  },
+  {
+   "name": "Game publishing",
+   "products": [
+    "console game codes"
+   ],
+   "description": "Collaborates with third-party game developers to obtain exclusive publishing rights and distribute console game codes.",
+   "evidence": "Revenue from game publishing was generated from collaboration with third party game developers and obtaining exclusive publishing right in distributing the console game codes though third parties' storefronts, such as Sony's PlayStation Network and Valve's Steam."
+  },
+  {
+   "name": "Advertising service",
+   "products": [
+    "media advertising services"
+   ],
+   "description": "Provides advertising and media services to game publishers and other clients.",
+   "evidence": "Our revenues are mainly derived from sale of console game, hardware, and accessories, hardware, and accessories, game publishing, and media advertising service."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for console games, hardware, accessories, publishing services, and advertising through digital storefronts and direct sales.",
+  "evidence": "Revenue from game publishing was generated from collaboration with third party game developers and obtaining exclusive publishing right in distributing the console game codes though third parties' storefronts, such as Sony's PlayStation Network and Valve's Steam."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company acquired Ban Leong, which significantly expanded hardware, computer accessories, and other multi-media product sales.",
+   "evidence": "The increase in segment loss was primarily attributable to the increase in operating expenses, including increases in salary expenses, professional fees, bad debt expense, interest expenses, rent, and advertising and marketing expenses, primarily associated with the expansion of the Company's operations following the acquisition."
+  }
+ ],
+ "dropped": [
+  "product not in text (Console games, hardware, computer accessories and other multi-media products): physical console games",
+  "product not in text (Game publishing): game publishing services"
+ ]
+}

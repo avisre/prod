@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000061986",
+ "issuerName": "The Manitowoc Company, Inc.",
+ "builtAt": "2026-11-14T13:45:12.430Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-057356",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/61986/000119312526057356/mtw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Grove",
+    "Manitowoc",
+    "National Crane",
+    "Potain",
+    "Shuttlelift",
+    "Upfits by Aspen Equipment",
+    "MGX Equipment Services"
+   ],
+   "description": "Designs, manufactures, distributes and services cranes and lifting equipment for customers across North and South America.",
+   "evidence": "The Americas reporting segment includes the North America and South America continents."
+  },
+  {
+   "name": "Europe and Africa",
+   "products": [
+    "aftermarket parts",
+    "on-site repairs",
+    "crane remanufacturing",
+    "training services",
+    "digital solutions"
+   ],
+   "description": "Designs, manufactures, rents and services tower and mobile cranes and aftermarket services for customers in Europe and Africa.",
+   "evidence": "The EURAF reporting segment includes the Europe and Africa continents, excluding the Middle East region."
+  },
+  {
+   "name": "Middle East and Asia Pacific",
+   "products": [
+    "National Crane",
+    "Shuttlelift"
+   ],
+   "description": "Designs, manufactures and sells cranes and lifting products for customers in Asia, Australia and the Middle East.",
+   "evidence": "The MEAP reporting segment includes the Asia and Australia continents and the Middle East region."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Manitowoc earns revenue from selling new and used cranes, rental fees, and aftermarket parts and services, primarily through a global network of independent distributors and rental companies, plus its own MGX Equipment Services distribution network.",
+  "evidence": "We primarily distribute our products through a global network of independent distributors and/or rental companies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Europe and Africa): Potain tower cranes",
+  "product not in text (Europe and Africa): Grove mobile hydraulic cranes",
+  "product not in text (Middle East and Asia Pacific): Potain tower cranes",
+  "product not in text (Middle East and Asia Pacific): Manitowoc lattice-boom crawler cranes",
+  "product not in text (Middle East and Asia Pacific): Grove mobile hydraulic cranes"
+ ]
+}

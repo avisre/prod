@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0000718940",
+ "issuerName": "BCE INC.",
+ "builtAt": "2026-11-14T13:49:15.806Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-095004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/718940/000119312526095004/d86374dex993.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bell CTS Canada",
+   "products": [
+    "mobile data and voice plans",
+    "streaming services",
+    "devices",
+    "Internet access",
+    "Internet protocol television (IPTV)",
+    "cloud-based services",
+    "AI-driven solutions",
+    "satellite TV service"
+   ],
+   "description": "Provides wireless and wireline communication products and services to consumer, business and government customers across Canada.",
+   "evidence": "Our Bell CTS Canada segment provides a wide range of communication products and services to consumer, business and government customers across Canada."
+  },
+  {
+   "name": "Bell CTS U.S.",
+   "products": [
+    "broadband Internet",
+    "commercial ethernet",
+    "dedicated Internet-non-switched access",
+    "unified communications as a service (UCaaS)",
+    "Video (IPTV)"
+   ],
+   "description": "Comprised of Ziply Fiber, provides wireline communication products and services to residential, business and wholesale customers in the Pacific Northwest U.S.",
+   "evidence": "Our Bell CTS U.S. segment, comprised of Ziply Fiber, provides wireline communication products and services over a combined fibre-based and copper-based network, to residential, business and wholesale customers in the Pacific Northwest of the U.S."
+  },
+  {
+   "name": "Bell Media",
+   "products": [
+    "premium video",
+    "audio",
+    "OOH advertising",
+    "digital media services"
+   ],
+   "description": "Holds a portfolio of media assets providing video, audio, out-of-home advertising and digital media services to customers across Canada.",
+   "evidence": "Our Bell Media segment holds a portfolio of assets providing premium video, audio, OOH advertising, and digital media services to customers nationally across Canada."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for wireless and wireline communication services, media services and advertising, and for products such as wireless devices.",
+  "evidence": "The following table presents our revenues disaggregated by type of services and products by segment."
+ },
+ "changes": [
+  {
+   "text": "In 2025, a new segment, Bell CTS U.S., was created following Bell Canada's acquisition of Ziply Fiber.",
+   "evidence": "The results from the acquired Ziply Fiber operations are included in a new segment, Bell CTS U.S., from the date of acquisition."
+  }
+ ],
+ "dropped": [
+  "product not in text (Bell CTS U.S.): VoIP voice services",
+  "change not grounded: In 2024, Bell wound down The Source head office and back office operations and c"
+ ]
+}

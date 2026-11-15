@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0000827052",
+ "issuerName": "EDISON INTERNATIONAL",
+ "builtAt": "2026-11-14T13:52:09.478Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000827052-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/827052/000082705226000012/eix-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric utility",
+   "products": [],
+   "description": null,
+   "evidence": "SCE is an investor-owned public utility primarily engaged in the business of supplying and delivering electricity to an approximately 50,000 square mile area across Southern, Central and Coastal California."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "SCE earns revenue from customers through regulated electric rates that allow timely recovery of its costs.",
+  "evidence": "SCE's overall cash flows fluctuate based on, among other things, its ability to recover its costs in a timely manner from its customers through regulated rates"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electric utility): electricity supply and delivery"
+ ]
+}

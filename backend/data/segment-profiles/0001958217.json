@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001958217",
+ "issuerName": "Lifezone Metals Limited",
+ "builtAt": "2026-11-14T17:41:06.080Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001958217-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1958217/000195821726000009/lzm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metals Extraction",
+   "products": [],
+   "description": "Develops the Kabanga Nickel Project, an exploration and evaluation stage nickel deposit in Tanzania.",
+   "evidence": "The Metals Extraction segment of the business consists of Lifezone's interest in KNL, comprising the Kabanga Nickel Project ( ''Metals Extraction'' )."
+  },
+  {
+   "name": "Intellectual Property",
+   "products": [
+    "Hydromet Technology",
+    "Kabanga Hydromet Technology",
+    "Kell Process Technology",
+    "PGM recycling"
+   ],
+   "description": "Manages patents, operates Simulus laboratory, develops hydrometallurgical technology and PGM recycling partnership.",
+   "evidence": "The IP segment comprises patents held and managed by Lifezone Limited, a team of highly skilled engineers, scientists and technicians based in Lifezone's Simulus hydromet laboratory based in Perth, a strategic partnership with Sedibelo Resources Limited ( \"SRL\" ) and Industrial Development Corporation ( \"IDC\" ) regarding the development of the potential Kell-Sedibelo-Lifezone Refinery and the agreement between Lifezone and Glencore to recycle PGM in the United States."
+  },
+  {
+   "name": "Corporate",
+   "products": [],
+   "description": "Manages group financing, treasury operations and corporate strategy implementation.",
+   "evidence": "Lifezone's financing and treasury operations are centrally managed at the group level. These activities, along with other group-related functions, are reported under Corporate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for technical and laboratory services provided by Simulus and for consulting services to joint ventures.",
+  "evidence": "Revenue was attributable to technical consulting services provided to the Kellplant joint venture and technical and laboratory services provided by Simulus."
+ },
+ "changes": [],
+ "dropped": []
+}

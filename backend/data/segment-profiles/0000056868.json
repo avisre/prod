@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000056868",
+ "issuerName": "PrimeEnergy Resources Corporation",
+ "builtAt": "2026-11-14T13:45:00.955Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-012531",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/56868/000143774926012531/pnrg20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and gas exploration, development, operation and servicing",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "NGLs",
+    "well-servicing support operations",
+    "site-preparation and construction services"
+   ],
+   "description": "Acquires, develops, produces and services oil and natural gas properties in Texas and Oklahoma, selling oil, gas and liquids and providing contract services to third parties.",
+   "evidence": "The Company operates in one industry – oil and gas exploration, development, operation and servicing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells oil, natural gas and liquids production to direct purchasers under contracts or through other operators under joint operating agreements, and provides well-servicing and construction services to third parties.",
+  "evidence": "The Company sells its oil and natural gas and liquids production to a number of direct purchasers under direct contracts or through other operators under joint operating agreements."
+ },
+ "changes": [],
+ "dropped": []
+}

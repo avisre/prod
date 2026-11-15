@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000046195",
+ "issuerName": "BANK OF HAWAII CORPORATION",
+ "builtAt": "2026-11-14T13:44:36.929Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000046195-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/46195/000004619526000015/boh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Banking",
+   "products": [],
+   "description": "Provides consumer financial products and services, including deposit, loan, card and trust services, to retail customers in Hawaii and the Pacific.",
+   "evidence": "We are organized into three business segments for management reporting purposes: Consumer Banking, Commercial Banking, and Treasury and Other."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [],
+   "description": "Provides lending, deposit, merchant and other financial services to business customers, including commercial mortgages and customer derivative programs.",
+   "evidence": "Net interest income increased by $13.6 million or 6%, primarily due to an increase in loan balances, primarily in commercial mortgages, as well as a net increase in allocated interest income related to increases in balances and spreads on interest-bearing and savings deposits, partially offset by a decline in noninterest-bearing deposit balances and allocated interest income."
+  },
+  {
+   "name": "Treasury and Other",
+   "products": [],
+   "description": "Manages the investment securities portfolio, funding and residual credit loss and tax amounts for the Company.",
+   "evidence": "The provision for credit losses and income taxes in this business segment represents the residual amounts to arrive at the total amount for the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns net interest income on loans and investments funded by customer deposits, plus noninterest income such as service fees, trust and asset management income, loan fees and card commissions.",
+  "evidence": "Noninterest income increased by $1.4 million or 1%, primarily due to increases in trust and asset management income, monthly service fees, overdraft fees, and credit card commissions, partially offset by a decrease in mortgage banking income."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Bank sold its merchant services portfolio, resulting in a one-time payment and reduced merchant revenues.",
+   "evidence": "Noninterest income increased by $18.3 million or 64%, primarily due to a one-time payment on the sale of the Bank's merchant services portfolio in the fourth quarter, higher customer derivative program revenue, loan and commitment fees, analyzed deposit account fees and a one-time gain on sale of leased assets, partially offset by a reduction in merchant revenues and terminal rentals due to the sale of the portfolio."
+  }
+ ],
+ "dropped": []
+}

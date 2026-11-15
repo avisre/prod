@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000855683",
+ "issuerName": "MILESTONE SCIENTIFIC INC.",
+ "builtAt": "2026-11-14T13:52:57.061Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014117",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/855683/000149315226014117/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dental",
+   "products": [
+    "CompuDent®",
+    "STA Single Tooth Anesthesia System®",
+    "The Wand®",
+    "Safety Wand®"
+   ],
+   "description": "Sells computer-controlled local anesthesia delivery instruments and single-use disposable handpieces to dental practitioners worldwide.",
+   "evidence": "In the dental market, the Company's products are marketed under the CompuDent® and STA Single Tooth Anesthesia System® trademarks and utilize The Wand®, a single-use disposable handpiece."
+  },
+  {
+   "name": "Medical",
+   "products": [
+    "CompuFlo® Epidural Computer Controlled Anesthesia System",
+    "CompuFlo® Computer-Controlled Drug Delivery System"
+   ],
+   "description": "Provides computer-controlled drug delivery systems with Dynamic Pressure Sensing technology for epidural anesthesia and other medical injection procedures.",
+   "evidence": "The Company has received U.S. Food and Drug Administration (\"FDA\") 510(k) clearance for its CompuFlo® Epidural Computer Controlled Anesthesia System for use in specified regions of the spine."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns revenue primarily from selling dental and medical instruments and related single-use disposable handpieces to distributors and directly to dental offices via an e-commerce portal.",
+  "evidence": "Revenue is derived primarily from the sale of dental and medical instruments and related single-use disposable handpieces."
+ },
+ "changes": [],
+ "dropped": []
+}

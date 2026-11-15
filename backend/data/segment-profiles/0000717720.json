@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000717720",
+ "issuerName": "VALUE LINE, INC.",
+ "builtAt": "2026-11-14T13:49:10.410Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-024817",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/717720/000143774926024817/valu20260430_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Publishing",
+   "products": [
+    "The Value Line Investment Survey",
+    "The Value Line Investment Survey - Small and Mid-Cap",
+    "The Value Line Fund Advisor Plus",
+    "The Value Line 600",
+    "Value Line Select",
+    "Value Line Select: Dividend Income & Growth",
+    "Value Line Select ETFs",
+    "The Value Line Daily Options Survey"
+   ],
+   "description": "Produces investment periodicals, newsletters, analysis software and financial databases, and licenses Value Line copyrights and proprietary ranks to third parties.",
+   "evidence": "The investment publications and related publications (retail and institutional) and Value Line copyrights and Value Line Proprietary Ranks and other proprietary information consolidate into one segment called Publishing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns subscription fees from retail and institutional customers, recognized over the subscription life, plus copyright fees from third parties and non-voting revenues and profits interests from EAM.",
+  "evidence": "Payments received for new and renewal subscriptions and the value of receivables for amounts billed to retail and institutional customers are recorded as unearned revenue until the order is fulfilled."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000719135",
+ "issuerName": "Apyx Medical Corp",
+ "builtAt": "2026-11-14T13:49:16.453Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007471",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/719135/000143774926007471/apyx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Surgical Aesthetics",
+   "products": [
+    "Renuvion",
+    "J-Plasma",
+    "AYON Body Contouring System",
+    "Apyx One Console",
+    "Renuvion Micro Handpiece",
+    "Apyx Plasma RF handpieces"
+   ],
+   "description": "Sells helium plasma technology capital equipment and single-use handpieces to plastic surgeons, facial plastic surgeons and cosmetic physicians in the cosmetic and hospital surgical markets.",
+   "evidence": "Our product portfolio consists of our Helium Plasma Technology that is marketed and sold as Renuvion in the cosmetic surgery market and J-Plasma in the hospital surgical market."
+  },
+  {
+   "name": "OEM",
+   "products": [],
+   "description": "Develops and manufactures proprietary products for third-party medical device equipment manufacturers under OEM agreements.",
+   "evidence": "The OEM product line consists of proprietary products designed specifically for third party equipment manufacturers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by surgeons, hospitals and distributors for capital equipment and single-use handpieces, and by third-party equipment manufacturers for OEM development and manufacturing contracts.",
+  "evidence": "The Surgical Aesthetics segment sells both capital equipment and consumables in the form of a single use handpiece."
+ },
+ "changes": [],
+ "dropped": []
+}

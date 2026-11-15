@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001868995",
+ "issuerName": "CI&T Inc",
+ "builtAt": "2026-11-14T17:41:10.263Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001554855-26-000248",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1868995/000155485526000248/cint-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Transformation and Artificial Intelligence",
+   "products": [],
+   "description": "Global technology transformation specialist providing business strategy, customer experience design, and software engineering services integrated with artificial intelligence.",
+   "evidence": "The lowest level at which goodwill is monitored for internal management purposes is based on its single operating segment"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay for customized end-to-end technology transformation services including strategy, design, and software engineering, primarily on time-and-materials basis with emerging alternative commercial models.",
+  "evidence": "Our services are delivered through highly customized, end-to-end engagements."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, the company acquired Somo Global Ltd, Box 1824 Planejamento e Marketing"
+ ]
+}

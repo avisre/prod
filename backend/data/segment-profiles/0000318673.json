@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0000318673",
+ "issuerName": "Security National Financial Corporation",
+ "builtAt": "2026-11-14T13:48:12.028Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010228",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/318673/000149315226010228/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life insurance",
+   "products": [
+    "funeral plans",
+    "interest-sensitive life insurance",
+    "traditional life",
+    "limited-payment life",
+    "accident and health insurance",
+    "single premium deferred annuities",
+    "flexible premium deferred annuities",
+    "immediate annuities"
+   ],
+   "description": null,
+   "evidence": "The life insurance segment is engaged in the business of selling and servicing selected lines of life insurance, annuity products, and accident and health insurance."
+  },
+  {
+   "name": "Cemetery and mortuary",
+   "products": [
+    "funeral services",
+    "cemetery services",
+    "mortuary services",
+    "cremation services",
+    "pre-need sales"
+   ],
+   "description": "Operates mortuaries and cemeteries in Utah, California, and New Mexico and sells pre-need funeral, cemetery, mortuary, and cremation services.",
+   "evidence": "The Company also engages in pre-need selling of funeral, cemetery, mortuary, and cremation services through its cemetery and mortuary locations."
+  },
+  {
+   "name": "Mortgages",
+   "products": [
+    "residential loans",
+    "commercial loans",
+    "mortgage loans"
+   ],
+   "description": "Originates, underwrites, and purchases residential and commercial mortgage loans for new construction, existing homes, and other real estate projects.",
+   "evidence": "The mortgage segment originates and underwrites or otherwise purchases residential and commercial loans for new construction, existing homes, and other real estate projects."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Policyholders pay premiums on life insurance and accident and health policies and deposits on annuity contracts, customers purchase funeral and cemetery services and pre-need contracts, and borrowers obtain residential and commercial mortgage loans.",
+  "evidence": "The Company sells its life insurance products through direct agents, brokers, and independent licensed agents who may also sell insurance products of other companies."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company discontinued its low-cost comprehensive diver's accident insurance policy.",
+   "evidence": "This product was discontinued in March 2024."
+  },
+  {
+   "text": "In 2023, the Company completed a merger with FOXO Life Insurance Company.",
+   "evidence": "and merger with FOXO Life Insurance Company (2023)."
+  }
+ ],
+ "dropped": []
+}

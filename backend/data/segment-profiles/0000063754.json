@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000063754",
+ "issuerName": "McCORMICK & COMPANY, INCORPORATED",
+ "builtAt": "2026-11-14T13:45:17.144Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000063754-26-000037",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/63754/000006375426000037/mkc-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer",
+   "products": [
+    "McCormick",
+    "French's",
+    "Frank's RedHot",
+    "Lawry's",
+    "Cholula",
+    "Club House",
+    "OLD BAY",
+    "Vahiné"
+   ],
+   "description": null,
+   "evidence": "Our leading brands in the Americas include McCormick ® , French's ® , Frank's RedHot ® , Lawry's ® , Cholula ® , and Club House ® , as well as brands such as Gourmet Garden ® and OLD BAY ® ."
+  },
+  {
+   "name": "Flavor Solutions",
+   "products": [
+    "seasoning blends",
+    "spices and herbs",
+    "condiments",
+    "coating systems",
+    "compound flavors"
+   ],
+   "description": "Supplies customized flavor products to multinational food manufacturers and foodservice customers, directly and through distributors.",
+   "evidence": "Our range of Flavor Solutions remains one of the broadest in the industry and includes seasoning blends, spices and herbs, condiments, coating systems, and compound flavors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers, food manufacturers and foodservice businesses pay McCormick for branded and private label spices, seasonings, condiments and customized flavor products, sold directly or through brokers, wholesalers and distributors.",
+  "evidence": "Our products are sold directly to customers as well as through brokers, wholesalers, and distributors."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2026, McCormick purchased an additional 25% ownership interest in McCormick d"
+ ]
+}

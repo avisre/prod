@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001627272",
+ "issuerName": "OR ROYALTIES INC.",
+ "builtAt": "2026-11-14T17:38:52.022Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001696",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1627272/000106299326001696/exhibit99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Royalties, Streams and Other Interests",
+   "products": [],
+   "description": "Acquires and manages precious metals and other royalties, streams and other interests from mining operations.",
+   "evidence": "The President and CEO organizes and manages the business under a single operating segment, consisting of acquiring and managing precious metals and other royalties, streams and other interests."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "OR Royalties receives cash payments from mining operators and receives in-kind deliveries of precious metals and commodities from royalties, streams and offtake interests.",
+  "evidence": "Geographic revenues from the sale of precious metals and other commodities received or acquired from in-kind royalties, streams and other interests are determined by the location of the mining operations giving rise to the royalty, stream or other interest."
+ },
+ "changes": [],
+ "dropped": []
+}

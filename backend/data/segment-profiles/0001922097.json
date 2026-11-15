@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001922097",
+ "issuerName": "LANVIN GROUP HOLDINGS LIMITED",
+ "builtAt": "2026-11-14T17:41:43.342Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-052024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1922097/000110465926052024/lanv-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lanvin",
+   "products": [],
+   "description": "Includes all activities related to the Lanvin luxury fashion brand.",
+   "evidence": "Lanvin segment - Includes all activities related to the Lanvin brand."
+  },
+  {
+   "name": "Wolford",
+   "products": [],
+   "description": "Includes all activities related to the Wolford luxury fashion brand.",
+   "evidence": "Wolford segment - Includes all activities related to the Wolford brand."
+  },
+  {
+   "name": "St. John",
+   "products": [],
+   "description": "Includes all activities related to the St. John luxury fashion brand.",
+   "evidence": "St. John segment - Includes all activities related to the St. John brand."
+  },
+  {
+   "name": "Sergio Rossi",
+   "products": [],
+   "description": "Includes all activities related to the Sergio Rossi luxury fashion brand.",
+   "evidence": "Sergio Rossi segment - Includes all activities related to the Sergio Rossi brand."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase luxury fashion products through direct-to-consumer stores and e-commerce, wholesale partners, and the company receives royalties and license fees from third parties.",
+  "evidence": "Revenues for the year ended December 31, 2025 amounted to €240.5 million, an decrease of €51.4 million or (17.6)%, compared to €291.9 million for the year ended December 31, 2024."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, goodwill and brand impairment charges of €31.2 million were recorded, c",
+  "change not grounded: In 2025, goodwill and brand impairment charges increased to €66.7 million from €"
+ ]
+}

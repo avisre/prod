@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000706129",
+ "issuerName": "HORIZON BANCORP, INC.",
+ "builtAt": "2026-11-14T13:48:45.353Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000706129-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/706129/000070612926000024/hbnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "Commercial and retail banking services",
+    "Corporate and individual trust and agency services",
+    "Wealth management",
+    "Deposit accounts",
+    "Loans"
+   ],
+   "description": "Provides commercial and consumer banking services to individuals, businesses, municipalities and other entities in Indiana and Michigan.",
+   "evidence": "The Company has identified one reporting unit and one operating segment, community banking, which encompasses commercial and consumer banking services to serve a similar base of clients utilizing company-wide offerings of similar products and services managed through similar processes and platforms offered to individuals, businesses, municipalities and other entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on loans, service charges and fees on deposit accounts, and periodic fiduciary fees for trust and wealth management services.",
+  "evidence": "Service charges and fees on deposit accounts – these include general service fees charged for deposit account maintenance and activity and transaction-based fees charged for certain services, such as debit card, wire transfer and overdraft activities."
+ },
+ "changes": [],
+ "dropped": []
+}

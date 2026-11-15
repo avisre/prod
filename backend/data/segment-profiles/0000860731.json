@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000860731",
+ "issuerName": "TYLER TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T13:53:04.117Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000860731-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/860731/000086073126000016/tyl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Enterprise Software",
+   "products": [
+    "Public Administration Solutions",
+    "Courts & Public Safety Solutions",
+    "Education Solutions"
+   ],
+   "description": "Provides public sector entities with software systems and services for mission-critical back-office functions such as public administration, courts and public safety, education, and property and recording.",
+   "evidence": "The Enterprise Software (\"ES\") reportable segment provides public sector entities with software systems and services to meet their information technology and automation needs for mission-critical \"back-office\" functions such as: public administration solutions, courts and public safety solutions, education solutions, and property and recording solutions."
+  },
+  {
+   "name": "Platform Technologies",
+   "products": [
+    "Digital Solutions",
+    "Payment Processing",
+    "Streamlined Data Processing",
+    "Improved Operations and Workflows"
+   ],
+   "description": "Provides public sector entities with platform and transformative solutions including digital solutions, payments, data processing, and improved operations and workflows.",
+   "evidence": "The Platform Technologies (\"PT\") reportable segment provides public sector entities with platform and transformative solutions including digital solutions, payment processing, streamlined data processing, and improved operations and workflows."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tyler is paid by government clients through subscription-based SaaS arrangements, transaction-based fees, maintenance and support, professional services, and software licenses and royalties.",
+  "evidence": "We derive our revenues from four primary sources: subscription-based arrangements from SaaS and transaction-based fees; maintenance; professional services; and software licenses and royalties."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Enterprise Software): Property & Recording Solutions"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000049600",
+ "issuerName": "EASTGROUP PROPERTIES, INC.",
+ "builtAt": "2026-11-14T13:44:46.296Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000049600-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/49600/000004960026000010/egp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Industrial properties",
+   "products": [
+    "business distribution properties",
+    "bulk distribution properties",
+    "business service properties"
+   ],
+   "description": "Develops, acquires and operates industrial distribution properties in high-growth U.S. markets, primarily Texas, Florida, California, Arizona and North Carolina.",
+   "evidence": "EastGroup has one reportable segment – industrial properties, consistent with the Company's manner of internal reporting, measurement of operating results and allocation of the Company's resources."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under leases, mostly triple net leases where tenants also pay their pro rata share of operating expenses.",
+  "evidence": "The majority of the Company's leases are triple net leases, in which the tenant is responsible for their pro rata share of operating expenses during the lease term, including real estate taxes, insurance and common area maintenance."
+ },
+ "changes": [],
+ "dropped": []
+}

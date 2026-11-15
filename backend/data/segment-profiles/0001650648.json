@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001650648",
+ "issuerName": "4D Molecular Therapeutics, Inc.",
+ "builtAt": "2026-11-15T02:49:50.665Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-114075",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1650648/000119312526114075/fdmt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "single operating and reportable segment",
+   "products": [
+    "4D-150",
+    "4D-175",
+    "4D-710",
+    "4D-725"
+   ],
+   "description": "Discovery, development and commercialization of durable and disease-targeted genetic medicines for retinal and pulmonary diseases of high unmet need.",
+   "evidence": "The Company operates in a single operating and reportable segment , which includes all activities related to discovery, development and commercialization of durable and disease-targeted therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from collaboration and license partners, notably Otsuka in Japan and the Cystic Fibrosis Foundation, for development of its product candidates.",
+  "evidence": "the expected potential benefits of strategic collaboration agreements, including our relationships with Otsuka Pharmaceutical Co., Ltd. and Cystic Fibrosis Foundation, and our ability to attract collaborators with development, regulatory and commercialization expertise"
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

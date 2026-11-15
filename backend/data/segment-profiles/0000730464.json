@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000730464",
+ "issuerName": "Covista Inc.",
+ "builtAt": "2026-11-14T13:49:42.016Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-092044",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/730464/000110465926092044/cvsa-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chamberlain",
+   "products": [
+    "RN-BSN"
+   ],
+   "description": "Offers nursing and health professions degree and certificate programs to postsecondary students at campuses and online.",
+   "evidence": "This segment includes the operations of Chamberlain, which offers degree and certificate programs in the nursing and health professions postsecondary education industry."
+  },
+  {
+   "name": "Walden",
+   "products": [
+    "nursing",
+    "education",
+    "counseling",
+    "business",
+    "information technology",
+    "psychology",
+    "public health",
+    "social work and human services"
+   ],
+   "description": "Provides online degree and certificate programs for working professionals across nursing, social sciences, business and other fields.",
+   "evidence": "This segment includes the operations of Walden, which offers degree and certificate programs, including those in nursing, education, counseling, business, information technology, psychology, public health, social work and human services, public administration and public policy, and criminal justice."
+  },
+  {
+   "name": "Medical and Veterinary",
+   "products": [],
+   "description": "Operates AUC, RUSM and RUSVM, offering medical and veterinary postsecondary degree and certificate programs.",
+   "evidence": "This segment includes the operations of AUC, RUSM, and RUSVM, collectively referred to as the \"medical and veterinary schools,\" which offer degree and certificate programs in the medical and veterinary postsecondary education industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students pay tuition for the degree and certificate programs, with revenue driven by tuition rates and enrollment.",
+  "evidence": "Chamberlain revenue increased 3.4%, or $24.4 million, to $750.2 million in fiscal year 2026 compared to the prior year driven by higher tuition rates and enrollment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Chamberlain): pre-licensure Bachelor of Science in Nursing (BSN)",
+  "product not in text (Chamberlain): Master of Science in Nursing (MSN)",
+  "product not in text (Chamberlain): Doctor of Nursing Practice (DNP)",
+  "product not in text (Chamberlain): Master of Public Health (MPH)",
+  "product not in text (Chamberlain): Master of Social Work (MSW)",
+  "product not in text (Chamberlain): Master of Physician Assistant Studies (MPAS)",
+  "product not in text (Medical and Veterinary): Doctor of Medicine (MD) degree",
+  "product not in text (Medical and Veterinary): medical and veterinary degree and certificate programs"
+ ]
+}

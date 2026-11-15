@@ -1,0 +1,97 @@
+{
+ "version": 1,
+ "cik": "0000845877",
+ "issuerName": "FEDERAL AGRICULTURAL MORTGAGE CORPORATION",
+ "builtAt": "2026-11-14T13:52:41.365Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000845877-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/845877/000084587726000014/agm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Farm & Ranch",
+   "products": [
+    "AgVantage securities",
+    "USDA Securities",
+    "Farm & Ranch loans",
+    "LTSPCs",
+    "Unfunded loan commitments",
+    "Loan servicing"
+   ],
+   "description": "Provides a secondary market for agricultural mortgage loans and USDA-guaranteed loans for lenders serving agricultural real estate borrowers.",
+   "evidence": "The Farm & Ranch segment includes the financial results of AgVantage securities, USDA Securities and Farm & Ranch loans."
+  },
+  {
+   "name": "Corporate AgFinance",
+   "products": [
+    "Loans",
+    "AgVantage securities",
+    "Unfunded loan commitments"
+   ],
+   "description": "Purchases loans and securities financing larger, more complex farming operations and agribusinesses in the food and fiber supply chain.",
+   "evidence": "The Corporate AgFinance segment includes loans and AgVantage securities to larger and more complex farming operations, agribusinesses focused on food and fiber processing, and other supply chain production."
+  },
+  {
+   "name": "Power & Utilities",
+   "products": [
+    "Loans",
+    "AgVantage Securities",
+    "Unfunded loan commitments"
+   ],
+   "description": "Provides secondary market financing for rural electric and other utility lenders, previously reported as the Rural Utilities segment.",
+   "evidence": "Starting in fourth quarter 2024, we renamed the Rural Utilities segment as Power & Utilities and separately reported the results of Broadband Infrastructure."
+  },
+  {
+   "name": "Broadband Infrastructure",
+   "products": [
+    "Loans",
+    "AgVantage Securities",
+    "Unfunded loan commitments"
+   ],
+   "description": "Finances rural broadband and telecommunications infrastructure, reported separately from Power & Utilities beginning in fourth quarter 2024.",
+   "evidence": "Beginning in fourth quarter 2024, the reportable segments are: Farm & Ranch, Corporate AgFinance, Power & Utilities, Broadband Infrastructure, Renewable Energy, Funding, and Investments."
+  },
+  {
+   "name": "Renewable Energy",
+   "products": [
+    "Loans",
+    "AgVantage Securities",
+    "Unfunded loan commitments"
+   ],
+   "description": "Finances renewable energy projects in rural areas through loans and securities purchased from lenders.",
+   "evidence": "Our business consists of seven reportable operating segments: Farm & Ranch, Corporate AgFinance, Power & Utilities, Broadband Infrastructure, Renewable Energy, Funding, and Investments."
+  },
+  {
+   "name": "Funding",
+   "products": [],
+   "description": "Treasury-related segment that manages debt issuance and funding for Farmer Mac's secondary market activities.",
+   "evidence": "The table below summarizes our sources of income by the operating segments within those two lines of business, which do not include the treasury-related operating segments of Funding and Investments:"
+  },
+  {
+   "name": "Investments",
+   "products": [],
+   "description": "Treasury-related segment holding liquidity investments that comply with board policies and FCA regulations.",
+   "evidence": "The table below summarizes our sources of income by the operating segments within those two lines of business, which do not include the treasury-related operating segments of Funding and Investments:"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Farmer Mac earns net interest income on loans and securities held on balance sheet, plus guarantee, servicing, and commitment fees from lenders and investors.",
+  "evidence": "We are compensated for these activities through net interest income on loans and securities held on balance sheet, guarantee fees earned on securities issued to third parties, servicing fees on securitized loans and loans serviced for others, and commitment fees earned on loans in LTSPCs and on unfunded loan commitments."
+ },
+ "changes": [
+  {
+   "text": "In fourth quarter 2024, Farmer Mac renamed the Rural Utilities segment as Power & Utilities and began separately reporting Broadband Infrastructure.",
+   "evidence": "Starting in fourth quarter 2024, we renamed the Rural Utilities segment as Power & Utilities and separately reported the results of Broadband Infrastructure."
+  },
+  {
+   "text": "Beginning in fourth quarter 2024, the Corporate segment was eliminated and directly attributable operating expenses are allocated to each operating segment.",
+   "evidence": "Prior to 2024, all operating expenses were allocated to a Corporate segment. Beginning in fourth quarter 2024, operating expenses that are directly attributable to the operating segments are allocated to each respective segment."
+  }
+ ],
+ "dropped": []
+}

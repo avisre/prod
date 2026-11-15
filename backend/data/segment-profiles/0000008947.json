@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000008947",
+ "issuerName": "AZZ Inc.",
+ "builtAt": "2026-11-14T14:06:45.479Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000008947-26-000068",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/8947/000000894726000068/azz-20260228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AZZ Metal Coatings",
+   "products": [
+    "hot-dip galvanizing",
+    "spin galvanizing",
+    "powder coating",
+    "anodizing",
+    "plating"
+   ],
+   "description": "Leading provider of metal coating solutions for corrosion protection to the North American steel fabrication and other industries.",
+   "evidence": "Our AZZ Metal Coatings segment is a leading provider of metal coating solutions for corrosion protection, including hot-dip galvanizing, spin galvanizing, powder coating, anodizing and plating to the North American steel fabrication industry and other industries."
+  },
+  {
+   "name": "AZZ Precoat Metals",
+   "products": [
+    "coil coating",
+    "protective coatings",
+    "decorative coatings",
+    "value-added downstream processing"
+   ],
+   "description": "Provider of aesthetic and corrosion protective coatings for steel and aluminum coil to construction, appliance, HVAC, container and transportation markets.",
+   "evidence": "The AZZ Precoat Metals segment provides aesthetic and corrosion protective coatings and related value-added services for steel and aluminum coil, primarily serving the construction; appliance; heating, ventilation, and air conditioning (HVAC); container; transportation and other end markets in North America."
+  },
+  {
+   "name": "AZZ Infrastructure Solutions",
+   "products": [
+    "custom switchgear",
+    "electrical enclosures",
+    "medium and high voltage bus ducts",
+    "explosion proof and hazardous duty lighting products",
+    "automated weld overlay solutions"
+   ],
+   "description": "Forty percent non-controlling interest in joint venture providing application-critical equipment and specialized services to power generation, transmission, distribution, oil and gas, and industrial markets.",
+   "evidence": "The AZZ Infrastructure Solutions segment (\"AIS\") represents our 40% non-controlling interest in the AIS Investment Holdings LLC (the \"AVAIL JV\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for metal coating solutions and coil coating services; customers own substrates and paint in coil coating toll process.",
+  "evidence": "Paint and customer-owned substrate availability are important for our toll-coating process."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the AVAIL JV sold its Electrical Products Group businesses to nVent Electric plc.",
+   "evidence": "In May 2025, AIS Investment Holdings LLC, which operates under the name \"AVAIL Infrastructure Solutions,\" completed the sale of its electrical enclosures, switchgear, and bus systems businesses (the \"Electrical Products Group\" or \"EPG\") of AVAIL to nVent Electric plc (\"nVent\")."
+  },
+  {
+   "text": "In 2025, the AVAIL JV sold the majority of its Welding Services Business to Pelican Energy Partners LP.",
+   "evidence": "On December 31, 2025, AVAIL Infrastructure Solutions completed the sale of the majority of its Welding Services Business (\"WSI\") to Pelican Energy Partners LP."
+  }
+ ],
+ "dropped": []
+}

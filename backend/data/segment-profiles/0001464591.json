@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001464591",
+ "issuerName": "GeoPark LTD",
+ "builtAt": "2026-11-14T17:40:50.526Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-037819",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1464591/000110465926037819/gprk-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and Gas Exploration and Production",
+   "products": [
+    "Crude oil",
+    "Natural gas"
+   ],
+   "description": "Exploration, development and production of crude oil and natural gas reserves in Colombia, Argentina and Brazil.",
+   "evidence": "The D&M Reserves Report presents oil and gas reserves estimates for blocks located in the Llanos and Putumayo Basins in Colombia, and in the Neuquén Basin in Argentina."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells crude oil priced on international benchmarks and natural gas under long-term supply contracts to customers.",
+  "evidence": "The Group's sales of crude oil are priced based on market prices. The sales price is linked to U.S. Dollar denominated crude oil international benchmarks, such as Brent, adjusted for certain marketing and quality discounts based on, among other things, American Petroleum Institute (\"API\") gravity, viscosity, sulphur content, delivery point and transport costs. The Group's sales of natural gas, maily from the Manati gas field in Brazil, were priced based on long-term Gas Supply contracts with cus"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000849869",
+ "issuerName": "SILGAN HOLDINGS INC",
+ "builtAt": "2026-11-14T13:52:48.819Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012202",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/849869/000162828026012202/slgn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dispensing and Specialty Closures",
+   "products": [
+    "dispensing systems",
+    "specialty closures",
+    "capping/sealing equipment",
+    "detection systems"
+   ],
+   "description": "Manufactures dispensing and specialty closures for fragrance and beauty, food, beverage, personal and health care, home care and lawn and garden markets worldwide.",
+   "evidence": "We are a leading worldwide manufacturer and supplier of dispensing and specialty closures for the fragrance and beauty, food, beverage, personal and health care, home care and lawn and garden markets."
+  },
+  {
+   "name": "Metal Containers",
+   "products": [
+    "steel and aluminum containers",
+    "metal food containers"
+   ],
+   "description": "Manufactures steel and aluminum containers for pet and human food and general line products in North America and Europe.",
+   "evidence": "We are also a leading manufacturer and supplier of metal containers in North America and Europe, and in North America we are the largest manufacturer of metal food containers with a unit volume market share in the United States in 2025 of more than half of the market."
+  },
+  {
+   "name": "Custom Containers",
+   "products": [
+    "custom designed plastic containers"
+   ],
+   "description": "Manufactures custom designed plastic containers in North America for pet and human food, consumer health and pharmaceutical, personal care, home care, lawn and garden and automotive markets.",
+   "evidence": "Additionally, we are a leading manufacturer and supplier of custom containers in North America for a variety of markets, including the pet and human food, consumer health and pharmaceutical, personal care, home care, lawn and garden and automotive markets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Consumer products companies pay Silgan for rigid packaging products, largely under multi-year supply arrangements, with revenue recognized at shipment or over time for certain production contracts.",
+  "evidence": "We estimate that in 2026 approximately 90 percent of our projected metal container sales and a majority of our projected dispensing and specialty closures and custom container sales will be under multi-year customer supply arrangements."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired Weener Plastics Holding B.V., whose results were included in the dispensing and specialty closures segment.",
+   "evidence": "Weener Packaging's results of operations were included in our dispensing and specialty closures segment since the acquisition date."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,94 @@
+{
+ "version": 1,
+ "cik": "0001464790",
+ "issuerName": "BRC Group Holdings, Inc.",
+ "builtAt": "2026-11-14T17:41:17.064Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001464790-26-000024",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1464790/000146479026000024/rily-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital Markets",
+   "products": [
+    "Investment banking services",
+    "Institutional brokerage services",
+    "Direct lending services",
+    "Equity research",
+    "Securities lending",
+    "Proprietary trading"
+   ],
+   "description": "Provides investment banking, institutional brokerage, direct lending, and trading services to small and mid-cap companies and institutional investors.",
+   "evidence": "We provide investment banking and institutional brokerage services to publicly traded and privately held companies, institutional investors, and financial sponsors, and direct lending services to middle market companies."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "Wealth management and financial planning services",
+    "Brokerage",
+    "Investment management",
+    "Insurance",
+    "Tax preparation"
+   ],
+   "description": "Offers wealth management, financial planning, brokerage, investment management, insurance and tax preparation services.",
+   "evidence": "Our complementary wealth management business offers wealth management and financial planning services including brokerage, investment management, insurance, and tax preparation."
+  },
+  {
+   "name": "Lingo",
+   "products": [],
+   "description": "Telecom business providing consumer and business communication services.",
+   "evidence": "Our telecom businesses provide consumer and business services including traditional, mobile and cloud phone, internet and data, security, and email."
+  },
+  {
+   "name": "magicJack",
+   "products": [],
+   "description": "Telecom business providing consumer and business communication services.",
+   "evidence": "Our telecom businesses provide consumer and business services including traditional, mobile and cloud phone, internet and data, security, and email."
+  },
+  {
+   "name": "Marconi Wireless",
+   "products": [],
+   "description": "Telecom business providing consumer and business communication services.",
+   "evidence": "Our telecom businesses provide consumer and business services including traditional, mobile and cloud phone, internet and data, security, and email."
+  },
+  {
+   "name": "UOL",
+   "products": [],
+   "description": "Telecom business providing consumer and business communication services.",
+   "evidence": "Our telecom businesses provide consumer and business services including traditional, mobile and cloud phone, internet and data, security, and email."
+  },
+  {
+   "name": "Consumer Products",
+   "products": [
+    "Mobile computing accessories",
+    "Home furnishings"
+   ],
+   "description": "Provides mobile computing accessories and home furnishings to consumers through retail channels.",
+   "evidence": "Our consumer products and retail companies provide mobile computing accessories and home furnishings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Capital Markets earns fees from underwriting, advisory services, sales and trading commissions, and interest income from loans and securities lending. Wealth Management earns investment advisory fees based on assets under management.",
+  "evidence": "Fees earned from corporate finance and investment banking services are derived from debt, equity and convertible securities offerings in which the Company acted as an underwriter or placement agent."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company sold its Appraisal and Valuation Services, Retail, Wholesale & Industrial Solutions and Real Estate businesses through the Great American Group transaction.",
+   "evidence": "In November 2024, the Company completed a transaction in which (1) it and certain of its subsidiaries contributed all of the interests in the Company's Appraisal and Valuation Services, Retail, Wholesale & Industrial Solutions and Real Estate businesses to Great American Holdings, LLC."
+  },
+  {
+   "text": "In 2025, the Company sold GlassRatner Advisory & Capital Group, LLC and B. Riley Farber Advisory Inc., which were part of the Capital Markets segment.",
+   "evidence": "In June 2025, the Company sold all of the membership interests of GlassRatner Advisory & Capital Group, LLC and B. Riley Farber Advisory Inc., for cash consideration of approximately $117.8 million."
+  },
+  {
+   "text": "In 2025, the Company sold a portion of its Wealth Management business to Stifel Financial Corp.",
+   "evidence": "In April 2025, the Company sold a portion of the Company's (W-2) Wealth Management business to Stifel Financial Corp. (\"Stifel\") for net cash consideration of $26.0 million."
+  }
+ ],
+ "dropped": []
+}

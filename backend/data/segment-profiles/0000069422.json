@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000069422",
+ "issuerName": "THE INTERGROUP CORPORATION",
+ "builtAt": "2026-11-14T13:45:34.175Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-044490",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/69422/000149315226044490/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hotel Operations",
+   "products": [
+    "Hilton San Francisco Financial District",
+    "guestrooms",
+    "food and beverage operations",
+    "parking",
+    "ancillary operations"
+   ],
+   "description": "Owns and operates a full-service Hilton-branded hotel in San Francisco serving business, convention, group and leisure travelers.",
+   "evidence": "The Hotel generates revenues principally from guestrooms, food and beverage operations, parking and other ancillary operations and serves business, convention, group and leisure travelers."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "apartment complexes",
+    "single-family houses",
+    "commercial real estate property",
+    "unimproved land"
+   ],
+   "description": "Owns, manages and, when appropriate, sells multifamily and commercial real estate concentrated in Texas and Los Angeles County, California.",
+   "evidence": "In addition to the operations of the Hotel, the Company also generates income from the ownership, management and, when appropriate, sale of real estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from hotel guests for rooms, food and beverage, and parking, and from tenants renting its multifamily and commercial properties.",
+  "evidence": "The Company leases units in its residential rental properties on a short-term basis, with no lease extending beyond one year."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In December 2025, the Company sold a 12-unit multifamily property in Los Angeles"
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001855557",
+ "issuerName": "Hongli Group Inc.",
+ "builtAt": "2026-11-15T02:50:16.044Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-055737",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1855557/000121390026055737/ea0289800-20f_hongli.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel Profile Manufacturing",
+   "products": [
+    "custom-made profile products",
+    "steel products"
+   ],
+   "description": "Manufactures custom-made steel profile and related products for machinery and equipment manufacturers.",
+   "evidence": "The PRC operating entities profile products are applied to different kinds of machineries and equipment manufactured by enterprises in South Korea, Japan, and United States, the demands of the machineries and equipment in the world will to a certain extent impact the business of the PRC operating entities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase custom-made steel profile products and related steel products manufactured by the company's PRC operating entities.",
+  "evidence": "The PRC operating entities had 3 major customers, who in aggregate accounted for approximately $13.9 million, or 71% of the sales, $9.5 million, or 67% of the sales, and $12.0 million, or 75% of sales for the fiscal years ended December 31, 2025, 2024 and 2023, respectively."
+ },
+ "changes": [],
+ "dropped": []
+}

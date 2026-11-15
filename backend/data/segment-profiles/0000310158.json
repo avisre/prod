@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000310158",
+ "issuerName": "Merck & Co., Inc.",
+ "builtAt": "2026-11-14T13:47:48.696Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000310158-26-000063",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000063/mrk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical",
+   "products": [
+    "Keytruda",
+    "Keytruda Qlex",
+    "Gardasil",
+    "Gardasil 9",
+    "Januvia",
+    "Janumet",
+    "ProQuad",
+    "M-M-R II"
+   ],
+   "description": "Develops and sells human health prescription pharmaceuticals and preventive vaccines to drug wholesalers, retailers, hospitals, physicians, government agencies and managed care providers.",
+   "evidence": "The Pharmaceutical segment includes human health pharmaceutical and vaccine products."
+  },
+  {
+   "name": "Animal Health",
+   "products": [
+    "Livestock",
+    "Companion Animal"
+   ],
+   "description": "Discovers, develops, manufactures and markets veterinary pharmaceuticals, vaccines, health management solutions and digitally connected identification, traceability and monitoring products for livestock and companion…",
+   "evidence": "The Animal Health segment discovers, develops, manufactures and markets a wide range of veterinary pharmaceutical and vaccine products, as well as health management solutions and services, for the prevention, treatment and control of disease in all major livestock and companion animal species."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Merck earns revenue primarily from selling prescription medicines and vaccines to drug wholesalers, retailers, hospitals, government agencies, managed care providers, physicians and distributors, and from selling animal health products to veterinarians, distributors, animal producers, farmers and…",
+  "evidence": "The Company sells these human health pharmaceutical products primarily to drug wholesalers and retailers, hospitals, government agencies, and managed health care providers such as health maintenance organizations, pharmacy benefit managers and other institutions."
+ },
+ "changes": [],
+ "dropped": []
+}

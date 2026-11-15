@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000835324",
+ "issuerName": "STOCK YARDS BANCORP, INC.",
+ "builtAt": "2026-11-14T13:52:24.759Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005830",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/835324/000143774926005830/sybt20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "retail lending",
+    "mortgage banking",
+    "deposit services",
+    "online banking",
+    "mobile banking",
+    "private banking",
+    "commercial lending",
+    "commercial real estate lending"
+   ],
+   "description": "Provides a full range of loan and deposit products to individual consumers and businesses across all markets, including brokerage services via a third-party broker-dealer.",
+   "evidence": "Commercial Banking provides a full range of loan and deposit products to individual consumers and businesses in all its markets through retail lending, mortgage banking, deposit services, online banking, mobile banking, private banking, commercial lending, commercial real estate lending, leasing, treasury management services, merchant services, international banking, correspondent banking, credit card services and other banking services."
+  },
+  {
+   "name": "WM&T",
+   "products": [
+    "investment management",
+    "financial & retirement planning",
+    "trust & estate services",
+    "retirement plan management"
+   ],
+   "description": "Provides investment management, financial and retirement planning, trust and estate services, and retirement plan management for businesses and corporations.",
+   "evidence": "WM&T provides investment management, financial & retirement planning and trust & estate services, as well as retirement plan management for businesses and corporations in all markets in which Bancorp operates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on loans and fees for financial services, while the Bank earns net interest income on loans and investments funded by deposits, plus fee income from wealth management, deposit services and other banking activities.",
+  "evidence": "As is the case with most banks, our primary revenue sources are net interest income and fee income from various financial services provided to customers."
+ },
+ "changes": [],
+ "dropped": []
+}

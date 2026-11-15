@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000737758",
+ "issuerName": "THE TORO COMPANY",
+ "builtAt": "2026-11-14T13:49:52.492Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000737758-25-000115",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/737758/000073775825000115/ttc-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Professional",
+   "products": [
+    "Toro",
+    "Ditch Witch",
+    "eXmark",
+    "Spartan",
+    "BOSS",
+    "Ventrac",
+    "American Augers",
+    "Subsite"
+   ],
+   "description": "Designs and sells professional turf maintenance, landscape and lighting, underground construction, snow and ice management, and agricultural products to professional users worldwide.",
+   "evidence": "We design professional turf maintenance; landscape and lighting; rental, specialty, and underground construction; snow and ice management; and agricultural products."
+  },
+  {
+   "name": "Residential",
+   "products": [],
+   "description": "Provides residential yard and snow thrower products sold through mass retailers, hardware retailers, home centers, and online.",
+   "evidence": "We classify our operations into two reportable business segments: Professional and Residential."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Consists of a wholly-owned domestic distribution company, certain corporate activities, and elimination of intersegment revenues and expenses.",
+   "evidence": "These Other activities consist of earnings (loss) from a wholly-owned domestic distribution company, certain corporate activities, and the elimination of intersegment revenues and expenses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by distributors, dealers, mass retailers, hardware retailers, equipment rental centers, and home centers, as well as online and direct end-users, who buy or rent its equipment and irrigation products.",
+  "evidence": "Our products are marketed and sold worldwide through a network of distributors, dealers, mass retailers, hardware retailers, equipment rental centers, and home centers, as well as online and direct to end-users"
+ },
+ "changes": [],
+ "dropped": []
+}

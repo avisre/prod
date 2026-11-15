@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000036029",
+ "issuerName": "First Financial Bankshares, Inc.",
+ "builtAt": "2026-11-14T13:44:09.868Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/36029/000119312526071549/ffin-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "loans",
+    "investments",
+    "trust services",
+    "mortgage loans",
+    "deposit accounts"
+   ],
+   "description": "A financial holding company operating community banking regions in Texas, offering loans, deposits, trust and related banking services to customers.",
+   "evidence": "The Company has determined that its banking regions meet the aggregation criteria of ASC 280, Segment Reporting, since each of its banking regions and subsidiaries offer similar products and services, operate in a similar manner, have similar customers and report to the same regulatory authority, and therefore operate one line of business (community banking) located in a single geographic area (Texas)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns most of its revenue from interest on loans and investments, trust fees, gain on sale of mortgage loans, and service charges and fees on deposit accounts paid by customers.",
+  "evidence": "As a financial holding company, we generate most of our revenue from interest on loans and investments, trust fees, gain on sale of mortgage loans and service charges and fees on deposit accounts."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0000745308",
+ "issuerName": "The St. Joe Company",
+ "builtAt": "2026-11-14T13:49:59.541Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019676",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/745308/000110465926019676/joe-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "residential",
+   "products": [
+    "homesites",
+    "homes",
+    "residential land",
+    "tap and impact fee credits",
+    "Latitude Margaritaville Watersound"
+   ],
+   "description": "Develops residential communities across a range of price points and sells homesites primarily to homebuilders and limited retail customers in Northwest Florida.",
+   "evidence": "Our residential segment typically plans and develops residential communities of various sizes across a wide range of price points and sells homesites to homebuilders or retail consumers."
+  },
+  {
+   "name": "hospitality",
+   "products": [
+    "Watersound Club",
+    "hotels",
+    "food and beverage operations",
+    "retail outlets",
+    "gulf-front vacation rentals",
+    "marinas"
+   ],
+   "description": "Operates the exclusive Watersound Club, a portfolio of hotels, food and beverage, retail, vacation rentals, marinas and entertainment offerings for guests and members.",
+   "evidence": "Our hospitality segment also includes food and beverage operations, retail outlets, gulf-front vacation rentals, marinas and other entertainment offerings."
+  },
+  {
+   "name": "commercial",
+   "products": [
+    "multi-family properties",
+    "senior living properties",
+    "self-storage",
+    "industrial properties"
+   ],
+   "description": "Owns, develops and leases commercial property for varied uses, sells developed and undeveloped land, and manages timber holdings.",
+   "evidence": "In our commercial segment we own, or jointly own, develop and lease property for a variety of uses, including multi-family, senior living, self-storage, mixed-use, medical, office, retail, industrial and various other uses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from homebuilders and retail buyers purchasing homesites, from hotel guests, club members and vacation rental customers, and from commercial tenants leasing property and buyers of commercial land.",
+  "evidence": "The residential segment generates revenue from sales of homesites, homes and other residential land and certain homesite residuals from homebuilder sales that provide us a percentage of the sale price of the completed home if the home price exceeds a negotiated threshold."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold a senior living community as a discrete asset to optimize resource allocation.",
+   "evidence": "We may partner with or explore the sale of discrete assets, such as our sale of a senior living community in September 2025, in order to optimize resource allocation and maximize value."
+  }
+ ],
+ "dropped": [
+  "product not in text (commercial): mixed-use properties",
+  "product not in text (commercial): medical properties",
+  "product not in text (commercial): office properties",
+  "product not in text (commercial): retail properties"
+ ]
+}

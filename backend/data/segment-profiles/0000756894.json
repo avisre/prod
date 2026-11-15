@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000756894",
+ "issuerName": "BARRICK MINING CORP",
+ "builtAt": "2026-11-14T13:50:15.869Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-079253",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/756894/000119312526079253/d833573dex993.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Individual minesites",
+   "products": [
+    "gold",
+    "copper",
+    "silver"
+   ],
+   "description": "Barrick's operating segments are its individual gold and copper minesites, whose results are monitored by the chief operating decision maker.",
+   "evidence": "For the purposes of impairment testing, goodwill is allocated to the Company's operating segments, which are our individual minesites, and corresponds to the level at which goodwill is internally monitored by the Chief Operating Decision Maker (\"CODM\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025 the company changed its name from Barrick Gold Corporation to Barrick Mining Corporation.",
+   "evidence": "We have audited the accompanying consolidated balance sheets of Barrick Mining Corporation (formerly Barrick Gold Corporation) and its subsidiaries (the Company) as of December 31, 2025 and 2024."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Barrick lost control of the Loulo-Gounkoto mine in Mali in June 2025 and stopped"
+ ]
+}

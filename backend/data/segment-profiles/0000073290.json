@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000073290",
+ "issuerName": "BIOMERICA, INC.",
+ "builtAt": "2026-11-14T13:45:48.138Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-040851",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-08-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/73290/000149315226040851/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diagnostic products",
+   "products": [
+    "inFoods® IBS",
+    "hp+detect™",
+    "immunoassays",
+    "enzyme-linked immunosorbent assays (\"ELISAs\")",
+    "rapid diagnostic tests",
+    "contract development and manufacturing services"
+   ],
+   "description": "Develops, manufactures and markets diagnostic test kits and therapeutic products for clinical laboratories, point-of-care settings and over-the-counter channels worldwide.",
+   "evidence": "We manage our operations as a 1 single operating and reportable segment, which focus on the development, manufacture, marketing, and sale of diagnostic products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by clinical laboratories, physicians' offices, over-the-counter channels and third parties for diagnostic test kits and contract development and manufacturing services.",
+  "evidence": "We sell our portfolio of diagnostic products worldwide, primarily to clinical laboratories and in point-of-care settings, including physicians' offices and over-the-counter channels."
+ },
+ "changes": [],
+ "dropped": []
+}

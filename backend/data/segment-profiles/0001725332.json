@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001725332",
+ "issuerName": "ALARUM TECHNOLOGIES LTD.",
+ "builtAt": "2026-11-14T17:42:35.954Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-031556",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1725332/000121390026031556/ea0281588-20f_alarum.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Web Data Collection",
+   "products": [
+    "Static residential proxy network",
+    "Rotating residential proxy network",
+    "Data center proxy network",
+    "Premium dedicated static residential proxies",
+    "Mobile proxies",
+    "Social data collection service",
+    "Website Unblocker",
+    "Scraping APIs"
+   ],
+   "description": "Provides web data collection solutions including proxy networks and data collection services to organizations for business intelligence and market research.",
+   "evidence": "for the years ended December 31, 2025 and 2024, the Company has one operating and reportable segment, the web data collection segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for access to proxy networks and data collection services used to gather and analyze internet data for business purposes.",
+  "evidence": "Our IPPN solutions enable access to the Internet through millions of end points globally, thus ensuring multiple business use cases, including large-scale data collection and analysis, cyber security, price comparison, ad verification, search engine optimization, or SEO, validations, web data extraction, collection of data for financial analysis, and more."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company sold its enterprise cybersecurity segment and presented it as discontinued operations.",
+   "evidence": "In July 2023, the Company sold the enterprise cybersecurity segment, and accordingly, it is presented in these consolidated financial statements as \"discontinued operations\"."
+  },
+  {
+   "text": "In 2023, the company scaled down its consumer internet access business segment operated through CyberKick subsidiary.",
+   "evidence": "In addition, following the scale down in the operations of the Company's wholly-owned subsidiary CyberKick Ltd. (\"CyberKick\") in the second quarter of 2023, as of December 31, 2024, the Company's CEO is no longer assessing the performance of the consumer internet access segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Web Data Collection): SERP data collection service"
+ ]
+}

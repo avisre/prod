@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000091388",
+ "issuerName": "SMITHFIELD FOODS, INC.",
+ "builtAt": "2026-11-14T13:46:31.580Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000091388-26-000014",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/91388/000009138826000014/smf-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaged Meats",
+   "products": [
+    "bacon",
+    "sausage",
+    "hot dogs",
+    "deli and lunch meats",
+    "dry sausage products (such as pepperoni and genoa)",
+    "ham products",
+    "ready-to-eat products",
+    "prepared foods (such as pre-cooked entrees, bacon and sausage)"
+   ],
+   "description": "Processes fresh meat into packaged meats products sold mainly to retail and foodservice customers in the U.S.",
+   "evidence": "The Packaged Meats segment consists of our U.S. operations that process fresh meat into a wide variety of packaged meats products, including bacon, sausage, hot dogs, deli and lunch meats, dry sausage products (such as pepperoni and genoa), ham products, ready-to-eat products and prepared foods (such as pre-cooked entrees, bacon and sausage)."
+  },
+  {
+   "name": "Fresh Pork",
+   "products": [
+    "bellies",
+    "butts",
+    "hams",
+    "loins",
+    "picnics",
+    "ribs"
+   ],
+   "description": "Processes live hogs into primal, sub-primal and offal products for domestic retail, foodservice, industrial and export customers.",
+   "evidence": "The Fresh Pork segment consists of our U.S. operations that process live hogs into a wide variety of primal, sub-primal and offal products, such as bellies, butts, hams, loins, picnics and ribs."
+  },
+  {
+   "name": "Hog Production",
+   "products": [
+    "hogs",
+    "livestock feed and grains",
+    "transportation and other ancillary services"
+   ],
+   "description": "Raises hogs on company-owned and contract farms, supplying nearly all hogs to the Fresh Pork segment, and sells feed and services.",
+   "evidence": "The Hog Production segment consists of our hog production operations in the U.S., which produce and raise our hogs on numerous company-owned farms and farms that are owned and operated by contract farmers."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "fresh pork products",
+    "heparin products"
+   ],
+   "description": "Aggregated Mexico and Bioscience operating segments, producing fresh pork in Mexico and heparin products for the healthcare industry.",
+   "evidence": "We also conduct operations through two other operating segments, Mexico and Bioscience, which are aggregated and reported as \"Other.\""
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail, foodservice, industrial, export and healthcare customers pay the company for packaged meats, fresh pork, hogs, feed and heparin products.",
+  "evidence": "The majority of the Packaged Meats segment's products are sold to retail and foodservice customers in the U.S."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In fiscal year 2024 and 2025, the company reduced its hog production business th"
+ ]
+}

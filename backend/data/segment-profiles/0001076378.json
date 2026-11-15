@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001076378",
+ "issuerName": "CEMEX SAB DE CV",
+ "builtAt": "2026-11-14T17:38:13.132Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-177605",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1076378/000119312526177605/d120395d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Mexico",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Europe",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Middle East and Africa",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "South America, Central America and the Caribbean",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: United States",
+  "segment evidence not verbatim: Mexico",
+  "segment evidence not verbatim: Europe",
+  "segment evidence not verbatim: Middle East and Africa",
+  "segment evidence not verbatim: South America, Central America and the Caribbean"
+ ]
+}

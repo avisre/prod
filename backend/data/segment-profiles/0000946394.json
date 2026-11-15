@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000946394",
+ "issuerName": "ELLOMAY CAPITAL LTD.",
+ "builtAt": "2026-11-14T17:41:29.229Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050533",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/946394/000121390026050533/ea0286054-20f_ellomay.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Italy",
+   "products": [
+    "solar power plants"
+   ],
+   "description": "Operating and under construction solar power plants, with additional solar plants under development.",
+   "evidence": "Italy : solar power plants (operating and under construction solar power plants that are 51% owned by us, and additional solar plants under development)"
+  },
+  {
+   "name": "Spain",
+   "products": [
+    "subsidized solar power plants",
+    "28 MW solar power plant"
+   ],
+   "description": null,
+   "evidence": "Spain : 7.9 MW subsidized solar power plants, a 28 MW solar power plant and Talasol, a 300 MW solar power plant 51% owned by us"
+  },
+  {
+   "name": "USA",
+   "products": [
+    "solar power plants"
+   ],
+   "description": "Operating and under development and construction solar power plants.",
+   "evidence": "USA : solar power plants (operating and under development and construction)"
+  },
+  {
+   "name": "Netherlands",
+   "products": [
+    "biogas plants"
+   ],
+   "description": "Biogas plants for renewable energy generation.",
+   "evidence": "the Netherlands : biogas plants"
+  },
+  {
+   "name": "Israel",
+   "products": [
+    "Dorad",
+    "power plants"
+   ],
+   "description": "Indirect interest in Dorad pumped storage hydro power plant and power plants under development.",
+   "evidence": "Israel : 16.875% indirect interest in Dorad, pumped storage hydro power plant under construction in Manara, Israel and power plants under development"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company generates revenues from electricity production and sales from solar, biogas, and hydro power plants, with revenues varying by project ownership percentages and operational status.",
+  "evidence": "Revenues were approximately €42.8 million for the year ended December 31, 2025, compared to approximately €40.5 million for the year ended December 31, 2024. The increase in revenues mainly results from revenues generated from our 19.8 MW and 18.1 MW Italian solar facilities that were connected to the grid in February-May 2024 and in January 2025, respectively, and from our facilities in the USA that were connected to the grid during the second quarter of 2025"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Spain): Talasol solar power plant"
+ ]
+}

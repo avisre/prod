@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000068505",
+ "issuerName": "MOTOROLA SOLUTIONS, INC.",
+ "builtAt": "2026-11-14T13:45:33.758Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000068505-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/68505/000006850526000010/msi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products and Systems Integration",
+   "products": [
+    "on-premises and cloud-based access control solutions",
+    "video management infrastructure"
+   ],
+   "description": "Sells mission-critical communications infrastructure and devices, video security cameras and access control hardware to public safety, government, defense and enterprise customers.",
+   "evidence": "In 2025, the segment's net sales were $7.3 billion, representing 62% of our consolidated net sales."
+  },
+  {
+   "name": "Software and Services",
+   "products": [
+    "support and managed services",
+    "cybersecurity services",
+    "video network management and access control software",
+    "decision management and digital evidence management software"
+   ],
+   "description": "Provides support, managed and cybersecurity services plus video, command center and cloud software for public safety, government and enterprise customers.",
+   "evidence": "In 2025, the segment's net sales were $4.4 billion, representing 38% of our consolidated net sales."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for devices and communications systems, including installation and integration, and for software, subscriptions, cloud and managed/support services.",
+  "evidence": "Primary sources of revenue for this technology come from selling devices and building communications systems, including the installation and integration of our infrastructure equipment within our customers' operations."
+ },
+ "changes": [
+  {
+   "text": "In 2025, following the Silvus acquisition, the company renamed its Land Mobile Radio Communications technology to Mission Critical Networks.",
+   "evidence": "Following the acquisition of Silvus Technologies Holdings Inc. (\"Silvus\") in August 2025, we renamed our \"Land Mobile Radio Communications\" technology to \"Mission Critical Networks.\""
+  }
+ ],
+ "dropped": [
+  "product not in text (Products and Systems Integration): MCN infrastructure and devices (LMR, MANET, public safety LTE)",
+  "product not in text (Products and Systems Integration): two-way radio (P25, TETRA, DMR)",
+  "product not in text (Products and Systems Integration): AI-powered security cameras (fixed and mobile video equipment)",
+  "product not in text (Software and Services): repair and replacement, technical support, preventative maintenance",
+  "product not in text (Software and Services): license plate recognition and site protection software",
+  "product not in text (Software and Services): hardware-as-a-subscription offerings for law enforcement",
+  "product not in text (Software and Services): cloud solutions sold as-a-service"
+ ]
+}

@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000091440",
+ "issuerName": "Snap-on Inc",
+ "builtAt": "2026-11-14T13:46:33.730Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000091440-26-000045",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/91440/000009144026000045/sna-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial & Industrial Group",
+   "products": [
+    "hand tools",
+    "power tools",
+    "tool storage products",
+    "engineered solutions",
+    "custom kits",
+    "custom-built tools"
+   ],
+   "description": "Serves industrial and commercial customers in critical industries such as aerospace, natural resources, government and military, power generation, transportation and technical education, primarily through direct and…",
+   "evidence": "The Commercial & Industrial Group consists of business operations serving a broad range of industrial and commercial customers worldwide, including customers in the aerospace, natural resources, government and military, power generation, transportation and technical education market segments (collectively, \"critical industries\"), primarily through direct and distributor channels."
+  },
+  {
+   "name": "Snap-on Tools Group",
+   "products": [
+    "hand tools",
+    "power tools",
+    "tool storage products",
+    "diagnostics",
+    "certain equipment and related accessories"
+   ],
+   "description": "Serves vehicle service and repair technicians through the company's multinational mobile tool distribution channel of franchisee vans.",
+   "evidence": "The Snap-on Tools Group consists of business operations primarily serving vehicle service and repair technicians through the company's multinational mobile tool distribution channel."
+  },
+  {
+   "name": "Repair Systems & Information Group",
+   "products": [
+    "handheld and computer-based diagnostic products",
+    "service and repair information products",
+    "diagnostic software solutions",
+    "electronic parts catalogs",
+    "business management systems and services",
+    "point-of-sale systems",
+    "integrated systems for vehicle service shops",
+    "warranty management systems and analytics"
+   ],
+   "description": "Serves professional vehicle repair customers worldwide, primarily owners and managers of independent repair shops and OEM dealerships, through direct and distributor channels.",
+   "evidence": "The Repair Systems & Information Group consists of business operations serving other professional vehicle repair customers worldwide, primarily owners and managers of independent repair shops and OEM dealerships, through direct and distributor channels."
+  },
+  {
+   "name": "Financial Services",
+   "products": [],
+   "description": "Operates Snap-on Credit LLC and other finance subsidiaries, providing financing to customers purchasing or leasing tools, diagnostics and equipment and to franchisees for vehicle and business needs.",
+   "evidence": "Financial Services consists of the business operations of Snap-on Credit LLC (\"SOC\"), the company's financial services business in the United States, and Snap-on's other financial services subsidiaries in those international markets where Snap-on has franchise operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Professional customers, franchisees and distributors pay Snap-on for tools, diagnostics, equipment and repair information sold through franchisee vans, direct and distributor channels, while Financial Services earns revenue from financing extended-term payment plans and franchisee needs.",
+  "evidence": "The company also provides financing programs to facilitate the sales of its products and to support its franchise business."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Financial Services): extended-term payment plan financing",
+  "product not in text (Financial Services): franchisee vehicle and business financing"
+ ]
+}

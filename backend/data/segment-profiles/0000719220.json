@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000719220",
+ "issuerName": "S&T BANCORP, INC.",
+ "builtAt": "2026-11-14T13:49:17.674Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000719220-26-000030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/719220/000071922026000030/stba-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "commercial banking",
+    "small business banking",
+    "brokerage services",
+    "trust services",
+    "wealth management"
+   ],
+   "description": "Provides consumer, commercial and small business banking services, including deposits, loans, brokerage, trust and wealth management, to customers in Pennsylvania and Ohio.",
+   "evidence": "We have one operating segment, Community Banking, based upon our current reporting structure at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "S&T earns interest on commercial and consumer loans it originates and fees from banking, brokerage, trust and wealth management services provided to its customers.",
+  "evidence": "Through S&T Bank and our non-bank subsidiaries, we offer consumer, commercial and small business banking services, which include accepting time and demand deposits and originating commercial and consumer loans, brokerage services and trust services including serving as executor and trustee under wills and deeds and as guardian of employee benefits."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Community Banking): consumer banking",
+  "product not in text (Community Banking): private investment account management"
+ ]
+}

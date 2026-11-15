@@ -1,0 +1,87 @@
+{
+ "version": 1,
+ "cik": "0000215466",
+ "issuerName": "COEUR MINING, INC.",
+ "builtAt": "2026-11-14T13:47:37.018Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000215466-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/215466/000021546626000004/cde-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Las Chispas",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Underground silver-gold mine in Sonora, Mexico, acquired in early 2025, producing precious metals doré.",
+   "evidence": "The Las Chispas underground silver-gold mine, located in the State of Sonora in northern Mexico, which began operations in 2022 and was acquired by Coeur in early 2025."
+  },
+  {
+   "name": "Palmarejo",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Silver-gold complex in Chihuahua, Mexico, producing precious metals doré since 2009.",
+   "evidence": "The Palmarejo silver-gold complex, located in the State of Chihuahua in northern Mexico, which has been in operation since 2009."
+  },
+  {
+   "name": "Rochester",
+   "products": [
+    "gold",
+    "silver"
+   ],
+   "description": "Open pit heap leach silver-gold mine in northwestern Nevada, expanded in 2024.",
+   "evidence": "The Rochester open pit heap leach silver-gold mine, located in northwestern Nevada, which has been in operation since 1986 and completed a significant expansion in 2024."
+  },
+  {
+   "name": "Kensington",
+   "products": [
+    "gold concentrate"
+   ],
+   "description": "Underground gold mine near Juneau, Alaska, selling gold concentrate under a long-term offtake agreement.",
+   "evidence": "The Kensington underground gold mine, located north of Juneau, Alaska, which began operations in 2010."
+  },
+  {
+   "name": "Wharf",
+   "products": [
+    "gold"
+   ],
+   "description": "Open pit heap leach gold mine near Lead, South Dakota, producing electrolytic cathodic sludge refined into bullion.",
+   "evidence": "The Wharf open pit heap leach gold mine, located near Lead, South Dakota, which began operations in 1982."
+  },
+  {
+   "name": "Silvertip",
+   "products": [],
+   "description": "Underground silver-zinc-lead exploration project in northern British Columbia, Canada.",
+   "evidence": "The Silvertip exploration project is engaged in the discovery of silver, zinc, lead, and other related metals."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Includes certain mineral interests, strategic equity investments, corporate office, and eliminations of intersegment transactions.",
+   "evidence": "\" Other \" includes certain mineral interests, strategic equity investments, corporate office, elimination of intersegment transactions, and other items necessary to reconcile to consolidated amounts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells refined gold and silver bullion to multi-national banks, bullion trading houses, and refiners, and sells Kensington gold concentrate to third-party smelters under a long-term offtake agreement.",
+  "evidence": "We then sell gold and silver bullion to multi-national banks, bullion trading houses, and refiners across the globe."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Coeur acquired the Las Chispas mine through the SilverCrest Transaction, adding it as a new operating segment.",
+   "evidence": "The Las Chispas underground silver-gold mine, located in the State of Sonora in northern Mexico, which began operations in 2022 and was acquired by Coeur in early 2025."
+  },
+  {
+   "text": "In 2025, Coeur agreed to acquire New Gold Inc., expected to close in 2026 and add the New Afton and Rainy River mines.",
+   "evidence": "The New Gold Transaction is anticipated to close in the first half of 2026, subject to relevant regulatory approvals and routine closing conditions."
+  }
+ ],
+ "dropped": []
+}

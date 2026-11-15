@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000093751",
+ "issuerName": "STATE STREET CORPORATION",
+ "builtAt": "2026-11-14T13:46:41.419Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000093751-26-000124",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/93751/000009375126000124/stt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Servicing",
+   "products": [
+    "custody, accounting and fund administration services",
+    "recordkeeping, client reporting and investment book of record",
+    "transaction management, loans, cash, derivatives and collateral services",
+    "investor services operations outsourcing",
+    "performance, risk and compliance analytics",
+    "foreign exchange, brokerage and other trading services",
+    "securities finance, including prime services products",
+    "State Street Alpha"
+   ],
+   "description": "Provides back-, middle- and front-office investment servicing, markets and financing solutions to institutional clients worldwide.",
+   "evidence": "Our Investment Servicing line of business provides a broad range of investment servicing and market and financing solutions to institutional clients, including mutual funds, collective investment funds and other investment pools, corporate and public retirement plans, insurance companies, wealth managers, investment managers, foundations and endowments worldwide."
+  },
+  {
+   "name": "Investment Management",
+   "products": [
+    "ETFs",
+    "actively managed funds and mandates",
+    "alternatives strategies"
+   ],
+   "description": "Provides investment management solutions and products across equity, fixed income, liquidity and cash, multi-asset and alternatives strategies for institutional clients.",
+   "evidence": "Our investment management solutions span across equity, fixed income, liquidity and cash, multi-asset and alternatives strategies, delivered through products such as ETFs, custom indexed, and actively managed funds and mandates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutional clients pay State Street for investment servicing, markets and financing solutions and for investment management of their assets.",
+  "evidence": "State Street Corporation is one of the world's leading providers of financial services to institutional investors, including investment servicing, markets and financing solutions and investment management."
+ },
+ "changes": [
+  {
+   "text": "State Street Global Advisors was renamed State Street Investment Management (the filing does not specify the year of the rename).",
+   "evidence": "Our Investment Management line of business provides a comprehensive range of investment management solutions and products for our clients through State Street Investment Management (previously State Street Global Advisors)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Investment Management): custom indexed funds and mandates",
+  "product not in text (Investment Management): equity strategies",
+  "product not in text (Investment Management): fixed income strategies",
+  "product not in text (Investment Management): liquidity and cash strategies",
+  "product not in text (Investment Management): multi-asset strategies"
+ ]
+}

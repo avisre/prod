@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000727273",
+ "issuerName": "Cadiz Inc.",
+ "builtAt": "2026-11-14T13:49:36.859Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010517",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/727273/000143774926010517/cdzi20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land and Water Resources",
+   "products": [
+    "Mojave Groundwater Bank",
+    "alfalfa plantings",
+    "agricultural leases",
+    "Northern Pipeline",
+    "Southern Pipeline",
+    "Cadiz Property"
+   ],
+   "description": "Comprises all activities regarding the company's eastern Mojave Desert properties, pre-revenue development of the Mojave Groundwater Bank, and agricultural operations.",
+   "evidence": "Our largest segment is Land and Water Resources, which comprises all activities regarding our properties in the eastern Mojave Desert, pre-revenue development of the Mojave Groundwater Bank (supply, storage and conveyance), and agricultural operations."
+  },
+  {
+   "name": "Water Filtration Technology",
+   "products": [],
+   "description": "Provides innovative water filtration technology solutions for impaired or contaminated groundwater sources through ATEC.",
+   "evidence": "Our second operating segment is Water Filtration Technology comprised of ATEC which provides innovative water filtration technology solutions for impaired or contaminated groundwater sources."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Revenues come primarily from ATEC water filtration sales to customers, sales of alfalfa harvests, and rental income from agricultural leases.",
+  "evidence": "Our revenues have been limited primarily to ATEC sales and sales from our alfalfa plantings and rental income from our agricultural leases."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the company acquired the assets of ATEC Systems, Inc., forming its Water Filtration Technology segment.",
+   "evidence": "In 2022, we completed the acquisition of the assets of ATEC Systems, Inc., a producer of specialized filtration systems for removal of common groundwater contaminants that pose health risks in drinking water, including iron, manganese, arsenic, nitrates, Chromium 6 and other constituents of concern."
+  }
+ ],
+ "dropped": [
+  "product not in text (Water Filtration Technology): ATEC water filtration systems",
+  "product not in text (Water Filtration Technology): specialized filtration systems for groundwater contaminants"
+ ]
+}

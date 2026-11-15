@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000766011",
+ "issuerName": "Caledonia Mining Corp Plc",
+ "builtAt": "2026-11-14T13:50:28.344Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-047739",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/766011/000110465926047739/cmcl-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blanket",
+   "products": [
+    "gold"
+   ],
+   "description": "Operates the Blanket gold mine in Zimbabwe, including satellite projects and solar power services, producing gold for sale.",
+   "evidence": "The Blanket operating segment comprises Caledonia Holdings Zimbabwe (Private) Limited, Blanket Mine (1983) (Private) Limited, Blanket's satellite projects and Caledonia Mining Services (Private) Limited (\"CMS solar\")."
+  },
+  {
+   "name": "South Africa",
+   "products": [],
+   "description": "Represents sales made by the South African subsidiary to the Blanket Mine.",
+   "evidence": "The South African segment represents the sales made by Caledonia Mining South Africa Proprietary Limited to the Blanket Mine."
+  },
+  {
+   "name": "Bilboes oxide mine",
+   "products": [
+    "gold"
+   ],
+   "description": "Comprises the oxide mining activities at the Bilboes gold mine in Zimbabwe.",
+   "evidence": "The Bilboes oxide mine segment comprises the oxide mining activities."
+  },
+  {
+   "name": "E&E projects",
+   "products": [],
+   "description": "Holds exploration and evaluation activities for the Bilboes sulphide project and the Motapa and Maligreen projects.",
+   "evidence": "The E&E projects segment includes the exploration and evaluation activities of the Bilboes sulphide project as well as the Motapa and Maligreen projects."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling gold produced at its mines, with the Blanket segment generating nearly all external revenue.",
+  "evidence": "Revenue 262,230 — 5,433 — — — 267,663"
+ },
+ "changes": [
+  {
+   "text": "In 2023 the company completed the acquisition of Bilboes Gold Limited, adding the Bilboes oxide mine and sulphide project.",
+   "evidence": "On January 6, 2023, Caledonia completed the acquisition of Bilboes Gold Limited (\" Bilboes Gold \")"
+  }
+ ],
+ "dropped": []
+}

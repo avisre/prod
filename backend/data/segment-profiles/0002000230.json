@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0002000230",
+ "issuerName": "BrilliA Inc",
+ "builtAt": "2026-11-14T17:42:41.024Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-084106",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2000230/000121390026084106/ea0299887-20f_brillia.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ladies' intimates supply chain solution services",
+   "products": [
+    "Brassiere",
+    "Top",
+    "Lingerie and apparel",
+    "Jockey-branded products"
+   ],
+   "description": "Provides design, sourcing, manufacturing and logistics solutions for ladies' intimate apparel to major international brands.",
+   "evidence": "The Company operates in a single business segment which is the business of providing management services for ladies' intimates supply chain solution services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Bra Pro receives customer orders for lingerie and apparel at prices established during bidding, with MAP providing fulfillment services compensated by Bra Pro.",
+  "evidence": "Pricing is established during the bidding process by Bra Pro's customers. Bra Pro tasks MAP initiating production of the lingerie and apparel with the third party manufacturers once Bra Pro's marketing team successfully secures sales from its customers at the agreed-upon pricing."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company entered into a five-year trademark license agreement with Jockey International granting exclusive rights to source, design, manufacture, market, and sell Jockey-branded products in Indonesia.",
+   "evidence": "On December 9, 2025, the Group has also entered into a five-year trademark license agreement with Jockey International, Inc. granting BrilliA exclusive rights to source, design, manufacture, market, and sell Jockey-branded products in Indonesia, including underwear, bras, shapewear, socks, activewear, loungewear, and sleepwear for both men and women."
+  }
+ ],
+ "dropped": [
+  "product not in text (Ladies' intimates supply chain solution services): DIANA brand lingerie",
+  "change not grounded: In 2024, the company acquired MAP and reorganized Bra Pro as subsidiaries follow"
+ ]
+}

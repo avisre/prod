@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001993727",
+ "issuerName": "SENSTAR TECHNOLOGIES CORPORATION",
+ "builtAt": "2026-11-14T17:42:23.508Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-002328",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1993727/000117891326002328/zk2635101.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Products",
+   "products": [
+    "Perimeter Intrusion Detection Systems (PIDS)",
+    "Video Management Software (VMS)",
+    "Security Management Software (SMS)",
+    "Intelligent Video Analytics (IVA)",
+    "LIDAR solutions"
+   ],
+   "description": "Develops and sells perimeter intrusion detection systems, video and security management software, and surveillance solutions for critical infrastructure protection.",
+   "evidence": "Our products include Video Management Software (VMS), Security Management Software (SMS), Intelligent Video Analytics (IVA) and PIDS products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for security products, software licenses, and services including maintenance contracts and software-related services.",
+  "evidence": "The Company generates its revenues mainly from: (1) sales of security products; (2) services and maintenance, which are performed either on a fixed-price basis or as time-and-materials based contracts; and (3) software license fees and related services."
+ },
+ "changes": [
+  {
+   "text": "In 2021, the Projects segment was sold and results classified as discontinued operations.",
+   "evidence": "On June 30, 2021, the Projects segment was sold."
+  }
+ ],
+ "dropped": [
+  "product not in text (Products): Electronic Access Control (EAC)",
+  "product not in text (Products): Pipeline security and fiber infrastructure monitoring",
+  "change not grounded: In 2026, Blickfeld GmbH was acquired to expand capabilities in 3D LiDAR sensors "
+ ]
+}

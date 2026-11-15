@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000720005",
+ "issuerName": "RAYMOND JAMES FINANCIAL, INC.",
+ "builtAt": "2026-11-14T13:49:20.572Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000720005-25-000093",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/720005/000072000525000093/rjf-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Private Client Group",
+   "products": [
+    "financial planning",
+    "investment advisory",
+    "securities transaction services",
+    "mutual and other funds",
+    "fixed and variable annuities",
+    "insurance products",
+    "Raymond James Bank Deposit Program",
+    "RIA and Custody Services"
+   ],
+   "description": "Provides financial planning, investment advisory, and securities transaction services to retail clients through employee and independent contractor financial advisors.",
+   "evidence": "We provide financial planning, investment advisory, and securities transaction services to clients through financial advisors."
+  },
+  {
+   "name": "Capital Markets",
+   "products": [
+    "merger & acquisition and advisory services",
+    "equity underwriting",
+    "debt underwriting",
+    "equity research",
+    "affordable housing investments"
+   ],
+   "description": "Conducts investment banking, institutional sales, securities trading, equity research, and affordable housing tax credit investments for corporate and institutional clients.",
+   "evidence": "Our Capital Markets segment conducts investment banking, institutional sales, securities trading, equity research, and the syndication and management of investments in low-income housing funds and funds of a similar nature, the majority of which qualify for tax credits (referred to as our \"affordable housing investments\" business)."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "asset management services",
+    "portfolio management",
+    "related administrative services",
+    "proprietary mutual funds"
+   ],
+   "description": "Earns asset management and related administrative fees for providing asset management and portfolio management services to retail and institutional clients.",
+   "evidence": "Our Asset Management segment earns asset management and related administrative fees for providing asset management, portfolio management and related administrative services to retail and institutional clients."
+  },
+  {
+   "name": "Bank",
+   "products": [],
+   "description": "Provides corporate and retail banking services to clients.",
+   "evidence": "The firm also provides corporate and retail banking services and trust services."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Includes other business activities not attributable to the four core segments.",
+   "evidence": "We currently operate through the following five segments: Private Client Group (\"PCG\"); Capital Markets; Asset Management; Bank; and Other."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay asset-based fees on accounts, transactional commissions and brokerage fees, investment banking fees, and net interest income, with revenues generally driven by assets under administration.",
+  "evidence": "Revenues from this segment are typically driven by AUA and are generally either asset-based or transactional in nature."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Capital Markets): fixed income brokerage",
+  "product not in text (Capital Markets): equity brokerage"
+ ]
+}

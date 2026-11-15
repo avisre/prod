@@ -1,0 +1,86 @@
+{
+ "version": 1,
+ "cik": "0000051253",
+ "issuerName": "INTERNATIONAL FLAVORS & FRAGRANCES INC",
+ "builtAt": "2026-11-14T13:44:51.966Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000051253-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/51253/000005125326000006/iff-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Taste",
+   "products": [
+    "flavor compounds",
+    "natural taste solutions",
+    "spices",
+    "seasoning ingredients"
+   ],
+   "description": "Develops and produces flavor compounds and natural taste solutions for savory, beverage, sweet and dairy products, plus spices and seasonings.",
+   "evidence": "Our Taste segment consists of the development and production of a range of flavor compounds and natural taste solutions that are ultimately used by our customers in a diverse variety of products, including savory products (soups, sauces, meat, fish, poultry, snacks, etc.), beverages (juice drinks, carbonated or flavored beverages, spirits, etc.), sweets (bakery products, candy, cereal, chewing gum, etc.), and dairy products (yogurt, ice cream, cheese, etc.)."
+  },
+  {
+   "name": "Food Ingredients",
+   "products": [
+    "specialty food ingredients",
+    "soy and pea protein",
+    "emulsifiers",
+    "sweeteners",
+    "natural food protection ingredients",
+    "savory solutions",
+    "inclusion products"
+   ],
+   "description": "Provides natural, artificial and plant-based specialty food ingredients, proteins, emulsifiers, sweeteners, food protection and savory solutions for food and beverage makers.",
+   "evidence": "Our Food Ingredients segment consists of a diversified portfolio across natural, artificial and plant-based specialty food ingredients that provide functional properties solutions for food and beverage products, as well as specialty soy and pea protein with value-added formulations, emulsifiers and sweeteners."
+  },
+  {
+   "name": "Health & Biosciences",
+   "products": [
+    "enzymes",
+    "food cultures",
+    "probiotics",
+    "specialty ingredients",
+    "feed enzymes",
+    "yeasts"
+   ],
+   "description": "Develops biotechnology-derived enzymes, cultures, probiotics and specialty ingredients for food, health, home care, animal nutrition and grain processing applications.",
+   "evidence": "Our Health & Biosciences segment consists of the development and production of an advanced biotechnology-derived portfolio of enzymes, food cultures, probiotics and specialty ingredients for food and non-food applications."
+  },
+  {
+   "name": "Scent",
+   "products": [
+    "Fragrance Compounds",
+    "fine fragrances",
+    "consumer fragrances",
+    "Fragrance Ingredients"
+   ],
+   "description": "Creates fragrance compounds and natural and synthetic fragrance ingredients for perfumes and household and personal care products.",
+   "evidence": "Our Scent segment creates fragrance compounds and fragrance ingredients that are integral elements in the world's finest perfumes and best-known household and personal care products."
+  },
+  {
+   "name": "Pharma Solutions",
+   "products": [
+    "cellulosics",
+    "seaweed-based pharmaceutical excipients",
+    "nitrocellulose"
+   ],
+   "description": "Former segment producing pharmaceutical excipients for prescription and over-the-counter pharmaceuticals and dietary supplements, divested in May 2025.",
+   "evidence": "Our former Pharma Solutions segment produced, among other things, a vast portfolio of cellulosics and seaweed-based pharmaceutical excipients, used in prescription and over-the-counter pharmaceuticals and dietary supplements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "IFF is paid by manufacturers of foods, beverages, personal care, cleaning and other consumer products for its flavors, fragrances, ingredients and biosciences products.",
+  "evidence": "Our products are sold principally to manufacturers of dairy, meat, beverages, snacks, savory, sweet, baked goods, grain processors and other foods, personal care products, soaps and detergents, cleaning products, perfumes, dietary supplements, food protection, infant, elderly and animal nutrition, functional food, bio-fuel, and oral care products."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective January 1, 2025, the former Nourish segment was restructured into two ",
+  "change not grounded: The Pharma Solutions disposal group was divested on May 1, 2025.",
+  "change not grounded: The nitrocellulose business within Pharma Solutions was divested on May 9, 2025."
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000104894",
+ "issuerName": "ELME COMMUNITIES",
+ "builtAt": "2026-11-14T13:47:14.001Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000104894-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/104894/000010489426000011/elme-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multifamily",
+   "products": [
+    "apartment communities"
+   ],
+   "description": "Owns and manages apartment communities and one office property in the Washington, DC metro and Atlanta metro regions, now being wound down under a plan of liquidation.",
+   "evidence": "Our business primarily consists of the ownership of apartment communities in the greater Washington, DC metro and Sunbelt regions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns rental revenue from residents of its apartment communities and tenants of its office property.",
+  "evidence": "Net operating income is defined as segment real estate rental revenue less segment real estate expenses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Multifamily): Watergate 600 office property",
+  "change not grounded: In 2025, the company sold 19 multifamily properties and adopted a plan of sale a"
+ ]
+}

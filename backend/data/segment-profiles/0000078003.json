@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000078003",
+ "issuerName": "PFIZER INC",
+ "builtAt": "2026-11-14T13:46:02.052Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000078003-26-000026",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharma",
+   "products": [
+    "Eliquis",
+    "Nurtec ODT/Vydura",
+    "Zavzpret",
+    "Prevnar family",
+    "Comirnaty",
+    "Abrysvo",
+    "Paxlovid",
+    "Ibrance"
+   ],
+   "description": "Pfizer's innovative science-based biopharmaceutical business that discovers, develops, manufactures, markets, sells and distributes biopharmaceutical products worldwide.",
+   "evidence": "Biopharma, our innovative science-based biopharmaceutical business, is engaged in the discovery, development, manufacture, marketing, sale and distribution of biopharmaceutical products worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pfizer earns most of its revenues from the manufacture and sale of biopharmaceutical products, with pricing arrangements and contracting methods negotiated with payors.",
+  "evidence": "Most of our revenues come from the manufacture and sale of biopharmaceutical products."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Pfizer decided to discontinue the Pfizer Ignite operating segment and is winding down that business.",
+   "evidence": "In 2025, Pfizer made the decision to discontinue Pfizer Ignite and we are winding down this business while collaborating closely with our Ignite partners to ensure continuity and the successful transition of work."
+  },
+  {
+   "text": "Pfizer acquired Seagen in December 2023, adding to its oncology portfolio.",
+   "evidence": "For a discussion of our strategy and our business development initiatives, including our acquisitions of Metsera in November 2025 and Seagen in December 2023 and our in-licensing agreements with YaoPharma and 3SBio entered into in 2025 in the obesity and cardiometabolic diseases and oncology therapeutic areas, see the Overview of Our Performance, Operating Environment, Strategy and Outlook section within MD&A and Note 2 ."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective January 1, 2026, certain off-patent branded and generic sterile inject"
+ ]
+}

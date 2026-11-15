@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000025743",
+ "issuerName": "TherapeuticsMD, Inc.",
+ "builtAt": "2026-11-14T14:07:48.455Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036515",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/25743/000121390026036515/ea0275992-10k_therape.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical Royalty",
+   "products": [
+    "IMVEXXY",
+    "BIJUVA",
+    "ANNOVERA"
+   ],
+   "description": "Receives royalties on pharmaceutical products licensed to Mayne Pharma and other commercial partners.",
+   "evidence": "TherapeuticsMD is a pharmaceutical royalty company that owns or has rights to trademarks, service marks, or trade names that were previously used in connection with the operation of its business, or are now licensed by another party, including TherapeuticsMD®, vitaMedMD®, BocaGreenMD®, BIJUVA®, and IMVEXXY®"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mayne Pharma and other licensees pay royalties on net sales of licensed products, plus minimum annual royalties and potential milestone payments.",
+  "evidence": "Mayne Pharma agreed to pay us royalties on net sales of all Products in the United States at a royalty rate of 8.0% on the first $80.0 million in annual net sales and 7.5% on annual net sales above $80.0 million, subject to certain adjustments, for a period of 20 years following the Closing Date."
+ },
+ "changes": [
+  {
+   "text": "In December 2022, the company transitioned from being a women's healthcare company commercializing products to a pharmaceutical royalty company licensing products to other parties.",
+   "evidence": "TherapeuticsMD was previously a women's healthcare company with a mission of creating and commercializing innovative products to support the lifespan of women from pregnancy prevention through menopause. In December 2022, we changed our business to become a pharmaceutical royalty company, currently receiving royalties on products licensed to pharmaceutical organizations that possess commercial capabilities in the relevant territories."
+  }
+ ],
+ "dropped": [
+  "product not in text (Pharmaceutical Royalty): BocaGreenMD brand prescription prenatal vitamins",
+  "product not in text (Pharmaceutical Royalty): vitaMedMD brand prescription prenatal vitamins"
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000041719",
+ "issuerName": "Magnera Corporation",
+ "builtAt": "2026-11-14T13:44:28.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000041719-25-000110",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/41719/000004171925000110/form10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "medical garments",
+    "wipes",
+    "dryer sheets",
+    "filtration",
+    "baby diapers",
+    "adult incontinence"
+   ],
+   "description": "Manufactures personal care and consumer solution products and components for customers across the Americas.",
+   "evidence": "The segment primarily manufactures a wide range of products and components of personal care and consumer solution products and components of products including medical garments, wipes, dryer sheets, filtration, baby diapers and adult incontinence."
+  },
+  {
+   "name": "Rest of World",
+   "products": [
+    "tea bags",
+    "coffee filters",
+    "wipes",
+    "cable wrap",
+    "filtration",
+    "baby diapers",
+    "adult incontinence"
+   ],
+   "description": "Manufactures personal care and consumer solution products and components for customers outside the Americas.",
+   "evidence": "This segment primarily manufactures a broad collection of personal care and consumer solution products and components of products including tea bags, coffee filters, wipes, cable wrap, filtration, baby diapers and adult incontinence."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells specialty materials to global and national brands, private label, and regional businesses through a direct sales force.",
+  "evidence": "We reach our customer base through a direct sales force of dedicated professionals."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Berry Global subsidiary Treasure Holdco merged with Glatfelter, which changed its name to Magnera Corporation.",
+   "evidence": "On November 4, 2024 (the \"Closing Date\"), Treasure Holdco, Inc. (\"Treasure\"), which was a wholly owned subsidiary of Berry Global Group, Inc. (\"Berry\"), completed its merger (the \"Transaction\") with the Glatfelter Corporation (\"GLT\" or \"Glatfelter\") which concurrently changed its name to Magnera Corporation (the \"Company,\" \"we,\" or \"Magnera\")."
+  }
+ ],
+ "dropped": []
+}

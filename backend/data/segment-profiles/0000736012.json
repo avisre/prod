@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000736012",
+ "issuerName": "INTRUSION INC.",
+ "builtAt": "2026-11-14T13:49:50.281Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002196",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/736012/000168316826002196/intz_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cybersecurity",
+   "products": [
+    "INTRUSION Shield",
+    "Shield Cloud",
+    "Shield End-Point",
+    "INTRUSION TraceCop",
+    "INTRUSION Savant"
+   ],
+   "description": "Provides cybersecurity products and threat intelligence services, primarily to U.S. government entities and corporations.",
+   "evidence": "Intrusion is a cybersecurity company based in Plano, Texas."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from sales of its cybersecurity products and services, predominantly to U.S. government customers under purchase orders and contracts.",
+  "evidence": "We make our sales under purchase orders and contracts."
+ },
+ "changes": [],
+ "dropped": []
+}

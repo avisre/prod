@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000714256",
+ "issuerName": "SANARA MEDTECH INC.",
+ "builtAt": "2026-11-14T13:48:59.649Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012352",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/714256/000149315226012352/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sanara Surgical",
+   "products": [
+    "CellerateRX Surgical",
+    "BIASURGE",
+    "TEXAGEN Amniotic Membrane Allograft",
+    "BiFORM Bioactive Moldable Matrix",
+    "ACTIGEN Verified Inductive Bone Matrix",
+    "ALLOCYTE Plus",
+    "FORTIFY TRG Tissue Repair Graft"
+   ],
+   "description": "Develops and sells soft tissue repair and bone fusion surgical products to hospitals, ambulatory surgical centers and surgeons in the U.S. surgical market.",
+   "evidence": "We primarily market and sell soft tissue repair and bone fusion products for use in the operating room or other sterile environments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and ambulatory surgical centers purchase the company's surgical products for use by surgeons treating surgical wounds.",
+  "evidence": "CellerateRX Surgical is primarily purchased by hospitals and ambulatory surgical centers for use by surgeons to treat surgical wounds, including those associated with orthopedic, spine and trauma procedures."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company began managing its business on the basis of two reportable segments, Sanara Surgical and THP.",
+   "evidence": "Since the second quarter of 2024, we managed our business on the basis of two operating and reportable segments: the Sanara Surgical segment and the THP segment."
+  },
+  {
+   "text": "In 2025 the company discontinued the THP segment's operations and returned to a single reportable segment.",
+   "evidence": "Persistent losses related to THP and a lack of any firm commitments from potential investors led management and our Board of Directors to decide to discontinue THP's operations in mid-September 2025 and shift our focus exclusively on products and technologies for use in the surgical market."
+  }
+ ],
+ "dropped": []
+}

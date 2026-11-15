@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000763563",
+ "issuerName": "CHEMUNG FINANCIAL CORP",
+ "builtAt": "2026-11-14T13:50:18.638Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017546",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/763563/000162828026017546/chmg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "demand, savings, and time deposits",
+    "commercial, residential, and consumer loans",
+    "interest rate swaps",
+    "letters of credit"
+   ],
+   "description": "Community bank providing deposits and commercial, residential and consumer loans to customers in New York and Pennsylvania.",
+   "evidence": "The Corporation has identified separate operating segments and internal financial information is primarily reported and aggregated in two lines of business, banking and wealth management services."
+  },
+  {
+   "name": "Wealth management services",
+   "products": [
+    "employee benefit plans",
+    "insurance products",
+    "mutual funds",
+    "brokerage services"
+   ],
+   "description": "Provides wealth management, insurance, mutual fund, brokerage and benefit plan services through the Bank's WMG and CFS subsidiary.",
+   "evidence": "The Corporation established a financial services subsidiary, CFS, in September 2001 which offers non-banking financial services such as mutual funds, annuities, brokerage services, insurance, and tax preparation services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns income primarily from interest and fees on loans, interest on investment securities, wealth management fee income, and fees from deposit and other services.",
+  "evidence": "The Bank derives its income primarily from interest and fees on loans, interest on investment securities, WMG fee income, and fees received in connection with deposit and other services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wealth management services): wealth management services"
+ ]
+}

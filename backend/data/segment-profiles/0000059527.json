@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000059527",
+ "issuerName": "LINCOLN ELECTRIC HOLDINGS INC",
+ "builtAt": "2026-11-14T13:45:06.823Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000059527-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/59527/000005952726000006/leco-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas Welding",
+   "products": [
+    "arc welding equipment",
+    "filler metals",
+    "wire feeding systems",
+    "fume control equipment",
+    "welding accessories",
+    "automated solutions"
+   ],
+   "description": "Welding operations serving customers in North and South America.",
+   "evidence": "The Americas Welding segment includes welding operations in North and South America."
+  },
+  {
+   "name": "International Welding",
+   "products": [
+    "arc welding equipment",
+    "filler metals",
+    "wire feeding systems",
+    "fume control equipment",
+    "welding accessories",
+    "automated solutions"
+   ],
+   "description": "Welding operations serving customers in Europe, the Middle East, Africa, Asia and Australia.",
+   "evidence": "The International Welding segment includes welding operations in Europe, Middle East, Africa, Asia and Australia."
+  },
+  {
+   "name": "The Harris Products Group",
+   "products": [
+    "cutting systems (laser, plasma and oxyfuel)",
+    "soldering and brazing businesses",
+    "specialty gas regulators",
+    "specialty gas equipment",
+    "retail business"
+   ],
+   "description": "Global cutting, soldering and brazing businesses, specialty gas equipment, and a primarily U.S. retail business.",
+   "evidence": "The Harris Products Group includes the Company's global cutting, soldering and brazing businesses, specialty gas equipment, as well as the retail business which is primarily in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company is paid by industrial distributors, retailers and direct users of welding products such as OEMs, manufacturers and integrators, and by distributors and product users internationally.",
+  "evidence": "In the Americas, products are sold principally through industrial distributors, retailers and also directly to users of welding products (OEMs, manufacturers and integrators)."
+ },
+ "changes": [],
+ "dropped": []
+}

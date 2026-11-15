@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000315852",
+ "issuerName": "RANGE RESOURCES CORPORATION",
+ "builtAt": "2026-11-14T13:48:06.311Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067292",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/315852/000119312526067292/rrc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural gas, NGLs and oil",
+   "products": [
+    "natural gas",
+    "NGLs",
+    "oil"
+   ],
+   "description": "Independent exploration and production company developing natural gas, NGLs and oil properties in the Appalachian region of the United States.",
+   "evidence": "We are an independent natural gas, NGLs and oil company engaged in the exploration, development and acquisition of natural gas, NGLs and oil properties located in the Appalachian region of the United States."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Range index-driven prices for natural gas, NGLs and oil delivered at the wellhead or agreed delivery points, plus brokered margins on purchased gas and NGLs.",
+  "evidence": "We deliver product to the ultimate third-party purchaser at a contractually agreed-upon delivery point and receive a specified index-driven price from the purchaser."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000788611",
+ "issuerName": "NextTrip, Inc.",
+ "builtAt": "2026-11-14T13:50:56.592Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-026334",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-05-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/788611/000149315226026334/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Travel",
+   "products": [
+    "NXT2.0",
+    "NextTrip Vacations",
+    "Five Star Alliance",
+    "TA Pipeline",
+    "JournyGO",
+    "Travel Magazine Pro",
+    "PayDlay",
+    "Groups Platform"
+   ],
+   "description": "Travel booking and commerce operations serving leisure, luxury, cruise, group and business travelers through proprietary booking platforms and concierge support.",
+   "evidence": "Our Travel segment provides travelers with a full range of travel services through our NXT2.0 booking engine, which offers extensive inventory and a platform for curating personalized experiences and efficient trip planning and booking."
+  },
+  {
+   "name": "Media",
+   "products": [
+    "JOURNY.tv",
+    "GoUSA TV",
+    "Travel Magazine",
+    "KCGM Joint Venture"
+   ],
+   "description": "Content creation, audience development, media distribution and advertising monetization for travel audiences, which also drives demand into the Travel segment.",
+   "evidence": "Our Media segment consists of JOURNY.tv, a Connected TV Channel broadcast as Free Ad Supported Streaming TV (\"FAST\") and Advertising Video on Demand (\"AVOD\") that specializes in travel, adventure, and culture-focused content, and Travel Magazine, an online travel magazine that provides articles, tips, guides, and inspiration for travelers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Travel segment earns commissions, markups and service fees on travel bookings, while the Media segment earns advertising, sponsorship, branded content and destination marketing revenue.",
+  "evidence": "The Travel segment generates revenue primarily through commissions, markups, and service fees on travel bookings, as well as advisor-driven commissions and attribution-based fees through Travel Magazine Pro™."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the company began reporting two reportable segments, Travel and Media, following acquisitions and expanded business activities.",
+   "evidence": "As a result of these changes, we updated our internal reporting structure and, beginning in the third quarter of fiscal year 2026, we report our financial performance based on two reportable segments: Travel and Media."
+  },
+  {
+   "text": "In fiscal 2026 the company acquired Five Star Alliance (April 2025) and TA Pipeline (August 2025), expanding its travel operations.",
+   "evidence": "This change was driven primarily by acquisitions completed during fiscal year 2026, including FSA and TA Pipeline, which expanded our travel-related operations, and JOURNY.tv, which expanded our media operations."
+  },
+  {
+   "text": "In February 2026 the company acquired GoUSA TV content, brand rights and distribution assets from Brand USA and integrated them into JOURNY.tv.",
+   "evidence": "In February 2026, we acquired original content, brand rights, and distribution assets of GoUSA TV from Brand USA (The Corporation for Travel Promotion)."
+  }
+ ],
+ "dropped": []
+}

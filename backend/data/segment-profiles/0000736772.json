@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000736772",
+ "issuerName": "CNB FINANCIAL CORP/PA",
+ "builtAt": "2026-11-14T13:49:50.563Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000736772-26-000031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/736772/000073677226000031/ccne-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services",
+   "products": [
+    "Checking, savings, and time deposit accounts",
+    "Real estate, commercial, industrial, residential and consumer loans",
+    "Private banking and wealth and asset management",
+    "Nonproprietary annuities and other insurance products",
+    "Small balance unsecured loans and secured loans"
+   ],
+   "description": "A financial holding company providing full-service banking, lending, wealth management and related financial services to individual, business, governmental and institutional customers.",
+   "evidence": "The Bank is a full-service bank engaging in a full range of banking activities and services for individual, business, governmental and institutional customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income on loans and investments under contract, plus fees from deposit service charges, wealth and asset management, and card interchange from its customers.",
+  "evidence": "The largest source of revenue for the Corporation is interest income, which is primarily recognized on an accrual basis according to a written contract, such as loan and lease agreements or investment securities contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Corporation acquired ESSA Bancorp, Inc. and its subsidiary ESSA Bank & Trust Company, extending CNB Bank's branch network into Northeastern Pennsylvania.",
+   "evidence": "On July 23, 2025, the Corporation completed its previously announced acquisition of ESSA Bancorp, Inc. (\"ESSA\") and its subsidiary bank, ESSA Bank & Trust Company (\"ESSA Bank\"), pursuant to the definitive merger agreement (the \"Merger Agreement\") dated as of January 9, 2025."
+  }
+ ],
+ "dropped": []
+}

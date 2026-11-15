@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000711669",
+ "issuerName": "COLONY BANKCORP INC",
+ "builtAt": "2026-11-14T13:48:54.123Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000711669-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/711669/000071166926000007/cban-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial loans",
+    "residential mortgages",
+    "home equity loans",
+    "consumer loans",
+    "government-guaranteed loans through our Small Business Specialty Lending (\"SBSL\"",
+    "checking, savings, money market, and other deposit options",
+    "wealth management",
+    "consumer insurance"
+   ],
+   "description": "A Georgia state-chartered commercial bank providing banking, lending, deposit, wealth management and insurance services to retail and commercial customers in Georgia, Alabama and Florida.",
+   "evidence": "Our business is conducted primarily through our wholly-owned bank subsidiary, Colony Bank, a Georgia state-chartered commercial bank, which provides a broad range of banking services to its retail and commercial customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest on loans to retail and commercial customers, funded primarily by customer deposits, and collects fees from services such as treasury solutions, merchant services and wealth management.",
+  "evidence": "Our deposit products serve as the primary funding source for our loans and are designed to meet the needs of both individuals and businesses."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company acquired The Ellerbee Agency, a consumer property and casualty insurance agency, expanding its insurance division.",
+   "evidence": "On April 1, 2025, the Company acquired The Ellerbee Agency, an Allstate appointed consumer property and casualty insurance agency which became part of Colony's insurance division and expanded our insurance footprint and customer base into two new locations in Monroe and Greensboro, Georgia."
+  },
+  {
+   "text": "In 2025 the Company completed its acquisition of TC Bancshares, Inc., whose bank subsidiary TC Federal Bank was merged into Colony Bank.",
+   "evidence": "On December 1, 2025, the Company completed its acquisition of TC Bancshares, Inc. (\"TCBC\"), a bank holding company headquartered in Thomasville, Georgia."
+  }
+ ],
+ "dropped": []
+}

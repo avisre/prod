@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000072741",
+ "issuerName": "EVERSOURCE ENERGY",
+ "builtAt": "2026-11-14T13:45:45.800Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008461",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/72741/000162828026008461/es-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electric distribution",
+   "products": [
+    "solar power facilities"
+   ],
+   "description": "Distributes electricity to retail customers in Connecticut, Massachusetts and New Hampshire through CL&P, NSTAR Electric and PSNH.",
+   "evidence": "Eversource's electric distribution segment consists of the distribution businesses of CL&P, NSTAR Electric and PSNH, which are engaged in the distribution of electricity to retail customers in Connecticut, Massachusetts and New Hampshire, respectively, and the solar power facilities of NSTAR Electric."
+  },
+  {
+   "name": "electric transmission",
+   "products": [],
+   "description": "Provides electric transmission service to New England customers through CL&P, NSTAR Electric and PSNH.",
+   "evidence": "CL&P, NSTAR Electric and PSNH also serve New England customers through Eversource's electric transmission business."
+  },
+  {
+   "name": "natural gas distribution",
+   "products": [],
+   "description": "Distributes natural gas to residential, commercial and industrial customers in Massachusetts and Connecticut through NSTAR Gas, EGMA and Yankee Gas.",
+   "evidence": "NSTAR Gas), a regulated natural gas utility that serves residential, commercial and industrial customers in parts of Massachusetts"
+  },
+  {
+   "name": "water distribution",
+   "products": [],
+   "description": "Provides water service to residential, commercial, industrial, municipal and fire protection customers in Connecticut, Massachusetts and New Hampshire through Aquarion's subsidiaries.",
+   "evidence": "Aquarion Company (Aquarion), a utility holding company that owns five separate regulated water utility subsidiaries and collectively serves residential, commercial, industrial, and municipal and fire protection customers in parts of Connecticut, Massachusetts and New Hampshire."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for electricity, natural gas and water delivery, with supply costs passed through without mark-up and returns earned on delivery infrastructure investments.",
+  "evidence": "CL&P charges customers only the amount that it pays generators for producing electricity and does not earn a return on the cost of electricity."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Eversource sold its offshore wind interests, exiting the Revolution Wind, South Fork Wind and Sunrise Wind projects.",
+   "evidence": "In the third quarter of 2024, Eversource sold its interest in these entities, and in doing so, sold its interests in the Revolution Wind project, the South Fork Wind project, and the Sunrise Wind project."
+  },
+  {
+   "text": "In 2025, PURA denied approval of the sale of the Aquarion water distribution business, and the denial was sustained on appeal and remanded back to PURA.",
+   "evidence": "On November 19, 2025, PURA denied an application to approve the sale of the Aquarion Water Company, finding that the transaction did not meet managerial suitability and responsibility requirements due to concerns with governance and oversight structure over Aquarion and its consumer advocate."
+  }
+ ],
+ "dropped": [
+  "product not in text (electric distribution): electricity distribution",
+  "product not in text (electric transmission): electric transmission",
+  "product not in text (natural gas distribution): natural gas distribution",
+  "product not in text (water distribution): regulated water utility services"
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000088941",
+ "issuerName": "Semtech Corporation",
+ "builtAt": "2026-11-14T13:46:24.008Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000088941-26-000005",
+  "periodEnd": "2026-01-25",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/88941/000008894126000005/smtc-20260125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Signal Integrity",
+   "products": [
+    "video transport products"
+   ],
+   "description": "Designs and sells optical and copper data communications and video transport semiconductors for infrastructure and industrial applications.",
+   "evidence": "We design, develop, manufacture and market a portfolio of optical and copper data communications and video transport products used in a wide variety of infrastructure and industrial applications."
+  },
+  {
+   "name": "Analog Mixed Signal and Wireless",
+   "products": [
+    "specialized radio frequency products",
+    "LoRa® devices and wireless radio frequency technology",
+    "power product devices",
+    "switching voltage regulators",
+    "wireless charging"
+   ],
+   "description": "Designs and sells protection, sensing, wireless radio frequency (including LoRa) and power management semiconductors for consumer, industrial and automotive applications.",
+   "evidence": "We design, develop, manufacture and market high-performance protection devices, which are often referred to as transient voltage suppressors (\"TVS\") and specialized sensing products."
+  },
+  {
+   "name": "IoT Systems and Connectivity",
+   "products": [
+    "modules",
+    "gateways",
+    "routers",
+    "connected services",
+    "wireless connectivity and cloud-based services",
+    "SIM and subscription management",
+    "device and data management",
+    "geolocation support"
+   ],
+   "description": "Designs and markets IoT modules, gateways, routers and connected services enabling businesses to connect, manage and operate IoT devices.",
+   "evidence": "The portfolio includes a wide range of modules, gateways, routers, and connected services that are designed to meet the specific needs of different industries and applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semtech earns revenue primarily from selling semiconductor and IoT products to OEMs, IoT device makers, enterprises and solution providers, largely through independent distributors, on individual customer purchase orders.",
+  "evidence": "We derive our revenue primarily from the sale of our products into various end markets."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Semtech acquired HieFo Corporation and began operating foundries, adopting a fab-lite manufacturing model.",
+   "evidence": "On March 3, 2026, we completed the acquisition of HieFo Corporation in an all-cash transaction representing a total purchase consideration of approximately $34.0 million (the \"HieFo Acquisition\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Signal Integrity): optical and copper data communications products",
+  "product not in text (Signal Integrity): integrated circuits (ICs) for data centers, enterprise networks, PON, and wirele",
+  "product not in text (Signal Integrity): video products for high-definition broadcast applications",
+  "product not in text (Analog Mixed Signal and Wireless): transient voltage suppressors (TVS)",
+  "product not in text (Analog Mixed Signal and Wireless): protection solutions including filter and termination devices",
+  "product not in text (Analog Mixed Signal and Wireless): sensing technology (proximity sensing, force sensing, advanced user interface so"
+ ]
+}

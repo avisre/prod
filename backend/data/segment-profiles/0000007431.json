@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000007431",
+ "issuerName": "ARMSTRONG WORLD INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T14:06:33.397Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-065183",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/7431/000119312526065183/awi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mineral Fiber",
+   "products": [
+    "suspended mineral fiber and fiberglass ceiling systems",
+    "suspension system (grid) products",
+    "ceiling component products",
+    "Templok® energy saving ceiling tiles",
+    "Total Acoustics® solutions",
+    "Sustain® family of products"
+   ],
+   "description": "Produces suspended mineral fiber and fiberglass ceiling systems sold to distributors, contractors, wholesalers and retailers, and includes the WAVE joint venture.",
+   "evidence": "Mineral Fiber – produces suspended mineral fiber and fiberglass ceiling systems."
+  },
+  {
+   "name": "Architectural Specialties",
+   "products": [
+    "specialty ceilings",
+    "specialty walls",
+    "exterior metal architectural applications",
+    "architectural resin and glass products",
+    "wood acoustical ceiling and wall systems",
+    "extruded aluminum products"
+   ],
+   "description": "Designs, produces and sources specialty ceilings, walls and interior and exterior architectural applications primarily for commercial settings.",
+   "evidence": "Architectural Specialties – designs, produces and sources specialty ceilings, walls, and other interior and exterior architectural applications primarily for use in commercial settings."
+  },
+  {
+   "name": "Unallocated Corporate",
+   "products": [],
+   "description": "Holds assets, liabilities, income and expenses not allocated to other segments, including cash, the Overcast investment, pension status and debt.",
+   "evidence": "Unallocated Corporate – includes certain assets, liabilities, income and expenses that have not been allocated to our other business segments and consists of: cash and cash equivalents, our Overcast Innovations LLC investment and related equity earnings and losses, the net funded status of our U.S. Retirement Income Plan (\"RIP\"), the estimated fair value of interest rate swap contracts, outstanding borrowings under our senior secured credit facility and income tax balances."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company produces goods for inventory and sells on credit, primarily to building materials distributors who resell to contractors and facility owners.",
+  "evidence": "We primarily produce goods for inventory and sell on credit to our customers."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, AWI acquired Parallel, a designer and manufacturer of extruded aluminum products, included in the Architectural Specialties segment.",
+   "evidence": "The operations, assets and liabilities of Parallel are included in our Architectural Specialties segment."
+  },
+  {
+   "text": "In December 2024, AWI acquired Zahner, a designer and manufacturer of exterior metal architectural solutions, included in the Architectural Specialties segment.",
+   "evidence": "Zahner is a designer and manufacturer of exterior metal architectural solutions. The operations, assets and liabilities of Zahner are included in our Architectural Specialties segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In April 2024, AWI acquired 3form, a designer and manufacturer of architectural "
+ ],
+ "escalated": "no segments"
+}

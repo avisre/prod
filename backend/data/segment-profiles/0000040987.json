@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000040987",
+ "issuerName": "GENUINE PARTS CO",
+ "builtAt": "2026-11-14T13:44:27.682Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000040987-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/40987/000004098726000003/gpc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Automotive",
+   "products": [
+    "NAPA",
+    "UAP Inc.",
+    "Traction",
+    "TruckPro",
+    "TW",
+    "Cadel",
+    "NAPA/CMAX",
+    "Altrom"
+   ],
+   "description": "Distributes automotive replacement parts, accessories, tools and equipment in the U.S. and Canada to commercial and retail customers.",
+   "evidence": "Our North America Automotive segment operates in the United States and Canada through our Napa Auto Parts (\"NAPA\") subsidiaries, headquartered in Atlanta, Georgia, and UAP Inc., headquartered in Montreal, Canada."
+  },
+  {
+   "name": "International Automotive",
+   "products": [
+    "Alliance Automotive Group",
+    "GPC Asia Pacific",
+    "NAPA",
+    "Repco",
+    "GROUPAUTO",
+    "Precisium",
+    "Pièces Auto",
+    "Coler"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Industrial",
+   "products": [],
+   "description": "Distributes industrial replacement parts and value-added solutions across diverse end markets in North America, Australasia and Asia.",
+   "evidence": "Our Industrial business operated in the U.S., Canada, Australia, New Zealand, Indonesia and Singapore and accounted for 37% of total revenues."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily commercial repair shops and retail DIY consumers, pay GPC for automotive and industrial replacement parts and related solutions distributed through its store and distribution networks.",
+  "evidence": "Together, these segments serve over one million customer locations including repair shops, dealerships, fleet operators, and retail consumers by delivering extensive product offerings with speed and reliability."
+ },
+ "changes": [
+  {
+   "text": "In 2025, GPC disaggregated its automotive aftermarket business into two reportable segments, North America Automotive and International Automotive, with no changes to the Industrial segment.",
+   "evidence": "In the fourth quarter of 2025, we disaggregated our automotive aftermarket business into two reportable segments."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: International Automotive"
+ ]
+}

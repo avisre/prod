@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000060667",
+ "issuerName": "LOWES COMPANIES INC",
+ "builtAt": "2026-11-14T13:45:10.138Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000060667-26-000029",
+  "periodEnd": "2026-01-30",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/60667/000006066726000029/low-20260130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home improvement retail",
+   "products": [
+    "Appliances",
+    "Seasonal & Outdoor Living",
+    "Lumber",
+    "Lawn & Garden",
+    "Hardware",
+    "Kitchens & Bath",
+    "Building Materials",
+    "Rough Plumbing"
+   ],
+   "description": "An omnichannel home improvement retailer serving DIY and DIFM homeowners, renters, and Pro customers through stores, branches, online, and contact centers.",
+   "evidence": "Lowe's is an omnichannel retailer whose focus is on helping customers solve problems and fulfill dreams for their homes by providing an excellent customer experience, creating a great place to work for our associates, and improving our communities, which we believe will create long-term, sustainable value for our shareholders."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Lowe's for home improvement products, installation services, and delivery of building materials sold through its stores, branches, online, and contact centers.",
+  "evidence": "To meet customers' varying needs, we offer a complete line of products for construction, maintenance, repair, remodeling, and decorating."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Lowe's acquired Foundation Building Materials (FBM) and Artisan Design Group (ADG) to serve larger Pro customers.",
+   "evidence": "which include our current year acquisitions of Foundation Building Materials (FBM) and Artisan Design Group (ADG)."
+  }
+ ],
+ "dropped": []
+}

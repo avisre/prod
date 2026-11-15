@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0000785557",
+ "issuerName": "DLH HOLDINGS CORP.",
+ "builtAt": "2026-11-14T13:50:52.593Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000785557-25-000159",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/785557/000078555725000159/dlhc-20250930.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "U.S. federal government agencies pay DLH under prime and subcontract contracts—time and materials, firm fixed price, and cost reimbursable—for technology-enabled services, recognized as services are rendered.",
+  "evidence": "We deliver services primarily through prime contracts awarded by the federal government through competitive bidding processes."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Government Services"
+ ]
+}

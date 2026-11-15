@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000700841",
+ "issuerName": "RCM TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T13:48:36.749Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-011236",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-04-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/700841/000143774926011236/rcmt20260103_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Health Care",
+   "products": [
+    "staffing solutions",
+    "medical healthcare professionals",
+    "health information management professionals",
+    "nurses",
+    "paraprofessionals",
+    "physicians",
+    "therapists",
+    "teletherapy services"
+   ],
+   "description": "Provides healthcare staffing and teletherapy services to large healthcare institutions and school districts across the United States.",
+   "evidence": "The Specialty Health Care segment provides staffing solutions, including medical healthcare professionals, health information management professionals, nurses, paraprofessionals, physicians, and therapists for many of the largest healthcare institutions and school districts across the United States."
+  },
+  {
+   "name": "Engineering",
+   "products": [
+    "Energy Services",
+    "Process & Industrial",
+    "Aerospace",
+    "engineering and design services",
+    "integrated design and construction",
+    "engineering, procurement and construction management (\"EPC\")",
+    "demand side management/energy conservation services"
+   ],
+   "description": "Provides engineering, design and consulting services to design and build critical infrastructure projects for clients internationally.",
+   "evidence": "The Engineering segment provides a comprehensive portfolio of engineering and design services across three verticals: (1) Energy Services, (2) Process & Industrial, and (3) Aerospace."
+  },
+  {
+   "name": "Life Sciences, Data and Solutions",
+   "products": [
+    "enterprise business solutions",
+    "application development and support",
+    "IT infrastructure deployment and management",
+    "data solutions",
+    "digitization",
+    "human capital management solutions",
+    "Managed Service Offering"
+   ],
+   "description": "Provides IT, data and business solutions, including AI-enabled automation, tailored for the Life Sciences industry and other verticals.",
+   "evidence": "The Life Sciences, Data and Solutions segment specializes in offering a wide range of services, including enterprise business solutions, application development and support, IT infrastructure deployment and management, and technology and business solutions tailored for the Life Sciences industry and other specific verticals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients, including large national and international companies, healthcare institutions and school districts, pay RCM for specialty healthcare staffing, engineering and design services, and IT and data solutions.",
+  "evidence": "The Company services some of the largest national and international companies in North America, as well as a lengthy roster of Fortune 1000 and mid-sized global businesses in such industries as Aerospace/Defense, Educational Institutions, the Energy Sector, Financial Services, Healthcare, Life Sciences, Manufacturing & Distribution, the Public Sector, and Technology."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,80 @@
+{
+ "version": 1,
+ "cik": "0000087347",
+ "issuerName": "SLB LIMITED/NV",
+ "builtAt": "2026-11-14T13:46:22.672Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-021017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/87347/000119312526021017/slb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital",
+   "products": [
+    "digital solutions",
+    "data products"
+   ],
+   "description": "Comprises SLB's industry-leading digital solutions and data products for the energy industry.",
+   "evidence": "Digital – Comprised of SLB's industry-leading digital solutions and data products."
+  },
+  {
+   "name": "Reservoir Performance",
+   "products": [
+    "reservoir-centric technologies and services"
+   ],
+   "description": "Provides reservoir-centric technologies and services critical to optimizing reservoir productivity and performance.",
+   "evidence": "Reservoir Performance – Consists of reservoir-centric technologies and services that are critical to optimizing reservoir productivity and performance."
+  },
+  {
+   "name": "Well Construction",
+   "products": [],
+   "description": "Combines the full portfolio of products and services to optimize well placement, drilling efficiency and wellbore assurance.",
+   "evidence": "Well Construction – Combines the full portfolio of products and services to optimize well placement and performance, maximize drilling efficiency, and improve wellbore assurance."
+  },
+  {
+   "name": "Production Systems",
+   "products": [],
+   "description": "Develops technologies and expertise that enhance production and recovery of oil and gas assets from subsurface reservoirs to surface, pipelines and refineries.",
+   "evidence": "Production Systems – Develops technologies and provides expertise that enhances production and recovery of oil and gas assets from subsurface reservoirs to the surface, into pipelines, and to refineries."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "Asset Performance Solutions",
+    "Data Center Solutions",
+    "SLB Capturi"
+   ],
+   "description": "Consists of Asset Performance Solutions, Data Center Solutions, and SLB Capturi businesses.",
+   "evidence": "All Other – Consists of Asset Performance Solutions, Data Center Solutions, and SLB Capturi."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily in the oil and gas industry, pay SLB for services provided and products sold, with revenue based on the location where services are provided and products are sold.",
+  "evidence": "Revenue is based on the location where services are provided and products are sold."
+ },
+ "changes": [
+  {
+   "text": "In 2025, SLB began reporting its Digital business as a separate Division.",
+   "evidence": "Commencing the third quarter of 2025, SLB's Digital business is reported as a separate Division."
+  },
+  {
+   "text": "In 2025, Asset Performance Solutions, Data Center Solutions and SLB Capturi were moved to the All Other category.",
+   "evidence": "Additionally, SLB's Asset Performance Solutions (\"APS\"), Data Center Solutions and SLB Capturi businesses are now reported in the All Other category."
+  },
+  {
+   "text": "In 2025, the acquired ChampionX businesses were reported predominantly in the Production Systems Division, with its digital business in the Digital Division.",
+   "evidence": "The acquired ChampionX businesses are predominantly reported in SLB's Production Systems Division, with the exception of its digital business, which is reported in SLB's Digital Division."
+  }
+ ],
+ "dropped": [
+  "product not in text (Well Construction): well placement and performance products and services",
+  "product not in text (Well Construction): drilling efficiency products and services",
+  "product not in text (Well Construction): wellbore assurance products and services",
+  "product not in text (Production Systems): production and recovery technologies"
+ ]
+}

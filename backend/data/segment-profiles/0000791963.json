@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000791963",
+ "issuerName": "OPPENHEIMER HOLDINGS INC.",
+ "builtAt": "2026-11-14T13:51:05.132Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012313",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/791963/000162828026012313/opy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wealth Management",
+   "products": [
+    "Full-Service Brokerage",
+    "Wealth Planning",
+    "Margin Lending",
+    "Separately Managed Accounts",
+    "Mutual Fund Managed Accounts",
+    "Discretionary Advisory Accounts",
+    "Non-Discretionary Advisory Accounts",
+    "Alternative Investments"
+   ],
+   "description": "Provides full-service brokerage, advisory, asset management, wealth planning and margin lending to high-net-worth individuals, families and businesses.",
+   "evidence": "Through its Wealth Management business, Oppenheimer provides a comprehensive array of financial services through a network of 924 financial advisors in 88 offices located throughout the United States."
+  },
+  {
+   "name": "Capital Markets",
+   "products": [
+    "Mergers and Acquisitions",
+    "Equities Capital Markets",
+    "Debt Capital Markets",
+    "Public Finance",
+    "Institutional Sales and Trading",
+    "Equity and Fixed Income Research",
+    "Market-Making"
+   ],
+   "description": "Provides investment banking, sales and trading, research and market-making services to emerging growth and middle market companies and financial sponsors.",
+   "evidence": "Oppenheimer's investment banking business provides strategic advisory services and capital markets services to emerging growth and middle market companies as well as financial sponsors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay commissions on transaction-based brokerage accounts, asset-based advisory fees on fee-based accounts, interest on margin lending, and investment banking and trading revenues from capital markets clients.",
+  "evidence": "Clients may choose a variety of ways to establish a relationship and conduct business including brokerage accounts with transaction-based pricing and/or investment advisory accounts with asset-based fee pricing."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company wound down and deregistered its discount broker-dealer subsidiary Freedom Investments.",
+   "evidence": "In September 2025, the Company announced its plans for Freedom to cease operations and formally deregister as a broker-dealer."
+  }
+ ],
+ "dropped": []
+}

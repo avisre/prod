@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000027904",
+ "issuerName": "DELTA AIR LINES, INC.",
+ "builtAt": "2026-11-14T14:07:57.270Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000027904-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000013/dal-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Airline",
+   "products": [],
+   "description": "Operates a global airline network connecting customers across domestic and international routes with premium and main cabin services.",
+   "evidence": "As a global airline based in the United States, we connect customers across our expansive global network with a commitment to ensuring that the future of travel is connected, personalized and enjoyable."
+  },
+  {
+   "name": "Refinery",
+   "products": [],
+   "description": "Operates the Trainer refinery near Philadelphia producing jet fuel and refined petroleum products for Delta's airline operations.",
+   "evidence": "Monroe and its pipeline subsidiary operate the Trainer refinery and related logistics assets located near Philadelphia, Pennsylvania."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for airline tickets and ancillary services; American Express pays for miles sold under co-brand credit card partnership.",
+  "evidence": "In 2025, remuneration from American Express totaled $8.2 billion, which we expect to grow to $10 billion over the next few years."
+ },
+ "changes": [],
+ "dropped": []
+}

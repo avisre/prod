@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000018255",
+ "issuerName": "THE CATO CORPORATION",
+ "builtAt": "2026-11-14T14:07:21.858Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001562762-26-000041",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/18255/000156276226000041/cato-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Cato",
+    "Cato Fashions",
+    "Cato Plus",
+    "It's Fashion",
+    "It's Fashion Metro",
+    "Versona",
+    "Cache"
+   ],
+   "description": "Fashion specialty stores offering apparel and accessories at low prices in junior, missy, plus and family sizes.",
+   "evidence": "The Company has two reportable segments — the operation of a fashion specialty stores segment (\"Retail Segment\") and a credit card segment (\"Credit Segment\"). The fashion specialty stores operate under the names \"Cato,\" \"Cato Fashions,\" \"Cato Plus,\" \"It's Fashion,\" \"It's Fashion Metro,\" \"Versona \" and \"Cache,\" including e-commerce websites."
+  },
+  {
+   "name": "Credit",
+   "products": [
+    "Credit card",
+    "Layaway plan"
+   ],
+   "description": "Credit card and layaway programs enabling customers to purchase merchandise from retail stores.",
+   "evidence": "The Company has two reportable segments — the operation of a fashion specialty stores segment (\"Retail Segment\") and a credit card segment (\"Credit Segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail segment generates revenue from merchandise sales; Credit segment generates revenue from finance charges and late fees on customer credit accounts.",
+  "evidence": "Credit and layaway sales under the Company's plan represented 6% of retail sales in fiscal 2025."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000749098",
+ "issuerName": "Magna International Inc.",
+ "builtAt": "2026-11-14T13:50:05.360Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-128771",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/749098/000119312526128771/d20215dex993.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Body Exteriors & Structures",
+   "products": [
+    "body",
+    "chassis",
+    "exterior"
+   ],
+   "description": "Supplies body, chassis and exterior automotive systems to global vehicle manufacturers.",
+   "evidence": "The Company is organized under four operating segments: Body Exteriors & Structures, Power & Vision, Seating Systems, and Complete Vehicles."
+  },
+  {
+   "name": "Power & Vision",
+   "products": [
+    "powertrain",
+    "active driver assistance",
+    "electronics",
+    "mirrors & lighting",
+    "mechatronics"
+   ],
+   "description": "Provides powertrain, driver assistance, electronics, mirrors, lighting and mechatronics products to automakers.",
+   "evidence": "product capabilities which include body, chassis, exterior, seating, powertrain, active driver assistance, electronics, mirrors & lighting, mechatronics, and roof systems."
+  },
+  {
+   "name": "Seating Systems",
+   "products": [
+    "seating"
+   ],
+   "description": "Supplies seating systems for automotive customers worldwide.",
+   "evidence": "The Company is organized under four operating segments: Body Exteriors & Structures, Power & Vision, Seating Systems, and Complete Vehicles."
+  },
+  {
+   "name": "Complete Vehicles",
+   "products": [
+    "complete vehicle engineering",
+    "contract manufacturing"
+   ],
+   "description": "Offers complete vehicle engineering and contract manufacturing services for automakers.",
+   "evidence": "Magna is a global automotive supplier which has complete vehicle engineering and contract manufacturing expertise."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Magna earns sales from global automotive customers, including General Motors, Daimler, Ford, BMW, Volkswagen and Stellantis, for its automotive systems, products and contract manufacturing.",
+  "evidence": "The following table aggregates external revenues by customer as follows:"
+ },
+ "changes": [],
+ "dropped": []
+}

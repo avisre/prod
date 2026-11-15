@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000763907",
+ "issuerName": "First United Corporation",
+ "builtAt": "2026-11-14T13:50:20.918Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-025836",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/763907/000110465926025836/func-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "checking",
+    "savings",
+    "money market deposit accounts",
+    "certificates of deposit",
+    "business loans",
+    "personal loans",
+    "mortgage loans",
+    "lines of credit"
+   ],
+   "description": "Provides retail and commercial banking services, including deposits and lending, to businesses and individuals in Maryland and West Virginia market areas.",
+   "evidence": "The Bank is an independent community bank providing a complete range of retail and commercial banking services to businesses and individuals in its market areas."
+  },
+  {
+   "name": "wealth management",
+   "products": [
+    "personal trust",
+    "investment agency accounts",
+    "charitable trusts",
+    "retirement accounts",
+    "401(k) accounts",
+    "defined benefit plans",
+    "estate administration",
+    "estate planning"
+   ],
+   "description": null,
+   "evidence": "The Bank's wealth department offers a full range of trust services, including personal trust, investment agency accounts, charitable trusts, retirement accounts including IRA roll-overs, 401(k) accounts and defined benefit plans, estate administration and estate planning."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest on loans and fees from deposit, brokerage, trust and other banking services charged to business and individual customers.",
+  "evidence": "Income from the Bank's trust department represents fees charged to customers and recognized through revenue recognition."
+ },
+ "changes": [],
+ "dropped": []
+}

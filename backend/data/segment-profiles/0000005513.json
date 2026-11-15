@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000005513",
+ "issuerName": "Unum Group",
+ "builtAt": "2026-11-14T14:06:25.992Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000005513-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/5513/000000551326000008/unm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Unum US",
+   "products": [
+    "Group long-term disability",
+    "Group short-term disability",
+    "Group life and accidental death and dismemberment",
+    "Voluntary benefits",
+    "Individual disability",
+    "Dental and vision"
+   ],
+   "description": "Provides group disability, group life, and supplemental voluntary employee benefit insurance products to U.S. employers.",
+   "evidence": "Our Unum US segment is comprised of group disability, group life and accidental death and dismemberment, and supplemental and voluntary lines of business."
+  },
+  {
+   "name": "Unum International",
+   "products": [],
+   "description": "Provides employee benefit insurance products in the United Kingdom and Poland.",
+   "evidence": "We are a leading provider of financial protection benefits in the United States and the United Kingdom."
+  },
+  {
+   "name": "Colonial Life",
+   "products": [],
+   "description": "Provides employee benefit insurance products through workplace channels.",
+   "evidence": "Our reportable segments are comprised of the following: Unum US, Unum International, Colonial Life, Closed Block, and Corporate."
+  },
+  {
+   "name": "Closed Block",
+   "products": [],
+   "description": "Manages in-force policies from insurance products no longer actively marketed.",
+   "evidence": "Our reportable segments are comprised of the following: Unum US, Unum International, Colonial Life, Closed Block, and Corporate."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Employers pay premiums for group insurance products based on expected claims, administrative expenses, investment income and profit; individual policies and fee-based services generate revenue similarly.",
+  "evidence": "Premiums for group long-term and short-term disability are generally based on expected claims of a pool of similar risks plus provisions for administrative expenses, investment income, and profit."
+ },
+ "changes": [
+  {
+   "text": "In 2024, medical stop-loss product was no longer actively marketed as of the third quarter.",
+   "evidence": "Also included in our long-term disability product line is our medical stop-loss product, which was no longer actively marketed as of the third quarter of 2024."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001871638",
+ "issuerName": "Blaize Holdings, Inc.",
+ "builtAt": "2026-11-14T17:41:41.493Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001871638-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1871638/000187163826000011/blz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AI-enabled Computing Solutions",
+   "products": [
+    "Third-party hardware solutions",
+    "Blaize AI Studio",
+    "Software development kit",
+    "Strategic consulting services"
+   ],
+   "description": "Develops and sells purpose-built AI-enabled computing solutions for efficient AI inference processing across edge and data center environments.",
+   "evidence": "Our computing solutions are designed for efficient processing of AI inference workloads across edge and data center environments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for hardware products, software products, and strategic consulting services to configure hardware and intellectual property to their needs.",
+  "evidence": "In 2025, all of our revenue was attributable to sales of hardware and software products, with no revenue generated from services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, revenue model shifted from primarily services-based in 2024 to hardware and software products, as prior service contracts expired.",
+   "evidence": "In 2024, substantially all of our revenue was derived from providing strategic consulting services, and these service contracts have since expired."
+  }
+ ],
+ "dropped": [
+  "product not in text (AI-enabled Computing Solutions): GSP processor",
+  "product not in text (AI-enabled Computing Solutions): Compute cards (PCIe cards)"
+ ]
+}

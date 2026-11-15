@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0001475260",
+ "issuerName": "CENOVUS ENERGY INC.",
+ "builtAt": "2026-11-14T17:37:52.410Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001475260-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1475260/000147526026000008/cve-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil Sands",
+   "products": [],
+   "description": "Development and production of bitumen and heavy oil in northern Alberta and Saskatchewan, including Foster Creek, Sunrise, Lloydminster and Christina Lake assets.",
+   "evidence": "Oil Sands, includes the development and production of bitumen and heavy oil in northern Alberta and Saskatchewan."
+  },
+  {
+   "name": "Conventional",
+   "products": [],
+   "description": "Production of natural gas liquids and natural gas in Alberta and British Columbia including processing and marketing operations.",
+   "evidence": "Conventional, includes assets rich in natural gas liquids (\"NGLs\") and natural gas in Alberta and British Columbia in the Edson, Clearwater and Rainbow Lake operating areas, in addition to the Northern Corridor, which includes Elmworth and Wapiti."
+  },
+  {
+   "name": "Offshore",
+   "products": [],
+   "description": "Offshore exploration, development and production of natural gas liquids and natural gas on Canada's east coast and Asia Pacific region.",
+   "evidence": "Offshore, includes offshore operations, exploration and development activities in the east coast of Canada and the Asia Pacific region, representing China and the equity-accounted investment in Husky-CNOOC Madura Limited (\"HCML\"), which is engaged in the exploration for, and production of, NGLs and natural gas in offshore Indonesia."
+  },
+  {
+   "name": "Canadian Refining",
+   "products": [],
+   "description": "Upgrading, refining and asphalt production converting heavy oil and bitumen into synthetic crude oil, diesel, asphalt and other products.",
+   "evidence": "Canadian Refining, includes the owned and operated Lloydminster upgrading and asphalt refining complex, which converts heavy oil and bitumen into synthetic crude oil, diesel, asphalt and other ancillary products."
+  },
+  {
+   "name": "U.S. Refining",
+   "products": [],
+   "description": "Refining of crude oil to produce gasoline, diesel, jet fuel, asphalt and other products at Lima, Superior and Toledo refineries.",
+   "evidence": "U.S. Refining, includes the refining of crude oil to produce gasoline, diesel, jet fuel, asphalt and other products at the wholly-owned Lima, Superior and Toledo refineries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for crude oil, natural gas, natural gas liquids, and refined products sold through integrated marketing and trading operations.",
+  "evidence": "Cenovus markets its production and third-party commodity trading volumes in an effort to use its integrated network of assets to maximize value."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Cenovus completed the MEG Energy Corp. acquisition through a plan of arrangement, adding Christina Lake assets to Oil Sands segment.",
+   "evidence": "Christina Lake, which includes the results from the acquisition of MEG Energy Corp. (\"MEG\") through a plan of arrangement (the \"MEG Acquisition\") (see Note 4)."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, Cenovus divested its entire 50 percent interest in WRB Refining LP join"
+ ]
+}

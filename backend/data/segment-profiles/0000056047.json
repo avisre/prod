@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000056047",
+ "issuerName": "KIRBY CORPORATION",
+ "builtAt": "2026-11-14T13:44:59.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-054016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/56047/000119312526054016/kex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marine transportation",
+   "products": [
+    "tank barges",
+    "towing vessels",
+    "inland tank barges",
+    "coastal tank barges",
+    "offshore dry-bulk cargo barges",
+    "tugboats"
+   ],
+   "description": "Transports bulk liquid products such as petrochemicals, black oil, refined petroleum products and agricultural chemicals by tank barge for inland and coastal customers.",
+   "evidence": "The Company, through KMT, is a provider of marine transportation services, operating tank barges and towing vessels transporting bulk liquid products throughout the Mississippi River System, on the Gulf Intracoastal Waterway, and coastwise along all three United States coasts."
+  },
+  {
+   "name": "Distribution and services",
+   "products": [
+    "after-market parts and services for power generation systems",
+    "after-market and genuine replacement parts and services for engines, transmissio",
+    "specialized electrical distribution and controls systems",
+    "pressure pumping units and electric fracturing systems",
+    "electric power generation equipment",
+    "specialized electrical distribution and control equipment"
+   ],
+   "description": "Provides equipment, after-market parts and services, equipment rental, and manufacturing and remanufacturing of specialized equipment for power generation, marine, oilfield services and other industrial customers.",
+   "evidence": "The Company, through KDS, provides equipment, after-market parts and services for power generation systems in applications that include behind the meter power systems and emergency backup systems, after-market and genuine replacement parts and services for engines, transmissions, reduction gears, electric motors, drives, and controls, specialized electrical distribution and controls systems, and related equipment used in power generation, marine, on-highway, oilfield services, and other industri"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for marine transportation of bulk liquid products and for equipment, parts, services and equipment rentals across industrial markets.",
+  "evidence": "The segment is a provider of transportation services for its customers and, in almost all cases, does not assume ownership of the products that it transports."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Distribution and services): equipment rental including generators, industrial compressors, high-capacity lif"
+ ]
+}

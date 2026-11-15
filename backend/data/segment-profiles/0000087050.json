@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000087050",
+ "issuerName": "Neonode Inc.",
+ "builtAt": "2026-11-14T13:46:21.455Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008759",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/87050/000143774926008759/neon20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology licensing",
+   "products": [
+    "MultiSensing® technology platform",
+    "zForce® technology platform",
+    "non-recurring engineering (\"NRE\") services"
+   ],
+   "description": null,
+   "evidence": "We license our MultiSensing and zForce technology to OEMs and automotive Tier 1 suppliers who embed our technology into products that they develop, manufacture and sell."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, Neonode phased out its touch sensor module (TSM) product business, which is reported as discontinued operations.",
+   "evidence": "Consequently, we phased out the TSM product business during 2024 through licensing of the TSM technology to strategic partners and in parallel we sold parts of the remaining TSMs."
+  },
+  {
+   "text": "In 2025, Neonode transitioned the zForce platform into maintenance mode and stopped selling it to new customers.",
+   "evidence": "In September 2025, we made the strategic decision to transition the zForce platform into maintenance mode."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

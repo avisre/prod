@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000724910",
+ "issuerName": "NVE CORPORATION",
+ "builtAt": "2026-11-14T13:49:32.532Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001376474-26-000348",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/724910/000137647426000348/nvec-20260331_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Spintronics",
+   "products": [
+    "Sensors",
+    "Couplers",
+    "MRAM",
+    "Power products",
+    "Voltage regulators",
+    "Interface ICs",
+    "DC-to-DC convertors"
+   ],
+   "description": "Develops and sells spintronic devices including sensors, couplers, memories, and power products for industrial, medical, and military customers.",
+   "evidence": "We manufacture high-performance spintronic products including sensors and couplers that are used to acquire and transmit data."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers and distributors pay NVE for spintronic product shipments, and the company also earns revenue from contract research and development.",
+  "evidence": "We recognize revenue from product sales to customers and distributors when we satisfy our performance obligation, at a point in time, on product shipment or delivery to our customer or distributor as determined by agreed-on shipping terms."
+ },
+ "changes": [],
+ "dropped": []
+}

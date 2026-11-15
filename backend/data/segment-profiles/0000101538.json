@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000101538",
+ "issuerName": "UNITED STATES ANTIMONY CORPORATION",
+ "builtAt": "2026-11-14T13:47:03.989Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032049",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/101538/000110465926032049/uamy-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Antimony",
+   "products": [
+    "antimony trioxide",
+    "antimony metal ingots",
+    "antimony trisulfide",
+    "gold",
+    "silver"
+   ],
+   "description": "Processes antimony ore into trioxide, metal ingots and trisulfide, plus recovered gold and silver, for industrial customers and government agencies.",
+   "evidence": "Our antimony segment consists of: ● Our facility located in the Burns Mining District of Sanders County in Montana that processes ore primarily into antimony trioxide, antimony metal ingots, antimony trisulfide, and precious metals"
+  },
+  {
+   "name": "Zeolite",
+   "products": [
+    "coarse and fine zeolite crushed in various sizes"
+   ],
+   "description": "Mines, processes and sells zeolite from Idaho for filtration, environmental, animal nutrition and other applications.",
+   "evidence": "Zeolite: includes coarse and fine zeolite crushed in various sizes"
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Holds non-revenue-producing mining claims and leases in Mexico, Canada, Montana and Alaska plus residential properties in Thompson Falls, Montana.",
+   "evidence": "Therefore, the Company has included these locations as well as its apartment complex and residential home in Thompson Falls, MT in its \"All Other\" category for segment reporting."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells processed antimony products and zeolite to industrial customers and government agencies, and sells recovered gold and silver back to its ore supplier.",
+  "evidence": "Our Montana facility processes this ore and generally sells the recovered gold and silver back to the ore supplier, which represents substantially all of the Company's precious metals sales, and sells the antimony to other companies in various industries."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company began acquiring mining claims in Alaska, Montana and Canada and included these non-operating locations in a new All Other segment category.",
+   "evidence": "Beginning in late 2024 and continuing in 2025, the Company acquired mining claims in Alaska, Montana, and Canada prospective for antimony, tungsten, cobalt and other critical minerals."
+  }
+ ],
+ "dropped": []
+}

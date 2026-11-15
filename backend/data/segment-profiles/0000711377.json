@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000711377",
+ "issuerName": "Neogen Corporation",
+ "builtAt": "2026-11-14T13:48:53.016Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-326092",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/711377/000119312526326092/neog-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Food Safety",
+   "products": [
+    "diagnostic test kits",
+    "culture media",
+    "Reveal® products",
+    "Molecular Detection System (MDS)",
+    "Soleris® system",
+    "Neogen Analytics",
+    "sample collection solutions"
+   ],
+   "description": "Develops, manufactures and markets diagnostic test kits, consumables and software to food and feed producers, processors, laboratories and regulatory agencies to detect food safety and quality risks.",
+   "evidence": "Neogen's Food Safety segment is primarily engaged in the manufacturing and marketing of diagnostic solutions, test kits, consumables, and complementary products sold to food and feed producers, processors, laboratories, and regulatory agencies."
+  },
+  {
+   "name": "Animal Safety",
+   "products": [
+    "veterinary instruments",
+    "pharmaceuticals",
+    "vaccines",
+    "topicals",
+    "parasiticides",
+    "diagnostic products",
+    "rodent control products",
+    "insect control products"
+   ],
+   "description": "Develops, manufactures and distributes veterinary instruments, animal care products, rodent and insect control products and genomics services for livestock producers, veterinarians and companion animal owners worldwide.",
+   "evidence": "Neogen's Animal Safety segment is engaged in the development, manufacture, marketing and distribution of veterinary instruments, pharmaceuticals, vaccines, topicals, parasiticides, diagnostic products, rodent control products, insect control products and genomics testing services for the worldwide animal safety market."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Neogen earns revenue from sales of consumable test kits, products and genomics services to food and feed producers, processors, laboratories, veterinarians, retailers, livestock producers and distributors worldwide.",
+  "evidence": "The majority of these consumable products are marketed through veterinarians, retailers, livestock producers and animal health product distributors."
+ },
+ "changes": [
+  {
+   "text": "In July 2025, Neogen divested its global Cleaners and Disinfectants business.",
+   "evidence": "In July 2025, the Company divested its global Cleaners and Disinfectants business."
+  },
+  {
+   "text": "In March 2026, Neogen entered into a definitive agreement to sell its Genomics business to Zoetis, Inc.",
+   "evidence": "On March 2, 2026, we announced that we had entered into a definitive agreement to sell our Genomics business to Zoetis, Inc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Food Safety): Petrifilm® plates"
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000051143",
+ "issuerName": "INTERNATIONAL BUSINESS MACHINES CORPORATION",
+ "builtAt": "2026-11-14T13:44:50.733Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000051143-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/51143/000005114326000010/ibm-20251231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software",
+   "products": [
+    "Hybrid Cloud (Red Hat)",
+    "Automation",
+    "Data",
+    "Transaction Processing"
+   ],
+   "description": "Sells hybrid cloud, automation, data and transaction processing software, largely on a recurring subscription and support basis, to enterprise clients.",
+   "evidence": "IBM's Software segment reports revenue and year-to-year revenue percent change for Hybrid Cloud (Red Hat), Automation, Data, and Transaction Processing."
+  },
+  {
+   "name": "Consulting",
+   "products": [
+    "Strategy and Technology",
+    "Intelligent Operations"
+   ],
+   "description": "Provides business and technology consulting services to enterprise clients.",
+   "evidence": "IBM's Consulting segment reports revenue and year-to-year revenue percent change for Strategy and Technology and Intelligent Operations."
+  },
+  {
+   "name": "Infrastructure",
+   "products": [],
+   "description": null,
+   "evidence": "Infrastructure 15,718 14,020 12.1 % 10.4 %"
+  },
+  {
+   "name": "Financing",
+   "products": [],
+   "description": null,
+   "evidence": "Financing 737 713 3.3 % 2.5 %"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay IBM for software subscriptions, as-a-service arrangements, maintenance and support contracts, consulting services, infrastructure products and financing arrangements.",
+  "evidence": "This value includes the following consumption models: (1) software subscription agreements, including committed term licenses, (2) as-a-service arrangements such as SaaS and PaaS, and (3) maintenance and support contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025, IBM changed the reported revenue categories within its Software and Consulting segments, without impacting its reportable segments.",
+   "evidence": "In the first quarter of 2025, we made changes to the reported revenue categories within our Software and Consulting reportable segments. These changes did not impact our Consolidated Financial Statements or our reportable segments."
+  }
+ ],
+ "dropped": []
+}

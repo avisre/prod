@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000315189",
+ "issuerName": "DEERE & CO",
+ "builtAt": "2026-11-14T13:48:02.577Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-25-122321",
+  "periodEnd": "2025-11-02",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/de-20251102x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Production & Precision Agriculture",
+   "products": [
+    "4WD/track and row crop tractors",
+    "Harvesters",
+    "Cotton Pickers and Cotton Strippers",
+    "Sugarcane Harvesters",
+    "Sugarcane Loaders",
+    "Soil Preparation, Tillage, Seeding, Application, and Crop Care Equipment"
+   ],
+   "description": "Delivers equipment and precision technology solutions for production-scale growers of crops like corn, soy, small grains, cotton, and sugarcane.",
+   "evidence": "This segment defines, develops, and delivers global equipment and technology solutions for production-scale growers of crops like large grains (such as corn and soy), small grains (such as wheat, oats, and barley), cotton, and sugarcane."
+  },
+  {
+   "name": "Small Agriculture & Turf",
+   "products": [
+    "Specialty, Utility, and Compact Tractors",
+    "Self-Propelled Forage Harvesters and Attachments",
+    "Hay and Forage Equipment",
+    "Rotary Mowers",
+    "Utility Vehicles",
+    "Riding Lawn Equipment and Commercial Mowing Equipment",
+    "Golf Course Equipment"
+   ],
+   "description": "Provides equipment and technology solutions for dairy and livestock producers, high-value and small acre crop producers, and turf and utility customers.",
+   "evidence": "SAT is committed to meeting the needs of our customers through defining, developing, and delivering global equipment and technology solutions for dairy and livestock producers, high-value crop and small acre crop producers, and turf and utility customers."
+  },
+  {
+   "name": "Construction & Forestry",
+   "products": [
+    "Backhoe Loaders",
+    "Crawler Dozers and Loaders",
+    "Skid Steers",
+    "Four-Wheel-Drive Loaders",
+    "Excavators and Compact Excavators",
+    "Equipment used in Timber Harvesting",
+    "Road Building and Road Rehabilitation Equipment",
+    "Articulated Dump Trucks and Motor Graders"
+   ],
+   "description": "Manufactures and distributes earthmoving, roadbuilding, and forestry equipment for construction and timber customers.",
+   "evidence": "Equipment manufactured and distributed by the segment includes four-wheel-drive (4WD)/track and row crop tractors, harvesters, cotton pickers, cotton strippers, sugarcane harvesters, sugarcane loaders, and related harvesting front-end equipment."
+  },
+  {
+   "name": "Financial Services",
+   "products": [
+    "Retail Notes",
+    "Revolving Charge Accounts",
+    "Wholesale Receivables",
+    "Leases",
+    "Extended Warranties"
+   ],
+   "description": "Finances John Deere equipment, parts, services, and other inputs for customers through retail notes, leases, and related financial products.",
+   "evidence": "John Deere Financial provides financing for John Deere equipment, parts, services, and other inputs customers need to run their operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers and dealers pay for equipment sold primarily through independent dealer networks, while Financial Services earns revenue from financing retail notes, leases, and wholesale receivables.",
+  "evidence": "SAT equipment is sold primarily through independent retail dealer networks, although the segment also builds turf products for sale by mass retailers, including The Home Depot and Lowe's."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Banco John Deere S.A. (BJD) was deconsolidated, affecting Financial Services results.",
+   "evidence": "The average balance of receivables and leases financed was 5% lower compared to the prior year, primarily due to the deconsolidation of BJD (see Note 4)."
+  }
+ ],
+ "dropped": []
+}

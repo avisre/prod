@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000354647",
+ "issuerName": "CVB FINANCIAL CORP.",
+ "builtAt": "2026-11-14T13:48:26.138Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-083221",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/354647/000119312526083221/cvbf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Bank",
+   "products": [
+    "checking, savings, money market and certificates of time deposit",
+    "commercial, agribusiness, consumer, SBA, real estate, and construction loans",
+    "equipment and vehicle leasing",
+    "treasury management systems",
+    "merchant card processing",
+    "interest rate swaps",
+    "foreign exchange and letters of credit for international trade"
+   ],
+   "description": "A California community bank serving small- and medium-sized businesses, professionals and individuals with banking, lending, treasury and trust services.",
+   "evidence": "We are a community bank with one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The bank earns interest on loans and investments and fees from deposit, treasury, merchant and trust services provided to business and individual customers.",
+  "evidence": "Net interest income of $460.3 million for the year ended December 31, 2025, increased $12.9 million, or 2.89%, compared to the same period of 2024."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Citizens Business Bank converted from a California-chartered bank to a national banking association and was renamed Citizens Business Bank, National Association.",
+   "evidence": "Effective December 15, 2025, the Bank converted from a California-chartered bank to a national banking association chartered under the laws of the United States."
+  }
+ ],
+ "dropped": [
+  "product not in text (Community Bank): CitizensTrust fiduciary services, mutual funds, annuities, 401(k) plans"
+ ]
+}

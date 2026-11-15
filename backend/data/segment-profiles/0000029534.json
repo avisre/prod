@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000029534",
+ "issuerName": "DOLLAR GENERAL CORP",
+ "builtAt": "2026-11-14T14:08:02.506Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032325",
+  "periodEnd": "2026-01-30",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/29534/000110465926032325/dg-20260130x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail store operations",
+   "products": [
+    "Consumables",
+    "Seasonal products",
+    "Home products",
+    "Apparel"
+   ],
+   "description": "Discount retailer offering consumables, seasonal items, home products and apparel at everyday low prices in small-box stores.",
+   "evidence": "We offer a broad selection of merchandise, including consumable items, seasonal items, home products and apparel."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for retail merchandise including consumables, seasonal items, home products and apparel purchased at everyday low prices.",
+  "evidence": "We offer our customers these national brand and private brand products at everyday low prices (typically $10 or less) in our convenient small-box locations."
+ },
+ "changes": [
+  {
+   "text": "In 2020, the company launched pOpshelf as a unique small-box retail concept, and beginning in 2025 paused new store expansion while evaluating strategy.",
+   "evidence": "In 2020 we launched pOpshelf, our unique small-box retail concept that focuses primarily on non-consumables. Beginning in 2025, we paused new pOpshelf store expansion while we evaluate and evolve its go-forward strategy and performance."
+  },
+  {
+   "text": "The company opened its first Mi Súper Dollar General stores in Mexico in 2023 and expanded in subsequent years.",
+   "evidence": "We opened our first Mi Súper Dollar General stores in Mexico in 2023, in which we have further expanded in each subsequent year, and believe there is additional growth potential in Mexico in the years ahead."
+  }
+ ],
+ "dropped": []
+}

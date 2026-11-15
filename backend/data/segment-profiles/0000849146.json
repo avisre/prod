@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000849146",
+ "issuerName": "LIFEVANTAGE CORP",
+ "builtAt": "2026-11-14T13:52:45.950Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-371257",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/849146/000119312526371257/lfvn-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct sales",
+   "products": [
+    "Protandim®",
+    "LifeVantage®",
+    "TrueScience®",
+    "P84 System",
+    "Petandim®",
+    "AXIO®",
+    "LoveBiome®"
+   ],
+   "description": "Sells nutrigenomic dietary supplements, skin and hair care, gut health and nootropic products directly to customers through an international network of independent consultants.",
+   "evidence": "The Company operates in a single operating segment by selling products directly to customers through an international network of independent consultants that operate in an integrated manner."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers and independent consultants pay the company for its nutrigenomic and wellness products, sold through a commission-based direct sales network.",
+  "evidence": "We provide quality, scientifically validated products to customers and independent consultants as well as a financially rewarding commission-based direct sales opportunity to our independent consultants."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired the critical operating assets of LoveBiome, adding a LoveBiome product line.",
+   "evidence": "On October 1, 2025, the Company closed on the purchase of critical assets of Global Organics Merchants, LLC, dba LoveBiome (\"LoveBiome\") pursuant to an asset purchase agreement between the parties."
+  },
+  {
+   "text": "In 2026, the company ceased operations in Hong Kong and Singapore and closed those markets.",
+   "evidence": "On May 31, 2026, we ceased operations in Hong Kong and Singapore and closed those markets."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In fiscal year 2026, the company phased out the PhysIQ brand and placed its prod"
+ ]
+}

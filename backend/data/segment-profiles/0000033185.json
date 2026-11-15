@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000033185",
+ "issuerName": "EQUIFAX INC",
+ "builtAt": "2026-11-14T13:44:01.771Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000033185-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/33185/000003318526000010/efx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Workforce Solutions",
+   "products": [
+    "Verification Services",
+    "Employer Services",
+    "unemployment claims management",
+    "I-9 and onboarding services",
+    "Affordable Care Act (\"ACA\") compliance management",
+    "tax credits and incentives"
+   ],
+   "description": "Provides U.S. income, employment and other verification services and employer-based human resources transaction and compliance services.",
+   "evidence": "Workforce Solutions — provides services enabling customers to verify income, employment, educational history, criminal justice data, healthcare professional licensure and sanctions of people in the U.S. (Verification Services), as well as providing our employer customers with services which include unemployment claims management, I-9 and onboarding services, Affordable Care Act (\"ACA\") compliance management, tax credits and incentives and other complementary employment-based transaction services"
+  },
+  {
+   "name": "U.S. Information Solutions",
+   "products": [
+    "Online Information Solutions",
+    "Financial Marketing Services",
+    "consumer and commercial credit reporting and scoring",
+    "identity management",
+    "fraud detection",
+    "mortgage information",
+    "marketing services"
+   ],
+   "description": "Provides consumer and commercial information, decisioning, identity and marketing solutions to businesses and consumers in the U.S.",
+   "evidence": "U.S. Information Solutions (\"USIS\") — provides consumer and commercial information solutions to businesses in the U.S. including online information, decisioning technology solutions, identity management services, analytical services, e-commerce fraud and charge back protection services, portfolio management services, mortgage information and marketing services."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Online data",
+    "Portfolio management services",
+    "Analytical services",
+    "Technology services",
+    "Identity verification"
+   ],
+   "description": "Provides information solutions similar to USIS across Latin America, Europe, Asia Pacific and Canada, plus debt collections and recovery services.",
+   "evidence": "International — provides products and services similar to those available in the USIS operating segment but with variations by geographic region."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses, governments, employers and consumers pay Equifax for transaction-based, subscription-based and project-based information, verification and analytics services.",
+  "evidence": "Online Information Solutions revenue is principally transaction-based and is derived from our sales of products such as consumer and commercial credit reporting and scoring, identity management, fraud detection, modeling services and consumer credit monitoring services."
+ },
+ "changes": [],
+ "dropped": []
+}

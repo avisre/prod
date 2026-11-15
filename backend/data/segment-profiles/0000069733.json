@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000069733",
+ "issuerName": "NATHAN'S FAMOUS, INC.",
+ "builtAt": "2026-11-14T13:45:37.502Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-019923",
+  "periodEnd": "2026-03-29",
+  "filingDate": "2026-06-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/69733/000143774926019923/nath20260329_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Branded Product Program",
+   "products": [
+    "specialty products"
+   ],
+   "description": "Sells Nathan's Famous hot dog products directly to foodservice operators and to distributors who resell them to foodservice accounts.",
+   "evidence": "This segment derives revenue principally from the sale of hot dog products either directly to foodservice operators or to various foodservice distributors who resell the products to foodservice operators."
+  },
+  {
+   "name": "Product licensing",
+   "products": [
+    "frozen crinkle-cut French fries"
+   ],
+   "description": "Earns royalties from third-party licensees selling Nathan's Famous branded products through retail supermarkets, grocery channels and club stores.",
+   "evidence": "This segment derives revenue, primarily in the form of royalties, from licensing a broad variety of Nathan's Famous branded products, including our hot dogs, frozen crinkle-cut French fries and additional products through retail supermarkets, grocery channels and club stores throughout the United States."
+  },
+  {
+   "name": "Restaurant operations",
+   "products": [
+    "Nathan's World Famous Beef Hot Dogs",
+    "crinkle-cut French fries",
+    "beverages"
+   ],
+   "description": "Operates Company-owned restaurants and earns fees and royalties from franchised restaurants, including virtual kitchens.",
+   "evidence": "This segment derives revenue from the sale of our products at Company-owned restaurants and earns fees and royalties from its franchised restaurants, including its virtual kitchens."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns royalties from licensees and franchisees on branded product and restaurant sales, and sells hot dog products directly to foodservice operators and distributors.",
+  "evidence": "We earn revenue through royalties on products sold by our licensees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Branded Product Program): Nathan's Famous hot dog products",
+  "product not in text (Product licensing): Nathan's Famous branded hot dogs",
+  "product not in text (Product licensing): additional Nathan's Famous branded products",
+  "product not in text (Restaurant operations): Arthur Treacher's Fish & Chips menu items"
+ ]
+}

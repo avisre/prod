@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000105132",
+ "issuerName": "WD-40 COMPANY",
+ "builtAt": "2026-11-14T13:47:16.473Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000105132-26-000091",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/105132/000010513226000091/wdfc-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "WD-40 Multi-Use Product",
+    "WD-40 Specialist",
+    "3-IN-ONE",
+    "2000 Flushes",
+    "Spot Shot",
+    "Carpet Fresh",
+    "Lava",
+    "X-14"
+   ],
+   "description": "Sells maintenance products and homecare and cleaning products to consumers and industrial end users across the Americas.",
+   "evidence": "Our homecare and cleaning products in the Americas and Asia-Pacific segments are considered harvest brands, which continue to provide positive returns but are becoming a smaller part of the business as sales of the maintenance products grow with the execution of our four Must-Win Battles within our strategic framework."
+  },
+  {
+   "name": "EIMEA",
+   "products": [
+    "WD-40 Multi-Use Product",
+    "WD-40 Specialist",
+    "3-IN-ONE",
+    "GT85"
+   ],
+   "description": "Sells maintenance products to professional, industrial and consumer end users across Europe, India, the Middle East and Africa.",
+   "evidence": "Maintenance products are sold worldwide in markets throughout North, Central and South America, Asia, Australia, Europe, India, the Middle East and Africa."
+  },
+  {
+   "name": "Asia-Pacific",
+   "products": [
+    "WD-40 Multi-Use Product",
+    "WD-40 Specialist",
+    "3-IN-ONE",
+    "no vac",
+    "Solvol"
+   ],
+   "description": "Sells maintenance products and homecare and cleaning products to end users across Asia-Pacific, including Australia and New Zealand.",
+   "evidence": "Products are sold through grocery, value, online retailers, hardware and mass retail channels in Australia and New Zealand."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In fiscal year 2025, the company sold certain assets of homecare and cleaning product brands in the EIMEA segment.",
+   "evidence": "We sold certain assets of the homecare and cleaning product brands in the EIMEA segment in the fourth quarter of fiscal year 2025."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000844059",
+ "issuerName": "FRP HOLDINGS, INC.",
+ "builtAt": "2026-11-14T13:52:38.843Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000844059-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/844059/000084405926000037/frph-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multifamily",
+   "products": [
+    "apartment buildings",
+    "associated retail"
+   ],
+   "description": "Owns and manages stabilized mixed-use residential and retail apartment properties through joint ventures in Washington, D.C., Greenville, SC, and Florida.",
+   "evidence": "As of December 31, 2025 the Multifamily segment included six stabilized joint ventures which own and manage apartment buildings and any associated retail."
+  },
+  {
+   "name": "Industrial and Commercial",
+   "products": [
+    "industrial warehouses",
+    "office properties",
+    "ground leases"
+   ],
+   "description": "Owns, leases and manages in-service commercial warehouse and office properties for tenants.",
+   "evidence": "The Industrial and Commercial segment owns, leases and manages commercial properties."
+  },
+  {
+   "name": "Mining Royalty Lands",
+   "products": [],
+   "description": null,
+   "evidence": "Our Mining Royalty Lands segment owns several properties comprising approximately 16,640 acres currently under lease for mining rents or royalties (excluding the 4,280 acres owned by our Brooksville joint venture with Vulcan Materials)."
+  },
+  {
+   "name": "Development",
+   "products": [
+    "land development",
+    "joint venture management",
+    "warehouse development"
+   ],
+   "description": "Acquires, entitles, develops and constructs apartment, retail, industrial and office projects, alone or with joint ventures.",
+   "evidence": "Through our Development segment, we own and are continuously monitoring for their \"highest and best use\" several parcels of land that are in various stages of development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns tenant rental payments, lease reimbursements, mining royalties based on tons sold, and joint venture management fees from tenants and partners.",
+  "evidence": "These assets create revenue and cash flows through tenant rental payments, lease management fees and reimbursements for building operating costs."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired the business operations and development pipeline of Altman Logistics Properties, LLC, adding joint venture management fee revenue to the Development segment.",
+   "evidence": "On October 21, 2025, the Company completed the closing on its Purchase and Sales Agreement to acquire the business operations and development pipeline of Altman Logistics Properties, LLC, an operating platform of BBX Capital."
+  }
+ ],
+ "dropped": [
+  "product not in text (Mining Royalty Lands): mining royalty lands",
+  "product not in text (Development): multifamily development"
+ ]
+}

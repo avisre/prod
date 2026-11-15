@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001776909",
+ "issuerName": "CURIOSITYSTREAM INC.",
+ "builtAt": "2026-11-14T17:41:55.095Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017346",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1776909/000162828026017346/curi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Premium Content",
+   "products": [
+    "CuriosityStream SVOD service",
+    "Curiosity University",
+    "Curiosity Now",
+    "Smart Bundle",
+    "Content licensing",
+    "Linear channels"
+   ],
+   "description": "Provides premium factual video and audio programming on science, history, society, nature, lifestyle and technology through multiple distribution channels.",
+   "evidence": "We operate our business as a single operating segment that provides premium content through multiple channels, including the use of various applications, partnerships and affiliate relationships."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Subscription fees from direct-to-consumer and partner platforms, content licensing fees, bundled distribution fees, and advertising and sponsorship revenue.",
+  "evidence": "The main sources of our revenue are: 1. Subscription and license fees earned from our Direct-to-Consumer business and Partner Direct subscribers (\"Direct Business\"), 2. License fees from content licensing arrangements (\"Content Licensing\"), 3. Bundled license fees from distribution affiliates (\"Bundled Distribution\"), and 4. Other revenue, including advertising and sponsorships (\"Other\")."
+ },
+ "changes": [
+  {
+   "text": "In January 2024, the Company rebranded its audio and video courses and talks service as Curiosity University.",
+   "evidence": "In January 2024, we rebranded our service that offers these audio and video courses and talks \"Curiosity University.\""
+  }
+ ],
+ "dropped": [
+  "product not in text (Premium Content): AVOD and FAST platforms",
+  "change not grounded: In 2021, the Company acquired One Day University, adding over 500 lectures on fa",
+  "change not grounded: In 2021, the Company acquired Learn25, adding approximately 5,000 episodes of au"
+ ]
+}

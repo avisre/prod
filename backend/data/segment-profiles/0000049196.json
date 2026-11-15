@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000049196",
+ "issuerName": "Huntington Bancshares Incorporated",
+ "builtAt": "2026-11-14T13:44:44.605Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000049196-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/49196/000004919626000015/hban-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer & Regional Banking",
+   "products": [
+    "deposits",
+    "lending",
+    "payments",
+    "mortgage banking",
+    "dealer financing",
+    "investment management",
+    "trust",
+    "brokerage"
+   ],
+   "description": "Provides consumer and business customers deposits, lending, payments, mortgage banking, wealth management and other financial services through branches, digital channels and national partnerships.",
+   "evidence": "The Consumer & Regional Banking segment provides a wide array of financial products and services to consumer and business customers including, but not limited to, deposits, lending, payments, mortgage banking, dealer financing, investment management, trust, brokerage, insurance, and other financial products and services."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "Middle Market Banking",
+    "Corporate, Specialty, and Government Banking",
+    "Asset Finance",
+    "Commercial Real Estate Banking",
+    "Capital Markets",
+    "National Settlements",
+    "Huntington ChoicePay"
+   ],
+   "description": "Serves mid-market to large corporate clients nationally with lending, treasury management, payments, capital markets, asset finance and settlement services.",
+   "evidence": "The Commercial Banking segment includes customers in Middle Market Banking, Corporate, Specialty, and Government Banking, Asset Finance, Commercial Real Estate Banking, Capital Markets, and National Settlements."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the bank interest and fees on loans and for deposit, payment, treasury management, brokerage, trust and other financial services.",
+  "evidence": "We compete for loans primarily on the basis of value and service by building customer relationships through addressing our customers' entire suite of banking needs, demonstrating expertise, and providing convenience."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Huntington acquired Veritex Holdings, and in 2026 completed the Cadence Bank merger, expanding its branch network.",
+   "evidence": "On October 20, 2025, Huntington completed the acquisition of Veritex Holdings, Inc. (\"Veritex,\" and such transaction, the \"Veritex Merger\"), a bank holding company headquartered in Dallas, Texas, whereby Veritex merged with and into Huntington, with Huntington as the surviving entity, and Veritex Community Bank merged with and into Huntington National Bank, with Huntington National Bank as the surviving entity."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000783325",
+ "issuerName": "WEC ENERGY GROUP, INC.",
+ "builtAt": "2026-11-14T13:50:48.710Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000783325-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/783325/000078332526000018/wec-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wisconsin",
+   "products": [
+    "electric energy",
+    "natural gas",
+    "steam"
+   ],
+   "description": "Regulated electric and natural gas utility operations of WE, WPS, WG, and UMERC serving customers in Wisconsin and Michigan's Upper Peninsula.",
+   "evidence": "The Wisconsin segment includes the electric and natural gas utility operations of WE, WPS, WG, and UMERC."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for retail electric, natural gas, and steam service, with wholesale and resale power sold in the MISO Energy Markets.",
+  "evidence": "In 2025, retail revenues accounted for 92.3% of total electric operating revenues, wholesale revenues accounted for 1.9% of total electric operating revenues, and resale revenues accounted for 4.8% of total electric operating revenues."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000031235",
+ "issuerName": "EASTMAN KODAK COMPANY",
+ "builtAt": "2026-11-14T14:08:16.397Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104214",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/31235/000119312526104214/kodk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Print",
+   "products": [
+    "PROSPER press systems",
+    "Inkjet components",
+    "NEXFINITY printers"
+   ],
+   "description": "Manufactures digital printing equipment, plates, software and consumables for commercial print, packaging and publishing industries.",
+   "evidence": "Print segment products include digital offset plate offerings and computer-to-plate (\"CTP\") imaging solutions, production press systems, consumables (primarily ink), inkjet components, software and services, and high-quality digital printing solutions using electrically charged toner-based technology."
+  },
+  {
+   "name": "Advanced Materials and Chemicals",
+   "products": [
+    "Photographic film",
+    "Industrial film",
+    "Motion picture film",
+    "Specialty chemicals",
+    "Advanced materials"
+   ],
+   "description": "Produces photographic film, motion picture film, specialty chemicals, pharmaceuticals and advanced materials for industrial and entertainment applications.",
+   "evidence": "The Advanced Materials and Chemicals segment is comprised of five lines of business: the Industrial Film and Chemicals business, the Motion Picture business, the Pharmaceuticals business, the Advanced Materials and Functional Printing business and the IP Licensing and Analytical Services business."
+  },
+  {
+   "name": "Brand",
+   "products": [],
+   "description": "Manages Kodak brand licensing and brand-related revenue activities.",
+   "evidence": "Kodak's operations are classified into three reportable segments: Print, Advanced Materials and Chemicals, and Brand."
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Represents Eastman Business Park operations and other continuing operations not meeting reportable segment criteria.",
+   "evidence": "The balance of Kodak's continuing operations, which do not meet the criteria of a reportable segment, are reported in All Other and primarily represent the Eastman Business Park (\"EBP\") operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase printing equipment, consumables, films and chemicals directly from Kodak or through dealers and channel partners.",
+  "evidence": "Print products are sold to customers through both a direct sales team as well as indirectly through dealers and channel partners."
+ },
+ "changes": [
+  {
+   "text": "In 2022, Kodak ceased manufacturing NEXFINITY printers but continues offering consumables and service to installed base.",
+   "evidence": "Kodak ceased manufacturing of NEXFINITY printers effective December 2022."
+  },
+  {
+   "text": "Kodak has ceased manufacturing VERSAMARK Press Systems but continues selling consumables and services to existing users.",
+   "evidence": "Kodak has ceased manufacturing VERSAMARK Press Systems."
+  }
+ ],
+ "dropped": [
+  "product not in text (Print): Digital offset plates",
+  "product not in text (Print): Computer-to-plate imaging solutions",
+  "product not in text (Print): PRINERGY workflow software",
+  "product not in text (Print): Inks and consumables",
+  "product not in text (Advanced Materials and Chemicals): Pharmaceutical reagents",
+  "product not in text (Advanced Materials and Chemicals): Functional printing solutions"
+ ]
+}

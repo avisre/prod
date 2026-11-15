@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001000753",
+ "issuerName": "Insperity, Inc.",
+ "builtAt": "2026-11-14T17:37:04.176Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001000753-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1000753/000100075326000011/nsp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HR Solutions",
+   "products": [
+    "Insperity HR 360",
+    "Insperity HR 360 Select Edition",
+    "Insperity HR Scale",
+    "Insperity HR Core",
+    "Talent Acquisition Services",
+    "Retirement Services",
+    "Insurance Services",
+    "Contractor Management"
+   ],
+   "description": "Provides comprehensive human resources and business performance solutions to small and medium-sized businesses in the United States.",
+   "evidence": "Based on management's assessment, we determined that we have only one operating segment and therefore one reportable segment, HR Solutions, as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients are charged a comprehensive service fee comprising payroll cost plus a markup percentage, invoiced concurrently with periodic payroll processing.",
+  "evidence": "We charge a comprehensive service fee (\"comprehensive service fee\" or \"gross billing\"), which is invoiced concurrently with the processing of payroll for the WSEEs of the client. The comprehensive service fee consists of the payroll of our WSEEs plus an additional amount reflected as a percentage of the payroll cost of the WSEEs."
+ },
+ "changes": [],
+ "dropped": []
+}

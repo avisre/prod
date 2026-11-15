@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000022444",
+ "issuerName": "Commercial Metals Company",
+ "builtAt": "2026-11-14T14:07:38.724Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000022444-26-000065",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/22444/000002244426000065/cmc-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Steel Group",
+   "products": [
+    "rebar",
+    "merchant bar",
+    "wire rod",
+    "billets",
+    "ferrous scrap metals",
+    "nonferrous scrap metals"
+   ],
+   "description": "Vertically integrated network of recycling facilities, steel mills and fabrication operations serving construction and industrial sectors.",
+   "evidence": "Our North America Steel Group segment provides a diverse offering of products and solutions to support the construction sector. Composed of a vertically integrated network of recycling facilities, steel mills and fabrication operations, our strategy in North America is to optimize our vertically integrated value chain to maximize profitability while providing industry-leading customer service."
+  },
+  {
+   "name": "Construction Solutions Group",
+   "products": [
+    "precast concrete solutions"
+   ],
+   "description": "Supplier of precast concrete solutions for early-stage construction supporting infrastructure and building projects.",
+   "evidence": "Operating results for Foley are included within the Construction Solutions Group segment. The Foley Acquisition aligns with our strategy to pursue inorganic growth by adding scale, margin strength and regional leadership to our precast platform."
+  },
+  {
+   "name": "Europe Steel Group",
+   "products": [],
+   "description": "Steel manufacturing and related operations in Central Europe, United Kingdom and other European markets.",
+   "evidence": "Our operations are conducted through three reportable segments: North America Steel Group, Construction Solutions Group and Europe Steel Group."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase steel products, scrap metals and precast concrete solutions for construction, industrial and infrastructure applications.",
+  "evidence": "We sell ferrous and nonferrous scrap metals (collectively referred to as \"raw materials\") to steel mills and foundries, aluminum sheet and ingot manufacturers, brass and bronze ingot makers, copper refineries and mills, secondary lead smelters, specialty steel mills, high temperature alloy manufacturers and other consumers."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Emerging Businesses Group segment was renamed Construction Solutions Group following the acquisitions of Foley Products Company and Concrete Pipe & Precast to better reflect business composition.",
+   "evidence": "Following these acquisitions, we changed the name of our Emerging Businesses Group segment to Construction Solutions Group to better reflect the business composition of the segment and more closely align with the strategic priorities of CMC."
+  }
+ ],
+ "dropped": [
+  "product not in text (North America Steel Group): light structural sections"
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000030305",
+ "issuerName": "DUCOMMUN INCORPORATED",
+ "builtAt": "2026-11-14T14:08:08.909Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011952",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/30305/000162828026011952/dco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronic Systems",
+   "products": [
+    "complex cable assemblies and interconnect systems",
+    "printed circuit board assemblies",
+    "electronic, electromechanical, and mechanical components and assemblies",
+    "lightning diversion systems",
+    "illuminated pushbutton switches and panels",
+    "microwave and millimeter switches and filters",
+    "motors and resolvers"
+   ],
+   "description": "Designs, engineers and manufactures high-reliability electronic and electromechanical products for aerospace, defense, industrial and medical markets.",
+   "evidence": "Electronic Systems designs, engineers and manufactures high-reliability electronic and electromechanical products used in worldwide technology-driven markets including A&D and Industrial end-use markets."
+  },
+  {
+   "name": "Structural Systems",
+   "products": [
+    "structural components",
+    "structural assemblies",
+    "bonded (metal and composite) components",
+    "precision profile extrusions and extruded assemblies",
+    "ammunition handling systems",
+    "seals",
+    "aerodynamic systems"
+   ],
+   "description": "Designs, engineers and manufactures complex aerostructure components, assemblies and bonded structures primarily for commercial and military aircraft.",
+   "evidence": "Structural Systems designs, engineers and manufactures various sizes of complex contoured aerostructure components and assemblies and supplies composite and metal bonded structures and assemblies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including OEMs, Tier One suppliers, and prime contractors pay for high-performance products and manufacturing solutions for aerospace and defense applications.",
+  "evidence": "We derive a significant portion of our revenues from subcontracts with OEMs."
+ },
+ "changes": [],
+ "dropped": []
+}

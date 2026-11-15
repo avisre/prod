@@ -1,0 +1,80 @@
+{
+ "version": 1,
+ "cik": "0000056978",
+ "issuerName": "KULICKE AND SOFFA INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:45:03.106Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000056978-25-000081",
+  "periodEnd": "2025-10-04",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/56978/000005697825000081/klic-20251004.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ball Bonding Equipment",
+   "products": [
+    "RAPID",
+    "RAPID Pro"
+   ],
+   "description": "Supplies ball bonding equipment used in semiconductor assembly for customers across automotive, compute, industrial, memory and communications markets.",
+   "evidence": "Our technology leadership directly contributes to the strong market positions of our ball bonder, wedge bonder, advanced solutions, and other leading tools, services and solutions."
+  },
+  {
+   "name": "Wedge Bonding Equipment",
+   "products": [
+    "PowerFusion PS",
+    "Asterion",
+    "Asterion-PW"
+   ],
+   "description": "Provides wedge bonder equipment using ribbon or heavy wire for power electronics, automotive and semiconductor applications.",
+   "evidence": "Our leading technology for wedge bonder equipment uses ribbon or heavy wire for different applications such as power electronics, automotive and semiconductor applications."
+  },
+  {
+   "name": "Advanced Solutions",
+   "products": [
+    "AT Premier PLUS",
+    "APAMA",
+    "APAMA Plus",
+    "APTURA"
+   ],
+   "description": null,
+   "evidence": "With the launch of our APAMA TM , APAMA Plus TM and APTURA TM , we are also developing and manufacturing advanced packaging solutions for the emerging 2.5-dimensional integrated circuit (\"2.5D IC\") and 3-dimensional integrated circuit (\"3D IC\") markets."
+  },
+  {
+   "name": "Aftermarket Products and Services",
+   "products": [
+    "capillaries",
+    "consumable aftermarket solutions"
+   ],
+   "description": "Sells consumables and provides service, maintenance, repair and upgrade services for the company's and peer companies' assembly equipment.",
+   "evidence": "We also service, maintain, repair and upgrade our equipment and sell consumable aftermarket solutions and services for our and our peer companies' equipment."
+  },
+  {
+   "name": "All Others",
+   "products": [],
+   "description": "Comprises remaining operating segments, including facilities in Eindhoven and Taipei, not individually reportable.",
+   "evidence": "Our Ball Bonding Equipment, Wedge Bonding Equipment and Advanced Solutions reportable segments, as well as the remaining operating segments in the \"All Others\" category, are primarily affected by the industry's internal cyclical and seasonal dynamics in addition to broader macroeconomic factors that can positively or negatively affect our financial performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by semiconductor manufacturers, including IDMs, OSATs, foundries and other electronics manufacturers, for capital equipment, consumables and services used to assemble semiconductor devices.",
+  "evidence": "We design, develop, manufacture and sell capital equipment and consumables and provide services used to assemble semiconductor devices, such as integrated circuits, power discretes, light-emitting diode (\"LEDs\"), and sensors."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, the company approved a plan to cease its EA equipment business, with wind-down expected to be substantially completed by fiscal 2026.",
+   "evidence": "On March 25, 2025, the Board of Directors the Company approved a strategic plan related to the cessation of the Company's EA equipment business."
+  },
+  {
+   "text": "In fiscal 2024, a customer cancelled Project W, an advanced display development project, and agreed to reimburse the company for costs incurred.",
+   "evidence": "As previously disclosed in fiscal 2024, in connection with the Customer's strategic review of its business, the Customer informed the Company that it cancelled the Project."
+  }
+ ],
+ "dropped": [
+  "product not in text (Advanced Solutions): AT Premier MEM PLUS",
+  "product not in text (Aftermarket Products and Services): equipment services"
+ ]
+}

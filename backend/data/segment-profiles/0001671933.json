@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001671933",
+ "issuerName": "The Trade Desk, Inc.",
+ "builtAt": "2026-11-14T17:38:44.680Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001671933-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1671933/000167193326000014/ttd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "advertising technology platform",
+   "products": [
+    "self-service, cloud-based ad buying platform",
+    "data management platform",
+    "publisher management platform",
+    "Audience Unlimited"
+   ],
+   "description": "Provides a global AI-enabled platform enabling advertisers and agencies to plan, execute and measure digital advertising campaigns across omnichannel inventory.",
+   "evidence": "The Company has one primary business activity, its advertising technology platform, as described in Note 1 – Nature of Operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay platform fees generally based on a percentage of total platform spend, plus value-added services and data charges.",
+  "evidence": "We generate revenue by charging our clients a platform fee generally based on a percentage of our clients' total platform spend and from providing value-added services and data to support their advertising campaigns."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (advertising technology platform): Koa AI co-pilot"
+ ]
+}

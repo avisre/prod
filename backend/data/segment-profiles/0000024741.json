@@ -1,0 +1,89 @@
+{
+ "version": 1,
+ "cik": "0000024741",
+ "issuerName": "CORNING INC /NY",
+ "builtAt": "2026-11-14T14:07:45.001Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000024741-26-000124",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/24741/000002474126000124/glw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Optical Communications",
+   "products": [
+    "Vascade® optical fibers",
+    "LEAF® optical fiber",
+    "SMF-28e® ULL and TXF® fiber",
+    "Evolv™ platform",
+    "Centrix platform",
+    "Edge8® platform"
+   ],
+   "description": "Develops and sells optical fiber, cable and connectivity solutions for telecommunications networks and data centers.",
+   "evidence": "The Optical Communications segment is divided into two main product groupings – carrier network and enterprise network."
+  },
+  {
+   "name": "Display",
+   "products": [
+    "Corning® EAGLE XG® Slim Glass",
+    "Corning® Astra® Glass",
+    "Corning® Lotus™ NXT Glass"
+   ],
+   "description": "Manufactures precision glass substrates for flat panel displays including LCDs and OLEDs for televisions and mobile devices.",
+   "evidence": "The Display segment manufactures glass substrates for flat panel displays, including liquid crystal displays (\"LCDs\") and organic light-emitting diodes (\"OLEDs\") that are used primarily in televisions, notebook computers, desktop monitors, tablets and handheld devices."
+  },
+  {
+   "name": "Specialty Materials",
+   "products": [
+    "Corning® Gorilla® Glass",
+    "Corning® Gorilla® Glass Victus® 2",
+    "Corning® HPFS® Fused Silica",
+    "Corning® ULE® Ultra-Low Expansion Glass",
+    "Corning® EXTREME ULE® Glass"
+   ],
+   "description": "Produces specialty glass, glass ceramics, crystals, precision optics and metrology instruments for mobile devices and semiconductors.",
+   "evidence": "The Specialty Materials segment manufactures products that provide more than 150 material formulations for glass, glass ceramics and crystals, as well as precision optics, components and metrology instruments and software to meet requirements for unique customer needs."
+  },
+  {
+   "name": "Automotive",
+   "products": [],
+   "description": "Provides automotive ceramic substrates, filters and technical glass solutions for vehicle emissions and display applications.",
+   "evidence": "As of January 1, 2025, the Company began managing its Automotive Glass Solutions business together with its Environmental Technologies business, forming its Automotive segment."
+  },
+  {
+   "name": "Life Sciences",
+   "products": [],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Hemlock and Emerging Growth Businesses",
+   "products": [],
+   "description": "Produces high-purity polysilicon for solar and semiconductor industries and emerging technology innovations.",
+   "evidence": "This group is primarily comprised of the results of Hemlock Semiconductor Group (\"HSG\"). HSG is a leading provider of high-purity polysilicon products for the solar power and electronics industries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Corning for optical fiber and communications equipment sold to telecommunications and data center operators, display glass sold to panel makers, specialty materials and consumer products, automotive products sold to vehicle manufacturers, life sciences products sold to laboratories…",
+  "evidence": "A portion of our optical fiber is sold directly to end users and third-party cablers globally."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Automotive Glass Solutions and Environmental Technologies businesses were combined to form the Automotive segment.",
+   "evidence": "As of January 1, 2025, the Company began managing its Automotive Glass Solutions business together with its Environmental Technologies business, forming its Automotive segment."
+  },
+  {
+   "text": "In 2025, Display Technologies segment was renamed to Display.",
+   "evidence": "and its Display Technologies segment was renamed to \"Display.\""
+  }
+ ],
+ "dropped": [
+  "product not in text (Optical Communications): ClearCurve® ultra-bendable fiber",
+  "product not in text (Optical Communications): RocketRibbon® and miniXtend® cable portfolios",
+  "segment evidence not verbatim: Life Sciences"
+ ]
+}

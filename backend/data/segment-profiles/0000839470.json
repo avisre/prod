@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000839470",
+ "issuerName": "WESTWATER RESOURCES, INC.",
+ "builtAt": "2026-11-14T13:52:28.840Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032111",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/839470/000110465926032111/wwr-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Battery-grade graphite business",
+   "products": [
+    "natural graphite flake concentrate",
+    "vanadium"
+   ],
+   "description": "Develops battery-grade natural graphite products for lithium-ion battery manufacturers and other customers via the Kellyton Graphite Plant and Coosa Graphite Deposit.",
+   "evidence": "The Company has one reporting segment, the \"battery-grade graphite business\" segment and the Company's chief operating decision maker (\"CODM\") is the President & Chief Executive Officer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "The company shifted its strategic focus to the graphite business in 2017.",
+   "evidence": "Although the Company was originally incorporated in 1977, it shifted its strategic focus to the graphite business in 2017."
+  },
+  {
+   "text": "The company acquired Alabama Graphite in 2018, adding the Coosa Graphite Deposit.",
+   "evidence": "The acquisition of Alabama Graphite in 2018, which added the Coosa Graphite Deposit to the Company's asset base, provides the Company with the opportunity to pursue a domestic supply of battery-grade natural graphite products for U.S. and allied markets by combining an upstream resource position at Coosa Graphite Deposit with downstream processing at the Kellyton Graphite Plant."
+  }
+ ],
+ "dropped": [
+  "product not in text (Battery-grade graphite business): CSPG (coated spherical purified graphite)",
+  "product not in text (Battery-grade graphite business): anode active material (AAM)"
+ ]
+}

@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000315213",
+ "issuerName": "ROBERT HALF INC.",
+ "builtAt": "2026-11-14T13:48:02.617Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000315213-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/315213/000031521326000006/rhi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract talent solutions",
+   "products": [
+    "Finance and Accounting",
+    "Technology",
+    "Marketing and Creative",
+    "Legal",
+    "Administrative and Customer Support"
+   ],
+   "description": "Provides contract engagement professionals in finance and accounting, technology, marketing and creative, legal, and administrative and customer support fields.",
+   "evidence": "Robert Half's contract talent solutions business specializes in the provision of contract engagement professionals in the fields of finance and accounting, technology, marketing and creative, legal, and administrative and customer support."
+  },
+  {
+   "name": "Permanent placement talent solutions",
+   "products": [
+    "Administrative and customer support placement"
+   ],
+   "description": "Places full-time personnel for clients across finance and accounting, technology, marketing and creative, legal, and administrative and customer support fields.",
+   "evidence": "The permanent placement talent solutions business (previously referred to as permanent placement staffing) is the modern incarnation of this pioneering business and encompasses the Company's full-time finance and accounting, technology, marketing and creative, legal, and administrative and customer support placement business."
+  },
+  {
+   "name": "Protiviti",
+   "products": [
+    "Internal audit",
+    "Risk consulting",
+    "Business consulting",
+    "Technology consulting",
+    "Managed solutions"
+   ],
+   "description": "A global consulting firm helping companies solve problems in regulatory compliance, finance, technology, operations, data, digital, legal, HR, governance, risk and internal audit.",
+   "evidence": "Protiviti is a global consulting firm that helps companies solve problems in regulatory compliance, finance, technology, operations, data, digital, legal, HR, governance, risk and internal audit, and is a wholly owned subsidiary of the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fixed hourly rates for contract talent hours worked, employers pay one-time placement fees for permanent hires, and clients pay for billable consulting hours at Protiviti.",
+  "evidence": "The customer pays a fixed rate only for hours worked."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the Company unified its family of Robert Half brands to focus on its key brand, Robert Half.",
+   "evidence": "During 2022, the Company unified its family of Robert Half brands to focus on its key brand, Robert Half."
+  }
+ ],
+ "dropped": [
+  "product not in text (Permanent placement talent solutions): Finance and accounting placement",
+  "product not in text (Permanent placement talent solutions): Technology placement",
+  "product not in text (Permanent placement talent solutions): Marketing and creative placement",
+  "product not in text (Permanent placement talent solutions): Legal placement"
+ ]
+}

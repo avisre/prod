@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000059255",
+ "issuerName": "VALHI, INC.",
+ "builtAt": "2026-11-14T13:45:06.384Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-025847",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/59255/000110465926025847/vhl-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chemicals",
+   "products": [],
+   "description": "Through majority-controlled Kronos, produces and markets value-added titanium dioxide pigments to customers in coatings, plastics, paper and specialty applications worldwide.",
+   "evidence": "Our Chemicals Segment is operated through our majority control of Kronos. Kronos is a leading global producer and marketer of value-added titanium dioxide pigments."
+  },
+  {
+   "name": "Component Products",
+   "products": [
+    "security products",
+    "wake enhancement systems",
+    "stainless steel exhaust systems",
+    "gauges",
+    "throttle controls",
+    "trim tabs"
+   ],
+   "description": "Through majority-controlled CompX, manufactures security products for furniture, cabinetry, postal and healthcare uses, plus marine wake enhancement and related accessories.",
+   "evidence": "CompX is a leading manufacturer of security products used in the postal, recreational transportation, office and institutional furniture, cabinetry, tool storage, healthcare applications and a variety of other industries."
+  },
+  {
+   "name": "Real Estate Management and Development",
+   "products": [
+    "land development"
+   ],
+   "description": "Through majority-controlled BMI and LandWell, owns and develops real property in Henderson, Nevada for commercial, industrial and residential purposes.",
+   "evidence": "LandWell is engaged in efforts to develop certain land holdings for commercial, industrial and residential purposes in Henderson, Nevada."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023, BMI sold Basic Power Company and BWC sold substantially all of its assets upon bankruptcy reorganization, ending water and utility service operations.",
+   "evidence": "In December BMI sold Basic Power Company (\"BPC\");"
+  },
+  {
+   "text": "In 2025, LandWell completed the sale of the last parcel within the Cadence planned community.",
+   "evidence": "2025 – In October, LandWell completed the sale of the last parcel within the Cadence planned community."
+  }
+ ],
+ "dropped": [
+  "product not in text (Chemicals): titanium dioxide pigments (TiO2)",
+  "product not in text (Real Estate Management and Development): commercial, industrial and residential land holdings",
+  "revenue model not grounded",
+  "change not grounded: In 2024, Kronos acquired the remaining 50% joint venture interest in Louisiana P"
+ ]
+}

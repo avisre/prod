@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000313927",
+ "issuerName": "CHURCH & DWIGHT CO., INC.",
+ "builtAt": "2026-11-14T13:47:57.613Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-048139",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/313927/000119312526048139/chd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Domestic",
+   "products": [
+    "Household products",
+    "Personal care products",
+    "WATERPIK water flossers",
+    "NAIR depilatories and waxes",
+    "ZICAM cold shortening and relief products",
+    "TOUCHLAND hand sanitizers",
+    "VITAFUSION",
+    "L'IL CRITTERS"
+   ],
+   "description": "Sells household and personal care products to consumers in the United States through retail and e-commerce channels.",
+   "evidence": "Segment Products / Other Consumer Domestic Household and personal care products"
+  },
+  {
+   "name": "Consumer International",
+   "products": [
+    "Primarily personal care products"
+   ],
+   "description": "Sells primarily personal care products to consumers outside the United States through subsidiaries and global export markets.",
+   "evidence": "Consumer International Primarily personal care products"
+  },
+  {
+   "name": "SPD",
+   "products": [
+    "Sodium bicarbonate",
+    "CELMANAX Refined Functional Carbohydrate",
+    "Animal Nutrition products",
+    "Specialty Chemicals",
+    "Potassium carbonate-based animal feed additive"
+   ],
+   "description": "Markets specialty chemicals, including sodium bicarbonate, and animal nutrition products to industrial and agricultural customers, mainly in the U.S. and Canada.",
+   "evidence": "SPD markets sodium bicarbonate and other chemicals to industrial and agricultural customers primarily throughout the U.S. and Canada."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by retailers, distributors and industrial customers for the household, personal care and specialty products they purchase.",
+  "evidence": "Our Consumer Domestic and Consumer International segments products are marketed primarily through a broad distribution platform that includes supermarkets, mass merchandisers, wholesale clubs, drugstores, convenience stores, home stores, dollar and other discount stores, pet and other specialty stores, and websites and other e-commerce channels, all of which sell our products to consumers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company announced it would exit the Flawless, Spinbrush, and Waterpik showerheads businesses.",
+   "evidence": "In the second quarter of 2025, we announced that we would exit the Flawless, Spinbrush, and Waterpik showerheads businesses."
+  },
+  {
+   "text": "In 2025 the company sold its vitamin business, including the VitaFusion and L'il Critters brands.",
+   "evidence": "The consolidated results of operations presented below include the VitaFusion and L'il Critters brands which were sold to Piping Rock Health Products, Inc. on December 31, 2025."
+  },
+  {
+   "text": "In 2024 the company exited the MEGALAC supplement portion of the SPD Animal Nutrition business and sold the Passport food safety business.",
+   "evidence": "In the first quarter of 2024, we exited the MEGALAC supplement portion of the SPD Animal Nutrition business. In the second quarter of 2024 we sold the Passport food safety business."
+  }
+ ],
+ "dropped": [
+  "product not in text (SPD): CERTILLUS probiotics"
+ ]
+}

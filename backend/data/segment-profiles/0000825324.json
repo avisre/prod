@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000825324",
+ "issuerName": "Good         Times Restaurants Inc.",
+ "builtAt": "2026-11-14T13:52:07.646Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001214659-25-018518",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/825324/000121465925018518/gtim-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Good Times Burgers and Frozen Custard restaurants",
+   "products": [
+    "all-natural burgers",
+    "fries",
+    "frozen custard"
+   ],
+   "description": "A quick-service drive-thru restaurant concept operating company-owned and franchised Good Times restaurants, mostly in Colorado.",
+   "evidence": "Good Times operates in the quick-service restaurant segment as a drive-thru concept focused on all-natural burgers, fries, and frozen custard."
+  },
+  {
+   "name": "Bad Daddy's Burger Bar restaurants",
+   "products": [
+    "burgers",
+    "sandwiches",
+    "main-course salads",
+    "appetizers",
+    "Bad Ass Margarita",
+    "house beer",
+    "handcrafted cocktails"
+   ],
+   "description": "A full-service casual dining 'better burger' concept with a full bar, operating company-owned and licensed restaurants across seven states.",
+   "evidence": "Bad Daddy's operates in the full-service dining segment as a specialty burger bar concept"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for restaurant food and beverage sales at company-owned restaurants, and the company earns licensing and franchise revenue from licensees and franchisees.",
+  "evidence": "We license the Bad Daddy's brand to a third-party licensee who owns and operates the Bad Daddy's restaurant located in the Charlotte Douglas International Airport."
+ },
+ "changes": [],
+ "dropped": []
+}

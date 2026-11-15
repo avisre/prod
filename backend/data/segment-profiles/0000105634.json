@@ -1,0 +1,84 @@
+{
+ "version": 1,
+ "cik": "0000105634",
+ "issuerName": "EMCOR Group, Inc.",
+ "builtAt": "2026-11-14T13:47:19.505Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000105634-26-000025",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/105634/000010563426000025/eme-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States electrical construction and facilities services",
+   "products": [
+    "Systems for electrical power transmission, distribution, and generation",
+    "Premises electrical and lighting systems",
+    "Low-voltage systems, such as fire alarm, security, and process control systems",
+    "Voice and data communications, including fiber optic and low voltage cabling",
+    "Sustainable energy solutions such as solar, photovoltaic, and wind",
+    "Roadway and transit lighting and signaling and fiber optic lines",
+    "Computerized traffic control systems"
+   ],
+   "description": "Provides electrical construction and facilities services, including power, lighting, low-voltage, and communications systems, to commercial, industrial, healthcare, and institutional customers.",
+   "evidence": "Such operating subsidiaries are organized into the following reportable segments: • United States electrical construction and facilities services;"
+  },
+  {
+   "name": "United States mechanical construction and facilities services",
+   "products": [
+    "Heating, ventilation, air conditioning, and refrigeration",
+    "Clean-room process ventilation systems",
+    "Fire protection and suppression systems",
+    "Plumbing, process and high-purity piping systems",
+    "Water and wastewater treatment systems",
+    "Central plant heating and cooling systems",
+    "Millwright services",
+    "Steel fabrication, erection, and welding services"
+   ],
+   "description": "Provides mechanical construction and facilities services, including HVAC, piping, fire protection, and water treatment systems, for a broad range of facility types.",
+   "evidence": "Such operating subsidiaries are organized into the following reportable segments: • United States electrical construction and facilities services; • United States mechanical construction and facilities services;"
+  },
+  {
+   "name": "United States building services",
+   "products": [
+    "Maintenance and services for mechanical, electrical, plumbing, fire safety, and ",
+    "HVAC projects, including installation, modification and retrofits",
+    "Energy efficiency retrofit services",
+    "Technical consulting and diagnostic services",
+    "Facility management, maintenance, and services",
+    "Floor care and janitorial services",
+    "Landscaping, lot sweeping, and snow removal",
+    "Vendor management and call center services"
+   ],
+   "description": "Provides facilities services, including maintenance, energy efficiency retrofits, and facility management, to owners, operators, tenants, and managers of facilities.",
+   "evidence": "Our building services operations, which generated approximately 21% of our 2025 total revenues, provide services to owners, operators, tenants, and managers of all types of facilities."
+  },
+  {
+   "name": "United States industrial services",
+   "products": [],
+   "description": "Provides industrial services, generally directly to refineries and petrochemical plants.",
+   "evidence": "We generally provide industrial services directly to refineries and petrochemical plants."
+  },
+  {
+   "name": "United Kingdom building services",
+   "products": [],
+   "description": null,
+   "evidence": "On December 1, 2025, we sold our United Kingdom operations, the results of which are reported within our United Kingdom building services segment through the date of sale."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including corporations, governments, owners, developers, tenants, and general contractors acting as subcontractors, pay EMCOR for electrical and mechanical construction, building, and industrial services.",
+  "evidence": "We provide construction services and building services directly to corporations, municipalities and federal and state governmental entities, owners/developers, and tenants of buildings."
+ },
+ "changes": [
+  {
+   "text": "In 2025, EMCOR sold its United Kingdom operations, which had comprised the United Kingdom building services segment.",
+   "evidence": "On December 1, 2025, we sold our United Kingdom operations, the results of which are reported within our United Kingdom building services segment through the date of sale."
+  }
+ ],
+ "dropped": []
+}

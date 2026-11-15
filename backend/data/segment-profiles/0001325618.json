@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001325618",
+ "issuerName": "IRADIMED CORPORATION",
+ "builtAt": "2026-11-14T17:40:23.702Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024691",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1325618/000110465926024691/irmd-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MRI Compatible Medical Devices",
+   "products": [
+    "MRidium 3870 MRI Compatible IV Infusion Pump System",
+    "MRidium 3860+ MRI Compatible IV Infusion Pump System",
+    "IRadimed 3880 MRI Compatible Patient Vital Signs Monitoring System",
+    "Proprietary disposable IV tubing sets",
+    "Remote Display Unit",
+    "Extended maintenance agreements"
+   ],
+   "description": "Develops, manufactures, markets and distributes MRI compatible medical devices, accessories, disposables and related services.",
+   "evidence": "develops, manufactures, markets and distributes Magnetic Resonance Imaging (\"MRI\") compatible medical devices and related accessories, disposables and services relating to them."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and acute care facilities pay for MRI compatible medical devices, disposables, extended maintenance agreements and related services.",
+  "evidence": "We generate revenue from the sale of these and other MRI compatible medical devices and related accessories, extended maintenance agreements, services related to maintaining our products and the sale of disposable products used with our devices."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MRI Compatible Medical Devices): IRadimed FMD1 Ferromagnetic Detection Device",
+  "change not grounded: In 2025, the company introduced the MRidium 3870 IV infusion pump system as a ne",
+  "change not grounded: In 2026, the company will discontinue new MRidium 3860+ pump system sales while "
+ ]
+}

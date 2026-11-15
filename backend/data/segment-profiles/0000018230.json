@@ -1,0 +1,84 @@
+{
+ "version": 1,
+ "cik": "0000018230",
+ "issuerName": "CATERPILLAR INC",
+ "builtAt": "2026-11-14T14:07:21.063Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000018230-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/cat-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction Industries",
+   "products": [
+    "track-type tractors",
+    "wheel loaders",
+    "excavators",
+    "backhoe loaders",
+    "motor graders",
+    "compactors",
+    "asphalt pavers",
+    "SEM brand machines"
+   ],
+   "description": "Manufactures and sells machinery for infrastructure, building construction, quarry and aggregates applications.",
+   "evidence": "Our Construction Industries segment is primarily responsible for supporting customers using machinery in infrastructure and building construction applications."
+  },
+  {
+   "name": "Resource Industries",
+   "products": [
+    "electric rope shovels",
+    "hydraulic shovels",
+    "rotary drills",
+    "large track-type tractors",
+    "large wheel loaders",
+    "off-highway trucks",
+    "articulated trucks",
+    "wheel dozers"
+   ],
+   "description": "Designs and manufactures high productivity equipment for surface and underground mining operations and quarry applications.",
+   "evidence": "The Resource Industries segment is primarily responsible for supporting customers using machinery in mining, heavy construction and quarry and aggregates."
+  },
+  {
+   "name": "Power & Energy",
+   "products": [
+    "reciprocating engines",
+    "generator sets",
+    "turbines",
+    "diesel-electric locomotives",
+    "electrified powertrain",
+    "zero-emission power sources",
+    "integrated systems and solutions"
+   ],
+   "description": "Provides engines, generator sets, turbines, locomotives and integrated power solutions for oil and gas, power generation and industrial applications.",
+   "evidence": "Our Power & Energy segment supports customers in oil and gas, power generation, marine, rail and industrial applications, including Caterpillar machines."
+  },
+  {
+   "name": "Financial Products",
+   "products": [
+    "wholesale financing",
+    "revolving charge accounts",
+    "insurance services"
+   ],
+   "description": "Provides financing and insurance services for Caterpillar products and equipment to customers and dealers worldwide.",
+   "evidence": "The business of our Financial Products Segment is primarily conducted by Cat Financial, Insurance Services and their respective subsidiaries and affiliates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase machinery and equipment through machinery segments and financing is provided by Financial Products segment through loans and charge accounts.",
+  "evidence": "Cat Financial offers loans that allow customers to purchase equipment with structured payments over time."
+ },
+ "changes": [
+  {
+   "text": "In 2025, responsibility for wear and maintenance components and related parts sourcing moved from All Other Segment to Resource Industries.",
+   "evidence": "Responsibility for business strategy, product design, product management and development, manufacturing, marketing and sales and product support for and sourcing of wear and maintenance components and related parts moved from All Other Segment to Resource Industries."
+  }
+ ],
+ "dropped": [
+  "product not in text (Financial Products): retail financing"
+ ]
+}

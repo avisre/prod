@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001769628",
+ "issuerName": "CoreWeave, Inc.",
+ "builtAt": "2026-11-14T17:37:47.345Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001769628-26-000104",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CoreWeave Cloud",
+   "products": [
+    "Infrastructure Services",
+    "Managed Software Services",
+    "Application Software Services",
+    "CoreWeave Mission Control",
+    "Weights & Biases",
+    "Storage solutions",
+    "Developer tools"
+   ],
+   "description": "AI-native cloud platform providing infrastructure, software, and managed services for large-scale AI model training, inference, and deployment.",
+   "evidence": "We deliver our cloud services through Infrastructure Services, Managed Software Services, and Application Software Services, including proprietary storage solutions, CoreWeave Mission Control, as well as developer tools, all critical to unlocking continued innovation of AI products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase specified capacity on a take-or-pay basis through multi-year committed contracts, with pay-as-you-go on-demand access also available.",
+  "evidence": "Customers generally access our platform through multi-year committed contracts, under which they purchase a specified amount of capacity on a take-or-pay basis over the contract term."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CoreWeave Cloud): Slurm on Kubernetes (SUNK)"
+ ]
+}

@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000275880",
+ "issuerName": "Parsons Corporation",
+ "builtAt": "2026-11-14T13:47:43.064Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-045495",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/275880/000119312526045495/psn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Federal Solutions",
+   "products": [
+    "cyber",
+    "integrated air and missile defense",
+    "intelligence",
+    "aviation modernization",
+    "electronic warfare",
+    "space ground systems, cislunar, A-PNT, and classified sensors",
+    "geospatial intelligence",
+    "signals intelligence"
+   ],
+   "description": "Advanced technology provider delivering mission-critical solutions and services to the U.S. government and its agencies.",
+   "evidence": "Our Federal Solutions segment is an advanced technology provider to the U.S. government, delivering innovative, timely, and cost-effective solutions for mission-critical projects."
+  },
+  {
+   "name": "Critical Infrastructure",
+   "products": [
+    "program management",
+    "planning, design and engineering services",
+    "owners representative support",
+    "environmental remediation",
+    "water and wastewater treatment and conveyance systems",
+    "urban development"
+   ],
+   "description": "Provides program management, design, engineering and owner support for complex physical and digital infrastructure assets for global customers.",
+   "evidence": "Our Critical Infrastructure segment provides program management, planning, design and engineering services, and owners representative support for complex physical and digital infrastructure assets around the globe."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Parsons earns revenue from long-term contracts with the U.S. government and its agencies, state and local governments, international clients, and private sector infrastructure owners.",
+  "evidence": "The U.S. government and its agencies represent substantially all of the revenue of our Federal Solutions segment."
+ },
+ "changes": [],
+ "dropped": []
+}

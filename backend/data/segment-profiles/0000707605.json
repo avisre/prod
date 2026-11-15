@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000707605",
+ "issuerName": "AMERISERV FINANCIAL INC /PA/",
+ "builtAt": "2026-11-14T13:48:49.408Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-031270",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/707605/000110465926031270/asrv-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financial services",
+   "products": [
+    "retail banking services",
+    "commercial real estate (CRE) mortgage loans",
+    "consumer loans",
+    "mortgage loans",
+    "mutual funds, annuities, and insurance products",
+    "ERECT Funds"
+   ],
+   "description": "A full-service bank serving retail and commercial customers in Pennsylvania and Maryland, with wealth management and trust services administered through its AmeriServ Wealth and Capital Management division.",
+   "evidence": "Accordingly, all of the financial service operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns income from banking, bank related services, and trust and wealth management related services provided to depositors and borrowers.",
+  "evidence": "The Company and its subsidiary derive substantially all of their income from banking, bank related services, and trust and wealth management related services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Financial services): trust and wealth management services"
+ ]
+}

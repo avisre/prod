@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000102037",
+ "issuerName": "UNIVERSAL CORPORATION",
+ "builtAt": "2026-11-14T13:47:06.909Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-039511",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/102037/000162828026039511/uvv-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tobacco Operations",
+   "products": [
+    "oriental leaf tobacco",
+    "liquid nicotine",
+    "reconstituted leaf tobacco manufacturing",
+    "custom blending",
+    "service cutting"
+   ],
+   "description": "Procures, processes, packs, stores, and ships leaf tobacco and provides related services for manufacturers of consumer tobacco products.",
+   "evidence": "Our Tobacco Operations segment involves procuring and processing flue-cured, burley, dark air-cured, and oriental leaf tobacco for manufacturers of consumer tobacco products and performing related services."
+  },
+  {
+   "name": "Ingredients Operations",
+   "products": [
+    "fruits",
+    "vegetables",
+    "botanical extracts",
+    "flavorings"
+   ],
+   "description": "Procures raw materials globally and processes them into specialty plant-based ingredients for consumer-packaged goods manufacturers, retailers, and food and beverage companies.",
+   "evidence": "Through our Ingredients Operations segment, we procure raw materials globally and process the raw materials through a variety of value-added manufacturing processes to produce high-quality, innovative, specialty plant-based ingredients, including fruits, vegetables, botanical extracts, and flavorings for consumer-packaged goods manufacturers, retailers, and food and beverage companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling transformed agriproducts to consumer product manufacturers, plus processing fees for third-party-owned tobacco and fees for other services.",
+  "evidence": "Revenues for our Tobacco Operations are generated from product sales of green and processed leaf as well as packed tobacco that we source; from processing fees for tobacco owned by third parties; and from fees for other services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Tobacco Operations): flue-cured leaf tobacco",
+  "product not in text (Tobacco Operations): burley leaf tobacco",
+  "product not in text (Tobacco Operations): dark air-cured leaf tobacco"
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000062234",
+ "issuerName": "MARCUS CORP",
+ "builtAt": "2026-11-14T13:45:12.730Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000062234-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/62234/000006223426000011/mcs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Theatres",
+   "products": [
+    "Marcus Theatres",
+    "Movie Tavern by Marcus",
+    "BistroPlex",
+    "Funset Boulevard",
+    "Ultra Screen DLX",
+    "Super Screen DLX",
+    "ScreenX",
+    "Zaffiro's Express"
+   ],
+   "description": null,
+   "evidence": "Our movie theatres operate under the Marcus Theatres , Movie Tavern by Marcus , and BistroPlex brands."
+  },
+  {
+   "name": "Hotels and resorts",
+   "products": [],
+   "description": "Owns and operates hotels and resorts and manages hotels, resorts and other properties for joint ventures and third parties.",
+   "evidence": "As of December 31, 2025, our hotels and resorts operations included seven wholly-owned and operated hotels and resorts in Wisconsin, Illinois, and Nebraska."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from movie admissions, food and beverage concessions and premium experiences paid by theatre guests, plus lodging revenue from hotel guests and management fees from joint ventures and third parties.",
+  "evidence": "We also manage nine hotels, resorts and other properties for our joint ventures and third parties in Wisconsin, California, Minnesota, Nevada, Nebraska, Illinois, Iowa, and Pennsylvania."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In fiscal 2024, the company entered into an agreement to assume operations of th",
+  "change not grounded: Beginning in fiscal 2025, the company changed its fiscal year to end on December"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000751365",
+ "issuerName": "VIRCO MFG. CORPORATION",
+ "builtAt": "2026-11-14T13:50:11.296Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-024204",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/751365/000162828026024204/virc-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Furniture",
+   "products": [
+    "mobile tables",
+    "mobile storage equipment",
+    "student and teacher desks",
+    "chairs",
+    "activity tables",
+    "folding chairs and folding tables",
+    "ZUMA Series",
+    "Topaz Series"
+   ],
+   "description": null,
+   "evidence": "Virco Mfg. Corporation (the \"Company\"), which operates in one business segment, is engaged in the design, production, and distribution of quality furniture for the commercial and education markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, mainly schools and other institutions, pay for furniture purchased FOB factory or with full-service delivery, with sales concentrated in the summer delivery season.",
+  "evidence": "Now, in addition to buying furniture Freight On Board (\"FOB\") Factory for export and sales to resellers, customers can purchase furniture for delivery to warehouses and school sites and can also purchase full-service furniture delivery that includes the delivery of the furniture in classrooms."
+ },
+ "changes": [],
+ "dropped": []
+}

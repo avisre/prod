@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000731653",
+ "issuerName": "UNITED BANCORP INC /OH/",
+ "builtAt": "2026-11-14T13:49:44.394Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-030899",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/731653/000110465926030899/ubcp-20251231xex13.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "checking",
+    "savings",
+    "term certificate accounts",
+    "residential mortgage loans",
+    "commercial loans",
+    "installment loans",
+    "Treasury Management"
+   ],
+   "description": "Provides banking services, including deposits and lending, to individuals, businesses and other organizations in Ohio and West Virginia.",
+   "evidence": "The Company's has one reportable segment (\"Banking\") as determined by the after considering the level of information to review and the performance of various components of the business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns interest on loans and investments and fees from deposit service charges, mortgage banking and treasury management services paid by its customers.",
+  "evidence": "The Company's primary deposit products are checking, savings and term certificate accounts and its primary lending products are residential mortgage, commercial and installment loans."
+ },
+ "changes": [],
+ "dropped": []
+}

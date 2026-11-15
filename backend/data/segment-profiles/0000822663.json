@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000822663",
+ "issuerName": "INTERPARFUMS, INC.",
+ "builtAt": "2026-11-14T13:52:02.064Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001753926-26-000464",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/822663/000175392626000464/ipar-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "European based operations",
+   "products": [
+    "Boucheron",
+    "Coach",
+    "Jimmy Choo",
+    "Karl Lagerfeld",
+    "Kate Spade",
+    "Lacoste",
+    "Longchamp",
+    "Lanvin"
+   ],
+   "description": "Produces and distributes prestige fragrances under license agreements with brand owners, primarily through the French subsidiary Interparfums SA.",
+   "evidence": "We have built a portfolio of prestige brands, which include Boucheron, Coach, Jimmy Choo, Karl Lagerfeld, Kate Spade, Lacoste, Longchamp, Lanvin, Moncler, Montblanc, Off-White, Solférino and Van Cleef & Arpels, whose products are distributed in over 120 countries around the world."
+  },
+  {
+   "name": "United States based operations",
+   "products": [
+    "Abercrombie & Fitch",
+    "Anna Sui",
+    "Donna Karan/DKNY",
+    "Emanuel Ungaro",
+    "Ferragamo",
+    "Graff",
+    "GUESS",
+    "Hollister"
+   ],
+   "description": "Produces and markets prestige brand fragrances under trademarks owned by the company or licensed from brand owners.",
+   "evidence": "These fragrance products are sold under trademarks owned by us or pursuant to license or other agreements with the owners of brands, which include Abercrombie & Fitch, Anna Sui, Donna Karan/DKNY, Emanuel Ungaro, Ferragamo, Graff, GUESS, Hollister, MCM, Oscar de la Renta, and Roberto Cavalli."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells prestige fragrances and fragrance related products to distributors and retailers, paying royalties to brand owners under license agreements.",
+  "evidence": "We produce and distribute our fragrance products primarily under license agreements with brand owners, and fragrance product sales through our European based operations represented approximately 68% of net sales for the year ended December 31, 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Interparfums SA created its first proprietary brand, Solférino, and acquired the Goutal Paris brand, beginning commercial use in 2026.",
+   "evidence": "2025 marked the creation of Interparfums SA's first proprietary brand Solférino, a collection of 10 niche fragrances developed by star perfumers and intended for the collector's fragrance market"
+  },
+  {
+   "text": "In 2023, the Rochas business underwent a strategic shift to take over its own brand operations, exiting contracts with manufacturers and distributors.",
+   "evidence": "In 2023 , the Rochas teams underwent a strategic shift to take over their own brand operations, exiting contracts with manufacturers and distributors to have this new structure operational beginning in 2024 ."
+  }
+ ],
+ "dropped": []
+}

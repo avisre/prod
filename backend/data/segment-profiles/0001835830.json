@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001835830",
+ "issuerName": "Klaviyo, Inc.",
+ "builtAt": "2026-11-14T17:39:13.823Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001835830-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1835830/000183583026000007/kvyo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2C CRM",
+   "products": [
+    "Klaviyo Data Platform",
+    "Marketing automation",
+    "Email messaging",
+    "Text messaging",
+    "WhatsApp messaging",
+    "Marketing Agent",
+    "Customer Agent",
+    "Klaviyo Service"
+   ],
+   "description": "Cloud-based SaaS platform enabling consumer companies to store, manage, and act on first-party customer data across marketing, service, and analytics channels.",
+   "evidence": "We operate our business through one reportable segment, as well as one business activity, providing software that brings first-party consumer data together and uses it to create and deliver highly personalized consumer experiences across digital channels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Subscription fees based on customer profile count and messaging volumes, recognized ratably over the subscription term as performance obligations are satisfied.",
+  "evidence": "We generate revenue through the sale of subscriptions to our customers for the use of our platform. Our subscription plans are tiered based on the number of active consumer profiles stored on our platform and the number of emails, text messages and WhatsApp messages sent as well as customer tickets and conversations through Klaviyo Service."
+ },
+ "changes": [],
+ "dropped": []
+}

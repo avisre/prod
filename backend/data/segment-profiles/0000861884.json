@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000861884",
+ "issuerName": "RELIANCE, INC.",
+ "builtAt": "2026-11-14T13:53:06.787Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020651",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/861884/000110465926020651/rs-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Metals service centers",
+   "products": [
+    "alloy",
+    "aluminum",
+    "brass",
+    "copper",
+    "carbon steel",
+    "stainless steel",
+    "titanium",
+    "specialty steel products"
+   ],
+   "description": null,
+   "evidence": "We have one reportable segment —metals service centers ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily via purchase orders in the spot market, pay for processed and distributed metal products, plus fees for toll processing of customer-owned metal.",
+  "evidence": "We primarily operate in the spot market for both the purchase and sale of our products."
+ },
+ "changes": [],
+ "dropped": []
+}

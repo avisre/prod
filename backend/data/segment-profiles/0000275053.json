@@ -1,0 +1,83 @@
+{
+ "version": 1,
+ "cik": "0000275053",
+ "issuerName": "NATURE’S SUNSHINE PRODUCTS, INC.",
+ "builtAt": "2026-11-14T13:47:42.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016540",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/275053/000162828026016540/natr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asia",
+   "products": [
+    "Nature's Sunshine Products",
+    "Synergy WorldWide®",
+    "general health products",
+    "immune products",
+    "cardiovascular products",
+    "digestive products",
+    "personal care products",
+    "weight management products"
+   ],
+   "description": "Direct selling of nutritional and personal care products to independent consultants and consumers in Asia.",
+   "evidence": "We have four business segments (Asia, Europe, North America and Latin America and Other) based primarily upon the geographic region where each segment operates, as well as the internal organization of our officers and their responsibilities."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Nature's Sunshine Products",
+    "Synergy WorldWide®",
+    "general health products",
+    "immune products",
+    "cardiovascular products",
+    "digestive products",
+    "personal care products",
+    "weight management products"
+   ],
+   "description": "Direct selling of nutritional and personal care products to independent consultants and consumers in Europe.",
+   "evidence": "The geographic segments operate under the Nature's Sunshine Products and Synergy WorldWide® brands."
+  },
+  {
+   "name": "North America",
+   "products": [
+    "Nature's Sunshine Products",
+    "Synergy WorldWide®",
+    "general health products",
+    "immune products",
+    "cardiovascular products",
+    "digestive products",
+    "personal care products",
+    "weight management products"
+   ],
+   "description": "Direct selling of nutritional and personal care products to independent consultants and consumers in North America.",
+   "evidence": "We have four business segments (Asia, Europe, North America and Latin America and Other) based primarily upon the geographic region where each segment operates, as well as the internal organization of our officers and their responsibilities."
+  },
+  {
+   "name": "Latin America and Other",
+   "products": [
+    "Nature's Sunshine Products",
+    "Synergy WorldWide®",
+    "general health products",
+    "immune products",
+    "cardiovascular products",
+    "digestive products",
+    "personal care products",
+    "weight management products"
+   ],
+   "description": "Direct selling in Latin America plus a wholesale business selling to locally-managed entities granted distribution rights.",
+   "evidence": "The Latin America and Other segment includes our wholesale business in which we sell products to various locally-managed entities, independent of the Company, that we have granted distribution rights for the relevant market."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells nutritional and personal care products to independent consultants who use or resell them to consumers, paying consultants sales commissions or volume incentives based on product sales.",
+  "evidence": "We sell our products to a sales force of independent consultants who use the products themselves or resell them to consumers."
+ },
+ "changes": [],
+ "dropped": []
+}

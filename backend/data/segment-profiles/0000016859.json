@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000016859",
+ "issuerName": "Scully Royalty Ltd.",
+ "builtAt": "2026-11-14T14:07:14.357Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001410578-25-001054",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/16859/000141057825001054/srl-20241231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Royalty",
+   "products": [
+    "Iron ore royalty interest"
+   ],
+   "description": "Holds a net revenues royalty interest in the Scully Mine, an iron ore mine in Newfoundland and Labrador, Canada.",
+   "evidence": "We hold a net revenues royalty interest in the Scully Mine located in the Province of Newfoundland and Labrador, Canada."
+  },
+  {
+   "name": "Merchant Banking",
+   "products": [
+    "Merchant banking services",
+    "Financial and consultancy services",
+    "Investment property"
+   ],
+   "description": "Provides regulated merchant banking and specialty banking services in Europe through its regulated bank subsidiary.",
+   "evidence": "Our Merchant Banking segment, also referred to as \"financial services\", comprises regulated merchant banking in Europe, including the activities of the Bank."
+  },
+  {
+   "name": "All Other",
+   "products": [],
+   "description": "Includes corporate entities and small operations not individually material to primary segments.",
+   "evidence": "The All Other segment includes our corporate and small entities whose quantitative amounts generally are not expected to exceed 10% of any of the following: (a) our reported revenue, including both sales to external customers and intersegment sales or transfer"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Royalty segment earns revenues from royalty payments on iron ore shipped; Merchant Banking earns fees from financial services and investment income.",
+  "evidence": "Generally, the Bank earns fees from provisions of a range of financial and consultancy services to the customers and investment income."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Industrial segment was eliminated and its assets and liabilities moved to All Other segment as part of focus on core assets.",
+   "evidence": "Effective from January 1, 2024, we have revised our operating segments such that we have two primary operating segments, being, (i) Royalty, which includes our interest in an iron ore mine; and (ii) Merchant Banking, which includes merchant banking activities. As a result, we no longer present an Industrial segment in our financial statements."
+  }
+ ],
+ "dropped": []
+}

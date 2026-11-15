@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000788920",
+ "issuerName": "PRO-DEX, INC.",
+ "builtAt": "2026-11-14T13:50:57.148Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001079973-26-001215",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/788920/000107997326001215/pdex_10k-063026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Devices",
+   "products": [
+    "surgical drivers",
+    "shavers",
+    "rotary air motors",
+    "precision machined parts and assemblies for the aerospace and defense industries",
+    "NRE and proto-type services",
+    "repairs"
+   ],
+   "description": "Designs, develops, manufactures and repairs autoclavable, battery-powered and electric multi-function surgical devices, primarily for medical device OEMs and distributors.",
+   "evidence": "We have only one operating segment as our business is currently operated."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Medical device OEMs and distributors pay the company under development and supply agreements for custom-designed surgical devices, contract manufacturing, repairs, and NRE services.",
+  "evidence": "Our medical device products are sold primarily to original equipment manufacturers and our air motors are sold to a wide range of distributors and end users."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the company acquired Advanced Precision Machining, LLC, adding precision machined parts and assemblies for the aerospace and defense industries.",
+   "evidence": "In February 2026, we acquired APM, a manufacturer located in Costa Mesa, California."
+  }
+ ],
+ "dropped": []
+}

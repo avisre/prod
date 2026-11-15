@@ -1,0 +1,88 @@
+{
+ "version": 1,
+ "cik": "0000027996",
+ "issuerName": "DELUXE CORPORATION",
+ "builtAt": "2026-11-14T14:07:59.267Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000027996-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/27996/000002799626000037/dlx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Merchant Services",
+   "products": [
+    "Mobile payment solutions",
+    "Credit card processing",
+    "Check guarantee and conversion"
+   ],
+   "description": "Merchant in-store, online, and mobile payment solutions for small and medium-sized businesses and nonprofits.",
+   "evidence": "Merchant in-store, online, and mobile payment solutions that provide tools to accept electronic payments, such as debit cards, credit cards, and other forms of payment"
+  },
+  {
+   "name": "B2B Payments",
+   "products": [
+    "Treasury management solutions",
+    "Automated receivables technology",
+    "Remittance and lockbox processing",
+    "Remote deposit capture",
+    "Cash application",
+    "Payment acceptance solutions",
+    "Accounts payable disbursements",
+    "eChecks"
+   ],
+   "description": "Automated receivables and payable payment solutions including lockbox processing and digital payment capabilities.",
+   "evidence": "Automated receivables technology, including remittance and lockbox processing, remote deposit capture, and cash application, as well as payment acceptance solutions"
+  },
+  {
+   "name": "Data Solutions",
+   "products": [
+    "Data-driven marketing services",
+    "Data analytics",
+    "Financial institution profitability reporting",
+    "Business incorporation services"
+   ],
+   "description": "Data analytics and marketing services for business-to-business and business-to-consumer marketing to clients.",
+   "evidence": "Data analytics and marketing services for business-to-business and business-to-consumer marketing"
+  },
+  {
+   "name": "Print",
+   "products": [
+    "Business forms",
+    "Envelopes",
+    "Labels",
+    "Stationery"
+   ],
+   "description": "Printed checks, business forms, promotional products, and related business essentials for businesses and consumers.",
+   "evidence": "Printed business and personal checks"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Revenue from transaction fees as percentage of transaction value or fixed fee per transaction; subscription and service fees for treasury management; data analytics services; and sales of printed checks and business forms.",
+  "evidence": "The majority of our merchant services revenue is derived from fees structured either as a percentage of transaction value or as a fixed fee per transaction, depending on the payment type or market."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company sold its North American web hosting and logo design businesses, completing its exit from web hosting.",
+   "evidence": "During 2023, we sold our North American web hosting and logo design businesses, completing our exit from the web hosting space."
+  },
+  {
+   "text": "In 2023, the company entered into agreements to exit its payroll and human resources services business, with customer conversions substantially completed during 2024.",
+   "evidence": "Also in 2023, we entered into agreements to exit our payroll and human resources services business, facilitating the transition of our U.S. and Canadian customers to other service providers. These customer conversions were substantially completed during 2024."
+  }
+ ],
+ "dropped": [
+  "product not in text (Merchant Services): In-store payment solutions",
+  "product not in text (Merchant Services): Online payment solutions",
+  "product not in text (Merchant Services): Debit card processing",
+  "product not in text (Print): Printed business checks",
+  "product not in text (Print): Printed personal checks",
+  "product not in text (Print): Branded promotional products",
+  "product not in text (Print): Print apparel",
+  "change not grounded: In August 2025, the company acquired certain assets of JPMorgan Chase Bank's Che"
+ ]
+}

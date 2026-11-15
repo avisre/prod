@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001853044",
+ "issuerName": "Aeries Technology, Inc.",
+ "builtAt": "2026-11-15T02:50:13.914Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001829126-26-006123",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1853044/000182912626006123/aeriestech_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Professional Services and Technology Consulting",
+   "products": [
+    "Digital transformation services",
+    "Application engineering",
+    "Information technology systems",
+    "Data analytics and business intelligence",
+    "Cybersecurity"
+   ],
+   "description": "Provides specialized professional services and technology consulting to private equity firms and mid-market enterprises for establishing and managing Global Capability Centers.",
+   "evidence": "Aeries Technology is a global professional services and technology consulting firm that provides specialized expertise to private equity (\"PE\") firms' portfolio companies and middle-market, technology-enabled enterprises."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay for professional advisory services, GCC establishment and operational management, technology platform access, and talent deployment services.",
+  "evidence": "We recruit and employ qualified professionals, place them on our payroll, and deploy them strategically across client operations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Professional Services and Technology Consulting): Global Capability Centers (GCCs) advisory and establishment services",
+  "product not in text (Professional Services and Technology Consulting): GCC operational management services",
+  "product not in text (Professional Services and Technology Consulting): AI1 GCC proprietary technology platform"
+ ]
+}

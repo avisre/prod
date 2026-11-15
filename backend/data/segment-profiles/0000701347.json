@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000701347",
+ "issuerName": "CENTRAL PACIFIC FINANCIAL CORP",
+ "builtAt": "2026-11-14T13:48:38.579Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000701347-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/701347/000070134726000021/cpf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "demand, money market, savings, and time deposits",
+    "commercial and industrial loans",
+    "construction loans",
+    "commercial real estate loans",
+    "residential mortgage loans",
+    "home equity loans",
+    "consumer loans",
+    "cash management, digital banking, fiduciary and investment management services"
+   ],
+   "description": "Full-service commercial banking serving consumer and business customers across Hawaii through branches, ATMs, deposit and lending products.",
+   "evidence": "CPF reports financial results on a fiscal year ending December 31, and operates as a single reportable segment: banking operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns income primarily from interest and fees on loans, interest and dividends on investment securities, and fees related to deposit and other services.",
+  "evidence": "We derive income primarily from interest and fees on loans, interest and dividends on investment securities, and fees related to deposit and other services."
+ },
+ "changes": [],
+ "dropped": []
+}

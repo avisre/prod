@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000700565",
+ "issuerName": "FIRST MID BANCSHARES, INC.",
+ "builtAt": "2026-11-14T13:48:36.720Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-080847",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/700565/000119312526080847/fmbh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "insurance products and services",
+    "trust",
+    "farm services",
+    "investment services",
+    "retirement planning"
+   ],
+   "description": "A community-focused financial holding company providing banking, insurance, wealth management and related services to customers.",
+   "evidence": "The Company is engaged in the business of banking through its wholly owned subsidiary, First Mid Bank & Trust, N.A. (\"First Mid Bank\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2023 the Company acquired Blackhawk Bank, which was merged into First Mid Bank.",
+   "evidence": "On August 15, 2023, the Company acquired Blackhawk Bank, which was merged into First Mid Bank on December 1, 2023."
+  },
+  {
+   "text": "In 2024 the Company acquired Mid Rivers Insurance Group, Inc., which was merged into First Mid Insurance.",
+   "evidence": "During the quarter ended September 30, 2024, the Company acquired Mid Rivers Insurance Group, Inc. which was subsequently merged into First Mid Insurance."
+  }
+ ],
+ "dropped": [
+  "product not in text (Banking): banking"
+ ]
+}

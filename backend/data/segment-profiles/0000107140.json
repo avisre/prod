@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000107140",
+ "issuerName": "JOHN WILEY & SONS, INC.",
+ "builtAt": "2026-11-14T13:47:23.835Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-045111",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/107140/000162828026045111/jwa-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research",
+   "products": [
+    "Research Publishing",
+    "Research Solutions",
+    "Journal Subscriptions",
+    "Transformational Agreements",
+    "Open Access",
+    "Licensing and ancillary products",
+    "Wiley Online Library",
+    "The Cochrane Library"
+   ],
+   "description": null,
+   "evidence": "Research provides over 1,900 scientific, technical, medical, and scholarly journals, as well as related content and services in areas of physical sciences and engineering, health sciences, social sciences and humanities, and life sciences."
+  },
+  {
+   "name": "Learning",
+   "products": [
+    "Academic",
+    "Professional",
+    "publishing",
+    "courseware",
+    "assessments"
+   ],
+   "description": "Provides scientific, professional, and education print and digital books, digital courseware, and assessment services to students, instructors, professionals, and businesses.",
+   "evidence": "Learning includes the Academic and Professional reporting lines and consists of publishing, courseware, and assessments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Libraries, institutions, and corporations pay subscription fees under multi-year agreements, authors or funders pay article processing charges for open access publishing, and customers pay licensing fees for content use including AI training.",
+  "evidence": "APCs are typically paid by the individual author or by the author's funder, and payments are often mediated by the author's institution."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In fiscal years 2025 and 2024, Wiley reported a Held for Sale or Sold segment fo"
+ ]
+}

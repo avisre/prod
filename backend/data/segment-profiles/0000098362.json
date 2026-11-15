@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000098362",
+ "issuerName": "TIMKEN CO",
+ "builtAt": "2026-11-14T13:46:55.028Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000098362-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/98362/000009836226000012/tkr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineered Bearings",
+   "products": [
+    "Timken® tapered roller bearings",
+    "spherical and cylindrical roller bearings",
+    "plain bearings",
+    "metal-polymer bearings",
+    "rod end bearings",
+    "thrust and specialty ball bearings",
+    "housed or mounted bearings"
+   ],
+   "description": "Designs and sells a broad range of engineered bearing products to OEMs and end-users across global industries such as wind energy, agriculture, construction and aerospace.",
+   "evidence": "Timken's Engineered Bearings segment features a broad range of product designs serving OEMs and end-users worldwide."
+  },
+  {
+   "name": "Industrial Motion",
+   "products": [
+    "industrial drives",
+    "automatic lubrication systems",
+    "linear motion products and systems",
+    "chains",
+    "belts",
+    "couplings",
+    "filtration systems",
+    "seals"
+   ],
+   "description": "Provides engineered industrial motion products, including drives, lubrication, linear motion, chain, belts, couplings, seals and clutches, plus industrial drivetrain services.",
+   "evidence": "Timken's Industrial Motion segment includes a diverse and growing portfolio of engineered products, including industrial drives, automatic lubrication systems, linear motion products and systems, chains, belts, couplings, filtration systems, seals, and industrial clutches and brakes that keep systems running efficiently."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Timken sells engineered bearings and industrial motion products to OEMs and captures aftermarket replacement demand largely through independent distribution channels.",
+  "evidence": "Timken collaborates with OEMs to improve equipment efficiency with its engineered products and captures subsequent equipment replacement cycles by selling largely through independent channels in the aftermarket."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Timken acquired CGI, Inc., which is reported in the Industrial Motion segment.",
+   "evidence": "The Company acquired CGI, Inc. (\"CGI\") during the third quarter of 2024. Results for CGI are reported in the Industrial Motion segment."
+  }
+ ],
+ "dropped": []
+}

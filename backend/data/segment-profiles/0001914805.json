@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001914805",
+ "issuerName": "CBL International Ltd",
+ "builtAt": "2026-11-15T02:50:35.356Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-017832",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1914805/000149315226017832/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Marine fuel",
+   "products": [
+    "VLSFO",
+    "biofuel",
+    "LNG",
+    "liquefied natural gas",
+    "methanol"
+   ],
+   "description": "Provides one-stop vessel refueling bunkering facilitation, purchasing marine fuel and arranging delivery to ship operators across global ports.",
+   "evidence": "The Company is principally engaged in sales and distribution of marine fuel."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for vessel refueling on a cost-plus basis, earning a premium between selling price and purchase cost per metric ton of marine fuel.",
+  "evidence": "we basically price our services on a \"cost plus\" basis, i.e., we are able to obtain a premium, being the difference between the selling price per metric ton of marine fuel sold to our customers and the purchase cost from our suppliers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Marine fuel): marine fuel",
+  "segment name not in text: productRevenueBrokenOut_placeholder"
+ ],
+ "escalated": "no segments"
+}

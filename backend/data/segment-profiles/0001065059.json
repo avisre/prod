@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001065059",
+ "issuerName": "Centrus Energy Corp.",
+ "builtAt": "2026-11-14T17:36:57.120Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007117",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1065059/000162828026007117/leu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "LEU",
+   "products": [
+    "Low-Enriched Uranium",
+    "natural uranium hexafluoride",
+    "uranium concentrates",
+    "uranium conversion",
+    "SWU"
+   ],
+   "description": "Supplies nuclear fuel components to commercial utilities operating nuclear power plants worldwide.",
+   "evidence": "Our LEU segment provides most of the Company's revenue and involves the sale of LEU, the fissile component of nuclear fuel, primarily to utilities that operate commercial nuclear power plants."
+  },
+  {
+   "name": "Technical Solutions",
+   "products": [
+    "HALEU production",
+    "uranium enrichment",
+    "advanced manufacturing",
+    "engineering services",
+    "technical services"
+   ],
+   "description": "Provides uranium enrichment for government and commercial customers and advanced manufacturing and technical services.",
+   "evidence": "Our Technical Solutions segment is focused on uranium enrichment for the nuclear industry and the U.S. government and advanced manufacturing, engineering and other technical services to government and private sector customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Commercial utilities and the U.S. government pay for LEU components and enrichment services, with government contracts on cost-plus-fee basis.",
+  "evidence": "Our LEU segment provides most of the Company's revenue and involves the sale of LEU, the fissile component of nuclear fuel, primarily to utilities that operate commercial nuclear power plants."
+ },
+ "changes": [],
+ "dropped": []
+}

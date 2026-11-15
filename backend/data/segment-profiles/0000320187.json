@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000320187",
+ "issuerName": "NIKE, Inc.",
+ "builtAt": "2026-11-14T13:48:14.581Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000320187-26-000088",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/320187/000032018726000088/nke-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "sports apparel",
+    "performance equipment and accessories",
+    "Jordan Brand products"
+   ],
+   "description": "Designs, develops, markets and sells NIKE and Jordan brand athletic footwear, apparel and equipment in the United States and Canada.",
+   "evidence": "The Company's reportable operating segments for the NIKE Brand are: North America; Europe, Middle East & Africa (\"EMEA\"); Greater China; and Asia Pacific & Latin America (\"APLA\"), and include results for the NIKE and Jordan brands."
+  },
+  {
+   "name": "Europe, Middle East & Africa",
+   "products": [
+    "sports apparel",
+    "performance equipment and accessories",
+    "Jordan Brand products"
+   ],
+   "description": "Designs, develops, markets and sells NIKE and Jordan brand athletic footwear, apparel and equipment across Europe, the Middle East and Africa.",
+   "evidence": "The Company's reportable operating segments for the NIKE Brand are: North America; Europe, Middle East & Africa (\"EMEA\"); Greater China; and Asia Pacific & Latin America (\"APLA\"), and include results for the NIKE and Jordan brands."
+  },
+  {
+   "name": "Greater China",
+   "products": [
+    "sports apparel",
+    "performance equipment and accessories",
+    "Jordan Brand products"
+   ],
+   "description": "Designs, develops, markets and sells NIKE and Jordan brand athletic footwear, apparel and equipment in Greater China.",
+   "evidence": "The Company's reportable operating segments for the NIKE Brand are: North America; Europe, Middle East & Africa (\"EMEA\"); Greater China; and Asia Pacific & Latin America (\"APLA\"), and include results for the NIKE and Jordan brands."
+  },
+  {
+   "name": "Asia Pacific & Latin America",
+   "products": [
+    "sports apparel",
+    "performance equipment and accessories",
+    "Jordan Brand products"
+   ],
+   "description": "Designs, develops, markets and sells NIKE and Jordan brand athletic footwear, apparel and equipment across Asia Pacific and Latin America.",
+   "evidence": "The Company's reportable operating segments for the NIKE Brand are: North America; Europe, Middle East & Africa (\"EMEA\"); Greater China; and Asia Pacific & Latin America (\"APLA\"), and include results for the NIKE and Jordan brands."
+  },
+  {
+   "name": "Converse",
+   "products": [
+    "casual sneakers",
+    "apparel",
+    "accessories"
+   ],
+   "description": "Designs, markets, licenses and sells casual sneakers, apparel and accessories under the Converse, Chuck Taylor, All Star, One Star, Star Chevron and Jack Purcell trademarks.",
+   "evidence": "Converse is also a reportable operating segment and operates predominantly in one industry: the design, marketing, licensing and selling of casual sneakers, apparel and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "NIKE is paid by wholesale accounts, including independent distributors, licensees and sales representatives, and directly by consumers through NIKE-owned retail stores and digital platforms.",
+  "evidence": "We sell our products through NIKE Direct operations, which are comprised of both NIKE-owned retail stores and sales through our digital platforms (also referred to as \"NIKE Brand Digital\") and to wholesale accounts, which include a mix of independent distributors, licensees and sales representatives in nearly all countries around the world."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (North America): NIKE Brand athletic footwear",
+  "product not in text (Europe, Middle East & Africa): NIKE Brand athletic footwear",
+  "product not in text (Greater China): NIKE Brand athletic footwear",
+  "product not in text (Asia Pacific & Latin America): NIKE Brand athletic footwear"
+ ]
+}

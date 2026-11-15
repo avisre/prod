@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0000851968",
+ "issuerName": "MOHAWK INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:52:52.439Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000851968-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/851968/000085196826000011/mhk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Ceramic",
+   "products": [
+    "ceramic tile",
+    "porcelain tile",
+    "natural stone tile",
+    "porcelain slabs",
+    "quartz countertops",
+    "installation materials"
+   ],
+   "description": "Designs, manufactures, sources, distributes and markets ceramic, porcelain and natural stone tile products for residential and commercial remodeling and new construction.",
+   "evidence": "Global Ceramic designs, manufactures, sources, distributes and markets a broad line of ceramic, porcelain and natural stone tile products used for floor and wall applications in residential and commercial channels for both remodeling and new construction."
+  },
+  {
+   "name": "Flooring North America",
+   "products": [
+    "broadloom carpet",
+    "carpet tile",
+    "rugs and mats",
+    "carpet pad",
+    "laminate",
+    "medium-density fiberboard (\"MDF\")",
+    "wood flooring",
+    "LVT"
+   ],
+   "description": "Designs, manufactures, sources, distributes and markets floor covering products for residential and commercial remodeling and new construction in North America.",
+   "evidence": "Flooring NA designs, manufactures, sources, distributes and markets a broad range of floor covering products in a variety of colors, textures and patterns for both residential and commercial remodeling and new construction channels."
+  },
+  {
+   "name": "Flooring Rest of the World",
+   "products": [
+    "laminate",
+    "LVT",
+    "sheet vinyl",
+    "wood flooring",
+    "broadloom carpet",
+    "carpet tile",
+    "roofing panels",
+    "insulation boards"
+   ],
+   "description": "Designs, manufactures, sources, distributes and markets flooring and building panel products primarily for residential and commercial markets outside North America.",
+   "evidence": "Flooring ROW designs, manufactures, sources, distributes and markets a broad variety of laminate, LVT and sheet vinyl, wood flooring, broadloom carpet and carpet tile collections used in residential and commercial markets for both remodeling and new construction."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company is paid by home centers, retailers, distributors, builders, contractors and commercial end users who purchase its flooring products.",
+  "evidence": "The Segment sells its products through floor covering retailers, home centers, mass merchandisers, department stores, e-commerce retailers, shop at home, buying groups, residential builders, independent distributors, commercial contractors and commercial end users."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company expanded its presence in Brazil through the acquisition of Elizabeth Revestimentos, a leading Brazilian ceramic tile business.",
+   "evidence": "In 2023, the Company further expanded its presence in Brazil through the acquisition of Elizabeth Revestimentos, a leading Brazilian ceramic tile business with manufacturing facilities strategically located throughout that country."
+  },
+  {
+   "text": "In 2023, the Company acquired Vitromex, a leading Mexican ceramic tile business, solidifying its position in the Mexico ceramic tile market.",
+   "evidence": "In 2023, the Company also acquired Vitromex, a leading Mexican ceramic tile business with four manufacturing facilities strategically located throughout that country, further solidifying the Company's leading position in the Mexico ceramic tile market."
+  }
+ ],
+ "dropped": []
+}

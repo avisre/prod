@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000819793",
+ "issuerName": "ALBANY INTERNATIONAL CORP.",
+ "builtAt": "2026-11-14T13:51:53.348Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012906",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/819793/000162828026012906/ain-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Machine Clothing",
+   "products": [
+    "Paper Machine Clothing (PMC)",
+    "drying fabrics",
+    "process belts"
+   ],
+   "description": "Produces custom-designed fabrics and high-speed process belts used by paper and industrial manufacturers worldwide.",
+   "evidence": "The Machine Clothing (\"MC\") segment is the world's leading producer of custom-designed fabrics and high-speed process belts critical in the manufacture of all grades of paper products characterized primarily as Paper Machine Clothing (\"PMC\")."
+  },
+  {
+   "name": "Albany Engineered Composites",
+   "products": [
+    "3D-woven composite fan cases for the GE9X engine",
+    "3D-woven composite vanes for the F-35 Liftfan",
+    "components for the CH-53K helicopter",
+    "missile bodies for Lockheed Martin's JASSM air-to-surface missiles",
+    "fuselage components for the Boeing 787 aircraft",
+    "vacuum waste tanks for Boeing commercial aircraft"
+   ],
+   "description": "Manufactures highly engineered advanced composite components for aerospace, defense, space and advanced air mobility customers.",
+   "evidence": "The Albany Engineered Composites (\"AEC\") segment is a leader in innovative composite technology solutions and manufacturer of engineered components for demanding aerospace and defense applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling custom-designed consumable fabrics and belts directly to paper and industrial end-users, and by supplying engineered composite components under long-term contracts to aerospace and defense customers.",
+  "evidence": "The MC segment sells its products directly to customer end-users in countries across the globe."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company announced it is exploring strategic alternatives for its structures assembly business, including a potential sale of all or part of the business at the Amelia Earhart Drive Facility in Salt Lake City.",
+   "evidence": "During the fourth quarter of 2025, the Company announced that it is exploring strategic alternatives for its structures assembly business including a potential sale of all or a part of the business at the Amelia Earhart Drive Facility in Salt Lake City."
+  },
+  {
+   "text": "In 2025, the Company announced additional closures of engineered fabrics facilities in Italy, France and the United Kingdom as part of footprint rationalization.",
+   "evidence": "The Company made progress and realized significant synergies from these efforts during 2025, and announced additional closures of engineered fabrics facilities in Italy, France and the United Kingdom."
+  }
+ ],
+ "dropped": [
+  "product not in text (Machine Clothing): forming fabrics",
+  "product not in text (Machine Clothing): pressing fabrics",
+  "product not in text (Machine Clothing): Engineered Fabric (EF) products",
+  "product not in text (Albany Engineered Composites): advanced composite fan blades and fan cases for the LEAP program"
+ ]
+}

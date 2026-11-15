@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001601548",
+ "issuerName": "V2X, Inc.",
+ "builtAt": "2026-11-14T17:37:33.665Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001601548-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1601548/000160154826000015/vec-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mission Solutions",
+   "products": [
+    "High Impact Readiness",
+    "Integrated Supply Chain Management",
+    "Assured Communications",
+    "Platform Renewal and Modernization"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for services primarily through U.S. government contracts with the Department of Defense, Army, Navy, and Air Force.",
+  "evidence": "Revenue, primarily from U.S. government customers, for the periods presented below is as follows: Year Ended December 31, (In thousands) 2025 2024 2023 Army $ 1,828,977 $ 1,837,843 $ 1,633,525 Navy 1,479,815 1,441,355 1,233,463 Air Force 570,663 481,265 538,698"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mission Solutions): Mission Solutions",
+  "segment evidence not verbatim: Mission Solutions"
+ ]
+}

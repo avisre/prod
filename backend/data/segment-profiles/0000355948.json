@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000355948",
+ "issuerName": "RICHARDSON ELECTRONICS, LTD.",
+ "builtAt": "2026-11-14T13:48:30.881Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000355948-26-000002",
+  "periodEnd": "2026-05-30",
+  "filingDate": "2026-08-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/355948/000035594826000002/rell-20260530.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power and Microwave Technologies (\"PMT\")",
+   "products": [
+    "electron tubes",
+    "RF, Microwave and power components",
+    "thyratrons and rectifiers",
+    "power tubes",
+    "magnetrons",
+    "microwave generators",
+    "Ultracapacitor modules"
+   ],
+   "description": "Designs, manufactures and distributes engineered solutions, power grid and microwave tubes, and RF, wireless and power components for industrial, medical, military and semiconductor customers.",
+   "evidence": "PMT's focus is on products for power, RF and microwave applications for customers in 5G, aviation, broadcast, communications, industrial, marine, medical, military, scientific and semiconductor markets."
+  },
+  {
+   "name": "Green Energy Solutions (\"GES\")",
+   "products": [
+    "power management products"
+   ],
+   "description": "Designs and manufactures products for the energy storage market and power management applications supporting wind, solar, hydrogen and electric vehicle markets.",
+   "evidence": "GES's focus is on products for numerous green energy applications such as wind, solar, hydrogen and Electric Vehicles, and other power management applications that support green solutions such as synthetic diamond manufacturing."
+  },
+  {
+   "name": "Canvys",
+   "products": [
+    "touch screens",
+    "protective panels",
+    "custom enclosures",
+    "All-In-One computers",
+    "specialized cabinet finishes",
+    "application specific software packages"
+   ],
+   "description": "Provides customized display solutions for corporate enterprise, financial, healthcare, industrial and medical original equipment manufacturer markets.",
+   "evidence": "Canvys provides customized display solutions serving the corporate enterprise, financial, healthcare, industrial and medical original equipment manufacturers markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for engineered solutions, components, tubes and display products it designs, manufactures and distributes, plus design-in support, systems integration, testing, logistics and aftermarket technical service and repair.",
+  "evidence": "We provide solutions and add value through design-in support, systems integration, prototype design and manufacturing, testing, logistics and aftermarket technical service and repair - all through our existing global infrastructure."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Green Energy Solutions (\"GES\")): energy storage products",
+  "change not grounded: In fiscal 2025, the Company sold a substantial portion of the assets of its Heal",
+  "change not grounded: Beginning June 1, 2025 (fiscal 2026), the Company realigned from four reportable"
+ ]
+}

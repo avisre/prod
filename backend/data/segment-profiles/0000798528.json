@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000798528",
+ "issuerName": "ODYSSEY MARINE EXPLORATION, INC.",
+ "builtAt": "2026-11-14T13:51:20.352Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-134584",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/798528/000119312526134584/omex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seabed Mineral Exploration",
+   "products": [
+    "Phosagmex Project",
+    "marine services"
+   ],
+   "description": "Discovers, validates and develops high-value seafloor mineral resources and provides specialized mineral exploration, project development and marine services to clients.",
+   "evidence": "We provide specialized mineral exploration, project development and marine services to clients (subsidiary companies, other companies and/or governments)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients, including subsidiary companies, other companies and governments, pay for specialized mineral exploration, project development and marine services, and Odyssey may elect to receive equity for services on select mineral projects.",
+  "evidence": "As our business is focused on the development of a diversified portfolio of subsea resources, we may elect to receive equity for the provision of our services on select mineral projects."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Seabed Mineral Exploration): subsea phosphate resource extraction",
+  "product not in text (Seabed Mineral Exploration): specialized mineral exploration services",
+  "product not in text (Seabed Mineral Exploration): project development services"
+ ]
+}

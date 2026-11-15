@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000859070",
+ "issuerName": "FIRST COMMUNITY BANKSHARES INC /VA/",
+ "builtAt": "2026-11-14T13:53:01.163Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007180",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/859070/000143774926007180/fcbc20251231c_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "banking products and services",
+    "commercial and consumer banking",
+    "lending activities",
+    "wealth management",
+    "investment advice",
+    "First Community Wealth Management"
+   ],
+   "description": "Provides banking products and services, including commercial and consumer banking, lending, and wealth management, to individual and commercial customers.",
+   "evidence": "The Company operates in one business segment, Community Banking, which consists of all operations, including commercial and consumer banking, lending activities, and wealth management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual and commercial customers pay the Bank interest on loans and fees for banking, lending, and wealth management services.",
+  "evidence": "The Company provides banking products and services to individual and commercial customers through its wholly owned subsidiary First Community Bank (the \"Bank\"), a Virginia-chartered banking institution founded in 1874."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000796505",
+ "issuerName": "CLEARFIELD, INC.",
+ "builtAt": "2026-11-14T13:51:13.529Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-25-007594",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/796505/000117184325007594/clfd20250930_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fiber optic management, protection, and delivery products",
+   "products": [
+    "FieldSmart",
+    "Clearview Cassette",
+    "WaveSmart",
+    "FiberFlex",
+    "CraftSmart FiberFirst",
+    "YOURx access terminals",
+    "FieldShield",
+    "Fiber Assemblies"
+   ],
+   "description": "Designs, manufactures and distributes fiber protection, management and delivery products for broadband service providers across North America and international markets.",
+   "evidence": "Clearfield is focused on providing fiber management, fiber protection, and fiber delivery products that accelerate the turn-up of fiber-based networks in residential homes, businesses, and network infrastructure in the wireline and wireless access network."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Broadband service providers pay Clearfield for fiber management, protection and delivery products, sold direct through its sales force and through authorized distributors and sales representatives.",
+  "evidence": "The Company's products are sold direct to customers through the Company's sales force as well as through authorized distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its Nestor Cables business, previously reported as the Nestor Cables Operating Segment, leaving one reportable segment.",
+   "evidence": "On November 11, 2025, the Company completed the sale of its Nestor Cables business, which was previously reported as the Nestor Cables Operating Segment."
+  }
+ ],
+ "dropped": []
+}

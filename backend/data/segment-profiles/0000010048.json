@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000010048",
+ "issuerName": "BARNWELL INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T14:06:52.496Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-058738",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/10048/000162828025058738/brn-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and Natural Gas Segment",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "natural gas liquids"
+   ],
+   "description": "Develops, produces, acquires and sells oil and natural gas in Alberta, Canada and formerly in Oklahoma and Texas.",
+   "evidence": "Barnwell engages in oil and natural gas development, production, acquisitions and sales in Canada and in the U.S."
+  },
+  {
+   "name": "Land Investment Segment",
+   "products": [],
+   "description": "Owns land interests in Hawaii and receives contingent residual payments from prior land sales.",
+   "evidence": "Barnwell owns land interests in the State of Hawaii."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and natural gas producers receive payment based on market-indexed prices when oil, natural gas and natural gas liquids are delivered to customers.",
+  "evidence": "Barnwell sells the large majority of its oil, natural gas and natural gas liquids production under short-term contracts between itself and marketers based on prices indexed to market prices and recognizes revenue at a point in time when the oil, natural gas and natural gas liquids are delivered."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its Water Resources subsidiary, a contract drilling business that drilled water wells and repaired water pumping systems in Hawaii.",
+   "evidence": "On March 14, 2025, the Company entered into and completed the sale of its wholly-owned subsidiary, Water Resources International, Inc. (\"Water Resources\"). Water Resources drills water wells and installs and repairs water pumping systems in the State of Hawaii and represented Barnwell's contract drilling segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company sold its oil and natural gas interests in Oklahoma and Texa"
+ ]
+}

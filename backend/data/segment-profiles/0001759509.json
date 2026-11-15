@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001759509",
+ "issuerName": "Lyft, Inc.",
+ "builtAt": "2026-11-14T17:36:58.459Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-006960",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1759509/000162828026006960/lyft-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ridesharing Marketplace",
+   "products": [
+    "Ridesharing",
+    "Taxis",
+    "Private hire vehicles",
+    "Executive chauffeur services",
+    "Car sharing",
+    "Bikes and scooters",
+    "Express Drive"
+   ],
+   "description": "Connects drivers with riders for on-demand mobility services across multiple transportation modes and service tiers.",
+   "evidence": "Lyft, Inc. (the \"Company\" or \"Lyft\") operates as a global mobility platform offering a mix of rideshare, taxis, private hire vehicles, executive chauffeur services, car sharing, bikes and scooters."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company collects service fees and commissions from drivers for marketplace use, plus revenue from licensing, data access, bikes, advertising, vehicle rentals and enterprise offerings.",
+  "evidence": "We collect service fees and commissions from drivers for their use of our ridesharing marketplace. We also generate revenue from licensing and data access agreements, the sale of bikes and bike station software and hardware, advertising services, riders renting through our network of shared bikes and scooters, drivers renting vehicles through Express Drive and by making our ridesharing marketplace available to organizations through our Lyft Business offerings."
+ },
+ "changes": [
+  {
+   "text": "In October 2025, the company acquired TheBookingRoomGroup Limited (d/b/a TBR Global Chauffeuring), a global luxury chauffeuring company operating in thousands of cities worldwide.",
+   "evidence": "In October 2025, we acquired TheBookingRoomGroup Limited (d/b/a TBR Global Chauffeuring, or \"TBR\"), a global luxury chauffeuring company that operates in thousands of cities worldwide."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In July 2025, the company acquired Intelligent Apps GmbH (d/b/a Freenow), a Euro"
+ ]
+}

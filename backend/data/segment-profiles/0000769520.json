@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000769520",
+ "issuerName": "THE MIDDLEBY CORPORATION",
+ "builtAt": "2026-11-14T13:50:34.510Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000769520-26-000011",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/769520/000076952026000011/midd-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Foodservice Equipment Group",
+   "products": [
+    "conveyor ovens",
+    "combi-ovens",
+    "convection ovens",
+    "fryers",
+    "steam cooking equipment",
+    "ice machines",
+    "coffee and beverage dispensing equipment",
+    "IoT solutions and controls development and manufacturing"
+   ],
+   "description": "Designs, manufactures and sells foodservice equipment for cooking, warming, refrigeration and beverage applications in commercial kitchens and foodservice operations.",
+   "evidence": "The Commercial Foodservice Equipment Group has a broad portfolio of foodservice equipment, which enable it to serve virtually any cooking, warming, holding, refrigeration, freezing and beverage application within a commercial kitchen or foodservice operation."
+  },
+  {
+   "name": "Food Processing Equipment Group",
+   "products": [
+    "mixers",
+    "make-up lines",
+    "batch ovens",
+    "proofers",
+    "conveyor belt ovens",
+    "spiral ovens",
+    "frying systems",
+    "automated thermal processing systems"
+   ],
+   "description": "Provides cooking, baking, preparation and packaging equipment for food processing operations serving protein and bakery producers.",
+   "evidence": "The Food Processing Equipment Group offers a broad portfolio of processing solutions for customers producing protein products, such as bacon, salami and dry cure, sausage and hot dogs, egg bites, poultry, alternative protein, case ready, lunch meat and pet food, and producers of bakery products, such as bread and buns, artisan bread, sweet goods, cakes and muffins, cookies, crackers, pizza and pastries, tortillas and snacks."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling foodservice and food processing equipment, primarily through independent dealers and distributors domestically and to food processors and foodservice operators.",
+  "evidence": "The company's domestic sales are primarily through independent dealers and distributors and are marketed by the company's sales personnel and network of independent manufacturers' representatives."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company announced its intent to spin off its Food Processing business as a new independent publicly traded company, targeted for completion in the second quarter of 2026.",
+   "evidence": "On February 25, 2025, the company announced its intent to separate its Food Processing business through a spin-off of the Food Processing business, under which the stock of Food Processing, as a new independent publicly traded company, will be distributed to Middleby's shareholders."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company agreed to sell a 51% stake in its Residential Kitchen Equip"
+ ]
+}

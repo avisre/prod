@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001418819",
+ "issuerName": "Iridium Communications Inc.",
+ "builtAt": "2026-11-14T17:36:51.974Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001418819-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1418819/000141881926000009/irdm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Satellite Communications Services",
+   "products": [
+    "Voice and data communications services",
+    "Engineering and operational services"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Commercial end users, U.S. and foreign governments, and non-governmental organizations pay for satellite airtime services, equipment, and engineering support services.",
+  "evidence": "We primarily sell our products and services to commercial end users by recruiting and expanding a global wholesale distribution network, currently encompassing approximately 120 service providers, approximately 310 value-added resellers (VARs), and approximately 90 value-added manufacturers (VAMs)"
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired Satelles, Inc., a provider of satellite-based positioning, navigation and timing services.",
+   "evidence": "In 2024, we acquired Satelles, Inc. (Satelles), a provider of highly secure, satellite-based PNT services that complement and protect Global Positioning System (GPS) and other Global Navigation Satellite System (GNSS) reliant systems."
+  }
+ ],
+ "dropped": [
+  "product not in text (Satellite Communications Services): Positioning, navigation and timing (PNT) services",
+  "product not in text (Satellite Communications Services): Iridium Certus broadband and midband services",
+  "product not in text (Satellite Communications Services): Iridium NTN Direct narrowband IoT services",
+  "segment evidence not verbatim: Satellite Communications Services"
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0000813672",
+ "issuerName": "Cadence Design Systems, Inc.",
+ "builtAt": "2026-11-14T13:51:43.376Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000813672-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000016/cdns-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semiconductor and systems companies pay Cadence for software, accelerated hardware, silicon IP and related services used to design and verify chips and electronic systems.",
+  "evidence": "Our customers include semiconductor companies that design and manufacture integrated circuits (\"ICs\"), as well as systems companies that design and manufacture electromechanical systems containing various types of semiconductor and other electronics."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Electronic Design Automation"
+ ]
+}

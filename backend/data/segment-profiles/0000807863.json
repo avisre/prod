@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000807863",
+ "issuerName": "MITEK SYSTEMS, INC.",
+ "builtAt": "2026-11-14T13:51:32.640Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-056520",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/807863/000162828025056520/mitk-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fraud Prevention and Check Verification",
+   "products": [
+    "Mobile Deposit",
+    "Check Fraud Defender",
+    "MiVIP",
+    "Mobile Verify",
+    "MiSnap",
+    "CheckReader",
+    "Check Intelligence",
+    "MiPass"
+   ],
+   "description": "Provides digital identity verification, fraud prevention and check verification software and services to financial institutions, fintechs, telecoms and digital marketplaces.",
+   "evidence": "The Company provides software and service offerings focused on fraud prevention and check verification."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for time-based software licenses, SaaS usage or minimum commitments, maintenance, and consulting and professional services.",
+  "evidence": "Software is typically sold as a time-based license with a term of one to three years."
+ },
+ "changes": [],
+ "dropped": []
+}

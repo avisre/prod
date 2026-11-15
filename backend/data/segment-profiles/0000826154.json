@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000826154",
+ "issuerName": "ORRSTOWN FINANCIAL SERVICES, INC.",
+ "builtAt": "2026-11-14T13:52:07.891Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017278",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/826154/000162828026017278/orrf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "commercial lending",
+    "residential mortgages",
+    "commercial mortgages",
+    "construction loans",
+    "consumer lending",
+    "deposit services",
+    "fiduciary, investment advisory, insurance and brokerage services"
+   ],
+   "description": "The Bank provides lending, deposit, and fiduciary, investment advisory, insurance and brokerage services to customers in Pennsylvania, Maryland and surrounding markets.",
+   "evidence": "Management has determined that the Company has one reportable segment consisting of community banking and is engaged in lending activities and deposit services in addition to providing fiduciary, investment advisory, insurance and brokerage services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns interest income primarily from loans and investment securities and non-interest income from trust and investment management and retail brokerage services.",
+  "evidence": "The community banking segment includes revenues from interest income primarily from loans and investment securities and non-interest income, which includes revenue from trust and investment management and retail brokerage services."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company merged with Codorus Valley Bancorp, Inc., expanding the Bank's footprint into the York, Pennsylvania market.",
+   "evidence": "The Company merged with Codorus Valley Bancorp, Inc. (\"Codorus Valley\") and the Bank merged with its wholly-owned bank subsidiary, PeoplesBank, A Codorus Valley Company, with the Company and the Bank as the surviving entities in the Merger on July 1, 2024 (the \"Codorus Valley Merger\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Community banking): municipal lending"
+ ]
+}

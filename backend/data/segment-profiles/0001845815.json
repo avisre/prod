@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001845815",
+ "issuerName": "Payoneer Global Inc.",
+ "builtAt": "2026-11-14T17:37:06.980Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020487",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1845815/000110465926020487/payo-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Payoneer",
+   "products": [],
+   "description": "Provides financial technology services enabling small and medium-sized businesses to conduct cross-border payments and manage global financial operations.",
+   "evidence": "Payoneer is a financial technology company purpose-built to enable the world's small and medium-sized businesses (\"SMB(s)\") to grow and operate their businesses around the world by reliably and securely connecting them to the global digital economy."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay fees and commissions on cross-border payment transaction volumes processed through the Payoneer platform.",
+  "evidence": "Volume was $87.5 billion and $80.1 billion and revenue was $1,052.8 million and $977.7 million for the years ended December 31, 2025 and 2024, respectively."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000097134",
+ "issuerName": "TENNANT CO",
+ "builtAt": "2026-11-14T13:46:50.221Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000097134-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/97134/000009713426000008/tnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Floor Cleaning Equipment",
+   "products": [
+    "Tennant",
+    "Nobles",
+    "Alfa Uma Empresa Tennant",
+    "IPC",
+    "Gaomei",
+    "Rongen",
+    "IRIS",
+    "ec-H2O NanoClean"
+   ],
+   "description": "Designs, manufactures, sells and services manual and autonomous mechanized cleaning equipment and related solutions for maintaining nonresidential surfaces.",
+   "evidence": "We aggregate our operating segments into one reportable segment that consists of the design, manufacture, sale and servicing of products used primarily in the maintenance of nonresidential surfaces."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including contract cleaners and businesses performing facilities maintenance themselves, pay for cleaning equipment, aftermarket parts and consumables, maintenance and repair services, and financing, rental and leasing programs.",
+  "evidence": "The Company offers products and solutions consisting of manual and autonomous mechanized cleaning equipment for both industrial and commercial use, detergent-free and other sustainable cleaning technologies, aftermarket parts and consumables, equipment maintenance and repair services, and business solutions such as financing, rental and leasing programs, and machine-to-machine asset management solutions."
+ },
+ "changes": [],
+ "dropped": []
+}

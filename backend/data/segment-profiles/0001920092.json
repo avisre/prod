@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001920092",
+ "issuerName": "Gelteq Limited",
+ "builtAt": "2026-11-15T02:51:00.478Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-111090",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-11-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1920092/000121390025111090/ea0265278-20f_gelteq.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "development and testing of a gel based delivery system",
+   "products": [
+    "gel based delivery system for humans and animals",
+    "oral glucose tolerance test gel"
+   ],
+   "description": "Develops and tests a gel based delivery system for humans and animals within Australia.",
+   "evidence": "In the current year the board reviews the Consolidated Entity as one operating segment being the development and testing of a gel based delivery system for humans and animals within Australia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for products the company sells, recognised at the point in time of delivery.",
+  "evidence": "All revenues are recognized accordance with the policy at the point in time of delivery."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

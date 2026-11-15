@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001807794",
+ "issuerName": "Credo Technology Group Holding Ltd",
+ "builtAt": "2026-11-14T17:37:59.189Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-043303",
+  "periodEnd": "2026-05-02",
+  "filingDate": "2026-06-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1807794/000162828026043303/crdo-20260502.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connectivity Solutions",
+   "products": [
+    "ZeroFlap Active Electrical Cables",
+    "ZeroFlap Optical Transceivers",
+    "Optical PAM4 DSPs",
+    "OmniConnect memory solutions",
+    "SerDes Chiplets",
+    "PCIe Retimers",
+    "microLED solutions",
+    "PILOT software platform"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily original equipment manufacturers and hyperscalers, pay for connectivity products and solutions through standard purchase orders.",
+  "evidence": "The Company's customers are primarily original equipment manufacturers who design and manufacture end market devices for the communications and enterprise networks markets."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Hyperlume, a developer of microLED-based optical interconnect technology for chip-to-chip communication.",
+   "evidence": "On September 29, 2025, the Company acquired 100 % of the equity interest of Hyperlume, Inc. (Hyperlume), a developer of miniature light-emitting diode (microLED)-based optical interconnect technology for chip-to-chip communication, for a total purchase consideration of $ 92.0 million."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Connectivity Solutions"
+ ]
+}

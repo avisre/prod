@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001972074",
+ "issuerName": "Linkers Industries Limited",
+ "builtAt": "2026-11-15T02:51:10.943Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-107960",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1972074/000121390026107960/ea0306192-20f_linkers.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wire/Cable Harnesses",
+   "products": [],
+   "description": "Manufacturer and supplier of wire/cable harnesses serving global OEMs in home appliances, industrial and automotive industries.",
+   "evidence": "Through our operating subsidiary, we are a manufacturer and a supplier of wire/cable harnesses with our manufacturing operations in Malaysia and have more than 30 years' experience in the wire/cable harnesses industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily global OEM manufacturers in home appliances, industrial products and automotive industries, pay for customized wire harness products made to order.",
+  "evidence": "Our customers are generally global brand name manufacturers and original equipment manufacturers (\"OEMs\") in the home appliances, industrial products and automotive industries that are mainly based in the Asia Pacific Region."
+ },
+ "changes": [
+  {
+   "text": "In June 2026, LAPL completed the acquisition of the entire issued share capital of LHKL, establishing an investment holding subsidiary.",
+   "evidence": "In addition, LAPL completed the acquisition of the entire issued share capital of LHKL."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the company acquired a 20% equity interest in LPW Electronics Co Ltd, a"
+ ]
+}

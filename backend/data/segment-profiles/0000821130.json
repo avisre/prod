@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "cik": "0000821130",
+ "issuerName": "ARRAY DIGITAL INFRASTRUCTURE, INC.",
+ "builtAt": "2026-11-14T13:51:58.234Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000821130-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/821130/000082113026000012/ad-20251231.htm"
+ },
+ "status": "model-unparseable"
+}

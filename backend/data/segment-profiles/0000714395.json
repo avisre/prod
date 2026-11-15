@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000714395",
+ "issuerName": "German American Bancorp, Inc.",
+ "builtAt": "2026-11-14T13:49:01.191Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000714395-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/714395/000071439526000011/gabc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Core Banking",
+   "products": [
+    "consumer loans",
+    "commercial and agricultural loans",
+    "residential mortgage loans",
+    "deposits"
+   ],
+   "description": "Attracts deposits from the general public and originates consumer, commercial, agricultural, real estate and residential mortgage loans for local market customers.",
+   "evidence": "Our retail and commercial banking business involves attracting deposits from the general public and using those funds to originate consumer, commercial and agricultural, commercial and agricultural real estate, and residential mortgage loans, primarily in the Company's local markets."
+  },
+  {
+   "name": "Wealth Management",
+   "products": [
+    "brokerage",
+    "retirement planning services"
+   ],
+   "description": "Provides trust, investment advisory, brokerage and retirement planning services to customers.",
+   "evidence": "Our wealth management services involve providing trust, investment advisory, brokerage and retirement planning services to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from interest on loans funded by customer deposits, from sale of residential mortgage loans in the secondary market, and from fees for wealth management services.",
+  "evidence": "These core banking activities also include the sale of residential mortgage loans in the secondary market."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Heartland BancCorp, whose Heartland Bank was merged into German American Bank.",
+   "evidence": "On February 1, 2025, German American Bancorp completed its previously announced acquisition of Heartland BancCorp (\"Heartland\") through the merger of Heartland with and into the Bancorp."
+  },
+  {
+   "text": "In 2024, the Company sold its insurance subsidiary, German American Insurance, Inc., exiting the insurance business.",
+   "evidence": "Effective June 1, 2024, German American Insurance, Inc. (\"GAI\"), a wholly-owned subsidiary of the Bank, sold substantially all of its assets to The Hilb Group of Indiana, LLC, a Delaware limited liability company (\"Hilb\"), for a purchase price of $40.0 million in cash."
+  }
+ ],
+ "dropped": [
+  "product not in text (Core Banking): commercial and agricultural real estate loans",
+  "product not in text (Wealth Management): trust services",
+  "product not in text (Wealth Management): investment advisory services"
+ ]
+}

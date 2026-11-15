@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000312070",
+ "issuerName": "Barclays Bank PLC",
+ "builtAt": "2026-11-14T13:47:52.460Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000312070-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/312070/000031207026000006/bbplc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Barclays UK Corporate Bank",
+   "products": [
+    "lending",
+    "trade and working capital",
+    "liquidity",
+    "payments",
+    "FX solutions"
+   ],
+   "description": null,
+   "evidence": "this division brings together lending, trade and working capital, liquidity, payments and FX solutions for UK corporate clients with an annual turnover from £ 6.5 million and higher"
+  },
+  {
+   "name": "Barclays Private Bank and Wealth Management",
+   "products": [
+    "investment products",
+    "banking products",
+    "lending products",
+    "wealth management services",
+    "digital investing"
+   ],
+   "description": "Serves UK and international private banking clients and UK wealth management and digital investing clients with financial services and advice.",
+   "evidence": "this division serves UK and international private banking clients providing a range of investment, banking and lending products alongside expert advice."
+  },
+  {
+   "name": "Barclays Investment Bank",
+   "products": [
+    "Global Markets",
+    "Investment Banking",
+    "International Corporate Banking"
+   ],
+   "description": null,
+   "evidence": "this segment incorporates the Global Markets, Investment Banking and International Corporate Banking businesses, serving FTSE 350, multinationals and financial institution clients that are regular users of Investment Bank services."
+  },
+  {
+   "name": "Barclays US Consumer Bank",
+   "products": [
+    "co-branded credit cards",
+    "private label credit cards",
+    "instalment loans",
+    "online savings accounts",
+    "certificates of deposits"
+   ],
+   "description": "Co-branded credit card issuer and financial services partner in the United States for travel, entertainment, retail and affinity institutions.",
+   "evidence": "is a co-branded credit card issuer and financial services partner in the United States for travel, entertainment, retail and affinity institutions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Group earns net interest income on loans, advances and debt securities, plus fee and commission income from transactional, advisory, brokerage, execution and underwriting services.",
+  "evidence": "Fee and commission income is disaggregated below by fee types that reflect the nature of the services offered across the Barclays Bank Group and operating segments, in accordance with IFRS 15 ."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Barclays US Consumer Bank): small business credit cards"
+ ]
+}

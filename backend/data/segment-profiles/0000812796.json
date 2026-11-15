@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000812796",
+ "issuerName": "SOLIGENIX, INC.",
+ "builtAt": "2026-11-14T13:51:41.926Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037701",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/812796/000110465926037701/sngx-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialized BioTherapeutics",
+   "products": [
+    "SGX302",
+    "SGX945 (dusquetide)",
+    "SGX942"
+   ],
+   "description": "Develops late-stage therapeutics for rare diseases, including photodynamic therapy for cutaneous T-cell lymphoma and inflammatory disease treatments.",
+   "evidence": "Our Specialized BioTherapeutics business segment is developing and moving toward potential commercialization of HyBryte™ (a proposed proprietary name of SGX301 or synthetic hypericin sodium), a novel photodynamic therapy (\"PDT\"), utilizing topical synthetic hypericin activated with safe visible light for the treatment of cutaneous T-cell lymphoma (\"CTCL\")."
+  },
+  {
+   "name": "Public Health Solutions",
+   "products": [
+    "RiVax®",
+    "SGX943",
+    "CiVax™",
+    "ThermoVax®"
+   ],
+   "description": "Develops vaccines and therapeutics against ricin toxin, filoviruses and emerging infectious diseases, supported by government funding.",
+   "evidence": "Our Public Health Solutions business segment includes development programs for (i) RiVax ® , a ricin toxin vaccine candidate, (ii) SGX943, a therapeutic candidate for antibiotic resistant and emerging infectious disease, and (iii) various vaccine programs, including a program targeting filoviruses (such as Marburg virus (\"MARV\") and Ebola virus (\"EBOV\")) and CiVax™, a vaccine candidate for the prevention of COVID-19 (caused by SARS-CoV-2)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has no approved products and expects no product revenue; its public health programs are funded by government grants and contracts.",
+  "evidence": "To date, this business segment has been supported with government grant and contract funding from the National Institute of Allergy and Infectious Diseases (\"NIAID\"), the Biomedical Advanced Research and Development Authority and the Defense Threat Reduction Agency."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Specialized BioTherapeutics): HyBryte™ (SGX301)"
+ ]
+}

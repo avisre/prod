@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001777835",
+ "issuerName": "PERELLA WEINBERG PARTNERS",
+ "builtAt": "2026-11-14T17:39:54.809Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001777835-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1777835/000177783526000022/pwp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advisory Services",
+   "products": [
+    "M&A and Strategic Advisory",
+    "Financing and Capital Solutions Advisory",
+    "Shareholder Engagement Advisory",
+    "Capital Markets Advisory",
+    "Private Funds Advisory",
+    "Private Capital Placement",
+    "Specialized Underwriting and Research Services"
+   ],
+   "description": "Provides strategic and financial advice to corporations, financial sponsors, and investors across multiple industry sectors.",
+   "evidence": "The Company's activities constitute a single business segment that provides a range of advisory services, including advice related to strategic and financial decisions, mergers and acquisitions (\"M&A\") execution, shareholder engagement advisory, financing and capital solutions advice with a focus on restructuring and liability management, capital markets advisory, private funds advisory, and private capital placement, as well as specialized underwriting and research services primarily for the en"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients including large public multinational corporations, mid-sized companies, financial sponsors, investors, and institutions pay for advisory services including M&A execution, strategic advice, and financing solutions.",
+  "evidence": "Our wide range of global clients include large public multinational corporations, mid-sized public and private companies, financial sponsors, individual entrepreneurs, private and institutional investors, creditor committees and government institutions."
+ },
+ "changes": [],
+ "dropped": []
+}

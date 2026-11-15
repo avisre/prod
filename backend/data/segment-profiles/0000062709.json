@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000062709",
+ "issuerName": "MARSH & MCLENNAN COMPANIES, INC.",
+ "builtAt": "2026-11-14T13:45:14.594Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000062709-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/62709/000006270926000022/mrsh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Risk and Insurance Services",
+   "products": [
+    "Marsh Risk",
+    "Guy Carpenter",
+    "Marsh McLennan Agency (MMA)",
+    "Victor Insurance Managers",
+    "GC Securities",
+    "GC Capital & Advisory"
+   ],
+   "description": "Risk management, insurance broking and reinsurance broking and services for businesses, government entities, professional service organizations and individuals.",
+   "evidence": "Risk and Insurance Services : risk management activities and insurance/reinsurance broking and services conducted through Marsh Risk and Guy Carpenter."
+  },
+  {
+   "name": "Consulting",
+   "products": [
+    "Mercer",
+    "Marsh Management Consulting",
+    "Oliver Wyman",
+    "Lippincott",
+    "NERA Economic Consulting"
+   ],
+   "description": "Health, wealth and career advice, solutions and products, plus management, strategic, economic and brand consulting services for organizations.",
+   "evidence": "Consulting : health, wealth and career advice, solutions and products, and specialized management, strategic, economic and brand consulting services conducted through Mercer and Marsh Management Consulting."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay commissions and fees for brokerage and consulting services, with Mercer also earning fees based on assets or members and insurers paying supplemental and contingent compensation.",
+  "evidence": "Marsh Risk and Guy Carpenter are compensated for brokerage and consulting services through commissions and fees."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company renamed its brand from Marsh McLennan to Marsh and renamed the Marsh and Oliver Wyman Group businesses to Marsh Risk and Marsh Management Consulting, with no impact on operating and reporting segments.",
+   "evidence": "Effective January 14, 2026, we updated our brand name from Marsh McLennan to Marsh and the brand names of our Marsh and Oliver Wyman Group businesses to Marsh Risk and Marsh Management Consulting, respectively."
+  },
+  {
+   "text": "In 2024, the company completed the acquisition of McGriff, an insurance broking and risk management services provider, included in the Risk and Insurance Services segment.",
+   "evidence": "The Company completed the acquisition of McGriff, an affiliate of TIH Insurance Holdings (the \"McGriff Transaction\") in November 2024 for $7.75 billion in cash consideration, subject to certain customary adjustments."
+  }
+ ],
+ "dropped": []
+}

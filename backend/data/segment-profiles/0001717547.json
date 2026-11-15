@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001717547",
+ "issuerName": "BRIGHTSPIRE CAPITAL, INC.",
+ "builtAt": "2026-11-14T17:40:40.366Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001717547-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1717547/000171754726000008/brsp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Senior and Mezzanine Loans and Preferred Equity",
+   "products": [
+    "Senior mortgage loans",
+    "Mezzanine loans",
+    "Preferred equity investments"
+   ],
+   "description": "Originates, acquires and manages commercial real estate debt investments across the capital stack.",
+   "evidence": "Senior and Mezzanine Loans and Preferred Equity—CRE debt investments including senior and mezzanine loans, and preferred equity interests as well as participations in such loans."
+  },
+  {
+   "name": "Net Leased and Other Real Estate",
+   "products": [
+    "Net leased properties",
+    "Other real estate"
+   ],
+   "description": "Direct investments in commercial real estate with long-term net leases to tenants responsible for operating expenses.",
+   "evidence": "Net Leased and Other Real Estate—direct investments in commercial real estate with long-term leases to tenants on a net lease basis, where such tenants generally will be responsible for property operating expenses such as insurance, utilities, maintenance, capital expenditures and real estate taxes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investors pay the company for commercial real estate debt investments generating interest income and for net leased real estate generating rental income.",
+  "evidence": "We are an internally-managed commercial real estate (\"CRE\") credit real estate investment trust (\"REIT\") focused on originating, acquiring, financing and managing a diversified portfolio consisting primarily of CRE debt investments and net leased properties."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Senior and Mezzanine Loans and Preferred Equity): Junior participations in originated senior loans"
+ ]
+}

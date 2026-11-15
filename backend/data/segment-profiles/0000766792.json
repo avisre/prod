@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000766792",
+ "issuerName": "CVD EQUIPMENT CORPORATION",
+ "builtAt": "2026-11-14T13:50:30.036Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013567",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/766792/000149315226013567/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CVD Equipment",
+   "products": [
+    "chemical vapor deposition equipment",
+    "PVT150™ Physical Vapor Transport Systems",
+    "PVT200™ systems",
+    "thermal process equipment",
+    "FirstNano",
+    "EasyTube®"
+   ],
+   "description": "Designs and manufactures chemical vapor deposition, physical vapor transport and thermal process equipment for aerospace, semiconductor and industrial customers.",
+   "evidence": "CVD Equipment – manufactures chemical vapor deposition, physical vapor transport and thermal process equipment."
+  },
+  {
+   "name": "SDC",
+   "products": [
+    "ultra-high purity gas and chemical delivery control systems"
+   ],
+   "description": "Designs and manufactures ultra-high purity gas and chemical delivery control systems.",
+   "evidence": "SDC - manufactures ultra-high purity gas and chemical delivery control systems."
+  },
+  {
+   "name": "MesoScribe",
+   "products": [
+    "electronic printing services",
+    "heaters",
+    "antennas",
+    "sensors"
+   ],
+   "description": "Provided electronic printing services and products including heaters, antennas and sensors; ceased operations in 2024.",
+   "evidence": "MesoScribe - provided electronic printing services and products (heaters, antennas, and sensors)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells equipment, spares, parts and services to commercial companies, universities and research laboratories in the United States and worldwide.",
+  "evidence": "These systems, which we market and sell under the CVD, FirstNano and EasyTube® product names, are sold to commercial companies, universities and research laboratories in the United States and throughout the world."
+ },
+ "changes": [
+  {
+   "text": "The MesoScribe segment ceased operations in 2024 after fulfilling remaining orders and selling related equipment and intellectual property.",
+   "evidence": "The Company fulfilled remaining orders for MesoScribe products during 2024 at which time it ceased operations of MesoScribe and recorded a $ 0.7 million gain upon the completion of the sale of the equipment during the year ended December 31, 2024."
+  },
+  {
+   "text": "In 2023, the company sold its Tantaline subsidiary located in Nordborg, Denmark.",
+   "evidence": "On May 26, 2023, the Company sold its Tantaline subsidiary located in Nordborg, Denmark in exchange for a nominal amount at closing"
+  },
+  {
+   "text": "In 2026, the company entered into a definitive agreement to sell its SDC business division to a subsidiary of the Atlas Copco Group.",
+   "evidence": "On March 23, 2026, we entered into a definitive agreement under which our SDC business division will be sold to a subsidiary of the Atlas Copco Group."
+  }
+ ],
+ "dropped": [
+  "product not in text (CVD Equipment): physical vapor transport equipment",
+  "product not in text (CVD Equipment): chemical vapor infiltration (CVI) systems"
+ ]
+}

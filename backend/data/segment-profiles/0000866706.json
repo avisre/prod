@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "cik": "0000866706",
+ "issuerName": "ESCO TECHNOLOGIES INC.",
+ "builtAt": "2026-11-14T13:53:17.404Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-25-117276",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/866706/000110465925117276/ese-20250930x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace & Defense (A&D)",
+   "products": [
+    "PTI Technologies Inc. (PTI)",
+    "Crissair, Inc. (Crissair)",
+    "Globe Composite Solutions, LLC (Globe)",
+    "Mayday Manufacturing Co. (Mayday)",
+    "ESCO Maritime Solutions (Maritime)",
+    "specialty filtration",
+    "fluid control devices",
+    "naval magnetic signature management systems"
+   ],
+   "description": "Designs and manufactures specialty filtration, fluid control and naval products for aerospace, defense and U.S. and UK Navy customers.",
+   "evidence": "The companies within this segment primarily design and manufacture specialty filtration, fluid control and naval products, including hydraulic filter elements, fluid control devices and precision-tolerance machined components used in aerospace and defense applications, naval magnetic signature management systems, naval power control and conversion systems, products and systems to reduce vibration and/or acoustic signatures and otherwise reduce or obscure a vessel's signature, and other communica"
+  },
+  {
+   "name": "Utility Solutions Group (USG)",
+   "products": [
+    "Doble Engineering Company",
+    "Morgan Schaffer Ltd. (Morgan Schaffer)",
+    "I.S.A. – Altanova Group S.r.l. and affiliates (Altanova)",
+    "NRG Systems, Inc. (NRG)",
+    "diagnostic test instruments and condition monitoring systems",
+    "dissolved gas analysis, oil testing and data management solutions",
+    "decision support tools for the renewable energy industry"
+   ],
+   "description": "Provides diagnostic instruments, software, testing and consulting services to electric utilities and renewable energy customers.",
+   "evidence": "Doble is an industry leader in the development, manufacture and delivery of diagnostic testing and data management solutions that enable electric power grid operators to assess the integrity of high-voltage, high-current and high-power delivery equipment."
+  },
+  {
+   "name": "RF Test & Measurement (Test)",
+   "products": [
+    "ETS-Lindgren",
+    "MPE Limited (MPE)",
+    "RF test facilities and measurement systems",
+    "RF and magnetically shielded rooms",
+    "secure communication facilities",
+    "RF absorptive materials, filters, antennas, field probes, test cells",
+    "High Altitude Electromagnetic Protection filters"
+   ],
+   "description": "Designs and manufactures RF test and measurement products, systems and components for medical, electronics, wireless, automotive and defense markets.",
+   "evidence": "The segment's operations consist primarily of ETS-Lindgren, an industry leader in designing and manufacturing products and systems to measure and control RF energy for research and development, regulatory compliance, and medical and security applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "ESCO earns revenue from sales of engineered products, systems and services to aviation, Navy, defense, industrial, utility and renewable customers, including U.S. Government cost-plus and fixed-price contracts.",
+  "evidence": "Our Government contracts include both cost-plus contracts, under which we are entitled to receive a specified amount or percentage over and above our actual costs of performance, and fixed-price contracts under which our work is performed and paid for at a fixed amount without adjustment for the actual costs experienced in connection with the contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025, ESCO sold its former A&D subsidiary VACCO Industries, which is reported as discontinued operations.",
+   "evidence": "In July 2025, following a strategic review of our Space business, we completed the sale of our former A&D subsidiary VACCO Industries (VACCO) for net sales proceeds of approximately $270 million."
+  },
+  {
+   "text": "In 2025, ESCO acquired the Signature Management & Power business of Ultra Electronics, now called ESCO Maritime Solutions, added to the A&D segment.",
+   "evidence": "In April 2025, we acquired the Signature Management & Power (\"SM&P\") business of Ultra Electronics Holdings Limited, comprising Ultra PMES Limited (subsequently renamed as PMES I Limited), a private limited company incorporated in England and Wales, Measurement Systems, Inc., a Delaware corporation, EMS Development Corporation, a New York corporation, and DNE Technologies, Inc., a Delaware corporation."
+  },
+  {
+   "text": "In 2023, ESCO acquired MPE Limited (added to the Test segment) and CMT Materials (added to A&D).",
+   "evidence": "In November 2023, we acquired MPE Limited (MPE), a United Kingdom-based global manufacturer of high-performance products for military, utility, telecommunication and other critical infrastructure applications."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001902314",
+ "issuerName": "M-tron Industries, Inc.",
+ "builtAt": "2026-11-14T17:41:21.311Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009844",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1902314/000143774926009844/mpti20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronic Components",
+   "products": [
+    "Frequency Control",
+    "Spectrum Control",
+    "Radio Frequency Solutions",
+    "quartz crystal resonators",
+    "clock oscillators",
+    "power amplifiers",
+    "Integrated Microwave Assemblies"
+   ],
+   "description": "Designs, manufactures and markets highly engineered frequency and spectrum control products for aerospace, defense, avionics, space and industrial applications.",
+   "evidence": "The Company conducts its business through one business segment: Electronic Components, which includes all products manufactured and sold by Mtron."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs and contract manufacturers pay for custom-designed frequency control, spectrum control and integrated microwave assembly products used in electronic systems.",
+  "evidence": "We primarily work directly with original equipment manufacturers (\"OEMs\") to define the appropriate solutions for their unique applications, including the design of custom parts with unique part numbers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electronic Components): RF filters"
+ ]
+}

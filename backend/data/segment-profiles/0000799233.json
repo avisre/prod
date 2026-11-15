@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000799233",
+ "issuerName": "HEARTLAND EXPRESS INC",
+ "builtAt": "2026-11-14T13:51:24.549Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000799233-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/799233/000079923326000006/htld-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Truckload",
+   "products": [
+    "Heartland Express",
+    "Millis Transfer",
+    "Smith Transport",
+    "CFI",
+    "dry van truckload service",
+    "temperature-controlled transportation services",
+    "Mexico logistics services"
+   ],
+   "description": "Provides nationwide asset-based dry van truckload service for major shippers across the United States, plus cross-border Mexico freight.",
+   "evidence": "We primarily provide nationwide asset-based dry van truckload service for major shippers across the United States, along with cross-border freight and other transportation services offered through third party partnerships in Mexico."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Shippers pay the company based on the number of miles per load delivered and the revenue per mile or per load paid.",
+  "evidence": "We generally earn revenue based on the number of miles per load delivered and the revenue per mile or per load paid."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the U.S. operations of Contract Freighters, Inc. (CFI) were integrated and rebranded into Heartland Express.",
+   "evidence": "Effective December 31, 2025, we integrated and rebranded U.S. operations of Contract Freighters, Inc. (\"CFI\") into Heartland Express."
+  },
+  {
+   "text": "In 2024, Franklin Logistics, LLC was merged into Smith Transport, LLC.",
+   "evidence": "Effective December 31, 2024, Franklin Logistics, LLC was merged into Smith Transport, LLC."
+  },
+  {
+   "text": "In 2023, Smith Trucking, Inc. was merged into Smith Transport, Inc.",
+   "evidence": "Effective December 31, 2023, Smith Trucking, Inc. was merged into Smith Transport, Inc."
+  }
+ ],
+ "dropped": []
+}

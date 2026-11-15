@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000065770",
+ "issuerName": "MicroVision, Inc.",
+ "builtAt": "2026-11-14T13:45:25.637Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008898",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/65770/000149315226008898/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lidar hardware and software",
+   "products": [
+    "MOVIA™",
+    "MAVIN™",
+    "IRIS",
+    "HALO",
+    "Scantinel 1550nm long-range FMCW lidar",
+    "perception software",
+    "MOSAIK™"
+   ],
+   "description": "Develops and sells integrated solid-state lidar sensors and software for automotive, industrial, and security & defense customers.",
+   "evidence": "The Company has determined that it operates in one operating segment and one reportable segment, relating to the sale and servicing of lidar hardware and software, as the CODM regularly reviews financial information presented on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is funded primarily by securities sales, and to a lesser extent by development contract revenues, product sales and licensing activities.",
+  "evidence": "We have funded our operations to date primarily through the sale of common stock, convertible preferred stock, warrants, the issuance of convertible debt and, to a lesser extent, from development contract revenues, product sales and licensing activities."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company reduced investment in its MOSAIK validation suite and restructured its workforce to focus on perception software and MAVIN and MOVIA products.",
+   "evidence": "In 2024, we reduced the dedicated resources and investment into further development of our MOSAIK™ suite a tool for validating vehicle sensors for ADAS and autonomous driving, or AD, applications."
+  },
+  {
+   "text": "In February 2026, the company completed the strategic acquisition of assets primarily comprising the worldwide lidar business of Luminar Technologies, Inc., including the IRIS and HALO sensors and SENTINEL software.",
+   "evidence": "In February 2026, we completed the strategic acquisition of assets primarily comprising the worldwide lidar business of Luminar Technologies, Inc."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In January 2026, the company completed the acquisition of assets from Scantinel "
+ ]
+}

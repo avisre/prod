@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001493761",
+ "issuerName": "TURTLE BEACH CORPORATION",
+ "builtAt": "2026-11-14T17:41:37.750Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104436",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1493761/000119312526104436/tbch-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gaming Accessories",
+   "products": [
+    "Gaming headsets",
+    "Gaming controllers",
+    "Keyboards",
+    "Mice",
+    "Microphones",
+    "Racing simulation hardware"
+   ],
+   "description": "Designs, markets, and distributes gaming accessories including headsets, controllers, and peripherals for consoles, PCs, and mobile devices.",
+   "evidence": "The company operates in a single reportable segment, referred to as gaming accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells gaming accessories to consumers through major retailers and direct channels based on customer geographic location.",
+  "evidence": "Our gaming accessories are distributed globally, with more than 475 thousand points of distribution, including major retailers such as Amazon, Argos, Best Buy, Target, and Walmart."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired Performance Designed Products, expanding its gaming controller and licensing portfolio.",
+   "evidence": "In 2024, we acquired Performance Designed Products (\"PDP\"), another leading gaming accessory brand with a robust slate of products, including gaming controllers for all major platforms and licensing deals with popular gaming and entertainment properties."
+  },
+  {
+   "text": "In 2024, the company entered the racing simulation gaming accessory market.",
+   "evidence": "In 2024, we entered the racing simulation gaming accessory market."
+  }
+ ],
+ "dropped": [
+  "product not in text (Gaming Accessories): Flight simulation hardware"
+ ]
+}

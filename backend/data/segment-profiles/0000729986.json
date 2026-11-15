@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000729986",
+ "issuerName": "UNITED BANKSHARES INC/WV",
+ "builtAt": "2026-11-14T13:49:40.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-081470",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/729986/000119312526081470/d90970d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "checking, savings, time and money market accounts",
+    "personal, commercial, and floor plan loans",
+    "construction and real estate loans",
+    "credit card services",
+    "Digital Banking",
+    "Telebanc"
+   ],
+   "description": "Community banking through United Bank, offering deposits, loans, trust, brokerage and digital banking services to consumer and commercial customers.",
+   "evidence": "As of December 31, 2025 and 2024, United's business activities are confined to one operating segment, United Bank, and one reportable segment, community banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "United earns revenue from customers who hold deposits, borrow through personal, commercial and real estate loans, and use its trust, brokerage and other banking services.",
+  "evidence": "Included among the banking services offered are the acceptance of deposits in checking, savings, time and money market accounts; the making and servicing of personal, commercial, and floor plan loans; and the making of construction and real estate loans."
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of 2024, United consolidated the mortgage origination and sales business of George Mason and Crescent with United Bank, reducing reportable segments from two to one.",
+   "evidence": "However, during the first quarter of 2024, United consolidated the mortgage origination and sales business of George Mason and Crescent with that of United Bank."
+  },
+  {
+   "text": "In the fourth quarter of 2023, United exited the third-party origination business.",
+   "evidence": "United previously exited the third-party origination (\"TPO\") business during the fourth quarter of 2023."
+  }
+ ],
+ "dropped": [
+  "product not in text (Community banking): trust and investment services",
+  "product not in text (Community banking): brokerage and financial planning services"
+ ]
+}

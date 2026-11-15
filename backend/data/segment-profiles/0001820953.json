@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001820953",
+ "issuerName": "Affirm Holdings, Inc.",
+ "builtAt": "2026-11-14T17:38:11.511Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-059279",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1820953/000162828026059279/afrm-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Geographic revenue outside the United States and Canada, as reported alongside primary geographies.",
+   "evidence": "United States $ 4,111,957 $ 3,105,121 $ 2,225,605 Canada 142,821 119,009 97,394 Other 6,304 282 —"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants pay fees to convert sales; consumers pay simple interest on interest-bearing loans; card-issuing partners share interchange fees.",
+  "evidence": "From merchants, we typically earn a fee when we help them convert a sale and facilitate a transaction."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Single reportable segment"
+ ],
+ "escalated": "revenue model not quoted"
+}

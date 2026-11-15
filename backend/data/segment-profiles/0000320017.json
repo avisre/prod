@@ -1,0 +1,24 @@
+{
+ "version": 1,
+ "cik": "0000320017",
+ "issuerName": "Lisata Therapeutics, Inc.",
+ "builtAt": "2026-11-14T13:48:14.307Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000320017-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/320017/000032001726000023/lsta-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company has limited revenue from license and collaboration agreements, including upfront license fees.",
+  "evidence": "The Company is a clinical-stage pharmaceutical company and has limited revenue associated with license and collaboration agreements."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Research and development of investigational drug product"
+ ]
+}

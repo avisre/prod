@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001163653",
+ "issuerName": "Nomura America Finance, LLC",
+ "builtAt": "2026-11-14T17:38:11.431Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-277134",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1163653/000119312526277134/d116282d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wealth Management",
+   "products": [
+    "Investment trusts",
+    "Discretionary investments",
+    "Insurance",
+    "Asset consultation services"
+   ],
+   "description": "Delivers financial products and services to individuals and corporations in Japan through branches and online services.",
+   "evidence": "In our Wealth Management Division, we conduct wealth management business by delivering a wide range of financial products and services, including, high-quality investment services and non-financial services, mainly for individuals and corporations in Japan, primarily through a network of nationwide branches of NSC and online services."
+  },
+  {
+   "name": "Investment Management",
+   "products": [
+    "Investment trusts",
+    "Private equity",
+    "Private debt",
+    "Real assets",
+    "Equities",
+    "Fixed income",
+    "Multi-asset strategies"
+   ],
+   "description": "Provides investment strategies, products and services to pension funds, institutional investors and financial intermediaries globally across public and private markets.",
+   "evidence": "Our Investment Management Division is committed to providing high-quality investment strategies, products, and services to a wide range of investors. Along with delivering investment trusts for individual investors through financial institutions in Japan, we provide various investment solutions, both in public and private market asset classes, to pension funds, institutional investors, and financial intermediaries globally."
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "Structured financing"
+   ],
+   "description": "Provides trading, sales and structuring of financial products and investment banking services to institutional and corporate clients.",
+   "evidence": "Our Wholesale Division consists of Global Markets, which is mainly engaged in trading, sales, and structuring of financial products, and Investment Banking, which is engaged in advisory, financing, and solution businesses."
+  },
+  {
+   "name": "Banking",
+   "products": [],
+   "description": null,
+   "evidence": "Nomura established a new Banking Division on April 1, 2025. Accordingly, our operating management and management reporting are prepared based on the Wealth Management, the Investment Management, the Wholesale and the Banking segments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay management fees based on assets under management, commissions on brokerage and distribution services, and investment gains from proprietary investments.",
+  "evidence": "Our primary source of revenue stems from the asset management fees received from our clients or funds we manage. Typically, our asset management fees are based on fixed annual rates calculated based on the amount of assets under our management."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wealth Management): Brokerage services",
+  "product not in text (Wholesale): Fixed income trading and sales",
+  "product not in text (Wholesale): Equities trading and sales",
+  "product not in text (Wholesale): Investment banking advisory",
+  "product not in text (Wholesale): Financing services",
+  "change not grounded: In 2025, the company acquired the U.S. and European public asset management busi",
+  "change not grounded: Banking Division was established on April 1, 2025."
+ ]
+}

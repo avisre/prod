@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000861842",
+ "issuerName": "Cathay General Bancorp",
+ "builtAt": "2026-11-14T13:53:06.513Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006157",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/861842/000143774926006157/caty20251231c_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial banking",
+   "products": [
+    "checking and deposit",
+    "lines of credit",
+    "commercial and commercial real estate loans",
+    "merchant services and payment processing",
+    "treasury management services",
+    "international banking and financing services",
+    "SBA loans",
+    "residential mortgage loans"
+   ],
+   "description": "A commercial bank serving individuals, professionals, and small to medium-sized businesses through deposit-taking, lending, and related banking services.",
+   "evidence": "The Company operates as a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from banking services, including interest on loans and fees from deposit, lending, trade financing, and related services to customers.",
+  "evidence": "The Company generates substantially all its revenues from banking services and does not have material operations outside the United States."
+ },
+ "changes": [],
+ "dropped": []
+}

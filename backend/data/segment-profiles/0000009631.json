@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000009631",
+ "issuerName": "BANK OF NOVA SCOTIA",
+ "builtAt": "2026-11-14T14:06:51.826Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-25-304643",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/9631/000119312525304643/d936350dex993.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Canadian Banking",
+   "products": [],
+   "description": "Provides personal, commercial, and corporate banking services to Canadian customers.",
+   "evidence": "The Bank has four operating segments: Canadian Banking, International Banking, Global Wealth Management and Global Banking and Markets."
+  },
+  {
+   "name": "International Banking",
+   "products": [],
+   "description": "Offers banking services internationally across multiple geographic markets and customer segments.",
+   "evidence": "The Bank has four operating segments: Canadian Banking, International Banking, Global Wealth Management and Global Banking and Markets."
+  },
+  {
+   "name": "Global Wealth Management",
+   "products": [],
+   "description": "Provides wealth management and investment services to clients globally.",
+   "evidence": "The Bank has four operating segments: Canadian Banking, International Banking, Global Wealth Management and Global Banking and Markets."
+  },
+  {
+   "name": "Global Banking and Markets",
+   "products": [],
+   "description": "Offers corporate and investment banking services including capital markets and trading products.",
+   "evidence": "The Bank has four operating segments: Canadian Banking, International Banking, Global Wealth Management and Global Banking and Markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns revenue from personal, commercial, corporate and investment banking services provided to customers and clients.",
+  "evidence": "The Bank is a global financial services provider offering a diverse range of products and services, including personal, commercial, corporate and investment banking."
+ },
+ "changes": [],
+ "dropped": []
+}

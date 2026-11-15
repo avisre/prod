@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000931427",
+ "issuerName": "GAS TRANSPORTER OF THE SOUTH INC.",
+ "builtAt": "2026-11-14T17:39:13.082Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-016167",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/931427/000114036126016167/ef20060824_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural Gas Transportation",
+   "products": [],
+   "description": "Operates southern natural gas transportation system in Argentina through exclusive license from government.",
+   "evidence": "the exclusive use of the southern natural gas transportation system in Argentina (\" License \")"
+  },
+  {
+   "name": "Production and Commercialization of Liquids",
+   "products": [
+    "propane",
+    "butane",
+    "ethane",
+    "natural gasoline"
+   ],
+   "description": "Produces and commercializes liquid petroleum gas and other liquids from natural gas processing.",
+   "evidence": "future prices and volumes for our natural gas liquid products such as propane and butane (also referred to as liquid petroleum gas or \" LPG \"), ethane and natural gasoline"
+  },
+  {
+   "name": "Midstream",
+   "products": [],
+   "description": "Provides gas gathering, treatment and processing services in midstream operations.",
+   "evidence": "products and services provided in the Midstream and other services (\" Midstream \") business segment"
+  },
+  {
+   "name": "Telecommunications",
+   "products": [],
+   "description": "Telecommunications business operations.",
+   "evidence": "tgs:TelecommunicationsMember ifrs-full:OperatingSegmentsMember"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Company generates revenue from regulated natural gas transportation contracts and non-regulated Liquids sales at market prices.",
+  "evidence": "A significant portion of our revenues is generated under natural gas transportation contracts that must be renegotiated and/or extended periodically"
+ },
+ "changes": [],
+ "dropped": []
+}

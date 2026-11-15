@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000086312",
+ "issuerName": "Travelers Companies, Inc.",
+ "builtAt": "2026-11-14T13:46:21.084Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000086312-26-000065",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/86312/000008631226000065/trv-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business Insurance",
+   "products": [
+    "commercial multi-peril",
+    "workers' compensation",
+    "commercial automobile",
+    "general liability",
+    "commercial property",
+    "inland marine",
+    "ocean marine",
+    "excess casualty"
+   ],
+   "description": "Provides a broad array of property and casualty insurance products and services to businesses, government units, associations and individuals, primarily in the United States.",
+   "evidence": "Business Insurance offers a broad array of property and casualty insurance products and services to its customers, primarily in the United States, as well as in the United Kingdom, the Republic of Ireland and throughout other parts of the world, including as a corporate member of Lloyd's."
+  },
+  {
+   "name": "Bond & Specialty Insurance",
+   "products": [],
+   "description": "One of the Company's reportable segments, writing surety and specialty insurance products.",
+   "evidence": "Gross Written Premiums (for the year ended December 31, in millions) 2025 2024 2023 Business Insurance $ 25,250 $ 24,515 $ 22,569 Bond & Specialty Insurance 4,647 4,519 4,187 Personal Insurance 17,833 17,516 16,216"
+  },
+  {
+   "name": "Personal Insurance",
+   "products": [],
+   "description": "One of the Company's reportable segments, writing personal property and casualty insurance for individuals.",
+   "evidence": "The combined ratio excluding prior year reserve development and catastrophe losses (\"underlying combined ratio\") in 2025 was 2.3 points lower than the 2024 ratio on the same basis, primarily reflecting the impacts of (i) the benefit of earned pricing and (ii) lower losses in Personal Insurance."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns premiums from insureds in exchange for insurance coverages, recognized as revenues as earned over the policy term, plus investment income and fee income.",
+  "evidence": "Earned premiums or premiums earned That portion of property casualty premiums written that applies to the expired portion of the policy term."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company agreed to sell its Canadian personal insurance business and the majority of its Canadian commercial insurance business, with the sale closing in January 2026.",
+   "evidence": "On May 27, 2025, the Company entered into an agreement to sell its Canadian personal insurance business and the majority of its Canadian commercial insurance business to Definity Financial Corporation for approximately US$2.4 billion."
+  }
+ ],
+ "dropped": []
+}

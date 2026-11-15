@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001827090",
+ "issuerName": "Certara, Inc.",
+ "builtAt": "2026-11-14T17:36:24.295Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001827090-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1827090/000182709026000011/cert-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biosimulation",
+   "products": [
+    "Simcyp Simulator",
+    "Simcyp Discovery",
+    "Simcyp Biopharmaceutics",
+    "Simcyp Secondary Intelligence",
+    "Phoenix WinNonlin",
+    "Phoenix NLME",
+    "Certara.AI",
+    "CoAuthor"
+   ],
+   "description": "Provides biosimulation software, technology and consulting services for model-informed drug development to global biopharmaceutical and biotech companies and regulators.",
+   "evidence": "We are a global leader in biosimulation science, technology, and consulting services for using Model-Informed Drug Development (\"MIDD\") in the global biopharmaceutical and biotech industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Life sciences customers pay to license Certara's validated biosimulation software and for technology-enabled consulting and regulatory services.",
+  "evidence": "We leverage our validated software applications to deliver technology-enabled services."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the prior regulatory writing reporting unit was integrated into the Certara Drug Development Services reporting unit.",
+   "evidence": "During the third quarter of 2023, the Company performed interim goodwill impairment tests for the prior regulatory writing reporting unit, which was integrated into the CDDS at the end of third quarter 2023."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

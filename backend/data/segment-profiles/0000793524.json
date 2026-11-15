@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000793524",
+ "issuerName": "RESEARCH FRONTIERS INCORPORATED",
+ "builtAt": "2026-11-14T13:51:07.850Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008988",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/793524/000149315226008988/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Light-control technology",
+   "products": [
+    "SPD-Smart chemical emulsion",
+    "light-control film",
+    "light-control panels"
+   ],
+   "description": "Develops and licenses patented SPD-Smart suspended particle device light-control technology to licensees serving aerospace, architectural, automotive, marine and display markets.",
+   "evidence": "Research Frontiers operates in a single business segment which is engaged in the development and marketing of technology and devices to control the flow of light (see Note 1 to the Consolidated Financial Statements)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company generates revenue primarily through license fees and royalties paid by licensees of its SPD light-control technology.",
+  "evidence": "The Company generates revenue primarily through license fees and royalties paid by licensees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Light-control technology): SPD-Smart windows, skylights and sunroofs"
+ ]
+}

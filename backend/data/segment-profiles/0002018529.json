@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002018529",
+ "issuerName": "Intercont (Cayman) Limited",
+ "builtAt": "2026-11-15T02:51:01.063Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-114310",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-10-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2018529/000121390026114310/ea0308630-20f_intercont.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Maritime Shipping",
+   "products": [
+    "Time chartering",
+    "Vessel management services"
+   ],
+   "description": "Operates global maritime shipping services including time chartering and vessel management through Hong Kong subsidiaries.",
+   "evidence": "The Group's global maritime shipping business consists of two revenue streams, time chartering and vessel management services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for time chartering services and vessel management services provided through the Group's global maritime shipping operations.",
+  "evidence": "The Group's global maritime shipping business consists of two revenue streams, time chartering and vessel management services."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2026, the Group discontinued development work on a shipborne AI intelligent s"
+ ]
+}

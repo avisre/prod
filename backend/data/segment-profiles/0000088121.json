@@ -1,0 +1,85 @@
+{
+ "version": 1,
+ "cik": "0000088121",
+ "issuerName": "Seaboard Corporation",
+ "builtAt": "2026-11-14T13:46:23.487Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000088121-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/88121/000008812126000012/seb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pork",
+   "products": [
+    "pork products",
+    "market hogs",
+    "swine-derived renewable natural gas",
+    "environmental credits"
+   ],
+   "description": "Vertically integrated hog production and pork processing, selling pork products to processors, foodservice operators, distributors and grocery stores in the U.S. and internationally.",
+   "evidence": "Seaboard, through its subsidiary Seaboard Foods LLC (\"Seaboard Foods\"), is a vertically integrated pork producer."
+  },
+  {
+   "name": "CT&M",
+   "products": [
+    "grains",
+    "oilseeds",
+    "flour",
+    "animal feed",
+    "animal-based proteins"
+   ],
+   "description": "Integrated agricultural commodity trading, processing and logistics company operating primarily in Africa and South America.",
+   "evidence": "Seaboard's CT&M segment, which is managed under the name Seaboard Overseas and Trading Group (\"SOTG\"), is an integrated agricultural commodity trading, processing and logistics company."
+  },
+  {
+   "name": "Marine",
+   "products": [
+    "intermodal transport of import and export cargo"
+   ],
+   "description": null,
+   "evidence": "Seaboard, through its subsidiary Seaboard Marine Ltd. and third-party agents, provides dry, refrigerated and other cargo shipping services between the U.S. and 27 countries in the Caribbean and Central and South America."
+  },
+  {
+   "name": "Liquid Fuels",
+   "products": [
+    "biodiesel",
+    "renewable diesel",
+    "production tax credits"
+   ],
+   "description": "Produces biodiesel and renewable diesel and sells related environmental credits to third parties.",
+   "evidence": "Seaboard, through its subsidiary Seaboard Energy, LLC, produces biodiesel at facilities in Oklahoma and Missouri and renewable diesel at a facility in Kansas."
+  },
+  {
+   "name": "Power",
+   "products": [
+    "electricity"
+   ],
+   "description": "Independent power producer generating electricity for the Dominican Republic power grid using power-generating barges.",
+   "evidence": "Seaboard, through its subsidiary Transcontinental Capital Corp. (Bermuda) Ltd. (\"TCCB\"), is an independent power producer generating electricity for the Dominican Republic power grid using its two barges."
+  },
+  {
+   "name": "Turkey",
+   "products": [
+    "turkey products"
+   ],
+   "description": "Equity method investment in Butterball, a producer and processor of turkey products for retail, foodservice and industrial customers.",
+   "evidence": "Seaboard has a non-controlling 52.5% investment in Butterball, a producer and processor of turkey products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Seaboard earns revenue from selling pork, commodities, biofuels and cargo shipping services to processors, distributors, foodservice operators, grocery stores and other customers, and from selling electricity to the Dominican Republic power grid.",
+  "evidence": "Seaboard Foods primarily sells pork products to further processors, foodservice operators, distributors and grocery stores in the U.S. and internationally, with approximately 25% of sales to Mexico, Japan, China and numerous other foreign markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Marine): dry cargo shipping services",
+  "product not in text (Marine): refrigerated cargo shipping services",
+  "product not in text (Liquid Fuels): renewable identification numbers (RINs)",
+  "product not in text (Liquid Fuels): Low Carbon Fuel Standard (LCFS) credits"
+ ]
+}

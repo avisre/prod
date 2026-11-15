@@ -1,0 +1,91 @@
+{
+ "version": 1,
+ "cik": "0000091419",
+ "issuerName": "J M SMUCKER Co",
+ "builtAt": "2026-11-14T13:46:32.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000091419-26-000050",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/91419/000009141926000050/sjm-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Retail Coffee",
+   "products": [
+    "Folgers®",
+    "Dunkin'®",
+    "Café Bustelo®"
+   ],
+   "description": "Sells branded coffee products to U.S. consumers through retail outlets.",
+   "evidence": "U.S. Retail Coffee Folgers ® , Dunkin' ® , and Café Bustelo ®"
+  },
+  {
+   "name": "U.S. Retail Frozen Handheld and Spreads",
+   "products": [
+    "Uncrustables®",
+    "Jif®",
+    "Smucker's®"
+   ],
+   "description": "Sells frozen handheld products, peanut butter, and fruit spreads to U.S. retail consumers.",
+   "evidence": "U.S. Retail Frozen Handheld and Spreads Uncrustables ® , Jif ® , and Smucker's ®"
+  },
+  {
+   "name": "U.S. Retail Pet Foods",
+   "products": [
+    "Meow Mix®",
+    "Milk-Bone®",
+    "Pup-Peroni®",
+    "Canine Carry Outs®"
+   ],
+   "description": "Sells cat food and dog snacks and treats to U.S. pet owners through retail channels.",
+   "evidence": "U.S. Retail Pet Foods Meow Mix ® , Milk-Bone ® , Pup-Peroni ® , and Canine Carry Outs ®"
+  },
+  {
+   "name": "Sweet Baked Snacks",
+   "products": [
+    "Hostess®",
+    "Donettes®",
+    "Twinkies®",
+    "CupCakes",
+    "DingDongs®",
+    "Zingers®",
+    "HoHos®"
+   ],
+   "description": "Makes and markets sweet baked goods distributed across all channels domestically and abroad.",
+   "evidence": "The Sweet Baked Snacks reportable segment includes products distributed across all channels, both domestically and in foreign countries, such as food retailers, convenience stores, discount and dollar stores, club stores, drug stores, the vending channel, military commissaries, and mass merchandisers."
+  },
+  {
+   "name": "Away From Home",
+   "products": [
+    "Folgers®",
+    "Smucker's®",
+    "Uncrustables®"
+   ],
+   "description": "Sells products domestically and abroad through foodservice distributors and operators such as restaurants and institutions.",
+   "evidence": "The Away From Home reportable segment includes the sale of all products domestically and in foreign countries through foodservice distributors and 2 operators (e.g., healthcare operators, restaurants, educational institutions, offices, lodging and gaming establishments, and convenience stores)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from selling branded food and beverage products to retailers, distributors, foodservice operators, and other channel customers, with Walmart accounting for a large share of sales.",
+  "evidence": "Products within our U.S. Retail reportable segments are primarily sold through a combination of direct sales and brokers to food retailers, club stores, discount and dollar stores, online retailers, pet specialty stores, drug stores, military commissaries, mass merchandisers, and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Away From Home operating segment became a new reportable segment.",
+   "evidence": "During the fourth quarter of 2026, the Away From Home operating segment met the reportable segment criteria under Financial Accounting Standards Board (\"FASB\") Accounting Standards Codification (\"ASC\") 280."
+  },
+  {
+   "text": "In 2025, the company sold certain Sweet Baked Snacks value brands to JTM Foods, LLC.",
+   "evidence": "On March 3, 2025, we sold certain Sweet Baked Snacks value brands to JTM Foods, LLC (\"JTM\")."
+  },
+  {
+   "text": "In 2024, the company sold the Voortman business to Second Nature Brands and the Canada condiment business to TreeHouse Foods.",
+   "evidence": "On December 2, 2024, we sold the Voortman ® business to Second Nature Brands (\"Second Nature\")."
+  }
+ ],
+ "dropped": []
+}

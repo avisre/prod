@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001444406",
+ "issuerName": "ECOPETROL S.A.",
+ "builtAt": "2026-11-14T17:38:03.602Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-053172",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1444406/000110465926053172/ec-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and Production",
+   "products": [],
+   "description": "Explores for, develops, and produces crude oil and natural gas in Colombia and internationally.",
+   "evidence": "the financial information is organized into four reportable segments: (i) exploration and production, (ii) transport and logistics, (iii) refining and petrochemicals, and (iv) energy transmission and toll roads concessions."
+  },
+  {
+   "name": "Transport and Logistics",
+   "products": [],
+   "description": "Transports and distributes hydrocarbons through pipelines and related logistics infrastructure.",
+   "evidence": "the financial information is organized into four reportable segments: (i) exploration and production, (ii) transport and logistics, (iii) refining and petrochemicals, and (iv) energy transmission and toll roads concessions."
+  },
+  {
+   "name": "Refining and Petrochemicals",
+   "products": [],
+   "description": "Refines crude oil and produces petrochemical products for domestic and international markets.",
+   "evidence": "the financial information is organized into four reportable segments: (i) exploration and production, (ii) transport and logistics, (iii) refining and petrochemicals, and (iv) energy transmission and toll roads concessions."
+  },
+  {
+   "name": "Energy Transmission and Toll Roads Concessions",
+   "products": [],
+   "description": "Operates electricity transmission systems and manages toll road concessions in Colombia and Brazil.",
+   "evidence": "the financial information is organized into four reportable segments: (i) exploration and production, (ii) transport and logistics, (iii) refining and petrochemicals, and (iv) energy transmission and toll roads concessions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2022, the company began a process to align segments with its 2040 Strategy business lines, expected to continue throughout 2026, including potential separation of energies for transition business.",
+   "evidence": "we started a process in 2022 to align our current segments more closely to the business lines set forth in the 2040 Strategy for the Ecopetrol Group, and such process is expected to continue throughout 2026."
+  },
+  {
+   "text": "The energies for transition business line is not yet presented as a separate reportable segment but is managed with dedicated internal financial information.",
+   "evidence": "Although the energies for the transition business line is not yet presented as a separate reportable segment, management of this business line is supported by dedicated internal financial information."
+  }
+ ],
+ "dropped": []
+}

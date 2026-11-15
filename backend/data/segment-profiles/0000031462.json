@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0000031462",
+ "issuerName": "ECOLAB INC.",
+ "builtAt": "2026-11-14T14:08:17.024Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018357",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/31462/000110465926018357/ecl-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Water",
+   "products": [
+    "Water treatment products and technology programs",
+    "Cooling water treatment programs",
+    "Wastewater products and programs",
+    "Process water applications",
+    "Cleaning and sanitation products",
+    "Detergents, cleaners, sanitizers, lubricants",
+    "Antimicrobial products"
+   ],
+   "description": "Provides water treatment and process applications and cleaning solutions to large industrial customers in manufacturing, food and beverage processing, and related industries.",
+   "evidence": "This reportable segment consists of the Light & Heavy, Food & Beverage and Paper operating segments, which provide water treatment and process applications and cleaning and sanitizing solutions, primarily to large industrial customers within the manufacturing, food and beverage processing, transportation, chemical, primary metals and mining, power generation, global refining, petrochemical, pulp and paper industries."
+  },
+  {
+   "name": "Global Institutional & Specialty",
+   "products": [
+    "Specialized cleaners and sanitizers",
+    "Infection prevention solutions",
+    "Food safety products and equipment",
+    "Warewashing products",
+    "Janitorial cleaning and floor care products",
+    "Pool and spa treatment programs",
+    "Digital monitoring and chemical dispensing systems"
+   ],
+   "description": "Provides specialized cleaning and sanitizing products and infection prevention solutions to foodservice, hospitality, healthcare and retail industries.",
+   "evidence": "This reportable segment consists of the Institutional and Specialty operating segments, which provide specialized cleaning and sanitizing products to the foodservice, hospitality, lodging, government, education and retail industries."
+  },
+  {
+   "name": "Global Pest Elimination",
+   "products": [
+    "Pest elimination services"
+   ],
+   "description": "Provides pest elimination services for rodents and insects in restaurants, food processors, hotels and commercial operations.",
+   "evidence": "Pest Elimination provides services designed to detect, prevent and eliminate pests, such as rodents and insects, in full-service and quick-service restaurants, food and beverage processors, hotels, grocery operations and other commercial segments including education, life sciences and healthcare."
+  },
+  {
+   "name": "Global Life Sciences",
+   "products": [
+    "Detergents, cleaners, sanitizers, disinfectants",
+    "Surface wipes",
+    "Fluid treatment and purification solutions"
+   ],
+   "description": "Provides end-to-end cleaning and contamination control solutions to pharmaceutical and personal care manufacturers.",
+   "evidence": "Life Sciences provides end-to-end cleaning and contamination control solutions to pharmaceutical and personal care manufacturers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for water treatment, cleaning, sanitization, pest elimination and contamination control products and services.",
+  "evidence": "The majority of our Light & Heavy revenue is from product sales and is recognized at a point in time when the obligations in the contract with the customer are satisfied."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Global Water): Boiler water treatment",
+  "product not in text (Global Institutional & Specialty): Hand hygiene and hard surface disinfection",
+  "product not in text (Global Pest Elimination): Pest detection and prevention services",
+  "product not in text (Global Life Sciences): Cleaning systems and electronic dispensers",
+  "product not in text (Global Life Sciences): Purolite brand products"
+ ]
+}

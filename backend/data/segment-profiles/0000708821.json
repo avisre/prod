@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000708821",
+ "issuerName": "PAR TECHNOLOGY CORPORATION",
+ "builtAt": "2026-11-14T13:48:50.069Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000708821-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/708821/000070882126000027/par-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Foodservice technology",
+   "products": [
+    "PAR ENGAGEMENT",
+    "PAR RETAIL",
+    "PLEXURE",
+    "PAR POS",
+    "PAR PAY",
+    "PAR OPS",
+    "TASK",
+    "Point-of-sale hardware"
+   ],
+   "description": "Provides omnichannel cloud-based software and hardware solutions to restaurants and retail customers, including convenience and fuel retailers.",
+   "evidence": "PAR is a leading foodservice technology company providing omnichannel cloud-based software and hardware solutions to the restaurant industry in three major restaurant categories – quick service, fast casual, and table service – and to the retail industry, including convenience and fuel retailers (C-Stores)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Restaurants, franchisees, and retail customers pay PAR for subscription SaaS services, transaction-based payment processing, hardware, and professional services.",
+  "evidence": "Our subscription services consist of software-as-a-service (\"SaaS\") solutions, related software support, managed platform development services, and transaction-based payment processing services, and are grouped into two product lines"
+ },
+ "changes": [
+  {
+   "text": "In 2025, PAR acquired assets of GoSkip to expand its PAR Retail product and service offerings.",
+   "evidence": "the Company acquired substantially all of the assets related to the GoSkip self-checkout line of business to expand its PAR Retail product and service offerings."
+  },
+  {
+   "text": "In 2024, PAR acquired Delaget to complement its Operator Cloud solutions.",
+   "evidence": "The Company acquired Delaget to complement its Operator Cloud solutions."
+  }
+ ],
+ "dropped": []
+}

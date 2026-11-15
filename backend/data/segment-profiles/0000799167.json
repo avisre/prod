@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0000799167",
+ "issuerName": "MARTEN TRANSPORT, LTD.",
+ "builtAt": "2026-11-14T13:51:22.311Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005971",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/799167/000143774926005971/mrtn20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Truckload",
+   "products": [
+    "medium-to-long-haul full-load transportation"
+   ],
+   "description": "Provides regional short-haul and medium-to-long-haul full-load transportation of temperature-sensitive and dry freight for shippers across the United States, Mexico and Canada.",
+   "evidence": "Our Truckload segment provides a combination of regional short-haul and medium-to-long-haul full-load transportation services."
+  },
+  {
+   "name": "Dedicated",
+   "products": [
+    "customized transportation solutions",
+    "temperature-controlled trailers",
+    "dry vans",
+    "specialized equipment"
+   ],
+   "description": "Provides customized transportation solutions tailored to individual customer requirements within the United States under multi-year agreements.",
+   "evidence": "Our Dedicated segment provides customized transportation solutions tailored to meet each individual customer's requirements, utilizing temperature-controlled trailers, dry vans and other specialized equipment within the United States."
+  },
+  {
+   "name": "Brokerage",
+   "products": [
+    "Marten Transport Logistics, LLC",
+    "MRTN de Mexico"
+   ],
+   "description": "Arranges for third-party carriers to transport customers' freight in temperature-controlled trailers and dry vans, retaining billing, collection and customer management.",
+   "evidence": "Our Brokerage segment develops contractual relationships with and arranges for third-party carriers to transport freight for our customers in temperature-controlled trailers and dry vans within the United States and into and out of Mexico through Marten Transport Logistics, LLC."
+  },
+  {
+   "name": "Intermodal",
+   "products": [
+    "refrigerated containers on railroad flatcars"
+   ],
+   "description": null,
+   "evidence": "Our Intermodal segment transported our customers' freight within the United States utilizing our refrigerated containers on railroad flatcars for portions of trips, with the balance of the trips using our tractors or, to a lesser extent, contracted carriers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay per-mile charges for line haul and fuel surcharges, plus rates for loading, unloading, stop offs, drops, equipment detention and other accessorial services, billed after delivery.",
+  "evidence": "our agreements with our customers detail the per-mile charges for line haul and fuel surcharges, along with the rates for loading and unloading, stop offs and drops, equipment detention and other accessorial services, which is the transaction price."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold its Intermodal business assets to Hub Group, Inc.",
+   "evidence": "On September 30, 2025, we closed on the previously announced agreement to sell the assets related to our Intermodal business to Hub Group, Inc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Truckload): regional short-haul full-load transportation",
+  "product not in text (Truckload): temperature-controlled transportation",
+  "product not in text (Truckload): dry freight transportation",
+  "product not in text (Brokerage): third-party carrier freight arrangement"
+ ]
+}

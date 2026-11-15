@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0000865752",
+ "issuerName": "Monster Beverage Corp",
+ "builtAt": "2026-11-14T13:53:14.033Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-020831",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/865752/000110465926020831/mnst-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Monster Energy® Drinks",
+   "products": [
+    "Monster Energy®",
+    "Monster Energy Ultra®",
+    "Java Monster®",
+    "Rehab Monster®",
+    "Monster Energy® Nitro",
+    "Reign Total Body Fuel®",
+    "Reign Storm®",
+    "Bang Energy®"
+   ],
+   "description": "Develops and sells ready-to-drink energy drinks to bottlers, distributors and retail customers.",
+   "evidence": "Monster Energy® Drinks segment (\"Monster Energy® Drinks\"), which is primarily comprised of our Monster Energy® drinks, Reign Total Body Fuel® high performance energy drinks, Reign Storm® total wellness energy drinks and Bang Energy® drinks"
+  },
+  {
+   "name": "Strategic Brands",
+   "products": [
+    "Predator®",
+    "Fury®",
+    "Burn®",
+    "NOS®",
+    "Full Throttle®",
+    "Mother®",
+    "Relentless®",
+    "BPM®"
+   ],
+   "description": "Sells concentrates and beverage bases for energy drink brands acquired from TCCC, plus affordable energy brands, to authorized bottlers.",
+   "evidence": "Strategic Brands segment (\"Strategic Brands\"), which is primarily comprised of the various energy drink brands acquired from The Coca-Cola Company (\"TCCC\") in 2015 as well as our affordable energy brands, Predator® and Fury®"
+  },
+  {
+   "name": "Alcohol Brands",
+   "products": [
+    "Jai Alai® IPA",
+    "Florida Man® IPA",
+    "Dale's Pale Ale®",
+    "Wild Basin® Hard Seltzers",
+    "Beast® Tea",
+    "Blind Lemon®"
+   ],
+   "description": "Sells craft beers, flavored malt beverages and hard seltzers primarily to beer distributors in the United States.",
+   "evidence": "Alcohol Brands segment (\"Alcohol Brands\"), which is comprised of various craft beers, FMBs and hard seltzers"
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Comprises AFF products sold to independent third-party customers.",
+   "evidence": "Other segment (\"Other\"), which is comprised of certain products sold by American Fruits and Flavors LLC (\"AFF\"), a wholly-owned subsidiary of the Company, to independent third-party customers (the \"AFF Third-Party Products\")"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling ready-to-drink packaged drinks to bottlers/distributors and retailers, concentrates and beverage bases to authorized bottlers, and beers and hard seltzers to beer distributors.",
+  "evidence": "The Company's Monster Energy® Drinks segment primarily generates net operating revenues by selling ready-to-drink packaged drinks primarily to bottlers/distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2022, the company acquired Monster Brewing Company, entering the alcohol beverage sector.",
+   "evidence": "In 2022, we completed our acquisition of Monster Brewing Company, which facilitated our entry into the alcohol beverage sector."
+  },
+  {
+   "text": "In 2023, the company acquired the Bang Energy® drink business.",
+   "evidence": "In 2023, we completed our acquisition of the Bang Energy® drink business."
+  }
+ ],
+ "dropped": []
+}

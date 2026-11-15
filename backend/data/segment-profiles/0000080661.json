@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000080661",
+ "issuerName": "PROGRESSIVE CORP/OH/",
+ "builtAt": "2026-11-14T13:46:13.103Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000080661-26-000086",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/80661/000008066126000086/pgr-20251231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal Lines",
+   "products": [
+    "personal autos",
+    "special lines products (i.e., recreational vehicles)",
+    "personal residential property insurance"
+   ],
+   "description": "Writes personal auto and recreational vehicle insurance plus residential property insurance for homeowners and renters.",
+   "evidence": "Our Personal Lines segment writes insurance for personal autos and special lines products (i.e., recreational vehicles), collectively referred to as our personal vehicle business, and personal residential property insurance for homeowners and renters."
+  },
+  {
+   "name": "Commercial Lines",
+   "products": [
+    "auto-related liability and physical damage insurance",
+    "business-related general liability",
+    "commercial property insurance",
+    "workers' compensation insurance"
+   ],
+   "description": "Writes commercial auto, general liability, property insurance for small businesses, and workers' compensation for the transportation industry.",
+   "evidence": "Our Commercial Lines segment writes auto-related liability and physical damage insurance, business-related general liability and commercial property insurance predominately for small businesses, and workers' compensation insurance primarily for the transportation industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay insurance premiums, which are earned over the policy period, supplemented by investment income, fees, and service revenues.",
+  "evidence": "Net premiums earned $ 81,661 $ 70,799 $ 58,665 Investment income 3,583 2,832 1,892"
+ },
+ "changes": [],
+ "dropped": []
+}

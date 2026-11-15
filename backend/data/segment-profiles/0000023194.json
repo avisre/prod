@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000023194",
+ "issuerName": "COMSTOCK RESOURCES, INC.",
+ "builtAt": "2026-11-14T14:07:39.556Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-059001",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/23194/000119312526059001/crk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exploration and Production",
+   "products": [
+    "Natural gas",
+    "Oil"
+   ],
+   "description": "Exploration and production of natural gas and oil primarily in the Haynesville and Bossier shale plays.",
+   "evidence": "The Company presently operates in one business segment, the exploration and production of North American natural gas and oil, primarily in the Haynesville and Bossier shale."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells produced natural gas and oil volumes to customers at index or spot prices with differentials, with cash settlement within approximately twenty-five days.",
+  "evidence": "Revenues are recognized upon the transfer of produced volumes to the Company's customers, who take control of the volumes and receive all the benefits of ownership upon delivery at designated sales points."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company formed Pinnacle Gas Services LLC as a midstream venture to provide gathering and treating services for the Western Haynesville.",
+   "evidence": "In 2023, we formed Pinnacle Gas Services LLC to provide gathering and treating services for our emerging Western Haynesville."
+  }
+ ],
+ "dropped": []
+}

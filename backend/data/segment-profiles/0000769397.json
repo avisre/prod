@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000769397",
+ "issuerName": "Autodesk, Inc.",
+ "builtAt": "2026-11-14T13:50:33.551Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000769397-26-000015",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/769397/000076939726000015/adsk-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Autodesk",
+   "products": [
+    "Architecture, Engineering, and Construction Collection",
+    "AutoCAD Civil 3D",
+    "Autodesk Build",
+    "BIM Collaborate Pro",
+    "BuildingConnected",
+    "Revit",
+    "Tandem",
+    "AutoCAD and AutoCAD LT"
+   ],
+   "description": null,
+   "evidence": "Autodesk operates in one operating and reportable segment, the Company as a whole."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Autodesk for product subscriptions, cloud service offerings, EBAs, maintenance fees purchased with software licenses, and consulting and other products and services, typically billed annually or upfront.",
+  "evidence": "Autodesk recognizes revenue from the sale of (1) product subscriptions, cloud service offerings, and EBAs, (2) fees for maintenance purchased with software licenses, and (3) consulting and other products and services."
+ },
+ "changes": [],
+ "dropped": []
+}

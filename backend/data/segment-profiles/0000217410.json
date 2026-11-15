@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000217410",
+ "issuerName": "UNILEVER PLC",
+ "builtAt": "2026-11-14T13:47:40.020Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000217410-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/217410/000021741026000007/ul-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beauty & Wellbeing",
+   "products": [
+    "hair care (shampoo, conditioner, styling)",
+    "skin care (face, hand and body moisturisers)",
+    "Prestige Beauty",
+    "Wellbeing"
+   ],
+   "description": "Sells hair care, skin care, prestige beauty and wellbeing products to consumers.",
+   "evidence": "Beauty & Wellbeing ■ primarily sales of hair care (shampoo, conditioner, styling), skin care (face, hand and body moisturisers), and includes Prestige Beauty and Wellbeing."
+  },
+  {
+   "name": "Personal Care",
+   "products": [
+    "skin cleansing (soap, shower)",
+    "deodorant",
+    "oral care (toothpaste, toothbrush, mouthwash)"
+   ],
+   "description": "Sells skin cleansing, deodorant and oral care products to consumers.",
+   "evidence": "Personal Care ■ primarily sales of skin cleansing (soap, shower), deodorant and oral care (toothpaste, toothbrush, mouthwash) products."
+  },
+  {
+   "name": "Home Care",
+   "products": [
+    "fabric care (washing powders and liquids, rinse conditioners)",
+    "home and hygiene cleaning products"
+   ],
+   "description": "Sells fabric care and home and hygiene cleaning products to consumers.",
+   "evidence": "Home Care ■ primarily sales of fabric care (washing powders and liquids, rinse conditioners) and a wide range of home and hygiene cleaning products."
+  },
+  {
+   "name": "Foods",
+   "products": [
+    "cooking aids & mini-meals (soups, bouillons, seasonings)",
+    "condiments (mayonnaise, ketchup)",
+    "Unilever Food Solutions"
+   ],
+   "description": "Sells cooking aids, mini-meals, condiments and food solutions to consumers and food service customers.",
+   "evidence": "Foods (previously Nutrition) ■ primarily sales of cooking aids & mini-meals (soups, bouillons, seasonings), condiments (mayonnaise, ketchup) and Unilever Food Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Unilever earns turnover from sales of goods to customers, recognised when control of products transfers, generally on delivery.",
+  "evidence": "Turnover comprises sales of goods after the deduction of discounts, sales taxes and estimated returns."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Ice Cream business was demerged and is presented as discontinued operations.",
+   "evidence": "The Ice Cream business met the criteria to be classified as held for distribution in December 2025, following the Board's formal approval of the demerger."
+  },
+  {
+   "text": "In 2025 the Foods segment was renamed from Nutrition.",
+   "evidence": "Following the demerger of the Ice Cream business, the Group's operating and reportable segments are the four Business Groups of Beauty & Wellbeing, Personal Care, Home Care and Foods (previously reported as Nutrition)."
+  },
+  {
+   "text": "In 2025 the categories Cooking Aids and Condiments were renamed from Scratch Cooking Aids and Dressings respectively.",
+   "evidence": "* Cooking Aids previously reported as Scratch Cooking Aids; Condiments previously reported as Dressings."
+  }
+ ],
+ "dropped": []
+}

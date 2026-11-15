@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000027367",
+ "issuerName": "Daxor Corporation",
+ "builtAt": "2026-11-14T14:07:56.612Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001019056-12-000401",
+  "periodEnd": "2011-12-31",
+  "filingDate": "2012-03-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/27367/000101905612000401/daxor_10k11.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Equipment Sales and Related Services",
+   "products": [
+    "BVA-100 Blood Volume Analyzer",
+    "Volumex"
+   ],
+   "description": "Manufactures and sells blood volume analysis equipment and related diagnostic services to hospitals and imaging centers.",
+   "evidence": "The Equipment Sales and Related Services segment comprises the Blood Volume Analyzer equipment and related activity. This includes equipment sales, equipment rentals, equipment delivery fees, BVA-100 kit sales and service contract revenues."
+  },
+  {
+   "name": "Cryobanking and Related Services",
+   "products": [],
+   "description": "Provides cryobanking services for blood and semen storage and related laboratory services and handling fees.",
+   "evidence": "The Cryobanking and Related Services segment is comprised of activity relating to the storage of blood and semen, and related laboratory services and handling fees."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals and imaging centers pay for blood volume analyzer equipment sales, rentals, kits and service contracts; cryobanking customers pay for storage and laboratory services.",
+  "evidence": "This includes equipment sales, equipment rentals, equipment delivery fees, BVA-100 kit sales and service contract revenues. The Cryobanking and Related Services segment is comprised of activity relating to the storage of blood and semen, and related laboratory services and handling fees."
+ },
+ "changes": [],
+ "dropped": []
+}

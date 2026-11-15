@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000732712",
+ "issuerName": "Verizon Communications Inc.",
+ "builtAt": "2026-11-14T13:49:46.843Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000732712-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/732712/000073271226000007/vz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Verizon Consumer Group",
+   "products": [
+    "wireless services",
+    "wireless equipment",
+    "Fios internet",
+    "Fios video",
+    "fixed wireless access (FWA) broadband",
+    "residential fixed connectivity solutions",
+    "network access services",
+    "device protection"
+   ],
+   "description": "Provides consumer-focused wireless and wireline communications services and products, including residential fixed connectivity, to retail customers in the U.S.",
+   "evidence": "Our Consumer segment provides consumer-focused wireless and wireline communications services and products."
+  },
+  {
+   "name": "Verizon Business Group",
+   "products": [
+    "mobility communication services",
+    "FWA and wireline broadband",
+    "Internet of Things (IoT) connectivity solutions",
+    "advanced communication services",
+    "corporate networking solutions",
+    "local and long distance voice services",
+    "security and managed network services"
+   ],
+   "description": "Provides wireless and wireline communications services and products to businesses, public sector customers and wireless and wireline carriers across the U.S. and worldwide.",
+   "evidence": "Our Business segment provides wireless and wireline communications services and products, including mobility communication services, FWA and wireline broadband, Internet of Things (IoT) connectivity solutions, advanced communication services, corporate networking solutions, local and long distance voice services, and security and managed network services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay monthly access charges for postpaid wireless services billed in advance, pay in advance for prepaid services, pay in installments for devices, and pay for wireline, broadband and wholesale network access services.",
+  "evidence": "Our postpaid service is generally billed one month in advance for a monthly access charge in return for access to and usage of network services."
+ },
+ "changes": [],
+ "dropped": []
+}

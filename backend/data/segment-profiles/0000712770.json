@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000712770",
+ "issuerName": "ONE LIBERTY PROPERTIES INC",
+ "builtAt": "2026-11-14T13:48:57.538Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024579",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/712770/000110465926024579/olp-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real estate",
+   "products": [
+    "industrial properties",
+    "retail properties"
+   ],
+   "description": "A self-administered REIT that acquires, owns and manages a geographically diversified portfolio leased to tenants on a long-term basis, primarily industrial properties.",
+   "evidence": "Therefore, the Company aggregates real estate assets for reporting purposes and operates in one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay the company base rent plus variable payments such as reimbursements of property operating expenses under long-term operating leases.",
+  "evidence": "Fixed lease revenues represent the base rent that each tenant is required to pay in accordance with the terms of its respective lease, and any lease incentives paid or payable to the lessee, reported on a straight-line basis over the non-cancelable term of the lease."
+ },
+ "changes": [],
+ "dropped": []
+}

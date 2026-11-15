@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000047217",
+ "issuerName": "HP INC.",
+ "builtAt": "2026-11-14T13:44:40.628Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000047217-25-000071",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/47217/000004721725000071/hpq-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Personal Systems",
+   "products": [
+    "desktops",
+    "notebooks",
+    "workstations",
+    "AI PCs and workstations",
+    "thin clients",
+    "displays",
+    "hybrid systems"
+   ],
+   "description": "Offers commercial and consumer PCs, workstations, thin clients, displays, hybrid systems, software, endpoint security solutions and lifecycle services.",
+   "evidence": "Personal Systems offers desktops, notebooks, and workstations (including HP's portfolio of AI PCs and workstations), thin clients, retail point-of-sale (\"POS\") systems, displays, hybrid systems, software, solutions including endpoint security and services."
+  },
+  {
+   "name": "Printing",
+   "products": [
+    "consumer and commercial printer hardware",
+    "supplies",
+    "Office Printing Solutions",
+    "Home Printing Solutions",
+    "Graphics Solutions",
+    "3D Printing & Personalization",
+    "Instant Ink Services",
+    "HP All-In Plan"
+   ],
+   "description": null,
+   "evidence": "Printing provides consumer and commercial printer hardware, supplies, services and solutions."
+  },
+  {
+   "name": "Corporate Investments",
+   "products": [],
+   "description": "Includes certain business incubation projects and investments in digital enablement.",
+   "evidence": "Corporate Investments includes certain business incubation projects and investments in digital enablement."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mostly through channel resellers, retailers and distributors, pay HP for hardware, supplies, subscriptions, software licenses and services.",
+  "evidence": "Products net revenue includes revenue from the sale of hardware, supplies, subscriptions and software licenses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Personal Systems): retail point-of-sale (POS) systems"
+ ]
+}

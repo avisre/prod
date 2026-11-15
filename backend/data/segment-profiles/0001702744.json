@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001702744",
+ "issuerName": "The Simply Good Foods Company",
+ "builtAt": "2026-11-14T17:37:18.423Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001702744-26-000031",
+  "periodEnd": "2026-08-29",
+  "filingDate": "2026-10-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1702744/000170274426000031/atk-20260829.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nutritious Snacking",
+   "products": [],
+   "description": "Develops, markets and sells protein-rich, low-carbohydrate snacks and meal replacements under Quest, Atkins and OWYN brands.",
+   "evidence": "The product portfolio we develop, market and sell consists primarily of protein bars, ready-to-drink (\"RTD\") protein shakes, sweet and salty protein snacks and confectionery products marketed under the Quest, Atkins, and OWYN brand names."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors purchase nutritious snacking products across grocery, club, mass merchandise, e-commerce, convenience and specialty retail channels.",
+  "evidence": "We distribute our products in major retail channels, primarily in North America, including grocery, club, and mass merchandise, and through e-commerce, convenience, specialty, and other channels."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired Only What You Need, Inc., adding the OWYN brand to its portfolio.",
+   "evidence": "we acquired Only What You Need, Inc. in June 2024."
+  }
+ ],
+ "dropped": [
+  "product not in text (Nutritious Snacking): Quest protein bars",
+  "product not in text (Nutritious Snacking): Quest protein chips and salty snacks",
+  "product not in text (Nutritious Snacking): Quest ready-to-drink protein shakes",
+  "product not in text (Nutritious Snacking): Atkins protein bars",
+  "product not in text (Nutritious Snacking): Atkins ready-to-drink protein shakes",
+  "product not in text (Nutritious Snacking): OWYN ready-to-drink protein shakes",
+  "product not in text (Nutritious Snacking): OWYN protein powders",
+  "change not grounded: As of August 29, 2026, operations consolidated into one reportable segment, prev"
+ ]
+}

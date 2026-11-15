@@ -1,0 +1,78 @@
+{
+ "version": 1,
+ "cik": "0000040211",
+ "issuerName": "GATX CORP",
+ "builtAt": "2026-11-14T13:44:23.278Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000040211-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/40211/000004021126000018/gmt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rail North America",
+   "products": [
+    "tank cars",
+    "freight cars",
+    "locomotives",
+    "full-service leases",
+    "maintenance services"
+   ],
+   "description": "Leases and maintains railcars and locomotives for customers in the United States, Canada, and Mexico.",
+   "evidence": "Rail North America primarily provides railcars pursuant to full-service leases under which it maintains the railcars, pays ad valorem taxes, and provides other ancillary services."
+  },
+  {
+   "name": "Rail International",
+   "products": [
+    "tank cars",
+    "freight cars",
+    "full-service leases"
+   ],
+   "description": "Leases and maintains railcars to customers in Europe and India, with maintenance and value-added services.",
+   "evidence": "GRE primarily leases railcars to customers throughout Europe pursuant to full-service leases under which it maintains the railcars and provides value-added services according to customer requirements."
+  },
+  {
+   "name": "Engine Leasing",
+   "products": [
+    "aircraft spare engines",
+    "GATX Engine Leasing"
+   ],
+   "description": "Owns and leases aircraft spare engines through GEL and joint ventures with Rolls-Royce.",
+   "evidence": "through GATX Engine Leasing (\"GEL\"), our wholly owned aircraft spare engine leasing business, and our joint ventures with Rolls-Royce plc (or affiliates thereof, collectively \"Rolls-Royce\"), we own one of the largest aircraft spare engine lease portfolios in the world."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "tank container leasing",
+    "Trifleet"
+   ],
+   "description": "Houses the Trifleet tank container leasing business.",
+   "evidence": "Financial results for our tank container leasing business (\"Trifleet\") are reported in the Other segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily in transportation, chemical, petroleum, and food/agriculture industries, pay lease revenue under full-service railcar and engine leases, plus other maintenance and repair revenue.",
+  "evidence": "Rail North America leases railcars for terms that generally range from one to ten years, which vary based on railcar type, lease structure, and market conditions."
+ },
+ "changes": [
+  {
+   "text": "In 2023, GATX sold its rail business in Russia.",
+   "evidence": "In 2023, we sold our rail business in Russia (\"Rail Russia\") ."
+  },
+  {
+   "text": "In 2023, GATX sold the three remaining liquefied gas-carrying vessels within the Engine Leasing segment.",
+   "evidence": "In 2023, we sold the three remaining liquefied gas-carrying vessels (the \"Specialized Gas Vessels\") within the Engine Leasing segment."
+  },
+  {
+   "text": "In 2025, GATX formed the GABX joint venture with Brookfield to acquire Wells Fargo railcars, consolidated within Rail North America.",
+   "evidence": "As of December 31, 2025, GABX is consolidated and is reported in the Rail North America segment, and its operations will be reflected within that segment for reporting periods after the closing of the transaction."
+  }
+ ],
+ "dropped": [
+  "product not in text (Engine Leasing): Rolls-Royce joint ventures"
+ ]
+}

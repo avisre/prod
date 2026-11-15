@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000779152",
+ "issuerName": "JACK HENRY & ASSOCIATES, INC.",
+ "builtAt": "2026-11-14T13:50:44.642Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000779152-26-000067",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/779152/000077915226000067/jkhy-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Core",
+   "products": [
+    "core information processing platforms",
+    "centralized accountholder information"
+   ],
+   "description": "Provides core information processing platforms to banks and credit unions for processing deposit, loan, and general ledger transactions.",
+   "evidence": "The Core segment provides core information processing platforms to banks and credit unions, which consist of integrated applications required to process deposit, loan, and general ledger transactions, and maintain centralized accountholder information."
+  },
+  {
+   "name": "Payments",
+   "products": [
+    "ATM, debit, and credit card processing services",
+    "online and mobile bill pay solutions",
+    "money movement and embedded payment capabilities",
+    "remote deposit capture processing",
+    "risk management products and services"
+   ],
+   "description": "Provides secure payment processing tools and services to financial institutions.",
+   "evidence": "The Payments segment provides secure payment processing tools and services, including ATM, debit, and credit card processing services, online and mobile bill pay solutions, money movement and embedded payment capabilities, remote deposit capture processing, and risk management products and services."
+  },
+  {
+   "name": "Complementary",
+   "products": [
+    "digital/mobile banking",
+    "treasury services",
+    "online account opening",
+    "lending/deposit solutions",
+    "hosted processing platforms"
+   ],
+   "description": "Provides additional software, hosted processing platforms, and services that can be integrated with Core solutions or used independently.",
+   "evidence": "The Complementary segment provides additional software, hosted processing platforms, and services, including digital/mobile banking, treasury services, online account opening, fraud/anti-money laundering (\"AML\") and lending/deposit solutions that can be integrated with the Company's Core solutions, and many can be used independently."
+  },
+  {
+   "name": "Corporate Services",
+   "products": [
+    "hardware",
+    "other products and services"
+   ],
+   "description": "Includes revenue and direct costs from hardware and other products and services and technology infrastructure costs.",
+   "evidence": "The Corporate Services segment includes revenue and direct costs from hardware and other products and services and our technology infrastructure costs."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Banks and credit unions pay recurring fees for cloud hosting and processing services under multi-year contracts, plus software licenses, hardware sales, and support fees.",
+  "evidence": "The majority of our support and services revenue is derived from our private and public cloud services for our hosted clients that are typically on a six-year contract, recurring electronic payment solutions that are generally on a contract term of six years, and our on-premise clients that are typically on a one-year contract."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the Corporate and Other segment was renamed Corporate Services.",
+   "evidence": "We have four reportable segments: Core, Payments, Complementary, and Corporate Services (which prior to the third quarter of fiscal 2026 was referred to as Corporate and Other)."
+  },
+  {
+   "text": "In fiscal 2026, the Company realigned a product from the Corporate Services segment to the Complementary segment.",
+   "evidence": "During the fiscal year ended June 30, 2026, the Company realigned a product from the Corporate Services segment to the Complementary segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Core): integrated applications to process deposit, loan, and general ledger transaction",
+  "product not in text (Complementary): fraud/anti-money laundering (AML) solutions"
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001647088",
+ "issuerName": "WILLSCOT HOLDINGS CORPORATION",
+ "builtAt": "2026-11-14T17:37:33.965Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001647088-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1647088/000164708826000011/wsc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Modular Space Solutions and Portable Storage",
+   "products": [
+    "Modular office complexes",
+    "Mobile offices",
+    "Classrooms",
+    "Blast-resistant modules",
+    "Clearspan structures",
+    "Portable storage containers",
+    "Climate-controlled containers and trailers"
+   ],
+   "description": "Leases and sells turnkey temporary modular space and portable storage solutions to customers across diverse end markets.",
+   "evidence": "Our diverse product offering includes modular office complexes, mobile offices, classrooms, blast-resistant modules, clearspan structures, sanitation solutions, portable storage containers, and climate-controlled containers and trailers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay lease rental fees for temporary modular space and portable storage units on an outsourced basis, plus fees for delivery, installation, maintenance, and value-added products.",
+  "evidence": "We lease turnkey space solutions (our \"lease fleet\") to customers across 15 distinct end markets."
+ },
+ "changes": [
+  {
+   "text": "In January 2023, the Company sold its United Kingdom Storage Solutions segment and presented the historical financial results as discontinued operations.",
+   "evidence": "On January 31, 2023, the Company completed the sale of our former United Kingdom Storage Solutions (\"UK Storage Solutions\") segment."
+  }
+ ],
+ "dropped": []
+}

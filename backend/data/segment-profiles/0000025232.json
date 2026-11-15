@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000025232",
+ "issuerName": "COUSINS PROPERTIES INC",
+ "builtAt": "2026-11-14T14:07:46.838Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000025232-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/25232/000002523226000014/cuz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Austin",
+   "products": [],
+   "description": "Owns and leases Class A lifestyle office properties in Austin.",
+   "evidence": "Cousins conducts substantially all of its business through Cousins Properties LP (\"CPLP\"). Cousins owns in excess of 99% of CPLP and consolidates CPLP. CPLP wholly owns Cousins TRS Services LLC (\"CTRS\"), a taxable entity that owns and manages its own real estate portfolio and performs certain real estate related services. Cousins, CPLP, CTRS, and their subsidiaries develop, acquire, lease, manage, and own primarily Class A office properties and opportunistic mixed-use developments in the Sun Bel"
+  },
+  {
+   "name": "Atlanta",
+   "products": [],
+   "description": "Owns and leases Class A lifestyle office properties in Atlanta.",
+   "evidence": "Cousins, CPLP, CTRS, and their subsidiaries develop, acquire, lease, manage, and own primarily Class A office properties and opportunistic mixed-use developments in the Sun Belt markets of the United States with a focus on lifestyle office properties in Austin, Atlanta, Charlotte, Tampa, Phoenix, Dallas, and Nashville."
+  },
+  {
+   "name": "Charlotte",
+   "products": [],
+   "description": "Owns and leases Class A lifestyle office properties in Charlotte.",
+   "evidence": "Cousins, CPLP, CTRS, and their subsidiaries develop, acquire, lease, manage, and own primarily Class A office properties and opportunistic mixed-use developments in the Sun Belt markets of the United States with a focus on lifestyle office properties in Austin, Atlanta, Charlotte, Tampa, Phoenix, Dallas, and Nashville."
+  },
+  {
+   "name": "Tampa",
+   "products": [],
+   "description": "Owns and leases Class A lifestyle office properties in Tampa.",
+   "evidence": "Cousins, CPLP, CTRS, and their subsidiaries develop, acquire, lease, manage, and own primarily Class A office properties and opportunistic mixed-use developments in the Sun Belt markets of the United States with a focus on lifestyle office properties in Austin, Atlanta, Charlotte, Tampa, Phoenix, Dallas, and Nashville."
+  },
+  {
+   "name": "Phoenix",
+   "products": [],
+   "description": "Owns and leases Class A lifestyle office properties in Phoenix.",
+   "evidence": "Cousins, CPLP, CTRS, and their subsidiaries develop, acquire, lease, manage, and own primarily Class A office properties and opportunistic mixed-use developments in the Sun Belt markets of the United States with a focus on lifestyle office properties in Austin, Atlanta, Charlotte, Tampa, Phoenix, Dallas, and Nashville."
+  },
+  {
+   "name": "Dallas",
+   "products": [],
+   "description": "Owns and leases Class A lifestyle office properties in Dallas.",
+   "evidence": "Cousins, CPLP, CTRS, and their subsidiaries develop, acquire, lease, manage, and own primarily Class A office properties and opportunistic mixed-use developments in the Sun Belt markets of the United States with a focus on lifestyle office properties in Austin, Atlanta, Charlotte, Tampa, Phoenix, Dallas, and Nashville."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Owns and leases Class A lifestyle office properties in Houston and Nashville.",
+   "evidence": "Included in other markets for the periods presented are properties located in Houston and Nashville."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Office property tenants pay rent for leased Class A office space; the company also earns fee income from property management services.",
+  "evidence": "Office Property NOI is regularly reported to the Chief Operating Decision Maker (\"CODM\") by segment."
+ },
+ "changes": [],
+ "dropped": []
+}

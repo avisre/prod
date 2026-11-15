@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000009389",
+ "issuerName": "BALL CORPORATION",
+ "builtAt": "2026-11-14T14:06:49.914Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017410",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/9389/000110465926017410/ball-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beverage Packaging, North and Central America",
+   "products": [
+    "Aluminum beverage containers"
+   ],
+   "description": "Produces and sells aluminum beverage containers to fillers of carbonated soft drinks, beer, energy drinks and other beverages in North and Central America.",
+   "evidence": "Aluminum beverage containers are primarily sold under multi-year supply contracts to fillers of carbonated soft drinks, beer, energy drinks and other beverages."
+  },
+  {
+   "name": "Beverage Packaging, EMEA",
+   "products": [
+    "Aluminum beverage containers"
+   ],
+   "description": "Manufactures and sells aluminum beverage containers throughout Europe, Middle East and Africa regions to beverage fillers.",
+   "evidence": "Our EMEA region operations include 19 facilities throughout Europe and one facility each in Cairo, Egypt, and Manisa, Turkey."
+  },
+  {
+   "name": "Beverage Packaging, South America",
+   "products": [
+    "Aluminum beverage containers"
+   ],
+   "description": "Produces and sells aluminum beverage containers in South America through facilities in Brazil, Argentina, Chile and Paraguay.",
+   "evidence": "Our operations consist of 12 facilities—9 in Brazil and one each in Argentina, Chile and Paraguay."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers are beverage fillers and major multinational beverage companies purchasing aluminum containers under multi-year supply contracts, with aluminum price pass-through provisions.",
+  "evidence": "Aluminum beverage containers are primarily sold under multi-year supply contracts to fillers of carbonated soft drinks, beer, energy drinks and other beverages."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company divested its aerospace business, which was historically presented as a reportable segment, shifting to three beverage packaging segments.",
+   "evidence": "On February 16, 2024, the company completed the divestiture of its aerospace business. The transaction represents a strategic shift; therefore, the company's consolidated financial statements reflect the aerospace business' financial results as discontinued operations for all periods presented. The aerospace business was historically presented as a reportable segment. Effective as of the first quarter of 2024, the company reports its financial performance in the three reportable segments outline"
+  }
+ ],
+ "dropped": [
+  "product not in text (Beverage Packaging, North and Central America): Aluminum ends"
+ ]
+}

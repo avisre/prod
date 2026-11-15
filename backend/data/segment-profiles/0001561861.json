@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001561861",
+ "issuerName": "Grupo Aeromexico, S.A.B. de C.V.",
+ "builtAt": "2026-11-14T17:39:37.096Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-197494",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1561861/000119312526197494/d101275d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "air transportation",
+   "products": [
+    "Domestic",
+    "International",
+    "Aeromexico Rewards"
+   ],
+   "description": "Air transportation of passengers, goods and cargo, grouped geographically into domestic and international destinations.",
+   "evidence": "The Group has determined that it has one operating segment: air transportation, identified in the following geographical destinations: (1) Domestic and (2) International."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Passengers pay for flights by destination, and loyalty members and partners generate revenue recognized when Aeromexico Rewards points are redeemed.",
+  "evidence": "All the AR Points earned by the Aeroméxico Rewards members are accounted as a liability (frequent flyer program) and are recognized as revenue when the awards are redeemed."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

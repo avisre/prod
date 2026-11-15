@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0000060714",
+ "issuerName": "LSB Industries, Inc.",
+ "builtAt": "2026-11-14T13:45:10.703Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076810",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/60714/000119312526076810/lxu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chemical manufacturing",
+   "products": [
+    "nitrogen based chemical products"
+   ],
+   "description": "Manufactures and sells nitrogen based chemical products to customers, substantially all in the United States, from four facilities.",
+   "evidence": "We are engaged in the manufacture and sale of nitrogen based chemical products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

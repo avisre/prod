@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000729580",
+ "issuerName": "BEL FUSE INC /NJ",
+ "builtAt": "2026-11-14T13:49:39.410Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-005354",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/729580/000143774926005354/belfb20251231d_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power Solutions and Protection",
+   "products": [
+    "Front-End Power Supplies",
+    "Board-Mount Power Products",
+    "Industrial and Transportation Power Products",
+    "Military, Aerospace and Defense Products",
+    "External Power Products",
+    "Circuit Protection"
+   ],
+   "description": "Supplies power conversion and circuit protection products for aerospace, defense, servers, networking, transportation, medical and industrial markets.",
+   "evidence": "Bel's power conversion products include internal and external AC/DC power supplies, DC/DC converters and DC/AC inverters."
+  },
+  {
+   "name": "Connectivity Solutions",
+   "products": [
+    "Expanded Beam Fiber Optic Connectors, Cable Assemblies and Active Optical Device",
+    "Copper-based Connectors / Cable Assemblies-FQIS",
+    "RF Connectors, Cable Assemblies, Microwave Devices and Low Loss Cable",
+    "Ethernet, I/O, Industrial and Power Connectivity"
+   ],
+   "description": "Provides high speed and harsh environment copper and optical fiber connectors and integrated assemblies for aerospace, defense, communications and industrial applications.",
+   "evidence": "Bel offers a comprehensive line of high speed and harsh environment copper and optical fiber connectors and integrated assemblies, which provide connectivity for a wide range of applications across multiple industries including commercial aerospace, military communications, defense, network infrastructure, structured building cabling and several industrial applications."
+  },
+  {
+   "name": "Magnetic Solutions",
+   "products": [
+    "Integrated Connector Modules (ICMs)",
+    "Power Transformers",
+    "Signal SMD Power Inductors & SMPS Transformers",
+    "Discrete Components-Ethernet"
+   ],
+   "description": "Offers integrated connector modules, power transformers, inductors and discrete components for networking, power supply and consumer electronics applications.",
+   "evidence": "Bel's Magnetics offers industry-leading products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company generates revenue primarily through the sale of its electronic circuit products to customers in North America, Europe and Asia via strategic account managers, regional sales managers and other sales channels.",
+  "evidence": "The Company primarily generates revenue through the sale of its products."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, Bel acquired an 80% stake in Enercon Technologies, which became part of",
+  "change not grounded: In 2023, Bel made a noncontrolling one-third investment in innolectric AG, part "
+ ]
+}

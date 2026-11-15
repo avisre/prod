@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000858446",
+ "issuerName": "InterContinental Hotels Group PLC",
+ "builtAt": "2026-11-14T13:52:59.872Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000858446-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/858446/000085844626000010/ihg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Holiday Inn",
+    "InterContinental",
+    "Kimpton",
+    "voco",
+    "Garner",
+    "Atwell Suites"
+   ],
+   "description": "Operates IHG's hotel business across the Americas region, spanning luxury to essentials brand categories.",
+   "evidence": "Americas RevPAR growth +0.3%; EMEAA +4.6%; Greater China -1.6%."
+  },
+  {
+   "name": "EMEAA",
+   "products": [
+    "InterContinental",
+    "Regent",
+    "Vignette Collection",
+    "voco",
+    "Ruby",
+    "Garner"
+   ],
+   "description": "Operates IHG's hotel business across Europe, the Middle East, Asia and Africa.",
+   "evidence": "In EMEAA, RevPAR grew +4.6%, driven by particularly strong performances in Continental Europe, East Asia & Pacific and the Middle East."
+  },
+  {
+   "name": "Greater China",
+   "products": [
+    "Holiday Inn",
+    "Atwell Suites",
+    "voco",
+    "Garner"
+   ],
+   "description": "Operates IHG's hotel business in the Greater China region.",
+   "evidence": "In Greater China, RevPAR was down -1.6%, however, the region returned to growth in Q4."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "IHG earns fees from hotel owners for franchising, managing and licensing its hotel brands and loyalty, technology and distribution platforms.",
+  "evidence": "Owner confidence in our brands and powerful enterprise led to the opening of 443 hotels – a record number – which contributed to adjusted net system size growth of 4.7%."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025 IHG acquired the urban lifestyle brand Ruby, growing its brand portfolio",
+  "change not grounded: In January 2025, 7,092 rooms previously affiliated with The Venetian Resort Las "
+ ]
+}

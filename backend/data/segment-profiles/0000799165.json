@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000799165",
+ "issuerName": "DAWSON GEOPHYSICAL COMPANY",
+ "builtAt": "2026-11-14T13:51:22.241Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037886",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/799165/000110465926037886/dwsn-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "US operations",
+   "products": [
+    "multi-component seismic data surveys",
+    "microseismic services"
+   ],
+   "description": "Provides onshore seismic data acquisition and processing services in the continental U.S. for oil and gas companies and multi-client data library providers.",
+   "evidence": "We consider these two geographical areas as segments for reporting purposes."
+  },
+  {
+   "name": "Canada Operations",
+   "products": [
+    "multi-component seismic data surveys"
+   ],
+   "description": "Provides onshore seismic data acquisition services in Canada, including for the potash mining industry, through subsidiary Eagle Canada.",
+   "evidence": "Seismic acquisition services of our wholly-owned subsidiary, Eagle Canada Seismic Services ULC (\"Eagle Canada\"), are also used by the potash mining industry in Canada, and Eagle Canada has particular expertise through its heliportable capabilities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay fixed fees per unit of data acquired under turnkey agreements or fixed hourly, daily or monthly fees under term agreements for seismic data acquisition services.",
+  "evidence": "We currently operate under supplemental agreements that are either \"turnkey\" agreements providing for a fixed fee to be paid to us for each unit of data acquired or \"term\" agreements providing for a fixed hourly, daily, or monthly fee during the term of the project or projects."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (US operations): 2-D seismic data acquisition",
+  "product not in text (US operations): 3-D seismic data acquisition",
+  "product not in text (Canada Operations): 2-D seismic data acquisition",
+  "product not in text (Canada Operations): 3-D seismic data acquisition",
+  "product not in text (Canada Operations): heliportable seismic acquisition services"
+ ]
+}

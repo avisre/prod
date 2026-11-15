@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000854560",
+ "issuerName": "GREAT SOUTHERN BANCORP, INC.",
+ "builtAt": "2026-11-14T13:52:54.971Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024659",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/854560/000110465926024659/gsbc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "residential real estate loans",
+    "commercial real estate loans",
+    "construction loans",
+    "commercial business loans",
+    "consumer loans",
+    "deposits"
+   ],
+   "description": "A one-bank holding company whose Bank provides a full range of financial services, primarily originating loans and funding them with deposits.",
+   "evidence": "The Company's banking operation is its only reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns interest on residential and commercial real estate, construction, commercial business and consumer loans, funded by deposits from the general public, brokered deposits and borrowings.",
+  "evidence": "The banking operation is principally engaged in the business of originating residential and commercial real estate loans, construction loans, commercial business loans and consumer loans and funding these loans by attracting deposits from the general public, accepting brokered deposits and borrowing from the Federal Home Loan Bank and others."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company closed its Tulsa commercial loan production office after a review of lending priorities and operational efficiencies.",
+   "evidence": "The Tulsa office was closed in February 2024 after an analysis of lending priorities and operational efficiencies."
+  }
+ ],
+ "dropped": []
+}

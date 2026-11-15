@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000932470",
+ "issuerName": "TELECOM ARGENTINA SA",
+ "builtAt": "2026-11-14T17:39:04.035Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-026480",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/932470/000110465926026480/teo-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ICT Services provided in Argentina – Personal Network",
+   "products": [
+    "Personal Móvil",
+    "Personal Fibra",
+    "Personal Flow",
+    "Personal Pay",
+    "Tienda Personal",
+    "Personal Smarthome",
+    "Personal Tech"
+   ],
+   "description": "Mobile, internet, cable television and fixed and data ICT services for individuals, households and organizations across Argentina, excluding TMA.",
+   "evidence": "ICT Services provided in Argentina – Personal Network: Corresponds to the operations carried out by Telecom Argentina and its subsidiaries located in Argentina (excluding TMA) engaged in the provision of ICT services."
+  },
+  {
+   "name": "ICT Services provided in Argentina – TMA Network",
+   "products": [
+    "mobile and fixed telephony services",
+    "fixed broadband",
+    "video services"
+   ],
+   "description": "Mobile and fixed telephony, fixed broadband and video services provided nationwide in Argentina using TMA's own networks and infrastructure.",
+   "evidence": "ICT Services provided in Argentina – TMA Network: Corresponds to the operations carried out by the subsidiary TMA as from the acquisition date."
+  },
+  {
+   "name": "Other segments",
+   "products": [
+    "ICT services provided abroad",
+    "Fintech Services"
+   ],
+   "description": "ICT services abroad in Paraguay, USA, Uruguay and Chile and fintech activities through Micro Sistemas, Personal Envíos and CrediPay.",
+   "evidence": "Other segments: Corresponds to the operations for a) ICT services provided abroad (Paraguay, USA, Uruguay and Chile) and b) the development of activities in the fintech industry, through the subsidiaries Micro Sistemas in Argentina and Personal Envíos and CrediPay in Paraguay."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for mobile, internet, cable television and fixed services through prepaid credit, monthly post-paid fees or fixed subscription plans, plus device sales and fintech services.",
+  "evidence": "Under post-paid plans, customers pay a monthly fee for a particular plan, plus charges for additional services not included in that plan."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Following the Acquisition dated February 24, 2025, the Company identified a new "
+ ],
+ "escalated": "revenue model not quoted"
+}

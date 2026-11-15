@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000060086",
+ "issuerName": "LOEWS CORP",
+ "builtAt": "2026-11-14T13:45:09.027Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000060086-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/60086/000006008626000008/l-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CNA Financial",
+   "products": [
+    "commercial property and casualty coverages",
+    "surety",
+    "warranty",
+    "risk management",
+    "information services",
+    "claims administration"
+   ],
+   "description": "Commercial property and casualty insurance holding company serving businesses, professionals and other groups through agents, brokers and managing general underwriters.",
+   "evidence": "CNA's insurance products primarily include commercial property and casualty coverages, including surety."
+  },
+  {
+   "name": "Boardwalk Pipelines",
+   "products": [
+    "transportation and storage of natural gas and natural gas liquids",
+    "olefins and other hydrocarbons"
+   ],
+   "description": "Transports and stores natural gas, natural gas liquids, olefins and other hydrocarbons for customers.",
+   "evidence": "transportation and storage of natural gas and natural gas liquids, olefins and other hydrocarbons (Boardwalk Pipeline Partners, LP, a wholly owned subsidiary)"
+  },
+  {
+   "name": "Loews Hotels & Co",
+   "products": [
+    "operation of a chain of hotels"
+   ],
+   "description": "Operates a chain of hotels for travelers and resort guests.",
+   "evidence": "operation of a chain of hotels (Loews Hotels Holding Corporation, a wholly owned subsidiary)"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay CNA insurance premiums and warranty fees, shippers pay Boardwalk for transportation, storage and parking of hydrocarbons, and guests pay Loews Hotels for lodging.",
+  "evidence": "The increase at Boardwalk Pipelines is primarily due to increased transportation revenues from higher re-contracting rates, recently completed growth projects and higher utilization-based revenue, as well as increased storage and parking and lending revenues."
+ },
+ "changes": [],
+ "dropped": []
+}

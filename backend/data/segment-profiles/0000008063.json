@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000008063",
+ "issuerName": "ASTRONICS CORPORATION",
+ "builtAt": "2026-11-14T14:06:40.668Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000008063-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/8063/000000806326000021/atro-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace",
+   "products": [
+    "lighting and safety systems",
+    "electrical power generation, distribution and seat motion systems",
+    "aircraft structures",
+    "avionics products",
+    "systems certification"
+   ],
+   "description": "Designs and manufactures products for the global aerospace and defense industry serving OEMs, suppliers, airlines and U.S. Department of Defense.",
+   "evidence": "The Aerospace segment designs and manufactures products for the global aerospace and defense industry."
+  },
+  {
+   "name": "Test Systems",
+   "products": [
+    "automated test systems",
+    "training and simulation devices"
+   ],
+   "description": "Designs, develops, manufactures and maintains automated test systems and training devices for aerospace, defense, communications and mass transit industries.",
+   "evidence": "Our Test Systems segment designs, develops, manufactures and maintains automated test systems that support the aerospace and defense, communications and mass transit industries as well as training and simulation devices for both commercial and military applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers are OEMs, suppliers, airlines, government contractors and the U.S. Department of Defense who purchase products and systems under contracts, purchase orders or multi-year agreements.",
+  "evidence": "Most of this segment's sales are a result of contracts or purchase orders received from customers, placed on a day-to-day basis or for a single year procurement rather than long-term multi-year contract commitments."
+ },
+ "changes": [
+  {
+   "text": "In 2019, the Company divested its semiconductor test business within the Test Systems segment.",
+   "evidence": "On February 13, 2019, the Company completed a divestiture of its semiconductor test business within the Test Systems segment."
+  }
+ ],
+ "dropped": []
+}

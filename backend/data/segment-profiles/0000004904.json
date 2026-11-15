@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000004904",
+ "issuerName": "American Electric Power Company, Inc.",
+ "builtAt": "2026-11-14T14:06:18.719Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000004904-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vertically Integrated Utilities",
+   "products": [
+    "Electric generation",
+    "Electric transmission",
+    "Electric distribution",
+    "Wholesale electricity sales"
+   ],
+   "description": "Generates, transmits and distributes electricity for retail and wholesale customers through integrated utility operations.",
+   "evidence": "The Vertically Integrated Utilities operations are engaged in the generation, transmission and distribution of electricity for sale to retail and wholesale customers through assets owned and operated by AEGCo, APCo, I&M, KGPCo, KPCo, PSO, SWEPCo and WPCo."
+  },
+  {
+   "name": "Transmission and Distribution Utilities",
+   "products": [
+    "Electric transmission",
+    "Electric distribution",
+    "Transmission and distribution delivery services"
+   ],
+   "description": "Provides electricity transmission and distribution delivery services in restructured markets.",
+   "evidence": "AEP's subsidiaries within the Vertically Integrated Utilities, Transmission and Distribution Utilities, AEP Transmission Holdco and Generation & Marketing segments derive revenue from the following sources: Retail Revenues, Wholesale and Competitive Retail Revenues, Other Revenues from Contracts with Customers and Alternative Revenues."
+  },
+  {
+   "name": "AEP Transmission Holdco",
+   "products": [
+    "Electric transmission"
+   ],
+   "description": "Operates transmission infrastructure and provides transmission delivery services.",
+   "evidence": "AEP's subsidiaries within the Vertically Integrated Utilities, Transmission and Distribution Utilities, AEP Transmission Holdco and Generation & Marketing segments derive revenue from the following sources: Retail Revenues, Wholesale and Competitive Retail Revenues, Other Revenues from Contracts with Customers and Alternative Revenues."
+  },
+  {
+   "name": "Generation & Marketing",
+   "products": [],
+   "description": "Supplies competitive retail and wholesale electricity to customers in deregulated markets.",
+   "evidence": "AEP's subsidiaries within the Vertically Integrated Utilities, Transmission and Distribution Utilities, AEP Transmission Holdco and Generation & Marketing segments derive revenue from the following sources: Retail Revenues, Wholesale and Competitive Retail Revenues, Other Revenues from Contracts with Customers and Alternative Revenues."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for retail and wholesale electricity sales and transmission and distribution delivery services through regulated cost-based rates.",
+  "evidence": "AEP and subsidiaries recognize revenues from customers for retail and wholesale electricity sales and electricity transmission and distribution delivery services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Vertically Integrated Utilities): Retail electricity sales",
+  "product not in text (AEP Transmission Holdco): Transmission delivery services",
+  "product not in text (Generation & Marketing): Competitive retail electric supply",
+  "product not in text (Generation & Marketing): Wholesale electric supply"
+ ]
+}

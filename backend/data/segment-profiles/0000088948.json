@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000088948",
+ "issuerName": "Seneca Foods Corporation",
+ "builtAt": "2026-11-14T13:46:25.492Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-020290",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/88948/000143774926020290/ex_965137.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vegetable",
+   "products": [
+    "canned vegetables",
+    "frozen vegetables",
+    "Green Giant"
+   ],
+   "description": "Produces and sells canned and frozen vegetable products, including the Green Giant brand, to food customers.",
+   "evidence": "Green Giant U.S. frozen results are reported as part of the Company's vegetable reportable segment."
+  },
+  {
+   "name": "Fruit/Snack",
+   "products": [],
+   "description": "Produces and sells fruit and snack food products as part of the Company's food packaging business.",
+   "evidence": "The Company conducts its business almost entirely in food packaging with two reportable segments: Vegetable and Fruit/Snack."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "cans",
+    "ends",
+    "seed",
+    "aircraft operations"
+   ],
+   "description": "Holds non-food operations including sales of cans, ends, seed and outside aircraft revenue, plus certain corporate items.",
+   "evidence": "The Other category consists of the Company's non-food operations including revenue derived from the sale of cans, ends, seed, outside revenue from the Company's aircraft operations, and certain corporate items."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In fiscal 2026, the Company acquired the Green Giant U.S. frozen business, reported within the vegetable segment.",
+   "evidence": "Green Giant U.S. frozen results are reported as part of the Company's vegetable reportable segment."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

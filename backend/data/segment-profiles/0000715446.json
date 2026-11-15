@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000715446",
+ "issuerName": "ANIXA BIOSCIENCES, INC.",
+ "builtAt": "2026-11-14T13:49:04.267Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-001845",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/715446/000149315226001845/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cancer Vaccines",
+   "products": [
+    "breast cancer vaccine",
+    "ovarian cancer vaccine"
+   ],
+   "description": "Develops vaccines to treat and prevent breast and ovarian cancer and additional cancer vaccines for intractable malignancies.",
+   "evidence": "The Cancer Vaccines segment consists of the development of vaccines to treat and prevent breast cancer and ovarian cancer, as well as additional cancer vaccines to address many intractable cancers, including high-incidence malignancies in lung, colon, and prostate."
+  },
+  {
+   "name": "CAR-T Therapies",
+   "products": [],
+   "description": "Develops an ovarian cancer immunotherapy using chimeric endocrine receptor-T cell technology through subsidiary Certainty Therapeutics.",
+   "evidence": "The CAR-T Therapies segment consists of the development of an ovarian cancer immunotherapy using a novel type of CAR-T, known as chimeric endocrine receptor-T cell technology."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Consists of legacy operations, including limited patent licensing activities of the company's various patent portfolios.",
+   "evidence": "The Other segment consists of our legacy operations, including limited patent licensing activities of our various patent portfolios."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Cancer Vaccines): vaccine discovery program for additional cancer vaccines",
+  "product not in text (CAR-T Therapies): liraltagene autoleucel (lira-cel)"
+ ]
+}

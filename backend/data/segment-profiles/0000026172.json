@@ -1,0 +1,84 @@
+{
+ "version": 1,
+ "cik": "0000026172",
+ "issuerName": "CUMMINS INC.",
+ "builtAt": "2026-11-14T14:07:54.957Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000026172-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/26172/000002617226000009/cmi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engine",
+   "products": [
+    "Diesel engines",
+    "Natural gas engines",
+    "Gasoline engines"
+   ],
+   "description": "Manufactures and markets diesel, natural gas and gasoline engines for heavy-duty truck, medium-duty truck and bus, light-duty automotive and off-highway markets.",
+   "evidence": "The Engine segment manufactures and markets a broad range of diesel, natural gas and gasoline-powered engines under the Cummins brand name, as well as certain customer brand names, for the heavy-duty truck, medium-duty truck and bus, light-duty automotive and off-highway markets."
+  },
+  {
+   "name": "Components",
+   "products": [
+    "Drivetrain systems",
+    "Braking systems",
+    "Aftertreatment systems",
+    "Turbochargers",
+    "Fuel systems",
+    "Valvetrain technologies",
+    "Automated transmissions",
+    "Electronic control modules"
+   ],
+   "description": "Designs, manufactures and supplies drivetrain, braking, aftertreatment and other components complementing engine and power systems.",
+   "evidence": "The Components segment designs, manufactures and supplies products which complement the Engine and Power Systems segments, including drivetrain and braking systems for commercial diesel, gasoline and natural gas applications, aftertreatment systems, turbochargers, fuel systems, valvetrain technologies, automated transmissions and electronics."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "Power generation systems",
+    "High-horsepower engines",
+    "Medium-duty engines",
+    "Aftermarket parts",
+    "Repair services"
+   ],
+   "description": "Primary sales, service and support channel distributing products through worldwide network of wholly-owned, joint venture and independent locations.",
+   "evidence": "The Distribution segment is our primary sales, service and support channel. The segment serves our customers and certified dealers through a worldwide network of wholly-owned, joint venture and independent distribution locations."
+  },
+  {
+   "name": "Power Systems",
+   "products": [],
+   "description": "Offers integrated power generation systems for stationary and mobile applications across various markets.",
+   "evidence": "Our five reportable segments - Engine, Components, Distribution, Power Systems and Accelera - offer a broad portfolio, including advanced diesel, electric and hybrid powertrains; integrated power generation systems"
+  },
+  {
+   "name": "Accelera",
+   "products": [
+    "Electric powertrain systems",
+    "Zero emissions technologies"
+   ],
+   "description": "Develops zero emissions technologies including battery and electric powertrain systems supporting energy transition.",
+   "evidence": "Our five reportable segments - Engine, Components, Distribution, Power Systems and Accelera - offer a broad portfolio, including advanced diesel, electric and hybrid powertrains; integrated power generation systems; critical components such as aftertreatment, turbochargers, fuel systems, controls, transmissions, axles and brakes; and zero emissions technologies like battery and electric powertrain systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Company sells engines, components and power systems to original equipment manufacturers, distributors, dealers and other customers worldwide.",
+  "evidence": "We sell our products to original equipment manufacturers (OEMs), distributors, dealers and other customers worldwide."
+ },
+ "changes": [
+  {
+   "text": "In 2024, company completed divestiture of remaining ownership of Atmus Filtration Technologies Inc.",
+   "evidence": "On March 18, 2024, we completed the divestiture of our remaining 80.5 percent ownership of Atmus Filtration Technologies Inc. (Atmus) common stock through a tax-free split-off."
+  }
+ ],
+ "dropped": [
+  "product not in text (Engine): Remanufactured engines and parts",
+  "product not in text (Distribution): Heavy-duty engines",
+  "product not in text (Accelera): Battery systems"
+ ]
+}

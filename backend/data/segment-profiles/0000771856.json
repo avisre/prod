@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000771856",
+ "issuerName": "CHAMPIONS ONCOLOGY, INC.",
+ "builtAt": "2026-11-14T13:50:36.679Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-049834",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/771856/000162828026049834/csbr-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oncology research",
+   "products": [
+    "Research Services",
+    "Lumin Bioinformatics",
+    "Drug Discovery and Development"
+   ],
+   "description": "Technology-enabled research organization providing oncology drug discovery and development platforms, research services, data and SaaS tools to biopharmaceutical companies and cancer researchers.",
+   "evidence": "The Company operates in one reportable business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmaceutical and biotechnology companies pay for preclinical research studies, licensed access to PDX model data, and annual SaaS subscriptions to Lumin.",
+  "evidence": "Typical studies are in the $125,000 price range, with an increasing number of studies in the $250,000 to $500,000 range."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Oncology research): PDX model data licenses"
+ ]
+}

@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000310764",
+ "issuerName": "STRYKER CORP",
+ "builtAt": "2026-11-14T13:47:50.373Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000310764-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/310764/000031076426000010/syk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MedSurg and Neurotechnology",
+   "products": [
+    "Instruments",
+    "Endoscopy",
+    "Medical",
+    "Vascular",
+    "Neuro Cranial"
+   ],
+   "description": "Provides surgical equipment and navigation systems, endoscopic and communications systems, patient handling and emergency medical equipment, stroke treatment products, and neuro cranial surgical products for healthcare…",
+   "evidence": "MedSurg and Neurotechnology products include surgical equipment, patient and caregiver safety technologies, and navigation systems (Instruments), endoscopic and communications systems (Endoscopy), and patient handling, emergency medical equipment, intensive care disposable products, clinical communication and artificial intelligence- assisted virtual care platform technology (Medical), minimally invasive products for the treatment of acute ischemic and hemorrhagic stroke and venous thromboemboli"
+  },
+  {
+   "name": "Orthopaedics",
+   "products": [
+    "Knees",
+    "Hips",
+    "Trauma and Extremities",
+    "Spinal Implants",
+    "Mako SmartRobotics"
+   ],
+   "description": "Provides implants for total joint replacements such as hip, knee and shoulder, ankle, and trauma and extremities surgeries, along with Mako robotic-arm assisted technology for surgeons.",
+   "evidence": "Orthopaedics products primarily include implants used in total joint replacements, such as hip, knee and shoulder, ankle, and trauma and extremities surgeries."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Stryker earns revenue selling medical technology products and services directly to doctors, hospitals and other healthcare facilities, as well as through third-party dealers and distributors.",
+  "evidence": "Most of our products are marketed directly to doctors, hospitals and other healthcare facilities."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Stryker renamed its Neurovascular business to Vascular following the acquisition of Inari Medical.",
+   "evidence": "In 2025 we changed the name of our Neurovascular business to Vascular with the acquisition of Inari Medical, Inc. (Inari) whose product portfolio includes minimally invasive products for the treatment of venous thromboembolism."
+  }
+ ],
+ "dropped": []
+}

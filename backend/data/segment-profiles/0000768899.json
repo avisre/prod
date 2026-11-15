@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000768899",
+ "issuerName": "TrueBlue, Inc.",
+ "builtAt": "2026-11-14T13:50:31.723Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000768899-26-000009",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/768899/000076889926000009/tbi-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PeopleReady",
+   "products": [
+    "JobStack®",
+    "PeopleReady Skilled Trades",
+    "RenewableWorks",
+    "Stafftrack®"
+   ],
+   "description": "Provides clients with on-demand, contingent general and skilled labor across industries such as construction, transportation, manufacturing, retail, hospitality and energy.",
+   "evidence": "PeopleReady provides clients with dependable access to qualified associates for their on-demand, contingent general and skilled labor needs to supplement their permanent workforce, across a broad range of industries including construction, transportation, manufacturing, retail, hospitality and energy."
+  },
+  {
+   "name": "PeopleManagement",
+   "products": [
+    "Staff Management | SMX",
+    "SIMOS Insourcing Solutions",
+    "Centerline Drivers",
+    "Stafftrack"
+   ],
+   "description": "Provides and manages contingent associates at clients' facilities, specializing in labor-intensive manufacturing, warehousing, distribution, and commercial driver staffing.",
+   "evidence": "PeopleManagement provides and manages contingent associates at clients' facilities through our Staff Management | SMX (\"Staff Management\") and SIMOS Insourcing Solutions (\"SIMOS\") branded services throughout the U.S., Canada and Puerto Rico."
+  },
+  {
+   "name": "PeopleSolutions",
+   "products": [
+    "PeopleScout",
+    "Healthcare Staffing Professionals",
+    "Affinix®",
+    "Full-cycle RPO solution",
+    "Project RPO solution",
+    "Recruiter on demand solution",
+    "Talent advisory solution",
+    "MSP solution"
+   ],
+   "description": "Provides professional and specialized talent acquisition, workforce management and compliance services, including RPO, MSP and healthcare staffing, primarily in the U.S., Canada, the U.K. and Australia.",
+   "evidence": "PeopleSolutions provides RPO, managed service provider (\"MSP\") solutions and talent advisory services through our PeopleScout brand."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay TrueBlue for staffing services based on engagement scope, role and market conditions, hourly or productivity-based (cost-per-unit) pricing for industrial staffing, and per-hire fees or talent consulting fees for RPO services.",
+  "evidence": "Pricing is typically composed of a fee for each hire and/or talent consulting fees, and is impacted by factors such as geography, volume, job type, degree of recruiting difficulty, and the scope of outsourced recruitment and employer branding services included."
+ },
+ "changes": [
+  {
+   "text": "In 2025, TrueBlue acquired Healthcare Staffing Professionals, Inc., which operates within the PeopleSolutions segment.",
+   "evidence": "We may make additional acquisitions as part of our business strategy, such as the acquisition of Healthcare Staffing Professionals, Inc., which we announced on February 4, 2025."
+  }
+ ],
+ "dropped": []
+}

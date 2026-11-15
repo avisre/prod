@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001789029",
+ "issuerName": "AEVA TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T17:39:57.745Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-116518",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1789029/000119312526116518/aeva-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Perception solutions or sensing systems",
+   "products": [
+    "4D LiDAR-on-chip",
+    "LiDAR sensing systems",
+    "perception and autonomy-enabling software solutions",
+    "non-recurring engineering services"
+   ],
+   "description": "Design, manufacturing and sale of LiDAR sensing systems and related perception software for automotive, industrial and other markets.",
+   "evidence": "We are engaged in the design, manufacturing and sale of LiDAR sensing systems and related perception and autonomy-enabling software solutions serving customers in automotive, industrial, and other markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase specified numbers of sensing system units at fixed prices, and the company provides non-recurring engineering services to customize solutions.",
+  "evidence": "Under our customer agreements, we deliver a specified number of sensing systems at a fixed price under customary terms and conditions."
+ },
+ "changes": [],
+ "dropped": []
+}

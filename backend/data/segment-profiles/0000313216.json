@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000313216",
+ "issuerName": "KONINKLIJKE PHILIPS NV",
+ "builtAt": "2026-11-14T13:47:54.163Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-009470",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/313216/000162828026009470/phg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diagnosis & Treatment",
+   "products": [
+    "Precision Diagnosis",
+    "Ultrasound",
+    "Magnetic Resonance Imaging (MRI)",
+    "Computed Tomography (CT)",
+    "Diagnostic X-ray",
+    "Image Guided Therapy Systems",
+    "Image Guided Therapy Devices"
+   ],
+   "description": "Provides AI-enabled diagnostic imaging systems, informatics and image guided therapy solutions for healthcare providers.",
+   "evidence": "The Diagnosis & Treatment segment consists of the following Businesses: • Precision Diagnosis – This Business offers a range of diagnostic imaging products, solutions and services to address some of our customers' biggest challenges, from staff shortages and burnout to image quality and workflow, to ultimately delivering better care for their patients ."
+  },
+  {
+   "name": "Connected Care",
+   "products": [
+    "Monitoring",
+    "Enterprise Informatics",
+    "Sleep & Respiratory Care"
+   ],
+   "description": "Provides hospital and ambulatory monitoring, enterprise informatics and sleep and respiratory care solutions for healthcare providers and consumers.",
+   "evidence": "Businesses 1 : • Monitoring #1 in hospital and ambulatory • Enterprise Informatics #1 in PACS and interoperability • Sleep & Respiratory Care #2 in sleep therapy devices and masks"
+  },
+  {
+   "name": "Personal Health",
+   "products": [
+    "Personal Care",
+    "Oral Healthcare",
+    "Mother and Child Care"
+   ],
+   "description": "Offers consumer health products in grooming, oral healthcare and mother and child care for individual consumers.",
+   "evidence": "The Personal Health Business includes three Business Units 1 : • Personal Care #1 in grooming • Oral Healthcare #2 • Mother and Child Care #2 in infant feeding"
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Includes Innovation & Design, IP royalties, central costs and other small items not allocated to the main segments.",
+   "evidence": "Additionally, Royal Philips identifies the segment Other, which includes Innovation & Design, IP royalties, Central costs, and other small items."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Philips earns revenue from healthcare providers and consumers through product sales, leasing, service fees, per-procedure fees for disposable devices, software license fees, and per-study or outcome-based fees.",
+  "evidence": "Revenue is predominantly earned through the sale of products, leasing, customer services fees, recurring per-procedure fees for disposable devices, and software license fees."
+ },
+ "changes": [],
+ "dropped": []
+}

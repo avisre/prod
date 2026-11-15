@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000003545",
+ "issuerName": "ALICO, INC.",
+ "builtAt": "2026-11-14T14:06:15.474Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000003545-25-000140",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/3545/000000354525000140/alco-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alico Citrus",
+   "products": [
+    "Valencia oranges",
+    "Fresh Fruit",
+    "Grove Management Services"
+   ],
+   "description": "Planting, owning, cultivating and managing citrus groves to produce fruit for fresh and processed markets.",
+   "evidence": "Alico Citrus includes activities related to planting, owning, cultivating and/or managing citrus groves to produce fruit for sale to fresh and processed citrus markets, including activities related to the purchase and resale of fruit and value-added services, which include contracting for the harvesting, marketing and hauling of citrus"
+  },
+  {
+   "name": "Land Management and Other Operations",
+   "products": [
+    "Farm leases",
+    "Grazing and hunting leases"
+   ],
+   "description": "Leasing of land for farming, grazing and hunting, conservation activities, mining royalties and other operations.",
+   "evidence": "Land Management and Other Operations includes activities related to the leasing of citrus groves, farming, grazing and hunting leasing, management and/or conservation of unimproved native pastureland and activities related to rock mining royalties and other insignificant lines of business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Citrus processors and fresh fruit buyers purchase citrus on pound solids or per box basis; lease income from farming, grazing and hunting tenants; royalties from mining and oil extraction operations.",
+  "evidence": "The processors generally buy the citrus crop on a pound solids basis, which is the measure of the soluble solids (sugars and acids) contained in one box of fruit. Our Fresh Fruit revenue is derived from sales to packing houses that purchase the citrus on a per box basis."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company announced a Strategic Transformation to wind down the Alico Citrus division substantially after the 2024-2025 harvest due to environmental and financial challenges from citrus greening disease.",
+   "evidence": "On January 6, 2025, we announced a Strategic Transformation (the \"Strategic Transformation\") in our business focus, to wind down our Alico Citrus division, to focus on a long-term diversified land usage and real estate development strategy. Due to increasing financial challenges from citrus greening disease and environmental factors for many seasons, we decided to not spend further material capital on our citrus operations and to wind down substantially all of our Citrus' primary operations afte"
+  },
+  {
+   "text": "In May 2025, the company terminated its Mutual Contract Termination Agreement with Tropicana, which had represented the majority of consolidated revenues.",
+   "evidence": "In May 2025, we entered into a Mutual Contract Termination Agreement with Tropicana (the \"Mutual Contract Termination Agreement\"), terminating our agreement with them in its entirety following the fulfillment of all obligations under that agreement concerning the 2024/2025 Crop Year."
+  }
+ ],
+ "dropped": [
+  "product not in text (Alico Citrus): Early and Mid-Season oranges",
+  "product not in text (Land Management and Other Operations): Mining and oil extraction royalties",
+  "product not in text (Land Management and Other Operations): Conservation management",
+  "change not grounded: In 2024, the Grove Management Agreement with third parties was terminated as of "
+ ]
+}

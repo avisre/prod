@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000043920",
+ "issuerName": "GREIF, INC.",
+ "builtAt": "2026-11-14T13:44:33.150Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000043920-24-000056",
+  "periodEnd": "2024-10-31",
+  "filingDate": "2024-12-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/43920/000004392024000056/gef-20241031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Industrial Packaging",
+   "products": [
+    "steel, fibre and plastic drums",
+    "rigid intermediate bulk containers",
+    "jerrycans and other small plastics",
+    "closure systems for industrial packaging products",
+    "transit protection products",
+    "water bottles",
+    "remanufactured and reconditioned industrial containers",
+    "container life cycle management, logistics, warehousing and other packaging serv"
+   ],
+   "description": "Produces industrial packaging products and related services globally for customers in chemicals, food and beverage, petroleum, pharmaceutical and other industries.",
+   "evidence": "In the Global Industrial Packaging reportable segment, we are a leading global producer of industrial packaging products, such as steel, fibre and plastic drums, rigid intermediate bulk containers, jerrycans and other small plastics, closure systems for industrial packaging products, transit protection products, water bottles and remanufactured and reconditioned industrial containers, and services, such as container life cycle management, logistics, warehousing and other packaging services."
+  },
+  {
+   "name": "Paper Packaging & Services",
+   "products": [
+    "containerboard",
+    "corrugated sheets",
+    "corrugated containers and other corrugated products",
+    "coated recycled paperboard",
+    "uncoated recycled paperboard",
+    "tubes and cores, construction products and protective packaging",
+    "bulk and specialty partitions"
+   ],
+   "description": "Produces and sells containerboard, corrugated products, recycled paperboard and related industrial products to customers in North America.",
+   "evidence": "In the Paper Packaging & Services reportable segment, we produce and sell containerboard, corrugated sheets, corrugated containers and other corrugated products to customers in North America in industries such as packaging, automotive, food and building products."
+  },
+  {
+   "name": "Land Management",
+   "products": [
+    "timber",
+    "timberland and special use land"
+   ],
+   "description": "Harvests and regenerates United States timber properties for sustainable long-term yields and sells timber and, from time to time, timberland and special use land.",
+   "evidence": "In the Land Management reportable segment, we are focused on the active harvesting and regeneration of our United States timber properties to achieve sustainable long-term yields."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "Beginning with the first quarter of fiscal 2025, Greif will move from three reportable segments to four: Customized Polymer Solutions, Durable Metal Solutions, Sustainable Fiber Solutions and Integrated Solutions.",
+   "evidence": "Beginning with our first quarter of 2025 we will operate in four operating segments and four reportable segments: Customized Polymer Solutions; Durable Metal Solutions; Sustainable Fiber Solutions; and Integrated Solutions."
+  }
+ ],
+ "dropped": [
+  "product not in text (Paper Packaging & Services): recycled fiber and adhesives",
+  "revenue model not grounded"
+ ]
+}

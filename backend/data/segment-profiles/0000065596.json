@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000065596",
+ "issuerName": "Siebert Financial Corp.",
+ "builtAt": "2026-11-14T13:45:25.216Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-036500",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/65596/000121390026036500/ea0281594-10k_siebert.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Financials Services",
+   "products": [
+    "Retail brokerage services",
+    "Investment advisory",
+    "Insurance offerings",
+    "Corporate stock plan administration",
+    "Self-directed trading",
+    "Market making and fixed income investments",
+    "Stock borrow / stock loan",
+    "Investment banking / capital markets"
+   ],
+   "description": "Provides retail brokerage, investment advisory, insurance, corporate services and related financial services to retail and institutional clients.",
+   "evidence": "We operate and manage our business as two reportable segments: Financials Services and Media, Sports and Entertainment."
+  },
+  {
+   "name": "Media, Sports and Entertainment",
+   "products": [
+    "Management and promotion of sports and music talent",
+    "In-house production",
+    "Marketing"
+   ],
+   "description": "Manages and promotes sports and music talent and provides in-house production and marketing for the Company.",
+   "evidence": "Gebbia Media, LLC (\"GM\") is a Florida limited liability company and provides management and promotion of sports and music talent, as well as in-house production and marketing for the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay the Company brokerage commissions, advisory fees, insurance-related fees and fees for execution, margin financing and corporate equity services.",
+  "evidence": "MSCO also offers customers execution services through various market centers for an additional fee, providing customers access to numerous market centers before and after regular market hours."
+ },
+ "changes": [
+  {
+   "text": "In recent years the Company added a Media, Sports and Entertainment segment through its acquisition of a media and entertainment company, Gebbia Media, LLC.",
+   "evidence": "As part of our strategic initiatives to diversify and create synergies between our enterprises, we acquired a media and entertainment company."
+  }
+ ],
+ "dropped": []
+}

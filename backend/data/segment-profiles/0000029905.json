@@ -1,0 +1,98 @@
+{
+ "version": 1,
+ "cik": "0000029905",
+ "issuerName": "DOVER Corp",
+ "builtAt": "2026-11-14T13:43:51.173Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000029905-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/29905/000002990526000009/dov-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineered Products",
+   "products": [
+    "vehicle lifts",
+    "wheel service equipment",
+    "vehicle diagnostics",
+    "vehicle collision repair solutions",
+    "winches",
+    "hoists",
+    "bearings",
+    "drives"
+   ],
+   "description": "Provides equipment, components, software, solutions and services for vehicle aftermarket, aerospace and defense, industrial winch and hoist, precision soldering and fluid dispensing markets.",
+   "evidence": "Our Engineered Products segment provides a wide range of equipment, components, software, solutions and services to the vehicle aftermarket, aerospace and defense, industrial winch and hoist, precision soldering and fluid dispensing end-markets."
+  },
+  {
+   "name": "Clean Energy & Fueling",
+   "products": [
+    "electric vehicle charging stations",
+    "payment systems",
+    "underground containment systems",
+    "vehicle wash systems",
+    "asset tracking, monitoring and operational optimization software"
+   ],
+   "description": "Provides components, equipment, software and services for safe storage, transport, dispensing and monitoring of fuels and cryogenic gases, and for retail fueling and vehicle wash operations.",
+   "evidence": "Our Clean Energy & Fueling segment provides components, equipment, software solutions and services enabling safe and reliable storage, transport, dispensing, and remote monitoring of traditional and clean fuels (including liquefied natural gas, hydrogen, and electric vehicle charging), cryogenic gases, and other hazardous substances along the supply chain, and safe and efficient operation of convenience retail, retail fueling and vehicle wash establishments."
+  },
+  {
+   "name": "Imaging & Identification",
+   "products": [
+    "digital textile printing equipment",
+    "related consumables",
+    "software and services"
+   ],
+   "description": "Supplies marking and coding, traceability, brand protection and digital textile printing equipment with related consumables, software and services to consumer goods, pharmaceutical, industrial and textile markets.",
+   "evidence": "Our Imaging & Identification segment supplies precision marking and coding, product traceability, brand protection and digital textile printing equipment, as well as related consumables, software and services to the global packaged and consumer goods, pharmaceutical, industrial manufacturing, textile and other end-markets."
+  },
+  {
+   "name": "Pumps & Process Solutions",
+   "products": [
+    "specialty pumps and flow meters",
+    "single-use pumps",
+    "fluid transfer connectors",
+    "plastics and polymers processing equipment",
+    "measurement, inspection, and control technologies",
+    "specialized instrumentation and digital controls"
+   ],
+   "description": "Manufactures specialty pumps, flow meters, connectors, polymer processing equipment and precision components for biopharma, industrial, chemical, energy and other demanding applications.",
+   "evidence": "Our Pumps & Process Solutions segment manufactures specialty pumps and flow meters, fluid transfer connectors, highly engineered precision components, instruments and digital controls for rotating and reciprocating machines, polymer processing equipment, measurement, inspection, and control technologies, serving single-use biopharmaceutical production, diversified industrial manufacturing applications, chemical production, plastics and polymer processing, midstream and downstream oil and gas, cl"
+  },
+  {
+   "name": "Climate & Sustainability Technologies",
+   "products": [
+    "refrigeration systems",
+    "refrigeration display cases",
+    "commercial glass refrigerator and freezer doors",
+    "brazed plate heat exchangers"
+   ],
+   "description": "Provides energy-efficient equipment, components, solutions, services and parts for commercial refrigeration, heating and cooling, and beverage can-making end-markets.",
+   "evidence": "Our Climate & Sustainability Technologies segment is a provider of innovative and energy-efficient equipment, components, solutions, services and parts for the commercial refrigeration, heating and cooling and beverage can-making equipment end-markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, Dover sold the Environmental Solutions Group business from the Engineered Products segment, classified as discontinued operations.",
+   "evidence": "On October 8, 2024, the Company completed the sale of the Environmental Solutions Group (\"ESG\") business, an operating company within the Engineered Products segment, for total consideration, net of cash transferred, of $2.0 billion."
+  },
+  {
+   "text": "In 2024, Dover sold the De-Sta-Co business from the Engineered Products segment, which was not classified as a discontinued operation.",
+   "evidence": "On March 31, 2024, the Company completed the sale of the De-Sta-Co business, an operating company within the Engineered Products segment, for total consideration, net of cash transferred, of $675.9 million."
+  }
+ ],
+ "dropped": [
+  "product not in text (Clean Energy & Fueling): dispensing equipment and components for gasoline, CNG, LNG and hydrogen fueling ",
+  "product not in text (Imaging & Identification): precision marking and coding equipment",
+  "product not in text (Imaging & Identification): product traceability solutions",
+  "product not in text (Imaging & Identification): brand protection solutions",
+  "product not in text (Climate & Sustainability Technologies): aluminum can-making machinery",
+  "product not in text (Climate & Sustainability Technologies): spare parts and turnkey can line solutions",
+  "revenue model not grounded"
+ ]
+}

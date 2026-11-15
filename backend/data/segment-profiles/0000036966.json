@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000036966",
+ "issuerName": "FIRST HORIZON CORP",
+ "builtAt": "2026-11-14T13:44:13.320Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000036966-26-000051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/36966/000003696626000051/fhn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial, Consumer & Wealth",
+   "products": [
+    "commercial banking",
+    "business banking",
+    "consumer banking",
+    "private client investment, wealth management, financial planning, trust and asse",
+    "asset-based lending",
+    "commercial real estate",
+    "equipment finance/leasing",
+    "energy finance"
+   ],
+   "description": "Provides commercial, business, consumer banking and wealth management services to commercial and consumer clients, mainly in southern U.S. markets.",
+   "evidence": "The principal lines of business in the commercial, consumer & wealth banking segment are: • commercial banking (larger business enterprises) • business banking (smaller business enterprises) • consumer banking"
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "fixed income securities sales, trading, underwriting, and strategies for institu",
+    "loan sales",
+    "portfolio advisory services",
+    "derivative sales",
+    "mortgage warehouse lending",
+    "franchise finance",
+    "correspondent banking",
+    "mortgage origination"
+   ],
+   "description": "Serves institutional and correspondent clients with fixed income, derivatives, mortgage warehouse lending, franchise finance and mortgage origination services.",
+   "evidence": "The principal lines of business in the wholesale banking segment are: • fixed income securities sales, trading, underwriting, and strategies for institutional clients • loan sales • portfolio advisory services"
+  },
+  {
+   "name": "Corporate",
+   "products": [],
+   "description": "Houses corporate functions, investment securities and other activities not allocated to the operating banking segments.",
+   "evidence": "FHN's reportable segments include Commercial, Consumer & Wealth, Wholesale, and Corporate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income from loans funded largely by deposits, plus noninterest income from fees, brokerage, fixed income and mortgage banking services.",
+  "evidence": "Lending is a major source of revenue for us, and loans are our largest asset type."
+ },
+ "changes": [
+  {
+   "text": "In 2024, First Horizon reclassified its reportable segments from regional, specialty and corporate to commercial, consumer & wealth, wholesale and corporate.",
+   "evidence": "During 2024, we reorganized our internal management structure and, accordingly, reclassified our reportable business segments."
+  },
+  {
+   "text": "In 2023, First Horizon and The Toronto-Dominion Bank terminated their planned merger agreement.",
+   "evidence": "FHN and TD agreed to terminate the transaction on May 4, 2023, after TD informed FHN that TD did not expect to receive the necessary regulatory approvals in time to complete the transaction on schedule."
+  }
+ ],
+ "dropped": []
+}

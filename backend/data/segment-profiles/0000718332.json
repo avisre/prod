@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000718332",
+ "issuerName": "RAVE RESTAURANT GROUP, INC.",
+ "builtAt": "2026-11-14T13:49:14.054Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-037514",
+  "periodEnd": "2026-06-28",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/718332/000114036126037514/ef20075484_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pizza Inn Franchising",
+   "products": [
+    "Buffet Units",
+    "Delco Units",
+    "Express Units",
+    "Pizza Inn Ghost Kitchen Units",
+    "PIE Units"
+   ],
+   "description": "Franchises domestic and international pizza buffet, delivery/carry-out, express and ghost kitchen restaurants under the Pizza Inn brand.",
+   "evidence": "We franchise Buffet Units, Delco Units, Express Units and Pizza Inn Ghost Kitchen Units under the Pizza Inn brand."
+  },
+  {
+   "name": "Pie Five Franchising",
+   "products": [
+    "Pie Five Units",
+    "Pie Five Ghost Kitchen Units"
+   ],
+   "description": "Franchises fast casual pizza restaurants and ghost kitchens under the Pie Five brand, serving individualized made-to-order pizzas.",
+   "evidence": "franchises fast casual pizza restaurants (\"Pie Five Units\") and ghost kitchens (\"Pie Five Ghost Kitchen Units\") under the trademarks \"Pie Five Pizza Company\" or \"Pie Five\"."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Franchisees pay the Company franchise fees, continuing royalties, marketing fund contributions, and the Company earns supplier and distributor incentive revenues tied to retail sales.",
+  "evidence": "Revenues are derived from franchise royalties, supplier and distributor incentive revenues, franchise license fees, area development exclusivity fees and foreign master license fees, advertising fund contributions, supplier convention funds, rental income, and other income."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the last remaining licensed PIE Unit closed and the Company does not intend to open additional PIE Units.",
+   "evidence": "During the quarter ended June 28, 2026, the last remaining PIE Unit closed, and we have no intentions on opening any new PIE Units in the future."
+  }
+ ],
+ "dropped": []
+}

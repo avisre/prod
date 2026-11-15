@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001736297",
+ "issuerName": "Astera Labs, Inc.",
+ "builtAt": "2026-11-14T17:37:47.754Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001736297-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629726000010/alab-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Intelligent Connectivity Platform",
+   "products": [
+    "Aries PCIe®/CXL® Smart DSP Retimers",
+    "Aries PCIe®/CXL® Smart Cable Modules™",
+    "Taurus Ethernet Smart Cable Modules™",
+    "Leo CXL Memory Connectivity Controllers",
+    "Scorpio Smart Fabric Switches",
+    "COSMOS software suite"
+   ],
+   "description": "Designs and sells semiconductor-based high-speed connectivity products and software for hyperscaler and OEM cloud and AI infrastructure.",
+   "evidence": "We have developed and deployed our leading Intelligent Connectivity Platform built from the ground up for cloud and AI infrastructure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells connectivity products in IC, board, and module form factors to distributors and end customers' manufacturing partners, primarily hyperscalers and system OEMs.",
+  "evidence": "We sell our products directly to our customers and through distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired aiXscale Photonics GmbH, which was allocated to the Company's single reporting unit and operating segment.",
+   "evidence": "on November 10, 2025, the Company completed the acquisition of aiXscale Photonics GmbH (\"aiXscale\")."
+  }
+ ],
+ "dropped": [],
+ "escalated": "no segments"
+}

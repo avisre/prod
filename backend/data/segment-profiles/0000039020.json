@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000039020",
+ "issuerName": "FREQUENCY ELECTRONICS, INC.",
+ "builtAt": "2026-11-14T13:44:18.603Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-002997",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/39020/000118518526002997/feim10k043026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FEI-NY",
+   "products": [
+    "precision time and frequency products",
+    "quantum sensing products",
+    "master timing systems (quartz, rubidium)",
+    "DC-DC power converters",
+    "oven-controlled quartz crystal oscillators",
+    "fast switching, ultra-low phase noise synthesizers",
+    "up-down converters, receivers, tuners, ceramic resonance oscillators and dielect"
+   ],
+   "description": "Designs and manufactures precision time, frequency generation and synchronization products and quantum sensors for commercial and U.S. Government satellite, military and telecom customers.",
+   "evidence": "The products manufactured by the FEI-NY segment are precision time and frequency products, and more recently, quantum sensing products ,principally marketed to the commercial and U.S. Government satellite markets, to other U.S. Department of War (\"DOW\") customers and to wireless communications network providers."
+  },
+  {
+   "name": "FEI-Zyfer",
+   "products": [
+    "precision time references for terrestrial secure communications and command and ",
+    "frequency products that incorporate GPS technology"
+   ],
+   "description": "Designs and manufactures GPS-based precision timing and frequency products for commercial and U.S. Government customers.",
+   "evidence": "Precision time references for terrestrial secure communications and command and control, and frequency products that incorporate GPS technology are manufactured by FEI-Zyfer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company is paid by U.S. Government agencies and commercial customers under fixed price or cost-plus contracts, directly or through subcontracts intended for U.S. Government end-use.",
+  "evidence": "The Company's sales on U.S. Government programs for both space and non-space applications are generally made under fixed price or cost-plus contracts either directly with U.S. Government agencies or indirectly through subcontracts intended for U.S. Government end-use."
+ },
+ "changes": [
+  {
+   "text": "In 2026, FEI-Elcom Tech, Inc. converted into a Delaware limited liability company, with its ongoing business operations continuing under the FEI-NY segment.",
+   "evidence": "Effective as of April 30, 2026, FEI-Elcom converted into a Delaware limited liability company; however, the ongoing business operations of FEI-Elcom will continue under the FEI-NY segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (FEI-NY): RF microwave modules, devices and subsystems"
+ ]
+}

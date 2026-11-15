@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000006207",
+ "issuerName": "AMREP CORP.",
+ "builtAt": "2026-11-14T14:06:27.646Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-086659",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/6207/000110465926086659/axr-20260430x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land Development",
+   "products": [
+    "Developed residential lots",
+    "Undeveloped real property",
+    "Landscaping services"
+   ],
+   "description": "Develops and sells residential lots and commercial/industrial sites to homebuilders and developers in New Mexico.",
+   "evidence": "The Company develops both residential lots and sites for commercial and industrial use as demand warrants. The Company offers for sale both developed and undeveloped real property to its internal homebuilder as well as national, regional and local homebuilders, commercial and industrial property developers and others."
+  },
+  {
+   "name": "Homebuilding",
+   "products": [],
+   "description": "Builds and sells single-family detached and attached homes to homebuyers in New Mexico.",
+   "evidence": "The Company owns and operates a homebuilder in New Mexico. The Company offers a variety of home floor plans and elevations at different prices and with varying levels of options and amenities to meet the needs of homebuyers. The Company focuses on building and selling single-family detached and attached homes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Land Development segment sells developed and undeveloped residential lots and commercial/industrial sites to homebuilders and developers; Homebuilding segment sells single-family homes to homebuyers.",
+  "evidence": "The Company offers for sale both developed and undeveloped real property to its internal homebuilder as well as national, regional and local homebuilders, commercial and industrial property developers and others."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Land Development): Commercial and industrial sites",
+  "product not in text (Homebuilding): Single-family detached homes",
+  "product not in text (Homebuilding): Single-family attached homes"
+ ]
+}

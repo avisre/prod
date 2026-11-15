@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001294133",
+ "issuerName": "INOGEN, INC.",
+ "builtAt": "2026-11-14T17:41:47.131Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082630",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1294133/000119312526082630/ingn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Respiratory Health",
+   "products": [
+    "Inogen Voxi 5 stationary oxygen concentrator",
+    "Aurora CPAP masks"
+   ],
+   "description": "Develops, manufactures, and markets respiratory health products including portable oxygen concentrators, airway clearance devices, and CPAP masks for patients with chronic respiratory conditions.",
+   "evidence": "We develop, manufacture, and market innovative respiratory health products, including portable oxygen concentrators, or POCs, used to deliver supplemental long-term oxygen therapy to patients suffering from chronic respiratory conditions and the Simeox ® product for airway clearance treatment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase or rent respiratory durable medical equipment and disposables through home medical equipment providers, direct-to-consumer channels, and business-to-business partners.",
+  "evidence": "The Company derives revenues from customers through the development, manufacturing, marketing, sales, and rental of respiratory products."
+ },
+ "changes": [
+  {
+   "text": "In September 2023, the company acquired Physio-Assist SAS, expanding into the airway clearance market with the Simeox product.",
+   "evidence": "On September 14, 2023, we completed the acquisition of all of the issued and outstanding capital stock of Physio-Assist SAS, or Physio-Assist, and its wholly-owned subsidiary PhysioAssist GmbH."
+  },
+  {
+   "text": "In January 2025, the company entered a Strategic Collaboration Agreement with Yuwell to distribute stationary oxygen concentrators and CPAP masks in the United States and expand into Asia-Pacific markets.",
+   "evidence": "On January 25, 2025, we entered into a Strategic Collaboration Agreement, or the Collaboration Agreement, with Jiangsu Yuyue Medical Equipment & Supply Co., Ltd., or Yuwell."
+  }
+ ],
+ "dropped": [
+  "product not in text (Respiratory Health): Inogen One portable oxygen concentrators",
+  "product not in text (Respiratory Health): Inogen Rove portable oxygen concentrators",
+  "product not in text (Respiratory Health): Simeox airway clearance device"
+ ]
+}

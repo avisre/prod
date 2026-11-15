@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000737468",
+ "issuerName": "Washington Trust Bancorp Inc",
+ "builtAt": "2026-11-14T13:49:52.292Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000737468-26-000034",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/737468/000073746826000034/wash-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial loans",
+    "CRE loans",
+    "C&I loans",
+    "residential real estate loans",
+    "consumer loans",
+    "deposit accounts",
+    "investment securities"
+   ],
+   "description": "Provides commercial, residential and consumer lending, deposit products, and related banking services to consumer, commercial, non-profit and municipal customers in southern New England.",
+   "evidence": "The Corporation manages its operations through two reportable business segments, consisting of Banking and Wealth Management Services."
+  },
+  {
+   "name": "Wealth Management Services",
+   "products": [
+    "investment management",
+    "holistic financial planning services",
+    "personal trust and estate services",
+    "settlement of decedents' estates",
+    "institutional trust services",
+    "custody and fiduciary services"
+   ],
+   "description": "Provides investment management, financial planning, personal trust and estate services, and institutional trust and custody services to personal and institutional clients.",
+   "evidence": "We provide a broad range of wealth management services to personal and institutional clients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest on loans and securities, fees from deposit and treasury services, mortgage banking revenues, and asset-based fees from wealth management clients.",
+  "evidence": "Wealth management revenues represent our largest source of noninterest income."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000703351",
+ "issuerName": "BRINKER INTERNATIONAL, INC.",
+ "builtAt": "2026-11-14T13:48:42.859Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000703351-26-000029",
+  "periodEnd": "2026-06-24",
+  "filingDate": "2026-08-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/703351/000070335126000029/eat-20260624.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chili's",
+   "products": [
+    "Chili's Grill & Bar",
+    "3 for Me",
+    "Triple Dipper",
+    "Chicken Crispers",
+    "My Chili's"
+   ],
+   "description": "Owns, operates and franchises casual dining Chili's Grill & Bar restaurants serving Southwest-inspired American food to guests in the U.S. and internationally.",
+   "evidence": "We own, develop, operate and franchise the Chili's ® Grill & Bar (\"Chili's\") and Maggiano's Little Italy ® (\"Maggiano's\") restaurant brands."
+  },
+  {
+   "name": "Maggiano's",
+   "products": [
+    "Maggiano's Little Italy"
+   ],
+   "description": "Owns and operates full-service Maggiano's Little Italy restaurants offering Italian American favorites, banquet spaces and delivery for everyday and special occasions.",
+   "evidence": "Maggiano's is a full-service, national restaurant brand offering Italian American favorites through both a la carte and Family Style dining."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Guests pay for food and beverages at Company-owned restaurants, and franchisees pay royalties, advertising, franchise and development fees based on gross sales.",
+  "evidence": "Our Chili's international franchise agreements provide for development fees and initial franchise fee revenues in addition to subsequent royalty fee revenues based on the gross sales of each restaurant."
+ },
+ "changes": [],
+ "dropped": []
+}

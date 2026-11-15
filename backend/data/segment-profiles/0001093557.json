@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001093557",
+ "issuerName": "DEXCOM, INC.",
+ "builtAt": "2026-11-14T17:36:33.292Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001093557-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1093557/000109355726000027/dxcm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Continuous Glucose Monitoring Systems",
+   "products": [
+    "Dexcom G7 Continuous Glucose Monitoring System",
+    "Dexcom G7 15 Day Continuous Glucose Monitoring System",
+    "Dexcom G6 Continuous Glucose Monitoring Integrated System",
+    "Dexcom ONE+",
+    "Stelo",
+    "Dexcom Share",
+    "Dexcom Follow"
+   ],
+   "description": "Design, development and commercialization of continuous glucose monitoring systems for diabetes and metabolic health management.",
+   "evidence": "We are a medical device company primarily focused on the design, development and commercialization of continuous glucose monitoring, or CGM, systems for the management of diabetes and metabolic health by patients, caregivers, and clinicians around the world."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for disposable sensors and reusable hardware sold through distributors and direct sales channels.",
+  "evidence": "Our reportable segment derives revenues from the sale of disposable sensors and our Reusable Hardware."
+ },
+ "changes": [],
+ "dropped": []
+}

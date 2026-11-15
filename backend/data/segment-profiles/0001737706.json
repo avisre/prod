@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001737706",
+ "issuerName": "SEADRILL LIMITED",
+ "builtAt": "2026-11-14T17:39:30.578Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001737706-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1737706/000173770626000010/sdrl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Offshore Drilling",
+   "products": [
+    "Drillships",
+    "Semi-submersible rigs",
+    "Jackup rigs",
+    "Harsh environment rigs",
+    "Management services"
+   ],
+   "description": "Ownership and operation of drillships and semi-submersible rigs for offshore drilling services to oil and gas companies.",
+   "evidence": "Our primary business is the ownership and operation of drillships and semi-submersible rigs for operations in shallow to ultra-deepwater in both benign and harsh environments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas companies contract drilling units at agreed dayrates for fixed contract terms, with customers bearing ancillary well construction and drilling support costs.",
+  "evidence": "We contract our drilling units to oil and gas companies to provide offshore drilling services at an agreed dayrate for a fixed contract term or on a well completion basis."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company disposed of four jackup rigs (West Castor, West Telesto, West Tucana, West Prospero) and divested a fifty percent equity interest in the Gulfdrill joint venture.",
+   "evidence": "The gain on disposals of $ 234 million for the year ended December 31, 2024 relates to the disposal of the West Castor , West Telesto and West Tucana jackup rigs, along with our 50 % equity interest in the Gulfdrill joint venture during the second quarter of 2024, and the disposal of the West Prospero during the fourth quarter of 2024."
+  }
+ ],
+ "dropped": []
+}

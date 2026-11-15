@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000313616",
+ "issuerName": "DANAHER CORPORATION",
+ "builtAt": "2026-11-14T13:47:55.464Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000313616-26-000062",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/313616/000031361626000062/dhr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology",
+   "products": [
+    "CYTIVA",
+    "PALL",
+    "cell culture media",
+    "chromatography resins",
+    "filtration technologies",
+    "single-use hardware and consumables",
+    "aseptic fill finish"
+   ],
+   "description": "Provides equipment, consumables, software and services used to advance the research, development, manufacture and delivery of biological medicines.",
+   "evidence": "The Biotechnology segment offers a broad range of equipment, consumables, software and services that are primarily used by customers to advance and accelerate the research, development, manufacture and delivery of biological medicines."
+  },
+  {
+   "name": "Life Sciences",
+   "products": [
+    "centrifugation",
+    "automated liquid handling systems",
+    "flow cytometry instrumentation",
+    "mass spectrometers",
+    "microscopes",
+    "antibodies and assays",
+    "plasmid DNA"
+   ],
+   "description": "Offers instruments, consumables, services and software used to study the basic building blocks of life and to filter and remove contaminants from liquids and gases.",
+   "evidence": "The Life Sciences segment offers a broad range of instruments, consumables, services and software that are primarily used by customers to study the basic building blocks of life, including DNA and RNA, nucleic acid, proteins, metabolites and cells, in order to understand the causes of disease, identify new therapies, and test and manufacture new drugs, vaccines and gene editing technologies."
+  },
+  {
+   "name": "Diagnostics",
+   "products": [],
+   "description": "Segment serving the diagnostics sector; the supplied text does not describe its products in detail.",
+   "evidence": "Danaher is comprised of more than 15 operating companies with leadership positions in the biotechnology, life sciences and diagnostics sectors, organized under three segments (Biotechnology, Life Sciences and Diagnostics)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily pharmaceutical, biopharmaceutical and research institutions, pay for products and services sold largely on a recurring basis through a direct sales model.",
+  "evidence": "Our businesses are also typically characterized by a high level of products and services that are sold on a recurring basis, primarily through a direct sales model and to a geographically diverse customer base."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company reorganized and integrated certain businesses within its Life Sciences segment.",
+   "evidence": "during the third quarter of 2025, the Company reorganized and integrated certain businesses within its Life Sciences segment to better serve the Company's customers in new market segments and to respond to current market conditions."
+  }
+ ],
+ "dropped": [
+  "product not in text (Biotechnology): lab filtration, separation and purification solutions",
+  "product not in text (Life Sciences): genomic medicines products"
+ ]
+}

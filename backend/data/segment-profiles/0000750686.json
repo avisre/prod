@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000750686",
+ "issuerName": "CAMDEN NATIONAL CORP",
+ "builtAt": "2026-11-14T13:50:10.452Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000750686-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/750686/000075068626000010/cac-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "loans",
+    "deposits",
+    "wealth management and trust services",
+    "brokerage",
+    "investment advisory",
+    "insurance services",
+    "MortgageTouch®",
+    "BusinessTouch®"
+   ],
+   "description": "A community bank that attracts deposits from and extends loans to consumer, institutional, municipal, non-profit and commercial customers across Northern New England.",
+   "evidence": "The CODM makes operating decisions and assesses performance based on an ongoing review of the community banking activities, and has determined the Company has one reportable segment, community banking, for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income from interest on loans, investment securities and other interest-earning assets, less interest paid on deposits and borrowings, plus non-interest income from fees and wealth services.",
+  "evidence": "Net interest income is the interest earned on our lending activities, investment securities and other interest-earning assets, less the interest paid on interest-bearing deposits and borrowings ( i.e. our primary business activities)."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the Company acquired Northway Financial, Inc. and its bank subsidiary N"
+ ]
+}

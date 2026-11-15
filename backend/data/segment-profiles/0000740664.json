@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000740664",
+ "issuerName": "R F INDUSTRIES LTD",
+ "builtAt": "2026-11-14T13:49:55.692Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-001268",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/740664/000143774926001268/rfil20251031_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Interconnect products",
+   "products": [
+    "RF connectors and adapters",
+    "coaxial cables",
+    "data cables",
+    "wire harnesses",
+    "fiber optic cables",
+    "custom cabling",
+    "energy-efficient cooling systems",
+    "integrated small cell enclosures"
+   ],
+   "description": "Manufactures and markets interconnect products and systems, including RF connectors, cable assemblies, fiber optic cables, cooling systems and small cell enclosures, for telecommunications carriers, wireless…",
+   "evidence": "We have one reportable business segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including distributors and OEMs, pay the company for standard and custom interconnect products, cable assemblies and integrated solutions it designs and manufactures.",
+  "evidence": "Cable assemblies manufactured for the RF Connector division are primarily manufactured at our San Diego, California facilities using state-of-the-art automation equipment and are sold through distributors or directly to major OEM accounts."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of fiscal year 2025, the RF Connector and Custom Cabling operating segments were combined into a single reportable segment.",
+   "evidence": "As a result of these changes, our previous RF Connector and Custom Cabling operating segments were combined into a single reportable segment."
+  },
+  {
+   "text": "In fiscal year 2023, the Company integrated the former C Enterprises division into the RF Connector division and San Diego headquarters.",
+   "evidence": "Additionally, during fiscal year 2023, the Company integrated the former C Enterprises division into the RF Connector division and San Diego headquarters."
+  }
+ ],
+ "dropped": []
+}

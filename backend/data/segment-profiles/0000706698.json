@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000706698",
+ "issuerName": "UTAH MEDICAL PRODUCTS, INC.",
+ "builtAt": "2026-11-14T13:48:46.494Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001096906-26-000395",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/706698/000109690626000395/utmd-20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical devices",
+   "products": [
+    "INTRAN PLUS",
+    "BT-Cath",
+    "CVX-Ripe",
+    "AROM-COT",
+    "MUC-X",
+    "Cordguard",
+    "TENDER TOUCH",
+    "DISPOSA-HOOD"
+   ],
+   "description": "Produces and sells medical devices for critical care areas such as NICU, labor and delivery, and women's health, to hospitals, clinics and physician offices.",
+   "evidence": "UTMD markets a broad range of medical devices used in critical care areas, especially the neonatal intensive care unit (NICU), the labor and delivery (L&D) department and the women's health center in hospitals, as well as medical devices sold to outpatient clinics and physician's offices."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinical end-user facilities and stocking distributors pay UTMD for medical devices, sold directly in some markets and through other medical device companies and independent distributors elsewhere.",
+  "evidence": "Domestically, UTMD's medical devices are sold directly to clinical end-user facilities or designated stocking distributors for medical facilities."
+ },
+ "changes": [],
+ "dropped": []
+}

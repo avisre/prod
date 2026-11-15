@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000032621",
+ "issuerName": "EMERSON RADIO CORP",
+ "builtAt": "2026-11-14T13:44:00.655Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-021828",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/32621/000143774926021828/msn20260331_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Houseware and Consumer Electronics",
+   "products": [
+    "Microwave Ovens",
+    "Televisions",
+    "Compact Refrigerators",
+    "Toaster Ovens",
+    "Heaters and Fans",
+    "Clock Radios",
+    "Bluetooth Speakers",
+    "Karaoke Machines"
+   ],
+   "description": "Designs, sources, imports and markets low-to-moderately priced houseware and consumer electronic products under the Emerson brand, and licenses its trademarks to third parties.",
+   "evidence": "The Company currently operates as one segment which includes two revenue types, product sales and licensing revenue."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product sales from mass merchandisers and online marketplaces buying its houseware and consumer electronic products, and licensing revenue from licensees paying to use its trademarks.",
+  "evidence": "The Company, directly and through its subsidiaries, designs, sources, imports, markets, sells and licenses to certain licensees a variety of houseware and consumer electronic products, both domestically and internationally, under the Emerson® brand name."
+ },
+ "changes": [],
+ "dropped": []
+}

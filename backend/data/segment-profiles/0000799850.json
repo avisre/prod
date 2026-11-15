@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000799850",
+ "issuerName": "AMERICA’S CAR-MART, INC.",
+ "builtAt": "2026-11-14T13:51:26.190Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-048191",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-07-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/799850/000162828026048191/crmt-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated Auto Sales and Finance",
+   "products": [
+    "older model used vehicles"
+   ],
+   "description": "Sells older model used vehicles and provides financing for customers with limited financial resources and imperfect credit histories, primarily in small South-Central U.S. cities.",
+   "evidence": "The Company operates in a single reportable segment which represents our core business of offering integrated automotive sales and financing solutions for customers with limited financial resources regardless of credit history."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for used vehicles and make principal and interest payments on installment sales contracts the Company originates and services.",
+  "evidence": "The Company provides financing in connection with the sale of substantially all of its vehicles."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Integrated Auto Sales and Finance): vehicle installment sales contracts financing",
+  "product not in text (Integrated Auto Sales and Finance): contract servicing and collections",
+  "change not grounded: In fiscal 2026 the Company closed 60 dealerships as part of its footprint optimi"
+ ]
+}

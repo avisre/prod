@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001861841",
+ "issuerName": "Arbe Robotics Ltd.",
+ "builtAt": "2026-11-14T17:41:58.044Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-035653",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1861841/000121390026035653/ea0283041-20f_arbe.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single reportable segment",
+   "products": [
+    "4D imaging radar chipset",
+    "radar systems"
+   ],
+   "description": null,
+   "evidence": "The Company operates as a single operating and reportable segment and is managed on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "escalated": "revenue model not quoted"
+}

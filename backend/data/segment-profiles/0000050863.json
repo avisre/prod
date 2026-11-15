@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000050863",
+ "issuerName": "Intel Corporation",
+ "builtAt": "2026-11-14T13:44:50.208Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000050863-26-000011",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-01-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CCG",
+   "products": [
+    "Intel Core Ultra processors",
+    "platforms and processors that power PCs and edge devices"
+   ],
+   "description": "Delivers platforms and processors that power PCs and edge devices for consumer and commercial markets, sold through distributors and OEMs.",
+   "evidence": "CCG delivers platforms and processors that power PCs and edge devices, enabling enhanced performance, connectivity and user experiences for consumer and commercial markets, with capabilities that also support retail, industrial robotics and AI ecosystems at the edge."
+  },
+  {
+   "name": "DCAI",
+   "products": [
+    "CPUs",
+    "AI accelerators",
+    "NICs",
+    "IPUs",
+    "custom ASICs"
+   ],
+   "description": null,
+   "evidence": "DCAI delivers workload-optimized solutions based upon our x86 architecture for data centers, including CPUs, AI accelerators, NICs, IPUs, and custom ASICs, enabling performance and scalability for cloud, enterprise, telecommunication and HPC environments."
+  },
+  {
+   "name": "Intel Foundry",
+   "products": [
+    "semiconductor process technologies",
+    "advanced packaging technologies",
+    "manufacturing, assembly and test",
+    "design enablement solutions"
+   ],
+   "description": "Develops leading-edge process and packaging technologies and provides manufacturing and foundry services, mostly internally for Intel Products.",
+   "evidence": "Intel Foundry, comprised of technology development, manufacturing and foundry services, develops new leading-edge semiconductor process technologies and advanced packaging technologies and provides manufacturing, assembly and test and advanced packaging capacity and design enablement solutions across multiple nodes and platforms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Intel earns revenue selling CPUs and related products to distributors, OEMs, CSP/hyperscalers, and by providing manufacturing and foundry services, currently mostly to its internal Intel Products business.",
+  "evidence": "Our direct customers include distributors and OEMs that design and sell PCs and related devices."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, Intel completed the divestiture of 51% of Altera, whose results were pr"
+ ]
+}

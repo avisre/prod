@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000712534",
+ "issuerName": "FIRST MERCHANTS CORP",
+ "builtAt": "2026-11-14T13:48:55.850Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000712534-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/712534/000071253426000022/frme-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "consumer banking services",
+    "debt capital",
+    "treasury management services",
+    "depository products",
+    "consumer deposit and lending products",
+    "consumer mortgage solutions",
+    "personal wealth management services"
+   ],
+   "description": "Provides commercial and consumer banking, mortgage, and wealth management services to customers in Indiana, Ohio, and Michigan.",
+   "evidence": "The Corporation's business activities are currently limited to one significant business segment, which is community banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Corporation earns net interest income from lending customer deposits and fee income from banking and wealth management services.",
+  "evidence": "Our commercial banking team offers a full spectrum of debt capital, treasury management services and depository products."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Corporation completed the acquisition of First Savings Financial Group, Inc., which merged into the Bank.",
+   "evidence": "On February 1, 2026, the Corporation completed the acquisition of First Savings Financial Group, Inc., an Indiana corporation (\"First Savings\")"
+  }
+ ],
+ "dropped": [
+  "product not in text (Community banking): commercial banking services"
+ ]
+}

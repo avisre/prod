@@ -1,0 +1,69 @@
+{
+ "version": 1,
+ "cik": "0000026324",
+ "issuerName": "CURTISS-WRIGHT CORPORATION",
+ "builtAt": "2026-11-14T14:07:55.901Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007587",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/26324/000162828026007587/cw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace & Industrial",
+   "products": [
+    "sensors",
+    "controls",
+    "electro-mechanical actuation components",
+    "shot peening",
+    "laser peening",
+    "engineered coatings",
+    "power management electronics",
+    "traction inverters"
+   ],
+   "description": "Provides engineered products and surface technology services for commercial aerospace, general industrial, and defense markets.",
+   "evidence": "Sales in the Aerospace & Industrial segment are primarily generated from the commercial aerospace and general industrial markets and, to a lesser extent, the defense markets."
+  },
+  {
+   "name": "Defense Electronics",
+   "products": [
+    "COTS embedded computing board-level modules",
+    "data acquisition and flight test instrumentation equipment",
+    "integrated subsystems",
+    "instrumentation and control systems",
+    "tactical communications solutions",
+    "electronic stabilization products",
+    "avionics and electronics",
+    "aircraft data recorder and management solutions"
+   ],
+   "description": "Provides COTS embedded computing and electronic products to defense markets and commercial aerospace.",
+   "evidence": "Sales in the Defense Electronics segment are primarily to the defense markets, where we support government entities in aerospace defense, ground defense, and naval defense, and, to a lesser extent, the commercial aerospace market."
+  },
+  {
+   "name": "Naval & Power",
+   "products": [
+    "main coolant pumps",
+    "power-dense compact motors",
+    "generators",
+    "steam turbines",
+    "valves",
+    "aircraft arresting systems",
+    "Reactor Coolant Pumps",
+    "control rod drive mechanisms"
+   ],
+   "description": "Provides naval propulsion equipment and nuclear power products to naval defense and power & process markets.",
+   "evidence": "Sales in the Naval & Power segment are primarily to the naval defense and power & process markets and, to a lesser extent, the aerospace defense market."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including defense prime contractors, commercial aerospace OEMs, the U.S. Government, and energy and manufacturing companies pay for engineered products, solutions, and services.",
+  "evidence": "Our ability to provide mission critical, niche products and services on a cost-effective basis is fundamental to our strategy to drive increased value to our customers, which include defense prime contractors, commercial aerospace original equipment manufacturers (\"OEMs\"), and numerous energy and manufacturing companies."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000007536",
+ "issuerName": "ARROW ELECTRONICS, INC.",
+ "builtAt": "2026-11-14T14:06:35.267Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-012765",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/7536/000110465926012765/arw-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "global components",
+   "products": [
+    "semiconductor products and related services",
+    "IP&E products",
+    "computing and memory"
+   ],
+   "description": "Markets and distributes electronic components with value-added capabilities and services to OEMs and EMS providers.",
+   "evidence": "The company distributes electronic components to OEMs and EMS providers through its global components segment"
+  },
+  {
+   "name": "global ECS",
+   "products": [
+    "cloud solutions",
+    "analytics solutions",
+    "software applications",
+    "storage",
+    "compute",
+    "networking"
+   ],
+   "description": "Provides comprehensive computing solutions and services to VARs and MSPs through ArrowSphere marketplace platform.",
+   "evidence": "provides enterprise computing solutions to VARs and MSPs through its global ECS segment"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase products and services on an order-by-order basis; suppliers pay fees for outsourcing and demand creation services.",
+  "evidence": "Substantially all of the company's sales are made on an order-by-order basis, rather than through long-term sales contracts."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (global ECS): datacenter solutions",
+  "product not in text (global ECS): security solutions"
+ ]
+}

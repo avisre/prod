@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000077543",
+ "issuerName": "Tutor Perini Corporation",
+ "builtAt": "2026-11-14T13:46:02.022Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000077543-26-000028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/77543/000007754326000028/tpc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Civil",
+   "products": [
+    "highways",
+    "bridges",
+    "tunnels",
+    "mass-transit systems",
+    "military and other government facilities",
+    "water management and wastewater treatment facilities"
+   ],
+   "description": "Public works construction and infrastructure replacement and reconstruction for public agencies across major U.S. regions.",
+   "evidence": "Our Civil segment specializes in public works construction and the replacement and reconstruction of infrastructure across several major geographic regions of the United States."
+  },
+  {
+   "name": "Building",
+   "products": [
+    "general contracting",
+    "design-build",
+    "preconstruction",
+    "construction services"
+   ],
+   "description": "General contracting and construction services for private and public customers in hospitality and gaming, healthcare, commercial, education and other specialized building markets.",
+   "evidence": "Our Building segment has significant experience providing services to several specialized building markets for private and public works customers, including hospitality and gaming, transportation, healthcare, commercial offices, government facilities, sports and entertainment, education, correctional and detention facilities, biotech, pharmaceutical, industrial and technology."
+  },
+  {
+   "name": "Specialty Contractors",
+   "products": [
+    "electrical",
+    "mechanical",
+    "plumbing",
+    "HVAC",
+    "fire protection systems"
+   ],
+   "description": "Electrical, mechanical, plumbing, HVAC and fire protection services for civil and building projects, largely performed for the other two segments.",
+   "evidence": "Our Specialty Contractors segment specializes in electrical, mechanical, plumbing, HVAC and fire protection systems for a full range of civil and building construction projects in the industrial, commercial, hospitality and gaming, and mass-transit end markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from private customers and public agencies under competitively bid or best-value construction contracts for general contracting, construction management and design-build services.",
+  "evidence": "Tutor Perini Corporation (together with its consolidated subsidiaries, \"Tutor Perini,\" the \"Company,\" \"we,\" \"us,\" and \"our,\" unless the context indicates otherwise) is a leading construction company offering diversified general contracting, construction management and design-build services to private customers and public agencies throughout the world."
+ },
+ "changes": [],
+ "dropped": []
+}

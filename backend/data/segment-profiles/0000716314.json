@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000716314",
+ "issuerName": "GRAHAM CORPORATION",
+ "builtAt": "2026-11-14T13:49:06.186Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-260688",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/716314/000119312526260688/ghm-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mission critical equipment",
+   "products": [
+    "ejectors",
+    "surface condensers",
+    "turbines",
+    "pumps",
+    "blowers",
+    "liquid ring pumps",
+    "heat exchangers",
+    "Bladeless centrifugal mixers"
+   ],
+   "description": "Designs and manufactures mission critical fluid, power, heat transfer, vacuum and advanced mixing technologies for Defense, Energy & Process, and Space industry customers.",
+   "evidence": "The Company has one reporting segment as its operating segments meet the requirements for aggregation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including defense suppliers, refineries, petrochemical plants, engineering contractors and OEMs, pay the company for custom-engineered equipment, spare parts and services.",
+  "evidence": "The Company also services and sells spare parts for its equipment."
+ },
+ "changes": [],
+ "dropped": []
+}

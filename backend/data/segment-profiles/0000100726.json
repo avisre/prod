@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000100726",
+ "issuerName": "UNIFI, INC.",
+ "builtAt": "2026-11-14T13:47:00.569Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000100726-26-000012",
+  "periodEnd": "2026-06-28",
+  "filingDate": "2026-08-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/100726/000010072626000012/ufi-20260628.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas Segment",
+   "products": [
+    "POY",
+    "textured, solution and package dyed, twisted, beamed, and draw wound yarns",
+    "Flake",
+    "Chip",
+    "staple fiber",
+    "REPREVE"
+   ],
+   "description": "Manufactures and sells recycled and synthetic polyester and nylon textile products to yarn manufacturers, knitters and weavers principally in North and Central America.",
+   "evidence": "The Americas Segment primarily manufactures and sells recycled and synthetic textile products to yarn manufacturers, knitters and weavers that produce yarn and/or fabric for the apparel, hosiery, home furnishings, automotive, industrial, medical, and other end‑use markets principally in North and Central America."
+  },
+  {
+   "name": "Brazil Segment",
+   "products": [
+    "POY",
+    "textured, solution and package dyed, twisted, beamed, and draw wound yarns",
+    "Flake",
+    "Chip",
+    "staple fiber",
+    "REPREVE"
+   ],
+   "description": "Manufactures and sells recycled and synthetic textile products to knitters and weavers producing fabric principally for the Brazilian market.",
+   "evidence": "The Brazil Segment primarily manufactures and sells recycled and synthetic textile products to knitters and weavers that produce fabric for the apparel, home furnishings, automotive, industrial, and other end-use markets principally in Brazil."
+  },
+  {
+   "name": "Asia Segment",
+   "products": [
+    "recycled and synthetic textile products",
+    "REPREVE"
+   ],
+   "description": "Sources recycled and synthetic textile products from third-party suppliers and sells them to yarn manufacturers, knitters, and weavers principally in Asia and Europe.",
+   "evidence": "The Asia Segment primarily sources recycled and synthetic textile products from third party suppliers and sells to yarn manufacturers, knitters, and weavers principally in Asia and Europe that produce fabric for the apparel, automotive, home furnishings, industrial, and other end-use markets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "UNIFI is paid by direct customers—yarn manufacturers, knitters and weavers—for recycled and synthetic polyester and nylon textile products used to produce yarn and fabric for apparel and other end-use markets.",
+  "evidence": "is a multinational company that manufactures and sells innovative recycled and synthetic products, made from polyester and nylon, primarily to other yarn manufacturers and knitters and weavers (UNIFI's \"direct customers\") that produce yarn and/or fabric for the apparel, hosiery, home furnishings, automotive, industrial, medical, and other end-use markets"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Americas Segment): nylon textured, solution dyed, and spandex covered yarns",
+  "product not in text (Brazil Segment): nylon textured, solution dyed, and spandex covered yarns"
+ ]
+}

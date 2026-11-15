@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000356171",
+ "issuerName": "TriCo Bancshares",
+ "builtAt": "2026-11-14T13:48:31.602Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000356171-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/356171/000035617126000010/tcbk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "demand, savings and time deposits",
+    "small business, commercial, real estate, and consumer loans",
+    "treasury management services",
+    "safe deposit boxes",
+    "online and mobile banking",
+    "brokerage and wealth management services"
+   ],
+   "description": "Tri Counties Bank provides consumer, small business and commercial banking services to customers throughout California.",
+   "evidence": "The Bank provides a breadth of personal, small business and commercial financial services including accepting demand, savings and time deposits and making small business, commercial, real estate, and consumer loans, as well as a range of treasury management services and other customary banking services including safe deposit boxes at some branches."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns revenue from interest on loans to individuals and businesses and from banking services provided to deposit and loan customers.",
+  "evidence": "The majority of the Bank's loans are direct loans made to individuals and businesses in California where its branches or business lending centers are located."
+ },
+ "changes": [],
+ "dropped": []
+}

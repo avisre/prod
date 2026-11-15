@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001431852",
+ "issuerName": "Osisko Development Corp.",
+ "builtAt": "2026-11-15T02:51:22.452Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-036344",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1431852/000110465926036344/odv-20251231xex99d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Canada",
+   "products": [],
+   "description": "Acquisition, exploration and development of mineral properties located in Canada.",
+   "evidence": "The chief decision-maker organizes and manages the business under geographic segments, being the acquisition, exploration and development of mineral properties."
+  },
+  {
+   "name": "USA",
+   "products": [],
+   "description": "Acquisition, exploration and development of mineral properties located in the USA.",
+   "evidence": "The chief decision-maker organizes and manages the business under geographic segments, being the acquisition, exploration and development of mineral properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from mining operations in the USA segment.",
+  "evidence": "Revenues ​ — ​ 35,478 35,478"
+ },
+ "changes": [
+  {
+   "text": "In 2025, Mexican operations were classified as held for sale.",
+   "evidence": "are located in Canada, the USA and Mexico prior to classification of the Mexican operations as asset held for sale in 2025"
+  }
+ ],
+ "dropped": []
+}

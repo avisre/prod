@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0000029644",
+ "issuerName": "Donaldson Company, Inc.",
+ "builtAt": "2026-11-14T14:08:04.936Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000029644-26-000085",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/29644/000002964426000085/dci-20260731.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobile Solutions",
+   "products": [
+    "filtration housings",
+    "air filtration systems",
+    "fuel filters",
+    "sensors, indicators and monitoring systems"
+   ],
+   "description": "Provides filtration solutions for construction, mining, agriculture and transportation equipment through OEMs and dealer networks.",
+   "evidence": "The Mobile Solutions segment, which represents 62.3% of net sales in fiscal 2026, is organized based on a combination of customers and products and consists of the Off-Road, On-Road and Aftermarket business units."
+  },
+  {
+   "name": "Industrial Solutions",
+   "products": [
+    "dust, fume and mist collectors",
+    "compressed air and industrial gases purification systems",
+    "hydraulic and lubricated rotating filtration applications",
+    "air inlet systems and filtration",
+    "dryers",
+    "lube, fuel and air/oil separators"
+   ],
+   "description": "Provides industrial filtration equipment, components and services for manufacturing, power generation and aerospace and defense sectors.",
+   "evidence": "The Industrial Solutions segment, which represents 29.1% of net sales in fiscal 2026, is organized based on product type and consists of Industrial Air Filtration, Industrial Gases, Industrial Hydraulics, Power Generation and Aerospace and Defense products."
+  },
+  {
+   "name": "Life Sciences",
+   "products": [
+    "micro-environment gas and liquid filtration",
+    "bioprocessing consumables including chromatography devices, reagents and filters",
+    "polytetrafluoroethylene membrane-based products",
+    "specialized air and gas filtration systems"
+   ],
+   "description": "Provides filtration and bioprocessing solutions for food and beverage, data centers, semiconductors and bioprocessing applications.",
+   "evidence": "The Life Sciences segment, which represents 8.6% of net sales in fiscal 2026, is organized by end market and consists of the Food and Beverage, Disk Drive, Advanced Membrane Solutions, Microelectronics and Upstream and Downstream Bioprocessing markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs, distributors and end users pay for filtration products and services that enhance equipment performance and manufacturing efficiency.",
+  "evidence": "Mobile Solutions sells to original equipment manufacturers (OEMs) in the construction, mining, agriculture and transportation end markets and to independent distributors and OEM dealer networks."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the Company acquired Filtration Group's Facet Filtration business to strengthen its aerospace and defense and power generation positions.",
+   "evidence": "During fiscal 2026, the Company acquired Filtration Group's Facet Filtration business (Facet), consisting of Facet (Oklahoma) LLC and Facet Netherlands B.V."
+  }
+ ],
+ "dropped": [
+  "product not in text (Mobile Solutions): replacement filters for air and liquid filtration applications",
+  "product not in text (Mobile Solutions): exhaust and emissions systems",
+  "product not in text (Mobile Solutions): lube filters",
+  "product not in text (Mobile Solutions): hydraulic filters",
+  "product not in text (Industrial Solutions): aerospace and defense filtration",
+  "product not in text (Life Sciences): bioprocessing equipment including bioreactors and fermenters"
+ ]
+}

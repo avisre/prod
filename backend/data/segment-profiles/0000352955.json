@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000352955",
+ "issuerName": "CKX Lands, Inc.",
+ "builtAt": "2026-11-14T13:48:22.737Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010434",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/352955/000143774926010434/ckx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and Gas",
+   "products": [
+    "oil and gas royalties",
+    "mineral leases",
+    "lease rentals",
+    "geophysical revenues"
+   ],
+   "description": "Collects royalties and lease income from oil and gas operators who explore and produce on Company land.",
+   "evidence": "CKX leases its property to oil and gas operators and collects income through its land ownership in the form of oil and gas royalties and lease rentals and geophysical revenues."
+  },
+  {
+   "name": "Timber",
+   "products": [
+    "timber sales",
+    "stumpage agreements"
+   ],
+   "description": "Actively manages and sells timber from Company lands to buyers through competitive bids and pay-as-cut contracts.",
+   "evidence": "Timber income is derived from sales of timber on Company lands."
+  },
+  {
+   "name": "Surface",
+   "products": [
+    "pipeline right of ways",
+    "temporary worksite rentals"
+   ],
+   "description": "Earns recurring and non-recurring surface income from leasing Company land for farming, hunting, commercial and right-of-way uses.",
+   "evidence": "Recurring surface income is earned from lease arrangements for farming, recreational and commercial uses."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "CKX is paid by oil and gas operators through royalties on production, by timber buyers under pay-as-cut stumpage contracts, and by tenants under surface leases for farming, hunting, right-of-way and commercial uses.",
+  "evidence": "The Company receives royalties on all oil and gas produced by the customer."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Surface): farming leases",
+  "product not in text (Surface): recreational leases",
+  "product not in text (Surface): commercial leases",
+  "product not in text (Surface): hunting leases",
+  "product not in text (Surface): surface mineral sales"
+ ]
+}

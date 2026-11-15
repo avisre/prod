@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0000089439",
+ "issuerName": "MUELLER INDUSTRIES, INC",
+ "builtAt": "2026-11-14T13:46:26.483Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000089439-26-000008",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/89439/000008943926000008/mli-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Piping Systems",
+   "products": [
+    "copper tube",
+    "copper fittings",
+    "line sets",
+    "pipe nipples",
+    "steel pipe",
+    "brass and plastic plumbing valves",
+    "malleable iron fittings",
+    "faucets"
+   ],
+   "description": "Manufactures and distributes copper tube, fittings, line sets and nipples, and resells plumbing products to wholesalers, distributors, retailers, and air-conditioning OEMs.",
+   "evidence": "The Piping Systems segment is composed of Domestic Piping Systems Group, Great Lakes Copper (Great Lakes), European Operations, Trading Group, Jungwoo Metal Ind. Co., LTD (Jungwoo-Mueller), and Mueller Middle East WLL (Mueller Middle East)."
+  },
+  {
+   "name": "Industrial Metals",
+   "products": [
+    "brass rod and shapes",
+    "aluminum and brass forgings",
+    "aluminum impact extrusions",
+    "gas valves and assemblies",
+    "specialty copper, copper alloy, and aluminum tube",
+    "wire and cable"
+   ],
+   "description": "Manufactures brass rod, forgings, impact extrusions, valves, specialty tube, and wire and cable primarily for domestic OEMs in industrial, construction, utility, and electrical markets.",
+   "evidence": "The Industrial Metals segment is composed of Brass Rod, Impacts & Micro Gauge, Brass Value-Added Products, Precision Tube, and Nehring Electrical Works Company (Nehring)."
+  },
+  {
+   "name": "Climate",
+   "products": [
+    "refrigeration valves and fittings",
+    "high-pressure components and accessories",
+    "coaxial heat exchangers",
+    "twisted tubes",
+    "insulated HVAC flexible duct systems",
+    "line sets"
+   ],
+   "description": "Manufactures refrigeration valves and fittings, heat exchangers, flexible duct systems, and line sets for HVAC and refrigeration wholesalers and OEMs.",
+   "evidence": "The Climate segment is composed of Refrigeration Products, Westermeyer Industries, Inc. (Westermeyer), Turbotec Products, Inc. (Turbotec), Flex Duct, and Linesets, Inc."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue selling manufactured copper, brass, and aluminum products to wholesalers, distributors, retailers, and OEMs, with selling prices generally passing through changes in raw material costs.",
+  "evidence": "Changes in raw material costs are generally passed through to customers by adjustments to selling prices."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company acquired Elkhart Products Corporation and Nehring Electrical Works Company, adding to the Piping Systems and Industrial Metals segments respectively.",
+   "evidence": "We acquired Elkhart Products Corporation on August 2, 2024, and increased our equity interest in Mueller Middle East to 55 percent on December 7, 2021."
+  },
+  {
+   "text": "In 2023 the company disposed of Heatlink Group, which had manufactured PEX plumbing and radiant system products in Canada.",
+   "evidence": "We disposed of Die-Mold on September 2, 2021 and Heatlink Group on July 3, 2023 in a contribution agreement with a limited liability company operating in the retail distribution business."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2021 the company disposed of Die-Mold, Fabricated Tube Products, and Shoals, "
+ ]
+}

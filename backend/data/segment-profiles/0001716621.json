@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001716621",
+ "issuerName": "Catheter Precision, Inc.",
+ "builtAt": "2026-11-15T02:51:25.976Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1716621/000143774926010549/vtak20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardiac Electrophysiology",
+   "products": [
+    "VIVO System",
+    "LockeT",
+    "Amigo Remote Catheter System",
+    "CPNS System"
+   ],
+   "description": "Markets and sells medical technologies for cardiac electrophysiology procedures, including diagnostic mapping systems and ablation support devices.",
+   "evidence": "The Company operates in one reportable segment, which includes all activities related to the marketing, sales, and development of medical technologies in the cardiac electrophysiology field."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells medical devices to healthcare providers for use in cardiac electrophysiology procedures and wound healing applications.",
+  "evidence": "For the Year Ended December 31, 2025 2024 Revenues $ 819 $ 420"
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company merged with Catheter Precision, Inc. and discontinued its legacy DABRA laser-based product lines.",
+   "evidence": "On January 9, 2023, the Company merged with Catheter Precision, Inc., or \"Old Catheter\", a privately-held Delaware corporation (the \"Merger\"), and the business of Old Catheter became a wholly owned subsidiary of the Company, which today is our only operating subsidiary. Following the Merger, we discontinued the Company's legacy lines of business and the use of any of its DABRA-related assets."
+  },
+  {
+   "text": "In 2025, the company formed subsidiary Cardionomix to acquire the CPNS System from Cardionomic.",
+   "evidence": "On February 17, 2025, we formed a new subsidiary, Cardionomix, Inc. (\"Cardionomix\"), to acquire certain assets previously held by Cardionomic, Inc. (\"Cardionomic\"), a third-party entity that had ceased operations."
+  },
+  {
+   "text": "In 2025, the company formed subsidiary KardioNav to advance the VIVO System technology integrated with Chelak's cardiac device interface patents.",
+   "evidence": "On June 20, 2025, we formed a new subsidiary, KardioNav, Inc. (\"KardioNav\"), to pursue the advancement, development, and commercialization of certain intellectual property assigned to KardioNav."
+  }
+ ],
+ "dropped": []
+}

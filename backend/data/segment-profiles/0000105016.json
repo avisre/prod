@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000105016",
+ "issuerName": "WATSCO, INC.",
+ "builtAt": "2026-11-14T13:47:16.069Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-082486",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/105016/000119312526082486/wso-ex13.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HVAC/R distribution",
+   "products": [
+    "heating equipment",
+    "refrigeration equipment",
+    "related parts and supplies"
+   ],
+   "description": "Distributes air conditioning, heating and refrigeration equipment and related parts and supplies to contractors and other customers across North America.",
+   "evidence": "We have one operating and reporting segment: HVAC/R distribution."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from selling HVAC/R equipment, parts and supplies to customers, including contractors and Carrier and its affiliates.",
+  "evidence": "Revenues primarily consist of sales of air conditioning, heating, and refrigeration equipment, and related parts and supplies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (HVAC/R distribution): air conditioning equipment"
+ ]
+}

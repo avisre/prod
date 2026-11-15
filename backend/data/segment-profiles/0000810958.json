@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000810958",
+ "issuerName": "CITIZENS & NORTHERN CORPORATION",
+ "builtAt": "2026-11-14T13:51:36.029Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024613",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/810958/000110465926024613/cznc-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "deposit and loan products",
+    "commercial, mortgage and consumer loans",
+    "commercial letters-of-credit",
+    "checking accounts",
+    "passbook and statement savings",
+    "money market accounts",
+    "certificates of deposit",
+    "wealth management services"
+   ],
+   "description": "Provides banking, lending, deposit, wealth management and insurance services to individual and corporate customers in Pennsylvania and southern New York.",
+   "evidence": "The Corporation conducts its operations through one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Individual and corporate customers pay interest on loans and service charges on deposit accounts, and pay fees for wealth management, insurance and investment products.",
+  "evidence": "The Bank is generally competitive with all financial institutions in our service areas with respect to interest rates paid on time and savings deposits, service charges on deposit accounts and interest rates charged on loans."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Corporation completed its merger with Susquehanna Community Financial, Inc., adding Susquehanna Community Bank to C&N Bank.",
+   "evidence": "On October 1, 2025, the Corporation completed its previously announced merger with Susquehanna Community Financial, Inc. (\"Susquehanna\")."
+  },
+  {
+   "text": "In 2020 the Corporation acquired Covenant Financial, Inc., expanding into Southeastern Pennsylvania.",
+   "evidence": "The Corporation acquired Covenant Financial, Inc. (\"Covenant\"), effective July 1, 2020."
+  },
+  {
+   "text": "In 2019 the Corporation acquired Monument Bancorp, Inc., a commercial bank with offices in Bucks County.",
+   "evidence": "The Covenant acquisition followed the 2019 acquisition of Monument Bancorp, Inc. (\"Monument\"), a commercial bank with offices in Bucks County."
+  }
+ ],
+ "dropped": []
+}

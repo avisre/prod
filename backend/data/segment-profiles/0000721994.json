@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000721994",
+ "issuerName": "LAKELAND FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T13:49:24.346Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000721994-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/721994/000072199426000018/lkfn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial and consumer banking services",
+    "deposit products",
+    "commercial and consumer lending",
+    "retail and merchant credit card services",
+    "corporate treasury management services",
+    "private banking",
+    "wealth advisory, trust and brokerage services"
+   ],
+   "description": "A full-service community bank providing commercial and consumer banking, wealth advisory, trust and brokerage services to customers in Northern and Central Indiana.",
+   "evidence": "The Company offers commercial and consumer banking services, as well as trust and wealth management, brokerage, and treasury management commercial services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue primarily from the business of banking, including interest on loans and fees for banking, treasury management, trust and wealth advisory services paid by its commercial and consumer customers.",
+  "evidence": "The Company's revenue is primarily derived from the business of banking."
+ },
+ "changes": [],
+ "dropped": []
+}

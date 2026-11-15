@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000005272",
+ "issuerName": "American International Group, Inc.",
+ "builtAt": "2026-11-14T14:06:25.238Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000005272-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/5272/000000527226000023/aig-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Commercial",
+   "products": [
+    "Commercial and industrial property",
+    "Business interruption",
+    "Package insurance",
+    "General liability",
+    "Environmental",
+    "Commercial automobile liability",
+    "Workers' compensation",
+    "Professional liability"
+   ],
+   "description": "Commercial insurance for North American businesses covering property, casualty, and financial lines risks.",
+   "evidence": "The three segments are North America Commercial, International Commercial and Global Personal."
+  },
+  {
+   "name": "International Commercial",
+   "products": [
+    "Marine",
+    "Energy-related property insurance",
+    "Aviation",
+    "Political risk",
+    "Trade credit",
+    "Trade finance",
+    "Professional liability",
+    "Directors and officers"
+   ],
+   "description": "Commercial insurance for international businesses covering specialty lines and financial risks.",
+   "evidence": "The three segments are North America Commercial, International Commercial and Global Personal."
+  },
+  {
+   "name": "Global Personal",
+   "products": [
+    "Group personal accident",
+    "Business travel",
+    "Personal accident",
+    "Supplemental health",
+    "Personal auto",
+    "Homeowners",
+    "Device protection insurance",
+    "Private Client Select"
+   ],
+   "description": "Personal insurance for individuals and groups including accident, health, auto and homeowners coverage.",
+   "evidence": "The three segments are North America Commercial, International Commercial and Global Personal."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay premiums for insurance policies covering commercial and personal property, casualty, liability and specialty risks.",
+  "evidence": "AIG provides insurance solutions that help businesses and individuals in over 200 countries and jurisdictions protect their assets and manage risks through AIG operations, licenses and authorizations as well as network partners."
+ },
+ "changes": [],
+ "dropped": []
+}

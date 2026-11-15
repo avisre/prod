@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000014693",
+ "issuerName": "BROWN FORMAN CORP",
+ "builtAt": "2026-11-14T14:07:05.046Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000014693-26-000024",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-06-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/14693/000001469326000024/bfb-20260430.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beverage alcohol",
+   "products": [
+    "Jack Daniel's Tennessee Whiskey",
+    "Woodford Reserve Kentucky Bourbon",
+    "Old Forester Kentucky Straight Bourbon Whisky",
+    "el Jimador Tequilas",
+    "Herradura Tequilas",
+    "Gentleman Jack Rare Tennessee Whiskey",
+    "Diplomático Rums",
+    "Jack Daniel's RTD"
+   ],
+   "description": "Manufactures, distills, bottles, imports, markets, and sells spirit and ready-to-drink cocktail brands to consumers worldwide.",
+   "evidence": "Our business constitutes a single operating segment, which derives its revenues predominantly from global sales of beverage alcohol consumer products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells its beverage alcohol products to distributors, state and provincial governments, retailers, and wholesalers who then sell to consumers.",
+  "evidence": "In the United States, which generally prohibits spirits manufacturers from selling their products directly to consumers, we sell our products either to distributors or to state governments (in states that directly control alcohol sales) that then sell to retail customers and consumers."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

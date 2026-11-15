@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000739421",
+ "issuerName": "CITIZENS FINANCIAL SERVICES, INC.",
+ "builtAt": "2026-11-14T13:49:54.033Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-009103",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/739421/000114036126009103/ef20060669_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community Banking",
+   "products": [
+    "checking, savings, and time deposit accounts",
+    "commercial and industrial loans",
+    "state and political subdivision loans",
+    "consumer loans",
+    "client investment, estate, mineral management and retirement services"
+   ],
+   "description": "A full-service community bank providing deposit, lending and trust services to individual, business, governmental and institutional customers.",
+   "evidence": "The Bank is a full-service bank engaged in a broad range of banking activities and services for individual, business, governmental and institutional customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and dividends on loans, investments and deposits, plus non-interest income from banking fees and services.",
+  "evidence": "Loans, investments, and deposits provide the revenues in the banking operation."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company terminated the corporate existence of CZFS and the Bank's interest was transferred back to the Company.",
+   "evidence": "During 2024, the Company terminated the corporate existence of CZFS and the interest in the Bank was transferred back to the Company."
+  },
+  {
+   "text": "In 2023, the Company acquired HV Bancorp, Inc. and its subsidiary Huntingdon Valley Bank.",
+   "evidence": "On June 16, 2023, the Company acquired HV Bancorp, Inc. (\"HVBC\") and its wholly owned subsidiary, Huntingdon Valley Bank (\"HVB\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Community Banking): residential, commercial and agricultural real estate loans",
+  "change not grounded: In 2024, the Bank terminated the corporate existence of its subsidiary 1st Realt"
+ ]
+}

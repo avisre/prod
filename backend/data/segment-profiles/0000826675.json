@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000826675",
+ "issuerName": "DYNEX CAPITAL, INC.",
+ "builtAt": "2026-11-14T13:52:09.199Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000826675-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/826675/000082667526000017/dx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investing in MBS",
+   "products": [
+    "Agency RMBS",
+    "Agency CMBS",
+    "CMBS IO",
+    "TBA securities",
+    "non-Agency RMBS and CMBS"
+   ],
+   "description": "A leveraged REIT investing primarily in Agency mortgage-backed securities funded with repurchase agreements and equity.",
+   "evidence": "The Company's operations consist of one reportable segment which involves investing in MBS and funding these investments with repurchase agreements and equity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and principal cash flows from its mortgage-backed securities portfolio, primarily Agency RMBS.",
+  "evidence": "The Company's revenue is derived from its investment portfolio, which currently consists of primarily Agency RMBS."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000025895",
+ "issuerName": "CROWN CRAFTS INC",
+ "builtAt": "2026-11-14T14:07:51.223Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-021496",
+  "periodEnd": "2026-03-29",
+  "filingDate": "2026-06-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/25895/000143774926021496/crws20260329_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "infant, toddler and juvenile products",
+   "products": [
+    "Developmental toys",
+    "Dolls and plush toys",
+    "Reusable and disposable bibs",
+    "Infant and toddler bedding",
+    "Diaper bags",
+    "Blankets and swaddle blankets",
+    "Nursery and toddler accessories",
+    "Feeding and care goods"
+   ],
+   "description": "Designs, sources and sells infant, toddler and juvenile soft goods and products to retailers under owned, licensed and private label brands.",
+   "evidence": "The Company operates in one principal segment, infant, toddler and juvenile products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers such as mass merchants, chain stores and internet accounts pay the Company for infant, toddler and juvenile products sold directly to them.",
+  "evidence": "Most sales of the Company's products are generally made directly to retailers, such as mass merchants, large chain stores, mid-tier retailers, juvenile specialty stores, value channel stores, grocery and drug stores, restaurants, wholesale clubs and internet-based retailers."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no filed row matches"
+}

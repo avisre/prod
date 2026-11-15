@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000726728",
+ "issuerName": "REALTY INCOME CORPORATION",
+ "builtAt": "2026-11-14T13:49:34.156Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000726728-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/726728/000072672826000011/o-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Net lease real estate",
+   "products": [
+    "Retail properties",
+    "Data centers",
+    "Real estate credit investments",
+    "Loans and preferred equity interests"
+   ],
+   "description": "Acquires, owns and actively manages freestanding commercial properties leased under long-term net lease agreements to diversified operators in the U.S. and Europe.",
+   "evidence": "Our primary business is the acquisition, ownership, and active management of freestanding commercial properties leased under long‑term net lease agreements to a diversified base of operators, including a blend of investment grade, investment grade equivalent, and other creditworthy clients."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay contractually defined rental payments under long-term net leases, with clients responsible for most property-level operating expenses.",
+  "evidence": "Under a net lease structure, clients are typically responsible for most or all property-level operating expenses, including real estate taxes, insurance, and maintenance, while we are entitled to receive contractually defined rental payments, many of which include embedded contractual rent escalations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Net lease real estate): Industrial properties",
+  "product not in text (Net lease real estate): Gaming real estate"
+ ]
+}

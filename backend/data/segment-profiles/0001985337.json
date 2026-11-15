@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001985337",
+ "issuerName": "YY Group Holding Ltd.",
+ "builtAt": "2026-11-15T04:40:01.413Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-001449",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1985337/000118518526001449/yygh20f123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manpower outsourcing",
+   "products": [],
+   "description": "Provides manpower outsourcing services to customers via the YY App across multiple countries.",
+   "evidence": "Our key customers for our manpower outsourcing and cleaning service businesses contribute to a significant portion of our revenues in each of these business segments."
+  },
+  {
+   "name": "Cleaning service",
+   "products": [
+    "cleaning services"
+   ],
+   "description": "Provides casual labor and cleaning services to customers.",
+   "evidence": "Our key customers for our manpower outsourcing and cleaning service businesses contribute to a significant portion of our revenues in each of these business segments."
+  },
+  {
+   "name": "Integrated facilities management",
+   "products": [
+    "property and integrated facilities management solutions"
+   ],
+   "description": "Provides property and integrated facilities management solutions to customers.",
+   "evidence": "our top five customers accounted for 21%, 27% and 31% of total revenue related to our integrated facilities management services respectively"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for manpower outsourcing, cleaning and integrated facilities management services, largely provided via the YY App.",
+  "evidence": "is principally engaged in the provision of manpower outsourcing services to our customers via the YY App."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Manpower outsourcing): YY App manpower outsourcing services"
+ ]
+}

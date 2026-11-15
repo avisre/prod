@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000063296",
+ "issuerName": "MATTHEWS INTERNATIONAL CORP",
+ "builtAt": "2026-11-14T13:45:15.699Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000063296-25-000070",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/63296/000006329625000070/matw-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Memorialization",
+   "products": [
+    "cast bronze memorials",
+    "granite memorials",
+    "caskets",
+    "cremation-related products",
+    "embalming chemicals and related tools/supplies",
+    "cremation and incineration equipment",
+    "architectural products"
+   ],
+   "description": "Manufactures and markets memorialization products, caskets, cremation products and cremation/incineration equipment for cemeteries, funeral homes and crematories.",
+   "evidence": "The Memorialization segment manufactures and markets a full line of memorialization products used primarily in cemeteries, funeral homes, and crematories."
+  },
+  {
+   "name": "Industrial Technologies",
+   "products": [
+    "high-tech custom energy storage solutions",
+    "warehouse automation solutions",
+    "order fulfillment systems",
+    "coating and converting lines"
+   ],
+   "description": "Designs, manufactures, services and sells energy storage solutions, product identification and warehouse automation technologies for industrial consumers and distributors.",
+   "evidence": "Industrial Technologies includes the design, manufacturing, service and sales of high-tech custom energy storage solutions; product identification and warehouse automation technologies and solutions, including order fulfillment systems for identifying, tracking, picking and conveying consumer and industrial products; and coating and converting lines for the packaging, pharma, foil, décor and tissue industries."
+  },
+  {
+   "name": "Brand Solutions",
+   "products": [
+    "cylinders business",
+    "40% ownership interest in Propelis"
+   ],
+   "description": null,
+   "evidence": "Following the completion of this transaction, the Company's Brand Solutions segment consists of its cylinders business, and its 40% ownership interest in Propelis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells memorialization products, industrial equipment and consumables, and brand solutions directly to cemeteries, funeral homes, industrial consumers and distributors, and consumer goods and retail customers.",
+  "evidence": "The Industrial Technologies segment sells equipment and consumables directly to industrial consumers and distributors in North America and internationally through the Company's subsidiaries in Sweden, Germany and China, and other foreign distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company discontinued R+S automotive engineering solutions within the Industrial Technologies segment.",
+   "evidence": "The decrease also reflected lower sales of R+S automotive engineering solutions, as the Company has discontinued these product offerings."
+  }
+ ],
+ "dropped": [
+  "product not in text (Industrial Technologies): product identification technologies",
+  "change not grounded: In 2025, the company contributed the majority of its Brand Solutions segment (th"
+ ]
+}

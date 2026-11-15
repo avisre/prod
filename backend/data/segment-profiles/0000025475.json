@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000025475",
+ "issuerName": "CRAWFORD & CO",
+ "builtAt": "2026-11-14T14:07:47.793Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085465",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/25475/000119312526085465/crda-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Loss Adjusting",
+   "products": [
+    "Claims management and adjusting services",
+    "Global Technical Services",
+    "Field Operations",
+    "Third party administration",
+    "Contractor Connection"
+   ],
+   "description": "Provides claims management and adjusting services to insurance carriers and self-insured entities in the U.S. and Canada for property and casualty losses.",
+   "evidence": "North America Loss Adjusting provides claims management and adjusting services to insurance carriers and self-insured entities in the U.S. and Canada related to property and casualty losses caused by physical damage to commercial and residential real property, certain types of personal property and marine losses."
+  },
+  {
+   "name": "International Operations",
+   "products": [
+    "Loss Adjusting",
+    "Global Technical Services",
+    "Third party administration",
+    "Contractor Connection",
+    "Legal Services"
+   ],
+   "description": "Provides claims management and adjusting services to insurance carriers and self-insured entities in the U.K., Europe, Australia, Asia and Latin America.",
+   "evidence": "International Operations provides claims management and adjusting services to insurance carriers and self-insured entities from the global property and casualty insurance company markets in the U.K., Europe, Australia, Asia and Latin America."
+  },
+  {
+   "name": "Broadspire",
+   "products": [
+    "Claims Management",
+    "Medical Management",
+    "Disability and leave management",
+    "Medical bill review",
+    "Physician review services"
+   ],
+   "description": "Leading third party administrator providing claims and risk management services and technology solutions for workers' compensation, auto, liability and disability to corporations, brokers and insurers in the U.S.",
+   "evidence": "Our Broadspire segment is a leading third party administrator that provides services to the U.S. casualty and disability insurance and self-insured markets."
+  },
+  {
+   "name": "Platform Solutions",
+   "products": [
+    "Contractor Connection",
+    "Networks",
+    "Catastrophe operations",
+    "Staff Augmentation",
+    "Subrogation"
+   ],
+   "description": "Provides managed contractor network, catastrophe response, staffing resources, and subrogation claims management services to property and casualty insurance markets in the U.S.",
+   "evidence": "Platform Solutions provides services to the property and casualty insurance company and consumer markets in the U.S. through service lines known as Contractor Connection, Networks and Subrogation."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenues earned on a per-claim basis for claims management services provided to insurance companies and self-insured entities based on case volume referrals.",
+  "evidence": "We typically earn our revenues on an individual fee-per-claim basis for claims management services that we provide to insurance companies and self-insured entities."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Broadspire): Workers' compensation claims management"
+ ]
+}

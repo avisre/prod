@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000082811",
+ "issuerName": "REGAL REXNORD CORP",
+ "builtAt": "2026-11-14T13:46:17.754Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000082811-26-000054",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/82811/000008281126000054/rbc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automation & Motion Control",
+   "products": [
+    "conveyor products",
+    "conveying automation subsystems",
+    "aerospace components",
+    "precision motion control solutions",
+    "high-efficiency miniature servo motors",
+    "controls, drives and linear actuators",
+    "automatic transfer switches",
+    "paralleling switchgear"
+   ],
+   "description": "Designs, produces and services automation, motion control and power management products for factory automation, aerospace, medical and data center markets.",
+   "evidence": "The AMC segment designs, produces and services conveyor products, conveying automation subsystems, aerospace components, precision motion control solutions, high-efficiency miniature servo motors, controls, drives and linear actuators, as well as power management products that include automatic transfer switches, paralleling switchgear, and customized modular electric pod solutions (\"E-Pods\") that comprise relevant power and thermal management content."
+  },
+  {
+   "name": "Industrial Powertrain Solutions",
+   "products": [
+    "mounted and unmounted bearings",
+    "couplings",
+    "mechanical power transmission drives and components",
+    "gearboxes and gear motors",
+    "clutches",
+    "brakes",
+    "industrial powertrain components and solutions"
+   ],
+   "description": "Designs, produces and services highly-engineered power transmission products and integrated industrial powertrain solutions for general industrial, metals and mining, energy and commercial HVAC markets.",
+   "evidence": "The IPS segment designs, produces and services a broad portfolio of highly-engineered transmission products, including mounted and unmounted bearings, couplings, mechanical power transmission drives and components, gearboxes and gear motors, clutches, brakes, and industrial powertrain components and solutions."
+  },
+  {
+   "name": "Power Efficiency Solutions",
+   "products": [
+    "fractional to approximately 5 horsepower AC and DC motors",
+    "electronic variable speed controls",
+    "electronic drives",
+    "fans and blowers",
+    "integrated air moving subsystems"
+   ],
+   "description": "Designs and produces small motors, controls, drives, fans, blowers and integrated air moving subsystems for residential and commercial HVAC and general commercial applications.",
+   "evidence": "The PES segment designs and produces fractional to approximately 5 horsepower AC and DC motors, electronic variable speed controls, electronic drives, fans and blowers, as well as integrated air moving subsystems comprised of two or more of these components."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, the company sold its industrial motors and generators businesses, which represented the substantial majority of the Industrial Systems operating segment.",
+   "evidence": "On April 30, 2024, the Company sold its industrial motors and generators businesses, which represented the substantial majority of the Industrial Systems operating segment."
+  },
+  {
+   "text": "In 2023, the company completed the acquisition of Altra Industrial Motion Corp.",
+   "evidence": "On March 27, 2023, in accordance with the terms and conditions of the Altra Merger Agreement, Merger Sub merged with and into Altra (the \"Altra Merger\"), with Altra surviving the Altra Merger as a wholly owned subsidiary of the Company (the \"Altra Transaction\")."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

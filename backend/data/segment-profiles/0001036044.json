@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001036044",
+ "issuerName": "INVE TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T17:42:13.357Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126351",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1036044/000119312526126351/inve-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IoT Business",
+   "products": [
+    "RFID inlays"
+   ],
+   "description": "Develops and manufactures specialty IoT solutions including RFID and BLE-enabled devices for healthcare, logistics, smart packaging and other high-value end markets.",
+   "evidence": "The IoT Business segment develops, manufactures, and supplies specialty IoT solutions tailored for the healthcare, logistics, smart packaging industries and other high-value end markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase specialty RFID and BLE-enabled inlays, tags, and labels that are embedded into physical products for tracking, authentication, and digitization purposes.",
+  "evidence": "We design, produce, and sell RFID and Bluetooth Low Energy (\"BLE\") enabled devices, primarily RFID inlays, tags, and labels that can be applied or incorporated into physical objects, providing them with a digital identity and the ability for our customers to track, monitor, authenticate, and engage with consumers."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company completed the sale of its Physical Security Business, which represented the Premises segment and certain access card and identity reader operations from the Identity segment, resulting in one reportable segment.",
+   "evidence": "On September 6, 2024, we completed the sale of our Physical Security Business, which historically represented our Premises segment, as well as our access card and identity reader operations, which were historically part of our Identity segment."
+  },
+  {
+   "text": "In 2025, the company completed transition of all RFID production to its manufacturing facility in Thailand and discontinued production in Singapore.",
+   "evidence": "At the end of the second quarter of 2025, we completed the transition of all of our RFID inlay, tag, and label production to our new state of the art manufacturing facility in Thailand and discontinued production in our manufacturing facility in Singapore."
+  }
+ ],
+ "dropped": [
+  "product not in text (IoT Business): RFID tags",
+  "product not in text (IoT Business): RFID labels",
+  "product not in text (IoT Business): NFC devices",
+  "product not in text (IoT Business): HF devices",
+  "product not in text (IoT Business): UHF devices",
+  "product not in text (IoT Business): BLE devices"
+ ]
+}

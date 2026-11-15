@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001933567",
+ "issuerName": "NEURAXIS, INC.",
+ "builtAt": "2026-11-14T17:42:14.896Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011505",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1933567/000149315226011505/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IB-Stim",
+   "products": [
+    "RED",
+    "NSS-2 Bridge",
+    "NeuroStim"
+   ],
+   "description": "Develops and sells neuromodulation devices for gastrointestinal disorders and related conditions using percutaneous electrical nerve field stimulation technology.",
+   "evidence": "Based on an evaluation of these factors, management concluded that the Company's operations are managed through one reportable segment, IB-Stim, that derives its revenues in the United States from a PENFS device that is used to treat patients 8-21 years of age with functional abdominal pain associated with irritable bowel syndrome and in patients 8 years and older with functional abdominal pain associated with functional dyspepsia and related nausea symptoms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase FDA-cleared neuromodulation devices and related treatment procedures reimbursed by insurance carriers and government programs.",
+  "evidence": "The CODM uses net sales to evaluate IB-Stim's adoption and utilization by insurance carriers and physicians."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (IB-Stim): IB-Stim",
+  "change not grounded: In 2025, the Company terminated the NSS-2 Bridge license with Masimo Corporation"
+ ]
+}

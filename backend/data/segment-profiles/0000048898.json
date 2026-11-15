@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000048898",
+ "issuerName": "HUBBELL INC",
+ "builtAt": "2026-11-14T13:44:42.901Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007500",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/48898/000162828026007500/hubb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Utility Solutions",
+   "products": [
+    "arresters",
+    "insulators",
+    "connectors",
+    "anchors",
+    "bushings",
+    "enclosures",
+    "cutouts",
+    "switches"
+   ],
+   "description": "Provides components and technologies that let utilities reliably transmit, distribute, communicate and control energy across the grid.",
+   "evidence": "The Utility Solutions segment provides critical components that allow the grid to reliably transmit and distribute energy, as well as the communications and controls technologies to make the grid smarter and more flexible."
+  },
+  {
+   "name": "Electrical Solutions",
+   "products": [
+    "standard and special application wiring device products",
+    "rough-in electrical products",
+    "connector and grounding products",
+    "industrial controls",
+    "communication systems"
+   ],
+   "description": "Sells stock and custom electrical products that help operators of buildings, factories and industrial infrastructure connect, protect, wire and manage power.",
+   "evidence": "The Electrical Solutions segment (37% of consolidated revenues in 2025, 36% in 2024 and 39% in 2023) comprises businesses that sell stock and custom products including standard and special application wiring device products, rough-in electrical products, and connector and grounding products, as well as other electrical equipment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hubbell earns revenue from selling electrical and utility products, primarily through distributors and wholesalers, and also directly to utilities, contractors, OEMs and retail outlets.",
+  "evidence": "The products are sold into these markets primarily through distributors, or directly to utilities."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Hubbell closed the sale of its residential lighting business, which it had agreed to sell in December 2023.",
+   "evidence": "In December 2023, the Company entered into a definitive agreement to sell its residential lighting business for a cash purchase price of $131 million, subject to customary adjustments."
+  }
+ ],
+ "dropped": []
+}

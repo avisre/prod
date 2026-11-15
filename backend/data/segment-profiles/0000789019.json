@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000789019",
+ "issuerName": "MICROSOFT CORP",
+ "builtAt": "2026-11-14T13:50:58.949Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-323660",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-07-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Productivity and Business Processes",
+   "products": [
+    "Microsoft 365 Commercial",
+    "Microsoft 365 Consumer",
+    "LinkedIn",
+    "Dynamics 365",
+    "Enterprise Mobility + Security",
+    "Power BI",
+    "Microsoft Teams"
+   ],
+   "description": null,
+   "evidence": "Our Productivity and Business Processes segment consists of products and services in our portfolio of productivity, communication, and information services, spanning a variety of devices and platforms."
+  },
+  {
+   "name": "Intelligent Cloud",
+   "products": [
+    "Azure and other cloud services",
+    "Server products",
+    "SQL Server",
+    "Windows Server",
+    "Visual Studio",
+    "System Center",
+    "GitHub cloud services"
+   ],
+   "description": "Provides public, private, and hybrid server products and cloud services that power modern businesses and developers.",
+   "evidence": "Our Intelligent Cloud segment consists of our public, private, and hybrid server products and cloud services that power modern business and developers."
+  },
+  {
+   "name": "More Personal Computing",
+   "products": [
+    "Windows",
+    "Devices",
+    "Gaming",
+    "Microsoft Edge",
+    "Bing",
+    "Copilot",
+    "XBOX Game Pass"
+   ],
+   "description": "Delivers personal computing experiences including Windows, devices, gaming, and search and advertising services for consumers.",
+   "evidence": "We operate our business and report our financial performance using three segments: Productivity and Business Processes, Intelligent Cloud, and More Personal Computing."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Microsoft through cloud-based, subscription-based, and consumption-based offerings, plus licensing of software preinstalled by OEMs on devices.",
+  "evidence": "Sales and distribution models continue to evolve to support cloud-based, subscription-based, and consumption-based offerings while maintaining multiple options through which customers may acquire and manage our products and services."
+ },
+ "changes": [],
+ "dropped": []
+}

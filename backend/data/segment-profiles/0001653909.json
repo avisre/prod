@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001653909",
+ "issuerName": "Smartbird, Inc.",
+ "builtAt": "2026-11-15T02:50:15.718Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022192",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1653909/000162828026022192/bird-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Footwear and apparel",
+   "products": [
+    "Footwear",
+    "Apparel",
+    "Tees",
+    "Sweats",
+    "Socks",
+    "Underwear"
+   ],
+   "description": "A global lifestyle brand selling naturally derived footwear and apparel for men and women through direct, wholesale and distributor channels.",
+   "evidence": "We operate as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Allbirds for footwear and apparel sold through its eCommerce site, third-party marketplace, company-operated stores, wholesale retailers and international distributors.",
+  "evidence": "In the United States, we reach our customers primarily through our direct business, a digitally-led vertical retail distribution strategy, which combines our eCommerce site and third-party marketplace site, so we can make a strong connection with our customers and meet them where they are, delivering both value and convenience."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company sold certain international businesses, including its Japan, New Zealand and China subsidiaries, to unrelated third parties.",
+   "evidence": "As part of our strategic transformation plan announced in March 2023, we sold certain of our international businesses to unrelated third-parties."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

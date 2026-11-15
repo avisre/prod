@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001952976",
+ "issuerName": "Net Lease Office Properties",
+ "builtAt": "2026-11-14T17:41:48.204Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001952976-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1952976/000195297626000012/nlop-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Office Properties",
+   "products": [],
+   "description": "Owns diversified portfolio of office properties primarily leased to corporate tenants on single-tenant, net-lease basis.",
+   "evidence": "NLOP operates as one segment, and through its subsidiaries, owns, operates, and finances office buildings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Corporate tenants pay base rent with increases and substantially all operating and maintenance costs under long-term net leases.",
+  "evidence": "Our net leases generally specify a base rent with rent increases and require the tenant to pay substantially all costs associated with operating and maintaining the property."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, company was spun off from W. P. Carey Inc. and became separate publicly"
+ ]
+}

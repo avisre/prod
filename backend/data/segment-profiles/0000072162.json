@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000072162",
+ "issuerName": "NLI HOLDINGS, INC.",
+ "builtAt": "2026-11-14T13:45:43.934Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-025290",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/72162/000110465926025290/nl-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Component Products",
+   "products": [
+    "mechanical and electrical cabinet locks",
+    "disc tumbler locks",
+    "pin tumbler locks",
+    "KeSet®",
+    "System 64®",
+    "TuBar®",
+    "Turbine®",
+    "CompX eLock®"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "CompX sells engineered components to customers in a variety of industries and recognizes revenue for each distinct shipment upon delivery.",
+  "evidence": "We invoice for each delivery upon shipment and recognize revenue for each distinct shipment when all sales recognition criteria for that shipment have been satisfied."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Component Products"
+ ]
+}

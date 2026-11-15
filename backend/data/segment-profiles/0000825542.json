@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000825542",
+ "issuerName": "Scotts Miracle-Gro Co",
+ "builtAt": "2026-11-14T13:52:07.806Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000825542-25-000022",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/825542/000082554225000022/smg-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Consumer",
+   "products": [
+    "Scotts® Turf Builder® lawn fertilizer",
+    "Scotts® grass seed products",
+    "Miracle-Gro® soil, plant food and gardening products",
+    "Ortho® herbicide and pesticide products",
+    "Tomcat® rodent control and animal repellent products"
+   ],
+   "description": "Consumer lawn and garden business in the United States, selling branded lawn care, gardening, landscape and pest control products to retailers.",
+   "evidence": "U.S. Consumer consists of our consumer lawn and garden business in the United States."
+  },
+  {
+   "name": "Hawthorne",
+   "products": [
+    "General Hydroponics®",
+    "Gavita®",
+    "Botanicare®",
+    "Gro Pro®",
+    "Mother Earth®",
+    "Grower's Edge®",
+    "HydroLogic Purification System®",
+    "CYCO®"
+   ],
+   "description": "Indoor and hydroponic gardening business providing nutrients, lighting, growing media, hardware and controls to growers in North America.",
+   "evidence": "Hawthorne consists of our indoor and hydroponic gardening business."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Primarily the consumer lawn and garden business in Canada.",
+   "evidence": "Other primarily consists of our consumer lawn and garden business in Canada."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells branded lawn, garden and hydroponic products through a direct sales force, e-commerce and distributors to home centers, mass merchandisers, hardware chains, garden centers and other retailers, and earns fees as Monsanto's exclusive marketing and distribution agent for consumer…",
+  "evidence": "We sell our products through our direct sales force, e-commerce website and network of brokers and distributors primarily to home centers, mass merchandisers, warehouse clubs, large hardware chains, independent hardware stores, nurseries, garden centers, e-commerce platforms, food and drug stores, indoor gardening and hydroponic product distributors, retailers and growers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, the Hawthorne segment discontinued distribution of other companies' products to focus solely on its portfolio of signature brands.",
+   "evidence": "During fiscal 2024, our Hawthorne segment discontinued distribution of other companies' products in order to shift its focus solely to marketing, innovating and supporting its portfolio of signature brands."
+  }
+ ],
+ "dropped": [
+  "product not in text (U.S. Consumer): Roundup® branded products (as Monsanto's exclusive agent)"
+ ]
+}

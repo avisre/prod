@@ -1,0 +1,19 @@
+{
+ "version": 1,
+ "cik": "0000849395",
+ "issuerName": "CRH PUBLIC LTD CO",
+ "builtAt": "2026-11-14T13:52:46.971Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009043",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/849395/000162828026009043/exhibit951-disclosureofmsh.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

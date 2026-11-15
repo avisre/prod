@@ -1,0 +1,86 @@
+{
+ "version": 1,
+ "cik": "0000835403",
+ "issuerName": "DIAGEO plc",
+ "builtAt": "2026-11-14T13:52:25.258Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-057529",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/835403/000162828026057529/deo-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Spirits",
+    "Beer",
+    "Ready-to-drink"
+   ],
+   "description": "Sells Diageo's premium drinks to customers in North America.",
+   "evidence": "based on the location of third-party sales and the business analysis is presented by geographical segment."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Spirits",
+    "Beer",
+    "Ready-to-drink"
+   ],
+   "description": "Sells Diageo's premium drinks to customers across Europe.",
+   "evidence": "North America Europe Asia Pacific Latin America and Caribbean Africa Corporate and other Total 2026 $ million $ million $ million $ million $ million $ million $ million Sales 7,991 8,582 5,708 2,797 2,522 162 27,762"
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [
+    "Spirits",
+    "Beer",
+    "Ready-to-drink"
+   ],
+   "description": "Sells Diageo's premium drinks to customers in Asia Pacific.",
+   "evidence": "North America Europe Asia Pacific Latin America and Caribbean Africa Corporate and other Total 2026 $ million $ million $ million $ million $ million $ million $ million Sales 7,991 8,582 5,708 2,797 2,522 162 27,762"
+  },
+  {
+   "name": "Latin America and Caribbean",
+   "products": [
+    "Spirits",
+    "Beer",
+    "Ready-to-drink"
+   ],
+   "description": "Sells Diageo's premium drinks to customers in Latin America and the Caribbean.",
+   "evidence": "North America Europe Asia Pacific Latin America and Caribbean Africa Corporate and other Total 2026 $ million $ million $ million $ million $ million $ million $ million Sales 7,991 8,582 5,708 2,797 2,522 162 27,762"
+  },
+  {
+   "name": "Africa",
+   "products": [
+    "Spirits",
+    "Beer",
+    "Ready-to-drink"
+   ],
+   "description": "Sells Diageo's premium drinks to customers in Africa.",
+   "evidence": "North America Europe Asia Pacific Latin America and Caribbean Africa Corporate and other Total 2026 $ million $ million $ million $ million $ million $ million $ million Sales 7,991 8,582 5,708 2,797 2,522 162 27,762"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Diageo earns sales from third-party customers buying its spirits, beer, ready-to-drink and other products.",
+  "evidence": "The geographical analysis of sales is based on the location of third-party customers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 Diageo sold the Sheridan's brand.",
+   "evidence": "Sheridan's brand (9) 46 — —"
+  },
+  {
+   "text": "In fiscal 2026 Diageo completed the sale of Seychelles Breweries Limited.",
+   "evidence": "Seychelles Breweries Limited (7) 62 ( 4 ) —"
+  },
+  {
+   "text": "In fiscal 2025 Diageo completed the sale of Guinness Nigeria PLC.",
+   "evidence": "Guinness Nigeria PLC (14) 2 ( 125 ) ( 6 )"
+  }
+ ],
+ "dropped": []
+}

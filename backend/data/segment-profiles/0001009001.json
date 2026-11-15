@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001009001",
+ "issuerName": "CAMECO CORP",
+ "builtAt": "2026-11-14T17:37:53.602Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-116229",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1009001/000119312526116229/d34605dex992.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Uranium",
+   "products": [],
+   "description": "Produces and sells uranium to utilities and other customers globally.",
+   "evidence": "Cameco has three reportable segments, uranium, fuel services and Westinghouse."
+  },
+  {
+   "name": "Fuel services",
+   "products": [],
+   "description": "Provides fuel services including conversion and storage to nuclear power customers.",
+   "evidence": "Cameco has three reportable segments, uranium, fuel services and Westinghouse."
+  },
+  {
+   "name": "Westinghouse",
+   "products": [],
+   "description": "Operates the Westinghouse business segment.",
+   "evidence": "Cameco has three reportable segments, uranium, fuel services and Westinghouse."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Cameco for uranium, fuel services and other products under fixed and market-related pricing contracts.",
+  "evidence": "Cameco's sales contracts with customers contain both fixed and market-related pricing."
+ },
+ "changes": [],
+ "dropped": []
+}

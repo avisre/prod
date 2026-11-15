@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000095953",
+ "issuerName": "Ascent Industries Co.",
+ "builtAt": "2026-11-14T13:46:45.708Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000095953-26-000040",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/95953/000009595326000040/acnt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Specialty Chemicals",
+   "products": [
+    "surfactants",
+    "defoamers",
+    "lubricating agents",
+    "flame retardants",
+    "specialty intermediates",
+    "custom manufacturing services"
+   ],
+   "description": "Develops and manufactures specialty chemical formulations and intermediates for energy, HII, personal care, CASE, agriculture, water treatment and other industrial customers.",
+   "evidence": "The Company has one reportable segment: Specialty Chemicals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Ascent for specialty chemical products and custom manufacturing services, including formulation development, blending, packaging and related support.",
+  "evidence": "Beyond its product portfolio, Ascent provides comprehensive custom manufacturing services spanning product development, process optimization, scale-up, and commercial production."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold substantially all assets of its BRISMET subsidiary, exiting that business.",
+   "evidence": "On April 4, 2025, the Company and Purchaser completed the transaction contemplated by the Purchase Agreement."
+  },
+  {
+   "text": "In 2025, the Company sold substantially all assets of its ASTI subsidiary, exiting that business.",
+   "evidence": "On June 30, 2025, the Company and Purchaser completed the transaction contemplated by the Purchase Agreement."
+  }
+ ],
+ "dropped": []
+}

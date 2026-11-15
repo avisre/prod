@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000746514",
+ "issuerName": "New England Realty Associates Limited Partnership",
+ "builtAt": "2026-11-14T13:50:01.729Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027586",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/746514/000110465926027586/nen-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate",
+   "products": [
+    "Apartment Complexes",
+    "Condominium Units",
+    "Commercial Properties",
+    "Investment Properties"
+   ],
+   "description": "Owns and operates residential apartments, condominium units and commercial properties in Massachusetts and New Hampshire for rental to tenants.",
+   "evidence": "The Partnership is engaged in the business of acquiring, developing, holding for investment, operating and selling real estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Partnership earns rental income from residential and commercial tenants leasing its properties.",
+  "evidence": "The Apartment Complexes, Condominium Units and the Investment Properties must compete for tenants with other residential apartments and condominium units in the areas in which they are located."
+ },
+ "changes": [],
+ "dropped": []
+}

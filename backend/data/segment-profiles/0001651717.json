@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001651717",
+ "issuerName": "Nomad Foods Limited",
+ "builtAt": "2026-11-14T17:40:13.862Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001651717-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1651717/000165171726000006/nomd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Frozen",
+   "products": [
+    "Birds Eye",
+    "Goodfellas",
+    "Aunt Bessie's",
+    "Findus",
+    "iglo",
+    "Ledo",
+    "Frikom",
+    "La Cocinera"
+   ],
+   "description": "Europe's leading savory frozen foods company selling fish, vegetables, chicken, meals, pizza and ice cream through grocery retailers.",
+   "evidence": "Nomad has one reporting and operating segment, \"Frozen\", reflected in the segment presentation below for the periods presented."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and food service channels pay the company for frozen food products sold under branded labels.",
+  "evidence": "Our products are sold primarily through large grocery retailers under the \"Birds Eye\", \"Goodfellas\" and \"Aunt Bessie's\" brands in the UK and Ireland, \"Findus\" in Italy, France, Spain, Switzerland, Sweden, Finland and Norway, \"iglo\" in Germany, Netherlands, Belgium, and Portugal, \"Ledo\" in Croatia, Bosnia, Slovenia, Hungary, Montenegro, and Kosovo, \"Frikom\" in Serbia and North Macedonia, \"La Cocinera\" in Spain and \"Belviva\" in Belgium."
+ },
+ "changes": [],
+ "dropped": []
+}

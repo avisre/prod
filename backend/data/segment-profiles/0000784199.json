@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000784199",
+ "issuerName": "ARTIVION, INC.",
+ "builtAt": "2026-11-14T13:50:50.393Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-009046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/784199/000162828026009046/aort-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Devices",
+   "products": [
+    "aortic stent grafts",
+    "surgical sealants",
+    "On-X products",
+    "PhotoFix bovine surgical patches",
+    "PerClot hemostatic powder"
+   ],
+   "description": "Sells aortic stent grafts, surgical sealants, On-X mechanical heart valves and related surgical products to cardiac and vascular surgeons.",
+   "evidence": "The Medical Devices segment includes revenues from sales of aortic stent grafts, surgical sealants, On-X products, and other product revenues."
+  },
+  {
+   "name": "Preservation Services",
+   "products": [
+    "CryoValve",
+    "CryoValve SG",
+    "CryoPatch",
+    "CryoPatch SG"
+   ],
+   "description": "Provides preservation services for cardiac and vascular implantable human tissues used in heart valve replacement and cardiac repair surgeries.",
+   "evidence": "The Preservation Services segment includes services revenues from the preservation of cardiac and vascular implantable human tissues."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and surgeons pay Artivion for sales of medical devices and for preservation services of implantable human tissues used in cardiac and vascular surgery.",
+  "evidence": "Our medical devices and preservation services are primarily used by cardiac and vascular surgeons to treat patients with aortic disease, including heart valve disease, aortic aneurysms and dissections, and, to a lesser extent, other conditions in cardiac and vascular surgery."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Artivion sold the PerClot product line to Baxter and began manufacturing and supplying PerClot under a transitional manufacturing and supply agreement.",
+   "evidence": "We began to manufacture and supply PerClot ® hemostatic powder (\"PerClot\") during the second quarter of 2023 (as part of the Transitional Manufacturing and Supply Agreement (\"TMSA\") of the Baxter Transaction)."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2023, Artivion abandoned the CardioGenesis cardiac laser therapy business as "
+ ]
+}

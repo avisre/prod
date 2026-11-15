@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000277948",
+ "issuerName": "CSX CORPORATION",
+ "builtAt": "2026-11-14T13:47:46.865Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000277948-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/277948/000027794826000006/csx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rail",
+   "products": [
+    "traditional rail service",
+    "intermodal containers and trailers",
+    "rail-to-truck transfers",
+    "bulk commodity operations"
+   ],
+   "description": null,
+   "evidence": "The Company has two operating segments: rail and trucking. Although the Company provides a breakdown of revenue by line of business, the overall financial and operational performance of the railroad is analyzed as one operating segment due to the integrated nature of the rail network."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including manufacturers, industrial producers, automotive, construction, agricultural, wholesale, retail and energy companies, pay CSX to transport freight by rail and truck.",
+  "evidence": "This access allows the Company to meet the dynamic transportation needs of manufacturers, industrial producers, the automotive industry, construction companies, farmers and feed mills, wholesalers and retailers, and energy producers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Rail): merchandise shipments",
+  "product not in text (Rail): coal, coke and iron ore transport",
+  "product not in text (Rail): real estate sales, leasing and management"
+ ]
+}

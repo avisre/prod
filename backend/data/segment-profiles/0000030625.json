@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000030625",
+ "issuerName": "FLOWSERVE CORP",
+ "builtAt": "2026-11-14T14:08:09.625Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000030625-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/30625/000003062526000003/fls-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flowserve Pumps Division",
+   "products": [
+    "engineered pumps",
+    "pre-configured industrial pumps",
+    "pump systems",
+    "mechanical seals",
+    "auxiliary systems",
+    "replacement parts",
+    "aftermarket services"
+   ],
+   "description": "Designs, manufactures and services highly custom engineered pumps, mechanical seals and related equipment for energy, power generation, chemical and general industries.",
+   "evidence": "FPD, through which we design, manufacture, pretest, distribute and service highly custom engineered pumps, pre-configured industrial pumps, pump systems, mechanical seals and auxiliary systems and related services."
+  },
+  {
+   "name": "Flow Control Division",
+   "products": [
+    "isolation valves",
+    "control valves",
+    "valve automation products",
+    "engineered services"
+   ],
+   "description": "Designs, manufactures and distributes engineered-to-order and configured-to-order isolation and control valves with automation products and services.",
+   "evidence": "FCD designs, manufactures and distributes a broad portfolio of engineered-to-order and configured-to-order isolation valves, control valves, valve automation products and related equipment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for flow control equipment and aftermarket services including installation, diagnostics and maintenance across energy, chemical, power generation and general industries.",
+  "evidence": "We develop and manufacture precision-engineered flow control equipment integral to the movement, control and protection of the flow of materials in our customers' critical processes."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company acquired MOGAS Industries for inclusion in FCD, with acquis",
+  "change not grounded: In 2024, the company sold the NAF AB control valves business, recognizing a loss",
+  "change not grounded: In 2025, the company sold a pump product line in FPD, recognizing a gain of $6.9"
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000811641",
+ "issuerName": "ImmuCell Corporation",
+ "builtAt": "2026-11-14T13:51:39.407Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010339",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/811641/000143774926010339/iccc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Scours",
+   "products": [
+    "First Defense®",
+    "Dual-Force®",
+    "Tri-Shield®",
+    "First Defense Technology®"
+   ],
+   "description": "Develops, manufactures and sells the First Defense product line of scours preventatives for neonatal dairy and beef calves.",
+   "evidence": "Scours segment - consists of the First Defense ® product line."
+  },
+  {
+   "name": "Mastitis",
+   "products": [
+    "CMT",
+    "Re-Tain®"
+   ],
+   "description": "Sells the California Mastitis Test product line and develops Re-Tain, a treatment for subclinical mastitis in lactating cows.",
+   "evidence": "Mastitis segment - includes our CMT product line, consisting of reagents and equipment used for rapid cow-side testing to identify mastitic quarters by detecting elevated somatic cell counts."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells its products primarily through major animal health distributors who resell to veterinary clinics, fleet stores and farms.",
+  "evidence": "The First Defense ® product line and CMT are sold primarily through major animal health distributors who, in turn, sell to veterinary clinics, fleet stores and direct to farms."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company ceased its focus on obtaining FDA approval of Re-Tain and paused further investment in its manufacturing.",
+   "evidence": "On December 23, 2025, we made the decision to cease our focus on obtaining FDA approval of Re-Tain ® and instead continue the stability and investigational testing related to Re-Tain ® ."
+  }
+ ],
+ "dropped": []
+}

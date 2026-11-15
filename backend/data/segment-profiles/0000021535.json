@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000021535",
+ "issuerName": "COHU, INC.",
+ "builtAt": "2026-11-14T14:07:33.821Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004339",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/21535/000143774926004339/cohu20251227_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Test and Inspection Equipment",
+   "products": [
+    "Inspection and metrology equipment",
+    "Interface solutions",
+    "Software analytics",
+    "Services"
+   ],
+   "description": "Supplies equipment, interface solutions, software and services to optimize semiconductor manufacturing yield and productivity globally.",
+   "evidence": "We have one reportable segment, Semiconductor Test and Inspection Equipment (\"Semiconductor Test & Inspection\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Semiconductor manufacturers, including IDMs, OSATs and fabless companies, pay for systems, interfaces, recurring services, spares and software analytics.",
+  "evidence": "Recurring revenues include interface products, spares, kits (not as part of system sales), software and services"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Semiconductor Test and Inspection Equipment): Test automation systems",
+  "product not in text (Semiconductor Test and Inspection Equipment): Semiconductor automated test equipment (ATE)"
+ ]
+}

@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000067716",
+ "issuerName": "MDU RESOURCES GROUP, INC.",
+ "builtAt": "2026-11-14T13:45:32.447Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000067716-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/67716/000006771626000014/mdu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electric",
+   "products": [
+    "Residential utility sales",
+    "Commercial utility sales",
+    "Industrial utility sales",
+    "Other utility sales"
+   ],
+   "description": "Regulated electric generation, transmission and distribution serving residential, commercial, industrial and municipal customers.",
+   "evidence": "The electric segment is comprised of Montana-Dakota while the natural gas distribution segment is comprised of Montana-Dakota, Cascade and Intermountain."
+  },
+  {
+   "name": "natural gas distribution",
+   "products": [
+    "Residential utility sales",
+    "Commercial utility sales",
+    "Industrial utility sales",
+    "Natural gas transportation"
+   ],
+   "description": "Regulated natural gas distribution utility service provided through Montana-Dakota, Cascade and Intermountain.",
+   "evidence": "The electric segment is comprised of Montana-Dakota while the natural gas distribution segment is comprised of Montana-Dakota, Cascade and Intermountain."
+  },
+  {
+   "name": "pipeline",
+   "products": [
+    "Natural gas transportation",
+    "Natural gas storage"
+   ],
+   "description": "Regulated natural gas transportation and storage services operated through WBI Energy.",
+   "evidence": "WBI Energy is the pipeline segment and Centennial Capital is reflected in the Other category."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for electricity and natural gas delivered, and shippers pay for firm transportation and storage services under contracts.",
+  "evidence": "The remaining performance obligations at the pipeline segment include firm transportation and storage contracts with fixed pricing and fixed volumes."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company separated Knife River, its construction materials and contracting business, into an independent publicly-traded company.",
+   "evidence": "On May 31, 2023, the Company executed the separation of Knife River, the construction materials and contracting business, from the Company, resulting in Knife River becoming an independent, publicly-traded company."
+  },
+  {
+   "text": "In 2024, the Company separated Everus, its construction services business, into an independent publicly-traded company.",
+   "evidence": "On October 31, 2024, the Company completed the separation of Everus, the construction services business, from the Company, resulting in Everus becoming an independent, publicly-traded company."
+  }
+ ],
+ "dropped": []
+}

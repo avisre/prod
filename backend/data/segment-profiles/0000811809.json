@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000811809",
+ "issuerName": "BHP GROUP LIMITED",
+ "builtAt": "2026-11-14T13:51:39.623Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-354647",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Copper",
+   "products": [
+    "Escondida",
+    "Spence",
+    "Cerro Colorado",
+    "Antamina",
+    "Olympic Dam",
+    "Prominent Hill",
+    "Carrapateena"
+   ],
+   "description": "Mines and sells copper, with gold, uranium and zinc by-products, from assets in Chile, Peru and Australia.",
+   "evidence": "Detailed below is financial and operating information for our Copper assets comparing FY2026 to FY2025."
+  },
+  {
+   "name": "Iron Ore",
+   "products": [
+    "Western Australia Iron Ore",
+    "Samarco"
+   ],
+   "description": "Produces and sells iron ore from Western Australian operations and the Samarco equity accounted investment in Brazil.",
+   "evidence": "Total Iron Ore statutory result 23,883 14,529 12,314 (365 ) 17,119 3,048 122 77"
+  },
+  {
+   "name": "Coal",
+   "products": [
+    "BHP Mitsubishi Alliance",
+    "New South Wales Energy Coal"
+   ],
+   "description": "Produces and sells metallurgical coal through BMA and energy coal through New South Wales Energy Coal.",
+   "evidence": "BHP Mitsubishi Alliance 3,876 702 161 6,421 370 New South Wales Energy Coal 9 1,851 342 112 (300 ) 39"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2026 BHP divested its equity accounted investment in SolGold.",
+   "evidence": "Antamina, SolGold (divested in March 2026), Vicuña and Resolution (the latter three included in Other) are equity accounted investments and their financial information presented above reflects BHP Group's share"
+  }
+ ],
+ "dropped": []
+}

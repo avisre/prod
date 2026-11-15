@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001655210",
+ "issuerName": "BEYOND MEAT, INC.",
+ "builtAt": "2026-11-14T17:41:14.153Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001655210-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1655210/000165521026000022/bynd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Plant-based meat industry",
+   "products": [
+    "Plant-based beef",
+    "Plant-based meat products"
+   ],
+   "description": "Offers revolutionary plant-based meat products replicating animal-based meat across beef, pork and poultry categories.",
+   "evidence": "We have one operating segment and one reportable segment, in the plant-based meat industry, offering a portfolio of revolutionary plant-based meat."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue comes from sales of plant-based meat products to distributors, retailers and food-away-from-home customers at agreed prices.",
+  "evidence": "Our revenues are generated through sales of our products to distributors or customers."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025, the company discontinued certain product lines and rationalized SKUs resulting in incremental inventory provisions.",
+   "evidence": "in the fourth quarter of 2025, we recorded an incremental provision for excess and obsolete inventory in the amount of $2.4 million as a result of SKU rationalization and the decision to discontinue certain product lines."
+  }
+ ],
+ "dropped": [
+  "product not in text (Plant-based meat industry): Plant-based pork",
+  "product not in text (Plant-based meat industry): Plant-based poultry",
+  "change not grounded: In 2025, the company ceased operational activities in China, reducing its workfo"
+ ]
+}

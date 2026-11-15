@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001375365",
+ "issuerName": "Super Micro Computer, Inc.",
+ "builtAt": "2026-11-14T17:37:17.785Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001375365-26-000022",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000022/smci-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High-performance server solutions",
+   "products": [
+    "Total IT Solutions",
+    "Servers",
+    "Storage systems",
+    "Networking devices",
+    "Liquid cooling solutions",
+    "Management software",
+    "Professional services"
+   ],
+   "description": "Develops and provides high-performance server solutions and complete data center infrastructure for enterprise, cloud, and edge computing workloads.",
+   "evidence": "We operate in one operating segment that develops and provides high-performance server solutions based upon an innovative, modular and open-standard architecture."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for server and storage systems, networking devices, liquid cooling solutions, management software, and professional services for data center infrastructure.",
+  "evidence": "We offer our customers a high degree of flexibility and customization by providing a broad array of server models and configurations from which they can choose the best solutions to meet their computing needs."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (High-performance server solutions): Data Center Building Block Solutions (DCBBS)"
+ ]
+}

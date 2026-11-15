@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000828944",
+ "issuerName": "WSFS FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T13:52:12.478Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000828944-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/828944/000082894426000006/wsfs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "WSFS Bank",
+   "products": [
+    "loans and leases",
+    "deposits",
+    "consumer loan products",
+    "retail securities and insurance brokerage services",
+    "WSFS Mortgage",
+    "home equity lending",
+    "NewLane Finance"
+   ],
+   "description": "Provides loans, leases, deposits and other financial products to commercial and consumer clients in the Greater Philadelphia and Delaware region.",
+   "evidence": "The WSFS Bank segment provides loans and leases, deposits and other financial products to Commercial and Consumer Clients."
+  },
+  {
+   "name": "Cash Connect",
+   "products": [
+    "ATM vault cash",
+    "smart safe",
+    "cash logistics services",
+    "online reporting and ATM cash management",
+    "predictive cash ordering and reconcilement services",
+    "armored carrier management",
+    "loss protection",
+    "deposit safe cash logistics"
+   ],
+   "description": "Provides ATM vault cash, smart safe and cash logistics services nationwide, servicing non-bank ATMs and smart safes.",
+   "evidence": "Cash Connect ® provides ATM vault cash, smart safe and cash logistics services in the U.S, servicing non-bank ATMs and smart safes nationwide and supporting ATMs for WSFS Bank Clients."
+  },
+  {
+   "name": "Wealth and Trust",
+   "products": [
+    "planning and advisory services",
+    "investment management",
+    "personal and institutional trust services",
+    "Bryn Mawr Trust",
+    "WSFS Institutional Services",
+    "Private Wealth Management",
+    "Private Banking",
+    "credit and deposit products"
+   ],
+   "description": "Provides planning, advisory, investment management, trust and credit services to individuals, corporate and institutional clients.",
+   "evidence": "The Wealth and Trust segment provides a broad array of planning and advisory services, investment management, personal and institutional trust services, and credit and deposit products to individuals, corporate, and institutional clients."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income on loans, leases and deposits, plus fee revenue from ATM cash logistics services and fee-only wealth, trust and advisory arrangements.",
+  "evidence": "It generates revenue through fee-only arrangements, net interest income and other fee-only services such as estate administration, trust tax planning and custody."
+ },
+ "changes": [],
+ "dropped": []
+}

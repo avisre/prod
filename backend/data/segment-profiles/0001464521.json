@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001464521",
+ "issuerName": "Heartflow, Inc.",
+ "builtAt": "2026-11-14T17:39:36.058Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001464521-26-000042",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1464521/000146452126000042/htfl-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Non-invasive CAD detection solutions",
+   "products": [
+    "Heartflow RoadMap Analysis",
+    "Heartflow FFR CT Analysis",
+    "Heartflow Plaque Analysis"
+   ],
+   "description": "AI-powered software platform that analyzes coronary CT scans to diagnose and manage coronary artery disease.",
+   "evidence": "The Company operates and manages its business as one reportable and operating segment, which is the business of non-invasive CAD detection solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Healthcare providers pay per analysis performed on their patient's CCTA scan through direct billing to imaging accounts.",
+  "evidence": "With a single click, Physicians can access these analyses on-demand, and we bill the account directly for each product selected."
+ },
+ "changes": [],
+ "dropped": []
+}

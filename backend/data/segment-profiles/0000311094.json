@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000311094",
+ "issuerName": "WESTAMERICA BANCORPORATION",
+ "builtAt": "2026-11-14T13:47:50.790Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001195",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/311094/000117184326001195/wabc20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "banking services",
+    "loans",
+    "deposit accounts",
+    "ATM processing",
+    "merchant processing services"
+   ],
+   "description": "Provides a full range of banking services to individual and commercial customers, focused on small businesses, in Northern and Central California.",
+   "evidence": "All of the financial service operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns net interest income from interest on loans and investment securities, net of interest paid on deposits and borrowings, plus noninterest fee income from customers.",
+  "evidence": "The Company's primary source of revenue is net interest income, or the difference between interest income earned on loans and investment securities and interest expense paid on interest-bearing deposits and other borrowings."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): debit card services",
+  "product not in text (Banking): trust services"
+ ]
+}

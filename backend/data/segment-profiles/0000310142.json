@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000310142",
+ "issuerName": "Sensient Technologies Corp",
+ "builtAt": "2026-11-14T13:47:48.180Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-005311",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/310142/000114036126005311/ef20060630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flavors & Extracts Group",
+   "products": [
+    "Sensient Flavors",
+    "Sensient Agricultural Ingredients",
+    "flavor-delivery systems",
+    "taste modulation systems",
+    "natural and synthetic flavors",
+    "natural extracts",
+    "essential oils"
+   ],
+   "description": "Develops and supplies flavor systems, extracts, essential oils, and dehydrated agricultural ingredients for food, beverage, and personal care customers.",
+   "evidence": "The Flavors & Extracts Group produces flavor, extract, and essential oil products that impart a desired taste, texture, aroma, or other characteristics to a broad range of consumer and other products."
+  },
+  {
+   "name": "Color Group",
+   "products": [
+    "Sensient Food Colors",
+    "Sensient Pharmaceutical",
+    "Sensient Beauty",
+    "Sensient Specialty Markets",
+    "natural and synthetic color systems",
+    "pharmaceutical and nutraceutical excipients",
+    "technical colors",
+    "specialty dyes and pigments"
+   ],
+   "description": "Develops and supplies natural and synthetic colors and specialty ingredients for food, beverage, pharmaceutical, nutraceutical, personal care, and industrial customers worldwide.",
+   "evidence": "The Color Group operates under the following trade names: ● Sensient Food Colors (food and beverage colors); ● Sensient Pharmaceutical (pharmaceutical and nutraceutical colors and coatings); ● Sensient Beauty (personal care colors, ingredients, and systems); and ● Sensient Specialty Markets (paper colors and industrial colors for plastics, leather, wood stains, antifreeze, landscaping, and other uses)."
+  },
+  {
+   "name": "Asia Pacific Group",
+   "products": [
+    "flavors",
+    "colors"
+   ],
+   "description": "Markets the Company's flavors and colors product lines across the Pacific Rim and India, with regional products tailored to local preferences.",
+   "evidence": "The Asia Pacific Group focuses on marketing the Company's diverse product lines in the Pacific Rim and India under the Sensient name."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue by selling colors, flavors, extracts, and specialty ingredients to food, beverage, pharmaceutical, nutraceutical, personal care, and industrial manufacturers, from small businesses to major international brands.",
+  "evidence": "The Company sells its natural and synthetic colors to domestic and international producers of beverages, bakery products, processed foods, confections, pet foods, personal care, pharmaceuticals, and nutraceuticals."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Biolie SAS, a natural color extraction business in France, as part of the Color segment.",
+   "evidence": "On February 14, 2025, the Company acquired Biolie SAS , a natural color extraction business located in France."
+  },
+  {
+   "text": "In 2025, the Company renamed its Sensient Natural Ingredients product line to Sensient Agricultural Ingredients within the Flavors & Extracts Group.",
+   "evidence": "During 2025, the Company changed the name of its Sensient Natural Ingredients product line to Sensient Agricultural Ingredients to clearly distinguish it from the natural color activities within the Food & Pharmaceutical Colors product line within the Color Group."
+  }
+ ],
+ "dropped": [
+  "product not in text (Flavors & Extracts Group): dehydrated garlic and onion",
+  "product not in text (Asia Pacific Group): regional products developed by local technical teams"
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000097745",
+ "issuerName": "THERMO FISHER SCIENTIFIC INC.",
+ "builtAt": "2026-11-14T13:46:53.222Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000097745-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/97745/000009774526000018/tmo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Sciences Solutions",
+   "products": [
+    "biosciences",
+    "genetic sciences",
+    "bioproduction"
+   ],
+   "description": "Provides reagents, instruments and consumables for biological and medical research, drug and vaccine discovery and production, and disease diagnosis.",
+   "evidence": "Life Sciences Solutions includes three primary businesses: biosciences, genetic sciences, and bioproduction."
+  },
+  {
+   "name": "Analytical Instruments",
+   "products": [
+    "chromatography and mass spectrometry",
+    "chemical analysis",
+    "electron microscopy"
+   ],
+   "description": "Provides instruments, consumables, software and services for pharmaceutical, biotech, academic, government, environmental, industrial and clinical laboratory customers.",
+   "evidence": "This segment includes three primary businesses: chromatography and mass spectrometry, chemical analysis, and electron microscopy."
+  },
+  {
+   "name": "Specialty Diagnostics",
+   "products": [
+    "clinical diagnostics",
+    "immunodiagnostics",
+    "microbiology",
+    "transplant diagnostics",
+    "healthcare market channel"
+   ],
+   "description": "Offers diagnostic test kits, reagents, culture media, instruments and associated products for healthcare, clinical, pharmaceutical, industrial and food safety laboratories.",
+   "evidence": "This segment has five primary businesses: clinical diagnostics, immunodiagnostics, microbiology, transplant diagnostics and our healthcare market channel."
+  },
+  {
+   "name": "Laboratory Products and Biopharma Services",
+   "products": [
+    "laboratory products",
+    "research and safety market channel",
+    "pharma services",
+    "clinical research"
+   ],
+   "description": "Offers lab consumables, equipment, chemicals and outsourced drug development, clinical research and commercial drug manufacturing services for pharma and biotech industries.",
+   "evidence": "We serve the pharmaceutical, biotechnology, academic, government and other research and industrial markets, as well as the clinical laboratory market through four key businesses: laboratory products, research and safety market channel, pharma services and clinical research."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in pharmaceutical, biotech, healthcare, academic, government and industrial markets pay for products and services sold through a direct sales force, customer-service professionals, electronic commerce and third-party distributors.",
+  "evidence": "We market and sell our products and services through a direct sales force, customer-service professionals, electronic commerce and third-party distributors."
+ },
+ "changes": [],
+ "dropped": []
+}

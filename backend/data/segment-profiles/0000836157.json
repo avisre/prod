@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000836157",
+ "issuerName": "Lindsay Corporation",
+ "builtAt": "2026-11-14T13:52:25.888Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-428926",
+  "periodEnd": "2026-08-31",
+  "filingDate": "2026-10-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/836157/000119312526428926/lnn-20260831.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Irrigation",
+   "products": [
+    "FieldNET",
+    "FieldWise",
+    "FieldNET Advisor",
+    "repair and replacement parts",
+    "large diameter steel tubing"
+   ],
+   "description": "Manufactures and markets center pivot, lateral move and hose reel irrigation systems, controls, parts and remote monitoring technology for the agricultural industry.",
+   "evidence": "The Company's irrigation segment includes the manufacture and marketing of center pivot, lateral move, and hose reel irrigation systems which are used principally in the agricultural industry to increase or stabilize crop production while conserving water, energy and labor."
+  },
+  {
+   "name": "Infrastructure",
+   "products": [
+    "moveable barriers",
+    "specialty barriers",
+    "crash cushions",
+    "road marking and road safety equipment",
+    "railroad signals and structures",
+    "Road Zipper System",
+    "Quickchange Moveable Barrier",
+    "ABSORB 350"
+   ],
+   "description": "Manufactures and markets moveable barriers, crash cushions, road marking and safety equipment, and railroad signals and structures for roadway and infrastructure markets.",
+   "evidence": "The Company's infrastructure segment includes the manufacture and marketing of moveable barriers, specialty barriers and crash cushions, road marking and road safety equipment, and railroad signals and structures."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells irrigation systems through independent dealers to farmers and infrastructure products to transportation agencies, contractors and distributors, with remote monitoring technology sold on a subscription basis.",
+  "evidence": "The Company also markets proprietary remote monitoring and automation technology that works on any brand of electronic pivot and drip irrigation systems and is sold on a subscription basis under the brand names FieldNET ® and FieldWise ® ."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Irrigation): Zimmatic center pivot and lateral move irrigation systems",
+  "product not in text (Irrigation): Perrot hose reel travelers",
+  "product not in text (Irrigation): Elecsys IIOT technology solutions"
+ ]
+}

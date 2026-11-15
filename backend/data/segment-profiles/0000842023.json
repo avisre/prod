@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000842023",
+ "issuerName": "BIO-TECHNE Corp",
+ "builtAt": "2026-11-14T13:52:32.799Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-100322",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/842023/000110465926100322/tech-20260630x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Protein Sciences",
+   "products": [
+    "R&D Systems",
+    "Tocris Biosciences",
+    "Novus Biologicals",
+    "ProteinSimple",
+    "cytokines and growth factors",
+    "antibodies",
+    "small molecules",
+    "tissue culture sera"
+   ],
+   "description": "Develops and manufactures biological reagents and proteomic analytical tools for life science research, diagnostics, and cell and gene therapy customers.",
+   "evidence": "Our Protein Sciences segment is a leading developer and manufacturer of high-quality biological reagents used in all aspects of life science research, diagnostics and cell and gene therapy."
+  },
+  {
+   "name": "Diagnostics and Spatial Biology",
+   "products": [
+    "Advanced Cell Diagnostics",
+    "Asuragen",
+    "in-situ hybridization (ISH) assays",
+    "calibrators and controls",
+    "genetic carrier screening",
+    "oncology diagnostics",
+    "molecular controls"
+   ],
+   "description": "Develops and manufactures diagnostic controls, assays, spatial biology instruments, and genetic and oncology kits for diagnostic and research markets.",
+   "evidence": "Our Diagnostics and Spatial Biology segment develops and manufactures diagnostic products, including controls, calibrators, and diagnostic assays for the regulated diagnostics market, advanced tissue-based in-situ hybridization assays and instrumentation for spatial genomic and tissue biopsy analysis, and genetic and oncology kits for research and clinical applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Bio-Techne earns net sales from selling life science reagents, instruments and services directly to researchers, pharmaceutical and biotech companies, diagnostic makers, and via OEM and distribution agreements.",
+  "evidence": "Bio-Techne and its subsidiaries, collectively doing business as Bio-Techne Corporation (\"Bio-Techne\", \"we\", \"our\", \"us\" or the \"Company\"), develop, manufacture and sell life science reagents, instruments and services for the research, diagnostics and bioprocessing markets worldwide."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, the company acquired Lunaphore SA, adding automated spatial biology solutions to the Diagnostics and Spatial Biology segment.",
+   "evidence": "A recent example includes the acquisition of Lunaphore SA (\"Lunaphore\") at the beginning of fiscal 2024."
+  }
+ ],
+ "dropped": [
+  "product not in text (Diagnostics and Spatial Biology): Lunaphore COMET instrument",
+  "change not grounded: In fiscal 2023, the company completed a 19.9% investment in Wilson Wolf Corporat"
+ ]
+}

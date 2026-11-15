@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000732026",
+ "issuerName": "TRIO-TECH INTERNATIONAL",
+ "builtAt": "2026-11-14T13:49:46.165Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-031124",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/732026/000143774926031124/trt20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor Back-end Solutions",
+   "products": [
+    "burn-in systems",
+    "burn-in boards",
+    "reliability test equipment",
+    "electrical, environmental, and burn-in testing services"
+   ],
+   "description": "Designs and manufactures burn-in and reliability test equipment and provides testing services for semiconductor manufacturers and end users.",
+   "evidence": "The SBS segment of the Company designs and manufactures an extensive range of burn-in and reliability test equipment used in the \"back-end\" manufacturing processes of semiconductors."
+  },
+  {
+   "name": "Industrial Electronics",
+   "products": [
+    "environmental chambers",
+    "leak detectors",
+    "autoclaves",
+    "centrifuges",
+    "dynamic testers",
+    "temperature-controlled chucks",
+    "connectors, cables, camera modules, LCD displays, and touch screen panels"
+   ],
+   "description": "Designs, manufactures and distributes test, process and other equipment and components, plus maintenance and refurbishment services, for consumer and industrial customers.",
+   "evidence": "The IE segment of the Company includes the design, manufacture and distribution of an extensive range of test, processes and other equipment used in the manufacturing processes of customers in various industries in the consumer and industrial market."
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Holds real estate investments in ChongQing, China, which are no longer a reportable segment.",
+   "evidence": "As a result, this segment ceased to be a reportable segment and has been presented under the Others segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily semiconductor and electronics manufacturers and end users, pay the Company for reliability test equipment, outsourced testing services, and distributed equipment and components.",
+  "evidence": "Our customers include both manufacturers and end users of semiconductor and electronic components who look at us when they decide to outsource their testing process."
+ },
+ "changes": [
+  {
+   "text": "Beginning in Fiscal 2025, the Company began reporting its financial performance based on new segments, Semiconductor Back-end Solutions and Industrial Electronics.",
+   "evidence": "Beginning in Fiscal 2025, we report our financial performance based on our new segments, Semiconductor Backend Solutions and Industrial Electronics."
+  },
+  {
+   "text": "Effective in Fiscal 2025, the real-estate segment ceased to be a reportable segment and was presented under the Others segment.",
+   "evidence": "As a result, this segment ceased to be a reportable segment and has been presented under the Others segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Industrial Electronics): Highly Accelerated Stress Test (\"HAST\") testers"
+ ]
+}

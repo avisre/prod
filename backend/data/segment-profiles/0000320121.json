@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000320121",
+ "issuerName": "TELOS CORPORATION",
+ "builtAt": "2026-11-14T13:48:14.362Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000320121-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/320121/000032012126000010/tls-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security Solutions",
+   "products": [
+    "Xacta",
+    "Xacta.ai",
+    "Cybersecurity Services",
+    "Telos Identity Solutions",
+    "TSA PreCheck enrollment services",
+    "IDVetting",
+    "ONYX"
+   ],
+   "description": "Delivers cybersecurity, cloud, identity, and secure messaging solutions that help government and commercial customers protect critical systems and manage cyber risk.",
+   "evidence": "The Security Solutions segment delivers cybersecurity, cloud, identity, and secure messaging solutions that help government and commercial customers protect critical systems, manage cyber risk, and operate securely in complex and regulated environments."
+  },
+  {
+   "name": "Secure Networks",
+   "products": [
+    "Secure Mobility",
+    "Network Management and Defense"
+   ],
+   "description": "Provides secure networking architectures, secure mobility solutions, and network management and defense services for defense and civilian missions.",
+   "evidence": "With a focus on enterprise security, the Secure Networks segment provides secure networking architectures and solutions to our customers through secure mobility solutions and network management and defense services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Telos earns revenue primarily from prime contracts and subcontracts with the U.S. federal government, largely under firm-fixed-price, time-and-material, and cost-plus contract vehicles and task orders.",
+  "evidence": "Our consolidated revenues are largely attributable to prime contracts or subcontracts with our contractors engaged in work for the U.S. federal government."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Security Solutions): Telos Automated Message Handling System (Telos AMHS)",
+  "product not in text (Security Solutions): Aviation Channeling Services (ACS)"
+ ]
+}

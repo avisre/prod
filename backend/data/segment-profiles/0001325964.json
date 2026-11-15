@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001325964",
+ "issuerName": "Lightwave Logic, Inc.",
+ "builtAt": "2026-11-14T17:39:53.416Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001079973-26-000348",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1325964/000107997326000348/lwlg_10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electro-Optic Polymer Materials",
+   "products": [
+    "Perkinamine® family of EO polymer materials",
+    "Material supply agreements"
+   ],
+   "description": "Develops and commercializes proprietary electro-optic polymer materials for high-speed optical modulators in photonic applications.",
+   "evidence": "Lightwave Logic, Inc. is a specialty materials and intellectual property company focused on the development and commercialization of proprietary electro-optic (\"EO\") polymer materials designed to enable high-speed optical modulators for data communications and other photonic applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Electro-Optic Polymer Materials): Process design kits (PDK)",
+  "product not in text (Electro-Optic Polymer Materials): Intellectual property licenses",
+  "revenue model not grounded"
+ ],
+ "escalated": "revenue model not quoted"
+}

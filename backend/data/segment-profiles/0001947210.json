@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001947210",
+ "issuerName": "High Roller Technologies, Inc.",
+ "builtAt": "2026-11-14T17:42:28.931Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001753926-26-000462",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1947210/000175392626000462/rolr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online Gaming Casino",
+   "products": [
+    "HighRoller.com",
+    "Fruta.com",
+    "Kassuuu.com"
+   ],
+   "description": null,
+   "evidence": "the Company has one operating segment, which focuses on providing an online gaming casino to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Players fund accounts and wager on casino games; the company retains the difference between amounts wagered and amounts paid out as winnings.",
+  "evidence": "The Company's revenue by country for those countries with significant revenue for the years ended December 31, 2025 and 2024 is summarized as follows"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company divested CasinoRoom.com domain, representing a strategic sh"
+ ]
+}

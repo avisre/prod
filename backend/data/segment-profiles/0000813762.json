@@ -1,0 +1,95 @@
+{
+ "version": 1,
+ "cik": "0000813762",
+ "issuerName": "ICAHN ENTERPRISES L.P.",
+ "builtAt": "2026-11-14T13:51:44.108Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-019821",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/813762/000110465926019821/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment",
+   "products": [
+    "Investment Funds"
+   ],
+   "description": "Private investment funds holding proprietary capital, pursuing activist value-based investments in undervalued securities.",
+   "evidence": "Our Investment segment is comprised of various private investment funds (\"Investment Funds\") in which we have general partner interests and through which we invest our proprietary capital."
+  },
+  {
+   "name": "Energy",
+   "products": [
+    "gasoline",
+    "diesel",
+    "jet fuel",
+    "distillates",
+    "renewable diesel",
+    "urea ammonium nitrate (\"UAN\")",
+    "ammonia"
+   ],
+   "description": "Petroleum refining and marketing, renewable fuels, and nitrogen fertilizer manufacturing and distribution through CVR Energy and CVR Partners.",
+   "evidence": "CVR Energy is a diversified holding company primarily engaged in the petroleum refining and marketing businesses, the renewable fuels businesses as well as in the nitrogen fertilizer manufacturing and distribution businesses through its holdings in CVR Partners."
+  },
+  {
+   "name": "Automotive",
+   "products": [
+    "tire and automotive service offerings"
+   ],
+   "description": "Provides automotive aftermarket services including tire and automotive service through extensive service offerings.",
+   "evidence": "The Automotive segment seeks to provide (i) an extensive selection of tire and automotive service offerings, (ii) competitive pricing, and (iii) exceptional in-store service experience."
+  },
+  {
+   "name": "Food Packaging",
+   "products": [
+    "plastic casings"
+   ],
+   "description": "Produces cellulosic, fibrous and plastic casings used to prepare and package processed meat products, mostly for customers outside the United States.",
+   "evidence": "Viskase is a producer of cellulosic, fibrous and plastic casings used to prepare and package processed meat products."
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "land",
+    "industrial properties",
+    "single-family homes",
+    "resort",
+    "country club"
+   ],
+   "description": "Holds investment properties leased to corporate tenants, develops and sells single-family homes, and operates a resort and country club.",
+   "evidence": "Our Real Estate segment primarily consists of investment properties which includes land, retail, office and industrial properties leased to corporate tenants, the development and sale of single-family homes and the operations of a resort and a country club."
+  },
+  {
+   "name": "Home Fashion",
+   "products": [
+    "home fashion consumer products"
+   ],
+   "description": "Manufactures, sources, markets, distributes and sells home fashion consumer products through WestPoint Home.",
+   "evidence": "WPH's business consists of manufacturing, sourcing, marketing, distributing and selling home fashion consumer products."
+  },
+  {
+   "name": "Pharma",
+   "products": [],
+   "description": "Specialty pharmaceutical company with approved therapies for chronic weight management and exocrine pancreatic insufficiency.",
+   "evidence": "Vivus is a specialty pharmaceutical company with two approved therapies: one for chronic weight management and the other for the treatment of exocrine pancreatic insufficiency."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Investment segment earns gains from investment transactions, while other segments earn net sales of products, primarily Energy and Automotive, plus automotive services and real estate leasing.",
+  "evidence": "Our Investment segment derives revenues from gains and losses from investment transactions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Food Packaging): cellulosic casings",
+  "product not in text (Food Packaging): fibrous casings",
+  "product not in text (Real Estate): retail properties",
+  "product not in text (Real Estate): office properties",
+  "product not in text (Pharma): chronic weight management therapy",
+  "product not in text (Pharma): exocrine pancreatic insufficiency therapy",
+  "change not grounded: In 2025, the Automotive segment transferred $465 million of owned real estate pr"
+ ]
+}

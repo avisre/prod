@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000076334",
+ "issuerName": "PARKER-HANNIFIN CORPORATION",
+ "builtAt": "2026-11-14T13:45:58.616Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000076334-26-000105",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/76334/000007633426000105/ph-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diversified Industrial",
+   "products": [
+    "Active & Passive Vibration Control",
+    "Coatings",
+    "Cryogenic Valves & Fittings",
+    "Elastomeric, Fabric Reinforced, Metal, & Precision Cut Seals",
+    "Electric & Hydraulic Pumps & Motors",
+    "Electric & Hydraulic Valves",
+    "Electromechanical & Hydraulic Actuators",
+    "Electronics, Drives & Controllers"
+   ],
+   "description": "Aggregation of business units selling highly engineered motion-control products to OEMs and distributors serving aftermarket replacement markets across industrial verticals.",
+   "evidence": "Our Diversified Industrial Segment, which is an aggregation of several business units, sells highly engineered differentiated products to both OEMs and distributors who serve the aftermarket replacement markets."
+  },
+  {
+   "name": "Aerospace Systems",
+   "products": [
+    "Avionics",
+    "Fuel Systems & Components",
+    "Electric & Hydraulic Braking Systems",
+    "Electric Power",
+    "Hydraulic Pumps & Motors",
+    "Electromechanical Actuators",
+    "Engine Exhaust Systems & Components",
+    "Fire Detection & Suppression"
+   ],
+   "description": "Sells highly engineered airframe and engine components and systems to OEMs, plus aftermarket parts and maintenance to end users in commercial aerospace and defense.",
+   "evidence": "Our Aerospace Systems Segment sells highly engineered, differentiated airframe and engine components and systems to OEMs and aftermarket parts and maintenance directly to end users primarily in the commercial aerospace and defense market verticals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Parker is paid by OEMs and distributors for standard and custom engineered products, and by aerospace end users for aftermarket parts and maintenance.",
+  "evidence": "We serve several hundred thousand original equipment manufacturers (\"OEMs\") and distribution customer locations."
+ },
+ "changes": [],
+ "dropped": []
+}

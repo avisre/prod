@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000815097",
+ "issuerName": "Carnival Corp Ltd.",
+ "builtAt": "2026-11-14T13:51:48.222Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000815097-26-000007",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/815097/000081509726000007/ccl-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Carnival Cruise Line",
+    "Princess Cruises",
+    "Holland America Line",
+    "Seabourn"
+   ],
+   "description": "North America cruise operations serving guests with contemporary, premium and luxury cruise vacations across four brands.",
+   "evidence": "Our four reportable segments are comprised of (1) North America cruise operations (\"North America\"), (2) Europe cruise operations (\"Europe\"), (3) Cruise Support and (4) Tour and Other."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "AIDA Cruises",
+    "Costa Cruises",
+    "P&O Cruises",
+    "Cunard"
+   ],
+   "description": "Europe cruise operations offering contemporary, premium and luxury cruise vacations through four brands sourced largely from European guests.",
+   "evidence": "Our four reportable segments are comprised of (1) North America cruise operations (\"North America\"), (2) Europe cruise operations (\"Europe\"), (3) Cruise Support and (4) Tour and Other."
+  },
+  {
+   "name": "Cruise Support",
+   "products": [
+    "port destinations",
+    "exclusive islands"
+   ],
+   "description": "Operates the company's portfolio of port destinations and exclusive islands and other services for the benefit of its cruise brands.",
+   "evidence": "Our Cruise Support segment includes our portfolio of leading port destinations and exclusive islands as well as other services, all of which are operated for the benefit of our cruise brands."
+  },
+  {
+   "name": "Tour and Other",
+   "products": [
+    "Holland America Princess Alaska Tours",
+    "hotels",
+    "lodges",
+    "glass-domed railcars",
+    "motorcoaches"
+   ],
+   "description": "Represents the hotel and transportation operations of Holland America Princess Alaska Tours and other operations in Alaska and the Canadian Yukon.",
+   "evidence": "Our Tour and Other segment represents the hotel and transportation operations of Holland America Princess Alaska Tours and other operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests pay the company for cruise vacations, including fares and onboard purchases, and the company also earns revenue from tours and port destination services.",
+  "evidence": "For time charter arrangements where we are the lessor and for transactions with cruise guests related to the use of cabins, we do not separate lease and non-lease components since (1) the lease on a standalone basis would be classified as an operating lease and (2) the timing and pattern of transfer for the lease component and associated non-lease component are the same."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sunset the P&O Cruises (Australia) brand and folded its Australia operations into Carnival Cruise Line.",
+   "evidence": "During 2025, we sunset the P&O Cruises (Australia) brand and folded its Australia operations into Carnival Cruise Line."
+  }
+ ],
+ "dropped": []
+}

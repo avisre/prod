@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000091142",
+ "issuerName": "A. O. Smith Corporation",
+ "builtAt": "2026-11-14T13:46:31.093Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000091142-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/91142/000009114226000008/aos-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "Water heaters",
+    "Boilers",
+    "Water treatment products",
+    "Expansion tanks",
+    "Commercial solar water heating systems",
+    "Swimming pool and spa heaters"
+   ],
+   "description": "Manufactures and markets water heaters, boilers and water treatment products for residential and commercial end markets in North America.",
+   "evidence": "This segment serves residential and commercial end markets with a broad range of products including: Water heaters ."
+  },
+  {
+   "name": "Rest of World",
+   "products": [
+    "Residential water heaters",
+    "Water treatment products",
+    "Commercial dispensing water treatment products",
+    "Kitchen products",
+    "Connected product technology"
+   ],
+   "description": "Manufactures and markets water heaters, water treatment and kitchen products in China, India, Europe and other markets.",
+   "evidence": "Our Rest of World segment is primarily comprised of China, India, and Europe."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells its products to wholesale plumbing distributors, retail and home center chains, water quality dealers, contractors and e-commerce customers.",
+  "evidence": "Our wholesale distribution channel, where we sell our products primarily under the A. O. Smith and State brands, includes approximately 800 independent wholesale plumbing distributors serving residential and commercial end markets."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company expanded its India offerings by acquiring Pureit, a residential water purification business.",
+   "evidence": "In 2024, we expanded our product offerings and geographic footprint with the acquisition of Pureit, formerly a Unilever PLC business."
+  },
+  {
+   "text": "In 2025, the company initiated an assessment of strategic opportunities for its China business.",
+   "evidence": "In the third quarter of 2025, we initiated an assessment of strategic opportunities for our China business, including strategic partnerships and other alternatives."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000840489",
+ "issuerName": "FIRSTCASH HOLDINGS, INC.",
+ "builtAt": "2026-11-14T13:52:30.623Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000840489-26-000032",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/840489/000084048926000032/fcfs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. pawn",
+   "products": [
+    "pawn loans",
+    "pawn merchandise sales",
+    "layaway plan"
+   ],
+   "description": null,
+   "evidence": "The U.S. pawn segment consists of pawn operations in 29 U.S. states and the District of Columbia"
+  },
+  {
+   "name": "Latin America pawn",
+   "products": [
+    "pawn loans",
+    "pawn merchandise sales"
+   ],
+   "description": "Operates larger format, full-service pawn stores in Mexico, Guatemala, El Salvador and Colombia serving unbanked and under-banked customers.",
+   "evidence": "The Latin America pawn segment consists of pawn operations in Mexico, Guatemala, El Salvador and Colombia"
+  },
+  {
+   "name": "U.K. pawn",
+   "products": [
+    "pawn loans",
+    "pawn merchandise sales"
+   ],
+   "description": "Operates pawn stores in England, Scotland and Wales, focusing primarily on loans collateralized by gold jewelry.",
+   "evidence": "The U.K. pawn segment consists of pawn operations in England, Scotland and Wales"
+  },
+  {
+   "name": "retail POS payment solutions",
+   "products": [
+    "retail financing payment options"
+   ],
+   "description": "Operates American First Finance, offering lease-to-own and retail financing payment solutions to U.S. merchant partners and their customers.",
+   "evidence": "The retail POS payment solutions segment consists of the operations of American First Finance, LLC (\"AFF\"), which offers products in the U.S."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay pawn service fees on non-recourse pawn loans and pay retail prices for merchandise, while merchant partners and consumers pay for AFF's lease-to-own and retail finance solutions.",
+  "evidence": "AFF's retail partners provide consumer goods and services to their customers and use AFF's LTO and retail finance solutions to facilitate payments on such transactions."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired H&T, the leading pawn operator in the United Kingdom, adding a new U.K. pawn segment.",
+   "evidence": "The Company completed the acquisition of H&T, the leading pawn operator in the United Kingdom with 286 store locations, on August 14, 2025, the date which the balance sheet and operating results of H&T were included in the Company's consolidated financial results."
+  }
+ ],
+ "dropped": [
+  "product not in text (retail POS payment solutions): lease-to-own (LTO) products"
+ ]
+}

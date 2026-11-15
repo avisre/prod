@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000058361",
+ "issuerName": "LEE ENTERPRISES, INC",
+ "builtAt": "2026-11-14T13:45:05.397Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000058361-25-000040",
+  "periodEnd": "2025-09-28",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/58361/000005836125000040/lee-20250928.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Local media",
+   "products": [
+    "digital subscription platforms",
+    "daily and weekly newspapers",
+    "specialized niche products",
+    "BLOX Digital",
+    "Amplified",
+    "commercial printing",
+    "distribution services"
+   ],
+   "description": "A digital-first subscription and marketing services company delivering local news, advertising and marketing solutions to communities and local advertisers.",
+   "evidence": "Lee Enterprises, Incorporated is a leading digital-first subscription and marketing services company committed to delivering high-quality, trusted, and deeply local news and information."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from subscribers for digital and print content, from local advertisers for print and digital advertising and marketing services, and from commercial printing, distribution and digital services.",
+  "evidence": "Our primary revenue streams are derived from subscriptions, advertising, and digital marketing services."
+ },
+ "changes": [],
+ "dropped": []
+}

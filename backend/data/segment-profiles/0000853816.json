@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000853816",
+ "issuerName": "LANDSTAR SYSTEM, INC.",
+ "builtAt": "2026-11-14T13:52:54.826Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064756",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/853816/000119312526064756/d66072d10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "transportation logistics",
+   "products": [
+    "truckload",
+    "less-than-truckload and other truck transportation",
+    "rail intermodal",
+    "air cargo",
+    "ocean cargo",
+    "expedited ground and air delivery of time-critical freight",
+    "heavy-haul/specialized",
+    "haz-mat"
+   ],
+   "description": "Provides integrated transportation management solutions across truck, rail, air and ocean modes to a broad range of customers, primarily in North America.",
+   "evidence": "The transportation logistics segment provides a wide range of integrated transportation management solutions."
+  },
+  {
+   "name": "insurance",
+   "products": [
+    "risk and claims management services",
+    "property and casualty insurance and reinsurance"
+   ],
+   "description": "Provides risk and claims management services to Landstar's Operating Subsidiaries and reinsures certain risks of BCO Independent Contractors.",
+   "evidence": "The insurance segment provides risk and claims management services to certain of Landstar's Operating Subsidiaries."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Landstar per shipment for the physical transportation of freight, and the insurance segment earns reinsurance premiums from third party insurance companies.",
+  "evidence": "Billings for freight transportation services are typically charged to customers on a per shipment basis for the physical transportation of freight and are referred to as transportation revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company began actively marketing its Mexican subsidiary Landstar Metro for possible sale or disposition during the 2026 fiscal year.",
+   "evidence": "the Company entered into an arrangement with a financial advisor to actively market its Mexican subsidiary, Landstar Metro, S.A.P.I. de C.V. (\"Landstar Metro\") and to consider other strategic alternatives for this subsidiary, which may involve a sale or other disposition in whole or in part of Landstar Metro during the Company's 2026 fiscal year."
+  }
+ ],
+ "dropped": [
+  "product not in text (insurance): reinsurance of BCO Independent Contractor risks"
+ ]
+}

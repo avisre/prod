@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001158449",
+ "issuerName": "ADVANCE AUTO PARTS, INC.",
+ "builtAt": "2026-11-14T17:36:16.594Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-051305",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1158449/000119312526051305/aap-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advance Auto Parts/Carquest",
+   "products": [
+    "Batteries and battery accessories",
+    "Belts and hoses",
+    "Brakes and brake pads",
+    "Engine parts",
+    "Air filters",
+    "Oil filters",
+    "Wiper blades",
+    "Accessories"
+   ],
+   "description": "Leading automotive aftermarket parts provider serving professional installers and DIY customers across North America.",
+   "evidence": "Advance Auto Parts, Inc. and its subsidiaries is a leading automotive aftermarket parts provider in North America, serving both professional installers (\"professional\") and \"do-it-yourself\" (\"DIY\") customers, as well as independently-owned operators."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase automotive replacement parts, accessories, batteries and maintenance items through company stores and e-commerce sites.",
+  "evidence": "The Company's stores offer a broad selection of brand names, original equipment manufacturer (\"OEM\") and owned brand automotive replacement parts, accessories, batteries and maintenance items for domestic and imported cars, vans, sport utility vehicles and light and heavy-duty trucks."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, the Company sold Worldpac business in November 2024 as part of strategic shift to focus on the Advance blended-box model.",
+   "evidence": "In November 2024, the Company completed the sale of the Worldpac business for net proceeds of approximately $1.44 billion after transaction costs, the final working capital adjustment recorded in the fourth quarter of fiscal 2025 and excluding the impact of taxes."
+  },
+  {
+   "text": "In fiscal 2025, the Company consolidated from two operating segments into one reportable segment following stabilization of new organizational structure.",
+   "evidence": "The Company has one operating segment and one reportable segment, effective during the first quarter of fiscal year 2025, resulting from the stabilization of the Company's new organizational structure due to the significant restructuring activities announced in fiscal year 2024."
+  }
+ ],
+ "dropped": []
+}

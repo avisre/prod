@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001086222",
+ "issuerName": "Akamai Technologies, Inc",
+ "builtAt": "2026-11-14T17:36:16.702Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001086222-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1086222/000108622226000022/akam-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Akamai Technologies, Inc.",
+   "products": [
+    "Security solutions",
+    "Cloud computing services",
+    "Delivery services"
+   ],
+   "description": "Develops and provides solutions for global enterprises to build, secure and accelerate their applications and digital experiences.",
+   "evidence": "The Company is currently organized and operates as one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for security, cloud computing, and delivery services delivered through distributed global infrastructure and edge network.",
+  "evidence": "we provide solutions in three core offerings: security, cloud computing and delivery."
+ },
+ "changes": [],
+ "dropped": []
+}

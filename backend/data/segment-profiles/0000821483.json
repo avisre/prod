@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000821483",
+ "issuerName": "Par Pacific Holdings, Inc.",
+ "builtAt": "2026-11-14T13:51:59.876Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000821483-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/821483/000082148326000005/parr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Refining",
+   "products": [
+    "gasoline",
+    "distillate",
+    "asphalt",
+    "LPG",
+    "naphtha",
+    "jet fuel",
+    "ULSD",
+    "marine fuel"
+   ],
+   "description": "Owns and operates four refineries in Hawaii, Wyoming, Washington, and Montana that convert crude oil into refined products for western U.S. markets.",
+   "evidence": "Our refineries in Kapolei, Hawaii, Newcastle, Wyoming, Tacoma, Washington, and Billings, Montana, convert crude oil into gasoline, distillate, asphalt and other products to serve the state of Hawaii and areas ranging from Washington state to the Dakotas and Wyoming."
+  },
+  {
+   "name": "Retail",
+   "products": [
+    "Hele",
+    "nomnom",
+    "unattended cardlock stations",
+    "gasoline",
+    "diesel",
+    "retail merchandise"
+   ],
+   "description": "Operates convenience stores and fuel retail outlets in Hawaii, Washington, and Idaho selling gasoline, diesel, and retail merchandise.",
+   "evidence": "We operate convenience stores and fuel retail sites under our \"Hele\" and \"nomnom\" brands, \"76\" branded fuel retail sites and other sites operated by third parties that sell gasoline, diesel, and retail merchandise such as soft drinks, prepared foods, and other sundries."
+  },
+  {
+   "name": "Logistics",
+   "products": [
+    "terminals",
+    "pipelines",
+    "trucking operations",
+    "marine vessels",
+    "storage facilities",
+    "loading and truck racks",
+    "rail facilities",
+    "unit train-capable rail loading terminal"
+   ],
+   "description": "Operates a multi-modal logistics network moving petroleum, refined products, and ethanol across the Pacific, Northwest, and Rocky Mountain regions.",
+   "evidence": "This network includes an SPM in Hawaii, a unit train-capable rail loading terminal in Washington, and other terminals, pipelines, trucking operations, marine vessels, storage facilities, loading and truck racks, and rail facilities for the movement of petroleum, refined products, and ethanol in and among the Hawaiian islands, between the U.S. West Coast and Hawaii, and in areas ranging from the state of Washington to the Dakotas and Wyoming."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for refined products sold from its refineries, retail fuel and merchandise sold at its outlets, and logistics services moving petroleum and refined products.",
+  "evidence": "During the year ended December 31, 2025, our refineries processed 187.8 Mbpd of crude oil and sold 199.1 Mbpd of refined products."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company acquired refining and logistics investments as part of the Billings Acquisition.",
+   "evidence": "Beginning with financial results reported for the second quarter of 2023, Adjusted Gross Margin, Adjusted Net Income (Loss) attributable to Par Pacific stockholders, and Adjusted EBITDA exclude our portion of interest, taxes, and depreciation expense from our refining and logistics investments acquired on June 1, 2023, as part of the Billings Acquisition."
+  }
+ ],
+ "dropped": [
+  "product not in text (Retail): 76 branded fuel retail sites"
+ ]
+}

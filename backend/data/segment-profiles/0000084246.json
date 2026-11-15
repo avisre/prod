@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000084246",
+ "issuerName": "RLI Corp",
+ "builtAt": "2026-11-14T13:46:17.858Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/84246/000110465926018013/rli-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Casualty",
+   "products": [
+    "Commercial excess and personal umbrella",
+    "Commercial transportation",
+    "General liability",
+    "Professional services",
+    "Small commercial",
+    "Executive products",
+    "Other casualty"
+   ],
+   "description": "Underwrites specialty casualty coverages including excess and umbrella liability, transportation, general liability, professional liability and management liability for commercial insureds.",
+   "evidence": "Our insurance operations consist of three segments: property, casualty and surety."
+  },
+  {
+   "name": "Property",
+   "products": [
+    "Commercial property",
+    "Marine",
+    "Other property"
+   ],
+   "description": "Provides excess and surplus lines and specialty commercial property, marine and homeowners coverages for commercial and industrial risks.",
+   "evidence": "Our commercial property coverage consists primarily of excess and surplus lines and specialty insurance such as fire, earthquake, wind and difference in conditions (DIC), which can include earthquake, flood and collapse coverages."
+  },
+  {
+   "name": "Surety",
+   "products": [
+    "Transactional",
+    "Commercial",
+    "Contract"
+   ],
+   "description": "Offers transactional, commercial and contract surety bonds for businesses, individuals and contractors across the United States.",
+   "evidence": "Our transactional surety coverage is primarily comprised of small bonds for businesses and individuals."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "RLI earns premiums from insureds and reinsureds for specialty property, casualty and surety coverages, distributed through wholesale and retail brokers, independent agents, carrier partners and direct digital platforms.",
+  "evidence": "We distribute our property, casualty and surety products through locations across the country that market to wholesale and retail brokers, independent agents and carrier partners."
+ },
+ "changes": [],
+ "dropped": []
+}

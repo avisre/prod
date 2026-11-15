@@ -1,0 +1,82 @@
+{
+ "version": 1,
+ "cik": "0000818479",
+ "issuerName": "DENTSPLY SIRONA Inc.",
+ "builtAt": "2026-11-14T13:51:53.117Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000818479-26-000075",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/818479/000081847926000075/xray-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Connected Technology Solutions",
+   "products": [
+    "Equipment & Instruments",
+    "CAD/CAM",
+    "imaging equipment",
+    "motorized dental handpieces",
+    "treatment centers",
+    "intraoral scanners",
+    "3-D printers",
+    "CEREC"
+   ],
+   "description": "Designs, manufactures and sells dental technology and equipment products, including imaging, treatment centers and CAD/CAM systems, for dental practitioners and specialists.",
+   "evidence": "This segment includes the design, manufacture and sales of the Company's dental technology and equipment products."
+  },
+  {
+   "name": "Essential Dental Solutions",
+   "products": [
+    "endodontic products",
+    "restorative products",
+    "preventive products",
+    "curing light systems",
+    "dental ceramics",
+    "composites",
+    "dental anesthetics",
+    "ultrasonic scalers and polishers"
+   ],
+   "description": "Develops, manufactures and sells endodontic, restorative and preventive consumable products and small equipment used by dental professionals to treat patients.",
+   "evidence": "This segment includes the development, manufacture and sales of the Company's value-added endodontic, restorative, and preventive consumable products and small equipment used by dental professionals for the treatment of patients."
+  },
+  {
+   "name": "Orthodontic and Implant Solutions",
+   "products": [
+    "SureSmile",
+    "clear aligners",
+    "digital indirect bonding trays",
+    "whitening kits",
+    "retainers",
+    "dental implants",
+    "digital dentures",
+    "crown and bridge products"
+   ],
+   "description": "Designs, manufactures and sells digital implant systems, dental implants, digital dentures and digital orthodontic solutions supported by the DS Core cloud platform.",
+   "evidence": "This segment includes the design, manufacture, and sales of the Company's various digital implant systems and innovative dental implant products, digital dentures, and digital orthodontic solutions."
+  },
+  {
+   "name": "Wellspect Healthcare",
+   "products": [
+    "catheters",
+    "advanced irrigation systems"
+   ],
+   "description": "Designs, manufactures and sells continence care solutions for urinary and bowel management, serving people with urinary retention and chronic constipation.",
+   "evidence": "This segment includes the design, manufacture, and sales of the Company's innovative continence care solutions for both urinary and bowel management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells roughly two-thirds of dental products through third-party distributors, sells certain products directly to dental laboratories or professionals, and sells continence care products primarily to distributors of medical supplies with some direct sales to patients and medical…",
+  "evidence": "Dentsply Sirona sells approximately two-thirds of its dental consumable and technology and equipment products through third-party distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company discontinued offering the Byte direct-to-consumer clear aligner product to new patients.",
+   "evidence": "The Orthodontics product category previously included a direct-to-consumer clear aligner product marketed as Byte, which was no longer offered to new patients after October 24, 2024."
+  }
+ ],
+ "dropped": []
+}

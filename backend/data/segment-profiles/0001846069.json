@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001846069",
+ "issuerName": "Nextdoor Holdings, Inc",
+ "builtAt": "2026-11-14T17:40:37.290Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001846069-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1846069/000184606926000023/kind-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Nextdoor",
+   "products": [
+    "Nextdoor Ads Platform",
+    "Nextdoor Ads Manager",
+    "Feed",
+    "Search",
+    "For Sale & Free",
+    "Business Pages"
+   ],
+   "description": "Neighborhood network connecting verified neighbors with locally relevant content, services, news, safety alerts, recommendations, and advertising solutions.",
+   "evidence": "Nextdoor is the essential neighborhood network connecting over 105 million Verified Neighbors to the people, places, and information that matter most in their local communities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses and advertisers pay for targeted advertising solutions to reach local audiences through self-serve and managed advertising campaigns on the platform.",
+  "evidence": "Our Nextdoor Ads Platform is built on a proprietary ad stack that includes the Nextdoor Ads Manager interface, our native ad server, and measurement and API tools."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Nextdoor launched a product transformation initiative, the first phase of a multi-phase evolution expanding the platform beyond neighbor-generated content to include timely locally relevant information enriched with AI and ML.",
+   "evidence": "In 2025, we launched the new Nextdoor initiative, the first phase of a multi‑phase product transformation designed to create more engaging experiences for neighbors and partners and deliver enhanced value for advertisers."
+  }
+ ],
+ "dropped": []
+}

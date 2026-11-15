@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001842731",
+ "issuerName": "Similarweb Ltd.",
+ "builtAt": "2026-11-14T17:41:24.724Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001842731-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1842731/000184273126000018/smwb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Data and Analytics",
+   "products": [
+    "Similarweb Web Intelligence",
+    "Similarweb App Intelligence",
+    "Similarweb Retail Intelligence",
+    "Similarweb Sales Intelligence",
+    "Similarweb Stock Intelligence",
+    "Data as a Service (DaaS)",
+    "APIs and MCPs"
+   ],
+   "description": "Provider of digital data and analytics enabling businesses to make data-driven decisions across digital channels worldwide.",
+   "evidence": "Similarweb is a leading provider of digital data and analytics that power critical business decisions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay subscription fees for productized software solutions, data feeds, APIs, and advisory services to access digital data and analytics.",
+  "evidence": "Businesses utilize our productized SaaS solutions to enhance the capabilities of their professionals at all levels of the organization- from business leaders, strategy teams, analysts, marketers, and category managers to salespeople - to quickly and efficiently discover their best growth opportunities, identify potential competitive threats and make critical decisions to acquire customers and grow revenue."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000103379",
+ "issuerName": "V. F. CORPORATION",
+ "builtAt": "2026-11-14T13:47:11.126Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000103379-26-000030",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/103379/000010337926000030/vfc-20260328.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Outdoor",
+   "products": [
+    "The North Face®",
+    "Timberland®",
+    "Timberland PRO®"
+   ],
+   "description": "A group of authentic outdoor-based lifestyle brands selling performance and performance-inspired outdoor apparel, footwear, equipment and accessories to consumers globally.",
+   "evidence": "Our Outdoor segment is a group of authentic outdoor-based lifestyle brands."
+  },
+  {
+   "name": "Active",
+   "products": [
+    "Vans®",
+    "Kipling®",
+    "Eastpak®",
+    "JanSport®"
+   ],
+   "description": "A group of activity-based lifestyle brands offering active apparel, footwear, backpacks, luggage, handbags, totes and accessories to consumers globally.",
+   "evidence": "Our Active segment is a group of activity-based lifestyle brands."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "VF earns revenue from wholesale customers such as specialty stores, national chains and department stores, from consumers through its own direct-to-consumer stores and e-commerce sites, and from licensees paying royalties on licensed product sales.",
+  "evidence": "Each licensee pays royalties to VF based on its sales of licensed products, with most agreements providing for a minimum royalty requirement."
+ },
+ "changes": [
+  {
+   "text": "In 2024, VF sold the Supreme brand business, which was reported as a discontinued operation.",
+   "evidence": "On October 1, 2024, VF completed the sale of Supreme."
+  },
+  {
+   "text": "In 2025, VF sold the Dickies brand business, which remained in continuing operations through the date of sale.",
+   "evidence": "On November 12, 2025, VF completed the sale of Dickies."
+  },
+  {
+   "text": "In the first quarter of Fiscal 2026, VF realigned its reportable segments, combining Timberland and Timberland PRO into one operating segment aggregated with The North Face in the Outdoor segment.",
+   "evidence": "In the first quarter of Fiscal 2026, VF realigned its reportable segments to reflect a change in how the Timberland ® brand is managed and the CODM's key areas of focus."
+  }
+ ],
+ "dropped": []
+}

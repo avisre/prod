@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000018926",
+ "issuerName": "LUMEN TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-14T14:07:22.981Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000018926-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/18926/000001892626000014/lumn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Business",
+   "products": [
+    "Grow",
+    "Nurture",
+    "Harvest",
+    "Other"
+   ],
+   "description": "Serves enterprise and wholesale customers through five sales channels including Large Enterprise, Mid-Market Enterprise, Public Sector, Wholesale, and International and Other.",
+   "evidence": "Business segment : Serves enterprise and wholesale customers through five distinct sales channels: Large Enterprise, Mid-Market Enterprise, Public Sector, Wholesale, and International and Other. Revenue is reported under four product categories: Grow, Nurture, Harvest, and Other."
+  },
+  {
+   "name": "Mass Markets",
+   "products": [
+    "Fiber Broadband",
+    "Other Broadband",
+    "Voice and Other"
+   ],
+   "description": "Serves residential and small business customers with broadband and voice services.",
+   "evidence": "Mass Markets segment : Serves residential and small business customers. Revenue is reported under three product categories: Fiber Broadband, Other Broadband, and Voice and Other."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for integrated digital networking services including connectivity, data center, security, and network solutions delivered through on-net fiber infrastructure.",
+  "evidence": "We are a leading digital networking services company, empowering enterprise businesses to fuel growth in a multi-cloud, AI-first marketplace by connecting people, data, and applications quickly, securely, and effortlessly."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company divested its Europe, the Middle East and Africa business.",
+   "evidence": "divested our Europe, the Middle East and Africa (\"EMEA\") business in 2023; and"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In February 2026, the company divested its Mass Markets Fiber-to-the-Home busine",
+  "change not grounded: In 2022, the company divested its Latin American business and a portion of its i"
+ ]
+}

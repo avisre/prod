@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000806968",
+ "issuerName": "WPP plc",
+ "builtAt": "2026-11-14T13:51:32.423Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-019643",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/806968/000162828026019643/wpp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Integrated Agencies",
+   "products": [
+    "WPP Media",
+    "Mindshare",
+    "Wavemaker",
+    "EssenceMediacom",
+    "VML",
+    "Ogilvy",
+    "AKQA",
+    "Hogarth"
+   ],
+   "description": "The largest segment, providing media, data, creative, production and enterprise services to clients, accounting for most of the Company's revenues.",
+   "evidence": "The largest reportable segment was Global Integrated Agencies, which accounted for 88% of the Company's revenues in 2025."
+  },
+  {
+   "name": "Public Relations",
+   "products": [
+    "Burson"
+   ],
+   "description": "Segment providing public relations and strategic counsel services to clients.",
+   "evidence": "The remaining 12% of our revenues were derived from the reportable segments of Public Relations and Specialist Agencies."
+  },
+  {
+   "name": "Specialist Agencies",
+   "products": [],
+   "description": "Segment providing specialist communications and other agency services to clients.",
+   "evidence": "At 31 December 2025, the Company's reportable segments were Global Integrated Agencies, Public Relations and Specialist Agencies, which reflected the way in which performance was reviewed and resources were allocated in 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In May 2025, WPP Media replaced GroupM as the name of WPP's global media company.",
+   "evidence": "In May 2025, WPP Media replaced GroupM as the name of WPP's global media company."
+  },
+  {
+   "text": "In February 2026, the Company announced a simplification of its structure into four operating units, requiring a reassessment of its reportable segments.",
+   "evidence": "In February 2026, the Company announced the simplification of its structure into four operating units: WPP Media, WPP Production, WPP Enterprise Solutions and WPP Creative"
+  }
+ ],
+ "dropped": []
+}

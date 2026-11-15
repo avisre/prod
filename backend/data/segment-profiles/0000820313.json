@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000820313",
+ "issuerName": "AMPHENOL CORPORATION",
+ "builtAt": "2026-11-14T13:51:55.473Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-013549",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/820313/000110465926013549/aph-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications Solutions",
+   "products": [
+    "fiber optic interconnect products",
+    "high-speed interconnect products",
+    "radio frequency interconnect products",
+    "cable assemblies and harnesses",
+    "consumer device antennas",
+    "network infrastructure antennas",
+    "coaxial, fiber optic, power and specialty cable",
+    "hinges and other mechanical products"
+   ],
+   "description": "Designs, manufactures and markets connector and interconnect systems, cable, antennas and related products for communications, IT, automotive and other markets.",
+   "evidence": "the Communications Solutions segment designs, manufactures and markets a broad range of connector and interconnect systems, including high speed, radio frequency, power, fiber optic and other interconnect products; coaxial, fiber optic, power and high-speed cable; antennas; and other products."
+  },
+  {
+   "name": "Harsh Environment Solutions",
+   "products": [
+    "harsh environment data, power, fiber optic and radio frequency interconnect prod",
+    "backplane interconnect systems",
+    "cable assemblies and harnesses",
+    "cable management products",
+    "coaxial and specialty cable",
+    "flexible and rigid printed circuit boards"
+   ],
+   "description": "Designs, manufactures and markets ruggedized interconnect products, specialty cable, printed circuits and printed circuit assemblies for demanding environments.",
+   "evidence": "the Harsh Environment Solutions segment designs, manufactures and markets a broad range of ruggedized interconnect products, including connectors and interconnect systems, specialty cable, printed circuits and printed circuit assemblies and other products."
+  },
+  {
+   "name": "Interconnect and Sensor Systems",
+   "products": [
+    "busbars and power distribution systems",
+    "power interconnect products",
+    "backplane interconnect systems",
+    "cable assemblies and harnesses"
+   ],
+   "description": "Designs, manufactures and markets sensors, sensor-based systems, connectors and value-add interconnect systems for diversified end markets.",
+   "evidence": "the Interconnect and Sensor Systems segment designs, manufactures and markets a broad range of sensors, sensor-based systems, connectors and value-add interconnect systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue by selling electrical, electronic and fiber optic connectors, interconnect systems, antennas, sensors and cable products to customers across diversified end markets.",
+  "evidence": "The Company sells products to customers in a diversified set of end markets."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Interconnect and Sensor Systems): force sensors",
+  "product not in text (Interconnect and Sensor Systems): gas and moisture sensors",
+  "product not in text (Interconnect and Sensor Systems): pressure sensors",
+  "product not in text (Interconnect and Sensor Systems): temperature sensors"
+ ]
+}

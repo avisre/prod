@@ -1,0 +1,22 @@
+{
+ "version": 1,
+ "cik": "0000866291",
+ "issuerName": "ALLEGRO MICROSYSTEMS, INC.",
+ "builtAt": "2026-11-14T13:53:15.973Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-233537",
+  "periodEnd": "2026-03-27",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/866291/000119312526233537/algm-20260327.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Semiconductor ICs",
+  "revenue model not grounded"
+ ]
+}

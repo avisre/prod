@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000798941",
+ "issuerName": "FIRST CITIZENS BANCSHARES INC /DE/",
+ "builtAt": "2026-11-14T13:51:20.659Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000798941-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/798941/000079894126000015/fcnca-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "General Bank",
+   "products": [
+    "deposit products",
+    "business/commercial loans",
+    "residential mortgages",
+    "wealth management and private banking",
+    "brokerage, investment advisory, and trust services",
+    "cash management and lending solutions to homeowner associations"
+   ],
+   "description": "Serves individuals and businesses through branches and digital channels with deposits, loans, wealth management, private banking and fee-based services.",
+   "evidence": "Delivers services to individuals and businesses through an extensive branch network and various digital channels offering a full suite of deposit products, loans (primarily business/commercial loans and residential mortgages), wealth management and private banking, and various fee-based services."
+  },
+  {
+   "name": "Commercial Bank",
+   "products": [
+    "lending",
+    "leasing",
+    "capital markets",
+    "commercial deposit, liquidity management, and international products",
+    "asset-based lending, factoring, receivables management and secured financing"
+   ],
+   "description": "Provides lending, leasing, capital markets and advisory services to small and middle-market companies, private equity and venture capital firms, and innovation-market clients.",
+   "evidence": "Provides lending, leasing, capital markets and other financial and advisory services, primarily to small and middle-market companies across a variety of industries."
+  },
+  {
+   "name": "Rail",
+   "products": [
+    "equipment leasing",
+    "secured financing"
+   ],
+   "description": "Provides equipment leasing and secured financing to railroads and shippers.",
+   "evidence": "Provides equipment leasing and secured financing to railroads and shippers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "BancShares earns interest income on loans and leases and interest on deposits at banks, plus noninterest income from wealth management, brokerage, advisory and fee-based services.",
+  "evidence": "BancShares offers deposit products, loans, and wealth management and private banking services to consumer clients."
+ },
+ "changes": [
+  {
+   "text": "In 2025, all components previously reported in the SVB Commercial segment and certain components of the General Bank segment were consolidated into the Commercial Bank segment.",
+   "evidence": "All components previously reported in the Silicon Valley Bank (\"SVB\") Commercial segment and certain components of the General Bank segment were consolidated into the Commercial Bank segment."
+  },
+  {
+   "text": "In 2023, FCB acquired substantially all loans and certain other assets and assumed all customer deposits and certain other liabilities of Silicon Valley Bridge Bank, N.A. from the FDIC.",
+   "evidence": "On March 27, 2023, FCB acquired substantially all loans and certain other assets and assumed all customer deposits and certain other liabilities of Silicon Valley Bridge Bank, N.A. (\"SVBB\") from the Federal Deposit Insurance Corporation (the \"FDIC\")"
+  }
+ ],
+ "dropped": []
+}

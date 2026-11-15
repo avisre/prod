@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000836690",
+ "issuerName": "INNOVATIVE SOLUTIONS AND SUPPORT, INC.",
+ "builtAt": "2026-11-14T13:52:26.816Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-25-123847",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/836690/000110465925123847/issc-20250930x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Avionics",
+   "products": [
+    "Integrated Flight Deck Systems COCKPIT/IP®",
+    "Navigation Systems",
+    "Communication Systems",
+    "Sensors and Control Systems",
+    "Advanced Flight Actuators",
+    "ThrustSense® Autothrottle",
+    "19\" Multifunction Display (MFD) with Integrated Mission Computer",
+    "flight management systems"
+   ],
+   "description": "Designs, develops, manufactures, sells and services avionics products and systems for retrofit applications and OEMs serving commercial, military and general aviation customers.",
+   "evidence": "We operate in one business segment that designs, develops, manufactures, sells and services avionics products and systems for retrofit applications and Original Equipment Manufacturers (\"OEMs\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling avionics products and systems to OEMs building new aircraft and to retrofit-market customers including the DoD, defense contractors, aircraft operators and modification centers.",
+  "evidence": "We are able to market our products to both original equipment manufacturers that are building new aircraft and customers participating in the retrofit market."
+ },
+ "changes": [],
+ "dropped": []
+}

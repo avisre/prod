@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001997201",
+ "issuerName": "PS International Group Ltd.",
+ "builtAt": "2026-11-14T17:42:09.145Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050440",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1997201/000121390026050440/ea0287766-20f_psinter.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Freight Forwarding Services",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Freight Forwarding Services"
+ ]
+}

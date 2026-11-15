@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000833444",
+ "issuerName": "JOHNSON CONTROLS INTERNATIONAL PLC",
+ "builtAt": "2026-11-14T13:52:21.196Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000833444-25-000097",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/833444/000083344425000097/jci-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "HVAC",
+    "controls",
+    "building management",
+    "refrigeration",
+    "integrated electronic security systems",
+    "integrated fire detection and suppression systems",
+    "digital (software) solutions"
+   ],
+   "description": "Designs, manufactures, sells, installs and services building products and solutions for commercial, industrial, data center, institutional and governmental customers in the Americas.",
+   "evidence": "Americas, which designs, manufactures, sells, installs and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, industrial, data center, institutional and governmental customers in the Americas (United States, Canada, and Latin America – Central and South America)."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "HVAC",
+    "controls",
+    "building management",
+    "refrigeration",
+    "integrated electronic security systems",
+    "integrated fire detection and suppression systems",
+    "digital (software) solutions"
+   ],
+   "description": "Designs, manufactures, sells, installs and services building products and solutions for commercial, residential security, industrial, data center, institutional, governmental and marine customers in Europe, the Middle…",
+   "evidence": "EMEA, which designs, manufactures sells, installs and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, residential security (Subscriber business), industrial, data center, institutional, governmental, and marine customers and provides technical services, including data-driven \"smart building\" solutions, to markets in Europe, the Middle East and A"
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "HVAC",
+    "controls",
+    "building management",
+    "refrigeration",
+    "integrated electronic security systems",
+    "integrated fire detection and suppression systems",
+    "digital (software) solutions"
+   ],
+   "description": "Designs, manufactures, sells, installs and services building products and solutions for commercial, industrial, data center, institutional and governmental customers in Asian and Pacific markets.",
+   "evidence": "APAC, which designs, manufactures, sells, installs, and services HVAC, controls, building management, refrigeration, integrated electronic security systems, integrated fire detection and suppression systems, and digital (software) solutions for commercial, industrial, data center, institutional, and governmental customers and provides technical services, including data-driven \"smart building\" solutions, to the Asian and Pacific marketplaces."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for building products and systems sold through direct and third-party channels, plus technical services and data-driven solutions designed to generate recurring revenue.",
+  "evidence": "In fiscal 2025, products and systems accounted for approximately 68% of sales from continuing operations and services accounted for 32% of sales from continuing operations."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed the divestiture of its Residential and Light Commercial HVAC business to Robert Bosch GmbH.",
+   "evidence": "On July 31, 2025, the Company completed the divestiture of its Residential and Light Commercial (\"R&LC\") HVAC business to Robert Bosch GmbH (\"Bosch\")."
+  },
+  {
+   "text": "In 2024, the Company divested its Air Distribution Technologies business as part of portfolio optimization.",
+   "evidence": "In 2024 and 2025, the Company acted to optimize its core commercial buildings portfolio with the divestitures of its Air Distribution Technologies and R&LC HVAC businesses."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company realigned from four reportable segments into three regional"
+ ]
+}

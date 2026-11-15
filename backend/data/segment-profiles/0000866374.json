@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000866374",
+ "issuerName": "FLEX LTD.",
+ "builtAt": "2026-11-14T13:53:16.490Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000866374-26-000012",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/866374/000086637426000012/flex-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Integrated Technology Solutions (\"ITS\")",
+   "products": [
+    "Communications",
+    "Lifestyle"
+   ],
+   "description": "Serves customers building technology-driven, intelligent products in communications and lifestyle end markets requiring fast innovation cycles.",
+   "evidence": "Our ITS segment serves customers building technology-driven, intelligent products that require fast innovation cycles"
+  },
+  {
+   "name": "Regulated Manufacturing Solutions (\"RMS\")",
+   "products": [
+    "Industrial",
+    "Automotive",
+    "Healthcare"
+   ],
+   "description": "Focuses on regulated, safety-critical markets including industrial, automotive, and healthcare, requiring precision, compliance, and reliability.",
+   "evidence": "our RMS segment focuses on regulated, safety-critical markets requiring a high level of precision, compliance, and reliability"
+  },
+  {
+   "name": "Cloud and Power Infrastructure (\"CPI\")",
+   "products": [
+    "Cloud and Cooling",
+    "Power"
+   ],
+   "description": "Delivers integrated compute systems, power, and cooling technologies supporting large-scale cloud, data center, and AI-enabled infrastructure deployments.",
+   "evidence": "Our new CPI segment is focused on delivering integrated compute systems, power, and cooling technologies that support large-scale cloud, data center, and AI-enabled infrastructure deployments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Flex for design and engineering, supply chain, manufacturing, and integrated services, plus power and cooling products.",
+  "evidence": "The Company's full suite of specialized capabilities includes design and engineering, supply chain, manufacturing, and integrated services, plus a portfolio of power and cooling products."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, Flex added a new Cloud and Power Infrastructure (CPI) reportable segment alongside ITS and RMS.",
+   "evidence": "Reflecting the evolution of our portfolio and operating model, as of March 31, 2026, Flex's three operating and reportable segments were as follows, to serve distinct customer needs and end markets"
+  }
+ ],
+ "dropped": [
+  "change not grounded: On January 2, 2024, Flex completed the spin-off of its remaining interests in Ne",
+  "change not grounded: On May 5, 2026, Flex announced its intention to separate into two independent pu"
+ ]
+}

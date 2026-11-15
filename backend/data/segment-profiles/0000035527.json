@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000035527",
+ "issuerName": "Fifth Third Bancorp",
+ "builtAt": "2026-11-14T13:44:09.755Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000035527-26-000124",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/35527/000003552726000124/fitb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "commercial loans and leases",
+    "payments and commerce solutions",
+    "securities products and services"
+   ],
+   "description": "Provides lending, payments and financial services to commercial, financial, governmental, educational, energy and healthcare sector clients.",
+   "evidence": "The Bancorp operates three main businesses: Commercial Banking, Consumer and Small Business Banking and Wealth and Asset Management."
+  },
+  {
+   "name": "Consumer and Small Business Banking",
+   "products": [
+    "checking, savings and money market accounts",
+    "mortgage loans",
+    "credit cards",
+    "installment loans",
+    "banking centers",
+    "Fifth Third branded ATMs"
+   ],
+   "description": "Serves retail and small business customers through banking centers, ATMs, internet and mobile channels.",
+   "evidence": "The Bancorp operates three main businesses: Commercial Banking, Consumer and Small Business Banking and Wealth and Asset Management."
+  },
+  {
+   "name": "Wealth and Asset Management",
+   "products": [
+    "wealth management solutions",
+    "insurance services"
+   ],
+   "description": "Manages assets and provides advisory and trust services for individuals, corporations and not-for-profit organizations.",
+   "evidence": "The Bancorp's trust and registered investment advisory businesses had approximately $690 billion in total assets under care and managed $80 billion in assets for individuals, corporations and not-for-profit organizations as of December 31, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Bancorp interest and fees on loans and for deposits, payments, wealth management, securities and insurance services.",
+  "evidence": "This includes a variety of checking, savings and money market accounts, wealth management solutions, payments and commerce solutions, securities products and services, insurance services and credit products such as commercial loans and leases, mortgage loans, credit cards, installment loans and other lending products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Wealth and Asset Management): trust and registered investment advisory services"
+ ]
+}

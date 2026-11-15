@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000052988",
+ "issuerName": "JACOBS SOLUTIONS INC.",
+ "builtAt": "2026-11-14T13:44:54.214Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-053316",
+  "periodEnd": "2025-09-26",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/52988/000162828025053316/jec-20250926.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure & Advanced Facilities",
+   "products": [
+    "Critical Infrastructure",
+    "Water & Environmental",
+    "Life Sciences & Advanced Manufacturing",
+    "consulting",
+    "planning",
+    "architecture",
+    "design",
+    "engineering"
+   ],
+   "description": "Provides end-to-end consulting, design, engineering and delivery services for infrastructure, water, environmental, transportation and biopharmaceutical clients globally.",
+   "evidence": "In fiscal 2025, Jacobs' Infrastructure & Advanced Facilities business provided end-to-end solutions for our clients' most complex challenges related to energy security, environmental resilience, safe and reliable transportation, buildings and infrastructure, integrated water management and biopharmaceutical manufacturing."
+  },
+  {
+   "name": "PA Consulting",
+   "products": [
+    "innovation and transformation consultancy",
+    "advisory services",
+    "digital platforms",
+    "data and analytics"
+   ],
+   "description": "Global innovation and transformation consultancy serving private and public sector clients across seven sectors including consumer, defense, financial services and health.",
+   "evidence": "PA Consulting, the global innovation and transformation consultancy, accelerates new growth ideas from concept, through design and development and to commercial success, and revitalizes organizations, building leadership, culture, systems and processes to make innovation a reality."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay Jacobs for professional service engagements, program management partnerships, and design-build and construction management at-risk delivery services.",
+  "evidence": "Solutions are delivered as standalone professional service engagements, comprehensive program management partnerships, and selective progressive design-build and construction management at-risk delivery services."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, Jacobs spun off its Critical Mission Solutions and Cyber & Intelligence businesses and merged them with Amentum, reporting them as discontinued operations.",
+   "evidence": "On September 27, 2024, Jacobs completed the Separation Transaction, pursuant to which it spun off its CMS and C&I businesses and then subsequently merged those businesses with Amentum Parent Holdings LLC."
+  },
+  {
+   "text": "After the fiscal 2024 Separation, Jacobs reorganized People Places and Solutions and remaining Divergent Solutions businesses into the Infrastructure & Advanced Facilities operating model.",
+   "evidence": "After the Separation in fiscal year 2024, we reorganized P&PS and our remaining DVS businesses into a more streamlined operating model, Infrastructure & Advanced Facilities (\"I&AF\"), which enables our collective business teams to collaborate more horizontally."
+  }
+ ],
+ "dropped": []
+}

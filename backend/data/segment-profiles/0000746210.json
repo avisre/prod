@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000746210",
+ "issuerName": "TAOWEAVE, INC.",
+ "builtAt": "2026-11-14T13:50:01.615Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-009237",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/746210/000143774926009237/oblg20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Assets",
+   "products": [
+    "TAO",
+    "Staking rewards"
+   ],
+   "description": "Accumulates and stakes TAO, Bittensor's native cryptocurrency, to generate yield and give investors exposure to the Bittensor ecosystem.",
+   "evidence": "The Company currently operates in three segments: (1) \"Digital Assets\", which represents the business surrounding our treasury activity with Bittensor,"
+  },
+  {
+   "name": "Managed Services",
+   "products": [
+    "Network services",
+    "Managed videoconferencing",
+    "Remote service management",
+    "Professional and other services"
+   ],
+   "description": "Provides subscription-based network solutions and managed services for video collaboration to enterprise customers.",
+   "evidence": "We provide our customers with i) managed videoconferencing, where we set up and manage customer videoconferences, and ii) remote service management, where we provide 24/7 support and management of customer video environments."
+  },
+  {
+   "name": "Collaboration Products",
+   "products": [
+    "Mezzanine™",
+    "200 Series",
+    "300 Series",
+    "600 Series",
+    "Maintenance and support contracts"
+   ],
+   "description": "Sells the Mezzanine™ family of turn-key visual collaboration products and related maintenance to office and operating center customers.",
+   "evidence": "Our product is called Mezzanine™, a family of turn-key products that enable dynamic and immersive visual collaboration across multi-users, multiple screens, multiple devices, and multiple locations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns staking rewards in TAO from delegating tokens to validators, subscription fees for network services, and direct sales of Mezzanine™ products and managed video collaboration services to customers.",
+  "evidence": "Network services are offered to our customers on a subscription basis."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company added a Digital Assets segment reflecting its new Bittensor treasury activity.",
+   "evidence": "The Company currently operates in three segments: (1) \"Digital Assets\", which represents the business surrounding our treasury activity with Bittensor,"
+  },
+  {
+   "text": "In 2025, the company announced end-of-life for Mezzanine™ and expects to end sales after the first quarter of 2026.",
+   "evidence": "Given the declines in sales, we announced end-of-life for Mezzanine™ in 2025, and we expect to end the sale of Mezzanine™ products and maintenance after the first quarter of 2026."
+  }
+ ],
+ "dropped": []
+}

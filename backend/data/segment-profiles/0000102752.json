@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000102752",
+ "issuerName": "VSE CORPORATION",
+ "builtAt": "2026-11-14T13:47:09.131Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000102752-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/102752/000010275226000015/vsec-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aviation",
+   "products": [
+    "aftermarket parts distribution",
+    "MRO services",
+    "supply chain management",
+    "parts supply and distribution"
+   ],
+   "description": "Provides aftermarket parts distribution and MRO services for components and engine accessories to commercial, business and general aviation operators.",
+   "evidence": "The Aviation segment is a leading provider of aftermarket parts distribution and MRO services for components and engine accessories supporting commercial, business and general aviation (\"B&GA\") operators."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Aviation operators, airlines, MRO providers and aircraft owners pay the Company for aftermarket parts distribution and MRO services.",
+  "evidence": "The Company focuses on creating value by sustaining and extending the life and improving the performance of client air transportation assets through core offerings in parts supply and distribution, supply chain management, and MRO services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed the sale of its Fleet segment, which is now reported as discontinued operations.",
+   "evidence": "In April 2025, the Company completed the sale of the Fleet segment (the \"Fleet Sale\")."
+  },
+  {
+   "text": "In 2024, the Company entered agreements to sell substantially all Federal and Defense segment assets, reducing it to a single Aviation segment.",
+   "evidence": "In February 2024, the Company entered into two separate agreements to sell substantially all of the Federal and Defense segment assets (the \"FDS Sale\")."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000278166",
+ "issuerName": "CAVCO INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:47:47.061Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-037782",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/278166/000162828026037782/cvco-20260328.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Factory-built housing",
+   "products": [
+    "manufactured homes",
+    "park model RVs",
+    "vacation cabins",
+    "modular homes",
+    "commercial modular structures"
+   ],
+   "description": "Designs and produces factory-built homes sold through independent and Company-owned retailers, community operators and developers.",
+   "evidence": "See Note 24 to the Consolidated Financial Statements for financial information regarding the Company's business segments, factory-built housing and financial services, which are also discussed below."
+  },
+  {
+   "name": "Financial services",
+   "products": [
+    "conforming mortgages",
+    "non-conforming mortgages",
+    "home-only loans",
+    "property and casualty insurance"
+   ],
+   "description": "Provides mortgage lending and servicing through CountryPlace and property and casualty insurance through Standard Casualty to factory-built home buyers and owners.",
+   "evidence": "Our finance subsidiary, CountryPlace Acceptance Corp. (\"CountryPlace\"), is an approved Federal National Mortgage Association (\"FNMA\" or \"Fannie Mae\") and Federal Home Loan Mortgage Corporation (\"FHLMC\" or \"Freddie Mac\") seller/servicer, and a Government National Mortgage Association (\"GNMA\" or \"Ginnie Mae\") mortgage-backed securities issuer that offers conforming mortgages, non-conforming mortgages and home-only loans to purchasers of factory-built homes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns wholesale revenue from retailers, community operators and developers who order factory-built homes, plus retail sales to home buyers, and interest, loan servicing and insurance premium income from financial services.",
+  "evidence": "The production schedules for our manufacturing facilities are based on wholesale orders received from independent and Company-owned retailers, planned community operators and residential developers."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000764038",
+ "issuerName": "SOUTHSTATE BANK CORP",
+ "builtAt": "2026-11-14T13:50:21.938Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-017884",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/764038/000110465926017884/ssb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial real estate loans",
+    "residential real estate loans",
+    "commercial and industrial loans",
+    "consumer loans",
+    "checking accounts",
+    "savings accounts",
+    "money market accounts",
+    "wealth management services"
+   ],
+   "description": "A financial holding company providing banking, lending, deposit, wealth management, mortgage and correspondent banking services to customers across the southeastern United States.",
+   "evidence": "We provide a wide range of banking services and products to our customers through our wholly owned bank subsidiary, SouthState Bank, National Association (the \"Bank\"), a national banking association, from our headquarters branch in Winter Haven, Florida and, as of December 31, 2025, a 342-branch network located throughout Florida, South Carolina, Texas, Georgia, Colorado, North Carolina, Alabama, and Virginia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest on loans and fees on deposit accounts, and the company earns commissions on bond sales, hedging fees, and gains from selling residential mortgage loans.",
+  "evidence": "Our revenue is primarily derived from interest on, and fees received in connection with, real estate and other loans, interest and dividends from investment securities and short-term investments, commissions on bond sales, fees from deposit accounts, hedging services, and gains from the sale of residential mortgage loans."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed the Independent Bank Group acquisition, adding Private Capital Management LLC.",
+   "evidence": "SouthState PCM is the result of the December 31, 2025 merger of SouthState Advisory, Inc., a wholly-owned registered investment advisor, with and into Private Capital Management LLC, also a wholly-owned registered investment advisor the Bank acquired through the Independent Bank Group, Inc. (\"Independent\") acquisition completed on January 1, 2025 (the \"Independent Merger\")."
+  },
+  {
+   "text": "In 2025, the Company was redomiciled to Florida by merging SouthState Corporation into SouthState Bank Corporation and adopting its name.",
+   "evidence": "During the third quarter of 2025, the Company was redomiciled to the state of Florida by merging SouthState Corporation, a South Carolina corporation, with and into SouthState Bank Corporation, a Florida corporation that was wholly-owned by SouthState Corporation prior to such merger, and adopting its name."
+  }
+ ],
+ "dropped": []
+}

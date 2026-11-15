@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001060955",
+ "issuerName": "ICON plc",
+ "builtAt": "2026-11-14T17:38:47.154Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-038487",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1060955/000162828026038487/iclr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract research organization",
+   "products": [
+    "clinical development services",
+    "functional outsourcing",
+    "laboratory services",
+    "data solutions",
+    "site and patient access services"
+   ],
+   "description": "Provides outsourced drug and device development and services to pharmaceutical, biotechnology, medical device and government and public health organizations.",
+   "evidence": "Our service offering includes clinical development, functional outsourcing and laboratory services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmaceutical, biotechnology, medical device and government customers pay ICON to accelerate development of their drugs and devices through outsourced clinical and laboratory services.",
+  "evidence": "Our mission is to improve the lives of patients by accelerating the development of our customers' drugs and devices through innovative solutions."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company acquired the KCR S.A Group, a CRO offering full service and functional services provision clinical trial services.",
+   "evidence": "On August 19, 2024, the Company acquired the KCR S.A Group (\"KCR\"), a CRO offering full service and functional services provision ('FSP') clinical trial services."
+  },
+  {
+   "text": "In 2023 the Company acquired BioTel Research, LLC, formerly known as Philips Pharma Solutions, a provider of medical imaging and cardiac safety monitoring services.",
+   "evidence": "On October 2, 2023, the Company acquired 100% of the equity of BioTel Research, LLC which comprised the business formerly known as Philips Pharma Solutions, a leading provider of medical imaging and cardiac safety monitoring services."
+  }
+ ],
+ "dropped": [
+  "product not in text (Contract research organization): bio-analytical, biomarker, vaccine, GMP and central laboratory services",
+  "change not grounded: In 2023 the Company purchased the majority investor's 51% voting share capital o"
+ ],
+ "escalated": "revenue model not quoted"
+}

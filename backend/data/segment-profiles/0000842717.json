@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000842717",
+ "issuerName": "BLUE RIDGE BANKSHARES, INC.",
+ "builtAt": "2026-11-14T13:52:36.471Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104410",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/842717/000119312526104410/brbs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "checking accounts",
+    "savings accounts",
+    "money market accounts",
+    "certificates of deposit",
+    "commercial and industrial loans",
+    "residential mortgages",
+    "home equity loans",
+    "consumer installment loans"
+   ],
+   "description": "Makes loans to and generates deposits from individuals and businesses while offering a wide array of general financial services.",
+   "evidence": "The commercial banking business segment makes loans to and generates deposits from individuals and businesses, while offering a wide array of general financial services to its customers."
+  },
+  {
+   "name": "Mortgage Banking",
+   "products": [
+    "residential mortgage origination",
+    "Monarch Mortgage"
+   ],
+   "description": "Division of the Bank that focused on residential mortgage origination and sales activities; sold in March 2025.",
+   "evidence": "The mortgage banking segment, a division of the Bank that operated as Monarch Mortgage, focused on residential mortgage origination and sales activities."
+  },
+  {
+   "name": "Holding Company Activities",
+   "products": [],
+   "description": "Parent-level activities primarily associated with investments, borrowings, and certain noninterest expenses.",
+   "evidence": "Activities at the holding company or parent level are primarily associated with investments, borrowings, and certain noninterest expenses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns primarily interest income from lending, plus investment income, deposit and lending transaction and fee income, and wealth and trust management fees paid by customers.",
+  "evidence": "The Company's primary source of revenue is interest income from its lending activities."
+ },
+ "changes": [
+  {
+   "text": "In March 2025 the Company sold its mortgage division operating as Monarch Mortgage, exiting the mortgage banking segment's operations.",
+   "evidence": "On March 27, 2025, the Company completed the sale of its mortgage division operating as Monarch Mortgage."
+  },
+  {
+   "text": "During 2024 the Company exited its banking-as-a-service depository operations through an orderly wind down of fintech partnerships.",
+   "evidence": "During 2024, the Company, through an orderly wind down, exited its BaaS depository operations; therefore, as of December 31, 2025, the Company had no active end-users attained through fintech channels."
+  }
+ ],
+ "dropped": []
+}

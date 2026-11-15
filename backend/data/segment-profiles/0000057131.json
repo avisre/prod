@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000057131",
+ "issuerName": "LA-Z-BOY INCORPORATED",
+ "builtAt": "2026-11-14T13:45:03.312Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000057131-26-000019",
+  "periodEnd": "2026-04-25",
+  "filingDate": "2026-06-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/57131/000005713126000019/lzb-20260425.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "upholstered furniture",
+    "casegoods",
+    "home furnishing accessories"
+   ],
+   "description": null,
+   "evidence": "Our Retail segment primarily sells upholstered furniture, in addition to some casegoods and other home furnishing accessories, to end consumers through our company-owned La-Z-Boy Stores."
+  },
+  {
+   "name": "Wholesale",
+   "products": [
+    "recliners",
+    "motion furniture",
+    "sofas",
+    "loveseats",
+    "chairs",
+    "sectionals",
+    "modulars",
+    "ottomans"
+   ],
+   "description": "Manufactures and imports upholstered and casegoods furniture and sells it to La-Z-Boy Stores, Comfort Studio and branded space locations, dealers and independent retailers.",
+   "evidence": "Our Wholesale segment manufactures and imports upholstered and casegoods (wood) furniture and sells directly to La-Z-Boy Stores, operators of La-Z-Boy Comfort Studio ® locations, branded space locations, England Custom Comfort Center locations, major dealers, and a wide cross-section of other independent retailers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay company-owned La-Z-Boy Stores for furniture, while furniture retailers, distributors and dealers pay the Wholesale segment for upholstered and casegoods furniture.",
+  "evidence": "We sell our products through multiple channels: directly to consumers through retail stores that we own and operate; to furniture retailers or distributors in the United States, Canada, and approximately 45 other countries, including the United Kingdom, China, Australia, and New Zealand; and through our websites, www.la-z-boy.com and www.joybird.com."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the company committed to dispose of a portion of its Casegoods wholesale business, selling the upholstery portion in the third quarter of fiscal 2026 and the remainder in the first quarter of fiscal 2027.",
+   "evidence": "During the second quarter of fiscal 2026, the Company committed to a plan to dispose of a portion of our Casegoods wholesale business."
+  },
+  {
+   "text": "In fiscal 2026 the company announced closure of its United Kingdom upholstery manufacturing business, with operations ceasing at the end of fiscal 2026.",
+   "evidence": "During fiscal 2026, due to continued challenges in the macroeconomic environment in the United Kingdom, we announced the closure of the United Kingdom manufacturing business and operations ceased at the end of fiscal 2026."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0001739016",
+ "issuerName": "Elevra Lithium Limited",
+ "builtAt": "2026-11-14T17:40:03.449Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-041590",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-11-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1739016/000114036126041590/ef20075177_ex15-15.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lithium Exploration",
+   "products": [
+    "Moblan Lithium Project"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Lithium Exploration"
+ ]
+}

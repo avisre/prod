@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000785161",
+ "issuerName": "Encompass Health Corporation",
+ "builtAt": "2026-11-14T13:50:52.500Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000785161-26-000081",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/785161/000078516126000081/ehc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Inpatient rehabilitation",
+   "products": [
+    "Inpatient rehabilitation services",
+    "Stroke rehabilitation",
+    "Hip fracture rehabilitation",
+    "Brain injury rehabilitation",
+    "Amputee rehabilitation",
+    "Parkinson's Disease rehabilitation",
+    "Spinal cord injury rehabilitation"
+   ],
+   "description": "Operates a national network of inpatient rehabilitation hospitals providing specialized rehabilitative treatment to patients recovering from strokes, injuries, and other debilitating conditions.",
+   "evidence": "We manage our operations using one operating segment which is also our reportable segment: inpatient rehabilitation."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by Medicare, Medicare Advantage and other payors for inpatient rehabilitative care provided to patients, with substantially all patients admitted from acute-care hospitals.",
+  "evidence": "Substantially all (92%) of the patients we serve are admitted from acute-care hospitals following physician referrals for specific acute inpatient rehabilitative care."
+ },
+ "changes": [],
+ "dropped": []
+}

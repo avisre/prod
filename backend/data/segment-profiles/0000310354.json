@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0000310354",
+ "issuerName": "STANDEX INTERNATIONAL CORP/DE/",
+ "builtAt": "2026-11-14T13:47:49.002Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-027789",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/310354/000143774926027789/sxi20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronics",
+   "products": [
+    "Standex Electronics",
+    "Standex-Meder Electronics",
+    "Renco Electronics",
+    "Northlake Engineering",
+    "Agile Magnetics",
+    "Sensor Solutions",
+    "Minntronix",
+    "Nascent Technology"
+   ],
+   "description": "Provides sensing and switching technologies, precision instrument transformers, and magnetic power conversion components to OEM and industrial manufacturers.",
+   "evidence": "Our Electronics group is a global component and value-added solutions provider of sensing and switching technologies, high precision instruments transformers, and high reliability magnetic power conversion and measurement components and assemblies."
+  },
+  {
+   "name": "Aerospace & Defense",
+   "products": [
+    "Spincraft",
+    "McStarlite"
+   ],
+   "description": null,
+   "evidence": "Aerospace and Defense (A&D) is a provider of innovative, metal-formed solutions for OEM and Tier 1 manufacturers for use in their advanced engineering designs."
+  },
+  {
+   "name": "Scientific",
+   "products": [
+    "American BioTech Supply (ABS)",
+    "Lab Research Products (LRP)",
+    "Corepoint",
+    "Cryosafe",
+    "CryoGuard",
+    "Custom Biogenic Systems"
+   ],
+   "description": "Designs and manufactures specialty temperature-controlled equipment for medical, scientific, pharmaceutical, biotech and industrial customers.",
+   "evidence": "Our Scientific business specializes in providing specialty temperature-controlled equipment for the medical, scientific, pharmaceutical, biotech, and industrial markets."
+  },
+  {
+   "name": "Engraving & Hydraulics",
+   "products": [],
+   "description": "Provides custom textures and surface finishes on tooling and engineered hydraulic cylinders and systems for consumer goods, automotive and industrial applications.",
+   "evidence": "Our Engraving & Hydraulics group is a global provider of custom textures and surface finishes on tooling that enhance the appearance, performance, and function of a wide range of consumer goods and automotive products, and a supplier of engineered hydraulic cylinders and systems for demanding applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In fiscal 2026, Federal Industries was divested, the Hydraulics business was combined with Engraving, and Engineering Technologies was renamed Aerospace & Defense.",
+   "evidence": "Post the divestiture, the Hydraulics business was combined with the Engraving business under the Engraving & Hydraulics segment, and the Engineering Technologies segment was re-named as the Aerospace & Defense (A&D) segment."
+  },
+  {
+   "text": "In fiscal 2023, the company divested its Procon business, which had been reported within the Specialty Solutions segment.",
+   "evidence": "In the third quarter of fiscal year 2023, we divested our Procon business for $75.0 million."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

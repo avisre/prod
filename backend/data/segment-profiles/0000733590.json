@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000733590",
+ "issuerName": "TRANSCONTINENTAL REALTY INVESTORS, INC.",
+ "builtAt": "2026-11-14T13:49:50.182Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000733590-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/733590/000073359026000004/tci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Residential Segment",
+   "products": [
+    "multifamily properties",
+    "apartments",
+    "parking and storage space rental"
+   ],
+   "description": "Acquires, develops, owns and manages multifamily apartment properties for residential tenants in the Southern United States.",
+   "evidence": "We operate in two reportable segments: (i) the acquisition, development, ownership and management of multifamily properties (\"Residential Segment\")"
+  },
+  {
+   "name": "Commercial Segment",
+   "products": [
+    "parking and storage space rental",
+    "tenant services"
+   ],
+   "description": "Acquires, owns and manages commercial real estate, primarily office buildings, leasing space and services to office tenants.",
+   "evidence": "We operate in two reportable segments: (i) the acquisition, development, ownership and management of multifamily properties (\"Residential Segment\") and (ii) the acquisition, ownership and management of commercial real estate properties (\"Commercial Segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns rental revenue from tenants under operating leases, including minimum rents, ancillary service charges, and recoveries for property taxes and common area maintenance.",
+  "evidence": "Our multifamily leases generally include minimum rents and charges for ancillary services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Commercial Segment): office space rental"
+ ]
+}

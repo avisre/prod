@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001335730",
+ "issuerName": "Mizuho Financial Group, Inc.",
+ "builtAt": "2026-11-14T17:37:41.396Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-283791",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1335730/000119312526283791/d119090d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail & Business Banking Company",
+   "products": [],
+   "description": "Provides banking services to retail customers and small to medium-sized enterprise customers.",
+   "evidence": "the Retail & Business Banking Company (\"RBC\")"
+  },
+  {
+   "name": "Corporate & Investment Banking Company",
+   "products": [],
+   "description": "Offers corporate and investment banking services to corporate customers.",
+   "evidence": "the Corporate & Investment Banking Company (\"CIBC\")"
+  },
+  {
+   "name": "Global Corporate & Investment Banking Company",
+   "products": [],
+   "description": "Provides global corporate and investment banking services to international corporate clients.",
+   "evidence": "the Global Corporate & Investment Banking Company (\"GCIBC\")"
+  },
+  {
+   "name": "Global Markets Company",
+   "products": [],
+   "description": "Delivers global markets and trading services to institutional and corporate clients.",
+   "evidence": "the Global Markets Company (\"GMC\")"
+  },
+  {
+   "name": "Asset Management Company",
+   "products": [],
+   "description": "Manages assets and provides asset management services to clients.",
+   "evidence": "the Asset Management Company (\"AMC\")"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for banking, trust banking, securities and financial services including net interest income, fees and commissions.",
+  "evidence": "We offer a broad range of financial services, including banking, trust banking, securities and other services."
+ },
+ "changes": [],
+ "dropped": []
+}

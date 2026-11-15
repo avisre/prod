@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001924482",
+ "issuerName": "Innovation Beverage Group Limited",
+ "builtAt": "2026-11-15T02:51:12.691Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001731122-26-001257",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-09-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1924482/000173112226001257/e7930_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Australia",
+   "products": [],
+   "description": "Australian beverage operations and corporate activities.",
+   "evidence": "The Australia segment primarily consists of our Australian beverage operations and corporate activities, while the United States segment consists of the operations of our United States subsidiaries."
+  },
+  {
+   "name": "United States",
+   "products": [],
+   "description": "Operations of United States subsidiaries.",
+   "evidence": "The Australia segment primarily consists of our Australian beverage operations and corporate activities, while the United States segment consists of the operations of our United States subsidiaries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Distributors and retailers purchase bottled alcoholic and non-alcoholic beverage products on a just-in-time basis without minimum order requirements.",
+  "evidence": "Our independent distributors and national accounts are not required to place minimum monthly or annual orders for our products."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0002007191",
+ "issuerName": "Telix Pharmaceuticals Limited",
+ "builtAt": "2026-11-14T17:39:30.449Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-009943",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2007191/000162828026009943/tlx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Therapeutics",
+   "products": [
+    "TLX591-Tx",
+    "TLX250-Tx",
+    "TLX101-Tx",
+    "TLX66-Tx",
+    "TLX592-Tx",
+    "TLX300-Tx",
+    "TLX090-Tx",
+    "TLX400-Tx"
+   ],
+   "description": "Develops targeted radionuclide therapies for urologic, neurologic oncology and other solid tumors to treat cancer patients.",
+   "evidence": "Therapeutics are at the core of the Telix portfolio, as we work to improve and extend patient life."
+  },
+  {
+   "name": "Precision Medicine",
+   "products": [
+    "Illuccix",
+    "Gozellix",
+    "Zircaix",
+    "Pixclara"
+   ],
+   "description": "Commercial arm selling diagnostic imaging products and developing the diagnostic pipeline for cancer patients worldwide.",
+   "evidence": "The Precision Medicine segment focuses on the commercial sales of Illuccix, Gozellix and other diagnostic products that may obtain regulatory approvals."
+  },
+  {
+   "name": "Telix Manufacturing Solutions",
+   "products": [],
+   "description": "Global network of facilities designed to deliver patient radiopharmaceutical doses worldwide and secure critical supplies.",
+   "evidence": "Telix Manufacturing Solutions is our global network of facilities designed to deliver patient doses worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Telix mainly through sales of diagnostic goods such as Illuccix and Gozellix, plus royalty revenue.",
+  "evidence": "This segment includes royalties and sales of goods (which account for the majority of our revenue from operations), as well as the sales and marketing expenses and costs of sales necessary to support those revenues and research and development costs associated with development activities of our diagnostic pipeline."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "cik": "0001315257",
+ "issuerName": "KOPPERS HOLDINGS INC.",
+ "builtAt": "2026-11-14T17:36:56.998Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001315257-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1315257/000131525726000012/kop-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Railroad and Utility Products and Services",
+   "products": [
+    "pressure-treated railroad ties",
+    "treated utility poles",
+    "switch ties",
+    "untreated wood products",
+    "rail joint bars",
+    "inspection services"
+   ],
+   "description": "Treats and sells railroad ties and utility poles to railroad and utility industries in North America and Australia.",
+   "evidence": "Our RUPS business primarily sells pressure-treated railroad ties to the railroad industry in the United States and Canada and treated utility poles to utility markets in the United States and Australia."
+  },
+  {
+   "name": "Performance Chemicals",
+   "products": [
+    "micronized copper azole",
+    "micronized pigments",
+    "alkaline copper quaternary",
+    "amine copper azole",
+    "dichloro-octyl-isothiazolinone",
+    "chromated copper arsenate",
+    "fire-retardant chemicals"
+   ],
+   "description": "Develops and manufactures wood preservation chemicals and fire-retardant chemicals for treated lumber across global markets.",
+   "evidence": "The primary products supplied by PC are copper-based wood preservatives, including micronized copper azole (MicroPro®), micronized pigments (MicroShades®), alkaline copper quaternary, amine copper azole, DCOI and CCA."
+  },
+  {
+   "name": "Carbon Materials and Chemicals",
+   "products": [
+    "creosote",
+    "carbon pitch",
+    "naphthalene",
+    "carbon black feedstock"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in railroad, utility, lumber treating, aluminum, steel and other industries pay for treated wood products, preservation chemicals and distilled coal tar products.",
+  "evidence": "Our products and services are used in a variety of niche applications in a diverse range of end-markets, including the railroad, specialty chemical, utility, residential lumber, agriculture, aluminum, steel, rubber and construction industries."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company discontinued phthalic anhydride production at its Stickney, Illinois facility in the second quarter.",
+   "evidence": "In December 2024, we decided to discontinue phthalic anhydride production at our facility in Stickney, Illinois."
+  }
+ ],
+ "dropped": [
+  "product not in text (Railroad and Utility Products and Services): lumber for railroad bridges and crossings",
+  "product not in text (Railroad and Utility Products and Services): used crosstie recovery",
+  "segment evidence not verbatim: Carbon Materials and Chemicals"
+ ]
+}

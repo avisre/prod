@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000097216",
+ "issuerName": "Terex Corporation",
+ "builtAt": "2026-11-14T13:46:51.672Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000097216-26-000035",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/97216/000009721626000035/tex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Environmental Solutions",
+   "products": [
+    "refuse collection bodies",
+    "hydraulic cart lifters",
+    "automated carry cans",
+    "compaction, balers, recycling equipment",
+    "digger derricks",
+    "insulated aerial devices",
+    "waste hauler software solutions"
+   ],
+   "description": "Designs, manufactures, services and markets waste, recycling and utility equipment for the solid waste and recycling industry and utility line applications.",
+   "evidence": "Our ES segment designs, manufactures, services and markets waste, recycling and utility equipment and solutions, including refuse collection bodies, hydraulic cart lifters, automated carry cans, compaction, balers, recycling equipment, digger derricks, insulated aerial devices, and cameras with integrated smart technology, as well as related components and replacement parts, and waste hauler software solutions."
+  },
+  {
+   "name": "Material Processing",
+   "products": [
+    "crushers",
+    "washing systems",
+    "screens",
+    "trommels",
+    "material handlers",
+    "pick and carry cranes",
+    "concrete mixer trucks and concrete pavers",
+    "conveyors"
+   ],
+   "description": "Designs, manufactures, services and markets materials processing and specialty equipment for construction, quarrying, mining, recycling and material handling customers.",
+   "evidence": "Our MP segment designs, manufactures, services and markets materials processing and specialty equipment, including crushers, washing systems, screens, trommels, apron feeders, material handlers, pick and carry cranes, wood processing, biomass and recycling equipment, concrete mixer trucks and concrete pavers, conveyors, and their related components and replacement parts."
+  },
+  {
+   "name": "Aerials",
+   "products": [
+    "portable material lifts",
+    "portable aerial work platforms",
+    "trailer-mounted articulating booms",
+    "self-propelled articulating and telescopic booms",
+    "scissor lifts",
+    "telehandlers"
+   ],
+   "description": "Designs, manufactures, services and markets Genie-branded aerial work platform equipment and telehandlers for construction, maintenance and entertainment customers.",
+   "evidence": "Our Aerials segment designs, manufactures, services and markets aerial work platform equipment and telehandlers as well as their related components and replacement parts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Terex earns revenue from selling specialized capital equipment, related parts and services, and lifecycle support to customers, and facilitates financing of equipment purchases through Terex Financial Services.",
+  "evidence": "We provide lifecycle support to our customers through our global parts and services organization, and offer complementary digital solutions, designed to help our customers maximize their return on their investment."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Terex completed the divestiture of its tower and rough terrain cranes businesses as part of its portfolio evaluation to reduce business cyclicality.",
+   "evidence": "As part of our ongoing portfolio evaluation to reduce business cyclicality, we completed the divestiture of our tower and rough terrain cranes businesses."
+  },
+  {
+   "text": "The Environmental Solutions Group and Utilities operating segments were aggregated into one reportable segment, ES, following the ESG acquisition.",
+   "evidence": "Our Environmental Solutions Group (\"ESG\") and Utilities operating segments share similar economic characteristics and are aggregated into one reportable segment, ES."
+  }
+ ],
+ "dropped": [
+  "change not grounded: On February 2, 2026, Terex completed the merger with REV, whose results will be "
+ ]
+}

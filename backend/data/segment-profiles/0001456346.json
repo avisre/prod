@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001456346",
+ "issuerName": "FRANCO NEVADA Corp",
+ "builtAt": "2026-11-14T17:37:56.075Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-032133",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1456346/000110465926032133/fnv-20251231xex99d1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Royalties and Streams",
+   "products": [],
+   "description": "Holds royalty and stream interests in mining properties generating revenue from gold, platinum group metals, copper, nickel, silver, iron ore and oil and gas.",
+   "evidence": "fluctuations in the prices of the primary commodities that drive royalty and stream revenue (gold, platinum group metals, copper, nickel, silver, iron ore and oil and gas)"
+  },
+  {
+   "name": "Mining Operations",
+   "products": [
+    "Candelaria",
+    "Cobre Panamá"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mining operators pay Franco-Nevada royalties and stream payments on gold, platinum, copper, nickel, silver, iron ore and oil and gas production.",
+  "evidence": "fluctuations in the prices of the primary commodities that drive royalty and stream revenue (gold, platinum group metals, copper, nickel, silver, iron ore and oil and gas)"
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Mining Operations"
+ ]
+}

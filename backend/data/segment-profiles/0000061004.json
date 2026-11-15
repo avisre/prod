@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000061004",
+ "issuerName": "LGL GROUP INC",
+ "builtAt": "2026-11-14T13:45:11.704Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010362",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/61004/000143774926010362/lglg20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronic Instruments",
+   "products": [],
+   "description": "Designs and offers precision time and frequency products to customers through organic R&D and strategic partnerships.",
+   "evidence": "Our Electronic Instruments segment derives revenues principally from net sales of various products."
+  },
+  {
+   "name": "Merchant Investment",
+   "products": [
+    "special purpose vehicles",
+    "syndicated investments"
+   ],
+   "description": "Builds shareholder value through direct investments, special purpose vehicles and syndicated investments with fee-generating activities.",
+   "evidence": "Our Merchant Investment business derives revenues from investment income and gains and losses from investment transactions as well as fee income on any syndicated investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Electronic Instruments segment earns net sales of products from customers, while Merchant Investment earns investment income, gains and losses on investment transactions, and fee income on syndicated investments.",
+  "evidence": "Our Electronic Instruments segment derives revenues principally from net sales of various products. Our Merchant Investment business derives revenues from investment income and gains and losses from investment transactions as well as fee income on any syndicated investments."
+ },
+ "changes": [
+  {
+   "text": "In October 2022, the Company completed the spin-off of M-tron Industries, Inc. (MtronPTI).",
+   "evidence": "On October 7, 2022, we completed the spin-off of M-tron Industries, Inc. (\"MtronPTI\") (the \"Spin-off\" or the \"Separation\")."
+  },
+  {
+   "text": "Beginning in June 2023, the Company consolidated LGL Systems as it was deemed to be the primary beneficiary.",
+   "evidence": "However, beginning in June 2023, the Company consolidated LGL Systems as it was deemed to be the primary beneficiary."
+  }
+ ],
+ "dropped": [
+  "product not in text (Electronic Instruments): Precise Time and Frequency, LLC (PTF) products"
+ ]
+}

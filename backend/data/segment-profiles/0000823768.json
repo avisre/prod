@@ -1,0 +1,87 @@
+{
+ "version": 1,
+ "cik": "0000823768",
+ "issuerName": "Waste Management, Inc.",
+ "builtAt": "2026-11-14T13:52:02.753Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-012049",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/823768/000110465926012049/wm-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Collection and Disposal - East Tier",
+   "products": [
+    "collection",
+    "transfer",
+    "disposal",
+    "recycling",
+    "resource recovery services"
+   ],
+   "description": "Provides integrated solid waste collection, transfer and disposal services across the Eastern U.S., Great Lakes region and substantially all of Canada.",
+   "evidence": "Our East Tier primarily consists of geographic areas located in the Eastern U.S., the Great Lakes region and substantially all of Canada."
+  },
+  {
+   "name": "Collection and Disposal - West Tier",
+   "products": [
+    "collection",
+    "transfer",
+    "disposal",
+    "recycling",
+    "resource recovery services"
+   ],
+   "description": "Provides integrated solid waste collection, transfer and disposal services across the Western, Southern and Central U.S. and British Columbia, Canada.",
+   "evidence": "Our West Tier primarily includes geographic areas located in the Western, Southern and Central U.S., including the upper Midwest region, and British Columbia, Canada."
+  },
+  {
+   "name": "Recycling Processing and Sales",
+   "products": [
+    "paper",
+    "cardboard",
+    "glass",
+    "plastic",
+    "metal",
+    "brokerage business"
+   ],
+   "description": "Processes and sells recyclable materials collected from residential, commercial and industrial customers and markets recycling commodities through a brokerage business.",
+   "evidence": "Additionally, through our Recycling Processing and Sales segment, we are a leading recycler in the U.S. and Canada, handling materials that include paper, cardboard, glass, plastic and metal."
+  },
+  {
+   "name": "Renewable Energy",
+   "products": [
+    "renewable natural gas (\"RNG\")",
+    "renewable electricity",
+    "capacity",
+    "heat and/or steam",
+    "Renewable Identification Numbers (\"RINs\")",
+    "Renewable Energy Credits (\"RECs\")"
+   ],
+   "description": "Develops, operates and promotes projects that convert landfill gas into renewable energy sources such as RNG, electricity and related environmental credits.",
+   "evidence": "Through our Waste Management Renewable Energy (\"Renewable Energy\") segment, we are also a leading developer, operator and owner of landfill gas-to-energy facilities in the U.S. and Canada that produce renewable electricity and renewable natural gas (\"RNG\")"
+  },
+  {
+   "name": "Healthcare Solutions",
+   "products": [
+    "regulated waste and compliance services (\"RWCS\")",
+    "secure information destruction (\"SID\") services"
+   ],
+   "description": "Provides regulated medical waste and compliance services and secure information destruction services in the U.S., Canada and Western Europe.",
+   "evidence": "Following our 2024 acquisition of Stericycle, Inc. (\"Stericycle\"), our Healthcare Solutions segment provides regulated waste and compliance services (\"RWCS\") and secure information destruction (\"SID\") services in the U.S., Canada and Western Europe"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers and municipalities pay fees for waste collection, transfer and disposal services, including landfill tipping fees, and the company earns revenue from selling recycled commodities and renewable energy and credits.",
+  "evidence": "Our Collection and Disposal businesses' operating revenues are primarily generated from fees charged for our collection, transfer and disposal."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company acquired Stericycle, adding the Healthcare Solutions segment.",
+   "evidence": "On November 4, 2024, we completed our acquisition of all outstanding shares of Stericycle for $62.00 per share in cash, pursuant to an Agreement and Plan of Merger dated June 3, 2024."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001815566",
+ "issuerName": "Infobird Co., Ltd",
+ "builtAt": "2026-11-15T02:50:42.893Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001731122-26-000522",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1815566/000173112226000522/e7504_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital advertising and marketing campaign services",
+   "products": [],
+   "description": "Provides digital advertising and marketing campaign services to clients in mainland China and Hong Kong.",
+   "evidence": "Digital advertising and marketing campaign services 8,706,740 1,417,848 —"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay for digital advertising and marketing campaign services provided by the company.",
+  "evidence": "Disaggregated information of revenues from continuing operations by business lines are as follows: Schedule of disaggregated information of revenues from continuing operations For the year ended December 31, 2025 2024 2023 Business integration services $ — $ 20,000 $ 280,000 Digital advertising and marketing campaign services 8,706,740 1,417,848 —"
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company discontinued standard cloud-based services, BPO services, and business integration services which had generated revenues.",
+   "evidence": "Disaggregated information of revenues from discontinued operations by business lines are as follows: Schedule of disaggregated information of revenues from discontinued operations For the year ended December 31, 2025 2024 2023 Standard cloud-based services $ — $ — $ 879,873 BPO services — — 1,092,397 Business integration services — — 422,605"
+  }
+ ],
+ "dropped": []
+}

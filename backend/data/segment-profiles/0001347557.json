@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001347557",
+ "issuerName": "Pacific Airport Group",
+ "builtAt": "2026-11-14T17:38:36.205Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-161714",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1347557/000119312526161714/pac-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mexican operations",
+   "products": [
+    "aeronautical services",
+    "non-aeronautical services",
+    "cargo and bonded warehouse facilities",
+    "customs, immigration, and refueling services"
+   ],
+   "description": null,
+   "evidence": "Our 12 airports in Mexico serve two major metropolitan areas, Guadalajara and Tijuana, as well as several important tourist destinations, including Los Cabos, Puerto Vallarta, La Paz, and Manzanillo."
+  },
+  {
+   "name": "Jamaican operations",
+   "products": [
+    "aeronautical services",
+    "non-aeronautical services"
+   ],
+   "description": "Operates and maintains two concessioned international airports in Jamaica serving passengers, airlines and commercial users.",
+   "evidence": "We hold concessions to operate, maintain, and develop 12 international airports in Mexico and two international airports in Jamaica."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Airlines and passengers pay regulated aeronautical tariffs while commercial service providers pay for non-aeronautical services such as retail and parking at the airports.",
+  "evidence": "Tariffs charged to international passengers and international flights, as well as certain contracts with commercial service providers, are denominated in U.S. dollars; however, invoicing and collection are made in Mexican pesos."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mexican operations): Fixed Base Operations (FBO)"
+ ],
+ "escalated": "segment not in filing"
+}

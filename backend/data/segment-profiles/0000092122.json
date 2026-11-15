@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000092122",
+ "issuerName": "SOUTHERN CO",
+ "builtAt": "2026-11-14T13:46:35.684Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000092122-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Traditional electric operating companies",
+   "products": [
+    "Alabama Power",
+    "Georgia Power",
+    "Mississippi Power"
+   ],
+   "description": "Vertically integrated utilities providing electric service to retail and wholesale customers in three Southeastern states.",
+   "evidence": "The traditional electric operating companies – Alabama Power, Georgia Power, and Mississippi Power – are each vertically integrated utilities providing electric service to retail customers in three Southeastern states in addition to wholesale customers in the Southeast."
+  },
+  {
+   "name": "Southern Power",
+   "products": [
+    "power generation assets",
+    "battery energy storage projects"
+   ],
+   "description": "Develops, constructs, acquires, owns, operates, and manages power generation assets and sells electricity at market-based rates in the wholesale market.",
+   "evidence": "Southern Power develops, constructs, acquires, owns, operates, and manages power generation assets, including battery energy storage projects, and sells electricity at market-based rates in the wholesale market."
+  },
+  {
+   "name": "Southern Company Gas",
+   "products": [
+    "gas distribution operations",
+    "gas pipeline investments",
+    "gas marketing services",
+    "SouthStar",
+    "SNG",
+    "Dalton Pipeline"
+   ],
+   "description": "Energy services holding company whose primary business is distributing natural gas in Illinois, Georgia, Virginia, and Tennessee, plus complementary businesses.",
+   "evidence": "Southern Company Gas is an energy services holding company whose primary business is the distribution of natural gas in four states – Illinois, Georgia, Virginia, and Tennessee – through the natural gas distribution utilities."
+  },
+  {
+   "name": "All other",
+   "products": [],
+   "description": "Non-reportable segment including businesses below the quantitative threshold for separate disclosure.",
+   "evidence": "Southern Company Gas also has an \"all other\" non-reportable segment that includes segments below the quantitative threshold for separate disclosure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail and wholesale customers pay regulated rates for electricity, natural gas distribution customers pay for gas service, and wholesale counterparties pay Southern Power market-based rates under PPAs.",
+  "evidence": "Southern Power seeks opportunities to execute its strategy to create value through various transactions including acquisitions, dispositions, sales and purchases of partnership interests, development and construction of new generating facilities, and entry into PPAs, primarily with investor-owned utilities, IPPs, municipalities, electric cooperatives, and other load-serving entities, as well as commercial and industrial customers."
+ },
+ "changes": [],
+ "dropped": []
+}

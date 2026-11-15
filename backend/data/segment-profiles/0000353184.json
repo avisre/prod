@@ -1,0 +1,95 @@
+{
+ "version": 1,
+ "cik": "0000353184",
+ "issuerName": "Air T, Inc.",
+ "builtAt": "2026-11-14T13:48:23.790Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000353184-26-000054",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/353184/000035318426000054/airt-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Overnight air cargo",
+   "products": [
+    "Cessna Caravan 208B",
+    "Cessna SkyCourier 408",
+    "ATR-42",
+    "ATR-72",
+    "ATR-72-600"
+   ],
+   "description": "Operates and maintains cargo aircraft flying daily small-package routes for FedEx in the eastern U.S., upper Midwest and Caribbean.",
+   "evidence": "MAC, CSA, WASI, and Royal comprise the overnight air cargo segment of the Company."
+  },
+  {
+   "name": "Ground support equipment",
+   "products": [
+    "mobile deicers"
+   ],
+   "description": "Manufactures and provides mobile deicers and other specialized equipment to passenger and cargo airlines, airports, the military and industrial customers.",
+   "evidence": "Ground support equipment (formerly known as ground equipment sales), which manufactures and provides mobile deicers and other specialized equipment products to passenger and cargo airlines, airports, the military and industrial customers"
+  },
+  {
+   "name": "Commercial aircraft, engines and parts",
+   "products": [
+    "CFM56-3/-5/-7 engines",
+    "commercial aircraft parts sales",
+    "aircraft disassembly/part-out services",
+    "procurement services",
+    "overhaul and repair services"
+   ],
+   "description": "Manages and leases aviation assets, supplies surplus and aftermarket jet engine components, and provides parts sales, disassembly, procurement and repair services to airlines.",
+   "evidence": "Contrail, Jet Yard, AirCo, Worthington, Jet Yard Solutions, Air'Zona, and LGSS comprise the commercial aircraft, engines and parts segment of the Company."
+  },
+  {
+   "name": "Digital solutions",
+   "products": [
+    "Vista-Suite",
+    "Vista-Quote"
+   ],
+   "description": "Develops and provides digital aviation and other business services to aviation industry customers to generate recurring subscription revenues.",
+   "evidence": "Digital solutions, which develops and provides digital aviation and other business services to customers within the aviation industry to generate recurring subscription revenues"
+  },
+  {
+   "name": "Regional airline",
+   "products": [
+    "air freight",
+    "charter services",
+    "pilot training"
+   ],
+   "description": null,
+   "evidence": "Regional airline, which provides scheduled regional passenger, freight and charter airline services and pilot training in Australia, operating a fleet of Saab 340 aircraft serving regional communities and connecting passengers to major metropolitan centers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Air T earns revenue primarily from FedEx under dry-lease contracts paying monthly rent per aircraft plus reimbursement of operating costs, and from equipment sales, aviation asset services, subscriptions and airline services to other customers.",
+  "evidence": "These dry-lease agreements provide for the lease of specified aircraft by MAC and CSA in return for the payment of monthly rent with respect to each aircraft leased, for which monthly rent reflects an estimate of a fair market rental rate."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company introduced a new reportable segment named regional airline following its acquisition of Regional Express Holdings Pty Ltd (Rex).",
+   "evidence": "On December 18, 2025, the Company introduced a new reportable segment named regional airline."
+  },
+  {
+   "text": "The ground equipment sales segment was renamed ground support equipment.",
+   "evidence": "Ground support equipment (formerly known as ground equipment sales), which manufactures and provides mobile deicers and other specialized equipment products to passenger and cargo airlines, airports, the military and industrial customers"
+  },
+  {
+   "text": "The commercial jet engines and parts segment was renamed commercial aircraft, engines and parts.",
+   "evidence": "Commercial aircraft, engines and parts (formerly known as commercial jet engines and parts), which manages and leases aviation assets; supplies surplus and aftermarket commercial jet engine components; provides commercial aircraft disassembly/part-out services; commercial aircraft parts sales; procurement services and overhaul and repair services to airlines"
+  }
+ ],
+ "dropped": [
+  "product not in text (Ground support equipment): GL 1800 deicing trucks",
+  "product not in text (Ground support equipment): ER 2875 deicing trucks",
+  "product not in text (Commercial aircraft, engines and parts): V2500A5 engines",
+  "product not in text (Commercial aircraft, engines and parts): aircraft storage and storage maintenance",
+  "product not in text (Commercial aircraft, engines and parts): landing gear asset management",
+  "product not in text (Digital solutions): air cargo shipping data platform",
+  "product not in text (Regional airline): scheduled regional passenger services"
+ ]
+}

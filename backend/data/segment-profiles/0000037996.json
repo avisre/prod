@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000037996",
+ "issuerName": "Ford Motor Co",
+ "builtAt": "2026-11-14T13:44:16.532Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000037996-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/37996/000003799626000015/f-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ford Blue",
+   "products": [
+    "Ford and Lincoln internal combustion engine (\"ICE\") and hybrid (excluding EREVs)",
+    "service parts",
+    "accessories",
+    "digital services"
+   ],
+   "description": "Sells Ford and Lincoln ICE and hybrid vehicles, parts, accessories and digital services to retail customers, and provides hardware engineering and manufacturing to other segments.",
+   "evidence": "Ford Blue primarily includes the sale of Ford and Lincoln internal combustion engine (\"ICE\") and hybrid (excluding EREVs) vehicles, service parts, accessories, and digital services for retail customers, together with the associated costs of development, manufacture, and distribution of the vehicles, parts, accessories, and services."
+  },
+  {
+   "name": "Ford Model e",
+   "products": [
+    "EVs (including EREVs)",
+    "service parts",
+    "accessories",
+    "digital services",
+    "software and connected vehicle technologies"
+   ],
+   "description": "Develops and sells electric vehicles, including EREVs, plus parts, accessories and digital services for retail customers in North America, Europe and China.",
+   "evidence": "Ford Model e primarily includes the sale of our EVs (including EREVs), service parts, accessories, and digital services for retail customers, together with the associated costs of development, manufacture, and distribution of the vehicles, parts, accessories, and services."
+  },
+  {
+   "name": "Ford Pro",
+   "products": [
+    "Ford and Lincoln vehicles",
+    "Super Duty",
+    "Transit range of vans",
+    "Ranger",
+    "telematics",
+    "EV charging solutions",
+    "service parts",
+    "accessories"
+   ],
+   "description": "Sells vehicles, parts, accessories and fleet services to commercial, government and rental customers in North America and Europe.",
+   "evidence": "Ford Pro primarily includes the sale of Ford and Lincoln vehicles, service parts, accessories, and services for commercial, government, and rental customers."
+  },
+  {
+   "name": "Ford Credit",
+   "products": [
+    "financial services"
+   ],
+   "description": "Provides financial services to support Ford's vehicle sales business.",
+   "evidence": "Additionally, the Company provides financial services through Ford Motor Credit Company LLC (\"Ford Credit\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Ford sells vehicles, parts and accessories mainly to independently owned dealerships and fleet customers, and offers extended service contracts and financial services.",
+  "evidence": "Substantially all of our vehicles, parts, and accessories are sold through distributors and dealers (collectively, \"dealerships\"), the substantial majority of which are independently owned."
+ },
+ "changes": [
+  {
+   "text": "In 2025 Ford recorded charges related to EV program cancellations, including the all-electric three-row SUV program, and a Model e asset impairment.",
+   "evidence": "We recorded $17,356 million of pre-tax special item charges in 2025, primarily reflecting a Model e asset impairment, asset write-downs and other charges due to EV program cancellations, and an impairment of our investment in BOSK related to the BOSK JV disposition."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025 Ford disposed of its investment in the BOSK joint venture."
+ ]
+}

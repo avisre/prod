@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000075677",
+ "issuerName": "PACKAGING CORP OF AMERICA",
+ "builtAt": "2026-11-14T13:45:56.852Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-074129",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/75677/000119312526074129/pkg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaging",
+   "products": [
+    "containerboard",
+    "linerboard",
+    "corrugating medium",
+    "conventional shipping containers",
+    "multi-color boxes and displays",
+    "honeycomb protective packaging"
+   ],
+   "description": "Produces containerboard and corrugated packaging products for industrial and consumer goods manufacturers.",
+   "evidence": "Our Packaging segment produces a wide variety of containerboard and corrugated packaging products."
+  },
+  {
+   "name": "Paper",
+   "products": [
+    "uncoated freesheet (UFS) paper",
+    "commodity papers",
+    "specialty papers"
+   ],
+   "description": "Manufactures and sells communication-based papers, including commodity and specialty uncoated freesheet papers.",
+   "evidence": "The Paper segment manufactures and sells a range of communication-based papers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay PCA for containerboard, corrugated packaging, and paper products, with revenue recognized when products are shipped from the mill or manufacturing facility.",
+  "evidence": "For most packaging and paper products, revenue is recognized when the product is shipped from the mill or from our manufacturing facility to our customer."
+ },
+ "changes": [
+  {
+   "text": "In 2025, PCA acquired the containerboard business of Greif, Inc., with results included in the Packaging segment.",
+   "evidence": "On September 2, 2025, we completed the acquisition of the containerboard business of Greif, Inc. for $1.8 billion in cash."
+  }
+ ],
+ "dropped": []
+}

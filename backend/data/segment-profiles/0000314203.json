@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000314203",
+ "issuerName": "McEWEN INC.",
+ "builtAt": "2026-11-15T04:40:01.350Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-028705",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/314203/000110465926028705/mux-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Canada",
+   "products": [
+    "Doré bars",
+    "slag and fine carbon"
+   ],
+   "description": "Gold mining and milling in Ontario, including the Froome mine and Stock mill in the Fox Complex.",
+   "evidence": "During 2025, production consisted of 100% doré from the Gold Bar Mine Complex, 98% doré and 2% slag and fine carbon from the Fox Complex, and 91% doré and 9% slag and fine carbon from El Gallo."
+  },
+  {
+   "name": "United States",
+   "products": [
+    "Doré bars"
+   ],
+   "description": "Gold mining via heap leaching at the Gold Bar Mine Complex in Nevada.",
+   "evidence": "Current production is from our Pick, Ridge and Gold Bar South deposits."
+  },
+  {
+   "name": "Mexico",
+   "products": [
+    "Doré bars",
+    "slag and fine carbon"
+   ],
+   "description": "Gold and silver operations at El Gallo in Sinaloa, including planned heap leach material reprocessing.",
+   "evidence": "At El Gallo in Sinaloa, Mexico, mining and crushing activities ceased during the second quarter of 2018."
+  },
+  {
+   "name": "MSC",
+   "products": [
+    "Doré bars",
+    "ore concentrate"
+   ],
+   "description": null,
+   "evidence": "Minera Santa Cruz S.A. (\"MSC\"), the owner of the San José mine, is responsible for and has supplied to us all reported results from the San José mine."
+  },
+  {
+   "name": "McEwen Copper",
+   "products": [
+    "Los Azules copper project"
+   ],
+   "description": null,
+   "evidence": "a 46.3% interest in McEwen Copper Inc., the owner of the Los Azules copper project (\"Los Azules\") in San Juan, Argentina"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers buy gold and silver in end products, generally sold at the prevailing spot market price per ounce at the time of sale.",
+  "evidence": "Gold and silver contained in our end products are generally sold at the prevailing spot market price per ounce at the time of sale."
+ },
+ "changes": [
+  {
+   "text": "In August 2024, the United States segment was expanded through the acquisition of Timberline Resources Corporation, forming the Gold Bar Mine Complex.",
+   "evidence": "In August 2024, we expanded our portfolio of exploration-stage properties in Nevada through the acquisition of Timberline Resources Corporation (\"Timberline\")."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective July 7, 2025, the Company changed its name from McEwen Mining Inc. to "
+ ]
+}

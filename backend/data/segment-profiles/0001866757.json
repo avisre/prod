@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001866757",
+ "issuerName": "Brilliant Earth Group, Inc.",
+ "builtAt": "2026-11-14T17:42:05.092Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018794",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1866757/000162828026018794/brlt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail sale of diamonds, gemstones and jewelry",
+   "products": [
+    "Diamond engagement rings",
+    "Wedding rings",
+    "Gemstone rings",
+    "Fine jewelry"
+   ],
+   "description": "Retail sale of ethically sourced diamonds, gemstones and fine jewelry through omnichannel channels.",
+   "evidence": "The Company operates in one operating and reporting segment, which is the retail sale of diamonds, gemstones and jewelry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase jewelry through the company's e-commerce platform and physical showrooms.",
+  "evidence": "Through our intuitive digital commerce platform and personalized individual appointments in our showrooms, we cater to the shopping preferences of tech-savvy next-generation consumers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Retail sale of diamonds, gemstones and jewelry): Design Your Own custom rings"
+ ]
+}

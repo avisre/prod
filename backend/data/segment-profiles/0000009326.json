@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000009326",
+ "issuerName": "Balchem Corporation",
+ "builtAt": "2026-11-14T14:06:48.179Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000009326-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/9326/000000932626000007/bcpc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Human Nutrition and Health",
+   "products": [
+    "choline nutrients",
+    "mineral amino acid chelated products",
+    "vitamin K2",
+    "microencapsulation solutions",
+    "spray dried and emulsified powders",
+    "chocolate systems",
+    "ice cream bases"
+   ],
+   "description": null,
+   "evidence": "The Human Nutrition and Health (\"HNH\") segment provides human grade choline nutrients and mineral amino acid chelated products for nutrition and health applications."
+  },
+  {
+   "name": "Animal Nutrition and Health",
+   "products": [
+    "microencapsulated products",
+    "choline chloride"
+   ],
+   "description": "Manufactures nutritional products for ruminant, monogastric, and companion animals using microencapsulation and chelation technologies.",
+   "evidence": "The Company's Animal Nutrition and Health (\"ANH\") segment provides nutritional products derived from its microencapsulation and chelation technologies in addition to the essential nutrient choline chloride."
+  },
+  {
+   "name": "Specialty Products",
+   "products": [
+    "ethylene oxide",
+    "propylene oxide",
+    "ammonia",
+    "chelated minerals",
+    "Metalosate product range"
+   ],
+   "description": "Re-packages and distributes performance gases and chemicals for sterilization, fumigation, and industrial uses, plus plant nutrition products.",
+   "evidence": "The Company's Specialty Products (\"SP\") segment re-packages and distributes a number of performance gases and chemicals for various uses by its customers, notably ethylene oxide, propylene oxide, and ammonia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for specialty performance ingredients and products sold through the company's sales force, independent distributors, and sales agents.",
+  "evidence": "We sell our products through our own sales force, independent distributors and sales agents."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the European Commission announced provisional anti-dumping duties on choline chloride imports from China, with final duties set in December 2025.",
+   "evidence": "In late June 2025, the European Commission announced that it would impose provisional duties between 95.4% and 120.8% on imports into the European Union of choline chloride originating in the People's Republic of China, effective July 1, 2025."
+  }
+ ],
+ "dropped": [
+  "product not in text (Human Nutrition and Health): methylsulfonylmethane (MSM)",
+  "product not in text (Animal Nutrition and Health): chelation technology products",
+  "product not in text (Animal Nutrition and Health): methylsulfonylmethane (MSM)"
+ ]
+}

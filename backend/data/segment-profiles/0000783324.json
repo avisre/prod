@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0000783324",
+ "issuerName": "VISTA GOLD CORP",
+ "builtAt": "2026-11-14T13:50:48.133Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000783324-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/783324/000078332426000009/vgz-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Australia",
+   "products": [
+    "Mt Todd Gold Project"
+   ],
+   "description": "Conducts exploration, development, and care and maintenance activities at Vista's principal asset, the Mt Todd gold project in Northern Territory, Australia.",
+   "evidence": "The Australia segment conducts exploration, development, and care and maintenance activities at Vista's principal asset, the Mt Todd gold project in Northern Territory, Australia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

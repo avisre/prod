@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000019584",
+ "issuerName": "CHEMED CORPORATION",
+ "builtAt": "2026-11-14T14:07:23.464Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001562762-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/19584/000156276226000020/che-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "VITAS",
+   "products": [
+    "Hospice services",
+    "Palliative care services"
+   ],
+   "description": "Provides hospice and palliative care services to patients through physicians, nurses, home health aides, social workers, clergy and volunteers.",
+   "evidence": "VITAS provides hospice and palliative care services to its patients through a network of physicians, registered nurses, home health aides, social workers, clergy and volunteers."
+  },
+  {
+   "name": "Roto-Rooter",
+   "products": [
+    "Excavation services",
+    "Water restoration services"
+   ],
+   "description": "Provides plumbing, drain cleaning, excavation, water restoration and related services to residential and commercial customers.",
+   "evidence": "Roto-Rooter provides plumbing, drain cleaning, excavation, water restoration and other related services to residential and commercial customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "VITAS receives payment from government programs and commercial health insurers on a per diem basis; Roto-Rooter receives payments from residential and commercial customers for services rendered.",
+  "evidence": "Over 90% of VITAS' revenue is from the United States government through the Medicare program."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Roto-Rooter): Plumbing services",
+  "product not in text (Roto-Rooter): Drain cleaning services"
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000062996",
+ "issuerName": "Masco Corporation",
+ "builtAt": "2026-11-14T13:45:14.777Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000062996-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/62996/000006299626000005/mas-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Plumbing Products",
+   "products": [
+    "HOT SPRING® spas",
+    "connected water products",
+    "PEX tubing"
+   ],
+   "description": "Manufactures and sources faucets, showering products, spas, saunas and plumbing components sold to retailers, wholesalers, distributors and consumers worldwide.",
+   "evidence": "The businesses in our Plumbing Products segment sell a wide variety of products that are manufactured or sourced by us."
+  },
+  {
+   "name": "Decorative Architectural Products",
+   "products": [],
+   "description": "Sells architectural coatings, paint applicators and decorative and functional hardware to do-it-yourself and professional customers through retailers.",
+   "evidence": "Our Decorative Architectural Products segment primarily includes architectural coatings, including paints, primers, specialty coatings, stains and waterproofing products, as well as paint applicators and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Masco is paid by home center retailers, online retailers, mass merchandisers, wholesalers, distributors and other customers for its branded home improvement and building products, sold primarily for repair and remodel activity.",
+  "evidence": "These products are sold primarily for repair and remodeling activity and, to a lesser extent, new home construction."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Plumbing Products): DELTA® faucets, showerheads, handheld showers, valves, bath hardware and accesso",
+  "product not in text (Plumbing Products): HANSGROHE® and AXOR® faucets",
+  "product not in text (Plumbing Products): BRASSCRAFT® plumbing system components",
+  "product not in text (Plumbing Products): MIROLIN® acrylic tubs, bath and shower enclosure units",
+  "product not in text (Decorative Architectural Products): BEHR® paints, primers, specialty coatings, stains and waterproofing products",
+  "product not in text (Decorative Architectural Products): KILZ® primers",
+  "product not in text (Decorative Architectural Products): WHIZZ® paint applicators and accessories",
+  "product not in text (Decorative Architectural Products): LIBERTY® decorative and functional hardware",
+  "product not in text (Decorative Architectural Products): FRANKLIN BRASS® cabinet and door hardware",
+  "product not in text (Decorative Architectural Products): DELTA® decorative bath hardware, shower accessories and shower doors"
+ ]
+}

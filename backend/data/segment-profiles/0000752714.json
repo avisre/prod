@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000752714",
+ "issuerName": "McGRATH RENTCORP",
+ "builtAt": "2026-11-14T13:50:13.988Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071463",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/752714/000119312526071463/mgrc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobile Modular",
+   "products": [
+    "relocatable modular buildings",
+    "classrooms",
+    "temporary offices",
+    "construction field offices",
+    "restroom buildings",
+    "health care clinics",
+    "child care facilities"
+   ],
+   "description": "Rents and sells relocatable modular buildings used as classrooms, offices and other temporary space for business and institutional customers.",
+   "evidence": "its modular building segment (\"Mobile Modular\")"
+  },
+  {
+   "name": "Portable Storage",
+   "products": [
+    "portable storage containers"
+   ],
+   "description": "Rents and sells portable storage containers to customers with short-term storage needs.",
+   "evidence": "its portable storage container segment (\"Portable Storage\")"
+  },
+  {
+   "name": "TRS-RenTelco",
+   "products": [
+    "electronic test equipment"
+   ],
+   "description": "Rents and sells electronic test equipment to customers with short-term equipment needs.",
+   "evidence": "its electronic test equipment segment (\"TRS-RenTelco\")"
+  },
+  {
+   "name": "Enviroplex",
+   "products": [
+    "modular buildings used primarily as classrooms in California"
+   ],
+   "description": "Manufactures and sells modular buildings used primarily as classrooms in California.",
+   "evidence": "its classroom manufacturing business selling modular buildings used primarily as classrooms in California (\"Enviroplex\")"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Business customers pay the Company monthly rental charges for short-term use of modular buildings, storage containers and electronic test equipment, and the Company also sells equipment and related services.",
+  "evidence": "The product required by the customer tends to be expensive compared to the Company's monthly rental charge, with the interim rental solution typically evaluated as a less costly alternative."
+ },
+ "changes": [],
+ "dropped": []
+}

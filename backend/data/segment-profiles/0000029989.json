@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000029989",
+ "issuerName": "OMNICOM GROUP INC.",
+ "builtAt": "2026-11-14T14:08:06.938Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000029989-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/29989/000002998926000006/omc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Omnicom Advertising Group",
+   "products": [
+    "BBDO",
+    "TBWA",
+    "McCann",
+    "Advertising Collective"
+   ],
+   "description": "Creative advertising brands providing strategic advertising, creative services, and content production to global companies.",
+   "evidence": "OA includes our creative brands, BBDO, TBWA, and McCann, which we acquired from IPG, and the brands included within the Advertising Collective."
+  },
+  {
+   "name": "Omnicom Media",
+   "products": [
+    "OMD",
+    "PHD",
+    "Hearts & Sciences",
+    "UM",
+    "Acxiom",
+    "Initiative",
+    "Mediahub"
+   ],
+   "description": "Media planning, buying, optimization, and data analytics agencies serving global marketers across channels.",
+   "evidence": "OM includes OMD, PHD, Hearts & Sciences, as well as UM, Acxiom, Initiative and Mediahub, which we acquired from IPG."
+  },
+  {
+   "name": "DAS Group of Companies",
+   "products": [
+    "Omnicom Precision Marketing",
+    "MRM",
+    "Omnicom Health"
+   ],
+   "description": "Precision marketing and healthcare communications services including digital transformation, customer relationship management, and healthcare advertising.",
+   "evidence": "DAS includes Omnicom Precision Marketing and MRM, which we acquired from IPG and Omnicom Health, which includes IPG Health."
+  },
+  {
+   "name": "Communications Consultancy Network",
+   "products": [
+    "FleishmanHillard",
+    "Ketchum",
+    "Golin",
+    "Weber Shandwick"
+   ],
+   "description": "Public relations and communications services including corporate communications, crisis management, and public affairs.",
+   "evidence": "CCN includes FleishmanHillard and Ketchum, as well as Golin and Weber Shandwick, which we acquired from IPG."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay Omnicom fees for service on hourly or project basis, commissions on media purchases, performance incentives, and reimbursement for third-party costs.",
+  "evidence": "Our client contracts are comprised of diverse arrangements involving fees based on any one or a combination of the following: an agreed fee or rate per hour for the level of effort expended by our employees; commissions based on the client's spending for media purchased from third parties; qualitative or quantitative incentive provisions specified in the contract; and reimbursement for third-party costs that we are required to include in revenue when we control the vendor services related to the"
+ },
+ "changes": [
+  {
+   "text": "In 2025, Omnicom merged with IPG, acquiring its agencies and capabilities including BBDO, TBWA, McCann, Acxiom, and Weber Shandwick.",
+   "evidence": "On November 26, 2025 (the \"Closing Date\"), Omnicom completed its Merger with IPG (the \"Merger\")."
+  }
+ ],
+ "dropped": [
+  "change not grounded: Effective January 1, 2025, Omnicom Advertising Group was formed, aligning all cr"
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000795403",
+ "issuerName": "WATTS WATER TECHNOLOGIES INC",
+ "builtAt": "2026-11-14T13:51:12.363Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-018541",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/795403/000110465926018541/wts-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [],
+   "description": "Geographic segment selling water technologies and solutions for commercial and residential buildings in the Americas.",
+   "evidence": "Our strategy is to be the preferred supplier of differentiated products and solutions that manage and conserve the flow of fluids and energy into, through and out of buildings in the commercial and residential markets of the Americas, Europe, and Asia-Pacific, Middle East and Africa (\"APMEA\"), our three geographic segments."
+  },
+  {
+   "name": "Europe",
+   "products": [],
+   "description": "Geographic segment selling water technologies and solutions for commercial and residential buildings in Europe.",
+   "evidence": "Our strategy is to be the preferred supplier of differentiated products and solutions that manage and conserve the flow of fluids and energy into, through and out of buildings in the commercial and residential markets of the Americas, Europe, and Asia-Pacific, Middle East and Africa (\"APMEA\"), our three geographic segments."
+  },
+  {
+   "name": "APMEA",
+   "products": [],
+   "description": "Geographic segment selling water technologies and solutions for commercial and residential buildings in Asia-Pacific, Middle East and Africa.",
+   "evidence": "Our strategy is to be the preferred supplier of differentiated products and solutions that manage and conserve the flow of fluids and energy into, through and out of buildings in the commercial and residential markets of the Americas, Europe, and Asia-Pacific, Middle East and Africa (\"APMEA\"), our three geographic segments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by plumbing, heating and mechanical wholesale distributors, OEMs, specialty product distributors, and DIY and retail chains for its water technology products and solutions.",
+  "evidence": "We sell our products and solutions to plumbing, heating and mechanical wholesale distributors and dealers, original equipment manufacturers (\"OEMs\"), specialty product distributors, and major do-it-yourself (\"DIY\") and retail chains."
+ },
+ "changes": [],
+ "dropped": []
+}

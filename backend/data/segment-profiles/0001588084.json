@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001588084",
+ "issuerName": "TANTECH HOLDINGS LTD",
+ "builtAt": "2026-11-15T02:50:49.543Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001477932-26-003132",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1588084/000147793226003132/tanh_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "consumer product",
+   "products": [
+    "Charcoal Doctor",
+    "purification and deodorization products",
+    "bamboo vinegar",
+    "toilet cleaning products",
+    "kitchen cleaning products",
+    "personal care products",
+    "clothing detergent products",
+    "barbecue charcoals"
+   ],
+   "description": "Produces and distributes bamboo charcoal-based purification, deodorization, household cleaning and barbecue charcoal products for China's domestic consumer market.",
+   "evidence": "In our consumer product segment, we face competition from a number of companies that have similar product portfolios."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for bamboo charcoal consumer products sold under the Charcoal Doctor brand and purchased barbecue charcoals sold through its distribution channel.",
+  "evidence": "Purification and deodorization products and household cleaning products are sold under the brand name \"Charcoal Doctor.\""
+ },
+ "changes": [
+  {
+   "text": "During 2023 the company merged its biodegradable packaging business segment into its consumer products segment.",
+   "evidence": "During the year ended December 31, 2023 we merged its biodegradable packaging business segment into its consumer products segment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: On April 2, 2025 the Board approved the sale of its Electric Vehicle business, c"
+ ],
+ "escalated": "revenue model not quoted"
+}

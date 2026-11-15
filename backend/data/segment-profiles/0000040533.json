@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000040533",
+ "issuerName": "GENERAL DYNAMICS CORPORATION",
+ "builtAt": "2026-11-14T13:44:23.799Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000040533-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/gd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace",
+   "products": [
+    "G800",
+    "G700",
+    "G600",
+    "G500",
+    "G400",
+    "G300",
+    "custom completion and refurbishment"
+   ],
+   "description": "Produces business jets and provides aircraft repair, customer support and custom completion services for business aircraft owners and operators.",
+   "evidence": "Our Aerospace segment is recognized as a leading producer of business jets and the standard bearer in new technology aircraft, aircraft repair, customer support and custom completion services."
+  },
+  {
+   "name": "Marine Systems",
+   "products": [
+    "Columbia-class ballistic-missile submarines",
+    "Virginia-class attack submarines",
+    "Jones Act ships",
+    "maintenance, modernization and lifecycle support services"
+   ],
+   "description": "Designs and builds nuclear-powered submarines and surface ships and provides maintenance and lifecycle support for the U.S. Navy and commercial customers.",
+   "evidence": "Our Marine Systems segment is the leading designer and builder of nuclear-powered submarines and a leader in surface combatant and auxiliary ship design and construction for the U.S. Navy."
+  },
+  {
+   "name": "Combat Systems",
+   "products": [],
+   "description": "Provides land combat vehicles, weapon systems and munitions for defense customers.",
+   "evidence": "We offer a broad portfolio of products and services in business aviation; ship construction and repair; land combat vehicles, weapon systems and munitions; and technology products and services."
+  },
+  {
+   "name": "Technologies",
+   "products": [],
+   "description": "Provides technology products and services to defense and government customers.",
+   "evidence": "Our company consists of 10 business units, which are organized into four operating segments: Aerospace, Marine Systems, Combat Systems and Technologies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, including the U.S. Navy and other government and business aviation clients, pay the company for products such as aircraft and ships and for services under contracts.",
+  "evidence": "We rely on other companies and our government customers to provide materials, components and subsystems for our products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Aerospace): Jet Aviation aircraft services",
+  "product not in text (Marine Systems): surface combatant ships",
+  "product not in text (Marine Systems): auxiliary ships"
+ ]
+}

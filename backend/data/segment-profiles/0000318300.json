@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000318300",
+ "issuerName": "PEOPLES BANCORP INC.",
+ "builtAt": "2026-11-14T13:48:11.317Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000318300-26-000099",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/318300/000031830026000099/pebo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "commercial and industrial loans",
+    "construction loans",
+    "commercial real estate loans",
+    "premium finance loans",
+    "residential real estate loans",
+    "home equity lines of credit",
+    "consumer loans",
+    "brokerage services"
+   ],
+   "description": "A community bank offering commercial, real estate and consumer loans, deposit and payment services, insurance, brokerage, fiduciary and trust services to consumers and businesses.",
+   "evidence": "Peoples' business activities are currently limited to one reporting unit and reportable operating segment, which is community banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Peoples earns interest on loans and leases retained on its balance sheet, plus fee income from services such as overdrafts, insurance, premium financing and equipment financing.",
+  "evidence": "In general, Peoples Bank retains the majority of the loans and leases it originates; however, certain longer-term fixed-rate mortgage loan originations, primarily one-to-four family residential mortgage loans, and portions of select commercial real estate loans and commercial and industrial loans are sold into the secondary market or to other financial institutions."
+ },
+ "changes": [],
+ "dropped": []
+}

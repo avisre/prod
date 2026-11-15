@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0001323404",
+ "issuerName": "WHEATON PRECIOUS METALS CORP.",
+ "builtAt": "2026-11-14T17:37:43.837Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-134908",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1323404/000119312526134908/d56281dex993.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold",
+   "products": [
+    "Salobo",
+    "Sudbury",
+    "Constancia",
+    "San Dimas",
+    "Stillwater",
+    "Blackwater",
+    "Platreef",
+    "Other"
+   ],
+   "description": "Precious metals purchase agreements for gold from multiple mining operations globally.",
+   "evidence": "The Company's reportable operating segments, which are the components of the Company's business where discrete financial information is available and which are evaluated on a regular basis by the Company's Chief Executive Officer (\"CEO\"), who is the Company's chief operating decision maker, for the purpose of assessing performance, are summarized in the tables below:"
+  },
+  {
+   "name": "Silver",
+   "products": [
+    "Peñasquito",
+    "Antamina",
+    "Constancia",
+    "Blackwater",
+    "Other"
+   ],
+   "description": "Precious metals purchase agreements for silver from multiple mining operations globally.",
+   "evidence": "The Company's reportable operating segments, which are the components of the Company's business where discrete financial information is available and which are evaluated on a regular basis by the Company's Chief Executive Officer (\"CEO\"), who is the Company's chief operating decision maker, for the purpose of assessing performance, are summarized in the tables below:"
+  },
+  {
+   "name": "Palladium",
+   "products": [
+    "Stillwater",
+    "Platreef"
+   ],
+   "description": "Precious metals purchase agreements for palladium from mining operations.",
+   "evidence": "The Company's reportable operating segments, which are the components of the Company's business where discrete financial information is available and which are evaluated on a regular basis by the Company's Chief Executive Officer (\"CEO\"), who is the Company's chief operating decision maker, for the purpose of assessing performance, are summarized in the tables below:"
+  },
+  {
+   "name": "Platinum",
+   "products": [
+    "Marathon",
+    "Platreef"
+   ],
+   "description": "Precious metals purchase agreements for platinum from mining operations.",
+   "evidence": "The Company's reportable operating segments, which are the components of the Company's business where discrete financial information is available and which are evaluated on a regular basis by the Company's Chief Executive Officer (\"CEO\"), who is the Company's chief operating decision maker, for the purpose of assessing performance, are summarized in the tables below:"
+  },
+  {
+   "name": "Cobalt",
+   "products": [
+    "Voisey's Bay"
+   ],
+   "description": "Precious metals purchase agreement for cobalt from mining operations.",
+   "evidence": "The Company's reportable operating segments, which are the components of the Company's business where discrete financial information is available and which are evaluated on a regular basis by the Company's Chief Executive Officer (\"CEO\"), who is the Company's chief operating decision maker, for the purpose of assessing performance, are summarized in the tables below:"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company receives payments from mining operators under precious metals purchase agreements for specified percentages of gold, silver, palladium, platinum and cobalt production.",
+  "evidence": "The Company considers each precious metals purchase agreement (\"PMPA\") to be a separate cash generating unit (\"CGU\")."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company classified the Blackwater and Platreef precious metals purchase agreements as reportable segments.",
+   "evidence": "During the current period, the Company classified the Blackwater and Platreef PMPAs as reportable segments."
+  }
+ ],
+ "dropped": []
+}

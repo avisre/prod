@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000091576",
+ "issuerName": "KeyCorp",
+ "builtAt": "2026-11-14T13:46:33.836Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-010546",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/91576/000162828026010546/key-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Bank",
+   "products": [
+    "deposit and investment products",
+    "personal finance and financial wellness services",
+    "lending",
+    "student loan refinancing",
+    "mortgage and home equity",
+    "credit card",
+    "treasury services",
+    "business advisory services"
+   ],
+   "description": null,
+   "evidence": "The Consumer Bank serves individuals and small businesses throughout our 15-state branch footprint and through our digital brand by offering a variety of deposit and investment products, personal finance and financial wellness services, lending, student loan refinancing, mortgage and home equity, credit card, treasury services, and business advisory services."
+  },
+  {
+   "name": "Commercial Bank",
+   "products": [
+    "commercial banking",
+    "lending",
+    "equipment financing",
+    "cash management",
+    "capital markets products and services",
+    "syndicated finance",
+    "debt and equity underwriting",
+    "commercial mortgage servicing and special servicing"
+   ],
+   "description": "Serves middle market, large corporate, and institutional clients with borrowing, cash management, capital markets, and commercial real estate lending and servicing.",
+   "evidence": "The Commercial Bank consists of the Commercial and Institutional operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "KeyCorp earns revenue from individual, corporate, and institutional clients who pay for banking, lending, investment, and capital markets products and services, primarily in the United States.",
+  "evidence": "We derive the majority of our revenues within the United States from customers domiciled in the United States."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000857855",
+ "issuerName": "UNITED COMMUNITY BANKS, INC.",
+ "builtAt": "2026-11-14T13:52:59.192Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000857855-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/857855/000085785526000008/ucbi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "deposit products",
+    "secured and unsecured loans",
+    "mortgage loans",
+    "payment and commerce solutions",
+    "equipment finance services",
+    "wealth management",
+    "trust services",
+    "private banking"
+   ],
+   "description": "A community bank providing diversified financial services to commercial, retail, governmental, educational, energy, health care and real estate customers across the Southeast.",
+   "evidence": "We provide a wide range of financial products and services to the commercial, retail, governmental, educational, energy, health care and real estate sectors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest on loans to individuals and businesses, funded primarily by customer deposits, plus fee income from mortgage origination, loan servicing, wealth management, insurance and payment processing services.",
+  "evidence": "Deposits are the major source of our funds for lending and other investment activities."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company completed the acquisition of ANB, a Florida bank, adding loans and deposits in the Fort Lauderdale metropolitan area.",
+   "evidence": "On May 1, 2025, we completed the acquisition of ANB, headquartered in Oakland Park, Florida where it operated one banking location in the Fort Lauderdale metropolitan area."
+  },
+  {
+   "text": "In 2024, the company sold FinTrust, its wealth management business, incurring a loss.",
+   "evidence": "Other noninterest expense decreased for 2025 as the 2024 comparative period included a $5.39 million loss on the sale of FinTrust."
+  },
+  {
+   "text": "In 2024, the company sold substantially all of its manufactured housing loan portfolio.",
+   "evidence": "In addition, during 2024, we sold $303 million of manufactured housing loans, substantially all of that portfolio, which resulted in a $27.2 million loss."
+  }
+ ],
+ "dropped": []
+}

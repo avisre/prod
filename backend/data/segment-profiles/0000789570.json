@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "cik": "0000789570",
+ "issuerName": "MGM Resorts International",
+ "builtAt": "2026-11-14T13:51:00.692Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000789570-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/789570/000078957026000018/mgm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Las Vegas Strip Resorts",
+   "products": [
+    "Aria (including Vdara)",
+    "Bellagio",
+    "The Cosmopolitan of Las Vegas",
+    "MGM Grand Las Vegas (including The Signature)",
+    "Mandalay Bay (including W Las Vegas and Four Seasons)",
+    "Luxor",
+    "New York-New York (including The Park)",
+    "Excalibur"
+   ],
+   "description": "Operates casino resorts on the Las Vegas Strip serving premium gaming, leisure, business and group customers.",
+   "evidence": "Las Vegas Strip Resorts consists of the following casino resorts: Aria (including Vdara), Bellagio, The Cosmopolitan of Las Vegas (\"The Cosmopolitan\"), MGM Grand Las Vegas (including The Signature), Mandalay Bay (including W Las Vegas and Four Seasons), Luxor, New York-New York (including The Park), Excalibur, and Park MGM (including The Reserve at Park MGM)."
+  },
+  {
+   "name": "Regional Operations",
+   "products": [
+    "MGM Grand Detroit",
+    "Beau Rivage",
+    "Borgata",
+    "MGM National Harbor",
+    "MGM Springfield",
+    "Empire City",
+    "MGM Northfield Park"
+   ],
+   "description": "Operates regional casino properties outside Nevada, with revenue derived mostly from gaming operations.",
+   "evidence": "Regional Operations consists of the following casino properties: MGM Grand Detroit in Detroit, Michigan; Beau Rivage in Biloxi, Mississippi; Gold Strike Tunica in Tunica, Mississippi (until its disposition in February 2023); Borgata in Atlantic City, New Jersey; MGM National Harbor in Prince George's County, Maryland; MGM Springfield in Springfield, Massachusetts; Empire City in Yonkers, New York; and MGM Northfield Park in Northfield Park, Ohio."
+  },
+  {
+   "name": "MGM China",
+   "products": [
+    "MGM Macau",
+    "MGM Cotai"
+   ],
+   "description": "Owns and operates casino resorts in Macau under a gaming concession held by MGM Grand Paradise.",
+   "evidence": "As of December 31, 2025, we own approximately 56% of MGM China, which owns MGM Grand Paradise, the Macau company that owns and operates the MGM Macau and MGM Cotai casino resorts and holds the related gaming concession and land concessions."
+  },
+  {
+   "name": "MGM Digital",
+   "products": [
+    "LeoVegas",
+    "iGaming",
+    "digital slots and table games",
+    "live dealer and online sports betting"
+   ],
+   "description": "Consolidated online gaming portfolio, primarily LeoVegas, operating internationally in Europe and Brazil.",
+   "evidence": "MGM Digital is our consolidated online gaming portfolio which is primarily comprised of LeoVegas, which is headquartered in Sweden and Malta and operates internationally, primarily in Europe and, through its consolidated venture, in Brazil."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company cash or credit cards for casino wagering and for non-gaming services such as hotel rooms, food and beverage, and entertainment.",
+  "evidence": "Most of our revenue is cash-based, through customers wagering with cash or paying for non-gaming services with cash or credit cards."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company disposed of Gold Strike Tunica, which had been part of Regional Operations.",
+   "evidence": "Gold Strike Tunica in Tunica, Mississippi (until its disposition in February 2023)"
+  },
+  {
+   "text": "In 2025, the company entered into an agreement to sell the operations of MGM Northfield Park, expected to close in the first half of 2026.",
+   "evidence": "In October 2025, we entered into an agreement to sell the operations of MGM Northfield Park for $546 million in cash, subject to customary purchase price adjustments."
+  }
+ ],
+ "dropped": []
+}

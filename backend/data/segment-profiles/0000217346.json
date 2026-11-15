@@ -1,0 +1,99 @@
+{
+ "version": 1,
+ "cik": "0000217346",
+ "issuerName": "TEXTRON INC",
+ "builtAt": "2026-11-14T13:47:39.934Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000217346-26-000006",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/217346/000021734626000006/txt-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Textron Aviation",
+   "products": [
+    "Cessna Caravan",
+    "Beechcraft T-6 trainer",
+    "AT-6 light attack military aircraft",
+    "Cessna Skyhawk",
+    "aftermarket parts and services"
+   ],
+   "description": "Manufactures, sells and services Cessna and Beechcraft business jets, turboprops, piston aircraft and defense aircraft for diverse commercial and government customers.",
+   "evidence": "Textron Aviation manufactures, sells and services Cessna and Beechcraft aircraft, and services the Hawker brand of business jets."
+  },
+  {
+   "name": "Bell",
+   "products": [
+    "MV-75 tiltrotor aircraft",
+    "V-22 tiltrotor aircraft",
+    "H-1 helicopters",
+    "429",
+    "407GXi",
+    "412EPX",
+    "505 Jet Ranger X",
+    "525 Relentless"
+   ],
+   "description": "Supplies military and commercial helicopters, tiltrotor aircraft, spare parts and support services to governments and commercial operators worldwide.",
+   "evidence": "Bell is a leading worldwide supplier of military and commercial helicopters, tiltrotor aircraft, and related spare parts and services."
+  },
+  {
+   "name": "Textron Systems",
+   "products": [
+    "Ship-to-Shore Connector",
+    "armored land vehicles",
+    "electronic systems and solutions",
+    "advanced marine craft",
+    "live military air-to-air and air-to-ship training"
+   ],
+   "description": "Develops, manufactures and integrates defense, homeland security and aerospace products and services for U.S. and international military, government and commercial customers.",
+   "evidence": "The businesses in our Textron Systems segment develop, manufacture and integrate a variety of products and services for U.S. and international military, government and commercial customers to support defense, homeland security, aerospace, infrastructure protection and other customer missions."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "Pentatonic battery systems",
+    "Ransomes",
+    "Douglas Equipment"
+   ],
+   "description": "Designs and manufactures automotive fuel systems and battery enclosures for OEMs, plus golf cars, utility vehicles and ground support equipment for varied customers.",
+   "evidence": "Our Industrial segment designs and manufactures a variety of products within the Kautex and Textron Specialized Vehicles businesses."
+  },
+  {
+   "name": "Textron eAviation",
+   "products": [
+    "Velis Electro",
+    "Nuuva V300"
+   ],
+   "description": "Focused on research and development of sustainable aviation solutions, including Pipistrel electric and hybrid light aircraft.",
+   "evidence": "Our Textron eAviation segment has been focused on research and development initiatives related to sustainable aviation solutions and includes Pipistrel, a manufacturer of light aircraft."
+  },
+  {
+   "name": "Finance",
+   "products": [],
+   "description": "Captive finance business supporting Textron's operations.",
+   "evidence": "Through 2025, we conducted our business through six operating segments: Textron Aviation, Bell, Textron Systems, Industrial and Textron eAviation, which represent our manufacturing businesses, and Finance, which represents our captive finance business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including the U.S. Government, foreign militaries, corporate and individual aircraft buyers, and automotive OEMs, pay Textron for manufactured aircraft, vehicles, defense products and related parts and services.",
+  "evidence": "Total revenues for 2025 were $14.8 billion and are presented below by segment and customer type."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Textron Aviation): Cessna Citation business jets",
+  "product not in text (Textron Aviation): Beechcraft King Air turboprops",
+  "product not in text (Textron Systems): Aerosonde unmanned aircraft systems",
+  "product not in text (Textron Systems): Lycoming piston aircraft engines",
+  "product not in text (Industrial): Kautex plastic fuel systems",
+  "product not in text (Industrial): E-Z-GO golf cars",
+  "product not in text (Industrial): TUG Technologies ground support equipment",
+  "product not in text (Industrial): Jacobsen turf-maintenance equipment",
+  "product not in text (Industrial): Cushman utility vehicles",
+  "product not in text (Textron eAviation): Pipistrel light aircraft and gliders",
+  "change not grounded: Effective January 4, 2026, the Textron eAviation segment was eliminated as a sep"
+ ]
+}

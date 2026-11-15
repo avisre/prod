@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000849145",
+ "issuerName": "HERITAGE GLOBAL INC.",
+ "builtAt": "2026-11-14T13:52:44.753Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-104062",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/849145/000119312526104062/hgbl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Auction and Liquidation",
+   "products": [
+    "auction services",
+    "appraisals",
+    "asset advisory",
+    "turnkey manufacturing facilities",
+    "used industrial machinery and equipment"
+   ],
+   "description": "Operates a global full-service auction, appraisal and asset advisory firm through Heritage Global Partners, including acquiring turnkey manufacturing facilities and used industrial machinery and equipment.",
+   "evidence": "Our Auction and Liquidation segment, through HGP, operates as a global full-service auction, appraisal and asset advisory firm, including the acquisition of turnkey manufacturing facilities and used industrial machinery and equipment."
+  },
+  {
+   "name": "Refurbishment & Resale",
+   "products": [
+    "specialized laboratory equipment"
+   ],
+   "description": "Acquires, refurbishes and supplies specialized laboratory equipment through Heritage ALT LLC.",
+   "evidence": "Our Refurbishment & Resale segment, through ALT, acquires, refurbishes and supplies specialized laboratory equipment."
+  },
+  {
+   "name": "Brokerage",
+   "products": [],
+   "description": "Brokers charged-off receivables in the U.S. and Canada on behalf of financial institutions through National Loan Exchange.",
+   "evidence": "Our Brokerage segment, through NLEX, brokers charged-off receivables in the U.S. and Canada on behalf of financial institutions."
+  },
+  {
+   "name": "Specialty Lending",
+   "products": [
+    "specialty financing solutions"
+   ],
+   "description": "Provides specialty financing solutions to investors in charged-off and nonperforming asset portfolios through Heritage Global Capital.",
+   "evidence": "Our Specialty Lending segment, through HGC, provides specialty financing solutions to investors in charged-off and nonperforming asset portfolios."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns commissions and fees from auctions, appraisals, brokerage of charged-off receivables and secured lending, plus proceeds from sales of purchased assets.",
+  "evidence": "Our revenue has several components: (1) traditional fee based asset disposition services, such as commissions from on-line and webcast auctions, liquidations and negotiated sales, and commissions from the NLEX charged-off receivables business, (2) the acquisition and subsequent disposition of distressed and surplus assets, including industrial machinery and equipment and real estate, and (3) fees and interest earned for appraisal, management advisory services and specialty lending services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Brokerage): charged-off receivables brokerage"
+ ]
+}

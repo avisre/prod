@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000090896",
+ "issuerName": "Champion Homes, Inc.",
+ "builtAt": "2026-11-14T13:46:30.240Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-239333",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/90896/000119312526239333/sky-20260328.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Factory-built Housing",
+   "products": [
+    "manufactured homes",
+    "modular homes",
+    "park model RVs",
+    "Champion Homes",
+    "Genesis Homes",
+    "Skyline Homes",
+    "Regional Homes"
+   ],
+   "description": "Designs, builds and sells factory-built homes, park model RVs and ADUs in the United States through independent and company-owned retail channels.",
+   "evidence": "Fiscal 2026 net sales for the Company's U.S. manufacturing and retail operations increased by $157.9 million, or 6.7%, from fiscal 2025."
+  },
+  {
+   "name": "Canadian Factory-built Housing",
+   "products": [
+    "manufactured homes",
+    "modular homes",
+    "Moduline",
+    "SRI Homes"
+   ],
+   "description": "Manufactures and sells factory-built homes for customers in western Canada.",
+   "evidence": "The Canadian Factory-built Housing segment net sales increased by $16.8 million, or 17.9% in fiscal 2026 compared to the prior year, primarily due to an increase of 15.2% in homes sold and an increase in average selling price."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by independent and company-owned retail sales centers, community operators, government agencies, and builder/developers for the factory-built homes and related services it sells.",
+  "evidence": "Our products are marketed and distributed through a network of independent and company-owned retail sales centers, community operators, government agencies, and builder/developers."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company began lending activities through Champion Financing, a joint venture with Triad Financial Services, reported within Corporate/Other.",
+   "evidence": "During fiscal 2025, we began lending activities through Champion Financing, our joint venture with Triad Financial Services."
+  },
+  {
+   "text": "In May 2025 the company acquired Iseman Homes, which was included in the U.S. Factory-built Housing segment.",
+   "evidence": "The increase in the number of homes sold was primarily due to the inclusion of Iseman Homes since the acquisition in May 2025 and higher wholesale unit sales sold to independent retail channels."
+  }
+ ],
+ "dropped": [
+  "product not in text (U.S. Factory-built Housing): accessory dwelling units (ADUs)"
+ ]
+}

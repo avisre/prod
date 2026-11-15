@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000314808",
+ "issuerName": "Valaris Limited",
+ "builtAt": "2026-11-14T13:48:01.221Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000314808-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/314808/000031480826000029/val-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Floaters",
+   "products": [
+    "drillships",
+    "semisubmersible rigs"
+   ],
+   "description": "Operates drillships and semisubmersible rigs drilling and completing offshore oil and natural gas wells for international and government-owned oil and gas companies.",
+   "evidence": "(1) Floaters, which includes our drillships and semisubmersible rigs, (2) Jackups, (3) ARO and (4) Other, which consists of management services on rigs owned by third parties and the activities associated with our lease arrangements with ARO."
+  },
+  {
+   "name": "Jackups",
+   "products": [
+    "jackup rigs"
+   ],
+   "description": "Operates a premium jackup rig fleet drilling and completing offshore oil and natural gas wells for oil and gas customers worldwide.",
+   "evidence": "Our fleet of offshore drilling rigs is among the largest in the world and includes one of the highest specification ultra-deepwater fleets, as well as a leading premium jackup fleet."
+  },
+  {
+   "name": "ARO",
+   "products": [
+    "jackup rigs"
+   ],
+   "description": null,
+   "evidence": "a 50% equity interest in ARO, our 50/50 unconsolidated joint venture with Saudi Aramco, which owns an additional nine rigs."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "management services on rigs owned by third parties",
+    "lease arrangements with ARO"
+   ],
+   "description": "Provides management services on third-party-owned rigs and includes activities under bareboat charter lease arrangements with ARO.",
+   "evidence": "(4) Other, which consists of management services on rigs owned by third parties and the activities associated with our lease arrangements with ARO."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas customers pay a daily rate for an integrated drilling service including rig and crews, plus lump-sum fees or reimbursement for mobilization, demobilization and capital upgrades.",
+  "evidence": "We provide drilling services on a day rate contract basis."
+ },
+ "changes": [
+  {
+   "text": "In 2026, Valaris entered into a business combination agreement under which Transocean will acquire all issued and outstanding common shares of Valaris.",
+   "evidence": "On February 9, 2026, Valaris and Transocean Ltd. (\"Transocean\") entered into a business combination agreement (the \"Business Combination Agreement\") under which Transocean will acquire all of the issued and outstanding common shares of Valaris in exchange for shares of Transocean at an exchange ratio of 15.235 Transocean shares for each Valaris share."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, Valaris sold several rigs, including VALARIS DPS-3, DPS-5, DPS-6 and se"
+ ]
+}

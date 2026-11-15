@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001364479",
+ "issuerName": "HERC HOLDINGS INC.",
+ "builtAt": "2026-11-14T17:39:10.849Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001364479-26-000050",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1364479/000136447926000050/hri-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Equipment Rental",
+   "products": [
+    "Earthmoving equipment",
+    "Material handling equipment",
+    "Trucks and trailers",
+    "Air compressors",
+    "Compaction and lighting equipment",
+    "ProSolutions",
+    "ProContractor tools"
+   ],
+   "description": "Rents a broad portfolio of equipment to diverse customers including contractors, industrial and infrastructure sectors.",
+   "evidence": "The equipment rental segment derives revenues from customers by renting equipment from the Company's fleet, which includes aerial, earthmoving, material handling, trucks and trailers, air compressors, compaction, lighting, trench shoring equipment as well as its ProSolutions products and ProContractor tools."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay rental fees for equipment deployed across multiple locations to support diverse construction, industrial and infrastructure projects.",
+  "evidence": "We provide equipment rental services to customers in a wide variety of large markets, including contractors in commercial and residential construction, specialty and remediation and environmental sectors; industrial, including energy, chemical processing and manufacturing; infrastructure, such as highway and bridges, railroads and sewer and waste disposal; and other industries such as facilities management and entertainment production and services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Equipment Rental): Aerial equipment",
+  "change not grounded: In 2025, the company recorded an asset impairment charge of $49 million related ",
+  "change not grounded: In 2024, the company recorded an asset impairment charge of $194 million related"
+ ]
+}

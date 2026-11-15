@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000718937",
+ "issuerName": "STAAR Surgical Co",
+ "builtAt": "2026-11-14T13:49:14.715Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000718937-26-000004",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/718937/000071893726000004/staa-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ophthalmic surgical product segment",
+   "products": [
+    "EVO ICL",
+    "EVO+ ICL",
+    "EVO Visian ICL",
+    "EVO Viva",
+    "Visian ICL",
+    "toric ICL (TICL) versions"
+   ],
+   "description": "Designs, manufactures and sells implantable Collamer lenses (ICLs) and accessory delivery systems for refractive eye surgery worldwide.",
+   "evidence": "100% of the Company's sales are generated from the ophthalmic surgical product segment and, therefore, the Company operates as one operating segment for financial reporting purposes."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "STAAR earns revenue almost exclusively from sales of its ICLs to customers, recognized upon shipment when control transfers, with payment typically collected shortly thereafter.",
+  "evidence": "STAAR generates worldwide revenue almost exclusively from sales of our Implantable Collamer Lenses, or \"ICLs.\""
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2023 the Company phased out sales of its cataract IOL product line, selling none in fiscal 2024 or 2025.",
+   "evidence": "The Company phased out sales of such products in fiscal 2023, and it did not sell any such products in fiscal 2024 or 2025."
+  }
+ ],
+ "dropped": []
+}

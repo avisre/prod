@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000352825",
+ "issuerName": "FOSTER L B CO",
+ "builtAt": "2026-11-14T13:48:22.481Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000352825-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/352825/000035282526000016/fstr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rail, Technologies, and Services",
+   "products": [
+    "Rail Products",
+    "Global Friction Management",
+    "Technology Services and Solutions",
+    "insulated rail joints",
+    "friction management products and application systems",
+    "Total Track Monitoring railroad condition monitoring systems"
+   ],
+   "description": "Provides rail products, friction management solutions, and technology services for freight and passenger railroads and industrial companies worldwide.",
+   "evidence": "The Rail reporting segment is comprised of the Rail Products, Global Friction Management, and Technology Services and Solutions business units."
+  },
+  {
+   "name": "Infrastructure Solutions",
+   "products": [
+    "Precast Concrete Products",
+    "Steel Products",
+    "ENVIROCAST",
+    "ENVIROKEEPER",
+    "bridge products",
+    "protective pipe coatings"
+   ],
+   "description": "Designs, manufactures, and deploys precast concrete products, fabricated bridge products, and steel pipe protective coatings and threading for North American infrastructure.",
+   "evidence": "The Infrastructure segment uses its industry expertise to design, manufacture, and deploy advanced technologies that positively impact the built environment, including precast concrete buildings and products, bridge products, and steel pipe protective coatings and threading."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including railroads, contractors, industrial companies, and government entities, pay the Company for engineered products and services, including under long-term agreements.",
+  "evidence": "The Company's revenues are comprised of product and service sales, including products and services provided under long-term agreements with its customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company discontinued the Automation and Materials Handling product line as part of scaling back UK businesses.",
+   "evidence": "During 2025, the Company announced the discontinuation of the Automation and Materials Handling product line (the \"AMH Exit\") as part of the Company's initiatives to scale back businesses in the UK, and as of December 31, 2025 has completed all related remaining customer obligations."
+  }
+ ],
+ "dropped": [
+  "product not in text (Rail, Technologies, and Services): new rail and track accessories",
+  "product not in text (Rail, Technologies, and Services): direct fixation fasteners, coverboards, and power rail",
+  "product not in text (Infrastructure Solutions): CXT precast buildings",
+  "product not in text (Infrastructure Solutions): water well pipe threading",
+  "change not grounded: In 2023, the Company discontinued its grid deck product line and completed subst"
+ ]
+}

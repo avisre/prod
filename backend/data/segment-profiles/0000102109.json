@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000102109",
+ "issuerName": "DeFi Capital Markets, Inc.",
+ "builtAt": "2026-11-14T13:47:07.278Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-080359",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/102109/000110465926080359/uuu-20260331x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Safety Products",
+   "products": [
+    "door chimes",
+    "ventilation products",
+    "ground fault circuit interrupters (GFCI's)",
+    "other electrical devices"
+   ],
+   "description": "Designs and markets popularly priced safety and electrical products to retailers and the electrical distribution trade.",
+   "evidence": "We also market door chimes, ventilation products, ground fault circuit interrupters (GFCI's), and other electrical devices."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by retailers, distributors and electrical distribution trade customers for safety and security products sold under purchase orders or contracts.",
+  "evidence": "The Company's primary source of revenue is the sale of safety and security products based upon purchase orders or contracts with customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold its smoke and carbon monoxide alarm business to Feit Electric Company, Inc.",
+   "evidence": "On May 22, 2025, the Asset Purchase Agreement with Feit was completed and the Company recorded a gain from this transaction of $ 2,820,668 ."
+  },
+  {
+   "text": "In 2025, the company formed Universal DeFi LLC as a new venture pursuing a tokenization platform and node operations on the Ault Blockchain.",
+   "evidence": "In July 2025, we formed a wholly owned subsidiary called Universal DeFi LLC (\"Universal DeFi\") as a new venture to diversify the business and explore new paths for revenue and stockholder value."
+  }
+ ],
+ "dropped": []
+}

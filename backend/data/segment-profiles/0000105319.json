@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000105319",
+ "issuerName": "WW INTERNATIONAL, INC.",
+ "builtAt": "2026-11-14T13:47:16.953Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-107176",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/105319/000119312526107176/ww-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Weight management",
+   "products": [
+    "Core",
+    "Core+",
+    "Med+",
+    "Points Program",
+    "GLP-1 Success Program",
+    "Diabetes Program",
+    "Menopause Program",
+    "Workshops"
+   ],
+   "description": null,
+   "evidence": "We have one reportable segment for the purpose of making operational and resource decisions and assessing financial performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Members pay recurring monthly subscription charges for access to programs and the app, with one-time payments for add-on services such as registered dietitian visits.",
+  "evidence": "The payment structure for our offerings discussed above is through subscription plans and, in some cases, includes one-time payments for add-on services, such as registered dietitian visits that are offered to all members in the United States regardless of subscription plan."
+ },
+ "changes": [
+  {
+   "text": "Effective the first day of fiscal 2024, the Company's reportable segments changed to one segment.",
+   "evidence": "effective the first day of fiscal 2024 (i.e., December 31, 2023), as a result of the continued evolution of the Company's centralized organizational structure in fiscal 2023, and management's 2024 strategic planning process, the Company's reportable segments changed to one segment for the purpose of making operational and resource decisions and assessing financial performance."
+  }
+ ],
+ "dropped": []
+}

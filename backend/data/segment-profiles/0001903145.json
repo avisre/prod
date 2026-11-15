@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001903145",
+ "issuerName": "Gorilla Technology Group Inc.",
+ "builtAt": "2026-11-14T17:41:06.886Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001437749-26-012385",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1903145/000143774926012385/grrr20241231_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Security Convergence",
+   "products": [],
+   "description": "Provides AI-driven security intelligence, video analytics, cybersecurity, and integrated physical and digital protection solutions.",
+   "evidence": "Revenues, net by reportable segments are as follows: Year ended December 31, 2025 2024 Dollars in Thousands Percentage of Revenue, net Dollars in Thousands Percentage of Revenue, net Change $ Change % Security Convergence $ 97,841 96.5 % $ 71,896 96.3 %"
+  },
+  {
+   "name": "Video IoT",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in government, enterprise, smart cities, and various industries pay for AI-powered solutions including infrastructure, video analytics, cybersecurity, and IoT services.",
+  "evidence": "we deliver AI-driven solutions that power Smart Cities, Enterprises, Government, Manufacturing, Telecommunications, Retail, Transportation, Logistics, Healthcare, and Education."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Video IoT"
+ ]
+}

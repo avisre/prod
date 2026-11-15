@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0001988894",
+ "issuerName": "Amer Sports, Inc.",
+ "builtAt": "2026-11-14T17:38:11.966Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001988894-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1988894/000198889426000004/as-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technical Apparel",
+   "products": [],
+   "description": "Technical outdoor apparel brand for mountain athletes engaged in climbing, hiking, mountaineering, skiing and snowboarding.",
+   "evidence": "We are excited about our future and the opportunity to drive growth in each of our three reportable segments: Technical Apparel, Outdoor Performance and Ball & Racquet Sports."
+  },
+  {
+   "name": "Outdoor Performance",
+   "products": [
+    "Salomon footwear"
+   ],
+   "description": "Global leader in footwear and winter sports equipment for trail running, gravel running, road running, hiking, skiing and snowboarding.",
+   "evidence": "We are excited about our future and the opportunity to drive growth in each of our three reportable segments: Technical Apparel, Outdoor Performance and Ball & Racquet Sports."
+  },
+  {
+   "name": "Ball & Racquet Sports",
+   "products": [
+    "Louisville Slugger",
+    "DeMarini",
+    "EvoShield",
+    "ATEC"
+   ],
+   "description": "Comprehensive sports hardgoods manufacturer delivering equipment, apparel and accessories for racquet sports, baseball, softball, football, basketball and volleyball.",
+   "evidence": "We are excited about our future and the opportunity to drive growth in each of our three reportable segments: Technical Apparel, Outdoor Performance and Ball & Racquet Sports."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers purchase sports and outdoor products through direct-to-consumer e-commerce and retail stores, and through wholesale partners including sporting goods retailers and specialty stores.",
+  "evidence": "We generate revenue from the sale of our products through direct-to-consumer and wholesale channels: • Direct-to-Consumer includes sales of our brands' products through (i) owned e-commerce websites and (ii) owned retail stores, which include elevated brand stores that drive consumer engagement and factory outlet stores which serve as a liquidation channel."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Technical Apparel): Arc'teryx outerwear",
+  "product not in text (Technical Apparel): Arc'teryx apparel",
+  "product not in text (Technical Apparel): Peak Performance apparel",
+  "product not in text (Outdoor Performance): Salomon apparel",
+  "product not in text (Outdoor Performance): Salomon winter sports equipment",
+  "product not in text (Outdoor Performance): Atomic winter sports equipment",
+  "product not in text (Outdoor Performance): Armada winter sports equipment",
+  "product not in text (Ball & Racquet Sports): Wilson sporting equipment",
+  "product not in text (Ball & Racquet Sports): Wilson apparel",
+  "product not in text (Ball & Racquet Sports): Wilson footwear"
+ ]
+}

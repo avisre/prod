@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000863064",
+ "issuerName": "RIO TINTO PLC",
+ "builtAt": "2026-11-14T13:53:09.798Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-009531",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aluminium & Lithium",
+   "products": [
+    "Aluminium",
+    "Bauxite",
+    "Lithium"
+   ],
+   "description": "Mines and processes aluminium and lithium for customers worldwide, with operations across the Pacific, Atlantic, Argentina, Canada and Chile.",
+   "evidence": "It combines aluminium operations in the Pacific and Atlantic regions with lithium global operations and growth projects in Argentina, Canada and Chile."
+  },
+  {
+   "name": "Copper",
+   "products": [],
+   "description": "Produces copper from operations in Chile, Mongolia and the US to serve the global energy transition.",
+   "evidence": "Our Copper group is well positioned to capitalise on the global energy transition, with operations in Chile, Mongolia and the US, and future options including projects and partnerships in Australia, Chile, Peru and the US."
+  },
+  {
+   "name": "Iron Ore",
+   "products": [
+    "Pilbara iron ore"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Rio Tinto for the metals and minerals it produces, including aluminium, bauxite, lithium, copper and iron ore.",
+  "evidence": "Demand for the metals and minerals we produce is rising, driven by population growth, economic development and the energy transition."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Borates and Iron & Titanium businesses were placed under strategic review and the Diamonds business was moved outside the product group structure.",
+   "evidence": "Our Borates and Iron & Titanium businesses have been placed under strategic review and report into our Chief Commercial Officer."
+  },
+  {
+   "text": "In 2025, Rio Tinto completed the acquisition of Arcadium Lithium in March, adding lithium to the Aluminium & Lithium segment.",
+   "evidence": "Q1 2025 lithium carbonate equivalent (LCE) production from Arcadium was 17 kt, of which 6 kt was produced since completion of the acquisition in March."
+  },
+  {
+   "text": "In 2025, comparative segment information was adjusted to reflect organisational changes in the reportable segments.",
+   "evidence": "Comparative information has been adjusted to reflect the organisational changes described in note 1 (page 170 ) for details."
+  }
+ ],
+ "dropped": [
+  "product not in text (Copper): Copper",
+  "product not in text (Iron Ore): Iron ore",
+  "segment evidence not verbatim: Iron Ore"
+ ]
+}

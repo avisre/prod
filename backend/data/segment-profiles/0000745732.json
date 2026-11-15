@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000745732",
+ "issuerName": "Ross Stores, Inc.",
+ "builtAt": "2026-11-14T13:50:00.695Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000745732-26-000006",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/745732/000074573226000006/rost-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Off-price retail",
+   "products": [
+    "Ross Dress for Less",
+    "dd's DISCOUNTS"
+   ],
+   "description": "Operates two brands of off-price retail apparel and home fashion stores serving value-driven middle and moderate income customers across the United States.",
+   "evidence": "The Company has two operating segments; Ross and dd's DISCOUNTS."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for first-quality, in-season, brand name and designer apparel, accessories, footwear, and home fashions purchased at its off-price stores.",
+  "evidence": "Ross offers first-quality, in-season, brand name and designer apparel, accessories, footwear, and home fashions for the entire family at savings of 20% to 60% off department and specialty store regular prices every day."
+ },
+ "changes": [],
+ "dropped": []
+}

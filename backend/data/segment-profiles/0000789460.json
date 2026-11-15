@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "cik": "0000789460",
+ "issuerName": "WORLD KINECT CORPORATION",
+ "builtAt": "2026-11-14T13:50:59.046Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000789460-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/789460/000078946026000015/wkc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aviation",
+   "products": [
+    "aviation fuel",
+    "fuel management",
+    "ground handling",
+    "24/7 global dispatch services",
+    "trip support services",
+    "sustainable aviation fuel"
+   ],
+   "description": "Provides global aviation fuel supply and related services to airlines, cargo carriers, governments, corporate fleets and other aviation customers.",
+   "evidence": "We provide global aviation fuel supply and comprehensive service solutions to major commercial, international, and regional airlines, cargo carriers, airports, fixed-based operators, corporate fleets, and charter and fractional operators."
+  },
+  {
+   "name": "Land",
+   "products": [
+    "liquid fuels",
+    "natural gas",
+    "cardlock network",
+    "retail fuel outlets"
+   ],
+   "description": "Sells liquid fuels, natural gas and related products and services to commercial, industrial and government customers, primarily in North America.",
+   "evidence": "In our land segment, we sell liquid fuels, natural gas, and related products and services to commercial, industrial, and government customers, as well as retail fuel outlets under long-term contracts."
+  },
+  {
+   "name": "Marine",
+   "products": [
+    "marine fuel",
+    "lubricants",
+    "price risk management offerings",
+    "quality control and claims management"
+   ],
+   "description": "Markets fuel, lubricants and related services to shipping fleets, cruise lines, yachts, governments and other fuel suppliers worldwide.",
+   "evidence": "Through our extensive network, we market fuel, lubricants, and related products and services to a broad base of marine customers, including international container, dry bulk and tanker fleets, commercial cruise lines, yachts and time-charter operators, U.S. and foreign governments, as well as other fuel suppliers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for fuel purchased under contract or spot sales, with profit determined by volume and unit margin on fuel resales; in some marine cases the company earns commissions as a broker.",
+  "evidence": "Profit from our segments is generally determined by the volume and the unit margin achieved on fuel resales."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company completed the sale of the Avinode Group and its portfolio of aviation FBO software products.",
+   "evidence": "we completed our sale of the Avinode Group and our portfolio of aviation FBO software products (the \"Avinode sale\") during the second quarter of 2024."
+  },
+  {
+   "text": "In 2024, the company disposed of its operations in Brazil within the land segment.",
+   "evidence": "During the year ended December 31, 2024, we took actions to exit certain operations, including the rationalization of certain assets and associated personnel within our North American land business as well as the disposal of our operations in Brazil."
+  },
+  {
+   "text": "In 2025, the company closed the Watson Fuels sale and initiated a plan to exit certain land segment operations including direct fuel transportation services, lubricants, heating oil, power, and certain advisory and sustainability offerings.",
+   "evidence": "We closed the Watson Fuels sale on April 9, 2025 and in the fourth quarter of 2025, committed to and initiated actions to exit certain operations within the land segment, including direct fuel transportation services, lubricants, heating oil, power, and certain advisory and sustainability offerings, that are no longer profitable or not aligned with the Company's core business and corporate strategy."
+  }
+ ],
+ "dropped": []
+}

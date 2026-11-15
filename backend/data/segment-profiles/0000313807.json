@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000313807",
+ "issuerName": "BP PLC",
+ "builtAt": "2026-11-14T13:47:55.591Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0000313807-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/313807/000031380726000006/bp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "gas & low carbon energy",
+   "products": [
+    "natural gas",
+    "gas trading",
+    "Archaea Energy",
+    "solar",
+    "offshore wind",
+    "hydrogen",
+    "carbon capture and storage (CCS)",
+    "power trading"
+   ],
+   "description": "Gas and low carbon energy businesses serving global energy needs, including upstream gas production, gas and power trading, and renewables.",
+   "evidence": "Our gas business includes regions with upstream activities that predominantly produce natural gas, gas trading and our Archaea Energy business."
+  },
+  {
+   "name": "oil production & operations",
+   "products": [
+    "crude oil",
+    "bpx energy"
+   ],
+   "description": "Upstream regions predominantly producing crude oil, including bpx energy, for global markets.",
+   "evidence": "Comprises regions with upstream activities that predominantly produce crude oil, including bpx energy."
+  },
+  {
+   "name": "customers & products",
+   "products": [
+    "convenience and retail fuels",
+    "EV charging",
+    "Castrol",
+    "aviation",
+    "B2B",
+    "midstream",
+    "bp bioenergy",
+    "refining and oil trading"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "bp earns revenue by selling oil and gas production, refined products, and customer offerings such as fuels, convenience retail and lubricants to customers worldwide.",
+  "evidence": "We operate at the heart of the global energy system, helping countries across the world with their energy needs and serving millions of customers every day."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Archaea Energy business moved from the customers & products segment to the gas & low carbon energy segment.",
+   "evidence": "Restated for material items to reflect the move of our Archaea Energy business from the customers & products segment to the gas & low carbon energy segment."
+  },
+  {
+   "text": "In December 2025, the onshore wind business was divested from the gas & low carbon energy segment.",
+   "evidence": "until its divestment in December 2025 also included onshore wind."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: customers & products"
+ ]
+}

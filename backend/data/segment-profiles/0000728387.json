@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000728387",
+ "issuerName": "PERSPECTIVE THERAPEUTICS, INC.",
+ "builtAt": "2026-11-14T13:49:38.372Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000728387-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/728387/000072838726000004/catx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Radiopharmaceutical development",
+   "products": [
+    "VMT-α-NET",
+    "VMT01",
+    "PSV359"
+   ],
+   "description": "A clinical-stage biopharmaceutical company developing targeted alpha particle therapies for the diagnosis and treatment of cancer.",
+   "evidence": "The Company has one operating and reportable segment, which is its radiopharmaceutical development segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "The company divested its legacy brachytherapy business segment prior to the current fiscal year.",
+   "evidence": "Although we divested our brachytherapy segment, the FDA may still hold us accountable for violations of the QSR, labeling and promotional rules, and other regulations that occurred prior to divesting the business segment."
+  }
+ ],
+ "dropped": []
+}

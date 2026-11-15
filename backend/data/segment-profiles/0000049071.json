@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000049071",
+ "issuerName": "HUMANA INC",
+ "builtAt": "2026-11-14T13:44:43.913Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000049071-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/49071/000004907126000009/hum-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "Individual Medicare Advantage",
+    "Group Medicare Advantage",
+    "Medicare stand-alone PDP",
+    "Medicare Supplement",
+    "Specialty benefits",
+    "State-based contracts"
+   ],
+   "description": "Provides Medicare, Medicaid and state-based contract insurance benefits, specialty benefits, military services and PBM operations to individuals, employers and government beneficiaries.",
+   "evidence": "The Insurance segment is comprised of insurance products serving Medicare and state-based contract beneficiaries, as well as individuals and employers."
+  },
+  {
+   "name": "CenterWell",
+   "products": [
+    "pharmacy solutions",
+    "primary care",
+    "home solutions"
+   ],
+   "description": "Provides pharmacy, primary care and home health services to Humana health plan members and third parties to enhance the healthcare experience.",
+   "evidence": "The CenterWell segment includes our pharmacy solutions, primary care, and home solutions operations."
+  }
+ ],
+ "productRevenueBrokenOut": null,
+ "revenueModel": {
+  "text": "Humana is paid premiums and service fees primarily by the federal government (mainly CMS under Medicare Advantage and Part D contracts), state governments, and members or employers for health insurance coverage and healthcare services.",
+  "evidence": "During 2025, 83% of our total premiums and services revenue were derived from contracts with the federal government, including 14% derived from our individual Medicare Advantage contracts in Florida with the Centers for Medicare and Medicaid Services, or CMS, under which we provided health insurance coverage to approximately 1.0 million members as of December 31, 2025."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Humana exited the Employer Group Commercial Medical Products business.",
+   "evidence": "we also recorded severance charges of $70 million in 2023 within operating costs in our consolidated statement of income as a result of our exit from the Employer Group Commercial Medical Products business."
+  }
+ ],
+ "dropped": [
+  "product not in text (Insurance): Military services (T-5 East Region contract)",
+  "product not in text (Insurance): Pharmacy Benefit Manager (PBM) business"
+ ]
+}

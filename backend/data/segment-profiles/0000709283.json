@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000709283",
+ "issuerName": "QUANTUM CORP /DE/",
+ "builtAt": "2026-11-14T13:48:51.100Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-045602",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/709283/000162828026045602/qtm-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Storage",
+   "products": [
+    "StorNext Hybrid Flash/Disk File Storage Software",
+    "Unified Surveillance Platform Software",
+    "ActiveScale Object Storage Software",
+    "DXi Backup Appliances",
+    "Scalar Tape Storage",
+    "CatDV Asset Management Software",
+    "Devices and Media",
+    "Quantum-as-a-Service"
+   ],
+   "description": "Delivers end-to-end data management and storage solutions for unstructured data, serving hyperscale, media, government, and other enterprise customers.",
+   "evidence": "We operate as a single reporting unit and operating segment for business and operating purposes."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Quantum earns revenue from selling storage systems, software, devices, media and services to distributors, VARs, DMRs, OEMs, large corporate entities and government agencies.",
+  "evidence": "We utilize distributors, value-added resellers (\"VARs\") and direct market resellers (\"DMRs\") in our sales process."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000795800",
+ "issuerName": "NEXMETALS MINING CORP.",
+ "builtAt": "2026-11-14T13:51:12.457Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010089",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/795800/000149315226010089/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Acquisition, exploration and evaluation of mineral properties",
+   "products": [
+    "Selebi Mines",
+    "Selkirk Mine"
+   ],
+   "description": "A mineral exploration and evaluation company advancing copper-nickel-cobalt-platinum group elements mines in Botswana.",
+   "evidence": "The Company operates in one reportable operating segment, being that of the acquisition, exploration and evaluation of mineral properties, in three geographic segments, being Canada, Barbados, and Botswana."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Company changed its name from Premium Resources Ltd. to NexMetals Mining Corp.",
+   "evidence": "On June 9, 2025, the Company announced that it changed its name from \"Premium Resources Ltd.\" to \"NexMetals Mining Corp.\""
+  }
+ ],
+ "dropped": []
+}

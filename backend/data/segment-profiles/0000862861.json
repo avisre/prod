@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000862861",
+ "issuerName": "AI FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T13:53:08.937Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016259",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-04-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/862861/000149315226016259/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fintech",
+   "products": [
+    "ALT5 Pay",
+    "ALT5 Prime",
+    "ALT5 Pro",
+    "StrataCarte"
+   ],
+   "description": null,
+   "evidence": "Through our Fintech segment, the Company provides next-generation blockchain-powered technologies for digital asset trading, payments processing and related payment card services."
+  },
+  {
+   "name": "Biotechnology",
+   "products": [],
+   "description": "Pre-revenue biotechnology business, also known as Alyea, which the Company intends to formally separate and is presented as discontinued operations.",
+   "evidence": "During fiscal 2025, the Company announced its intent formally to separate its Biotechnology segment, also known as Alyea."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from corporate customers through initial installation or setup fees, monthly maintenance fees, spreads, and transaction commission fees.",
+  "evidence": "ALT5 Sigma Canada obtains its revenue from initial installation fees or setup fees, monthly maintenance fees, spreads, and transaction commissions fees."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company agreed to sell its legacy appliance recycling businesses (the Recycling Subsidiaries), which are now discontinued operations.",
+   "evidence": "On March 9, 2023, we entered into a Stock Purchase Agreement (the \"Recycling Purchase Agreement\") with VM7 Corporation, a Delaware corporation (\"VM7\"), under which it agreed to acquire all of the outstanding equity interests of the Recycling Subsidiaries."
+  },
+  {
+   "text": "In 2025, the Company announced its intent to formally separate its Biotechnology segment (Alyea), which is presented as discontinued operations.",
+   "evidence": "As a result, the Biotechnology segment is presented as discontinued operations for the fiscal years ended December 27, 2025 and December 28, 2024."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, the Company acquired ALT5 Sigma, Inc. and changed its corporate name fr"
+ ]
+}

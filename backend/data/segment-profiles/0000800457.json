@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000800457",
+ "issuerName": "Donegal Group Inc.",
+ "builtAt": "2026-11-14T13:51:27.617Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-008268",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/800457/000114036126008268/ef20060826_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment function",
+   "products": [],
+   "description": "Manages the investment portfolio of the insurance holding company and its insurance subsidiaries.",
+   "evidence": "At December 31, 2025, we had three segments: our investment function, our commercial lines of insurance and our personal lines of insurance."
+  },
+  {
+   "name": "Commercial lines of insurance",
+   "products": [
+    "commercial automobile",
+    "commercial multi-peril",
+    "workers' compensation"
+   ],
+   "description": "Provides commercial property and casualty insurance products to businesses in Mid-Atlantic, Midwestern, Southern and Southwestern states.",
+   "evidence": "The commercial lines products of our insurance subsidiaries consist primarily of commercial automobile, commercial multi-peril and workers' compensation policies."
+  },
+  {
+   "name": "Personal lines of insurance",
+   "products": [
+    "homeowners",
+    "private passenger automobile"
+   ],
+   "description": "Provides personal property and casualty insurance products to individual policyholders in smaller to mid-sized regional communities.",
+   "evidence": "The personal lines products of our insurance subsidiaries consist primarily of homeowners and private passenger automobile policies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Policyholders pay premiums for property and casualty insurance coverage, and the company also earns investment income on its portfolio.",
+  "evidence": "Our insurance subsidiaries and Donegal Mutual provide their policyholders with a selection of insurance products and pursue profitability by adhering to a strict underwriting discipline."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Donegal Mutual and Southern entered into a renewal rights agreement to non-renew all farm policies beginning in the second quarter of 2026.",
+   "evidence": "In September 2025, Donegal Mutual and Southern entered into a renewal rights agreement with a farm-focused Pennsylvania-based mutual insurance company to provide a continuation option for our farm policyholders when they begin to non-renew all farm policies as they expire beginning in the second quarter of 2026."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001756064",
+ "issuerName": "Our Bond, Inc.",
+ "builtAt": "2026-11-15T02:50:38.272Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014133",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1756064/000149315226014133/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Preventative Personal Security",
+   "products": [
+    "Bond App",
+    "Bond Preventative Personal Security Platform",
+    "Video Monitor Me",
+    "Track Me On The Go",
+    "Ready An Agent",
+    "Run a Security Check",
+    "Chat"
+   ],
+   "description": null,
+   "evidence": "We provide preventative personal security powered by AI. Once activated, the cloud-based Bond Preventative Personal Security Platform provides users with remote protective services via phone app (using its Bond Preventative Personal Security Platform) and with 24/7 support from our Personal Security Agents, who are in Bond Command Centers and can respond rapidly."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Members and corporate customers pay subscriptions for cloud-based SaaS preventative security platform access and services delivered over time and at point of delivery.",
+  "evidence": "SaaS revenue recognized over time $ 1,528 $ 1,432 Services and other revenue recognized point in time 8,444 8,304"
+ },
+ "changes": [],
+ "dropped": []
+}

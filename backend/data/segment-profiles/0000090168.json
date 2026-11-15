@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000090168",
+ "issuerName": "SIFCO Industries, Inc.",
+ "builtAt": "2026-11-14T13:46:28.816Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-058405",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/90168/000162828025058405/sif-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Forgings and machined components",
+   "products": [
+    "envelope and precision forgings",
+    "rough and finished machined components",
+    "sub-assemblies",
+    "OEM and aftermarket components for aircraft and industrial gas turbine engines",
+    "steam turbine blades",
+    "structural airframe components",
+    "aircraft landing gear components",
+    "aircraft wheels and brakes"
+   ],
+   "description": "Manufacturer of forgings, machined components and sub-assemblies for aerospace and defense, energy and commercial space customers, operating as a single business segment.",
+   "evidence": "SIFCO is engaged in the production of forgings, sub-assemblies, and machined components primarily for the Aerospace and Energy (\"A&E\") markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In October 2024, the Company sold its European operations, CBlade S.p.A. Forging & Manufacturing, which is presented as discontinued operations.",
+   "evidence": "In October 2024, the Company sold its European operations in order to streamline operational synergies and refocus on its core aerospace forging business."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

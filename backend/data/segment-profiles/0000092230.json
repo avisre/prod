@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000092230",
+ "issuerName": "TRUIST FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T13:46:36.188Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000092230-26-000030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/92230/000009223026000030/tfc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale Banking (WB)",
+   "products": [
+    "commercial and corporate banking",
+    "investment banking and capital markets",
+    "wealth management",
+    "wholesale payments",
+    "specialized lending",
+    "treasury management services",
+    "merchant services"
+   ],
+   "description": "Serves wholesale and commercial clients with lending, payments, capital markets, and wealth services.",
+   "evidence": "In WB, capture more of the commercial middle market with an industry banking strategy, continue momentum in Investment Banking and Capital Markets, generate additional fee income from existing clients in Wealth, and deepen and grow existing client relationships in Wholesale Payments."
+  },
+  {
+   "name": "Consumer and Small Business Banking (CSBB)",
+   "products": [
+    "consumer and small business banking",
+    "deposits",
+    "residential mortgage",
+    "home equity",
+    "indirect auto",
+    "credit card lending",
+    "investment brokerage services"
+   ],
+   "description": "Serves consumers and small businesses with deposits, lending, and banking services through digital and branch channels.",
+   "evidence": "In CSBB, grow deposits with a focus on Premier clients, increase client acquisition, deepen client relationships, and drive digital acquisition and client engagement."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Truist earns interest on loans and lease financing and fees from non-lending services such as deposits, wealth management, payments, and capital markets for consumer and wholesale clients.",
+  "evidence": "We offer a variety of loans and lease financing to consumer and wholesale clients primarily within our geographic footprint, including commercial and industrial, commercial real estate, commercial construction, residential mortgage, home equity, indirect auto, other consumer, and credit card lending."
+ },
+ "changes": [
+  {
+   "text": "In 2024, Truist sold Truist Insurance Holdings, LLC.",
+   "evidence": "TIH Truist Insurance Holdings, LLC, an entity sold on May 6, 2024"
+  }
+ ],
+ "dropped": []
+}

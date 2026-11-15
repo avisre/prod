@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000721371",
+ "issuerName": "Cardinal Health, Inc.",
+ "builtAt": "2026-11-14T13:49:23.697Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000721371-26-000038",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/721371/000072137126000038/cah-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pharmaceutical and Specialty Solutions",
+   "products": [
+    "branded pharmaceuticals",
+    "generic pharmaceuticals",
+    "specialty pharmaceuticals",
+    "over-the-counter healthcare and consumer products",
+    "pharmacy management services"
+   ],
+   "description": "Distributes branded, generic, specialty and over-the-counter healthcare products in the United States and provides services to pharmaceutical manufacturers and healthcare providers.",
+   "evidence": "Our Pharma segment distributes branded and generic pharmaceutical, specialty pharmaceutical, and over-the-counter healthcare and consumer products in the United States."
+  },
+  {
+   "name": "Global Medical Products and Distribution",
+   "products": [
+    "Cardinal Health brand medical, surgical, and laboratory products",
+    "national brand products"
+   ],
+   "description": "Manufactures, sources and distributes Cardinal Health brand and national brand medical, surgical and laboratory products to healthcare providers across multiple markets.",
+   "evidence": "Our GMPD segment manufactures, sources, and distributes Cardinal Health brand medical, surgical, and laboratory products, which are sold in the United States, Canada, Europe, Asia, and other markets."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Nuclear and Precision Health Solutions",
+    "at-Home Solutions",
+    "OptiFreight® Logistics",
+    "Edgepark",
+    "Xofigo®",
+    "Lymphoseek®"
+   ],
+   "description": "Comprises Nuclear and Precision Health Solutions, at-Home Solutions, and OptiFreight Logistics, serving hospitals, patients in the home, and healthcare provider shipping needs.",
+   "evidence": "All remaining operating segments that are not significant enough to require separate reportable segment disclosures are included in Other, which is comprised of Nuclear and Precision Health Solutions, at-Home Solutions, and OptiFreight ® Logistics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Cardinal Health earns revenue by distributing and selling pharmaceuticals and medical products and providing related services to hospitals, pharmacies, healthcare systems, and other healthcare providers and patients.",
+  "evidence": "We provide pharmaceuticals and medical products and cost-effective services and solutions that enhance the healthcare system and supply chain efficiency."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Pharmaceutical and Specialty Solutions): MSO platforms for physician offices"
+ ]
+}

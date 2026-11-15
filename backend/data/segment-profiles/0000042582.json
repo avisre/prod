@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000042582",
+ "issuerName": "THE GOODYEAR TIRE & RUBBER COMPANY",
+ "builtAt": "2026-11-14T13:44:29.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-006708",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/42582/000162828026006708/gt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Cooper brand tires",
+    "Mastercraft",
+    "Kelly brand radial tires",
+    "Mickey Thompson",
+    "Roadmaster"
+   ],
+   "description": "Develops, manufactures, distributes and sells tires and related products and services in North, Central and South America.",
+   "evidence": "Americas, our largest segment in terms of revenue, develops, manufactures, distributes and sells tires and related products and services in North, Central and South America, and sells tires to various export markets, primarily through intersegment sales."
+  },
+  {
+   "name": "Europe, Middle East and Africa",
+   "products": [
+    "Goodyear",
+    "Cooper",
+    "Debica",
+    "Sava",
+    "Fulda",
+    "Avon",
+    "retreaded aviation tires"
+   ],
+   "description": "Develops, manufactures, distributes and sells tires for automobiles, trucks, buses, aircraft and motorcycles throughout Europe, the Middle East and Africa.",
+   "evidence": "Europe, Middle East and Africa, our second largest segment in terms of revenue, develops, manufactures, distributes and sells tires for automobiles, trucks, buses, aircraft and motorcycles throughout Europe, the Middle East and Africa under the Goodyear, Cooper, Debica, Sava, Fulda and Avon brands and other house brands, and sells tires to various export markets, primarily through intersegment sales."
+  },
+  {
+   "name": "Asia Pacific",
+   "products": [],
+   "description": "Regional tire business serving the Asia Pacific region.",
+   "evidence": "For the year ended December 31, 2025, we operated our business through three operating segments representing our regional tire businesses: Americas; Europe, Middle East and Africa (\"EMEA\"); and Asia Pacific."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Goodyear is paid by vehicle manufacturers for original equipment tires and by consumers, dealers, retailers and trucking fleets for replacement tires and related services.",
+  "evidence": "In each case, our tires are offered for sale to vehicle manufacturers for mounting as original equipment (\"OE\") and for replacement worldwide."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Goodyear completed the sale of its off-the-road (OTR) tire business.",
+   "evidence": "Delivering gross proceeds of approximately $2.2 billion from portfolio optimization by completing the sales of our off-the-road (\"OTR\") tire business, the Dunlop brand and our polymer chemicals business during 2025"
+  },
+  {
+   "text": "In 2025, Goodyear sold the Dunlop brand, with Cooper becoming its primary second-tier brand in EMEA.",
+   "evidence": "Following the sale of the Dunlop brand, Cooper is being introduced as Goodyear's primary second‑tier brand in EMEA."
+  },
+  {
+   "text": "In 2025, Goodyear completed the sale of its polymer chemicals business.",
+   "evidence": "Delivering gross proceeds of approximately $2.2 billion from portfolio optimization by completing the sales of our off-the-road (\"OTR\") tire business, the Dunlop brand and our polymer chemicals business during 2025"
+  }
+ ],
+ "dropped": [
+  "product not in text (Americas): Goodyear brand radial passenger tires",
+  "product not in text (Americas): tread rubber and tire retreading materials",
+  "product not in text (Americas): retreading services",
+  "product not in text (Europe, Middle East and Africa): truck tire retreading services"
+ ]
+}

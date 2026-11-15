@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000743367",
+ "issuerName": "BAR HARBOR BANKSHARES",
+ "builtAt": "2026-11-14T13:49:56.561Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027217",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/743367/000110465926027217/bhb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "lending activities",
+    "demand, savings and time deposits",
+    "business services",
+    "investment management",
+    "trust services",
+    "third-party brokerage services"
+   ],
+   "description": "Provides traditional community banking services, including lending, deposit-taking, business services, investment management, trust and third-party brokerage, to customers in Northern New England.",
+   "evidence": "Operations of the Company are solely within community banking industry and include traditional community banking services, including lending activities, acceptance of demand, savings and time deposits, business services, investment management, trust and third-party brokerage services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the bank interest and fees on loans and deposits and for trust, treasury management, brokerage and other banking services.",
+  "evidence": "Most of the Company's revenue is from the business of banking."
+ },
+ "changes": [],
+ "dropped": []
+}

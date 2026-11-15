@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000003197",
+ "issuerName": "CECO ENVIRONMENTAL CORP.",
+ "builtAt": "2026-11-14T14:06:07.834Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-085815",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/3197/000119312526085815/ceco-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineered Systems",
+   "products": [
+    "emissions management",
+    "fluid bed cyclones",
+    "thermal acoustics",
+    "separation and filtration",
+    "dampers and expansion joints"
+   ],
+   "description": "Serves power generation, hydrocarbon processing, water treatment, oily water separation, and marine sectors with engineered environmental protection solutions.",
+   "evidence": "Our Engineered Systems segment serves the power generation, hydrocarbon transport and processing, water/wastewater treatment, oily water separation and treatment, marine and naval, and natural gas and natural gas liquids infrastructure, treatment and transport sectors."
+  },
+  {
+   "name": "Industrial Process Solutions",
+   "products": [
+    "duct fabrication and installation",
+    "industrial air",
+    "fluid handling",
+    "process filtration",
+    "contamination control",
+    "exhaust air treatment",
+    "VOC abatement"
+   ],
+   "description": "Serves broad industrial sector with air pollution control, filtration, and fluid handling solutions for manufacturing, semiconductor, food and beverage applications.",
+   "evidence": "Our Industrial Process Solutions segment serves the broad industrial sector with solutions for contamination control, exhaust air treatment, VOC abatement, process filtration and fluid handling in applications such as aluminum beverage can production, vehicle production, food and beverage processing, semiconductor fabrication, electronics production, steel and aluminum processing, engineered wood products manufacturing, chemical processing, general manufacturing and machining, coating and surfac"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for engineered products and solutions including equipment, systems, installation services, and aftermarket support and maintenance.",
+  "evidence": "We offer our customers a complete end-to-end solution, including engineering and project management services, procurement and fabrication, construction and installation, aftermarket support, and sale of consumables, which allows our customers to avoid dealing with multiple vendors when managing projects."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company divested its fluid handling business as part of strategic transactions.",
+   "evidence": "the effect of recent acquisitions and the divestiture of our fluid handling business (together, the \"transactions\") on business relationships, operating results, and business generally"
+  }
+ ],
+ "dropped": []
+}

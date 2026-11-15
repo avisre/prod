@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0000010456",
+ "issuerName": "BAXTER INTERNATIONAL INC.",
+ "builtAt": "2026-11-14T14:06:56.221Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007733",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/10456/000162828026007733/bax-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medical Products & Therapies",
+   "products": [
+    "sterile IV solutions",
+    "infusion systems",
+    "administration sets",
+    "parenteral nutrition therapies",
+    "surgical hemostat, sealant and adhesion prevention products"
+   ],
+   "description": "Manufactures and sells sterile IV solutions, infusion systems, parenteral nutrition and surgical hemostats for hospitals and healthcare facilities.",
+   "evidence": "The Medical Products & Therapies segment includes sales of our sterile IV solutions, infusion systems, administration sets, parenteral nutrition therapies and surgical hemostat, sealant and adhesion prevention products."
+  },
+  {
+   "name": "Healthcare Systems & Technologies",
+   "products": [
+    "smart bed systems",
+    "patient monitoring systems",
+    "diagnostic technologies",
+    "respiratory health devices",
+    "advanced equipment for the surgical space",
+    "operating room integration technologies",
+    "precision positioning devices"
+   ],
+   "description": "Provides connected care solutions including smart beds, patient monitoring, diagnostic technologies, respiratory devices and surgical equipment.",
+   "evidence": "The Healthcare Systems & Technologies segment includes sales of our connected care solutions and collaboration tools, including smart bed systems, patient monitoring systems and diagnostic technologies, respiratory health devices and advanced equipment for the surgical space, including operating room integration technologies, precision positioning devices and other accessories."
+  },
+  {
+   "name": "Pharmaceuticals",
+   "products": [
+    "specialty injectable pharmaceuticals",
+    "inhaled anesthetics",
+    "drug compounding services"
+   ],
+   "description": "Manufactures and sells specialty injectable pharmaceuticals, inhaled anesthetics and provides drug compounding services.",
+   "evidence": "The Pharmaceuticals segment includes sales of specialty injectable pharmaceuticals, inhaled anesthetics and drug compounding services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals, nursing homes, ambulatory surgery centers, kidney dialysis centers, doctors' offices and patients purchase products through direct sales forces, distributors and wholesalers.",
+  "evidence": "These products are used by hospitals, nursing homes, rehabilitation centers, ambulatory surgery centers, doctors' offices, kidney dialysis centers and patients at home under physician supervision."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Baxter implemented a new operating model in the third quarter resulting in three reportable segments.",
+   "evidence": "In the third quarter of 2023, we completed the implementation of a new operating model intended to simplify and streamline our operations and better align our manufacturing and supply chain to our commercial activities."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2023, Baxter sold its BioPharma Solutions business, receiving cash proceeds o",
+  "change not grounded: In 2025, Baxter sold its Kidney Care business to Carlyle Group affiliates for $3"
+ ]
+}

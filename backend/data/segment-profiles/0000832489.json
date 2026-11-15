@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "cik": "0000832489",
+ "issuerName": "GEOVAX LABS, INC.",
+ "builtAt": "2026-11-14T13:52:17.796Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-012377",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/832489/000143774926012377/govx20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biotechnology research and development",
+   "products": [
+    "GEO-MVA",
+    "Gedeptin®",
+    "GEO-CM04S1"
+   ],
+   "description": "A clinical-stage biotechnology company developing human vaccines and immunotherapies against infectious diseases and solid tumor cancers.",
+   "evidence": "The Company conducts its business activities and reports financial results as a single operating segment, biotechnology research and development."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

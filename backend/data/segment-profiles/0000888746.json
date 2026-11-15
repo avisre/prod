@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000888746",
+ "issuerName": "UNITED BREWERIES CO INC",
+ "builtAt": "2026-11-14T17:39:37.302Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001292814-26-002680",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/888746/000129281426002680/ccuform20f_2025.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Chile Operating segment",
+   "products": [
+    "beer",
+    "soft drinks",
+    "mineral water",
+    "pisco",
+    "PepsiCo brands",
+    "Crush",
+    "Canada Dry",
+    "Austral"
+   ],
+   "description": "Produces and commercializes beer, soft drinks, mineral water, pisco and other beverages in Chile.",
+   "evidence": "In fact, the Chile Operating segment accounted for 64% of total revenues in 2025, including the Others/Eliminations segment, which considers corporate expenses and revenues and eliminations of transactions between the different operating segments."
+  },
+  {
+   "name": "International Business Operating segment",
+   "products": [
+    "beer"
+   ],
+   "description": "Produces and commercializes beverages in Argentina, Bolivia, Paraguay and Uruguay.",
+   "evidence": "Meanwhile, the International Business Operating segment, where Argentina represents a significant share of operations (it also includes the operations in Bolivia, Paraguay and Uruguay), contributed 27% of total revenues, while the Wine Operating segment, which covers the domestic markets of Chile and Argentina and the export market, accounted for 10% of revenues."
+  },
+  {
+   "name": "Wine Operating segment",
+   "products": [
+    "wine"
+   ],
+   "description": "Produces and commercializes wine for the domestic markets of Chile and Argentina and the export market.",
+   "evidence": "the Wine Operating segment, which covers the domestic markets of Chile and Argentina and the export market, accounted for 10% of revenues."
+  },
+  {
+   "name": "Others/Eliminations segment",
+   "products": [],
+   "description": "Considers corporate expenses and revenues and eliminations of transactions between the different operating segments.",
+   "evidence": "including the Others/Eliminations segment, which considers corporate expenses and revenues and eliminations of transactions between the different operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by producing, bottling, distributing and selling beverages and alcoholic products to customers and consumers.",
+  "evidence": "In order to produce the products, it sells, the Company acquires raw materials and other inputs such as malt, sugar, fruit pulp, rice, corn syrup, grapes, wine, carbonated soft drinks concentrates under license, hops, essences and alcohols (pisco, neutral and others), in addition to packaging materials, from local suppliers and in the international market."
+ },
+ "changes": [
+  {
+   "text": "In December 2018 the company ceased its involvement in the production and commercialization of sweet snacks products.",
+   "evidence": "Also, we had been involved in the production and commercialization of sweet snacks products from 2004 until December 2018."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

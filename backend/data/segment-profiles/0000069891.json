@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000069891",
+ "issuerName": "National Beverage Corp.",
+ "builtAt": "2026-11-14T13:45:37.746Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-022315",
+  "periodEnd": "2026-05-02",
+  "filingDate": "2026-07-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/69891/000143774926022315/fizz20260502_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beverages",
+   "products": [
+    "LaCroix sparkling waters",
+    "Clear Fruit",
+    "Rip It energy drinks and shots",
+    "Everfresh",
+    "Everfresh Premier Varietals",
+    "Mr. Pure",
+    "Shasta",
+    "Faygo"
+   ],
+   "description": "Develops, produces, markets and sells sparkling waters, juices, energy drinks and carbonated soft drinks primarily in the United States.",
+   "evidence": "The Company operates as a single operating and reportable segment that encompasses the development, production, marketing and sale of beverages."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net sales from retailers and distributors, including national retailers, grocery stores, club stores, mass-merchandisers, wholesalers and food-service customers, who purchase its beverages.",
+  "evidence": "To service a diverse customer base that includes numerous national retailers, as well as thousands of smaller \"up-and-down-the-street\" accounts, we utilize a hybrid distribution system to deliver our products through three primary distribution channels: take-home, convenience and food-service."
+ },
+ "changes": [],
+ "dropped": []
+}

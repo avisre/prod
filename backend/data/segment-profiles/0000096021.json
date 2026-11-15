@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000096021",
+ "issuerName": "Sysco Corporation",
+ "builtAt": "2026-11-14T13:46:46.174Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000096021-26-000033",
+  "periodEnd": "2026-06-27",
+  "filingDate": "2026-08-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/96021/000009602126000033/syy-20260627.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Foodservice Operations",
+   "products": [
+    "U.S. Broadline operations",
+    "FreshPoint fresh produce distribution",
+    "Buckhead | Newport Meat & Seafood specialty protein operations",
+    "Italian Specialty platform anchored by Greco & Sons, Inc.",
+    "Edward Don restaurant equipment and supplies distribution",
+    "Asian specialty distribution company"
+   ],
+   "description": "Distributes a full line of food and non-food products to U.S. foodservice customers through broadline and specialty operations.",
+   "evidence": "U.S. Foodservice Operations – primarily includes (a) our U.S. Broadline operations, which distribute a full line of food products, including custom-cut meat, seafood, produce, specialty Italian, specialty imports and a wide variety of non-food products and (b) our U.S. Specialty operations, which include our FreshPoint fresh produce distribution business, our Buckhead | Newport Meat & Seafood specialty protein operations, our growing Italian Specialty platform anchored by Greco & Sons, Inc., our"
+  },
+  {
+   "name": "International Foodservice Operations",
+   "products": [
+    "full line of food products",
+    "non-food products",
+    "export operations"
+   ],
+   "description": "Distributes food and non-food products to foodservice customers outside the U.S., primarily in the Americas and Europe.",
+   "evidence": "International Foodservice Operations – includes operations outside of the United States (U.S.), which distribute a full line of food products and a wide variety of non-food products."
+  },
+  {
+   "name": "SYGMA",
+   "products": [
+    "full line of food products",
+    "non-food products"
+   ],
+   "description": "Provides customized U.S. distribution serving quick-service chain restaurant customer locations.",
+   "evidence": "SYGMA – our U.S. customized distribution operations serving quick-service chain restaurant customer locations; and"
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Comprises operations that do not meet quantitative disclosure thresholds, primarily hotel supply operations.",
+   "evidence": "Other – primarily our hotel supply operations, Guest Worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Sysco earns revenue by selling and distributing food and related products to customers who prepare meals away from home, such as restaurants, healthcare and educational facilities, and lodging establishments.",
+  "evidence": "Sysco Corporation is the global leader in selling, marketing and distributing food and related products to customers who prepare meals away from home."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Other): Guest Worldwide hotel supply operations"
+ ]
+}

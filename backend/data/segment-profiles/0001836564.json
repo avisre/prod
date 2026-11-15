@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001836564",
+ "issuerName": "Valneva SE",
+ "builtAt": "2026-11-14T17:40:51.146Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-018808",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1836564/000162828026018808/valn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "development and commercialization of prophylactic vaccines",
+   "products": [
+    "IXIARO",
+    "DUKORAL",
+    "IXCHIQ",
+    "VLA15",
+    "Shigella4V2 (S4V2)",
+    "VLA1601",
+    "Third party products"
+   ],
+   "description": "Develops, manufactures and commercializes prophylactic vaccines for infectious diseases addressing unmet medical needs for travelers and the public.",
+   "evidence": "The CDM evaluates all vaccine candidates and vaccine products together as a single operating segment, \"development and commercialization of prophylactic vaccines\"."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers and distribution partners pay for proprietary and third-party vaccine product sales, and partners like Pfizer pay collaboration, licensing and R&D service revenues.",
+  "evidence": "We commercialize a portfolio of proprietary and differentiated traveler vaccines, which is composed of IXIARO (also marketed as JESPECT in Australia and New Zealand), DUKORAL, and IXCHIQ."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

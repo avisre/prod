@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001691221",
+ "issuerName": "Foresight Autonomous Holdings Ltd.",
+ "builtAt": "2026-11-15T02:50:57.611Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-012661",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1691221/000149315226012661/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Automotive Vision Systems",
+   "products": [
+    "QuadSight",
+    "Eye-Net"
+   ],
+   "description": "Develops and commercializes advanced technology solutions for the automotive industry.",
+   "evidence": "The Company has identified one reportable and operating segment, which is its automotive vision systems operations, providing advanced technology solutions for the automotive industry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for automotive vision system products and related technology solutions.",
+  "evidence": "Our ability to generate revenue and achieve profitability depends on our ability to successfully complete the development of, and to commercialize, our products."
+ },
+ "changes": [
+  {
+   "text": "In 2015, the Company acquired Foresight Automotive through a merger with Magna B.S.P. Ltd.",
+   "evidence": "On October 11, 2015, we entered into a merger agreement, or the Merger, with Magna B.S.P. Ltd., or Magna, and Foresight Automotive, whereby we acquired 100% of the share capital of Foresight Automotive from Magna."
+  }
+ ],
+ "dropped": []
+}

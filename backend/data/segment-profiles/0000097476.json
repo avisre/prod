@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000097476",
+ "issuerName": "TEXAS INSTRUMENTS INC",
+ "builtAt": "2026-11-14T13:46:53.198Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000097476-26-000059",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/97476/000009747626000059/txn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Analog",
+   "products": [
+    "Power",
+    "Signal Chain",
+    "battery-management solutions",
+    "DC/DC switching regulators",
+    "amplifiers",
+    "data converters",
+    "interface products",
+    "motor drives"
+   ],
+   "description": "Designs and sells analog semiconductors that condition real-world signals and manage power for electronics designers and manufacturers in industrial, automotive and other markets.",
+   "evidence": "Our Analog segment includes the following major product lines: Power and Signal Chain."
+  },
+  {
+   "name": "Embedded Processing",
+   "products": [
+    "microcontrollers",
+    "processors",
+    "wireless connectivity",
+    "radar products"
+   ],
+   "description": "Provides digital 'brains' of electronic equipment, including microcontrollers and processors, used mainly in industrial and automotive markets.",
+   "evidence": "Our Embedded Processing segment includes microcontrollers, processors, wireless connectivity and radar products."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "DLP products",
+    "calculators",
+    "application-specific integrated circuits (ASICs)"
+   ],
+   "description": "Holds remaining business activities, including DLP products, calculators and custom ASICs, plus corporate items not allocated to segments.",
+   "evidence": "Other generated $979 million of revenue in 2025 and includes revenue from DLP ® products (primarily used to project high-definition images), calculators and certain custom semiconductors known as application-specific integrated circuits (ASICs)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, TI realigned its end markets to better reflect growth opportunities for its analog and embedded products.",
+   "evidence": "In 2025, we realigned our markets to better reflect the growth opportunities for our analog and embedded products."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

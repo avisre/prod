@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000720672",
+ "issuerName": "STIFEL FINANCIAL CORP",
+ "builtAt": "2026-11-14T13:49:22.622Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067130",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/720672/000119312526067130/sf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Wealth Management",
+   "products": [
+    "financial planning services",
+    "equity securities",
+    "taxable and tax-exempt fixed income securities",
+    "unit investment trusts",
+    "insurance and annuity products",
+    "investment advisory services",
+    "securities-based lending"
+   ],
+   "description": "Provides securities transaction, brokerage, investment, asset management, and banking services to private clients through the Stifel branch system.",
+   "evidence": "We provide securities transaction, brokerage, and investment services to our clients through the consolidated Stifel branch system."
+  },
+  {
+   "name": "Institutional Group",
+   "products": [
+    "research",
+    "equity and fixed income institutional sales and trading",
+    "investment banking",
+    "public finance",
+    "syndicate"
+   ],
+   "description": "Provides research, institutional sales and trading, investment banking, public finance, and syndicate services to institutional and corporate clients.",
+   "evidence": "The Institutional Group segment includes research, equity and fixed income institutional sales and trading, investment banking, public finance, and syndicate."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Includes activities not attributed to the Global Wealth Management or Institutional Group segments.",
+   "evidence": "We operate in the following segments: Global Wealth Management, Institutional Group, and Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay commissions on securities transactions, asset-based investment advisory fees, and interest on margin and securities-based loans.",
+  "evidence": "Our private clients may choose from a traditional, commission-based structure or fee-based money management programs."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Company sold Stifel Independent Advisors, LLC, its independent contractor broker-dealer subsidiary.",
+   "evidence": "On February 2, 2026, the Company sold Stifel Independent Advisors, LLC, a wholly owned subsidiary and independent contractor broker-dealer, to an affiliate of Equitable, a financial services organization and principal franchise of Equitable Holdings, Inc."
+  }
+ ],
+ "dropped": [
+  "product not in text (Global Wealth Management): securities transaction and brokerage services"
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000749647",
+ "issuerName": "Imunon, Inc.",
+ "builtAt": "2026-11-14T13:50:07.027Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013850",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/749647/000149315226013850/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development",
+   "products": [
+    "IMNN-001",
+    "IMNN-101",
+    "TheraPlas®",
+    "PlaCCine®"
+   ],
+   "description": "Clinical-stage biotechnology company developing non-viral DNA-based immunotherapies and vaccines for patients with ovarian cancer and infectious diseases.",
+   "evidence": "The Company operates in one segment for the research and development of our product candidates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is pre-revenue and has financed operations through equity sales, credit facilities, sale of net operating losses, and amounts received under product licensing agreements.",
+  "evidence": "During this period, we have financed our operations primarily through the net proceeds from the sales of equity, credit facilities, sale of our New Jersey net operating losses, and amounts received under product licensing agreements."
+ },
+ "changes": [],
+ "dropped": []
+}

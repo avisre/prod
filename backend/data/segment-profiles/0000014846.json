@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000014846",
+ "issuerName": "BRT APARTMENTS CORP.",
+ "builtAt": "2026-11-14T14:07:08.282Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000014846-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/14846/000001484626000007/brt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Multi-family Properties",
+   "products": [],
+   "description": "Owns, operates, and holds interests in multi-family apartment properties primarily in the Southeast and Texas.",
+   "evidence": "We are an internally managed real estate investment trust, also known as a REIT, that owns, operates, and to a lesser extent, holds interests in joint ventures that own and operate multi-family properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay monthly rent on one-year leases at market rates for apartment units; commercial tenants pay base rent on longer-term leases.",
+  "evidence": "Rental revenue from multi-family properties is recorded when due from residents and is recognized monthly as it is earned."
+ },
+ "changes": [],
+ "dropped": []
+}

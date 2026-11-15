@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000200406",
+ "issuerName": "Johnson & Johnson",
+ "builtAt": "2026-11-14T13:47:35.119Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000200406-26-000016",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/jnj-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Innovative Medicine",
+   "products": [
+    "CARVYKTI",
+    "DARZALEX",
+    "DARZALEX FASPRO",
+    "ERLEADA",
+    "IMBRUVICA",
+    "RYBREVANT",
+    "STELARA",
+    "TREMFYA"
+   ],
+   "description": "Develops and sells prescription medicines across oncology, immunology, neuroscience, pulmonary hypertension, infectious diseases and cardiovascular/metabolism therapeutic areas.",
+   "evidence": "The Innovative Medicine segment is focused on the following therapeutic areas: Oncology (e.g., prostate cancer, hematologic malignancies, lung cancer and bladder cancer), Immunology (e.g., rheumatoid arthritis, psoriatic arthritis, inflammatory bowel disease and psoriasis), Neuroscience (e.g., mood disorders, neurodegenerative disorders and schizophrenia), Pulmonary Hypertension (e.g., Pulmonary Arterial Hypertension), Infectious Diseases (e.g., HIV/AIDS) and Cardiovascular and Metabolism (e.g.,"
+  },
+  {
+   "name": "MedTech",
+   "products": [
+    "TECNIS premium intraocular lenses",
+    "electrophysiology products",
+    "digital and robotic technologies"
+   ],
+   "description": "Develops and manufactures cardiovascular, orthopaedics, surgery and vision products used by physicians, hospitals, eye care professionals and healthcare systems in acute and elective procedures.",
+   "evidence": "The MedTech segment develops and manufactures a broad portfolio of products used in cardiovascular, orthopaedics, surgery, and vision supporting physicians, hospitals, eye care professionals and healthcare systems across a wide range of acute and elective procedures."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by retailers, wholesalers, distributors, hospitals, healthcare professionals and eye care professionals for prescription medicines and medical devices.",
+  "evidence": "Medicines in this segment are distributed directly to retailers, wholesalers, distributors, hospitals and healthcare professionals for prescription use."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (MedTech): ACUVUE contact lenses",
+  "product not in text (MedTech): Abiomed mechanical circulatory support",
+  "product not in text (MedTech): Shockwave circulatory restoration products",
+  "product not in text (MedTech): Mentor breast aesthetics and reconstruction solutions",
+  "product not in text (MedTech): surgical instrumentation, energy devices, stapling systems, wound closure, biosu",
+  "change not grounded: In 2025, the Company announced its intention to separate its Orthopaedics busine"
+ ]
+}

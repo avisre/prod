@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001635282",
+ "issuerName": "Rimini Street, Inc.",
+ "builtAt": "2026-11-14T17:41:27.260Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001635282-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1635282/000163528226000014/rmni-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Single operating segment",
+   "products": [
+    "Rimini Support",
+    "Rimini Manage",
+    "Rimini Custom",
+    "Rimini Innovate",
+    "Rimini Agentic UX"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay primarily subscription fees for support services, and to a lesser extent for software licensing and related maintenance and professional services.",
+  "evidence": "The Company derives revenues from clients primarily by providing subscription support services for ERP and other software systems, and to a lesser extent, software licensing and related maintenance and professional services."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Single operating segment"
+ ],
+ "escalated": "no segments"
+}

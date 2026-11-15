@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000849399",
+ "issuerName": "Gen Digital Inc.",
+ "builtAt": "2026-11-14T13:52:47.189Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000849399-26-000017",
+  "periodEnd": "2026-04-03",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/849399/000084939926000017/gen-20260403.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cyber Safety Platform",
+   "products": [
+    "Norton 360",
+    "Avast One",
+    "Norton Scam Protection",
+    "Scam Protection Pro",
+    "VPN",
+    "AntiTrack",
+    "Secure Browser",
+    "Privacy Monitor Assistant"
+   ],
+   "description": "Provides security, performance and online privacy products that protect consumers and small businesses against cyber threats.",
+   "evidence": "Cyber Safety Platform includes our security, comprehensive suites, and privacy products, which deliver technology solutions and superior threat protection to help people navigate the digital world, securely, privately and with confidence."
+  },
+  {
+   "name": "Trust-Based Solutions",
+   "products": [
+    "LifeLock",
+    "MoneyLion",
+    "Engine by Gen",
+    "Identity Theft protection",
+    "Identity Restoration Specialist",
+    "digital reputation management"
+   ],
+   "description": "Offers identity protection, restoration support, digital reputation and secure financial wellness products and marketplace services to consumers.",
+   "evidence": "We have also evolved beyond Cyber Safety to offer Trust-Based solutions, including identity protection, restoration support services, digital reputation, and secure financial wellness, including our first-party MoneyLion products and our Engine marketplace offerings."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay subscription fees, mostly annual but some monthly, sold direct-to-consumer and through partner channels, plus free freemium offerings that convert to paid.",
+  "evidence": "To this end, we offer both free and paid subscription-based solutions, which are sold direct-to-consumer and through partner relationships."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, Gen acquired MoneyLion, expanding its business into financial wellness and a consumer and enterprise marketplace branded Engine by Gen.",
+   "evidence": "The acquisition of MoneyLion further expanded our go-to-market reach through a consumer and enterprise marketplace, which is branded Engine by Gen."
+  }
+ ],
+ "dropped": []
+}

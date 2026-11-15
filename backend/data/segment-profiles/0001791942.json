@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "cik": "0001791942",
+ "issuerName": "JBS N.V.",
+ "builtAt": "2026-11-14T17:38:36.848Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-034213",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1791942/000121390026034213/ea0282342-20f_jbsnv.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Brazil",
+   "products": [
+    "Fresh beef products",
+    "Value-added and branded beef products"
+   ],
+   "description": "Processes and sells fresh and value-added beef products primarily in Brazil and for export globally.",
+   "evidence": "The majority of our Brazil segment revenues are generated from the sale of fresh beef (including fresh and frozen chuck cuts, rib cuts, loin cuts, round cuts, thin meats, ground beef, offal and other products) and value-added and branded beef products (including frozen cooked and pre-cooked beef, beef cubes and consumer-ready products, such as hamburgers)."
+  },
+  {
+   "name": "Seara",
+   "products": [
+    "Value-added and branded chicken products",
+    "Fresh chicken products",
+    "Value-added and branded pork products",
+    "Fresh pork products",
+    "Prepared food products"
+   ],
+   "description": "Produces and sells chicken, pork and prepared food products primarily in Brazil and internationally.",
+   "evidence": "The majority of our Seara segment revenues from our chicken operations in Brazil are generated from the sale of value-added and branded chicken products (which may be fully cooked, partially cooked or raw, in addition to breaded and marinated products, including chicken nuggets and patties) and fresh chicken products (including refrigerated and frozen whole chickens, breast fillets and bone-in chicken parts)."
+  },
+  {
+   "name": "Pilgrim's Pride",
+   "products": [
+    "Fresh chicken products",
+    "Prepared chicken products",
+    "Portion-controlled breast fillets",
+    "Delicatessen products",
+    "Formed nuggets and patties"
+   ],
+   "description": "Produces and sells fresh and prepared chicken products in the United States, United Kingdom, Europe and Mexico.",
+   "evidence": "Our Pilgrim's Pride segment includes PPC's operations, the majority of whose revenues are generated from United States, United Kingdom, Europe and Mexico sales of fresh and prepared chicken."
+  },
+  {
+   "name": "Australia",
+   "products": [
+    "Fresh beef products",
+    "Lamb products",
+    "Pork products",
+    "Fish products"
+   ],
+   "description": "Processes and sells fresh, frozen, value-added and branded beef, lamb, pork and fish products in Australia and New Zealand.",
+   "evidence": "Our Australia segment includes our fresh, frozen, value-added and branded beef, lamb, pork and fish products in Australia and New Zealand."
+  },
+  {
+   "name": "Miscellaneous",
+   "products": [],
+   "description": "Operates corporate functions and international leather operations not directly attributable to reportable segments.",
+   "evidence": "Our Miscellaneous segment (previously labelled \"Others\") includes certain operations not directly attributable to our reportable segments set forth above, such as corporate expenses, international leather operations and other operations in Europe."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for fresh, value-added, prepared and branded meat and poultry products sold domestically and for export.",
+  "evidence": "We generate the majority of our revenue in each segment from product sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Brazil): Consumer-ready products such as hamburgers",
+  "product not in text (Pilgrim's Pride): Pre-marinated chicken",
+  "product not in text (Australia): Frozen beef products",
+  "product not in text (Australia): Value-added beef products",
+  "product not in text (Miscellaneous): Hide and leather products"
+ ]
+}

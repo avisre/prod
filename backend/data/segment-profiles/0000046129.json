@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000046129",
+ "issuerName": "ALLIENT INC",
+ "builtAt": "2026-11-14T13:44:35.966Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-024123",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/46129/000110465926024123/alnt-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Controlled Motion",
+   "products": [
+    "nano precision positioning systems",
+    "servo control systems",
+    "motion controllers",
+    "digital servo amplifiers and drives",
+    "brushless servo, torque, and coreless motors",
+    "brush motors",
+    "integrated motor-drives",
+    "gear motors"
+   ],
+   "description": "Designs, manufactures and sells precision and specialty controlled motion components and systems to end customers and OEMs across Industrial, Vehicle, Medical, and Aerospace & Defense markets.",
+   "evidence": "We are a global company that designs, manufactures and sells precision and specialty controlled motion components and systems used in a broad range of industries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by end customers and OEMs who purchase its controlled motion components and solutions through its direct sales force and authorized manufacturers' representatives and distributors.",
+  "evidence": "We sell component and integrated controlled motion solutions to end customers and OEMs through our own direct sales force and authorized manufacturers' representatives and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company changed its corporate name from Allied Motion Technologies Inc. to Allient Inc.",
+   "evidence": "This refined strategy is reflected in the 2023 change of our corporate name from Allied Motion Technologies Inc. to Allient Inc., short for Allied Nexus Technologies."
+  },
+  {
+   "text": "In 2024 the Company commenced the Simplify to Accelerate NOW program to realign its manufacturing footprint and streamline the organization.",
+   "evidence": "During 2024, the Company commenced the Simplify to Accelerate NOW program."
+  }
+ ],
+ "dropped": []
+}

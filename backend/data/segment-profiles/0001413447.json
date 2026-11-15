@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001413447",
+ "issuerName": "NXP Semiconductors N.V.",
+ "builtAt": "2026-11-14T17:37:04.327Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001413447-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1413447/000141344726000008/nxpi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "NXP Semiconductors",
+   "products": [
+    "Core Auto MCU (non-S32)",
+    "In-vehicle infotainment (IVI)",
+    "In-vehicle networking (IVN)",
+    "Advanced Analog",
+    "Secure Car Access",
+    "Radar Systems",
+    "SDV",
+    "Electrification"
+   ],
+   "description": "Global semiconductor company providing solutions for automotive, industrial IoT, mobile, and communication infrastructure applications.",
+   "evidence": "NXP Semiconductors N.V. is a global semiconductor company and a long-standing supplier in the industry, with over 70 years of innovation and operating history."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "NXP sells semiconductors and related solutions to leading global companies across automotive, industrial IoT, mobile, and communication infrastructure end markets.",
+  "evidence": "Our product solutions are used in a wide range of end market applications including: automotive, industrial & Internet of Things (IoT), mobile, and communication infrastructure. We engage with leading global companies and sell products in all major geographic regions."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, NXP acquired TTTech Auto, Aviva Links, and Kinara to expand offerings i",
+  "change not grounded: On February 2, 2026, NXP sold its MEMS sensors business line for $900 million."
+ ]
+}

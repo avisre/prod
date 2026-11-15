@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000357301",
+ "issuerName": "TRUSTCO BANK CORP NY",
+ "builtAt": "2026-11-14T13:48:35.072Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-009576",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/357301/000114036126009576/ef20060842_ex13.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking operations",
+   "products": [
+    "Residential mortgage loans",
+    "Commercial loans",
+    "Deposits"
+   ],
+   "description": null,
+   "evidence": "The Company serves 5 states and 34 counties with a broad range of community banking services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income from lending deposits and other funds, plus fees such as trust wealth management fees.",
+  "evidence": "The majority of the Company's revenue is from the business of banking and the Company's assigned regions have similar economic characteristics, products, services and customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking operations): Wealth management services (Trustco Financial Services)"
+ ]
+}

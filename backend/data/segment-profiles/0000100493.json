@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0000100493",
+ "issuerName": "TYSON FOODS, INC.",
+ "builtAt": "2026-11-14T13:46:58.236Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000100493-25-000095",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/100493/000010049325000095/tsn-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Beef",
+   "products": [
+    "primal and sub-primal meat cuts",
+    "case-ready products",
+    "hides",
+    "rendered products",
+    "variety meats"
+   ],
+   "description": "Processes live fed cattle and fabricates dressed beef carcasses into meat cuts and case-ready products for domestic and export markets.",
+   "evidence": "Beef includes our operations related to processing live fed cattle and fabricating dressed beef carcasses into primal and sub-primal meat cuts and case-ready products."
+  },
+  {
+   "name": "Pork",
+   "products": [
+    "primal and sub-primal cuts",
+    "case-ready products",
+    "live swine"
+   ],
+   "description": "Processes live market hogs and fabricates pork carcasses into cuts and case-ready products for domestic and export markets.",
+   "evidence": "Pork includes our operations related to processing live market hogs and fabricating pork carcasses into primal and sub-primal cuts and case-ready products."
+  },
+  {
+   "name": "Chicken",
+   "products": [
+    "value-added chicken products",
+    "breaded chicken strips",
+    "nuggets",
+    "patties",
+    "chicken breeding stock"
+   ],
+   "description": "Raises and processes live chickens into fresh, frozen and value-added chicken products for domestic and export markets.",
+   "evidence": "Chicken includes our domestic operations related to raising and processing live chickens into and purchasing raw materials for fresh, frozen and value-added chicken products, as well as sales from specialty products."
+  },
+  {
+   "name": "Prepared Foods",
+   "products": [
+    "Jimmy Dean®",
+    "Hillshire Farm®",
+    "Ball Park®",
+    "Wright®",
+    "State Fair®",
+    "Aidells®",
+    "Gallo Salame®",
+    "ready-to-cook and ready-to-eat sandwiches"
+   ],
+   "description": "Manufactures and markets frozen and refrigerated food products, including branded meats and prepared meals, for retail and foodservice customers.",
+   "evidence": "Prepared Foods includes our operations related to manufacturing and marketing frozen and refrigerated food products and logistics operations to move products through the supply chain."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tyson earns revenue by selling beef, pork, chicken and prepared food products to grocery retailers, wholesalers, distributors, restaurants, foodservice operators, industrial processors and export markets.",
+  "evidence": "Our products are marketed and sold primarily by our sales staff to grocery retailers, grocery wholesalers, meat distributors, warehouse club stores, military commissaries, industrial food processing companies, chain restaurants or their distributors, live markets, international export companies and domestic distributors who serve restaurants, foodservice operations such as plant and school cafeterias, convenience stores, hospitals and other vendors."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Chicken): fresh chicken products",
+  "product not in text (Chicken): frozen chicken products"
+ ]
+}

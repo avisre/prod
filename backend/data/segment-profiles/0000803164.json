@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000803164",
+ "issuerName": "ChoiceOne Financial Services, Inc.",
+ "builtAt": "2026-11-14T13:51:27.929Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-105046",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/803164/000119312526105046/cofs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "deposit services",
+    "commercial loans",
+    "consumer loans",
+    "trust and wealth management services"
+   ],
+   "description": "A full-service bank offering deposits, commercial and consumer lending, and wealth management services to customers in Michigan.",
+   "evidence": "The Company's business is primarily concentrated in a single industry segment, banking."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and fees on loans, interest on securities, and fees from banking, insurance and other financial services.",
+  "evidence": "The principal source of revenue for the Company and the Bank is interest and fees on loans."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company completed the merger of Fentura Financial, Inc., parent of The State Bank, and consolidated The State Bank into ChoiceOne Bank.",
+   "evidence": "On March 1, 2025, the Company completed the merger (the \"Merger\") of Fentura Financial, Inc. (\"Fentura\"), the former parent company of The State Bank, with and into the Company with the Company surviving the merger."
+  }
+ ],
+ "dropped": [
+  "product not in text (Banking): insurance services",
+  "product not in text (Banking): fintech product licensing"
+ ]
+}

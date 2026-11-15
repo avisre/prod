@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000352915",
+ "issuerName": "UNIVERSAL HEALTH SERVICES, INC.",
+ "builtAt": "2026-11-14T13:48:22.715Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-071676",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/352915/000119312526071676/uhs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Acute Care Hospital Services",
+   "products": [],
+   "description": "Operates acute care hospitals providing healthcare services to patients in the United States.",
+   "evidence": "We operate in two reportable segments: Acute Care Hospital Services and Behavioral Health Care Services."
+  },
+  {
+   "name": "Behavioral Health Care Services",
+   "products": [],
+   "description": "Provides behavioral health care services, including facilities located in the United Kingdom.",
+   "evidence": "Includes net revenues generated from our behavioral health care facilities located in the U.K. amounting to approximately $1.001 billion in 2025, $880 million in 2024 and $761 million in 2023."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2024, certain facilities previously included in Behavioral Health Care Services were reclassified into Acute Care Hospital Services.",
+   "evidence": "prior year amounts related to certain facilities previously included in our Behavioral Health Care Services' results have been reclassified into our Acute Care Hospital Services' results as of May 1, 2024 to conform with current year presentation."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

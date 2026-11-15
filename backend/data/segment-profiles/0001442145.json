@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001442145",
+ "issuerName": "Verisk Analytics, Inc.",
+ "builtAt": "2026-11-14T17:37:25.244Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004452",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1442145/000143774926004452/vrsk20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Insurance",
+   "products": [
+    "Underwriting solutions",
+    "Forms, Rules, and Loss Costs",
+    "Catastrophe and Risk Solutions",
+    "Life Insurance Solutions",
+    "Specialty Business Solutions",
+    "International Underwriting Solutions",
+    "Claims solutions",
+    "Property Estimating Solutions"
+   ],
+   "description": "Serves property and casualty insurance providers with data, analytics, and technology solutions for underwriting, rating, claims, and catastrophe modeling.",
+   "evidence": "We operate in one segment, Insurance, which primarily serves our P&C insurance customers across most personal and commercial lines of business, focusing on the fundamental building blocks of insurance programs, the prediction of loss, the selection and pricing of risk, and compliance with their reporting requirements in each U.S. state in which they operate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurance customers pay Verisk through annual subscriptions or long-term prepaid agreements for predictive analytics, data, and technology solutions.",
+  "evidence": "We offer our solutions and services primarily through annual subscriptions or long-term agreements, which are typically prepaid (annually and quarterly) and represented over 80% of our revenues in 2025."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, Verisk completed the sale of its Energy business on February 1, 2023.",
+  "change not grounded: On December 31, 2025, Verisk sold its Marketing Solutions business to ActivePros"
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001557860",
+ "issuerName": "Globant S.A.",
+ "builtAt": "2026-11-14T17:40:02.805Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-012910",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1557860/000162828026012910/glob-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Technology services",
+   "products": [
+    "Digital Studio",
+    "GUT Studio",
+    "Enterprise Studio",
+    "AI Industry Studios",
+    "AI Pods",
+    "Globant Enterprise AI"
+   ],
+   "description": "Provides technology services and solutions supporting organizations' AI and digital transformation across industries worldwide.",
+   "evidence": "We provide technology services and solutions that support organizations in their AI and digital transformation initiatives, combining software engineering, innovation, design at scale capabilities and industry expertise, and are continuously evolving in parallel with technological advances."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay primarily under time-and-materials contracts and, to a lesser extent, fixed-price contracts, with limited revenue from technology solutions, software licenses and subscription-based AI Pods.",
+  "evidence": "During 2025, we delivered our services primarily under time-and-materials contracts, which represent the substantial majority of our engagements and, to a lesser extent under fixed-price contracts."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

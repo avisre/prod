@@ -1,0 +1,97 @@
+{
+ "version": 1,
+ "cik": "0000313838",
+ "issuerName": "Sony Group Corporation",
+ "builtAt": "2026-11-14T13:47:55.729Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-274893",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/313838/000119312526274893/d28719d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Game & Network Services (G&NS)",
+   "products": [
+    "PlayStation hardware",
+    "Digital Software and Add-on Content",
+    "Network Services",
+    "home gaming consoles",
+    "packaged software",
+    "peripheral devices"
+   ],
+   "description": "Develops and sells PlayStation hardware, game software, add-on content and network services for consumers worldwide.",
+   "evidence": "The G&NS segment includes the production and sales of digital software and add-on content, the network services businesses and the manufacture and sales of home gaming products."
+  },
+  {
+   "name": "Music",
+   "products": [
+    "Recorded Music",
+    "Music Publishing",
+    "Visual Media & Platform"
+   ],
+   "description": "Develops, produces and distributes recorded music, manages and licenses song rights, and produces anime content and game applications.",
+   "evidence": "The Music segment includes the Recorded Music, Music Publishing and Visual Media & Platform businesses."
+  },
+  {
+   "name": "Pictures",
+   "products": [
+    "Motion Pictures",
+    "Television Productions",
+    "Media Networks",
+    "Crunchyroll",
+    "SonyLIV"
+   ],
+   "description": "Produces, acquires and distributes motion pictures and television programming and operates television networks and streaming services worldwide.",
+   "evidence": "The Pictures segment includes the Motion Pictures, Television Productions and Media Networks businesses."
+  },
+  {
+   "name": "Entertainment, Technology & Services (ET&S)",
+   "products": [
+    "interchangeable lens cameras",
+    "headphones",
+    "wireless speakers",
+    "LCD and OLED televisions",
+    "projectors",
+    "smartphones"
+   ],
+   "description": "Makes and sells consumer electronics including cameras, audio products, televisions, displays, smartphones and related network services.",
+   "evidence": "The ET&S segment includes the Imaging business, the Sound business, the Network Services business and the Displays business."
+  },
+  {
+   "name": "Imaging & Sensing Solutions (I&SS)",
+   "products": [
+    "CMOS image sensors",
+    "display devices",
+    "lasers",
+    "large-scale integration systems (LSIs)"
+   ],
+   "description": "Manufactures and sells CMOS image sensors and other semiconductors used mainly in smartphones, cameras, factory automation and automobiles.",
+   "evidence": "The I&SS segment includes the image sensors business."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "disc manufacturing",
+    "recording media",
+    "storage media"
+   ],
+   "description": "Consists of various operating activities including disc manufacturing outside Japan and recording and storage media businesses.",
+   "evidence": "All Other consists of various operating activities, including the disc manufacturing business outside of Japan, and the recording media and storage media businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Sony earns revenue from consumers and distributors buying hardware, software, content and electronics, from licensing and royalties on music compositions, and from distribution of films and streaming services.",
+  "evidence": "Digital software, including add-on content, is primarily sold via the PlayStation ™ Store, while software for third-party platforms is sold via third-party distributors."
+ },
+ "changes": [
+  {
+   "text": "In October 2025, Sony completed the Partial Spin-off of its Financial Services business, which ceased to be a consolidated subsidiary and was excluded from reporting segments.",
+   "evidence": "In October 2025, the execution of the Partial Spin-off of the Financial Services business was completed."
+  }
+ ],
+ "dropped": []
+}

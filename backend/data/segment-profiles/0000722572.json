@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000722572",
+ "issuerName": "FRANKLIN     WIRELESS CORP.",
+ "builtAt": "2026-11-14T13:49:26.045Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-007446",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/722572/000168316826007446/franklin_i10k-063026.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sale of wireless access products",
+   "products": [
+    "5G/4G LTE Wi-Fi Mobile Hotspot",
+    "5G/4G Fixed Wireless Routers",
+    "4G/5G M2M Gateway",
+    "Seiona Family Guardian Solutions",
+    "JEXtream Cloud Solutions",
+    "Mobile device management (MDM) solutions"
+   ],
+   "description": null,
+   "evidence": "We have one reportable segment, consisting of the sale of wireless access products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue by selling wireless access products directly to wireless operators and indirectly through strategic partners and distributors, primarily in North America and Asia.",
+  "evidence": "Our products are generally marketed and sold directly to wireless operators and indirectly through strategic partners and distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company formed the Sigbeat joint venture to handle worldwide sales, marketing, customer support and operations for telecommunications modules.",
+   "evidence": "On May 14, 2024, we entered into an Agreement for Formation of a Joint Venture Corporation (the \"Agreement\")."
+  },
+  {
+   "text": "In 2026, the company began a strategic shift away from mobile hotspot products toward fixed wireless routers and telecommunications modules.",
+   "evidence": "During the six months ended June 30, 2026, we began implementing a strategic shift to reduce our reliance on mobile hotspot products and increase our focus on fixed wireless routers and telecommunications modules."
+  }
+ ],
+ "dropped": []
+}

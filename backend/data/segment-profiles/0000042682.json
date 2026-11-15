@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000042682",
+ "issuerName": "The Gorman-Rupp Company",
+ "builtAt": "2026-11-14T13:44:29.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-084820",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/42682/000119312526084820/grc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufacture and sale of pumps and pump systems",
+   "products": [
+    "submersible pumps"
+   ],
+   "description": "Designs, manufactures and globally sells pumps and pump systems for water, wastewater, construction, industrial, petroleum, agriculture, fire suppression, HVAC and other liquid-handling applications.",
+   "evidence": "The Company operates in one business segment, the manufacture and sale of pumps and pump systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by distributors, manufacturers' representatives, original equipment manufacturers, retailers and direct customers for its pumps and pump systems, sold in the U.S. and internationally.",
+  "evidence": "The Company's pumps are marketed in the United States and internationally through a broad network of distributors, through manufacturers' representatives (for sales to certain original equipment manufacturers), through third-party distributor catalogs, direct sales, retailers, and e-commerce."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Manufacture and sale of pumps and pump systems): self-priming centrifugal pumps",
+  "product not in text (Manufacture and sale of pumps and pump systems): standard centrifugal pumps",
+  "product not in text (Manufacture and sale of pumps and pump systems): magnetic drive centrifugal pumps",
+  "product not in text (Manufacture and sale of pumps and pump systems): axial and mixed-flow pumps",
+  "product not in text (Manufacture and sale of pumps and pump systems): vertical turbine line shaft pumps",
+  "product not in text (Manufacture and sale of pumps and pump systems): high-pressure booster pumps",
+  "product not in text (Manufacture and sale of pumps and pump systems): rotary gear pumps"
+ ]
+}

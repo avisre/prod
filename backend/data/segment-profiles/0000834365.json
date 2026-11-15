@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000834365",
+ "issuerName": "BioLife Solutions, Inc.",
+ "builtAt": "2026-11-14T13:52:23.163Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012294",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/834365/000162828026012294/blfs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bioproduction products and services",
+   "products": [
+    "HypoThermosol FRS",
+    "CryoStor Freeze Media",
+    "Human platelet lysate media",
+    "CellSeal closed systems",
+    "Automated cell-processing fill machines"
+   ],
+   "description": "Develops, manufactures and markets biopreservation media and cell processing products that improve quality and de-risk biologic manufacturing for cell and gene therapy customers.",
+   "evidence": "We currently operate as one bioproduction products and services business which supports several steps in the biologic material manufacturing and delivery process."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, primarily cell and gene therapy developers, pay the company for sales of biopreservation media and cell processing tools, with revenue recognized upon shipment.",
+  "evidence": "Product revenues are generated from the sale of biopreservation media and cell processing tools."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company sold SAVSU, its evo cloud connected smart shipping container business, which is presented as a discontinued operation.",
+   "evidence": "SAVSU contained our evo cloud connected \"smart\" shipping container products that provided passive storage and transport for temperature-sensitive biologics and pharmaceuticals."
+  },
+  {
+   "text": "In 2024, the company sold its Global Cooling ultra-low temperature freezer business, and its CBS cryogenic freezers and SciSafe storage and cold chain logistics services businesses, all presented as discontinued operations.",
+   "evidence": "On November 14, 2024, the Company entered into a Stock Purchase Agreement (the \"CBS Purchase Agreement\"), by and among the Company, Standex International Corporation, a Delaware corporation (\"CBS Buyer\"), and Arctic Solutions, Inc., a Delaware corporation and a wholly owned subsidiary of the Company (doing business as Custom Biogenic Systems, or \"CBS\"), for the sale by the Company of all of the issued and outstanding shares of common stock (the \"CBS Shares\") of CBS to CBS Buyer (the \"CBS Divesti"
+  }
+ ],
+ "dropped": [
+  "product not in text (Bioproduction products and services): CryoCase cryo-compatible containers",
+  "product not in text (Bioproduction products and services): ThawSTAR automated thawing devices",
+  "change not grounded: In 2025, the company acquired the remaining 90% of PanTHERA CryoSolutions, addin"
+ ]
+}

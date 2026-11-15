@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000802481",
+ "issuerName": "PILGRIM’S PRIDE CORPORATION",
+ "builtAt": "2026-11-14T13:51:27.886Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000802481-26-000011",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/802481/000080248126000011/ppc-20251228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "fresh chicken",
+    "prepared foods",
+    "case-ready chicken"
+   ],
+   "description": "Produces, processes, markets and distributes fresh, frozen and value-added chicken products for U.S. retailers, distributors, foodservice operators and export markets.",
+   "evidence": "We operate in three reportable segments: U.S., Europe, and Mexico."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "fresh chicken",
+    "primary pork cuts",
+    "added value pork",
+    "lamb products",
+    "processed sausages",
+    "bacon"
+   ],
+   "description": "Produces chicken, pork and lamb products, including prepared foods, for U.K. and continental European retail and foodservice customers.",
+   "evidence": "We produce or purchase for resale chicken products through our operations in the U.S., the U.K. and continental Europe, and Mexico and pork and lamb products through our operations in the U.K."
+  },
+  {
+   "name": "Mexico",
+   "products": [
+    "fresh chicken",
+    "prepared foods",
+    "live chicken"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers, distributors, foodservice operators and export customers pay Pilgrim's for its fresh, frozen and value-added chicken and pork products.",
+  "evidence": "Pilgrim's Pride Corporation (referred to herein as \"Pilgrim's,\" \"PPC,\" \"the Company,\" \"we,\" \"us,\" \"our,\" or similar terms) is primarily engaged in the production, processing, marketing and distribution of fresh, frozen and value-added chicken and pork products to retailers, distributors and foodservice operators."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (U.S.): exported whole chickens and chicken parts",
+  "product not in text (Europe): ready-to-cook meat products",
+  "segment evidence not verbatim: Mexico"
+ ]
+}

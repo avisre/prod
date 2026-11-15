@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001982708",
+ "issuerName": "Anbio Biotechnology",
+ "builtAt": "2026-11-14T17:40:12.788Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-001294",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1982708/000118518526001294/anbio20f123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "In Vitro Diagnostic Products",
+   "products": [
+    "Chemiluminescence Immunoassay (ChLIA)",
+    "Lateral Flow Immunoassay (LFIA)",
+    "Fluorescent Immunoassay (FIA)",
+    "Polymerase Chain Reaction (PCR)",
+    "Loop-mediated Isothermal Amplification (LAMP)",
+    "Dry Chemistry"
+   ],
+   "description": "Development and commercialization of in vitro diagnostic products for clinical and consumer use across multiple healthcare segments.",
+   "evidence": "In our current portfolio, we feature six In Vitro Diagnostic (IVD) platforms: Chemiluminescence Immunoassay (ChLIA), Lateral Flow Immunoassay (LFIA), Fluorescent Immunoassay (FIA), Polymerase Chain Reaction (PCR) and Loop-mediated Isothermal Amplification (LAMP), and Dry Chemistry."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase in vitro diagnostic products and tests for clinical, professional, and consumer use in healthcare settings globally.",
+  "evidence": "Since 2023, we have commenced sales of our non-COVID products in countries within the European Union (EU), Americas, APAC, and Africa."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company shifted product mix with increased sales of conventional IV"
+ ]
+}

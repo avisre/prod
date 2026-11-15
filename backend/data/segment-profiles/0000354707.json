@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000354707",
+ "issuerName": "HAWAIIAN ELECTRIC INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:48:27.007Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000354707-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/354707/000035470726000008/he-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric utility",
+   "products": [
+    "Hawaiian Electric",
+    "Hawaii Electric Light",
+    "Maui Electric"
+   ],
+   "description": null,
+   "evidence": "Hawaiian Electric and its operating utility subsidiaries, Hawaii Electric Light Company, Inc. (Hawaii Electric Light) and Maui Electric Company, Limited (Maui Electric), are regulated electric public utilities that provide essential electric service to approximately 95% of Hawaii's population through the operation of five separate grids that serve communities on the islands of Oahu, Hawaii, Maui, Lanai and Molokai."
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "Pacific Current, LLC",
+    "ASB Hawaii, Inc.",
+    "GLST1"
+   ],
+   "description": "Non-reportable segment comprising corporate-level expenses and the results of Pacific Current, whose non-regulated clean energy investments are being divested.",
+   "evidence": "The All Other non-reportable segment is composed of HEI's corporate-level operating, general and administrative expenses and the results of Pacific Current, LLC (Pacific Current)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the regulated utilities for electricity service under rates approved by regulators.",
+  "evidence": "Hawaiian Electric, Hawaii Electric Light and Maui Electric (Utilities) are regulated operating electric public utilities engaged in the production, purchase, transmission, distribution and sale of electricity on the islands of Oahu; Hawaii; and Maui, Lanai and Molokai, respectively."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Pacific Current sold all of its subsidiary investments, including Hamakua Holdings and its solar and BESS assets, leaving only Mahipapa in the process of being sold.",
+   "evidence": "As part of HEI's comprehensive review of strategic options for Pacific Current, all investments of Pacific Current that were made through its subsidiaries were sold in 2025, except for Mahipapa, its remaining operating subsidiary which is in the process of being sold."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2024, HEI sold 90.1% of ASB, its bank segment, which had been a reportable se"
+ ]
+}

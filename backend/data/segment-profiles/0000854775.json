@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000854775",
+ "issuerName": "DIGI INTERNATIONAL INC.",
+ "builtAt": "2026-11-14T13:52:56.151Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000854775-25-000026",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/854775/000085477525000026/dgii-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IoT Products & Services",
+   "products": [
+    "Cellular routers",
+    "Cellular modules",
+    "Console servers",
+    "Device management platform services"
+   ],
+   "description": "Sells wired and wireless IoT connectivity hardware and services to OEMs, enterprise and government customers.",
+   "evidence": "Our IoT Products & Services segment offers products and services that help original equipment manufacturers (\"OEMs\") as well as enterprise and government customers create and deploy secure IoT connectivity solutions."
+  },
+  {
+   "name": "IoT Solutions",
+   "products": [
+    "SmartSense by Digi",
+    "Jolt"
+   ],
+   "description": "Provides subscription-based condition monitoring, task management and managed network-as-a-service solutions to enterprise customers.",
+   "evidence": "Our IoT Solutions segment consists of our SmartSense by Digi ® business and our Managed Network–as–a-Service (\"MNaaS\") business acquired via our November 2021 acquisition of Ventus Wireless, LLC and affiliated entities (\"Ventus\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for one-time hardware product sales plus growing subscription-based solutions, while IoT Solutions offerings are primarily sold on a subscription model.",
+  "evidence": "Historically the revenues from this segment have been based on one-time product sales. More recently we have placed greater emphasis on selling subscription-based solutions across this product portfolio."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025 the company acquired Jolt Software, Inc. to enhance the SmartSense by Digi offerings in the IoT Solutions segment.",
+   "evidence": "During the fourth quarter of fiscal 2025 we completed the acquisition of Jolt Software, Inc. to enhance the offerings of SmartSense by Digi."
+  }
+ ],
+ "dropped": [
+  "product not in text (IoT Products & Services): Digi XBee RF products",
+  "product not in text (IoT Products & Services): Digi Connect and ConnectCore embedded system products",
+  "product not in text (IoT Products & Services): Serial and USB infrastructure management products",
+  "product not in text (IoT Solutions): Ventus MNaaS"
+ ]
+}

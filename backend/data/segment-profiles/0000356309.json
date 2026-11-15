@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000356309",
+ "issuerName": "NEW JERSEY RESOURCES CORPORATION",
+ "builtAt": "2026-11-14T13:48:33.026Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000356309-25-000093",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/356309/000035630925000093/njr-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Natural Gas Distribution",
+   "products": [
+    "regulated natural gas services",
+    "off-system sales",
+    "capacity and storage management operations"
+   ],
+   "description": "Regulated natural gas utility serving residential and commercial customers in six New Jersey counties.",
+   "evidence": "NJNG consists of regulated natural gas services, off-system sales, capacity and storage management operations."
+  },
+  {
+   "name": "Clean Energy Ventures",
+   "products": [
+    "clean energy projects"
+   ],
+   "description": "Unregulated capital investments in clean energy projects.",
+   "evidence": "CEV consists of capital investments in clean energy projects."
+  },
+  {
+   "name": "Energy Services",
+   "products": [
+    "unregulated wholesale and retail energy operations",
+    "energy management services",
+    "natural gas transportation and storage contracts"
+   ],
+   "description": "Unregulated wholesale and retail energy operations and energy management services for energy companies and natural gas producers.",
+   "evidence": "ES consists of unregulated wholesale and retail energy operations, as well as energy management services."
+  },
+  {
+   "name": "Storage and Transportation",
+   "products": [
+    "natural gas storage and transportation facilities",
+    "Leaf River",
+    "Adelphia",
+    "Steckman Ridge"
+   ],
+   "description": "Operations and investments in natural gas storage and transportation assets, including facilities in Mississippi and Pennsylvania.",
+   "evidence": "S&T consists of operations and investments in the natural gas storage and transportation market, such as natural gas storage and transportation facilities."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for regulated natural gas distribution service, and counterparties pay for wholesale energy, storage and transportation services and clean energy investments.",
+  "evidence": "NJR Energy Services Company, LLC maintains and transacts around a portfolio of physical assets consisting of natural gas transportation and storage contracts in the U.S."
+ },
+ "changes": [],
+ "dropped": []
+}

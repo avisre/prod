@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001616543",
+ "issuerName": "Senseonics Holdings, Inc.",
+ "builtAt": "2026-11-14T17:41:26.063Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-022298",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1616543/000110465926022298/sens-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diabetes products and services",
+   "products": [
+    "Eversense E3 CGM system",
+    "Eversense 365 CGM system",
+    "Eversense XL CGM system",
+    "Gemini product variation",
+    "Freedom product variation"
+   ],
+   "description": "Develops and commercializes long-term implantable continuous glucose monitoring systems for people with diabetes.",
+   "evidence": "The Company views its operations and manages its business in one operating segment, which also represents one reportable segment which derives its revenues from diabetes products and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Patients and healthcare providers purchase Eversense CGM systems and related services for glucose monitoring and diabetes management.",
+  "evidence": "Our implantable CGM system (\"Eversense\"), including Eversense E3 and Eversense 365 CGM systems are designed to continually and accurately measure glucose levels in people with diabetes via an under-the-skin sensor, a removable and rechargeable smart transmitter, and a convenient app for real-time diabetes monitoring and management."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In January 2026, the Company took over full commercial responsibility for Everse"
+ ]
+}

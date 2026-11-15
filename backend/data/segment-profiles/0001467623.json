@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001467623",
+ "issuerName": "Dropbox, Inc.",
+ "builtAt": "2026-11-14T17:36:26.844Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001467623-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1467623/000146762326000008/dbx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Dropbox",
+   "products": [
+    "Dropbox Paper",
+    "Dropbox Backup",
+    "Dropbox Sign",
+    "DocSend",
+    "Dropbox Dash",
+    "Dropbox Replay",
+    "Dropbox Transfer",
+    "Reclaim.ai"
+   ],
+   "description": "Cloud-based platform enabling individuals, teams, and organizations to create, access, organize, and share content from anywhere.",
+   "evidence": "Dropbox, Inc. (the \"Company\" or \"Dropbox\") helps keep life organized and work moving."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription fees for access to the platform through monthly or annual contractual terms.",
+  "evidence": "The Company derives its revenue from the sale of subscriptions for access to its platform."
+ },
+ "changes": [],
+ "dropped": []
+}

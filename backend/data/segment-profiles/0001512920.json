@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0001512920",
+ "issuerName": "Sprott Inc.",
+ "builtAt": "2026-11-14T17:39:29.480Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001628280-26-009474",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1512920/000162828026009474/sii-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exchange listed products",
+   "products": [
+    "Closed-end physical trusts"
+   ],
+   "description": "Provides management services to closed-end physical trusts and exchange traded funds actively traded on public securities exchanges.",
+   "evidence": "Exchange listed products (reportable), which provides management services to the Company's closed-end physical trusts and exchange traded funds (\"ETFs\"), both of which are actively traded on public securities exchanges;"
+  },
+  {
+   "name": "Managed equities",
+   "products": [],
+   "description": "Provides management services to alternative investment strategies managed in-house by the Company.",
+   "evidence": "Managed equities (reportable), which provides management services to the Company's alternative investment strategies managed in-house;"
+  },
+  {
+   "name": "Private strategies",
+   "products": [
+    "Streaming activities"
+   ],
+   "description": "Provides lending and streaming activities through limited partnership vehicles for investors.",
+   "evidence": "Private strategies (reportable), which provides lending and streaming activities through limited partnership vehicles;"
+  },
+  {
+   "name": "Corporate",
+   "products": [],
+   "description": "Provides capital, balance sheet management and enterprise shared services to the Company's subsidiaries.",
+   "evidence": "Corporate (reportable), which provides capital, balance sheet management and enterprise shared services to the Company's subsidiaries;"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from management fees charged to clients for managing investment products and strategies in natural resource sector, particularly precious metals and critical materials.",
+  "evidence": "Exchange listed products (reportable), which provides management services to the Company's closed-end physical trusts and exchange traded funds (\"ETFs\"), both of which are actively traded on public securities exchanges;"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Exchange listed products): Exchange traded funds (ETFs)",
+  "product not in text (Private strategies): Lending activities"
+ ]
+}

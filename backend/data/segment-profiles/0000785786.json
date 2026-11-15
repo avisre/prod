@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000785786",
+ "issuerName": "PLEXUS CORP.",
+ "builtAt": "2026-11-14T13:50:53.733Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000785786-25-000064",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/785786/000078578625000064/plxs-20250927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AMER",
+   "products": [
+    "Design and Development",
+    "Supply Chain Solutions",
+    "New Product Introduction",
+    "Manufacturing",
+    "Sustaining Services"
+   ],
+   "description": "Provides electronics design, manufacturing and lifecycle services to customers in the Americas region.",
+   "evidence": "Net sales for fiscal 2025 in the AMER segment decreased $2.9 million, or 0.2%, as compared to fiscal 2024."
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "Design and Development",
+    "Supply Chain Solutions",
+    "New Product Introduction",
+    "Manufacturing",
+    "Sustaining Services"
+   ],
+   "description": "Provides electronics design, manufacturing and lifecycle services to customers in the Asia-Pacific region.",
+   "evidence": "Net sales for fiscal 2025 in the APAC segment increased $179.6 million, or 8.1%, as compared to fiscal 2024."
+  },
+  {
+   "name": "EMEA",
+   "products": [
+    "Design and Development",
+    "Supply Chain Solutions",
+    "New Product Introduction",
+    "Manufacturing",
+    "Sustaining Services"
+   ],
+   "description": "Provides electronics design, manufacturing and lifecycle services to customers in Europe, the Middle East and Africa.",
+   "evidence": "Net sales for fiscal 2025 in the EMEA segment decreased $98.1 million, or 18.2%, as compared to fiscal 2024."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Plexus for designing, manufacturing and servicing their complex electronic products, mostly on a turnkey basis where Plexus procures materials, and sometimes on a consignment basis where customers supply materials.",
+  "evidence": "We provide most of our solutions on a turnkey basis, under which we procure and warehouse all materials required for product assembly."
+ },
+ "changes": [
+  {
+   "text": "In the first quarter of fiscal 2025, Plexus changed internal management reporting to focus on value-add sales in each region and adjusted allocation of certain corporate costs, with prior periods recast but no change to segment composition.",
+   "evidence": "In the first quarter of fiscal 2025, we changed internal management reporting to focus on value-add sales in each region and adjusted the allocation of certain corporate costs among reportable segments."
+  }
+ ],
+ "dropped": []
+}

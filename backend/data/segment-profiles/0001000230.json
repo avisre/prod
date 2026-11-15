@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0001000230",
+ "issuerName": "OPTICAL CABLE CORPORATION",
+ "builtAt": "2026-11-14T17:42:07.537Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-038228",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1000230/000143774925038228/ex_897382.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fiber Optic and Copper Data Communication Cabling and Connectivity Solutions",
+   "products": [],
+   "description": "Design, development, manufacture and marketing of fiber optic and copper data communication cabling and connectivity solutions.",
+   "evidence": "The Company is organized and operates as one reportable segment that includes the design, development, manufacture and marketing of fiber optic and copper data communication cabling and connectivity solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells fiber optic and copper cabling and connectivity solutions to enterprise, data center and other market sectors.",
+  "evidence": "Through this strategic collaboration, OCC and Lightera expect to benefit from offering expanded fiber optic and copper cabling and connectivity solutions to the enterprise and data center sectors, as well as an expanded presence in other sectors."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, OCC entered into a strategic collaboration with Lightera, LLC to expand"
+ ]
+}

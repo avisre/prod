@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000105418",
+ "issuerName": "WEIS MARKETS, INC",
+ "builtAt": "2026-11-14T13:47:17.809Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000105418-26-000024",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/105418/000010541826000024/wmk-20251227x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail food",
+   "products": [
+    "groceries",
+    "dairy products",
+    "frozen foods",
+    "meats",
+    "seafood",
+    "fresh produce",
+    "pharmacy services",
+    "fuel"
+   ],
+   "description": "Operates conventional supermarkets selling groceries, fresh foods, pharmacy services and fuel to retail customers in Pennsylvania and surrounding states.",
+   "evidence": "The Company's operations are reported as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retail customers pay the Company for food, pharmacy and fuel purchases at its supermarkets, in store, online or via delivery.",
+  "evidence": "The Company is engaged principally in the retail sale of food in Pennsylvania and surrounding states."
+ },
+ "changes": [],
+ "dropped": []
+}

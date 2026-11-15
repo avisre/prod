@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000080172",
+ "issuerName": "NATIONAL PRESTO INDUSTRIES INC",
+ "builtAt": "2026-11-14T13:46:10.737Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008214",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/80172/000143774926008214/npk20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Housewares/Small Appliance",
+   "products": [
+    "pressure cookers and canners",
+    "slow cookers",
+    "deep fryers",
+    "waffle makers",
+    "pizza ovens",
+    "corn poppers",
+    "vacuum sealers"
+   ],
+   "description": "Designs, markets and distributes housewares and small electrical appliances to consumers in the United States and Canada.",
+   "evidence": "The Housewares/Small Appliance segment designs, markets and distributes housewares and small electrical appliances, including pressure cookers and canners, kitchen electrics, and comfort appliances that enrich the lives of consumers by making life easier, more productive and more enjoyable."
+  },
+  {
+   "name": "Defense",
+   "products": [
+    "40mm ammunition",
+    "precision mechanical and electro-mechanical assemblies",
+    "medium caliber cartridge cases",
+    "metal parts",
+    "Load, Assemble and Pack (LAP) operations",
+    "detonators, booster pellets, release cartridges, lead azide"
+   ],
+   "description": "Manufactures ordnance, ammunition, energetic devices and metal parts primarily for the United States Government and defense prime contractors.",
+   "evidence": "It manufactures 40mm ammunition, precision mechanical and electro-mechanical assemblies, medium caliber cartridge cases and metal parts; performs Load, Assemble and Pack (LAP) operations on ordnance-related products primarily for the United States Government and prime contractors; and manufactures detonators, booster pellets, release cartridges, lead azide, other military energetic devices and materials, and assemblies."
+  },
+  {
+   "name": "Safety",
+   "products": [
+    "smoke, carbon monoxide (CO), and combo smoke/CO alarms",
+    "economy line of carbon monoxide and smoke alarms",
+    "PFAS-Free Foam commercial fire extinguisher"
+   ],
+   "description": "Provides safety technology, including smoke and carbon monoxide alarms and fire extinguishers, for organizations and individuals.",
+   "evidence": "The segment's startup company, Rely Innovations, Inc., offers smoke, carbon monoxide (CO), and combo smoke/CO alarms with an array of voice messages in English and Spanish that clearly inform of incipient danger."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers and distributors pay for housewares and small appliances, while the United States Government and defense prime contractors pay for ordnance and ammunition products.",
+  "evidence": "Products are sold primarily in the United States and Canada directly to retailers and also through independent distributors."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Housewares/Small Appliance): Presto Control Master® skillets, griddles, woks and multi-purpose cookers"
+ ]
+}

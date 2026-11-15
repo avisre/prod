@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001339005",
+ "issuerName": "Femasys Inc.",
+ "builtAt": "2026-11-15T02:50:26.726Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-012375",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1339005/000114036126012375/femy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "women's reproductive health",
+   "products": [
+    "FemaSeed",
+    "FemSperm",
+    "FemVue",
+    "FemVue Controlled",
+    "FemCerv",
+    "FemBloc",
+    "FemChec",
+    "FemCath"
+   ],
+   "description": "Develops and commercializes therapeutic and diagnostic products for women's infertility and permanent birth control needs.",
+   "evidence": "the Company has determined that it operates as a single business segment, which is the development and commercialization of therapeutic and diagnostic products that service women's reproductive health needs (infertility and permanent birth control)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells its in-office therapeutic and diagnostic women's health products to healthcare practitioners and distributors in the U.S. and international markets.",
+  "evidence": "The Company is a U.S. manufacturer that has received global regulatory approvals for its product portfolio, which is currently being commercialized in the U.S. and key international markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

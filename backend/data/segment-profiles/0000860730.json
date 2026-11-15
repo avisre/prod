@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000860730",
+ "issuerName": "HCA Healthcare, Inc.",
+ "builtAt": "2026-11-14T13:53:03.771Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-044769",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/860730/000119312526044769/hca-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "National Group",
+   "products": [
+    "general, acute care hospitals",
+    "behavioral hospitals",
+    "rehabilitation hospitals",
+    "ambulatory surgery centers",
+    "endoscopy centers"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Atlantic Group",
+   "products": [
+    "general, acute care hospitals",
+    "behavioral hospitals",
+    "rehabilitation hospitals",
+    "ambulatory surgery centers",
+    "endoscopy centers"
+   ],
+   "description": "Operates hospitals and related health care entities in Florida, Georgia, Northern Kansas, Missouri and South Carolina for patients.",
+   "evidence": "the Atlantic Group included 63 hospitals located in Florida, Georgia, Northern Kansas, Missouri and South Carolina"
+  },
+  {
+   "name": "American Group",
+   "products": [
+    "general, acute care hospitals",
+    "behavioral hospitals",
+    "rehabilitation hospitals",
+    "ambulatory surgery centers",
+    "endoscopy centers"
+   ],
+   "description": "Operates hospitals and related health care entities in Colorado, Central Kansas, Louisiana and Texas for patients.",
+   "evidence": "the American Group included 66 hospitals located in Colorado, Central Kansas, Louisiana and Texas"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by government health care programs and private third-party payers, including managed care plans, for health care services provided to patients at its facilities.",
+  "evidence": "If our volume of patients with private health insurance coverage declines or we are unable to retain and negotiate favorable contracts with private third-party payers, including managed care plans, our revenues may be adversely affected."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: National Group"
+ ]
+}

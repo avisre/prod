@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001515156",
+ "issuerName": "ARQ, INC.",
+ "builtAt": "2026-11-14T17:42:11.838Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001515156-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1515156/000151515626000021/arq-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advanced Purification Technologies",
+   "products": [
+    "Powdered Activated Carbon",
+    "Granular Activated Carbon",
+    "Colloidal Carbon Product",
+    "FluxSorb RC"
+   ],
+   "description": "Manufactures and sells activated carbon and chemical products to remove contaminants from air, water, and soil for power generation, industrial, and municipal markets.",
+   "evidence": "The APT segment primarily manufactures and sells AC based environmental remediation products, comprised of PAC and GAC, and other chemicals used to capture and remove contaminants for coal-fired power generation, industrial, municipal water and air, water, and soil treatment and remediation markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase consumable activated carbon and chemical products through contracts of one to five years, with revenue recognized as orders are fulfilled.",
+  "evidence": "We sell consumables primarily through our internal sales group and generally enter into customer contracts ranging from one to five years in duration. We generally recognize revenue as orders are fulfilled."
+ },
+ "changes": [
+  {
+   "text": "In 2023, the company acquired Legacy Arq subsidiaries to obtain bituminous coal feedstock reserves and a manufacturing facility in Corbin, Kentucky.",
+   "evidence": "In February 2023, we acquired 100% of the equity interests, assets and liabilities of the subsidiaries of Arq Limited, an environmental technology company incorporated under the laws of Jersey (the \"Arq Acquisition\" and hereafter the Arq Limited subsidiaries referred to as \"Legacy Arq\") to secure access to additional U.S. based bituminous coal feedstock and a manufacturing facility located in Corbin, Kentucky (the \"Corbin Facility\")."
+  },
+  {
+   "text": "In 2025, the company idled the Corbin Facility and ceased GAC production using Corbin Wetcake due to composition and design issues.",
+   "evidence": "In the second half of 2025, the Corbin Facility had commenced producing Corbin Wetcake to be used in the manufacturing process at the GAC facility constructed at the Red River Plant (the \"GAC Facility\"). The GAC Facility was commissioned in August 2025. Due to problems with the Corbin Wetcake composition and design flaws in our GAC Facility, the Company concluded that it was cost prohibitive to continue to produce GAC products using the Corbin Wetcake."
+  }
+ ],
+ "dropped": []
+}

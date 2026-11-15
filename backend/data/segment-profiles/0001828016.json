@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001828016",
+ "issuerName": "PLAYTIKA HOLDING CORP.",
+ "builtAt": "2026-11-14T17:40:19.519Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001828016-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828016/000182801626000010/playtika-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobile games",
+   "products": [
+    "Bingo Blitz",
+    "House of Fun",
+    "World Series of Poker",
+    "SuperPlay",
+    "Reworks",
+    "Seriously",
+    "Wooga",
+    "Jelly Button"
+   ],
+   "description": "Operates a portfolio of free-to-play mobile games with live operations services for players worldwide.",
+   "evidence": "We are one of the world's leading operators of mobile games creating fun, innovative experiences that entertain and engage our users."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Players pay for in-game virtual items in free-to-play games, with fees collected by platform providers or payment processors and remitted to the Company.",
+  "evidence": "Deferred revenues, which represent a contract liability, represent mostly unrecognized fees billed for virtual items which have not yet been consumed at the balance sheet date."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

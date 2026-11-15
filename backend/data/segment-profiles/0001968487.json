@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001968487",
+ "issuerName": "WORTHINGTON STEEL, INC.",
+ "builtAt": "2026-11-14T17:37:33.745Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001968487-26-000026",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1968487/000196848726000026/ws-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Steel Processing",
+   "products": [],
+   "description": "Flat-rolled steel processing and related services for automotive, construction, and other industrial customers.",
+   "evidence": "Our operations are managed principally on a products and services basis under a single group organizational structure. We determined that there is only one operating segment and therefore one reportable segment"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase flat-rolled steel products that Worthington processes to custom specifications based on specific customer orders.",
+  "evidence": "Steel is primarily purchased and processed based on specific customer orders."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, Worthington completed the Kloeckner acquisition, becoming a significant shareholder in the European steel distributor.",
+   "evidence": "On June 15, 2026, we settled a binding agreement to acquire one million additional Kloeckner shares at €11.00 per share (approximately $12.7 million), bringing our total ownership to approximately 61.87% of Kloeckner's total outstanding share capital."
+  }
+ ],
+ "dropped": []
+}

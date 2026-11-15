@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001821534",
+ "issuerName": "Exodus Movement, Inc.",
+ "builtAt": "2026-11-14T17:41:44.638Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001821534-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1821534/000182153426000009/exod-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Exodus Platform",
+   "products": [
+    "Exchange aggregation",
+    "Fiat onboarding",
+    "Staking"
+   ],
+   "description": "Provides an un-hosted self-custodial wallet platform for users to send, receive and store digital assets and access third-party API services.",
+   "evidence": "As such, the Company has determined that it operates as one operating segment and one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "API Providers pay the Company fees for access to the Exodus Platform based on user interactions such as exchanges, fiat onboarding and staking.",
+  "evidence": "Our primary customers are Application Programming Interface Providers (\"API Providers\") who pay for access to the Exodus Platform."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Exodus Platform): Exodus Platform",
+  "product not in text (Exodus Platform): un-hosted self-custodial wallet"
+ ],
+ "escalated": "no segments"
+}

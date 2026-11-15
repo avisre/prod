@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000799288",
+ "issuerName": "Lands’ End, Inc.",
+ "builtAt": "2026-11-14T13:51:24.575Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-126210",
+  "periodEnd": "2026-01-30",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/799288/000119312526126210/le-20260130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Digital",
+   "products": [
+    "apparel",
+    "swimwear",
+    "outerwear",
+    "accessories",
+    "footwear",
+    "home products",
+    "uniforms"
+   ],
+   "description": "Aggregates U.S. eCommerce, Outfitters and Third Party operations selling Lands' End apparel and uniforms to U.S. consumers, businesses and schools.",
+   "evidence": "the results of these operating segments are aggregated into one external reportable segment, the U.S. Digital segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers, businesses and schools pay Lands' End for apparel and uniforms sold through its eCommerce website, third-party marketplaces and Company Operated stores, while licensees pay royalties and fulfillment fees.",
+  "evidence": "Licensing earns royalties on the use of Lands' End trademark and fees for fulfillment services provided by the Company."
+ },
+ "changes": [],
+ "dropped": []
+}

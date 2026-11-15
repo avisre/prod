@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000049938",
+ "issuerName": "IMPERIAL OIL LIMITED",
+ "builtAt": "2026-11-14T13:44:47.106Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000049938-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/49938/000004993826000009/imo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Upstream",
+   "products": [
+    "crude oil",
+    "natural gas",
+    "synthetic crude oil",
+    "bitumen"
+   ],
+   "description": "Explores for and produces crude oil, natural gas, synthetic crude oil and bitumen in Canada for sale to customers.",
+   "evidence": "Upstream operations include the exploration for, and production of, crude oil, natural gas, synthetic crude oil and bitumen."
+  },
+  {
+   "name": "Downstream",
+   "products": [
+    "refined products",
+    "petroleum products"
+   ],
+   "description": "Transports and refines crude oil, blends refined products, and distributes and markets them in Canada.",
+   "evidence": "Downstream operations consist of the transportation and refining of crude oil, blending of refined products and the distribution and marketing of those products."
+  },
+  {
+   "name": "Chemical",
+   "products": [
+    "petrochemicals"
+   ],
+   "description": "Manufactures and markets various petrochemicals.",
+   "evidence": "Chemical operations consist of the manufacturing and marketing of various petrochemicals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for crude oil, natural gas, refined petroleum products and petrochemicals it produces, refines and markets.",
+  "evidence": "It is active in all phases of the petroleum industry in Canada, including the exploration for, and production and sale of, crude oil and natural gas."
+ },
+ "changes": [],
+ "dropped": []
+}

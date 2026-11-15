@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000719955",
+ "issuerName": "WILLIAMS-SONOMA, INC.",
+ "builtAt": "2026-11-14T13:49:20.546Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000719955-26-000059",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/719955/000071995526000059/wsm-20260201.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home retail",
+   "products": [
+    "Williams Sonoma",
+    "Pottery Barn",
+    "Pottery Barn Kids",
+    "Pottery Barn Teen",
+    "West Elm",
+    "Williams Sonoma Home",
+    "Rejuvenation",
+    "Mark and Graham"
+   ],
+   "description": "An omni-channel specialty retailer of high-quality products for the home, selling merchandise through e-commerce websites, direct-mail catalogs, retail stores and business-to-business.",
+   "evidence": "Because they share similar economic and other qualitative characteristics, we have aggregated our operating segments into a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for merchandise purchased through its e-commerce websites, direct-mail catalogs and retail stores, including shipping fees for home delivery.",
+  "evidence": "Our single reportable segment derives revenues from sales of merchandise through our e-commerce websites, direct-mail catalogs and retail stores, and includes shipping fees received from customers for delivery of merchandise to their homes."
+ },
+ "changes": [],
+ "dropped": []
+}

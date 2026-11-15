@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000704440",
+ "issuerName": "KORU MEDICAL SYSTEMS, INC.",
+ "builtAt": "2026-11-14T13:48:43.269Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001161697-26-000052",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/704440/000116169726000052/form_10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Subcutaneous infusion",
+   "products": [
+    "FREEDOM60® Syringe Driver",
+    "FreedomEdge® Syringe Driver",
+    "HIgH-Flo Subcutaneous Safety Needle Sets™",
+    "Precision Flow Rate Tubing™"
+   ],
+   "description": "Develops, manufactures and commercializes large volume subcutaneous infusion systems for patients self-administering drug therapy at home or in infusion centers.",
+   "evidence": "Our focus is primarily concentrated on our mechanical infusion products, the FREEDOM Infusion Systems (which we refer to as the \"FREEDOM System\" when used with one or more accessories), which include the FREEDOM60® Syringe Driver, the FreedomEdge® Syringe Driver, HIgH-Flo Subcutaneous Safety Needle Sets™ and Precision Flow Rate Tubing™."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "KORU earns product revenue from distributors, specialty pharmacies, home infusion providers and pharmaceutical companies buying its syringe drivers, tubing and needles, plus non-recurring engineering service fees from biopharmaceutical companies.",
+  "evidence": "The FREEDOM System is sold through both direct sales and medical device distributors to pharmaceutical companies, specialty pharmacy customers and home infusion providers."
+ },
+ "changes": [],
+ "dropped": []
+}

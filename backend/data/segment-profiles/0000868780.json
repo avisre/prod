@@ -1,0 +1,54 @@
+{
+ "version": 1,
+ "cik": "0000868780",
+ "issuerName": "Dorman Products, Inc.",
+ "builtAt": "2026-11-14T13:53:23.976Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000868780-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/868780/000086878026000014/dorm-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Light Duty",
+   "products": [
+    "DORMAN®",
+    "DORMAN® OE FIX™",
+    "HELP!®",
+    "Conduct-Tite®"
+   ],
+   "description": "Supplies replacement and upgrade parts for passenger cars and light-duty trucks to DIY consumers and professional installers.",
+   "evidence": "Most of our products are designed for light-duty vehicles, which are passenger cars and light-duty trucks."
+  },
+  {
+   "name": "Heavy Duty",
+   "products": [
+    "Dayton Parts®"
+   ],
+   "description": "Provides heavy-duty commercial vehicle repair solutions, mainly replacement parts, for medium- and heavy-duty vehicles.",
+   "evidence": "Dayton Parts ® – An extensive product offering of heavy-duty commercial vehicle repair solutions, from cab to trailer."
+  },
+  {
+   "name": "Specialty Vehicle",
+   "products": [
+    "SuperATV®",
+    "Keller Performance Products",
+    "Assault Industries",
+    "Gboost",
+    "GDP"
+   ],
+   "description": "Offers functional and upgrade accessories and nondiscretionary repair parts for UTVs and ATVs through retail and e-commerce channels.",
+   "evidence": "The specialty vehicle sector generally consists of parts for powersport vehicles, such as UTVs and ATVs, for both functional and upgrade accessories as well as replacement parts."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dorman is paid by aftermarket retailers, dealers, and national, regional, and local wholesale distributors and specialty markets, primarily in North America, for replacement and upgrade vehicle parts sold under its own brands, customers' private labels, or in bulk.",
+  "evidence": "Our products are sold primarily through aftermarket retailers, including their online platforms; dealers; and national, regional, and local wholesale distributors and specialty markets."
+ },
+ "changes": [],
+ "dropped": []
+}

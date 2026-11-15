@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000790051",
+ "issuerName": "CARLISLE COMPANIES INCORPORATED",
+ "builtAt": "2026-11-14T13:51:02.748Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000790051-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/790051/000079005126000012/csl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Carlisle Construction Materials",
+   "products": [
+    "TPO",
+    "PVC",
+    "architectural metal",
+    "roof garden systems",
+    "polyiso insulation",
+    "Carlisle SynTec",
+    "Versico",
+    "Weatherbond"
+   ],
+   "description": "Manufacturer and supplier of premium roofing products and related technologies primarily for the commercial construction market.",
+   "evidence": "CCM is a manufacturer and supplier of premium roofing products and related technologies primarily for the commercial construction market."
+  },
+  {
+   "name": "Carlisle Weatherproofing Technologies",
+   "products": [
+    "waterproofing and moisture protection products",
+    "protective roofing underlayments",
+    "integrated air and vapor barriers",
+    "spray polyurethane foam and coating systems",
+    "block-molded expanded polystyrene insulation"
+   ],
+   "description": "Provider of high-performance waterproofing, moisture protection and insulation products for the building envelope in commercial and residential markets.",
+   "evidence": "CWT is a leading provider of high-performance waterproofing and moisture protection products, protective roofing underlayments, integrated air and vapor barriers, spray polyurethane foam and coating systems, and block-molded expanded polystyrene insulation and other insulation products for the building envelope."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Carlisle earns revenue from selling roofing and weatherproofing products, primarily through authorized sales representatives, distributors and retail outlets, and from separately priced extended warranty contracts.",
+  "evidence": "CCM offers separately priced extended warranty contracts on certain of its products ranging from five to 40 years, the most significant being those offered on its installed single-ply roofing systems primarily in the United States"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Carlisle Construction Materials): EPDM roofing membranes"
+ ]
+}

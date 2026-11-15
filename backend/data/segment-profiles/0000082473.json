@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000082473",
+ "issuerName": "INNSUITES HOSPITALITY TRUST",
+ "builtAt": "2026-11-14T13:46:15.965Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-024361",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-05-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/82473/000149315226024361/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hotel Operations & Hotel Management Services",
+   "products": [
+    "hotel management services"
+   ],
+   "description": "Owns and operates two moderate-service hotels in Arizona and New Mexico and provides management and trademark licensing services for them.",
+   "evidence": "It has been determined that the Trust hotel ownership, Operations, and Management Services are comprised of one reportable segment, Hotel Operations & Hotel Management Services (continuing operations) segment that has ownership interest in two hotel properties with an aggregate of 270 suites in Arizona and New Mexico."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Hotel Operations & Hotel Management Services): InnSuites hotel in Tucson, Arizona",
+  "product not in text (Hotel Operations & Hotel Management Services): InnSuites hotel in Albuquerque, New Mexico",
+  "product not in text (Hotel Operations & Hotel Management Services): InnSuites trademark and licensing services",
+  "revenue model not grounded"
+ ]
+}

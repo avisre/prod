@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000318154",
+ "issuerName": "Amgen Inc.",
+ "builtAt": "2026-11-14T13:48:10.653Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000318154-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/318154/000031815426000010/amgn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Human therapeutics",
+   "products": [
+    "Prolia",
+    "Repatha",
+    "Otezla",
+    "ENBREL",
+    "EVENITY",
+    "XGEVA",
+    "TEPEZZA",
+    "BLINCYTO"
+   ],
+   "description": "Discovers, develops, manufactures and delivers innovative medicines to fight serious diseases for patients worldwide.",
+   "evidence": "Amgen operates in one operating segment: human therapeutics."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Amgen sells its medicines principally to pharmaceutical wholesale distributors in the U.S. and to healthcare providers and/or distributors abroad.",
+  "evidence": "In the United States, substantially all of our sales are to pharmaceutical wholesale distributors, which is the principal means of distributing our products to healthcare providers."
+ },
+ "changes": [],
+ "dropped": []
+}

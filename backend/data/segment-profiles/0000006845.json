@@ -1,0 +1,85 @@
+{
+ "version": 1,
+ "cik": "0000006845",
+ "issuerName": "APOGEE ENTERPRISES, INC.",
+ "builtAt": "2026-11-14T14:06:31.559Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000006845-26-000023",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/6845/000000684526000023/apog-20260228.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Architectural Metals",
+   "products": [
+    "aluminum windows",
+    "curtainwall systems",
+    "entrance systems",
+    "Tubelite",
+    "EFCO",
+    "Wausau",
+    "Linetec"
+   ],
+   "description": "Designs, engineers, fabricates and finishes aluminum window and façade systems for non-residential construction.",
+   "evidence": "The Architectural Metals Segment designs, engineers, fabricates and finishes aluminum window, curtainwall, storefront and entrance systems used primarily in non-residential construction."
+  },
+  {
+   "name": "Architectural Services",
+   "products": [
+    "curtainwall systems",
+    "technical services",
+    "project management",
+    "field installation services",
+    "Harmon"
+   ],
+   "description": "Integrates technical services, project management and field installation to design, engineer and install architectural curtainwall and façade systems.",
+   "evidence": "The Architectural Services Segment integrates technical services, project management, and field installation services to design, engineer, fabricate, and install architectural curtainwall and other façade-related systems used primarily in non-residential construction."
+  },
+  {
+   "name": "Architectural Glass",
+   "products": [
+    "monolithic glass units",
+    "high-performance coatings",
+    "Viracon",
+    "GlassecViracon"
+   ],
+   "description": "Cuts, treats, coats and fabricates high-performance glass used in custom window and wall systems for non-residential buildings.",
+   "evidence": "The Architectural Glass Segment cuts, treats, coats and fabricates high-performance glass used in custom window and wall systems used primarily in non-residential buildings."
+  },
+  {
+   "name": "Performance Surfaces",
+   "products": [
+    "wall decor",
+    "digital displays",
+    "industrial flooring",
+    "Tru Vue",
+    "ResinDEK",
+    "ChromaLuxe",
+    "RDC Coatings",
+    "Unisub"
+   ],
+   "description": "Develops and manufactures high-performance coated materials for wall decor, displays, architectural interiors and industrial applications.",
+   "evidence": "The Performance Surfaces Segment develops and manufactures high-performance coated materials for a variety of applications, including wall decor, museums, graphic design, digital displays, architectural interiors, and industrial flooring."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers including glazing subcontractors, general contractors, architects and building owners purchase architectural products and services for non-residential construction projects.",
+  "evidence": "Our customers are mainly glazing subcontractors and general contractors, with project design being influenced by architects and building owners."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, Performance Surfaces Segment acquired UW Interco, LLC (UW Solutions), which was successfully integrated in fiscal 2026.",
+   "evidence": "The Performance Surfaces Segment successfully integrated the UW Interco, LLC (UW Solutions), acquired in late fiscal 2025, and the business delivered upon the first-year financial targets of $100 million in revenue and adjusted EBITDA margin of at least 20%."
+  }
+ ],
+ "dropped": [
+  "product not in text (Architectural Metals): storefront systems",
+  "product not in text (Architectural Services): façade systems",
+  "product not in text (Architectural Glass): insulating glass units",
+  "product not in text (Architectural Glass): laminated glass units"
+ ]
+}

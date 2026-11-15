@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000063330",
+ "issuerName": "MAUI LAND & PINEAPPLE CO INC",
+ "builtAt": "2026-11-14T13:45:17.028Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010765",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/63330/000143774926010765/mlp20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Land Development and Sales",
+   "products": [
+    "Kapalua Resort",
+    "Kapalua Makai",
+    "Kapalua Central Resort",
+    "Kapalua Mauka",
+    "Hali'imaile Town",
+    "Honokeana Homes Temporary Housing Project",
+    "Hali'imaile Ranch"
+   ],
+   "description": "Plans, entitles, develops and sells residential, resort, commercial, agricultural and industrial real estate on Maui.",
+   "evidence": "Our Land Development and Sales segment includes all land planning, entitlement, development, and sales activities of our landholdings on Maui."
+  },
+  {
+   "name": "Leasing",
+   "products": [
+    "commercial, industrial, and agricultural leases",
+    "trademark and trade name licensing",
+    "potable and non-potable water systems"
+   ],
+   "description": "Leases land and property, licenses trademarks, sells water and earns conservation grants in West and Upcountry Maui.",
+   "evidence": "Our Leasing segment includes commercial, industrial, and agricultural leases of land and property, licensing of our registered trademarks and trade names, sales of potable and non-potable water in West and Upcountry Maui, and grants related to watershed stewardship and conservation efforts."
+  },
+  {
+   "name": "Resort Amenities",
+   "products": [
+    "Kapalua Club"
+   ],
+   "description": "Operates the Kapalua Club, a private non-equity club giving members access to resort amenities in Kapalua.",
+   "evidence": "Our Resort Amenities segment includes the operations of the Kapalua Club, a private, non-equity club providing its members special programs, access and other privileges at certain amenities at the Kapalua Resort."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from real estate sales to buyers, lease and licensing payments from tenants and licensees, water sales, club member dues, and conservation grants from the State of Hawai'i.",
+  "evidence": "Operating revenues from leasing activities for the year ended December 31, 2025, were comprised of $9.5 million from commercial, industrial, and agricultural leases, $0.1 million of licensing fees from our registered trademarks and trade names, $2.9 million from potable and non-potable water system sales and $0.3 million in grant revenue from the State of Hawai'i for conservation management of our Pu'u Kukui Watershed"
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company launched an agave agricultural venture that will be reported as a new business segment beginning in the first quarter of 2026.",
+   "evidence": "Agave will be reported as a new business segment beginning in the first quarter reporting of 2026."
+  }
+ ],
+ "dropped": [
+  "product not in text (Leasing): Pu'u Kukui Watershed Preserve stewardship"
+ ]
+}

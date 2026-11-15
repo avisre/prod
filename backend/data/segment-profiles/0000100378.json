@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0000100378",
+ "issuerName": "TWIN DISC, INCORPORATED",
+ "builtAt": "2026-11-14T13:46:57.926Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-029700",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/100378/000143774926029700/twin20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power transmission equipment",
+   "products": [
+    "marine transmissions",
+    "azimuth drives",
+    "surface drives",
+    "propellers",
+    "boat management systems",
+    "power-shift transmissions",
+    "hydraulic torque converters",
+    "power take-offs"
+   ],
+   "description": "Designs, manufactures and sells marine and heavy-duty off-highway power transmission equipment to pleasure craft, commercial, military, energy and industrial customers.",
+   "evidence": "Twin Disc designs, manufactures and sells marine and heavy-duty off-highway power transmission equipment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers in marine, energy, government, military and industrial markets pay the company for its power transmission products, purchased through a direct sales force and a distributor network.",
+  "evidence": "The Company's worldwide sales to both domestic and foreign customers are transacted through a direct sales force and a distributor network."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company acquired Kobelt Manufacturing Co. Ltd., adding controls, propulsion, steering, and braking systems to its offerings.",
+   "evidence": "On February 14, 2025, the Company completed the acquisition of 100% of the outstanding common stock of Kobelt Manufacturing Co. Ltd. (\"Kobelt\")."
+  }
+ ],
+ "dropped": []
+}

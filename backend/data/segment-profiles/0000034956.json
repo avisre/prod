@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0000034956",
+ "issuerName": "TENAX THERAPEUTICS, INC.",
+ "builtAt": "2026-11-14T13:44:09.135Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-099393",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/34956/000119312526099393/tennx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cardiovascular and pulmonary therapeutics",
+   "products": [
+    "oral levosimendan",
+    "imatinib"
+   ],
+   "description": "Develops therapeutics for cardiovascular and pulmonary diseases with high unmet medical need, with an initial focus on pulmonary hypertension.",
+   "evidence": "The Company's CODM, the President and Chief Executive Officer , views the Company's operations as one operating segment, which is focused on identifying and developing therapeutics that address cardiovascular and pulmonary diseases with high unmet medical need, with an initial therapeutic focus on pulmonary hypertension."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

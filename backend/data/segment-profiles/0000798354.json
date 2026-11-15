@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000798354",
+ "issuerName": "FISERV, INC.",
+ "builtAt": "2026-11-14T13:51:18.299Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000798354-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/798354/000079835426000009/fi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Merchant Solutions",
+   "products": [
+    "Clover®",
+    "Commerce Hub™",
+    "merchant acquiring and digital commerce services",
+    "mobile payment services",
+    "security and fraud protection solutions",
+    "stored-value solutions",
+    "POS devices",
+    "pay-by-bank solutions"
+   ],
+   "description": "Provides commerce-enabling products and services to companies of all sizes, including merchant acquiring, digital commerce, and the Clover point-of-sale platform.",
+   "evidence": "The businesses in our Merchant segment provide commerce-enabling products and services to companies of all sizes around the world."
+  },
+  {
+   "name": "Financial Solutions",
+   "products": [
+    "Digital Payments",
+    "Issuing",
+    "Banking",
+    "Accel®",
+    "STAR®",
+    "MoneyPass®",
+    "CheckFree® RXP®"
+   ],
+   "description": "Provides account processing, digital payments, card issuing and banking solutions to financial institutions, corporate and public sector clients worldwide.",
+   "evidence": "The businesses in our Financial segment provide products and services to financial institutions, corporate and public sector clients across the world, enabling the processing of customer loan and deposit accounts, digital payments and card transactions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fiserv is paid by merchants, banks, credit unions and other clients primarily through account- and transaction-based fees under multi-year contracts with high renewal rates.",
+  "evidence": "Processing and services revenue, which in 2025 represented 80% of our total revenue, is primarily generated from account- and transaction-based fees under multi-year contracts that generally have high renewal rates."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Wells Fargo Merchant Services joint venture expired after Wells Fargo gave notice of non-renewal in 2024.",
+   "evidence": "In the third quarter of 2024, Wells Fargo Bank, National Association (\"Wells Fargo\") provided us with a notice of non-renewal for the Wells Fargo Merchant Services merchant alliance (\"WFMS\"), which was accounted for as an equity method investment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Financial Solutions): CashFlow Central℠"
+ ]
+}

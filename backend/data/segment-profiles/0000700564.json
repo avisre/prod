@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000700564",
+ "issuerName": "FULTON FINANCIAL CORP",
+ "builtAt": "2026-11-14T13:48:35.595Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000700564-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/700564/000070056426000006/fult-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "Consumer Banking",
+    "Commercial Banking",
+    "Wealth Management",
+    "checking account and savings deposit products",
+    "certificates of deposit",
+    "home equity loans and lines of credit",
+    "commercial real estate loans",
+    "investment management, trust, brokerage, insurance and investment advisory servi"
+   ],
+   "description": "A community-oriented bank holding company delivering consumer and commercial banking and wealth management services to customers in a five-state market area.",
+   "evidence": "The Corporation has one reportable segment whose primary sources of revenue are interest income on loans, investment securities and other interest-earning assets and fee income earned on its products and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest income on loans, investment securities and other interest-earning assets, plus fee income on its banking and wealth management products and services.",
+  "evidence": "The Corporation has one reportable segment whose primary sources of revenue are interest income on loans, investment securities and other interest-earning assets and fee income earned on its products and services."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Corporation entered into a merger agreement with Blue Foundry, expected to close in 2026.",
+   "evidence": "On November 24, 2025, the Corporation entered into the Merger Agreement with Blue Foundry."
+  },
+  {
+   "text": "In 2024, Fulton Bank completed the Republic First Transaction.",
+   "evidence": "On April 26, 2024, Fulton Bank completed the Republic First Transaction."
+  },
+  {
+   "text": "In 2022, the Corporation completed the acquisition of Prudential Bancorp, whose bank merged into Fulton Bank in November 2022.",
+   "evidence": "On July 1, 2022, the Corporation completed the acquisition of 100% of the outstanding common stock of Prudential Bancorp."
+  }
+ ],
+ "dropped": []
+}

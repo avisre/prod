@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000085961",
+ "issuerName": "RYDER SYSTEM INC",
+ "builtAt": "2026-11-14T13:46:20.170Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000085961-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/85961/000008596126000007/r-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fleet Management Solutions (FMS)",
+   "products": [
+    "ChoiceLease",
+    "Commercial Rental",
+    "SelectCare",
+    "Torque by Ryder™",
+    "RyderGyde™",
+    "Fuel Services",
+    "Used Vehicles"
+   ],
+   "description": "Provides full service leasing, commercial rental and vehicle maintenance services to businesses ranging from small businesses to large enterprises.",
+   "evidence": "Fleet Management Solutions (FMS), which provides full service leasing, commercial rental and vehicle maintenance services"
+  },
+  {
+   "name": "Supply Chain Solutions (SCS)",
+   "products": [
+    "Fully integrated logistics solutions",
+    "Warehousing"
+   ],
+   "description": "Provides fully integrated logistics solutions, including warehousing and supply chain services, to customers across a variety of industries.",
+   "evidence": "Supply Chain Solutions (SCS), which provides fully integrated logistics solutions"
+  },
+  {
+   "name": "Dedicated Transportation Solutions (DTS)",
+   "products": [
+    "Dedicated vehicles",
+    "Professional drivers",
+    "Management and administrative support"
+   ],
+   "description": "Provides turnkey dedicated transportation solutions, including vehicles, drivers and management support, for customers.",
+   "evidence": "Dedicated Transportation Solutions (DTS), which provides turnkey transportation solutions, including dedicated vehicles, professional drivers, management and administrative support"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Ryder under long-term contractual arrangements for leasing, maintenance, logistics and dedicated transportation services, plus transactional rental and used vehicle sales.",
+  "evidence": "Substantially all of our SCS and DTS services, as well as our ChoiceLease and SelectCare products offered through FMS, are provided under long-term contractual arrangements with our customers."
+ },
+ "changes": [],
+ "dropped": []
+}

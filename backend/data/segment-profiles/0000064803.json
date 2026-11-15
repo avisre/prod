@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000064803",
+ "issuerName": "CVS HEALTH Corp",
+ "builtAt": "2026-11-14T13:45:21.345Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000064803-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/64803/000006480326000010/cvs-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health Care Benefits",
+   "products": [
+    "Commercial Medical",
+    "Medicare Advantage",
+    "Medicare PDP",
+    "Medicare Supplement",
+    "Medicaid and CHIP",
+    "Duals",
+    "dental plans",
+    "behavioral health and employee assistance products"
+   ],
+   "description": "Provides diversified health care benefits, including insured and self-funded medical, dental, pharmacy and behavioral health products, to members via employers, government programs and individuals.",
+   "evidence": "The Health Care Benefits segment offers a broad range of traditional, voluntary and consumer-directed health insurance products and related services, including medical, pharmacy, dental and behavioral health plans, medical management capabilities, Medicare Advantage and Medicare Supplement plans, PDPs and Medicaid health care management services."
+  },
+  {
+   "name": "Health Services",
+   "products": [
+    "pharmacy benefits manager",
+    "specialty pharmacy solutions"
+   ],
+   "description": null,
+   "evidence": "As of December 31, 2025, we had approximately 9,000 retail locations, more than 1,000 walk-in and primary care medical clinics and a leading pharmacy benefits manager with approximately 87 million plan members and expanding specialty pharmacy solutions."
+  },
+  {
+   "name": "Pharmacy & Consumer Wellness",
+   "products": [
+    "retail locations",
+    "walk-in and primary care medical clinics"
+   ],
+   "description": "Operates retail pharmacy locations and walk-in and primary care medical clinics serving consumers.",
+   "evidence": "As of December 31, 2025, we had approximately 9,000 retail locations, more than 1,000 walk-in and primary care medical clinics and a leading pharmacy benefits manager with approximately 87 million plan members and expanding specialty pharmacy solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Members, employer groups and government-sponsored plans pay the Company premiums and fees for health insurance products, with government agencies paying fixed monthly rates per member under Medicaid contracts.",
+  "evidence": "Under Insured Medicaid contracts, state government agencies pay the Company fixed monthly rates per member that vary by state, line of business and demographics; and the Company arranges, pays for and manages the health care services provided to Medicaid beneficiaries."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Company exited the states in which Aetna operated on the individual Public Exchanges.",
+   "evidence": "The Company exited the states in which Aetna operated on the Public Exchanges effective January 2026."
+  }
+ ],
+ "dropped": []
+}

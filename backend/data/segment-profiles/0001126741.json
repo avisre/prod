@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001126741",
+ "issuerName": "GSI TECHNOLOGY INC",
+ "builtAt": "2026-11-14T17:41:17.933Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-070962",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1126741/000110465926070962/gsit-20260331x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "design, development and sale of integrated circuits",
+   "products": [
+    "APU",
+    "Gemini-I",
+    "Gemini-II",
+    "synchronous SRAM",
+    "radiation-hardened SRAM",
+    "PCIe boards"
+   ],
+   "description": "Designs, develops and sells high-speed SRAM and APU compute-in-memory chips for networking, test and measurement, military/defense and edge AI customers.",
+   "evidence": "Based on its operating management and financial reporting structure, the Company has determined that it has one reportable business segment: the design, development and sale of integrated circuits."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for high-speed synchronous SRAM and APU integrated circuits and boards, with additional milestone payments from government development contracts.",
+  "evidence": "We fund this development through our established legacy business designing and selling high-speed synchronous static random access memory (\"SRAM\") products, primarily for the networking and telecommunications, test and measurement, and military/defense and aerospace markets."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

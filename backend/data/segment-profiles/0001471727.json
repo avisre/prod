@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001471727",
+ "issuerName": "SRX Global Inc.",
+ "builtAt": "2026-11-14T17:42:21.537Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-25-026452",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1471727/000149315225026452/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pet Health and Wellness",
+   "products": [
+    "Halo Holistic",
+    "Halo Elevate",
+    "kibble",
+    "canned food",
+    "freeze-dried raw food",
+    "treats",
+    "supplements"
+   ],
+   "description": "Premium pet health and wellness products including foods, treats, and supplements for dogs and cats sold through e-commerce and retail channels.",
+   "evidence": "The Company's continuing operations consist of the pet health and wellness business formerly operated by Better Choice. This business is focused on providing high-quality pet products under the Halo brand, including foods, treats, toppers, dental products, chews, and supplements for dogs and cats."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pet owners purchase premium pet food and wellness products through e-commerce platforms, brick-and-mortar retailers, and international distributors.",
+  "evidence": "Better Choice's products are sold across multiple channels: e-commerce platforms such as Amazon and Chewy, select retail partners, and international distributors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company discontinued its Canadian pharmacy and healthcare services business operated through SRx Canada.",
+   "evidence": "Effective during the year ended September 30, 2025, the Company made the strategic decision to discontinue the operations of its Canadian pharmacy and healthcare services business conducted through SRx Canada."
+  },
+  {
+   "text": "In June 2024, the Company exited its direct-to-consumer channel through halopets.com and directed consumers to retail partners.",
+   "evidence": "The direct-to-consumer channel through halopets.com was exited in June 2024, and consumers are now directed to retail partners for online purchase."
+  }
+ ],
+ "dropped": []
+}

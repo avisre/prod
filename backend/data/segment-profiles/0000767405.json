@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000767405",
+ "issuerName": "SB FINANCIAL GROUP, INC.",
+ "builtAt": "2026-11-14T13:50:31.054Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-024471",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/767405/000121390026024471/ea0279644-10k_sbfinancial.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial and consumer lending",
+    "personal and business banking",
+    "treasury management and merchant services",
+    "personal wealth management and brokerage services",
+    "title insurance"
+   ],
+   "description": "Provides community banking services, including lending, deposit, wealth management and title services, primarily to individuals, businesses and municipalities.",
+   "evidence": "The activities of the Company comprise one reportable segment, \"Banking.\""
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns interest income on loans and interest expense on deposits, plus noninterest income from fees for banking, wealth management and title services charged to individuals, businesses and municipalities.",
+  "evidence": "All revenues were derived from banking operations for the years ended December 31, 2025, and 2024, and there was no customer that accounted for more than 10% of the Company's consolidated revenue."
+ },
+ "changes": [
+  {
+   "text": "In December 2024, the Company completed the dissolution of four inactive subsidiaries: RFCBC, Inc., Rurbanc Data Services Inc., Rurban Mortgage Company, and SBFG Mortgage, LLC.",
+   "evidence": "In December 2024, the Company completed the dissolution of four of its inactive subsidiaries: RFCBC, Inc., Rurbanc Data Services Inc., Rurban Mortgage Company, and SBFG Mortgage, LLC."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000094049",
+ "issuerName": "STEPAN COMPANY",
+ "builtAt": "2026-11-14T13:46:41.983Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-074976",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/94049/000119312526074976/scl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Surfactants",
+   "products": [
+    "detergents for washing clothes, dishes, carpets, floors and walls",
+    "shampoos and body washes",
+    "fabric softeners",
+    "germicidal quaternary compounds",
+    "disinfectants",
+    "emulsifiers for spreading agricultural products",
+    "surfactants for oilfield applications"
+   ],
+   "description": "Produces surfactants, the principal ingredients in consumer and industrial cleaning and disinfection products, sold to manufacturers worldwide.",
+   "evidence": "Surfactants, which accounted for 71 percent of the Company's consolidated net sales in 2025, are principal ingredients in consumer and industrial cleaning and disinfection products such as detergents for washing clothes, dishes, carpets, floors and walls, as well as shampoos and body washes."
+  },
+  {
+   "name": "Polymers",
+   "products": [
+    "polyurethane polyols",
+    "polyester resins",
+    "phthalic anhydride",
+    "specialty polyols"
+   ],
+   "description": "Manufactures polyurethane polyols, polyester resins and phthalic anhydride used in construction, coatings, adhesives, sealants, elastomers and consumer products.",
+   "evidence": "Polymers, which accounted for 25 percent of consolidated net sales in 2025, include polyurethane polyols, polyester resins and phthalic anhydride."
+  },
+  {
+   "name": "Specialty Products",
+   "products": [
+    "flavors",
+    "emulsifiers",
+    "solubilizers"
+   ],
+   "description": "Produces chemicals used in food, flavoring, nutritional supplement and pharmaceutical applications.",
+   "evidence": "Specialty products, which accounted for four percent of consolidated net sales in 2025, include flavors, emulsifiers and solubilizers used in food, flavoring, nutritional supplement and pharmaceutical applications."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company sells specialty and intermediate chemicals to other manufacturers rather than directly to the retail market.",
+  "evidence": "The Company does not sell directly to the retail market but sells to a wide range of manufacturers in many industries and has many competitors."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company sold its Stepan Philippines Quaternaries, Inc. manufacturing assets in the Philippines and its Lake Providence, Louisiana manufacturing assets.",
+   "evidence": "During the fourth quarter of 2025, the Company completed the sale of its Stepan Philippines Quaternaries, Inc. (SPQI) manufacturing assets located in Bauan, Batangas, Philippines to Masurf, Inc, a subsidiary of Musim Mas Holdings Pte. Ltd."
+  }
+ ],
+ "dropped": []
+}

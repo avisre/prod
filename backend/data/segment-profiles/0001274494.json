@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001274494",
+ "issuerName": "First Solar, Inc.",
+ "builtAt": "2026-11-14T17:36:45.672Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001274494-26-000021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1274494/000127449426000021/fslr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CdTe Solar Modules",
+   "products": [
+    "Series 7 modules"
+   ],
+   "description": "Design, manufacture, and sale of thin film CdTe solar modules that convert sunlight into electricity for various customers.",
+   "evidence": "First Solar operates as one business, which involves the design, manufacture, and sale of CdTe solar modules, which convert sunlight into electricity."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including system developers, independent power producers, utilities, and corporate energy buyers purchase solar modules priced on a per watt basis.",
+  "evidence": "Our third-party customers include system developers, independent power producers, utilities, commercial and industrial companies, large corporate energy buyers, and other system owners and operators."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CdTe Solar Modules): CdTe solar modules"
+ ]
+}

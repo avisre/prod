@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001956741",
+ "issuerName": "Zone Frontier Inc",
+ "builtAt": "2026-11-15T02:50:50.268Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-104157",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1956741/000121390026104157/ea0306318-10k_zone.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CleanCore",
+   "products": [],
+   "description": "Develops and produces cleaning products using patented nanobubble technology for professional, industrial, or home use.",
+   "evidence": "CleanCore, which specializes in the development and production of cleaning products that produce pure aqueous ozone using patented nanobubble technology that is highly effective in cleaning, sanitizing, and deodorizing surfaces and high-touch areas"
+  },
+  {
+   "name": "Treasury",
+   "products": [
+    "Dogecoin"
+   ],
+   "description": "Manages digital assets focused on Dogecoin holdings as part of a treasury strategy.",
+   "evidence": "Treasury, established on September 5, 2025 when the Company adopted a Digital Asset Trading strategy focused on Dogecoin as part of a $175 million private placement offering."
+  },
+  {
+   "name": "Critical AI Infrastructure",
+   "products": [
+    "Data center facilities",
+    "Compute capacity"
+   ],
+   "description": "Builds data centers providing powered land and critical IT infrastructure to meet AI companies' compute needs.",
+   "evidence": "Critical AI Infrastructure, announced on June 8, 2026, focused on building data centers to meet the increasing compute needs of AI companies"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "CleanCore segment generates revenue from sales of aqueous ozone cleaning products to professional, industrial, and home customers through a distributor network.",
+  "evidence": "The \"Other\" category of revenue consists primarily of sales of ice and laundry units, parts, accessories, shipping and handling, and equipment rental income."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CleanCore): Aqueous ozone cleaning products",
+  "product not in text (CleanCore): Sanitation products",
+  "product not in text (CleanCore): Deodorizing products",
+  "change not grounded: On June 8, 2026, the Company announced plans to sell or dispose substantially al",
+  "change not grounded: Treasury segment established on September 5, 2025 when the Company adopted a Dig",
+  "change not grounded: Critical AI Infrastructure segment announced on June 8, 2026, representing a new"
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000769218",
+ "issuerName": "AEGON LTD.",
+ "builtAt": "2026-11-14T13:50:33.455Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-124987",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/769218/000119312526124987/d29563d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Transamerica",
+    "World Financial Group (WFG)",
+    "life insurance",
+    "retirement",
+    "investment solutions"
+   ],
+   "description": "Transamerica provides life insurance, retirement and investment solutions in the United States, supported by the WFG affiliated agent network in the US and Canada.",
+   "evidence": "The first, Transamerica, is a leading provider of life insurance, retirement, and investment solutions in the United States."
+  },
+  {
+   "name": "United Kingdom",
+   "products": [
+    "digital savings and retirement platform"
+   ],
+   "description": "Aegon UK aims to be a leading digital savings and retirement platform provider serving individuals, advisors and employers in workplace and advisor markets.",
+   "evidence": "In the United Kingdom , Aegon aims to become a leading digital savings and retirement platform provider in the workplace and advisor markets."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Transamerica Life (Bermuda)",
+    "Aegon THTF Life Insurance Company",
+    "MAG Seguros"
+   ],
+   "description": "Life insurance serving affluent and high-net-worth individuals mainly in Asia, plus insurance joint ventures in Spain & Portugal, China and Brazil.",
+   "evidence": "Transamerica Life (Bermuda) provides life insurance solutions to affluent and high-net-worth individuals, mainly in Asia, through offices in Hong Kong and Singapore."
+  },
+  {
+   "name": "Asset Management",
+   "products": [
+    "fixed income",
+    "equities",
+    "multi-asset",
+    "alternative investments"
+   ],
+   "description": "Aegon Asset Management is a global investment manager serving clients with fixed income, equities, multi-asset and alternative investment solutions.",
+   "evidence": "Aegon Asset Management (Aegon AM) is a global investment manager providing solutions across fixed income, equities, multi-asset, and alternative investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Aegon earns revenue from insurance premiums, investment returns, fees and commissions paid by customers and clients of its insurance and asset management businesses.",
+  "evidence": "Aegon derives its revenue and earnings from insurance premiums, investment returns, fees, and commissions."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Aegon combined Aegon Nederland with a.s.r. and took a strategic shareholding in the Dutch insurer.",
+   "evidence": "In the Netherlands, Aegon owns a strategic shareholding in a.s.r. following the 2023 transaction to combine Aegon Nederland with a.s.r."
+  },
+  {
+   "text": "In 2025, Aegon announced it would relocate its head office and legal seat to the US and be renamed Transamerica Inc., and announced a strategic review of the UK.",
+   "evidence": "Aegon also announced a strategic review of the UK, the further execution of Aegon's strategy to reduce capital employed in Financial Assets through a reinsurance transaction on part of its SGUL block, and a new EUR 400 million share buyback program for 2026."
+  }
+ ],
+ "dropped": [
+  "product not in text (International): Santander joint venture life, health, and non-life insurance products",
+  "change not grounded: In 2025, Aegon reduced its shareholding in a.s.r. from approximately 30% to appr"
+ ]
+}

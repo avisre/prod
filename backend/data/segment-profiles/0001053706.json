@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001053706",
+ "issuerName": "CRA International, Inc.",
+ "builtAt": "2026-11-14T17:40:32.075Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001053706-26-000006",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1053706/000105370626000006/crai-20260103.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consulting services",
+   "products": [
+    "litigation, regulatory, and financial consulting",
+    "management consulting"
+   ],
+   "description": "Global consulting firm providing economic, financial and management consulting services to corporations, law firms, and government agencies worldwide.",
+   "evidence": "CRA offers services in two broad areas: litigation, regulatory, and financial consulting and management consulting. CRA operates in one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay CRA for professional consulting services billed on a time-and-materials basis or a fixed-price basis.",
+  "evidence": "The contracts that CRA enters into and operates under specify whether the engagement will be billed on a time-and-materials basis or a fixed-price basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

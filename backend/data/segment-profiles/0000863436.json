@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000863436",
+ "issuerName": "BENCHMARK ELECTRONICS, INC.",
+ "builtAt": "2026-11-14T13:53:10.719Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-064849",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/863436/000119312526064849/bhe-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "electronic manufacturing services (EMS)",
+    "precision metal machining (PMM) services",
+    "printed circuit board assemblies (PCBAs)",
+    "subsystem and full system integration"
+   ],
+   "description": "Provides electronic manufacturing and precision metal machining services to OEMs across the Americas region.",
+   "evidence": "Americas. 2025 sales decreased 8% to $1.2 billion from $1.3 billion in 2024 primarily due to decreases in sales in our Semi-Cap, Industrial, and AC&C sectors."
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "electronic manufacturing services (EMS)",
+    "precision metal machining (PMM) services",
+    "printed circuit board assemblies (PCBAs)",
+    "subsystem and full system integration"
+   ],
+   "description": "Provides electronic manufacturing and precision metal machining services to OEMs across the Asia region.",
+   "evidence": "Asia. 2025 sales increased 7% to $1.2 billion from $1.1 billion in 2024 primarily due to increases in existing customer demand of our A&D, Semi-Cap, and Industrial sectors."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "electronic manufacturing services (EMS)",
+    "precision metal machining (PMM) services",
+    "printed circuit board assemblies (PCBAs)",
+    "subsystem and full system integration"
+   ],
+   "description": "Provides electronic manufacturing and precision metal machining services to OEMs across Europe.",
+   "evidence": "Europe. 2025 sales increased 4% to $352.5 million from $339.3 million in 2024 primarily due to increases in sales in our A&D, Medical, and Industrial sectors."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEM customers pay Benchmark for outsourced design engineering and manufacturing services, including electronics assembly, precision machining, integration, test and fulfillment.",
+  "evidence": "Benchmark Electronics, Inc. (Benchmark or the Company) is a Texas corporation that provides design engineering and advanced manufacturing services that include both electronic manufacturing services (EMS) and precision metal machining (PMM) services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Americas): design engineering services",
+  "product not in text (Asia): design engineering services",
+  "product not in text (Europe): design engineering services"
+ ]
+}

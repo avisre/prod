@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000016875",
+ "issuerName": "CANADIAN PACIFIC KANSAS CITY  LTD/CN",
+ "builtAt": "2026-11-14T14:07:14.825Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000016875-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/16875/000001687526000008/cp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rail Transportation",
+   "products": [
+    "Grain",
+    "Coal",
+    "Potash",
+    "Fertilizers and Sulphur",
+    "Forest Products",
+    "Energy, Chemicals and Plastics",
+    "Metals, Minerals and Consumer Products",
+    "Automotive"
+   ],
+   "description": "Freight transportation by rail of bulk commodities, merchandise, and intermodal traffic across North America.",
+   "evidence": "The Company only has one operating segment: rail transportation."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for freight transportation services of commodities and goods by rail across North America.",
+  "evidence": "In 2025, the Company generated Freight revenues totalling $14,776 million ($14,223 million in 2024)."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2023, the Company assumed control of Kansas City Southern on April 14, 2023 a",
+  "change not grounded: In 2025, the Company sold its 50% equity method investment in Panama Canal Railw"
+ ]
+}

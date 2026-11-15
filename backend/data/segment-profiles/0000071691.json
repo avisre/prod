@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0000071691",
+ "issuerName": "THE NEW YORK TIMES COMPANY",
+ "builtAt": "2026-11-14T13:45:41.927Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000071691-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/71691/000007169126000011/nyt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "News and information",
+   "products": [
+    "The New York Times",
+    "The Athletic",
+    "Audio",
+    "Cooking",
+    "Games",
+    "Wirecutter"
+   ],
+   "description": "A global media organization that creates and distributes high-quality news and related digital and print products to consumers and advertisers worldwide.",
+   "evidence": "In the third quarter of 2025, the Company updated its internal reporting to reflect how the Company's President and Chief Executive Officer (who is the Company's Chief Operating Decision Maker) manages the business, and as a result, the Company has determined it has one reportable segment and one reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by consumers for digital and print subscriptions and by advertisers for advertising products and services, plus affiliate, licensing and other revenues.",
+  "evidence": "We generate revenues principally from the sale of subscriptions and advertising."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company updated its internal reporting and determined it has one reportable segment and one reporting unit.",
+   "evidence": "In the third quarter of 2025, the Company updated its internal reporting to reflect how the Company's President and Chief Executive Officer (who is the Company's Chief Operating Decision Maker) manages the business, and as a result, the Company has determined it has one reportable segment and one reporting unit."
+  }
+ ],
+ "dropped": []
+}

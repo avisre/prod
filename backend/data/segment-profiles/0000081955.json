@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000081955",
+ "issuerName": "RAND CAPITAL CORPORATION",
+ "builtAt": "2026-11-14T13:46:15.084Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000950170-25-035949",
+  "periodEnd": "2023-12-31",
+  "filingDate": "2025-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/81955/000095017025035949/rand-20241231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment",
+   "products": [
+    "higher yielding debt instruments",
+    "warrants",
+    "equity investments"
+   ],
+   "description": "Rand is a regulated investment company providing debt and equity financing to privately held lower middle market companies.",
+   "evidence": "We expect to invest in privately held, lower middle market companies with committed and experienced management in a broad variety of industries."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Rand earns interest and principal repayment on debt investments, plus potential appreciation from warrants and equity instruments in portfolio companies.",
+  "evidence": "We anticipate the principal amount of our debt investments will be repaid with interest and we may realize further appreciation from warrants or other equity type instruments received in connection with an investment."
+ },
+ "changes": [
+  {
+   "text": "In connection with the completion of the Transaction, Rand shifted to an investment strategy focused on higher yielding debt investments and elected RIC tax treatment.",
+   "evidence": "In connection with the completion of the Transaction, we have shifted to an investment strategy focused on higher yielding debt investments and elected U.S. Federal tax treatment as a regulated investment company (\"RIC\")."
+  }
+ ],
+ "dropped": []
+}

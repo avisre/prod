@@ -1,0 +1,77 @@
+{
+ "version": 1,
+ "cik": "0000014930",
+ "issuerName": "Brunswick Corporation",
+ "builtAt": "2026-11-14T14:07:09.368Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000014930-26-000027",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/14930/000001493026000027/bcorp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Propulsion",
+   "products": [
+    "Avator electric propulsion systems",
+    "engines",
+    "controls",
+    "propellers"
+   ],
+   "description": "Designs, manufactures, and sells recreational marine engines and propulsion systems to boat builders and marine dealers globally.",
+   "evidence": "The Propulsion segment, which we believe is a world leader in the manufacturing and sale of recreational marine engines and propulsion systems, had net sales of $ 2,177.2 million in 2025."
+  },
+  {
+   "name": "Engine P&A",
+   "products": [
+    "engine parts and consumables",
+    "oils and lubricants",
+    "electrical products",
+    "boat parts and systems",
+    "marine parts and accessories"
+   ],
+   "description": "Sells engine parts, consumables, and boat parts and systems, and operates marine parts and accessories distribution businesses.",
+   "evidence": "The Engine Parts & Accessories (Engine P&A) segment had net sales of $ 1,217.5 million in 2025."
+  },
+  {
+   "name": "Navico Group",
+   "products": [
+    "marine electronics",
+    "electrification and power components",
+    "digital switching components",
+    "Recon trolling motor",
+    "Navan"
+   ],
+   "description": "Designs, manufactures, and markets marine electronics, electrification components, and digital switching systems for recreational and commercial markets.",
+   "evidence": "The Navico Group segment, which had net sales of $ 800.4 million in 2025, designs, develops, manufactures, and markets products and systems for the recreational and commercial marine, RV, specialty vehicle, mobile, and industrial markets, as well as aftermarket channels."
+  },
+  {
+   "name": "Boat",
+   "products": [
+    "Sea Ray",
+    "Boston Whaler",
+    "Lund Boats",
+    "Bayliner",
+    "Freedom Boat Club",
+    "Boateka"
+   ],
+   "description": "Manufactures and distributes recreational boats through Brunswick Boat Group and operates shared-access boat club and other marine services businesses.",
+   "evidence": "The Boat segment consists of the Brunswick Boat Group (Boat Group), which manufactures and distributes recreational boats, and the Business Acceleration business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Brunswick sells marine engines, propulsion systems, boats, and parts to boat builders, dealers, distributors, retailers, and end consumers, with members of Freedom Boat Club paying initiation fees and ongoing monthly dues.",
+  "evidence": "The Propulsion segment designs, manufactures, and sells engines, controls, rigging, and propellers globally to over 900 boat builders (both independent and Brunswick's Boat segment) and a network of more than 9,000 marine dealers and distributors, specialty marine retailers, marine service centers, and various local, state, and federal governmental agencies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Propulsion): Mercury outboard engines",
+  "product not in text (Propulsion): Mercury Marine inboard and sterndrive engines",
+  "product not in text (Propulsion): Mercury Racing engines",
+  "product not in text (Propulsion): Fliteboard electric eFoil systems",
+  "product not in text (Navico Group): Simrad products"
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001901279",
+ "issuerName": "NAYAX LTD.",
+ "builtAt": "2026-11-14T17:39:31.030Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-000779",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1901279/000117891326000779/zk2634476.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "The Group operates in a single reportable segment",
+   "products": [],
+   "description": "The company operates as a single segment providing integrated POS devices, SaaS solutions, and payment processing services.",
+   "evidence": "The Group operates in a single reportable segment ; the center of its activities is in Israel, and all of its sales are carried out in USA, Europe, UK, Australia, Israel and the rest of the world."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company charges fixed monthly subscription fees for SaaS solutions, payment processing fees as a percent of transaction value, and one-time revenue from integrated POS device sales.",
+  "evidence": "Our business is based on (i) fixed monthly subscription fees charged for accessing our SaaS solutions, (ii) payment processing fees charged as a percent of transaction value at the point of sale and (iii) one-time revenue from sales of our integrated POS devices."
+ },
+ "changes": [],
+ "dropped": []
+}

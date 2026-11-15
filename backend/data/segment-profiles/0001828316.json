@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0001828316",
+ "issuerName": "Pharming Group N.V.",
+ "builtAt": "2026-11-15T02:49:50.652Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001828316-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1828316/000182831626000015/pharm-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Patients and healthcare providers pay for approved therapies RUCONEST® and Joenja® through specialty pharmacies and wholesalers serving rare disease communities.",
+  "evidence": "These customers are specialty pharmacies that are specialized in distribution of pharmaceuticals in our and competitors' disease area and distribute our product."
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: RUCONEST® US",
+  "segment name not in text: RUCONEST® Europe and Rest of World",
+  "segment name not in text: Joenja® US",
+  "segment name not in text: Joenja® Europe and Rest of World",
+  "change not grounded: In 2025, Pharming acquired Abliva AB and its lead asset napazimone (KL1333) for "
+ ],
+ "escalated": "no segments"
+}

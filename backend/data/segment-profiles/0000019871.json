@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000019871",
+ "issuerName": "Chicago Rivet & Machine Co.",
+ "builtAt": "2026-11-14T14:07:27.553Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000019871-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/19871/000001987126000004/cvr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fastener",
+   "products": [
+    "rivets",
+    "cold-formed fasteners and components",
+    "screw-machine products"
+   ],
+   "description": "Manufactures and sells rivets, cold-formed fasteners, components, and screw-machine products for automotive applications.",
+   "evidence": "This segment manufactures and sells rivets, cold‑formed fasteners and components, as well as screw‑machine products."
+  },
+  {
+   "name": "Assembly Equipment",
+   "products": [
+    "automatic rivet-setting machines",
+    "related parts",
+    "components",
+    "tools"
+   ],
+   "description": "Manufactures automatic rivet-setting machines and related parts, components, and tools used in such machines.",
+   "evidence": "The Assembly Equipment segment is primarily engaged in the manufacture of automatic rivet‑setting machines and related parts, components, and tools used in such machines."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers in the automotive industry and related suppliers purchase the Company's fasteners and assembly equipment products.",
+  "evidence": "Revenues are primarily derived from sales to customers involved, directly or indirectly, in the manufacture of automobiles and automotive components."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the Company closed its Albia, Iowa manufacturing facility in the third ",
+  "change not grounded: In 2025, the Company sold the Albia, Iowa facility assets and real estate on Feb"
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001720446",
+ "issuerName": "ZEPP HEALTH CORP",
+ "builtAt": "2026-11-14T17:42:05.025Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-048127",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1720446/000110465926048127/zepp-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Amazfit-branded products",
+   "products": [],
+   "description": "The Group develops and sells smart wearable technology products under the Amazfit brand.",
+   "evidence": "Beginning in fiscal year 2024, to better align with its strategic focus on Amazfit-branded product developments, the Group consolidated its previous two segments (Xiaomi wearable products and Self-branded products) into a one single reportable segment (Amazfit-branded products)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Group sells smart wearable products to distributors, retailers and end consumers through various channels globally.",
+  "evidence": "Anhui Huami, one of the VIEs, sells our smart wearable products to Galaxy Trading Platform Limited, our intermediary company in Hong Kong, which in turn sells the products to overseas third parties."
+ },
+ "changes": [
+  {
+   "text": "In fiscal year 2024, the Group consolidated its previous two reportable segments, Xiaomi wearable products and Self-branded products, into one single reportable segment named Amazfit-branded products.",
+   "evidence": "Beginning in fiscal year 2024, to better align with its strategic focus on Amazfit-branded product developments, the Group consolidated its previous two segments (Xiaomi wearable products and Self-branded products) into a one single reportable segment (Amazfit-branded products)."
+  }
+ ],
+ "dropped": []
+}

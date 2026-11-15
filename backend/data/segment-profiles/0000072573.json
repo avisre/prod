@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0000072573",
+ "issuerName": "MOVADO GROUP, INC.",
+ "builtAt": "2026-11-14T13:45:44.406Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115298",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/72573/000119312526115298/mov-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Watch and Accessory Brands",
+   "products": [
+    "MOVADO",
+    "CONCORD",
+    "EBEL",
+    "OLIVIA BURTON",
+    "MVMT",
+    "COACH",
+    "TOMMY HILFIGER",
+    "HUGO BOSS"
+   ],
+   "description": "Designs, manufactures and distributes watches, jewelry and other accessories of owned and licensed brands to wholesale customers and consumers worldwide.",
+   "evidence": "The Company's Watch and Accessory Brands segment includes the designing, manufacturing and distribution of watches and, to a lesser extent, jewelry and other accessories, of quality owned and licensed brands, in addition to revenue generated from after-sales service activities and shipping."
+  },
+  {
+   "name": "Company Stores",
+   "products": [],
+   "description": "Operates retail outlet stores in the United States and Canada and an online outlet store selling current and discontinued Company products.",
+   "evidence": "The Company Stores segment includes the Company's retail outlet business."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company is paid by department stores, jewelry chains, independent jewelers and e-commerce retailers for its watches and accessories, and by consumers through its owned e-commerce sites and outlet stores.",
+  "evidence": "The Company sells all of its brands in the U.S. Watch and Accessory Brands market primarily to department stores, including Macy's and Nordstrom; major jewelry store chains, including Signet Jewelers, Ltd. and Helzberg Diamonds Corp.; independent jewelers; and third-party e-commerce retailers, including Amazon; as well as directly to consumers through the Company's owned e-commerce websites, including www.movado.com and www.mvmt.com."
+ },
+ "changes": [],
+ "dropped": []
+}

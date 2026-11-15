@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000046250",
+ "issuerName": "HAWKINS, INC.",
+ "builtAt": "2026-11-14T13:44:37.953Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000046250-26-000018",
+  "periodEnd": "2026-03-29",
+  "filingDate": "2026-05-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/46250/000004625026000018/hwkn-20260329.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water Treatment",
+   "products": [
+    "chemicals",
+    "filtration media and systems",
+    "equipment",
+    "services and solutions"
+   ],
+   "description": "Provides chemicals, filtration media, equipment and services for potable water, wastewater, industrial process water, pool and agricultural water customers.",
+   "evidence": "Our Water Treatment Group specializes in providing chemicals, filtration media and systems, equipment, services and solutions for potable water, municipal and industrial wastewater, industrial process water, mainly non-residential swimming pool water and agricultural water."
+  },
+  {
+   "name": "Food and Health Sciences",
+   "products": [
+    "base chemistry",
+    "minerals, vitamins and amino acids",
+    "excipients",
+    "botanicals and herbs",
+    "sweeteners and enzymes",
+    "fertilizers",
+    "food-grade and pharmaceutical salts and ingredients"
+   ],
+   "description": "Provides processing, formulation and ingredient distribution solutions to manufacturers in nutrition, food, pharmaceutical and agricultural markets.",
+   "evidence": "Our Food and Health Sciences Group specializes in processing and formulation solutions as well as ingredient distribution to manufacturers in the nutrition, food, pharmaceutical, and agricultural markets."
+  },
+  {
+   "name": "Industrial Solutions",
+   "products": [
+    "acids and alkalis",
+    "liquid caustic soda",
+    "sulfuric acid",
+    "hydrochloric acid",
+    "urea",
+    "phosphoric acid",
+    "aqua ammonia",
+    "potassium hydroxide"
+   ],
+   "description": "Provides industrial chemicals, products and services to industrial manufacturing, chemical processing, electronics, energy, plating and surface finishing industries.",
+   "evidence": "Our Industrial Solutions Group specializes in providing industrial chemicals, products and services to industries such as industrial manufacturing, chemical processing, electronics, energy, plating, and surface finishing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay Hawkins for chemical and ingredient products upon transfer of control, with most contracts short term and a small portion of Water Treatment construction contracts recognized over time.",
+  "evidence": "We recognize revenue upon transfer of control of the promised products to the customer, with revenue recognized at the point in time the customer obtains control of the products."
+ },
+ "changes": [
+  {
+   "text": "Effective beginning with the first quarter of fiscal 2026, Hawkins realigned its reporting segments into Water Treatment, Food and Health Sciences, and Industrial Solutions.",
+   "evidence": "Effective beginning with the first quarter of fiscal 2026, we realigned our reporting segments to better reflect how we manage our operations and allocate resources."
+  }
+ ],
+ "dropped": []
+}

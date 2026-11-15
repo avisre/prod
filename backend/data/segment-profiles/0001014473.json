@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001014473",
+ "issuerName": "VERISIGN INC/CA",
+ "builtAt": "2026-11-14T17:37:29.723Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001014473-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1014473/000101447326000006/vrsn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domain Name Registry Services",
+   "products": [
+    "IDN gTLDs",
+    "Root Zone Maintainer services",
+    "DNS resolution services"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Registrars pay per annual domain name registration; revenue also generated from registry fees and back-end service agreements.",
+  "evidence": "For .com domain name registrations, we pay ICANN on a quarterly basis $0.2575 for each annual domain name registration."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Domain Name Registry Services): .com domain registrations",
+  "product not in text (Domain Name Registry Services): .net domain registrations",
+  "product not in text (Domain Name Registry Services): .name domain registrations",
+  "product not in text (Domain Name Registry Services): .cc domain registrations",
+  "product not in text (Domain Name Registry Services): .edu back-end services",
+  "segment evidence not verbatim: Domain Name Registry Services"
+ ]
+}

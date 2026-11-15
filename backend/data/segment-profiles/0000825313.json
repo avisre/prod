@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000825313",
+ "issuerName": "ALLIANCEBERNSTEIN HOLDING L.P.",
+ "builtAt": "2026-11-14T13:52:05.491Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000825313-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/825313/000082531326000020/ab-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Management",
+   "products": [
+    "Equities",
+    "Fixed Income",
+    "Multi-Asset Solutions",
+    "Hedge Fund Strategies",
+    "Private Alternatives",
+    "Systematic Strategies"
+   ],
+   "description": "Provides diversified investment management and related research services globally to institutional, retail and private wealth clients.",
+   "evidence": "We provide diversified investment management and related services globally to a broad range of clients through our three distribution channels: Institutions, Retail and Private Wealth Management."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay the company investment advisory and services fees, generally calculated as a percentage of assets under management, plus some performance-based fees.",
+  "evidence": "Generally, we are compensated for our investment services on the basis of investment advisory and services fees calculated as a percentage of AUM."
+ },
+ "changes": [],
+ "dropped": []
+}

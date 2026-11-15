@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000106532",
+ "issuerName": "WEYCO GROUP, INC.",
+ "builtAt": "2026-11-14T13:47:21.856Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027690",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/106532/000110465926027690/weys-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North American wholesale segment (\"Wholesale\")",
+   "products": [
+    "Florsheim",
+    "Nunn Bush",
+    "Stacy Adams",
+    "BOGS",
+    "branded apparel",
+    "accessories",
+    "specialty footwear"
+   ],
+   "description": "Sells footwear to footwear, department and specialty stores and e-commerce retailers in the United States and Canada, plus worldwide licensing revenues.",
+   "evidence": "Our business is separated into two reportable segments – the North American wholesale segment (\"Wholesale\") and the North American retail segment (\"Retail\")."
+  },
+  {
+   "name": "North American retail segment (\"Retail\")",
+   "products": [
+    "e-commerce businesses",
+    "brick and mortar stores"
+   ],
+   "description": "Sells footwear directly to consumers through company websites and four brick-and-mortar stores in the United States.",
+   "evidence": "The Retail segment consists of e-commerce businesses and four brick and mortar stores in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and consumers pay for footwear purchases, and third-party licensees pay licensing revenues for branded apparel, accessories, specialty footwear and overseas footwear sales.",
+  "evidence": "We also have licensing agreements with third parties who sell our branded apparel, accessories, and specialty footwear in the United States, as well as our footwear in Mexico and certain markets overseas."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company completed the wind down of Florsheim Australia's Asia-Pacific operations.",
+   "evidence": "Florsheim Australia previously included operations in the Asia-Pacific region, but we completed the wind down of that business in 2024."
+  }
+ ],
+ "dropped": []
+}

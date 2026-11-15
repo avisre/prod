@@ -1,0 +1,66 @@
+{
+ "version": 1,
+ "cik": "0000835011",
+ "issuerName": "MGP INGREDIENTS, INC.",
+ "builtAt": "2026-11-14T13:52:23.566Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000835011-26-000031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/835011/000083501126000031/mgpi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Branded Spirits",
+   "products": [
+    "Penelope ® Bourbon",
+    "Yellowstone ® Bourbon",
+    "Rebel ® Bourbon",
+    "Remus ® Bourbon",
+    "Blood Oath ® Bourbon",
+    "Ezra Brooks ® Bourbon",
+    "El Mayor ® Tequila",
+    "Pearl ® Vodka"
+   ],
+   "description": "Produces and sells a portfolio of branded spirits across price tiers to distributors and state governments that control alcohol sales.",
+   "evidence": "Our Branded Spirits segment consists of a portfolio of high-quality brands, which we produce through our distilleries and bottling facilities and sell to distributors or to state governments that directly control the sale of alcohol."
+  },
+  {
+   "name": "Distilling Solutions",
+   "products": [
+    "Food grade alcohol",
+    "Vodka and gin",
+    "Distillers feed",
+    "Warehouse services",
+    "Blending services"
+   ],
+   "description": "Processes corn and other grains into food grade alcohol and co-products, and provides barrel warehousing and blending services to spirits customers.",
+   "evidence": "We process corn and other grains (including rye, barley, wheat, barley malt, and milo) into food grade alcohol and distillery co-products, such as distillers feed (commonly called dried distillers grain in the industry), which are produced at our distilleries in Lawrenceburg, Indiana, and Bardstown, Kentucky."
+  },
+  {
+   "name": "Ingredient Solutions",
+   "products": [
+    "Commodity wheat starches",
+    "Vital wheat gluten",
+    "Textured pea and soy proteins"
+   ],
+   "description": "Produces specialty and commodity wheat starches and wheat proteins sold to food processors, distributors, and bakeries.",
+   "evidence": "Our Ingredient Solutions segment consists primarily of specialty wheat starches, specialty wheat proteins, commodity wheat starches, and commodity wheat protein products which are sold to customers pursuant to purchase orders."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by distributors, state governments, spirits manufacturers, and food processors or bakeries under customer contracts, purchase orders, and spot-market sales for branded spirits, bulk distilled products, warehousing services, and wheat-based ingredients.",
+  "evidence": "Sales are pursuant to customer contracts and purchase orders."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Distilling Solutions): Bourbon, rye and other whiskeys (brown goods)",
+  "product not in text (Distilling Solutions): Grain neutral spirits (GNS)",
+  "product not in text (Ingredient Solutions): Fibersym ® specialty wheat starches",
+  "product not in text (Ingredient Solutions): Arise ® specialty wheat proteins",
+  "product not in text (Ingredient Solutions): Proterra ® texturized plant proteins"
+ ]
+}

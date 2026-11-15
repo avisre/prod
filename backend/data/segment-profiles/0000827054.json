@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000827054",
+ "issuerName": "MICROCHIP TECHNOLOGY INC",
+ "builtAt": "2026-11-14T13:52:10.779Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000827054-26-000016",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/827054/000082705426000016/mchp-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductor products",
+   "products": [
+    "mixed-signal microcontrollers",
+    "storage controllers",
+    "memory controllers",
+    "FPGA products",
+    "memory products"
+   ],
+   "description": "Designs, develops, manufactures and markets mixed-signal microcontrollers, development tools, analog, connectivity and memory products for distributors and OEMs.",
+   "evidence": "In the semiconductor products segment, the Company designs, develops, manufactures and markets mixed-signal microcontrollers, development tools and analog, interface, mixed-signal, timing, wired and wireless connectivity devices, and memory products."
+  },
+  {
+   "name": "Technology licensing",
+   "products": [
+    "engineering services"
+   ],
+   "description": "Sells and licenses the Company's intellectual property, including SuperFlash and other non-volatile memory technologies, to foundries, manufacturers and design partners.",
+   "evidence": "The technology licensing segment includes sales and licensing of the Company's intellectual property."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns net sales from selling semiconductor products to distributors and OEMs, and earns license fees and royalties from licensing its technologies.",
+  "evidence": "The Company sells its products to distributors and OEMs in a broad range of market segments, performs on-going credit evaluations of its customers and, as deemed necessary, may require collateral, primarily letters of credit."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Semiconductor products): PIC64 64-bit RISC-V microprocessors",
+  "product not in text (Semiconductor products): switch and retimer products",
+  "product not in text (Semiconductor products): analog products",
+  "product not in text (Technology licensing): SuperFlash technology licenses",
+  "product not in text (Technology licensing): intellectual property sales"
+ ]
+}

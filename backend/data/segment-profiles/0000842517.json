@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000842517",
+ "issuerName": "Isabella Bank Corp",
+ "builtAt": "2026-11-14T13:52:34.896Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000842517-26-000069",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/842517/000084251726000069/isba-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "residential real estate loans",
+    "consumer loans",
+    "checking accounts",
+    "savings accounts",
+    "certificates of deposit",
+    "cash management services",
+    "mobile and internet banking",
+    "trust and investment services"
+   ],
+   "description": "A community bank offering lending, deposit, trust, investment and insurance-related services to businesses, institutions, individuals and families in mid-Michigan.",
+   "evidence": "Our banking subsidiary, Isabella Bank, offers banking services throughout 31 locations, offering lending and deposit services, trust and investment services, and various insurance related products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns loan and investment interest, deposit-related fees and wealth fees from its banking customers.",
+  "evidence": "Revenue from banking operations consists primarily of loan and investment interest, deposit related fees, and wealth fees."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): commercial and agricultural operations and real estate loans"
+ ]
+}

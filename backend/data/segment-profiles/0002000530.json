@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0002000530",
+ "issuerName": "Gamehaus Holdings Inc.",
+ "builtAt": "2026-11-14T17:42:33.083Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-044775",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/2000530/000149315226044775/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Game Publishing",
+   "products": [],
+   "description": "Publishes free-to-play mobile games on iOS and Android platforms, monetizing through in-game virtual items and advertising.",
+   "evidence": "We focus on mobile gaming, and offer our games on mobile devices, including smartphones and tablets on Apple's iOS and Google's Android operating systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Players pay through in-game virtual item purchases and advertising; platform providers receive a share of in-game sales proceeds.",
+  "evidence": "We generate revenue primarily through the sale of in-game virtual items and advertising. For games distributed through third-party platforms, we are required to share a portion of the proceeds from in-game sales with the platform providers."
+ },
+ "changes": [],
+ "dropped": []
+}

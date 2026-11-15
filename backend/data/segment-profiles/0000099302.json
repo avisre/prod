@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000099302",
+ "issuerName": "TRANSCAT, INC.",
+ "builtAt": "2026-11-14T13:46:56.168Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-018588",
+  "periodEnd": "2026-03-28",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/99302/000143774926018588/trns20260328_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Service",
+   "products": [
+    "calibration",
+    "repair",
+    "inspection",
+    "analytical qualifications",
+    "preventative maintenance",
+    "consulting",
+    "Transcat Solutions",
+    "CalTrak®"
+   ],
+   "description": "Provides accredited calibration and related services plus asset management solutions to highly regulated industries, particularly life sciences.",
+   "evidence": "Through our Service segment, we offer calibration, repair, inspection, analytical qualifications, preventative maintenance, consulting and other related services, a majority of which are processed through our proprietary asset management system, CalTrak® and our online customer portal, C3®."
+  },
+  {
+   "name": "Distribution",
+   "products": [
+    "test, measurement and control instruments",
+    "equipment kitting",
+    "equipment rentals",
+    "used equipment sales"
+   ],
+   "description": "Sells and rents new and used national brand test and measurement instruments globally, with value-added calibration services.",
+   "evidence": "Through our Distribution segment, we sell and rent national brand instruments to customers globally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for calibration and related services and for the sale and rental of test and measurement instruments.",
+  "evidence": "Most instruments we sell and rent require calibration service to ensure that they maintain the most precise measurements."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026 the Company acquired Essco Calibration Laboratory, expanding its calibration service portfolio.",
+   "evidence": "Effective August 5, 2025, the Company acquired Essco, a privately-held calibration services corporation located in the Boston Metro area that is ISO 17025 certified."
+  },
+  {
+   "text": "In fiscal 2025 the Company acquired Martin Calibration and Becnel Rental Tools.",
+   "evidence": "Effective December 10, 2024, the Company acquired Martin, a privately-held Minnesota-based Midwest regional calibration services company."
+  }
+ ],
+ "dropped": []
+}

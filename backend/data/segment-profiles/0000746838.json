@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000746838",
+ "issuerName": "UNISYS CORP",
+ "builtAt": "2026-11-14T13:50:03.349Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000746838-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/746838/000074683826000006/uis-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Workplace Solutions",
+   "products": [
+    "Next-Generation Service Desk",
+    "Field Services",
+    "Unified Endpoint Management",
+    "Device Subscription Services",
+    "Experience-as-a-Service (XaaS)"
+   ],
+   "description": "Provides end-to-end workplace IT support, managing devices, hardware and applications to improve workforce productivity for enterprise and government clients.",
+   "evidence": "Our solutions include Next-Generation Service Desk for responsive automated or remote support, Field Services for support requiring physical assistance by a field technician, Unified Endpoint Management, Device Subscription Services and Experience-as-a-Service (XaaS) for predicting issues and proactively fixing them."
+  },
+  {
+   "name": "Cloud, Applications & Infrastructure Solutions",
+   "products": [
+    "Application development and modernization",
+    "Business processing solutions"
+   ],
+   "description": "Delivers cloud, application and infrastructure solutions including application development, modernization and business processing services for clients.",
+   "evidence": "Additionally, our application development and modernization capabilities, which were reported within ECS, have been operationally centralized within CA&I."
+  },
+  {
+   "name": "Enterprise Computing Solutions",
+   "products": [
+    "ClearPath Forward",
+    "Software license and related support services",
+    "Business processing solutions"
+   ],
+   "description": "Provides enterprise computing software licenses and support, primarily ClearPath Forward, along with business processing solutions for clients.",
+   "evidence": "License and Support (L&S) represents software license and related support services, primarily ClearPath® Forward, within the company's Enterprise Computing Solutions (ECS) reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay Unisys for IT solutions and managed services, including software licenses and support under recurring agreements, with some pricing tied to service and experience level metrics.",
+  "evidence": "For many DWS solutions, we seek to augment Service Level Agreements for XaaS with Experience Level Agreements (XLAs), a commercial framework that incorporate metrics related to employee experience in determining price."
+ },
+ "changes": [
+  {
+   "text": "In January 2025, Unisys integrated business processing solutions from Other Solutions into the ECS and CA&I segments and moved application development and modernization capabilities from ECS into CA&I.",
+   "evidence": "In January 2025, we changed our organizational structure to better align our portfolio of solutions to more effectively address evolving client needs and take further advantage of the synergies across our reportable segments."
+  }
+ ],
+ "dropped": [
+  "product not in text (Cloud, Applications & Infrastructure Solutions): Cloud and infrastructure solutions"
+ ]
+}

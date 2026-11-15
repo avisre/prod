@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000855658",
+ "issuerName": "Lattice Semiconductor Corp",
+ "builtAt": "2026-11-14T13:52:56.946Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004100",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/855658/000143774926004100/lscc20260103_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "core Lattice business",
+   "products": [
+    "Lattice MachXO™",
+    "Lattice CrossLink™",
+    "Lattice ECP™",
+    "silicon-enabling products",
+    "evaluation boards",
+    "development hardware",
+    "intellectual property licensing"
+   ],
+   "description": "Develops and sells low power programmable FPGAs, silicon-enabling products, and related IP licensing and services for Communications, Computing, Industrial, Automotive, and Consumer markets.",
+   "evidence": "As of January 3, 2026, we have determined that the Company operates in a single operating and reportable segment: the core Lattice business, which includes silicon-based and silicon-enabling products, evaluation boards, development hardware, and related intellectual property licensing, services, and sales."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers globally pay Lattice for programmable logic semiconductor products, silicon-enabling products, system solutions, design services, and technology licenses.",
+  "evidence": "Lattice Semiconductor Corporation and its subsidiaries (\"Lattice,\" the \"Company,\" \"we,\" \"us,\" or \"our\") develop technologies that we monetize through differentiated programmable logic semiconductor products, silicon-enabling products, system solutions, design services, and technology licenses."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (core Lattice business): FPGA devices"
+ ]
+}

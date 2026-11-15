@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001856437",
+ "issuerName": "VICTORIA'S SECRET & CO.",
+ "builtAt": "2026-11-14T17:37:31.619Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001856437-26-000004",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1856437/000185643726000004/vsco-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Victoria's Secret & Co.",
+   "products": [],
+   "description": "Specialty retailer of women's intimate apparel, other apparel and beauty products under Victoria's Secret, PINK and Adore Me brands.",
+   "evidence": "Victoria's Secret & Co. (together with its subsidiaries unless the context otherwise requires, \"we\", \"us\", \"our\" or the \"Company\") is a specialty retailer of women's intimates and other apparel and beauty products marketed under the Victoria's Secret, PINK and Adore Me brand names."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase intimate apparel, apparel and beauty products through company-operated stores and digital channels; international franchise and license partners pay royalties based on sales percentages.",
+  "evidence": "Revenue recognized under franchise and license arrangements generally consists of royalties earned and recognized upon sale of merchandise by our franchise and license partners to retail customers, typically based on a percentage of sales."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Victoria's Secret & Co.): Victoria's Secret bras, panties, lingerie, sleepwear, apparel, sport and swim",
+  "product not in text (Victoria's Secret & Co.): Victoria's Secret prestige fragrances and body care",
+  "product not in text (Victoria's Secret & Co.): PINK apparel, sleepwear, intimates, swim, beauty and accessories",
+  "product not in text (Victoria's Secret & Co.): Adore Me lingerie and apparel",
+  "product not in text (Victoria's Secret & Co.): DailyLook styling service",
+  "change not grounded: In 2022, the company acquired Adore Me, a digitally-native intimates brand, whic"
+ ]
+}

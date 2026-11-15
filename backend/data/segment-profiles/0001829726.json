@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001829726",
+ "issuerName": "Triple Flag Precious Metals Corp.",
+ "builtAt": "2026-11-14T17:38:57.733Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-036188",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1829726/000110465926036188/tfpm-20251231xex99d1.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Streams and royalties",
+   "products": [
+    "stream interests",
+    "royalty interests",
+    "gold",
+    "silver"
+   ],
+   "description": "Holds stream, royalty and similar interests in precious metals mining properties operated by third parties.",
+   "evidence": "Triple Flag does not own, develop or mine the underlying properties on which it holds stream or royalty interests."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from its stream and royalty interests in mining properties, tied to metal production and prices.",
+  "evidence": "are based on stream and royalty interests and are calculated on a quarterly basis by dividing all revenue from such interests for the quarter by the average gold price during such quarter."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

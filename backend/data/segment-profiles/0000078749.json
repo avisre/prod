@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000078749",
+ "issuerName": "AGILYSYS, INC.",
+ "builtAt": "2026-11-14T13:46:04.463Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-234423",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/78749/000119312526234423/agys-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hospitality",
+   "products": [
+    "point-of-sale (POS)",
+    "property management (PMS)",
+    "inventory and procurement",
+    "payments"
+   ],
+   "description": "Develops and markets cloud-native SaaS and on-premise hospitality software and services for hotels, resorts, casinos, cruise lines, restaurants, universities, stadiums and healthcare facilities.",
+   "evidence": "The Company has one reportable segment serving the global hospitality industry."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitality operators pay Agilysys for software licenses and third-party hardware, recurring subscription and maintenance fees including transaction-based fees, and professional implementation and integration services.",
+  "evidence": "Subscription and maintenance revenue – Revenue earned from the ongoing delivery of software updates, upgrades, bug fixes, technical support, and transaction-based fees over the period covered by subscription or maintenance agreements with our customers for both proprietary and remarketed solutions."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Hospitality): Book4Time spa management SaaS software"
+ ]
+}

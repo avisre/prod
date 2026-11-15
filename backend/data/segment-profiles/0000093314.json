@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000093314",
+ "issuerName": "VolitionRx Limited",
+ "builtAt": "2026-11-14T13:46:38.444Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-001832",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/93314/000147793226001832/vnrx_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blood tests",
+   "products": [
+    "Nu.Q® Vet Cancer Test",
+    "Nu.Q® NETs",
+    "Nu.Q® Discover",
+    "Nu.Q® Cancer",
+    "Capture-Seq™",
+    "Capture-PCR™"
+   ],
+   "description": "Develops and brings to market simple, cost-effective blood tests to help diagnose and monitor life-altering diseases including cancers and sepsis.",
+   "evidence": "Management has determined that the Company operates as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales of its Nu.Q® Vet Cancer Test, nucleosomes and research use only kits, plus service revenue from laboratory work, and licensing and royalty revenue from third parties.",
+  "evidence": "The Company generates product revenues from the sale of its Nu.Q ® Vet Cancer Test, from the sale of nucleosomes, and from the sale of research use only kits."
+ },
+ "changes": [],
+ "dropped": []
+}

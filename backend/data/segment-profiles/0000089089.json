@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000089089",
+ "issuerName": "SERVICE CORPORATION INTERNATIONAL",
+ "builtAt": "2026-11-14T13:46:25.733Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-007695",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/89089/000162828026007695/sci-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Funeral",
+   "products": [
+    "Funeral services",
+    "Cremations",
+    "Burial caskets and related accessories",
+    "Urns and other cremation receptacles",
+    "Outer burial containers",
+    "Flowers",
+    "Online and video tributes",
+    "Stationery products"
+   ],
+   "description": "Provides funeral and cremation services and sells funeral merchandise to families at funeral service locations across North America.",
+   "evidence": "Funeral service locations provide all professional services related to funerals and cremations, including the use of funeral home facilities and motor vehicles, arranging and directing services, removal, preparation, embalming, cremations, memorialization, and catering."
+  },
+  {
+   "name": "Cemetery",
+   "products": [
+    "Cemetery property interment rights",
+    "Developed lots",
+    "Lawn crypts",
+    "Mausoleum spaces",
+    "Cremation niches",
+    "Memorial cemetery markers and bases",
+    "Outer burial containers",
+    "Graveside services"
+   ],
+   "description": "Sells cemetery property interment rights and cemetery merchandise and services, including on a preneed basis, to families at its cemeteries.",
+   "evidence": "Our cemeteries provide cemetery property interment rights, including developed lots, lawn crypts, mausoleum spaces, cremation niches, and custom inventory, including private mausoleums, family estates, and exclusive cremation memorialization options."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for funeral and cemetery products and services at the time of need or contractually in advance under preneed sales, with preneed revenue recognized when services are performed.",
+  "evidence": "We sell cemetery property and funeral and cemetery merchandise and services at the time of need and on a preneed basis."
+ },
+ "changes": [],
+ "dropped": []
+}

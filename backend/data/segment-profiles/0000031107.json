@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000031107",
+ "issuerName": "THE EASTERN COMPANY",
+ "builtAt": "2026-11-14T14:08:15.589Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001654954-26-001850",
+  "periodEnd": "2026-01-03",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/31107/000165495426001850/eml_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Engineered Solutions",
+   "products": [
+    "turnkey returnable packaging solutions",
+    "blow mold tools",
+    "injection blow mold tooling",
+    "access and security hardware",
+    "vision technology"
+   ],
+   "description": "Designs, manufactures and sells engineered solutions for industrial markets, primarily commercial transportation and logistics.",
+   "evidence": "The Engineered Solutions segment provides engineered solutions to support our customers' needs primarily in the commercial transportation and logistics markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for custom and standard vehicular and industrial hardware, packaging solutions, and related products sold primarily to original equipment manufacturers.",
+  "evidence": "These businesses design, manufacture, and market a diverse product line of custom and standard vehicular and industrial hardware, including turnkey returnable packaging solutions, access and security hardware, mirrors, and mirror-cameras."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Engineered Solutions): mirrors and mirror-cameras",
+  "change not grounded: In 2024, the company decided to sell Big 3 Mold and classified it as discontinue",
+  "change not grounded: In 2025, the company sold the ISBM division of Big 3 Mold and reclassified remai"
+ ]
+}

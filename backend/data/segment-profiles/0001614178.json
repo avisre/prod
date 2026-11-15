@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001614178",
+ "issuerName": "Yext, Inc.",
+ "builtAt": "2026-11-14T17:41:19.194Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-016402",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1614178/000162828026016402/yext-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Yext, Inc.",
+   "products": [
+    "Listings",
+    "Reviews",
+    "Pages",
+    "Search",
+    "Social",
+    "Relate",
+    "Scout"
+   ],
+   "description": "Provides a digital presence platform enabling businesses to manage knowledge and deliver consistent, accurate experiences across digital channels.",
+   "evidence": "Our platform powers all of our key products, including Listings, Reviews, Pages, Search, Social, Relate, and Scout, each with robust analytics capabilities for businesses to easily track performance across customer experiences."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses subscribe to the platform for access to services delivering information across publishers and managing digital presence.",
+  "evidence": "The Company derives its revenue primarily from its subscriptions and associated support to the Company's platform."
+ },
+ "changes": [],
+ "dropped": []
+}

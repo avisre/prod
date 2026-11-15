@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000010329",
+ "issuerName": "BASSETT FURNITURE INDUSTRIES INC",
+ "builtAt": "2026-11-14T14:06:55.013Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-003189",
+  "periodEnd": "2025-11-29",
+  "filingDate": "2026-02-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/10329/000143774926003189/bset20251129d_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Wholesale",
+   "products": [
+    "Bassett Custom Upholstery",
+    "Bassett Leather",
+    "Bassett Custom Wood",
+    "Bassett Casegoods",
+    "Lane Venture"
+   ],
+   "description": "Designs, manufactures and sources furniture distributed through Bassett stores and independent furniture retailers.",
+   "evidence": "The wholesale home furnishings segment is involved principally in the design, manufacture, sourcing, sale and distribution of furniture products to a network of Bassett stores (Company-owned and licensee-owned retail stores) and independent furniture retailers."
+  },
+  {
+   "name": "Retail—Company-owned stores",
+   "products": [
+    "Bassett Custom Upholstery",
+    "Bassett Leather",
+    "Bassett Custom Wood",
+    "Bassett Casegoods",
+    "Accessories, mattresses & other"
+   ],
+   "description": "Operates Company-owned BHF stores selling furniture and accessories to consumers.",
+   "evidence": "The retail—Company-owned stores segment consists of 57 BHF stores that provide consumers with a friendly and casual environment for buying furniture and accessories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for branded home furnishings bought through Company-owned and licensee-owned stores, independent retailers and online.",
+  "evidence": "Approximately 60% of our wholesale sales arise from our network of 86 Company-owned and licensee-owned Bassett Home Furnishings (\"BHF\") stores."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Company ceased operations and liquidated Noa Home, which had been reported in the Corporate and other category.",
+   "evidence": "During the second quarter of 2024 we concluded that Noa Home was not likely to achieve profitability in the foreseeable future and decided to cease operations by selling the inventory in an orderly fashion."
+  }
+ ],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

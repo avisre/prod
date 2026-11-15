@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001652535",
+ "issuerName": "ICHOR HOLDINGS, LTD.",
+ "builtAt": "2026-11-14T17:36:51.217Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001652535-26-000012",
+  "periodEnd": "2025-12-26",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1652535/000165253526000012/ichr-20251226.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fluid Delivery Subsystems and Components",
+   "products": [
+    "Gas delivery subsystems",
+    "Chemical delivery subsystems",
+    "Precision-machined components",
+    "Weldments",
+    "E-beam and laser welded components",
+    "Precision vacuum and hydrogen brazing",
+    "Surface treatment technologies"
+   ],
+   "description": "Design, engineering and manufacturing of critical fluid delivery subsystems and components for semiconductor capital equipment and other industries.",
+   "evidence": "We are a leader in the design, engineering and manufacturing of critical fluid delivery subsystems and components primarily for semiconductor capital equipment, as well as other industries such as defense/aerospace and medical."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEM customers engaged in manufacturing semiconductor capital equipment pay for design, engineering, and manufacturing of fluid delivery subsystems and components.",
+  "evidence": "We provide fluid delivery solutions, subsystems, and complex machined components to our customers, supporting their most advanced products."
+ },
+ "changes": [],
+ "dropped": []
+}

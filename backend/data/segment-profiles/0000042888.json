@@ -1,0 +1,68 @@
+{
+ "version": 1,
+ "cik": "0000042888",
+ "issuerName": "GRACO INC.",
+ "builtAt": "2026-11-14T13:44:32.130Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000042888-26-000081",
+  "periodEnd": "2025-12-26",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/42888/000004288826000081/ggg-20251226.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contractor",
+   "products": [
+    "two-component proportioning systems",
+    "spray foam",
+    "polyurea coatings",
+    "pumps and proportioning equipment",
+    "volumetric and gravimetric dispense, mixing, and shaking equipment"
+   ],
+   "description": "Sells sprayers and proportioning equipment for paint, texture, coatings and spray foam to professional painters, contractors, tradesmen and do-it-yourselfers.",
+   "evidence": "Through this segment, we offer sprayers that apply paint to walls and other structures, with product models for users ranging from do-it-yourself homeowners to professional contractors."
+  },
+  {
+   "name": "Industrial",
+   "products": [
+    "sealants",
+    "adhesives"
+   ],
+   "description": "Markets equipment and solutions for moving and applying paints, powder coatings, sealants, adhesives and other fluids to industrial and vehicle markets.",
+   "evidence": "The Industrial segment markets equipment and solutions for moving and applying paints, powder coatings, sealants, adhesives and other fluids."
+  },
+  {
+   "name": "Expansion Markets",
+   "products": [
+    "environmental",
+    "semiconductor",
+    "high-pressure valves",
+    "electric motors"
+   ],
+   "description": "Houses environmental, semiconductor, high-pressure valves and electric motors businesses plus select future ventures and acquisitions.",
+   "evidence": "The Company's environmental, semiconductor, high-pressure valves and electric motors businesses, together with select future ventures and acquisitions, reside within this division."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Graco sells equipment primarily through independent third-party distributors and selected retailers worldwide, with some businesses selling directly to end-user customers.",
+  "evidence": "For all segments, we primarily sell our equipment through third-party distributors worldwide, positioned throughout our geographic regions, and through selected retailers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the former Industrial and Lubrication Equipment Divisions plus the Process Transfer Equipment business were combined into the new global Industrial Division.",
+   "evidence": "The Company's former Industrial and Lubrication Equipment Divisions, along with the Process Transfer Equipment business that was part of the Company's former Process Division, were combined to form the new global Industrial Division."
+  }
+ ],
+ "dropped": [
+  "product not in text (Contractor): paint sprayers",
+  "product not in text (Contractor): texture sprayers",
+  "product not in text (Contractor): road marking sprayers",
+  "product not in text (Industrial): paints application equipment",
+  "product not in text (Industrial): powder coatings equipment",
+  "product not in text (Industrial): fluid handling equipment",
+  "change not grounded: Effective January 1, 2025, Graco reclassified its business into three reportable"
+ ]
+}

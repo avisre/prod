@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0001000184",
+ "issuerName": "SAP SE",
+ "builtAt": "2026-11-14T17:37:40.445Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-020058",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Applications, Technology & Support (ATS)",
+   "products": [
+    "Cloud",
+    "Software licenses",
+    "Software support",
+    "Cloud ERP Suite",
+    "Services"
+   ],
+   "description": "SAP's cohesive product portfolio generating revenue from cloud subscriptions, support offerings, and integrated training for customers.",
+   "evidence": "The ATS segment represents SAP's cohesive product portfolio, which is holistically steered and commercialized."
+  },
+  {
+   "name": "Core Services",
+   "products": [
+    "professional consulting services",
+    "premium support services"
+   ],
+   "description": "Supports SAP's product portfolio by enabling customers to accelerate adoption of innovations through consulting and premium support.",
+   "evidence": "The Core Services segment supports SAP's product portfolio by enabling customers to accelerate the adoption of innovations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay SAP mainly for cloud subscriptions and support offerings, plus professional consulting and premium support services.",
+  "evidence": "It primarily generates revenue from cloud subscriptions and support offerings, and it incurs costs for operating our cloud solutions and customer support."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

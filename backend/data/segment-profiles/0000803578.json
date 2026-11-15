@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000803578",
+ "issuerName": "FIREFLY NEUROSCIENCE, INC.",
+ "builtAt": "2026-11-14T13:51:29.363Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-010500",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/803578/000143774926010500/aiff20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Firefly Products",
+   "products": [
+    "Evoke System",
+    "Firefly Platform",
+    "EEG and ERP assessments"
+   ],
+   "description": null,
+   "evidence": "The Company has one reportable segment managed on a consolidated basis: Firefly Products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clinics pay a monthly tiered subscription fee for access to the Evoke System, a defined volume of assessments, and the analytics platform, with excess assessments billed at a per-scan overage rate.",
+  "evidence": "Clinics pay a monthly subscription fee that provides access to the Evoke System, a defined volume of assessments per month, and access to our analytics and reporting platform."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Evoke Neuroscience, Inc. to increase capacity and expand its customer base.",
+   "evidence": "On April 30, 2025, the Company entered into a Securities Purchase Agreement (the \"Securities Purchase Agreement\") with Evoke Neuroscience, Inc. (\"Evoke\") and stockholders of Evoke (the \"Sellers\") to increase Firefly Neuroscience, Inc.'s capacity and expand its customer base."
+  }
+ ],
+ "dropped": [
+  "product not in text (Firefly Products): cloud-based analytics and reporting platform"
+ ]
+}

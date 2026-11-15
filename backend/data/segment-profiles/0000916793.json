@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000916793",
+ "issuerName": "SILICOM LTD.",
+ "builtAt": "2026-11-14T17:41:35.290Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-002258",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/916793/000117891326002258/zk2635063.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Networking and Data Infrastructure Solutions",
+   "products": [
+    "Server Network Interface Cards",
+    "Smart Cards",
+    "Smart Platforms",
+    "Intelligent Bypass Switches",
+    "FPGA-based solutions",
+    "AI NICs",
+    "White-label switches"
+   ],
+   "description": "Provider of high-performance networking and data infrastructure solutions for cloud, data center and edge environments.",
+   "evidence": "We are an industry-leading provider of high-performance networking and data infrastructure solutions. Designed to optimize performance and efficiency in Cloud, Data Center and Edge environments, our solutions increase throughput and minimize latency, serving as the infrastructure backbone for today's most critical technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including cloud players, service providers, telecommunications companies and OEMs purchase networking and data infrastructure solutions used as components of their infrastructure offerings.",
+  "evidence": "Our products are used by major Cloud players, service providers, telecommunications companies (\"Telcos\"), and Original Equipment Manufacturers (OEMs) as components of their infrastructure offerings."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Networking and Data Infrastructure Solutions): Post Quantum Cryptography hardware accelerators"
+ ]
+}

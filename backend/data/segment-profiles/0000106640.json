@@ -1,0 +1,65 @@
+{
+ "version": 1,
+ "cik": "0000106640",
+ "issuerName": "WHIRLPOOL CORP /DE/",
+ "builtAt": "2026-11-14T13:47:23.122Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000106640-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/106640/000010664026000009/whr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MDA North America",
+   "products": [
+    "Whirlpool",
+    "KitchenAid",
+    "Maytag",
+    "Amana",
+    "InSinkErator",
+    "JennAir",
+    "affresh",
+    "Swash"
+   ],
+   "description": "Markets and distributes major home appliances and other consumer products in the United States and Canada to retailers, distributors, builders and consumers.",
+   "evidence": "In the United States and Canada, we market and distribute major home appliances and other consumer products primarily under the Whirlpool, KitchenAid, Maytag, Amana, InSinkErator, JennAir, affresh, Swash, everydrop and Gladiator brand names primarily to retailers, distributors and builders, as well as directly to consumers."
+  },
+  {
+   "name": "MDA Latin America",
+   "products": [
+    "Consul",
+    "Brastemp",
+    "Whirlpool",
+    "KitchenAid",
+    "Acros",
+    "Maytag",
+    "Eslabon de Lujo"
+   ],
+   "description": "Produces, markets and distributes major home appliances and other consumer products across Latin America to retailers, distributors and consumers.",
+   "evidence": "In Latin America, we produce, market and distribute our major home appliances and other consumer products primarily under the Consul, Brastemp, Whirlpool, KitchenAid, Acros, Maytag and Eslabon de Lujo brand names primarily to retailers, distributors and directly to consumers."
+  },
+  {
+   "name": "SDA Global",
+   "products": [
+    "KitchenAid stand mixer",
+    "small domestic appliances"
+   ],
+   "description": "Markets small domestic appliances under the KitchenAid brand to retailers, distributors and consumers in multiple countries.",
+   "evidence": "We market small domestic appliances under the KitchenAid brand name to retailers, distributors and directly to consumers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Whirlpool earns net sales from selling major and small home appliances to retailers, distributors, builders and other manufacturers, as well as directly to consumers.",
+  "evidence": "We sell some products to other manufacturers, distributors, and retailers for resale in North America under those manufacturers' and retailers' respective brand names."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the MDA Asia segment ceased to be reported as a result of the deconsoli",
+  "change not grounded: In 2024, the MDA Europe segment was deconsolidated as of April 1, 2024 following",
+  "change not grounded: Effective January 1, 2024, Whirlpool reorganized its operating segments, includi"
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0000818033",
+ "issuerName": "HERON THERAPEUTICS, INC. /DE/",
+ "builtAt": "2026-11-14T13:51:51.757Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-073515",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/818033/000119312526073515/hrtx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial-stage biotechnology",
+   "products": [
+    "ZYNRELEF",
+    "APONVIE",
+    "CINVANTI",
+    "SUSTOL"
+   ],
+   "description": "A commercial-stage biotechnology company that develops and commercializes therapeutic innovations for acute care and oncology patients.",
+   "evidence": "We are a commercial-stage biotechnology company focused on improving the lives of patients by developing and commercializing therapeutic innovations that improve medical care."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid by specialty distributors and full line wholesalers in the U.S. that resell its products to healthcare providers and hospitals, the end users.",
+  "evidence": "Our Products are distributed in the U.S. through a limited number of specialty distributors and full line wholesalers that resell to healthcare providers and hospitals, the end users of our Products."
+ },
+ "changes": [],
+ "dropped": []
+}

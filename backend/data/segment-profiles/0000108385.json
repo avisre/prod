@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000108385",
+ "issuerName": "WORLD ACCEPTANCE CORP",
+ "builtAt": "2026-11-14T13:47:26.474Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000108385-26-000014",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/108385/000010838526000014/wrld-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer finance",
+   "products": [
+    "Small loans",
+    "Large loans",
+    "Tax advance loans",
+    "Insurance products",
+    "Income tax preparation",
+    "Automobile club"
+   ],
+   "description": "Provides consumer loans and complementary services such as insurance, tax preparation and automobile club through a branch network.",
+   "evidence": "The Company has one reportable segment: the consumer finance segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay interest and fees on short- to medium-term consumer loans, plus premiums and fees for related insurance, tax preparation and automobile club services.",
+  "evidence": "During fiscal 2026, 2025, and 2024, the Company originated loans generally ranging up to $ 5,300 with terms of 60 months or fewer."
+ },
+ "changes": [],
+ "dropped": []
+}

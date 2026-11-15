@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000752642",
+ "issuerName": "UMH PROPERTIES, INC.",
+ "builtAt": "2026-11-14T13:50:12.959Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-008042",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/752642/000149315226008042/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Manufactured home communities",
+   "products": [
+    "Manufactured homesites",
+    "Self-storage units"
+   ],
+   "description": "Owns and operates manufactured home communities, leasing homesites and homes to residents, and sells and finances manufactured homes through its subsidiary S&F.",
+   "evidence": "The Company's primary business is the ownership and operation of manufactured home communities – leasing manufactured homesites to residents."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay the Company rent on annual or month-to-month leases for homesites and rental homes, and homebuyers pay S&F for manufactured home sales and financing.",
+  "evidence": "Each homeowner leases the site from the Company on which the manufactured home is located."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Manufactured home communities): Rental manufactured homes",
+  "product not in text (Manufactured home communities): Manufactured home sales and financing"
+ ]
+}

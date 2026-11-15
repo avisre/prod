@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000008818",
+ "issuerName": "AVERY DENNISON CORPORATION",
+ "builtAt": "2026-11-14T14:06:44.474Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000008818-26-000015",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/8818/000000881826000015/avy-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Materials Group",
+   "products": [],
+   "description": "Global provider of pressure-sensitive label and graphics materials, functional bonding materials and tapes for converters and end users.",
+   "evidence": "Our Materials Group is a leading global provider to the pressure-sensitive label and graphics industries. Our innovative products include label materials, graphics and reflective materials and functional bonding materials, like tapes."
+  },
+  {
+   "name": "Solutions Group",
+   "products": [
+    "RFID solutions",
+    "Brand embellishments",
+    "Graphic tickets",
+    "Tags and labels",
+    "Sustainable packaging"
+   ],
+   "description": "Provider of information and branding solutions including RFID, brand embellishment, pricing, and retail media for multiple industries.",
+   "evidence": "Our Solutions Group is a leading provider of information and branding solutions that cover worldwide marketplace needs ranging from digital identification and data management to branding and embellishment, productivity, pricing and retail media."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including converters, retailers, and end-users pay for pressure-sensitive materials, graphics, tapes, RFID solutions and information solutions sold globally.",
+  "evidence": "Label materials are sold worldwide to converters for labeling, decorating and specialty applications in the food, home and personal care, beer and beverage, durables, pharmaceutical, wine and spirits and logistics market segments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Materials Group): Fasson brand pressure-sensitive label materials",
+  "product not in text (Materials Group): JAC brand pressure-sensitive label materials",
+  "product not in text (Materials Group): Avery Dennison brand pressure-sensitive label materials",
+  "product not in text (Materials Group): Avery Dennison brand performance tapes",
+  "product not in text (Materials Group): Fasson brand performance tapes",
+  "product not in text (Materials Group): Avery Dennison brand graphics",
+  "product not in text (Materials Group): Mactac brand graphics",
+  "product not in text (Materials Group): Avery Dennison brand reflective products",
+  "product not in text (Solutions Group): Price ticketing and marking solutions",
+  "product not in text (Solutions Group): Vestcom brand shelf-edge productivity and media solutions",
+  "change not grounded: In 2025, the company acquired W.F. Taylor Holdings, Inc., a Georgia-based floori"
+ ]
+}

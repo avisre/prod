@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000100885",
+ "issuerName": "UNION PACIFIC CORP",
+ "builtAt": "2026-11-14T13:47:01.685Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000100885-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/100885/000010088526000037/unp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Railroad",
+   "products": [
+    "Bulk",
+    "Industrial",
+    "Premium"
+   ],
+   "description": "Operates a Class I freight railroad serving customers across the western two-thirds of the United States, with connections to Canada and Mexico.",
+   "evidence": "The Railroad, along with its subsidiaries and rail affiliates, is our one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay Union Pacific freight revenues to transport commodities across its rail network, reported across Bulk, Industrial, and Premium commodity groups.",
+  "evidence": "In 2025, we generated freight revenues totaling $23.2 billion from the following three commodity groups: 2025 Freight Revenues"
+ },
+ "changes": [],
+ "dropped": []
+}

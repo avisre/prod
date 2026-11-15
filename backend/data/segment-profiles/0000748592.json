@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0000748592",
+ "issuerName": "Ernexa Therapeutics Inc.",
+ "builtAt": "2026-11-14T13:50:05.229Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010102",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/748592/000149315226010102/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and development of cellular therapies",
+   "products": [
+    "ERNA-101",
+    "ERNA-201"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Research and development of cellular therapies"
+ ]
+}

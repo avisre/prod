@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000717806",
+ "issuerName": "FIRST US BANCSHARES INC",
+ "builtAt": "2026-11-14T13:49:11.655Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-103635",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/717806/000119312526103635/fusb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "First US Bank",
+   "products": [
+    "demand deposits",
+    "savings deposits",
+    "individual retirement account and time deposits",
+    "personal and commercial loans",
+    "safe deposit box services",
+    "remote deposit capture",
+    "indirect lending"
+   ],
+   "description": "A wholly-owned banking subsidiary conducting a general commercial banking business for small- and medium-sized businesses, professionals and individuals.",
+   "evidence": "The Bank is the Company's only reportable operating segment upon which management makes decisions regarding how to allocate resources and assess performance."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Bank earns interest on loans and fees for banking services provided to deposit and loan customers.",
+  "evidence": "The Bank conducts a general commercial banking business and offers banking services such as demand, savings, individual retirement account and time deposits, personal and commercial loans, safe deposit box services and remote deposit capture."
+ },
+ "changes": [],
+ "dropped": []
+}

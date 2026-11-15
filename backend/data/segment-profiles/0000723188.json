@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000723188",
+ "issuerName": "COMMUNITY FINANCIAL SYSTEM, INC.",
+ "builtAt": "2026-11-14T13:49:26.906Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021651",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/723188/000110465926021651/cbu-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking and Corporate",
+   "products": [
+    "lending and depository-related products and services",
+    "treasury management solutions",
+    "payment processing services"
+   ],
+   "description": "Provides lending and depository services to individuals, businesses and governmental units across branches in New York, Pennsylvania, Vermont, Massachusetts and New Hampshire.",
+   "evidence": "The Banking and Corporate segment provides a wide array of lending and depository-related products and services to individuals, businesses, and governmental units with branch locations in Upstate New York as well as Northeastern Pennsylvania, Vermont, Western Massachusetts, and Southern New Hampshire."
+  },
+  {
+   "name": "Employee Benefit Services",
+   "products": [
+    "collective investment fund administration",
+    "retirement plan administration",
+    "health savings account administration",
+    "fund administration",
+    "transfer agency",
+    "actuarial services",
+    "health and welfare consulting services"
+   ],
+   "description": "Nationally provides employee benefit trust, retirement plan, health savings account and fund administration, transfer agency, actuarial and consulting services.",
+   "evidence": "Employee Benefit Services, consisting of BPAS and its subsidiaries, provides the following on a national basis: employee benefit trust, collective investment fund, retirement plan and health savings account administration, fund administration, transfer agency, actuarial, and health and welfare consulting services."
+  },
+  {
+   "name": "Insurance Services",
+   "products": [
+    "commercial lines of insurance",
+    "risk management products and services",
+    "employee benefit related services"
+   ],
+   "description": "A full-service insurance agency offering personal and commercial insurance and risk management services to customers.",
+   "evidence": "The Insurance Services segment includes the operating subsidiary OneGroup, a full-service insurance agency offering personal and commercial lines of insurance and other risk management products and services."
+  },
+  {
+   "name": "Wealth Management Services",
+   "products": [
+    "trust services",
+    "broker-dealer services",
+    "investment advisory services",
+    "asset management",
+    "retirement planning",
+    "personal financial planning"
+   ],
+   "description": "Provides wealth management, trust, retirement planning and investment advisory services to individuals and institutions.",
+   "evidence": "Wealth Management Services include trust services provided by Nottingham Trust, a division of CBNA, broker-dealer and investment advisory services provided by Nottingham Investment Services, Inc. (\"NISI\") and Nottingham Wealth Partners, Inc. as well as asset management provided by Nottingham Advisors, Inc. (\"Nottingham\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns net interest income from loans and investments funded by deposits and borrowings, plus noninterest revenues from banking fees, insurance commissions, employee benefit plan administration fees and wealth management fees.",
+  "evidence": "The Company competes actively for loans, deposits, and financial services relationships with other national and state banks, thrift institutions, credit unions, retail brokerage firms, mortgage bankers, finance companies, including financial technology companies, insurance agencies, and other regulated and unregulated providers of financial services."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Employee Benefit Services): employee benefit trust administration",
+  "product not in text (Insurance Services): personal lines of insurance"
+ ]
+}

@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0001399520",
+ "issuerName": "ONE GROUP HOSPITALITY, INC.",
+ "builtAt": "2026-11-14T17:42:28.768Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-032065",
+  "periodEnd": "2025-12-28",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1399520/000110465926032065/stks-20251228x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "STK",
+   "products": [
+    "STK restaurants",
+    "ONE Hospitality restaurant locations"
+   ],
+   "description": "Operates modern steakhouse restaurants with high-energy, social atmosphere featuring premium steaks, seafood and specialty cocktails.",
+   "evidence": "STK is a modern twist on the American steakhouse concept with locations in major metropolitan cities."
+  },
+  {
+   "name": "Benihana",
+   "products": [
+    "Benihana restaurants"
+   ],
+   "description": "Operates interactive teppanyaki dining destination with highly skilled chefs preparing food in front of guests and serving sushi.",
+   "evidence": "Benihana is an interactive dining destination with highly skilled chefs preparing food right in front of guests and served in an energetic atmosphere."
+  },
+  {
+   "name": "Grill Concepts",
+   "products": [
+    "Kona Grill",
+    "RA Sushi"
+   ],
+   "description": "Operates bar-centric grill and Japanese cuisine concepts offering American favorites, sushi and specialty cocktails in casual atmosphere.",
+   "evidence": "Grill Concepts is made up of Kona Grill, a bar-centric grill concept featuring American favorites, steaks, seafood, award-winning sushi, and specialty cocktails in a polished casual atmosphere, and RA Sushi, a Japanese cuisine concept that offers a fun-filled, bar-forward, upbeat, and vibrant dining atmosphere."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from owned restaurant food and beverage sales, and from managed, licensed and franchised properties through management fees, license fees, franchise royalties and incentive fees based on revenues and net profits.",
+  "evidence": "For those restaurants and venues that are managed, licensed or franchised, we generate management fee and franchise fee revenues based on top-line revenues and incentive fee revenues based on a percentage of the location's revenues and net profits."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (STK): STK Rooftop lounges",
+  "product not in text (Benihana): Benihana Express restaurants",
+  "change not grounded: In 2024, the company acquired Benihana for $365 million, adding 93 company-owned"
+ ]
+}

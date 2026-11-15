@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0001823144",
+ "issuerName": "GPGI, Inc.",
+ "builtAt": "2026-11-14T17:39:20.498Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-017266",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1823144/000162828026017266/cmpo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CompoSecure",
+   "products": [
+    "metal payment cards",
+    "Arculus platform",
+    "secure authentication solutions",
+    "Arculus key cards"
+   ],
+   "description": "Designs and manufactures premium metal payment cards and secure authentication and digital asset storage solutions for bank issuers and fintech companies.",
+   "evidence": "CompoSecure, L.L.C. (\"CompoSecure\"), a leading manufacturer of premium metal credit cards and provider of secure authentication solutions"
+  },
+  {
+   "name": "Husky",
+   "products": [
+    "injection molding equipment",
+    "aftermarket services"
+   ],
+   "description": "Manufactures injection molding equipment and provides aftermarket services for the food, packaging, and medical markets.",
+   "evidence": "Husky Holdings LLC (\"Husky\"), a leading manufacturer of injection molding equipment and aftermarket services for the food, packaging, and medical markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Business customers pay under purchase orders or statements of work for manufactured metal payment cards, and consumers pay at checkout for Arculus key cards via e-commerce platforms.",
+  "evidence": "The Company's B2B (business‑to‑business) revenue primarily arises from the manufacture and delivery of metal payment cards under customer‑specific purchase orders or statements of work."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company changed to equity method accounting, reflected in zero inventories and property and equipment balances.",
+   "evidence": "Reflecting the change to equity method accounting, the major classes of inventories were as follows:"
+  }
+ ],
+ "dropped": [
+  "change not grounded: On February 28, 2025, the Company spun off Resolute Holdings to its Class A stoc",
+  "change not grounded: In 2025 the Company agreed to combine with Husky Technologies Limited, completin"
+ ],
+ "escalated": "revenue model not quoted"
+}

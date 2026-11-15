@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000037785",
+ "issuerName": "FMC CORPORATION",
+ "builtAt": "2026-11-14T13:44:13.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000037785-26-000041",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/37785/000003778526000041/fmc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Agricultural Sciences",
+   "products": [
+    "Insecticides",
+    "Herbicides",
+    "Fungicides",
+    "Rynaxypyr® active",
+    "Arc™ farm intelligence"
+   ],
+   "description": "Develops, markets and sells crop protection chemicals and plant health products that help farmers protect crops and increase yields.",
+   "evidence": "We operate in a single distinct business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "FMC sells crop protection and plant health products to farmers through distributors, retailers, co-ops and directly to large growers in select countries.",
+  "evidence": "We have our own sales and marketing organizations and access the market through a combination of distributors, retailers and co-ops in all four regions."
+ },
+ "changes": [
+  {
+   "text": "In 2025, FMC approved a plan to divest its India commercial business, which is classified as held for sale and expected to close in 2026.",
+   "evidence": "In July 2025, the Board of Directors approved a plan to divest the Company's commercial business in India in response to ongoing commercial challenges in the country."
+  }
+ ],
+ "dropped": [
+  "product not in text (Agricultural Sciences): Plant Health (biologicals, crop nutrition, seed treatment)"
+ ]
+}

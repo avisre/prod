@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000079282",
+ "issuerName": "BROWN & BROWN, INC.",
+ "builtAt": "2026-11-14T13:46:07.826Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-046984",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/79282/000119312526046984/bro-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail",
+   "products": [
+    "Property & Casualty",
+    "Employee Benefits",
+    "Personal Insurance",
+    "F&I businesses",
+    "Risk Services",
+    "Specialty Risk Solutions"
+   ],
+   "description": "Provides insurance products and services to commercial, public, quasi-public, professional and individual customers, plus non-insurance warranty services through dealer F&I businesses.",
+   "evidence": "The Retail segment provides a broad range of insurance products and services to commercial, public and quasi-public, professional and individual insured customers, and non-insurance services and products through our automobile dealer services F&I businesses."
+  },
+  {
+   "name": "Specialty Distribution",
+   "products": [
+    "Arrowhead Programs",
+    "wholesale brokerage",
+    "specialty property and casualty insurance",
+    "financial lines",
+    "life and health benefits",
+    "reinsurance",
+    "captive administrative services",
+    "warranty services"
+   ],
+   "description": "Consists of programs, wholesale brokerage and specialty businesses providing niche solutions for hard-to-place risks to carriers, brokers and customers.",
+   "evidence": "The Specialty Distribution segment consists of our programs, wholesale brokerage and specialty businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns commissions and fees, primarily paid by insurance carriers and customers, for selling insurance products and providing related services as an agent or broker.",
+  "evidence": "The majority of our revenue is commissions derived from our pe"
+ },
+ "changes": [
+  {
+   "text": "In 2025, following the acquisition of RSC (Accession), the Company realigned from three to two segments, consolidating Programs and Wholesale Brokerage into a new Specialty Distribution segment.",
+   "evidence": "In conjunction with the acquisition of RSC, the holding company for Accession Risk Management Group, Inc., in the third quarter of 2025, the Company realigned its business from three to two segments."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000811589",
+ "issuerName": "FIRST BANCORP",
+ "builtAt": "2026-11-14T13:51:37.644Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000811589-26-000051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/811589/000081158926000051/fbnc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial business loans",
+    "commercial and residential real estate construction and mortgage loans",
+    "revolving lines of credit",
+    "letters of credit",
+    "accounts receivable financing and factoring",
+    "inventory financing",
+    "purchase order financing",
+    "used car floor-plan financing"
+   ],
+   "description": "A community bank holding company providing commercial and retail lending, deposit, and financing services to individuals and small- to medium-sized businesses in the Carolinas.",
+   "evidence": "The Company's operations are substantially all within a single banking segment, and the financial statements presented herein reflect the combined results of all of its operations with that segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns interest and fees from borrowers on loans and financing services, plus noninterest income such as bankcard interchange fees from customers.",
+  "evidence": "Noninterest income: Bankcard Interchange income, net 9,464 9,306 9,319"
+ },
+ "changes": [
+  {
+   "text": "In 2023, the Company acquired GrandSouth Bancorp, a community bank headquartered in Greenville, South Carolina, expanding its presence in South Carolina.",
+   "evidence": "In January, 2023, we acquired GrandSouth, a community bank headquartered in Greenville, South Carolina with $1.2 billion in total assets, $1.0 billion in loans, and $1.1 billion in deposits."
+  }
+ ],
+ "dropped": [
+  "change not grounded: SBA Complete, formerly a Bank subsidiary providing SBA loan consulting services,"
+ ]
+}

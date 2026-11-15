@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0001866501",
+ "issuerName": "Wallbox N.V.",
+ "builtAt": "2026-11-14T17:42:36.169Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-149722",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/1866501/000119312526149722/wbx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Europe-Middle East and Asia (EMEA)",
+   "products": [
+    "Pulsar",
+    "Commander",
+    "Copper",
+    "Quasar",
+    "Quasar 2",
+    "Supernova",
+    "Supernova PowerRing",
+    "Wallbox App"
+   ],
+   "description": "Designs, manufactures and sells residential, commercial and public EV charging solutions and energy management software across Europe, Middle East and Asia.",
+   "evidence": "Management determined that we have three reportable operating segments: (i) Europe‑Middle East and Asia (EMEA), (ii) North America (NORAM), and (iii) Asia‑Pacific (APAC) given our organizational structure and the manner in which our business is reviewed and managed."
+  },
+  {
+   "name": "North America (NORAM)",
+   "products": [
+    "Pulsar Plus",
+    "Supernova UL",
+    "Wallbox App"
+   ],
+   "description": "Provides residential and public EV charging solutions and software in the North American market.",
+   "evidence": "Management determined that we have three reportable operating segments: (i) Europe‑Middle East and Asia (EMEA), (ii) North America (NORAM), and (iii) Asia‑Pacific (APAC) given our organizational structure and the manner in which our business is reviewed and managed."
+  },
+  {
+   "name": "Asia-Pacific (APAC)",
+   "products": [
+    "Pulsar",
+    "Commander",
+    "Quasar",
+    "Wallbox App"
+   ],
+   "description": "Offers innovative EV charging solutions and software adapted for the Asia-Pacific market with offices in Shanghai.",
+   "evidence": "Management determined that we have three reportable operating segments: (i) Europe‑Middle East and Asia (EMEA), (ii) North America (NORAM), and (iii) Asia‑Pacific (APAC) given our organizational structure and the manner in which our business is reviewed and managed."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for hardware EV chargers, software subscriptions via the Wallbox App, and public charging transactions through Electromaps.",
+  "evidence": "Our proprietary residential and business software \"Wallbox App\" gives users and charge point owners complete control over their private charging and energy management activities. Meanwhile, our dedicated semi‑public and public charging software platform, \"Electromaps\" enables drivers to locate and transact with all public charging stations."
+ },
+ "changes": [
+  {
+   "text": "In October 2023, Wallbox acquired ABL, a German EV charging company, to accelerate commercial business plans and leverage ABL's manufacturing capabilities.",
+   "evidence": "In October 2023, we announced the acquisition of ABL, a recognized company in EV charging solutions in Germany, the largest EV market in Europe."
+  }
+ ],
+ "dropped": []
+}

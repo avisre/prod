@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000063908",
+ "issuerName": "McDONALD’S CORPORATION",
+ "builtAt": "2026-11-14T13:45:18.507Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000063908-26-000035",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/63908/000006390826000035/mcd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S.",
+   "products": [
+    "McDonald's restaurants"
+   ],
+   "description": "McDonald's franchised and Company-owned and operated restaurants in the United States.",
+   "evidence": "Significant reportable segments include the United States (\"U.S.\") and International Operated Markets."
+  },
+  {
+   "name": "International Operated Markets",
+   "products": [
+    "McDonald's restaurants"
+   ],
+   "description": "McDonald's franchised and Company-owned and operated restaurants in international markets.",
+   "evidence": "Significant reportable segments include the United States (\"U.S.\") and International Operated Markets."
+  },
+  {
+   "name": "International Developmental Licensed Markets & Corporate",
+   "products": [
+    "McDonald's restaurants"
+   ],
+   "description": null,
+   "evidence": "In addition, the International Developmental Licensed Markets & Corporate includes the results of over 75 countries as well as Corporate activities."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns sales from Company-owned and operated restaurants and fees from franchised restaurants, primarily rent and royalties based on a percent of sales.",
+  "evidence": "The Company's revenues consist of sales by Company-owned and operated restaurants and fees from franchised restaurants operated by conventional franchisees, developmental licensees and affiliates."
+ },
+ "changes": [],
+ "dropped": []
+}

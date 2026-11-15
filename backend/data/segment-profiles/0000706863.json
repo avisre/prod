@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000706863",
+ "issuerName": "UNION BANKSHARES, INC.",
+ "builtAt": "2026-11-14T13:48:47.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000706863-26-000029",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/706863/000070686326000029/unb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Union Bank",
+   "products": [
+    "Commercial loans",
+    "Commercial real estate loans",
+    "SBA guaranteed loans",
+    "Residential construction and mortgage loans",
+    "Municipal financing",
+    "Retail depository services",
+    "Wealth management and trust services",
+    "Telephone, internet, and mobile banking services"
+   ],
+   "description": "A community bank providing retail, commercial, municipal banking and wealth management and trust services to individuals, businesses and municipalities in northern Vermont and northern New Hampshire.",
+   "evidence": "The Company has one definable business segment, Union Bank, which provides full retail, commercial, municipal banking, and wealth management and trust services throughout its 18 branch banking locations, three loan centers, and several ATMs covering northern Vermont and northern New Hampshire."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns income principally from interest and fees on loans and earnings on other investments, paid by retail, commercial and municipal borrowers and deposit customers.",
+  "evidence": "The Company's income is derived principally from interest and fees on loans and earnings on other investments."
+ },
+ "changes": [],
+ "dropped": []
+}

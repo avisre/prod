@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "cik": "0001588823",
+ "issuerName": "TFI INTERNATIONAL INC.",
+ "builtAt": "2026-11-14T17:38:40.933Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001193125-26-054689",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1588823/000119312526054689/tfii-ex99_2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Package and Courier",
+   "products": [],
+   "description": "Pickup, transport and delivery of items packaged in envelopes, parcels or packages.",
+   "evidence": "All operating segments' operating results are reviewed regularly by the Group's chief executive officer (\"CEO\") to make decisions about resources to be allocated to the segment and assess its performance, and for which discrete financial information is available."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "escalated": "segment not in filing"
+}

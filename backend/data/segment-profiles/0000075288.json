@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000075288",
+ "issuerName": "OXFORD INDUSTRIES INC",
+ "builtAt": "2026-11-14T13:45:54.983Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000075288-26-000026",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/75288/000007528826000026/oxm-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tommy Bahama",
+   "products": [
+    "men's and women's sportswear",
+    "food and beverage locations",
+    "Marlin Bar"
+   ],
+   "description": "Designs, sources, markets and distributes men's and women's sportswear and related products for affluent consumers in warm weather and resort locations.",
+   "evidence": "Tommy Bahama, which represents 56% of our net sales, designs, sources, markets and distributes men's and women's sportswear and related products."
+  },
+  {
+   "name": "Lilly Pulitzer",
+   "products": [],
+   "description": "Lifestyle brand offering apparel and related products through direct to consumer, wholesale and licensing operations.",
+   "evidence": "Our business is organized as our Tommy Bahama, Lilly Pulitzer, Johnny Was and Emerging Brands reportable segments."
+  },
+  {
+   "name": "Johnny Was",
+   "products": [],
+   "description": "Lifestyle brand selling apparel through retail, e-commerce, outlet and wholesale channels.",
+   "evidence": "Johnny Was net sales decreased $26 million, or 13%, in Fiscal 2025, with a decrease in each channel of distribution including a decrease in (1) e-commerce sales of $11 million, or 13%, (2) full-price retail sales of $9 million, or 13%, (3) wholesale sales of $5 million, or 14% , and (4) outlet sales of $1 million, or 21%."
+  },
+  {
+   "name": "Emerging Brands",
+   "products": [
+    "TBBC",
+    "Duck Head",
+    "Southern Tide",
+    "Jack Rogers"
+   ],
+   "description": "Portfolio of smaller lifestyle brands sold through e-commerce, retail and wholesale channels.",
+   "evidence": "Net sales increased in TBBC, Duck Head and Southern Tide and were partially offset by decreased sales in Jack Rogers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers pay the company directly through its retail stores, e-commerce sites, outlets and food and beverage locations, while retailers pay for wholesale purchases of branded products.",
+  "evidence": "The remaining 18% of our net sales were generated through our wholesale distribution channels, which complement our direct to consumer operations, provide access to a larger base of consumers and generate high operating margins given the lower fixed costs associated with these operations."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Tommy Bahama): licensed product categories"
+ ]
+}

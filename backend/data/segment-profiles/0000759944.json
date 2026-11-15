@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000759944",
+ "issuerName": "CITIZENS FINANCIAL GROUP INC/RI",
+ "builtAt": "2026-11-14T13:50:16.581Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000759944-26-000028",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/759944/000075994426000028/cfg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Consumer Banking",
+   "products": [
+    "deposits",
+    "mortgage and home equity lending",
+    "credit cards",
+    "small business loans",
+    "wealth management solutions",
+    "education and point-of-sale finance loans",
+    "digital deposit products",
+    "Citizens Private Bank and Private Wealth"
+   ],
+   "description": null,
+   "evidence": "Consumer Banking serves consumer customers and small businesses, with products and services that include deposits, mortgage and home equity lending, credit cards, small business loans, and wealth management solutions largely across our 14-state traditional banking footprint."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "lending and leasing",
+    "deposit and treasury management services",
+    "foreign exchange",
+    "interest rate and commodity risk management solutions",
+    "loan syndication",
+    "corporate finance",
+    "merger and acquisition",
+    "debt and equity capital markets"
+   ],
+   "description": "Serves companies and institutions with lending, treasury management, capital markets, and advisory solutions.",
+   "evidence": "Commercial Banking primarily serves companies and institutions and strives to be a trusted advisor to our clients and preferred provider for their banking needs."
+  },
+  {
+   "name": "Other",
+   "products": [],
+   "description": "Includes treasury and community development operations along with other unallocated assets, liabilities, capital, revenues, and expenses.",
+   "evidence": "Our activities outside these segments are classified as Other and primarily includes treasury and community development operations, along with other unallocated assets, liabilities, capital, revenues, provision (benefit) for credit losses, and expenses, including income tax expense (benefit)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income on loans and investments funded by deposits, plus noninterest fee income from services such as wealth management, capital markets, and treasury management.",
+  "evidence": "The primary factors driving competition for loans and deposits are interest rates, fees charged, tailored value propositions to different customer segments, customer service levels, convenience, including branch locations and hours of operation, and the range of products and services offered."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company agreed to sell $1.9 billion of education loans, which settl"
+ ]
+}

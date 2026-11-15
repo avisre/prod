@@ -1,0 +1,73 @@
+{
+ "version": 1,
+ "cik": "0000832428",
+ "issuerName": "THE E.W. SCRIPPS COMPANY",
+ "builtAt": "2026-11-14T13:52:17.334Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000832428-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/832428/000083242826000010/ssp-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Local Media",
+   "products": [
+    "local television stations",
+    "digital operations",
+    "news programming",
+    "local sporting events",
+    "syndicated programming",
+    "original programming"
+   ],
+   "description": null,
+   "evidence": "Our Local Media segment includes more than 60 local television stations and their related digital operations."
+  },
+  {
+   "name": "Scripps Networks",
+   "products": [
+    "Scripps News",
+    "Court TV",
+    "ION",
+    "Bounce",
+    "Grit",
+    "ION Mystery",
+    "ION Plus",
+    "Laff"
+   ],
+   "description": "National news and entertainment networks reaching nearly every American over the air and on free streaming platforms.",
+   "evidence": "The Scripps Networks reach nearly every American through national news outlets Scripps News and Court TV and popular entertainment brands ION, Bounce, Grit, ION Mystery, ION Plus and Laff."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Scripps National Spelling Bee",
+    "Tablo"
+   ],
+   "description": "Includes smaller operations such as the Scripps National Spelling Bee and the Tablo television viewing device.",
+   "evidence": "The other segment caption aggregates our operating segments that are too small to report separately."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue primarily from advertising sold to local, national and political advertisers and from retransmission fees paid by cable operators, telecommunications companies, satellite carriers and over-the-top virtual MVPDs.",
+  "evidence": "Our Local Media segment earns revenue primarily from the sale of advertising to local, national and political advertisers and retransmission fees received from cable operators, telecommunication companies, satellite carriers and over-the-top virtual MVPDs."
+ },
+ "changes": [
+  {
+   "text": "In the fourth quarter of 2025, the company committed to the sale of Court TV and closed the sale in February 2026.",
+   "evidence": "In the fourth quarter of 2025, we committed to the sale of Court TV and closed on the sale of the network on February 9, 2026."
+  },
+  {
+   "text": "In 2025, the company agreed to sell local stations WFTX in Fort Myers and WRTV in Indianapolis, with both sales expected to close in early 2026.",
+   "evidence": "In October 2025, we reached agreement to sell WRTV, our local ABC- affiliated station in Indianapolis, Indiana, for $83.0 million."
+  },
+  {
+   "text": "In January 2025, the company announced the formation of the EdgeBeam Wireless joint venture with Gray Media, Nexstar and Sinclair for data delivery services.",
+   "evidence": "In January 2025, we announced the formation of a joint venture with Gray Media, Nexstar Media Group, Inc. and Sinclair, Inc."
+  }
+ ],
+ "dropped": []
+}

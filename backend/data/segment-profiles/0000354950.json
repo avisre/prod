@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0000354950",
+ "issuerName": "The Home Depot, Inc.",
+ "builtAt": "2026-11-14T13:48:28.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-019436",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/354950/000162828026019436/hd-20260201.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Primary segment",
+   "products": [
+    "home improvement products",
+    "building materials",
+    "lawn and garden products",
+    "décor products",
+    "facilities MRO products",
+    "home improvement installation services",
+    "tool and equipment rental"
+   ],
+   "description": "Sells home improvement products, building materials, lawn and garden, décor and facilities MRO products, plus installation and rental services, to consumers and Pros in stores and online.",
+   "evidence": "For disclosure purposes, the geographic operating segments of the U.S., Canada and Mexico are aggregated into one reportable segment (the \"Primary segment\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, including DIY and DIFM consumers and Pros, pay the company for home improvement and building products purchased in stores or online, and for installation and tool and equipment rental services.",
+  "evidence": "We offer our customers a wide assortment of home improvement products, building materials, lawn and garden products, décor products, and facilities MRO products, in stores and online."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, the company acquired SRS, a residential specialty trade distribution company serving roofers, landscapers and pool contractors.",
+   "evidence": "In fiscal 2024, we acquired SRS, a leading residential specialty trade distribution company across several verticals engaged in the distribution of residential and commercial roofing products and complementary building products, landscape supplies, and swimming pool supplies serving the professional roofer, landscaper, and pool contractor."
+  },
+  {
+   "text": "In fiscal 2025, SRS completed the acquisition of GMS, a distributor of specialty building products, adding four non-reportable operating segments.",
+   "evidence": "Following the GMS acquisition, SRS is organized as four different lines of business: roofing and building products, interior and construction products, landscape, and pool."
+  }
+ ],
+ "dropped": []
+}

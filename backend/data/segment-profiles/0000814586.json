@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000814586",
+ "issuerName": "LIFEWAY FOODS, INC.",
+ "builtAt": "2026-11-14T13:51:46.618Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-001886",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/814586/000168316826001886/lifeway_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cultured dairy products",
+   "products": [
+    "Drinkable kefir",
+    "European-style soft cheeses",
+    "Cream and other",
+    "Drinkable yogurt",
+    "ProBugs",
+    "Other dairy"
+   ],
+   "description": "Lifeway manufactures and markets kefir and other cultured dairy products under the Lifeway, Fresh Made and GlenOaks Farms brands and private labels for U.S. consumers.",
+   "evidence": "Substantially all our consolidated revenues relate to the sale of cultured dairy products that we produce using the same processes and materials and are sold to consumers through a common network of distributors and retailers in the United States."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Lifeway earns revenue by selling its cultured dairy products to retailers and distributors, primarily through retail-direct, distributor, and direct store delivery channels.",
+  "evidence": "Under the retail-direct channel, we sell our products to retailers and deliver products through either the retailers' carriers or third-party carriers that deliver to such retailers' distribution centers."
+ },
+ "changes": [],
+ "dropped": []
+}

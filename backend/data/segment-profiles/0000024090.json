@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000024090",
+ "issuerName": "CITIZENS, INC.",
+ "builtAt": "2026-11-14T14:07:44.800Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000024090-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/24090/000002409026000011/cia-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Domestic Insurance",
+   "products": [
+    "Life insurance",
+    "Financial products"
+   ],
+   "description": "Sells life insurance and financial products in the United States, primarily final expense whole life policies.",
+   "evidence": "We sell life insurance and other financial products in the United States. The majority of first year premiums in our Domestic Insurance segment are generated from final expense whole life products sold through CICA Life Insurance Company of America (\"CLOA\")."
+  },
+  {
+   "name": "International Insurance",
+   "products": [
+    "Endowment products",
+    "Financial products"
+   ],
+   "description": "Sells U.S. dollar-denominated life insurance and endowment products to non-U.S. residents in over eighty countries.",
+   "evidence": "We sell U.S. dollar-denominated life insurance, endowment and other financial products to non-U.S. residents, located principally in Latin America and the Pacific Rim."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Collects premiums from policyholders on an ongoing basis and earns net investment income on invested premiums.",
+  "evidence": "As an insurance provider, we collect premiums on an ongoing basis from our policyholders and invest the majority of the premiums to pay future benefits, including claims, maturities, surrenders and policyholder dividends. Accordingly, we derive our revenues principally from: (1) life insurance premiums, and (2) net investment income."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company reorganized from Life Insurance and Home Service Insurance segments to Domestic Insurance and International Insurance segments.",
+   "evidence": "Effective December 31, 2025, the Company reorganized its insurance reporting structure, shifting from Life Insurance and Home Service Insurance segments to Domestic Insurance and International Insurance segments."
+  }
+ ],
+ "dropped": [
+  "product not in text (Domestic Insurance): Final expense whole life insurance",
+  "product not in text (International Insurance): U.S. dollar-denominated whole life insurance"
+ ]
+}

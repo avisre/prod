@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0000717538",
+ "issuerName": "ARROW FINANCIAL CORPORATION",
+ "builtAt": "2026-11-14T13:49:09.665Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000717538-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/717538/000071753826000037/arow-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Community banking",
+   "products": [
+    "commercial and industrial lending",
+    "residential mortgage lending",
+    "home equity financing",
+    "retirement planning",
+    "trust and estate administration services",
+    "pension, profit-sharing and employee benefit plan administration"
+   ],
+   "description": "Arrow provides commercial and consumer banking, lending, trust and financial services to consumers and small- and mid-sized companies in upstate New York and Vermont.",
+   "evidence": "The majority of Arrow's revenue is from the business of community banking. Accordingly, all of its operations are considered by management to be aggregated in one reportable operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Arrow earns interest and fees from borrowers on loans, and provides banking, trust and financial services to consumers and businesses in its regional market.",
+  "evidence": "Arrow offers a broad range of commercial and consumer banking and financial products."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Community banking): commercial mortgage lending",
+  "product not in text (Community banking): consumer installment financing",
+  "product not in text (Community banking): indirect consumer auto loans"
+ ]
+}

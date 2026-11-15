@@ -1,0 +1,76 @@
+{
+ "version": 1,
+ "cik": "0000701818",
+ "issuerName": "KINROSS GOLD CORP",
+ "builtAt": "2026-11-14T13:48:40.681Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-035268",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/701818/000110465926035268/kgc-20251231xex99d3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tasiast",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Mauritania producing gold for sale to commodity market customers.",
+   "evidence": "The Company's primary mining operations are in Canada, the United States, Brazil, Chile and Mauritania."
+  },
+  {
+   "name": "Paracatu",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Brazil producing gold for sale to commodity market customers.",
+   "evidence": "The following tables set forth operating results by reportable segment for the following years:"
+  },
+  {
+   "name": "La Coipa",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in Chile producing gold for sale to commodity market customers.",
+   "evidence": "The Company's primary mining operations are in Canada, the United States, Brazil, Chile and Mauritania."
+  },
+  {
+   "name": "Fort Knox",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in the United States, including Manh Choh, producing gold for sale.",
+   "evidence": "(a) The Fort Knox segment includes Manh Choh."
+  },
+  {
+   "name": "Round Mountain",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in the United States producing gold for sale to commodity market customers.",
+   "evidence": "The Company's primary mining operations are in Canada, the United States, Brazil, Chile and Mauritania."
+  },
+  {
+   "name": "Bald Mountain",
+   "products": [
+    "gold"
+   ],
+   "description": "Gold mine in the United States producing gold for sale to commodity market customers.",
+   "evidence": "The Company's primary mining operations are in Canada, the United States, Brazil, Chile and Mauritania."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns metal sales revenue by selling gold, primarily produced from its mines, to commodity market customers worldwide.",
+  "evidence": "The Company is not economically dependent on a limited number of customers for the sale of its product as gold can be sold through numerous commodity market traders worldwide."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Maricunga operation sold its remaining finished metals inventories after transitioning all processing activities to care and maintenance in 2019.",
+   "evidence": "During the year ended December 31, 2024, Maricunga sold its remaining finished metals inventories after transitioning all processing activities to care and maintenance in 2019."
+  }
+ ],
+ "dropped": []
+}

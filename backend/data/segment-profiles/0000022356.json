@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000022356",
+ "issuerName": "COMMERCE BANCSHARES, INC.",
+ "builtAt": "2026-11-14T14:07:38.504Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000022356-26-000069",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/22356/000002235626000069/cbsh-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "corporate lending",
+    "merchant and commercial bank card products",
+    "payment solutions",
+    "leasing",
+    "international services",
+    "business and government deposit",
+    "investment",
+    "institutional brokerage"
+   ],
+   "description": "Provides corporate lending, card products, payment solutions, leasing, and international services to businesses and governments.",
+   "evidence": "The Commercial segment provides a full array of corporate lending, merchant and commercial bank card products, payment solutions, leasing, and international services, as well as business and government deposit, investment, institutional brokerage, and cash management services."
+  },
+  {
+   "name": "Retail Banking",
+   "products": [
+    "retail branch network",
+    "consumer installment lending",
+    "personal mortgage banking",
+    "consumer debit and credit bank card activities"
+   ],
+   "description": "Offers retail branch services, consumer lending, personal mortgages, and consumer card products to individuals.",
+   "evidence": "The Retail Banking segment, previously called the Consumer segment, includes the retail branch network, consumer installment lending, personal mortgage banking, and consumer debit and credit bank card activities."
+  },
+  {
+   "name": "Wealth",
+   "products": [
+    "traditional trust and estate planning services",
+    "consumer brokerage services",
+    "advisory and discretionary investment portfolio management services"
+   ],
+   "description": "Provides trust, estate planning, brokerage, and investment management services to personal and institutional customers.",
+   "evidence": "The Wealth segment provides traditional trust and estate planning services, consumer brokerage services, and advisory and discretionary investment portfolio management services to both personal and institutional corporate customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue from lending to businesses and individuals, deposit products, investment services, card fees, and payment solutions.",
+  "evidence": "The Bank engages in general banking business, providing a broad range of retail, mortgage banking, corporate, investment, trust, and asset management products and services to individuals, businesses, and municipalities."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the Company completed the acquisition of FineMark Holdings, Inc., expanding its wealth segment and geographic presence.",
+   "evidence": "On January 1, 2026, the Company completed its acquisition FineMark Holdings, Inc. (\"FineMark\") in an all-stock transaction (\"Merger\")."
+  },
+  {
+   "text": "In 2023, the Company acquired L.J. Hart & Company, a municipal bond underwriter and advisor.",
+   "evidence": "In the second quarter of 2023, the Company acquired L.J. Hart & Company, a municipal bond underwriter and advisor, and, as described above, completed the FineMark Merger effective January 1, 2026."
+  },
+  {
+   "text": "The Retail Banking segment was previously called the Consumer segment.",
+   "evidence": "The Retail Banking segment, previously called the Consumer segment, includes the retail branch network, consumer installment lending, personal mortgage banking, and consumer debit and credit bank card activities."
+  }
+ ],
+ "dropped": []
+}

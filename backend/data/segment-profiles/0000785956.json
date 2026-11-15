@@ -1,0 +1,72 @@
+{
+ "version": 1,
+ "cik": "0000785956",
+ "issuerName": "J&J SNACK FOODS CORP.",
+ "builtAt": "2026-11-14T13:50:54.135Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-036456",
+  "periodEnd": "2025-09-27",
+  "filingDate": "2025-11-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/785956/000143774925036456/jjsf20250927_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Food Service",
+   "products": [
+    "soft pretzels",
+    "frozen novelties",
+    "churros",
+    "handheld products",
+    "baked goods",
+    "funnel cakes"
+   ],
+   "description": "Sells soft pretzels, frozen novelties, churros, handhelds and baked goods to foodservice customers such as restaurants, stadiums, theme parks, schools and convenience stores.",
+   "evidence": "The primary products sold by the Food Service segment are soft pretzels, frozen novelties, churros, handheld products, and baked goods."
+  },
+  {
+   "name": "Retail Supermarkets",
+   "products": [
+    "SUPERPRETZEL",
+    "LUIGI'S Real Italian Ice",
+    "MINUTE MAID Juice Bars and Soft Frozen Lemonade",
+    "WHOLE FRUIT frozen fruit bars and sorbet",
+    "DOGSTERS",
+    "PHILLY SWIRL",
+    "ICEE Squeeze-Up Tubes",
+    "handheld products"
+   ],
+   "description": "Sells frozen and prepackaged snack products for at-home consumption to supermarket chains.",
+   "evidence": "The primary products sold to the retail supermarket channel are soft pretzel products – including SUPERPRETZEL, frozen novelties including LUIGI'S Real Italian Ice, MINUTE MAID Juice Bars and Soft Frozen Lemonade, WHOLE FRUIT frozen fruit bars and sorbet, DOGSTERS ice cream style treats for dogs, PHILLY SWIRL cups and sticks, ICEE Squeeze-Up Tubes and handheld products."
+  },
+  {
+   "name": "Frozen Beverages",
+   "products": [
+    "ICEE",
+    "SLUSH PUPPIE",
+    "PARROT ICE",
+    "repair and maintenance services",
+    "frozen beverage machines"
+   ],
+   "description": "Sells frozen carbonated and non-carbonated beverages, dispensing equipment and related services to foodservice customers in the United States, Mexico and Canada.",
+   "evidence": "We sell frozen beverages to the foodservice industry primarily under the names ICEE, SLUSH PUPPIE and PARROT ICE in the United States, Mexico, and Canada."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from foodservice customers and supermarket chains purchasing its snack foods and frozen beverages, plus fees for equipment sales and repair and maintenance services on dispensers.",
+  "evidence": "The Company also provides repair and maintenance service to customers for customer-owned equipment and sells equipment in its Frozen Beverages segment."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024 the company acquired the Thinsters cookie business from Hain Celestial Group.",
+   "evidence": "On April 8, 2024, J & J Snack Foods Corp. completed the acquisition of the Thinsters cookie business from Hain Celestial Group."
+  },
+  {
+   "text": "In fiscal 2025 the company shut down its Holly Ridge, NC, Atlanta, GA, and Colton, CA manufacturing plants.",
+   "evidence": "Non-cash plant shutdown costs relate to the write-down and write-off of assets in connection with the Company's shutdown of its Holly Ridge, NC, Atlanta, GA, and Colton, CA manufacturing plants."
+  }
+ ],
+ "dropped": []
+}

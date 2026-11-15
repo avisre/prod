@@ -1,0 +1,112 @@
+{
+ "version": 1,
+ "cik": "0000798081",
+ "issuerName": "LAKELAND INDUSTRIES, INC.",
+ "builtAt": "2026-11-14T13:51:17.382Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-159176",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/798081/000119312526159176/lake-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "USA Operations",
+   "products": [
+    "Firefighter protective apparel and accessories",
+    "High-end chemical protective suits",
+    "Limited use/disposable protective clothing",
+    "Durable woven garments"
+   ],
+   "description": "U.S. operations selling protective clothing, firefighter gear and related services to distributors and fire departments.",
+   "evidence": "The Company has seven revenue-generating reportable geographic segments under ASC Topic 280 \"Segment Reporting\": USA Operations, Other Foreign, Europe, Mexico, Asia, Canada, and Latin America."
+  },
+  {
+   "name": "Other Foreign",
+   "products": [
+    "Firefighter protective apparel and accessories",
+    "High-end chemical protective suits",
+    "Limited use/disposable protective clothing",
+    "Durable woven garments"
+   ],
+   "description": "Operations in foreign countries outside the named regions selling the company's protective clothing and gear.",
+   "evidence": "The Company has seven revenue-generating reportable geographic segments under ASC Topic 280 \"Segment Reporting\": USA Operations, Other Foreign, Europe, Mexico, Asia, Canada, and Latin America."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Firefighter protective apparel and accessories",
+    "Firefighter turnout gear",
+    "High-end chemical protective suits",
+    "Limited use/disposable protective clothing"
+   ],
+   "description": "European operations, including Jolly footwear and LHD turnout gear, serving fire services and industrial customers.",
+   "evidence": "The Company has seven revenue-generating reportable geographic segments under ASC Topic 280 \"Segment Reporting\": USA Operations, Other Foreign, Europe, Mexico, Asia, Canada, and Latin America."
+  },
+  {
+   "name": "Mexico",
+   "products": [
+    "Limited use/disposable protective clothing",
+    "High-end chemical protective suits",
+    "Durable woven garments"
+   ],
+   "description": "Mexican manufacturing and sales operations for protective clothing products.",
+   "evidence": "The Company has seven revenue-generating reportable geographic segments under ASC Topic 280 \"Segment Reporting\": USA Operations, Other Foreign, Europe, Mexico, Asia, Canada, and Latin America."
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "Firefighter protective apparel and accessories",
+    "Limited use/disposable protective clothing",
+    "High-end chemical protective suits"
+   ],
+   "description": "Asian operations, including LHD's Hong Kong operations, selling protective apparel and gear.",
+   "evidence": "The Company has seven revenue-generating reportable geographic segments under ASC Topic 280 \"Segment Reporting\": USA Operations, Other Foreign, Europe, Mexico, Asia, Canada, and Latin America."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "Limited use/disposable protective clothing",
+    "High-end chemical protective suits",
+    "Durable woven garments"
+   ],
+   "description": "Canadian operations selling protective clothing and related safety products.",
+   "evidence": "The Company has seven revenue-generating reportable geographic segments under ASC Topic 280 \"Segment Reporting\": USA Operations, Other Foreign, Europe, Mexico, Asia, Canada, and Latin America."
+  },
+  {
+   "name": "Latin America",
+   "products": [
+    "Limited use/disposable protective clothing",
+    "High-end chemical protective suits",
+    "Durable woven garments"
+   ],
+   "description": "Latin American operations selling protective clothing and safety products.",
+   "evidence": "The Company has seven revenue-generating reportable geographic segments under ASC Topic 280 \"Segment Reporting\": USA Operations, Other Foreign, Europe, Mexico, Asia, Canada, and Latin America."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells its protective clothing and gear primarily through a global network of safety and industrial supply distributors, supported by a field sales force and independent representatives.",
+  "evidence": "The majority of our sales are made through distribution."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company sold its high performance FR/AR apparel and high visibility clothing lines to National Safety Apparel.",
+   "evidence": "On March 27, 2026, the Company sold its high performance FR/AR apparel and high visibility clothing line to National Safety Apparel."
+  },
+  {
+   "text": "In fiscal 2026, the company acquired Arizona PPE and California PPE, expanding firefighting garment decontamination, inspection and repair services.",
+   "evidence": "On September 15, 2025, the Company acquired 100% of U.S.-based Arizona PPE Recon, Inc. (\"Arizona PPE\") for cash consideration of approximately $4.1 million."
+  },
+  {
+   "text": "In fiscal 2025, the company acquired Jolly, LHD and Veridian, expanding its firefighter protective apparel, footwear and turnout gear businesses.",
+   "evidence": "On December 16, 2024, the Company acquired U.S. based Veridian Limited (\"Veridian\") for cash consideration of approximately $26.3 million subject to post-closing adjustments and customary holdback provisions."
+  }
+ ],
+ "dropped": [
+  "product not in text (USA Operations): Firefighting protective apparel services",
+  "product not in text (Europe): Firefighting and safety boots"
+ ]
+}

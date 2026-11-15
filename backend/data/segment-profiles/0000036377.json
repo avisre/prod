@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000036377",
+ "issuerName": "FIRST HAWAIIAN, INC.",
+ "builtAt": "2026-11-14T13:44:13.157Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021544",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/36377/000110465926021544/fhb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail Banking",
+   "products": [
+    "residential and commercial mortgage loans",
+    "home equity lines of credit and loans",
+    "automobile loans and leases",
+    "secured and unsecured lines of credit",
+    "installment loans",
+    "small business loans and leases",
+    "checking, savings and time deposit accounts",
+    "wealth management services"
+   ],
+   "description": null,
+   "evidence": "Our Retail Banking segment includes the financial products and services we provide to consumers and small businesses."
+  },
+  {
+   "name": "Commercial Banking",
+   "products": [
+    "corporate banking related products",
+    "commercial real estate loans",
+    "commercial lease financing",
+    "secured and unsecured lines of credit",
+    "automobile loans and auto dealer financing",
+    "business deposit products",
+    "credit cards"
+   ],
+   "description": "Offers commercial lending and deposit products primarily to middle-market and large companies locally, nationally and internationally.",
+   "evidence": "Commercial lending and deposit products are offered primarily to middle-market and large companies locally, nationally and internationally."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net interest income on loans and leases and noninterest income from service charges and fees on deposit accounts, trust and investment services, and other banking services.",
+  "evidence": "The increase in noninterest income was primarily due to an increase in other service charges and fees, partially offset by a decrease in trust and investment services income."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company reduced its reportable operating segments from three to two, moving Treasury and Other activities into Corporate/Other.",
+   "evidence": "During the quarter ended December 31, 2025, we realigned our internal organizational and management reporting structure. As a result of this change, we reduced our reportable operating segments from three to two."
+  }
+ ],
+ "dropped": []
+}

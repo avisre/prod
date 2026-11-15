@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000754811",
+ "issuerName": "U S GLOBAL INVESTORS INC",
+ "builtAt": "2026-11-14T13:50:14.874Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-029613",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/754811/000143774926029613/usglobal20260630_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Investment Management Services",
+   "products": [
+    "U.S. Global Jets ETF (JETS)"
+   ],
+   "description": "Offers investment advisory and administrative services to U.S. Global Investors Funds and ETF clients for individual and institutional investors.",
+   "evidence": "Investment Management Services, through which the Company offers, to U.S. Global Investors Funds (\"USGIF\" or the \"Fund(s)\") and exchange-traded fund (\"ETF\") clients, a range of investment management products and services to meet the needs of individual and institutional investors"
+  },
+  {
+   "name": "Corporate Investments",
+   "products": [],
+   "description": "Invests the Company's own account to add growth and value to its cash position.",
+   "evidence": "Corporate Investments, through which the Company invests for its own account in an effort to add growth and value to its cash position."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns advisory and administrative fees from USGIF and ETF clients based on assets under management, plus investment income from its own investments.",
+  "evidence": "Operating revenues from management and administrative services fees are based on the assets of the funds under management."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Investment Management Services): The Travel UCITS ETF (TRIP)",
+  "product not in text (Investment Management Services): U.S. Global Sea to Sky ETF (SEA)",
+  "product not in text (Investment Management Services): U.S. Global GO GOLD and Precious Metal Miners ETF (GOAU)",
+  "product not in text (Investment Management Services): U.S. Global Technology and Aerospace & Defense ETF (WAR)",
+  "product not in text (Investment Management Services): Gold and Precious Metals (USERX)",
+  "product not in text (Investment Management Services): World Precious Minerals (UNWPX)",
+  "product not in text (Investment Management Services): Global Resources (PSPFX)"
+ ]
+}

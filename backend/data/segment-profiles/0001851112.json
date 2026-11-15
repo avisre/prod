@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001851112",
+ "issuerName": "Riskified Ltd.",
+ "builtAt": "2026-11-14T17:40:45.342Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001851112-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1851112/000185111226000007/rskd-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ecommerce Risk Intelligence",
+   "products": [
+    "Chargeback Guarantee",
+    "Policy Protect",
+    "Dispute Resolve",
+    "Account Secure"
+   ],
+   "description": "AI-powered platform helping online merchants manage ecommerce fraud and risk through automated decisioning and fraud detection.",
+   "evidence": "Our AI-powered fraud management and risk intelligence platform is designed to help our merchants maximize revenue and profit to allow them to provide superior online shopping experiences for consumers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Merchants pay a percentage of approved transaction value for Chargeback Guarantee; fixed fees per transaction for other products.",
+  "evidence": "We charge merchants using our Chargeback Guarantee product a percentage of every dollar of GMV that we approve on their behalf, so we are incentivized to approve as many orders as we safely can."
+ },
+ "changes": [],
+ "dropped": []
+}

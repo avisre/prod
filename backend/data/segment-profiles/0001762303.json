@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001762303",
+ "issuerName": "AVITA MEDICAL, INC.",
+ "builtAt": "2026-11-14T17:42:03.595Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-049031",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1762303/000119312526049031/rcel-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Acute Wound Care",
+   "products": [
+    "RECELL",
+    "RECELL 1920",
+    "RECELL Ease-of-Use",
+    "RECELL GO",
+    "RECELL GO mini",
+    "PermeaDerm",
+    "Cohealyx"
+   ],
+   "description": "Delivers therapeutic acute wound care solutions for burns, traumatic injuries and surgical repairs through autologous cell harvesting and complementary wound care products.",
+   "evidence": "AVITA Medical is a leading therapeutic acute wound care company delivering transformative solutions designed to optimize wound healing, accelerate patient recovery, and improve clinical and economic outcomes across the continuum of acute wound management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and burn centers purchase RECELL devices and complementary wound care products to treat acute wound patients.",
+  "evidence": "Adoption decisions in burn centers are typically evaluated through hospital value analysis committees (\"VACs\"), which assess both clinical outcomes and total cost"
+ },
+ "changes": [
+  {
+   "text": "In 2024, AVITA entered into a distribution agreement with Stedical Scientific to market, sell, and distribute PermeaDerm, a biosynthetic wound matrix in the U.S.",
+   "evidence": "In January 2024, we entered into an exclusive multi-year distribution agreement with Stedical Scientific, Inc. (\"Stedical\") to market, sell, and distribute PermeaDerm, a biosynthetic wound matrix in the United States (\"U.S.\")."
+  },
+  {
+   "text": "In 2024, AVITA entered into a development and distribution agreement with Regenity Biosciences for exclusive rights to market, sell, and distribute Cohealyx in the U.S. and potentially other regions.",
+   "evidence": "In July 2024, we entered into an exclusive multi-year development and distribution agreement with Collagen Matrix, LLC d/b/a as Regenity Biosciences (\"Regenity\"), granting us exclusive rights to market, sell, and distribute Cohealyx, an AVITA-medical branded collagen-based dermal matrix in the U.S., with potential expansion into the European Union (\"E.U.\"), Australia, and Japan."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, AVITA received FDA approval for RECELL GO mini, a next-generation devic"
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001449792",
+ "issuerName": "Pioneer Power Solutions, Inc.",
+ "builtAt": "2026-11-14T17:42:30.044Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-015715",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1449792/000149315226015715/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Critical Power Solutions",
+   "products": [
+    "e-Boost G.O.A.T.",
+    "e-Boost Mobile",
+    "e-Boost Pod",
+    "Engine-generator sets",
+    "PRYMUS",
+    "PowerCore",
+    "UPS systems",
+    "Service and maintenance"
+   ],
+   "description": "Designs, manufactures and sells mobile EV charging solutions, power generation equipment and preventative maintenance and repair services.",
+   "evidence": "Following the PCEP Sale, we currently have one reportable segment - Critical Power Solutions (\"Critical Power\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for equipment sales, installation, service contracts and maintenance services for power generation and EV charging solutions.",
+  "evidence": "We recognize discrete revenue streams from service contracts, sales, installation, maintenance and repair services, and we offer service contracts to all owners of power generation and related equipment, whether or not the equipment was originally sold by us."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold its Pioneer Custom Electrical Products Corp. business unit and consolidated to one reportable segment.",
+   "evidence": "In October 2024, we sold our Pioneer Custom Electrical Products Corp. (\"PCEP\") business unit to a buyer (the \"PCEP Sale\") as a result of a strategic change to the operations of our business."
+  }
+ ],
+ "dropped": []
+}

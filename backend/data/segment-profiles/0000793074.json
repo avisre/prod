@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000793074",
+ "issuerName": "WERNER ENTERPRISES, INC.",
+ "builtAt": "2026-11-14T13:51:06.936Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000793074-26-000071",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/793074/000079307426000071/wern-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TTS",
+   "products": [
+    "Dedicated",
+    "One-Way Truckload",
+    "Van",
+    "Expedited",
+    "Regional",
+    "Temperature Controlled"
+   ],
+   "description": "Truckload transportation of general commodities for customers via dedicated and one-way fleets across the United States, Canada and Mexico.",
+   "evidence": "Our TTS segment is comprised of Dedicated and One-Way Truckload."
+  },
+  {
+   "name": "Werner Logistics",
+   "products": [
+    "Truckload Logistics",
+    "Intermodal",
+    "Werner Final Mile"
+   ],
+   "description": "Non-asset-based transportation and logistics provider offering brokerage, freight management, intermodal and final mile services throughout North America.",
+   "evidence": "Our Werner Logistics segment is a non-asset-based transportation and logistics provider."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay per-mile rates for truckload shipments plus stop, loading/unloading, detention and repositioning charges and fuel surcharges, while logistics customers pay for brokerage, freight management, intermodal and final mile services.",
+  "evidence": "Revenues for the operating segments (Dedicated and One-Way Truckload) within our TTS reportable segment are typically generated on a per-mile basis and also include revenues such as stop charges, loading and unloading charges, equipment detention charges and equipment repositioning charges."
+ },
+ "changes": [
+  {
+   "text": "In 2026, the company acquired FirstFleet, a dedicated truckload carrier, whose revenues will be reported in Dedicated within the TTS segment.",
+   "evidence": "On January 27, 2026, we acquired 100% of the equity interests in First Enterprises, Inc., doing business as FirstFleet, Inc. (\"FirstFleet\")."
+  }
+ ],
+ "dropped": []
+}

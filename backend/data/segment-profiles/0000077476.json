@@ -1,0 +1,114 @@
+{
+ "version": 1,
+ "cik": "0000077476",
+ "issuerName": "PEPSICO INC",
+ "builtAt": "2026-11-14T13:46:00.250Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000077476-26-000007",
+  "periodEnd": "2025-12-27",
+  "filingDate": "2026-02-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/77476/000007747626000007/pep-20251227.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "PepsiCo Foods North America (PFNA)",
+   "products": [
+    "Cheetos",
+    "Doritos",
+    "Fritos",
+    "Lay's",
+    "Pearl Milling Company",
+    "Quaker",
+    "Ruffles",
+    "Tostitos"
+   ],
+   "description": "Makes, markets, distributes and sells convenient foods such as cereals, chips, dips and pasta in the United States and Canada.",
+   "evidence": "PFNA makes, markets, distributes and sells convenient foods, which include cereals, chips, dips, granola bars, oatmeal, pasta, rice and syrups and mixes under various brands including Cheetos, Doritos, Fritos, Lay's, Pearl Milling Company, Quaker, Ruffles and Tostitos."
+  },
+  {
+   "name": "PepsiCo Beverages North America (PBNA)",
+   "products": [
+    "Aquafina",
+    "Bubly",
+    "Gatorade",
+    "Mountain Dew",
+    "Pepsi",
+    "Propel",
+    "Lipton",
+    "Starbucks"
+   ],
+   "description": "Makes, markets and sells beverage concentrates, fountain syrups and finished goods in the United States and Canada beverage businesses.",
+   "evidence": "PBNA makes, markets and sells beverage concentrates, fountain syrups and finished goods under various beverage brands including Aquafina, Bubly, Diet Mountain Dew, Diet Pepsi, Gatorade, Gatorade Zero, Mountain Dew, Mountain Dew Baja Blast, Pepsi, Pepsi Wild Cherry, Pepsi Zero Sugar and Propel."
+  },
+  {
+   "name": "International Beverages Franchise (IB Franchise)",
+   "products": [
+    "7UP",
+    "Aquafina",
+    "Gatorade",
+    "Mirinda",
+    "Mountain Dew",
+    "Pepsi",
+    "Sting Energy",
+    "SodaStream"
+   ],
+   "description": "Sells beverage concentrates to authorized and independent bottlers internationally and manufactures SodaStream sparkling water makers.",
+   "evidence": "IB Franchise makes, markets and sells beverage concentrates to authorized and independent bottlers under various beverage brands including 7UP, Aquafina, Gatorade, Mirinda, Mountain Dew, Pepsi, Pepsi Black, Pepsi Zero Sugar, and Sting Energy."
+  },
+  {
+   "name": "Europe, Middle East and Africa (EMEA)",
+   "products": [
+    "Cheetos",
+    "Doritos",
+    "Lay's",
+    "Walkers",
+    "Pepsi",
+    "7UP",
+    "Agusha",
+    "Lipton"
+   ],
+   "description": "Makes and sells convenient foods, beverages with company-owned bottlers, and dairy products across Europe, the Middle East and Africa.",
+   "evidence": "EMEA makes, markets, distributes and sells a number of convenient food brands including Cheetos, Chipsy, Doritos, Lay's, Quaker, Sasko, Spekko, Walkers and White Star through consolidated businesses, as well as through noncontrolled affiliates."
+  },
+  {
+   "name": "Latin America Foods (LatAm Foods)",
+   "products": [
+    "Cheetos",
+    "Doritos",
+    "Emperador",
+    "Lay's",
+    "Marias Gamesa",
+    "Quaker",
+    "Sabritas",
+    "Tostitos"
+   ],
+   "description": "Makes, markets, distributes and sells convenient food brands across Latin America.",
+   "evidence": "LatAm Foods makes, markets, distributes and sells a number of convenient food brands including Cheetos, Doritos, Emperador, Lay's, Marias Gamesa, Quaker, Ruffles, Sabritas, Saladitas Gamesa and Tostitos."
+  },
+  {
+   "name": "Asia Pacific Foods",
+   "products": [
+    "BaiCaoWei",
+    "Cheetos",
+    "Doritos",
+    "Kurkure",
+    "Lay's",
+    "Quaker",
+    "Smith's"
+   ],
+   "description": "Makes, markets, distributes and sells convenient food brands in Asia Pacific, including China, Australia, New Zealand and India.",
+   "evidence": "Asia Pacific Foods makes, markets, distributes and sells a number of convenient food brands including BaiCaoWei, Cheetos, Doritos, Kurkure, Lay's, Quaker and Smith's, through consolidated businesses, as well as through noncontrolled affiliates."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "PepsiCo is paid by independent distributors, retailers, authorized and independent bottlers, and consumers through e-commerce for its beverages and convenient foods.",
+  "evidence": "PBNA also sells concentrate and finished goods for our brands to authorized and independent bottlers, who in turn sell our branded finished goods to independent distributors and retailers in certain markets."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In December 2024, PepsiCo acquired the Strauss Group's 50% ownership in Sabra Di"
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000832101",
+ "issuerName": "IDEX CORP",
+ "builtAt": "2026-11-14T13:52:16.111Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000832101-26-000003",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/832101/000083210126000003/iex-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health & Science Technologies",
+   "products": [
+    "precision fluidics",
+    "positive displacement pumps",
+    "optical components and coatings",
+    "sealing solutions",
+    "air compressors and blowers",
+    "biocompatible medical devices and implantables",
+    "powder and liquid processing technologies",
+    "microfluidic systems"
+   ],
+   "description": "Designs and distributes precision fluidics, optics, sealing, pneumatic and material processing solutions for life science, medical, semiconductor and industrial customers.",
+   "evidence": "The HST segment designs, produces and distributes a wide range of precision fluidics, positive displacement pumps, powder and liquid processing technologies, drying systems, micro-precision components, pneumatic components and sealing solutions, high performance molded and extruded sealing components, custom mechanical and shaft seals, engineered hygienic mixers and valves, biocompatible medical devices and implantables, air compressors and blowers, optical components and coatings, ultra-precisi"
+  },
+  {
+   "name": "Fluid & Metering Technologies",
+   "products": [
+    "Pumps",
+    "Water Dispensing",
+    "Energy",
+    "Agriculture",
+    "Valves"
+   ],
+   "description": "Provides fluid handling, metering, dispensing and valve solutions serving industrial, energy, agriculture and water end markets.",
+   "evidence": "The table below illustrates the three reportable segments and the reporting units within each segment. HST FMT FSDP Scientific Fluidics & Optics Pumps Fire & Safety Performance Pneumatic Technologies Water Dispensing Sealing Solutions Energy BAND-IT Material Processing Technologies Agriculture Valves"
+  },
+  {
+   "name": "Fire & Safety/Diversified Products (FSDP)",
+   "products": [
+    "Fire & Safety",
+    "Sealing Solutions",
+    "BAND-IT"
+   ],
+   "description": "Supplies fire and safety products, sealing solutions and clamping products for diversified industrial markets.",
+   "evidence": "The Company has three reportable segments: Health & Science Technologies (\"HST\"), Fluid & Metering Technologies (\"FMT\") and Fire & Safety/Diversified Products (\"FSDP\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2025, the Life Sciences end market was expanded to also include analytical instruments, pharmaceutical and medical/dental end market sales.",
+   "evidence": "Beginning in 2025, Life Sciences also includes analytical instruments, pharmaceutical and medical/dental end market sales."
+  }
+ ],
+ "dropped": []
+}

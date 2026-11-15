@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0000712537",
+ "issuerName": "FIRST COMMONWEALTH FINANCIAL CORP /PA/",
+ "builtAt": "2026-11-14T13:48:57.315Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000712537-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/712537/000071253726000013/fcf-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking",
+   "products": [
+    "commercial banking services",
+    "trust and wealth management services",
+    "insurance products",
+    "loans",
+    "deposits"
+   ],
+   "description": "A financial holding company providing consumer and commercial banking, trust, wealth management and insurance services to individuals and small to middle market businesses in Pennsylvania and Ohio.",
+   "evidence": "First Commonwealth has determined that it has one business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The holding company receives substantially all of its revenues from dividends paid by its subsidiaries, primarily the Bank, which earns interest and fees on loans, deposits and other financial services.",
+  "evidence": "It receives substantially all of its revenues from dividends from its subsidiaries."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Banking): consumer banking services"
+ ]
+}

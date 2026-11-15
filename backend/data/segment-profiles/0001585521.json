@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001585521",
+ "issuerName": "Zoom Communications, Inc.",
+ "builtAt": "2026-11-14T17:38:06.388Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001585521-26-000030",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1585521/000158552126000030/zm-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zoom Communications",
+   "products": [
+    "Zoom Meetings",
+    "Zoom Phone",
+    "Zoom Team Chat",
+    "Zoom Docs",
+    "Zoom Whiteboard",
+    "Zoom Contact Center",
+    "Zoom Revenue Accelerator",
+    "Zoom Events"
+   ],
+   "description": "Provides an AI-first platform for employee and customer-facing collaboration, communication, and engagement across meetings, chat, phone, contact center, events, and workplace services.",
+   "evidence": "Zoom Workplace with AI Companion brings together Zoom's core communication and productivity tools—including Zoom Meetings, Zoom Phone, Zoom Team Chat, Zoom Docs, and Zoom Whiteboard—to support collaboration across organizations of varying sizes. Zoom's Business Services for sales, marketing, and customer experience teams, including Zoom Contact Center, Zoom Revenue Accelerator, and Zoom Events, support customer engagement across the the customer lifecycle."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Organizations and individuals pay for access to Zoom's unified platform spanning employee collaboration and customer-facing workflows through subscription and usage-based pricing models.",
+  "evidence": "This approach is designed to allow us to cost-effectively drive upgrades to our paid offering and expansion within organizations of all sizes and verticals."
+ },
+ "changes": [],
+ "dropped": []
+}

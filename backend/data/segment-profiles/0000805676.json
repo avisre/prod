@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000805676",
+ "issuerName": "PARK NATIONAL CORPORATION",
+ "builtAt": "2026-11-14T13:51:30.181Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000805676-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/805676/000080567626000017/prk-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Banking Operations",
+   "products": [
+    "acceptance of deposits for demand, savings, and time accounts",
+    "commercial, industrial, consumer and real estate lending",
+    "wealth management, including trust and investment services",
+    "aircraft financing",
+    "commercial cash management",
+    "internet and mobile banking solutions with bill pay service",
+    "ParkDirect, a personal banking app",
+    "safe deposit operations"
+   ],
+   "description": "Park National Bank provides commercial banking, consumer banking and wealth management services to consumers and businesses in Ohio, Kentucky, North Carolina and South Carolina.",
+   "evidence": "Park National Bank engages in the commercial banking, consumer banking, and wealth management, including trust and investment services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [
+  {
+   "text": "In 2026, First Citizens Bancshares merged into Park, with First Citizens National Bank merged into Park National Bank.",
+   "evidence": "On February 1, 2026, First Citizens Bancshares, Inc., a Tennessee corporation (\"First Citizens\") merged into Park, with Park continuing as the surviving corporation."
+  }
+ ],
+ "dropped": [
+  "revenue model not grounded"
+ ]
+}

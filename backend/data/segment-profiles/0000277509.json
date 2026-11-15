@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000277509",
+ "issuerName": "FEDERAL SIGNAL CORPORATION",
+ "builtAt": "2026-11-14T13:47:44.824Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011576",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/277509/000162828026011576/fss-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Environmental Solutions Group",
+   "products": [
+    "street sweepers",
+    "sewer cleaners",
+    "industrial vacuum loaders",
+    "safe-digging trucks",
+    "waterblasting equipment",
+    "refuse collection vehicles",
+    "dump truck bodies and trailers",
+    "road-marking and line-removal equipment"
+   ],
+   "description": "Manufactures and supplies vehicles and equipment for municipal, industrial, utility and construction maintenance and infrastructure customers, plus aftermarket parts, service, rentals and training.",
+   "evidence": "The Company's Environmental Solutions Group is a leading manufacturer and supplier of a full range of street sweepers, sewer cleaners, industrial vacuum loaders, safe-digging trucks, high-performance waterblasting equipment, road-marking and line-removal equipment, refuse collection vehicles, dump truck bodies, trailers, metal extraction support equipment, and multi-purpose maintenance vehicles."
+  },
+  {
+   "name": "Safety and Security Systems Group",
+   "products": [
+    "vehicle lightbars and sirens",
+    "industrial signaling equipment",
+    "public warning systems",
+    "general alarm/public address systems"
+   ],
+   "description": "Manufactures systems and products that law enforcement, fire rescue, emergency medical services, campuses, military facilities and industrial sites use to protect people and property.",
+   "evidence": "Specific products include public safety equipment, such as vehicle lightbars and sirens, industrial signaling equipment, public warning systems, and general alarm/public address systems."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns revenue from selling vehicles, equipment and public safety products to municipal, governmental, industrial and commercial customers through dealers, distributors or direct sales, plus aftermarket parts, service, rentals and training.",
+  "evidence": "Products are sold to both municipal and industrial customers either through a dealer network or direct sales to service customers generally depending on the type and geographic location of the customer."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired Hog, New Way and Kinloch, each included in the Environmental Solutions reportable segment.",
+   "evidence": "Each of these acquisitions is included in the Environmental Solutions reportable segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Safety and Security Systems Group): first responder interoperable communications systems",
+  "product not in text (Safety and Security Systems Group): community alerting systems"
+ ]
+}

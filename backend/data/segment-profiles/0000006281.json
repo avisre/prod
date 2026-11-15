@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0000006281",
+ "issuerName": "ANALOG DEVICES INC",
+ "builtAt": "2026-11-14T14:06:28.786Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000006281-25-000153",
+  "periodEnd": "2025-11-01",
+  "filingDate": "2025-11-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/6281/000000628125000153/adi-20251101.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Semiconductors",
+   "products": [
+    "Analog and Mixed Signal",
+    "Power Management & Reference",
+    "Amplifiers/RF and Microwave",
+    "Sensors & Actuators",
+    "Digital Signal Processing and System Products (DSPs)"
+   ],
+   "description": "Designs, manufactures and markets high-performance analog, mixed-signal, power and RF integrated circuits for industrial, automotive, communications, consumer and healthcare customers.",
+   "evidence": "The Company has determined that its business operates as a single operating segment and has a single reporting unit for the purpose of goodwill impairment testing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "revenue model not grounded"
+ ],
+ "escalated": "no filed row matches"
+}

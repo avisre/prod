@@ -1,0 +1,61 @@
+{
+ "version": 1,
+ "cik": "0000109177",
+ "issuerName": "Spectrum Brands Holdings, Inc.",
+ "builtAt": "2026-11-14T13:47:29.407Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000109177-25-000043",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/109177/000010917725000043/spb-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global Pet Care",
+   "products": [
+    "companion animal products",
+    "dog and cat food",
+    "aquatics",
+    "GloFish®",
+    "OmegaSea®",
+    "Tetra®"
+   ],
+   "description": "Sells companion animal chews, treats and care products, dog and cat food, and aquatics products to pet retailers and consumers.",
+   "evidence": "GPC sells products within the companion animal, dog and cat food and aquatics product categories."
+  },
+  {
+   "name": "Home and Garden",
+   "products": [
+    "household controls",
+    "outdoor controls",
+    "repellents",
+    "cleaning products",
+    "Rejuvenate®"
+   ],
+   "description": "Sells household and outdoor pest controls, weed control, insect repellents and household cleaning products to retailers and distributors.",
+   "evidence": "H&G sells products in the household and outdoor controls, repellents, and cleaning product categories."
+  },
+  {
+   "name": "Home and Personal Care",
+   "products": [
+    "small kitchen appliances",
+    "cookware and cookbooks",
+    "hair dryers",
+    "electric shavers",
+    "personal groomers",
+    "haircut kits"
+   ],
+   "description": "Sells small home appliances and personal care appliances to large retailers, e-commerce, wholesalers and specialty outlets.",
+   "evidence": "HPC sells products in the small home appliances and personal care appliance product categories."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company is paid by retailers, wholesalers, distributors and e-commerce customers, with sales made through a direct sales force and network of brokers and distributors.",
+  "evidence": "Product sales are generally through our direct sales force and network of brokers and distributors primarily with large retailers, pet superstores, e-commerce, food and drug retailers, warehouse clubs and other pet specialty retail"
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001755953",
+ "issuerName": "American Bitcoin Corp.",
+ "builtAt": "2026-11-14T17:39:49.099Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-127278",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1755953/000119312526127278/abtc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bitcoin Mining",
+   "products": [],
+   "description": "Bitcoin mining operations through hash computation services provided to mining pools.",
+   "evidence": "The Company earns revenue from Bitcoin mining."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Mining pool operators pay the company in Bitcoin for hash computation services under Full Pay Per Share payout models.",
+  "evidence": "In exchange for providing hash computation services, which represents the Company's only performance obligation, the Company is entitled to noncash consideration in the form of Bitcoin, calculated under payout models determined by the mining pool operators."
+ },
+ "changes": [
+  {
+   "text": "In September 2025, American Bitcoin Corp. merged with Gryphon Digital Mining, Inc., with Gryphon changing its name to American Bitcoin Corp.",
+   "evidence": "On September 3, 2025, in accordance with the terms of the Merger Agreement, among other things, (i) Merger Sub Inc. merged with and into Historical ABTC, with Historical ABTC surviving the merger (the \"First Merger\") as a wholly owned direct subsidiary of Gryphon (the corporation surviving the First Merger, the \"First Merger Surviving Corporation\") and (ii) immediately after the First Merger, the First Merger Surviving Corporation merged with and into Merger Sub LLC, with Merger Sub LLC survivin"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In March 2025, the company separated from Hut 8 Corp. as the ASIC Compute sub-se"
+ ]
+}

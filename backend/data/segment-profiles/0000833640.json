@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000833640",
+ "issuerName": "POWER INTEGRATIONS, INC.",
+ "builtAt": "2026-11-14T13:52:22.636Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000833640-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/833640/000083364026000037/powi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "High-voltage power conversion",
+   "products": [
+    "High-voltage LED drivers",
+    "Motor-driver ICs for BLDC motors",
+    "High-voltage gate drivers",
+    "InnoSwitch™ ICs",
+    "InnoMux™ ICs",
+    "PowiGaN™ transistors",
+    "BridgeSwitch™ motor-driver ICs"
+   ],
+   "description": "Designs, develops, manufactures and markets analog and mixed-signal integrated circuits and related components used primarily in high-voltage power conversion.",
+   "evidence": "The Company is organized and operates as one operating and reportable segment; the design, development, manufacture and marketing of integrated circuits and related components for use primarily in high-voltage power conversion."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns product revenue from sales of its ICs to original equipment manufacturers, merchant power supply manufacturers and distributors, with revenue recognized upon transfer of control, typically at shipment.",
+  "evidence": "Product revenue consists of sales to original equipment manufacturers, or OEMs, merchant power supply manufacturers and distributors."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (High-voltage power conversion): AC-DC power-supply ICs"
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001770088",
+ "issuerName": "WiMi Hologram Cloud Inc.",
+ "builtAt": "2026-11-15T02:50:19.441Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-047255",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1770088/000121390026047255/ea0285862-20f_wimi.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AR advertising services",
+   "products": [],
+   "description": "Provides augmented reality advertising services to customers.",
+   "evidence": "The Company has determined that it has three operating segments: (1) AR advertising services, (2) AR entertainment and (3) semiconductor related products and services."
+  },
+  {
+   "name": "AR entertainment",
+   "products": [],
+   "description": "Develops and delivers augmented reality entertainment content and services.",
+   "evidence": "The Company has determined that it has three operating segments: (1) AR advertising services, (2) AR entertainment and (3) semiconductor related products and services."
+  },
+  {
+   "name": "semiconductor related products and services",
+   "products": [
+    "semiconductor products",
+    "computer chip and intelligent chip"
+   ],
+   "description": "Manufactures and sells semiconductor products, computer chips and intelligent chips.",
+   "evidence": "The Company has determined that it has three operating segments: (1) AR advertising services, (2) AR entertainment and (3) semiconductor related products and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Company earns revenue from AR advertising services, AR entertainment services and semiconductor products based on sales agreements and profit-sharing arrangements.",
+  "evidence": "For AR advertising services, the cost of revenue comprised of costs paid to channel distributors based on the sales agreements. For AR entertainment segment, the cost of revenue consists of the shared costs with content providers based on the profit-sharing arrangements, third party consulting services expenses and compensation expenses for the Company's professionals. For computer chip and intelligent chip business segment, the cost of revenue consists primarily of the costs of products sold."
+ },
+ "changes": [],
+ "dropped": []
+}

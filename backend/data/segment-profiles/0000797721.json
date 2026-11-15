@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0000797721",
+ "issuerName": "VIASAT, INC.",
+ "builtAt": "2026-11-14T13:51:16.418Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-248290",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-05-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/797721/000119312526248290/vsat-20260331.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communication services",
+   "products": [
+    "Government satcom",
+    "Fixed services and other"
+   ],
+   "description": "Provides broadband and narrowband communications solutions to government, commercial mobility, residential and enterprise fixed broadband customers via its satellite fleet.",
+   "evidence": "Our communication services segment provides a wide range of broadband and narrowband communications solutions across government and commercial mobility markets, as well as for residential and enterprise fixed broadband customers."
+  },
+  {
+   "name": "Defense and advanced technologies",
+   "products": [
+    "Information security and cyber defense",
+    "Space and mission systems",
+    "Tactical networking",
+    "Advanced technologies and other"
+   ],
+   "description": "Develops resilient, vertically integrated solutions for government and commercial customers, leveraging competencies in encryption, cyber security, tactical gateways, modems and waveforms.",
+   "evidence": "Our defense and advanced technologies segment develops and offers a diverse array of resilient, vertically integrated solutions to government and commercial customers, leveraging our core technical competencies in encryption, cyber security, tactical gateways, modems and waveforms."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers including airlines, shipping companies, government and military users, and fixed broadband subscribers pay Viasat for satellite-based connectivity services and related products.",
+  "evidence": "As of March 31, 2026, our U.S. fixed broadband business had approximately 130,000 subscribers with an average monthly revenue per user of $113."
+ },
+ "changes": [
+  {
+   "text": "In 2023, Viasat completed the Inmarsat acquisition, whose results were included in the communication services segment.",
+   "evidence": "The assets and results of operations of Inmarsat are included in our communication services segment for the period following the closing of the Inmarsat Acquisition on May 30, 2023."
+  }
+ ],
+ "dropped": [
+  "product not in text (Communication services): Aviation (IFC services)",
+  "product not in text (Communication services): Maritime (NexusWave)"
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000804328",
+ "issuerName": "QUALCOMM INC/DE",
+ "builtAt": "2026-11-14T13:51:29.887Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000804328-26-000128",
+  "periodEnd": "2026-09-27",
+  "filingDate": "2026-11-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/804328/000080432826000128/qcom-20260927.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "QCT",
+   "products": [
+    "Snapdragon platforms",
+    "Snapdragon Digital Chassis",
+    "Dragonwing platforms",
+    "Qualcomm RFFE components",
+    "Snapdragon 5G modem-RF products",
+    "Hexagon NPUs",
+    "Qualcomm Adreno GPUs"
+   ],
+   "description": "Develops and supplies integrated circuit platforms and system software with advanced connectivity and high-performance, low-power computing for mobile, automotive and IoT manufacturers.",
+   "evidence": "QCT develops and supplies integrated circuit platforms and system software with advanced connectivity and high-performance, low-power computing technologies."
+  },
+  {
+   "name": "QTL",
+   "products": [],
+   "description": "Grants licenses or otherwise provides rights to use portions of Qualcomm's intellectual property portfolio, including patents essential to wireless products.",
+   "evidence": "QTL grants licenses or otherwise provides rights to use portions of our intellectual property portfolio, which includes certain patent rights essential to and/or useful in the manufacture and sale of certain wireless products."
+  },
+  {
+   "name": "QSI",
+   "products": [],
+   "description": "Makes strategic investments.",
+   "evidence": "Our QSI (Qualcomm Strategic Initiatives) reportable segment makes strategic investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Qualcomm derives revenue principally from sales of integrated circuit products to manufacturers and from licensing of its intellectual property, including patents and other rights.",
+  "evidence": "We derive revenues principally from sales of integrated circuit products (also known as integrated circuit platforms, chips, chipsets or modules) and licensing of our intellectual property, including patents and other rights."
+ },
+ "changes": [
+  {
+   "text": "Beginning in the first quarter of fiscal 2027, the Data Center business, previously a nonreportable segment, will be included within the QCT reportable segment.",
+   "evidence": "Beginning in the first quarter of fiscal 2027, our Data Center business, which has been presented as a nonreportable segment, will be included within our QCT reportable segment, to align to how we plan to manage the business going forward."
+  }
+ ],
+ "dropped": [
+  "product not in text (QCT): Qualcomm Oryon CPUs"
+ ]
+}

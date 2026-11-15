@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000318306",
+ "issuerName": "ABEONA THERAPEUTICS INC.",
+ "builtAt": "2026-11-14T13:48:11.421Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010413",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/318306/000149315226010413/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial-stage biopharmaceutical",
+   "products": [
+    "ZEVASKYN® (prademagene zamikeracel)",
+    "AAV-based gene therapies",
+    "AIM™ capsids"
+   ],
+   "description": "Develops and commercializes cell and gene therapies, including ZEVASKYN for RDEB wounds, for patients with life-threatening rare genetic diseases.",
+   "evidence": "The Company has determined that it operates in a single business segment, which is a commercial-stage biopharmaceutical company developing cell and gene therapies for life-threatening diseases."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns product revenue from sales of ZEVASKYN to qualified treatment centers in the United States, recognized upon transfer of control after final quality inspection, plus license fees, milestones and royalties from license agreements.",
+  "evidence": "The Company generates revenue from sales in the United States of its commercially approved ZEVASKYN ® . The Company's customers for ZEVASKYN ® are qualified treatment centers."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the FDA approved ZEVASKYN, transitioning the company to a commercial-stage business with its first product revenue.",
+   "evidence": "On April 28, 2025, the U.S. Food and Drug Administration (\"FDA\") approved ZEVASKYN ® (prademagene zamikeracel) gene-modified cellular sheets, also known as ZEVASKYN ® , as the first and only autologous cell-based gene therapy for the treatment of wounds in adult and pediatric patients with recessive dystrophic epidermolysis bullosa (\"RDEB\"), a serious and debilitating genetic skin disease."
+  }
+ ],
+ "dropped": []
+}

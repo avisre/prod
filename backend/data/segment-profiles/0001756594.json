@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001756594",
+ "issuerName": "Inventiva S.A.",
+ "builtAt": "2026-11-14T17:40:23.840Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-040704",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1756594/000110465926040704/iva-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Service delivery and clinical stage research",
+   "products": [
+    "lanifibranor"
+   ],
+   "description": "Clinical-stage biopharmaceutical company developing oral small molecule therapies for metabolic dysfunction-associated steatohepatitis treatment.",
+   "evidence": "Only one operating segment arises from the management reporting system: service delivery and clinical stage research, notably into potential therapies in the areas of fibrosis, lysosomal storage disorders and oncology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Revenue from research and development service delivery and licensing arrangements with collaborators and licensees.",
+  "evidence": "Purchasing transactions in foreign currencies are presented in operating income as they relate to the Company's ordinary activities."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, the company discontinued all pre-clinical research activities unrelated"
+ ]
+}

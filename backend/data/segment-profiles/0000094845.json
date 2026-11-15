@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0000094845",
+ "issuerName": "LEVI STRAUSS & CO",
+ "builtAt": "2026-11-14T13:46:43.268Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000094845-26-000008",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/94845/000009484526000008/lvis-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "Levi's®",
+    "Levi Strauss Signature™",
+    "Denizen®"
+   ],
+   "description": "Designs, markets and sells Levi's Brands apparel including jeans, pants, tops and accessories to consumers in the Americas region.",
+   "evidence": "Our Levi's Brands business, which includes the Levi's ® , Levi Strauss Signature™ and Denizen ® brands, is presented in our financial statements under the caption of Levi's Brands and is defined geographically in three reportable segments: Americas, Europe and Asia."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Levi's®",
+    "Levi Strauss Signature™",
+    "Denizen®"
+   ],
+   "description": "Designs, markets and sells Levi's Brands apparel including jeans, pants, tops and accessories to consumers in the Europe region.",
+   "evidence": "Our Levi's Brands business, which includes the Levi's ® , Levi Strauss Signature™ and Denizen ® brands, is presented in our financial statements under the caption of Levi's Brands and is defined geographically in three reportable segments: Americas, Europe and Asia."
+  },
+  {
+   "name": "Asia",
+   "products": [
+    "Levi's®",
+    "Levi Strauss Signature™",
+    "Denizen®"
+   ],
+   "description": "Designs, markets and sells Levi's Brands apparel including jeans, pants, tops and accessories to consumers in the Asia region.",
+   "evidence": "Our Levi's Brands business, which includes the Levi's ® , Levi Strauss Signature™ and Denizen ® brands, is presented in our financial statements under the caption of Levi's Brands and is defined geographically in three reportable segments: Americas, Europe and Asia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from wholesale sales to third-party retailers and franchise partners, and from direct-to-consumer sales through company-operated stores and e-commerce sites.",
+  "evidence": "We recognize wholesale revenue from sales of our products through third-party retailers such as department stores, specialty retailers, third-party e-commerce sites and franchise locations dedicated to our brands."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024 the company announced the decision to discontinue the Denizen brand, wit",
+  "change not grounded: In 2025 the company agreed to sell its Dockers business, selling the U.S. and Ca"
+ ]
+}

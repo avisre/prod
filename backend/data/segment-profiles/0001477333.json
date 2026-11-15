@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001477333",
+ "issuerName": "Cloudflare, Inc.",
+ "builtAt": "2026-11-14T17:37:41.556Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477333-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1477333/000147733326000016/cloud-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloudflare",
+   "products": [
+    "Application Services",
+    "Secure Access Service Edge (SASE)",
+    "Developer Solutions",
+    "Consumer Offerings"
+   ],
+   "description": "Delivers integrated cloud-based security, performance, and reliability services across a global network to businesses and consumers.",
+   "evidence": "We deliver a suite of deeply integrated products that serve as a unified control plane for our customers, allowing them to build, connect, and secure applications and corporate infrastructure."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay subscription and support fees recognized over time for use of the company's global network and products.",
+  "evidence": "Subscription and support revenue is recognized over time and accounted for substantially all of the Company's revenue for the years ended December 31, 2025, 2024, and 2023."
+ },
+ "changes": [],
+ "dropped": []
+}

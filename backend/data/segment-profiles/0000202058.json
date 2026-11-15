@@ -1,0 +1,74 @@
+{
+ "version": 1,
+ "cik": "0000202058",
+ "issuerName": "L3HARRIS TECHNOLOGIES, INC. /DE/",
+ "builtAt": "2026-11-14T13:47:35.166Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000202058-26-000015",
+  "periodEnd": "2026-01-02",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/202058/000020205826000015/hrs-20260102.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communication Systems",
+   "products": [
+    "Tactical Communications",
+    "Broadband Communications",
+    "Integrated Vision Solutions",
+    "Public Safety and Professional Communications"
+   ],
+   "description": "Provides resilient communication solutions, tactical radios, night vision equipment and public safety systems for defense, government and first responder customers.",
+   "evidence": "We are a leading provider of resilient communication solutions for the U.S. Department of War (\"DoW\") and international, federal, and state agency customers in the following business sectors: Tactical Communications"
+  },
+  {
+   "name": "Integrated Mission Systems",
+   "products": [
+    "ISR",
+    "Maritime",
+    "Targeting & Sensor Systems",
+    "Defense Electronics"
+   ],
+   "description": "Delivers mission capabilities and prime systems integration for multi-mission ISR, maritime systems, sensors and defense electronics to national security customers.",
+   "evidence": "Delivers differentiated mission capabilities and prime systems integration to support multi-mission ISR, passive sensing and targeting, electronic attack, autonomy, power and communications, networks and sensors."
+  },
+  {
+   "name": "Space & Airborne Systems",
+   "products": [
+    "Space Systems",
+    "Intel & Cyber",
+    "Mission Networks",
+    "Airborne Combat Systems"
+   ],
+   "description": "Supplies full mission solutions as a prime and subsystem integrator in space, airborne and cyber domains for national security, civil government and international customers.",
+   "evidence": "Supplies full mission solutions as a prime and subsystem integrator in the space, airborne and cyber domains."
+  },
+  {
+   "name": "Aerojet Rocketdyne",
+   "products": [
+    "Missile Solutions",
+    "Space Propulsion and Power Systems"
+   ],
+   "description": "Provides propulsion, power and armament products and systems to the U.S. Government, NASA and aerospace and defense prime contractors.",
+   "evidence": "Provides propulsion, power and armament products and systems to U.S. Government, including the DoW, National Aeronautics and Space Administration (\"NASA\") and major aerospace and defense prime contractors"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company is paid primarily by U.S. Government customers, their prime contractors and international allies under cost-type and fixed-price contracts for defense technology products and services.",
+  "evidence": "In fiscal 2025, the percentage of our revenue that was derived from sales to U.S. Government customers, whether directly or through prime contractors, including foreign military sales funded through the U.S. Government, was 75% and no other customer accounted for more than 5% of our revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Commercial Aviation Solutions disposal group was divested.",
+   "evidence": "On March 28, 2025, the CAS disposal group was divested."
+  },
+  {
+   "text": "Beginning fiscal 2026, the company streamlined from four business segments to three business segments.",
+   "evidence": "Beginning fiscal 2026, we streamlined our business segments from four business segments to three business segments, more closely aligning common capabilities and business models."
+  }
+ ],
+ "dropped": []
+}

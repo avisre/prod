@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001611052",
+ "issuerName": "Procore Technologies, Inc.",
+ "builtAt": "2026-11-14T17:38:51.318Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011055",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1611052/000162828026011055/pcor-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction Management Software",
+   "products": [
+    "Preconstruction",
+    "Project Execution",
+    "Resource Management",
+    "Financial Management",
+    "Procore Pay"
+   ],
+   "description": "Provides cloud-based construction management software enabling owners, contractors, and specialty contractors to collaborate and manage projects.",
+   "evidence": "Our four integrated product categories—Preconstruction, Project Execution, Resource Management, and Financial Management—automate workflows, provide timely visibility, offer advanced analytics, and support collaboration across key stages of the construction project lifecycle."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Construction companies subscribe to access software products based on fixed fees, typically determined by number of products subscribed and annual construction volume contracted on the platform.",
+  "evidence": "We generate substantially all of our revenue from subscriptions to access our products. We primarily sell our products on a subscription basis for a fixed fee with pricing generally based on the number and mix of products a customer subscribes to and the fixed aggregate dollar volume of construction work contracted to run on our platform annually, which we refer to as \"annual construction volume.\""
+ },
+ "changes": [],
+ "dropped": []
+}

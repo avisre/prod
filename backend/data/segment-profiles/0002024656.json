@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0002024656",
+ "issuerName": "Kandal M Venture Limited",
+ "builtAt": "2026-11-15T02:50:47.283Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-083084",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2024656/000121390026083084/ea0299169-20f_kandal.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Contract Manufacturing of Handbags",
+   "products": [
+    "Handbags",
+    "Shoulder bags",
+    "Crossbody bags",
+    "Tote bags",
+    "Backpacks",
+    "Top-handle handbags",
+    "Wallets"
+   ],
+   "description": "Contract manufacturer of affordable luxury leather goods and smaller leather goods for global fashion brands.",
+   "evidence": "The Company operates in a single business segment which is the business of contract manufacturing of handbags."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers issue letters of authorization granting the right to produce and export leather goods using their trademarks, with customers paying for manufacturing services.",
+  "evidence": "Customers issue letters of authorization directly to FMF which grant FMF the right to produce and export leather goods using their trademarks."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Contract Manufacturing of Handbags): Satchels"
+ ]
+}

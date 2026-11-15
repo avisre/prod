@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000723254",
+ "issuerName": "Cintas Corporation",
+ "builtAt": "2026-11-14T13:49:28.239Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000723254-26-000028",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/723254/000072325426000028/ctas-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Uniform Rental and Facility Services",
+   "products": [
+    "uniforms",
+    "flame resistant clothing",
+    "mats",
+    "mops",
+    "shop towels",
+    "restroom cleaning services and supplies"
+   ],
+   "description": "Rents and services uniforms, garments, mats, mops and shop towels, and provides restroom cleaning and route catalog sales to businesses.",
+   "evidence": "The Uniform Rental and Facility Services reportable operating segment consists of the rental and servicing of uniforms and other garments, including flame resistant clothing, mats, mops and shop towels and other ancillary items."
+  },
+  {
+   "name": "First Aid and Safety Services",
+   "products": [
+    "first aid and safety products and services",
+    "workplace water services"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "All Other",
+   "products": [
+    "fire protection products and services",
+    "uniforms and related items"
+   ],
+   "description": "Comprises the Fire Protection Services and Uniform Direct Sale operating segments, offering fire protection products and services and direct uniform sales.",
+   "evidence": "The remainder of Cintas' business, which consists of the Fire Protection Services operating segment and the Uniform Direct Sale operating segment, is included in All Other."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Businesses pay Cintas primarily for rental and servicing of uniforms and facility items, and for sales of first aid, safety, fire protection and other products and services.",
+  "evidence": "Today, the majority of our total Company revenue comes from our Uniform Rental and Facility Services reportable operating segment."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Uniform Rental and Facility Services): catalog items",
+  "segment evidence not verbatim: First Aid and Safety Services"
+ ]
+}

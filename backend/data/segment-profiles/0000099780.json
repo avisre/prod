@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000099780",
+ "issuerName": "TRINITY INDUSTRIES INC",
+ "builtAt": "2026-11-14T13:46:57.396Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000099780-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/99780/000009978026000014/trn-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Railcar Leasing and Services Group",
+   "products": [
+    "full-service operating leases for freight and tank railcars",
+    "fleet maintenance and management services",
+    "railcar leases for third-party investors",
+    "specialized cleaning, inspection, and testing",
+    "digital and terminal management services"
+   ],
+   "description": "Provides railcar leasing, fleet maintenance, and management services to industrial shippers, railroads, and third-party investors in North America.",
+   "evidence": "Our Railcar Leasing and Services Group (\"Leasing Group\") is a leading provider in North America of comprehensive railcar industry services."
+  },
+  {
+   "name": "Rail Products Group",
+   "products": [
+    "tank railcars",
+    "sustainable railcar conversion program",
+    "new, refurbished, and replacement parts"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial shippers and railroads pay fixed monthly lease rentals under leases of one to ten years, while railroads, leasing companies, and industrial shippers pay for manufactured railcars and services.",
+  "evidence": "The terms of our railcar leases generally provide for fixed monthly rentals that vary from one year to ten years."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, RIV 2013 Rail Holdings LLC became a wholly-owned subsidiary of the Leasing Group following a railcar partnership restructuring.",
+   "evidence": "In December 2025, as a result of a railcar partnership restructuring, RIV 2013 is now a wholly-owned subsidiary in the Leasing Group."
+  }
+ ],
+ "dropped": [
+  "product not in text (Railcar Leasing and Services Group): field inspections and compliance testing",
+  "product not in text (Rail Products Group): freight railcars",
+  "segment evidence not verbatim: Rail Products Group",
+  "change not grounded: In 2025, Triumph Rail Holdings LLC was divested, with approximately 10,850 railc"
+ ]
+}

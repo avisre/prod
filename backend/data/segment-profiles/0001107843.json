@@ -1,0 +1,37 @@
+{
+ "version": 1,
+ "cik": "0001107843",
+ "issuerName": "Qualys, Inc.",
+ "builtAt": "2026-11-14T17:37:12.648Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001107843-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1107843/000110784326000008/qlys-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cloud-Based IT, Security and Compliance Solutions",
+   "products": [
+    "Vulnerability Management",
+    "Asset Tagging and Management",
+    "Reporting and Dashboards",
+    "Questionnaires and Collaboration",
+    "Remediation and Workflow",
+    "Big Data Correlation and Analytics Engine",
+    "Alerts and Notifications"
+   ],
+   "description": "Cloud-based platform delivering integrated IT, security and compliance solutions to identify, manage and remediate cyber risk.",
+   "evidence": "We are a leading provider of a cloud-based platform delivering information technology (IT), security and compliance solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay renewable annual subscription fees to access cloud solutions, invoiced at subscription start and recognized ratably over the term.",
+  "evidence": "We provide our solutions through a software-as-a-service model, primarily with renewable annual subscriptions. These subscriptions require customers to pay a fee in order to access each of our cloud solutions. We generally invoice our customers for the entire subscription amount at the start of the subscription term, and the invoiced amounts are treated as deferred revenues and are recognized ratably over the term of each subscription."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0000816761",
+ "issuerName": "TERADATA CORPORATION",
+ "builtAt": "2026-11-14T13:51:50.451Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012671",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/816761/000162828026012671/tdc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Product Sales",
+   "products": [
+    "AI and knowledge platform",
+    "Teradata AI Factory",
+    "ClearScape Analytics",
+    "QueryGrid",
+    "Teradata AgentBuilder",
+    "MCP Server",
+    "Enterprise Vector Store",
+    "Autonomous Customer Intelligence"
+   ],
+   "description": "Sells Teradata's AI and knowledge platform and data analytics software for hybrid cloud and on-premises deployment to large enterprises.",
+   "evidence": "We manage our business under two operating segments: (1) Product Sales and (2) Consulting Services."
+  },
+  {
+   "name": "Consulting Services",
+   "products": [
+    "AI Services",
+    "support and maintenance services",
+    "managed services"
+   ],
+   "description": "Provides consulting, AI services, support, maintenance and managed services helping enterprise customers deploy and operate data analytics and AI.",
+   "evidence": "Our experienced consultants offer a broad range of services, including helping organizations establish a data analytics and AI vision, enabling a modern, hybrid ecosystem architecture, identifying and operationalizing opportunities, and realizing value in production."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprise customers pay Teradata through flexibly priced subscription offerings, ranging from capacity-based to consumption-based pricing, for its platform and services.",
+  "evidence": "Teradata offers subscription offerings that are flexibly priced, ranging from capacity-based to consumption-based pricing."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0000065984",
+ "issuerName": "ENTERGY CORP /DE/",
+ "builtAt": "2026-11-14T13:45:26.256Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000065984-26-000174",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Utility",
+   "products": [
+    "Entergy Arkansas",
+    "Entergy Louisiana",
+    "Entergy Mississippi",
+    "Entergy New Orleans",
+    "Entergy Texas",
+    "System Energy",
+    "Grand Gulf"
+   ],
+   "description": "Generates, transmits, distributes, and sells electric power to retail and wholesale customers in Arkansas, Louisiana, Mississippi, and Texas.",
+   "evidence": "Entergy operates primarily through a single reportable segment, Utility."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail and wholesale customers pay the Utility operating companies for electric power, with rates set through regulatory approval proceedings.",
+  "evidence": "The terms and conditions of service, including electric rates, of the Registrant Subsidiaries are determined through regulatory approval proceedings that can be lengthy and subject to appeal, potentially resulting in lengthy litigation and uncertainty as to ultimate results."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Entergy sold the Entergy New Orleans and Entergy Louisiana natural gas distribution businesses.",
+   "evidence": "See \" Dispositions - Natural Gas Distribution Businesses \" in Note 14 to the financial statements for discussion of the sale of the Entergy New Orleans and Entergy Louisiana natural gas distribution businesses on July 1, 2025."
+  }
+ ],
+ "dropped": []
+}

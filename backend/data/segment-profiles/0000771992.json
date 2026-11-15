@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000771992",
+ "issuerName": "Pan American Silver Corp.",
+ "builtAt": "2026-11-14T13:50:37.299Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0000771992-26-000019",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/paas-20251231_d2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Silver Segment",
+   "products": [
+    "La Colorada",
+    "Juanicipio",
+    "Huaron",
+    "San Vicente",
+    "Cerro Moro",
+    "Escobal"
+   ],
+   "description": "Operates silver mines in Mexico, Peru, Bolivia, Argentina and Guatemala, producing silver for sale.",
+   "evidence": "Attributable Total Silver Segment $ 1,231 $ 653 $ 137 $ 441 $ 121"
+  },
+  {
+   "name": "Gold Segment",
+   "products": [
+    "Dolores",
+    "Shahuindo",
+    "Timmins",
+    "Jacobina",
+    "El Peñon",
+    "Minera Florida"
+   ],
+   "description": "Operates gold mines in Mexico, Peru, Canada, Brazil and Chile, producing gold for sale.",
+   "evidence": "Attributable Total Gold Segment $ 2,545 $ 1,085 $ 376 $ 1,084 $ 250"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company earns revenue from selling refined silver and gold and zinc, lead, copper and silver concentrates to a small number of concentrate and metals customers.",
+  "evidence": "The Company has 25 customers that account for 100% of the concentrate and silver and gold sales revenue."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the La Arena mine was sold.",
+   "evidence": "La Arena was sold on December 2, 2024."
+  },
+  {
+   "text": "In 2025, the acquisition of MAG Silver Corp. added the Juanicipio mine to the Silver Segment.",
+   "evidence": "The Company completed the acquisition of MAG Silver Corp. (\"MAG\"), which was an asset acquisition as substantially all of the fair value of the gross assets acquired was concentrated in the Investment in Juanicipio Mine."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "cik": "0000843006",
+ "issuerName": "ACCESS Newswire Inc.",
+ "builtAt": "2026-11-14T13:52:37.287Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/843006/000168316826002018/accesswire_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Communications",
+   "products": [],
+   "description": "A communications company providing services to publicly traded and private companies, operating as a single reportable segment.",
+   "evidence": "The Company considers itself to be in a single reportable segment under the authoritative guidance for segment reporting, specifically a communications company for publicly traded and private companies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

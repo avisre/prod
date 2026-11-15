@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001773751",
+ "issuerName": "HIMS & HERS HEALTH, INC.",
+ "builtAt": "2026-11-14T17:36:48.956Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001773751-26-000022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1773751/000177375126000022/hims-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health and wellness products and services",
+   "products": [
+    "Prescription medications",
+    "Over-the-counter products",
+    "Laboratory testing services",
+    "Telehealth consultations",
+    "Medical consultation services"
+   ],
+   "description": "Consumer-first digital health platform offering prescription medications, over-the-counter products, laboratory testing, and telehealth consultations for chronic conditions and wellness.",
+   "evidence": "Currently, we conduct business through one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase health and wellness products and services online through websites and mobile applications, with many offerings sold on a subscription basis with recurring billing.",
+  "evidence": "Our consolidated revenue primarily comprises online sales of health and wellness products through our websites and mobile applications, including prescription and non-prescription products, as well as services, primarily consisting of medical consultation services, post-consultation service support, and delivery of laboratory testing results, as applicable."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Apostrophe Pharmacy LLC transitioned from a variable interest entity to a wholly-owned subsidiary as a result of changes of ownership in April 2025.",
+   "evidence": "Apostrophe Pharmacy LLC and XeCare, LLC, which are licensed mail order pharmacies providing prescription fulfillment solely to our customers, were VIEs through April 2025 and November 2025, respectively, when, as a result of changes of ownership, they became wholly-owned subsidiaries of our company and were no longer considered VIEs."
+  },
+  {
+   "text": "In 2025, XeCare, LLC transitioned from a variable interest entity to a wholly-owned subsidiary as a result of changes of ownership in November 2025.",
+   "evidence": "Apostrophe Pharmacy LLC and XeCare, LLC, which are licensed mail order pharmacies providing prescription fulfillment solely to our customers, were VIEs through April 2025 and November 2025, respectively, when, as a result of changes of ownership, they became wholly-owned subsidiaries of our company and were no longer considered VIEs."
+  }
+ ],
+ "dropped": [
+  "product not in text (Health and wellness products and services): Cosmetics and supplements"
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000033533",
+ "issuerName": "ESPEY MFG. & ELECTRONICS CORP.",
+ "builtAt": "2026-11-14T13:44:03.840Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001174947-26-000891",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/33533/000117494726000891/esp-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power electronics",
+   "products": [
+    "power supplies",
+    "power converters",
+    "filters",
+    "power transformers",
+    "magnetic components",
+    "power distribution equipment",
+    "UPS systems",
+    "antennas"
+   ],
+   "description": "Designs and manufactures power electronics and magnetics products for military and severe environment applications.",
+   "evidence": "Espey is an ISO 9001:2015 and AS9100:2016 certified manufacturer of power conversion, advanced magnetics and build to specifications provided by the customer \"build to print\" products for the rugged industrial and military marketplace."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Espey is paid by prime defense contractors, the U.S. Department of Defense, other U.S. government agencies, foreign governments and industrial manufacturers for designing, developing and manufacturing custom power electronics products.",
+  "evidence": "The majority of our orders are generated from prime defense contractors, the United States Department of Defense, other agencies of the government of the United States and foreign governments, and are for the design and development and/or manufacture of products."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000002098",
+ "issuerName": "ACME UNITED CORP",
+ "builtAt": "2026-11-14T14:06:07.691Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-102079",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/2098/000119312526102079/acu-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "United States",
+   "products": [
+    "First Aid Only",
+    "PhysiciansCare",
+    "Pac-Kit",
+    "Spill Magic",
+    "First Aid Central",
+    "Med-Nap",
+    "Safety Made",
+    "Elite"
+   ],
+   "description": "Supplies first aid, medical, and cutting products to school, home, office, hardware, sporting goods and industrial markets.",
+   "evidence": "The three reportable segments operate in the United States (including Asian operations), Canada and Europe."
+  },
+  {
+   "name": "Canada",
+   "products": [
+    "First Aid Central",
+    "Westcott"
+   ],
+   "description": "Manufactures and distributes first aid kits and cutting products to Canadian and broader markets.",
+   "evidence": "The three reportable segments operate in the United States (including Asian operations), Canada and Europe."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "Clauss",
+    "DMT"
+   ],
+   "description": "Manufactures and sells cutting and sharpening tools to hardware, industrial and sporting goods markets.",
+   "evidence": "The three reportable segments operate in the United States (including Asian operations), Canada and Europe."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers, distributors, office supply superstores, industrial distributors and hardware chains purchase first aid, medical and cutting products.",
+  "evidence": "The Company sells its products primarily to mass market and e-commerce retailers, industrial distributors, wholesale, contract and retail stationery distributors, office supply superstores, sporting goods stores, and hardware chains."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company acquired Elite First Aid for tactical, trauma and emergency response products.",
+   "evidence": "Acquisition of Elite First Aid - ( 6,140,519 )"
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company acquired a line of cutting and sharpening tools in Germany ",
+  "change not grounded: In 2025, the Company successfully negotiated the acquisition of My Medic, a lead"
+ ]
+}

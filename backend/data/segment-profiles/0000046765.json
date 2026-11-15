@@ -1,0 +1,63 @@
+{
+ "version": 1,
+ "cik": "0000046765",
+ "issuerName": "HELMERICH & PAYNE, INC.",
+ "builtAt": "2026-11-14T13:44:39.106Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000046765-25-000071",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-11-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/46765/000004676525000071/hp-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America Solutions",
+   "products": [
+    "Super-Spec FlexRig®",
+    "Non Super-Spec FlexRig®"
+   ],
+   "description": "Operates the largest and most technologically advanced AC drive land drilling rig fleet in North America, serving oil and gas producers in U.S. shale basins.",
+   "evidence": "We believe we operate the largest and most technologically advanced AC drive drilling rig fleet in North America and have a presence in most of the U.S. shale and unconventional basins."
+  },
+  {
+   "name": "International Solutions",
+   "products": [
+    "FlexRig® 3",
+    "FlexRig® 4",
+    "SCR rigs"
+   ],
+   "description": "Provides land drilling services in major international oil and gas markets, primarily the Middle East and Latin America, for international and national oil companies.",
+   "evidence": "Our International Solutions operations are conducted in major international oil and gas markets, primarily in the Middle East and Latin America."
+  },
+  {
+   "name": "Offshore Solutions",
+   "products": [
+    "offshore management contracts"
+   ],
+   "description": "Provides asset-light offshore management contracts and contracted rig platforms in U.S. federal waters, the North Sea, Norwegian Sea, Caspian Sea and other international waters.",
+   "evidence": "Our Offshore Solutions operations consist of asset-light offshore management contracts and contracted rig platforms located in U.S. federal waters, the North Sea and Norwegian Sea off the coast of Norway, Caspian Sea and other international waters."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Oil and gas exploration and production companies pay H&P for drilling services, primarily under fixed-term contracts or well-to-well arrangements, funded by their capital expenditures.",
+  "evidence": "Our revenues are primarily derived from the capital expenditures of companies involved in the exploration, development and production of crude oil and natural gas (\"E&Ps\")."
+ },
+ "changes": [
+  {
+   "text": "In 2025, H&P acquired KCA Deutag, adding its land operations to International Solutions and its offshore management contract operations to Offshore Solutions.",
+   "evidence": "Beginning on the Closing Date, Offshore Solutions now includes the results from the acquired KCA Deutag offshore management contract operations. Similarly, our International Solutions segment now includes the results from the acquired KCA Deutag land operations."
+  },
+  {
+   "text": "In the second quarter of fiscal year 2025, the Offshore Gulf of Mexico segment was renamed Offshore Solutions.",
+   "evidence": "During the second quarter of fiscal year 2025, the naming convention for one of our reportable segments changed from Offshore Gulf of Mexico to Offshore Solutions."
+  }
+ ],
+ "dropped": [
+  "product not in text (International Solutions): AC SCR Desert rigs",
+  "product not in text (Offshore Solutions): shallow water platform rigs",
+  "product not in text (Offshore Solutions): deep water platform rigs"
+ ]
+}

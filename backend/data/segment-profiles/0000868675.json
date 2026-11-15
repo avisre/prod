@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0000868675",
+ "issuerName": "TELUS CORP",
+ "builtAt": "2026-11-14T13:53:22.425Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001104659-26-013854",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/868675/000110465926013854/tu-20251231xex99d4.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TELUS technology solutions (TTech)",
+   "products": [
+    "mobile",
+    "data",
+    "IP",
+    "voice",
+    "TV",
+    "entertainment",
+    "video",
+    "security and automation"
+   ],
+   "description": "Provides mobile, data, IP, voice, TV, entertainment, video and security and automation solutions to Canadian consumers and businesses over its networks.",
+   "evidence": "Our long-standing Customers First priority continues to fuel every aspect of our business across the full range of our differentiated solutions spanning mobile, data, IP, voice, TV, entertainment, video, and security and automation, delivered over our reliable, expansive, award-winning networks."
+  },
+  {
+   "name": "TELUS health",
+   "products": [],
+   "description": "Delivers digital health technology and wellness support services connecting healthcare providers, payors, employers, patients and individuals worldwide.",
+   "evidence": "We connect and empower all participants in the health ecosystem, from healthcare providers, payors and employers, to patients and other individuals."
+  },
+  {
+   "name": "TELUS digital experience",
+   "products": [
+    "customer experience management (CXM)",
+    "digital solutions",
+    "AI and data solutions",
+    "trust, safety and security"
+   ],
+   "description": "Provides end-to-end customer journey services, from acquisition to apps, websites and support, underpinned by AI and data for clients.",
+   "evidence": "Our portfolio of integrated capabilities is structured around four key service lines: customer experience management (CXM), digital solutions, AI and data solutions, and trust, safety and security."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay TELUS for telecommunications, health and digital services under contracts, with revenue recognized as contracted performance obligations are fulfilled over the contract duration.",
+  "evidence": "amounts are allocated to fulfilling, or the completion of fulfilling, future contracted performance obligations, which are largely in respect of services to be provided over the duration of the contract."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: Effective January 1, 2025, TELUS health became a separate reportable segment, wi",
+  "change not grounded: In 2025, TELUS acquired Workplace Options on May 1, 2025, contributing to the TE"
+ ]
+}

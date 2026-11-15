@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "cik": "0002070954",
+ "issuerName": "SMJ International Holdings Inc.",
+ "builtAt": "2026-11-14T17:42:03.787Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-082076",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/2070954/000121390026082076/ea0298152-20f_smjinter.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flooring Products",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase flooring products at point in time upon delivery, with no long-term contracts.",
+  "evidence": "point in time upon delivery of flooring products and service rendered and there is no unfulfilled obligation that could affect the customer's acceptance of the services rendered."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Flooring Products"
+ ]
+}

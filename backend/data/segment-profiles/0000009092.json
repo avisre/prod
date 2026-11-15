@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000009092",
+ "issuerName": "BADGER METER, INC.",
+ "builtAt": "2026-11-14T14:06:47.041Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-054739",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/9092/000119312526054739/bmi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Water management solutions",
+   "products": [
+    "BlueEdge",
+    "ORION",
+    "BEACON",
+    "Utility Water",
+    "Flow Instrumentation",
+    "meters",
+    "water quality monitoring solutions",
+    "leak detection hardware"
+   ],
+   "description": "Innovates, manufactures and markets flow measurement, quality, control and system solutions serving water utilities and industrial customers worldwide.",
+   "evidence": "The Company is an innovator, manufacturer, developer, marketer and distributor of water management solutions incorporating hardware and sensors, communication solutions and data analytics, which comprise one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company under contracts for utility water and flow instrumentation products, software as a service, and ancillary services.",
+  "evidence": "The products and services promised in contracts include the sale of utility water and flow instrumentation products, such as flow meters and radios, quality sensing, pressure monitoring and sewer line monitoring equipment, software as a service (SaaS) and other ancillary services."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

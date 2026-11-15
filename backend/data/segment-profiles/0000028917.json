@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0000028917",
+ "issuerName": "DILLARD’S, INC.",
+ "builtAt": "2026-11-14T14:08:01.773Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000028917-26-000006",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/28917/000002891726000006/dds-20260131x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail operations segment",
+   "products": [
+    "Cosmetics",
+    "Ladies' apparel",
+    "Men's apparel and accessories",
+    "Shoes",
+    "Home and furniture",
+    "Antonio Melani",
+    "Gianni Bini",
+    "Roundtree & Yorke"
+   ],
+   "description": "Operates department stores and dillards.com selling fashion apparel, cosmetics, accessories and home furnishings to consumers.",
+   "evidence": "we operated 271 Dillard's stores, including 28 clearance centers, and an Internet store at dillards.com offering a wide selection of merchandise including fashion apparel for women, men and children, accessories, cosmetics, home furnishings and other consumer goods."
+  },
+  {
+   "name": "Construction segment",
+   "products": [
+    "CDI Contractors, LLC"
+   ],
+   "description": "General contracting construction company that constructs and remodels stores, including for the Company.",
+   "evidence": "The Company also operates a general contracting construction company, CDI Contractors, LLC (\"CDI\"), a portion of whose business includes constructing and remodeling stores for the Company, which is a reportable segment separate from our retail operations."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for merchandise bought in retail stores and online; the Company also receives compensation from Citi based on the private label card portfolio's earnings.",
+  "evidence": "Pursuant to the Citibank Alliance, we receive on-going cash compensation from Citi based upon the portfolio's earnings."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

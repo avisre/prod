@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "cik": "0002099039",
+ "issuerName": "Wise Group plc",
+ "builtAt": "2026-11-14T17:38:39.747Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-282911",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2099039/000119312526282911/d17323d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cross-border and domestic financial services",
+   "products": [],
+   "description": "Provision of cross-border and domestic financial services to customers globally.",
+   "evidence": "Based on the Group's business model, the CODM determines that the Group operates as one operating segment, which is provision of cross-border and domestic financial services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay transaction fees for cross-border payments and domestic transfers, plus the company earns interest income on customer balances.",
+  "evidence": "Net revenue from external customers by major geographic region is allocated based on the customer address for transaction revenue and the geography of the legal entity in which the cash is held for interest income on customer balances and interest expense on customer liabilities."
+ },
+ "changes": [],
+ "dropped": []
+}

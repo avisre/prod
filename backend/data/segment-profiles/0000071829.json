@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000071829",
+ "issuerName": "NPK International Inc.",
+ "builtAt": "2026-11-14T13:45:42.114Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000071829-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/71829/000007182926000009/nr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Worksite access",
+   "products": [
+    "recyclable composite matting systems",
+    "EPZ Grounding System™",
+    "connecting pins"
+   ],
+   "description": "Manufactures, sells and rents recyclable composite matting products and related services for temporary worksite access to power transmission, oil and gas, pipeline, renewable energy, petrochemical and construction…",
+   "evidence": "NPK International Inc. is a temporary worksite access solutions company that manufactures, sells, and rents recyclable composite matting products, along with a full suite of services, including planning, logistics, and site restoration."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for rental of composite matting systems with related site construction and services, and for purchases of manufactured composite mats, mostly utility and energy industry customers.",
+  "evidence": "In 2025, 66% of our revenues were generated from the rental of our recyclable composite matting systems, along with related site construction and services to customers in various markets including power transmission, oil and natural gas exploration and production, pipeline, renewable energy, petrochemical, construction and other industries within the United States and United Kingdom."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold its Fluids Systems segment, which had been reported as a separate operating segment.",
+   "evidence": "In September 2024, we completed the sale of substantially all of the Company's Fluids Systems segment (the \"Sale Transaction\") to SCF Partners, a leading private equity firm serving the global energy industry (the \"Purchaser\")."
+  },
+  {
+   "text": "In 2024, the company changed its name from Newpark Resources, Inc. to NPK International Inc.",
+   "evidence": "On December 9, 2024, we changed our name to NPK International Inc."
+  },
+  {
+   "text": "In 2025, the company acquired Grassform Plant Hire Limited, a U.K. ground protection and temporary roadway solutions provider.",
+   "evidence": "In November 2025, we completed the acquisition of Grassform Plant Hire Limited (\"Grassform\"), a U.K. market leader in ground protection and temporary roadway solutions and services with a fleet of over 20,000 composite mats."
+  }
+ ],
+ "dropped": [
+  "product not in text (Worksite access): DURA-BASE® composite mats",
+  "product not in text (Worksite access): rental of composite matting systems",
+  "product not in text (Worksite access): site planning, logistics and restoration services"
+ ]
+}

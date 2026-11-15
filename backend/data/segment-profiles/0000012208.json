@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "cik": "0000012208",
+ "issuerName": "BIO-RAD LABORATORIES, INC.",
+ "builtAt": "2026-11-14T14:06:59.148Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000012208-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/12208/000001220826000010/bio-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Science",
+   "products": [
+    "instruments",
+    "systems",
+    "reagents",
+    "consumables"
+   ],
+   "description": "Develops and markets instruments, systems, reagents, and consumables for biological research and biopharmaceutical applications.",
+   "evidence": "Our Life Science segment develops, manufactures, and markets instruments, systems, reagents, and consumables used to separate, purify, characterize, and quantify biological materials, including cells, proteins, and nucleic acids."
+  },
+  {
+   "name": "Clinical Diagnostics",
+   "products": [
+    "diagnostic test systems",
+    "informatics solutions",
+    "test kits",
+    "specialized quality controls"
+   ],
+   "description": "Designs and manufactures diagnostic test systems and informatics solutions for clinical laboratories in the global diagnostics market.",
+   "evidence": "Our Clinical Diagnostics segment designs, manufactures, markets, and supports diagnostic test systems, informatics solutions, test kits, and specialized quality controls for clinical laboratories in the global diagnostics market."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase instruments, reagents, and consumables; Clinical Diagnostics generates recurring revenue from ongoing sales of test kits and consumables.",
+  "evidence": "Revenue in this business is largely recurring, as laboratories generally standardize on specific testing platforms that rely on a supplier's instruments, reagents, and consumables. As a result, an installed base of diagnostic systems typically generates recurring revenue through ongoing sales of test kits and consumables for each sample processed."
+ },
+ "changes": [],
+ "dropped": []
+}

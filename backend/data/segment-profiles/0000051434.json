@@ -1,0 +1,60 @@
+{
+ "version": 1,
+ "cik": "0000051434",
+ "issuerName": "INTERNATIONAL PAPER COMPANY",
+ "builtAt": "2026-11-14T13:44:52.566Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000051434-26-000055",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/51434/000005143426000055/ip-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaging Solutions North America",
+   "products": [
+    "containerboard",
+    "linerboard",
+    "medium",
+    "whitetop",
+    "recycled linerboard",
+    "recycled medium",
+    "saturating kraft",
+    "corrugated packaging"
+   ],
+   "description": "Produces containerboard and converts it into corrugated packaging for customers in North America, supported by recycling plants and design centers.",
+   "evidence": "Approximately 75% of our production is converted into corrugated packaging and other packaging by our 170 North American corrugated packaging plants."
+  },
+  {
+   "name": "Packaging Solutions EMEA",
+   "products": [
+    "containerboard",
+    "corrugated packaging"
+   ],
+   "description": "Operates containerboard mills, corrugated packaging plants and recycling plants serving customers across Europe, the Middle East and Africa.",
+   "evidence": "In EMEA, our operations include 14 containerboard mills, 148 corrugated packaging plants and 20 recycling plants."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for fiber-based packaging products, primarily containerboard and corrugated packaging, that protect and promote goods.",
+  "evidence": "The majority of our business is focused on creating fiber-based packaging that protects and promotes goods, enables worldwide commerce and helps keep consumers safe."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Company completed the acquisition of DS Smith Ltd.",
+   "evidence": "Strategic Acquisition: Completed the acquisition of DS Smith Ltd. (\"DS Smith\"), advanced regional integration and implemented the 80/20 performance system within the new teams; enabled cross-business sharing of best practices."
+  },
+  {
+   "text": "In 2025 the Company agreed to sell its Global Cellulose Fibers business, with the sale completed in January 2026.",
+   "evidence": "Sold our Global Cellulose Fibers business for $1.5 billion to American Industrial Partners (completed January 2026)."
+  },
+  {
+   "text": "In January 2026 the Company announced plans to separate into two independent, publicly traded companies in North America and EMEA.",
+   "evidence": "Planning to separate into two independent, publicly traded companies in North America and EMEA (announced Jan 2026)"
+  }
+ ],
+ "dropped": []
+}

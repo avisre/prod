@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0000033488",
+ "issuerName": "ESCALADE, INCORPORATED",
+ "builtAt": "2026-11-14T13:44:03.819Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-006094",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/33488/000143774926006094/esca20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sporting Goods (Escalade Sports)",
+   "products": [
+    "Bear Archery®",
+    "STIGA®",
+    "Goalrilla™",
+    "Onix®",
+    "Woodplay®",
+    "The STEP®",
+    "Brunswick Billiards®",
+    "Victory Tailgate®"
+   ],
+   "description": "Manufactures, imports, and distributes sporting goods brands in basketball goals, archery, indoor and outdoor game recreation and fitness products for retailers and consumers.",
+   "evidence": "Escalade, Incorporated (Escalade, the Company, we, us or our) operates in one business segment: Sporting Goods (Escalade Sports)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company sells sporting goods products to major sporting goods retailers, specialty dealers, online retailers, direct-to-consumer e-commerce, department stores and mass merchants, primarily via standard purchase orders.",
+  "evidence": "Sales are based primarily on standard purchase orders and in most cases, orders are shipped within the same month received."
+ },
+ "changes": [],
+ "dropped": []
+}

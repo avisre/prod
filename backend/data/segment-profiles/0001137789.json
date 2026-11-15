@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001137789",
+ "issuerName": "Seagate Technology Holdings plc",
+ "builtAt": "2026-11-14T17:37:23.527Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001137789-26-000159",
+  "periodEnd": "2026-07-03",
+  "filingDate": "2026-08-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1137789/000113778926000159/stx-20260703.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Data Center",
+   "products": [
+    "High-capacity HDDs",
+    "Storage systems"
+   ],
+   "description": "Provides scalable, high-capacity storage infrastructure to cloud service providers, enterprises and OEMs for AI-enabled computing and data-intensive workloads.",
+   "evidence": "Our Data Center portfolio includes high-capacity HDDs of up to 44TB and storage systems of up to 3.5PB. These purpose-built solutions are designed to support hyperscale, CSPs, original equipment manufacturers (\"OEMs\") and enterprise organizations, providing scalable storage infrastructure for AI-enabled cloud computing, business-critical applications, content delivery, backup, archive and other large-scale workloads."
+  },
+  {
+   "name": "Edge IoT",
+   "products": [
+    "Storage products"
+   ],
+   "description": "Provides storage solutions ranging from one to thirty-two terabytes for industrial, commercial and consumer environments where data processing occurs near creation.",
+   "evidence": "Our Edge IoT portfolio includes storage products ranging from 1TB to 32TB to enable applications where data is created, processed and stored closer to its source. These solutions serve industrial, commercial and consumer environments, supporting video and image applications, network-attached storage (\"NAS\"), smart infrastructure, personal computing, gaming, streaming, creative workflows and data backup."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers purchase hard disk drives and storage systems directly or through distributors, OEMs and resellers for data storage infrastructure.",
+  "evidence": "We sell our products through a combination of direct and indirect sales channels. Our Data Center portfolio is sold primarily to CSPs, OEMs, distributors and enterprise organizations."
+ },
+ "changes": [],
+ "dropped": []
+}

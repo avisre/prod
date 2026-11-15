@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "cik": "0001090727",
+ "issuerName": "United Parcel Service, Inc.",
+ "builtAt": "2026-11-14T17:37:23.999Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-008432",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1090727/000162828026008432/ups-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "U.S. Domestic Package",
+   "products": [
+    "Air portfolio",
+    "Ground network",
+    "Ground Saver",
+    "Same-day pickup",
+    "Returns services"
+   ],
+   "description": "Time-definite guaranteed small package delivery services in the U.S. via air and ground networks.",
+   "evidence": "We are a leader in time-definite, guaranteed small package delivery services in the U.S. We offer a full spectrum of air and ground package transportation services."
+  },
+  {
+   "name": "International Package",
+   "products": [
+    "Guaranteed day and time-definite international transportation services",
+    "UPS Worldwide Expedited",
+    "UPS Standard delivery services",
+    "Worldwide Economy",
+    "UPS Worldwide Express Freight"
+   ],
+   "description": "International small package operations in EMEA, Americas and Asia with time-definite and guaranteed delivery services.",
+   "evidence": "International Package consists of our small package operations in Europe, Middle East and Africa (together \"EMEA\"), Canada and Latin America (together \"Americas\") and Asia."
+  },
+  {
+   "name": "Supply Chain Solutions",
+   "products": [
+    "Forwarding",
+    "Airfreight services",
+    "Ocean freight",
+    "Customs brokerage",
+    "Logistics",
+    "Roadie",
+    "Happy Returns",
+    "UPS Capital"
+   ],
+   "description": "Global forwarding, logistics, distribution and digital services for supply chain management and specialized customer needs.",
+   "evidence": "SCS consists of our Forwarding, Logistics, digital and other businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay weekly for package delivery and transportation services; revenue recognized as services are performed based on cost-to-cost progress measurement.",
+  "evidence": "Under this measure, the extent of progress towards completion is measured based on the ratio of costs incurred to date to the total estimated costs at completion of the service. Revenues, including ancillary or accessorial fees and reductions for estimated customer incentives, are recorded proportionally as costs are incurred."
+ },
+ "changes": [
+  {
+   "text": "In 2024, divested truckload brokerage business Coyote from SCS Forwarding segment.",
+   "evidence": "In 2024, we completed the divestiture of our truckload brokerage business (\"Coyote\")."
+  },
+  {
+   "text": "In 2025, acquired Frigo-Trans to expand healthcare cold chain capabilities in SCS Logistics.",
+   "evidence": "We also completed the acquisitions of Frigo-Trans and Biotech & Pharma Logistics (\"Frigo-Trans\") and Andlauer Healthcare Group (\"AHG\"), further expanding our healthcare cold chain capabilities."
+  },
+  {
+   "text": "In 2025, acquired Andlauer Healthcare Group to expand complex healthcare logistics services in SCS Logistics.",
+   "evidence": "We also completed the acquisitions of Frigo-Trans and Biotech & Pharma Logistics (\"Frigo-Trans\") and Andlauer Healthcare Group (\"AHG\"), further expanding our healthcare cold chain capabilities."
+  }
+ ],
+ "dropped": []
+}

@@ -1,0 +1,91 @@
+{
+ "version": 1,
+ "cik": "0000073756",
+ "issuerName": "OCEANEERING INTERNATIONAL INC",
+ "builtAt": "2026-11-14T13:45:50.004Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000073756-26-000016",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/73756/000007375626000016/oii-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Subsea Robotics",
+   "products": [
+    "ROV tooling",
+    "survey services",
+    "C-Nav® satellite positioning services"
+   ],
+   "description": "Provides the world's largest fleet of work-class ROVs, ROV tooling, and survey and positioning services to offshore energy customers.",
+   "evidence": "Our Subsea Robotics segment consists of our work-class remotely operated vehicles (\"ROVs\"), survey services and ROV tooling businesses."
+  },
+  {
+   "name": "Manufactured Products",
+   "products": [
+    "subsea umbilicals",
+    "production control equipment",
+    "clamp connectors",
+    "pipeline connector and repair systems",
+    "subsea and topside control valves",
+    "subsea chemical injection valves",
+    "autonomous mobile robotic technology"
+   ],
+   "description": "Manufactures subsea hardware such as umbilicals, control valves and connectors, and provides autonomous mobile robotic solutions to industrial markets.",
+   "evidence": "Our Manufactured Products segment provides distribution systems, such as production control umbilicals and connection systems made up of specialty subsea hardware, along with clamp connectors and subsea and topside control valves."
+  },
+  {
+   "name": "Offshore Projects Group",
+   "products": [
+    "subsea installation and intervention",
+    "IMR services",
+    "diving services",
+    "decommissioning services",
+    "drill pipe riser services and systems"
+   ],
+   "description": "Provides vessel-based integrated subsea project services including installation, intervention, diving and decommissioning, principally in the U.S. Gulf and offshore Africa.",
+   "evidence": "Our Offshore Projects Group (\"OPG\") segment provides a broad portfolio of integrated subsea project capabilities and solutions."
+  },
+  {
+   "name": "Integrity Management & Digital Solutions",
+   "products": [
+    "asset integrity management",
+    "corrosion management",
+    "inspection services",
+    "nondestructive testing services",
+    "Independent Inspection Authority services",
+    "software, digital and connectivity solutions"
+   ],
+   "description": "Provides asset integrity, inspection and nondestructive testing services plus software and digital solutions, mainly to oil and gas, power generation and petrochemical customers.",
+   "evidence": "Our Integrity Management & Digital Solutions (\"IMDS\") segment provides asset integrity management, corrosion management, inspection and nondestructive testing services, principally to customers in the oil and gas, power generation and petrochemical industries."
+  },
+  {
+   "name": "Aerospace and Defense Technologies",
+   "products": [
+    "engineering services",
+    "prototype design building services",
+    "repair and maintenance services on submarines and surface ships"
+   ],
+   "description": "Provides engineering services and related manufacturing for defense and space exploration, principally to U.S. government agencies and their prime contractors.",
+   "evidence": "Our ADTech segment provides services and products, including engineering and related manufacturing in defense and space exploration activities, principally to U.S. government agencies and their prime contractors."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Energy customers, including oilfield service companies as subcontractors, pay under dayrate and competitive-bid contracts for ROVs, vessels, equipment and services, while the U.S. Government pays ADTech for engineering and manufacturing.",
+  "evidence": "In connection with the services we perform in our Energy business, we generally seek contracts that compensate us on a dayrate basis."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Subsea Robotics): work-class remotely operated vehicles (ROVs)",
+  "product not in text (Subsea Robotics): Isurus work-class ROV systems",
+  "product not in text (Subsea Robotics): Liberty electric ROV (E-ROV) system",
+  "product not in text (Subsea Robotics): Freedom hybrid AUV/ROV",
+  "product not in text (Offshore Projects Group): riserless light well intervention (RLWI) services",
+  "product not in text (Offshore Projects Group): installation and workover control systems (IWOCS)",
+  "product not in text (Offshore Projects Group): ROV workover control systems (RWOCS)",
+  "product not in text (Aerospace and Defense Technologies): space exploration products and services"
+ ]
+}

@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000108516",
+ "issuerName": "WORTHINGTON ENTERPRISES, INC",
+ "builtAt": "2026-11-14T13:47:26.978Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-325872",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-07-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/108516/000119312526325872/wor-20260531.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Building Products",
+   "products": [
+    "BPD",
+    "CoMet®",
+    "Elgen",
+    "Logan Stampings",
+    "NEXI",
+    "PowerCore",
+    "Ragasco®",
+    "Well-X-Trol®"
+   ],
+   "description": "Provides pressurized containment solutions, HVAC systems, metal roofing clips and, through joint ventures, ceiling suspension systems and light gauge metal framing for construction customers.",
+   "evidence": "Our Building Products business is a market-leading provider of critical components in essential categories, including: (i) pressurized containment solutions for heating, cooking, cooling and water applications; (ii) HVAC systems; (iii) metal roofing clips; and (iv), through our unconsolidated joint ventures, WAVE and ClarkDietrich, ceiling suspension systems and light gauge metal framing products."
+  },
+  {
+   "name": "Consumer Products",
+   "products": [],
+   "description": "Designs and manufactures products sold to consumers, primarily through retail channels, in the tools, outdoor living and celebrations market categories.",
+   "evidence": "Our business is managed and reported under two operating segments that are distinguishable by the nature of the products and services provided: Building Products and Consumer Products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earns net sales from selling manufactured products to retail customers, gas producers and distributors, and construction market customers.",
+  "evidence": "Sales to one retail customer accounted for 10% of our consolidated net sales in fiscal 2026."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2024, the company completed the separation of its steel processing business into Worthington Steel and changed its name to Worthington Enterprises.",
+   "evidence": "On December 1, 2023, we completed the Separation of our former steel processing business into a separate public company in a transaction intended to qualify as tax free to our shareholders, which was accomplished via the Distribution."
+  },
+  {
+   "text": "In fiscal 2024, the company deconsolidated its former Sustainable Energy Solutions operating segment.",
+   "evidence": "We recognized non-cash charges of $50,050 in fiscal 2025 related to the write-down of intangible assets associated with GTI and $32,203 in fiscal 2024 due to the deconsolidation of our former Sustainable Energy Solutions operating segment."
+  }
+ ],
+ "dropped": []
+}

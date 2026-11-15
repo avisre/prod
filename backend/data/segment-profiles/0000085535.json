@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000085535",
+ "issuerName": "Royal Gold, Inc",
+ "builtAt": "2026-11-14T13:46:19.657Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000085535-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/85535/000008553526000008/rgld-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Acquisition and Management of Stream Interests",
+   "products": [
+    "metal streams",
+    "Warintza gold stream"
+   ],
+   "description": "Acquires and manages metal stream purchase agreements on producing and development stage mines, providing upfront deposit payments for the right to purchase metals.",
+   "evidence": "A metal stream is a purchase agreement that provides, in exchange for an upfront deposit payment, the right to purchase all or a portion of one or more metals produced from a mine, at a price determined for the life of the transaction by the purchase agreement."
+  },
+  {
+   "name": "Acquisition and Management of Royalty Interests",
+   "products": [
+    "net smelter return (NSR) royalty",
+    "gross smelter return (GSR) royalty",
+    "net profits interest (NPI) royalty",
+    "net value royalty (NVR)"
+   ],
+   "description": "Acquires and manages non-operating royalty interests on production, development and exploration stage mining projects.",
+   "evidence": "Royalties are non-operating interests in mining projects that provide the right to revenue or metals produced from the project after deducting specified costs, if any."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Royal Gold earns revenue by purchasing metals under stream agreements at contractually determined prices and by receiving royalty percentages of revenue or production from mine operators.",
+  "evidence": "Our financial results are primarily tied to the price of gold and, to a lesser extent, the prices of silver and copper, together with the amounts of production from our production stage stream and royalty interests."
+ },
+ "changes": [
+  {
+   "text": "In 2025, Royal Gold acquired Sandstorm Gold Ltd. and Horizon Copper Corp., adding stream and royalty interests to its portfolio.",
+   "evidence": "On October 20, 2025, we acquired all of the issued and outstanding common shares of Sandstorm Gold Ltd. (\"Sandstorm\") and Horizon Copper Corp. (\"Horizon\"), collectively referred to as \"the Transaction.\""
+  }
+ ],
+ "dropped": [
+  "product not in text (Acquisition and Management of Stream Interests): gold streams",
+  "product not in text (Acquisition and Management of Stream Interests): Kansanshi copper-gold mine gold stream",
+  "product not in text (Acquisition and Management of Royalty Interests): Warintza net smelter return royalty"
+ ]
+}

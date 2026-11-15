@@ -1,0 +1,59 @@
+{
+ "version": 1,
+ "cik": "0000824142",
+ "issuerName": "AAON, INC.",
+ "builtAt": "2026-11-14T13:52:04.856Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000824142-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/824142/000082414226000005/aaon-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AAON Oklahoma",
+   "products": [
+    "rooftop units (RTUs)",
+    "RQ Series",
+    "RN Series",
+    "RZ Series",
+    "air handling units",
+    "condensing units",
+    "makeup air units",
+    "energy recovery units"
+   ],
+   "description": "Engineers, manufactures, and sells highly configurable HVAC systems, controls solutions, and aftermarket parts for commercial and industrial customers.",
+   "evidence": "AAON Oklahoma engineers, manufactures, and sells highly configurable HVAC systems, designs and manufactures controls solutions, and sells aftermarket parts to customers through retail part stores and online."
+  },
+  {
+   "name": "AAON Coil Products",
+   "products": [
+    "semi-custom and custom HVAC systems",
+    "heating and cooling coils"
+   ],
+   "description": "Engineers, manufactures, and sells semi-custom and custom HVAC systems and heating and cooling coils, primarily for the other AAON segments.",
+   "evidence": "AAON Coil Products engineers and manufactures and sells semi-custom and custom HVAC systems as well as heating and cooling coils for use in HVAC systems, primarily for AAON Oklahoma, AAON Coil Products, and BASX."
+  },
+  {
+   "name": "BASX",
+   "products": [
+    "ventilation solutions for cleanroom environments",
+    "customized air handlers",
+    "modular solutions"
+   ],
+   "description": "Engineers, manufactures, and sells custom cooling, ventilation, and air handling solutions for data center, cleanroom, and other markets.",
+   "evidence": "BASX engineers, manufactures, and sells a wide range of custom, high-performance cooling solutions for the rapidly growing hyperscale data center market; ventilation solutions for cleanroom environments in the biopharmaceutical, semiconductor, medical, and agricultural sectors; and highly customized air handlers and modular solutions for a variety of markets."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company builds to order and sells highly configurable HVAC equipment, coils, and custom solutions to commercial, industrial, data center, and cleanroom customers, largely through independent sales representatives.",
+  "evidence": "Unlike manufacturers of standardized equipment, we build to order, ensuring every system is pre-specified before production begins."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (BASX): custom high-performance cooling solutions for hyperscale data centers"
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "version": 1,
+ "cik": "0000040545",
+ "issuerName": "GENERAL ELECTRIC COMPANY",
+ "builtAt": "2026-11-14T13:44:24.894Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000040545-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/40545/000004054526000008/ge-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Engines & Services",
+   "products": [
+    "LEAP",
+    "CFM56",
+    "CF6",
+    "GE90",
+    "GEnx",
+    "GE9X",
+    "RISE program"
+   ],
+   "description": "Designs, manufactures and services commercial jet engines and spare parts for airframers, airlines and third-party MRO shops.",
+   "evidence": "Commercial Engines & Services (CES) designs, develops, manufactures and services jet engines for commercial airframes, as well as business aviation and aeroderivative applications."
+  },
+  {
+   "name": "Defense & Propulsion Technologies",
+   "products": [
+    "F110",
+    "F404",
+    "F414",
+    "T408",
+    "T700",
+    "T901",
+    "LM2500",
+    "Avio Aero, Unison, Dowty Propellers and Colibrium Additive brands"
+   ],
+   "description": "Provides defense engines, avionics, power systems and aircraft components for governments, militaries and commercial airframers.",
+   "evidence": "Defense & Propulsion Technologies (DPT) is a leading provider of defense engines and critical aircraft systems, and it consists of our Defense & Systems and Propulsion & Additive Technologies businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "GE Aerospace is paid by airframers, airlines, governments and militaries for jet engines and aircraft systems, and by airlines and MRO shops for maintenance, repair, overhaul and spare parts under long-term service agreements, spare parts agreements or time and material contracts.",
+  "evidence": "Services include maintenance, repair and overhaul (MRO) of engines and the sale of spare parts, and we offer services under a variety of arrangements such as long-term service agreements, spare parts agreements or time and material contracts."
+ },
+ "changes": [
+  {
+   "text": "In 2025, GE substantially completed the restructuring activity related to the separations that created three public companies.",
+   "evidence": "During the fourth quarter of 2025, we substantially completed separation-related restructuring activity."
+  }
+ ],
+ "dropped": []
+}

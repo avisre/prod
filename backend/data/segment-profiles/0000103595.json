@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0000103595",
+ "issuerName": "Village Super Market, Inc.",
+ "builtAt": "2026-11-14T13:47:11.422Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000103595-26-000018",
+  "periodEnd": "2026-07-25",
+  "filingDate": "2026-10-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/103595/000010359526000018/vlgea-20260725.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Retail sale of food and nonfood products",
+   "products": [
+    "ShopRite",
+    "Fairway",
+    "Gourmet Garage",
+    "Wholesome Pantry",
+    "Bowl & Basket",
+    "Paperbird"
+   ],
+   "description": "Operates a chain of supermarkets and specialty markets selling food and nonfood products to retail customers in New Jersey, New York, Maryland and Pennsylvania.",
+   "evidence": "The Company consists of one operating segment, the retail sale of food and nonfood products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the Company for food and nonfood products purchased in its supermarkets and through online ordering, plus service fees, wholesale sales and third-party commissions.",
+  "evidence": "Other sales consist primarily of sales related to other income streams, including service fees related to digital sales, wholesale sales and gift card, lottery and other third-party commissions."
+ },
+ "changes": [],
+ "dropped": []
+}

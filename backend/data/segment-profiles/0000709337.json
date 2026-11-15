@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000709337",
+ "issuerName": "FARMERS NATIONAL BANC CORP /OH/",
+ "builtAt": "2026-11-14T13:48:51.876Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007084",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/709337/000143774926007084/fmnb20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Bank segment",
+   "products": [
+    "checking accounts",
+    "savings accounts",
+    "time deposit accounts",
+    "commercial, mortgage and installment loans",
+    "home equity loans",
+    "home equity lines of credit",
+    "insurance products",
+    "brokerage services"
+   ],
+   "description": "Full-service commercial and retail banking, plus insurance and investment activities, for customers mainly in northeastern Ohio and western Pennsylvania.",
+   "evidence": "The Bank's commercial and retail banking services include checking accounts, savings accounts, time deposit accounts, commercial, mortgage and installment loans, home equity loans, home equity lines of credit, night depository, safe deposit boxes, money orders, bank checks, automated teller machines, internet banking, travel cards, \"E\" Bond transactions, brokerage services and other miscellaneous services normally offered by commercial banks."
+  },
+  {
+   "name": "Trust segment",
+   "products": [
+    "personal and corporate trust services",
+    "estate settlement",
+    "trust administration",
+    "employee benefit plans",
+    "retirement services",
+    "retirement plan consulting"
+   ],
+   "description": "Provides personal and corporate trust, estate settlement, employee benefit plan and retirement consulting services through five Ohio offices.",
+   "evidence": "Farmers Trust offers a full complement of personal and corporate trust services in the areas of estate settlement, trust administration, employee benefit plans and retirement services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The Company earns deposit service charges, debit card interchange fees, trust and retirement consulting fees based on assets under management, insurance agency commissions, and investment commissions from customers and carriers.",
+  "evidence": "Fees are assessed based on the total investable assets of the customer's trust account."
+ },
+ "changes": [
+  {
+   "text": "In 2023 the Company completed its merger with Emclaire Financial Corp., expanding into Pennsylvania and the Pittsburgh market.",
+   "evidence": "On January 1, 2023, the Company completed its previously announced merger with Emclaire Financial Corp., a Pennsylvania corporation and registered financial holding company (\"Emclaire\")."
+  },
+  {
+   "text": "In 2023 the Company dissolved its subsidiary Farmers National Captive, Inc.",
+   "evidence": "A third subsidiary, Farmers National Captive, Inc. (\"Captive\"), was dissolved in November of 2023."
+  },
+  {
+   "text": "In 2024 Farmers Trust acquired substantially all of the assets of Crest Retirement Advisors, LLC.",
+   "evidence": "During 2024, Farmers Trust acquired substantially all of the assets, in a cash transaction, of Crest Retirement Advisors, LLC (\"Crest\")."
+  }
+ ],
+ "dropped": []
+}

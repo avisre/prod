@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0000793952",
+ "issuerName": "HARLEY-DAVIDSON, INC.",
+ "builtAt": "2026-11-14T13:51:09.607Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000793952-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/793952/000079395226000011/hog-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Harley-Davidson Motor Company (HDMC)",
+   "products": [
+    "Harley-Davidson motorcycles",
+    "Genuine Motor Parts",
+    "Genuine Motor Accessories",
+    "licensed products"
+   ],
+   "description": "Designs, manufactures and sells Harley-Davidson motorcycles, parts, accessories and apparel to retail customers through a global dealer network.",
+   "evidence": "HDMC designs, manufactures and sells Harley-Davidson motorcycles. HDMC also sells motorcycle parts, accessories, and apparel as well as licenses its trademarks."
+  },
+  {
+   "name": "LiveWire",
+   "products": [
+    "electric motorcycles",
+    "electric balance bikes"
+   ],
+   "description": "Sells electric motorcycles and electric balance bikes.",
+   "evidence": "The decrease was primarily due to the impact of promotional incentives, partially offset by higher electric motorcycle and electric balance bike volume."
+  },
+  {
+   "name": "Harley-Davidson Financial Services (HDFS)",
+   "products": [
+    "retail finance receivables",
+    "wholesale receivables",
+    "voluntary protection products"
+   ],
+   "description": "Provides financing and related insurance products supporting Harley-Davidson motorcycle purchases by retail customers and dealers.",
+   "evidence": "Other income increased largely due to a gain on sale of residual interests in securitizations, servicing income earned as a result of the HDFS Transaction, and higher net premiums earned by Eaglemark Insurance Company Ltd. (EICL), the Company's insurance captive that reinsures several Harley-Davidson-branded voluntary protection products provided by unaffiliated third parties."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "HDMC earns revenue selling motorcycles, parts, accessories and apparel to retail customers primarily through independent dealers, while HDFS earns interest income on retail and wholesale finance receivables.",
+  "evidence": "HDMC's products are sold to retail customers primarily through a network of independent dealers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Harley-Davidson Motor Company (HDMC)): Genuine MotorClothes apparel"
+ ]
+}

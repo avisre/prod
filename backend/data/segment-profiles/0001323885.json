@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001323885",
+ "issuerName": "AtriCure, Inc.",
+ "builtAt": "2026-11-15T02:49:50.641Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001323885-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1323885/000132388526000007/atrc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "development, manufacture, and sale of devices used in surgical procedures",
+   "products": [
+    "cryoICE cryoSPHERE probes",
+    "cryoXT probes",
+    "AtriClip system",
+    "EPi-Sense ablation system",
+    "EnCompass clamp"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Medical centers pay the company for surgical ablation, LAA management and pain management devices sold through its direct sales force and distributors.",
+  "evidence": "We sell our products to medical centers through our direct sales force in the United States, Germany, France, the United Kingdom, the Benelux region, Australia and Canada."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: development, manufacture, and sale of devices used in surgical procedures"
+ ],
+ "escalated": "no segments"
+}

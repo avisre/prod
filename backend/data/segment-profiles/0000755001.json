@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "cik": "0000755001",
+ "issuerName": "UNITIL CORPORATION",
+ "builtAt": "2026-11-14T13:50:15.525Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-042983",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-09",
+  "url": "https://www.sec.gov/Archives/edgar/data/755001/000119312526042983/utl-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electric",
+   "products": [
+    "Unitil Energy",
+    "Fitchburg"
+   ],
+   "description": "Regulated local distribution of electricity to residential and commercial & industrial customers in New Hampshire and Massachusetts.",
+   "evidence": "Unitil's electric distribution operations are conducted through two of the Company's utilities, Unitil Energy and Fitchburg."
+  },
+  {
+   "name": "Natural Gas",
+   "products": [
+    "Northern Utilities",
+    "Fitchburg",
+    "Bangor",
+    "Maine Natural",
+    "Granite State"
+   ],
+   "description": "Regulated natural gas distribution and interstate gas transmission pipeline operations serving customers in New Hampshire, Massachusetts and Maine.",
+   "evidence": "Unitil's natural gas operations include gas distribution utility operations and interstate gas transmission pipeline operations."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "Unitil Service",
+    "Unitil Realty",
+    "Unitil Resources",
+    "Unitil Water"
+   ],
+   "description": "Non-utility operations including centralized services, real estate and short-term investments, reported after intercompany eliminations.",
+   "evidence": "The results of these non-utility operations are principally derived from income earned on short-term investments and real property owned for Unitil's and its subsidiaries' use and are reported, after intercompany eliminations, in Other segment income."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay regulated rates for electricity and natural gas distribution service, with supply costs recovered on a pass-through basis under regulated reconciling rate mechanisms.",
+  "evidence": "Both Unitil Energy and Fitchburg supply electricity to those customers who do not obtain their supply from third-party competitive suppliers, with the approved costs associated with electricity supply being recovered on a pass-through basis under regulated reconciling rate mechanisms that are periodically adjusted."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the Company acquired Bangor Natural Gas Company, expanding its natural gas service territory in central Maine.",
+   "evidence": "On January 31, 2025, the Company acquired all issued and outstanding shares of Bangor for $71.4 million, which includes an estimated working capital adjustment."
+  }
+ ],
+ "dropped": [
+  "change not grounded: In 2025, the Company acquired Maine Natural Gas Corporation from Avangrid, with "
+ ]
+}

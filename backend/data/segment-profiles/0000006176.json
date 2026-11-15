@@ -1,0 +1,52 @@
+{
+ "version": 1,
+ "cik": "0000006176",
+ "issuerName": "AMPCO-PITTSBURGH CORP",
+ "builtAt": "2026-11-14T14:06:26.298Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108598",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/6176/000119312526108598/ap-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Forged and Cast Engineered Products",
+   "products": [
+    "forged hardened steel rolls",
+    "cast rolls",
+    "forged engineered products (\"FEP\")"
+   ],
+   "description": "Produces forged hardened steel rolls, cast rolls and forged engineered products for steel, aluminum, metals, oil and gas, and extrusion industries worldwide.",
+   "evidence": "The FCEP segment produces forged hardened steel rolls, cast rolls and forged engineered products (\"FEP\")."
+  },
+  {
+   "name": "Air and Liquid Processing",
+   "products": [
+    "custom-designed air handling systems",
+    "centrifugal pumps"
+   ],
+   "description": "Produces custom air handling systems and centrifugal pumps for institutional, pharmaceutical, power generation, marine defense and industrial markets.",
+   "evidence": "Buffalo Air Handling Division of Air & Liquid Systems Corporation produces large custom-designed air handling systems for institutional (e.g., hospital, university), pharmaceutical and general industrial building markets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Commercial and industrial users pay the company for custom-engineered specialty metal products and equipment delivered directly to them.",
+  "evidence": "In both segments, products are dependent on engineering, principally custom designed, and are sold to sophisticated commercial and industrial users located throughout the world."
+ },
+ "changes": [
+  {
+   "text": "In 2025, UES-UK, an indirect wholly owned subsidiary, entered administration (Structured Insolvency) with an orderly wind-down and sale of assets.",
+   "evidence": "As of the Filing Date, UES-UK was in administration and its affairs, business and property were being managed by the Administrators (the \"Structured Insolvency\")."
+  },
+  {
+   "text": "During 2025, the Corporation closed its non-core steel distribution facility in Ohio previously held by AUP, which was merged into Union Electric Steel Corporation in December 2025.",
+   "evidence": "In addition, during 2025, the Corporation closed its non-core steel distribution facility located in Ohio previously held by Alloys Unlimited and Processing, LLC (\"AUP\")."
+  }
+ ],
+ "dropped": [],
+ "escalated": "no filed row matches"
+}

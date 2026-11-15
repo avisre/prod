@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001898416",
+ "issuerName": "ALVOTECH",
+ "builtAt": "2026-11-14T17:40:29.688Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001898416-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1898416/000189841626000004/alvo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biosimilars",
+   "products": [],
+   "description": "Development and manufacture of biosimilar medicines for autoimmune, eye, respiratory and hematological diseases, plus cancer.",
+   "evidence": "We are a vertically integrated biotechnology company focused solely on the development and manufacture of biosimilar medicines for patients worldwide."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay upfront, milestone and royalty payments for exclusive licenses to commercialize biosimilars in particular territories.",
+  "evidence": "The consideration to which the Group is entitled pursuant to these contracts generally includes upfront payments and payments based upon the achievement of development and regulatory milestones."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Biosimilars): AVT02 (adalimumab biosimilar)",
+  "product not in text (Biosimilars): AVT04 (ustekinumab biosimilar)",
+  "product not in text (Biosimilars): AVT05 (golimumab biosimilar)",
+  "product not in text (Biosimilars): AVT06 (aflibercept biosimilar)",
+  "product not in text (Biosimilars): AVT03 (denosumab biosimilar)"
+ ]
+}

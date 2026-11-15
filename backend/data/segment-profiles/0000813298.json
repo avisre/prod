@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000813298",
+ "issuerName": "DESTINATION XL GROUP, INC.",
+ "builtAt": "2026-11-14T13:51:42.442Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-115660",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/813298/000119312526115660/dxlg-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Big + tall retail",
+   "products": [
+    "Destination XL®",
+    "DXL® Big + Tall",
+    "DXL Men's Apparel",
+    "DXL outlets",
+    "Casual Male XL®",
+    "Casual Male XL outlets",
+    "mobile app"
+   ],
+   "description": "Specialty retailer of big + tall men's clothing and footwear serving customers through retail stores, outlets and digital channels across the United States.",
+   "evidence": "We have two principal operating segments: our stores and direct business. We consider our stores and direct business segments to be similar in terms of economic characteristics, production processes and operations, and we have therefore aggregated them into one reportable segment consistent with our integrated commerce approach."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay the company for big + tall men's apparel and footwear purchased in stores, outlets, online and through mobile and marketplace channels.",
+  "evidence": "We define store sales as sales that originate and are fulfilled directly at the store level. E-commerce sales, which we also refer to as direct sales, are defined as sales that originate online, whether through our website, at the store level, our Guest Engagement Center, or through a third-party marketplace."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Big + tall retail): dxl.com e-commerce site"
+ ]
+}

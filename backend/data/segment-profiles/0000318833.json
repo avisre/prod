@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "cik": "0000318833",
+ "issuerName": "TEAM, INC.",
+ "builtAt": "2026-11-14T13:48:13.167Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000318833-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/318833/000031883326000007/tisi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Inspection and Heat-Treating",
+   "products": [
+    "Non-Destructive Evaluation and Testing Services",
+    "Radiographic Testing",
+    "Ultrasonic Testing",
+    "Pipeline Integrity Services",
+    "Heat-Treating Services",
+    "Laboratory Services, including Metallurgical and Tensile Services",
+    "Mechanical Integrity Services",
+    "Rope Access"
+   ],
+   "description": "Provides conventional and advanced inspection, heat-treating, and digital imaging services for process, pipeline, power, aerospace and other industries.",
+   "evidence": "IHT provides conventional and advanced non-destructive testing services primarily for the process, pipeline and power sectors, pipeline integrity management services, and field heat-treating services, as well as associated engineering and condition assessment services."
+  },
+  {
+   "name": "Mechanical Services",
+   "products": [
+    "Leak Repair Services",
+    "Engineered Composite Repair",
+    "Emissions Control/Compliance Services",
+    "Hot Tapping Services",
+    "Valve Insertion Services",
+    "Field Machining Services",
+    "Bolted Joint Integrity Services",
+    "Vapor Barrier Plug and Weld Testing Services"
+   ],
+   "description": "Provides onstream leak repair and composite solutions and specialty maintenance, turnaround and outage services to keep customers' critical assets running and reduce downtime.",
+   "evidence": "MS provides onstream services engineered to keep customer assets on-line and producing, and specialty maintenance, turnaround and outage services, which are performed while assets are off-line, and are designed to reduce customer downtime."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Heavy industrial customers pay Team for specialty industrial services, generally billed on a time and materials basis under purchase orders issued pursuant to written customer agreements.",
+  "evidence": "Generally, customers are billed on a time and materials basis, although some work may be performed pursuant to a fixed-price bid."
+ },
+ "changes": [],
+ "dropped": []
+}

@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0000012659",
+ "issuerName": "H&R BLOCK INC",
+ "builtAt": "2026-11-14T14:07:02.449Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000012659-26-000026",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-08-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/12659/000001265926000026/hrb-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tax Preparation Services",
+   "products": [
+    "Assisted tax preparation",
+    "DIY tax preparation",
+    "Refund Transfers",
+    "Peace of Mind Extended Service Plan",
+    "Tax Identity Shield",
+    "Emerald Card and Spruce",
+    "Emerald Advance term loans"
+   ],
+   "description": "Provides assisted and DIY tax return preparation through multiple channels and related financial products to individuals and small businesses.",
+   "evidence": "We provide assisted and do-it-yourself (DIY) tax preparation solutions through multiple channels (including in-person, online and mobile applications, virtual, and desktop software) and distribute H&R Block-branded services and products, including those of our bank partners, to the general public primarily in the United States (U.S.), Canada and Australia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients pay for tax preparation services, financial products, and small business solutions; franchisees pay royalties of approximately thirty percent of gross revenues.",
+  "evidence": "In the U.S., our franchisees pay us approximately 30% of gross tax return preparation and related service revenues as a franchise royalty."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Tax Preparation Services): Block Advisors and Wave small business solutions"
+ ]
+}

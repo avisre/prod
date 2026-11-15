@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cik": "0000012927",
+ "issuerName": "THE BOEING COMPANY",
+ "builtAt": "2026-11-14T14:07:02.821Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-004357",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026004357/ba-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial Airplanes",
+   "products": [
+    "737 narrow-body model",
+    "787 wide-body model",
+    "777X program",
+    "737-10 derivative"
+   ],
+   "description": "Develops, produces and markets commercial jet aircraft to the commercial airline industry worldwide.",
+   "evidence": "This segment develops, produces and markets commercial jet aircraft principally to the commercial airline industry worldwide."
+  },
+  {
+   "name": "Defense, Space & Security",
+   "products": [
+    "manned and unmanned military aircraft",
+    "weapons systems",
+    "fighter and trainer aircraft",
+    "rotorcraft and tilt-rotor aircraft",
+    "commercial derivative aircraft",
+    "strategic defense and intelligence systems",
+    "satellite systems"
+   ],
+   "description": "Researches, develops, produces and modifies military aircraft, weapons systems, defense systems and satellite systems.",
+   "evidence": "This segment engages in the research, development, production and modification of manned and unmanned military aircraft and weapons systems for strike, surveillance and mobility, including fighter and trainer aircraft; vertical lift, including rotorcraft and tilt-rotor aircraft; and commercial derivative aircraft, including anti-submarine and tanker aircraft."
+  },
+  {
+   "name": "Global Services",
+   "products": [
+    "supply chain and logistics management",
+    "engineering, maintenance and modifications",
+    "upgrades and conversions",
+    "spare parts",
+    "pilot and maintenance training systems and services",
+    "technical and maintenance documents",
+    "digital solutions and analytics"
+   ],
+   "description": "Provides services sustaining aerospace platforms and systems for commercial and defense customers worldwide.",
+   "evidence": "This segment provides services to our commercial and defense customers worldwide. Global Services sustains aerospace platforms and systems with a full spectrum of products and services, including supply chain and logistics management, engineering, maintenance and modifications, upgrades and conversions, spare parts, pilot and maintenance training systems and services, technical and maintenance documents, and digital solutions and analytics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "product not in text (Commercial Airplanes): 767 wide-body model",
+  "product not in text (Commercial Airplanes): 777 wide-body model",
+  "product not in text (Commercial Airplanes): 737-7 derivative",
+  "product not in text (Defense, Space & Security): vertical lift aircraft"
+ ]
+}

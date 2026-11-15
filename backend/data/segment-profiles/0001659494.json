@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001659494",
+ "issuerName": "51Talk Online Education Group",
+ "builtAt": "2026-11-14T17:41:57.064Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-047273",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1659494/000110465926047273/coe-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online Education",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students purchase course packages and pay for live online English lessons delivered by independently contracted tutors.",
+  "evidence": "Any network interruption or inadequacy that causes interruptions in the availability of our online and mobile platforms or deterioration in the quality of access to our online and mobile platforms could reduce student satisfaction and result in a reduction in the activity level of our students and the number of students purchasing our course packages."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Online Education",
+  "change not grounded: In 2022, the company divested its China Mainland Business in response to regulat"
+ ]
+}

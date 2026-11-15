@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0000031667",
+ "issuerName": "EDUCATIONAL DEVELOPMENT CORPORATION",
+ "builtAt": "2026-11-14T14:08:17.508Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-26-001927",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-05-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/31667/000118518526001927/educ10k022826.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Direct Sales Division",
+   "products": [
+    "Kane Miller children's books",
+    "Learning Wrap-Ups",
+    "SmartLab Toys"
+   ],
+   "description": "Sells books and educational products through independent sales representatives directly to consumers via home parties, social media, and book fairs.",
+   "evidence": "Direct Sales Division (\"PaperPie\") – This division sells our books and products through independent sales representatives (\"Brand Partners\") direct to the customer."
+  },
+  {
+   "name": "Publishing Division",
+   "products": [
+    "Kane Miller",
+    "SmartLab Toys",
+    "Learning Wrap-Ups"
+   ],
+   "description": "Markets books and educational products through trade representatives to retail bookstores, toy stores, specialty stores and other retail outlets.",
+   "evidence": "Publishing Division (\"EDC Publishing\" or \"Publishing\") – This is our trade division which markets our Kane Miller, SmartLab Toys, and Learning Wrap-Ups products through commissioned trade representatives who call on retail book, toy and specialty stores along with other retail outlets."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Direct sales representatives and retail customers purchase children's books and educational toys and games for end-consumer use.",
+  "evidence": "We sell children's books, educational toys and games and other related products (collectively referred to as \"products\" or \"books\") through two business segments described below, which we refer to as \"divisions\" or \"sales channels:\""
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2025, three warehouse lines were reclassified to Assets Held for Sale in response to lower order volume.",
+   "evidence": "a decrease of $0.3 million in depreciation due to Lines 1, 2 & 3 moved to 'Assets Held for Sale\" in Fiscal 25"
+  }
+ ],
+ "dropped": [
+  "product not in text (Direct Sales Division): Usborne Publishing Limited children's books"
+ ]
+}

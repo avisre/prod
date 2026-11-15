@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001852973",
+ "issuerName": "Borealis Foods Inc.",
+ "builtAt": "2026-11-15T02:50:19.735Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-063777",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-06-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1852973/000121390026063777/ea0286118-10k_borealis.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Food Science and Manufacturing",
+   "products": [
+    "Chef Woo",
+    "Chef Ramsay",
+    "Ramen Express",
+    "Woodles",
+    "ready-to-eat meals"
+   ],
+   "description": "Produces and sells high-protein ramen noodles and ready-to-eat meals through retail and foodservice channels.",
+   "evidence": "Known for popular ramen noodle brands like the high protein Chef Woo, Chef Ramsay, Ramen Express, and Woodles, Borealis Foods brings innovative fusion flavors from diverse culinary traditions, creating delicious and nutritious meal options for consumers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors purchase ramen noodles and ready-to-eat meals through mass merchandisers, club stores, supermarkets, and e-commerce channels.",
+  "evidence": "The products can be found across several channels of mass merchandisers (Walmart), club stores (Costco and Sam's Club), limited assortments retailers (Aldi and Publix), traditional supermarkets (Albertsons, Winn-Dixie, and Save Mart), regional retailer channels, and e-commerce distributors (Amazon, Walmart.com and Instacart)."
+ },
+ "changes": [],
+ "dropped": []
+}
