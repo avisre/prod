@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001177702",
+ "issuerName": "Saia, Inc.",
+ "builtAt": "2026-11-15T13:56:19.755Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-067030",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1177702/000119312526067030/saia-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Transportation Services",
+   "products": [
+    "Less-than-truckload (LTL) services",
+    "Brokered truckload",
+    "Expedited transportation",
+    "Logistics services"
+   ],
+   "description": "Provides national less-than-truckload services and value-added transportation and logistics services across North America.",
+   "evidence": "We provide national less-than-truckload (LTL) services through a single integrated organization. While approximately 97% of our revenue is derived from transporting LTL shipments, we also offer customers a wide range of other value-added services, including brokered truckload and expedited transportation and other logistics services across North America."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay negotiated prices for transportation services contained in transportation services agreements or publicly disclosed tariff rates.",
+  "evidence": "The segment provides core LTL and a wide range of other value-add transportation services to its customers based on negotiated prices contained in either a transportation services agreement or a publicly disclosed tariff rate."
+ },
+ "changes": [],
+ "dropped": []
+}

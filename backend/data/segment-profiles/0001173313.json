@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "cik": "0001173313",
+ "issuerName": "ABVC BioPharma, Inc.",
+ "builtAt": "2026-11-15T13:56:07.934Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-023063",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1173313/000121390026023063/ea0278313-10k_abvcbio.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "ABV-1504",
+    "ABV-1505",
+    "Vitargus Products",
+    "Lung Cancer Products",
+    "BLEX 404",
+    "Medical devices"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from outlicensing intellectual properties to related parties and providing contract development and manufacturing organization services.",
+  "evidence": "As of the date of this Report, the Company's revenue has come from outlicensing our intellectual properties and providing CDMO services."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company entered into licensing agreements with ForSeeCon Eye Corporation and OncoX BioPharma, Inc. for ophthalmology and oncology products respectively.",
+   "evidence": "On March 25, 2024, the Company and BioFirst each entered into a twenty-year, global definitive licensing agreement (the \"FEYE Licensing Agreement\") with ForSeeCon Eye Corporation, a company registered in the British Virgin Islands (\"FEYE\") for the products in the Company and BioFirst's Ophthalmology pipeline, including Vitargus (the \"Vitargus Products\")."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Biopharmaceutical"
+ ]
+}

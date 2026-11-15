@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001236275",
+ "issuerName": "QXO, INC.",
+ "builtAt": "2026-11-15T13:57:00.863Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-012601",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1236275/000162828026012601/qxo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Building Products Distribution",
+   "products": [
+    "Residential roofing products",
+    "Non-residential roofing products",
+    "Complementary building products",
+    "Software products and services"
+   ],
+   "description": "Distributes roofing, waterproofing and complementary building products to residential and non-residential customers across North America.",
+   "evidence": "QXO Building Products offers an extensive range of high-quality professional grade exterior products and serves over 110,000 residential and non-residential customers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The company sells building products to contractors and customers, earning revenue from product sales through its distribution network.",
+  "evidence": "The Company's revenues for its single operating segment are primarily derived from the sale of residential and non-residential roofing products, as well as complementary products, such as siding and waterproofing."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2025, QXO completed its acquisition of Beacon Roofing Supply on April 29, 202"
+ ]
+}

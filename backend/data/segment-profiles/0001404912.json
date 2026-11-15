@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "cik": "0001404912",
+ "issuerName": "KKR & CO. INC.",
+ "builtAt": "2026-11-15T13:55:56.135Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001404912-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491226000007/kkr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Management",
+   "products": [
+    "Private Equity",
+    "Real Assets",
+    "Credit and Liquid Strategies",
+    "Capital Markets",
+    "Principal Activities"
+   ],
+   "description": "Investment management services across private equity, real assets, credit strategies, and capital markets for institutional and individual investors.",
+   "evidence": "In Asset Management, we have five business lines: (i) Private Equity, (ii) Real Assets, (iii) Credit and Liquid Strategies, (iv) Capital Markets, and (v) Principal Activities."
+  },
+  {
+   "name": "Insurance",
+   "products": [
+    "Retirement and life insurance solutions"
+   ],
+   "description": "Retirement and life insurance solutions provided through Global Atlantic, acquired in 2021.",
+   "evidence": "Our business further expanded with the acquisition of Global Atlantic in 2021, which today conducts our insurance business providing retirement and life insurance solutions."
+  },
+  {
+   "name": "Strategic Holdings",
+   "products": [],
+   "description": "Strategic investments held for long-term value creation and dividend generation.",
+   "evidence": "In the first quarter of 2024, we implemented strategic initiatives that included creating our Strategic Holdings business segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Earn recurring management fees and performance revenues from institutional and individual investors for investment management services, transaction fees as broker-dealer, carried interest from investment gains on third-party capital, and investment income from own capital deployment.",
+  "evidence": "As an asset management firm, we earn recurring management fees and fee-related performance revenues for providing investment management services and expertise to our institutional and individual investors who entrust us with their capital."
+ },
+ "changes": [
+  {
+   "text": "In 2021, acquired Global Atlantic to establish insurance business segment providing retirement and life insurance solutions.",
+   "evidence": "Our business further expanded with the acquisition of Global Atlantic in 2021, which today conducts our insurance business providing retirement and life insurance solutions."
+  },
+  {
+   "text": "In first quarter 2024, created Strategic Holdings as new reporting segment to manage strategic investments for long-term value and dividend generation.",
+   "evidence": "In the first quarter of 2024, we implemented strategic initiatives that included creating our Strategic Holdings business segment."
+  }
+ ],
+ "dropped": []
+}

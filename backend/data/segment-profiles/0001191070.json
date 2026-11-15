@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001191070",
+ "issuerName": "Neuphoria Therapeutics Inc.",
+ "builtAt": "2026-11-15T13:56:25.991Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-395536",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1191070/000119312526395536/neup-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Clinical-stage biotechnology",
+   "products": [
+    "BNC210"
+   ],
+   "description": "Discovery and development of allosteric ion channel modulators for central nervous system disorders.",
+   "evidence": "The Company operates as a single operating and reporting segment focused on the discovery and development of allosteric ion channel modulators designed to transform the lives of patients suffering from serious central nervous system disorders with high unmet medical need."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company receives milestone payments and royalties from partnered programs controlled by Merck, Pfizer, and Carina Biotech.",
+  "evidence": "Merck controls and funds clinical development and worldwide commercialization. The collaboration includes two clinical-stage candidates: MK-1167, which was being evaluated in a Merck-led Phase 2 trial in Alzheimer's disease dementia and was terminated after a planned interim analysis due to lack of efficacy, and MK-4334, which has completed Phase 1 safety and biomarker studies. On March 19, 2025, we received a $15.0 million milestone payment after Merck initiated the Phase 2 trial of MK-1167 (NC"
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In fiscal 2026, the company discontinued the BNC210 program for social anxiety d",
+  "change not grounded: In fiscal 2026, the company paused the planned SYMPHONY Phase 2b/3 trial for BNC"
+ ]
+}

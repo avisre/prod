@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001230245",
+ "issuerName": "PIPER SANDLER COMPANIES",
+ "builtAt": "2026-11-15T13:56:44.162Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001230245-26-000013",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1230245/000123024526000013/pipr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investment banking and institutional brokerage",
+   "products": [
+    "financial advisory services",
+    "equity and debt capital markets products",
+    "public finance services",
+    "institutional brokerage services",
+    "fundamental equity and macro research services",
+    "fixed income services",
+    "alternative asset management strategies"
+   ],
+   "description": "Provides investment banking, institutional sales and trading for equity and fixed income products, research, and alternative asset management for corporations, institutions, and public entities.",
+   "evidence": "We operate in one reportable segment providing investment banking services, institutional sales and trading services for various equity and fixed income products, and research services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay advisory and financing fees for investment banking, commissions and sales credits for institutional brokerage, and management and performance fees for managing alternative asset funds.",
+  "evidence": "Revenues are generated through commissions and sales credits earned on equity and fixed income institutional sales activities, net interest revenues on trading securities held in inventory, profits and losses from trading these securities, and fees for research services and corporate access offerings."
+ },
+ "changes": [
+  {
+   "text": "In 2025, the company acquired G Squared Capital Partners LLC, expanding its investment banking technology sector.",
+   "evidence": "On September 12, 2025, we completed the acquisition of G Squared Capital Partners LLC (\"G Squared\"), a boutique investment bank specializing in government services and defense technology."
+  },
+  {
+   "text": "In 2024, the company acquired Aviditi Capital Advisors, adding private capital advisory capabilities.",
+   "evidence": "On August 23, 2024, we completed the acquisition of Aviditi Capital Advisors, LLC (\"Aviditi Advisors\"), an alternative investment bank providing full lifecycle services to financial sponsors, global alternative investment managers and limited partner investors."
+  }
+ ],
+ "dropped": [],
+ "escalated": "no segments"
+}

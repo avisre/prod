@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001187953",
+ "issuerName": "CREATIVE MEDICAL TECHNOLOGY HOLDINGS, INC.",
+ "builtAt": "2026-11-15T13:56:23.324Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001477932-26-001517",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1187953/000147793226001517/celz_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Regenerative Therapies",
+   "products": [
+    "CaverStem®",
+    "FemCelz®",
+    "ImmCelz™ (CELZ-100)",
+    "StemSpine®",
+    "OvaStem™",
+    "iPScelz™"
+   ],
+   "description": "Commercial stage biotechnology company developing regenerative therapies for immunotherapy, endocrinology, urology, neurology and orthopedics.",
+   "evidence": "We are a commercial stage biotechnology company dedicated to the advancement regenerative therapies in the fields of immunotherapy, endocrinology, urology, neurology and orthopedics."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Physicians purchase disposable kits to perform autologous procedures that treat erectile dysfunction and female sexual dysfunction.",
+  "evidence": "The Company currently conducts substantially all of its commercial operations through CMT, which markets and sells the Company's CaverStem® and FemCelz® disposable kits utilized by physicians to perform autologous procedures that treat erectile dysfunction and female sexual dysfunction, respectively."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Regenerative Therapies): AlloStem™ (CELZ-201)"
+ ]
+}

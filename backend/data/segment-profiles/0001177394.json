@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001177394",
+ "issuerName": "TD SYNNEX CORPORATION",
+ "builtAt": "2026-11-15T13:56:14.911Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-003598",
+  "periodEnd": "2025-11-30",
+  "filingDate": "2026-01-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [],
+   "description": "Distributes IT hardware, software, and systems to resellers and retail customers in the Americas region.",
+   "evidence": "We operate in three reportable segments based on our geographic regions: the Americas, Europe and Asia-Pacific and Japan (\"APJ\")."
+  },
+  {
+   "name": "Europe",
+   "products": [],
+   "description": "Distributes IT hardware, software, and systems to resellers and retail customers in the Europe region.",
+   "evidence": "We operate in three reportable segments based on our geographic regions: the Americas, Europe and Asia-Pacific and Japan (\"APJ\")."
+  },
+  {
+   "name": "Asia-Pacific and Japan",
+   "products": [],
+   "description": "Distributes IT hardware, software, and systems to resellers and retail customers in the Asia-Pacific and Japan region.",
+   "evidence": "We operate in three reportable segments based on our geographic regions: the Americas, Europe and Asia-Pacific and Japan (\"APJ\")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Resellers and retail customers purchase IT products and services from the company, which aggregates offerings from approximately two thousand five hundred OEMs.",
+  "evidence": "We purchase these and other complementary products from our suppliers and sell them to our reseller and retail customers."
+ },
+ "changes": [
+  {
+   "text": "In two thousand twenty-one, SYNNEX Corporation acquired Tech Data Corporation, resulting in Tech Data becoming an indirect subsidiary and the company changing its name to TD SYNNEX Corporation effective November three, two thousand twenty-one.",
+   "evidence": "On September 1, 2021, SYNNEX Corporation acquired Tech Data Corporation, a Florida corporation (\"Tech Data\") through a series of mergers, which resulted in Tech Data becoming an indirect subsidiary of TD SYNNEX Corporation (collectively, the \"Merger\")."
+  }
+ ],
+ "dropped": []
+}

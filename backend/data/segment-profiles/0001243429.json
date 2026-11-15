@@ -1,0 +1,101 @@
+{
+ "version": 1,
+ "cik": "0001243429",
+ "issuerName": "ArcelorMittal",
+ "builtAt": "2026-11-15T13:57:02.550Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001243429-26-000020",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1243429/000124342926000020/mt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "slabs",
+    "hot rolled coil",
+    "cold rolled coil",
+    "coated steel products",
+    "plate",
+    "wire rod",
+    "sections",
+    "rebar"
+   ],
+   "description": "Produces flat, long and tubular steel products for automotive, energy, construction, packaging and appliances customers in North America.",
+   "evidence": "North America produces flat, long and tubular products."
+  },
+  {
+   "name": "Brazil",
+   "products": [
+    "slabs",
+    "hot rolled coil",
+    "cold rolled coil",
+    "coated steel",
+    "sections",
+    "wire rod",
+    "bar and rebars",
+    "wire drawing"
+   ],
+   "description": "Produces flat, long and tubular steel for construction, power generation, agribusiness, automotive and household appliance customers.",
+   "evidence": "Brazil produces flat, long and tubular products."
+  },
+  {
+   "name": "Europe",
+   "products": [
+    "hot rolled coil",
+    "cold rolled coil",
+    "coated products",
+    "tinplate",
+    "plate",
+    "slab",
+    "sections",
+    "wire rod"
+   ],
+   "description": "Produces flat and long steel products for automotive, general industry and packaging customers.",
+   "evidence": "Europe produces flat and long products."
+  },
+  {
+   "name": "India and JVs",
+   "products": [],
+   "description": "Holds the Company's interests in joint ventures, associates and other investments, viewed as a high growth vector.",
+   "evidence": "India and JVs includes all of the Company's interests in joint ventures, associates and other investments."
+  },
+  {
+   "name": "Sustainable Solutions",
+   "products": [
+    "renewables",
+    "special projects",
+    "construction business"
+   ],
+   "description": "Niche capital-light businesses supporting climate action plus an in-house trading and distribution arm for long and flat products.",
+   "evidence": "Sustainable Solutions is composed of a number of niche capital-light businesses that play an important role in supporting climate action (including renewables, special projects and construction business) and which ArcelorMittal believes have high growth potential."
+  },
+  {
+   "name": "Mining",
+   "products": [
+    "iron ore",
+    "mineral products"
+   ],
+   "description": "Operates seaborne iron ore mining in Canada and Liberia, supplying steel operations and selling mineral products to third parties.",
+   "evidence": "Mining comprises the Company's seaborne iron ore mining operations in Canada and Liberia."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay ArcelorMittal for flat, long and tubular steel products and for iron ore and mineral products sold to third parties.",
+  "evidence": "It provides the Company's steel operations with high quality and low-cost iron ore reserves and also sells mineral products to third parties."
+ },
+ "changes": [
+  {
+   "text": "In June 2025, ArcelorMittal acquired control of ArcelorMittal Calvert, its former joint venture with NSC.",
+   "evidence": "In June 2025, ArcelorMittal acquired control of ArcelorMittal Calvert, its former joint venture with NSC (see note 2.2.4 to the consolidated financial statements)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Sustainable Solutions): value-added and customized steel solutions"
+ ],
+ "escalated": "revenue model not quoted"
+}

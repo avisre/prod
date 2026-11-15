@@ -1,0 +1,22 @@
+{
+ "version": 1,
+ "cik": "0001231346",
+ "issuerName": "Seabridge Gold Inc.",
+ "builtAt": "2026-11-15T13:56:46.306Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001213900-26-035021",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1231346/000121390026035021/ea0282731-40f_seabridge.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment name not in text: Mineral Exploration"
+ ],
+ "escalated": "no segments"
+}

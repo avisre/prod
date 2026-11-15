@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001231457",
+ "issuerName": "GENELUX CORPORATION",
+ "builtAt": "2026-11-15T13:56:46.652Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-011616",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1231457/000149315226011616/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biopharmaceutical",
+   "products": [
+    "Olvi-Vec (olvimulogene nanivacirepvec)",
+    "CHOICE discovery platform"
+   ],
+   "description": "Clinical-stage company developing oncolytic viral immunotherapies for patients with aggressive and difficult-to-treat cancer tumor types.",
+   "evidence": "The Company operates and manages its business as one reportable and operating as a clinical stage biopharmaceutical company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Newsoara pays the company upfront, milestone and royalty payments for an exclusive license to develop and commercialize Olvi-Vec in China.",
+  "evidence": "Newsoara is obligated to pay the Company additional development and commercial milestone payments up to $ 160.5 million in the aggregate upon the occurrence of certain development, regulatory and commercial milestones by the licensed products, and royalties on net sales of the licensed products in the mid-single-digit to mid-teens percentage range (the \"Newsoara Royalty\")."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

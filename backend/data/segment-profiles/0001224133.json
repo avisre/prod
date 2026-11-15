@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001224133",
+ "issuerName": "Marchex, Inc.",
+ "builtAt": "2026-11-15T13:56:35.557Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-125205",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1224133/000119312526125205/mchx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Conversational Analytics and Related Solutions",
+   "products": [
+    "Marketing Edge",
+    "Sonar Business Text Messaging",
+    "Marchex Platform Services",
+    "Spotlight",
+    "Engage",
+    "Call Summary and Sentiment Suite",
+    "AI for Industry Solution"
+   ],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay subscription and usage-based fees for AI-powered conversation intelligence solutions that analyze customer interactions across phone, text and other communication channels.",
+  "evidence": "Marchex provides AI-powered conversation intelligence solutions for market-leading companies in leading business-to-business-to-consumer (\"B2B2C\") vertical markets, including many of the world's most innovative and successful brands."
+ },
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Conversational Analytics and Related Solutions"
+ ]
+}

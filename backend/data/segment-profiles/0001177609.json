@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001177609",
+ "issuerName": "Five Below, Inc.",
+ "builtAt": "2026-11-15T13:56:17.570Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001177609-26-000010",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1177609/000117760926000010/five-20260131.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Five Below",
+   "products": [
+    "Candy",
+    "Style",
+    "Party",
+    "Room",
+    "Create",
+    "Tech",
+    "Sports",
+    "New & Now"
+   ],
+   "description": "Specialty value retailer offering trend-right, high-quality products mostly priced at five dollars and below across eight category worlds.",
+   "evidence": "We offer a dynamic, edited assortment of exciting products, most priced at $5 and below, including select brands and licensed merchandise across eight worlds: Candy, Style, Party, Room, Create, Tech, Sports and New & Now."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers purchase merchandise at physical stores and online through fivebelow.com and mobile app, with e-commerce including shipping and handling revenue.",
+  "evidence": "We also offer our merchandise on the internet, through our fivebelow.com e-commerce website and mobile app, offering home delivery and the option to buy online and pick up in store."
+ },
+ "changes": [],
+ "dropped": []
+}

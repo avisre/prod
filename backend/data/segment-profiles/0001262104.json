@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001262104",
+ "issuerName": "Lite Strategy, Inc.",
+ "builtAt": "2026-11-15T13:57:08.911Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-405328",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1262104/000119312526405328/lits-20260630.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Asset Treasury Strategy",
+   "products": [
+    "Litecoin (LTC) tokens",
+    "Covered Call Options"
+   ],
+   "description": "Holds Litecoin tokens as primary reserve assets and generates income through covered call options on digital asset holdings.",
+   "evidence": "We also hold Litecoin (LTC) tokens as a primary reserve asset as part of our broader institutional treasury initiative."
+  },
+  {
+   "name": "Development of Pharmaceutical Products",
+   "products": [
+    "voruciclib",
+    "zandelisib"
+   ],
+   "description": "Develops novel and differentiated cancer therapies and pre-clinical drug candidates in oncologic and nononcologic disease indications.",
+   "evidence": "Lite Strategy, Inc. (Nasdaq: LITS) is a pharmaceutical company that has historically developed novel and differentiated cancer therapies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2024, the company sold ME-344, an intravenous small molecule mitochondrial in"
+ ]
+}

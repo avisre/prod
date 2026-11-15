@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001178819",
+ "issuerName": "ALAMOS GOLD INC.",
+ "builtAt": "2026-11-15T13:56:21.454Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001178819-26-000048",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000048/ex9912026annualinformation.htm",
+  "exhibit": "ex9912026annualinformation.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Island Gold District",
+   "products": [
+    "gold doré bars"
+   ],
+   "description": "Underground gold mining and processing operation located in Ontario, Canada.",
+   "evidence": "outlooks for each of the Island Gold District (IGD), Young-Davidson mine (YD), Mulatos District, the Lynn Lake project (LLP) and the Qiqavik Gold project"
+  },
+  {
+   "name": "Young-Davidson mine",
+   "products": [
+    "gold doré bars"
+   ],
+   "description": "Underground gold mine and mill operation located in Ontario, Canada.",
+   "evidence": "outlooks for each of the Island Gold District (IGD), Young-Davidson mine (YD), Mulatos District, the Lynn Lake project (LLP) and the Qiqavik Gold project"
+  },
+  {
+   "name": "Mulatos District",
+   "products": [
+    "gold doré bars"
+   ],
+   "description": "Open-pit gold mining district including the PDA project and Cerro Pelon located in Mexico.",
+   "evidence": "outlooks for each of the Island Gold District (IGD), Young-Davidson mine (YD), Mulatos District, the Lynn Lake project (LLP) and the Qiqavik Gold project"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The Company earns revenue by producing and selling gold, delivered as gold doré bars.",
+  "evidence": "the ability to sell or deliver gold doré bars"
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no filed row matches"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001211583",
+ "issuerName": "FENNEC PHARMACEUTICALS INC.",
+ "builtAt": "2026-11-15T13:56:29.587Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036182",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1211583/000110465926036182/fencf-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Production and commercialization of PEDMARK",
+   "products": [
+    "PEDMARK",
+    "PEDMARQSI"
+   ],
+   "description": "Commercial stage specialty pharmaceutical company dedicated to preventing cisplatin-induced ototoxicity in pediatric cancer patients.",
+   "evidence": "The Company views its operations and manages its business in one operating segment principally in the United States. Fennec's chief operating decision maker is the senior executive team that includes the chief executive officer and chief financial officer."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from license agreements with pharmaceutical companies for commercialization, including upfront fees, milestone payments, and royalties on product sales.",
+  "evidence": "The Company generates revenue from license or similar agreements with pharmaceutical companies for the commercialization of its product. Such agreements may include the transfer of intellectual property rights in the form of licenses. Payments made by the customers may include non-refundable upfront fees, payments based upon the achievement of defined milestones, and royalties on sales of product."
+ },
+ "changes": [],
+ "dropped": []
+}

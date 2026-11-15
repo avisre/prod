@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "cik": "0001228627",
+ "issuerName": "Opus Genetics, Inc.",
+ "builtAt": "2026-11-15T13:56:44.013Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-009247",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1228627/000114036126009247/ef20060643_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vision Performance and Health",
+   "products": [
+    "OPGx-LCA5",
+    "OPGx-BEST1",
+    "OPGx-RHO",
+    "OPGx-CNGB1",
+    "OPGx-RDH12",
+    "OPGx-NMNAT1",
+    "OPGx-MERTK",
+    "Phentolamine Ophthalmic Solution 0.75%"
+   ],
+   "description": "Development of gene therapies for inherited retinal diseases and ophthalmic disorders to restore vision and prevent blindness.",
+   "evidence": "The Company's Chief Executive Officer views the Company's operations and manages its business in one operating segment, which is the business of development of products related to vision performance and health."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "License agreements generate revenue through upfront fees, development services, and milestone payments from collaboration partners.",
+  "evidence": "The Company has entered into license agreements which have revenue recognition implications (See Note 10 – License and Collaboration Revenue and Other Funding Agreements)."
+ },
+ "changes": [],
+ "dropped": []
+}

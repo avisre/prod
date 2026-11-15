@@ -1,0 +1,67 @@
+{
+ "version": 1,
+ "cik": "0001224608",
+ "issuerName": "CNO Financial Group, Inc.",
+ "builtAt": "2026-11-15T13:56:36.231Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001224608-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1224608/000122460826000017/cno-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Annuity",
+   "products": [
+    "Fixed indexed annuities",
+    "Fixed interest annuities",
+    "Single premium immediate annuity products"
+   ],
+   "description": "Develops, markets and administers annuity products offering tax-deferred retirement savings and income.",
+   "evidence": "Annuity products include fixed indexed annuity, traditional fixed rate annuity and single premium immediate annuity products."
+  },
+  {
+   "name": "Health",
+   "products": [
+    "Supplemental health",
+    "Medicare supplement",
+    "Long-term care",
+    "Medicare Advantage plans"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Life",
+   "products": [
+    "Interest-sensitive life",
+    "Traditional life"
+   ],
+   "description": null,
+   "evidence": null
+  },
+  {
+   "name": "Fee income",
+   "products": [],
+   "description": "Provides benefits education, advocacy and communications services through Optavise and third-party fee arrangements.",
+   "evidence": "Optavise, LLC provides personalized benefits education, advocacy and transparency, and communications services that help employers reduce healthcare costs and assist employees with making informed benefits decisions."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay premiums for insurance products and fees for benefits education and administration services; company earns investment income on assets.",
+  "evidence": "We had premium collections of $4.6 billion, $4.4 billion and $4.1 billion in 2025, 2024 and 2023, respectively."
+ },
+ "changes": [
+  {
+   "text": "In 2025, announced intention to exit the fee services business within Worksite Division, with exit expected substantially completed in first half of 2026.",
+   "evidence": "In November 2025, we announced our intention to exit the fee services business within our Worksite Division to sharpen our focus on the core insurance business."
+  }
+ ],
+ "dropped": [
+  "segment evidence not verbatim: Health",
+  "segment evidence not verbatim: Life"
+ ]
+}

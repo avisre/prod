@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001065280",
  "issuerName": "Netflix, Inc.",
- "builtAt": "2026-11-15T10:04:18.316Z",
+ "builtAt": "2026-11-15T13:55:56.001Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001065280-26-000034",
@@ -13,20 +13,20 @@
  "status": "ok",
  "segments": [
   {
-   "name": "Netflix",
+   "name": "Netflix, Inc.",
    "products": [
     "TV series",
-    "films",
-    "games",
-    "live programming"
+    "Films",
+    "Games",
+    "Live programming"
    ],
-   "description": "Streaming entertainment service offering TV series, films, games and live programming across various genres and languages.",
+   "description": "Provides streaming entertainment services offering TV series, films, games and live programming across multiple genres and languages.",
    "evidence": "Netflix, Inc. (\"Netflix\", the \"Company\", \"registrant\", \"we\", or \"us\") is one of the world's leading entertainment services offering TV series, films, games and live programming across a wide variety of genres and languages."
   }
  ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "Members pay monthly subscription fees for streaming content access, with various pricing plans including ad-supported options.",
+  "text": "Members pay monthly subscription fees for access to streaming content, with various pricing plans including ad-supported options.",
   "evidence": "Our revenues are primarily derived from monthly membership fees for services related to streaming content to our members."
  },
  "changes": [],

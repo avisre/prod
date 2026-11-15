@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "cik": "0001175151",
+ "issuerName": "CYTOSORBENTS CORPORATION",
+ "builtAt": "2026-11-15T13:56:08.145Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036451",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1175151/000110465926036451/ctso-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Blood purification medical devices",
+   "products": [
+    "CytoSorb",
+    "DrugSorb-ATR",
+    "ECOS-300CY",
+    "VetResQ",
+    "PuriFi"
+   ],
+   "description": "Develops, tests and sells blood purification medical devices for critical care and cardiac surgery to remove toxins and blood thinners from blood.",
+   "evidence": "The Company operates and manages its business as one reportable segment and one operating segment, which is the business of developing, testing and selling blood purification medical devices."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers, distributors and the U.S. government pay the Company for its blood purification cartridges and devices.",
+  "evidence": "Trade accounts receivable consist of amounts due from direct customers, distributors and agencies of the U.S. government and are presented at net realizable value."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "revenue model not quoted"
+}

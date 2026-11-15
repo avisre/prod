@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001174940",
+ "issuerName": "ORAGENICS, INC.",
+ "builtAt": "2026-11-15T13:56:08.127Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-010282",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1174940/000149315226010282/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Development of ONP-002",
+   "products": [
+    "ONP-002"
+   ],
+   "description": null,
+   "evidence": "We operate in a single reportable segment, which includes all activities related to the development of our lead product candidate, ONP-002, for the treatment of mild traumatic brain injury (concussion)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": []
+}

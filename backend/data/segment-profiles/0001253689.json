@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001253689",
+ "issuerName": "CRESCENT BIOPHARMA, INC.",
+ "builtAt": "2026-11-15T13:57:02.835Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-011983",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1253689/000162828026011983/cbio-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Research and Development",
+   "products": [
+    "CR-001",
+    "CR-002",
+    "CR-003"
+   ],
+   "description": "Clinical-stage biotechnology company developing oncology therapies including bispecific antibodies and antibody drug conjugates for cancer treatment.",
+   "evidence": "The Company has one reportable segment relating to the research and development of its research programs, CR-001, CR-002, and CR-003."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company earned license revenue from licensing intellectual property rights to a related party in China.",
+  "evidence": "For the year ended December 31, 2025, all of the Company's revenues were earned from a license agreement with a single customer located in China."
+ },
+ "changes": [],
+ "dropped": [
+  "change not grounded: In 2026, the company terminated its ADC Paragon Option Agreement covering the pr"
+ ]
+}

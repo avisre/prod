@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001274737",
+ "issuerName": "EXAGEN INC.",
+ "builtAt": "2026-11-15T13:57:15.325Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001274737-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1274737/000127473726000009/exdx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Testing Products",
+   "products": [
+    "AVISE® CTD",
+    "AVISE® -branded tests"
+   ],
+   "description": "Design, development and commercialization of testing products for differential diagnosis, prognosis and monitoring of complex rheumatic, autoimmune and autoimmune-related disease.",
+   "evidence": "The Company views its operations as, and manages its business in, one operating segment focused on the design, development and commercialization of testing products which allow for the differential diagnosis, prognosis and monitoring of complex rheumatic, autoimmune and autoimmune-related disease."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers pay for testing products sold to rheumatologists, primary care physicians, and other specialists for autoimmune disease diagnosis and monitoring.",
+  "evidence": "Segment revenue is primarily derived from the sale of the Company's testing products, most of which is attributable to its AVISE® CTD test."
+ },
+ "changes": [],
+ "dropped": []
+}

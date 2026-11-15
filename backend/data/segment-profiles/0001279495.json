@@ -1,0 +1,28 @@
+{
+ "version": 1,
+ "cik": "0001279495",
+ "issuerName": "BAYTEX ENERGY CORP.",
+ "builtAt": "2026-11-15T13:57:19.161Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001279495-26-000007",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1279495/000127949526000007/bte-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Oil and Gas",
+   "products": [],
+   "description": null,
+   "evidence": null
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [
+  "segment evidence not verbatim: Oil and Gas"
+ ]
+}

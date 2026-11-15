@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001234006",
+ "issuerName": "GLADSTONE COMMERCIAL CORP",
+ "builtAt": "2026-11-15T13:56:50.393Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001234006-26-000005",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1234006/000123400626000005/good-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Real Estate",
+   "products": [
+    "Industrial properties",
+    "Office properties",
+    "Net leases",
+    "Mortgage loans"
+   ],
+   "description": "Acquires, owns, and manages primarily single-tenant industrial and office properties leased to diversified tenants across the United States.",
+   "evidence": "We focus on acquiring, owning, and managing primarily industrial and office properties."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants pay rent under net leases of approximately seven to twenty years with built-in rental increases, covering most operating costs, taxes and insurance.",
+  "evidence": "We have historically entered into, and intend in the future to enter into, purchase agreements for real estate having net leases with terms of approximately seven to 20 years with built-in rental rate increases."
+ },
+ "changes": [],
+ "dropped": [],
+ "escalated": "no segments"
+}

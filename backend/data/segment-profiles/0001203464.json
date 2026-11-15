@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001203464",
+ "issuerName": "IAMGOLD Corporation",
+ "builtAt": "2026-11-15T13:56:26.853Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001062993-26-001022",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1203464/000106299326001022/exhibit99-3.htm",
+  "exhibit": "exhibit99-3.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gold",
+   "products": [],
+   "description": "Gold mining operations across multiple geographic locations producing gold for sale.",
+   "evidence": "It was determined that the Company's gold segment is divided into reportable geographic segments."
+  },
+  {
+   "name": "Exploration and Evaluation",
+   "products": [],
+   "description": "Exploration and evaluation activities for mineral projects to assess technical feasibility and commercial viability.",
+   "evidence": "The Company's other reportable segments have been determined to be exploration and evaluation and development and corporate operating segments, which includes royalty interests and investments in associate and joint venture."
+  },
+  {
+   "name": "Development",
+   "products": [],
+   "description": "Development of mineral properties and projects advancing toward production.",
+   "evidence": "The Company's other reportable segments have been determined to be exploration and evaluation and development and corporate operating segments, which includes royalty interests and investments in associate and joint venture."
+  },
+  {
+   "name": "Corporate",
+   "products": [],
+   "description": "Corporate operations including royalty interests and investments in associates and joint ventures.",
+   "evidence": "The Company's other reportable segments have been determined to be exploration and evaluation and development and corporate operating segments, which includes royalty interests and investments in associate and joint venture."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "The company generates revenue from sales of gold produced at its mining operations.",
+  "evidence": "The Company's gold segment is divided into reportable geographic segments."
+ },
+ "changes": [],
+ "dropped": []
+}
