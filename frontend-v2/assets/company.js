@@ -3972,7 +3972,7 @@
                       <p class="provenance">${d.note ? esc(d.note) + ' ' : ''}${p ? `Revenue figures as tagged in the filing; segment names, products and descriptions read from the <a href="${esc(filing.url || '#')}" target="_blank" rel="noopener">${esc(filing.form || '10-K')}${filing.filingDate ? ' filed ' + esc(filing.filingDate) : ''}</a> and checked word for word against it.`
                         : `AI-extracted from the <a href="${esc((d.filing || {}).url || '#')}" target="_blank" rel="noopener">10-K filed ${esc((d.filing || {}).date || '')}</a> — verify against the filing.`}</p>`;
                 } else {
-                    segBody.innerHTML = '<p class="small muted">This company reports as a single segment.</p>';
+                    segBody.innerHTML = '<p class="small muted">No segment breakdown is available from this company\'s filings.</p>';
                 }
             } else { segBody.innerHTML = '<p class="small muted">Segments unavailable right now.</p>'; }
         } catch (_) { segBody.innerHTML = '<p class="small muted">Segments unavailable right now.</p>'; }
