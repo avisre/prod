@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001731388",
+ "issuerName": "EURODRY LTD.",
+ "builtAt": "2026-11-16T05:42:00.636Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001171843-26-002768",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1731388/000117184326002768/edry20251231_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "dry bulk",
+   "products": [],
+   "description": "Charters dry bulk vessels.",
+   "evidence": "Pittas, who is the chief operating decision maker (\"CODM\"), does not use discrete financial information to evaluate the operating results for each such type of charter or vessel, but is instead regularly"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay hire for its dry bulk vessels.",
+  "evidence": "0 respectively, our vessels achieved daily time charter equivalent rates of $12,528, $13,039 and $11,642 respectively, and we generated time and voyage charter revenues of $50."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (dry bulk): dry bulk vessel chartering"
+ ],
+ "reader": "agent"
+}

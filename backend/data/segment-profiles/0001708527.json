@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001708527",
+ "issuerName": "ELUTIA INC.",
+ "builtAt": "2026-11-16T05:42:50.356Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-027664",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1708527/000110465926027664/elut-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

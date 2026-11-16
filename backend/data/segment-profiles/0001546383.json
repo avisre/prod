@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001546383",
+ "issuerName": "JX Luxventure Group Inc.",
+ "builtAt": "2026-11-16T05:42:02.149Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-057231",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1546383/000121390026057231/ea0289610-20f_jxluxven.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

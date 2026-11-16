@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001939965",
+ "issuerName": "Brera Holdings PLC",
+ "builtAt": "2026-11-16T05:42:49.671Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-057974",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1939965/000121390026057974/ea0290046-20f_brerahold.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital Assets Treasury",
+   "products": [
+    "Solana validator infrastructure",
+    "digital assets"
+   ],
+   "description": "Runs Solana validators and manages a digital asset treasury.",
+   "evidence": "Our primary operations consist of managing a Solana-focused digital assets treasury segment and legacy sport multi-club business segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns staking rewards and manages digital assets.",
+  "evidence": "We consider these our two operating segments: ● Digital Assets Treasury : focuses on building, operating, and managing Solana validator infrastructure in Abu Dhabi, executing and managing our digital asset treasury strategy, and actively supp"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

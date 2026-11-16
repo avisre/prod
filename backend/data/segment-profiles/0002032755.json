@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002032755",
+ "issuerName": "Pinnacle Food Group Ltd",
+ "builtAt": "2026-11-16T05:42:52.075Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050423",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2032755/000121390026050423/ea0287795-20f_pinnacle.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pinnacle Food",
+   "products": [],
+   "description": "Sells home soilless planting systems.",
+   "evidence": "The Company has determined that it operates as a single reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Home users buy its planting systems.",
+  "evidence": "Home users who purchase our PFAI Model S can easily start soilless planting at home by simply following the simple instructions we provide."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Pinnacle Food): soilless planting systems"
+ ],
+ "reader": "agent"
+}

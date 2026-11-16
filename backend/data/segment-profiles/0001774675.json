@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001774675",
+ "issuerName": "Skillsoft Corp.",
+ "builtAt": "2026-11-16T05:42:01.410Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-011602",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1774675/000143774926011602/skil20260131_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Talent Development Solutions",
+   "products": [
+    "Skills Management Platform",
+    "Learner Platform"
+   ],
+   "description": "Sells corporate learning platforms.",
+   "evidence": "OUR BUSINESS MODEL Skillsoft has two operating and reportable segments: (i) Talent Development Solutions (\"TDS\"), which is comprised of both our Skills Management Platform and Learner Platform, and (ii) Global Knowledge (\"GK\"), or our instructor-led training (\"ILT\") platform."
+  },
+  {
+   "name": "Global Knowledge",
+   "products": [
+    "instructor-led training (\"ILT\") platform"
+   ],
+   "description": "Provides instructor-led training.",
+   "evidence": "OUR BUSINESS MODEL Skillsoft has two operating and reportable segments: (i) Talent Development Solutions (\"TDS\"), which is comprised of both our Skills Management Platform and Learner Platform, and (ii) Global Knowledge (\"GK\"), or our instructor-led training (\"ILT\") platform."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises pay subscriptions and training fees.",
+  "evidence": "Global Knowledge Our Global Knowledge (\"GK\") segment provides instructor-led training delivered both in"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

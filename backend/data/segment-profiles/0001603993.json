@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001603993",
+ "issuerName": "AIOS Tech Inc.",
+ "builtAt": "2026-11-16T05:42:06.729Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-045606",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1603993/000121390026045606/ea0282962-20f_aiostech.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

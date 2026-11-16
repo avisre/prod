@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001957489",
+ "issuerName": "Able View Global Inc",
+ "builtAt": "2026-11-16T05:42:50.676Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048085",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1957489/000121390026048085/ea0286865-20f_ableview.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

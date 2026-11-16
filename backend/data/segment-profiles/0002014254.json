@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002014254",
+ "issuerName": "FST Corp.",
+ "builtAt": "2026-11-16T05:42:02.466Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-045612",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/2014254/000121390026045612/ea0286486-20f_fstcorp.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FST",
+   "products": [
+    "apparel"
+   ],
+   "description": "Designs and sells apparel.",
+   "evidence": "As such, the Group has determined that it operates as one operating segmen"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and consumers buy its apparel.",
+  "evidence": "(aa) Segment reporting Operating segments are defined as components of an entity for which separate financial information is available and that is regularly reviewed by the Chief Operating Decision Maker (\"CODM\") in deciding how to allocate resources to an individual segment and in assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001156041",
+ "issuerName": "ABUNDIA GLOBAL IMPACT GROUP, INC.",
+ "builtAt": "2026-11-16T05:42:50.627Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012070",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1156041/000149315226012070/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil and gas",
+   "products": [
+    "oil",
+    "natural gas"
+   ],
+   "description": "Holds legacy oil and gas operations.",
+   "evidence": "The legacy oil and gas business is reported as a separate operating segment and is not considered material to the Company's ongoing operations."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells oil and gas and develops cleaner fuels.",
+  "evidence": "The Company's products are designed to be \"drop-in\" compatible with conventional fuels and chemical infrastructure, subject to regulatory approvals and product qualification requirements."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

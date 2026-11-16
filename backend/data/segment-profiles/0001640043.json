@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001640043",
+ "issuerName": "PYXIS TANKERS INC.",
+ "builtAt": "2026-11-16T05:42:50.915Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-014641",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1640043/000149315226014641/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "medium range tanker vessels",
+   "products": [],
+   "description": "Operates MR tankers carrying refined products.",
+   "evidence": "(s) Segment Reporting : The Company has determined that it operates under two reportable segments, one relating to its operations of the medium range tanker vessels and one to the operations of the dry-bulk vessels."
+  },
+  {
+   "name": "dry-bulk vessels",
+   "products": [],
+   "description": "Operates dry bulk carriers.",
+   "evidence": "(s) Segment Reporting : The Company has determined that it operates under two reportable segments, one relating to its operations of the medium range tanker vessels and one to the operations of the dry-bulk vessels."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay hire for its tankers and bulkers.",
+  "evidence": "The following table presents the Company's revenue disaggregated by revenue source, net of commissions, for the years ended December 31, 2023, 2024 and 2025: Schedu"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (medium range tanker vessels): medium range tanker vessels",
+  "product not in text (dry-bulk vessels): dry-bulk vessels"
+ ],
+ "reader": "agent"
+}

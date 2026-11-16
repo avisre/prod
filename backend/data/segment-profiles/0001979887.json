@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001979887",
+ "issuerName": "XCHG Limited",
+ "builtAt": "2026-11-16T05:42:48.526Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-182198",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1979887/000119312526182198/ck0001979887-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "XCHG",
+   "products": [],
+   "description": "Makes and sells EV charging equipment.",
+   "evidence": "As such, the Group has determined that it operates as one opera"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charging operators and businesses buy its equipment.",
+  "evidence": "F- 20 (dd) Segment Reporting Operating segments are defined as components of an enterprise about which separate financial information is available that is evaluated regularly by the chief operating decision maker (\"CODM\"), or decision-making group, in deciding how to allocate resources and in assessing performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (XCHG): EV charging products"
+ ],
+ "reader": "agent"
+}

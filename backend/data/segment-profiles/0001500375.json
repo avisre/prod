@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001500375",
+ "issuerName": "Home Federal Bancorp, Inc. of Louisiana",
+ "builtAt": "2026-11-16T05:42:04.792Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001140361-26-037680",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1500375/000114036126037680/ef20074914_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank in Louisiana.",
+   "evidence": "Therefore, the Company's banking operations are aggregated into one reportable operating segment, which generates income principally from interest on loans and, to a lesser extent, securities investments, as well as from"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns interest on loans and investments.",
+  "evidence": "We compete for loan originations primarily through the interest rates and loan fees we charge and the efficiency and quality of services we provide borrowers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

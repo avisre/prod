@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001005101",
+ "issuerName": "THE MARYGOLD COMPANIES, INC.",
+ "builtAt": "2026-11-16T05:42:50.658Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-043341",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1005101/000149315226043341/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "financial services",
+   "products": [
+    "ETF management"
+   ],
+   "description": "Manages ETFs and financial services.",
+   "evidence": "While the Company operates in several business segments, its primary business focus is the financial services industry, including ETF management, and its intention is to continue developing these and similar business segments prospectively."
+  },
+  {
+   "name": "Food Products",
+   "products": [],
+   "description": "Makes and sells gourmet food products.",
+   "evidence": "The Food Products segment consists of two legal entities: Gourmet Foods, Ltd."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Investors pay fund fees and customers buy its foods.",
+  "evidence": "The Food Products segment consists of two legal entities: Gourmet Foods, Ltd."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Food Products): food products"
+ ],
+ "reader": "agent"
+}

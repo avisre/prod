@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001676047",
+ "issuerName": "NUTRIBAND INC.",
+ "builtAt": "2026-11-16T05:42:53.632Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-049399",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1676047/000121390026049399/ea0287168-10k_nutriband.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sales of Goods and Services",
+   "products": [
+    "goods and services"
+   ],
+   "description": "Sells goods and services.",
+   "evidence": "SEGMENT REPORTING We organize and manage our business by the following two segments which meet the definition of reportable segments under ASC 280-10, Segment Reporting: Sales of Goods and Services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy its goods and services.",
+  "evidence": "Separate financial information is available and regularly reviewed by our chief operating decision maker (\"CODM\"), who is our chief executive officer , in making resource allocation"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

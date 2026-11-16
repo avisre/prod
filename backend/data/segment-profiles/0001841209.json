@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001841209",
+ "issuerName": "MicroCloud Hologram Inc.",
+ "builtAt": "2026-11-16T05:42:52.104Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001829126-26-002773",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1841209/000182912626002773/microcloud_20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

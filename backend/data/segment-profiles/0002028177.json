@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002028177",
+ "issuerName": "Youlife Group Inc.",
+ "builtAt": "2026-11-16T05:42:05.701Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050196",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2028177/000121390026050196/ea0285866-20f_youlife.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

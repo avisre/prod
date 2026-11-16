@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001844505",
+ "issuerName": "QT IMAGING HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:42:01.643Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-020909",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1844505/000162828026020909/qti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "QT Breast Scanner",
+   "products": [],
+   "description": "Develops and commercialises its breast imaging scanner.",
+   "evidence": "Segment Information The Company has one operating and reportable segment, which is engaged in the development and commercialization of the Company's QT Breast Scanner."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Imaging centres and hospitals buy its scanner.",
+  "evidence": "The Company's Chief Executive Officer has been determined to be the chief operating decision maker (\" CODM \")."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (QT Breast Scanner): QT Breast Scanner"
+ ],
+ "reader": "agent"
+}

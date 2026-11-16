@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001991592",
+ "issuerName": "INLIF LIMITED",
+ "builtAt": "2026-11-16T05:42:05.314Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-024760",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1991592/000121390026024760/ea0278051-20f_inlifltd.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

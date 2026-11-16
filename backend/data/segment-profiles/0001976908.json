@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001976908",
+ "issuerName": "JIADE LIMITED",
+ "builtAt": "2026-11-16T05:42:02.327Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-041971",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1976908/000110465926041971/jdzg-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

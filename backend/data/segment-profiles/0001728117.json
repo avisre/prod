@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001728117",
+ "issuerName": "GOSSAMER BIO, INC.",
+ "builtAt": "2026-11-16T05:42:49.733Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001728117-26-000017",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1728117/000172811726000017/goss-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Gossamer",
+   "products": [],
+   "description": "Develops inhaled therapies.",
+   "evidence": "The Company views its operations and manages its business as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Segments Operating segments are identified as components of an enterprise about which discrete financial information is available for evaluation by the chief operating decision-maker (\"CODM\") in making decisions regarding resource allocation and assessing performance."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Gossamer): inhaled medicines"
+ ],
+ "reader": "agent"
+}

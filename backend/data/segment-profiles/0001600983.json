@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001600983",
+ "issuerName": "Knightscope, Inc.",
+ "builtAt": "2026-11-16T05:42:50.177Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036240",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1600983/000110465926036240/kscp-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

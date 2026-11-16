@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001738906",
+ "issuerName": "111, Inc.",
+ "builtAt": "2026-11-16T05:42:52.011Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-052002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1738906/000110465926052002/yi-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2C",
+   "products": [
+    "pharmaceutical products"
+   ],
+   "description": "Sells medicines directly to consumers.",
+   "evidence": "We historically reported our product revenues under our direct sales model from two reportable segments: the B2C segment and the B2B segment."
+  },
+  {
+   "name": "B2B",
+   "products": [
+    "pharmaceutical products"
+   ],
+   "description": "Sells medicines to business customers.",
+   "evidence": "We historically reported our product revenues under our direct sales model from two reportable segments: the B2C segment and the B2B segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and pharmacies buy its medicines.",
+  "evidence": "However, we face intense competition in certain business segments and verticals: ● we face competition from traditional pharmaceutical distributors and a couple of B2B platforms."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

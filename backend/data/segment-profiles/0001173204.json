@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001173204",
+ "issuerName": "CINEVERSE CORP.",
+ "builtAt": "2026-11-16T05:42:49.357Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-284027",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1173204/000119312526284027/cnvs-20260331.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

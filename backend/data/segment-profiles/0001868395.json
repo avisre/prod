@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001868395",
+ "issuerName": "Planet Image International Limited",
+ "builtAt": "2026-11-16T05:42:04.575Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-037444",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1868395/000121390026037444/ea0283593-20f_planet.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

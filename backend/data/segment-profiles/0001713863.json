@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001713863",
+ "issuerName": "RAFAEL HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:42:00.602Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-113659",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1713863/000121390026113659/ea0309115-10k_rafael.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Healthcare",
+   "products": [
+    "medical devices"
+   ],
+   "description": "Holds healthcare operations.",
+   "evidence": "Results of Operations Our business consists of three reportable segments - Healthcare, Infusion Technology and Real Estate."
+  },
+  {
+   "name": "Infusion Technology",
+   "products": [],
+   "description": "Develops infusion technology.",
+   "evidence": "Results of Operations Our business consists of three reportable segments - Healthcare, Infusion Technology and Real Estate."
+  },
+  {
+   "name": "Real Estate",
+   "products": [],
+   "description": "Holds real estate assets.",
+   "evidence": "Results of Operations Our business consists of three reportable segments - Healthcare, Infusion Technology and Real Estate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns revenue from its healthcare, technology and real estate businesses.",
+  "evidence": "As needed, we provide debt or equity funding to LipoMedix to support its development and clinical efforts."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Infusion Technology): infusion technology",
+  "product not in text (Real Estate): real estate"
+ ],
+ "reader": "agent"
+}

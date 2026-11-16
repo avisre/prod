@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001903382",
+ "issuerName": "BLUEROCK HOMES TRUST, INC.",
+ "builtAt": "2026-11-16T05:42:52.593Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-021568",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1903382/000110465926021568/bhm-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "residential communities",
+   "products": [],
+   "description": "Owns built-to-rent residential communities.",
+   "evidence": "We view our residential real estate assets as two reportable segments, consisting of (i) residential communities, and (ii) scattered single-family homes."
+  },
+  {
+   "name": "scattered single-family homes",
+   "products": [],
+   "description": "Owns scattered single-family rentals.",
+   "evidence": "We view our residential real estate assets as two reportable segments, consisting of (i) residential communities, and (ii) scattered single-family homes."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Residents pay monthly rent.",
+  "evidence": "Our Chief Operating Decision Makers, which are our Chief Executive Officer, Chief Investment Officer and Chief Financial Officer, do not distinguish or group operations on a geographic, tenant or other basis when assessing the"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (residential communities): rental homes",
+  "product not in text (scattered single-family homes): single-family rental homes"
+ ],
+ "reader": "agent"
+}

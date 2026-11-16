@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001750106",
+ "issuerName": "ALSET INC.",
+ "builtAt": "2026-11-16T05:42:02.434Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014302",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1750106/000149315226014302/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "biohealth",
+   "products": [
+    "consumer products"
+   ],
+   "description": "Sells biohealth consumer products.",
+   "evidence": "Our biohealth segment includes sale of consumer products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its products; it also incubates and advises businesses.",
+  "evidence": "We identify global businesses for acquisition, incubation and corporate advisory services, primarily related to our operating business segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

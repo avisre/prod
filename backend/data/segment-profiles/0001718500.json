@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0001718500",
+ "issuerName": "AXIL BRANDS, INC.",
+ "builtAt": "2026-11-16T05:42:51.952Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001520138-26-000360",
+  "periodEnd": "2026-05-31",
+  "filingDate": "2026-08-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1718500/000152013826000360/axil-20260531_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hearing enhancement and protection",
+   "products": [
+    "hearing enhancement products",
+    "hearing protection products"
+   ],
+   "description": "Sells hearing enhancement and protection products.",
+   "evidence": "Our Segments We conduct our business primarily through three operating segments: hearing enhancement and protection, hair and skin care and marketing services."
+  },
+  {
+   "name": "hair and skin care",
+   "products": [
+    "hair and skin care products"
+   ],
+   "description": "Sells hair and skin care products.",
+   "evidence": "Our Segments We conduct our business primarily through three operating segments: hearing enhancement and protection, hair and skin care and marketing services."
+  },
+  {
+   "name": "marketing services",
+   "products": [],
+   "description": "Provides marketing services.",
+   "evidence": "Our Segments We conduct our business primarily through three operating segments: hearing enhancement and protection, hair and skin care and marketing services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers and brands buy its products and services.",
+  "evidence": "Hearing Enhancement and Protection Competition : the hearing enhancement and protection products are in a distinct market that overlaps between the consumer electronics and the hearing protection device sectors."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (marketing services): marketing services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001504678",
+ "issuerName": "Loop Industries, Inc.",
+ "builtAt": "2026-11-16T05:42:00.831Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-018576",
+  "periodEnd": "2026-02-28",
+  "filingDate": "2026-05-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1504678/000143774926018576/loop20260228_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "recycling technology",
+   "products": [],
+   "description": "Commercialises its PET recycling technology.",
+   "evidence": "Segment Reporting The Company manages its operations as a single reportable segment for the purpose of assessing performance and making operating and strategic decisions, which currently focuses on the commercialization of its technology."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners and licensees pay for its recycling technology.",
+  "evidence": "The accounting policies of the single reportable segment are the same as those described in the summary of significant accounting policies."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (recycling technology): recycling technology"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001442620",
+ "issuerName": "RECON TECHNOLOGY, LTD",
+ "builtAt": "2026-11-16T05:42:48.387Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-112415",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1442620/000110465926112415/rcon-20260630x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001847846",
+ "issuerName": "EUDA Health Holdings Ltd",
+ "builtAt": "2026-11-16T05:42:52.172Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-019361",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1847846/000149315226019361/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Property management services",
+   "products": [],
+   "description": "Provides property management services.",
+   "evidence": "Segment loss Our segment loss from our reportable segments is summarized as follows: For the Years Ended March 31, 2025 2024 Change Percentage Change Property management services $ 153,473 $ (188,114 ) $ 341,587 (181."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Property owners pay management fees; patients pay for care.",
+  "evidence": "8 )% Total reportable segment loss $ (954,416 ) $ (15,620,698 ) $ (14,666,282 ) (93."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Property management services): property management services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001933021",
+ "issuerName": "Plutus Financial Group Limited",
+ "builtAt": "2026-11-16T05:42:51.974Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-022181",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-11",
+  "url": "https://www.sec.gov/Archives/edgar/data/1933021/000149315226022181/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "securities related services",
+   "products": [
+    "securities services"
+   ],
+   "description": "Provides securities-related services.",
+   "evidence": "SEGMENT INFORMATION The Company has three reportable segments: securities related services, asset management services and money lending services."
+  },
+  {
+   "name": "asset management services",
+   "products": [
+    "asset management"
+   ],
+   "description": "Provides asset management services.",
+   "evidence": "SEGMENT INFORMATION The Company has three reportable segments: securities related services, asset management services and money lending services."
+  },
+  {
+   "name": "money lending services",
+   "products": [
+    "money lending"
+   ],
+   "description": "Provides money lending services.",
+   "evidence": "SEGMENT INFORMATION The Company has three reportable segments: securities related services, asset management services and money lending services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay commissions, management and lending fees.",
+  "evidence": "Segments were identified based on the Company's internal reporting and how the chief operating decision maker (\"CODM\") assesses the performance of the business."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

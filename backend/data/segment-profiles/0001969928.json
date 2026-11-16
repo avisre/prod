@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "cik": "0001969928",
+ "issuerName": "TJGC Group Limited",
+ "builtAt": "2026-11-16T05:42:01.437Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-003078",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-22",
+  "url": "https://www.sec.gov/Archives/edgar/data/1969928/000118518526003078/tjgc20f033126.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Game developers pay for marketing and advertising.",
+  "evidence": "We provide services to mobile game developers, principally developers of mobile gaming applications or \"apps\" that gamers download from the developers"
+ },
+ "changes": [],
+ "dropped": [
+  "segment name not in text: mobile game marketing and advertising"
+ ],
+ "reader": "agent"
+}

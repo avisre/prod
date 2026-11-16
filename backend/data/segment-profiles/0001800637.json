@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001800637",
+ "issuerName": "RYTHM INC.",
+ "builtAt": "2026-11-16T05:42:05.296Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-023069",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1800637/000121390026023069/ea0277197-10k_rythm.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

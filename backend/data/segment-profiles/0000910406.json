@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000910406",
+ "issuerName": "THE HAIN CELESTIAL GROUP, INC.",
+ "builtAt": "2026-11-16T05:42:00.479Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-390505",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/910406/000119312526390505/hain-20260630.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

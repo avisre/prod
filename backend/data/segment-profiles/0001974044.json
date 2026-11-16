@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001974044",
+ "issuerName": "MoneyHero Limited",
+ "builtAt": "2026-11-16T05:42:03.244Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-049733",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1974044/000121390026049733/ea0287136-20f_moneyhero.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

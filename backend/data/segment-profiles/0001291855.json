@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001291855",
+ "issuerName": "SUPERCOM LTD.",
+ "builtAt": "2026-11-16T05:42:02.852Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-002268",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1291855/000117891326002268/zk2635110.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

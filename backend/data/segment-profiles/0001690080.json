@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001690080",
+ "issuerName": "Forum Markets, Incorporated",
+ "builtAt": "2026-11-16T05:42:03.762Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037888",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-01",
+  "url": "https://www.sec.gov/Archives/edgar/data/1690080/000121390026037888/ea0283286-10k_forum.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "digital asset operations",
+   "products": [
+    "digital assets"
+   ],
+   "description": "Runs its digital asset operations.",
+   "evidence": "The Company operates as a single reportable operating segment under ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns revenue from digital asset operations.",
+  "evidence": "Its operations are focused on digital asset operations, which represent the Company's primary revenue-generating activities, and all assets of the Company's continuing operations are related to this single operating segment."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

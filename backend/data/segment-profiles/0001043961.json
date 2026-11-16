@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001043961",
+ "issuerName": "PRECIPIO, INC.",
+ "builtAt": "2026-11-16T05:42:53.121Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-036878",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1043961/000110465926036878/prpo-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "pathology services",
+   "products": [],
+   "description": "Provides pathology and clinical laboratory services.",
+   "evidence": "​ Our Structure (Two Divisions): ​ We have a single operating segment but operate two business divisions that are complementary to each other: ​ Pathology Services Division ​ Our pathology services division provides spe"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and clinics pay for pathology and diagnostic work.",
+  "evidence": "Through these activities, we generate clinical data, operational experience, and specimen access that support ongoing assay development and product improvement."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (pathology services): pathology services"
+ ],
+ "reader": "agent"
+}

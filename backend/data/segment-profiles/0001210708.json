@@ -1,0 +1,55 @@
+{
+ "version": 1,
+ "cik": "0001210708",
+ "issuerName": "Star Equity Holdings, Inc.",
+ "builtAt": "2026-11-16T05:42:53.038Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001210708-26-000038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1210708/000121070826000038/strr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Building Solutions",
+   "products": [
+    "building products"
+   ],
+   "description": "Supplies building products.",
+   "evidence": "(\"Hudson\")) is a diversified multi-industry holding company operating through four reportable segments: Building Solutions, Business Services, Energy Services, and Investments."
+  },
+  {
+   "name": "Business Services",
+   "products": [],
+   "description": "Provides business services.",
+   "evidence": "(\"Hudson\")) is a diversified multi-industry holding company operating through four reportable segments: Building Solutions, Business Services, Energy Services, and Investments."
+  },
+  {
+   "name": "Energy Services",
+   "products": [
+    "drilling tools"
+   ],
+   "description": "Provides energy services and drilling tools.",
+   "evidence": "(\"Hudson\")) is a diversified multi-industry holding company operating through four reportable segments: Building Solutions, Business Services, Energy Services, and Investments."
+  },
+  {
+   "name": "Investments",
+   "products": [],
+   "description": "Holds investments.",
+   "evidence": "(\"Hudson\")) is a diversified multi-industry holding company operating through four reportable segments: Building Solutions, Business Services, Energy Services, and Investments."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Its operating businesses sell products and services to customers.",
+  "evidence": "The Energy Services segment consists of Alliance Drilling Tools, Inc."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Business Services): business services",
+  "product not in text (Investments): investments"
+ ],
+ "reader": "agent"
+}

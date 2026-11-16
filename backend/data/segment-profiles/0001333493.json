@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001333493",
+ "issuerName": "EHEALTH, INC.",
+ "builtAt": "2026-11-16T05:42:50.582Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001333493-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1333493/000133349326000010/ehth-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Medicare",
+   "products": [],
+   "description": "Brokers Medicare plans.",
+   "evidence": "Our Business Model Our management evaluates our business performance and manages our operations in the following two reportable segments: (1) the Medicare segment and (2) the Employer and Individual (\"E&I\") segment."
+  },
+  {
+   "name": "Employer and Individual",
+   "products": [],
+   "description": "Brokers employer and individual plans.",
+   "evidence": "Our Business Model Our management evaluates our business performance and manages our operations in the following two reportable segments: (1) the Medicare segment and (2) the Employer and Individual (\"E&I\") segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Insurance carriers pay commissions for policies written.",
+  "evidence": "As a health insurance agency, we derive our revenue from consideration paid to us by our health insurance carrier partners, who are our customers, for our services"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Medicare): Medicare insurance agency services",
+  "product not in text (Employer and Individual): health insurance agency services"
+ ],
+ "reader": "agent"
+}

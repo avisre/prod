@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001822359",
+ "issuerName": "DocGo Inc.",
+ "builtAt": "2026-11-16T05:42:02.642Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-018214",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1822359/000162828026018214/dcgo-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mobile Health Services",
+   "products": [],
+   "description": "Provides mobile health services.",
+   "evidence": "2 Table of Contents Our Segments DocGo has three reporting segments: Mobile Health Services, Transportation Services and Corporate."
+  },
+  {
+   "name": "Transportation Services",
+   "products": [
+    "medical transportation"
+   ],
+   "description": "Provides medical transportation.",
+   "evidence": "2 Table of Contents Our Segments DocGo has three reporting segments: Mobile Health Services, Transportation Services and Corporate."
+  },
+  {
+   "name": "Corporate",
+   "products": [],
+   "description": "Holds corporate costs.",
+   "evidence": "2 Table of Contents Our Segments DocGo has three reporting segments: Mobile Health Services, Transportation Services and Corporate."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Municipalities and health systems pay for care and transport.",
+  "evidence": "While no longer core to our growth strategy, we anticipate some level of revenue from government contract work in 2026."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Mobile Health Services): mobile health services"
+ ],
+ "reader": "agent"
+}

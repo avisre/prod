@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000926423",
+ "issuerName": "MIND TECHNOLOGY, INC",
+ "builtAt": "2026-11-16T05:42:01.387Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-012831",
+  "periodEnd": "2026-01-31",
+  "filingDate": "2026-04-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/926423/000143774926012831/mind20260131_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Seamap",
+   "products": [],
+   "description": "Provides technology to oceanographic and seismic industries.",
+   "evidence": "We operate in one segment, Seamap."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Energy and marine customers buy its survey technology.",
+  "evidence": "We provide technology to the oceanographic, hydrographic, seismic and maritime security industries."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Seamap): seismic and oceanographic technology"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001026980",
+ "issuerName": "ASIA PACIFIC WIRE & CABLE CORPORATION LIMITED",
+ "builtAt": "2026-11-16T05:42:04.814Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001628280-26-028187",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1026980/000162828026028187/apwc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Thailand",
+   "products": [
+    "wire and cable"
+   ],
+   "description": "Makes and sells wire and cable in Thailand.",
+   "evidence": ") Reporting Segments and Geographic Regions We operate our business in three reporting segments: Thailand, North Asia, and ROW."
+  },
+  {
+   "name": "North Asia",
+   "products": [
+    "wire and cable"
+   ],
+   "description": "Makes and sells wire and cable in North Asia.",
+   "evidence": ") Reporting Segments and Geographic Regions We operate our business in three reporting segments: Thailand, North Asia, and ROW."
+  },
+  {
+   "name": "ROW",
+   "products": [
+    "wire and cable"
+   ],
+   "description": "Makes and sells wire and cable in the rest of the world.",
+   "evidence": ") Reporting Segments and Geographic Regions We operate our business in three reporting segments: Thailand, North Asia, and ROW."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Construction and industrial customers buy its wire and cable.",
+  "evidence": "Risk Factors: Risks Related to the Regions in Which We Operate\" for further discussion."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
