@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001453593",
  "issuerName": "XTANT MEDICAL HOLDINGS, INC.",
- "builtAt": "2026-11-16T05:42:01.713Z",
+ "builtAt": "2026-11-16T11:40:23.823Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013792",
@@ -10,11 +10,35 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1453593/000149315226013792/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Orthobiologics",
+   "products": [
+    "OsteoSponge",
+    "OsteoSelect DBM Putty",
+    "3Demin",
+    "OsteoFactor Pro",
+    "OsteoVive Plus",
+    "nanOss Strata",
+    "Trivium",
+    "CollagenX"
+   ],
+   "description": "Designs, develops and sells orthobiologics and spinal implant products for orthopedic spine surgeons and neurosurgeons, mainly in the United States.",
+   "evidence": "The Company operates in one reportable segment with its net revenue derived primarily from the sale of orthobiologics and spinal implant products across North America, Europe, Asia Pacific, and Latin America."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Hospitals issue purchase orders after surgeries use the products, and stocking resellers buy directly on standard payment terms.",
+  "evidence": "For each surgical procedure, the sales agent reports use of the product by the hospital and, as soon as practicable thereafter, ensures that the hospital provides a purchase order to the Company."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its Coflex and CoFix assets and its hardware business outside the United States.",
+   "evidence": "On December 1, 2025, we completed the sale of certain assets relating to our Coflex and CoFix products"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

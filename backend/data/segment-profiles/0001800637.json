@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001800637",
  "issuerName": "RYTHM INC.",
- "builtAt": "2026-11-16T05:42:05.296Z",
+ "builtAt": "2026-11-16T11:43:26.787Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-023069",
@@ -10,11 +10,39 @@
   "filingDate": "2026-03-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1800637/000121390026023069/ea0277197-10k_rythm.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hemp-derived THC products",
+   "products": [
+    "RYTHM",
+    "incredibles",
+    "Dogwalkers",
+    "Beboe",
+    "&Shine",
+    "Doctor Solomon's",
+    "Good Green",
+    "Señorita"
+   ],
+   "description": "Sells hemp-derived THC beverages and edible products under its brands, and licenses those brands to third parties.",
+   "evidence": "The RYTHM and Señorita brands offer consumers hemp-derived THC beverages and are sold at top retailers, online and through direct-to-retail partnerships."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Retailers and consumers pay for hemp-derived THC products, and licensees pay a licensing fee to manufacture and distribute the company's brands.",
+  "evidence": "In addition to the sale of hemp-derived products (\"Non-licensing Revenue\"), the Company licenses its brands to be manufactured and distributed in exchange for a licensing fee (\"Licensing Revenue\")."
+ },
+ "changes": [
+  {
+   "text": "The company exited its extraction business in 2025.",
+   "evidence": "Prior to the exit of the extraction business on March 30, 2025, the Company's comprehensive extraction product line (\"the Extraction Business\"), which included hydrocarbon, alcohol, solventless, post-processing, and lab equipment, empowered cannabis producers to maximize the quantity and quality of extract required for premium concentrates."
+  },
+  {
+   "text": "The company sold its Agrify Vertical Farming Units business in 2024.",
+   "evidence": "Additionally, prior to its sale on December 31, 2024, the Company's proprietary micro-environment-controlled Agrify Vertical Farming Units (\"VFUs\") enabled cultivators to produce high quality products for the cannabis industry."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

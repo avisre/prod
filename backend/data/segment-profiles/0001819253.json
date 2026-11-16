@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001819253",
  "issuerName": "biote Corp.",
- "builtAt": "2026-11-16T05:42:00.619Z",
+ "builtAt": "2026-11-16T11:39:07.645Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-106099",
@@ -10,10 +10,24 @@
   "filingDate": "2026-03-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1819253/000119312526106099/btmd-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Practice-building business",
+   "products": [
+    "Biote Method",
+    "Biote-branded dietary supplements",
+    "bioidentical hormone pellets"
+   ],
+   "description": "Practice-building business giving Biote-certified practitioners training, practice tools and dietary supplements for hormone optimization.",
+   "evidence": "We operate a high-growth practice-building business within the hormone optimization space."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Partnered clinics pay procedure-based fees and long-term service agreements, and dietary supplements are sold through certified practitioners.",
+  "evidence": "We generate substantially all of our revenue from long-term service agreements and sales of Biote-branded dietary supplements."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

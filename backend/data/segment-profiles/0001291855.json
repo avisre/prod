@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001291855",
  "issuerName": "SUPERCOM LTD.",
- "builtAt": "2026-11-16T05:42:02.852Z",
+ "builtAt": "2026-11-16T11:41:35.209Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001178913-26-002268",
@@ -10,10 +10,44 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1291855/000117891326002268/zk2635110.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "e-Gov",
+   "products": [
+    "e-Government platforms",
+    "Multi-ID documents"
+   ],
+   "description": "Designs and issues secure identification documents and digital identity solutions to governments and national agencies.",
+   "evidence": "Through our proprietary e-Government platforms and innovative solutions for traditional and biometrics enrollment, personalization, issuance and border control services, we have helped governments and national agencies design and issue secured multi-identification, or Multi-ID, documents and robust digital identity solutions to their citizens, visitors and Lands."
+  },
+  {
+   "name": "IoT",
+   "products": [
+    "Pure Security Suite",
+    "Puretag",
+    "PureCom",
+    "Pure Monitor",
+    "PureTrack"
+   ],
+   "description": "Tracks and monitors people or objects in real time for public safety, healthcare, homecare and transportation customers.",
+   "evidence": "Our IoT products and solutions reliably identify, track and monitor people or objects in real time, enabling our customers to detect unauthorized movement of people, vehicles and other monitored objects."
+  },
+  {
+   "name": "Cyber Security",
+   "products": [
+    "Cyber Security software products",
+    "Safend"
+   ],
+   "description": "Provides cyber security software, including endpoint data protection that guards against corporate data loss and theft.",
+   "evidence": "During the first quarter of 2016, we acquired Safend, an international provider of cutting edge endpoint data protection guarding against corporate data loss and theft through content discovery and inspection, encryption methodologies, and comprehensive device and port control."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Governments, enterprises and organizations pay for identification, IoT and cyber security systems, along with deployment, service and maintenance contracts.",
+  "evidence": "Remaining performance obligations represent the transaction price of system deployment, service and maintenance contracts for which work has not been performed as of the period end date."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

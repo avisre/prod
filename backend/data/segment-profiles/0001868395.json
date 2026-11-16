@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001868395",
  "issuerName": "Planet Image International Limited",
- "builtAt": "2026-11-16T05:42:04.575Z",
+ "builtAt": "2026-11-16T11:42:41.418Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-037444",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1868395/000121390026037444/ea0283593-20f_planet.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Compatible toner cartridges",
+   "products": [
+    "compatible toner cartridge products",
+    "ancillary components of toner cartridges",
+    "ODM products",
+    "white-label products",
+    "branded products"
+   ],
+   "description": "Manufactures and sells compatible toner cartridges to dealers, ODM customers and online retail customers.",
+   "evidence": "The Group has determined that there is only one reportable operating segment since the manufacturing and sales of products are viewed as an integrated business process and allocation of the resources and assessment of the performance are not separately evaluated by the Group's CODM."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Dealers, ODM customers and online retail customers pay the company for compatible toner cartridges and certain ancillary components of toner cartridges.",
+  "evidence": "We generate revenue primarily from the sales of compatible toner cartridges and, to a lesser extent, from the sales of certain ancillary components of toner cartridges to customers offline and online."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001495231",
  "issuerName": "IZEA Worldwide, Inc.",
- "builtAt": "2026-11-16T05:42:01.615Z",
+ "builtAt": "2026-11-16T11:40:12.187Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001495231-26-000010",
@@ -10,11 +10,32 @@
   "filingDate": "2026-03-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1495231/000149523126000010/izea-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Influencer marketing",
+   "products": [
+    "Managed Services",
+    "SaaS Services",
+    "Flex",
+    "Marketplace",
+    "FormAI"
+   ],
+   "description": "Delivers creator economy solutions for brands through managed services and proprietary technology platforms, for enterprise brands, agencies and creators.",
+   "evidence": "IZEA is a technology-enabled influencer marketing company that delivers creator economy solutions for brands through managed services supported by proprietary technology that facilitates engagement and collaboration with social influencers and content creators."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Marketers such as brands, agencies or partners pay for managed influencer campaigns; limited SaaS access and transaction fees add a smaller share.",
+  "evidence": "We generate revenue primarily from our Managed Services when a marketer (typically a brand, agency, or partner) pays us to provide custom content, influencer marketing, amplification, or other campaign management services (\"Managed Services\")."
+ },
+ "changes": [
+  {
+   "text": "The Company divested its Hoozu business unit in December 2024, ending its second reporting unit.",
+   "evidence": "On December 18, 2024, the Company completed the divestiture of Hoozu Holdings PTY Ltd. (\"Hoozu\") through its sale to a private Australian company."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

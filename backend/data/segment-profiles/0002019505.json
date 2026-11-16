@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002019505",
  "issuerName": "Health In Tech, Inc.",
- "builtAt": "2026-11-16T05:42:05.395Z",
+ "builtAt": "2026-11-16T11:43:27.209Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-034211",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-25",
   "url": "https://www.sec.gov/Archives/edgar/data/2019505/000121390026034211/ea0283147-10k_health.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Health insurance marketplace",
+   "products": [
+    "eDIYBS",
+    "HI Card",
+    "HI Performance Network",
+    "Stone Mountain Risk, LLC",
+    "International Captive Exchange, LLC"
+   ],
+   "description": "Online marketplace where licensed brokers sell self-funded benefits plans and stop-loss policies to businesses.",
+   "evidence": "The Company's chief operating decision maker (\"CODM\"), the Chief Executive Officer and executive committee, manages the Company's business activities as a single operating and reportable segment from continuing operations at the consolidated level."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Stop-loss insurance carriers pay the company for its underwriting, program and claims services.",
+  "evidence": "For the year ended December 31, 2025, one stop-loss insurance carrier (\"Carrier A\") individually represented greater than 10% of Company's total gross revenues, accounting for 27.3 % of total gross revenues."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

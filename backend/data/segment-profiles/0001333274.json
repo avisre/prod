@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001333274",
  "issuerName": "MERCER INTERNATIONAL INC.",
- "builtAt": "2026-11-16T05:42:01.476Z",
+ "builtAt": "2026-11-16T11:40:01.981Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-048855",
@@ -10,11 +10,46 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1333274/000119312526048855/merc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Pulp",
+   "products": [
+    "electricity",
+    "chemicals"
+   ],
+   "description": "Makes and sells pulp, electricity and chemicals from its pulp mills.",
+   "evidence": "Pulp – consists of the manufacture, sale and distribution of pulp, electricity and chemicals at our pulp mills."
+  },
+  {
+   "name": "Solid Wood",
+   "products": [
+    "lumber",
+    "CLT",
+    "glulam",
+    "finger joint lumber",
+    "wood pallets",
+    "biofuels",
+    "wood residuals",
+    "electricity"
+   ],
+   "description": "Makes and sells lumber, manufactured products, pallets, biofuels and wood residuals from sawmills and mass timber facilities.",
+   "evidence": "Solid Wood – consists of the manufacture, sale and distribution of lumber, manufactured products (including CLT, glulam and finger joint lumber), wood pallets, electricity, biofuels and wood residuals at our sawmills and other facilities in Germany and our mass timber facilities in North America."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers buy pulp, lumber, pallets, biofuels and manufactured products; regional utilities and electrical markets buy surplus energy.",
+  "evidence": "All of our mills generate and sell surplus energy to regional utilities or the regional electrical market."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the company disposed of its joint venture interest in Cariboo Pulp & Paper Company.",
+   "evidence": "In March 2024, we disposed of our 50% joint venture interest in the Cariboo Pulp & Paper Company (\"CPP\")."
+  }
+ ],
+ "dropped": [
+  "product not in text (Pulp): Pulp"
+ ],
  "reader": "agent"
 }

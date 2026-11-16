@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001275158",
  "issuerName": "NOODLES & COMPANY",
- "builtAt": "2026-11-16T05:42:00.924Z",
+ "builtAt": "2026-11-16T11:39:50.765Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001275158-26-000021",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1275158/000127515826000021/ndls-20251230.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fast-casual restaurants",
+   "products": [
+    "noodle and pasta dishes",
+    "soups",
+    "salads",
+    "appetizers"
+   ],
+   "description": "Fast-casual restaurants serving globally-inspired noodle and pasta dishes, soups, salads and appetizers for lunch and dinner.",
+   "evidence": "The Company operates its business as one operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Guests pay for food at company-owned restaurants, and franchisees pay royalties and fees for franchise restaurants.",
+  "evidence": "The one reportable segment derives its revenue from company-owned restaurants and franchise owned restaurants."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

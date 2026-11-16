@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001603993",
  "issuerName": "AIOS Tech Inc.",
- "builtAt": "2026-11-16T05:42:06.729Z",
+ "builtAt": "2026-11-16T11:44:29.853Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-045606",
@@ -10,11 +10,40 @@
   "filingDate": "2026-04-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1603993/000121390026045606/ea0282962-20f_aiostech.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IT services",
+   "products": [
+    "data solutions",
+    "AI-powered services",
+    "AI-driven IT solutions",
+    "customized financial technology services",
+    "data-driven full-stack solutions"
+   ],
+   "description": "Provides AI-powered technology and data-driven professional services, including IT services and data solutions, for corporate and financial clients.",
+   "evidence": "We generate revenue primarily by providing IT services, data solutions, and AI-powered services and technology solutions to our customers and partners for service fees."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Clients pay service fees to the company for IT services, data solutions and AI-powered technology solutions.",
+  "evidence": "We generate revenue primarily by providing IT services, data solutions, and AI-powered services and technology solutions to our customers and partners for service fees."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company discontinued its legacy SME financing and supply chain businesses in mainland China.",
+   "evidence": "As a result of this transaction, we have discontinued our legacy SME financing services business in mainland China and supply chain businesses."
+  },
+  {
+   "text": "In 2025 the company began its AI and technology-enabled professional services business by acquiring YD Network.",
+   "evidence": "On December 1, 2025, we commenced our new business segment in artificial intelligence and technology-enabled professional services through the acquisition of YD Network Technology Company Limited, a company specialized in providing information technology services in Hong Kong, for a total consideration of US$50,000."
+  },
+  {
+   "text": "In 2026 the company renamed itself AIOS Tech Inc., completing its exit from legacy business lines.",
+   "evidence": "This rebranding marks the completion of our exit from legacy business lines and our full transition to the artificial intelligence and information technology sectors."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

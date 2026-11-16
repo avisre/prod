@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001783407",
  "issuerName": "Sound Group Inc.",
- "builtAt": "2026-11-16T05:42:05.908Z",
+ "builtAt": "2026-11-16T11:43:53.381Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019716",
@@ -10,10 +10,22 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1783407/000149315226019716/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online communities",
+   "products": [
+    "AI applications"
+   ],
+   "description": "Runs audio-centric online communities and AI applications delivered through its direct-to-user product portfolio.",
+   "evidence": "In terms of our AI applications business, we compete with companies offering AI-powered productivity tools, voice-based applications, and general-purpose AI solutions."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The company earns revenue from its advertising business, which is the typical source of its accounts receivable.",
+  "evidence": "Accounts receivable is typically unsecured and is generally derived from revenue earned from advertising business."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

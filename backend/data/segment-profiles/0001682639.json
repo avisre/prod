@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001682639",
  "issuerName": "HYPERION DEFI, INC.",
- "builtAt": "2026-11-16T05:42:06.118Z",
+ "builtAt": "2026-11-16T11:43:50.378Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-036286",
@@ -10,10 +10,33 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1682639/000110465926036286/hypd-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Ophthalmic Technology",
+   "products": [
+    "Optejet",
+    "Mydcombi"
+   ],
+   "description": "Develops ophthalmic technology, centred on the Optejet ophthalmic liquid delivery device.",
+   "evidence": "At the same time, we continue to execute on our planned completion of development and registration of our Optejet ophthalmic liquid delivery device."
+  },
+  {
+   "name": "Digital Assets",
+   "products": [
+    "HYPE",
+    "HAUS",
+    "HiHYPE"
+   ],
+   "description": "Holds and stakes HYPE, the native token of Hyperliquid, and offers HYPE-based services to clients.",
+   "evidence": "Under its operational policy, the Company utilizes staked HYPE to serve as the foundation for certain revenue-generating strategies, including the Company's proprietary HAUS product."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "The company earns staking yields on its HYPE and a share of fee savings under HYPE asset-use service agreements.",
+  "evidence": "Staking also provides revenues to the Company in the form of staking yields; however, the required seven-day unlocking period may limit the Company's liquidity while its HYPE remains staked."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

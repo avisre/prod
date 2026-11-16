@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001968043",
  "issuerName": "NEW CENTURY LOGISTICS (BVI) LIMITED",
- "builtAt": "2026-11-16T05:42:04.985Z",
+ "builtAt": "2026-11-16T11:42:53.511Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-006875",
@@ -10,10 +10,24 @@
   "filingDate": "2026-02-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1968043/000149315226006875/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Forwarding services",
+   "products": [
+    "air freight forwarding services",
+    "ocean freight forwarding services",
+    "other services"
+   ],
+   "description": "Forwards air and ocean cargo and provides warehousing and distribution for customers in Hong Kong.",
+   "evidence": "Based on the management's assessment, the Company determined that it has only one operating segment which is the provision of forwarding services and therefore one reportable segment as defined by ASC 280."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for air and ocean freight forwarding services and for warehousing and distribution services.",
+  "evidence": "We derive our revenue mainly from freight forwarding services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

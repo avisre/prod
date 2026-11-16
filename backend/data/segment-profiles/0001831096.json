@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001831096",
  "issuerName": "Great Elm Group, Inc.",
- "builtAt": "2026-11-16T05:42:00.632Z",
+ "builtAt": "2026-11-16T11:39:30.914Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-368246",
@@ -10,11 +10,41 @@
   "filingDate": "2026-08-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1831096/000119312526368246/geg-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Alternative Credit",
+   "products": [
+    "direct lending",
+    "CLOs",
+    "Factoring",
+    "Asset Based Lending",
+    "Healthcare"
+   ],
+   "description": "Earns income and preserves capital by investing in debt, direct lending, CLOs and specialty finance such as factoring.",
+   "evidence": "Alternative Credit - focused on income generation and capital preservation through investment in debt and income-generating securities, direct lending, CLOs, and specialty finance businesses including Factoring, Asset Based Lending and Healthcare"
+  },
+  {
+   "name": "Real Estate",
+   "products": [
+    "construction business",
+    "build-to-suit development initiatives"
+   ],
+   "description": "Full-service, end-to-end real estate platform for the industrial outdoor storage sector, combining investment expertise and turnkey execution.",
+   "evidence": "Real Estate - full service, end-to-end real estate platform combining investment expertise and turnkey execution capabilities for IOS sector"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "The investment vehicles GECC and Monomoy UpREIT pay management, property management, incentive and administration fees under investment management agreements.",
+  "evidence": "GECM and MCRE, our wholly-owned subsidiaries, earn revenue through investment management agreements with each investment vehicle that provide for management fees, property management fees, incentive fees and/or administration fees."
+ },
+ "changes": [
+  {
+   "text": "In fiscal 2026, the Company realigned its reportable segments into Alternative Credit and Real Estate, recasting prior periods.",
+   "evidence": "As a result of this change in segment reporting, the Company retrospectively recast prior period results, by segment, to conform to the current period presentation."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

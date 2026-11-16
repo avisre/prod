@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001976908",
  "issuerName": "JIADE LIMITED",
- "builtAt": "2026-11-16T05:42:02.327Z",
+ "builtAt": "2026-11-16T11:40:58.836Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-041971",
@@ -10,11 +10,49 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1976908/000110465926041971/jdzg-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "status": "one-segment-mismatch",
+ "segments": [
+  {
+   "name": "One-stop comprehensive adult education supporting services",
+   "products": [],
+   "description": "Provides one-stop comprehensive supporting services for adult education, sold to clients in China.",
+   "evidence": "For the year ended December 31, 2025, the Group determined that it operates in four segments: (i) one-stop comprehensive adult education supporting services, (ii) safety technology training services, (iii) online course services and (iv) customized equipment sales."
+  },
+  {
+   "name": "Safety technology training services",
+   "products": [],
+   "description": "Provides safety technology training services to clients in China.",
+   "evidence": "For the year ended December 31, 2025, the Group determined that it operates in four segments: (i) one-stop comprehensive adult education supporting services, (ii) safety technology training services, (iii) online course services and (iv) customized equipment sales."
+  },
+  {
+   "name": "Online course services",
+   "products": [],
+   "description": "Provides online course services to clients in China.",
+   "evidence": "For the year ended December 31, 2025, the Group determined that it operates in four segments: (i) one-stop comprehensive adult education supporting services, (ii) safety technology training services, (iii) online course services and (iv) customized equipment sales."
+  },
+  {
+   "name": "Customized equipment sales",
+   "products": [],
+   "description": "Sells customized equipment to clients in China.",
+   "evidence": "For the year ended December 31, 2025, the Group determined that it operates in four segments: (i) one-stop comprehensive adult education supporting services, (ii) safety technology training services, (iii) online course services and (iv) customized equipment sales."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Clients, mostly in China, pay the company for adult education support, safety training, online courses and customized equipment.",
+  "evidence": "The Group generates substantially all of its revenue from clients in China."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company moved from one reportable segment to four reportable segments.",
+   "evidence": "Based on the management's assessment, the Group considers itself to have a single operating segment and one reportable segment for the year ended December 31, 2023 and 2024."
+  }
+ ],
+ "dropped": [
+  "product not in text (One-stop comprehensive adult education supporting services): one-stop comprehensive adult education supporting services",
+  "product not in text (Safety technology training services): safety technology training services",
+  "product not in text (Online course services): online course services",
+  "product not in text (Customized equipment sales): customized equipment sales"
+ ],
  "reader": "agent"
 }

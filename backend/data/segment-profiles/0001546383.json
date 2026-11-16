@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001546383",
  "issuerName": "JX Luxventure Group Inc.",
- "builtAt": "2026-11-16T05:42:02.149Z",
+ "builtAt": "2026-11-16T11:40:31.715Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-057231",
@@ -10,10 +10,42 @@
   "filingDate": "2026-05-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1546383/000121390026057231/ea0289610-20f_jxluxven.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tourism products",
+   "products": [
+    "airline tickets",
+    "tourism packages",
+    "luxury travel experience packages"
+   ],
+   "description": "Sells airline tickets and luxury travel packages to business clients' online platforms.",
+   "evidence": "Management currently identifies the Company's three sales models as operating segments, which are tourism products, technology and cross-border merchandise."
+  },
+  {
+   "name": "Technology",
+   "products": [
+    "Software Solution for Tourism Cross-border operation",
+    "software development and technology support services"
+   ],
+   "description": "Provides software solutions and technology support for tourism cross-border operations.",
+   "evidence": "The focus on our technology solution has enabled us to achieve significant growth since 2020 by facilitating tourism cross-border commerce and offering services in tourism and airline tickets."
+  },
+  {
+   "name": "Cross-border merchandise",
+   "products": [
+    "Cross-border products",
+    "duty-free and cross-border consumer goods"
+   ],
+   "description": "Wholesales duty-free and cross-border consumer goods, with logistics and supply chain services.",
+   "evidence": "In 2024, the Company expanded its business operations in cross-border merchandize segment, and during 2025, it continues focusing on wholesale trade sector and specializing in duty-free and cross-border consumer goods."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for airline tickets, tourism packages, technology services and cross-border consumer goods the company sells.",
+  "evidence": "Included in the \"travel service\", majority of the revenue amount represents the revenue for reselling of air-tickets requests by airline ticket agencies."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

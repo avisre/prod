@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001779578",
  "issuerName": "BGM Group Ltd",
- "builtAt": "2026-11-16T05:42:03.141Z",
+ "builtAt": "2026-11-16T11:41:36.424Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-085247",
@@ -10,11 +10,45 @@
   "filingDate": "2026-07-21",
   "url": "https://www.sec.gov/Archives/edgar/data/1779578/000110465926085247/bgm-20250930x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diversified Pharmaceutical and Allied Products",
+   "products": [
+    "heparin products",
+    "sausage casings"
+   ],
+   "description": "Manufactures and sells diversified pharmaceutical and allied products in China through the WFOE and the VIE and its subsidiaries.",
+   "evidence": "The sales of diversified pharmaceutical and allied products, AI Solutions and Insurance Business accounted for 62%, 9% and 29%, respectively, of this segment's total sales for the year ended September 30, 2025, and 100%, 0% and 0%, respectively, of such segment's total sales for the year ended September 30, 2024."
+  },
+  {
+   "name": "AI Solutions",
+   "products": [],
+   "description": "Sells AI solutions through a business acquired in 2025; it had no revenue in the prior year.",
+   "evidence": "The increase in sales of AI Solutions was mainly due to the acquisition of the AI solution company in 2025."
+  },
+  {
+   "name": "Insurance Business",
+   "products": [],
+   "description": "Runs an insurance business acquired in 2025; it had no revenue in the prior year.",
+   "evidence": "The increase in income is due to the acquisition of an insurance business in 2025."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay the company for sales of diversified pharmaceutical and allied products, AI solutions and insurance business.",
+  "evidence": "The sales of diversified pharmaceutical and allied products, AI Solutions and Insurance Business accounted for 62%, 9% and 29%, respectively, of this segment's total sales for the year ended September 30, 2025, and 100%, 0% and 0%, respectively, of such segment's total sales for the year ended September 30, 2024."
+ },
+ "changes": [
+  {
+   "text": "The AI Solutions segment was added in 2025 through an acquisition, with no revenue in 2024.",
+   "evidence": "The increase in sales of AI Solutions was mainly due to the acquisition of the AI solution company in 2025."
+  },
+  {
+   "text": "The Insurance Business segment was added in 2025 through an acquisition, with no revenue in 2024.",
+   "evidence": "The increase in income is due to the acquisition of an insurance business in 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

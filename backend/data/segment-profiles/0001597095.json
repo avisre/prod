@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001597095",
  "issuerName": "Tuniu Corp",
- "builtAt": "2026-11-16T05:42:00.839Z",
+ "builtAt": "2026-11-16T11:39:34.823Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-045132",
@@ -10,11 +10,28 @@
   "filingDate": "2026-04-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1597095/000110465926045132/tour-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "travel - related business",
+   "products": [
+    "travel agency business"
+   ],
+   "description": "Provides travel-related services through an online platform and travel agencies, mainly in the PRC.",
+   "evidence": "This segment is engaged in provision of travel - related business."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers, including individuals, corporate customers and travel agents, usually prepay the company for travel services.",
+  "evidence": "The Group has no significant concentrations of credit risk with respect to its customers, as customers usually prepay for travel services."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company sold subsidiaries engaged in Japan tour business.",
+   "evidence": "During the year ended December 31, 2024, the Group disposed 100 % equity interests in certain subsidiaries engaged in Japan tour business, which were acquired by the Group before 2020, and the disposal activities are presented in aggregate as follows:"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

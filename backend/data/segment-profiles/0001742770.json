@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001742770",
  "issuerName": "Viomi Technology Co., Ltd",
- "builtAt": "2026-11-16T05:42:02.196Z",
+ "builtAt": "2026-11-16T11:40:37.900Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-018435",
@@ -10,11 +10,28 @@
   "filingDate": "2026-04-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1742770/000149315226018435/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home water solutions",
+   "products": [
+    "Home water solution businesses products"
+   ],
+   "description": "Designs, develops, manufactures and markets home water solution products, sold mainly to customers in the PRC.",
+   "evidence": "The Group operates as one operating and reportable segment and its sole business activity consists of the design, development, manufacturing and marketing of Home water solution businesses products."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly in the PRC, pay for home water solution products and related services, recognised when control of the goods passes to them.",
+  "evidence": "The Group provides Home water solution businesses products mainly to its customers in the PRC and manages its business activities on a consolidated basis."
+ },
+ "changes": [
+  {
+   "text": "In 2024 the Group agreed to dispose of Foshan Viomi and its subsidiaries, which were treated as discontinued operations.",
+   "evidence": "On July 19, 2024, the Group entered into definitive agreements with Mr. Chen, and an entity controlled by Mr. Chen (Refer to Note 1)."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

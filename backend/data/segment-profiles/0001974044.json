@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001974044",
  "issuerName": "MoneyHero Limited",
- "builtAt": "2026-11-16T05:42:03.244Z",
+ "builtAt": "2026-11-16T11:41:46.856Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-049733",
@@ -10,11 +10,51 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1974044/000121390026049733/ea0287136-20f_moneyhero.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Hong Kong",
+   "products": [
+    "insurance and wealth products",
+    "credit cards vertical"
+   ],
+   "description": "Online financial comparison platform serving users in Hong Kong, earning from internet leads, insurance commissions and marketing.",
+   "evidence": "Following the cessation of consumer-facing operations in Malaysia and Other Asia in prior years, the Company has four operating and reportable segments in 2025: Hong Kong, Singapore, the Philippines, and Taiwan."
+  },
+  {
+   "name": "Singapore",
+   "products": [
+    "personal loans",
+    "wealth",
+    "insurance"
+   ],
+   "description": "Online financial comparison platform serving users in Singapore, earning from internet leads, insurance commissions and marketing.",
+   "evidence": "This growth was primarily driven by higher performance across our non-credit card verticals, including personal loans, wealth and insurance, which contributed to an increase in internet leads generation and marketing service income, as well as insurance commission income."
+  },
+  {
+   "name": "Philippines",
+   "products": [],
+   "description": "Online financial comparison platform serving users in the Philippines, earning from internet leads and marketing services.",
+   "evidence": "Following the cessation of consumer-facing operations in Malaysia and Other Asia in prior years, the Company has four operating and reportable segments in 2025: Hong Kong, Singapore, the Philippines, and Taiwan."
+  },
+  {
+   "name": "Taiwan",
+   "products": [],
+   "description": "Online financial comparison platform serving users in Taiwan, earning from internet leads and marketing services.",
+   "evidence": "Following the cessation of consumer-facing operations in Malaysia and Other Asia in prior years, the Company has four operating and reportable segments in 2025: Hong Kong, Singapore, the Philippines, and Taiwan."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Financial institution customers pay for internet leads and marketing services, generally within one to three months.",
+  "evidence": "The integrated marketing services performance obligation is generally satisfied over time as the services are mainly provided to the financial institution customers and payment is generally due within one to three months."
+ },
+ "changes": [
+  {
+   "text": "Consumer-facing operations in Malaysia ceased in the third quarter of 2024, so Malaysia is no longer a reportable segment in 2025.",
+   "evidence": "We ceased our operations in Thailand in 2022 and our consumer-facing operations in Malaysia in the third quarter of 2024 to strategically invest and consolidate our business to key markets with high growth potential."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001738827",
  "issuerName": "KLX Energy Services Holdings, Inc.",
- "builtAt": "2026-11-16T05:42:02.509Z",
+ "builtAt": "2026-11-16T11:41:04.384Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001738827-26-000013",
@@ -10,10 +10,47 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/1738827/000173882726000013/klxe-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Rocky Mountains",
+   "products": [
+    "Drilling",
+    "Completion",
+    "Production",
+    "Intervention"
+   ],
+   "description": "Provides drilling, completion, production and intervention oilfield services in the Rocky Mountains basins for onshore oil and gas companies.",
+   "evidence": "The Company's reportable segments, which are also its operating segments, are comprised of the Southwest Region (the Permian Basin and the Eagle Ford Shale), the Rocky Mountains Region (the Bakken, Williston, DJ, Uinta, Powder River, Piceance and Niobrara basins) and the Northeast/Mid-Con Region (the Marcellus and Utica Shale as well as the Mid-Continent STACK and SCOOP and Haynesville Shale)."
+  },
+  {
+   "name": "Southwest",
+   "products": [
+    "Drilling",
+    "Completion",
+    "Production",
+    "Intervention"
+   ],
+   "description": "Provides drilling, completion, production and intervention oilfield services in the Permian Basin and Eagle Ford Shale for onshore oil and gas companies.",
+   "evidence": "The Company's reportable segments, which are also its operating segments, are comprised of the Southwest Region (the Permian Basin and the Eagle Ford Shale), the Rocky Mountains Region (the Bakken, Williston, DJ, Uinta, Powder River, Piceance and Niobrara basins) and the Northeast/Mid-Con Region (the Marcellus and Utica Shale as well as the Mid-Continent STACK and SCOOP and Haynesville Shale)."
+  },
+  {
+   "name": "Northeast/Mid-Con",
+   "products": [
+    "Drilling",
+    "Completion",
+    "Production",
+    "Intervention"
+   ],
+   "description": "Provides drilling, completion, production and intervention oilfield services in the Marcellus, Utica, Mid-Continent and Haynesville shales for onshore oil and gas companies.",
+   "evidence": "The Company's reportable segments, which are also its operating segments, are comprised of the Southwest Region (the Permian Basin and the Eagle Ford Shale), the Rocky Mountains Region (the Bakken, Williston, DJ, Uinta, Powder River, Piceance and Niobrara basins) and the Northeast/Mid-Con Region (the Marcellus and Utica Shale as well as the Mid-Continent STACK and SCOOP and Haynesville Shale)."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Oil and gas companies pay for oilfield services covering drilling, completion, production and intervention activities on technically demanding wells.",
+  "evidence": "We deliver mission critical oilfield services to primarily independent major oil and gas companies focused on drilling, completion, production and intervention activities for technically demanding wells from over 60 service facilities located in the United States."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000889348",
  "issuerName": "CPI AEROSTRUCTURES, INC.",
- "builtAt": "2026-11-16T05:42:01.517Z",
+ "builtAt": "2026-11-16T11:39:56.505Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001999371-26-007357",
@@ -10,10 +10,28 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/889348/000199937126007357/cvu-10k_123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Aerospace and defense",
+   "products": [
+    "Aerostructures",
+    "Aerosystems",
+    "Small-to-Large Diameter Tube Bending",
+    "Complex Specialty Welding",
+    "Electrical Cables, Harness, and Enclosures",
+    "kitting services",
+    "MRO"
+   ],
+   "description": "Builds structural assemblies, integrated systems and kitting services for aerospace and defense customers.",
+   "evidence": "The Company has determined that it has a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "U.S. government and commercial contractors pay for aircraft parts, aerostructure assemblies, aerosystems, MRO and kitting under long-term contracts.",
+  "evidence": "The majority of the Company's revenues are from long-term contracts with the U.S. government and commercial contractors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

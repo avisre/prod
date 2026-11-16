@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001895597",
  "issuerName": "Intchains Group Ltd",
- "builtAt": "2026-11-16T05:42:04.907Z",
+ "builtAt": "2026-11-16T11:43:01.562Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-016360",
@@ -10,11 +10,35 @@
   "filingDate": "2026-04-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1895597/000149315226016360/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Altcoin mining",
+   "products": [
+    "altcoin mining machines",
+    "mining products",
+    "maintenance fee income",
+    "products of WEB 3 applications"
+   ],
+   "description": "Designs and sells altcoin mining machines built on in-house ASIC chips, mainly to distributors and individual end-users.",
+   "evidence": "Our altcoin mining machines are built using our proprietary product solutions and integrates our in-house designed ASIC chips."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "The Group derives revenue from its customers by providing mining products and a small portion of related maintenance fee income.",
+  "evidence": "The Group derives revenue from its customers by providing mining products, as well as a small portion of the related maintenance fee income and products of WEB 3 applications."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the company discontinued standalone ASIC chip sales, so revenue came entirely from altcoin mining machines.",
+   "evidence": "By June 2024, we had fully discontinued the sale of standalone ASIC chips, with our revenue now generated entirely from altcoin mining machines that integrate our ASIC chips."
+  },
+  {
+   "text": "In January 2026, the Group agreed to divest its non-core chip R&D business to an entity controlled by its chairman and chief executive officer.",
+   "evidence": "on January 5, 2026, the Group entered into a business transfer agreement (the \"Agreement\") with Shanghai TopsFuture Microelectronics Co., Ltd. (\"TopsFuture\"), an entity controlled by Mr. Qiang Ding, the Company's chairman and chief executive officer, to divest its non-core chip R&D business for a total consideration of up to RMB 18.0 million."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

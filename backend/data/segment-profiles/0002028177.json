@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002028177",
  "issuerName": "Youlife Group Inc.",
- "builtAt": "2026-11-16T05:42:05.701Z",
+ "builtAt": "2026-11-16T11:43:38.978Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050196",
@@ -10,11 +10,55 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/2028177/000121390026050196/ea0285866-20f_youlife.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Vocational education",
+   "products": [
+    "School Management Services",
+    "Curriculum Development Projects",
+    "Smart Campus Services"
+   ],
+   "description": "Runs secondary vocational schools under management and curriculum agreements, and supplies smart campus systems to schools.",
+   "evidence": "As one of our main business segments, we primarily enter into cooperation agreements with our customers to manage secondary vocational schools."
+  },
+  {
+   "name": "HR recruitment",
+   "products": [
+    "HR Recruitment Services"
+   ],
+   "description": "Provides multi-channel blue-collar recruitment services to corporate customers, who pay based on talent recruited.",
+   "evidence": "As one of our main business segments, we provide multi-channel blue-collar HR recruitment services."
+  },
+  {
+   "name": "Employee management",
+   "products": [
+    "Outsourcing Services",
+    "Other HR Solutions"
+   ],
+   "description": "Provides outsourced blue-collar staffing and labor dispatch services to corporate customers in manufacturing and modern service industries.",
+   "evidence": "As one of our main business segments, we primarily enter into outsource service agreements, generally with a cooperation period of one to three years, with our customers to provide corporate customers with stable, sustainable and quality outsourcing services covering various industries such as manufacturing industry and modern service industry since 2014."
+  },
+  {
+   "name": "Market service",
+   "products": [
+    "Market Services"
+   ],
+   "description": "Provides value-added shopping, catering and dormitory management services to vocational school students.",
+   "evidence": "By signing agreements such as purchase agreement, supply and delivery agreement, we also provide value-added services to students of vocational schools, such as shopping, catering and dormitory management services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Corporate customers pay service fees for recruiting blue-collar talent, and schools and corporate customers pay fees for management and outsourcing services.",
+  "evidence": "We charge our corporate customers service fees based on the number and title of blue-collar talent recruited and we do not charge blue-collar talent for our recruitment services, clients make payments to us based on the recruitment status of blue-collar talents."
+ },
+ "changes": [
+  {
+   "text": "In December 2025, the company completed the transfer of school trusteeship rights for schools to a third-party buyer.",
+   "evidence": "Receivable from asset disposal represents the consideration receivable from the transfer of school trusteeship rights for five schools completed in December 2025."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

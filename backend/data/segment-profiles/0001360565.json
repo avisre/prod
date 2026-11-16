@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001360565",
  "issuerName": "WHERE FOOD COMES FROM, INC.",
- "builtAt": "2026-11-16T05:42:02.262Z",
+ "builtAt": "2026-11-16T11:40:49.080Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-008155",
@@ -10,11 +10,33 @@
   "filingDate": "2026-02-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1360565/000149315226008155/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Verification and Certification Segment",
+   "products": [
+    "Verification and certification service revenue",
+    "Product sales",
+    "Professional services",
+    "WFCF labeling program",
+    "cattle identification ear tags",
+    "Raisewell Certified Standard"
+   ],
+   "description": "Third-party verification, certification, product sales and professional consulting services for food and agricultural producers and brands.",
+   "evidence": "This segment now reports to the same management team under the Verification and Certification Segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay fees for verification audits, certification services, cattle ear tag product sales and professional consulting services.",
+  "evidence": "Verification and certification service revenues consist of fees charged for verification audits and other verification and certification related services that the Company performs for customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the Professional Services segment was combined into the Verification and Certification Segment.",
+   "evidence": "This segment now reports to the same management team under the Verification and Certification Segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

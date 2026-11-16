@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001753673",
  "issuerName": "SCIENJOY HOLDING CORPORATION",
- "builtAt": "2026-11-16T05:42:04.850Z",
+ "builtAt": "2026-11-16T11:42:35.821Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-047123",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-23",
   "url": "https://www.sec.gov/Archives/edgar/data/1753673/000121390026047123/ea0284510-20f_scienjoy.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Live streaming",
+   "products": [
+    "Showself Live Streaming",
+    "Lehai",
+    "Haixiu",
+    "BeeLive"
+   ],
+   "description": "Operates its own live streaming platforms in the PRC for users and broadcasters.",
+   "evidence": "Scienjoy Inc., through its subsidiaries and variable interest entities, is principally engaged in operating its own live streaming platforms in the PRC."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Users pay by purchasing virtual currency on the platforms, which they spend on virtual gifts for broadcasters.",
+  "evidence": "the number of paying users, which refers to the number of users that has purchased virtual currencies on our platforms at least once in a given period."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

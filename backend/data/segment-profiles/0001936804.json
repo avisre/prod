@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001936804",
  "issuerName": "SunCar Technology Group Inc.",
- "builtAt": "2026-11-16T05:42:00.610Z",
+ "builtAt": "2026-11-16T11:39:05.202Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048537",
@@ -10,10 +10,37 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1936804/000121390026048537/ea0287753-20f_suncar.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "auto eInsurance",
+   "products": [
+    "statutory automobile liability insurance",
+    "SALI",
+    "commercial auto eInsurance",
+    "commercial third-party liability insurance"
+   ],
+   "description": "Sells auto insurance products from major insurers in China, earning commissions through a network of sales partners.",
+   "evidence": "We generate revenue for our auto eInsurance business by collecting commissions from insurance companies for the successful sale of their insurance products, which are typically based on a percentage of the premium paid by insurance purchasers."
+  },
+  {
+   "name": "auto services",
+   "products": [
+    "auto service solutions",
+    "car wash",
+    "oil change",
+    "tire repair",
+    "road assistance"
+   ],
+   "description": "Provides customized auto services to enterprise customers' loyalty programs, delivered through a network of third-party auto service providers.",
+   "evidence": "We operate our auto service business by offering customized auto services to our enterprise customers, who include major banks, insurance companies, and other enterprises, all of whom have end customer demand for auto services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Insurance companies pay SunCar commissions on policies sold, and enterprise customers pay for auto services offered to their loyalty program members.",
+  "evidence": "We receive commissions from these insurance companies, which are typically a percentage of the premium paid by the policyholder."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

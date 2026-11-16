@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001991592",
  "issuerName": "INLIF LIMITED",
- "builtAt": "2026-11-16T05:42:05.314Z",
+ "builtAt": "2026-11-16T11:43:12.753Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-024760",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1991592/000121390026024760/ea0278051-20f_inlifltd.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "manipulator arms business",
+   "products": [
+    "injection molding machine-dedicated manipulator arms",
+    "accessories of manipulator arms",
+    "scraps of manipulator arms",
+    "installation services",
+    "new energy sector-focused products"
+   ],
+   "description": "Sells manipulator arms dedicated to injection molding machines, plus accessories, installation services and new energy products.",
+   "evidence": "Management has determined that the Company has one operating and reportable segment, which is the manipulator arms business."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mostly in the PRC, pay the company for manipulator arms, accessories, raw materials, installation services and new energy products.",
+  "evidence": "Accounts receivables are typically unsecured and derived from revenue earned from customers in the PRC, which are exposed to credit risk."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

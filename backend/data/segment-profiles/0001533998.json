@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001533998",
  "issuerName": "DarioHealth Corp.",
- "builtAt": "2026-11-16T05:42:06.430Z",
+ "builtAt": "2026-11-16T11:44:07.672Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001104659-26-031621",
@@ -10,10 +10,23 @@
   "filingDate": "2026-03-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1533998/000110465926031621/drio-20251231x10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Digital therapeutics",
+   "products": [
+    "Dario Connect (Well-being)",
+    "Dario Mind (Mental Health)"
+   ],
+   "description": "Delivers digital therapeutics, coaching and engagement platform solutions for employers, health plans, pharma and individuals.",
+   "evidence": "The Company operates as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Employers, health plans and pharmaceutical companies pay a subscription fee, per member per month, for the engagement platform.",
+  "evidence": "Our subscription model applies consistently across our products and therapeutic areas."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

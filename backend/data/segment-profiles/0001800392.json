@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001800392",
  "issuerName": "MicroAlgo Inc.",
- "builtAt": "2026-11-16T05:42:03.351Z",
+ "builtAt": "2026-11-16T11:42:08.081Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001829126-26-002991",
@@ -10,11 +10,25 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1800392/000182912626002991/microalgoinc_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Central processing algorithm services",
+   "products": [
+    "intelligent chips and services"
+   ],
+   "description": "Provides central processing algorithm services and intelligent chips and services, with revenue from the PRC and Hong Kong.",
+   "evidence": "The Company has determined that it has one operating segment, which is provided central processing algorithm services and intelligent chips and services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Revenue is generated in mainland China and Hong Kong from central processing algorithm services and intelligent chips and services.",
+  "evidence": "All of the Company's net revenues were generated in the PRC and Hong Kong."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "product not in text (Central processing algorithm services): Central processing algorithm services"
+ ],
  "reader": "agent"
 }

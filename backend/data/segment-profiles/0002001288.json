@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002001288",
  "issuerName": "Skycorp Solar Group Limited",
- "builtAt": "2026-11-16T05:42:03.800Z",
+ "builtAt": "2026-11-16T11:42:00.999Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-015180",
@@ -10,10 +10,32 @@
   "filingDate": "2026-02-12",
   "url": "https://www.sec.gov/Archives/edgar/data/2001288/000121390026015180/ea0273283-20f_skycorp.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Solar PV products",
+   "products": [
+    "solar cables",
+    "solar connectors"
+   ],
+   "description": "Manufactures and sells solar PV products, including solar cables and solar connectors, to customers.",
+   "evidence": "We are a solar PV product provider principally engaged in the manufacture and sale of solar cables and solar connectors."
+  },
+  {
+   "name": "High performance computing products",
+   "products": [
+    "HPC servers",
+    "GPU and HPC servers"
+   ],
+   "description": "Offers customers new and used GPU and HPC servers, alongside partnerships with IC chip manufacturers.",
+   "evidence": "We also actively cultivate partnerships with multiple IC chip manufacturers and offer customers new and used GPU and HPC servers."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for the solar PV products and HPC products it sells.",
+  "evidence": "Revenue from sales of solar PV products accounted for 97.37% and 93.23% of our total revenues for the fiscal years ended September 30, 2025 and 2024, respectively."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

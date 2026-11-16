@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001872302",
  "issuerName": "Nano Labs Ltd",
- "builtAt": "2026-11-16T05:42:02.683Z",
+ "builtAt": "2026-11-16T11:41:05.104Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-042816",
@@ -10,8 +10,17 @@
   "filingDate": "2026-04-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1872302/000121390026042816/ea0282601-20f_nanolabs.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Design and manufacturing",
+   "products": [
+    "ICs"
+   ],
+   "description": "Designs and manufactures ICs; the chief operating decision maker reviews results by marketing channel.",
+   "evidence": "Consequently, the Company has determined that it has only one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

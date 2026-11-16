@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001877333",
  "issuerName": "TH International Limited",
- "builtAt": "2026-11-16T05:42:04.112Z",
+ "builtAt": "2026-11-16T11:42:12.937Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050185",
@@ -10,11 +10,28 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1877333/000121390026050185/ea0287318-20f_thinter.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tim Hortons",
+   "products": [
+    "Tim Hortons brand"
+   ],
+   "description": "Runs the Tim Hortons brand's coffee and food business in China, serving consumers through stores, delivery and e-commerce.",
+   "evidence": "after the disposal of Popeyes, one reportable segment, which is Tim Hortons."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Customers pay for Tim Hortons products, ordered in stores, for takeout through delivery platforms or Weixin mini programs, or on Tmall.",
+  "evidence": "Customers may place takeout orders for our products through online food ordering and delivery platforms or our Weixin mini programs."
+ },
+ "changes": [
+  {
+   "text": "In 2024, the Company disposed of its Popeyes China operation, leaving Tim Hortons as its one reportable segment.",
+   "evidence": "On June 28, 2024, the Company disposed Popeyes China operation to PLK (See Note 2(b))."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

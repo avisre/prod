@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000910406",
  "issuerName": "THE HAIN CELESTIAL GROUP, INC.",
- "builtAt": "2026-11-16T05:42:00.479Z",
+ "builtAt": "2026-11-16T11:39:36.210Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001193125-26-390505",
@@ -10,11 +10,52 @@
   "filingDate": "2026-09-14",
   "url": "https://www.sec.gov/Archives/edgar/data/910406/000119312526390505/hain-20260630.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "North America",
+   "products": [
+    "The Greek Gods",
+    "Celestial Seasonings",
+    "Earth's Best",
+    "Spectrum",
+    "MaraNatha",
+    "Imagine",
+    "Alba Botanica",
+    "Avalon Organics"
+   ],
+   "description": "Sells better-for-you yogurt, tea, baby and kids foods, pantry and personal care products to retailers and distributors in the U.S. and Canada.",
+   "evidence": "The Company's organizational structure consists of two geographic based reportable segments: North America and International, which are also the operating segments."
+  },
+  {
+   "name": "International",
+   "products": [
+    "Ella's Kitchen",
+    "Joya",
+    "Natumi",
+    "Hartley's",
+    "Cully & Sully",
+    "Yorkshire Provender",
+    "New Covent Garden",
+    "Lima"
+   ],
+   "description": "Sells baby foods, soups, plant-based drinks, jams and meat-free meals to retailers and food service in the UK and Europe.",
+   "evidence": "The Company's organizational structure consists of two geographic based reportable segments: North America and International, which are also the operating segments."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Retailers, distributors, e-commerce sellers and food service providers pay the company for its branded and private label food and personal care products.",
+  "evidence": "Our customer base consists principally of supermarkets and natural food stores, mass-market, club stores, specialty and natural food distributors, e-commerce retailers, and away from home channels, including drug and convenience stores and food service."
+ },
+ "changes": [
+  {
+   "text": "During fiscal 2026, the Company closed its Yves Veggie Cuisine meat-alternative snacks and meals business and sold associated intellectual property.",
+   "evidence": "During the fiscal year 2026, we completed the closure of the Yves Veggie Cuisine ® refrigerated and frozen meat-alternative snacks and meals business and sold associated intellectual property."
+  }
+ ],
+ "dropped": [
+  "change not grounded: On February 27, 2026, the Company completed the sale of its North American Snack"
+ ],
  "reader": "agent"
 }

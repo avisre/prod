@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0000946936",
  "issuerName": "DESWELL INDUSTRIES, INC.",
- "builtAt": "2026-11-16T05:42:06.318Z",
+ "builtAt": "2026-11-16T11:44:04.691Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0002077096-26-000231",
@@ -10,10 +10,40 @@
   "filingDate": "2026-07-30",
   "url": "https://www.sec.gov/Archives/edgar/data/946936/000207709626000231/ea0298292-20f_deswell.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "plastic injection molding",
+   "products": [
+    "plastic components of electronic entertainment products",
+    "plastic components for power tools, accessories and outdoor equipment",
+    "cases for flashlights, telephones, printers, scanners",
+    "parts for industrial components",
+    "parts for medical products such as apparatus for blood tests",
+    "automobile components",
+    "parts for audio equipment",
+    "cases and key tops for personal organizers and remote controls"
+   ],
+   "description": "Injection-molds plastic parts and components, and makes molds, for OEMs and contract manufacturers from its factory in Dongguan, China.",
+   "evidence": "We produce a wide variety of plastic parts and components that are used in the manufacture of consumer and industrial products, using different plastic injection technologies, such as film injection, integrated injection and insert injection."
+  },
+  {
+   "name": "electronic products assembling",
+   "products": [
+    "sophisticated professional audio equipment",
+    "high performance consumer audio products",
+    "complex printed circuit board assemblies",
+    "medical products"
+   ],
+   "description": "Assembles electronic products, including professional and consumer audio equipment and medical products, for OEMs and contract manufacturers.",
+   "evidence": "Electronic products manufactured by the Company include:"
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Original equipment manufacturers and contract manufacturers pay for plastic parts, electronic products, subassemblies and metallic molds that Deswell manufactures for them.",
+  "evidence": "The Company's revenues are derived from the manufacture and sale of injection-molded plastic parts and components, electrical products and subassemblies and metallic molds and accessories."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
