@@ -29,6 +29,9 @@ const CACHE = path.join(process.env.HOME, '.cache/stockportfolio/annual-text');
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const ONLY = args.reduce((a, v, i) => (args[i - 1] === '--cik' ? a.concat(String(v).padStart(10, '0')) : a), []);
 const LIMIT = Number(opt('--limit', 0)), JOBS = Number(opt('--jobs', 6)), REBUILD = args.includes('--rebuild');
+// Two-stage reading, for a reader that is not a model call from here: --dump writes the exact prompt
+// each filing would be read with, --from-replies reads the answers back through the same checks.
+const DUMP = opt('--dump', ''), FROM_REPLIES = opt('--from-replies', '');
 
 const decode = html => String(html).replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ').replace(/&#8217;|&rsquo;|&#8216;|&lsquo;/g, "'").replace(/&#8220;|&#8221;|&ldquo;|&rdquo;|&quot;/g, '"')
@@ -270,20 +273,33 @@ function parse(msg) {
     try { const raw = String(msg.content || '').replace(/```json|```/g, '').trim(); return JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1)); } catch (_) { return null; }
 }
 
-async function one(cik) {
+// The filing fields every record carries, and the two sentences about the company the reader is given.
+const filingFields = (src, doc) => ({ form: src.form, accessionNumber: src.accessionNumber, periodEnd: src.periodEnd, filingDate: src.filingDate || null,
+    url: doc?.url || null, ...(doc?.exhibit ? { exhibit: doc.exhibit } : {}) });
+const userText = (data, src, body, extra = '') => `Company: ${data.issuerName}. ${src.form} for the period ended ${src.periodEnd}.${extra}\n\n${body}`;
+// Exactly the two messages the reader gets: the rules, a blank line, then the company and its windows.
+const promptFor = (data, src, text) => `${SYSTEM}\n\n${userText(data, src, windows(text))}`;
+
+// The step both reading modes share: the company's figures, its latest annual report and that report's text.
+async function load(cik) {
     const data = JSON.parse(fs.readFileSync(path.join(FIN, cik + '.json'), 'utf8'));
     const src = latestAnnual(data);
     const head = { version: profiles.VERSION, cik, issuerName: data.issuerName || null, builtAt: new Date().toISOString() };
+    const doc = src ? await filingText(cik, src) : null;
+    return { data, src, head, doc };
+}
+
+async function one(cik) {
+    const { data, src, head, doc: cached } = await load(cik);
     if (!src) return { ...head, status: 'no-annual-report' };
-    let doc = await filingText(cik, src);
-    const filingOf = () => ({ form: src.form, accessionNumber: src.accessionNumber, periodEnd: src.periodEnd, filingDate: src.filingDate || null,
-        url: doc?.url || null, ...(doc?.exhibit ? { exhibit: doc.exhibit } : {}) });
+    let doc = cached;
+    const filingOf = () => filingFields(src, doc);
     if (!doc || doc.text.length < 2000) return { ...head, filing: filingOf(), status: 'filing-unreadable' };
     // Checked against the whole document read, not only the excerpt, so a name the model read in the
     // excerpt and the filing repeats elsewhere is not lost to where the window was cut.
     const reader = text => {
         const body = windows(text);
-        const user = extra => `Company: ${data.issuerName}. ${src.form} for the period ended ${src.periodEnd}.${extra}\n\n${body}`;
+        const user = extra => userText(data, src, body, extra);
         const ask = (extra, model) => CLAUDE ? askClaude(user(extra), model) : ai.chatRaw([{ role: 'system', content: SYSTEM }, { role: 'user', content: user(extra) }],
             { purpose: 'summary', temperature: 0, maxTokens: 5000, timeoutMs: 180000 });
         return async model => {
@@ -315,6 +331,56 @@ async function one(cik) {
     return { ...head, filing: filingOf(), status: v.segments.length ? 'ok' : 'no-segments', ...v, ...(escalated ? { escalated } : {}) };
 }
 
+// --dump: the prompt each filing would be read with, and its filing fields, written out for a reader
+// outside this script. No model is called, and no record is written for a filing that can be read.
+async function dump(cik, dir) {
+    const { data, src, head, doc } = await load(cik);
+    if (!src) return { ...head, status: 'no-annual-report' };
+    if (!doc || doc.text.length < 2000) return { ...head, filing: filingFields(src, doc), status: 'filing-unreadable' };
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, cik + '.prompt.txt'), promptFor(data, src, doc.text) + '\n');
+    fs.writeFileSync(path.join(dir, cik + '.meta.json'), JSON.stringify(filingFields(src, doc), null, 1) + '\n');
+    return null;
+}
+
+// A validated reply against one filing's text becomes the record one() would write. An exhibit reply
+// names the document the words were read from.
+function recordFromReply(head, src, doc, parsed) {
+    const v = validate(parsed, doc.text);
+    const filing = filingFields(src, doc);
+    if (oneSegmentMismatch(v, doc.text)) return { ...head, filing, status: 'one-segment-mismatch', ...v, reader: 'agent' };
+    return { ...head, filing, status: v.segments.length ? 'ok' : 'no-segments', ...v, reader: 'agent' };
+}
+
+// --from-replies: the same checks one() applies, on a reply written to DIR/<cik>.reply.json. A reply
+// with no segments from a wrapper filing is retried once against its exhibit 13/99: that prompt is
+// written out as DIR/<cik>.exhibit.prompt.txt, and DIR/<cik>.exhibit.reply.json is read when present.
+async function fromReply(cik, dir) {
+    const { data, src, head, doc } = await load(cik);
+    if (!src) return { ...head, status: 'no-annual-report' };
+    const filing = filingFields(src, doc);
+    if (!doc || doc.text.length < 2000) return { ...head, filing, status: 'filing-unreadable' };
+    const read = name => { const f = path.join(dir, cik + name); return fs.existsSync(f) ? parse({ content: fs.readFileSync(f, 'utf8') }) : null; };
+    let parsed = read('.reply.json');
+    if (!parsed) return { ...head, filing, status: 'model-unparseable', reader: 'agent' };
+    let rec = recordFromReply(head, src, doc, parsed);
+    // A wrapper 10-K reads to no segments; its exhibit 13/99 is offered once, exactly as one() does.
+    if (rec.status === 'no-segments' && !doc.exhibit) {
+        const ex = await exhibitText(cik, src).catch(() => null);
+        if (ex && ex.text.length > 2000) {
+            fs.mkdirSync(dir, { recursive: true });
+            fs.writeFileSync(path.join(dir, cik + '.exhibit.prompt.txt'), promptFor(data, src, ex.text) + '\n');
+            const again = read('.exhibit.reply.json');
+            if (again) {
+                const exDoc = { ...ex, exhibit: String(ex.url).split('/').pop() };
+                const exRec = recordFromReply(head, src, exDoc, again);
+                if (exRec.segments.length) rec = exRec;
+            }
+        }
+    }
+    return rec;
+}
+
 function targets() {
     const all = ONLY.length ? ONLY : fs.readdirSync(FIN).filter(f => /^\d{10}\.json$/.test(f)).map(f => f.slice(0, 10)).sort();
     // A profile is read again when its company files a newer annual report than the one it was read from.
@@ -324,8 +390,26 @@ function targets() {
     return LIMIT ? todo.slice(0, LIMIT) : todo;
 }
 
-module.exports = { validate, windows, latestAnnual, pickDocument, businessExhibit, widestExhibit, ONE_SEGMENT, oneSegmentMismatch, statedSegments, THIN, SYSTEM };
+module.exports = { validate, windows, latestAnnual, pickDocument, businessExhibit, widestExhibit, ONE_SEGMENT, oneSegmentMismatch, statedSegments, THIN, SYSTEM,
+    promptFor, recordFromReply, filingFields };
 if (require.main === module) (async () => {
+    // Two-stage modes never load a provider and never touch a model.
+    if (DUMP || FROM_REPLIES) {
+        const dir = path.resolve(DUMP || FROM_REPLIES), mode = DUMP ? 'dump' : 'from-replies';
+        if (!ONLY.length) { console.error('--' + mode + ' needs at least one --cik'); process.exit(1); }
+        fs.mkdirSync(dir, { recursive: true });
+        const run = cik => (DUMP ? dump(cik, dir) : fromReply(cik, dir)).then(rec => {
+            if (rec) profiles.write(cik, rec);
+            console.log(cik, rec ? rec.status : 'prompt written', JSON.stringify(rec ? (rec.dropped || []) : []));
+            return rec ? rec.status : 'prompt';
+        }).catch(e => { console.log(cik, 'error', clip(e.message, 200)); return 'error'; });
+        const queue = ONLY.slice(), tally = {};
+        await Promise.all(Array.from({ length: Math.min(JOBS, queue.length) }, async () => {
+            for (let cik = queue.shift(); cik; cik = queue.shift()) { const s = await run(cik); tally[s] = (tally[s] || 0) + 1; }
+        }));
+        console.log(mode, JSON.stringify(tally));
+        process.exit(0);
+    }
     if (!CLAUDE) {
         require('./lib/dev-env').loadAiEnvOnly(BACKEND);
         ai = require(path.join(BACKEND, 'ai-client'));

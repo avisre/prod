@@ -12,7 +12,7 @@ const DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'segment-profiles-'));
 process.env.SEGMENT_PROFILES_DIR = DIR;
 const profiles = require('../segment-profiles');
 const breakdown = require('../revenue-breakdown');
-const { validate, pickDocument, businessExhibit, widestExhibit, oneSegmentMismatch, statedSegments, THIN } = require('../../scripts/build-segment-profiles');
+const { validate, pickDocument, businessExhibit, widestExhibit, oneSegmentMismatch, statedSegments, THIN, SYSTEM, promptFor, recordFromReply } = require('../../scripts/build-segment-profiles');
 
 const APP = '0001751008';
 const FILING = { form: '10-K', accessionNumber: '0001751008-26-000010', periodEnd: '2025-12-31', filingDate: '2026-02-19',
@@ -79,6 +79,40 @@ test('the annual report is the filing\'s primary document, never the largest exh
     assert.equal(pickDocument(items, 'cxt-20251231.htm').name, 'cxt-20251231.htm', 'the SEC index names it');
     assert.equal(pickDocument(items, null).name, 'cxt-20251231.htm', 'without the index, the largest non-exhibit page');
     assert.equal(pickDocument([{ name: 'only-ex10.htm', size: 1 }, { name: 'only-xex96.htm', size: 9 }], null).name, 'only-xex96.htm', 'last resort: the largest page');
+});
+
+test('the two-stage read applies the same checks: a quoted reply is written, an invented product is not (AppLovin, FY2025)', () => {
+    const data = { issuerName: 'AppLovin Corporation' };
+    const src = { form: '10-K', accessionNumber: FILING.accessionNumber, periodEnd: FILING.periodEnd, filingDate: FILING.filingDate };
+    // The prompt is the rules, a blank line, then the company and its windows - no model call.
+    const prompt = promptFor(data, src, TEXT);
+    assert.ok(prompt.startsWith(SYSTEM + '\n\nCompany: AppLovin Corporation. 10-K for the period ended 2025-12-31.\n\n[BUSINESS SECTION]'));
+
+    const reply = (products, segments) => ({ segments: segments || [{ name: 'Advertising', products, description: 'Software that helps advertisers reach mobile app users.',
+        evidence: 'Our advertising solutions include AppLovin Ads, MAX, Adjust and Wurl.' }],
+    productRevenueBrokenOut: false, revenueModel: null, changes: [] });
+    const head = { version: profiles.VERSION, cik: APP, issuerName: data.issuerName, builtAt: '2026-01-01T00:00:00.000Z' };
+    const doc = { ...FILING, text: TEXT };
+
+    const quoted = recordFromReply(head, src, doc, reply(['AppLovin Ads', 'MAX']));
+    assert.equal(quoted.status, 'ok');
+    assert.equal(quoted.reader, 'agent');
+    assert.equal(quoted.filing.accessionNumber, FILING.accessionNumber);
+    assert.deepEqual(quoted.segments[0].products, ['AppLovin Ads', 'MAX']);
+    assert.ok(quoted.segments[0].description, 'a description carried by a verbatim quote survives');
+
+    const invented = recordFromReply(head, src, doc, reply(['AppLovin Ads', 'Unity Ads']));
+    assert.equal(invented.status, 'ok');
+    assert.deepEqual(invented.segments[0].products, ['AppLovin Ads'], 'a product the filing never names is dropped');
+    assert.ok(invented.dropped.some(d => /Unity Ads/.test(d)));
+
+    // The filing says one reportable segment; a reply that splits it is not shown as the segments.
+    const split = recordFromReply(head, src, doc, reply([], [
+        { name: 'Advertising', products: [], description: 'Ads.', evidence: 'Our advertising solutions include AppLovin Ads, MAX, Adjust and Wurl.' },
+        { name: 'Apps', products: [], description: 'Games.', evidence: 'In June 2025 we completed the sale of our Apps business to Tripledot, which is presented as discontinued operations.' }]));
+    assert.equal(split.status, 'one-segment-mismatch');
+    assert.equal(split.reader, 'agent');
+    assert.equal(split.segments.length, 2, 'the read is kept in the record for review, not shown');
 });
 
 test('a one-segment company is shown under the name its annual report gives it, with its products (AppLovin, FY2025)', () => {
