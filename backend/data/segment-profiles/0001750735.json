@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001750735",
+ "issuerName": "Meridian Corp",
+ "builtAt": "2026-11-16T05:31:00.440Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001750735-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1750735/000175073526000009/mrbk-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002012219",
+ "issuerName": "OMS Energy Technologies Inc.",
+ "builtAt": "2026-11-16T05:31:01.700Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-282941",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/2012219/000119312526282941/omse-20260331.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001325702",
+ "issuerName": "Magnachip Semiconductor Corporation",
+ "builtAt": "2026-11-16T05:30:16.975Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-108435",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1325702/000119312526108435/mx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Power Solutions business",
+   "products": [
+    "power analog solutions"
+   ],
+   "description": "Sells power and mixed-signal semiconductors.",
+   "evidence": "Geographic and Other Information The Company operates within a single operating segment, Power Solutions business, and also separately reports transitional Fab 3 foundry services revenue and cost of sales."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumer and industrial device makers buy its chips.",
+  "evidence": "The Chief Executive Officer , as the chief operating decision maker (\"CODM\"), organizes the Company and measures performance of two business lines of Power Analog Solutions a"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Power Solutions business): mixed-signal products"
+ ],
+ "reader": "agent"
+}

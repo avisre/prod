@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001743340",
+ "issuerName": "Token Cat Limited",
+ "builtAt": "2026-11-16T05:30:15.768Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-053942",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1743340/000121390026053942/ea0287389-20f_tokencat.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

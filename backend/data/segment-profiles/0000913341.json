@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0000913341",
+ "issuerName": "C & F FINANCIAL CORPORATION",
+ "builtAt": "2026-11-16T05:30:15.443Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000913341-26-000010",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/913341/000091334126000010/cffi-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs C&F Bank.",
+   "evidence": "​ The Corporation operates three principal business segments: (1) community banking through C&F Bank, C&F Wealth Management Corporation (C&F Wealth Management), C&F Insurance Services, Inc."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and clients pay trust and insurance fees.",
+  "evidence": "​ The Corporation operates three principal business segments: (1) community banking through C&F Bank, C&F Wealth Management Corporation (C&F Wealth Management), C&F Insurance Services, Inc."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

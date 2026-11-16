@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001744781",
+ "issuerName": "Niu Technologies",
+ "builtAt": "2026-11-16T05:31:02.755Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044568",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1744781/000110465926044568/niu-20251231x20f.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

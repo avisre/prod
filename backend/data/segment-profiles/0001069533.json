@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001069533",
+ "issuerName": "RGC Resources, Inc.",
+ "builtAt": "2026-11-16T05:30:16.388Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-25-036827",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1069533/000143774925036827/rgco20250930_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "cik": "0001709164",
+ "issuerName": "HAMILTON BEACH BRANDS HOLDING COMPANY",
+ "builtAt": "2026-11-16T05:30:13.498Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001709164-26-000037",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1709164/000170916426000037/hbb-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Home and Commercial Products",
+   "products": [],
+   "description": "Sells home and commercial small appliances.",
+   "evidence": "Our operations are managed and r eported in two operatin g segments, each of which is a reportable segment for financial reporting purposes: (1) Home and Commercial Products and (2) Health ."
+  },
+  {
+   "name": "Health",
+   "products": [],
+   "description": "Sells health and wellness products.",
+   "evidence": "Our operations are managed and r eported in two operatin g segments, each of which is a reportable segment for financial reporting purposes: (1) Home and Commercial Products and (2) Health ."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers buy its appliances and health products.",
+  "evidence": "During the year ended December 31, 2023, the Company had one operating and one reportable segment."
+ },
+ "changes": [
+  {
+   "text": "Went from one reportable segment in 2023 to two: Home and Commercial Products and Health.",
+   "evidence": "During the year ended December 31, 2023, the Company had one operating and one reportable segment."
+  }
+ ],
+ "dropped": [
+  "product not in text (Home and Commercial Products): small appliances",
+  "product not in text (Health): health products"
+ ],
+ "reader": "agent"
+}

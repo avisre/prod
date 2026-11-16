@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001701758",
+ "issuerName": "THE LOVESAC COMPANY",
+ "builtAt": "2026-11-16T05:30:15.683Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-022929",
+  "periodEnd": "2026-02-01",
+  "filingDate": "2026-04-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1701758/000162828026022929/love-20260201.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

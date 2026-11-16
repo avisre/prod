@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001503802",
+ "issuerName": "Karyopharm Therapeutics Inc.",
+ "builtAt": "2026-11-16T05:31:01.452Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-049397",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1503802/000119312526049397/kpti-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Karyopharm",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops medicines for cancer.",
+   "evidence": "We view our operations and manage our business as a single operating segment, which is the business of discovering, developing and commercializing drugs to tr"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and patients' insurers pay for its medicines.",
+  "evidence": "Segment Information Operating segments are defined as components of an enterprise whose operating results are regularly reviewed by the Chief Operating Decision Maker (\"CODM\") to allocate resources and assess performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

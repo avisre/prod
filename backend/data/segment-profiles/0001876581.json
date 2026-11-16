@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001876581",
+ "issuerName": "Imperial Petroleum Inc./Marshall Islands",
+ "builtAt": "2026-11-16T05:30:14.663Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-192203",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1876581/000119312526192203/d60380d20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Imperial Petroleum",
+   "products": [],
+   "description": "Operates tankers carrying crude and products.",
+   "evidence": "Segment Reporting: The Chief Executive Officer, who is the Chief Operating Decision Maker (\"CODM\"), receives fina"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay hire for its vessels.",
+  "evidence": "Segment Reporting: The Chief Executive Officer, who is the Chief Operating Decision Maker (\"CODM\"), receives fina"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Imperial Petroleum): crude oil and petroleum product transportation"
+ ],
+ "reader": "agent"
+}

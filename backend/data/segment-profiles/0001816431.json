@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001816431",
+ "issuerName": "QUANTUM-SI INCORPORATED",
+ "builtAt": "2026-11-16T05:30:16.619Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001816431-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-03",
+  "url": "https://www.sec.gov/Archives/edgar/data/1816431/000181643126000011/qsi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

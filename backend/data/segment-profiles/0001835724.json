@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001835724",
+ "issuerName": "Zhihu Inc.",
+ "builtAt": "2026-11-16T05:30:13.850Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-044557",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1835724/000110465926044557/zh-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zhihu",
+   "products": [
+    "online content",
+    "advertising"
+   ],
+   "description": "Runs its Chinese Q&A content platform.",
+   "evidence": "The Group's CODM regularly reviews entity-wide operating results and reviews consolidated revenues and net income/(loss) whe"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advertisers and members pay for content and services.",
+  "evidence": "The Group's CODM regularly reviews entity-wide operating results and reviews consolidated revenues and net income/(loss) whe"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001814114",
+ "issuerName": "Orchestra BioMed Holdings, Inc.",
+ "builtAt": "2026-11-16T05:30:16.319Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-026754",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1814114/000110465926026754/obio-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Orchestra BioMed",
+   "products": [
+    "medical devices",
+    "bioelectronic therapies"
+   ],
+   "description": "Develops bioelectronic and device therapies.",
+   "evidence": "Segment Disclosures The Company has one reportable segment, which consists of t"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "Segment Disclosures The Company has one reportable segment, which consists of t"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

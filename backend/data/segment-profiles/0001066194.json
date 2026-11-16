@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001066194",
+ "issuerName": "eGain Corporation",
+ "builtAt": "2026-11-16T05:31:02.678Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-106739",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1066194/000110465926106739/egan-20260630x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

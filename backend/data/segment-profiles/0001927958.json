@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "cik": "0001927958",
+ "issuerName": "AIRO Group Holdings, Inc.",
+ "builtAt": "2026-11-16T05:30:59.827Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014116",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1927958/000149315226014116/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drones",
+   "products": [],
+   "description": "Makes drones and unmanned systems.",
+   "evidence": "Our business is organized into four operating segments, each of which represents a critical growth vector in the aerospace and defense market: Drones, Avionics, Training, and Electric"
+  },
+  {
+   "name": "Avionics",
+   "products": [],
+   "description": "Makes avionics systems.",
+   "evidence": "Our business is organized into four operating segments, each of which represents a critical growth vector in the aerospace and defense market: Drones, Avionics, Training, and Electric"
+  },
+  {
+   "name": "Training",
+   "products": [
+    "training services"
+   ],
+   "description": "Provides pilot and operator training.",
+   "evidence": "Our business is organized into four operating segments, each of which represents a critical growth vector in the aerospace and defense market: Drones, Avionics, Training, and Electric"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Defense and commercial customers buy its aircraft, drones and training.",
+  "evidence": "We offer connected and diversified solutions providing operational synergies across our segments and are powered by an international footprint as well as supplier and public sector relationships."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Drones): drones",
+  "product not in text (Avionics): avionics"
+ ],
+ "reader": "agent"
+}

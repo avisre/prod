@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001856365",
+ "issuerName": "FINWISE BANCORP",
+ "builtAt": "2026-11-16T05:31:03.151Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001856365-26-000006",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1856365/000185636526000006/finw-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "traditional banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Our business is conducted through three reportable segments: traditional banking, banking as a service (\"BaaS\") and treasury & administration."
+  },
+  {
+   "name": "banking as a service",
+   "products": [],
+   "description": "Provides banking as a service.",
+   "evidence": "Our business is conducted through three reportable segments: traditional banking, banking as a service (\"BaaS\") and treasury & administration."
+  },
+  {
+   "name": "treasury & administration",
+   "products": [
+    "treasury services",
+    "administration"
+   ],
+   "description": "Provides treasury and administration services.",
+   "evidence": "Our business is conducted through three reportable segments: traditional banking, banking as a service (\"BaaS\") and treasury & administration."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and partners pay programme fees.",
+  "evidence": "We operate through our wholly-owned subsidiary, FinWise Bank, a Utah state-chartered bank."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (banking as a service): BaaS services"
+ ],
+ "reader": "agent"
+}

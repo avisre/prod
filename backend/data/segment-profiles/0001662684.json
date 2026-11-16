@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001662684",
+ "issuerName": "KULR TECHNOLOGY GROUP, INC.",
+ "builtAt": "2026-11-16T05:31:01.150Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037918",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1662684/000110465926037918/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Energy Management Platform",
+   "products": [],
+   "description": "Sells thermal and energy management products.",
+   "evidence": "Management has determined that the Company has two significant operating segments: Energy Management Platform and Mining of Digital Assets, as discussed in"
+  },
+  {
+   "name": "Mining of Digital Assets",
+   "products": [
+    "bitcoin mining"
+   ],
+   "description": "Mines digital assets.",
+   "evidence": "Management has determined that the Company has two significant operating segments: Energy Management Platform and Mining of Digital Assets, as discussed in"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Industrial customers buy its products; it mines bitcoin.",
+  "evidence": "Management has determined that the Company has two significant operating segments: Energy Management Platform and Mining of Digital Assets, as discussed in"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Energy Management Platform): energy management products"
+ ],
+ "reader": "agent"
+}

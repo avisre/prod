@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002046117",
+ "issuerName": "Magnitude International Ltd",
+ "builtAt": "2026-11-16T05:30:59.310Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-043050",
+  "periodEnd": "2026-04-30",
+  "filingDate": "2026-09-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2046117/000149315226043050/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electrical works and installation services",
+   "products": [],
+   "description": "Provides electrical works and installation services.",
+   "evidence": "iary Revenue from electrical works and installation services 4,146,774 1,067,593 1,571,507 1,233,716 Subcontractors' costs ( 3,617,741"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Construction clients pay for electrical installation work.",
+  "evidence": "iary Revenue from electrical works and installation services 4,146,774 1,067,593 1,571,507 1,233,716 Subcontractors' costs ( 3,617,741"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (electrical works and installation services): electrical works and installation services"
+ ],
+ "reader": "agent"
+}

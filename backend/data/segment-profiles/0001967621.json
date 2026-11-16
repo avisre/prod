@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001967621",
+ "issuerName": "Alpha Technology Group Ltd",
+ "builtAt": "2026-11-16T05:30:17.124Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-010168",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1967621/000121390026010168/ea0273018-20f_alpha.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

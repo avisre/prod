@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001850902",
+ "issuerName": "ALPHA TEKNOVA, INC.",
+ "builtAt": "2026-11-16T05:31:00.219Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001850902-26-000002",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-02",
+  "url": "https://www.sec.gov/Archives/edgar/data/1850902/000185090226000002/tkno-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Teknova",
+   "products": [
+    "cell culture media",
+    "reagents"
+   ],
+   "description": "Makes cell culture media and reagents.",
+   "evidence": "Teknova has determined that it operates in one reporting unit, one F- 7 operating"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Biotech and diagnostic customers buy its reagents.",
+  "evidence": "Teknova has determined that it operates in one reporting unit, one F- 7 operating"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

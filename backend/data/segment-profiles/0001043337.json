@@ -1,0 +1,51 @@
+{
+ "version": 1,
+ "cik": "0001043337",
+ "issuerName": "STONERIDGE, INC.",
+ "builtAt": "2026-11-16T05:31:00.258Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001043337-26-000023",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/1043337/000104333726000023/sri-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Control Devices",
+   "products": [],
+   "description": "Makes control devices for vehicles.",
+   "evidence": "Segments and Products As of December 31, 2025, we conducted our business in three reportable business segments, which are the same as our operating segments: Control Devices, Electronics and Stoneridge Brazil."
+  },
+  {
+   "name": "Electronics",
+   "products": [],
+   "description": "Makes electronic products for vehicles.",
+   "evidence": "Segments and Products As of December 31, 2025, we conducted our business in three reportable business segments, which are the same as our operating segments: Control Devices, Electronics and Stoneridge Brazil."
+  },
+  {
+   "name": "Stoneridge Brazil",
+   "products": [],
+   "description": "Sells products in Brazil.",
+   "evidence": "Segments and Products As of December 31, 2025, we conducted our business in three reportable business segments, which are the same as our operating segments: Control Devices, Electronics and Stoneridge Brazil."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vehicle makers buy its control and electronic products.",
+  "evidence": "As a result, we now operate our business in two reportable business segments."
+ },
+ "changes": [
+  {
+   "text": "Now reports two segments after Stoneridge Brazil was divested.",
+   "evidence": "As a result, we now operate our business in two reportable business segments."
+  }
+ ],
+ "dropped": [
+  "product not in text (Control Devices): control devices",
+  "product not in text (Electronics): electronic products",
+  "product not in text (Stoneridge Brazil): electronic products"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001615165",
+ "issuerName": "Veritone, Inc.",
+ "builtAt": "2026-11-16T05:31:12.969Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-025214",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1615165/000162828026025214/veri-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Veritone",
+   "products": [
+    "software products",
+    "managed services"
+   ],
+   "description": "Sells AI software and managed services.",
+   "evidence": "sis in making these decisions about allocating capital and personnel to the segment. The Company, through its single reportable segment, is managed on a consolidated basis."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprises and agencies pay for software and services.",
+  "evidence": "We generate revenue primarily through the delivery of our Software Products & Services (as defined below) across our Commercial Enterprise (\"Commercial Enterprise\") and Public Sector (\"Public Sector\") divisions, and secondarily from Managed Services (as defined below) that today include the delivery of content licensing, influencer management and related services within Commerc"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

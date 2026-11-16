@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001819580",
+ "issuerName": "Yatsen Holding Limited",
+ "builtAt": "2026-11-16T05:30:14.421Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001193125-26-192038",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819580/000119312526192038/ysg-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Color Cosmetics",
+   "products": [],
+   "description": "Sells colour cosmetics brands.",
+   "evidence": "Total depreciation of property and equipment, net Color Cosmetics 31,588 18,199 14,607 Skincare 21,509 19,542 22,204 Others 586 253 61 53,683 37,994 36,872 No asset information is provided for reportable segments as no s"
+  },
+  {
+   "name": "Skincare",
+   "products": [
+    "skincare products"
+   ],
+   "description": "Sells skincare brands.",
+   "evidence": "Total depreciation of property and equipment, net Color Cosmetics 31,588 18,199 14,607 Skincare 21,509 19,542 22,204 Others 586 253 61 53,683 37,994 36,872 No asset information is provided for reportable segments as no s"
+  },
+  {
+   "name": "Others",
+   "products": [],
+   "description": "Holds other brands.",
+   "evidence": "Total depreciation of property and equipment, net Color Cosmetics 31,588 18,199 14,607 Skincare 21,509 19,542 22,204 Others 586 253 61 53,683 37,994 36,872 No asset information is provided for reportable segments as no s"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Consumers buy its beauty products online and in stores.",
+  "evidence": "Total depreciation of property and equipment, net Color Cosmetics 31,588 18,199 14,607 Skincare 21,509 19,542 22,204 Others 586 253 61 53,683 37,994 36,872 No asset information is provided for reportable segments as no s"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Color Cosmetics): colour cosmetics"
+ ],
+ "reader": "agent"
+}

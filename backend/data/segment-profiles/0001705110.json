@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001705110",
+ "issuerName": "Angi Inc.",
+ "builtAt": "2026-11-16T05:30:59.587Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001705110-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/1705110/000170511026000011/angi-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

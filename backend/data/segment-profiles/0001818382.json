@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001818382",
+ "issuerName": "Humacyte, Inc.",
+ "builtAt": "2026-11-16T05:30:14.758Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001818382-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1818382/000181838226000004/huma-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Humacyte",
+   "products": [
+    "bioengineered tissue"
+   ],
+   "description": "Develops bioengineered human tissue for implants.",
+   "evidence": "Under the current organizational and reporting structure, the Company operates and manages its business on a consolidated basis as one reportable and operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hospitals and partners pay for its tissue products.",
+  "evidence": "The Company's operations are managed and reported to its Chief Executive Officer, the Company's chief operating decision maker (\"CODM\"), on a consolidated basis."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

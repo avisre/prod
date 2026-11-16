@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001132651",
+ "issuerName": "AMES NATIONAL CORPORATION",
+ "builtAt": "2026-11-16T05:30:14.398Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007976",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1132651/000143774926007976/atlo20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Operating segments are aggregated into one as operating results for all segments are similar."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and depositors are paid on balances.",
+  "evidence": "The \"management approach\" is based on the way the chief operating decision-maker organizes segments within a company for making operating decisions and assessing performance."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

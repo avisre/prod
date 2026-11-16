@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001036262",
+ "issuerName": "InTest Corporation",
+ "builtAt": "2026-11-16T05:30:59.297Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001036262-26-000012",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1036262/000103626226000012/intt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Electronic Test",
+   "products": [],
+   "description": "Sells electronic test equipment.",
+   "evidence": "We have three operating segments which are also our reportable segments and reporting units: Electronic Test, Environmental Technologies and Process Technologies."
+  },
+  {
+   "name": "Environmental Technologies",
+   "products": [],
+   "description": "Sells environmental test systems.",
+   "evidence": "We have three operating segments which are also our reportable segments and reporting units: Electronic Test, Environmental Technologies and Process Technologies."
+  },
+  {
+   "name": "Process Technologies",
+   "products": [],
+   "description": "Sells process technology equipment.",
+   "evidence": "We have three operating segments which are also our reportable segments and reporting units: Electronic Test, Environmental Technologies and Process Technologies."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Semiconductor and industrial manufacturers buy its test equipment.",
+  "evidence": "We operate our business worldwide, sell our products both domestically and internationally and manufacture our products in the U."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Electronic Test): electronic test instruments",
+  "product not in text (Environmental Technologies): environmental test equipment",
+  "product not in text (Process Technologies): process technology equipment"
+ ],
+ "reader": "agent"
+}

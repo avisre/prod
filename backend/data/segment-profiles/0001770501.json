@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001770501",
+ "issuerName": "Venu Holding Corporation",
+ "builtAt": "2026-11-16T05:30:59.304Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014137",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1770501/000149315226014137/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Venu",
+   "products": [
+    "live entertainment venues"
+   ],
+   "description": "Develops and operates live entertainment venues.",
+   "evidence": "Our chief operating decision maker assesses our operations and manages the business in one segm"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Guests buy tickets, food and hospitality.",
+  "evidence": "Our chief operating decision maker assesses our operations and manages the business in one segm"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

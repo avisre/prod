@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001356115",
+ "issuerName": "NexPoint Diversified Real Estate Trust",
+ "builtAt": "2026-11-16T05:30:13.813Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-133271",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1356115/000119312526133271/nxdt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Diversified",
+   "products": [
+    "real estate investments"
+   ],
+   "description": "Holds its diversified real estate portfolio.",
+   "evidence": "Reportable Segments The Company has two reportable segments, Diversified and Hospitality."
+  },
+  {
+   "name": "Hospitality",
+   "products": [
+    "hotels"
+   ],
+   "description": "Owns and operates hotels.",
+   "evidence": "Reportable Segments The Company has two reportable segments, Diversified and Hospitality."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Tenants and hotel guests pay rent and room rates.",
+  "evidence": "Diversified represents the Company's primary reportable segment and represents a significant majority of the Company's consolidated portfolio."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

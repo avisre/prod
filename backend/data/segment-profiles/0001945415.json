@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001945415",
+ "issuerName": "HUHUTECH International Group Inc.",
+ "builtAt": "2026-11-16T05:30:14.476Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048296",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1945415/000121390026048296/ea0287116-20f_huhutech.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

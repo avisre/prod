@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001098151",
+ "issuerName": "FIDELITY D & D BANCORP INC",
+ "builtAt": "2026-11-16T05:30:13.726Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-008215",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1098151/000143774926008215/fdbc20260301_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

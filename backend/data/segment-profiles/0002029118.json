@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0002029118",
+ "issuerName": "INFINITY NATURAL RESOURCES, INC.",
+ "builtAt": "2026-11-16T05:30:14.120Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002029118-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/2029118/000202911826000014/inr-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "exploration and production",
+   "products": [
+    "oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Explores for and produces oil, gas and NGLs.",
+   "evidence": "We operate in only one reportable segment that is the exploration and production segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells oil, natural gas and NGLs at market prices.",
+  "evidence": "We derive revenue primarily from the sale of produced oil, natural gas, and NGLs."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

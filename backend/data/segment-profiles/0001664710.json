@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001664710",
+ "issuerName": "KEROS THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:30:59.498Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001664710-26-000018",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-04",
+  "url": "https://www.sec.gov/Archives/edgar/data/1664710/000166471026000018/kros-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Keros",
+   "products": [
+    "medicines"
+   ],
+   "description": "Develops medicines for blood and bone disorders.",
+   "evidence": "The Company has one reportable segment and manages its operations on a consolidated ba"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Partners pay milestones and royalties.",
+  "evidence": "The Company has one reportable segment and manages its operations on a consolidated ba"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

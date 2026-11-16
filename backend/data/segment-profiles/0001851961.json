@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001851961",
+ "issuerName": "GCT Semiconductor Holding, Inc.",
+ "builtAt": "2026-11-16T05:30:13.203Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-124183",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1851961/000119312526124183/gcts-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "fabless semiconductor products",
+   "products": [
+    "semiconductor products"
+   ],
+   "description": "Designs fabless semiconductors for wireless and broadband.",
+   "evidence": "Segment Information The Company operates in one operating and reportable segment, providing fabless semiconductor products to customers."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Device makers buy its chips.",
+  "evidence": "The Company's chief operating decision-maker is its Chief Executive Officer."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

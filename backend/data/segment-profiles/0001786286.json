@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0001786286",
+ "issuerName": "Draganfly Inc.",
+ "builtAt": "2026-11-16T05:30:16.161Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001493152-26-012377",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1786286/000149315226012377/ex99-2.htm",
+  "exhibit": "ex99-2.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Drones",
+   "products": [
+    "unmanned aerial vehicles"
+   ],
+   "description": "Sells drones and related services.",
+   "evidence": "SEGMENTED INFORMATION As at and for the year ended December 31, 2025 the Company operates in 2 reportable segments (as at and for the year ended December 21, 2024 – 2 )."
+  },
+  {
+   "name": "Corporate",
+   "products": [],
+   "description": "Holds corporate costs.",
+   "evidence": "SEGMENTED INFORMATION As at and for the year ended December 31, 2025 the Company operates in 2 reportable segments (as at and for the year ended December 21, 2024 – 2 )."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Commercial and government customers buy its drones.",
+  "evidence": "The Drones segment derives its revenue from products and services related to the sale of unmanned aerial vehicles (UAV) while the Corporate segment includes all costs not directly associated with the Drone segm"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

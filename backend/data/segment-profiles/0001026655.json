@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001026655",
+ "issuerName": "CORE MOLDING TECHNOLOGIES, INC.",
+ "builtAt": "2026-11-16T05:31:01.424Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001026655-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1026655/000102665526000009/cmt-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "molding",
+   "products": [
+    "thermoplastic and thermoset structural products"
+   ],
+   "description": "Molds structural plastic products.",
+   "evidence": "(the \"Company\") and its subsidiaries operate in the engineered materials market as one operating segment as a molder of thermoplastic and thermoset structural products."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "OEMs buy its molded components.",
+  "evidence": "Our manufacturing facilities utilize various production processes; however, end products are similar and are not unique to a facility or customer base."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

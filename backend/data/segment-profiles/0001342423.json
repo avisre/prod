@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001342423",
+ "issuerName": "LIMONEIRA COMPANY",
+ "builtAt": "2026-11-16T05:30:17.013Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001342423-25-000039",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2025-12-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1342423/000134242325000039/lmnr-20251031.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "fresh lemons",
+   "products": [],
+   "description": "Grows and sells fresh lemons.",
+   "evidence": "The agribusiness division is comprised of four reportable operating segments: fresh lemons, lemon packing, avocados and other agribusiness, which primarily includes oranges, specialty citrus, wine gr"
+  },
+  {
+   "name": "lemon packing",
+   "products": [],
+   "description": "Packs lemons for sale.",
+   "evidence": "The agribusiness division is comprised of four reportable operating segments: fresh lemons, lemon packing, avocados and other agribusiness, which primarily includes oranges, specialty citrus, wine gr"
+  },
+  {
+   "name": "avocados",
+   "products": [],
+   "description": "Grows and sells avocados.",
+   "evidence": "The agribusiness division is comprised of four reportable operating segments: fresh lemons, lemon packing, avocados and other agribusiness, which primarily includes oranges, specialty citrus, wine gr"
+  },
+  {
+   "name": "other agribusiness",
+   "products": [
+    "oranges",
+    "specialty citrus",
+    "wine grapes"
+   ],
+   "description": "Grows and sells other crops.",
+   "evidence": "The agribusiness division is comprised of four reportable operating segments: fresh lemons, lemon packing, avocados and other agribusiness, which primarily includes oranges, specialty citrus, wine gr"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Growers, packers and retailers buy its produce.",
+  "evidence": "The agribusiness division is comprised of four reportable operating segments: fresh lemons, lemon packing, avocados and other agribusiness, which primarily includes oranges, specialty citrus, wine gr"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (fresh lemons): fresh lemons",
+  "product not in text (lemon packing): lemon packing",
+  "product not in text (avocados): avocados"
+ ],
+ "reader": "agent"
+}

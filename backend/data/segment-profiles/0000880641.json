@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "cik": "0000880641",
+ "issuerName": "EAGLE FINANCIAL SERVICES, INC.",
+ "builtAt": "2026-11-16T05:31:00.295Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000880641-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-16",
+  "url": "https://www.sec.gov/Archives/edgar/data/880641/000088064126000004/efsi-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "community banking",
+   "products": [
+    "loans",
+    "deposits"
+   ],
+   "description": "Runs its community bank.",
+   "evidence": "Business Segments The Company has three reportable operating segments: community banking, marine lending and wealth management."
+  },
+  {
+   "name": "marine lending",
+   "products": [
+    "marine loans"
+   ],
+   "description": "Lends for marine purchases.",
+   "evidence": "Business Segments The Company has three reportable operating segments: community banking, marine lending and wealth management."
+  },
+  {
+   "name": "wealth management",
+   "products": [],
+   "description": "Provides wealth and investment services.",
+   "evidence": "Business Segments The Company has three reportable operating segments: community banking, marine lending and wealth management."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest and clients pay wealth fees.",
+  "evidence": "Non-deposit investment products are offered through a third party provider."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (wealth management): wealth management services"
+ ],
+ "reader": "agent"
+}

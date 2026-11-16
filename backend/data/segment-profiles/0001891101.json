@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001891101",
  "issuerName": "BRC Inc.",
- "builtAt": "2026-11-15T14:16:15.914Z",
+ "builtAt": "2026-11-16T05:31:00.989Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001891101-26-000022",
@@ -10,15 +10,25 @@
   "filingDate": "2026-03-02",
   "url": "https://www.sec.gov/Archives/edgar/data/1891101/000189110126000022/brcc-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "coffee",
+   "products": [
+    "energy drink"
+   ],
+   "description": "Sells Black Rifle coffee and energy drinks.",
+   "evidence": "Company Overview Black Rifle Coffee Company is a Veteran-founded and led premium coffee, and energy drink, company operating through one reportable segment composed of three primary channels: Wholesale, DTC, and Outposts."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company earns revenue from retailers buying packaged coffee and RTD beverages at wholesale, from consumers buying coffee, subscriptions and merchandise directly online, and from coffee shop sales at company-owned and franchised Outposts.",
-  "evidence": "In our Wholesale channel, we sell packaged coffee and our RTD beverages through leading Food, Drug, and Mass (\"FDM\") retailers such as Walmart, Sam's Club, regional and national grocery chains, and convenience stores, such as 7-Eleven, Casey's General Store, and Circle K."
+  "text": "Consumers buy its coffee through wholesale, DTC and its outposts.",
+  "evidence": "In addition, we offer Black Rifle branded apparel, coffee brewing equipment, and outdoor and lifestyle gear designed to extend brand engagement and customer l"
  },
  "changes": [],
  "dropped": [
-  "segment name not in text: Premium coffee and energy drinks"
- ]
+  "product not in text (coffee): coffee"
+ ],
+ "reader": "agent"
 }

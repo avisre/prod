@@ -1,0 +1,46 @@
+{
+ "version": 1,
+ "cik": "0001006837",
+ "issuerName": "INNOVATE CORP.",
+ "builtAt": "2026-11-16T05:31:00.340Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001006837-26-000014",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1006837/000100683726000014/vate-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Infrastructure",
+   "products": [],
+   "description": "Owns infrastructure businesses.",
+   "evidence": "As of December 31, 2025, our three operating platforms or reportable segments, based on management's organization of the enterprise, are Infrastructure, Life Sciences and Spectrum, plus our Other segment, which includes businesses that do not meet the sep"
+  },
+  {
+   "name": "Life Sciences",
+   "products": [],
+   "description": "Owns life sciences businesses.",
+   "evidence": "As of December 31, 2025, our three operating platforms or reportable segments, based on management's organization of the enterprise, are Infrastructure, Life Sciences and Spectrum, plus our Other segment, which includes businesses that do not meet the sep"
+  },
+  {
+   "name": "Spectrum",
+   "products": [],
+   "description": "Holds spectrum assets.",
+   "evidence": "As of December 31, 2025, our three operating platforms or reportable segments, based on management's organization of the enterprise, are Infrastructure, Life Sciences and Spectrum, plus our Other segment, which includes businesses that do not meet the sep"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Its operating companies sell services and products to customers.",
+  "evidence": "\" General INNOVATE is a diversified holding company that has a portfolio of subsidiaries in a variety of operating segments."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Infrastructure): infrastructure services",
+  "product not in text (Life Sciences): life sciences products",
+  "product not in text (Spectrum): spectrum assets"
+ ],
+ "reader": "agent"
+}

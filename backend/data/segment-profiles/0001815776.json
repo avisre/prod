@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001815776",
+ "issuerName": "LENZ THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:30:15.492Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001815776-26-000011",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-24",
+  "url": "https://www.sec.gov/Archives/edgar/data/1815776/000181577626000011/lenz-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Lenz",
+   "products": [],
+   "description": "Sells prescription eye care products.",
+   "evidence": "The CODM views the Company's operations and manages its business as one operating segment op"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Eye care professionals and pharmacies buy its products.",
+  "evidence": "The CODM views the Company's operations and manages its business as one operating segment op"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Lenz): eye care products"
+ ],
+ "reader": "agent"
+}

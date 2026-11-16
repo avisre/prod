@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001642380",
+ "issuerName": "Insight Molecular Diagnostics Inc.",
+ "builtAt": "2026-11-16T05:31:00.534Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001642380-26-000004",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1642380/000164238026000004/imdx-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "diagnostic tests",
+   "products": [
+    "molecular diagnostic testing products and services"
+   ],
+   "description": "Develops and sells molecular diagnostic tests.",
+   "evidence": "Segment Reporting In accordance with ASC 280, Segment Reporting , iMDx's management views its operations as one reportable segment that includes the research, development and commercialization of diagnostic tests, including molecular diagnostic testing products and services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clinicians and partners pay for its diagnostic tests.",
+  "evidence": "Segment Reporting The Company operates and reports its results in one reportable segment, on a consolida"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

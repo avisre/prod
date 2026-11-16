@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002034723",
+ "issuerName": "One and one Green Technologies. INC",
+ "builtAt": "2026-11-16T05:31:02.166Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-048051",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/2034723/000121390026048051/ea0286902-20f_oneandone.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "trading of recycled scrap metals",
+   "products": [
+    "recycled scrap metals"
+   ],
+   "description": "Trades recycled scrap metals.",
+   "evidence": "q) Segment reporting The Company operates and manages its business as a single segment and has one operating and reportable segment, trading of recycled scrap metals."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It buys and sells recycled scrap metals.",
+  "evidence": "The chief executive officer, who is the chief operating decision maker (\"CODM\"), assesses performance and allocates resources based on net income, which is consistent with consolidated net income reported in the f"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

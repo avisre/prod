@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001566610",
+ "issuerName": "TON STRATEGY COMPANY",
+ "builtAt": "2026-11-16T05:30:59.932Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013931",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1566610/000149315226013931/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TON",
+   "products": [
+    "staking rewards"
+   ],
+   "description": "Holds and stakes TON and earns staking rewards.",
+   "evidence": "live and LyveCom are aggregated and presented as a single reportable segment in the Company's consolidated financial statements, resulting in three reportable segments, TON, MARKET."
+  },
+  {
+   "name": "MARKET",
+   "products": [],
+   "description": "Provides marketing technology and e-commerce tools.",
+   "evidence": "live and LyveCom are aggregated and presented as a single reportable segment in the Company's consolidated financial statements, resulting in three reportable segments, TON, MARKET."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It earns staking rewards on TON and sells marketing software.",
+  "evidence": "For the year ended December 31, 2025, the Company earned 2,185,286 units of TON and recognized revenue from staking rewards of approximately $4."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (TON): TON",
+  "product not in text (MARKET): marketing technology"
+ ],
+ "reader": "agent"
+}

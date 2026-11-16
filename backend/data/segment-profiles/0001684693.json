@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001684693",
+ "issuerName": "Sol-Gel Technologies Ltd.",
+ "builtAt": "2026-11-16T05:30:15.615Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001178913-26-001552",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/1684693/000117891326001552/zk2634571.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Sol-Gel",
+   "products": [],
+   "description": "Develops dermatology treatments.",
+   "evidence": "Accordingly, the Company has determined that it has one operating and reportable segment – see also Note 14."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its products.",
+  "evidence": "Segments The Company identifies operating segments in accordance with ASC Topic 280, \"Segment Reporting\"."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Sol-Gel): dermatology products"
+ ],
+ "reader": "agent"
+}

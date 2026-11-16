@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0000894315",
+ "issuerName": "SITE Centers Corp.",
+ "builtAt": "2026-11-16T05:30:13.186Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-076905",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/894315/000119312526076905/sitc-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "retail properties",
+   "products": [
+    "shopping centers"
+   ],
+   "description": "Owns and operates open-air shopping centres.",
+   "evidence": "The Company has a single operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retail tenants pay rent and recoveries.",
+  "evidence": "The Company's Chief Operating Decision Maker (\"CODM\") may review operational and financial data on an ad-hoc basis at a property level."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001086434",
+ "issuerName": "AUDIOCODES LTD.",
+ "builtAt": "2026-11-16T05:30:16.924Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001185185-26-001124",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1086434/000118518526001124/audltd20f123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "AudioCodes",
+   "products": [
+    "software"
+   ],
+   "description": "Sells voice networking and communications software.",
+   "evidence": "dollars in thousands, except share and per share data NOTE 15:- SEGMENT AND GEOGRAPHIC INFORMATION The Group operates in one operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Service providers and enterprises buy its products.",
+  "evidence": "Operating segments are defined as components of an enterprise about which separate financial information is evaluated regularly by the chief operating decision maker."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (AudioCodes): voice networking products"
+ ],
+ "reader": "agent"
+}

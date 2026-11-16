@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001615063",
+ "issuerName": "INSPIRED ENTERTAINMENT, INC.",
+ "builtAt": "2026-11-16T05:31:02.204Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009479",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1615063/000149315226009479/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

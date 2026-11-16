@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001847409",
+ "issuerName": "HIGH TIDE INC.",
+ "builtAt": "2026-11-16T05:31:00.568Z",
+ "filing": {
+  "form": "40-F",
+  "accessionNumber": "0001628280-26-004157",
+  "periodEnd": "2025-10-31",
+  "filingDate": "2026-01-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1847409/000162828026004157/hiti-ex992managementsdiscu.htm",
+  "exhibit": "hiti-ex992managementsdiscu.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "bricks-and-mortar",
+   "products": [
+    "cannabis products",
+    "consumption accessories"
+   ],
+   "description": "Runs its Canadian stores.",
+   "evidence": "This MD&A also refers to the Company's three reportable operating segments: (i) the \"bricks-and-mortar\" segment, which includes the Company's Canadian bricks-and-mortar locations, inclusive of the Canadian warehouse which supports the distribution of consumption accessories and related items to the Canadian stores; (ii) the \"e-commerce\" segment, which includes the Company's U."
+  },
+  {
+   "name": "e-commerce",
+   "products": [
+    "cannabis products"
+   ],
+   "description": "Runs its e-commerce operations.",
+   "evidence": "This MD&A also refers to the Company's three reportable operating segments: (i) the \"bricks-and-mortar\" segment, which includes the Company's Canadian bricks-and-mortar locations, inclusive of the Canadian warehouse which supports the distribution of consumption accessories and related items to the Canadian stores; (ii) the \"e-commerce\" segment, which includes the Company's U."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Customers buy cannabis and accessories in stores and online.",
+  "evidence": "This MD&A also refers to the Company's three reportable operating segments: (i) the \"bricks-and-mortar\" segment, which includes the Company's Canadian bricks-and-mortar locations, inclusive of the Canadian warehouse which supports the distribution of consumption accessories and related items to the Canadian stores; (ii) the \"e-commerce\" segment, which includes the Company's U."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

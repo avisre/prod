@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001529377",
+ "issuerName": "ARES COMMERCIAL REAL ESTATE CORPORATION",
+ "builtAt": "2026-11-16T05:30:13.415Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-26-006635",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-10",
+  "url": "https://www.sec.gov/Archives/edgar/data/1529377/000162828026006635/acre-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CRE debt",
+   "products": [],
+   "description": "Originates and manages commercial real estate debt.",
+   "evidence": "SEGMENT INFORMATION As described in Note 1 included in these consolidated financial statements, the Company operates as a single reportable segment, which derives its revenues by direct"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Borrowers pay interest on the loans it originates.",
+  "evidence": "The Company operates as one operating segment and is primarily focused on directly originating and managing a diversified portfolio of CRE debt-related investments for the Company's own account."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (CRE debt): commercial real estate debt investments"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002044255",
+ "issuerName": "Antalpha Platform Holding Company",
+ "builtAt": "2026-11-16T05:31:03.090Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-043573",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/2044255/000121390026043573/ea0285064-20f_antalpha.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Antalpha",
+   "products": [
+    "financing services"
+   ],
+   "description": "Provides financing and technology services to bitcoin miners.",
+   "evidence": "The Company has one reportable segment, and its chief operating decision maker uses one reporting segment to allocate resources and assess the performance of the Compa"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Miners pay financing fees and interest.",
+  "evidence": "The Company has one reportable segment, and its chief operating decision maker uses one reporting segment to allocate resources and assess the performance of the Compa"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

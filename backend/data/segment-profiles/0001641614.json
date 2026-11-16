@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001641614",
+ "issuerName": "CPI Card Group Inc.",
+ "builtAt": "2026-11-16T05:31:00.962Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-023812",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-05",
+  "url": "https://www.sec.gov/Archives/edgar/data/1641614/000110465926023812/pmts-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Debit and Credit",
+   "products": [
+    "payment cards"
+   ],
+   "description": "Produces debit and credit payment cards.",
+   "evidence": "Our business consists of the following reportable segments: ● Debit and Credit: primarily produces s"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Card issuers and fintechs buy its cards.",
+  "evidence": "payment card solutions market in which we operate has experienced growth in cards-in-circulation over a long-term period, driven by new account openings by legacy issuers and new entrants to the payment card market, such as financial technology companies (\"fintechs\") and others."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
