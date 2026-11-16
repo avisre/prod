@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001990251",
  "issuerName": "Wellchange Holdings Company Limited",
- "builtAt": "2026-11-16T05:49:40.567Z",
+ "builtAt": "2026-11-16T12:23:32.345Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-055994",
@@ -10,10 +10,25 @@
   "filingDate": "2026-05-14",
   "url": "https://www.sec.gov/Archives/edgar/data/1990251/000121390026055994/ea0290002-20f_wellchange.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software solutions",
+   "products": [
+    "Customized software solutions",
+    "White label software",
+    "Subscription services",
+    "MR. CLOUD"
+   ],
+   "description": "Provides customized software solutions, cloud-based SaaS platforms and white-label software development services to SMBs in Hong Kong.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for customized software solutions, white label software and cloud-based SaaS subscriptions.",
+  "evidence": "Accounts receivable mainly represent amounts due from customers for provision of customized software solutions and cloud-based SaaS services from subscription which are recorded net of allowance for the Company's expected credit losses."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

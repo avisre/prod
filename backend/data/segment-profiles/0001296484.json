@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001296484",
  "issuerName": "TOP SHIPS INC.",
- "builtAt": "2026-11-16T05:49:42.004Z",
+ "builtAt": "2026-11-16T12:24:43.057Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001140361-26-012456",
@@ -10,11 +10,42 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1296484/000114036126012456/ef20060828_20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Tanker Segment",
+   "products": [
+    "crude oil and oil products transportation services",
+    "tanker vessels"
+   ],
+   "description": "Transports crude oil and oil products by tanker, chartering vessels to charterers on time charter terms.",
+   "evidence": "Following the acquisition of M/Y Para Bellvm on April 11, 2025, we determined that we operate in two reportable segments: (i) the tanker segment and (ii) the megayacht segment."
+  },
+  {
+   "name": "Megayacht Segment",
+   "products": [
+    "M/Y Para Bellvm",
+    "recreational transportation services"
+   ],
+   "description": "Charters the megayacht M/Y Para Bellvm, providing recreational transportation services to charterers.",
+   "evidence": "Time charter revenue for the megayacht segment is generated since the acquisition of M/Y Para Bellvm on April 11, 2025, and relates to revenues from the chartering of the respective megayacht."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Charterers pay time charter hire to the company for chartering its tanker vessels and the megayacht M/Y Para Bellvm.",
+  "evidence": "Time charter revenue for the megayacht segment is generated since the acquisition of M/Y Para Bellvm on April 11, 2025, and relates to revenues from the chartering of the respective megayacht."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company added a megayacht segment after acquiring M/Y Para Bellvm, alongside its tanker segment.",
+   "evidence": "We entered the megayacht business on April 11, 2025, and, accordingly, no comparative financial information exists for the year ended December 31, 2024."
+  },
+  {
+   "text": "In 2025 tanker vessels M/T Eco West Coast and M/T Eco Malibu left the company in a spin-off.",
+   "evidence": "The consummation of the spin-off on August 1, 2025, that resulted in M/T Eco West Coast and M/T Eco Malibu leaving the Company"
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

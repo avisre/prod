@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002002236",
  "issuerName": "Springview Holdings Ltd",
- "builtAt": "2026-11-16T05:49:41.204Z",
+ "builtAt": "2026-11-16T12:23:52.679Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-048587",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-28",
   "url": "https://www.sec.gov/Archives/edgar/data/2002236/000121390026048587/ea0287290-20f_spring.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Construction projects",
+   "products": [
+    "new construction",
+    "reconstruction",
+    "additions and alterations",
+    "other general contracting services"
+   ],
+   "description": "Designs and constructs residential and commercial buildings in Singapore for its customers.",
+   "evidence": "The Company operates and manages its business as a single segment – in the development of construction projects."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for construction work on residential and commercial buildings, including design-and-build projects.",
+  "evidence": "For the contractor role, we provide our customers with quality construction work based on our team's experience and existing relationships with architects and subcontractors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

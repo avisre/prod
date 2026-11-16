@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001787803",
  "issuerName": "Meiwu Technology Company Limited",
- "builtAt": "2026-11-16T05:49:46.035Z",
+ "builtAt": "2026-11-16T12:27:21.239Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-017159",
@@ -10,8 +10,27 @@
   "filingDate": "2026-04-17",
   "url": "https://www.sec.gov/Archives/edgar/data/1787803/000149315226017159/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Skincare Products & Service",
+   "products": [],
+   "description": "Skincare products and service, one of three operating segments.",
+   "evidence": "Based on management's assessment, the Company has determined that it has three operating segments as defined by ASC 280, including quality food products platform, s kincare products & service and Technical Service."
+  },
+  {
+   "name": "Quality Food Products Platform",
+   "products": [],
+   "description": null,
+   "evidence": "Based on management's assessment, the Company has determined that it has three operating segments as defined by ASC 280, including quality food products platform, s kincare products & service and Technical Service."
+  },
+  {
+   "name": "Technical Service",
+   "products": [],
+   "description": null,
+   "evidence": "Based on management's assessment, the Company has determined that it has three operating segments as defined by ASC 280, including quality food products platform, s kincare products & service and Technical Service."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": null,
  "changes": [],

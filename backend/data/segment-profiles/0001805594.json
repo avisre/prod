@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001805594",
  "issuerName": "Jowell Global Ltd.",
- "builtAt": "2026-11-16T05:49:43.130Z",
+ "builtAt": "2026-11-16T12:25:03.992Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050429",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1805594/000121390026050429/ea0287826-20f_jowell.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Online retail",
+   "products": [
+    "Health and nutritional supplements",
+    "Cosmetic products",
+    "Household products"
+   ],
+   "description": "Sells cosmetic products, nutritional supplements and household products sourced from third-party manufacturers, plus an online marketplace for third-party sellers.",
+   "evidence": "Based on management's assessment, the Company has determined that it has only one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Online consumers pay the company for cosmetic products, nutritional supplements and household products it sells, and third-party sellers use its online marketplace.",
+  "evidence": "The Company, through its consolidated variable interest entity (\"VIE\"), engages primarily in the sale of cosmetic products, nutritional supplements, and household products sourced from third-party manufacturers and distributors, and also offers an online marketplace that enables third-party sellers to sell their products to the Company's online consumers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

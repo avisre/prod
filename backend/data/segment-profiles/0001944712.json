@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001944712",
  "issuerName": "Baiya International Group Inc.",
- "builtAt": "2026-11-16T05:49:39.667Z",
+ "builtAt": "2026-11-16T12:22:27.268Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050223",
@@ -10,10 +10,23 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1944712/000121390026050223/ea0287704-20f_baiya.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Job matching services",
+   "products": [
+    "Gongwuyuan Platform",
+    "flexible employment matching services"
+   ],
+   "description": "Provides job matching and flexible employment matching services in China through the Gongwuyuan Platform.",
+   "evidence": "The Gongwuyuan Platform was launched in November 2019 and has since expanded its flexible employment matching services in 5 provinces and 30 cities."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers located in the PRC pay the company for services rendered, with receivables typically unsecured.",
+  "evidence": "Accounts receivable are typically unsecured and derived from services rendered to customers that are located in the PRC, thereby exposed to credit risk."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

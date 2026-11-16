@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001756180",
  "issuerName": "NOCERA, INC.",
- "builtAt": "2026-11-16T05:49:43.265Z",
+ "builtAt": "2026-11-16T12:25:33.831Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-003002",
@@ -10,11 +10,34 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1756180/000168316826003002/nocera_i10k-123125.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fish Trading",
+   "products": [
+    "fish",
+    "eels"
+   ],
+   "description": "Trades fish, primarily eels, sourced and sold in Taiwan, arranging harvesting, inspection and delivery to customers.",
+   "evidence": "NTB engages in the trading of fish, primarily eels, in the Republic of Taiwan, or Taiwan."
+  },
+  {
+   "name": "E-Commerce",
+   "products": [
+    "third-party products"
+   ],
+   "description": "Acts as an agent facilitating sales of third-party products through live-streaming e-commerce platforms, earning commission.",
+   "evidence": "In the E-Commerce segment, we have focused on the United States, France, and the People's Republic of China, or China."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers buy fish and eels from the company; the company earns commission, recognized on a net basis, from facilitating third-party product sales on live-streaming platforms.",
+  "evidence": "The Company does not take control of the goods sold, and commission revenue is recognized on a net basis."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "change not grounded: In 2025 the Catering segment was disposed of on December 31 and its results were"
+ ],
  "reader": "agent"
 }

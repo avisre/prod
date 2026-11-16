@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001811216",
  "issuerName": "Baosheng Media Group Holdings Ltd",
- "builtAt": "2026-11-16T05:49:45.039Z",
+ "builtAt": "2026-11-16T12:26:33.032Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001104659-26-053161",
@@ -10,10 +10,20 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1811216/000110465926053161/baos-20251231x20f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Advertising service",
+   "products": [],
+   "description": "Provides advertising services connecting advertisers with media; the company's only reportable segment.",
+   "evidence": "Since the Company operates in one reportable segment, all financial information required can be found in the consolidated financial statements."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Advertisers pay the company for advertising services rendered to them, mainly in China.",
+  "evidence": "Accounts receivable are typically unsecured and derived from services rendered to advertisers that are located primarily in China, thereby exposed to credit risk."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

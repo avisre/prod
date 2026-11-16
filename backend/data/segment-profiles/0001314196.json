@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001314196",
  "issuerName": "The OLB Group, Inc.",
- "builtAt": "2026-11-16T05:49:39.663Z",
+ "builtAt": "2026-11-16T12:22:42.536Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-037906",
@@ -10,10 +10,36 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1314196/000121390026037906/ea0282959-10k_olbgroup.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fintech Services",
+   "products": [
+    "eVance",
+    "OmniSoft",
+    "CrowdPay",
+    "Transaction and processing fees",
+    "Merchant equipment rental and sales",
+    "Other revenue from monthly recurring subscriptions",
+    "Digital product revenue"
+   ],
+   "description": "Provides merchant payment processing, business management software and crowdfunding platforms to small and mid-sized businesses in the United States.",
+   "evidence": "The Company has two reportable segments: Bitcoin Mining and Fintech Services."
+  },
+  {
+   "name": "Bitcoin Mining",
+   "products": [
+    "Revenue, net - bitcoin mining"
+   ],
+   "description": "Operates Bitcoin mining computers in data centers and earns revenue from mining Bitcoin.",
+   "evidence": "The purpose of DMINT is to operate its business related to Bitcoin mining (\"Bitcoin Business\")."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Companies and broker-dealers pay CrowdPay a fee for using its capital-raising platform, and merchants pay for payment processing.",
+  "evidence": "CrowdPay charges a fee to each company and broker-dealer for the use of its platform under a fee structure that is agreed to between CrowdPay and the Company and/or broker-dealer prior to the initiation of the offering."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

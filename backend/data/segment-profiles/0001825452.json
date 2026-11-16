@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001825452",
  "issuerName": "Onfolio Holdings Inc.",
- "builtAt": "2026-11-16T05:49:45.348Z",
+ "builtAt": "2026-11-16T12:27:02.247Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001654954-26-003083",
@@ -10,11 +10,41 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1825452/000165495426003083/onfo_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "B2B",
+   "products": [
+    "Eastern Standard",
+    "RevenueZen",
+    "DDS Rank",
+    "SEO Butler",
+    "Contentellect",
+    "Pace Generative",
+    "DealPipe"
+   ],
+   "description": "Provides digital marketing and other primarily service-related offerings to business customers.",
+   "evidence": "Our B2B segment includes the results of operations of Eastern Standard, RevenueZen, DDS Rank, SEO Butler, Contentellect, Pace Generative and DealPipe."
+  },
+  {
+   "name": "B2C",
+   "products": [
+    "Proofread Anywhere",
+    "Mighty Deals",
+    "Vital Reaction"
+   ],
+   "description": "Sells products, including digital products, to individual consumers through its online businesses.",
+   "evidence": "Our B2C segment includes the results of operations of Proofread Anywhere, Mighty Deals, and Vital Reaction."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Pays the company for website management, advertising, content placement and product sales from its online businesses.",
+  "evidence": "The Company primarily earns revenue through website management, advertising and content placement on its online businesses, and product sales on certain sites."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "change not grounded: WPFolio was sold in the fourth quarter of 2024, removing its revenue from the B2"
+ ],
  "reader": "agent"
 }

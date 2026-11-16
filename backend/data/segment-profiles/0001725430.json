@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001725430",
  "issuerName": "Intelligent Bio Solutions Inc.",
- "builtAt": "2026-11-16T05:49:40.352Z",
+ "builtAt": "2026-11-16T12:23:23.771Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-039136",
@@ -10,10 +10,58 @@
   "filingDate": "2026-08-19",
   "url": "https://www.sec.gov/Archives/edgar/data/1725430/000149315226039136/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Americas",
+   "products": [
+    "IFP Products",
+    "cartridges",
+    "readers",
+    "accessories"
+   ],
+   "description": "Sales of IFP Products, including cartridges, readers and accessories, in North and South America.",
+   "evidence": "Accordingly, management has concluded that the Company has four reportable segments consisting of the Americas, United Kingdom, APAC and Rest of World."
+  },
+  {
+   "name": "United Kingdom",
+   "products": [
+    "IFP Products",
+    "cartridges",
+    "readers",
+    "accessories"
+   ],
+   "description": "Sales of IFP Products, including cartridges, readers and accessories, in England, Scotland, Northern Ireland and Wales.",
+   "evidence": "Accordingly, management has concluded that the Company has four reportable segments consisting of the Americas, United Kingdom, APAC and Rest of World."
+  },
+  {
+   "name": "APAC",
+   "products": [
+    "IFP Products",
+    "cartridges",
+    "readers",
+    "accessories"
+   ],
+   "description": "Sales of IFP Products, including cartridges, readers and accessories, in South East Asia and Oceania.",
+   "evidence": "Accordingly, management has concluded that the Company has four reportable segments consisting of the Americas, United Kingdom, APAC and Rest of World."
+  },
+  {
+   "name": "Rest of World",
+   "products": [
+    "IFP Products",
+    "cartridges",
+    "readers",
+    "accessories"
+   ],
+   "description": "Sales of IFP Products, including cartridges, readers and accessories, in all countries outside the other three segments.",
+   "evidence": "Accordingly, management has concluded that the Company has four reportable segments consisting of the Americas, United Kingdom, APAC and Rest of World."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay the company for IFP Products, which include cartridges, readers and accessories.",
+  "evidence": "Each reportable segment derives its revenues from the sale of the IFP Products which include cartridges, readers and accessories."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

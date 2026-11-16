@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001979407",
  "issuerName": "Orangekloud Technology Inc.",
- "builtAt": "2026-11-16T05:49:40.324Z",
+ "builtAt": "2026-11-16T12:23:12.180Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-019732",
@@ -10,10 +10,38 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1979407/000149315226019732/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Packaged software solutions",
+   "products": [
+    "Microsoft Dynamics ERP software licenses",
+    "solution architecture consultancy",
+    "business process re-mapping",
+    "system customization",
+    "customer support"
+   ],
+   "description": "Sells and implements Microsoft Dynamics ERP software and related consulting, customization and support for businesses.",
+   "evidence": "Our digital transformation projects encompass various aspects, such as sales and consulting of Microsoft Dynamics ERP software licenses, along with project implementation steps like solution architecture consultancy, business process re-mapping, system customization, and customer support."
+  },
+  {
+   "name": "No-Code platform and mobile application",
+   "products": [
+    "eMOBIQ® platform",
+    "OK365®",
+    "Delivery Portal",
+    "B2B Self-Ordering portal",
+    "Marketplace Connector Portal"
+   ],
+   "description": "No-code platform letting professional and citizen developers build business apps faster, plus web portals for collecting customer data.",
+   "evidence": "The eMOBIQ® platform enables organizations to speed up their enterprise application development cycle by offering an intuitive and visual interface that requires no coding."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay subscriptions, software licences and products, and professional services fees for the platform and digital transformation projects.",
+  "evidence": "We derive the majority of our revenue from platform subscriptions, license and products and professional services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

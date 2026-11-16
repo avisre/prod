@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001936817",
  "issuerName": "Haoxin Holdings Limited",
- "builtAt": "2026-11-16T05:49:40.273Z",
+ "builtAt": "2026-11-16T12:23:06.921Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050203",
@@ -10,11 +10,29 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1936817/000121390026050203/ea0287691-20f_haoxin.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Transportation services",
+   "products": [
+    "temperature-controlled truckload service",
+    "urban delivery services"
+   ],
+   "description": "Provides temperature-controlled truckload and urban delivery transportation services to customers in China, charged by mileage.",
+   "evidence": "The Company concludes that it has only one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company by mileage for temperature-controlled truckload transportation and urban delivery services.",
+  "evidence": "We mainly provide transportation services with our large and medium-sized temperature-controlled logistics transportation vehicles, and charge our customers based on mileage."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company disposed of its urban delivery subsidiaries Haiyue and Longanda.",
+   "evidence": "Upon completion of the disposal, Haiyue and Longanda were deconsolidated from our financial statements."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001905956",
  "issuerName": "Treasure Global Inc",
- "builtAt": "2026-11-16T05:49:39.547Z",
+ "builtAt": "2026-11-16T12:38:26.343Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-109073",
@@ -10,11 +10,37 @@
   "filingDate": "2026-10-13",
   "url": "https://www.sec.gov/Archives/edgar/data/1905956/000121390026109073/ea0306002-10k_treausre.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "ZCITY Platform",
+   "products": [
+    "ZCITY App"
+   ],
+   "description": "Payment processing and e-commerce operations through the ZCITY App, offering consumers and merchants rebates, cashback and e-payments.",
+   "evidence": "The Company has two reportable segments: (i) payment processing and e-commerce operation on its ZCITY platform, and (ii) customized software development service."
+  },
+  {
+   "name": "Customized Software development service",
+   "products": [],
+   "description": "Designs and develops customized software for customers under software development agreements.",
+   "evidence": "During the year ended June 30, 2025, the Company introduced a new revenue stream through customized software development services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "revenueModel": {
+  "text": "Customers pay the company for customized software development and for sales on the ZCITY platform.",
+  "evidence": "Accounts receivable include money due from sales of software development, and sales of health care products on its ZCITY platform."
+ },
+ "changes": [
+  {
+   "text": "In 2025, customized software development services became a second reportable segment alongside the ZCITY Platform.",
+   "evidence": "During the year ended June 30, 2025, the Company introduced a new revenue stream through customized software development services."
+  }
+ ],
+ "dropped": [
+  "product not in text (ZCITY Platform): ZCITY platform",
+  "product not in text (Customized Software development service): Customized Software development service"
+ ],
  "reader": "agent"
 }

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001769768",
  "issuerName": "E-Home Household Service Holdings Limited",
- "builtAt": "2026-11-16T05:49:43.774Z",
+ "builtAt": "2026-11-16T12:25:49.574Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-116914",
@@ -10,11 +10,57 @@
   "filingDate": "2026-11-06",
   "url": "https://www.sec.gov/Archives/edgar/data/1769768/000121390026116914/ea0311040-20f_ehomehouse.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
- "dropped": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Installation and Maintenance",
+   "products": [
+    "home appliance services",
+    "installation",
+    "repair",
+    "maintenance",
+    "after-sales services"
+   ],
+   "description": "Provides home appliance installation, repair, maintenance and after-sales services to households through partnered service providers.",
+   "evidence": "We respond to service requests from homeowners who require assistance with technical home appliance installation and repair issues."
+  },
+  {
+   "name": "Housekeeping",
+   "products": [
+    "housekeeping services",
+    "house cleaning"
+   ],
+   "description": "Provides housekeeping and house cleaning services to individuals and families through individual service providers.",
+   "evidence": "For our housekeeping services, we primarily partner with individual service providers who serve as independent contractors."
+  },
+  {
+   "name": "Senior care services",
+   "products": [],
+   "description": "Offered senior care services until the company ceased them during fiscal 2025 after market demand declined.",
+   "evidence": "For the year ended June 30, 2025, we generated revenue from senior care services in an amount of $353,404, or 0.7% of our total revenue."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers, mainly individuals and families, pay the company for installation, housekeeping and senior care services ordered through its online platform.",
+  "evidence": "We mainly generate revenue from providing installation and maintenance services, housekeeping services, and senior care services to our customers."
+ },
+ "changes": [
+  {
+   "text": "Senior care services were ceased during fiscal 2025 because market demand declined.",
+   "evidence": "During that fiscal year, we ceased offering senior care services due to the decline in market demand, which made it increasingly difficult to acquire new customers or generate revenue from existing ones."
+  },
+  {
+   "text": "The Company disposed of Zhongrun, its pharmaceutical products operation, during fiscal 2025.",
+   "evidence": "During the year ended June 30, 2025, we disposed our 75% equity interest in Zhongrun for total consideration of RMB 1,087,500 (approximately $151,285)."
+  },
+  {
+   "text": "The Company disposed of Chuangying, its educational consulting services operation, during fiscal 2026.",
+   "evidence": "During the year ended June 30, 2026, the Company disposed our 100% equity interest in Chuangying for total consideration of RMB 1,800,000 (approximately $257,588)."
+  }
+ ],
+ "dropped": [
+  "product not in text (Senior care services): Senior care services"
+ ],
  "reader": "agent"
 }

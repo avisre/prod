@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002030954",
  "issuerName": "TEN Holdings, Inc.",
- "builtAt": "2026-11-16T05:49:41.519Z",
+ "builtAt": "2026-11-16T12:24:18.090Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-011249",
@@ -10,10 +10,26 @@
   "filingDate": "2026-03-18",
   "url": "https://www.sec.gov/Archives/edgar/data/2030954/000149315226011249/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "TEN Events",
+   "products": [
+    "Hybrid and Virtual Events",
+    "Physical Events",
+    "Xyvid Pro platform",
+    "TEN Pro platform",
+    "continuing education services"
+   ],
+   "description": "Plans, produces and broadcasts virtual, hybrid and physical events for customers, mainly corporate ones.",
+   "evidence": "The Company currently operates its business as one operating segment which includes two revenue types: Hybrid and Virtual Events and Physical Events."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Event clients pay service fees for planning, production and broadcasting of virtual, hybrid and physical events.",
+  "evidence": "We charge service fees for providing our virtual and hybrid events."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

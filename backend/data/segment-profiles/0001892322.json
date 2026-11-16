@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001892322",
  "issuerName": "HeartCore Enterprises, Inc.",
- "builtAt": "2026-11-16T05:49:45.623Z",
+ "builtAt": "2026-11-16T12:26:56.435Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014236",
@@ -10,11 +10,29 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/1892322/000149315226014236/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Go IPO Consulting Services",
+   "products": [
+    "Go IPO suite",
+    "process mining and task mining licenses"
+   ],
+   "description": "Provides Go IPO consulting services helping private Japanese companies list on U.S. exchanges.",
+   "evidence": "The Company determines its operations constitute a single operating segment and reportable segment in accordance with ASC Topic 280."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Japanese issuers pay the company cash consulting fees in installments plus warrants or stock acquisition rights for IPO support services.",
+  "evidence": "Pursuant to the terms of the consulting agreements with the issuers, the issuers agree to compensate us as follows in return for the provision of Services during the initial term of the consulting agreements: (a) A cash fee payable in installment payments; and (b) Issuance by issuers to us of warrants or stock acquisition rights to acquire a number of shares of capital stock of the issuer, to initially be equal to a designated percentage of the fully diluted share capital of the issuer, subject "
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company sold its software business in Japan to concentrate on its GO IPO consulting business.",
+   "evidence": "In 2025, we made the strategic decision to sell our software business assets in Japan and to concentrate our efforts on our GO IPO consulting business."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

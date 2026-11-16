@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001881472",
  "issuerName": "Magic Empire Global Ltd",
- "builtAt": "2026-11-16T05:49:41.318Z",
+ "builtAt": "2026-11-16T12:23:51.894Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-016153",
@@ -10,10 +10,25 @@
   "filingDate": "2026-04-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1881472/000149315226016153/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Corporate finance advisory",
+   "products": [
+    "IPO sponsorship services",
+    "Financial advisory and independent financial advisory services",
+    "Compliance advisory services",
+    "Corporate services"
+   ],
+   "description": "Provides corporate finance advisory in Hong Kong: IPO sponsorship, financial and independent financial advice, compliance advisory and corporate services.",
+   "evidence": "We are a financial services provider in Hong Kong which principally engage in the provision of corporate finance advisory services."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Listing applicants and listed companies, mainly in Hong Kong, pay fees for IPO sponsorship, financial advisory, compliance advisory and corporate services.",
+  "evidence": "Our major clients are mainly listing applicants and listed companies in Hong Kong, as well as private companies and investors."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

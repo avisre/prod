@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001948099",
  "issuerName": "Mingteng International Corporation Inc.",
- "builtAt": "2026-11-16T05:49:39.893Z",
+ "builtAt": "2026-11-16T12:22:46.289Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-050226",
@@ -10,10 +10,20 @@
   "filingDate": "2026-04-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1948099/000121390026050226/ea0287175-20f_mingteng.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Mold Production",
+   "products": [],
+   "description": "The company's only operating segment, conducted through its PRC subsidiary Wuxi Mingteng Mould, sells all its products and services in China.",
+   "evidence": "Based on the management's assessment, the Company determined that it has only one operating segment and therefore one reportable segment as defined by ASC 280."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers in the PRC pay the company for the products and services it sells or provides there.",
+  "evidence": "All of the Company's products and services are sold or provided in the PRC."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

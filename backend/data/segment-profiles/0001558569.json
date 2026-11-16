@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001558569",
  "issuerName": "iSpecimen Inc.",
- "builtAt": "2026-11-16T05:49:44.154Z",
+ "builtAt": "2026-11-16T12:25:59.294Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-038607",
@@ -10,10 +10,23 @@
   "filingDate": "2026-04-01",
   "url": "https://www.sec.gov/Archives/edgar/data/1558569/000121390026038607/ea0283252-10k_ispecimen.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Biospecimen Marketplace",
+   "products": [
+    "iSpecimen Marketplace",
+    "SalesStack"
+   ],
+   "description": "Operates a two-sided online marketplace connecting life science researchers with healthcare providers' human biospecimens, subjects and data.",
+   "evidence": "We manage our business globally within one operating segment in accordance with ASC Topic 280, Segment Reporting (\"ASC 280\")."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Researchers pay iSpecimen to buy specimens and associated data they order through the marketplace.",
+  "evidence": "Researchers can then select the specific specimens they need for their studies, add them to a cart, request quotes, place orders, and track and manage their specimen requests and associated data across projects."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001937737",
  "issuerName": "MOOLEC SCIENCE SA",
- "builtAt": "2026-11-16T05:49:42.056Z",
+ "builtAt": "2026-11-16T12:24:43.438Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-25-125820",
@@ -10,11 +10,30 @@
   "filingDate": "2025-12-29",
   "url": "https://www.sec.gov/Archives/edgar/data/1937737/000121390025125820/ea0270125-20f_moolec.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "science-based food ingredients",
+   "products": [],
+   "description": "Science-based food ingredients, sold to multi-national and local agricultural companies, distributors, and farmers.",
+   "evidence": "After the BIOX deconsolidation, that took place in June 24, 2025 the Group is organized under a single operating segment, which is \"science-based food ingredients\"."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Multi-national and local agricultural companies, distributors, and farmers pay the Group for the products they purchase.",
+  "evidence": "Customers include multi-national and local agricultural companies, distributors, and farmers who purchase the Group's products."
+ },
+ "changes": [
+  {
+   "text": "In 2025, after the BIOX deconsolidation, the Group was organized under a single operating segment.",
+   "evidence": "After the BIOX deconsolidation, that took place in June 24, 2025 the Group is organized under a single operating segment, which is \"science-based food ingredients\"."
+  },
+  {
+   "text": "In 2025, the Group deconsolidated Bioceres Crop Solutions (BIOX), which it had controlled de facto since 2023.",
+   "evidence": "The subsidiary was deconsolidated as of June 30, 2025, and the investment in it was measured using the equity method."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

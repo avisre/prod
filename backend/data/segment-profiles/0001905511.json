@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001905511",
  "issuerName": "JE CLEANTECH HOLDINGS LIMITED",
- "builtAt": "2026-11-16T05:49:39.683Z",
+ "builtAt": "2026-11-16T12:22:47.682Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-021923",
@@ -10,10 +10,34 @@
   "filingDate": "2026-05-08",
   "url": "https://www.sec.gov/Archives/edgar/data/1905511/000149315226021923/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "sale of cleaning systems and other equipment",
+   "products": [
+    "aqueous washing systems",
+    "plating and cleaning systems",
+    "train cleaning systems"
+   ],
+   "description": "Designs, develops, manufactures and sells cleaning systems and other equipment for industrial customers, mainly in Singapore and Malaysia.",
+   "evidence": "We manufacture a broad range of cleaning systems, including aqueous washing systems, plating and cleaning systems, train cleaning systems and other equipment for our customers."
+  },
+  {
+   "name": "provision of centralized dishware washing and general cleaning services",
+   "products": [
+    "centralized dishwashing services",
+    "general cleaning services",
+    "Leasing of dishware washing equipment"
+   ],
+   "description": "Provides centralized dishwashing and general cleaning services, mainly to food and beverage establishments in Singapore.",
+   "evidence": "We have also provided general cleaning services since 2015, mainly for food courts in Singapore."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the Company for cleaning systems and other equipment it sells, and for centralized dishwashing and general cleaning services provided mainly to food and beverage establishments in Singapore.",
+  "evidence": "Our Group is based in Singapore and is principally engaged in: (i) the sale of cleaning systems and other equipment; and (ii) the provision of centralized dishwashing and ancillary services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001557798",
  "issuerName": "TIANCI INTERNATIONAL, INC.",
- "builtAt": "2026-11-16T05:49:44.566Z",
+ "builtAt": "2026-11-16T12:26:19.505Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001683168-26-008309",
@@ -10,11 +10,27 @@
   "filingDate": "2026-11-04",
   "url": "https://www.sec.gov/Archives/edgar/data/1557798/000168316826008309/tianci_i10k-073126.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Global logistics services",
+   "products": [
+    "Sale of Minerals",
+    "Business Consulting Services",
+    "Electronic Device Hardware Components Sales"
+   ],
+   "description": "Ocean freight forwarding and bulk shipping logistics for cargo owners, plus mineral trading and electronic parts sales in Asia-Pacific.",
+   "evidence": "Based on qualitative and quantitative criteria established by ASC 280, the Company considers itself to be operating within one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Cargo owners and agents pay Roshing invoiced fees for container and bulk shipping, plus revenue from mineral ore and electronic parts sales.",
+  "evidence": "Roshing issues an invoice and debit note to the customer for fee collection."
+ },
  "changes": [],
- "dropped": [],
+ "dropped": [
+  "product not in text (Global logistics services): global logistics services"
+ ],
  "reader": "agent"
 }

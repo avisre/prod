@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002032545",
  "issuerName": "CALLAN JMB INC.",
- "builtAt": "2026-11-16T05:49:46.099Z",
+ "builtAt": "2026-11-16T12:27:17.201Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-014292",
@@ -10,10 +10,25 @@
   "filingDate": "2026-03-31",
   "url": "https://www.sec.gov/Archives/edgar/data/2032545/000149315226014292/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Logistics and fulfillment",
+   "products": [
+    "Emergency Preparedness and Response",
+    "Specialty Packaging",
+    "Fulfillment Service",
+    "Advanced Monitoring Sentry Technology"
+   ],
+   "description": "Provides thermal management logistics and fulfillment to the life sciences industry, including emergency response, specialty packaging and monitoring.",
+   "evidence": "To date, the Company has viewed its operations and manages its business as one operating segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Customers pay for logistics, emergency response, packaging and monitoring services for shipments of life sciences products.",
+  "evidence": "As of December 31, 2025, our top three customers, the Customer 1 (58%), Customer 2 (10%), and Customer 3 (11%), collectively accounted for approximately 79% of our revenue."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

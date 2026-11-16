@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001080657",
  "issuerName": "PRESIDIO PROPERTY TRUST, INC.",
- "builtAt": "2026-11-16T05:49:45.313Z",
+ "builtAt": "2026-11-16T12:26:57.908Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-010114",
@@ -10,10 +10,45 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1080657/000143774926010114/sqft20251231_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Office/Industrial Properties",
+   "products": [
+    "Genesis Plaza",
+    "Dakota Center",
+    "Grand Pacific Center",
+    "Arapahoe Center",
+    "West Fargo Industrial",
+    "One Park Centre",
+    "Shea Center II",
+    "McElderry"
+   ],
+   "description": "Office and industrial properties leased to commercial tenants on multi-tenant leases, generating rental and recovery revenue.",
+   "evidence": "The Company acquires and operates income producing properties in three business segments including Office/Industrial Properties, Model Home Properties and Retail Properties."
+  },
+  {
+   "name": "Model Home Properties",
+   "products": [
+    "model homes"
+   ],
+   "description": "Model homes bought from homebuilders and leased back to them on triple-net leases for their residential marketing.",
+   "evidence": "Our Model Home Properties are leased back, on a triple-net basis, to homebuilders."
+  },
+  {
+   "name": "Retail Properties",
+   "products": [
+    "Mandolin"
+   ],
+   "description": "Retail property held for rental income from its commercial tenant.",
+   "evidence": "The Company acquires and operates income producing properties in three business segments including Office/Industrial Properties, Model Home Properties and Retail Properties."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Commercial tenants pay rent and recoveries on office, industrial and retail leases; homebuilders pay triple-net rent on leased-back model homes.",
+  "evidence": "For the Model Home segment, the properties are leased on a triple net basis and the tenants are responsible for a significant portion of the operating expenses."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

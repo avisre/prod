@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001979610",
  "issuerName": "WF International Limited",
- "builtAt": "2026-11-16T05:49:44.588Z",
+ "builtAt": "2026-11-16T12:26:14.238Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001731122-26-000158",
@@ -10,10 +10,24 @@
   "filingDate": "2026-01-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1979610/000173112226000158/e7256_20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "HVAC system installation",
+   "products": [
+    "HVAC system installation and servicing projects",
+    "air conditioner sales",
+    "other customized services"
+   ],
+   "description": "Installs and services HVAC systems, sells air conditioners, and provides other customized services, with all revenue derived from the PRC.",
+   "evidence": "Based on qualitative and quantitative criteria established by ASC 280, the Company considers itself to be operating within one reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay for HVAC system installation and servicing projects, air conditioner sales, and other customized services.",
+  "evidence": "The Company primarily engaged in three business lines: HVAC system installation and servicing projects, air conditioner sales, and other customized services."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

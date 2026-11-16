@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001839285",
  "issuerName": "HEALTHCARE TRIANGLE, INC.",
- "builtAt": "2026-11-16T05:49:43.948Z",
+ "builtAt": "2026-11-16T12:26:04.542Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001213900-26-044078",
@@ -10,11 +10,40 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1839285/000121390026044078/ea0284191-10k_healthcare.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Software Services",
+   "products": [],
+   "description": "Strategic advisory, implementation and development services delivered to healthcare and Life Sciences clients under statements of work.",
+   "evidence": "The Company earns revenue primarily through the sale of software services that is generated from providing strategic advisory, implementation, and development services."
+  },
+  {
+   "name": "Managed Services and Support",
+   "products": [],
+   "description": "Post-implementation support and cloud hosting for healthcare and Life Sciences clients, recognized ratably over the life of the contract.",
+   "evidence": "Managed Services and Support include post implementation support and cloud hosting."
+  },
+  {
+   "name": "Corporate & Others",
+   "products": [
+    "Platform Services"
+   ],
+   "description": "Corporate head office costs and standard Platform Services contracts for data analytics and backup and recovery.",
+   "evidence": "This segment includes Corporate Head Office of the Company as well as the standard contracts for its Platform Services, however the statement of work contained in such contracts is unique for each customer."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Healthcare and Life Sciences clients pay for software services, managed services and support, and platform services under contracts.",
+  "evidence": "The Company earns revenue primarily through the sale of software services that is generated from providing strategic advisory, implementation, and development services."
+ },
+ "changes": [
+  {
+   "text": "Corporate & Others was formerly classified under the Platform Segment, as shown in the 2024 comparative figures.",
+   "evidence": "(1) formerly classified under Platform Segment."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

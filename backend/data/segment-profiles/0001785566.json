@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001785566",
  "issuerName": "Zhongchao Inc.",
- "builtAt": "2026-11-16T05:49:41.898Z",
+ "builtAt": "2026-11-16T12:24:19.948Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-039923",
@@ -10,11 +10,33 @@
   "filingDate": "2026-04-03",
   "url": "https://www.sec.gov/Archives/edgar/data/1785566/000121390026039923/ea0283815-20f_zhongchao.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MDMOOC services",
+   "products": [
+    "MDMOOC mobile App",
+    "MOOC Medical mobile app",
+    "MOOC Medical WeChat subscription account",
+    "MDMOOC website",
+    "Zhongxin Health WeChat mini program",
+    "Zhongxun"
+   ],
+   "description": "Provides healthcare training, education and online information services to healthcare professionals and patient management services for oncology and rare diseases in China.",
+   "evidence": "Based on management's assessment, the Company has determined that it had two operating segments before the disposal of the sales of patented drugs operating segment on June 30, 2025: (i) MDMOOC services, and (ii) sales of patented drugs."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Pharmaceutical enterprises and NFP customers pay the company for patient management services and for project-based training columns on its platform.",
+  "evidence": "The PRC operating entities provide focused patient management services, via their \"Zhongxun\" IT system and WeChat mini program and Zhongxin Health WeChat mini program, to their pharmaceutical enterprises and NFP customers."
+ },
+ "changes": [
+  {
+   "text": "In 2025 the company disposed of its sales of patented drugs operating segment, leaving MDMOOC services.",
+   "evidence": "The disposal of the patented drug sales business signifies a strategic shift."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

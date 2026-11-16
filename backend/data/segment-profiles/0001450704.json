@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001450704",
  "issuerName": "VIVAKOR, INC.",
- "builtAt": "2026-11-16T05:49:41.491Z",
+ "builtAt": "2026-11-16T12:24:14.634Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001829126-26-003530",
@@ -10,11 +10,53 @@
   "filingDate": "2026-04-15",
   "url": "https://www.sec.gov/Archives/edgar/data/1450704/000182912626003530/vivakor_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Transportation and Logistics",
+   "products": [
+    "trucking fleet",
+    "Omega Gathering Pipeline"
+   ],
+   "description": "Transports crude oil by trucking and pipeline for producers and refiners across major U.S. producing basins.",
+   "evidence": "The transportation and logistics segment includes crude oil gathering and transportation assets, including pipeline and trucking operations in the Permian and Anadarko Basins."
+  },
+  {
+   "name": "Terminaling and Storage Services",
+   "products": [
+    "Colorado City, Texas Facility",
+    "Delhi, Louisiana Facility",
+    "CP Omega Terminal"
+   ],
+   "description": "Operates crude oil terminal facilities and pipeline injection stations that give producers takeaway capacity and storage.",
+   "evidence": "The terminaling and storage services segment consists of crude oil terminal facilities located in Colorado City, Texas and Delhi, Louisiana."
+  },
+  {
+   "name": "Supply and Trading",
+   "products": [
+    "crude oil",
+    "condensate",
+    "natural gas liquids"
+   ],
+   "description": "Purchases, aggregates, markets and resells crude oil, condensate and natural gas liquids for producers, refiners and end users.",
+   "evidence": "The supply and trading segment purchases and markets crude oil, condensate, and related hydrocarbon products."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Producers, marketers and refiners pay for crude oil transportation, terminaling and storage, and buyers pay for crude oil and related products resold under contract.",
+  "evidence": "Our customers include leading producers, marketers, and refiners such as Marathon Oil Company, ConocoPhillips, Phillips 66, BP, Civitas, and Validus."
+ },
+ "changes": [
+  {
+   "text": "In the third quarter of 2025, the company changed from two to three reportable segments by adding supply and trading.",
+   "evidence": "As a result, the Company now reports three operating segments: transportation and logistics, terminaling and storage services, and supply and trading."
+  },
+  {
+   "text": "In July 2025, the company sold its Meridian Equipment Leasing and Equipment Transport water trucking businesses to Jorgan Development.",
+   "evidence": "On July 30, 2025, we sold all of the issued and outstanding limited liability company membership interests in Meridian Equipment Leasing, LLC, a Texas limited liability company, and Equipment Transport, LLC, a Pennsylvania limited liability company (the \"Water Trucking Sale\"), pursuant to that certain Membership Interest Purchase Agreement of even date therewith by and between Vivakor Transportation, LLC, as Seller, and Jorgan Development, LLC, as Buyer (the \"Water Trucking Sale Agreement\"), in "
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

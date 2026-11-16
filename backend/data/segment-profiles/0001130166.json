@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001130166",
  "issuerName": "Bio Green Med Solution, Inc.",
- "builtAt": "2026-11-16T05:49:42.313Z",
+ "builtAt": "2026-11-16T12:24:42.066Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001493152-26-013669",
@@ -10,11 +10,33 @@
   "filingDate": "2026-03-30",
   "url": "https://www.sec.gov/Archives/edgar/data/1130166/000149315226013669/form10-k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Fire safety equipment",
+   "products": [
+    "Fire safety equipment and extinguishers",
+    "Foam system",
+    "Fire resistant doors",
+    "Personal Protective Equipment (PPE) and Fire Safety Apparel",
+    "Maintenance & Servicing",
+    "Project - supply & installation"
+   ],
+   "description": "Sells fire safety equipment, foam systems, fire-resistant doors and protective apparel to municipalities, fire contractors, distributors and individuals.",
+   "evidence": "The Company views its current business as one reportable operating segment with operations in one geographic area, namely Malaysia."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Municipalities, fire contractors, distributors and individuals pay the company directly for fire safety products bought from it.",
+  "evidence": "All products are sold directly to customers (e.g., municipalities, fire contractors, distributors and individuals)."
+ },
+ "changes": [
+  {
+   "text": "In 2025, after acquiring Fitters, the single segment changed from cancer medicine development to fire safety distribution.",
+   "evidence": "Prior to the acquisition of Fitters, the Company operated as a single segment engaged in the development of innovative cancer medicines based on cell cycle, transcriptional regulation and mitosis control biology."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

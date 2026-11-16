@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001695295",
  "issuerName": "HYDROFARM HOLDINGS GROUP, INC.",
- "builtAt": "2026-11-16T05:49:44.722Z",
+ "builtAt": "2026-11-16T12:26:30.886Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001695295-26-000010",
@@ -10,10 +10,29 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1695295/000169529526000010/hyfm-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "CEA equipment",
+   "products": [
+    "Active Air",
+    "Active Aqua",
+    "Aurora Peat Products",
+    "House & Garden",
+    "Grotek",
+    "PHOTOBIO",
+    "SunBlaster",
+    "Roots Organics"
+   ],
+   "description": "Distributes and manufactures hydroponic and controlled environment agriculture equipment and supplies for growers, mainly in the United States and Canada.",
+   "evidence": "The business is organized as one operating segment managed on a consolidated basis, and one reportable segment, which is the distribution and manufacture of CEA equipment and supplies."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Wholesale customers such as specialty hydroponic retailers, resellers and garden centers pay for CEA equipment and supplies.",
+  "evidence": "Our customers include specialty hydroponic retailers, commercial resellers and greenhouse builders, garden centers, hardware stores, and e-commerce retailers."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

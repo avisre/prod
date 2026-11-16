@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001550913",
  "issuerName": "MACKENZIE REALTY CAPITAL, INC.",
- "builtAt": "2026-11-16T05:49:42.824Z",
+ "builtAt": "2026-11-16T12:25:07.219Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001140361-26-037858",
@@ -10,11 +10,48 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1550913/000114036126037858/ef20075467_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Commercial",
+   "products": [
+    "Satellite Place Office Building",
+    "First & Main Office Building",
+    "1300 Main Office Building",
+    "Main Street West Office Building",
+    "220 Campus Lane Office Building",
+    "Green Valley Executive Center",
+    "One Harbor Center",
+    "Green Valley Medical Center"
+   ],
+   "description": "Owns and manages income-producing commercial real estate, mostly office buildings, earning rental and property income.",
+   "evidence": "We operate as two primary operating and reportable segments: (i) commercial and (ii) residential."
+  },
+  {
+   "name": "Residential",
+   "products": [
+    "Commodore Apartments",
+    "The Park View Apartments",
+    "Hollywood Apartments",
+    "Shoreline Apartments",
+    "Aurora at Green Valley",
+    "Blue Ridge at Suisun Valley"
+   ],
+   "description": "Develops and owns multi-family residential properties on the West Coast, earning rental income.",
+   "evidence": "Effective January 1, 2026, the Company reorganized its real estate operations by separating its multi-family residential portfolio from its commercial real estate investments."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "revenueModel": {
+  "text": "Rental and other property income from the commercial and residential real estate the company owns and operates.",
+  "evidence": "The Company's segments derive revenue primarily from rental and other property income."
+ },
+ "changes": [
+  {
+   "text": "In 2026 the company reorganized into commercial and residential reportable segments, with prior periods recast.",
+   "evidence": "As a result, the Company changed its segment reporting structure and now presents two reportable segments: (i) commercial and (ii) residential."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

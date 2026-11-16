@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001770236",
  "issuerName": "MOVING iMAGE TECHNOLOGIES INC.",
- "builtAt": "2026-11-16T05:49:40.783Z",
+ "builtAt": "2026-11-16T12:23:41.557Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-031299",
@@ -10,10 +10,28 @@
   "filingDate": "2026-09-28",
   "url": "https://www.sec.gov/Archives/edgar/data/1770236/000143774926031299/mitq20260630_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Cinema products",
+   "products": [
+    "DCS loudspeaker systems",
+    "Projectors and Media Servers",
+    "Audio Systems",
+    "green-energy LED lighting solutions",
+    "enterprise software solutions",
+    "Technical Services",
+    "Project Management, System Design and FF&E"
+   ],
+   "description": "Designs, manufactures and distributes cinema products, loudspeakers and services for movie theater operators and entertainment venues.",
+   "evidence": "The Company has determined that it has a single operating and reportable segment."
+  }
+ ],
  "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "revenueModel": {
+  "text": "Movie theater operators and entertainment venues pay the Company for project management, installation and FF&E services and for proprietary and resold cinema products.",
+  "evidence": "We provide a set of services to movie theater operators and other critical screening and viewing rooms."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

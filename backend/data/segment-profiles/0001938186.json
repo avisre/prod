@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001938186",
  "issuerName": "Jayud Global Logistics Limited",
- "builtAt": "2026-11-16T05:49:39.899Z",
+ "builtAt": "2026-11-16T12:23:13.938Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-045588",
@@ -10,11 +10,30 @@
   "filingDate": "2026-04-20",
   "url": "https://www.sec.gov/Archives/edgar/data/1938186/000121390026045588/ea0286038-20f_jayud.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Logistics services",
+   "products": [
+    "Freight forwarding services",
+    "Supply chain management",
+    "Other value-added services"
+   ],
+   "description": "Provides freight forwarding, supply chain management and other value-added services to its customers, including manufacturers.",
+   "evidence": "there is only one reportable operating segment since all types of the services provided and products delivered are viewed as an integrated business process"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay the company for freight forwarding, supply chain management and other value-added services.",
+  "evidence": "affect demand for supply chain solutions and logistics services, in China and globally."
+ },
+ "changes": [
+  {
+   "text": "Starting in 2024, the Group operated and reviewed its performance in PRC and Hong Kong and U.S.A. segments after acquiring interests in US companies.",
+   "evidence": "Because of the acquisition, the Group operated and reviewed its performance in two segments starting from 2024: (i) PRC and Hong Kong, and (ii) U.S.A."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }

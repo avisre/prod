@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002003977",
  "issuerName": "Cre8 Enterprise Limited",
- "builtAt": "2026-11-16T05:49:45.242Z",
+ "builtAt": "2026-11-16T12:26:40.441Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001213900-26-047573",
@@ -10,10 +10,24 @@
   "filingDate": "2026-04-24",
   "url": "https://www.sec.gov/Archives/edgar/data/2003977/000121390026047573/ea0285864-20f_cre8.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "provision of integrated financial printing services",
+   "products": [
+    "Integrated IPO financial printing services",
+    "Non-IPO financial printing services",
+    "Cre8IR"
+   ],
+   "description": "Provides integrated financial printing services for listed companies, IPO applicants and private companies in Hong Kong.",
+   "evidence": "The Company has one reportable segment: provision of integrated financial printing services."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Listed companies, IPO applicants and private companies in Hong Kong pay for integrated financial printing services.",
+  "evidence": "Cre8 Hong Kong provides 24/7 integrated financial printing services for listed companies, IPO applicants, and private companies in the finance and capital markets in Hong Kong under our brand, \"Cre8.\""
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"

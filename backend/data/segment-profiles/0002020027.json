@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0002020027",
  "issuerName": "Click Holdings Limited",
- "builtAt": "2026-11-16T05:49:43.330Z",
+ "builtAt": "2026-11-16T12:25:38.906Z",
  "filing": {
   "form": "20-F",
   "accessionNumber": "0001493152-26-048036",
@@ -10,10 +10,40 @@
   "filingDate": "2026-10-22",
   "url": "https://www.sec.gov/Archives/edgar/data/2020027/000149315226048036/form20-f.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Professional solution services",
+   "products": [
+    "accounting and auditing",
+    "company secretarial",
+    "financial and compliance advisory services"
+   ],
+   "description": "Delivers accounting and auditing, company secretarial, and financial and compliance advisory services to customers.",
+   "evidence": "We organize and report our business in three reportable segments, being (i) professional solution services that represent delivery of accounting and auditing, company secretarial, and financial and compliance advisory services; (ii) nursing solution services that represent delivery of temporary healthcare services to institutional clients, including social service organizations and nursing home and individuals; and (iii) logistics and other solution services that represent delivery of logistic a"
+  },
+  {
+   "name": "Nursing solution services",
+   "products": [
+    "temporary healthcare services"
+   ],
+   "description": "Provides temporary healthcare services to institutional clients, including social service organizations, nursing homes and individuals.",
+   "evidence": "We organize and report our business in three reportable segments, being (i) professional solution services that represent delivery of accounting and auditing, company secretarial, and financial and compliance advisory services; (ii) nursing solution services that represent delivery of temporary healthcare services to institutional clients, including social service organizations and nursing home and individuals; and (iii) logistics and other solution services that represent delivery of logistic a"
+  },
+  {
+   "name": "Logistics and other solution services",
+   "products": [
+    "warehouse human resources solution services"
+   ],
+   "description": "Provides logistic and warehouse human resources solution services to corporate customers.",
+   "evidence": "We organize and report our business in three reportable segments, being (i) professional solution services that represent delivery of accounting and auditing, company secretarial, and financial and compliance advisory services; (ii) nursing solution services that represent delivery of temporary healthcare services to institutional clients, including social service organizations and nursing home and individuals; and (iii) logistics and other solution services that represent delivery of logistic a"
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay hourly for nursing and logistics staffing, invoiced monthly or bimonthly in arrears based on actual hours.",
+  "evidence": "The nursing solution and logistics and other solution services arrangements are primarily provided on an hourly basis, and the Company generally invoices its customers monthly or bimonthly in arrears for these services based on actual hours and expenses incurred."
+ },
  "changes": [],
  "dropped": [],
  "reader": "agent"
