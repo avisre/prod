@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001070412",
  "issuerName": "CNX Resources Corporation",
- "builtAt": "2026-11-16T02:35:34.421Z",
+ "builtAt": "2026-11-16T07:22:54.955Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001070412-26-000038",
@@ -10,11 +10,54 @@
   "filingDate": "2026-02-10",
   "url": "https://www.sec.gov/Archives/edgar/data/1070412/000107041226000038/cnx-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Shale",
+   "products": [
+    "Marcellus Shale",
+    "Utica Shale",
+    "Upper Devonian Shale",
+    "Burkett Shale",
+    "Rhinestreet Shale",
+    "natural gas"
+   ],
+   "description": "Develops and produces natural gas from Marcellus and Utica Shale formations in Pennsylvania, West Virginia and Ohio for energy buyers.",
+   "evidence": "We have rights to extract natural gas from Shale formations in Pennsylvania, West Virginia, and Ohio from approximately 557,000 net Marcellus Shale acres and approximately 612,000 net Utica Shale acres at December 31, 2025."
+  },
+  {
+   "name": "Coalbed Methane",
+   "products": [
+    "CBM natural gas",
+    "Pocahontas #3 seam",
+    "Remediated Mine Gas (RMG)"
+   ],
+   "description": "Extracts coalbed methane gas and captured mine gas in Virginia and sells it to natural gas buyers.",
+   "evidence": "We have rights to extract CBM in Virginia from approximately 283,000 net CBM acres at December 31, 2025."
+  },
+  {
+   "name": "Other",
+   "products": [
+    "natural gas",
+    "shallow oil and gas",
+    "purchased gas",
+    "sales of environmental attributes"
+   ],
+   "description": "Holds other shallow oil and gas acreage and handles purchased gas, derivative and environmental attribute activity for the company.",
+   "evidence": "We have rights to extract natural gas from other Shale and shallow oil and gas formations primarily in Illinois, Indiana, New York, Ohio, Pennsylvania, Virginia, and West Virginia from approximately 946,000 net acres at December 31, 2025."
+  }
+ ],
+ "productRevenueBrokenOut": true,
+ "revenueModel": {
+  "text": "Customers pay CNX for natural gas, NGLs, oil and condensate, purchased gas, gathering of natural gas and sales of environmental attributes.",
+  "evidence": "CNX invoices its customers once a performance obligation has been satisfied, at which point payment is unconditional."
+ },
+ "changes": [
+  {
+   "text": "In 2024, CNX closed on the sale of a non-core pipeline to a third party.",
+   "evidence": "During the year ended December 31, 2024, CNX closed on the sale of a non-core pipeline to a third party."
+  }
+ ],
  "dropped": [],
  "reader": "agent"
 }
