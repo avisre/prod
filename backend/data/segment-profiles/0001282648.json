@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001282648",
+ "issuerName": "Battalion Oil Corp",
+ "builtAt": "2026-11-16T05:44:28.884Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-033373",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-23",
+  "url": "https://www.sec.gov/Archives/edgar/data/1282648/000110465926033373/batl-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "oil, natural gas and NGLs",
+   "products": [
+    "oil",
+    "natural gas",
+    "NGLs"
+   ],
+   "description": "Produces oil, gas and NGLs.",
+   "evidence": "SEGMENTS The Company has determine"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "It sells oil, natural gas and NGLs at market prices.",
+  "evidence": "Business Strategy Our primary long-term objective is to increase stockholder value by safely and cost-effectively increasing our production of oil, natural gas and NGLs, adding to our proved reserves and growing our inventory of economic drilling locations, while acting as a responsible corporate citizen in the communities in which we operate."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

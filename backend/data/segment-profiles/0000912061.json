@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000912061",
+ "issuerName": "Natural Health Trends Corp.",
+ "builtAt": "2026-11-16T05:45:15.971Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-004876",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-20",
+  "url": "https://www.sec.gov/Archives/edgar/data/912061/000143774926004876/nhtc20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

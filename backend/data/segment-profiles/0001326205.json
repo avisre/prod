@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001326205",
+ "issuerName": "IGC PHARMA, INC.",
+ "builtAt": "2026-11-16T05:45:10.754Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001185185-25-000706",
+  "periodEnd": "2025-03-31",
+  "filingDate": "2025-06-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326205/000118518525000706/igc10k033125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Life Sciences",
+   "products": [
+    "pharmaceutical products"
+   ],
+   "description": "Develops pharmaceutical products.",
+   "evidence": "During fiscal 2025, the Company reassessed its reportable segment structure in connection with its strategic realignment toward Life Sciences."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its products.",
+  "evidence": "Please refer to Note 1, \"Nature of Operations\" and Item 8 of this Annual Report on Form 10-K, for further information on business segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

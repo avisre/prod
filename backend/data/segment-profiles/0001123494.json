@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001123494",
+ "issuerName": "HARVARD BIOSCIENCE, INC.",
+ "builtAt": "2026-11-16T05:45:13.436Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001171843-26-001548",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1123494/000117184326001548/hbio20251231_10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

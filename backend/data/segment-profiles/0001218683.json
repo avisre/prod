@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001218683",
+ "issuerName": "Big Digital Energy, Inc.",
+ "builtAt": "2026-11-16T05:44:26.950Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-037417",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1218683/000121390026037417/ea0281617-10k_mawson.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

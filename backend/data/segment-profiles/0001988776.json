@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "cik": "0001988776",
+ "issuerName": "Murano Global Investments Plc",
+ "builtAt": "2026-11-16T05:45:15.392Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-26-021583",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-05-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1988776/000114036126021583/ef20060687_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "hotels, construction and service operations",
+   "products": [
+    "hotels",
+    "construction",
+    "services"
+   ],
+   "description": "Owns hotels and runs construction and service operations.",
+   "evidence": "Accordingly, all of the Company's hotels, construction and service operations are considered by management in one reportable operating segment; therefore, no separate segment disclosures are presented."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Hotel guests and development clients pay for stays and construction.",
+  "evidence": "Accordingly, all of the Company's hotels, construction and service operations are considered by management in one reportable operating segment; therefore, no separate segment disclosures are presented."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

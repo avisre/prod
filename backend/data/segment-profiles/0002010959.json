@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002010959",
+ "issuerName": "AMBITIONS ENTERPRISE MANAGEMENT CO. L.L.C",
+ "builtAt": "2026-11-16T05:44:30.294Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050228",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/2010959/000121390026050228/ea0287392-20f_ambitions.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001952853",
+ "issuerName": "Massimo Group",
+ "builtAt": "2026-11-16T05:44:25.713Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-013862",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1952853/000149315226013862/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

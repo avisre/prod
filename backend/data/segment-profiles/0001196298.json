@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001196298",
+ "issuerName": "NEPHROS, INC.",
+ "builtAt": "2026-11-16T05:44:27.844Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-009848",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-12",
+  "url": "https://www.sec.gov/Archives/edgar/data/1196298/000149315226009848/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "dialysis",
+   "products": [
+    "ultrafilters"
+   ],
+   "description": "Sells ultrafilters for dialysis water purification.",
+   "evidence": "The dialysis segment consists exclusively of ultrafilters, extending the same microbial and endotoxin retention capabilities to the purification of water and bicarbonate concentrate used in dialysis treatment, where endotoxin control is especially critical."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Dialysis clinics buy its filters.",
+  "evidence": "In addition, we offer a line of commercial water filters that improve taste and odor, reduce biofilm formation and scale b"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

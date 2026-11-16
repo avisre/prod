@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001871983",
+ "issuerName": "ANGHAMI INC.",
+ "builtAt": "2026-11-16T05:45:10.773Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-050335",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1871983/000121390026050335/ea0287764-20f_anghami.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

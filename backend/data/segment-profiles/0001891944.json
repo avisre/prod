@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001891944",
+ "issuerName": "PRIMECH HOLDINGS LTD.",
+ "builtAt": "2026-11-16T05:45:13.299Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-082565",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-29",
+  "url": "https://www.sec.gov/Archives/edgar/data/1891944/000121390026082565/ea0298377-20f_primech.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Facilities Services",
+   "products": [],
+   "description": "Provides facilities services.",
+   "evidence": "33 OUR SERVICES Facilities Services Facilities services is our primary business segment, accounting for approximately $58."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Property owners pay for facilities services.",
+  "evidence": "We derive the majority of our revenue from the provision of facilities services, which accounted for 78."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Facilities Services): facilities services"
+ ],
+ "reader": "agent"
+}

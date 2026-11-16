@@ -1,8 +1,8 @@
 {
  "version": 1,
  "cik": "0000320017",
- "issuerName": "Lisata Therapeutics, Inc.",
- "builtAt": "2026-11-14T13:48:14.307Z",
+ "issuerName": "LISATA THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:45:10.656Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0000320017-26-000023",
@@ -10,15 +10,23 @@
   "filingDate": "2026-03-12",
   "url": "https://www.sec.gov/Archives/edgar/data/320017/000032001726000023/lsta-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "investigational drug product",
+   "products": [],
+   "description": "Develops its investigational drug product.",
+   "evidence": "Segment Information The Company operates as one operating segment, the research and development of its investigational drug product."
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company has limited revenue from license and collaboration agreements, including upfront license fees.",
-  "evidence": "The Company is a clinical-stage pharmaceutical company and has limited revenue associated with license and collaboration agreements."
+  "text": "Partners pay licensing revenue and milestones.",
+  "evidence": "The Company's Chief Operating Decision Maker (\"CODM\") is its Chief Executive Officer, who manages the business on a consolidated basis."
  },
  "changes": [],
  "dropped": [
-  "segment name not in text: Research and development of investigational drug product"
- ]
+  "product not in text (investigational drug product): investigational drug product"
+ ],
+ "reader": "agent"
 }

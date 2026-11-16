@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001490161",
+ "issuerName": "SOW GOOD INC.",
+ "builtAt": "2026-11-16T05:44:30.249Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001193125-26-133385",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1490161/000119312526133385/sowg-20251231.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

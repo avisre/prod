@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "cik": "0001819493",
+ "issuerName": "Xos, Inc.",
+ "builtAt": "2026-11-16T05:45:14.230Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001819493-26-000008",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1819493/000181949326000008/xos-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "electric stepvans",
+   "products": [
+    "stripped chassis vehicles",
+    "battery systems"
+   ],
+   "description": "Makes electric commercial vehicles.",
+   "evidence": "Currently, we conduct business through one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Fleets buy its electric vehicles and battery systems.",
+  "evidence": "To date, we have primarily generated revenue from the sale of electric stepvans, stripped chassis vehicles and battery systems."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (electric stepvans): electric stepvans"
+ ],
+ "reader": "agent"
+}

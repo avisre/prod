@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0002027722",
+ "issuerName": "Grande Group Ltd/HK",
+ "builtAt": "2026-11-16T05:45:14.634Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-084010",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/2027722/000121390026084010/ea0299079-20f_grande.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "IPO Sponsorship And Related Services",
+   "products": [
+    "IPO sponsorship services"
+   ],
+   "description": "Provides IPO sponsorship and related services.",
+   "evidence": "The table below sets out a breakdown of our revenue by business segments for the years ended March 31, 2026, 2025 and 2024: For the years ended March 31, For the years ended March 31, 2026 2025 2024 US$ % US$ % US$ % IPO Sponsorship And Related Services 105,497 4."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Listing applicants pay sponsorship and advisory fees.",
+  "evidence": "Segment reporting ASC 280, Segment Reporting, establishes standards for companies to report in their financial stat"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

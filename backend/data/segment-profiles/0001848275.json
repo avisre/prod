@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001848275",
+ "issuerName": "TOP FINANCIAL GROUP LIMITED",
+ "builtAt": "2026-11-16T05:44:29.682Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-075954",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-07-07",
+  "url": "https://www.sec.gov/Archives/edgar/data/1848275/000121390026075954/ea0297046-10k_top.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

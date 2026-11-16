@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001045742",
+ "issuerName": "LIVE VENTURES Inc",
+ "builtAt": "2026-11-16T05:44:31.123Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001628280-25-057711",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2025-12-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1045742/000162828025057711/live-20250930.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Flooring Manufacturing",
+   "products": [
+    "flooring products"
+   ],
+   "description": "Makes flooring products.",
+   "evidence": "• competitive and cyclical factors relating to our businesses; • specifically with respect to our Flooring Manufacturing segment, dependence on"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Retailers and distributors buy its flooring.",
+  "evidence": "While no list of assumptions, risks, or uncertainties could be complete, some of the factors that may cause actual results or other future events, circumstances, or aspirations to differ from those in forward-looking statements include:"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

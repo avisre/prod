@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001692415",
+ "issuerName": "Co-Diagnostics, Inc.",
+ "builtAt": "2026-11-16T05:44:30.912Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-014158",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1692415/000149315226014158/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Co-Diagnostics",
+   "products": [],
+   "description": "Makes molecular diagnostics tests.",
+   "evidence": "Note 2 – Summary of Significant Accounting Policies Operating Segments The Company operates as one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Labs buy its tests and reagents.",
+  "evidence": "In the United States, we obtained Emergency Use Authorization (\"EUA\") for our Logix Smart® COVID-19 detection test from the FDA, and we sell that test to qualified labs."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Co-Diagnostics): molecular diagnostics tests"
+ ],
+ "reader": "agent"
+}

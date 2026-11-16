@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "cik": "0001948697",
+ "issuerName": "SIMPPLE LTD.",
+ "builtAt": "2026-11-16T05:45:14.710Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-015631",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1948697/000149315226015631/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SIMPPLE Vision",
+   "products": [
+    "robotics"
+   ],
+   "description": "Provides robotics solutions.",
+   "evidence": "technology suite can be further categorized into its individual business segments namely – SIMPPLE Vision, SIMPPLE Integrate, SIMPPLE Compute and SIMPPLE Evolve."
+  },
+  {
+   "name": "SIMPPLE Integrate",
+   "products": [
+    "integration services"
+   ],
+   "description": "Provides systems integration.",
+   "evidence": "technology suite can be further categorized into its individual business segments namely – SIMPPLE Vision, SIMPPLE Integrate, SIMPPLE Compute and SIMPPLE Evolve."
+  },
+  {
+   "name": "SIMPPLE Compute",
+   "products": [],
+   "description": "Provides computing solutions.",
+   "evidence": "technology suite can be further categorized into its individual business segments namely – SIMPPLE Vision, SIMPPLE Integrate, SIMPPLE Compute and SIMPPLE Evolve."
+  },
+  {
+   "name": "SIMPPLE Evolve",
+   "products": [
+    "software solutions"
+   ],
+   "description": "Provides software solutions.",
+   "evidence": "technology suite can be further categorized into its individual business segments namely – SIMPPLE Vision, SIMPPLE Integrate, SIMPPLE Compute and SIMPPLE Evolve."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Facility owners pay for its robotics and software.",
+  "evidence": "14 Revenues Schedule of revenues 2023 2024 2025 2025 For the years ended December 31, 2023 2024 2025 2025 S$ S$ S$ US$ Robot revenue Sale of robotics 3,633,740 1,535,783 4,375,169 3,402,418 Sales commission, net - - 52"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (SIMPPLE Compute): computing solutions"
+ ],
+ "reader": "agent"
+}

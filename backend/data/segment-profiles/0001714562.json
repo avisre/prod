@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001714562",
+ "issuerName": "GAMESQUARE HOLDINGS, INC.",
+ "builtAt": "2026-11-16T05:44:28.218Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-015717",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-08",
+  "url": "https://www.sec.gov/Archives/edgar/data/1714562/000149315226015717/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

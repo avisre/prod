@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "cik": "0001005516",
+ "issuerName": "BOS BETTER ONLINE SOLUTIONS LTD",
+ "builtAt": "2026-11-16T05:44:30.533Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-037333",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1005516/000121390026037333/ea0283859-20f_bosbetter.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Supply Chain Solutions Division",
+   "products": [
+    "supply chain solutions"
+   ],
+   "description": "Provides supply chain solutions.",
+   "evidence": "Business Overview BOS manages its business in three reportable segments: the Supply Chain Solutions Division, the RFID Division and the Intelligent Robotics Division."
+  },
+  {
+   "name": "RFID Division",
+   "products": [],
+   "description": "Makes RFID products.",
+   "evidence": "Business Overview BOS manages its business in three reportable segments: the Supply Chain Solutions Division, the RFID Division and the Intelligent Robotics Division."
+  },
+  {
+   "name": "Intelligent Robotics Division",
+   "products": [
+    "robotics"
+   ],
+   "description": "Develops intelligent robotics.",
+   "evidence": "Business Overview BOS manages its business in three reportable segments: the Supply Chain Solutions Division, the RFID Division and the Intelligent Robotics Division."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Logistics and retail customers buy its technology.",
+  "evidence": "The Company has three operating segments: the Intelligent Robotics segment managed by the Company, the RFID Division segment, and the Supply Chain Solutions segment, both of which are managed through the Company's"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (RFID Division): RFID products"
+ ],
+ "reader": "agent"
+}

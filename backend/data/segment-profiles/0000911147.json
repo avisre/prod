@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0000911147",
+ "issuerName": "CENTURY CASINOS, INC.",
+ "builtAt": "2026-11-16T05:44:28.774Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0000911147-26-000009",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/911147/000091114726000009/cnty-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

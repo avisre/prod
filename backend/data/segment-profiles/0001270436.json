@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "cik": "0001270436",
+ "issuerName": "Cohen & Co Inc.",
+ "builtAt": "2026-11-16T05:45:11.342Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001437749-26-007157",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-06",
+  "url": "https://www.sec.gov/Archives/edgar/data/1270436/000143774926007157/cohn20251231_10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Capital Markets",
+   "products": [
+    "sales and trading",
+    "new issue placements",
+    "underwriting",
+    "advisory services"
+   ],
+   "description": "Provides capital markets sales, trading and underwriting.",
+   "evidence": "Our business segments are Capital Markets, Asset Management, and Principal Investing."
+  },
+  {
+   "name": "Asset Management",
+   "products": [],
+   "description": "Manages client assets.",
+   "evidence": "Our business segments are Capital Markets, Asset Management, and Principal Investing."
+  },
+  {
+   "name": "Principal Investing",
+   "products": [],
+   "description": "Invests its own capital.",
+   "evidence": "Our business segments are Capital Markets, Asset Management, and Principal Investing."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Clients pay trading, placement and advisory fees.",
+  "evidence": "Our Capital Markets business segment consists of sales, trading, gestation repo financing, new issue placements in corporate and securitized products, underwriting, and advisory services, operating primarily through our subsidiaries, Cohen Securities in the United States (the \"U."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Asset Management): asset management",
+  "product not in text (Principal Investing): principal investing"
+ ],
+ "reader": "agent"
+}

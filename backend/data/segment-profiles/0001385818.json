@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001385818",
  "issuerName": "AYTU BIOPHARMA, INC.",
- "builtAt": "2026-11-15T14:10:51.760Z",
+ "builtAt": "2026-11-16T05:45:16.462Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001437749-26-030908",
@@ -10,21 +10,23 @@
   "filingDate": "2026-09-22",
   "url": "https://www.sec.gov/Archives/edgar/data/1385818/000143774926030908/aytu20260630_10k.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": true,
- "revenueModel": {
-  "text": "The company generates net revenue by selling its prescription products through third-party intermediaries in its distribution channels and directly to pharmacy customers.",
-  "evidence": "We generate net revenue by selling our products through third-party intermediaries in our distribution channels as well as directly to our pharmacy customers."
- },
- "changes": [
+ "status": "ok",
+ "segments": [
   {
-   "text": "In fiscal 2025 the company completed the wind down and divestiture of its Consumer Health business and now operates as a single operating and reportable segment.",
-   "evidence": "In the first quarter of fiscal 2025 we completed the previously announced wind down and divestiture of our Consumer Health business and now operate our business as a single operating and reporting segment."
+   "name": "pharmaceutical products",
+   "products": [
+    "prescription pharmaceutical products"
+   ],
+   "description": "Sells prescription pharmaceutical products.",
+   "evidence": "8 Table of Contents Commercial Business Overview We operate through one business segment consisting of various prescription pharmaceutical products sold through third parties."
   }
  ],
- "dropped": [
-  "segment name not in text: Prescription pharmaceuticals",
-  "change not grounded: In 2025 the company transferred all rights to AR101 to EnzCo, terminating the Ru"
- ]
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and distributors buy its products.",
+  "evidence": "We generate net revenue by selling our products through third-party intermediaries in our distribution channels as well as directly to our pharmacy customers."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

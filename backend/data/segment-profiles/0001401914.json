@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001401914",
  "issuerName": "Dare Bioscience, Inc.",
- "builtAt": "2026-11-15T14:10:59.526Z",
+ "builtAt": "2026-11-16T05:44:29.301Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001401914-26-000004",
@@ -10,19 +10,23 @@
   "filingDate": "2026-03-26",
   "url": "https://www.sec.gov/Archives/edgar/data/1401914/000140191426000004/dare-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
- "productRevenueBrokenOut": false,
- "revenueModel": null,
- "changes": [
+ "status": "ok",
+ "segments": [
   {
-   "text": "In December 2025, the company initiated commercialization of DARE to PLAY Sildenafil Cream.",
-   "evidence": "In December 2025 we initiated commercialization of DARE to PLAY™ Sildenafil Cream, which we also refer to as DARE to PLAY , a first-of-its-kind, topically applied formulation of sildenafil designed to improve female sexual arousal."
+   "name": "Dare",
+   "products": [
+    "women's health products"
+   ],
+   "description": "Develops women's health products.",
+   "evidence": "We and our wholly-owned subsidiaries operate in one business segment."
   }
  ],
- "dropped": [
-  "segment name not in text: Women's health biotech",
-  "revenue model not grounded",
-  "change not grounded: In March 2025, the company expanded its business model to include a dual-path ap"
- ]
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Pharmacies and partners pay for its products.",
+  "evidence": "• We plan to generate revenue from sales of DARE to PLAY and other potential compounded drugs under Section 503B of the FDCA."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
 }

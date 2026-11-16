@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001737339",
+ "issuerName": "Aurora Mobile Limited",
+ "builtAt": "2026-11-16T05:44:28.552Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001104659-26-035657",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-27",
+  "url": "https://www.sec.gov/Archives/edgar/data/1737339/000110465926035657/jg-20251231x20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "SaaS Businesses",
+   "products": [
+    "SaaS services"
+   ],
+   "description": "Sells software-as-a-service to app developers.",
+   "evidence": "Segment information The Company operates in one operating and reportable segment and derives revenues primarily from SAAS Businesses."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Developers and enterprises pay for SaaS services.",
+  "evidence": "​ F-31 Table of Contents AURORA MOBILE LIMITED ​ NOTES TO THE CONSOLIDATED FINANCIAL STATEMENTS (continued) ​ (Amounts in thousands of Renminbi (\"RMB\") and US dollars (\"US$\") ) ​ 2 Summary of Significant Accounting Policies (continued) Segment information"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

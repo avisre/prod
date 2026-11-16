@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "cik": "0001355848",
+ "issuerName": "Kartoon Studios, Inc.",
+ "builtAt": "2026-11-16T05:44:25.745Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001683168-26-002452",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1355848/000168316826002452/kartoon_i10k-123125.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Content Production and Distribution",
+   "products": [
+    "children's content"
+   ],
+   "description": "Produces and distributes children's content.",
+   "evidence": "The Company principally operates in two distinct business segments: the Content Production and Distribution Segment, which produces and distributes children's content, and the Media Advisory and Advertising Services Segment, which provides media and"
+  },
+  {
+   "name": "Media Advisory and Advertising Services",
+   "products": [
+    "media advisory",
+    "advertising services"
+   ],
+   "description": "Provides media advisory and advertising services.",
+   "evidence": "The Company principally operates in two distinct business segments: the Content Production and Distribution Segment, which produces and distributes children's content, and the Media Advisory and Advertising Services Segment, which provides media and"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Streamers and advertisers pay for content and media services.",
+  "evidence": "Segments The Company determines its operating segments on the same basis as it assesses performance and makes operating decisions."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

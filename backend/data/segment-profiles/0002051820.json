@@ -1,0 +1,39 @@
+{
+ "version": 1,
+ "cik": "0002051820",
+ "issuerName": "MOUNT LOGAN CAPITAL INC.",
+ "builtAt": "2026-11-16T05:44:27.736Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0002051820-26-000039",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-19",
+  "url": "https://www.sec.gov/Archives/edgar/data/2051820/000205182026000039/logan-20251231.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Asset Management",
+   "products": [],
+   "description": "Provides asset management to insurance and fund clients.",
+   "evidence": "We conduct our business primarily in the United States through our two business segments: Asset Management and Insurance Solutions."
+  },
+  {
+   "name": "Insurance Solutions",
+   "products": [],
+   "description": "Provides insurance solutions.",
+   "evidence": "We conduct our business primarily in the United States through our two business segments: Asset Management and Insurance Solutions."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Institutional clients pay management and underwriting fees.",
+  "evidence": "We provide origination, underwriting, portfolio construction and risk management to a diversified client base, including insurance accounts, a BDC platform, our interval funds (SOFIX, ACIF), Separately Managed Accounts (\"SMAs\") and other vehicles."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Asset Management): asset management services",
+  "product not in text (Insurance Solutions): insurance solutions"
+ ],
+ "reader": "agent"
+}

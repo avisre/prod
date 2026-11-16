@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001953984",
+ "issuerName": "Binah Capital Group, Inc.",
+ "builtAt": "2026-11-16T05:45:11.052Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-037897",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-31",
+  "url": "https://www.sec.gov/Archives/edgar/data/1953984/000110465926037897/tmb-20251231x10k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Binah",
+   "products": [],
+   "description": "Provides wealth management and broker-dealer services.",
+   "evidence": "Currently, we conduct business through one operating segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advisors and clients pay commissions and fees.",
+  "evidence": "Results of Operations The following presents an analysis of our results of operations for the years ended December 31, 2025 and 2024 ( in thousands ): ​"
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Binah): broker-dealer services"
+ ],
+ "reader": "agent"
+}

@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "cik": "0001633369",
+ "issuerName": "FreeCast, Inc.",
+ "builtAt": "2026-11-16T05:44:29.271Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-104155",
+  "periodEnd": "2026-06-30",
+  "filingDate": "2026-09-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1633369/000121390026104155/ea0306522-10k_freecast.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "FreeCast",
+   "products": [],
+   "description": "Provides streaming aggregation and monetisation infrastructure.",
+   "evidence": "Segment Reporting The Company operates as a single operating and reportable segment."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Enterprise partners pay for its platform.",
+  "evidence": "We provide the software, aggregation and monetization infrastructure through which enterprise partners can offer a branded entertainment, media and communications hub to their existing customers."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (FreeCast): streaming software",
+  "product not in text (FreeCast): aggregation infrastructure"
+ ],
+ "reader": "agent"
+}

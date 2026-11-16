@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001899005",
+ "issuerName": "Beamr Imaging Ltd.",
+ "builtAt": "2026-11-16T05:45:10.409Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-020770",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-02-26",
+  "url": "https://www.sec.gov/Archives/edgar/data/1899005/000121390026020770/ea0277290-20f_beamr.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "video and photo compression",
+   "products": [],
+   "description": "Licenses video and photo compression technology.",
+   "evidence": "General information Since inception date, the operation of the Company is conducted through one operating segment, the optimization technology for video and photo compression, which represents a single reporting unit."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Camera and device makers license its compression technology.",
+  "evidence": "This activity also represents the reportable segment of the Group."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (video and photo compression): video and photo compression technology"
+ ],
+ "reader": "agent"
+}

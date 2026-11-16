@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001487197",
+ "issuerName": "BARFRESH FOOD GROUP INC.",
+ "builtAt": "2026-11-16T05:44:27.565Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-016807",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1487197/000149315226016807/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001852440",
+ "issuerName": "Jianzhi Education Technology Group Company Limited",
+ "builtAt": "2026-11-16T05:44:30.189Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-042787",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-13",
+  "url": "https://www.sec.gov/Archives/edgar/data/1852440/000121390026042787/ea0284025-20f_jianzhi.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "educational content service and other services",
+   "products": [
+    "educational content services"
+   ],
+   "description": "Provides educational content services.",
+   "evidence": "We and the VIEs have two operating segments: educational content service and other services and IT related solution services."
+  },
+  {
+   "name": "IT related solution services",
+   "products": [
+    "IT solution services"
+   ],
+   "description": "Provides IT related solution services.",
+   "evidence": "We and the VIEs have two operating segments: educational content service and other services and IT related solution services."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Students and institutions pay for content and IT services.",
+  "evidence": "The decrease in operating expense in 2024 and 2025 was because we provided impairment on obsolete educational contents, licensed copyrights and long-term prepayments for educational contents for the year ended December 31, 2023."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

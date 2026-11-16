@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001094038",
+ "issuerName": "MARKER THERAPEUTICS, INC.",
+ "builtAt": "2026-11-16T05:45:14.898Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-031274",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-18",
+  "url": "https://www.sec.gov/Archives/edgar/data/1094038/000110465926031274/mrkr-20251231x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001213809",
+ "issuerName": "DYADIC INTERNATIONAL INC",
+ "builtAt": "2026-11-16T05:45:11.974Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-012672",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1213809/000149315226012672/form10-k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

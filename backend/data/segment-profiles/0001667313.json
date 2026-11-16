@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "cik": "0001667313",
+ "issuerName": "Zedge, Inc.",
+ "builtAt": "2026-11-16T05:44:28.181Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-113312",
+  "periodEnd": "2026-07-31",
+  "filingDate": "2026-10-28",
+  "url": "https://www.sec.gov/Archives/edgar/data/1667313/000121390026113312/ea0309434-10k_zedge.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Zedge Marketplace",
+   "products": [
+    "wallpapers",
+    "premium content"
+   ],
+   "description": "Runs its personalisation marketplace.",
+   "evidence": "2 Our business consists of two reportable segments: Zedge Marketplace and GuruShots (which includes DataSeeds)."
+  },
+  {
+   "name": "GuruShots",
+   "products": [],
+   "description": "Runs GuruShots and DataSeeds.",
+   "evidence": "2 Our business consists of two reportable segments: Zedge Marketplace and GuruShots (which includes DataSeeds)."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Users buy content and pay for contest entries.",
+  "evidence": "Our platform allows creators to upload content to our marketplace and avail it to our users either for free or, via \"Zedge Premium,\" the section of our marketplace where we offer premium content for purchase."
+ },
+ "changes": [],
+ "dropped": [
+  "product not in text (Zedge Marketplace): ringtunes",
+  "product not in text (GuruShots): photography contests"
+ ],
+ "reader": "agent"
+}

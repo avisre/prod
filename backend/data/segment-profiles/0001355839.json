@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001355839",
+ "issuerName": "INTELLIGENT PROTECTION MANAGEMENT CORP.",
+ "builtAt": "2026-11-16T05:45:14.267Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-029095",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/1355839/000121390026029095/ea0277611-10k_intelligent.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

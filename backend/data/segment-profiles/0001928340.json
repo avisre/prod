@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001928340",
+ "issuerName": "Golden Heaven Group Holdings Ltd.",
+ "builtAt": "2026-11-16T05:44:28.605Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-26-005908",
+  "periodEnd": "2025-09-30",
+  "filingDate": "2026-01-21",
+  "url": "https://www.sec.gov/Archives/edgar/data/1928340/000121390026005908/ea0272411-20f_golden.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

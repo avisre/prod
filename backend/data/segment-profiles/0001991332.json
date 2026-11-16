@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001991332",
+ "issuerName": "MKDWELL Tech Inc.",
+ "builtAt": "2026-11-16T05:44:29.476Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001493152-26-019701",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1991332/000149315226019701/form20-f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "MKDWELL",
+   "products": [
+    "automotive electronics"
+   ],
+   "description": "Designs and sells automotive electronic products.",
+   "evidence": "The Company's chief operating decision maker (\"CODM\") identified as the Company's Chief Executive Officer, relies upon the consolidated results of operations as a whole when making decisions about allocating resources and assessing the performance of the Company."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Vehicle makers and aftermarket customers buy its products.",
+  "evidence": "The Company uses the management approach in determining its operating segments."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

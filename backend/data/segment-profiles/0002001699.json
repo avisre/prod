@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0002001699",
+ "issuerName": "Helport AI Limited",
+ "builtAt": "2026-11-16T05:44:28.960Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001213900-25-111531",
+  "periodEnd": "2025-06-30",
+  "filingDate": "2025-11-17",
+  "url": "https://www.sec.gov/Archives/edgar/data/2001699/000121390025111531/ea0265214-20f_helport.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

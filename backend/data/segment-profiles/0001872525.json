@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001872525",
+ "issuerName": "STRAN & COMPANY, INC.",
+ "builtAt": "2026-11-16T05:44:27.779Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-034104",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-03-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1872525/000121390026034104/ea0282261-10k_stran.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

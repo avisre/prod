@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001769624",
+ "issuerName": "Triller Group Inc.",
+ "builtAt": "2026-11-16T05:44:27.223Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001213900-26-043341",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-14",
+  "url": "https://www.sec.gov/Archives/edgar/data/1769624/000121390026043341/ea0283656-10k_triller.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Platform Business",
+   "products": [
+    "broker management platform"
+   ],
+   "description": "Provides a tech-enabled platform for advisors.",
+   "evidence": "Today, we offer unique product and service offerings: - B2B: tech-enabled broker management platform for advisors (\" Platform Business \"); and - B2C: market leading portfolio of wealth and health products (\" Distribution Business \")."
+  },
+  {
+   "name": "Distribution Business",
+   "products": [
+    "wealth and health products"
+   ],
+   "description": "Sells wealth and health products.",
+   "evidence": "Today, we offer unique product and service offerings: - B2B: tech-enabled broker management platform for advisors (\" Platform Business \"); and - B2C: market leading portfolio of wealth and health products (\" Distribution Business \")."
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Advisors pay platform fees and consumers buy products.",
+  "evidence": "Today, we offer unique product and service offerings: - B2B: tech-enabled broker management platform for advisors (\" Platform Business \"); and - B2C: market leading portfolio of wealth and health products (\" Distribution Business \")."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

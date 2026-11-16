@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "cik": "0001328792",
+ "issuerName": "TECHPRECISION CORP",
+ "builtAt": "2026-11-16T05:44:26.924Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001104659-26-077758",
+  "periodEnd": "2026-03-31",
+  "filingDate": "2026-06-25",
+  "url": "https://www.sec.gov/Archives/edgar/data/1328792/000110465926077758/tpcs-20260331x10k.htm"
+ },
+ "status": "no-segments",
+ "segments": [],
+ "productRevenueBrokenOut": false,
+ "revenueModel": null,
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

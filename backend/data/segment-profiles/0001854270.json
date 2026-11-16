@@ -2,7 +2,7 @@
  "version": 1,
  "cik": "0001854270",
  "issuerName": "Senti Biosciences Holdings, Inc.",
- "builtAt": "2026-11-15T14:15:52.215Z",
+ "builtAt": "2026-11-16T05:45:10.419Z",
  "filing": {
   "form": "10-K",
   "accessionNumber": "0001628280-26-021580",
@@ -10,15 +10,23 @@
   "filingDate": "2026-03-27",
   "url": "https://www.sec.gov/Archives/edgar/data/1854270/000162828026021580/snti-20251231.htm"
  },
- "status": "no-segments",
- "segments": [],
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Senti",
+   "products": [],
+   "description": "Develops gene circuit cell therapies.",
+   "evidence": "We and our chief operating decision maker (\"CODM\"), our Chief Executive Officer, view our operations and manage the business as"
+  }
+ ],
  "productRevenueBrokenOut": false,
  "revenueModel": {
-  "text": "The company has no products approved for sale and has never generated revenue from product sales; it relies on grants, collaborations and financing.",
-  "evidence": "We currently have no products approved for sale, and we have never generated any revenue from the sale of any products."
+  "text": "Partners pay milestones and collaboration revenue.",
+  "evidence": "Segment Information Operating segments are defined as components of an enterprise about which separate discrete information is available for evaluation by the chief operating decision maker in deciding how to allocate resources and assess performance."
  },
  "changes": [],
  "dropped": [
-  "segment name not in text: Research and development of gene circuit platform"
- ]
+  "product not in text (Senti): gene circuit therapies"
+ ],
+ "reader": "agent"
 }

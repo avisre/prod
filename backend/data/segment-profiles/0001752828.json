@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "cik": "0001752828",
+ "issuerName": "Celularity Inc.",
+ "builtAt": "2026-11-16T05:45:13.332Z",
+ "filing": {
+  "form": "10-K",
+  "accessionNumber": "0001493152-26-020424",
+  "periodEnd": "2025-12-31",
+  "filingDate": "2026-04-30",
+  "url": "https://www.sec.gov/Archives/edgar/data/1752828/000149315226020424/form10-k.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "Degenerative Disease",
+   "products": [
+    "advanced biomaterial products"
+   ],
+   "description": "Sells advanced biomaterial products.",
+   "evidence": "Advanced Biomaterial Products for Degenerative Diseases We report sales of advanced biomaterial products within the Degenerative Disease operating"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Surgeons and hospitals buy its biomaterial products.",
+  "evidence": "Our currently marketed advanced biomaterial products include: ● Biovance®, a human amniotic membrane allograft designed to cover or offer protection from the surrounding environment in soft tissue repair and reconstructive procedure."
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}

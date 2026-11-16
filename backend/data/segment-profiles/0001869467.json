@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "cik": "0001869467",
+ "issuerName": "OceanPal Inc.",
+ "builtAt": "2026-11-16T05:45:52.493Z",
+ "filing": {
+  "form": "20-F",
+  "accessionNumber": "0001140361-25-014004",
+  "periodEnd": "2024-12-31",
+  "filingDate": "2025-04-15",
+  "url": "https://www.sec.gov/Archives/edgar/data/1869467/000114036125014004/ef20039043_20f.htm"
+ },
+ "status": "ok",
+ "segments": [
+  {
+   "name": "dry bulk segment",
+   "products": [
+    "dry bulk carrier vessels"
+   ],
+   "description": "Operates dry bulk carriers.",
+   "evidence": "one relating to its operations of its dry bulk carrier vessels (dry bulk segment) and one to the operations of its tanker"
+  },
+  {
+   "name": "tanker segment",
+   "products": [
+    "tanker vessel"
+   ],
+   "description": "Operates a tanker vessel.",
+   "evidence": "one relating to its operations of its dry bulk carrier vessels (dry bulk segment) and one to the operations of its tanker"
+  }
+ ],
+ "productRevenueBrokenOut": false,
+ "revenueModel": {
+  "text": "Charterers pay hire for its vessels.",
+  "evidence": "The accounting policies that apply to the reportable segments are the same as those u"
+ },
+ "changes": [],
+ "dropped": [],
+ "reader": "agent"
+}
